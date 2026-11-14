@@ -3,6 +3,18 @@
     {
       "archive": "game/europe/DATA/WA_MRG.MRG",
       "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
+      "layout": "config/sles_03947/overlays/apv2.yaml",
+      "linker_symbols": "config/sles_03947/overlays/apv2_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "european_apv2",
+      "output": "tmp/overlays/european_apv2/module.bin",
+      "sector_count": 3,
+      "sector_offset": 9509,
+      "sha256": "35b88eeddc1320f740e24f7ba7c3972ebe5549aebb8c478ebcfdd046f151a25c"
+    },
+    {
+      "archive": "game/europe/DATA/WA_MRG.MRG",
+      "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
       "layout": "config/sles_03947/overlays/free_duel.yaml",
       "linker_symbols": "config/sles_03947/overlays/free_duel_linker_symbols.txt",
       "load_address": "0x80168000",
@@ -15,6 +27,12 @@
     {
       "archive": "game/europe/DATA/SU.MRG",
       "archive_sha256": "11176112d2d403c331069b0e30c3461e7d5f589ae531a9393e0b2b0e741bca74",
+      "duplicate_sector_offsets": [
+        234,
+        370,
+        506,
+        642
+      ],
       "layout": "config/sles_03947/overlays/main_menu.yaml",
       "linker_symbols": "config/sles_03947/overlays/main_menu_linker_symbols.txt",
       "load_address": "0x80180000",

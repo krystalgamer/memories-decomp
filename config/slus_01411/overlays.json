@@ -3,6 +3,18 @@
     {
       "archive": "game/DATA/WA_MRG.MRG",
       "archive_sha256": "2026d85d3f224e04afc74e6fde70938195048883192fe845ffcadb8b286cc3f4",
+      "layout": "config/slus_01411/overlays/apv2.yaml",
+      "linker_symbols": "config/slus_01411/overlays/apv2_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "apv2",
+      "output": "tmp/overlays/apv2/module.bin",
+      "sector_count": 3,
+      "sector_offset": 5827,
+      "sha256": "83d49e3fde2dca5e60961ac9bcf31fd1ce918c885f6b88fcab01496691581d3a"
+    },
+    {
+      "archive": "game/DATA/WA_MRG.MRG",
+      "archive_sha256": "2026d85d3f224e04afc74e6fde70938195048883192fe845ffcadb8b286cc3f4",
       "layout": "config/slus_01411/overlays/free_duel.yaml",
       "linker_symbols": "config/slus_01411/overlays/free_duel_linker_symbols.txt",
       "load_address": "0x80168000",
@@ -23,6 +35,18 @@
       "sector_count": 15,
       "sector_offset": 8054,
       "sha256": "6925509db80d4ff8869f41350f0256524f5ff15cb9b3bf2f6dc7351a7caf3d55"
+    },
+    {
+      "archive": "game/DATA/WA_MRG.MRG",
+      "archive_sha256": "2026d85d3f224e04afc74e6fde70938195048883192fe845ffcadb8b286cc3f4",
+      "layout": "config/slus_01411/overlays/name_entry.yaml",
+      "linker_symbols": "config/slus_01411/overlays/password_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "name_entry",
+      "output": "tmp/overlays/name_entry/module.bin",
+      "sector_count": 15,
+      "sector_offset": 7968,
+      "sha256": "b751bfdc256a0941d088f5a47bc0db2638edced777071c5b0b7214b044259521"
     },
     {
       "archive": "game/DATA/WA_MRG.MRG",

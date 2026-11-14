@@ -1,0 +1,12 @@
+Krom2RawAdd = 0x80073E78;
+VSync = 0x800746B8;
+StopCallback = 0x800749CC;
+ResetGraph = 0x8007F8E8;
+SetDispMask = 0x8007FBCC;
+DrawPrim = 0x800801FC;
+PutDispEnv = 0x80080494;
+SetDrawEnv = 0x80080AB0;
+SetDefDrawEnv = 0x80082BE8;
+SetDefDispEnv = 0x80082CA8;
+strlen = 0x8008F948;
+exit = 0x80090DD8;

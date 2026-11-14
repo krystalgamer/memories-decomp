@@ -3,6 +3,18 @@
     {
       "archive": "game/france/DATA/WA_MRG.MRG",
       "archive_sha256": "e00de6fac1660bcf142a20a2c0c965a020e75382d22cf62c26e0bfc153cdfe7d",
+      "layout": "config/sles_03948/overlays/apv2.yaml",
+      "linker_symbols": "config/sles_03948/overlays/apv2_linker_symbols.txt",
+      "load_address": "0x80168000",
+      "name": "french_apv2",
+      "output": "tmp/overlays/french_apv2/module.bin",
+      "sector_count": 3,
+      "sector_offset": 9509,
+      "sha256": "22b33785288bd88f989d56741d6a9aa3621dc5b26d089fa2b5e09f6416454c05"
+    },
+    {
+      "archive": "game/france/DATA/WA_MRG.MRG",
+      "archive_sha256": "e00de6fac1660bcf142a20a2c0c965a020e75382d22cf62c26e0bfc153cdfe7d",
       "layout": "config/sles_03948/overlays/free_duel.yaml",
       "linker_symbols": "config/sles_03948/overlays/free_duel_linker_symbols.txt",
       "load_address": "0x80168000",

@@ -1,0 +1,167 @@
+{
+  "functions": [
+    {
+      "address": "0x801680B4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x84",
+      "source": "src/overlays/password/func_801680B4.c"
+    },
+    {
+      "address": "0x80168138",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x68",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x801681A0",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x24C",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x801683EC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x2A0",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x8016868C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x7C",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x80168708",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x100",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x80168808",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA4",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x801688AC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x108",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x801689B4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x100",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x80168AB4",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x228",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x80168CDC",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x3C0",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x8016909C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xA0",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x8016913C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5F8",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x80169734",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x4D4",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x80169C08",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x28",
+      "source": "src/overlays/password/name_entry_runtime.c"
+    },
+    {
+      "address": "0x80169C30",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xE0",
+      "source": "src/overlays/password/shop.c"
+    },
+    {
+      "address": "0x80169D10",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x74",
+      "source": "src/overlays/password/shop.c"
+    },
+    {
+      "address": "0x80169D84",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x9C",
+      "source": "src/overlays/password/shop.c"
+    },
+    {
+      "address": "0x80169E20",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x118",
+      "source": "src/overlays/password/shop.c"
+    },
+    {
+      "address": "0x80169F38",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xD4",
+      "source": "src/overlays/password/shop.c"
+    },
+    {
+      "address": "0x8016A00C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x20",
+      "source": "src/overlays/password/shop.c"
+    },
+    {
+      "address": "0x8016A02C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x54",
+      "source": "src/overlays/password/shop.c"
+    },
+    {
+      "address": "0x8016A080",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x284",
+      "source": "src/overlays/password/shop.c"
+    },
+    {
+      "address": "0x8016A304",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x78",
+      "source": "src/overlays/password/shop.c"
+    },
+    {
+      "address": "0x8016A37C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x5B4",
+      "source": "src/overlays/password/shop.c"
+    },
+    {
+      "address": "0x8016A930",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0x13C",
+      "source": "src/overlays/password/name_entry_main.c"
+    },
+    {
+      "address": "0x8016AA6C",
+      "profile": "gcc_2_8_1_g0_split",
+      "size": "0xCC",
+      "source": "src/overlays/password/name_entry_main.c"
+    }
+  ],
+  "schema": 1
+}
