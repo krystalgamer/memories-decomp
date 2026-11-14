@@ -128,19 +128,31 @@ assembler output:
   of these slots. They also build an indexed load's address in `$at`. Retail
   builds it in the destination register, as GNU as does.
 
-The real Psy-Q compilers (the `mkst/esa` binaries, run with `wibo`) give these
-differing word counts with the committed sources. Each column is a function,
-named by the last three digits of its address:
+Every SN compiler that could be found was run on the committed sources: the
+`mkst/esa` Psy-Q binaries and the Runtime Library, SDevTC and Net Yaroze discs
+in archive.org's `ps1_sdks` collection. The Win32 builds run under `wibo`, the
+DOS builds under DOSBox. Each column is a function, named by the last three
+digits of its address:
 
-| `CC1PSX` | Version | 0F4 | 160 | A98 | C6C | D5C | EC8 | 03C | 1F0 | 284 |
+| `CC1PSX` | Found in | 0F4 | 160 | A98 | C6C | D5C | EC8 | 03C | 1F0 | 284 |
 |---|---|---|---|---|---|---|---|---|---|---|
-| Psy-Q 4.0 | `2.7.2.SN32.3.7.0002` | 0 | 457 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
-| Psy-Q 4.1 | `cygnus-2.7.2-970404 SN32.3.7.0004` | 15 | 522 | 107 | 53 | 84 | 83 | 100 | 0 | 93 |
-| Psy-Q 4.1 with `-mmips-as` | same | 0 | **0** | 99 | 1 | 2 | 35 | 0 | 0 | 0 |
-| Psy-Q 4.3 | `2.8.0 SN32 Build 4.0.0007` | 19 | 531 | 108 | 53 | 84 | 83 | 100 | 0 | 77 |
+| `2.6.0` (DOS) | Psy-Q 3.3 | 0 | 490 | 8 | 0 | 0 | 42 | 70 | 21 | 21 |
+| `2.7.2.SN.1` (DOS) | Psy-Q 3.5, 3.6 | 0 | 456 | 107 | 11 | 48 | 3 | 91 | 0 | 57 |
+| `2.7.2.SN32.3.7 Build 0001`, `SN16` DOS build | RTL 4.0 (Japan) | 0 | 457 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `2.7.2.SN32.3.7.0002` | Psy-Q 4.0, RTL 4.0 (USA) | 0 | 457 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `2.7.2.SN16.3.7.0003` (DOS) | RTL 4.1 to 4.6 | 0 | 457 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
+| `cygnus-2.7.2-970404 SN32.3.7.0004` | Psy-Q 4.1 | 15 | 522 | 107 | 53 | 84 | 83 | 100 | 0 | 93 |
+| same, `-mmips-as` (also `-fpic`, and `0006` from SDevTC 2) | | 0 | **0** | 99 | 1 | 2 | 35 | 0 | 0 | 0 |
+| `2.8.0 SN32 Build 4.0.0007` | Psy-Q 4.3, SDevTC 2.4 | 19 | 531 | 108 | 53 | 84 | 83 | 100 | 0 | 77 |
+| `2.8.1 SN32 BUILD 4.0.0010` | Psy-Q 4.4 | 19 | 531 | 108 | 53 | 84 | 83 | 100 | 0 | 77 |
+| `2.7.2` (DOS) | Net Yaroze | 0 | 457 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 
-Psy-Q 4.0 gives the same output as decompals `gcc-2.7.2-psx`, and Psy-Q 4.1
-the same as `gcc-2.7.2-cdk`. On its own, 4.1 splits every global access into
+The 2.8 builds do no better with `-mno-split-addresses` (5, 488, 102, 1, 2,
+35, 0, 0, 79), nor does any decompals/old-gcc release from 2.5.7 to 2.95.2. All
+FSF-based 2.7.x builds match decompals `gcc-2.7.2-psx`, and the Cygnus builds
+match `gcc-2.7.2-cdk`.
+
+On its own, 4.1 splits every global access into
 separately scheduled `%hi`/`%lo` instructions (`mips_split_addresses`, which
 requires `TARGET_GAS`). Retail has no split, and `-mmips-as` (or `-fpic`) turns
 the split off. 4.1 with `-mmips-as` then reproduces the controller exactly,
@@ -148,27 +160,47 @@ including its target-filled slots and the `la`-based loads of
 `D_8016946D[0..1]`. Two March 1997 Cygnus changes in 4.1 contradict retail
 elsewhere:
 
-- `reload_cse_regs` (reload1.c, 1997-03-26) rewrites the delay-loop address
+- `reload_cse_regs` (reload1.c, Ian Lance Taylor, 1997-03-26, "reload1.c
+  (reload): Call reload_cse_regs"; FSF r13805) rewrites the delay-loop address
   `move a2,zero` as `move a2,a1` in `func_80168C6C` and `func_80168D5C`, and
   `move t0,zero` as `move t0,a1` in `func_80168A98`. Retail has `zero` in
   all three. The pass turns a word-sized constant load into a copy whenever
   another register already holds the constant and no label lies between, so
   every delay-loop form tried is rewritten.
-- `assign_parms` (function.c, 1997-03-18) adds a `REG_EQUIV` note to register
-  parameters. `update_equiv_regs` then doubles the live length of `rect` and
-  `color` in `func_80168EC8`, and global allocation permutes `s1`-`s4`.
+- `assign_parms` (function.c, Ian Lance Taylor, 1997-03-18, "Add a REG_EQUIV
+  note to the instruction which copies a parameter into a pseudo-register
+  whenever there is an associated stack slot") makes `update_equiv_regs`
+  double the live length of `rect` and `color` in `func_80168EC8`, and global
+  allocation permutes `s1`-`s4`.
 
-Rebuilt from source with each change removed, 4.1 matches `func_80168C6C`,
-`func_80168D5C` and `func_80168EC8` with the committed sources, and
-`func_80168EC8` also with the natural source that does not reassign `c`. So
-retail looks like an SN/Cygnus 2.7.2 build between 4.0's `0002` and 4.1's
-`0004`: newer than 1995's reorg, older than March 1997, and without split
-addresses. No such binary is available.
+Two source builds frame the compiler that retail needs:
 
-`func_80168A98` still differs in one reorg decision under every reorg variant
-tried. In retail its first `bne v1,v0` takes `move a3,v1` from the
-fall-through, while Cygnus reorg steals `move v0,zero` from the return-0
-block. A reorg that stops at the next conditional branch but counts that
-branch's filled slot matches `func_80168A98` with Crash Bash's source shape
-(returns `-2` when bit 4 is set). The same rule leaves the controller's `bgez`
-slots empty, so it does not explain retail either.
+- The `cygnus-2.7.2-970404` source (old-gcc's `b18.tar.gz`) with those two
+  ChangeLog entries reverted, and nothing else changed, matches eight
+  functions with the committed sources. It also matches `func_80168EC8` with
+  the natural source that does not reassign `c`. `func_80168A98` still differs.
+- Cygnus `2.7-96q3 SOA-960904` (September 1996): its GPL source was
+  distributed by Sega and is published in `sozud/saturn-compiler-repro`
+  (`source/SOA-960904.src.tar.gz`). It has the new reorg pass and neither
+  March 1997 change, and has no split addresses at all. Built for
+  `mips-sony-psx` with the decompals CDK patches, it matches 0F4, C6C, D5C,
+  EC8, 03C, 1F0 and 284. In the controller it fills the same slots as retail,
+  but it expands a `u8` global read as a QImode load. CSE then forwards the
+  value just stored to `D_801694CC` (457 words), where retail and 970404
+  reload it. `func_80168A98` differs as well.
+
+`func_80168A98` needs one reorg decision that neither source makes, and no
+source shape produces it. In retail the first `bne v1,v0` takes `move a3,v1`
+(the `n = t` copy) from the fall-through. Both Cygnus versions follow the next
+conditional branch, `beq a2,zero`. They see `v0` set on both of its paths and
+steal `move v0,zero` from the return-0 block instead. Their `reorg.c` files are
+the same in this logic. The controller needs exactly this following:
+
+- State 7's `bltz` steals `li v0,-2` in pass 1.
+- That frees state 4's `bgez`, which fills its slot in pass 2.
+
+Writing the copy before the compare lets the slot fill backward, as in retail.
+CSE then computes `(u8)n` from `t`, and five words differ. A search of 448
+generated sources and 16 documented options found nothing better. The
+`insn_n_dups[-1]` read in Cygnus `cse.c`, whose value depends on how `cc1` was
+built, makes no difference here.
