@@ -205,7 +205,6 @@ void Model_QueueRelativeCameraOrbit(
 
 #define LIMIT(v, n) ((v) > 0 ? ((v) < (n) ? (v) : (n)) : \
     ((v) > -(n) ? (v) : -(n)))
-#define KEY_VIEW(key) ((Key *)(key))
 
 static inline s32 Keyframe_ApplyDeadzone(s16 *axis, s32 amount)
 {
@@ -260,15 +259,15 @@ void Model_UpdateEffectKeyframes(void)
         progress_write_key->progress = elapsed_time;
     }
     for (channel_index = 0; channel_index < 2; channel_index++) {
-        u8 *channel_key_bytes = (u8 *)gModel_pCurrentEffectKey;
-        s16 *channel_halfwords = ((s16 (*)[4])channel_key_bytes)[channel_index];
+        Key *channel_key = gModel_pCurrentEffectKey;
+        s16 *channel_halfwords = &channel_key->requested[channel_index].x;
         if (channel_halfwords[3] != 0) {
             switch (channel_halfwords[3]) {
             case 0x80:
             case 0x81: {
                 s32 slot_index = (s16)((u16)channel_halfwords[3] & 0xFF7F);
-                s32 elapsed_time = KEY_VIEW(channel_key_bytes)->progress;
-                s32 duration_time = KEY_VIEW(channel_key_bytes)->duration;
+                s32 elapsed_time = channel_key->progress;
+                s32 duration_time = channel_key->duration;
                 s32 remaining_time;
                 if (Model_GetSlotReadiness(slot_index) != 1) {
                     break;
@@ -291,8 +290,8 @@ void Model_UpdateEffectKeyframes(void)
             }
             case 1: {
                 s32 axis_index;
-                Model_EvaluateKeyframeSpline(KEY_VIEW(channel_key_bytes), channel_index,
-                    KEY_VIEW(channel_key_bytes)->progress, 0, spline_result);
+                Model_EvaluateKeyframeSpline(channel_key, channel_index,
+                    channel_key->progress, 0, spline_result);
                 for (axis_index = 0; axis_index < 3; axis_index++) {
                     output_channels[channel_index][axis_index] = spline_result[axis_index];
                 }
@@ -384,7 +383,7 @@ void Model_UpdateEffectKeyframes(void)
                 s32 noise_sample_a;
                 s32 noise_sample_b;
                 persistent_channel_count++;
-                if (KEY_VIEW(channel_key_bytes)->progress >= KEY_VIEW(channel_key_bytes)->duration) {
+                if (channel_key->progress >= channel_key->duration) {
                     output_channels[channel_index][0] = gModel_aPoseSnapshot[channel_index].vx;
                     output_channels[channel_index][2] = gModel_aPoseSnapshot[channel_index].vz;
                     break;
@@ -407,11 +406,11 @@ void Model_UpdateEffectKeyframes(void)
     }
     for (channel_index = 0; channel_index < 2; channel_index++) {
         s32 elapsed_time;
-        u8 *channel_key_bytes = (u8 *)gModel_pCurrentEffectKey;
-        s16 *channel_halfwords = ((s16 (*)[4])channel_key_bytes)[channel_index];
+        Key *channel_key = gModel_pCurrentEffectKey;
+        s16 *channel_halfwords = &channel_key->requested[channel_index].x;
         if (channel_halfwords[3] == 4) {
-            s32 duration_time = (elapsed_time = KEY_VIEW(channel_key_bytes)->progress,
-                KEY_VIEW(channel_key_bytes)->duration);
+            s32 duration_time = (elapsed_time = channel_key->progress,
+                channel_key->duration);
             s32 yaw_step = channel_halfwords[1] * elapsed_time / duration_time;
             s32 pitch_step = channel_halfwords[2] * elapsed_time / duration_time;
             s32 radius = gModel_aPoseSnapshot[2].vx;
@@ -472,7 +471,6 @@ void Model_UpdateEffectKeyframes(void)
 }
 
 #define MODEL_EFFECT_ENDPOINT_VIEW(value) ((ModelEffectEndpoint *)(value))
-#define KEY_BYTES(key) ((u8 *)(key))
 
 /*
  * Semantic absolute value and keyframe bounds: `Model_PrepareEffectKey`
@@ -638,13 +636,11 @@ void Model_EvaluateKeyframeSpline(Key *current_key, s32 channel_index, s32 time_
     s32 tail_source_index;
 
     memset(control_points, 0, 16);
-    control_points[0] = (s16 *)(
-        (u8 *)gModel_aPoseSnapshot + (u32)&((u8 (*)[8])0)[channel_index]);
+    control_points[0] = &gModel_aPoseSnapshot[channel_index].vx;
     for (point_or_axis_index = 1; point_or_axis_index < 3; point_or_axis_index++) {
         s16 *next_channel_halfwords;
 
-        next_channel_halfwords = (s16 *)(
-            KEY_BYTES(segment_keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[channel_index]);
+        next_channel_halfwords = &segment_keys[point_or_axis_index]->requested[channel_index].x;
         if (next_channel_halfwords[3] != 1) {
             break;
         }
@@ -656,15 +652,14 @@ void Model_EvaluateKeyframeSpline(Key *current_key, s32 channel_index, s32 time_
         }
     }
     for (point_or_axis_index = 0; point_or_axis_index < 3; point_or_axis_index++) {
-        control_points[point_or_axis_index + 1] = (s16 *)(
-            KEY_BYTES(segment_keys[point_or_axis_index]) + (u32)&((u8 (*)[8])0)[channel_index]);
+        control_points[point_or_axis_index + 1] = &segment_keys[point_or_axis_index]->requested[channel_index].x;
     }
     if (time_denominator != 0) {
         Key *previous_key;
         s16 *previous_channel;
 
         previous_key = &gModel_aEffectKeys[(current_key - gModel_aEffectKeys + gModel_bEffectKeyCount - 1) % gModel_bEffectKeyCount];
-        previous_channel = (s16 *)(KEY_BYTES(previous_key) + (u32)&((u8 (*)[8])0)[channel_index]);
+        previous_channel = &previous_key->requested[channel_index].x;
         if (previous_channel[3] == 1) {
             control_points[0] = previous_channel;
         }
@@ -713,16 +708,15 @@ void Model_CaptureKeyframePose(s32 capture_endpoints)
         Key *key = gModel_pCurrentEffectKey;
         if (key != (Key *)0) {
             s32 endpoint_index = 0;
-            s32 resolved_byte_offset = 16;
-            /* A byte cursor over key->requested: ModelEffectEndpoint is
-               packed, so reading its members costs byte loads (+0x30). */
-            u8 *requested_cursor = KEY_BYTES(key);
-            for (; endpoint_index < 2; resolved_byte_offset += 8, endpoint_index++, requested_cursor += 8) {
-                s32 endpoint_kind = *(s16 *)(requested_cursor + 6);
+            for (; endpoint_index < 2; endpoint_index++) {
+                /* Read through an s16 pointer: ModelEffectEndpoint is packed,
+                   so reading its members costs byte loads (+0x30). */
+                s16 *requested = &key->requested[endpoint_index].x;
+                s32 endpoint_kind = requested[3];
                 if (endpoint_kind < 4) {
                     if (endpoint_kind >= 2)
                         Model_CopySlotPosition(
-                            *(s16 *)requested_cursor, (u16 *)(KEY_BYTES(key) + resolved_byte_offset)
+                            requested[0], &key->resolved[endpoint_index].x
                         );
                 }
             }
@@ -1012,9 +1006,8 @@ void Model_ApplyEffectKeyQueueCommand(
     s32 magnitude
 )
 {
-    u8 *prepare_key_bytes;
-    u8 *next_key_bytes;
-    u8 *append_key_bytes;
+    Key *prepare_key;
+    Key *next_key;
     s32 queued_count;
     s32 key_index;
     s32 one;
@@ -1041,7 +1034,6 @@ void Model_ApplyEffectKeyQueueCommand(
     case 1:
         if (gModel_bEffectKeyCount < 0xA) {
             Key *key = &gModel_aEffectKeys[gModel_bEffectKeyCount];
-            append_key_bytes = KEY_BYTES(key);
             if (first != (ModelEffectEndpoint *)0) {
                 key->requested[0] = *first;
             } else {
@@ -1063,11 +1055,11 @@ void Model_ApplyEffectKeyQueueCommand(
         break;
 
     case 2:
-        next_key_bytes = KEY_BYTES(gModel_aEffectKeys);
+        next_key = gModel_aEffectKeys;
         for (key_index = 0; key_index < gModel_bEffectKeyCount; key_index++) {
-            prepare_key_bytes = next_key_bytes;
-            next_key_bytes += 0x28;
-            Model_PrepareEffectKey((Key *)prepare_key_bytes);
+            prepare_key = next_key;
+            next_key++;
+            Model_PrepareEffectKey(prepare_key);
         }
         gModel_bEffectKeyPreparationPending = 0;
         gModel_nEffectKeyBatchOrdinal = -1;
@@ -1102,25 +1094,24 @@ int Model_GetCurrentEffectKeyAddress(void)
 
 void Model_RefreshEffectKeySlotValues(Key *key)
 {
-    u8 *data = KEY_BYTES(key);
+    Key *data = key;
     int i;
 
     if (!data) {
-        data = KEY_BYTES(gModel_pCurrentEffectKey);
+        data = gModel_pCurrentEffectKey;
     }
     if (!data) {
         return;
     }
     for (i = 0; i < 2; i++) {
-        ModelEffectEndpoint *item =
-            (ModelEffectEndpoint *)(data + i * sizeof(ModelEffectEndpoint));
+        ModelEffectEndpoint *item = &data->requested[i];
 
         /* Key storage is halfword-aligned; packed member reads use bytes. */
         if (*(&item->kind) < 4) {
             if (*(&item->kind) >= 2) {
                 Model_CopySlotPosition(
                     *(&item->x),
-                    (u16 *)(data + 0x10 + i * sizeof(u16[4]))
+                    &data->resolved[i].x
                 );
             }
         }

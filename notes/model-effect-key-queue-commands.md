@@ -63,15 +63,14 @@ two null records and magnitude0/0x4000 BEFORE pose capture or pending
 publication. This is not the complete queue reset and does not gain
 an unconditional pending clear. Invalid commands remain no-ops.
 
-append_key_bytes names the existing OTHERWISE UNUSED byte binding;
-its declaration and assignment stay. Append retains packed eight-byte
+Append retains packed eight-byte
 copies, null-kind-ONLY clears and BOTH readiness-store arms. queued_count
 is reloaded AFTER those copies. Preserve magnitude narrowing, zero
 duration/progress stores and final count publication, plus capacity10.
 No clearing of stale requested components or new initialization policy.
 
-prepare_key_bytes and next_key_bytes remain SEPARATE byte cursors.
-The next cursor advances by0x28 BEFORE each preparer callback; key_index
+prepare_key and next_key remain SEPARATE Key cursors.
+The next cursor advances one Key (0x28 bytes) BEFORE each preparer callback; key_index
 still tests the LIVE count after every call, not a captured count.
 The preparer's separate global-key guard is not bypassed. Pending clears
 and ordinal-1 publication remain AFTER the whole walk. No early cursor

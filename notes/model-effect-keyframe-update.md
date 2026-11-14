@@ -71,7 +71,7 @@ call order and THREE signed multiply/divide stages stay. No sum/divisor
 guard, wider intermediate, alternate curve or output saturation is added.
 
 The COMPLETE updater's preparation_key remains a Key*, separate from both
-u8* channel_key_bytes bindings in the channel/orbit loops. preparation_index
+Key* channel_key bindings in the channel/orbit loops. preparation_index
 walks the original live-count preparation loop. progress_write_key captures
 the timing STORE destination BEFORE the frame-step callback; subsequent
 global key reads and the optional second frame-step call stay live at their
