@@ -1124,10 +1124,6 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 {
     u32 flags;
     u32 mask;
-#ifdef VERSION_EUROPE
-    u32 destination;
-    u32 masked;
-#endif
 
     switch (stage) {
     case 0:
@@ -1160,15 +1156,14 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         break;
 #ifdef VERSION_EUROPE
     case 16:
-        /* Keep both stores before the flag load, then share the later tail so
-           phase index and transfer mode retain separate constant materializations. */
-        mask = 0xFFDCFFFF;
-        *(s32 *)&d->phase_size = 5 * FILE_SECTOR_SIZE;
-        *(s32 *)&d->phase_index = 1;
-        masked = gFile_dwTransferState;
-        destination = (u32)gFile_TransferBufferBase;
-        masked &= mask;
-        goto europe_transfer_tail;
+        d->phase_size = 5 * FILE_SECTOR_SIZE;
+        gFile_dwTransferState &= 0xFFDCFFFF;
+        d->sector_destination = d->alternate_sector_destination = (u32)gFile_TransferBufferBase;
+        d->transfer_mode = 1;
+        /* Written last: an earlier store of 1 would be reused for
+           transfer_mode and stop this tail merging with case 11's. */
+        d->phase_index = 1;
+        break;
 #endif
     case 1:
 #ifdef VERSION_EUROPE
@@ -1291,26 +1286,11 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         break;
     }
     case 11:
-#ifdef VERSION_EUROPE
-        mask = 0xFFDCFFFF;
-        /* As in case 16, a plain u32 member store moves after the flag load. */
-        *(s32 *)&d->phase_size = 5 * FILE_SECTOR_SIZE;
-        masked = gFile_dwTransferState;
-        destination = (u32)gRuntime_pSharedWorkBase;
-        masked &= mask;
-europe_transfer_tail:
-        gFile_dwTransferState = masked;
-        d->alternate_sector_destination = destination;
-        d->sector_destination = destination;
-        d->transfer_mode = 1;
-        break;
-#else
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->sector_destination = d->alternate_sector_destination = (u32)gRuntime_pSharedWorkBase;
         d->transfer_mode = 1;
         break;
-#endif
     case 12: {
         u32 flags;
         d->field_30.h.counter = 0x280;
