@@ -4,8 +4,8 @@
 as `MapLocation[]`, not a byte array. Every live C consumer is in
 `src/overlays/overworld/set_location.c`, compiled independently into both
 overworld variants with `gcc_2_8_1_g0_split`. `campaign_map.h` includes the
-owning `location_table.h`; `MapLocation`, its nested `CampaignMapExit`, and the
-existing `MapObject` view are defined only in `src/ygo_types.h`.
+owning `location_table.h`; `MapLocation` and its nested `CampaignMapExit` are
+defined only in `src/ygo_types.h`.
 
 This is a union of observed field accesses, not a copy of the alternate
 map's types and not a claim about the original source declarations.
@@ -25,8 +25,8 @@ described below.
 | `0x06` | `camera_distance` | `s16` | Immediate setup writes the view state's orbit distance (`ViewState` +0x00), the radius both orbit functions scale; the tween computes its signed delta and steps it as `gCampaignMap_dwTweenDistance`. |
 | `0x08` | `view_x` | `s16` | Both camera paths use it for `view.vrx`. |
 | `0x0A` | `view_z` | `s16` | Both camera paths use it for `view.vrz`. |
-| `0x0C` | `f12` | `s16` | Marker creation passes X to `DisplayObject_ConfigureSpriteAtPositionWithResource`; the transition passes it to `DisplayObject_InterpolatePositionCosine` and eventually copies it into the marker's X halfword. |
-| `0x0E` | `f14` | `s16` | The same paths use it as marker Y. Existing member spellings are retained. |
+| `0x0C` | `marker_x` | `s16` | Marker creation passes X to `DisplayObject_ConfigureSpriteAtPositionWithResource`; the transition passes it to `DisplayObject_InterpolatePositionCosine` and eventually copies it into the marker's X halfword. |
+| `0x0E` | `marker_y` | `s16` | The same paths use it as marker Y. |
 | `0x10` | `confirm_destination` | `u8` | The ready confirm path returns this nonzero destination, otherwise returns the current location with bit `0x8000` set. |
 | `0x11` | `pad_11` | `u8` | No live access identified; preserved, not interpreted. |
 | `0x12` | `exits` | `CampaignMapExit[4]` | Shared by location-object spawning and exit selection. |
@@ -92,8 +92,9 @@ The latter has a recorded scheduling constraint on materializing the table
 base; typing the locals did not require collapsing their expressions.
 Camera locals, branch order and the `cameraLong` view also remain.
 
-`MapObject` is the same existing partial display-object view, now centralized,
-not a new claim that every display object has this complete type. The
+The two map objects are plain `DisplayObject`s: the former `MapObject` view's
+`f8`, `f48`/`f50`, `f72`/`f74` and `f96` are `flags`, `xy.h`,
+`field_48.spotlight` and `field_60`. The
 alternate family continues to use its distinct table at `gCampaignMapAlt_aLocationTable` and
 its separate contracts in `alternate_location.h`. Layout similarity alone
 does not establish shared ownership or interchangeable live entrypoints.

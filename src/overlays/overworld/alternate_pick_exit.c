@@ -28,16 +28,16 @@ s32 CampaignMap_PickAlternateExit(void)
         }
     }
     if ((D_800C4E68 & ALTERNATE_EXIT_CONFIRM_BUTTONS) != 0) {
-        if ((r = p->f0) != 0) {
-            if (func_8004EB9C(q->f0) != 0) {
+        if ((r = p->confirm_gate) != 0) {
+            if (func_8004EB9C(q->story_flag) != 0) {
                 r = 0;
             }
         }
         if (r == 0) {
-            if (p->f16 != 0) {
+            if (p->confirm_destination != 0) {
                 gCampaignMapAlt_MoveState = 24;
                 func_80065B24(48);
-                return p->f16;
+                return p->confirm_destination;
             }
             func_80065B24(48);
             return gCampaignMapAlt_Location | 0x8000;
@@ -45,14 +45,14 @@ s32 CampaignMap_PickAlternateExit(void)
     }
     i = 0;
     for (; i < 4; q++, i++) {
-        if (q->f9 != 16) {
-            if (q->f0 != 0 && func_8004EB9C(q->f0) == 0) {
+        if (q->destination != 16) {
+            if (q->story_flag != 0 && func_8004EB9C(q->story_flag) == 0) {
                 continue;
             }
-            if ((D_800C4E74 & q->f6) != 0) {
-                gCampaignMapAlt_MoveState = q->f10;
+            if ((D_800C4E74 & q->input_mask) != 0) {
+                gCampaignMapAlt_MoveState = q->move_steps;
                 func_80065B24(6);
-                return q->f9;
+                return q->destination;
             }
         }
         /* No goto targets this label. At -O0 a statement label is what

@@ -899,8 +899,11 @@ typedef struct {
     s16 camera_distance;
     s16 view_x;
     s16 view_z;
-    s16 f12;
-    s16 f14;
+    /* The location marker's screen position: CampaignMap_CreateLocationMarker
+       places the marker here, and the location transition eases it here
+       and finally stores it into the marker's xy. */
+    s16 marker_x;
+    s16 marker_y;
     u8 confirm_destination;
     u8 pad_11;
     CampaignMapExit exits[4];
@@ -919,31 +922,12 @@ typedef char MapLocation_size_must_be_66[
     sizeof(MapLocation) == 66 ? 1 : -1
 ];
 typedef char MapLocation_marker_offset_must_be_12[
-    YGO_TYPE_OFFSET(MapLocation, f12) == 12 ? 1 : -1
+    YGO_TYPE_OFFSET(MapLocation, marker_x) == 12 ? 1 : -1
 ];
 typedef char MapLocation_exits_offset_must_be_18[
     YGO_TYPE_OFFSET(MapLocation, exits) == 18 ? 1 : -1
 ];
 
-typedef struct {
-    u8 pad0[8];
-    u16 f8;
-    u8 pad10[38];
-    s16 f48;
-    s16 f50;
-    u8 pad52[20];
-    u16 f72;
-    u16 f74;
-    u8 pad76[20];
-    s16 f96;
-} MapObject;
-
-typedef char MapObject_position_offset_must_be_48[
-    YGO_TYPE_OFFSET(MapObject, f48) == 48 ? 1 : -1
-];
-typedef char MapObject_transition_offset_must_be_96[
-    YGO_TYPE_OFFSET(MapObject, f96) == 96 ? 1 : -1
-];
 
 /* The two endpoint blocks in each model-effect request. `packed` preserves
    Model_ApplyEffectKeyQueueCommand's unaligned two-word copies from generic byte pointers. */
