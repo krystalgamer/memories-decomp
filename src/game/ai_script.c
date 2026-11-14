@@ -494,7 +494,7 @@ void AiScript_PlayFieldCard(void)
     s32 category = gAiScript_aMemory[AiScript_ReadByte()];
 
     gAi_Selection.fields.source_code = (s8)first;
-    gAi_Selection.fields.field_0B = (s8)third;
+    gAi_Selection.fields.change_position = (s8)third;
 
     if (category == 0) {
         if (first >= 6 && second == 1) {

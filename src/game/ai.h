@@ -94,11 +94,17 @@ typedef struct {
      * 6..10 for the back row, decoded as (a - 1) % 5 and a >= 6. The target
      * is a mixed code: values below 0x38 are own slots in the same encoding,
      * and 0x38 and above select the opposing monster at column 0x3C - a.
-     * Byte 0x0B is tested together with them but its role depends on the
-     * source row, so it keeps its offset name. */
+     *
+     * change_position is the script's third AiScript_PlayFieldCard operand.
+     * For a monster-row source, DuelScene_UpdateFieldActions takes a nonzero
+     * value to its position step: it rotates the card with
+     * DuelCard_UpdateDefenseRotation, turns it face up and ends the action
+     * without attacking. A zero target and zero change_position only turn
+     * the card face up; any other combination proceeds to the attack or
+     * activation. */
     s8 source_code; /* 0x09 */
     s8 target_code; /* 0x0A */
-    s8 field_0B;    /* 0x0B */
+    s8 change_position; /* 0x0B */
 } AiSelectionFields;
 
 typedef union {
@@ -257,8 +263,8 @@ typedef char AiSelection_source_code_offset_must_be_0x09[
 typedef char AiSelection_target_code_offset_must_be_0x0A[
     AI_SCRIPT_STATE_OFFSET(AiSelectionFields, target_code) == 0x0A ? 1 : -1
 ];
-typedef char AiSelection_field_0B_offset_must_be_0x0B[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_0B) == 0x0B ? 1 : -1
+typedef char AiSelection_change_position_offset_must_be_0x0B[
+    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, change_position) == 0x0B ? 1 : -1
 ];
 
 #undef AI_SCRIPT_STATE_OFFSET
