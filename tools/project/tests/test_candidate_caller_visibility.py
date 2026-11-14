@@ -388,11 +388,11 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         profile = self.profile(source)
         original = path.read_text(encoding="utf-8")
         call = (
-            "PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,\n"
+            "PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,\n"
             "        CARD_PANEL_ORIGIN_BYTES(origin));"
         )
         swapped = (
-            "PRM, CARD_PANEL_PACKET_BYTES(origin), (GsOT *)ordering_table, arg,\n"
+            "PRM, CARD_PANEL_PACKET_BYTES(origin), ordering_table, arg,\n"
             "        CARD_PANEL_ORIGIN_BYTES(packet));"
         )
         self.assertIn(call, original)

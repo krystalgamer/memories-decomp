@@ -444,7 +444,7 @@ void FreeDuel_UpdateCursorTween(void)
             sparkle->xy.word = widget->xy.word;
             DisplayObject_SetDepthOffset(sparkle, (s8)((u8)widget->depth_offset - 1));
             DisplayObject_UpdateCommandStream(sparkle);
-            sparkle->field_4C = widget->field_4C;
+            sparkle->field_4C.word = widget->field_4C.word;
             sparkle->field_6C = 1;
             sparkle->flags |= 1;
             *slot = sparkle;

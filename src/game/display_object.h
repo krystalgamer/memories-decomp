@@ -2,10 +2,16 @@
 #define MEMORIES_DECOMP_DISPLAY_OBJECT_H
 
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "display_object_layout.h"
 
 struct DisplayObject;
 typedef void (*DisplayObjectCallback)(struct DisplayObject *);
+/* The draw pass's second callback, at 0x4C: called with the object and the
+   ordering table its ot_index selects. */
+typedef void (*DisplayObjectDrawCallback)(struct DisplayObject *, GsOT *);
 
 /* One entry of the DISPLAY_OBJECT_POOL_CAPACITY-entry pool at gDisplayObject_aPool.
  *
@@ -419,29 +425,30 @@ typedef struct DisplayObject {
             s16 y;
         } vertex;
     } field_48;                    /* 0x48 */
-    /* Read several ways, like 0x44: 0x4C is the fifth of
-       the six words at stride 8 -- 0x2C, 0x34, 0x3C, 0x44, 0x4C, 0x54 -- that
+    /* Read three ways, one per object kind. 0x4C is also the fifth of the
+       six words at stride 8 -- 0x2C, 0x34, 0x3C, 0x44, 0x4C, 0x54 -- that
        display_object_helpers.c zeroes in one run.
 
-       For a gouraud-rendered object it is a vertex colour:
+       color: a Gouraud-rendered object's vertex colour.
        DisplayObject_RenderGouraudQuadList and
        DisplayObject_RenderTexturedGouraudQuadList copy it into a primitive's
-       colour word, Dialog_UpdateChoice writes 0x2000 and TextBox_RefreshDisplayObjects writes
-       0xA0A0A0.
+       colour word; Dialog_UpdateChoice writes 0x2000 and
+       TextBox_RefreshDisplayObjects writes 0xA0A0A0.
 
-       For others it holds a second callback: display_object_runtime.c calls
-       through it as void (*)(u8 *, s32), and dialog_transition.c,
-       src/game/duel_scene.c and Library_CreateFadingCardOutline.c each store a
-       function's address here.
+       draw: for other objects, a second callback. The draw pass calls it
+       after `update`, with the object and its ordering table.
 
-       Timed sprite streams instead store the frame_data byte pointer here;
-       the sheet renderer consumes its SpriteSheetHeader and parts. That
-       narrow reading belongs to DisplayObjectStreamState.
+       frame_data: a timed sprite stream's sheet, whose SpriteSheetHeader
+       and parts the sheet renderer consumes (DisplayObjectStreamState).
 
-       No reading governs, so the offset is the name. s32 is the spelling
-       that serves them: the callback writers in this file already cast the
-       function to it, and a colour word is not a pointer. */
-    s32 field_4C;                  /* 0x4C */
+       word: the raw value, for code that copies or clears it whatever the
+       kind. */
+    union {
+        s32 word;
+        u32 color;
+        DisplayObjectDrawCallback draw;
+        u8 *frame_data;
+    } field_4C;                    /* 0x4C */
     /* The last unnamed word of the tail, and read as incompatibly as 0x4C
        just above it, so the offset is again the name.
 

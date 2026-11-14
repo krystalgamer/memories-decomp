@@ -482,7 +482,7 @@ GsF_LIGHT gDisplayObject_FlatLightUp = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };
 #define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
 /* Caching this pointer shortens retail; each use must reload field_4C. */
 #define SPRITE_SHEET_HEADER(object) \
-    ((SpriteSheetHeader *)(object)->field_4C)
+    ((SpriteSheetHeader *)(object)->field_4C.frame_data)
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 #ifndef SPRITE_SHEET_SCREEN_HEIGHT
 #define SPRITE_SHEET_SCREEN_HEIGHT 240
@@ -638,7 +638,6 @@ void DisplayObject_RunSecondaryCallbackList(void)
             DisplayObject *object =
                 (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
-            u8 *data = DISPLAY_OBJECT_BYTES(object);
 
             i = object->next;
 
@@ -648,11 +647,10 @@ void DisplayObject_RunSecondaryCallbackList(void)
 
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                void (*secondary)(u8 *, s32) =
-                    (void (*)(u8 *, s32))object->field_4C;
+                DisplayObjectDrawCallback secondary = object->field_4C.draw;
 
                 if (secondary != 0) {
-                    secondary(data, (s32)table[object->ot_index]);
+                    secondary(object, table[object->ot_index]);
                 }
             }
         } while (i >= 0);
@@ -775,10 +773,10 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     x1 = object->field_50.word;
                     *(s32 *)&packet->x0 = x0;
                     *(s32 *)&packet->x1 = x1;
-                    /* field_4C is declared s32, so *(s32 *)& would fold
+                    /* field_4C.word is s32, so *(s32 *)& would fold
                        back into a member read and float; u32 keeps it
                        scalar. */
-                    *(s32 *)&packet->r0 = *(u32 *)&object->field_4C;
+                    *(s32 *)&packet->r0 = *(u32 *)&object->field_4C.word;
                     x2 = *(s32 *)&object->field_54;
                     setlen(packet, eight);
                     setcode(packet, hi);
@@ -841,7 +839,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                 w0 = object->position.word;
                 w1 = object->field_34.word;
                 w2 = object->field_40.word;
-                w3 = object->field_4C;
+                w3 = object->field_4C.word;
                 *(s32 *)&packet->x0 = w0;
                 *(s32 *)&packet->x1 = w1;
                 *(s32 *)&packet->x2 = w2;
@@ -1074,7 +1072,7 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
             work->cx += (SPRITE_SHEET_HEADER(object)->clut & 0xF) << 4;
             work->cy += SPRITE_SHEET_HEADER(object)->clut >> 4;
         }
-        sheet = (u8 *)object->field_4C;
+        sheet = object->field_4C.frame_data;
         sprite->rotate = object->field_20.h.rotation_z * 5760;
         sprite->scale.h.x = object->field_44.scale.x;
         sprite->scale.h.y = object->field_44.scale.y;
@@ -1744,7 +1742,7 @@ void DisplayObject_InitializeGouraudQuad(
     u16 flags = object->flags;
 
     object->field_54 = 0;
-    object->field_4C = 0;
+    object->field_4C.word = 0;
     object->field_44.word = 0;
     object->field_3C.word = 0;
     object->field_34.word = 0;

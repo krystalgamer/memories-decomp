@@ -266,7 +266,7 @@ void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1)
         object->xy.h.y = record->y;
         object->field_6A = i++;
         DisplayObject_SelectOrderingTable1(object);
-        object->field_4C = (s32)CardList_RenderDeckBoxStats;
+        object->field_4C.draw = CardList_RenderDeckBoxStats;
         record->object = object;
         record++;
     } while (i < 2);

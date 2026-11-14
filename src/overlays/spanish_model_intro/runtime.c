@@ -120,7 +120,7 @@ void Credits_InitPresentation(void)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DisplayObject_SelectOrderingTable3(object);
     *(u8 *)&object->rgb = 0;
-    object->field_4C = (s32)Credits_DrawGrid;
+    object->field_4C.draw = Credits_DrawGrid;
     gCredits_pGridObject = object;
     gCredits_dwFrameCounter = 0;
 }

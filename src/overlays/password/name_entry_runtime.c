@@ -216,7 +216,7 @@ void NameEntry_Init(void)
     obj->field_3C.size.h = 16;
     DisplayObject_SelectOrderingTable1(obj);
     DisplayObject_SetDepthOffset(obj, 10);
-    obj->field_4C = (s32)NameEntry_DrawSelectionFrame;
+    obj->field_4C.draw = (DisplayObjectDrawCallback)NameEntry_DrawSelectionFrame;
     gNameEntry_pSelectionFrame = (SelectionFrame *)obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
 #ifdef VERSION_EUROPE
@@ -992,7 +992,7 @@ void NameEntry_UpdateKeyboard(void)
             object = gNameEntry_apKeySprites[work];
             object->field_6C = 1;
             object->update = NameEntry_UpdateGlyphPulse;
-            object->field_4C = 0;
+            object->field_4C.word = 0;
             object->field_6B = 1;
             return;
         }

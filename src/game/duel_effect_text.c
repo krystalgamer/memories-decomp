@@ -1679,7 +1679,7 @@ void Dialog_HighlightChoice(DuelEffectChannel *record)
     value = value / 4;
     record->prompt_object->field_2C.word = value;
     record->prompt_object->field_34.word = value;
-    record->prompt_object->field_4C = value;
+    record->prompt_object->field_4C.word = value;
     *(s32 *)&record->prompt_object->field_54 = value;
     DuelEffect_UpdateObjectLayout(record);
 }
@@ -1762,7 +1762,7 @@ void Widget_UpdatePulseColour(DisplayObject *object)
     color = (color & 0xFCFCFC) / 4;
     widget->field_2C.word = color;
     widget->field_34.word = color;
-    widget->field_4C = color;
+    widget->field_4C.color = color;
     *(s32 *)&widget->field_54 = color;
 }
 
@@ -1805,7 +1805,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
                       (s8)(p->render_object->depth_offset + 1));
         p->prompt_object = prompt;
         *(s32 *)&prompt->field_54 = 0x2000;
-        prompt->field_4C = 0x2000;
+        prompt->field_4C.color = 0x2000;
         prompt->field_34.word = 0x2000;
         prompt->field_2C.word = 0x2000;
         prompt->field_44.word = 0xC000;
@@ -3640,7 +3640,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
         e->field_40.clut.y = TEXT_BOX_GLYPH_CLUT_Y;
         e->texture_page = 0xA;
         f = e->flags;
-        e->field_4C = (s32)TextBox_DrawEntries;
+        e->field_4C.draw = TextBox_DrawEntries;
         e->resource_root_index = b;
         e->flags = f | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         p->render_object = e;
@@ -3671,7 +3671,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
         DisplayObject_SelectOrderingTable1(e);
         DisplayObject_SetDepthOffset(e, (s8)(p->depth_offset - 1));
         *(s32 *)&e->field_54 = 0xA0A0A0;
-        e->field_4C = 0xA0A0A0;
+        e->field_4C.color = 0xA0A0A0;
         e->field_34.word = 0xA0A0A0;
         e->field_2C.word = 0xA0A0A0;
         e->field_44.word = COLOR_RGB24_NEUTRAL_GREY;
