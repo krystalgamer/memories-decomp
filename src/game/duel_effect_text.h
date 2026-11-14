@@ -130,11 +130,14 @@ s32 Dialog_ReadChoiceInput(struct DuelEffectChannel *record);
 #define DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE 0x40
 #define DISPLAY_OBJECT_FADE_FLAG_INITIALIZED 0x80
 
-s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *);
-
 /* Releases the entry's occupancy claim and requests list compaction, not a
- * heap allocation. Regional occupancy clearing remains in the implementation. */
+ * heap allocation. Regional occupancy clearing remains in the implementation.
+ * The European pair, which takes the European entry record, is declared with
+ * that record below. */
+#ifndef VERSION_EUROPE
+s32 DisplayObjectFade_MarkInitialized(DuelEffectChannel *);
 void DisplayObjectFade_ReleaseChannel(struct DuelEffectChannel *object);
+#endif
 
 /* The four duel effect entry handlers in gDuelEffect_EntryHandlers
  * (duel_effect_command_table.c), in table order: DuelEffect_UpdateGlyphConceal,
@@ -155,9 +158,11 @@ void DisplayObjectFade_ReleaseChannel(struct DuelEffectChannel *object);
  *
  * The last two end by releasing the record's occupancy slot through
  * DisplayObjectFade_ReleaseChannel. */
+#ifndef VERSION_EUROPE
 void DuelEffect_UpdateGlyphReveal(DuelEffectChannel *record);
 void DuelEffect_UpdateGlyphConceal(DuelEffectChannel *record);
 void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectChannel *record);
+#endif
 
 /* Secondary command zero: reads a modifier byte and expands the selected
  * card's name/description, type or guardian field, or applies its staged
@@ -365,6 +370,15 @@ typedef char EuropeanDuelEffectEntry_size_must_be_0x16[
     sizeof(EuropeanDuelEffectEntry) == 0x16 ? 1 : -1
 ];
 
+#ifdef VERSION_EUROPE
+/* The European fade helpers and entry handlers receive the entry itself. */
+s32 DisplayObjectFade_MarkInitialized(EuropeanDuelEffectEntry *object);
+void DisplayObjectFade_ReleaseChannel(EuropeanDuelEffectEntry *object);
+void DuelEffect_UpdateGlyphReveal(EuropeanDuelEffectEntry *record);
+void DuelEffect_UpdateGlyphConceal(EuropeanDuelEffectEntry *record);
+void DuelEffect_UpdateDelayedGlyphRotation(EuropeanDuelEffectEntry *record);
+#endif
+
 void DuelEffect_ClearOccupancyValue(s32 value);
 void DuelEffect_ResetOccupancy(void);
 /* NA/Japan start coordinates, not cursors updated by the query. Reset clears
@@ -501,12 +515,12 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p);
 
 #ifdef VERSION_EUROPE
 
-void DuelEffect_UpdateGlyphSpiralFade(DuelEffectChannel *record, void *context);
-void DuelEffect_StartGlyphSpiralReveal(DuelEffectChannel *record, void *context);
-void DuelEffect_StartGlyphSpiralConceal(DuelEffectChannel *record, void *context);
-void DuelEffect_UpdateGlyphLinearFade(DuelEffectChannel *record);
-void DuelEffect_UpdateGlyphFadeIn(DuelEffectChannel *record);
-void DuelEffect_UpdateGlyphFadeOut(DuelEffectChannel *record);
+void DuelEffect_UpdateGlyphSpiralFade(EuropeanDuelEffectEntry *record, void *context);
+void DuelEffect_StartGlyphSpiralReveal(EuropeanDuelEffectEntry *record, void *context);
+void DuelEffect_StartGlyphSpiralConceal(EuropeanDuelEffectEntry *record, void *context);
+void DuelEffect_UpdateGlyphLinearFade(EuropeanDuelEffectEntry *record);
+void DuelEffect_UpdateGlyphFadeIn(EuropeanDuelEffectEntry *record);
+void DuelEffect_UpdateGlyphFadeOut(EuropeanDuelEffectEntry *record);
 #endif
 
 /* Marks every gDisplayEffect_aMenuRecords menu record inactive (effect_id = -1), clears its

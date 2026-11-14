@@ -158,8 +158,8 @@ Europe. The NA renderer's typed switch and the JP/PAL biased byte switches
 prove mode zero is the plain sprite, one selects rotation with the original
 zero-rotation sprite fallback, and two selects corner shading/geometry.
 Europe also has mode three: its raw physical +0x15 byte supplies RGB to
-two blend submissions. That raw byte is NOT render_mode and remains the
-separate EU_ENTRY_FADE_VALUE view. No universal alpha field, timer or
+two blend submissions. That raw byte is NOT render_mode; it is the
+separate `fade_value` member. No universal alpha field, timer or
 unified regional rendering enum is inferred.
 
 Reveal/conceal retain their first-call progression, signed-byte endpoints,
