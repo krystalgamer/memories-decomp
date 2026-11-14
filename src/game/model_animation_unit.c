@@ -73,13 +73,18 @@ void *Model_GetAnimationInterpolationHandler(u32 value)
  * index captures preserve one read; separate duration paths retain their
  * distinct stores; the count precedes the handler table in the spill order.
  *
- * The single-pass endpoint checks preserve GCC 2.8.1's reference weighting.
- * Flattening them exchanges the context and cached-sentinel registers in
- * fifteen words. The GsSEQ cursor starts after one canonical GsSEH header and
- * advances by each record's u32 size. The command byte offset derives from
- * the typed command width. The ModelAnimParams tail keeps its byte-addressed
- * form but derives its base from GsARGUNIT_ANIM::header_size. No register
- * bindings or instruction assembly are used.
+ * The key retry is a real loop, so its body carries one more level of
+ * GCC 2.8.1's reference weighting than the walk around it. The unit loop
+ * skips idle sequences itself and counts them on a path of their own, whose
+ * increment jump2 cross-jumps into the shared one; the extra reference keeps
+ * the sequence index in $a3 ahead of the parameter table, which the retry
+ * loop weights. Two single do-while (0) blocks restore the remaining
+ * register order; each says which pair it orders. The GsSEQ cursor starts
+ * after one canonical GsSEH header and advances by each record's u32 size.
+ * The command byte offset derives from the typed command width. The
+ * ModelAnimParams tail keeps its byte-addressed form but derives its base
+ * from GsARGUNIT_ANIM::header_size. No register bindings or instruction
+ * assembly are used.
  */
 static __inline__ u32 scan_command(GsSEQ *track, ModelSeqDescriptor *commands,
                                        u32 index)
@@ -95,7 +100,11 @@ static __inline__ u32 scan_command(GsSEQ *track, ModelSeqDescriptor *commands,
             condition = (word & 0x7F0000) >> 16;
             if (condition == 0 || track->sid == condition) {
                 action = (word & 0x3F800000) >> 23;
-                if (condition != 0 || action != 0) {
+                /* A conditional jump always takes its state; an
+                   unconditional one only a nonzero state. */
+                if (condition != 0) {
+                    track->sid = action;
+                } else if (action != 0) {
                     track->sid = action;
                 }
                 index = word;
@@ -116,41 +125,48 @@ static __inline__ u32 scan_command(GsSEQ *track, ModelSeqDescriptor *commands,
     return index;
 }
 
-/* Advances one sequence of the unit; `return` moves on to the next one. */
+/* Advances one active sequence of the unit; `return` moves on to the next
+   one. The caller has already skipped sequences with no frames left. */
 static inline void Model_UpdateAnimationSequence(
     GsARGUNIT_ANIM *const ctx,
     GsSEQ *const cursor,
+    GsSEQ *const track,
+    u32 active_frames,
     u32 *const handler_words,
     ModelSeqDescriptor *const commands,
     u32 *const parameter_words
 )
 {
-    GsSEQ *track;
     ModelAnimParams *interpolation_parameters;
     s32 (*handler)(GsARGUNIT_ANIM *);
     s32 direction;
-    u32 active_frames;
     u32 next_command_index;
     u32 interpolation_type;
     u32 target_duration;
     ModelSeqDescriptor *dispatch_record;
     s32 handler_result;
 
-    active_frames = cursor->aframe;
-    track = cursor;
-    if ((u16)active_frames != 0) {
+    /* The wrapper weights the 0xFFFF sentinel ($t0) above the unit pointer
+       ($t1) and the direction ($s2) above the control-bit mask ($s3). */
+    do {
         if ((u16)active_frames != 0xFFFF) {
             cursor->aframe = active_frames - 1;
         }
         direction = cursor->speed < 0 ? -1 : 1;
-        if (cursor->rframe == 0x7000) {
-            direction = 1;
-            cursor->rframe = 0;
-        } else if (cursor->rframe == 0x6000) {
-            direction = -1;
-            cursor->rframe = 0;
-        }
-retry:
+    } while (0);
+    if (cursor->rframe == 0x7000) {
+        direction = 1;
+        cursor->rframe = 0;
+    } else if (cursor->rframe == 0x6000) {
+        direction = -1;
+        cursor->rframe = 0;
+    }
+    /* A handler that reports an empty key, or a zero-length target key,
+       retries from the key check. Entering the loop through the switch
+       keeps loop.c from hoisting the scanners' masks out of it, so the
+       outer loop hoists all of them. */
+    switch (0) for (;;) {
+    default:
         if (track->rframe == 0 || track->tframe == 0) {
             track->traveling = 0;
             /* A control key that scans to the end breaks out to the stop
@@ -185,14 +201,10 @@ retry:
                     track->ci = next_command_index;
                 }
             }
-            /* The wrapper weights the 0xFFFF constant's compares so it keeps
-               $t0 ahead of the unit pointer's copy. */
-            do {
-                if ((u16)next_command_index == 0xFFFF) {
-                    track->aframe = 0;
-                    return;
-                }
-            } while (0);
+            if ((u16)next_command_index == 0xFFFF) {
+                track->aframe = 0;
+                return;
+            }
             if (direction == 1) {
                 target_duration = commands[track->ti].f.tframe << 4;
                 track->tframe = target_duration;
@@ -221,33 +233,40 @@ retry:
         } else {
             interpolation_parameters->out = 0;
         }
-        if (track->ci != track->ti) {
-            handler_result = handler(ctx);
-            if (handler_result == 1) {
-                track->rframe = 0;
-                goto retry;
-            }
-            if (commands[track->ti].f.tframe == 0) {
-                goto retry;
-            }
-            track->rframe = (u16)track->rframe - track->speed;
-            if (direction == 1 && track->rframe < 0) {
-                track->rframe = 0x7000;
-            } else if (direction == -1 && track->rframe >= track->tframe) {
-                track->rframe = 0x6000;
-            }
+        if (track->ci == track->ti) {
+            return;
         }
+        /* The wrapper weights the unit pointer ($t1) above the parameter
+           table ($t2). */
+        do {
+            handler_result = handler(ctx);
+        } while (0);
+        if (handler_result == 1) {
+            track->rframe = 0;
+            continue;
+        }
+        if (commands[track->ti].f.tframe != 0) {
+            break;
+        }
+    }
+    track->rframe = (u16)track->rframe - track->speed;
+    if (direction == 1 && track->rframe < 0) {
+        track->rframe = 0x7000;
+    } else if (direction == -1 && track->rframe >= track->tframe) {
+        track->rframe = 0x6000;
     }
 }
 
 u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx)
 {
     GsSEQ *cursor;
+    GsSEQ *track;
     s32 sequence_count;
     u32 *handler_words;
     ModelSeqDescriptor *commands;
     u32 *parameter_words;
     s32 sequence_index;
+    u32 active_frames;
     u32 *unit_words;
 
     cursor = (GsSEQ *)((GsSEH *)ctx->primp + 1);
@@ -255,9 +274,17 @@ u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx)
     commands = (ModelSeqDescriptor *)ctx->ctop;
     sequence_count = ((u16 *)ctx->primp)[1];
     parameter_words = (u32 *)ctx->ptop;
-    for (sequence_index = 0; sequence_index < sequence_count; sequence_index++) {
-        Model_UpdateAnimationSequence(ctx, cursor, handler_words, commands, parameter_words);
-        cursor = (GsSEQ *)((u32 *)cursor + cursor->size);
+    for (sequence_index = 0; sequence_index < sequence_count;
+         cursor = (GsSEQ *)((u32 *)cursor + cursor->size)) {
+        track = cursor;
+        active_frames = cursor->aframe;
+        if ((u16)active_frames == 0) {
+            sequence_index++;
+            continue;
+        }
+        Model_UpdateAnimationSequence(ctx, cursor, track, active_frames,
+                                      handler_words, commands, parameter_words);
+        sequence_index++;
     }
     unit_words = (u32 *)ctx->primp;
     return unit_words + *(u16 *)unit_words;
