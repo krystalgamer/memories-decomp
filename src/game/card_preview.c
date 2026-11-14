@@ -271,7 +271,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
     PRM->xy.h.x = win->xy.h.x + obj->xy.h.x;
     PRM->xy.h.y = win->xy.h.y + obj->xy.h.y;
     PRM->extent.word = obj->field_3C.word;
-    PRM->uv.word = obj->resource_uv;
+    PRM->uv.word = obj->resource_uv.word;
     if (obj->resource_branch_index < 0x14) {
         if (rec->stat_palette_flags & 0x80) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
@@ -396,7 +396,6 @@ void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
     }
 }
 
-#define DISPLAY_OBJECT_RESOURCE_UV_BYTES(object) ((u8 *)&(object)->resource_uv)
 #include "card_constants.h"
 #include "file_transfer.h"
 #include "display_object.h"
@@ -411,9 +410,6 @@ void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
 #endif
 #ifndef DUEL_RESOURCE_DEFAULT_X
 #define DUEL_RESOURCE_DEFAULT_X 0x48
-#endif
-#ifndef DUEL_RESOURCE_VARIANT_BYTE
-#define DUEL_RESOURCE_VARIANT_BYTE 1
 #endif
 #ifndef DUEL_RESOURCE_VARIANT_17_DELTA
 #define DUEL_RESOURCE_VARIANT_17_DELTA 0x20
@@ -482,9 +478,9 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     object->field_3C.word = 0x00100038;
 #ifdef VERSION_EUROPE
     object->attribute |= 0x01000000;
-    object->resource_uv = ((gText_bLanguageIndex << 4) + 0x9E) << 8;
+    object->resource_uv.word = ((gText_bLanguageIndex << 4) + 0x9E) << 8;
 #else
-    object->resource_uv = 0x9E00;
+    object->resource_uv.word = 0x9E00;
     object->attribute |= 0x01000000;
 #endif
 
@@ -500,11 +496,15 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
         break;
 
     case 0x17:
-        byte_value = DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[
-            DUEL_RESOURCE_VARIANT_BYTE];
+#ifdef VERSION_EUROPE
+        byte_value = object->resource_uv.b.u;
         byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_17_DELTA);
-        DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
-            byte_value;
+        object->resource_uv.b.u = byte_value;
+#else
+        byte_value = object->resource_uv.b.v;
+        byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_17_DELTA);
+        object->resource_uv.b.v = byte_value;
+#endif
         /* fall through */
     case 0x14:
         setup = 0x101;
@@ -513,24 +513,32 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
 
     case 0x15:
         setup = 0x102;
-        byte_value = DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[
-            DUEL_RESOURCE_VARIANT_BYTE];
+#ifdef VERSION_EUROPE
+        byte_value = object->resource_uv.b.u;
+#else
+        byte_value = object->resource_uv.b.v;
+#endif
         variant = 1;
         byte_value = (u8)(byte_value + DUEL_RESOURCE_VARIANT_15_DELTA);
-        DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
-            byte_value;
+#ifdef VERSION_EUROPE
+        object->resource_uv.b.u = byte_value;
+#else
+        object->resource_uv.b.v = byte_value;
+#endif
         break;
 
     default:
         object->xy.h.x = DUEL_RESOURCE_DEFAULT_X;
         object->xy.h.y = DUEL_RESOURCE_PATH_Y;
-        DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[DUEL_RESOURCE_VARIANT_BYTE] =
-            DUEL_RESOURCE_PATH_FIELD_5E;
+#ifdef VERSION_EUROPE
+        object->resource_uv.b.u = DUEL_RESOURCE_PATH_FIELD_5E;
+#else
+        object->resource_uv.b.v = DUEL_RESOURCE_PATH_FIELD_5E;
+#endif
         object->field_3C.size.w = DUEL_RESOURCE_PATH_WIDTH;
         object->field_3C.size.h = DUEL_RESOURCE_PATH_HEIGHT;
 #ifdef VERSION_EUROPE
-        DISPLAY_OBJECT_RESOURCE_UV_BYTES(object)[1] =
-            (gText_bLanguageIndex << 4) - 0x60;
+        object->resource_uv.b.v = (gText_bLanguageIndex << 4) - 0x60;
 #endif
 
         {

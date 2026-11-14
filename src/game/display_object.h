@@ -517,7 +517,13 @@ typedef struct DisplayObject {
        into a primitive's uv, and the duel effect, game-over, Library and
        free-duel code write u or v directly. Screen sprites keep their u/v
        at 0x5C instead (texture_uv). */
-    u16 resource_uv;               /* 0x5E */
+    union {
+        u16 word;
+        struct {
+            u8 u;
+            u8 v;
+        } b;
+    } resource_uv;                 /* 0x5E */
     /* An easing amount, agreed on in shape and not in name. dialog_transition.c
        sets it to -0x400 or +0x400 and sweeps it toward zero;
        its Dialog_UpdateMessageTransition sets -0x400 and adds 0x20; mem_card_dialog.c

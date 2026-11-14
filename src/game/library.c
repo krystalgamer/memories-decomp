@@ -1492,7 +1492,7 @@ void Library_InitializeScreen(void) {
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(o, 0x10, LIBRARY_SELECTOR_SPRITE_Y,
                                             0, 2, 1, 0x1B, 0x127);
-    ((u8 *)&o->resource_uv)[1] = 0x80;
+    o->resource_uv.b.v = 0x80;
     DisplayObject_SelectOrderingTable1(o);
     n = CARD_ID_FIRST;
     o->flags = o->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -1502,7 +1502,7 @@ void Library_InitializeScreen(void) {
         o, r->motion.x, r->motion.y,
         0, 2, 2, 0x1B, 0x147);
     rb = (s32)r;
-    ((u8 *)&o->resource_uv)[1] = 0x80;
+    o->resource_uv.b.v = 0x80;
     r->motion.display_objects.by_role.render = o;
     r->cards[0].flags = 0;
     r->cards[0].clut_x = 0;
