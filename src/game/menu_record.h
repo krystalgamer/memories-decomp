@@ -57,7 +57,7 @@ typedef struct MenuRecord {
     u16 variant_countdown;
     /* The six halfwords the step handlers work. 0x40 and 0x44 hold
        different values depending on display_effect_step, so they are unions
-       with one member per reading, under their offsets.
+       with one member per reading: step_arg and tween_arg.
 
        0x40:
        - tween_target_x: DisplayEffect_UpdatePositionTween (step 3) eases x
@@ -88,19 +88,19 @@ typedef struct MenuRecord {
 
        Signed, because the sweep compares 0x4A against zero and passes these
        through s16 casts. The sites that want the unsigned load spell it
-       `*(u16 *)&record->field_40.<member>`, which keeps the lhu the target
+       `*(u16 *)&record->step_arg.<member>`, which keeps the lhu the target
        issues there. */
     union {
         s16 tween_target_x;
         s16 fade_level;
         s16 next_step;
         s16 closing;
-    } field_40;
+    } step_arg;
     s16 tween_target_y;
     union {
         s16 tween_duration;
         s16 tween_delta_x;
-    } field_44;
+    } tween_arg;
     s16 tween_delta_y;
     s16 tween_angle;
     s16 tween_angle_step;
@@ -129,8 +129,8 @@ typedef char MenuRecord_y_must_be_at_0x36[
 typedef char MenuRecord_slot_index_must_be_at_0x3C[
     MENU_RECORD_OFFSET(slot_index) == 0x3C ? 1 : -1
 ];
-typedef char MenuRecord_field_40_must_be_at_0x40[
-    MENU_RECORD_OFFSET(field_40) == 0x40 ? 1 : -1
+typedef char MenuRecord_step_arg_must_be_at_0x40[
+    MENU_RECORD_OFFSET(step_arg) == 0x40 ? 1 : -1
 ];
 typedef char MenuRecord_tween_angle_step_must_be_at_0x4A[
     MENU_RECORD_OFFSET(tween_angle_step) == 0x4A ? 1 : -1

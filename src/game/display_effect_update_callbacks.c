@@ -72,12 +72,12 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
 
     if (DisplayEffect_MarkInitialized(record) == 0) {
         record->tween_angle = TRIG_ANGLE_QUARTER_TURN;
-        angle_step = TRIG_ANGLE_QUARTER_TURN / record->field_44.tween_duration;
+        angle_step = TRIG_ANGLE_QUARTER_TURN / record->tween_arg.tween_duration;
         record->tween_angle_step = angle_step;
         if (angle_step >= 0) {
             record->tween_angle = 0;
         }
-        record->field_44.tween_delta_x = *(u16 *)&record->field_40.tween_target_x - record->x;
+        record->tween_arg.tween_delta_x = *(u16 *)&record->step_arg.tween_target_x - record->x;
         record->tween_delta_y = *(u16 *)&record->tween_target_y - record->y;
     }
 
@@ -87,21 +87,21 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
     if ((u16)(angle - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
         DisplayPositionGroup_SetPosition(
             record,
-            record->field_40.tween_target_x,
+            record->step_arg.tween_target_x,
             record->tween_target_y
         );
         record->display_effect_step = 0;
     } else {
         cosine = rcos((s16)angle);
-        dx = cosine * record->field_44.tween_delta_x / ONE;
+        dx = cosine * record->tween_arg.tween_delta_x / ONE;
         dy = cosine * record->tween_delta_y / ONE;
         if (record->tween_angle_step < 0) {
-            dx = record->field_44.tween_delta_x - dx;
+            dx = record->tween_arg.tween_delta_x - dx;
             dy = record->tween_delta_y - dy;
         }
         DisplayPositionGroup_SetPosition(
             record,
-            (s16)(*(u16 *)&record->field_40.tween_target_x - dx),
+            (s16)(*(u16 *)&record->step_arg.tween_target_x - dx),
             (s16)(*(u16 *)&record->tween_target_y - dy)
         );
     }
@@ -135,20 +135,20 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
         row = p->grid[1];
         DisplayEffect_BuildResourceObjects(p, row, resource_index);
         DisplayEffect_SetObjectRowBlend(row, (GsALON | GsATWO), depth - 1);
-        p->field_40.fade_level = 0;
+        p->step_arg.fade_level = 0;
     }
 
-    level = (u16)p->field_40.fade_level + gGraphics_nBaseFrameStep * 8;
-    p->field_40.fade_level = level;
+    level = (u16)p->step_arg.fade_level + gGraphics_nBaseFrameStep * 8;
+    p->step_arg.fade_level = level;
 
-    if (p->field_40.fade_level >= 0x80) {
+    if (p->step_arg.fade_level >= 0x80) {
         p->display_effect_step = 0;
         DisplayEffect_SetObjectRowBlend(p->grid[0], 0,
                       p->grid[0][0]->depth_offset);
         DisplayEffect_ReleaseObjectRow(p->grid[1]);
         p->variant_update_flags &= 0xEF;
     } else {
-        color = p->field_40.fade_level;
+        color = p->step_arg.fade_level;
         color |= (color << 8) | (color << 16);
         for (i = 2, cell = &p->grid[0][2]; i >= 0; i--, cell--) {
             if (cell[0] != 0) {
@@ -182,11 +182,11 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
         row = p->grid[1];
         DisplayEffect_BuildResourceObjects(p, row, resource_index);
         DisplayEffect_SetObjectRowBlend(row, (GsALON | GsATWO), depth - 1);
-        p->field_40.fade_level = 0x80;
+        p->step_arg.fade_level = 0x80;
     }
 
-    level = *(u16 *)&p->field_40.fade_level - (gGraphics_nBaseFrameStep << 3);
-    p->field_40.fade_level = level;
+    level = *(u16 *)&p->step_arg.fade_level - (gGraphics_nBaseFrameStep << 3);
+    p->step_arg.fade_level = level;
     u = (s16)level;
     if (u <= 0) {
         p->display_effect_step = 0;
@@ -242,10 +242,10 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
         DisplayEffect_BuildResourceObjects(
             p, p->grid[3], resource_index);
         DisplayEffect_SetObjectRowBlend(p->grid[3], (GsALON | GsATWO), lower_depth);
-        p->field_40.fade_level = 0x80;
+        p->step_arg.fade_level = 0x80;
     }
-    level = (u16)p->field_40.fade_level - gGraphics_nBaseFrameStep * 8;
-    p->field_40.fade_level = level;
+    level = (u16)p->step_arg.fade_level - gGraphics_nBaseFrameStep * 8;
+    p->step_arg.fade_level = level;
     if (level <= 0) {
         p->display_effect_step = 0;
         DisplayEffect_SetObjectRowBlend(p->grid[0], 0,
@@ -273,7 +273,7 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
             object->rgb = color;
         }
     }
-    color = 0x80 - p->field_40.fade_level;
+    color = 0x80 - p->step_arg.fade_level;
     color |= (color << 8) | (color << 0x10);
     for (m = 2; m >= 0; m--) {
         object = p->grid[0][m];
@@ -285,8 +285,8 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
             object->rgb = color;
         }
     }
-    dd[0] = p->field_40.fade_level / 8;
-    w = (0x80 - p->field_40.fade_level) / 8;
+    dd[0] = p->step_arg.fade_level / 8;
+    w = (0x80 - p->step_arg.fade_level) / 8;
     dd[1] = -w;
     if (p->slot_index == 0) {
         dd[0] = -dd[0];
@@ -315,7 +315,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     /* A portrait record keeps its two display objects in grid[0][0] and
        grid[0][1]. */
     if (DisplayEffect_MarkInitialized(record) == 0) {
-        if (record->field_40.closing != 0) {
+        if (record->step_arg.closing != 0) {
             o = record->grid[0][0];
             *(u16 *)&o->field_60 = 0;
         } else {
@@ -355,7 +355,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     }
     o = record->grid[0][0];
     o2 = record->grid[0][1];
-    if (record->field_40.closing != 0) {
+    if (record->step_arg.closing != 0) {
         *(u16 *)&o->field_60 += (u16)gGraphics_nBaseFrameStep;
     } else {
         *(u16 *)&o->field_60 -= (u16)gGraphics_nBaseFrameStep;
