@@ -74,10 +74,10 @@ floating-point, normalized-time or endpoint-clamping claim.
 
 Pose capture obtains view THEN metrics, and always publishes all THREE
 xyz channels without their pad halfwords. Only the optional endpoint
-refresh is gated. Its key is captured ONCE; requested_cursor remains a
-BYTE cursor with signed kind/slot loads and two eight-byte advances.
-resolved_byte_offset starts at16 and advances by8, preserving FOUR
-copied halfwords at each qualifying kind2/3 request. Keep callback order,
+refresh is gated. Its key is captured ONCE; each of the two requests is
+read through an s16 pointer to key->requested[endpoint_index] with signed
+kind/slot loads, and each qualifying kind2/3 request copies FOUR
+halfwords into key->resolved[endpoint_index]. Keep callback order,
 captured destination key and live next-request reads; no cursor reload,
 pad reset, queue-count guard or input/output ownership change.
 
