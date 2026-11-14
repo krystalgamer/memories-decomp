@@ -1,5 +1,5 @@
 /* Seven contiguous display-effect position and update callbacks on the same
- * MenuRecord / DisplayEffectState storage.
+ * MenuRecord storage.
  *
  * The final four scale a motion delta by the per-frame step multiplier and do
  * not agree on its width. graphics_frame.h declares gGraphics_nBaseFrameStep once, as s32,
@@ -27,14 +27,10 @@
 #define DISPLAY_EFFECT_SPRITE_CX 0x200
 #endif
 
-#define DISPLAY_EFFECT_STATE_VIEW(record) \
-    ((DisplayEffectState *)(record))
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
-#define DISPLAY_POSITION_GROUP_VIEW(record) \
-    ((DisplayPositionGroup *)(record))
 
 void DisplayPositionGroup_SetChildPositions(
-    DisplayPositionGroup *group,
+    DisplayObject **children,
     s16 x,
     s16 y
 )
@@ -42,22 +38,18 @@ void DisplayPositionGroup_SetChildPositions(
     s32 i;
 
     for (i = 2; i >= 0; i--) {
-        if (group->children[i] != 0) {
-            group->children[i]->x = x;
-            group->children[i]->y = y;
+        if (children[i] != 0) {
+            children[i]->xy.s.x = x;
+            children[i]->xy.s.y = y;
         }
     }
 }
 
-void DisplayPositionGroup_SetPosition(
-    DisplayPositionGroup *group,
-    s32 x,
-    s32 y
-)
+void DisplayPositionGroup_SetPosition(MenuRecord *record, s32 x, s32 y)
 {
-    group->x = x;
-    group->y = y;
-    DisplayPositionGroup_SetChildPositions(group, (s16)x, (s16)y);
+    record->x = x;
+    record->y = y;
+    DisplayPositionGroup_SetChildPositions(record->grid[0], (s16)x, (s16)y);
 }
 
 /* Eases one display-effect record from its 0x34/0x36 position to the
@@ -78,7 +70,7 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
     s32 dx;
     s32 dy;
 
-    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(record)) == 0) {
+    if (DisplayEffect_MarkInitialized(record) == 0) {
         record->tween_angle = TRIG_ANGLE_QUARTER_TURN;
         angle_step = TRIG_ANGLE_QUARTER_TURN / record->field_44;
         record->tween_angle_step = angle_step;
@@ -94,7 +86,7 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
 
     if ((u16)(angle - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
         DisplayPositionGroup_SetPosition(
-            DISPLAY_POSITION_GROUP_VIEW(record),
+            record,
             record->field_40,
             record->tween_target_y
         );
@@ -108,7 +100,7 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
             dy = record->tween_delta_y - dy;
         }
         DisplayPositionGroup_SetPosition(
-            DISPLAY_POSITION_GROUP_VIEW(record),
+            record,
             (s16)(*(u16 *)&record->field_40 - dx),
             (s16)(*(u16 *)&record->tween_target_y - dy)
         );
@@ -125,14 +117,14 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
     s32 color;
     s32 i;
 
-    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
+    if (DisplayEffect_MarkInitialized(p) == 0) {
         *(s16 *)&p->x = 0x68;
         p->variant_update_flags |= 0x10;
         if (p->slot_index != 0) {
             *(s16 *)&p->x = 0xD8;
         }
         DisplayPositionGroup_SetChildPositions(
-            DISPLAY_POSITION_GROUP_VIEW(p),
+            p->grid[0],
             *(s16 *)&p->x,
             *(s16 *)&p->y
         );
@@ -181,7 +173,7 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
     s32 color;
     s32 i;
 
-    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
+    if (DisplayEffect_MarkInitialized(p) == 0) {
         p->variant_update_flags |= 0x10;
         first = p->grid[0][0];
         depth = first->depth_offset;
@@ -231,7 +223,7 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     s32 x;
     DisplayObject *object;
 
-    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(p)) == 0) {
+    if (DisplayEffect_MarkInitialized(p) == 0) {
         p->variant_update_flags |= 0x10;
         first = p->grid[0][0];
         resource_index = first->resource_root_index;
@@ -259,7 +251,7 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
         DisplayEffect_SetObjectRowBlend(p->grid[0], 0,
                       p->grid[0][0]->depth_offset);
         DisplayPositionGroup_SetChildPositions(
-            DISPLAY_POSITION_GROUP_VIEW(p),
+            p->grid[0],
             *(s16 *)&p->x,
             *(s16 *)&p->y
         );
@@ -303,18 +295,12 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     y = *(s16 *)&p->y;
     x = *(s16 *)&p->x + dd[0];
     x = (s16)x;
-    DisplayPositionGroup_SetChildPositions(DISPLAY_POSITION_GROUP_VIEW(p), x, y);
-    DisplayPositionGroup_SetChildPositions(
-        DISPLAY_POSITION_GROUP_VIEW(p->grid[1]), x, y
-    );
+    DisplayPositionGroup_SetChildPositions(p->grid[0], x, y);
+    DisplayPositionGroup_SetChildPositions(p->grid[1], x, y);
     x = *(s16 *)&p->x - dd[1];
     x = (s16)x;
-    DisplayPositionGroup_SetChildPositions(
-        DISPLAY_POSITION_GROUP_VIEW(p->grid[2]), x, y
-    );
-    DisplayPositionGroup_SetChildPositions(
-        DISPLAY_POSITION_GROUP_VIEW(p->grid[3]), x, y
-    );
+    DisplayPositionGroup_SetChildPositions(p->grid[2], x, y);
+    DisplayPositionGroup_SetChildPositions(p->grid[3], x, y);
 }
 
 void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
@@ -328,7 +314,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
 
     /* A portrait record keeps its two display objects in grid[0][0] and
        grid[0][1]. */
-    if (DisplayEffect_MarkInitialized(DISPLAY_EFFECT_STATE_VIEW(record)) == 0) {
+    if (DisplayEffect_MarkInitialized(record) == 0) {
         if (record->field_40 != 0) {
             o = record->grid[0][0];
             *(u16 *)&o->field_60 = 0;

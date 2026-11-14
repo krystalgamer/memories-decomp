@@ -151,7 +151,7 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
     FileTransferDescriptor *req;
     s32 i;
 
-    if (DisplayEffect_MarkInitialized((DisplayEffectState *)a) == 0) {
+    if (DisplayEffect_MarkInitialized((MenuRecord *)a) == 0) {
         slots = (DisplayEffectVramSlot *)gRuntime_pSharedWorkBase;
         gDisplayEffect_ResourceCacheWriteSlot = 0;
         /* The slot cursor has to be an explicit walking pointer decremented at

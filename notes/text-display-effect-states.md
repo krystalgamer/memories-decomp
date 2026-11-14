@@ -140,7 +140,7 @@ covers the complete combined tree.
 ## Shared resource-variant controls
 
 MenuRecord +0x32 is variant_update_flags, also named in the existing
-DisplayEffectState and DisplayEffectVramState views. Acquisition sets
+DisplayEffectVramState view. Acquisition sets
 0x40 only after its later primary-row construction, and the dispatcher
 tests that bit before updating variants. This is separate from the
 acquisition state byte's 0x40 bit and the step/initialization byte at +0x33.

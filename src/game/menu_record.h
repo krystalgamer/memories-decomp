@@ -14,21 +14,11 @@
  * x and y are the screen position the record's objects are placed at.
  */
 typedef struct MenuRecord {
-    /* Four DisplayPositionGroup children arrays, packed. Each row is
-       the three DisplayPositionChild pointers that type begins with,
-       and display_effect_update_callbacks.c hands rows 0 to 3 to
-       DisplayPositionGroup_SetChildPositions as (DisplayPositionGroup *)(p + 0), (p + 0xC),
-       (p + 0x18) and (p + 0x24). Four rows of three pointers is 0x30,
-       exactly this member's extent.
-
-       The apparent contradiction is worth writing down, because it is
-       what makes the reading safe rather than reckless:
-       DisplayPositionGroup is 0x38 bytes, so a view based at 0x24
-       would run to 0x5C and overrun this 0x4C record. It does not,
-       because DisplayPositionGroup_SetChildPositions touches only children[0..2] -- the first
-       twelve bytes -- and never the x/y pair at the type's tail. Only
-       DisplayPositionGroup_SetPosition reads that tail, and nothing
-       passes it a row.
+    /* Four rows of three display objects, 0x30 bytes.
+       display_effect_update_callbacks.c hands rows 0 to 3 to
+       DisplayPositionGroup_SetChildPositions, which writes the x/y pair of
+       each non-null object in the row, and DisplayPositionGroup_SetPosition
+       sets the record's own x/y and pushes it to row 0.
 
        Each slot holds one DisplayObject pointer: rows go to
        DisplayEffect_SetObjectRowBlend, DisplayEffect_BuildResourceObjects
@@ -36,9 +26,8 @@ typedef struct MenuRecord {
        slots such as grid[0][0] and grid[0][1] are read as objects. */
     struct DisplayObject *grid[4][3];
     s8 effect_id;
-    /* DisplayEffectState names this same byte resource_entry_index on this same
-       memory; Script_OpShowMenu and display_effect_update_callbacks.c
-       reach it too. Named to agree with that view. */
+    /* DisplayEffect_ResetRecordState clears it; Script_OpShowMenu and
+       display_effect_update_callbacks.c reach it too. */
     u8 resource_entry_index;
     /* Resource-variant activity/control bits, separate from the step byte. */
     u8 variant_update_flags;
@@ -49,8 +38,7 @@ typedef struct MenuRecord {
        DisplayObject_ConfigureSpriteAtPositionWithResource and
        DisplayObject_ConfigureScreenSprite as x and y; and
        DisplayEffect_UpdatePositionTween eases it toward 0x40/0x42 and hands
-       it to the position helpers as x and y. DisplayEffectState in
-       display_effect_lifecycle.h names the same pair on this same memory. */
+       it to the position helpers as x and y. */
     u16 x;
     u16 y;
     u8 pad_38[2];
@@ -64,10 +52,8 @@ typedef struct MenuRecord {
        normalized to a Boolean or cleared by the partial state reset. */
     u8 slot_index;
     u8 pad_3D;
-    /* DisplayEffectState names this same halfword variant_countdown on this
-       same memory, and DisplayEffect_UpdateMenuRecord works it as a countdown: it
-       seeds it from rand() and decrements it to zero. Named to agree
-       with that view, as resource_entry_index was in #3534. */
+    /* DisplayEffect_ResetRecordState seeds it from rand(), and
+       DisplayEffect_UpdateMenuRecord works it as a countdown to zero. */
     u16 variant_countdown;
     /* The six halfwords the sweep in DisplayEffect_UpdatePositionTween works, and the tail this
        record had no names for.

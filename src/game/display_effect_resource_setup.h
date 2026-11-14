@@ -23,8 +23,8 @@
  * reads keep an explicit `*(s16 *)&` at the use.
  *
  * DisplayEffect_UpdateResourceAcquisition in display_effect_resource_setup.c holds the same memory as a
- * DisplayEffectState instead and says so with its cast; menu_record.h records
- * that the two views name these same bytes. */
+ * DisplayEffectVramState instead and says so with its cast to MenuRecord when
+ * it calls DisplayEffect_MarkInitialized. */
 s32 DisplayEffect_BuildResourceObjects(
     MenuRecord *record, DisplayObject **out, s32 resource_index);
 
@@ -44,7 +44,7 @@ void DisplayEffect_SetObjectRowBlend(DisplayObject **objects, u32 attribute, s32
 #define DISPLAY_EFFECT_VRAM_SLOT_COUNT 5
 
 /* The wider display-effect view owned by this callback. The lifecycle helpers
- * consume the same record through their narrower DisplayEffectState view. */
+ * take the same record as MenuRecord. */
 typedef struct {
     u8 pad_00[0x30];
     s8 effect_id;
@@ -52,7 +52,7 @@ typedef struct {
     u8 variant_update_flags;
     u8 state;
     /* Not accessed through this view; named for the screen position that
-       MenuRecord and DisplayEffectState keep at 0x34/0x36 of the same record. */
+       MenuRecord keeps at 0x34/0x36 of the same record. */
     u16 x;
     u16 y;
     u8 pad_38[0x04];

@@ -56,8 +56,8 @@ the signed marker at `+0x30`, writes at `+0x31`, `+0x30`, `+0x3C`, `+0x33`
 and `+0x34`, and the later `+0x33` completion poll. Compile-time assertions
 cover each accessed offset and the unchanged record stride. The signed
 marker load, byte stores and halfword store are preserved. Calls into the
-older `u8 *` and `DisplayEffectState *` lifecycle interfaces retain explicit
-boundary casts; changing those APIs is not required to type the record.
+older `u8 *` interfaces retain explicit boundary casts; the lifecycle
+helpers take `MenuRecord *` and need none.
 
 ## Migration and exactness
 
