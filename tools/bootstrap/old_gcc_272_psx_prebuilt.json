@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "release": "0.17",
+  "url": "https://github.com/decompals/old-gcc/releases/download/0.17/gcc-2.7.2-psx.tar.gz",
+  "archive": "tools/downloads/gcc-2.7.2-psx-0.17.tar.gz",
+  "sha256": "500a459b3485e885a8d302cac23c2a4632f3900e03a09153f6190699fd723571",
+  "target": "mips-sony-psx",
+  "dumpversion": "2.7.2",
+  "lock": {
+    "prefix": "tools/toolchains/gcc-2.7.2-psx",
+    "target": "mips-sony-psx",
+    "version": "2.7.2",
+    "real_gcc": "libexec/gcc-2.7.2-psx"
+  },
+  "files": {
+    "gcc": "c85c2a18e0ebab8639f29fce427242dfc1419285e220a7d277c656cf70e3c016",
+    "cc1": "0359379289db8e3904b8ed3b25b422ca631c8d71ab2f543d533c39ed2967764f",
+    "cpp": "e3e1e53a9c19a6c1defa76da40cb50b922d5c4711e41b637211fbaf3fae60df4"
+  }
+}
