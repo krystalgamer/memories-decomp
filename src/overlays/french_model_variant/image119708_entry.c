@@ -113,7 +113,7 @@ s32 FrenchModelVariant819_HandleRequest(u8 *context, s32 command)
     if (work->elapsed < work->config->rise_end) {
         setVector(&scale, 4096, 4096, 4096);
         work->elapsed += step;
-        coordinate = (GsCOORDUNIT *)Model_GetCurrentDataEntry(slot);
+        coordinate = Model_GetCurrentDataEntry(slot);
         TransMatrix(&coordinate->matrix, &work->offset);
         Model_UpdateCoordinateUnitMatrix(coordinate, &scale);
         addVector(&work->offset, &work->velocity);
@@ -163,7 +163,7 @@ s32 FrenchModelVariant819_HandleRequest(u8 *context, s32 command)
         return 0;
     } else if (work->elapsed < work->config->return_end) {
         IMAGE119708_DRAW_PARTICLES();
-        coordinate = (GsCOORDUNIT *)Model_GetCurrentDataEntry(slot);
+        coordinate = Model_GetCurrentDataEntry(slot);
         TransMatrix(&coordinate->matrix, &work->offset);
         Model_UpdateCoordinateUnitMatrix(coordinate, &scale);
         work->phase = 2;

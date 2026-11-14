@@ -128,7 +128,7 @@ s32 ModelVariant802_HandleRequest(u8 *context, s32 command)
         scale.vy = 4096;
         scale.vz = 4096;
         work->elapsed += step;
-        unit = (GsCOORDUNIT *)Model_GetCurrentDataEntry(slot);
+        unit = Model_GetCurrentDataEntry(slot);
         TransMatrix(&unit->matrix, &work->offset);
         Model_UpdateCoordinateUnitMatrix(unit, &scale);
         work->offset.vx += work->velocity.vx;
@@ -194,7 +194,7 @@ s32 ModelVariant802_HandleRequest(u8 *context, s32 command)
     }
     if (work->elapsed < work->config->return_end) {
         DRAW_PARTICLES();
-        unit = (GsCOORDUNIT *)Model_GetCurrentDataEntry(slot);
+        unit = Model_GetCurrentDataEntry(slot);
         TransMatrix(&unit->matrix, &work->offset);
         Model_UpdateCoordinateUnitMatrix(unit, &scale);
         work->phase = 2;
