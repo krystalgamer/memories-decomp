@@ -25,9 +25,8 @@ grouped owner, source order and `gcc_2_8_1_g8_split` profile (`0x294` and
 is identical to the unchanged matching baseline, and incremental
 full-executable matching succeeds.
 
-The old shared `DuelEffectObject` prefix is retained as a historical layout;
-no declaration, member width or layout assertion is changed or deleted.
-Its main-game uses have now recovered actual request ownership.
+The old shared `DuelEffectObject` prefix has been removed: its main-game
+uses recovered actual request ownership, and nothing else referenced it.
 
 ## Focused witness
 
