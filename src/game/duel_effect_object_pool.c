@@ -22,13 +22,10 @@ u8 gDuelEffect_bRequestFinished;
 DuelEffectRequest *gDuelEffect_pActiveRequest;
 DuelEffectRequest gDuelEffect_aRequests[8];
 
-int Library_CheckCardInChest(int offset)
+int Library_CheckCardInChest(int card_id)
 {
-    u8 *object;
-
-    object = (u8 *)((u32)gSaveData_Workspace + offset);
-    if (object[SAVE_DATA_HEADER_SIZE + SAVE_DATA_CARD_QUANTITIES_OFFSET -
-               CARD_ID_FIRST]) {
+    if (((SaveDataWorkspace *)gSaveData_Workspace)->state.card_quantities[
+            card_id - CARD_ID_FIRST]) {
         return 1;
     }
     return -1;

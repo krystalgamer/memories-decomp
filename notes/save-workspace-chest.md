@@ -35,8 +35,8 @@ and imports. Canonical aliases allocate no replacement workspace.
 
 ## Chest-only result
 
-The original helper forms `(u32)base + offset`, then reads at
-`SAVE_DATA_HEADER_SIZE + SAVE_DATA_CARD_QUANTITIES_OFFSET - CARD_ID_FIRST`.
+The helper reads the workspace view's
+`state.card_quantities[card_id - CARD_ID_FIRST]`.
 For a one-based card ID this is the quantity byte at
 `workspace + 0x250 + card_id - 1`. It returns **+1 for a nonzero byte and
 -1 for zero**, not a normalized Boolean or a count.
