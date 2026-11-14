@@ -38,7 +38,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 .PHONY: german-overlays german-verify-overlays german-build-overlays german-match-overlays
 .PHONY: french-overlays french-verify-overlays french-build-overlays french-match-overlays
 
-.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272-prebuilt compiler-280-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays european-overlays european-verify-overlays japanese-build-overlays japanese-match-overlays european-build-overlays european-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272-prebuilt compiler-280-prebuilt check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays european-overlays european-verify-overlays japanese-build-overlays japanese-match-overlays european-build-overlays european-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -73,6 +73,9 @@ help:
 		'  check-psyq-signature-resolutions  Verify local Psy-Q signature conflict decisions' \
 		'  check-declaration-visibility  Reject calls that compile only through an implicit declaration' \
 		'  check-psyq-declarations  Require SDK declarations to come from src/psyq headers' \
+		'  candidate-builds  Run the normal build and validate tracked source candidates' \
+		'  check-candidate-builds  Verify tracked source-candidate metadata' \
+		'  candidate-contract-hashes  Print current canonical candidate contracts' \
 		'  build-overlays Build verified runtime overlay module images' \
 		'  match-overlays Build and compare all configured overlay modules' \
 		'  inventory      Update the tracked resident-function inventory' \
@@ -299,6 +302,7 @@ regional-progress-split: split japanese-map european-map french-map spanish-map 
 build: split
 	@$(PYTHON) tools/project/clean.py project-build:slus_01411
 	@$(PYTHON) tools/project/build_baseline.py
+	@$(PYTHON) tools/project/candidate_builds.py
 
 japanese-build: japanese-split
 	@$(PYTHON) tools/project/clean.py project-build:slpm_86398
@@ -416,6 +420,7 @@ spanish-verify-overlays: workspace
 
 check-metadata:
 	@$(PYTHON) tools/project/overlay_extract.py verify-metadata
+	@$(PYTHON) tools/project/candidate_builds.py --check
 	@$(PYTHON) tools/project/translation_unit_headers.py
 	@$(PYTHON) tools/project/unmatched_contracts.py
 	@$(PYTHON) tools/project/psyq_declaration_contracts.py
@@ -443,6 +448,7 @@ check-declaration-visibility: check-build-tools
 
 build-overlays: overlays check-build-tools
 	@$(PYTHON) tools/project/overlay_build.py build $(OVERLAY_FLAGS)
+	@$(PYTHON) tools/project/candidate_builds.py --overlays $(OVERLAY_FLAGS)
 
 match-overlays: build-overlays
 	@$(PYTHON) tools/project/overlay_build.py verify $(OVERLAY_FLAGS)
@@ -506,6 +512,7 @@ split-incremental: map check-build-tools
 
 build-incremental: split-incremental
 	@$(PYTHON) tools/project/build_incremental.py
+	@$(PYTHON) tools/project/candidate_builds.py
 
 match-incremental: build-incremental
 	@$(PYTHON) tools/project/match.py
@@ -551,6 +558,14 @@ classify-functions: inventory
 
 candidates: workspace
 	@$(PYTHON) tools/project/select_candidates.py $(CANDIDATE_ARGS)
+
+candidate-builds: build
+
+check-candidate-builds:
+	@$(PYTHON) tools/project/candidate_builds.py --check
+
+candidate-contract-hashes:
+	@$(PYTHON) tools/project/candidate_builds.py --print-contract-hashes
 
 review-deferred: workspace
 	@$(PYTHON) tools/project/review_deferred.py $(REVIEW_DEFERRED_ARGS)
@@ -621,4 +636,4 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/audit_repository.py
 
 clean: workspace
-	@$(PYTHON) tools/project/clean.py extract generated splat project-build incremental overlays overlay-objects reports
+	@$(PYTHON) tools/project/clean.py extract generated splat project-build candidate-build candidate-build-overlays incremental overlays overlay-objects reports

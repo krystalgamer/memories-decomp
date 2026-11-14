@@ -666,18 +666,22 @@ only the owner or owners they use.
 Aggregate entrypoint headers are transitional, not permanent owners. Once a
 module subsystem has an evidence-bearing header, its externally callable
 lifecycle belongs there too: the main-menu frontend lifecycle is declared in
-`frontend.h`, and the Trade lifecycle in `trade_helpers.h`. Matching sources
-and resident callers all include that owner directly.
+`frontend.h`, and the Trade lifecycle in `trade_helpers.h`. Matching sources,
+resident callers, and stored candidates all include that owner directly.
 
 The unmatched-data pass now gives the scan a hard end condition. Every
-linker-resolved data declaration used by built resident C must have a
-canonical header declaration. The former catch-all `unmatched.h` has been
+linker-resolved data declaration used by built resident C or a stored
+resident candidate must have a canonical header declaration. The former catch-all `unmatched.h` has been
 retired: every declaration it held now lives in an owning subsystem header.
 Caller-specific scalar, array, pointer, signedness, and explicit `.data`
 spellings are selected through guarded arms in those owners rather than
 redeclared in a C file. `make check-unmatched-contracts` scans the built
-sources and reports the number of remaining headerless names and sites; both
-must stay zero.
+sources and the stored candidates and reports the number of remaining
+headerless names and sites; both must stay zero. Moving a declaration must not
+remove a live candidate dependency from enforcement: retained configured keys
+keep included-header contracts in the fingerprint after a candidate-local
+`extern` is centralized. Regenerate hashes only after preserving that coverage
+and measuring the new canonical owner.
 
 Magic-number replacement follows the same evidence threshold as naming. A
 repeated bit is promoted only when the record field and control flow establish

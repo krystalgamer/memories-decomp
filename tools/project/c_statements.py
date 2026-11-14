@@ -11,6 +11,11 @@ ROOT = Path(__file__).resolve().parents[2]
 ASM_ALIAS = re.compile(
     r'\basm\s*\(\s*"(?P<name>[A-Za-z_]\w*)"\s*\)'
 )
+EXCLUDED_HEADER_DIRECTORIES = {
+    "candidates",
+    "candidates_target",
+    "overlays",
+}
 
 
 def strip_c_comments(text: str) -> str:
@@ -120,14 +125,27 @@ def top_level_statements(text: str) -> list[str]:
 def canonical_declaration_index(
     symbols: set[str],
     header_root: Path | None = None,
+    overlay_module: str | None = None,
 ) -> dict[str, list[tuple[str, str]]]:
-    """Canonical declarations of symbols in resident headers, by header."""
+    """Canonical declarations of symbols, by header.
+
+    Resident code sees only resident headers, never the candidate trees. An
+    overlay candidate also sees its own module's headers under
+    overlays/<module>/, and no other module's, because those are the headers
+    its source can include.
+    """
     header_root = header_root or ROOT / "src"
     index = {symbol: [] for symbol in symbols}
     for path in sorted(header_root.rglob("*.h")):
         relative_path = path.relative_to(header_root)
         parts = relative_path.parts
-        if parts and parts[0] == "overlays":
+        own_overlay = (
+            overlay_module is not None
+            and len(parts) > 2
+            and parts[0] == "overlays"
+            and parts[1] == overlay_module
+        )
+        if parts and parts[0] in EXCLUDED_HEADER_DIRECTORIES and not own_overlay:
             continue
         relative = relative_path.as_posix()
         for statement in top_level_statements(

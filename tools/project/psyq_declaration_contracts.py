@@ -16,6 +16,7 @@ FUNCTIONS = Path("config/slus_01411/functions.csv")
 PSYQ_ROOT = Path("src/psyq")
 CONSUMER_ROOTS = (
     Path("src/game"),
+    Path("src/candidates"),
     Path("src/overlays"),
 )
 LOCAL_INCLUDE = re.compile(r'^\s*#\s*include\s+"(?P<path>[^"]+)"', re.MULTILINE)

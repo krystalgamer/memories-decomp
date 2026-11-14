@@ -21,10 +21,11 @@ DATA_EXCEPTIONS = Path(
 )
 LINKER_SYMBOLS = Path("config/slus_01411/c_symbols.ld")
 LINKER_ALIASES = Path("config/slus_01411/link_symbols.ld")
+CANDIDATES = Path("config/slus_01411/candidates.json")
 COMPILER_PROFILES = Path("config/slus_01411/compiler_profiles.json")
-# Headers a shared owner may not take its declaration from: the overlays
-# resident code cannot see.
-HOME_HEADER_EXCLUDED = {"overlays"}
+# Headers a build-integrated candidate may not take its declaration from:
+# the candidate trees themselves, and the overlays resident code cannot see.
+HOME_HEADER_EXCLUDED = {"candidates", "candidates_target", "overlays"}
 SHARED_OWNER_HEADERS = {
     "DisplayObject_SubmitPacket": "src/game/display_object_system.h",
     "Model_InitSlot": "src/game/model_slot_control.h",
@@ -104,6 +105,25 @@ def legacy_handwritten_declarations(root: Path) -> set[str]:
     return result
 
 
+def candidate_names(root: Path) -> set[str]:
+    """Inventory names of the build-integrated resident candidates."""
+    path = root / CANDIDATES
+    if not path.is_file():
+        return set()
+    data = json.loads(read_text(path))
+    addresses = {
+        int(item["address"], 16)
+        for item in data.get("candidates", [])
+        if item.get("module") is None
+    }
+    with (root / FUNCTIONS).open(newline="", encoding="utf-8") as handle:
+        return {
+            row["name"]
+            for row in csv.DictReader(handle)
+            if int(row["address"], 16) in addresses
+        }
+
+
 def home_header_declarations(
     root: Path,
     names: set[str],
@@ -135,6 +155,12 @@ def source_profiles(root: Path) -> dict[str, set[str]]:
     entries = matching["functions"] if isinstance(matching, dict) else matching
     for entry in entries:
         result[entry["source"]].add(entry.get("profile", "default"))
+    path = root / CANDIDATES
+    if path.is_file():
+        for entry in json.loads(read_text(path)).get("candidates", []):
+            source = entry.get("source")
+            if source:
+                result[source].add(entry.get("profile", "default"))
     return result
 
 
@@ -821,21 +847,28 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
             if error is not None:
                 errors.append(error)
 
-    # A shared ABI dispatcher may own an unmatched callee when its caller
-    # variants are the interface itself rather than unrelated local
-    # declarations.
+    # Candidate interfaces may retain their former resident header. A shared
+    # ABI dispatcher may also own an unmatched callee when its caller variants
+    # are the interface itself rather than unrelated local declarations.
+    candidates = candidate_names(root) & unmatched
     shared_owners = set(SHARED_OWNER_HEADERS) & unmatched
-    homes = home_header_declarations(root, shared_owners)
+    homes = home_header_declarations(root, candidates | shared_owners)
     for name, headers in sorted(homes.items()):
         if name in central:
             errors.append(
                 f"{UNMATCHED_HEADER}: {name} is also declared by "
                 f"resident headers {sorted(headers)}"
             )
-        expected = SHARED_OWNER_HEADERS[name]
-        if headers != {expected}:
+        if name in SHARED_OWNER_HEADERS:
+            expected = SHARED_OWNER_HEADERS[name]
+            if headers != {expected}:
+                errors.append(
+                    f"{name} must be declared only by {expected}: "
+                    f"{sorted(headers)}"
+                )
+        elif len(headers) > 1:
             errors.append(
-                f"{name} must be declared only by {expected}: "
+                f"candidate {name} is declared by several resident headers: "
                 f"{sorted(headers)}"
             )
 
@@ -900,6 +933,24 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
                 f"{relative}: local declaration of central unmatched data "
                 f"{name} is not approved: {statement}"
             )
+
+    candidate_data_sites = 0
+    for source in sorted((root / "src/candidates").rglob("*.c")):
+        relative = source.relative_to(root).as_posix()
+        for name, statement in extern_object_declarations(
+            read_text(source), linker
+        ):
+            candidate_data_sites += 1
+            local_data[name].append((relative, statement))
+            key = (relative, name, statement)
+            if key in data_approved:
+                data_found_approved.add(key)
+                continue
+            if name in central_data:
+                errors.append(
+                    f"{relative}: local declaration of central unmatched data "
+                    f"{name} is not approved: {statement}"
+                )
 
     all_data_symbols = set(local_data) | set(central_data)
     data_header_index = c_statements.canonical_declaration_index(
@@ -985,7 +1036,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
     stats = {
         "unmatched": len(unmatched),
         "central": len(central),
-        "shared_owner_homes": len(homes),
+        "candidate_homes": len(homes),
         "exception_names": 0,
         "exception_sites": 0,
         "referenced_names": len({name for _, name in referenced_sites}),
@@ -994,6 +1045,7 @@ def validate(root: Path = ROOT) -> tuple[list[str], dict[str, int]]:
         "central_data": len(central_data),
         "local_data_names": len(local_data),
         "local_data_sites": sum(len(sites) for sites in local_data.values()),
+        "candidate_data_sites": candidate_data_sites,
         "headerless_data": len(headerless_data),
         "headerless_data_sites": sum(
             len(missing_data_owners[name]) for name in headerless_data
@@ -1022,7 +1074,7 @@ def main() -> int:
     print(
         "unmatched contracts: OK "
         f"({stats['unmatched']} unmatched, {stats['central']} central, "
-        f"{stats['shared_owner_homes']} shared owner headers, "
+        f"{stats['candidate_homes']} candidate home headers, "
         f"{stats['exception_names']} exception names/"
         f"{stats['exception_sites']} sites, "
         f"{stats['referenced_names']} referenced names; "
@@ -1030,7 +1082,8 @@ def main() -> int:
         f"{stats['headerless_data']} headerless data/"
         f"{stats['headerless_data_sites']} sites, "
         f"{stats['data_exception_names']} data exception names/"
-        f"{stats['data_exception_sites']} sites)"
+        f"{stats['data_exception_sites']} sites, "
+        f"{stats['candidate_data_sites']} candidate sites)"
     )
     return 0
 
