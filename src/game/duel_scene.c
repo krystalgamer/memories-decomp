@@ -4497,6 +4497,20 @@ int Duel_CheckQuitInput(void)
 #define HAND_ACTIONS_VIEWER_CELL (FIELD_CURSOR.row * 5 + FIELD_CURSOR.col)
 #endif
 
+/* Releases both flip markers and puts the chosen card back where the
+ * choice started, then flags the move-back (0x40) and the finish (0x10). */
+static inline void DuelHand_RestoreFlipCard(DisplayObject *obj)
+{
+    DisplayObject_ReleaseIfPresent(gDuel_pFlipLeftMarker);
+    DisplayObject_ReleaseIfPresent(gDuel_pFlipRightMarker);
+    gDuel_pFlipRightMarker = 0;
+    gDuel_pFlipLeftMarker = 0;
+    *(s32 *)&obj->position = *(s32 *)&obj->field_2C;
+    DisplayObject_SavePosition((void *)obj);
+    obj->field_60 = 0;
+    gDuel_bSceneSubStep |= 0x50;
+}
+
 void DuelScene_UpdateHandActions(void)
 {
     DuelSelectionRecord *side;
@@ -4867,60 +4881,63 @@ void DuelScene_UpdateHandActions(void)
                     }
                     gDuel_bSceneSubStep &= 0xDF;
                     if (gDuel_bSceneSubStep & 0x10) {
-                    restore:
-                        DisplayObject_ReleaseIfPresent(gDuel_pFlipLeftMarker);
-                        DisplayObject_ReleaseIfPresent(gDuel_pFlipRightMarker);
-                        gDuel_pFlipRightMarker = 0;
-                        gDuel_pFlipLeftMarker = 0;
-                        *(s32 *)&obj->position = *(s32 *)&obj->field_2C;
-                        DisplayObject_SavePosition((void *)obj);
-                        obj->field_60 = 0;
-                        gDuel_bSceneSubStep |= 0x50;
+                        DuelHand_RestoreFlipCard(obj);
                         return;
                     }
                 }
-            } else {
-                if (gInput_awPadRepeat[0] & 0xA000) {
+            } else if (gInput_awPadRepeat[0] & 0xA000) {
+                obj->field_60 = 0x10;
+                gDuel_bSceneSubStep |= 0x20;
+                if (gInput_awPadRepeat[0] & 0x2000) {
+                    obj->field_60 = -0x10;
+                }
+                SD_SEPlayFull(0xB);
+                return;
+            } else if (gInput_awPadPressed[0] & HAND_ACTIONS_CANCEL_MASK) {
+                SD_SEPlayFull(8);
+                if (obj->field_20.b.rotation_y != 0) {
                     obj->field_60 = 0x10;
-                    gDuel_bSceneSubStep |= 0x20;
-                    if (gInput_awPadRepeat[0] & 0x2000) {
-                        obj->field_60 = -0x10;
-                    }
-                    SD_SEPlayFull(0xB);
+                    gDuel_bSceneSubStep |= 0x30;
                     return;
                 }
-                if (gInput_awPadPressed[0] & HAND_ACTIONS_CANCEL_MASK) {
-                    SD_SEPlayFull(8);
-                    if (obj->field_20.b.rotation_y != 0) {
-                        obj->field_60 = 0x10;
-                        gDuel_bSceneSubStep |= 0x30;
-                        return;
-                    }
-                    goto restore;
+                DuelHand_RestoreFlipCard(obj);
+            } else if (gInput_awPadPressed[0] & HAND_ACTIONS_CONFIRM_MASK) {
+                SD_SEPlayFull(7);
+                gDuel_aCardRecords[obj->field_6A].flags &= 0xEFFF;
+                if (obj->field_20.b.rotation_y != 0) {
+                    gDuel_aCardRecords[obj->field_6A].flags |= 0x1000;
                 }
-                if (gInput_awPadPressed[0] & HAND_ACTIONS_CONFIRM_MASK) {
-                    SD_SEPlayFull(7);
-                    gDuel_aCardRecords[obj->field_6A].flags &= 0xEFFF;
-                    if (obj->field_20.b.rotation_y != 0) {
-                        gDuel_aCardRecords[obj->field_6A].flags |= 0x1000;
-                    }
-                    card_id = CARD_ID(obj->field_6A);
-                    value = CARD_KIND(card_id);
-                    if (value >= CARD_TYPE_MAGIC && obj->field_20.b.rotation_y == 0 &&
-                        value != CARD_TYPE_EQUIP && value != CARD_TYPE_TRAP) {
-                        DisplayObject_ReleaseIfPresent(gDuel_pFlipLeftMarker);
-                        DisplayObject_ReleaseIfPresent(gDuel_pFlipRightMarker);
-                        gDisplayObject_apWorkSlots.slots[0] = obj;
-                        gDuel_pFlipRightMarker = 0;
-                        gDuel_pFlipLeftMarker = 0;
-                        gDuel_pActiveSideState->hand[(s8)side->hand_cursor_slot] = -1;
-                        gDuel_bSceneSubStep = 5;
-                        return;
-                    }
-                    gDuel_bSceneSubStep |= 0x70;
-                    goto restore;
+                card_id = CARD_ID(obj->field_6A);
+                value = CARD_KIND(card_id);
+                if (value >= CARD_TYPE_MAGIC && obj->field_20.b.rotation_y == 0 &&
+                    value != CARD_TYPE_EQUIP && value != CARD_TYPE_TRAP) {
+                    DisplayObject_ReleaseIfPresent(gDuel_pFlipLeftMarker);
+                    DisplayObject_ReleaseIfPresent(gDuel_pFlipRightMarker);
+                    gDisplayObject_apWorkSlots.slots[0] = obj;
+                    gDuel_pFlipRightMarker = 0;
+                    gDuel_pFlipLeftMarker = 0;
+                    gDuel_pActiveSideState->hand[(s8)side->hand_cursor_slot] = -1;
+                    gDuel_bSceneSubStep = 5;
+                    return;
                 }
+                gDuel_bSceneSubStep |= 0x70;
+                /* Empty loop: a scheduling barrier, so the restore's first
+                   load stays out of the store above and the whole restore
+                   matches the flip arm's copy. */
+                do {
+                } while (0);
+                DuelHand_RestoreFlipCard(obj);
+            } else {
+                /* Unused store: until flow deletes it, it keeps the
+                   confirm arm ending in its own jump to the join below. */
+                value = 0;
             }
+            /* Empty loop: keeps the join from being threaded to the case
+               exit before reload. The cancel and confirm restores then still
+               jump here when jump2 meets the flip arm's restore, so that
+               copy survives and the later two are merged into it. */
+            do {
+            } while (0);
             break;
     case 4:
             if (!(gDuel_bSceneSubStep & 0x80)) {
