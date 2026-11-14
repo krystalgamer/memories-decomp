@@ -22,10 +22,9 @@ void Model_InitLightTriplet(s32 index);
  * root_coordinate_index. */
 void *Model_GetSlotDataEntry(s32 index, s32 slot);
 
-/* The same address for the current entry, returned as an integer. The only
- * caller, the campaign map's set_location.c, casts it back to a pointer and
- * hands it to Model_UpdateCoordinateUnitMatrix as the slot's coordinate unit. */
-u32 Model_GetCurrentDataEntry(s32 index);
+/* The coordinate unit of slot `index`'s current entry. The campaign map and
+ * several MODEL variants hand it to Model_UpdateCoordinateUnitMatrix. */
+struct _GsCOORDUNIT *Model_GetCurrentDataEntry(s32 index);
 
 s32 Model_TransformPartVertex(s32 slot, s32 part, s32 vertex, VECTOR *out);
 ModelSlotS32Quad *Model_GetSlotScale(s32 index);

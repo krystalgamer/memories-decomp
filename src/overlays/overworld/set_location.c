@@ -305,7 +305,7 @@ void CampaignMap_SetLocation(s32 index)
     Model_ResetSceneView();
     Model_ResetSceneState();
     Model_LoadSlot(2, gRuntime_pSharedWorkBase, 0x43000, 0);
-    unit = (struct _GsCOORDUNIT *)Model_GetCurrentDataEntry(2);
+    unit = Model_GetCurrentDataEntry(2);
     colour[0] = 1365;
     colour[1] = 1365;
     colour[2] = 1365;

@@ -26,11 +26,11 @@ void *Model_GetSlotDataEntry(s32 index, s32 slot)
     return &entry->entries[slot];
 }
 
-u32 Model_GetCurrentDataEntry(s32 index)
+struct _GsCOORDUNIT *Model_GetCurrentDataEntry(s32 index)
 {
     ModelSlot *entry = &gModel_aSlots[index];
 
-    return (u32)&entry->entries[entry->root_coordinate_index];
+    return &entry->entries[entry->root_coordinate_index];
 }
 
 void Model_CopySlotPosition(s32 idx, u16 *out) {

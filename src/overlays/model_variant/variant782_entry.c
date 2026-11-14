@@ -382,7 +382,7 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
             if (work->origin.vy > -work->config->size && work->phase == 0) {
                 work->origin.vy = -work->config->size;
                 setVector(&scale, 0x1000, 1, 0x1000);
-                Model_UpdateCoordinateUnitMatrix((struct _GsCOORDUNIT *)Model_GetCurrentDataEntry(slot ^ 1), &scale);
+                Model_UpdateCoordinateUnitMatrix(Model_GetCurrentDataEntry(slot ^ 1), &scale);
                 work->phase = 1;
             }
         }
@@ -479,7 +479,7 @@ s32 ModelVariant782_HandleRequest(u8 *context, s32 command)
             work->dome_scale = 0x1000;
         }
         setVector(&scale, 0x1000, work->dome_scale, 0x1000);
-        Model_UpdateCoordinateUnitMatrix((struct _GsCOORDUNIT *)Model_GetCurrentDataEntry(slot ^ 1), &scale);
+        Model_UpdateCoordinateUnitMatrix(Model_GetCurrentDataEntry(slot ^ 1), &scale);
     }
     if (work->phase >= 5 && work->spark_level != 0) {
         setPolyFT4(&spark);
