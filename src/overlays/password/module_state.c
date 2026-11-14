@@ -7,33 +7,31 @@
  * another order, so these are separate variables, not fields of one record.
  * The three PADDING_VARIABLE arrays cover bytes no consumer has been seen
  * to name. */
-#define PASSWORD_STATE __attribute__((section(".data")))
-
-u8 gNameEntry_bStateFlags PASSWORD_STATE = 0;
-s8 gNameEntry_bKeyboardColumn PASSWORD_STATE = 0;
-u8 gNameEntry_bKeyboardRow PASSWORD_STATE = 0;
-u8 gNameEntry_bGlyphVramSlot PASSWORD_STATE = 0;
-SelectionFrame *gNameEntry_pSelectionFrame PASSWORD_STATE = 0;
-u8 gNameEntry_bGlyphSequence PASSWORD_STATE = 0;
-static PADDING_VARIABLE(4) PASSWORD_STATE = {0};
-u8 gPassword_abDigits[8] PASSWORD_STATE = {0};
-u8 *gNameEntry_pNameBuffer PASSWORD_STATE = 0;
-u8 D_8016D41C PASSWORD_STATE = 0;
-PasswordCursorView *gPassword_pDigitCursorWidget PASSWORD_STATE = 0;
-u16 gPassword_wShopState PASSWORD_STATE = 0;
-u8 gNameEntry_bSavedRow PASSWORD_STATE = 0;
-s32 gPassword_nDigitIndex PASSWORD_STATE = 0;
-s8 gNameEntry_bCaretPos PASSWORD_STATE = 0;
-struct DuelEffectResourceRecord *gPassword_pCardCache PASSWORD_STATE = 0;
-s16 gNameEntry_wCursorTargetX PASSWORD_STATE = 0;
-s16 gNameEntry_wCursorTargetY PASSWORD_STATE = 0;
-u32 gPassword_dwPriceRemaining PASSWORD_STATE = 0;
-u8 *gNameEntry_pCaret PASSWORD_STATE = 0;
-struct DisplayObject *gPassword_apDigitCursorDecorations[4] PASSWORD_STATE = {0};
-static PADDING_VARIABLE(0x80) PASSWORD_STATE = {0};
-u8 gNameEntry_bCharacterSet PASSWORD_STATE = 0;
-u16 gNameEntry_wPendingDialogId PASSWORD_STATE = 0;
-u16 gNameEntry_wSelectionFrameFlags PASSWORD_STATE = 0;
-PasswordCardPreviewView *gPassword_pCardPreview PASSWORD_STATE = 0;
-u16 gPassword_wCardId PASSWORD_STATE = 0;
-static PADDING_VARIABLE(0xB0) PASSWORD_STATE = {0};
+u8 gNameEntry_bStateFlags = 0;
+s8 gNameEntry_bKeyboardColumn = 0;
+u8 gNameEntry_bKeyboardRow = 0;
+u8 gNameEntry_bGlyphVramSlot = 0;
+SelectionFrame *gNameEntry_pSelectionFrame = 0;
+u8 gNameEntry_bGlyphSequence = 0;
+static PADDING_VARIABLE(4) = {0};
+u8 gPassword_abDigits[8] = {0};
+u8 *gNameEntry_pNameBuffer = 0;
+u8 D_8016D41C = 0;
+PasswordCursorView *gPassword_pDigitCursorWidget = 0;
+u16 gPassword_wShopState = 0;
+u8 gNameEntry_bSavedRow = 0;
+s32 gPassword_nDigitIndex = 0;
+s8 gNameEntry_bCaretPos = 0;
+struct DuelEffectResourceRecord *gPassword_pCardCache = 0;
+s16 gNameEntry_wCursorTargetX = 0;
+s16 gNameEntry_wCursorTargetY = 0;
+u32 gPassword_dwPriceRemaining = 0;
+u8 *gNameEntry_pCaret = 0;
+struct DisplayObject *gPassword_apDigitCursorDecorations[4] = {0};
+static PADDING_VARIABLE(0x80) = {0};
+u8 gNameEntry_bCharacterSet = 0;
+u16 gNameEntry_wPendingDialogId = 0;
+u16 gNameEntry_wSelectionFrameFlags = 0;
+PasswordCardPreviewView *gPassword_pCardPreview = 0;
+u16 gPassword_wCardId = 0;
+static PADDING_VARIABLE(0xB0) = {0};

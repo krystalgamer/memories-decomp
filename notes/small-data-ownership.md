@@ -14,12 +14,15 @@ object built from that C source. A bare `sdata` entry naming
 it is resolved by an assignment in `config/slus_01411/c_symbols.ld` rather
 than defined anywhere.
 
-Several sources own their small data today. Data-only translation units
-generally follow one shape — an explicit section attribute and an initializer:
+Several sources own their small data today. They define it as plain
+initialized globals with no section attribute: under `-G8`, GCC places an
+initialized object of at most eight bytes in `.sdata` on its own, for example
 
 ```c
-u32 gSaveData_dwMaskStateLow __attribute__((section(".sdata"))) = 0x55555555;
+u32 gSaveData_dwMaskStateLow = 0x55555555;
 ```
+
+The attributed spellings below record earlier experiments.
 
 No game-owned small-data blob remains. The last one, at `0x8009AF2A`, is now
 the effect-preview state in `duel_scene.c`: the edited-operand byte
