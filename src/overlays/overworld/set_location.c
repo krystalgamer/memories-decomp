@@ -331,7 +331,7 @@ void CampaignMap_SetLocation(s32 index)
     obj->field_44.scale.y = 4096;
     DisplayObject_SetDepthOffset(obj, -10);
     location = gCampaignMap_Location;
-    obj->field_4C = (s32)DisplayObject_RenderSpotlightMask;
+    obj->field_4C.draw = DisplayObject_RenderSpotlightMask;
     gCampaignMap_pSpotlight = obj;
     CampaignMap_SetCameraFromLocation(location);
     CampaignMap_CreateLocationLabel(gCampaignMap_Location);

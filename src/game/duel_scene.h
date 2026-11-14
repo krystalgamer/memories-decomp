@@ -969,7 +969,7 @@ typedef union {
 
 void Duel_UpdateLifePointDisplay(DuelSideState *side);
 
-void Duel_DrawLifePointsAndDeckCounts(DisplayObject *widget);
+void Duel_DrawLifePointsAndDeckCounts(DisplayObject *widget, GsOT *unused);
 
 /* True only for an occupied duel-card record that is not marked used this
  * turn: the body tests DUEL_CARD_FLAG_OCCUPIED and then
@@ -1368,7 +1368,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
 
 /* Draws one duel card using the output coordinates stored on its object. */
 void Duel_DrawCardAtOutputPosition(
-    DisplayObject *object, s32 ordering_table
+    DisplayObject *object, GsOT *ordering_table
 );
 
 /* Returns nonzero when all five Exodia pieces are in hand. It consumes a local

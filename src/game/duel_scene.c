@@ -863,9 +863,9 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
     }
 }
 
-void Duel_DrawCardAtOutputPosition(DisplayObject *object, s32 ordering_table)
+void Duel_DrawCardAtOutputPosition(DisplayObject *object, GsOT *ordering_table)
 {
-    Duel_DrawCardFrame(object, (GsOT *)ordering_table, object->xy.s.x, object->xy.s.y);
+    Duel_DrawCardFrame(object, ordering_table, object->xy.s.x, object->xy.s.y);
 }
 
 void Duel_DrawDecimalDigits(
@@ -938,7 +938,7 @@ void Duel_UpdateLifePointDisplay(DuelSideState *side)
    are displayed life points and DECK_SIZE minus the signed deck_draw_cursor
    of the corresponding gDuel_aSideStates entry. */
 
-void Duel_DrawLifePointsAndDeckCounts(DisplayObject *widget)
+void Duel_DrawLifePointsAndDeckCounts(DisplayObject *widget, GsOT *unused)
 {
     DisplayObject *pos;
     DuelStatusDigitPacket *scratch;
@@ -2043,7 +2043,7 @@ void Duel_InitScene(void)
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DisplayObject_SelectOrderingTable1(obj);
     DisplayObject_SetDepthOffset(obj, 1);
-    obj->field_4C = (s32)Duel_DrawLifePointsAndDeckCounts;
+    obj->field_4C.draw = Duel_DrawLifePointsAndDeckCounts;
     prev = (u8 *)gDuel_pLifePointsPanel;
     obj->field_50.word = (s32)prev;
     gMain_apFrameServiceCallbacks[3] = Duel_DrawFieldCards;
@@ -2138,7 +2138,7 @@ DisplayObject *Duel_CreateCardDisplayObject(DuelCardRecord *record, s32 x, s32 y
     p->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
     p->back_face_handler.callback = DisplayObject_SetResourceVariantFromSign;
     DisplayObject_SelectOrderingTable1((DisplayObject *)p);
-    p->field_4C = (s32)Duel_DrawCardAtOutputPosition;
+    p->field_4C.draw = Duel_DrawCardAtOutputPosition;
     Duel_UpdateCardDisplayState(p);
     Duel_UpdateCardDisplayMarker(p);
     return p;

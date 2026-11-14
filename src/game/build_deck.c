@@ -1132,14 +1132,14 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     label->resource_root_index = 0;
     label->xy.word =
         object->xy.word;
-    label->field_4C = (s32)BuildDeck_DrawCardListPage;
+    label->field_4C.draw = BuildDeck_DrawCardListPage;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 1, 0xC, 0x208);
     label = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     label->resource_root_index = 1;
     label->xy.word =
         object->xy.word;
-    label->field_4C = (s32)BuildDeck_DrawCardListPage;
+    label->field_4C.draw = BuildDeck_DrawCardListPage;
     state->state = 2;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(

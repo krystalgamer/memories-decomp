@@ -163,7 +163,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 #define CARD_PREVIEW_PANEL_DEF_Y 0xAB
 #endif
 
-void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
+void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
     u8 buf1[5];
     u8 buf2[5];
     DisplayObjectPacketOrigin *origin;
@@ -229,7 +229,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
     PRM->uv.word = obj->texture_uv.word;
     PRM->tpage = obj->texture_page;
     DisplayObject_SubmitPacket(
-        PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
+        PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,
         CARD_PANEL_ORIGIN_BYTES(origin));
 
     packet->code |= 2;
@@ -251,7 +251,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
     PRM->rgb.c.g = packet->g0 = ((u8 *)&obj->rgb)[1] * 3u >> 2;
     PRM->rgb.c.b = packet->b0 = ((u8 *)&obj->rgb)[2] * 3u >> 2;
     DisplayObject_SubmitPacket(
-        PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
+        PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,
         CARD_PANEL_ORIGIN_BYTES(origin));
     packet->r0 = ((u8 *)&obj->rgb)[0];
     packet->g0 = ((u8 *)&obj->rgb)[1];
@@ -260,7 +260,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
     PRM->attribute = (PRM->attribute & 0x8FFFFFFF) | 0x60000000;
 #else
     DisplayObject_SubmitPacket(
-        PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
+        PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,
         CARD_PANEL_ORIGIN_BYTES(origin));
 #endif
 
@@ -277,7 +277,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
         }
         DisplayObject_SubmitPacket(
-            PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
+            PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,
             CARD_PANEL_ORIGIN_BYTES(origin));
         PRM->cxcy.h.cy = white;
 #ifdef VERSION_EUROPE
@@ -291,7 +291,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
             PRM->cxcy.h.cy = CARD_PREVIEW_PANEL_CLUT_Y + 1;
         }
         DisplayObject_SubmitPacket(
-            PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
+            PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,
             CARD_PANEL_ORIGIN_BYTES(origin));
         PRM->cxcy.h.cy = white;
 
@@ -320,7 +320,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
         do {
             PRM->uv.b.lo = buf1[i] * 6 + 0x10;
             DisplayObject_SubmitPacket(
-                PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
+                PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,
                 CARD_PANEL_ORIGIN_BYTES(origin));
             PRM->xy.h.x = PRM->xy.h.x + 6;
             i--;
@@ -336,7 +336,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
         do {
             PRM->uv.b.lo = buf2[i] * 6 + 0x10;
             DisplayObject_SubmitPacket(
-                PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
+                PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,
                 CARD_PANEL_ORIGIN_BYTES(origin));
             PRM->xy.h.x = PRM->xy.h.x + 6;
             i--;
@@ -354,7 +354,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
             i = 0;
             do {
                 DisplayObject_SubmitPacket(
-                    PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
+                    PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,
                     CARD_PANEL_ORIGIN_BYTES(origin));
                 PRM->xy.h.x = PRM->xy.h.x - 9;
                 i++;
@@ -362,7 +362,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
         }
     } else {
         DisplayObject_SubmitPacket(
-            PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
+            PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,
             CARD_PANEL_ORIGIN_BYTES(origin));
     }
 
@@ -376,7 +376,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, s32 ordering_table) {
     PRM->cxcy.h.cx = win->field_40.clut.x + tile;
     PRM->cxcy.h.cy = CARD_PREVIEW_PANEL_CLUT_Y + 7;
     DisplayObject_SubmitPacket(
-        PRM, CARD_PANEL_PACKET_BYTES(packet), (GsOT *)ordering_table, arg,
+        PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,
         CARD_PANEL_ORIGIN_BYTES(origin));
 }
 
@@ -560,7 +560,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     entry->level = (u8)(gDuel_abCardLevelAttr[card_id] & 0xF);
     entry->stat_palette_flags = 0;
 
-    object->field_4C = (s32)CardPreview_DrawDetailPanel;
+    object->field_4C.draw = CardPreview_DrawDetailPanel;
     DisplayObject_SelectOrderingTable1(object);
 
     entry->secondary_object = object;

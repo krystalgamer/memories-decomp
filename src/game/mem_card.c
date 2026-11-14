@@ -497,7 +497,7 @@ void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root)
         object->field_48.spotlight.outer = 224;
         DisplayObject_SelectOrderingTable1(object);
         DisplayObject_SetDepthOffset(object, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
-        object->field_4C = (s32)DisplayObject_RenderSpotlightMask;
+        object->field_4C.draw = DisplayObject_RenderSpotlightMask;
         root->spotlight_object = object;
     }
     flags = gDialog_bCallbackState;
@@ -585,7 +585,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root)
         p->field_48.spotlight.outer = 0xE0;
         DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
-        p->field_4C = (s32)DisplayObject_RenderSpotlightMask;
+        p->field_4C.draw = DisplayObject_RenderSpotlightMask;
         root->spotlight_object = p;
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(p, DIALOG_BOX_X, -0x40, 3, 2, 0, 0xB, 0x20C);
