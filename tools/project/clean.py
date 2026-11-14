@@ -21,6 +21,8 @@ CLEAN_TARGETS = {
     "overlay-objects": "tmp/overlay-object-cache",
     "splat": "tmp/splat",
     "project-build": "tmp/project-build",
+    "candidate-build": "tmp/candidate-build",
+    "candidate-build-overlays": "tmp/candidate-build-overlays",
     "incremental": "tmp/incremental",
     "reports": "tmp/reports",
 }

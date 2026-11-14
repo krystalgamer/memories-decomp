@@ -2,7 +2,7 @@
 
 GCC 2.8.1 accepts a call with no visible prototype and treats the callee as
 `int f()`. The build stays byte-exact, and the ownership checks
-(unmatched_contracts.py) only ask
+(unmatched_contracts.py, the candidate contract fingerprints) only ask
 whether a declaration exists somewhere in the tree, so a caller that loses
 its include goes unnoticed. That happened when #3878 moved these prototypes
 to unmatched.h: five callers kept including the old headers and silently fell
@@ -31,6 +31,7 @@ import unittest
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(REPOSITORY / "tools/project"))
+import candidate_builds
 
 CONFIG = REPOSITORY / "config/slus_01411"
 COMPILER = "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc"
@@ -93,6 +94,8 @@ def profiles_by_source() -> dict[str, str]:
     for manifest in manifests:
         for entry in json.loads(manifest.read_text(encoding="utf-8"))["functions"]:
             result[entry["source"]] = entry["profile"]
+    for entry in json.loads((CONFIG / "candidates.json").read_text(encoding="utf-8"))["candidates"]:
+        result[entry["source"]] = entry["profile"]
     return result
 
 
@@ -352,6 +355,32 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                         probe, self.profile(source), (REPOSITORY / source).parent
                     )
                 self.assertIn(callee, found)
+
+    def test_packet_submit_contract_tracks_declaration_changes(self) -> None:
+        index = candidate_builds.canonical_declaration_index({"DisplayObject_SubmitPacket"})
+        declarations = index["DisplayObject_SubmitPacket"]
+        self.assertTrue(declarations)
+        expected = candidate_builds.canonical_symbol_contract_hash(
+            "DisplayObject_SubmitPacket", declarations
+        )
+        for entry in json.loads(
+            (CONFIG / "candidates.json").read_text(encoding="utf-8")
+        )["candidates"]:
+            contract = entry.get("canonical_contracts", {}).get(
+                "DisplayObject_SubmitPacket"
+            )
+            if contract is not None and entry.get("module") is None:
+                with self.subTest(source=entry["source"]):
+                    self.assertEqual(contract, expected)
+
+        changed = [
+            (path, statement.replace("s32 mode", "u32 mode", 1))
+            for path, statement in declarations
+        ]
+        changed_hash = candidate_builds.canonical_symbol_contract_hash(
+            "DisplayObject_SubmitPacket", changed
+        )
+        self.assertNotEqual(expected, changed_hash)
 
     def test_candidate_sprite_records_cannot_be_swapped(self) -> None:
         source = "src/game/card_preview.c"
