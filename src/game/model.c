@@ -1534,9 +1534,6 @@ void Model_UpdateCreditsMonsterSlot(s32 slot_index) {
     }
 }
 
-#define MODEL_SLOT_VIEW(slot) ((ModelSlot *)(slot))
-#define MODEL_SLOT_RAW_BYTES(slot) ((u8 *)(slot))
-
 #ifndef MODEL_INTRO_PACKAGE_START_SECTOR
 #define MODEL_INTRO_PACKAGE_START_SECTOR 1223
 #endif
@@ -1550,7 +1547,7 @@ void Model_UpdateCreditsPresentation(void)
   ModelSlot *fade_slot_base;
   u8 *slot0_tint;
   u8 *slot1_tint;
-  s32 active_offset;
+  s32 active_index;
   u8 *active_color;
   s32 red_sample;
   s32 red_target;
@@ -1563,11 +1560,11 @@ void Model_UpdateCreditsPresentation(void)
   s8 next_green;
   s32 blue;
   s8 next_blue;
-  s32 *active_slot_words;
+  ModelSlot *active_slot;
   u32 slot_tick_count;
   s32 animation_row;
   s32 peer_slot_index;
-  s32 crossfade_offset;
+  s32 crossfade_index;
   u8 *outgoing_color;
   u8 *incoming_color;
   u32 peer_red;
@@ -1599,13 +1596,12 @@ void Model_UpdateCreditsPresentation(void)
       break;
     case 0:
       load_check_base = gModel_aSlots;
-      active_offset = (u32)&((ModelSlot *)0)[gModel_bCreditsActiveSlot];
-      if ( MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(load_check_base) + active_offset)->is_active )
+      active_index = gModel_bCreditsActiveSlot;
+      if ( load_check_base[active_index].is_active )
       {
-        if ( (MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + active_offset)->field_E15 & 3) == 0 )
+        if ( (gModel_aSlots[active_index].field_E15 & 3) == 0 )
         {
-          active_color = MODEL_SLOT_VIEW(
-              MODEL_SLOT_RAW_BYTES(gModel_aSlots) + active_offset)->tint;
+          active_color = gModel_aSlots[active_index].tint;
           red_sample = rand() >> 8;
           red_sample %= 24;
           red_target = red_sample + 8;
@@ -1646,10 +1642,10 @@ void Model_UpdateCreditsPresentation(void)
         if ( !D_8009B004.fields.credits_exit_requested )
           Model_UpdateCreditsMonsterSlot(gModel_bCreditsActiveSlot ^ 1);
         active_lookup_base = gModel_aSlots;
-        active_slot_words = (s32 *)&active_lookup_base[gModel_bCreditsActiveSlot];
-        if ( !MODEL_SLOT_VIEW(active_slot_words)->active_animation_command_row )
+        active_slot = &active_lookup_base[gModel_bCreditsActiveSlot];
+        if ( !active_slot->active_animation_command_row )
         {
-          slot_tick_count = MODEL_SLOT_VIEW(active_slot_words)->field_E15;
+          slot_tick_count = active_slot->field_E15;
           animation_row = -1;
           if ( !(u8)(slot_tick_count % 0x1E) )
           {
@@ -1678,9 +1674,7 @@ void Model_UpdateCreditsPresentation(void)
               else
               {
                 peer_slot_index = gModel_bCreditsActiveSlot ^ 1;
-                if ( MODEL_SLOT_VIEW(
-                         MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-                         (904 * peer_slot_index) * 4)->is_active )
+                if ( gModel_aSlots[peer_slot_index].is_active )
                 {
                   Model_RequestCameraMoveToSlots(1, -1, peer_slot_index, 90);
                   gModel_bPresentationPhase = gModel_bPresentationPhase + 1;
@@ -1692,31 +1686,23 @@ void Model_UpdateCreditsPresentation(void)
               Model_ControlSlotAnimation(gModel_bCreditsActiveSlot, animation_row, 1);
             }
           }
-          ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+          ++gModel_aSlots[gModel_bCreditsActiveSlot].field_E15;
         }
       }
       else
       {
         Model_UpdateCreditsMonsterSlot(gModel_bCreditsActiveSlot);
-        if ( MODEL_SLOT_VIEW(
-                 MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-                 (904 * (u8)gModel_bCreditsActiveSlot) * 4)->is_active )
+        if ( gModel_aSlots[gModel_bCreditsActiveSlot].is_active )
           Model_RequestCameraMoveToSlots(1, -1, gModel_bCreditsActiveSlot, 30);
       }
       break;
     case 1:
       crossfade_base = gModel_aSlots;
-      crossfade_offset = 904 * gModel_bCreditsActiveSlot;
-      if ( (MODEL_SLOT_VIEW(
-                MODEL_SLOT_RAW_BYTES(crossfade_base) +
-                (crossfade_offset) * 4)->field_E15 & 3) == 0 )
+      crossfade_index = gModel_bCreditsActiveSlot;
+      if ( (crossfade_base[crossfade_index].field_E15 & 3) == 0 )
       {
-        outgoing_color = MODEL_SLOT_VIEW(
-            MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-            (crossfade_offset) * 4)->tint;
-        incoming_color = MODEL_SLOT_VIEW(
-            MODEL_SLOT_RAW_BYTES(gModel_aSlots) +
-            (904 * ((u8)gModel_bCreditsActiveSlot ^ 1)) * 4)->tint;
+        outgoing_color = gModel_aSlots[crossfade_index].tint;
+        incoming_color = gModel_aSlots[gModel_bCreditsActiveSlot ^ 1].tint;
         if ( outgoing_color[0] )
           --outgoing_color[0];
         if (outgoing_color[1])
@@ -1734,20 +1720,16 @@ void Model_UpdateCreditsPresentation(void)
           incoming_color[2] = peer_blue + 1;
         if ( !outgoing_color[0] && !outgoing_color[1] && !outgoing_color[2] )
         {
-          MODEL_SLOT_VIEW(
-              MODEL_SLOT_RAW_BYTES(crossfade_base) +
-              (904 * (u8)gModel_bCreditsActiveSlot) * 4)->is_active = 0;
+          crossfade_base[gModel_bCreditsActiveSlot].is_active = 0;
           gModel_bPresentationPhase = 0;
           gModel_bCreditsActiveSlot ^= 1u;
         }
       }
-      ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+      ++gModel_aSlots[gModel_bCreditsActiveSlot].field_E15;
       break;
     case 2:
       fade_slot_base = gModel_aSlots;
-      if ( (MODEL_SLOT_VIEW(
-                MODEL_SLOT_RAW_BYTES(fade_slot_base) +
-                (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15 & 3) == 0 )
+      if ( (fade_slot_base[gModel_bCreditsActiveSlot].field_E15 & 3) == 0 )
       {
         slot0_tint = fade_slot_base[0].tint;
         slot1_tint = fade_slot_base[1].tint;
@@ -1773,7 +1755,7 @@ void Model_UpdateCreditsPresentation(void)
           gModel_bPresentationPhase = gModel_bPresentationPhase + 1;
         }
       }
-      ++MODEL_SLOT_VIEW(MODEL_SLOT_RAW_BYTES(gModel_aSlots) + (904 * (u8)gModel_bCreditsActiveSlot) * 4)->field_E15;
+      ++gModel_aSlots[gModel_bCreditsActiveSlot].field_E15;
       break;
     case 3:
       SD_ResetMusicTrackBuffer();
