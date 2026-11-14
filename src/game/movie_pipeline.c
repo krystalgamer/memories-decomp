@@ -18,7 +18,7 @@
 /* Zero-initialized storage this unit owns. Each build's generated
  * movie_pipeline_commons subsegments place it at the retail addresses. */
 MovieWorkArea *gMovie_pWorkArea;
-CdlLOC gMovie_StreamLoc;
+DiscLocation gMovie_StreamLoc;
 u8 D_8009B4A0;
 u8 D_8009B4A1;
 u8 D_8009B4A2;
@@ -76,7 +76,7 @@ s32 Movie_OpenStream(CdlLOC *src, s32 start_frame, s32 end_frame, s32 end_sector
 #endif
     }
     if (src != 0) {
-        gMovie_StreamLoc = *src;
+        gMovie_StreamLoc.cd = *src;
     }
     if (start_frame != 0) {
         gMovie_dwStartFrame = start_frame;
@@ -308,7 +308,7 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
     }
     set = 1;
     if (resync != 0) {
-        gMovie_dwStartFrame = StGetBackloc(&gMovie_StreamLoc);
+        gMovie_dwStartFrame = StGetBackloc(&gMovie_StreamLoc.cd);
     }
     for (;;) {
         last = VSync(-1);
@@ -617,10 +617,7 @@ s32 Movie_WaitFrameDecoded(void)
     return 0;
 }
 
-#define CD_LOCATION_BYTES(location) ((u8 *)(location))
-#define DS_LOCATION_VIEW(location) ((DslLOC *)(location))
-
-void Movie_SeekAndStartRead(CdlLOC *loc){while(!CdControlB(CdlSetloc,CD_LOCATION_BYTES(loc),0)){}while(!CdControlB(CdlSeekP,CD_LOCATION_BYTES(loc),0)){}while(!DsRead2(DS_LOCATION_VIEW(loc),0x1E0)){} }
+void Movie_SeekAndStartRead(DiscLocation *loc){while(!CdControlB(CdlSetloc,&loc->cd.minute,0)){}while(!CdControlB(CdlSeekP,&loc->cd.minute,0)){}while(!DsRead2(&loc->ds,0x1E0)){} }
 
 void Movie_OnStreamEnd(void)
 {

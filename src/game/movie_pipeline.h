@@ -7,6 +7,7 @@
 #include "../psyq/libcd_abi_variants.h"
 #include "../psyq/libpress.h"
 #include "../ygo_types.h"
+#include "disc_location.h"
 
 #define MOVIE_STREAM_COUNT 13
 
@@ -72,9 +73,9 @@ void func_8005C374(s32 first, s32 second, s32 third);
  *
  * gMovie_pWorkArea is the VLC buffer -- Movie_OpenStream points it at gRuntime_pSharedWorkBase and
  * DecDCTvlcBuild is handed it -- and gMovie_StreamLoc is the stream position, copied
- * from a CdlLOC and passed on by address. This header now includes
- * psyq/libcd.h for that type rather than relying on its consumers having done
- * so; mdec_sync.c, now part of movie_pipeline.c, had not.
+ * from a CdlLOC and passed on by address. It is a DiscLocation, so the
+ * libcd calls take its CdlLOC member and DsRead2 its DslLOC member; this
+ * header includes disc_location.h for that type.
  */
 extern u8 gMovie_bRgb24;
 /* Per-frame pipeline state. gMovie_bFrameDecoded is the latch the DecDCTout
@@ -166,7 +167,7 @@ typedef char MovieWorkArea_window_offset_must_be_0x40000[
 ];
 
 extern MovieWorkArea *gMovie_pWorkArea;
-extern CdlLOC gMovie_StreamLoc;
+extern DiscLocation gMovie_StreamLoc;
 
 /* One consumer, func_8005C374 in movie_pipeline.c, which writes its three
  * parameters to these contiguous bytes. Their individual roles remain
@@ -184,13 +185,9 @@ s32 Movie_OpenStream(
 
 /* Re-issues the disc read at `loc`: sets the location, seeks to it, and
  * starts a 0x1E0-sector streaming read. Both callers hand it the movie
- * stream position gMovie_StreamLoc, which movie_frame_pipeline.h declares CdlLOC.
- *
- * The two libcd calls take the location as bytes and the libds read takes
- * DslLOC, which is the same four fields under the other library's name, so
- * those three casts stay -- but the parameter no longer has to be an
- * integer for them. */
-void Movie_SeekAndStartRead(CdlLOC *loc);
+ * stream position gMovie_StreamLoc. CdControlB takes the location as its
+ * parameter bytes and DsRead2 takes the libds view of the same position. */
+void Movie_SeekAndStartRead(DiscLocation *loc);
 
 void Movie_OpenIndexedStream(
     s32 index, s32 start_frame, s32 end_frame, s32 rgb24,
