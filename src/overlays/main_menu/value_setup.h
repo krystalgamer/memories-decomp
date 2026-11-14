@@ -18,7 +18,7 @@ extern u8 gMainMenu_abValueSetupChoices[];
    screen's display objects. */
 extern u8 *gMainMenu_pValueSetupToggle;
 extern ValueSetupEntry gMainMenu_aValueSetupEntries[2];
-extern DisplayObject *D_801845A0;
+extern DisplayObject *gMainMenu_pValueSetupBackground;
 extern DisplayObject *gMainMenu_pValueSetupPanel;
 extern DisplayObject *gMainMenu_apValueSetupCursors[];
 

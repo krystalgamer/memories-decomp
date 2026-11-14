@@ -26,7 +26,7 @@
      gMainMenu_apValueSetupCursors  was u8 *[], void *[] and ValueWidgetView *[]. The typed
                  spelling won because the drawing code dereferences it
                  twenty-odd times through named fields.
-     D_801845A0  was void * and u8 *, and u8 * won on the byte arithmetic
+     gMainMenu_pValueSetupBackground  was void * and u8 *, and u8 * won on the byte arithmetic
                  the starter did on it.
      gMainMenu_pValueSetupPanel
                  same pair, same reason.
@@ -72,15 +72,15 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 #endif
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    D_801845A0 = object;
+    gMainMenu_pValueSetupBackground = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
-        D_801845A0->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
+        gMainMenu_pValueSetupBackground->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                              DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 #ifdef VERSION_EUROPE
-        DisplayObject_SetDepthOffset(D_801845A0, -3);
+        DisplayObject_SetDepthOffset(gMainMenu_pValueSetupBackground, -3);
 #else
-        DisplayObject_SetDepthOffset(D_801845A0, -2);
+        DisplayObject_SetDepthOffset(gMainMenu_pValueSetupBackground, -2);
 #endif
     }
 
@@ -562,8 +562,8 @@ void MainMenu_FinishValueSetup(void)
     *gMainMenu_aValueSetupEntries[0].out = gMainMenu_aValueSetupEntries[0].value;
     *gMainMenu_aValueSetupEntries[1].out = gMainMenu_aValueSetupEntries[1].value;
     *gMainMenu_pValueSetupToggle = (gMainMenu_abValueSetupChoices[2] != MAIN_MENU_VALUE_SETUP_CHOICE_RIGHT);
-    DisplayObject_ReleaseIfPresent(D_801845A0);
-    D_801845A0 = 0;
+    DisplayObject_ReleaseIfPresent(gMainMenu_pValueSetupBackground);
+    gMainMenu_pValueSetupBackground = 0;
     DisplayObject_ReleaseIfPresent(gMainMenu_pValueSetupPanel);
     gMainMenu_pValueSetupPanel = 0;
     DisplayObject_ReleaseIfPresent(gMainMenu_apValueSetupCursors[0]);

@@ -170,8 +170,8 @@ void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
     defined(VERSION_EUROPE_MAIN_MENU_RELEASE_TRADE_DISPLAY_HANDLES)
 void MainMenu_ReleaseTradeDisplayHandles(void)
 {
-    DisplayObject_ReleaseIfPresent(D_801845DC);
-    D_801845DC = 0;
+    DisplayObject_ReleaseIfPresent(gTrade_pBackground);
+    gTrade_pBackground = 0;
     DisplayObject_ReleaseIfPresent(gTrade_pStatsModeDisplay);
     gTrade_pStatsModeDisplay = 0;
     gMain_apFrameServiceCallbacks[1] = 0;

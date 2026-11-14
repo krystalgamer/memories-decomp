@@ -24,7 +24,7 @@ u8 gMainMenu_bDuelLoadPending MAIN_MENU_STATE = 0;
 u8 D_8018459E MAIN_MENU_STATE = 4;
 u8 D_8018459F MAIN_MENU_STATE = 0x24;
 
-DisplayObject *D_801845A0 MAIN_MENU_STATE = 0;
+DisplayObject *gMainMenu_pValueSetupBackground MAIN_MENU_STATE = 0;
 DisplayObject *gMainMenu_pValueSetupPanel MAIN_MENU_STATE = 0;
 DisplayObject *D_801845A8 MAIN_MENU_STATE = 0;
 DisplayObject *D_801845AC MAIN_MENU_STATE = 0;
@@ -34,7 +34,7 @@ u8 D_801845BF MAIN_MENU_STATE = 0;
 ValueSetupEntry gMainMenu_aValueSetupEntries[2] MAIN_MENU_STATE = {{0}};
 u8 *gMainMenu_pValueSetupToggle MAIN_MENU_STATE = 0;
 
-MainMenuWidget *D_801845DC MAIN_MENU_STATE = 0;
+MainMenuWidget *gTrade_pBackground MAIN_MENU_STATE = 0;
 MainMenuWidget *gTrade_pStatsModeDisplay MAIN_MENU_STATE = 0;
 u8 *D_801845E4 MAIN_MENU_STATE = 0;
 u8 *D_801845E8 MAIN_MENU_STATE = 0;

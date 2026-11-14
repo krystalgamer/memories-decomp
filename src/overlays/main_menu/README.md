@@ -8,7 +8,9 @@ singleton sprites and the value-setup sprite are bound as
 rendered only from the North American `SU.MRG` resource bank and uploads;
 the Japanese and PAL banks were not rendered, so those images inherit the
 bindings through the shared C and selectors only. The two default-resource
-handles `D_801845A0` and `D_801845DC` stay native. See
+handles are `gMainMenu_pValueSetupBackground` and `gTrade_pBackground`: an
+emulator trace that hid each one showed the yellow brick-wall background of
+the 2P Duel setup and Trade screens disappear. See
 [display ownership](../../../notes/overlays/main-menu-display-ownership.md)
 for the input/lifecycle evidence, the decode, exact storage views and
 regional scope.
@@ -194,7 +196,7 @@ itself establish atomic persistence across two memory cards.
 
 After the updater finishes, the resident caller performs its fades and calls
 `MainMenu_ReleaseTradeDisplayHandles` (`0x80183FE4`). That helper releases
-and clears only `D_801845DC` and `gTrade_pStatsModeDisplay` (`0x801845E0`),
+and clears only `gTrade_pBackground` and `gTrade_pStatsModeDisplay` (`0x801845E0`),
 then clears the Trade drawing callback. It does not itself clear inventory cursors, offers, counts or
 navigation, save data, fade or unload the module. Its release helper handles
 null handles.
@@ -699,7 +701,7 @@ absent because their declarers disagreed. `gMainMenu_apValueSetupCursors` was sp
 `void *[]` and `ValueWidgetView *[]`; the typed spelling wins, because the
 renderer dereferences it through named fields more than twenty times while
 the other three users only do byte arithmetic, which a cast covers.
-`D_801845A0` and `gMainMenu_pValueSetupPanel` were each `void *` and `u8 *`; `u8 *` wins,
+`gMainMenu_pValueSetupBackground` and `gMainMenu_pValueSetupPanel` were each `void *` and `u8 *`; `u8 *` wins,
 because the starter does pointer arithmetic on them and the finisher only
 passes and clears them. All three are byte-identical, which is the argument.
 

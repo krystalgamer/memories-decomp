@@ -29,16 +29,16 @@ void MainMenu_InitTradeScreen(void)
     s32 i;
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    D_801845DC = (MainMenuWidget *)object;
+    gTrade_pBackground = (MainMenuWidget *)object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
-        D_801845DC->flags |=
+        gTrade_pBackground->flags |=
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 #ifdef VERSION_EUROPE
-        DisplayObject_SetDepthOffset(D_801845DC, -3);
+        DisplayObject_SetDepthOffset(gTrade_pBackground, -3);
 #else
-        DisplayObject_SetDepthOffset(D_801845DC, -2);
+        DisplayObject_SetDepthOffset(gTrade_pBackground, -2);
 #endif
     }
 
