@@ -228,8 +228,11 @@ void DisplayObject_FadeBrightnessAndRelease(DisplayObjectLifecycle *object);
 /* The screen origin DisplayObject_SubmitPacket subtracts from every vertex before the
  * perspective transform, followed by the subdivision count for textured
  * quads. A zero count sorts the quad as it is; anything else sends it
- * through DivideFT4. */
-typedef struct {
+ * through DivideFT4. The projection helpers below fill the same record:
+ * the input screen origin narrowed for packet vertices and the quad
+ * subdivision count (subdivisions for objects, zero for packed rotation).
+ * These are not transformed vertices, depth or MAC0. */
+typedef struct ProjectionOut {
     s16 x;
     s16 y;
     s32 divisions;
@@ -237,24 +240,12 @@ typedef struct {
 
 /* The packet dispatcher receives a sprite pointer in the sprite renderers,
  * while the Gouraud-quad renderers pass the display object's raw attribute
- * word. The definition in display_object_system.c reads the packet and the
- * extra record as bytes because their type depends on the dispatch case, so
- * every caller passes byte pointers. For the card-list renderer the extra is
- * the DisplayObjectPacketOrigin record the dispatcher consumes, and its
- * packet is the complete SDK textured quad. */
+ * word. The packet is untyped because its primitive type depends on the
+ * dispatch case (POLY_G4, POLY_GT4 or POLY_FT4). */
 /* ot is the selected GsOT descriptor, not a depth, table index or texture.
  * Word-shaped wrapper APIs keep explicit pointer conversions at their calls. */
-void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mode, u8 *extra);
-
-/* Input screen origin narrowed for packet vertices, followed by the quad
-   subdivision count (subdivisions for objects, zero for packed rotation).
-   These are not transformed vertices, depth or MAC0. The separate packet
-   origin view has the same byte roles; no API/type unification is implied. */
-struct ProjectionOut {
-    s16 x;
-    s16 y;
-    s32 divisions;
-};
+void DisplayObject_SubmitPacket(SpritePrim *sprite, void *packet, GsOT *ot, s32 mode,
+                                DisplayObjectPacketOrigin *origin);
 
 /* The record DisplayObject_ProjectRotationFacing projects is a display
    object. Only the tag is named here rather than including display_object.h:

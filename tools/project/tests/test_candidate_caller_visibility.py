@@ -277,7 +277,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                 if source == "src/game/card_preview.c" and "display_object_system.h" in include:
                     # Preserve the real layout, not the lost function declaration.
                     owner = (REPOSITORY / "src/game/display_object_system.h").read_text()
-                    layout = re.search(r"typedef struct \{[^}]*\} DisplayObjectPacketOrigin;", owner)
+                    layout = re.search(r"typedef struct (?:\w+ )?\{[^}]*\} DisplayObjectPacketOrigin;", owner)
                     self.assertIsNotNone(layout)
                     replacement = (
                         '#include "../psyq/libgte.h"\n#include "../psyq/libgpu.h"\n'
@@ -387,19 +387,13 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         path = REPOSITORY / source
         profile = self.profile(source)
         original = path.read_text(encoding="utf-8")
-        call = (
-            "PRM, CARD_PANEL_PACKET_BYTES(packet), ordering_table, arg,\n"
-            "        CARD_PANEL_ORIGIN_BYTES(origin));"
-        )
-        swapped = (
-            "PRM, CARD_PANEL_PACKET_BYTES(origin), ordering_table, arg,\n"
-            "        CARD_PANEL_ORIGIN_BYTES(packet));"
-        )
+        call = "PRM, packet, ordering_table, arg, origin);"
+        swapped = "PRM, origin, ordering_table, arg, packet);"
         self.assertIn(call, original)
         base_diagnostics = compiler_diagnostics(path, profile, path.parent)
         self.assertNotRegex(
             base_diagnostics,
-            r"(has no member named|passing arg [25] of `DisplayObject_SubmitPacket')",
+            r"passing arg [25] of `DisplayObject_SubmitPacket'",
         )
 
         (REPOSITORY / "tmp").mkdir(exist_ok=True)
@@ -409,12 +403,16 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
             probe.parent.mkdir(parents=True)
             probe.write_text(original.replace(call, swapped, 1), encoding="utf-8")
             with self.assertRaises(AssertionError) as failure:
-                compiler_diagnostics(probe, profile, path.parent)
+                compiler_diagnostics(
+                    probe, profile, path.parent, warnings_as_errors=True
+                )
             diagnostics = str(failure.exception)
         finally:
             shutil.rmtree(scratch, ignore_errors=True)
-        self.assertRegex(diagnostics, r"has no member named `tag'")
-        self.assertRegex(diagnostics, r"has no member named `x'")
+        self.assertRegex(
+            diagnostics,
+            r"passing arg 5 of `DisplayObject_SubmitPacket' from incompatible pointer type",
+        )
 
     def test_parent_search_caller_needs_owning_header(self) -> None:
         source = "src/game/model_init_slot.c"

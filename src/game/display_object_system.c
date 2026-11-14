@@ -380,7 +380,8 @@ void DisplayObject_RenderSpriteList(void) {
                     p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
                     mode = object->ot_depth | 0x30000;
                 }
-                DisplayObject_SubmitPacket(p, (u8 *)packet, ot, mode, clip->out);
+                /* ClipState (ygo_types.h) holds the 0x398 origin as bytes. */
+                DisplayObject_SubmitPacket(p, packet, ot, mode, (DisplayObjectPacketOrigin *)clip->out);
                 break;
             }
         } while (i >= 0);
@@ -477,8 +478,6 @@ void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
 GsF_LIGHT gDisplayObject_FlatLightDown = { 0, 0x1000, 0, 0x60, 0x60, 0x60 };
 GsF_LIGHT gDisplayObject_FlatLightUp = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };
 
-#define POLY_G4_BYTES(packet) ((u8 *)(packet))
-#define POLY_GT4_BYTES(packet) ((u8 *)(packet))
 #define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
 /* Caching this pointer shortens retail; each use must reload field_4C. */
 #define SPRITE_SHEET_HEADER(object) \
@@ -568,7 +567,8 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
         if (p->uv.b.lo + p->extent.wh.w.word > 0x100) {
             p->extent.wh.w.word = 0x100 - p->uv.b.lo;
         }
-        DisplayObject_SubmitPacket(p, (u8 *)packet, ordering_table, mode, clip->out);
+        /* ClipState (ygo_types.h) holds the 0x398 origin as bytes. */
+        DisplayObject_SubmitPacket(p, packet, ordering_table, mode, (DisplayObjectPacketOrigin *)clip->out);
         if (clip->flag != 0) {
             p->xy.h.x = p->xy.h.x + p->extent.wh.w.word;
         } else {
@@ -684,7 +684,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
  * DisplayObject_SubmitPacket. */
 void DisplayObject_RenderGouraudQuadList(void) {
     POLY_G4 *packet;
-    u8 *projection;
+    DisplayObjectPacketOrigin *projection;
     DisplayObject *object;
     GsOT **table;
     DisplayObjectCallback callback;
@@ -705,7 +705,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
     s32 x2;
 
     packet = (POLY_G4 *)SCRATCH_ADDR(0x344);
-    projection = (u8 *)SCRATCH_ADDR(0x398);
+    projection = (DisplayObjectPacketOrigin *)SCRATCH_ADDR(0x398);
     i = gDisplayObject_awListHeads[4];
 
     if (i >= 0) {
@@ -759,13 +759,13 @@ void DisplayObject_RenderGouraudQuadList(void) {
                                       object->field_20.word,
                                       packet->x0 + (s16)object->field_18.center.x,
                                       packet->y0 + (s16)object->field_18.center.y,
-                                      (struct ProjectionOut *)projection) <= 0) {
+                                      projection) <= 0) {
                         continue;
                     }
                     attribute = attribute | 0x4000000;
                 }
 
-                DisplayObject_SubmitPacket((SpritePrim *)attribute, POLY_G4_BYTES(packet), table[object->ot_index],
+                DisplayObject_SubmitPacket((SpritePrim *)attribute, packet, table[object->ot_index],
                                            object->ot_depth | bit, projection);
 
                 if (*(u8 *)&object->field_5A != 0) {
@@ -781,7 +781,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                     setlen(packet, eight);
                     setcode(packet, hi);
                     *(s32 *)&packet->r1 = x2;
-                    DisplayObject_SubmitPacket((SpritePrim *)attribute, POLY_G4_BYTES(packet), table[object->ot_index],
+                    DisplayObject_SubmitPacket((SpritePrim *)attribute, packet, table[object->ot_index],
                                                object->ot_depth | bit, projection);
                 }
             }
@@ -796,7 +796,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
  * stays a byte reach. */
 void DisplayObject_RenderTexturedGouraudQuadList(void) {
     POLY_GT4 *packet;
-    u8 *projection;
+    DisplayObjectPacketOrigin *projection;
     DisplayObject *object;
     GsOT **table;
     DisplayObjectCallback callback;
@@ -817,7 +817,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
     s32 x2;
 
     packet = (POLY_GT4 *)SCRATCH_ADDR(0x344);
-    projection = (u8 *)SCRATCH_ADDR(0x398);
+    projection = (DisplayObjectPacketOrigin *)SCRATCH_ADDR(0x398);
     i = gDisplayObject_awListHeads[5];
 
     if (i >= 0) {
@@ -875,13 +875,13 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                                       object->field_20.word,
                                       packet->x0 + (s16)object->field_18.center.x,
                                       packet->y0 + (s16)object->field_18.center.y,
-                                      (struct ProjectionOut *)projection) <= 0) {
+                                      projection) <= 0) {
                         continue;
                     }
                     attribute = attribute | 0x4000000;
                 }
 
-                DisplayObject_SubmitPacket((SpritePrim *)attribute, POLY_GT4_BYTES(packet), table[object->ot_index],
+                DisplayObject_SubmitPacket((SpritePrim *)attribute, packet, table[object->ot_index],
                                            object->ot_depth | bit, projection);
 
                 if (DISPLAY_OBJECT_BYTES(object)[0x72] != 0) {
@@ -896,7 +896,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     setlen(packet, twelve);
                     setcode(packet, hi);
                     *(u16 *)&packet->u1 = x2;
-                    DisplayObject_SubmitPacket((SpritePrim *)attribute, POLY_GT4_BYTES(packet), table[object->ot_index],
+                    DisplayObject_SubmitPacket((SpritePrim *)attribute, packet, table[object->ot_index],
                                                object->ot_depth | bit, projection);
                 }
             }
@@ -1241,7 +1241,7 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
                     }
                     /* fall through */
                 default:
-                    DisplayObject_SubmitPacket(sprite, quad, ordering_table, value | work->mode, (u8 *)&work->proj);
+                    DisplayObject_SubmitPacket(sprite, quad, ordering_table, value | work->mode, &work->proj);
                 }
                 part++;
                 if (--count == 0) {
@@ -1558,12 +1558,12 @@ s32 DisplayObject_ProjectRotationFacing(
  * the display object's attribute word in place of the sprite pointer and
  * submit a prepared POLY_G4 or POLY_GT4, projecting it first when GsPERS
  * (0x04000000) is set. Any other case builds a POLY_FT4 from the sprite and
- * projects it, subdividing through DivideFT4 when `extra` asks for it. */
-void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mode, u8 *extra)
+ * projects it, subdividing through DivideFT4 when `origin` asks for it. */
+void DisplayObject_SubmitPacket(SpritePrim *sprite, void *packet, GsOT *ot, s32 mode,
+                                DisplayObjectPacketOrigin *origin)
 {
     SVECTOR *v;
     long *otz;
-    DisplayObjectPacketOrigin *origin = (DisplayObjectPacketOrigin *)extra;
     s32 pri = (s16)mode;
 
     switch ((u32)mode >> 16) {
@@ -1577,7 +1577,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
         GsSortSprite((GsSPRITE *)sprite, ot, pri);
         return;
     case 4: {
-        POLY_G4 *g4 = (POLY_G4 *)packet;
+        POLY_G4 *g4 = packet;
 
         if ((u32)sprite & 0x04000000) {
             otz = (long *)SCRATCH_ADDR(0x2E0);
@@ -1610,7 +1610,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
         return;
     }
     case 5: {
-        POLY_GT4 *gt4 = (POLY_GT4 *)packet;
+        POLY_GT4 *gt4 = packet;
 
         if ((u32)sprite & 0x04000000) {
             otz = (long *)SCRATCH_ADDR(0x2E0);
@@ -1649,7 +1649,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
         SVECTOR *v3;
         SVECTOR *v1;
         u32 attribute;
-        POLY_FT4 *ft4 = (POLY_FT4 *)packet;
+        POLY_FT4 *ft4 = packet;
         POLY_FT4 *projected;
 
         otz = (long *)SCRATCH_ADDR(0x2E0);
@@ -1689,7 +1689,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, u8 *packet, GsOT *ot, s32 mo
         }
         /* A separate view for the projection half: keeping ft4 live through
          * it swaps $16/$17 across the whole function. */
-        projected = (POLY_FT4 *)packet;
+        projected = packet;
         v1 = v + 1;
         v2 = v + 2;
         v3 = v + 3;
