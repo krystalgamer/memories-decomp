@@ -55,34 +55,52 @@ typedef struct MenuRecord {
     /* DisplayEffect_ResetRecordState seeds it from rand(), and
        DisplayEffect_UpdateMenuRecord works it as a countdown to zero. */
     u16 variant_countdown;
-    /* The six halfwords the sweep in DisplayEffect_UpdatePositionTween works, and the tail this
-       record had no names for.
+    /* The six halfwords the step handlers work. 0x40 and 0x44 hold
+       different values depending on display_effect_step, so they are unions
+       with one member per reading, under their offsets.
 
-       0x40 and 0x42 are the destination the sweep eases toward: it hands
-       them to DisplayPositionGroup_SetPosition as the final x and y, and
-       subtracts a cosine fraction of 0x44/0x46 from them on the way.
-       DisplayEffect_FadeInRecord uses 0x40 differently -- a 0..0x80 fade ramp it steps by
-       gGraphics_nBaseFrameStep * 8 -- so neither reading governs and 0x40
-       keeps its offset name. 0x42 has only the sweep's reading and is
-       named tween_target_y.
+       0x40:
+       - tween_target_x: DisplayEffect_UpdatePositionTween (step 3) eases x
+         toward it and hands it to DisplayPositionGroup_SetPosition, with
+         tween_target_y at 0x42 as the y.
+       - fade_level: the 0..0x80 ramp DisplayEffect_FadeInRecord (step 7),
+         DisplayEffect_FadeOutRecord (step 6) and
+         DisplayEffect_CrossfadeResources (step 4) step by
+         gGraphics_nBaseFrameStep * 8.
+       - next_step: the step queued behind resource acquisition (step 2).
+         The text display-effect command stores 3, or 7 when its flags ask
+         for a fade, and Text_ContinueDisplayEffect moves to it once step 2
+         has finished.
+       - closing: a portrait record's direction in
+         DisplayEffect_UpdatePortraitTransition (step 5). The command stores
+         0 when it opens the portrait and 1 when it dismisses it.
 
-       0x44 and 0x46 are the distance still to travel: the sweep seeds them
-       with 0x40 - 0x34 and 0x42 - 0x36 on its first tick. Before that tick
-       0x44 holds the sweep's duration (Text_HandleDisplayEffectCommand
-       stores 0x10 and the sweep divides the quarter turn by it), so only
-       0x46 is named for the delta.
+       0x44:
+       - tween_duration: the sweep's length in ticks, whose sign picks which
+         end of the cosine it starts from. The command stores 0x10 and
+         Text_ContinueDisplayEffect -0x10, and the sweep divides the quarter
+         turn by it on its first tick.
+       - tween_delta_x: from that first tick, the x distance still to
+         travel (tween_target_x - x). 0x46 is its y counterpart.
 
        0x48 is the eased angle, running to TRIG_ANGLE_QUARTER_TURN, and 0x4A
-       the per-tick step derived from it, whose sign picks which end of the
-       cosine the sweep starts from.
+       the per-tick step derived from it.
 
-       Signed, because the sweep compares 0x4A against zero and passes 0x40,
-       0x42, 0x44 and 0x46 through s16 casts. The sites that want the
-       unsigned load spell it `*(u16 *)&record->field_40`, which keeps the
-       lhu the target issues there and still names the field. */
-    s16 field_40;
+       Signed, because the sweep compares 0x4A against zero and passes these
+       through s16 casts. The sites that want the unsigned load spell it
+       `*(u16 *)&record->field_40.<member>`, which keeps the lhu the target
+       issues there. */
+    union {
+        s16 tween_target_x;
+        s16 fade_level;
+        s16 next_step;
+        s16 closing;
+    } field_40;
     s16 tween_target_y;
-    s16 field_44;
+    union {
+        s16 tween_duration;
+        s16 tween_delta_x;
+    } field_44;
     s16 tween_delta_y;
     s16 tween_angle;
     s16 tween_angle_step;

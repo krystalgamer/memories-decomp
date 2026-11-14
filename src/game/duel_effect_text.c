@@ -2114,16 +2114,16 @@ void Text_ContinueDisplayEffect(DuelEffectChannel *channel) {
     {
         MenuRecord *q = gText_DisplayEffectRecord;
 
-        q->display_effect_step = q->field_40;
+        q->display_effect_step = q->field_40.next_step;
     }
 
     {
         MenuRecord *r = gText_DisplayEffectRecord;
 
-        r->field_40 = 0x68;
+        r->field_40.tween_target_x = 0x68;
 
         if (r->slot_index != 0) {
-            r->field_40 = 0xD8;
+            r->field_40.tween_target_x = 0xD8;
         }
     }
 
@@ -2131,7 +2131,7 @@ void Text_ContinueDisplayEffect(DuelEffectChannel *channel) {
         MenuRecord *s = gText_DisplayEffectRecord;
 
         s->tween_target_y = 0xB2;
-        s->field_44 = -0x10;
+        s->field_44.tween_duration = -0x10;
     }
 }
 
@@ -3515,17 +3515,17 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
             return;
         }
         if (e->slot_index != 0) {
-            e->field_40 = 0x178;
+            e->field_40.tween_target_x = 0x178;
         } else {
-            e->field_40 = -0x38;
+            e->field_40.tween_target_x = -0x38;
         }
         e->tween_target_y = 0xB2;
-        e->field_44 = 0x10;
+        e->field_44.tween_duration = 0x10;
         o->state = 7;
         e->display_effect_step = 3;
         if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
             e->display_effect_step = 5;
-            e->field_40 = 1;
+            e->field_40.closing = 1;
         }
         return;
     }
@@ -3570,15 +3570,15 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         e->display_effect_step = 5;
         e->slot_index = 2;
         e->x = 0xF0;
-        e->field_40 = 0;
+        e->field_40.closing = 0;
         e->y = 0x60;
         return;
     }
     e->display_effect_step = 2;
-    e->field_40 = 3;
+    e->field_40.next_step = 3;
     if (flags & 8) {
         e->x = 0x400;
-        e->field_40 = 7;
+        e->field_40.next_step = 7;
     }
     if (flags & 0x10) {
         e->resource_entry_index = (flags >> 1) & 3;
