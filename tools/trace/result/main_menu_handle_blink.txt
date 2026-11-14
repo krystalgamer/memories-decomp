@@ -1,0 +1,29 @@
+==== USER CONTEXT ====
+
+The same thing disappeared on both, the background image. It's yellow brick wall on both too.
+
+==== TRACE RESULT =====
+ 
+script: main_menu_handle_blink 
+setup: debugger=on configured_cpu=interpreter active_cpu=unverified execution_breakpoint=observed 
+status: every handle blinked twice 
+mode: blinking (lifecycle and write witnesses confirmed) 
+frames: 2810 control_hits: 2501 flag_writes: 8 signature_mismatches: 0 abandoned_blinks: 0 dropped_rows: 0 
+D_801845A0 0x801845A0 blinks=2/2 stopped=0 abandoned=0 refused=0 game_rewrites=0 
+D_801845DC 0x801845DC blinks=2/2 stopped=0 abandoned=0 refused=0 game_rewrites=0 
+ 
+#001 t=0.02s main_menu overlay signature matches 
+#002 t=0.02s witnesses confirmed; blinking enabled 
+#003 t=11.38s SEEN D_801845A0 obj=0x800F0548 slot=16 x=0 y=0 flags=0x00F8 attribute=0x08000000 extent=0x00000000 uv=0x0000/0x0000 b64..6A=00 00 0C 00 04 0B 00 ot=2 depth=2050 update=0x00000000 resource=0x801AC000 
+#004 t=11.38s HIDE D_801845A0 (obj=0x800F0548) for 3 s -- note what disappears 
+#005 t=14.38s SHOW D_801845A0 (obj=0x800F0548) blink 1/2 done; game re-set the bit 0 time(s) 
+#006 t=16.38s HIDE D_801845A0 (obj=0x800F0548) for 3 s -- note what disappears 
+#007 t=19.38s SHOW D_801845A0 (obj=0x800F0548) blink 2/2 done; game re-set the bit 0 time(s) 
+#008 t=25.12s D_801845A0 cleared to null 
+#009 t=36.80s SEEN D_801845DC obj=0x800F0548 slot=16 x=0 y=0 flags=0x00F8 attribute=0x08000000 extent=0x00000000 uv=0x0000/0x0000 b64..6A=00 00 0C 00 04 0B 00 ot=2 depth=2050 update=0x00000000 resource=0x801AC000 
+#010 t=36.82s HIDE D_801845DC (obj=0x800F0548) for 3 s -- note what disappears 
+#011 t=39.82s SHOW D_801845DC (obj=0x800F0548) blink 1/2 done; game re-set the bit 0 time(s) 
+#012 t=41.82s HIDE D_801845DC (obj=0x800F0548) for 3 s -- note what disappears 
+#013 t=44.82s SHOW D_801845DC (obj=0x800F0548) blink 2/2 done; game re-set the bit 0 time(s) 
+
+--- end of trace, copy everything above into tools/trace/result/main_menu_handle_blink.txt --- 
