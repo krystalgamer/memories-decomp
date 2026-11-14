@@ -2909,10 +2909,8 @@ void Text_SetOutputLimit(DuelEffectChannel *object)
 #ifdef VERSION_EUROPE
     /* The European build clears the pixel counter and sets the limit
        (halfwords at 0x60 and 0x62) from one operand byte, times eight. */
-    /* u16 views keep the European store order (plain stores differ). */
-    *(u16 *)&object->output_count = 0;
-    *(u16 *)&object->field_62 =
-        read_operand(object) << 3;
+    object->output_count = 0;
+    object->output_limit = read_operand(object) << 3;
 #else
     object->output_count = 0;
     object->output_limit = TextStream_ReadU16LE(object);
@@ -3738,13 +3736,9 @@ TextBoxStateCallback gTextBox_apfnStateCallbacks[] = {
     Text_WaitForCdSoundTransfer,
 };
 
-/* The glyph counter and its limit, and the buttons that skip ahead. PAL
-   views both as halfwords and the Japanese release confirms with Circle
-   rather than Cross, so a regional build supplies its own. */
-#ifndef TEXT_BOX_GLYPH_COUNT
-#define TEXT_BOX_GLYPH_COUNT(o) ((o)->output_count)
-#define TEXT_BOX_GLYPH_LIMIT(o) ((o)->output_limit)
-#endif
+/* The entry type and the buttons that skip ahead. The Japanese release
+   confirms with Circle rather than Cross, so a regional build supplies its
+   own. */
 #ifndef TEXT_BOX_ENTRY_TYPE
 #define TEXT_BOX_ENTRY_TYPE DuelEffectEntry
 #endif
@@ -3792,7 +3786,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         gText_ScriptDispatchGate = 0;
         gText_ChoiceLayoutCallback = 0;
         object->delay_countdown = 1;
-        TEXT_BOX_GLYPH_COUNT(object) = 0;
+        object->output_count = 0;
         object->stream_index = 0;
 #ifdef VERSION_JAPAN
         /* The Japanese two-bank layout, as in its Text_LookupString. */
@@ -3930,10 +3924,10 @@ void TextBox_BuildStep(DuelEffectChannel *object)
 
         w = object->glyph_advance_x +
             DuelEffect_AppendEntry(object, gText_aGlyphLookup[(s16)gText_CurrentStreamCode].packed & 0x8FF0FFFF);
-        limit = (s16)TEXT_BOX_GLYPH_LIMIT(object);
+        limit = (s16)object->output_limit;
         object->pen_x = object->pen_x + w;
-        n = TEXT_BOX_GLYPH_COUNT(object) + w;
-        TEXT_BOX_GLYPH_COUNT(object) = n;
+        n = object->output_count + w;
+        object->output_count = n;
         if (limit != 0) {
             w = (s16)n + object->glyph_advance_x;
             if (limit < w) {
@@ -3943,9 +3937,9 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     }
 #else
     DuelEffect_AppendEntry(object, gText_aGlyphLookup[(s16)gText_CurrentStreamCode].packed & 0x8FF0FFFF);
-    TEXT_BOX_GLYPH_COUNT(object) = TEXT_BOX_GLYPH_COUNT(object) + 1;
-    if (TEXT_BOX_GLYPH_LIMIT(object) != 0 &&
-        TEXT_BOX_GLYPH_COUNT(object) >= TEXT_BOX_GLYPH_LIMIT(object)) {
+    object->output_count = object->output_count + 1;
+    if (object->output_limit != 0 &&
+        object->output_count >= object->output_limit) {
         object->flags_34 = object->flags_34 | TEXT_BOX_FLAG_DONE;
     }
     object->pen_x = object->pen_x + object->glyph_advance_x;
