@@ -2,7 +2,7 @@
 
 The boot sequence loads WA_MRG module `0x16` at `0x80168000` before the
 title screen. It is Sony's APv2 anti-modchip check. `Main_RunBootSequence`
-calls `func_801680F4` once and then calls `func_80168160(1)` every frame until
+calls `func_801680F4` once and then calls `SafetyCheck(1)` every frame until
 it returns zero.
 
 | Region | Module | WA sectors | Header word |
@@ -35,14 +35,14 @@ binds those names to the region's addresses.
 | Function | USA size | Role |
 |---|---|---|
 | `func_801680F4` | `0x6C` | Reads BIOS region byte `0xBFC7FF52`. `'A'` selects state 1 and mode 1; `'E'` selects state 0 and mode 2, so the check is skipped; anything else selects state 1 and mode 0. |
-| `func_80168160` | `0x938` | 20-state controller: issues the CD commands, checks the results, and shows the warning when the drive answers like a modified console. |
+| `SafetyCheck` | `0x938` | 20-state controller: issues the CD commands, checks the results, and shows the warning when the drive answers like a modified console. |
 | `func_80168A98` | `0x1D4` | Polls the CD controller for a command result. |
-| `func_80168C6C` | `0xF0` | Sends one CD command, described by `D_8016941C` entries of `{cmd, nparams, nresults, wait}` (14 commands). |
-| `func_80168D5C` | `0x16C` | Draws the warning screen, then calls `exit()`. |
-| `func_80168EC8` | `0x174` | Draws a text line. |
-| `func_8016903C` | `0x1B4` | Draws the glyph rows of one character through `Krom2RawAdd`. |
+| `func_80168C6C` | `0xF0` | Sends one CD command, described by `safechk_commands` entries of `{cmd, nparams, nresults, wait}` (14 commands). |
+| `SafetyCheck2` | `0x16C` | Draws the warning screen, then calls `exit()`. |
+| `SafetyCheck3` | `0x174` | Draws a text line. |
+| `SafetyCheck4` | `0x1B4` | Draws the glyph rows of one character through `Krom2RawAdd`. |
 | `func_801691F0` | `0x94` | Returns a glyph's width. |
-| `func_80169284` | `0x188` | Draws the frame polygons. |
+| `SafetyCheck5` | `0x188` | Draws the frame polygons. |
 
 The USA warning reads `SOFTWARE TERMINATED` / `CONSOLE MAY HAVE BEEN MODIFIED`
 / `CALL 1-888-780-7690`.
@@ -54,14 +54,14 @@ code, built with Psy-Q GCC 2.7.2: decompals/old-gcc `gcc-2.7.2-psx`, installed
 by `make compiler-272-psx-prebuilt` and selected through the
 `gcc_2_7_2_psx_g0_gnu_reorder` profile. The evidence:
 
-- `func_801680F4` and `func_80169284` match only with 2.7. GCC 2.8 duplicates
+- `func_801680F4` and `SafetyCheck5` match only with 2.7. GCC 2.8 duplicates
   the epilogue that the retail code shares.
 - Most retail delay slots are filled the way an assembler in reorder mode
   fills them. Its `move` instructions are `addu d,s,$0`, the ASPSX encoding.
   The slots filled from a branch target come from the compiler (see
   [Which compiler](#which-compiler)).
 - All nine candidates match at the stock `-O2` flags. An earlier
-  `func_80168EC8` source needed `-fno-cse-follow-jumps`; the current source
+  `SafetyCheck3` source needed `-fno-cse-follow-jumps`; the current source
   does not (see the source details below).
 
 MASPSX's normal processing cannot model this output: it always emits
@@ -82,9 +82,9 @@ entries in `config/slus_01411/candidates.json`. Their shared types are in
 
 | Function | Status |
 |---|---|
-| `func_801680F4`, `func_80168C6C`, `func_80168D5C`, `func_80168EC8`, `func_8016903C`, `func_801691F0`, `func_80169284` | exact under the profile |
+| `func_801680F4`, `func_80168C6C`, `SafetyCheck2`, `SafetyCheck3`, `SafetyCheck4`, `func_801691F0`, `SafetyCheck5` | exact under the profile |
 | `func_80168A98` | 7 words differ |
-| `func_80168160` | 457 words differ; exact under Psy-Q 4.1 `CC1PSX` with `-mmips-as` (see below) |
+| `SafetyCheck` | 457 words differ; exact under Psy-Q 4.1 `CC1PSX` with `-mmips-as` (see below) |
 
 No available compiler builds all nine, so the module cannot move to C as a
 whole; see [Which compiler](#which-compiler).
@@ -102,7 +102,7 @@ Source details that the matches depend on:
   of the shared `j; li s0,N` tails.
 - `exit()` is declared without a prototype (`PSYQ_EXIT_UNPROTOTYPED` in
   `src/psyq/exit.h`), as the call passes no argument.
-- `func_80168EC8` reuses the character variable `c` for the spacing of the
+- `SafetyCheck3` reuses the character variable `c` for the spacing of the
   Krom, space and ASCII branches (`c = 1`, `8`, `2`), and adds it as
   `rect->x = rect->x + c + rect->w`. Retail reloads the character from the
   string in the Krom and ASCII branches. Without the reassignment, `-O2` CSE
@@ -162,7 +162,7 @@ elsewhere:
 
 - `reload_cse_regs` (reload1.c, Ian Lance Taylor, 1997-03-26, "reload1.c
   (reload): Call reload_cse_regs"; FSF r13805) rewrites the delay-loop address
-  `move a2,zero` as `move a2,a1` in `func_80168C6C` and `func_80168D5C`, and
+  `move a2,zero` as `move a2,a1` in `func_80168C6C` and `SafetyCheck2`, and
   `move t0,zero` as `move t0,a1` in `func_80168A98`. Retail has `zero` in
   all three. The pass turns a word-sized constant load into a copy whenever
   another register already holds the constant and no label lies between, so
@@ -170,14 +170,14 @@ elsewhere:
 - `assign_parms` (function.c, Ian Lance Taylor, 1997-03-18, "Add a REG_EQUIV
   note to the instruction which copies a parameter into a pseudo-register
   whenever there is an associated stack slot") makes `update_equiv_regs`
-  double the live length of `rect` and `color` in `func_80168EC8`, and global
+  double the live length of `rect` and `color` in `SafetyCheck3`, and global
   allocation permutes `s1`-`s4`.
 
 Two source builds frame the compiler that retail needs:
 
 - The `cygnus-2.7.2-970404` source (old-gcc's `b18.tar.gz`) with those two
   ChangeLog entries reverted, and nothing else changed, matches eight
-  functions with the committed sources. It also matches `func_80168EC8` with
+  functions with the committed sources. It also matches `SafetyCheck3` with
   the natural source that does not reassign `c`. `func_80168A98` still differs.
 - Cygnus `2.7-96q3 SOA-960904` (September 1996): its GPL source was
   distributed by Sega and is published in `sozud/saturn-compiler-repro`

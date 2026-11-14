@@ -427,7 +427,7 @@ SetDumpFnt = 0x8007EE68;
 FntLoad = 0x8007EEA8;
 FntOpen = 0x8007EF48;
 func_801680F4 = 0x801680F4;
-func_80168160 = 0x80168160;
+SafetyCheck = 0x80168160;
 
 /* Semantic draw-state aliases retain the original native providers. */
 

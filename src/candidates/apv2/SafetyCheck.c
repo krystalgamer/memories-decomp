@@ -2,8 +2,10 @@
 #include "../../psyq/libetc.h"
 
 extern s32 D_80169474;
-extern u8 D_80169464[];
-extern u8 D_8016946C[];
+extern u8 safechk_params[];
+extern u8 safechk_results[];
+/* D_8016946D and D_8016946E are safechk_results[1..2]; indexing the array
+ * instead changes the object's relocation addends. */
 extern u8 D_8016946D[];
 extern u8 D_8016946E;
 extern s32 D_801694C4;
@@ -13,9 +15,9 @@ extern u8 D_801694CD;
 
 void func_80168C6C(s32);
 s32 func_80168A98(s32);
-void func_80168D5C(void);
+void SafetyCheck2(void);
 
-s32 func_80168160(s32 arg)
+s32 SafetyCheck(s32 arg)
 {
     s32 ret;
     s32 t;
@@ -65,7 +67,7 @@ loop:
                 D_80169474 = 1;
                 break;
             case 1:
-                D_80169464[0] = (D_801694C8 >= 2) << 1;
+                safechk_params[0] = (D_801694C8 >= 2) << 1;
                 func_80168C6C(2);
                 D_80169474 = 4;
             case 0:
@@ -113,13 +115,13 @@ loop:
                 ret = -1;
                 break;
             case -1:
-                if (!(D_8016946C[0] & 1)) {
+                if (!(safechk_results[0] & 1)) {
                     D_80169474 = 1;
-                } else if (D_8016946C[1] & 0x40) {
+                } else if (safechk_results[1] & 0x40) {
                     ret = 5;
-                    D_80169464[0] = D_801694CC;
-                    D_80169464[1] = D_801694CD;
-                    D_80169464[2] = 0;
+                    safechk_params[0] = D_801694CC;
+                    safechk_params[1] = D_801694CD;
+                    safechk_params[2] = 0;
                     func_80168C6C(3);
                     D_80169474 = 7;
                 }
@@ -142,12 +144,12 @@ loop:
                 ret = -1;
                 break;
             case -1:
-                func_80168D5C();
+                SafetyCheck2();
                 break;
             case 1:
-                D_80169464[0] = D_801694CC;
-                D_80169464[1] = D_801694CD;
-                D_80169464[2] = 0;
+                safechk_params[0] = D_801694CC;
+                safechk_params[1] = D_801694CD;
+                safechk_params[2] = 0;
                 func_80168C6C(3);
                 D_80169474 = 7;
             case 0:
@@ -168,7 +170,7 @@ loop:
                 D_80169474 = 1;
                 break;
             case 1:
-                D_80169464[0] = ret;
+                safechk_params[0] = ret;
                 func_80168C6C(5);
                 D_80169474 = 8;
             case 0:
@@ -257,7 +259,7 @@ loop:
                 D_80169474 = 1;
                 break;
             case 1:
-                D_80169464[0] = 4;
+                safechk_params[0] = 4;
                 func_80168C6C(9);
                 D_80169474 = 13;
             case 0:
@@ -289,7 +291,7 @@ loop:
         case 14:
             t = VSync(-1);
             if (D_801694C4 + 200 < t) {
-                D_80169464[0] = 5;
+                safechk_params[0] = 5;
                 func_80168C6C(10);
                 D_80169474 = 15;
             }
@@ -332,7 +334,7 @@ loop:
                 D_80169474 = 1;
                 break;
             case 1:
-                func_80168D5C();
+                SafetyCheck2();
             case 0:
             default:
                 ret = 16;
