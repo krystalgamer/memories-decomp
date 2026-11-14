@@ -179,16 +179,10 @@ typedef struct {
     u8 pad_0F;
 } ModelSlotLightEntry;
 
-/* Mirrors the SDK VECTOR that Model_DrawSlot passes render_scale as to
- * ScaleMatrix and Model_UpdateCoordinateUnitMatrix; `pad` is that VECTOR's
- * fourth word, copied with the other three by Model_SetSlotScale but not
- * reset on its own. */
-typedef struct {
-    s32 vx;
-    s32 vy;
-    s32 vz;
-    s32 pad;
-} ModelSlotS32Quad;
+/* The SDK VECTOR Model_DrawSlot passes render_scale as to ScaleMatrix and
+ * Model_UpdateCoordinateUnitMatrix; `pad` is the fourth word, copied with the
+ * other three by Model_SetSlotScale but not reset on its own. */
+typedef VECTOR ModelSlotS32Quad;
 
 typedef union {
     struct {

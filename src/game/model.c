@@ -3195,7 +3195,6 @@ s32 ModelDebug_UpdateController(void)
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define VECTOR_VIEW(vector) ((VECTOR *)(vector))
 
 #ifndef MODEL_RENDER_BLEND_MODE_5_WORD
 #define MODEL_RENDER_BLEND_MODE_5_WORD 0x3C200000
@@ -3465,11 +3464,11 @@ void Model_DrawSlot(s32 index)
             if (scale_existing_matrix) {
                 ScaleMatrix(
                     &head_unit->coord->matrix,
-                    VECTOR_VIEW(&slot->render_scale));
+                    &slot->render_scale);
             } else {
                 Model_UpdateCoordinateUnitMatrix(
                     head_unit->coord,
-                    VECTOR_VIEW(&slot->render_scale));
+                    &slot->render_scale);
             }
         }
         if (W(head_unit->primitive_data, 0) != -1 || W(head_unit->primitive_data, 8) != 0) {
@@ -3754,7 +3753,7 @@ void Model_DrawSlot(s32 index)
                         &sxy_z, &projection_flags);
                     sxy_z = NormalClip(*(long *)&shadow_triangle.x0, *(long *)&shadow_triangle.x1, *(long *)&shadow_triangle.x2);
                     if (shadow_depth >= 0 && projection_flags >= 0) {
-                        Graphics_SubmitDrawModePacket((u32 *)&shadow_triangle, ordering_table, 0xFFF, 2);
+                        Graphics_SubmitDrawModePacket(&shadow_triangle, ordering_table, 0xFFF, 2);
                     }
                 }
                 previous_shadow_edge = next_shadow_edge;

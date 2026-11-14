@@ -12,8 +12,9 @@
  * libgs.h's GsOUT_PACKET_P, and DivideFT4 also returns the advanced cursor. */
 extern u32 *gGraphics_pPacketWorkCursor;
 
-/* Copies a primitive, adds draw mode, and links it into the ordering table. */
-void Graphics_SubmitDrawModePacket(u32 *src, GsOT *ot, s32 idx, s32 flags);
+/* Copies a primitive of any type, adds draw mode, and links it into the
+   ordering table. */
+void Graphics_SubmitDrawModePacket(void *src, GsOT *ot, s32 idx, s32 flags);
 
 /* The texture-window variant: brackets the primitive with a 0xE2 window word
    built from the offset and mask pairs. */
