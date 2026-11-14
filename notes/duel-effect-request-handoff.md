@@ -21,14 +21,11 @@ source label `func_80146258`) to those same regional addresses. Its full extent 
 bytes. It remains the real C provider in `dispatch.c`, not an absolute
 function alias or wrapper.
 
-Both existing declaration headers declare only the canonical C name, with
-explicit `extern`.
-The resident view in `external_funcs.h` deliberately remains
-`(s16, s16, s32, DuelEffectRequest *)`; the bank view in `dispatch.h` remains
-`(s32, s32, void *, DuelEffectRequest *)`. They are separate translation-unit
-views of the measured handoff, not newly normalized prototypes. The
-resident's signed halfword loads, `s32 savedF1A`, integer buffer cast,
-argument expressions and all call-site instructions remain exact.
+The resident caller includes the bank's own `dispatch.h` and calls through
+its `(s32, s32, void *, DuelEffectRequest *)` prototype; the former separate
+resident view `(s16, s16, s32, DuelEffectRequest *)` and its integer buffer
+cast are gone. The resident's signed halfword loads, `s32 savedF1A`, argument
+expressions and all call-site instructions remain exact.
 
 The dispatcher still copies the request's three neutral payload halfwords
 to the draw offset and the original halfword to base priority. It initializes

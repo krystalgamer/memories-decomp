@@ -528,7 +528,7 @@ fixtures, controls, traces or captures change; no new harness is added.
 The new-game branch now includes the real overlay owner
 `name_entry_main.h` and calls the already matched
 `void NameEntry_Main(void)` export. The redundant numeric
-`func_8016AA6C` declaration leaves `external_funcs.h`; no compatibility
+`func_8016AA6C` declaration left the former `external_funcs.h`; no compatibility
 wrapper, extra call or new body is introduced. The overlay definition
 includes the same public header, while its starter-deck helper retains
 its separate existing owner.

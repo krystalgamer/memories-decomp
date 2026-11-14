@@ -4,7 +4,7 @@
 #include "../psyq/libgte.h"
 #include "ordering_tables.h"
 #include "mem_card.h"
-#include "../external_funcs.h"
+#include "../overlays/duel_effects/dispatch.h"
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "view_state_orbit.h"
@@ -157,7 +157,7 @@ s32 DuelEffect_UpdateRequests(void) {
             rec->ordering_table_1 = (s32)gGraphics_apOrderingTables[1];
             gDuelEffect_pActiveRequest = rec;
             rec->ordering_table_2 = (s32)gGraphics_apOrderingTables[2];
-            DuelEffect_DispatchRequest(rec->id, savedF1A, (s32)rec->buffer, rec);
+            DuelEffect_DispatchRequest(rec->id, savedF1A, rec->buffer, rec);
             SetGeomOffset(0, 0);
             SetGeomScreen(gViewState_Current.projection);
             if (gDuelEffect_bRequestFinished == 1) {
