@@ -526,24 +526,12 @@ void MemCardWork_InitializeOperation(u8 value);
 #define SAVE_DATA_HEADER_SIZE 0x200
 #define SAVE_DATA_STATE_SIZE 0x680
 #define SAVE_DATA_REPLICATED_STATE_SIZE (SAVE_DATA_STATE_SIZE * 2)
-#define SAVE_DATA_DUPLICATE_STATE_OFFSET \
-    (SAVE_DATA_HEADER_SIZE + SAVE_DATA_STATE_SIZE)
 #define SAVE_DATA_CARD_QUANTITIES_OFFSET 0x50
-#define SAVE_DATA_DUELIST_CODE_OFFSET 0x334
-#define SAVE_DATA_CREDITS_FLAGS_OFFSET 0x3DE
-#define SAVE_DATA_SEQUENCE_OFFSET 0x404
-#define SAVE_DATA_VBLANK_COUNTER_OFFSET 0x408
-#define SAVE_DATA_PLAYER_NAME_OFFSET 0x40C
 #define SAVE_DATA_PLAYER_NAME_CHAR_COUNT 6
 #define SAVE_DATA_PLAYER_NAME_SIZE \
     (SAVE_DATA_PLAYER_NAME_CHAR_COUNT * sizeof(u16))
 #define TWO_PLAYER_SAVE_SLOT_STRIDE 0x1000
 #define TWO_PLAYER_SAVE_TRANSFER_SIZE 0x400
-#define SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET 0x5DC
-#define SAVE_DATA_OUTPUT_TYPE_OFFSET 0x5DE
-#define SAVE_DATA_DUEL_WINS_OFFSET 0x518
-#define SAVE_DATA_DUEL_LOSSES_OFFSET 0x51A
-#define SAVE_DATA_STARCHIPS_OFFSET 0x5E0
 #define SAVE_DATA_STARCHIP_MAX 999999
 
 /* Existing primary-save identity allowance. Keep its raw byte and the
@@ -556,30 +544,13 @@ extern u8 gSaveData_AllowIdentityBypass;
 #define SAVE_DATA_CRC16_POLYNOMIAL 0x1021
 
 #define SAVE_DATA_PRIMARY_LENGTH 0x340
-#define SAVE_DATA_PRIMARY_MASK_LAST_OFFSET 0x378
 #define SAVE_DATA_PRIMARY_MASK_WORD_COUNT 15
-#define SAVE_DATA_PRIMARY_CHECKSUM_OFFSET \
-    (SAVE_DATA_PRIMARY_MASK_LAST_OFFSET + sizeof(s32))
 
-#define SAVE_DATA_SECONDARY_OFFSET 0x380
 #define SAVE_DATA_SECONDARY_LENGTH 0x6C
-#define SAVE_DATA_SECONDARY_MASK_LAST_OFFSET 0x3F8
 #define SAVE_DATA_SECONDARY_MASK_WORD_COUNT 4
-#define SAVE_DATA_SECONDARY_CHECKSUM_OFFSET \
-    (SAVE_DATA_SECONDARY_MASK_LAST_OFFSET + sizeof(s32))
 
-#define SAVE_DATA_TERTIARY_OFFSET 0x400
 #define SAVE_DATA_TERTIARY_LENGTH 0x204
-#define SAVE_DATA_TERTIARY_CHECKSUM_OFFSET \
-    (SAVE_DATA_TERTIARY_OFFSET + SAVE_DATA_TERTIARY_LENGTH)
-#define SAVE_DATA_TERTIARY_MASK_LAST_OFFSET 0x624
 #define SAVE_DATA_TERTIARY_MASK_WORD_COUNT 8
-#define SAVE_DATA_RESERVED_TAIL_OFFSET \
-    (SAVE_DATA_TERTIARY_MASK_LAST_OFFSET + sizeof(s32))
-#define SAVE_DATA_RESERVED_TAIL_SIZE \
-    (SAVE_DATA_STATE_SIZE - SAVE_DATA_RESERVED_TAIL_OFFSET)
-#define SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET \
-    (SAVE_DATA_HEADER_SIZE + SAVE_DATA_RESERVED_TAIL_OFFSET)
 
 /* Seal views only: payload bytes keep the independent SaveDataState layout.
  * The mask words are the u32 values SaveData_NextMaskWord returns. */
@@ -611,74 +582,60 @@ typedef struct {
     SaveDataTertiaryIntegrity tertiary;
 } SaveDataSeals;
 
-#define SAVE_DATA_INTEGRITY_OFFSET(type, member) ((u32)&((type *)0)->member)
-
 typedef char SaveDataPrimaryIntegrity_size_must_be_0x380[
-    sizeof(SaveDataPrimaryIntegrity) == SAVE_DATA_SECONDARY_OFFSET ? 1 : -1
+    sizeof(SaveDataPrimaryIntegrity) == 0x380 ? 1 : -1
 ];
 typedef char SaveDataPrimaryIntegrity_mask_offset_must_be_0x340[
-    SAVE_DATA_INTEGRITY_OFFSET(SaveDataPrimaryIntegrity, mask_words) ==
+    (u32)&(((SaveDataPrimaryIntegrity *)0)->mask_words) ==
         SAVE_DATA_PRIMARY_LENGTH ? 1 : -1
 ];
 typedef char SaveDataPrimaryIntegrity_checksum_offset_must_be_0x37c[
-    SAVE_DATA_INTEGRITY_OFFSET(SaveDataPrimaryIntegrity, checksum) ==
-        SAVE_DATA_PRIMARY_CHECKSUM_OFFSET ? 1 : -1
+    (u32)&(((SaveDataPrimaryIntegrity *)0)->checksum) == 0x37C ? 1 : -1
 ];
 typedef char SaveDataSecondaryIntegrity_size_must_be_0x80[
-    sizeof(SaveDataSecondaryIntegrity) ==
-        SAVE_DATA_TERTIARY_OFFSET - SAVE_DATA_SECONDARY_OFFSET ? 1 : -1
+    sizeof(SaveDataSecondaryIntegrity) == 0x80 ? 1 : -1
 ];
 typedef char SaveDataSecondaryIntegrity_mask_offset_must_be_0x6c[
-    SAVE_DATA_INTEGRITY_OFFSET(SaveDataSecondaryIntegrity, mask_words) ==
+    (u32)&(((SaveDataSecondaryIntegrity *)0)->mask_words) ==
         SAVE_DATA_SECONDARY_LENGTH ? 1 : -1
 ];
 typedef char SaveDataSecondaryIntegrity_checksum_offset_must_be_0x7c[
-    SAVE_DATA_INTEGRITY_OFFSET(SaveDataSecondaryIntegrity, checksum) ==
-        SAVE_DATA_SECONDARY_CHECKSUM_OFFSET - SAVE_DATA_SECONDARY_OFFSET
-            ? 1 : -1
+    (u32)&(((SaveDataSecondaryIntegrity *)0)->checksum) == 0x7C ? 1 : -1
 ];
 typedef char SaveDataTertiaryIntegrity_size_must_be_0x228[
-    sizeof(SaveDataTertiaryIntegrity) ==
-        SAVE_DATA_RESERVED_TAIL_OFFSET - SAVE_DATA_TERTIARY_OFFSET ? 1 : -1
+    sizeof(SaveDataTertiaryIntegrity) == 0x228 ? 1 : -1
 ];
 typedef char SaveDataTertiaryIntegrity_checksum_offset_must_be_0x204[
-    SAVE_DATA_INTEGRITY_OFFSET(SaveDataTertiaryIntegrity, checksum) ==
+    (u32)&(((SaveDataTertiaryIntegrity *)0)->checksum) ==
         SAVE_DATA_TERTIARY_LENGTH ? 1 : -1
 ];
 typedef char SaveDataTertiaryIntegrity_mask_offset_must_be_0x208[
-    SAVE_DATA_INTEGRITY_OFFSET(SaveDataTertiaryIntegrity, mask_words) +
-        (SAVE_DATA_TERTIARY_MASK_WORD_COUNT - 1) * sizeof(u32) ==
-        SAVE_DATA_TERTIARY_MASK_LAST_OFFSET - SAVE_DATA_TERTIARY_OFFSET
-            ? 1 : -1
+    (u32)&(((SaveDataTertiaryIntegrity *)0)->mask_words) == 0x208 ? 1 : -1
 ];
 typedef char SaveDataSeals_offsets_must_match[
-    SAVE_DATA_INTEGRITY_OFFSET(SaveDataSeals, secondary) ==
-        SAVE_DATA_SECONDARY_OFFSET &&
-    SAVE_DATA_INTEGRITY_OFFSET(SaveDataSeals, tertiary) ==
-        SAVE_DATA_TERTIARY_OFFSET &&
-    sizeof(SaveDataSeals) == SAVE_DATA_RESERVED_TAIL_OFFSET ? 1 : -1
+    (u32)&(((SaveDataSeals *)0)->secondary) == 0x380 &&
+    (u32)&(((SaveDataSeals *)0)->tertiary) == 0x400 &&
+    sizeof(SaveDataSeals) == 0x628 ? 1 : -1
 ];
 
-#undef SAVE_DATA_INTEGRITY_OFFSET
+/* The integrity view of a whole state block: the sealed prefix, then the
+ * reserved tail SaveData_BuildPayload zeroes after sealing. */
+typedef struct {
+    SaveDataSeals seals;
+    u8 reserved_tail[SAVE_DATA_STATE_SIZE - sizeof(SaveDataSeals)];
+} SaveDataSealedState;
 
 /* Observed prefix, not the full 0x680-byte persistent state allocation. */
 typedef struct SaveDataState {
     u16 player_deck[DECK_SIZE];
     u8 card_quantities[CARD_COUNT];
-    u8 pad_322[
-        SAVE_DATA_DUELIST_CODE_OFFSET -
-        (DECK_SIZE * sizeof(u16) + CARD_COUNT)
-    ];
+    u8 pad_322[0x12];
     s32 duelist_code;
-    u8 pad_338[SAVE_DATA_CREDITS_FLAGS_OFFSET -
-        (SAVE_DATA_DUELIST_CODE_OFFSET + sizeof(s32))];
+    u8 pad_338[0xA6];
     /* Main_RunCredits sets the low two bits when the ending starts, beside
      * parking campaign_scene_index at 0x30 and marking every card used. */
     u8 credits_flags;
-    u8 pad_3DF[
-        SAVE_DATA_TERTIARY_OFFSET -
-        (SAVE_DATA_CREDITS_FLAGS_OFFSET + sizeof(u8))
-    ];
+    u8 pad_3DF[0x21];
     /* The first word the tertiary CRC covers. SaveData_BuildPayload zeroes
      * it before sealing; no reader of it is known. */
     s32 field_400;
@@ -691,10 +648,7 @@ typedef struct SaveDataState {
     u16 duel_wins;
     u16 duel_losses;
     SaveDataDuelistRecord duelist_records[FREE_DUEL_GRID_ENTRY_COUNT];
-    u8 pad_5BC[
-        SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET -
-        (0x51C + sizeof(SaveDataDuelistRecord) * FREE_DUEL_GRID_ENTRY_COUNT)
-    ];
+    u8 pad_5BC[0x20];
     /* The campaign scene byte. The save prompt and the credits store a
      * halfword here, which also covers the opaque byte after it. */
     union {
@@ -717,12 +671,11 @@ typedef struct {
 } SaveDataWorkspace;
 
 /* One 0x680-byte state block, read three ways: the named state fields
- * (SaveDataState only covers the first 0x5E4 bytes), the sealed prefix that
- * ends at the reserved tail, and the raw bytes BuildPayload clears and
- * copies. */
+ * (SaveDataState only covers the first 0x5E4 bytes), the sealed prefix and
+ * reserved tail, and the raw bytes BuildPayload copies. */
 typedef union {
     SaveDataState state;
-    SaveDataSeals seals;
+    SaveDataSealedState sealed;
     u8 bytes[SAVE_DATA_STATE_SIZE];
 } SaveDataStateBlock;
 
@@ -741,12 +694,10 @@ typedef char SaveDataState_card_quantities_offset_must_be_0x50[
         SAVE_DATA_CARD_QUANTITIES_OFFSET ? 1 : -1
 ];
 typedef char SaveDataState_duelist_code_offset_must_be_0x334[
-    (u32)&(((SaveDataState *)0)->duelist_code) ==
-        SAVE_DATA_DUELIST_CODE_OFFSET ? 1 : -1
+    (u32)&(((SaveDataState *)0)->duelist_code) == 0x334 ? 1 : -1
 ];
 typedef char SaveDataState_credits_flags_offset_must_be_0x3DE[
-    (u32)&(((SaveDataState *)0)->credits_flags) ==
-        SAVE_DATA_CREDITS_FLAGS_OFFSET ? 1 : -1
+    (u32)&(((SaveDataState *)0)->credits_flags) == 0x3DE ? 1 : -1
 ];
 typedef char SaveDataState_campaign_flags_offset_must_be_0x418[
     (u32)&(((SaveDataState *)0)->campaign_flags) ==
@@ -756,24 +707,21 @@ typedef char SaveDataState_duelist_records_offset_must_be_0x51C[
     (u32)&(((SaveDataState *)0)->duelist_records) == 0x51C ? 1 : -1
 ];
 typedef char SaveDataState_duel_totals_offsets_must_match[
-    (u32)&(((SaveDataState *)0)->duel_wins) == SAVE_DATA_DUEL_WINS_OFFSET &&
-    (u32)&(((SaveDataState *)0)->duel_losses) == SAVE_DATA_DUEL_LOSSES_OFFSET
-        ? 1 : -1
+    (u32)&(((SaveDataState *)0)->duel_wins) == 0x518 &&
+    (u32)&(((SaveDataState *)0)->duel_losses) == 0x51A ? 1 : -1
 ];
 typedef char SaveDataState_campaign_scene_index_offset_must_be_0x5DC[
-    (u32)&(((SaveDataState *)0)->campaign_scene) ==
-        SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET ? 1 : -1
+    (u32)&(((SaveDataState *)0)->campaign_scene) == 0x5DC ? 1 : -1
 ];
 typedef char SaveDataState_starchips_offset_must_be_0x5E0[
-    (u32)&(((SaveDataState *)0)->starchips) ==
-        SAVE_DATA_STARCHIPS_OFFSET ? 1 : -1
+    (u32)&(((SaveDataState *)0)->starchips) == 0x5E0 ? 1 : -1
 ];
 typedef char SaveDataState_size_must_be_0x5E4[
     sizeof(SaveDataState) == 0x5E4 ? 1 : -1
 ];
 typedef char SaveDataPayload_duplicate_offset_must_follow_the_state[
     (u32)&(((SaveDataPayload *)0)->duplicate) ==
-        SAVE_DATA_DUPLICATE_STATE_OFFSET ? 1 : -1
+        SAVE_DATA_HEADER_SIZE + SAVE_DATA_STATE_SIZE ? 1 : -1
 ];
 typedef char SaveDataPayload_size_must_be_0xF00[
     sizeof(SaveDataPayload) ==

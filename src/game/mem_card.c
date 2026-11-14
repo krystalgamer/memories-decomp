@@ -203,7 +203,7 @@ void SaveData_BuildPayload(SaveDataPayload *data)
     }
 
     data->current.state.output_type = gSD_bOutputType;
-    seals = &data->current.seals;
+    seals = &data->current.sealed.seals;
     value = gSaveDataSequence + 1;
     data->current.state.save_sequence = value;
     data->duplicate.state.save_sequence = value;
@@ -216,9 +216,9 @@ void SaveData_BuildPayload(SaveDataPayload *data)
 
         i = 0;
         do {
-            *((u8 *)data + i + SAVE_DATA_RESERVED_TAIL_PAYLOAD_OFFSET) = 0;
+            data->current.sealed.reserved_tail[i] = 0;
             i++;
-        } while (i < SAVE_DATA_RESERVED_TAIL_SIZE);
+        } while (i < sizeof(data->current.sealed.reserved_tail));
     }
 
     Util_CopyWords(

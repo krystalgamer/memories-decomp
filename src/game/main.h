@@ -137,7 +137,7 @@ extern volatile s32 gMain_dwFrameCounter;
  * gMain_dwFrameCounter; Main_Init stores into it, at the end of its block, the value
  * it read from gMain_dwFrameCounter (notes/research/matching-evidence.md:488-490 is
  * why that copy goes through a local); SaveData_BuildPayload copies it into
- * the payload word at SAVE_DATA_VBLANK_COUNTER_OFFSET and
+ * the payload word state.vblank_counter and
  * SaveData_ApplyRuntimeState restores it from state->vblank_counter, a u32
  * (save_data.h:65). Sign is not visible in any use (++, a store of that
  * local, a u32 field in and out), so s32 follows gMain_dwFrameCounter and gGraphics_dwSyncVBlankCounter

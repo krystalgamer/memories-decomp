@@ -589,8 +589,7 @@ UI and modal-save phases; it is not replaced with a local, reader helper,
 byte scene index or new context object.
 
 The confirmed-choice path still writes the retained halfword to
-`gSaveData_Workspace[(SAVE_DATA_HEADER_SIZE +
-SAVE_DATA_CAMPAIGN_SCENE_INDEX_OFFSET) / sizeof(s16)]` *before* inspecting
+the workspace state's `campaign_scene.word` (`+0x200 + 0x5DC`) *before* inspecting
 the selected choice. The save case repeats that same store before
 `SaveData_RequestWrite`. Both stores remain even though their values can
 match. Other confirmed choices do not lose the first live-workspace write,
@@ -646,9 +645,9 @@ at `+0x400`, snapshots the runtime VBlank counter at `+0x408`, changes a
 negative `gSD_bOutputType` to zero, and stores the resulting byte at `+0x5DE`.
 It writes `gSaveDataSequence + 1` at `+0x404` in both the primary and duplicate
 sequence slots, generates all three integrity records over the primary state,
-and clears the `SAVE_DATA_RESERVED_TAIL_OFFSET` through state-end range
-(`+0x628..+0x67F`). Its offset and `0x58`-byte size are derived from the end
-of the tertiary mask record and `SAVE_DATA_STATE_SIZE`. The final `0x680`-byte
+and clears the state block's `sealed.reserved_tail` range
+(`+0x628..+0x67F`). `SaveDataSealedState` places that `0x58`-byte tail after
+the `0x628`-byte `SaveDataSeals` prefix, up to `SAVE_DATA_STATE_SIZE`. The final `0x680`-byte
 copy from `+0x200` to `+0x880` supersedes the early duplicate-sequence write
 and makes the two state records identical, including their integrity words and
 normalized tail.
