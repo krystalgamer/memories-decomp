@@ -360,7 +360,7 @@ typedef char DuelEffectEntry_owner_channel_tag_offset_must_be_0x12[
 typedef char DuelEffectEntry_handler_state_offset_must_be_0x13[
     YGO_TYPE_OFFSET(DuelEffectEntry, handler_state) == 0x13 ? 1 : -1
 ];
-typedef char DuelEffectEntry_field_14_offset_must_be_0x14[
+typedef char DuelEffectEntry_shear_offset_must_be_0x14[
     YGO_TYPE_OFFSET(DuelEffectEntry, shear) == 0x14 ? 1 : -1
 ];
 typedef char DuelEffectEntry_render_mode_offset_must_be_0x15[
