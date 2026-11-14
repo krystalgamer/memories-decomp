@@ -128,12 +128,21 @@ def assemble_c_output(
     assembler: Path,
     source: Path,
     output: Path,
+    *,
+    reorder: bool = False,
 ) -> Path:
     """Assemble MASPSX output at -G0, as MASPSX's own assembler run does.
 
     MASPSX already rewrote the unit's own small data to $gp, so every other
     reference stays absolute, as with ASPSX; see notes/build.md.
     """
+    compatibility_flags = assembler_compatibility_flags()
+    if reorder:
+        # Reorder-mode code relies on GNU as filling its delay slots, which
+        # it only does at its default optimization level; -O1 leaves nops.
+        compatibility_flags = [
+            flag for flag in compatibility_flags if flag != "-O1"
+        ]
     output.parent.mkdir(parents=True, exist_ok=True)
     run(
         root,
@@ -142,7 +151,7 @@ def assemble_c_output(
             "-EL",
             "-mips1",
             "-G0",
-            *assembler_compatibility_flags(),
+            *compatibility_flags,
             "-o",
             str(output),
             str(source),
@@ -270,7 +279,9 @@ def compile_c(
             ),
             encoding="utf-8",
         )
-        return assemble_c_output(root, assembler, reorder_assembly, output)
+        return assemble_c_output(
+            root, assembler, reorder_assembly, output, reorder=True
+        )
     if assembler_mode != "maspsx":
         raise BuildError(f"unknown assembler mode {assembler_mode!r} for {source}")
 
