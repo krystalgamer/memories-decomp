@@ -8023,7 +8023,8 @@ void DuelScene_UpdateEffectPreview(void) {
  * sets the record's 0x400 flag (mode 0), and two rotate-then-settle arms
  * (modes 1 and 2) stepping the angle at +0x2A by +0x28 until the +0x60
  * counter runs out -- and resets through Duel_UpdateCardDisplayState. The
- * shared reset block lives in mode 0 and the settle arms jump back to it. */
+ * reset follows mode 0's countdown and tops a loop that modes 1 and 2 enter
+ * through their case labels, so a finished settle continues back into it. */
 void Duel_UpdateCardToSelectionView(DuelCardTurnObject *p) {
     DuelCardRecord *e;
     s32 m;
@@ -8062,87 +8063,103 @@ void Duel_UpdateCardToSelectionView(DuelCardTurnObject *p) {
         if (c == 0) {
             return;
         }
-    reset:
-        p->phase = 0;
-        p->field_24 = 0;
-        Duel_UpdateCardDisplayState((DuelCardDisplayObject *)p);
-        return;
-    case 1:
-        f = p->phase;
-        if ((f & 0x40) == 0) {
-            p->phase = f | 0x40;
-            p->angle_step = 0x1000;
-            p->angle.unsigned_value = 0x80;
-            p->tint.packed = 0;
-            p->counter = 4;
-        }
-        if ((p->phase & 0x20) == 0) {
-            if (gDuel_bActiveSide != 0) {
-                p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
-            } else {
-                p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
+        /* The reset tops a loop that modes 1 and 2 enter through their case
+           labels; a finished settle continues back into it. */
+        for (;;) {
+            p->phase = 0;
+            p->field_24 = 0;
+            Duel_UpdateCardDisplayState((DuelCardDisplayObject *)p);
+            return;
+        case 1:
+            f = p->phase;
+            if ((f & 0x40) == 0) {
+                p->phase = f | 0x40;
+                p->angle_step = 0x1000;
+                p->angle.unsigned_value = 0x80;
+                p->tint.packed = 0;
+                p->counter = 4;
             }
-            p->tint.channel[2] = p->angle.unsigned_value >> 8;
+            if ((p->phase & 0x20) == 0) {
+                u16 flags;
+
+                if (gDuel_bActiveSide != 0) {
+                    p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
+                } else {
+                    p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
+                }
+                p->tint.channel[2] = p->angle.unsigned_value >> 8;
+                c = p->counter - 1;
+                p->counter = c;
+                if (c != 0) {
+                    return;
+                }
+                p->phase = p->phase | 0x20;
+                e->flags = e->flags | 0x400;
+                p->tint.packed = 0x4000;
+                p->angle.signed_value = 0x4080;
+                flags = p->flags;
+                p->counter = 4;
+                /* Inside the loop the constant 4 would outrank the flags
+                   temp for $v0; the deeper store keeps retail's order. */
+                do {
+                    p->flags = flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
+                } while (0);
+                return;
+            }
+            p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
+            p->tint.channel[1] = p->angle.unsigned_value >> 8;
             c = p->counter - 1;
             p->counter = c;
             if (c != 0) {
                 return;
             }
-            p->phase = p->phase | 0x20;
-            e->flags = e->flags | 0x400;
-            p->tint.packed = 0x4000;
-            p->angle.signed_value = 0x4080;
-            p->counter = 4;
-            p->flags = p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
-            return;
-        }
-        p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
-        p->tint.channel[1] = p->angle.unsigned_value >> 8;
-        c = p->counter - 1;
-        p->counter = c;
-        if (c != 0) {
-            return;
-        }
-        p->tint.channel[1] = 0;
-        goto reset;
-    case 2:
-        f = p->phase;
-        if ((f & 0x40) == 0) {
-            p->phase = f | 0x40;
-            p->tint.packed = 0xC000;
-            p->angle_step = 0x1000;
-            p->angle.unsigned_value = 0x80;
-            p->counter = 4;
-        }
-        if ((p->phase & 0x20) == 0) {
-            if (gDuel_bActiveSide != 0) {
-                p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
-            } else {
-                p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
+            p->tint.channel[1] = 0;
+            continue;
+        case 2:
+            f = p->phase;
+            if ((f & 0x40) == 0) {
+                p->phase = f | 0x40;
+                p->tint.packed = 0xC000;
+                p->angle_step = 0x1000;
+                p->angle.unsigned_value = 0x80;
+                p->counter = 4;
             }
-            p->tint.channel[2] = p->angle.unsigned_value >> 8;
+            if ((p->phase & 0x20) == 0) {
+                u16 flags;
+
+                if (gDuel_bActiveSide != 0) {
+                    p->angle.unsigned_value = p->angle.unsigned_value - p->angle_step;
+                } else {
+                    p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
+                }
+                p->tint.channel[2] = p->angle.unsigned_value >> 8;
+                c = p->counter - 1;
+                p->counter = c;
+                if (c != 0) {
+                    return;
+                }
+                p->phase = p->phase | 0x20;
+                e->flags = e->flags | 0x400;
+                p->angle.signed_value = -0x3F80;
+                p->tint.packed = 0xC000C0;
+                flags = p->flags;
+                p->counter = 4;
+                /* Same allocation steering as mode 1's settle setup. */
+                do {
+                    p->flags = flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
+                } while (0);
+                return;
+            }
+            p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
+            p->tint.channel[0] = p->angle.unsigned_value >> 8;
             c = p->counter - 1;
             p->counter = c;
             if (c != 0) {
                 return;
             }
-            p->phase = p->phase | 0x20;
-            e->flags = e->flags | 0x400;
-            p->angle.signed_value = -0x3F80;
-            p->tint.packed = 0xC000C0;
-            p->counter = 4;
-            p->flags = p->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
-            return;
+            p->tint.channel[0] = 0;
+            continue;
         }
-        p->angle.unsigned_value = p->angle.unsigned_value + p->angle_step;
-        p->tint.channel[0] = p->angle.unsigned_value >> 8;
-        c = p->counter - 1;
-        p->counter = c;
-        if (c != 0) {
-            return;
-        }
-        p->tint.channel[0] = 0;
-        goto reset;
     }
 }
 
