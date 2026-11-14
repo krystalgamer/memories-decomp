@@ -345,6 +345,6 @@ extern s32 D_8009B12C;
 extern u8 *gFile_TransferBufferBase;
 
 /* The CD path of SU.MRG, the archive the main-menu package is read from. */
-extern u8 gFile_szSuMrgPath[];
+extern const u8 gFile_szSuMrgPath[];
 
 #endif

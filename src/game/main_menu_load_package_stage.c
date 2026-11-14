@@ -12,7 +12,7 @@
  * File_RequestMainMenuPackage queues the package from. It is not a literal:
  * GCC would emit one with File_RequestMainMenuPackage, after
  * MainMenu_LoadPackageStage's jump table. */
-u8 gFile_szSuMrgPath[] __attribute__((section(".rodata"))) =
+const u8 gFile_szSuMrgPath[] =
     "M:/mrgSU/SU.mrg";
 
 /* Regional value: the main-menu package's first sector in SU.MRG. The US
