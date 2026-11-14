@@ -4025,18 +4025,12 @@ void Model_UpdateSlotAnimation(s32 index) {
  * stored contexts; the secondary callback's result drives the state switch.
  *
  * Keep persistent callback decisions separate from transient reaction,
- * fallback and sound choices. Signed record-address cursors preserve the
- * parent/subrecord calculations without claiming adjacent subrecords form
- * a compact array. The initial base capture, reaction record capture and
- * final card-id capture keep the measured allocation and load-delay order.
- *
- * The first comparison retains a separate stats base and promotes its own
- * halfword before the opposing halfword. Updating the parent base in place
- * instead lets the first scheduler move that adjustment too early.
+ * fallback and sound choices. Each comparison reads the two slots'
+ * metadata blocks; only the reaction pass forms them from a byte offset,
+ * whose capture keeps the measured allocation. The final card-id capture
+ * keeps the measured load-delay order.
  * No hard-register bindings or instruction assembly are used.
  */
-
-#define MODEL_SLOT_CF8_TAIL_VIEW(address) ((ModelSlotCF8TailView *)(address))
 
 /* The state trace printed on the debug font. The Japanese build carries none
    of these prints, so a regional build defines it away. */
@@ -4116,32 +4110,24 @@ void Model_UpdateSlotControl(s32 index)
         }
         {
             s32 selected;
-            s32 base;
-            s32 stat_base;
-            s32 own_offset;
-            s32 other_offset;
-            s32 own_record;
-            s32 other_record;
-            other_offset = (index ^ 1) * MODEL_SLOT_SIZE;
-            do { base = (s32)gModel_aSlots; } while (0);
-            other = (ModelSlot *)(other_offset + base);
-            own_offset = index * MODEL_SLOT_SIZE;
-            stat_base = base + (u32)&((ModelSlot *)0)->metadata;
-            own_record = own_offset + stat_base;
-            other_record = other_offset + stat_base;
+            ModelSlotMetadataBlock *own_record;
+            ModelSlotMetadataBlock *other_record;
+            other = &gModel_aSlots[index ^ 1];
+            own_record = &gModel_aSlots[index].metadata;
+            other_record = &gModel_aSlots[index ^ 1].metadata;
             if (other->defense_position != 0) {
                 {
                     u16 own_value =
-                        MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
+                        own_record->prefix.values.attack_compare_value;
                     u16 other_value =
-                        MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
+                        other_record->prefix.values.defense_compare_value;
                     selected = own_value > other_value ? 6 : 8;
                 }
             } else {
                 u16 own_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
+                    own_record->prefix.values.attack_compare_value;
                 u16 other_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
+                    other_record->prefix.values.attack_compare_value;
                 selected = own_value > other_value ? 6 : 5;
                 if (own_value == other_value) {
                     selected |= 0x80;
@@ -4181,27 +4167,30 @@ void Model_UpdateSlotControl(s32 index)
         case 4: {
             s32 reaction;
             s32 offset;
-            s32 own_record;
-            s32 other_record;
+            ModelSlotMetadataBlock *own_record;
+            ModelSlotMetadataBlock *other_record;
             amount = Model_GetFrameStep();
             offset = index * MODEL_SLOT_SIZE;
-            do { own_record = offset + (s32)&gModel_aSlots[0].metadata; } while (0);
+            /* Byte-offset cursors rather than &gModel_aSlots[index].metadata:
+               indexing raises index's weight above `secondary` and swaps
+               their saved registers. */
+            do { own_record = (ModelSlotMetadataBlock *)(offset + (u8 *)&gModel_aSlots[0].metadata); } while (0);
             offset = (index ^ 1) * MODEL_SLOT_SIZE;
-            other_record = offset + (s32)&gModel_aSlots[0].metadata;
+            other_record = (ModelSlotMetadataBlock *)(offset + (u8 *)&gModel_aSlots[0].metadata);
             amount = slot->playback_speed * (amount + 1);
-            if ((((u8 *)&gModel_aSlots[0].metadata) + offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
+            if (gModel_aSlots[index ^ 1].defense_position != 0) {
                 {
                     u32 own_value =
-                        MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
+                        own_record->prefix.values.attack_compare_value;
                     u32 other_value =
-                        MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.defense_compare_value;
+                        other_record->prefix.values.defense_compare_value;
                     reaction = other_value < own_value ? 6 : 8;
                 }
             } else {
                 u32 own_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(own_record)->prefix.values.attack_compare_value;
+                    own_record->prefix.values.attack_compare_value;
                 u32 other_value =
-                    MODEL_SLOT_CF8_TAIL_VIEW(other_record)->prefix.values.attack_compare_value;
+                    other_record->prefix.values.attack_compare_value;
                 reaction = other_value < own_value ? 6 : 5;
                 if (own_value == other_value) {
                     reaction |= 0x80;
@@ -4258,35 +4247,27 @@ void Model_UpdateSlotControl(s32 index)
 
     {
         s32 fallback_action;
-        s32 offset;
-        s32 own_record;
-        s32 other_record;
+        ModelSlotMetadataBlock *own_record;
+        ModelSlotMetadataBlock *other_record;
         if (slot->current_animation_row == slot->guardian_star_selection + 3) {
             s32 current_frame = slot->animation_position >> 4;
             s32 midpoint = slot->animation_duration_rows[slot->current_animation_row].max >> 1;
             if (current_frame >= midpoint) {
-                offset = index * MODEL_SLOT_SIZE;
-                own_record = offset + (s32)&gModel_aSlots[0].metadata;
-                offset = (index ^ 1) * MODEL_SLOT_SIZE;
-                other_record = offset + (s32)&gModel_aSlots[0].metadata;
-                if ((((u8 *)&gModel_aSlots[0].metadata) +
-                     offset)[MODEL_SLOT_CF8_DFF_OFFSET] != 0) {
+                own_record = &gModel_aSlots[index].metadata;
+                other_record = &gModel_aSlots[index ^ 1].metadata;
+                if (gModel_aSlots[index ^ 1].defense_position != 0) {
                     {
                         u32 own_value =
-                            MODEL_SLOT_CF8_TAIL_VIEW(own_record)->
-                                prefix.values.attack_compare_value;
+                            own_record->prefix.values.attack_compare_value;
                         u32 other_value =
-                            MODEL_SLOT_CF8_TAIL_VIEW(other_record)->
-                                prefix.values.defense_compare_value;
+                            other_record->prefix.values.defense_compare_value;
                         fallback_action = other_value < own_value ? 6 : 8;
                     }
                 } else {
                     u32 own_value =
-                        MODEL_SLOT_CF8_TAIL_VIEW(own_record)->
-                            prefix.values.attack_compare_value;
+                        own_record->prefix.values.attack_compare_value;
                     u32 other_value =
-                        MODEL_SLOT_CF8_TAIL_VIEW(other_record)->
-                            prefix.values.attack_compare_value;
+                        other_record->prefix.values.attack_compare_value;
                     fallback_action = other_value < own_value ? 6 : 5;
                     if (own_value == other_value) {
                         fallback_action |= 0x80;
