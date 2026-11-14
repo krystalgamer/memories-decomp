@@ -28,7 +28,7 @@ extern s32 gCampaignMap_dwTweenPitch;
 extern u8 gCampaignMap_bTransitionFlags;
 extern s32 gCampaignMap_dwTweenYawStep;
 extern s32 gCampaignMap_dwTweenPitchStep;
-extern u8 *gCampaignMap_apExitObjects[CAMPAIGN_MAP_LOCATION_OBJECT_COUNT];
+extern DisplayObject *gCampaignMap_apExitObjects[CAMPAIGN_MAP_LOCATION_OBJECT_COUNT];
 extern s32 gCampaignMap_MoveState;
 extern u8 gCampaignMap_Location;
 extern u8 gCampaignMap_bEnterSceneState;

@@ -47,7 +47,7 @@ void CampaignMap_RebuildLocationObjects(s32 index)
 {
     MapLocation *record;
     CampaignMapExit *entry;
-    u8 *object;
+    DisplayObject *object;
     s32 i;
 
     CampaignMap_ClearLocationObjects();
@@ -63,7 +63,7 @@ void CampaignMap_RebuildLocationObjects(s32 index)
                     entry->direction_variant, 0x17, 0x100, gDisplay_abResourceBank0
                 );
                 DisplayObject_SetDepthOffset(object, 5);
-                *(u16 *)(object + 8) |=
+                object->flags |=
                     DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
                 gCampaignMap_apExitObjects[i] = object;
@@ -82,15 +82,15 @@ void CampaignMap_RebuildLocationObjects(s32 index)
 #else
 #define CAMPAIGN_MAP_LABEL_RENDER_MODE 0xC
 #endif
-u8 *CampaignMap_CreateLocationLabel(s32 unused)
+struct DuelEffectChannel *CampaignMap_CreateLocationLabel(s32 unused)
 {
-    u8 *object;
+    struct DuelEffectChannel *object;
 
     object = TextBox_Create(
         0, gCampaignMap_Location + 0x8350, 0x60, 0x18, 0x80,
         CAMPAIGN_MAP_LABEL_RENDER_MODE
     );
-    TextBox_BuildBlockingWithGlyphScratch((struct DuelEffectChannel *)object);
+    TextBox_BuildBlockingWithGlyphScratch(object);
     return object;
 }
 
@@ -105,9 +105,9 @@ void CampaignMap_SetCameraFromLocation(s32 index)
     MapLocation *entry = gCampaignMap_aLocationTable + index;
     ViewState *camera = &gViewState_Current;
 
-    camera->orbit_angle = (u16)entry->camera_orbit_angle;
-    camera->angle = (u16)entry->camera_angle;
-    camera->distance = (u16)entry->camera_distance;
+    camera->orbit_angle = entry->camera_orbit_angle;
+    camera->angle = entry->camera_angle;
+    camera->distance = entry->camera_distance;
     camera->view.vrx = entry->view_x;
     camera->view.vrz = entry->view_z;
     ViewState_ApplyOrbit();
@@ -253,9 +253,9 @@ void CampaignMap_MoveCameraDpad(void)
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_CAMPAIGN_MAP_CREATE_LOCATION_MARKER) || \
     defined(VERSION_EUROPE_CAMPAIGN_MAP_CREATE_LOCATION_MARKER)
-u8 *CampaignMap_CreateLocationMarker(s32 index)
+DisplayObject *CampaignMap_CreateLocationMarker(s32 index)
 {
-    u8 *object;
+    DisplayObject *object;
     MapLocation *table;
     MapLocation *record;
     MapLocation *entry;
@@ -268,12 +268,12 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
         0x17, 0x100, gDisplay_abResourceBank0
     );
     DisplayObject_SetDepthOffset(object, 0xA);
-    ((DisplayObject *)object)->flags |=
+    object->flags |=
         DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
         DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     entry = table + index;
-    ((DisplayObject *)object)->xy.h.x = (u16)entry->marker_x;
-    ((DisplayObject *)object)->xy.h.y = (u16)entry->marker_y;
+    object->xy.h.x = entry->marker_x;
+    object->xy.h.y = entry->marker_y;
     return object;
 }
 
@@ -284,11 +284,12 @@ u8 *CampaignMap_CreateLocationMarker(s32 index)
     defined(VERSION_EUROPE_CAMPAIGN_MAP_SET_LOCATION)
 void CampaignMap_SetLocation(s32 index)
 {
-    u8 *obj;
+    struct _GsCOORDUNIT *unit;
+    DisplayObject *obj;
     s32 track;
     s32 i;
     s32 location;
-    u8 *marker;
+    DisplayObject *marker;
     DisplayObject *panel;
     u16 flags;
     s32 colour[3];
@@ -304,11 +305,11 @@ void CampaignMap_SetLocation(s32 index)
     Model_ResetSceneView();
     Model_ResetSceneState();
     Model_LoadSlot(2, gRuntime_pSharedWorkBase, 0x43000, 0);
-    obj = (u8 *)Model_GetCurrentDataEntry(2);
+    unit = (struct _GsCOORDUNIT *)Model_GetCurrentDataEntry(2);
     colour[0] = 1365;
     colour[1] = 1365;
     colour[2] = 1365;
-    Model_UpdateCoordinateUnitMatrix((struct _GsCOORDUNIT *)obj, (VECTOR *)colour);
+    Model_UpdateCoordinateUnitMatrix(unit, (VECTOR *)colour);
     CampaignMap_ResetCamera();
     SetFarColor(0, 0, 0);
     SetFogNearFar(6000, 8000, gViewState_Current.projection);
@@ -316,22 +317,22 @@ void CampaignMap_SetLocation(s32 index)
     Model_SetFogDrawFlags(0);
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(obj, 96, 24, 0, 0, 0, 23, 256, gDisplay_abResourceBank0);
-    ((DisplayObject *)obj)->flags =
-        ((DisplayObject *)obj)->flags |
+    obj->flags =
+        obj->flags |
         DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
         DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
-    ((DisplayObject *)obj)->xy.h.x = 160;
-    ((DisplayObject *)obj)->xy.h.y = 144;
-    ((DisplayObject *)obj)->field_60 = 128;
-    ((DisplayObject *)obj)->field_48.spotlight.inner = 32;
-    ((DisplayObject *)obj)->field_48.spotlight.outer = 192;
-    ((DisplayObject *)obj)->field_44.scale.x = 5120;
-    ((DisplayObject *)obj)->field_44.scale.y = 4096;
+    obj->xy.h.x = 160;
+    obj->xy.h.y = 144;
+    obj->field_60 = 128;
+    obj->field_48.spotlight.inner = 32;
+    obj->field_48.spotlight.outer = 192;
+    obj->field_44.scale.x = 5120;
+    obj->field_44.scale.y = 4096;
     DisplayObject_SetDepthOffset(obj, -10);
     location = gCampaignMap_Location;
-    ((DisplayObject *)obj)->field_4C = (s32)DisplayObject_RenderSpotlightMask;
-    gCampaignMap_pSpotlight = (DisplayObject *)obj;
+    obj->field_4C = (s32)DisplayObject_RenderSpotlightMask;
+    gCampaignMap_pSpotlight = obj;
     CampaignMap_SetCameraFromLocation(location);
     CampaignMap_CreateLocationLabel(gCampaignMap_Location);
     CampaignMap_RebuildLocationObjects(gCampaignMap_Location);
@@ -340,7 +341,7 @@ void CampaignMap_SetLocation(s32 index)
         marker = CampaignMap_CreateLocationMarker(gCampaignMap_Location);
         panel = gCampaignMap_pSpotlight;
         flags = panel->flags;
-        gCampaignMap_pLocationMarker = (DisplayObject *)marker;
+        gCampaignMap_pLocationMarker = marker;
         panel->flags = flags & 0xFFBF;
     }
     track = 0x70A0;
@@ -358,19 +359,18 @@ void CampaignMap_SetLocation(s32 index)
 void CampaignMap_StartCameraTween(s32 index, s32 steps)
 {
     ViewState *camera = &gViewState_Current;
-    s32 *cameraLong = (s32 *)&gViewState_Current;
     MapLocation *entry = gCampaignMap_aLocationTable + index;
     s32 x;
     s32 y;
     s32 angle;
-    s32 pitch;
-    s32 dist;
+    s32 refX;
+    s32 refZ;
     s32 stepX;
     s32 stepY;
     s32 turn;
     s32 stepTurn;
-    s32 stepPitch;
-    s32 stepDist;
+    s32 stepRefX;
+    s32 stepRefZ;
 
     x = camera->distance;
     stepX = ((entry->camera_distance - x) << 16) / steps;
@@ -381,21 +381,21 @@ void CampaignMap_StartCameraTween(s32 index, s32 steps)
     gCampaignMap_dwTweenYaw = (angle << 16) | 0x8000;
     gCampaignMap_dwTweenPitch = (y << 16) | 0x8000;
     gCampaignMap_dwTweenDistance = (x << 16) | 0x8000;
-    pitch = cameraLong[7];
-    dist = cameraLong[9];
-    gCampaignMap_dwTweenRefX = (pitch << 16) | 0x8000;
-    gCampaignMap_dwTweenRefZ = (dist << 16) | 0x8000;
+    refX = camera->view.vrx;
+    refZ = camera->view.vrz;
+    gCampaignMap_dwTweenRefX = (refX << 16) | 0x8000;
+    gCampaignMap_dwTweenRefZ = (refZ << 16) | 0x8000;
     gCampaignMap_dwTweenDistanceStep = stepX;
     gCampaignMap_dwTweenPitchStep = stepY;
     if (turn >= TRIG_ANGLE_HALF_TURN) {
         turn -= TRIG_ANGLE_FULL_TURN - 1;
     }
     stepTurn = (turn << 16) / steps;
-    stepPitch = ((entry->view_x - pitch) << 16) / steps;
-    stepDist = ((entry->view_z - dist) << 16) / steps;
+    stepRefX = ((entry->view_x - refX) << 16) / steps;
+    stepRefZ = ((entry->view_z - refZ) << 16) / steps;
     gCampaignMap_dwTweenYawStep = stepTurn;
-    gCampaignMap_dwTweenRefXStep = stepPitch;
-    gCampaignMap_dwTweenRefZStep = stepDist;
+    gCampaignMap_dwTweenRefXStep = stepRefX;
+    gCampaignMap_dwTweenRefZStep = stepRefZ;
 }
 
 #endif
@@ -410,7 +410,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
     ViewState *cam;
     u16 flags;
     u16 raise;
-    s32 step;
+    s16 step;
     s32 timer;
     s32 quotient;
     cam = &gViewState_Current;
@@ -448,9 +448,9 @@ s32 CampaignMap_UpdateLocationTransition(void)
         if ((flags & 0x20) == 0) {
             marker->field_48.spotlight.inner = marker->field_48.spotlight.inner + 7;
         } else {
-            step = (u16)marker->field_48.spotlight.inner - 7;
+            step = marker->field_48.spotlight.inner - 7;
             marker->field_48.spotlight.inner = step;
-            if ((s16)step < 32) {
+            if (step < 32) {
                 marker->field_48.spotlight.inner = 32;
             }
         }
@@ -462,7 +462,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
             quotient = 2048 / gCampaignMap_MoveState;
             marker->field_60 += quotient;
             DisplayObject_InterpolatePositionCosine(
-                (DisplayObject *)marker,
+                marker,
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location
                 ].marker_x,
@@ -589,13 +589,13 @@ void CampaignMap_UpdateLocation(void)
         CampaignMap_CreateLocationLabel(gCampaignMap_Location);
         if (gCampaignMap_Location >= 10) {
             if (gCampaignMap_pLocationMarker == 0) {
-                gCampaignMap_pLocationMarker = (DisplayObject *)
+                gCampaignMap_pLocationMarker =
                     CampaignMap_CreateLocationMarker(gCampaignMap_Location);
             }
             table = gCampaignMap_aLocationTable;
             record = table + gCampaignMap_Location;
-            gCampaignMap_pLocationMarker->xy.h.x = (u16)record->marker_x;
-            gCampaignMap_pLocationMarker->xy.h.y = (u16)record->marker_y;
+            gCampaignMap_pLocationMarker->xy.h.x = record->marker_x;
+            gCampaignMap_pLocationMarker->xy.h.y = record->marker_y;
         } else {
             DisplayObject_ReleaseIfPresent(gCampaignMap_pLocationMarker);
             gCampaignMap_pLocationMarker = 0;
@@ -628,7 +628,7 @@ void CampaignMap_UpdateLocation(void)
         return;
     }
     gCampaignMap_Location = exit;
-    if ((u8)exit < 10) {
+    if (gCampaignMap_Location < 10) {
         DisplayObject_ReleaseIfPresent(gCampaignMap_pLocationMarker);
         gCampaignMap_pLocationMarker = 0;
     }
