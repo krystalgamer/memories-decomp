@@ -143,8 +143,8 @@ in the comparison, and a fresh clean gate covers the integrated tree.
 
 ## Resource-entry and shared-slot member views
 
-The +0x31 byte is resource_entry_index in MenuRecord,
-DisplayEffectState and DisplayEffectVramState. It is the first index
+The +0x31 byte is resource_entry_index in MenuRecord and
+DisplayEffectVramState. It is the first index
 passed to the three-level resource-table probe and object constructor,
 not the effect/package ID at +0x30 or a claimed facial expression.
 Script stores flags & 15; text adjustment stores flags & 3, while an

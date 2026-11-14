@@ -14,8 +14,8 @@ without changing its initializer, dispatch expression or narrow-view casts.
 
 ## Marking is not a readiness wait
 
-The mark helper reads the byte at `DisplayEffectState.state`, also
-`MenuRecord.display_effect_step` at `+0x33`. If bit `0x80` is clear, it
+The mark helper reads the byte `MenuRecord.display_effect_step` at
+`+0x33`. If bit `0x80` is clear, it
 stores the original byte OR `0x80` and returns zero. Otherwise it returns
 one without that store. All other state bits remain.
 
@@ -70,17 +70,18 @@ device or frame-loop inactivity. Keep the raw mask and every retained flag.
 ## Existing table and ABI views
 
 The NA table has thirteen initialized entries. Its first two entries
-reference the same idle-finish helper through the existing casts from
-the narrower `DisplayEffectState *` signature. The VRAM helper keeps its
-own existing cast. Every other callback remains in its original position.
+reference the same idle-finish helper, which takes `MenuRecord *` like
+the table, so they need no cast. The VRAM helper keeps its own existing
+cast. Every other callback remains in its original position.
 
 `DisplayEffect_ProcessMenuRecords` still skips negative markers, performs
 the conditional variant update, and only dispatches a nonzero step through
 `step & 0x1F` using its existing local table cursor. Keep the declaration
 unsized: the mask's domain is not proof of 32 valid entries.
 
-`DisplayEffectState` remains the existing narrow view. Its padding,
-offsets, width and helper signatures are not replaced by `MenuRecord`.
+The mark, reset and idle-finish helpers take `MenuRecord *`: every caller
+hands them an element of `gDisplayEffect_aMenuRecords`, and the former
+narrow `DisplayEffectState` view only padded its way to the same offsets.
 The row helper's void-pointer ABI and the table's full-record callback
 ABI likewise remain distinct.
 
@@ -120,8 +121,7 @@ clean retail gate.
 
 ## Record screen position
 
-`MenuRecord` +0x34/+0x36, and the same pair in the narrower
-`DisplayEffectState` view, are now `x` and `y`.
+`MenuRecord` +0x34/+0x36 are now `x` and `y`.
 
 | Offset | Old | New | Evidence | Confidence |
 |---|---|---|---|---|

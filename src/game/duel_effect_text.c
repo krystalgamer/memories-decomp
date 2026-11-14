@@ -3555,7 +3555,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         slot = 2;
     }
     e = &gDisplayEffect_aMenuRecords[slot];
-    DisplayEffect_ResetRecordState((DisplayEffectState *)e);
+    DisplayEffect_ResetRecordState(e);
     e->effect_id = id;
     e->slot_index = slot;
     if (slot != 0) {

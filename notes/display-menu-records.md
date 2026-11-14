@@ -34,7 +34,7 @@ nonzero lifecycle steps through the existing `& 0x1F` table selection.
 Those consumers establish three accessed slots with the existing
 `0x4C` stride, not a reason to replace the incomplete declaration with a
 new sized allocation. The existing `MenuRecord`, narrower
-`DisplayEffectState`/VRAM views, integer grid words, pointer casts, signed
+VRAM view, integer grid words, pointer casts, signed
 markers and lifecycle fields remain untouched.
 
 The debug bust-up entry also passes the first record to the existing
@@ -106,8 +106,8 @@ cache sentinels, portrait threshold arithmetic and all partial reset,
 release and stale-state behavior remain. DisplayObject's unrelated
 field_30 union and other owners are not renamed.
 
-The shared u16 at +0x3E is variant_countdown in MenuRecord,
-DisplayEffectState and DisplayEffectVramState. Reset seeds it with the
+The shared u16 at +0x3E is variant_countdown in MenuRecord and
+DisplayEffectVramState. Reset seeds it with the
 same rand() mask/base expression. DisplayEffect_UpdateMenuRecord only
 works this countdown when grid[0][1] exists, after the existing flag-0x10
 early return. Its active-variant branch waits for that object's field_5A

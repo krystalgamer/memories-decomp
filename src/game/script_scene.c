@@ -361,7 +361,7 @@ void Script_OpShowMenu(void)
             DisplayEffect_ReleaseRecord(record);
         }
         DisplayEffect_ResetMenuRecords();
-        DisplayEffect_ResetRecordState((DisplayEffectState *)record);
+        DisplayEffect_ResetRecordState(record);
 
         record->resource_entry_index = flags & 15;
         record->effect_id = first;

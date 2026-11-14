@@ -21,9 +21,8 @@
  * entries and there are eight; the game only stores steps zero through six.
  *
  * The table and dispatcher use MenuRecord *, matching the arena they walk.
- * The two repeated lifecycle entries and the single VRAM entry retain casts
- * because those handlers deliberately expose narrower layout views of the
- * same record.
+ * The single VRAM entry retains its cast because that handler takes the
+ * DisplayEffectVramState layout view of the same record.
  * The entries include two that share DisplayEffect_FinishStepWhenIdle.
  *
  * The memory card dialog selects one of the five transition steps with its
@@ -31,8 +30,8 @@
  * through its own MenuRecord view and ignores the slot. */
 
 void (*gDisplayEffect_apfnSteps[])(MenuRecord *) = {
-    (void (*)(MenuRecord *))DisplayEffect_FinishStepWhenIdle,
-    (void (*)(MenuRecord *))DisplayEffect_FinishStepWhenIdle,
+    DisplayEffect_FinishStepWhenIdle,
+    DisplayEffect_FinishStepWhenIdle,
     (void (*)(MenuRecord *))DisplayEffect_UpdateResourceAcquisition,
     DisplayEffect_UpdatePositionTween,
     DisplayEffect_CrossfadeResources,

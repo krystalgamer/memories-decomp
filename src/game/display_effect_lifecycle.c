@@ -5,25 +5,25 @@
 #include "display_effect_lifecycle.h"
 #include "menu_record.h"
 
-s32 DisplayEffect_MarkInitialized(DisplayEffectState *object)
+s32 DisplayEffect_MarkInitialized(MenuRecord *record)
 {
-    u8 state = object->state;
+    u8 state = record->display_effect_step;
 
     if ((state & 0x80) == 0) {
-        object->state = state | 0x80;
+        record->display_effect_step = state | 0x80;
         return 0;
     }
     return 1;
 }
 
-void DisplayEffect_ResetRecordState(DisplayEffectState *object)
+void DisplayEffect_ResetRecordState(MenuRecord *record)
 {
-    object->x = 0x68;
-    object->variant_update_flags = 0;
-    object->state = 0;
-    object->resource_entry_index = 0;
-    object->y = 0xB2;
-    object->variant_countdown =
+    record->x = 0x68;
+    record->variant_update_flags = 0;
+    record->display_effect_step = 0;
+    record->resource_entry_index = 0;
+    record->y = 0xB2;
+    record->variant_countdown =
         (rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE;
 }
 
@@ -43,12 +43,12 @@ void DisplayEffect_ReleaseRecord(MenuRecord *record)
     DisplayEffect_ReleaseObjectRow(record->grid[0]);
 }
 
-void DisplayEffect_FinishStepWhenIdle(DisplayEffectState *object)
+void DisplayEffect_FinishStepWhenIdle(MenuRecord *record)
 {
-    u8 flags = object->variant_update_flags;
+    u8 flags = record->variant_update_flags;
 
     if ((flags & 3) == 0) {
-        object->variant_update_flags = flags | 0x10;
-        object->state = 0;
+        record->variant_update_flags = flags | 0x10;
+        record->display_effect_step = 0;
     }
 }
