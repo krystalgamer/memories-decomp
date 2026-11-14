@@ -1,4 +1,5 @@
 #include "../../types.h"
+#include "../../game/scratchpad.h"
 #include "renderers.h"
 #include "helpers.h"
 #include "../../game/sprite_primitive.h"
@@ -13,8 +14,8 @@ void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table)
     s32 y;
     s32 color;
 
-    SetPolyGT4((POLY_GT4 *)0x1F800344);
-    sprite = (SpritePrim *)0x1F800320;
+    SetPolyGT4((POLY_GT4 *)SCRATCH_ADDR(0x344));
+    sprite = (SpritePrim *)SCRATCH_ADDR(0x320);
     sprite->attribute = object->attribute;
     sprite->xy.h.x = object->xy.h.x;
     sprite->xy.h.y = object->xy.h.y;
@@ -24,7 +25,7 @@ void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table)
     sprite->cxcy.word = object->field_40.word;
     sprite->uv.word = object->texture_uv;
     sprite->tpage = object->texture_page;
-    packet = (POLY_GT4 *)0x1F800344;
+    packet = (POLY_GT4 *)SCRATCH_ADDR(0x344);
     if (gPalOptions_bLanguage == object->field_6A) {
         packet->tpage = sprite->tpage;
         packet->clut = getClut(sprite->cxcy.h.cx, sprite->cxcy.h.cy);

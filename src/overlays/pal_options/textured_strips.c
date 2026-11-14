@@ -1,10 +1,11 @@
 #include "../../types.h"
+#include "../../game/scratchpad.h"
 #include "renderers.h"
 #include "helpers.h"
 
 void PalOptions_DrawScrollingStrips(DisplayObject *object, GsOT *ordering_table)
 {
-    POLY_FT4 *packet = (POLY_FT4 *)0x1F800344;
+    POLY_FT4 *packet = (POLY_FT4 *)SCRATCH_ADDR(0x344);
     s32 index = 0;
     s32 position;
     s32 start;
