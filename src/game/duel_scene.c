@@ -448,8 +448,8 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
         return;
     }
 
-    prim->u0 = prim->u2 = ((u8 *)&obj->texture_uv)[0];
-    prim->v0 = prim->v1 = ((u8 *)&obj->texture_uv)[1];
+    prim->u0 = prim->u2 = obj->texture_uv.b.u;
+    prim->v0 = prim->v1 = obj->texture_uv.b.v;
     if (NormalClip(*(long *)&prim->x0, *(long *)&prim->x1,
                    *(long *)&prim->x2) <= 0) {
         prim->u2 = 0x38;
@@ -4791,7 +4791,7 @@ void DuelScene_UpdateHandActions(void)
                         v = hand->selection_order;
                         if (v >= value) {
                             hand->selection_order = v - 1;
-                            *(u8 *)&hand->order_marker->texture_uv =
+                            hand->order_marker->texture_uv.b.u =
                                 (v - 2) * 0x10;
                         }
                     }

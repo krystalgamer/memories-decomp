@@ -478,7 +478,13 @@ typedef struct DisplayObject {
        current named C acquisition calls do not select its list (key 5), and
        no direct named C call to DisplayObject_InitializeTexturedGouraudQuad
        was found; this does not establish whole-program unreachability. */
-    u16 texture_uv;                /* 0x5C */
+    union {
+        u16 word;
+        struct {
+            u8 u;
+            u8 v;
+        } b;
+    } texture_uv;                  /* 0x5C */
     /* The texture u/v (low byte u, high byte v) of a resource-configured
        sprite. DisplayObject_ConfigureSpriteResource fills both bytes from
        its texture_config argument, DisplayObject_RenderSpriteSheet starts

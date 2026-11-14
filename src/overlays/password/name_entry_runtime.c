@@ -414,8 +414,8 @@ void NameEntry_UpdateGlyphShatter(DisplayObject *object)
                                   (s16)glyph->xy.h.x + dx,
                                   (s16)glyph->xy.h.y + dy,
                                   4, 4,
-                                  *(u8 *)&glyph->texture_uv + dx,
-                                  ((u8 *)&glyph->texture_uv)[1] + dy,
+                                  glyph->texture_uv.b.u + dx,
+                                  glyph->texture_uv.b.v + dy,
 #ifdef VERSION_JAPAN
                                   25,
 #else
@@ -513,7 +513,7 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
 #else
                       16, 16,
 #endif
-                      *(u8 *)&g->texture_uv, ((u8 *)&g->texture_uv)[1],
+                      g->texture_uv.b.u, g->texture_uv.b.v,
                       g->texture_page,
 #ifdef VERSION_JAPAN
                       0x210, 0xFF);

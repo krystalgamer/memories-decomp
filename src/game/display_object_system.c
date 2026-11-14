@@ -288,8 +288,8 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
 
     object->field_3C.size.h = height;
     half_height = height / 2;
-    *(u8 *)&object->texture_uv = texture_u;
-    ((u8 *)&object->texture_uv)[1] = texture_v;
+    object->texture_uv.b.u = texture_u;
+    object->texture_uv.b.v = texture_v;
     object->texture_page = texture_page;
     object->field_40.clut.x = clut_x;
     object->field_40.clut.y = clut_y;
@@ -344,7 +344,7 @@ void DisplayObject_RenderSpriteList(void) {
                 p->xy.word = object->xy.word;
                 p->extent.word = object->field_3C.word;
                 p->cxcy.word = object->field_40.word;
-                p->uv.word = object->texture_uv;
+                p->uv.word = object->texture_uv.word;
                 mode = object->ot_depth | 0x10000;
                 ot = table[idx];
                 p->tpage = object->texture_page;
@@ -526,7 +526,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
     p->cxcy.word = object->field_40.word;
     p->rgb = object->rgb;
     flags = object->flags;
-    p->uv.word = object->texture_uv;
+    p->uv.word = object->texture_uv.word;
     if ((flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
         p->xy.h.x = p->xy.h.x - gGraphics_sViewportX;
         p->xy.h.y = p->xy.h.y - gGraphics_sViewportY;
