@@ -680,9 +680,6 @@ void DisplayObject_SetResourceVariantFromSign(
 #define DUEL_SPRITE_CLUT_CXCY 0xF10100
 #endif
 
-#define POLY_FT4_BYTES(packet) ((u8 *)(packet))
-#define CARD_FRAME_SCRATCH_BYTES(scratch) ((u8 *)(scratch))
-
 /* Draws one card's frame on the duel field: position, the hand/field
  * flags, the card-number digits (via Duel_CalcCardStats and
  * Text_EncodeDecimalDigits) and the face/back sprite, through
@@ -740,7 +737,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                     if (DisplayObject_ProjectRotationFacing(object,
                                       (s16)o->pos.h.x + 0x1A,
                                       (s16)o->pos.h.y + 0x1E,
-                                      (struct ProjectionOut *)SCRATCH_ADDR(0x3E0)) < 0) {
+                                      &o->origin) < 0) {
                         return;
                     }
                     g1 = object->rgb;
@@ -765,13 +762,13 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         k->xy.h.y = o->pos.h.y + 0xF;
                         k->uv.b.lo = (n / 10) * 0xC;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), ordering_table, fl,
-                            CARD_FRAME_SCRATCH_BYTES(o));
+                            k, y, ordering_table, fl,
+                            &o->origin);
                         k->uv.b.lo = (n % 10) * 0xC;
                         k->xy.h.x = k->xy.h.x + 0xC;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), ordering_table, fl,
-                            CARD_FRAME_SCRATCH_BYTES(o));
+                            k, y, ordering_table, fl,
+                            &o->origin);
                     }
                 } else if (object->resource_variant == 0) {
                     k->extent.word = 0x100020;
@@ -783,22 +780,22 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         k->uv.b.lo = 0x20;
                     case CARD_TYPE_MAGIC:
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), ordering_table, fl,
-                            CARD_FRAME_SCRATCH_BYTES(o));
+                            k, y, ordering_table, fl,
+                            &o->origin);
                         k->cxcy.h.cy = k->cxcy.h.cy + 1;
                         break;
                     case CARD_TYPE_TRAP:
                         k->uv.b.lo = 0x40;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), ordering_table, fl,
-                            CARD_FRAME_SCRATCH_BYTES(o));
+                            k, y, ordering_table, fl,
+                            &o->origin);
                         k->cxcy.h.cy = k->cxcy.h.cy + 2;
                         break;
                     case CARD_TYPE_RITUAL:
                         k->uv.b.lo = 0x60;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), ordering_table, fl,
-                            CARD_FRAME_SCRATCH_BYTES(o));
+                            k, y, ordering_table, fl,
+                            &o->origin);
                         k->cxcy.h.cy = k->cxcy.h.cy + 3;
                         break;
                     default:
@@ -806,8 +803,8 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         k->uv.word = 0x7078;
                         k->xy.h.x = o->pos.h.x + 5;
                         DisplayObject_SubmitPacket(
-                            k, POLY_FT4_BYTES(y), ordering_table, fl,
-                            CARD_FRAME_SCRATCH_BYTES(o));
+                            k, y, ordering_table, fl,
+                            &o->origin);
                         k->uv.b.hi = 0x58;
                         k->extent.wh.h = 8;
                         k->xy.h.x = o->pos.h.x + 0xE;
@@ -818,13 +815,13 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         do {
                             k->uv.b.lo = attack_digits[i] * 8;
                             DisplayObject_SubmitPacket(
-                                k, POLY_FT4_BYTES(y), ordering_table, fl,
-                                CARD_FRAME_SCRATCH_BYTES(o));
+                                k, y, ordering_table, fl,
+                                &o->origin);
                             k->xy.h.y = k->xy.h.y + 8;
                             k->uv.b.lo = defense_digits[i] * 8;
                             DisplayObject_SubmitPacket(
-                                k, POLY_FT4_BYTES(y), ordering_table, fl,
-                                CARD_FRAME_SCRATCH_BYTES(o));
+                                k, y, ordering_table, fl,
+                                &o->origin);
                             i--;
                             k->xy.h.x = k->xy.h.x + 8;
                             k->xy.h.y = k->xy.h.y - 8;
@@ -842,8 +839,8 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                     z->extent.word = 0x200028;
                     z->uv.b.hi = (i / 5) << 5;
                     DisplayObject_SubmitPacket(
-                        z, POLY_FT4_BYTES(y), ordering_table, fl,
-                        CARD_FRAME_SCRATCH_BYTES(o));
+                        z, y, ordering_table, fl,
+                        &o->origin);
                 }
                 k->extent.word = 0x3C0034;
                 k->uv.word = 0x8000;
@@ -856,8 +853,8 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                     k->cxcy.word = DUEL_SPRITE_CLUT_CXCY;
                 }
                 DisplayObject_SubmitPacket(
-                    k, POLY_FT4_BYTES(y), ordering_table, fl,
-                    CARD_FRAME_SCRATCH_BYTES(o));
+                    k, y, ordering_table, fl,
+                    &o->origin);
             }
         }
     }
