@@ -1963,6 +1963,7 @@ void MemCardDialog_UpdateTradeSave(void)
 {
     s32 files;
     u8 *record;
+    s32 state;
 
     if ((gDialog_bCallbackState & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
@@ -2063,46 +2064,58 @@ void MemCardDialog_UpdateTradeSave(void)
         gMemCardDialog_OperationState = 3;
         /* fallthrough */
     case 3:
-        if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
-            gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY
+        state = gMemCardDialog_OperationState;
+        if ((state & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
+            gMemCardDialog_OperationState = state | MEM_CARD_DIALOG_FLAG_RESULT_READY
                           | MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
             MemCardDialog_SetMessage(0xC4, 0);
         }
-        if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
-            goto step;
-        }
-    write:
-        gMemCardDialog_OperationState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
-        if (gMemCardDialog_Port != 0) {
-            MemCardWriteFile(gMemCardDialog_Port, (char *)gMemCardDialog_FileNameBuffer,
-                             (unsigned long *)gMemCard_pSecondaryTransferCursor,
-                             gMemCardDialog_TransferOffset, 0x80);
-        } else {
-            MemCardWriteFile(gMemCardDialog_Port, (char *)gMemCardDialog_FileNameBuffer,
-                             (unsigned long *)gMemCard_pPrimaryTransferCursor,
-                             gMemCardDialog_TransferOffset, 0x80);
-        }
-        gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
-        break;
-    step:
-        if (gMemCardDialog_SyncResult != 0) {
-            MemCardDialog_SetMessage(0xC5, 0x18);
-            break;
-        }
-        gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
-        gMemCardDialog_Port ^= 0x10;
-        if (gMemCardDialog_Port == 0) {
-            gMemCard_pPrimaryTransferCursor += 0x80;
-            gMemCard_pSecondaryTransferCursor += 0x80;
-            gMemCardDialog_TransferOffset += 0x80;
-            gMemCardDialog_TransferSize -= 0x80;
-            if (gMemCardDialog_TransferSize == 0) {
-                gMemCardDialog_Outcome = 1;
-                MemCardDialog_SetMessage(0xC6, 0x18);
+        state = gMemCardDialog_OperationState;
+        /* A pending write (CREATED set) is issued at once; otherwise the
+           previous write is checked and the next chunk issued in the same
+           frame. Entering the loop at either half keeps retail's block order,
+           the write first and the check after it, jumping back. */
+        switch (state & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) {
+            for (;;) {
+            default:
+                gMemCardDialog_OperationState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
+                if (gMemCardDialog_Port != 0) {
+                    MemCardWriteFile(gMemCardDialog_Port, (char *)gMemCardDialog_FileNameBuffer,
+                                     (unsigned long *)gMemCard_pSecondaryTransferCursor,
+                                     gMemCardDialog_TransferOffset, 0x80);
+                } else {
+                    MemCardWriteFile(gMemCardDialog_Port, (char *)gMemCardDialog_FileNameBuffer,
+                                     (unsigned long *)gMemCard_pPrimaryTransferCursor,
+                                     gMemCardDialog_TransferOffset, 0x80);
+                }
+                gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
                 break;
+            case 0:
+                if (gMemCardDialog_SyncResult != 0) {
+                    /* Keeps loop.c from moving this exit block out of the
+                       loop, so it stays a branch into the shared tail. */
+                    do {
+                    } while (0);
+                    MemCardDialog_SetMessage(0xC5, 0x18);
+                    break;
+                }
+                state |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
+                gMemCardDialog_OperationState = state;
+                gMemCardDialog_Port ^= 0x10;
+                if (gMemCardDialog_Port == 0) {
+                    gMemCard_pPrimaryTransferCursor += 0x80;
+                    gMemCard_pSecondaryTransferCursor += 0x80;
+                    gMemCardDialog_TransferOffset += 0x80;
+                    gMemCardDialog_TransferSize -= 0x80;
+                    if (gMemCardDialog_TransferSize == 0) {
+                        gMemCardDialog_Outcome = 1;
+                        MemCardDialog_SetMessage(0xC6, 0x18);
+                        break;
+                    }
+                }
             }
         }
-        goto write;
+        break;
     }
 }
 
