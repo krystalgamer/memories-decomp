@@ -158,13 +158,13 @@ void Password_UpdateDigitCursor(PasswordCursorView *object)
     object->phase += 1;
     if ((object->updateFlags & 0x40) != 0) {
         if (DisplayObject_MarkInitialized((DisplayObject *)object) == 0) {
-            DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
+            DisplayObject_ResetVelocity((DisplayObject *)object);
             object->step_x =
                 ((object->target_x - object->x) << 8) / object->timer;
             object->step_y =
                 ((object->target_y - object->y) << 8) / object->timer;
         }
-        DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
+        DisplayObject_StepPositionXY((DisplayObject *)object);
         remaining = (u16)object->timer - 1;
         object->timer = remaining;
         if (remaining <= 0) {

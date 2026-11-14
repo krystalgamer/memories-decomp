@@ -413,7 +413,7 @@ void FreeDuel_UpdateCursorTween(void)
         }
         gFreeDuel_bScreenFlags |= 0x40;
         widget->field_60 = 8;
-        DisplayObject_ResetVelocity((DisplayObjectVelocity *)widget);
+        DisplayObject_ResetVelocity(widget);
 
         d = gFreeDuel_bTargetColumn;
         tx = d * 56 + 20;
@@ -428,7 +428,7 @@ void FreeDuel_UpdateCursorTween(void)
         widget->field_38.h.field_38 = (d << 8) / 8;
     }
 
-    DisplayObject_StepPositionXY((DisplayObjectVelocity *)widget);
+    DisplayObject_StepPositionXY(widget);
     left = (u16)widget->field_60 - 1;
     widget->field_60 = left;
     if (left == 0) {

@@ -216,10 +216,9 @@ typedef struct DisplayObject {
 
        Halves: the value-setup screen's widget tween in the main_menu overlay
        saves the live position at 0x30/0x32 into 0x36/0x38 and eases back
-       out of it -- the same saved-position reading DisplayObject_SavePosition.h's
-       DisplayObjectSnapshot gives the pair. That reading and
-       DisplayObjectVelocity's velocity_x give 0x36 different meanings, so it
-       and the word keep their offset names.
+       out of it -- the reading the `ease` arm names. The `motion` arm gives
+       0x36 a different meaning (an x velocity), so the word and the plain
+       halves keep their offset names.
 
        z: the low half is the depth coordinate that completes xy wherever a
        halfword reads it. Duel_CreateFieldCardObject stores its third
@@ -229,14 +228,26 @@ typedef struct DisplayObject {
        equip-bonus and trap code copy it into an effect request's field_04
        beside the request's x/y; duel effect 15 takes it as the card's
        translation vz, and effects 17, 22 and the row attacks integrate it
-       with their per-card velocity vz.
-       DisplayObjectVelocity names the same halfword z. */
+       with their per-card velocity vz. DisplayObject_StepPositionZ steps
+       the same halfword. */
     union {
         u32 word;
         struct {
             s16 z;
             s16 field_36;
         } h;
+        /* DisplayObject_StepPosition*'s reading: 0x36 is the 8.8 x velocity
+           added to xy every frame. */
+        struct {
+            s16 z;
+            s16 velocity_x;
+        } motion;
+        /* DisplayObject_SavePosition's and the cosine/sine easers' reading:
+           0x36 is the x the object eases away from. */
+        struct {
+            s16 z;
+            s16 start_x;
+        } ease;
     } field_34;                    /* 0x34 */
     /* Read both ways, and by the same device as its neighbours.
 
@@ -255,26 +266,32 @@ typedef struct DisplayObject {
        readings than almost any other on the record, so it does not
        generalise. The stride-0xC run above and the stride-8 colour run at
        0x2C both cross this range and disagree with it. So, separately, do
-       the three views that already name these halves outside this header:
-       DisplayObjectVelocity in display_object_helpers.c calls 0x36, 0x38 and
-       0x3A velocity_x, velocity_y and velocity_z and adds them to 0x30/0x32
-       every frame, while DisplayObjectSnapshot in DisplayObject_SavePosition.h and
-       DisplayObjectPosition in display_object_interpolation.h read the same
-       0x36/0x38 pair as a saved position that eases into the live one.
-       display_object_helpers.h sets out at length why neither of those
-       generalises either.
+       the two motion-path readings: DisplayObject_StepPosition* treat 0x36,
+       0x38 and 0x3A as velocity_x, velocity_y and velocity_z and add them to
+       0x30/0x32 every frame, while DisplayObject_SavePosition and the
+       cosine/sine easers read the same 0x36/0x38 pair as a saved position
+       that eases into the live one.
 
-       Five readings, no winner, so the halves are named for their offsets
-       and nothing more -- the same grounds 0x44 and 0x4C keep theirs on. A
-       consumer that knows which motion path owns its object should take the
-       view that names what it means, as name_entry_runtime.c does with
-       the velocity one. */
+       Several readings, no winner, so the plain halves are named for their
+       offsets -- the same grounds 0x44 and 0x4C keep theirs on -- and each
+       motion path takes the arm that names what it means: `motion` for the
+       velocity integrators, `ease` for the save-and-ease helpers. */
     union {
         u32 word;
         struct {
             s16 field_38;
             s16 field_3A;
         } h;
+        /* The y and z velocities beside field_34.motion.velocity_x. */
+        struct {
+            s16 velocity_y;
+            s16 velocity_z;
+        } motion;
+        /* The y beside field_34.ease.start_x. */
+        struct {
+            s16 start_y;
+            s16 field_3A;
+        } ease;
     } field_38;                    /* 0x38 */
     /* 0x3C likewise: DisplayObject_RenderSpriteList copies the whole word
        into the sprite primitive's extent, and the quad renderers copy it as
@@ -503,7 +520,10 @@ typedef struct DisplayObject {
        words, one range -- so it keeps the offset for a name, on the same
        grounds #3004 set out for 0x44. */
     s16 field_60;                  /* 0x60 */
-    u8 pad_62[2];                  /* 0x62 */
+    /* The 8.8 fraction bytes DisplayObject_StepPosition* carry below xy;
+       the z fraction is field_64. */
+    u8 fraction_x;                 /* 0x62 */
+    u8 fraction_y;                 /* 0x63 */
     /* Only reached as the first byte of a word:
        DisplayObject_RenderTexturedGouraudQuadList reads the s32 at 0x64 as
        the second vertex's x/y pair of its second POLY_GT4 submission, the

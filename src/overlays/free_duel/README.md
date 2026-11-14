@@ -111,12 +111,13 @@ definition through both callers, rather than preserving the former
 The cursor's motion path is velocity integration: it clears the fractional
 state with `DisplayObject_ResetVelocity`, writes the 8.8 deltas to
 `field_34.h.field_36` / `field_38.h.field_38`, and calls
-`DisplayObject_StepPositionXY`. The existing `DisplayObjectVelocity` view
-is used at those two API boundaries. Its interpretation does not generalize
-to other object kinds that use the same offsets for saved positions.
+`DisplayObject_StepPositionXY`. Both helpers take the canonical
+`DisplayObject *`; the record's `motion` union arms name the velocity
+reading, which does not generalize to object kinds that use the same
+offsets for saved positions.
 
 A measured alternative kept a second function-scope
-`DisplayObjectVelocity *motion` alias throughout the tween. That created an
+velocity-view `motion` alias throughout the tween. That created an
 extra `move s2,s1`, extending `FreeDuel_UpdateCursorTween` from 120 to 121
 instructions (`0x1E0` to `0x1E4`). It was rejected, not hidden behind a new
 profile or register pin. The accepted version keeps one live object pointer

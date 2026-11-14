@@ -528,7 +528,7 @@ void Dialog_UpdateCloseTransition(MemCardWorkRoot *root)
         gDialog_bCallbackState |= DUEL_EFFECT_STATE_FLAG_INITIALIZED;
         /* DisplayObject_SavePosition and Widget_SlideSine take the narrow
            position views declared in display_object_system.h. */
-        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
+        DisplayObject_SavePosition(object);
         object->field_60 = 0x400;
     }
     entry = &gText_aChannels[root->text_index];
@@ -540,7 +540,7 @@ void Dialog_UpdateCloseTransition(MemCardWorkRoot *root)
             root->box_object = 0;
         } else {
             Widget_SlideSine(
-                (DisplayObjectPosition *)object,
+                object,
                 DIALOG_BOX_X,
                 -0x40,
                 object->field_60
@@ -594,7 +594,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root)
         DisplayObject_SelectOrderingTable1(p);
         DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 2));
         root->box_object = p;
-        DisplayObject_SavePosition((DisplayObjectSnapshot *)p);
+        DisplayObject_SavePosition(p);
         a = gMemCardWork_OperationMode;
         p->field_60 = -0x400;
         r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
@@ -633,7 +633,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root)
             p->xy.h.y = 0x50;
         } else {
             Widget_SlideSine(
-                (DisplayObjectPosition *)p, DIALOG_BOX_X, 0x50, (s16)v);
+                p, DIALOG_BOX_X, 0x50, (s16)v);
         }
         TextBox_SetPos(r, *(s16 *)&p->xy.h.x,
                        *(s16 *)&p->xy.h.y);
@@ -677,7 +677,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
         DisplayObject_SelectOrderingTable1(e);
         DisplayObject_SetDepthOffset(e, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 2));
         root->box_object = e;
-        DisplayObject_SavePosition((DisplayObjectSnapshot *)e);
+        DisplayObject_SavePosition(e);
         e->field_60 = -0x400;
         q = DuelEffect_CreateChannel(0xD0, 0);
         q->flags_34 = q->flags_34 | DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG;
@@ -708,7 +708,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
             gDialog_bCallbackState = g | 0x40;
             q->flags_34 = h & (0xFFFF ^ DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG);
         } else {
-            Widget_SlideSine((DisplayObjectPosition *)e, DIALOG_BOX_X, 0x50, (s16)v);
+            Widget_SlideSine(e, DIALOG_BOX_X, 0x50, (s16)v);
         }
         TextBox_SetPos(q,
                        *(s16 *)&e->xy.h.x,
@@ -2126,7 +2126,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 target_x, s32 target_y,
     s32 value;
 
     if (DisplayObject_MarkInitialized(object) == 0) {
-        DisplayObject_SavePosition((DisplayObjectSnapshot *)object);
+        DisplayObject_SavePosition(object);
     }
 
     value = object->field_60;
@@ -2145,7 +2145,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 target_x, s32 target_y,
     }
     object->field_60 = value;
 
-    Widget_SlideSine((DisplayObjectPosition *)object, target_x, target_y, value);
+    Widget_SlideSine(object, target_x, target_y, value);
 
     if (saved_index >= 0) {
         TextBox_SetPos(

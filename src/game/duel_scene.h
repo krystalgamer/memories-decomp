@@ -1347,7 +1347,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
 
 /* Draws one duel card using the output coordinates stored on its object. */
 void Duel_DrawCardAtOutputPosition(
-    DisplayObjectPosition *object, s32 ordering_table
+    DisplayObject *object, s32 ordering_table
 );
 
 /* Returns nonzero when all five Exodia pieces are in hand. It consumes a local

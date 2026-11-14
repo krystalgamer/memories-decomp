@@ -374,7 +374,7 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
     flags = object->field_6C;
     if ((flags & 0x80) == 0) {
         object->field_6C = flags | 0x80;
-        DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
+        DisplayObject_ResetVelocity(object);
         object->field_34.h.field_36 = Rand_GetInterval(0x200) - 0x100;
         object->field_38.h.field_38 = -Rand_GetInterval(0x180);
     }
@@ -382,7 +382,7 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
         DisplayObject_StepTowardZero(object->field_34.h.field_36, 8);
     object->field_38.h.field_38 =
         DisplayObject_StepToward(object->field_38.h.field_38, 0x800, 0x40);
-    DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
+    DisplayObject_StepPositionXY(object);
     if ((s16)object->xy.h.y >= NAME_ENTRY_FRAGMENT_BOTTOM) {
         DisplayObject_ReleaseIfPresent(object);
     }
@@ -448,7 +448,7 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
     flags = object->field_6C;
     if ((flags & 0x80) == 0) {
         object->field_6C = flags | 0x80;
-        DisplayObject_ResetVelocity((DisplayObjectVelocity *)object);
+        DisplayObject_ResetVelocity(object);
         object->field_34.h.field_36 =
             ((object->field_44.target.x -
               (s16)object->xy.h.x) << 8) /
@@ -458,7 +458,7 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
               (s16)object->xy.h.y) << 8) /
             object->field_60;
     }
-    DisplayObject_StepPositionXY((DisplayObjectVelocity *)object);
+    DisplayObject_StepPositionXY(object);
     remaining = (u16)object->field_60 - 1;
     object->field_60 = remaining;
     if (remaining <= 0) {
@@ -484,7 +484,7 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
 
     if ((g->field_6C & 0x80) == 0) {
         g->field_6C |= 0x80;
-        DisplayObject_ResetVelocity((DisplayObjectVelocity *)g);
+        DisplayObject_ResetVelocity(g);
         g->field_34.h.field_36 =
             ((g->field_44.target.x - (s16)g->xy.h.x) << 8) /
             g->field_60;
@@ -500,7 +500,7 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
         }
         return;
     }
-    DisplayObject_StepPositionXY((DisplayObjectVelocity *)g);
+    DisplayObject_StepPositionXY(g);
     n = (u16)g->field_60 - 1;
     g->field_60 = n;
     if ((s16)n > 0) {
@@ -810,7 +810,7 @@ void NameEntry_UpdateKeyboard(void)
         if (work != 0) {
             w->width = (work >= 0) ? (w->width + 2) : (w->width - 2);
         }
-        DisplayObject_StepPositionXY((DisplayObjectVelocity *)w);
+        DisplayObject_StepPositionXY((DisplayObject *)w);
         if (--w->timer != 0) {
             return;
         }
@@ -921,7 +921,7 @@ void NameEntry_UpdateKeyboard(void)
                 gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 42;
             }
             gNameEntry_wCursorTargetY = (s8)gNameEntry_bKeyboardRow * 18 + 24;
-            DisplayObject_ResetVelocity((DisplayObjectVelocity *)w);
+            DisplayObject_ResetVelocity((DisplayObject *)w);
             w->timer = 8;
             w->stepX = ((gNameEntry_wCursorTargetX - w->x) << 8) / 8;
             w->stepY = ((gNameEntry_wCursorTargetY - w->y) << 8) / 8;
@@ -1213,7 +1213,7 @@ void NameEntry_UpdateDialog(void)
             pos = caret->slide;
             if (pos >= 0) {
                 caret->slide = pos - 85;
-                Widget_SlideSine((DisplayObjectPosition *)caret, 16, 248,
+                Widget_SlideSine((DisplayObject *)caret, 16, 248,
                               (s16)(pos - 85));
                 if (caret->slide < 0) {
                     caret->x = 16;
@@ -1226,7 +1226,7 @@ void NameEntry_UpdateDialog(void)
                 }
             } else {
                 caret->slide = pos + 85;
-                Widget_SlideSine((DisplayObjectPosition *)caret, 16, 176,
+                Widget_SlideSine((DisplayObject *)caret, 16, 176,
                               (s16)(pos + 85));
                 if (caret->slide >= 0) {
                     caret->x = 16;

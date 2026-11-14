@@ -1832,52 +1832,52 @@ u8 *DisplayObjectStream_ResolveOffset(
     return object->base + ((data[1] << 8) | data[0]);
 }
 
-void DisplayObject_ResetVelocity(DisplayObjectVelocity *object)
+void DisplayObject_ResetVelocity(DisplayObject *object)
 {
     if (object != 0) {
-        object->velocity_x = 0;
-        object->velocity_y = 0;
-        object->velocity_z = 0;
+        object->field_34.motion.velocity_x = 0;
+        object->field_38.motion.velocity_y = 0;
+        object->field_38.motion.velocity_z = 0;
         object->fraction_x = 0x80;
         object->fraction_y = 0x80;
-        object->fraction_z = 0x80;
+        object->field_64 = 0x80;
     }
 }
 
-void DisplayObject_StepPositionX(DisplayObjectVelocity *object)
+void DisplayObject_StepPositionX(DisplayObject *object)
 {
-    int value = (object->x << 8) | object->fraction_x;
+    int value = (object->xy.s.x << 8) | object->fraction_x;
 
-    value += object->velocity_x;
+    value += object->field_34.motion.velocity_x;
     object->fraction_x = value;
-    object->x = value >> 8;
+    object->xy.s.x = value >> 8;
 }
 
-void DisplayObject_StepPositionY(DisplayObjectVelocity *object)
+void DisplayObject_StepPositionY(DisplayObject *object)
 {
-    int value = (object->y << 8) | object->fraction_y;
+    int value = (object->xy.s.y << 8) | object->fraction_y;
 
-    value += object->velocity_y;
+    value += object->field_38.motion.velocity_y;
     object->fraction_y = value;
-    object->y = value >> 8;
+    object->xy.s.y = value >> 8;
 }
 
-void DisplayObject_StepPositionZ(DisplayObjectVelocity *object)
+void DisplayObject_StepPositionZ(DisplayObject *object)
 {
-    int value = (object->z << 8) | object->fraction_z;
+    int value = (object->field_34.motion.z << 8) | object->field_64;
 
-    value += object->velocity_z;
-    object->fraction_z = value;
-    object->z = value >> 8;
+    value += object->field_38.motion.velocity_z;
+    object->field_64 = value;
+    object->field_34.motion.z = value >> 8;
 }
 
-void DisplayObject_StepPositionXY(DisplayObjectVelocity *object)
+void DisplayObject_StepPositionXY(DisplayObject *object)
 {
     DisplayObject_StepPositionX(object);
     DisplayObject_StepPositionY(object);
 }
 
-void DisplayObject_StepPositionXYZ(DisplayObjectVelocity *object)
+void DisplayObject_StepPositionXYZ(DisplayObject *object)
 {
     DisplayObject_StepPositionX(object);
     DisplayObject_StepPositionY(object);
@@ -2058,43 +2058,43 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
     }
 }
 
-void DisplayObject_SavePosition(DisplayObjectSnapshot *object)
+void DisplayObject_SavePosition(DisplayObject *object)
 {
-    object->x = object->out_x;
-    object->y = object->out_y;
+    object->field_34.ease.start_x = object->xy.h.x;
+    object->field_38.ease.start_y = object->xy.h.y;
 }
 
 void DisplayObject_InterpolatePositionCosine(
-    DisplayObjectPosition *object, s32 target_x, s32 target_y, s32 phase
+    DisplayObject *object, s32 target_x, s32 target_y, s32 phase
 )
 {
-    s32 x = (object->x + target_x) >> 1;
-    s32 y = (object->y + target_y) >> 1;
+    s32 x = (object->field_34.ease.start_x + target_x) >> 1;
+    s32 y = (object->field_38.ease.start_y + target_y) >> 1;
     s32 scale = rcos(phase);
     s32 scale2 = scale;
 
-    object->out_x = x + (object->x - x) * scale / ONE;
-    object->out_y = y + (object->y - y) * scale2 / ONE;
+    object->xy.s.x = x + (object->field_34.ease.start_x - x) * scale / ONE;
+    object->xy.s.y = y + (object->field_38.ease.start_y - y) * scale2 / ONE;
 }
 
 void Widget_SlideSine(
-    DisplayObjectPosition *object,
+    DisplayObject *object,
     int target_x,
     int target_y,
     int phase
 )
 {
-    int dx = object->x - target_x;
-    int dy = object->y - target_y;
+    int dx = object->field_34.ease.start_x - target_x;
+    int dy = object->field_38.ease.start_y - target_y;
     int factor;
 
     if (phase < 0) {
         factor = rsin(phase + TRIG_ANGLE_QUARTER_TURN);
-        object->out_x = object->x - (dx * factor) / ONE;
-        object->out_y = object->y - (dy * factor) / ONE;
+        object->xy.s.x = object->field_34.ease.start_x - (dx * factor) / ONE;
+        object->xy.s.y = object->field_38.ease.start_y - (dy * factor) / ONE;
     } else {
         factor = -rsin(phase);
-        object->out_x = target_x - (dx * factor) / ONE;
-        object->out_y = target_y - (dy * factor) / ONE;
+        object->xy.s.x = target_x - (dx * factor) / ONE;
+        object->xy.s.y = target_y - (dy * factor) / ONE;
     }
 }
