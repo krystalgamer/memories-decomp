@@ -128,7 +128,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->field_48.word = 0;
         slot->field_44.word = 0x10001000;
         slot->field_40.word = 0;
-        slot->resource_uv = 0;
+        slot->resource_uv.word = 0;
         slot->subdivisions = 0;
         slot->depth_offset = 0;
         slot->ot_depth = gDisplayObject_awOrderingTableDepthBases[slot->ot_index];
@@ -235,8 +235,8 @@ void *DisplayObject_ConfigureSpriteResource(DisplayObject *configured, int resou
     configured->resource_branch_index = resource_branch_index;
     configured->resource_variant = resource_variant;
     configured->texture_page = texture_config;
-    *(u8 *)&configured->resource_uv = texture_config >> 16;
-    *((u8 *)&configured->resource_uv + 1) = texture_config >> 8;
+    configured->resource_uv.b.u = texture_config >> 16;
+    configured->resource_uv.b.v = texture_config >> 8;
     configured->field_40.clut.x = DISPLAY_OBJECT_SPRITE_TEXTURE_U(palette_config);
 #ifdef DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE
     texture_v = DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE(palette_config);
@@ -1051,8 +1051,8 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
     /* The setup runs again whenever the clip projection asks for a retry. */
     for (;;) {
         work->attribute = object->attribute;
-        work->u = ((u8 *)&object->resource_uv)[0];
-        work->v = ((u8 *)&object->resource_uv)[1];
+        work->u = object->resource_uv.b.u;
+        work->v = object->resource_uv.b.v;
         count = SPRITE_SHEET_HEADER(object)->count;
         if (count == 0) {
             return;
