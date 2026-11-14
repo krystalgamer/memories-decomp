@@ -14,7 +14,6 @@
 #include "../game/model_scene_runtime.h"
 #include "../game/model_slot_control.h"
 
-#define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))
 #define GS_UNIT_VIEW(unit) ((GsUNIT *)(unit))
 
 /* Initializes one model channel rooted at gModel_aSlots[slot_index]: resets its
@@ -39,7 +38,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
     s32 packet_bytes;
     s32 scan_index;
     u32 type_tag;
-    s32 coordinate_byte_offset;
+    s32 coordinate_index;
     s32 captured_unit_count;
     s32 unit_count_limit;
     s32 chain_end_marker;
@@ -162,7 +161,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
                     }
                     if ((type_tag >= 2 ? (type_tag < 7 ? type_tag >= 5 : 0) : 1) &&
                         (type_unit.type & 0x800000)) {
-                        model_slot->entries = (u8 *)GsMapCoordUnit((u32 *)hmd, (u32 *)type_unit.ptr);
+                        model_slot->entries = GsMapCoordUnit((u32 *)hmd, (u32 *)type_unit.ptr);
                         type_unit.type &= 0xFF7FFFFF;
                     }
                     switch (type_tag) {
@@ -199,18 +198,18 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
     model_slot->packet_budget_bytes = packet_bytes;
     model_slot->lit_color_cache_entry_count = max_lit_color_index + scan_index;
     if (scan_index < model_slot->hmd_unit_count - 1) {
-        coordinate_byte_offset = 0;
+        coordinate_index = 0;
         do {
             model_slot->entry_count++;
             if (hmd_unit->primtop != 0) {
-                hmd_unit->coord = GS_COORD_UNIT_VIEW(model_slot->entries + coordinate_byte_offset);
+                hmd_unit->coord = &model_slot->entries[coordinate_index];
             }
-            coordinate_byte_offset += MODEL_SLOT_DATA_ENTRY_SIZE;
+            coordinate_index++;
             scan_index++;
             hmd_unit++;
         } while (scan_index < model_slot->hmd_unit_count - 1);
     }
-    root_scan_coordinate = GS_COORD_UNIT_VIEW(model_slot->entries);
+    root_scan_coordinate = model_slot->entries;
     if (root_scan_coordinate != 0) {
         scan_index = 0;
         while (root_scan_coordinate->super != 0) {
@@ -218,13 +217,13 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
             scan_index++;
         }
         model_slot->root_coordinate_index = scan_index;
-        root_coordinate = GS_COORD_UNIT_VIEW(model_slot->entries) + scan_index;
+        root_coordinate = model_slot->entries + scan_index;
         model_slot->root_coordinate = root_coordinate;
         model_slot->render_parent_coordinate_index = Model_FindBranchingChildCoord(model_slot, root_coordinate);
         if (!(model_slot->render_parent_coordinate_index < model_slot->entry_count)) {
             model_slot->render_parent_coordinate_index = model_slot->root_coordinate_index;
         }
-        render_parent_candidate = GS_COORD_UNIT_VIEW(model_slot->entries) + model_slot->render_parent_coordinate_index;
+        render_parent_candidate = model_slot->entries + model_slot->render_parent_coordinate_index;
         model_slot->render_parent_coordinate = render_parent_candidate;
     retry:
         hmd_unit = GS_UNIT_VIEW(model_slot->hmd_units);
@@ -255,14 +254,14 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
         if (!(child_coordinate_index < model_slot->entry_count)) {
             goto found;
         }
-        render_parent_candidate = (GsCOORDUNIT *)model_slot->entries + child_coordinate_index;
+        render_parent_candidate = model_slot->entries + child_coordinate_index;
         goto retry;
     found:
         parent_coordinate = render_parent_candidate->super;
         if (parent_coordinate != model_slot->root_coordinate) {
             model_slot->render_parent_coordinate = parent_coordinate;
             if (parent_coordinate != 0) {
-                model_slot->render_parent_coordinate_index = parent_coordinate - GS_COORD_UNIT_VIEW(model_slot->entries);
+                model_slot->render_parent_coordinate_index = parent_coordinate - model_slot->entries;
             }
         }
     }

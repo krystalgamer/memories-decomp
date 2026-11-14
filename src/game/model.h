@@ -103,9 +103,9 @@ extern s16 gModel_sTextureTintRectH;
 #define MODEL_AUX_LOOKUP_RECORD_SIZE 0xB2
 #define MODEL_AUX_LOOKUP_VALUE_OFFSET 0xA0
 
-/* GsUNIT view retaining the original integer coordinate-address storage. */
+/* libhmd's GsUNIT layout: the unit's coordinate and its primitive data. */
 typedef struct {
-    u32 coordinate_address;
+    struct _GsCOORDUNIT *coord;
     void *primitive_data;
 } ModelSlotHeadEntry;
 
@@ -303,7 +303,9 @@ typedef struct {
     u8 field_BF7;
     ModelSlotSoundEntry sound_entries[MODEL_SLOT_SOUND_ENTRY_COUNT];
     ModelSlotMetadataBlock metadata;
-    u8 *entries;
+    /* The MODEL_SLOT_DATA_ENTRY_SIZE-stride GsCOORDUNIT run GsMapCoordUnit
+     * returns. */
+    struct _GsCOORDUNIT *entries;
     /* The slot's own placement unit: one 0x50-byte GsCOORDUNIT out of the
      * MODEL_SLOT_DATA_ENTRY_SIZE-stride run at `entries`. Left incomplete
      * here so this header stays free of the libgte/libgpu/libgs/libhmd
@@ -491,8 +493,8 @@ typedef char ModelSlotHeadEntry_size_must_be_0x8[
     sizeof(ModelSlotHeadEntry) == 0x8 ? 1 : -1
 ];
 typedef char ModelSlotHeadEntry_layout_must_match[
-    MODEL_OFFSET(ModelSlotHeadEntry, coordinate_address) == 0 &&
-    sizeof(((ModelSlotHeadEntry *)0)->coordinate_address) == 4 &&
+    MODEL_OFFSET(ModelSlotHeadEntry, coord) == 0 &&
+    sizeof(((ModelSlotHeadEntry *)0)->coord) == 4 &&
     MODEL_OFFSET(ModelSlotHeadEntry, primitive_data) == 4 &&
     sizeof(((ModelSlotHeadEntry *)0)->primitive_data) == 4 ? 1 : -1
 ];

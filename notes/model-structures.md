@@ -728,7 +728,7 @@ share the slot's leading `GsUNIT`-compatible records:
 | Original member | Canonical member | Preserved representation |
 | --- | --- | --- |
 | `ModelSlot.field_000` | `hmd_units` | `ModelSlotHeadEntry[60]`, `+0` |
-| `ModelSlotHeadEntry.field_00` | `coordinate_address` | raw `u32`, `+0` |
+| `ModelSlotHeadEntry.field_00` | `coord` | `struct _GsCOORDUNIT *`, `+0` |
 | `ModelSlotHeadEntry.field_04` | `primitive_data` | `void *`, `+4` |
 
 The authoritative local `GsUNIT` declaration places `coord` at `+0` and
@@ -749,8 +749,8 @@ member indexing changes the measured instruction sequence.
 `primitive_data` denotes the SDK `primtop` data, not a packet buffer,
 drawn-polygon count or promise that all scanned blocks are polygon data.
 The initializer also dispatches coordinate and animation unit records.
-`coordinate_address` stays an integer word, not a newly typed pointer;
-all existing SDK casts and the separately typed `void *` storage stay.
+`coord` is typed as the SDK's `GsCOORDUNIT` pointer, matching `GsUNIT`;
+the remaining SDK casts and the separately typed `void *` storage stay.
 No pointee ownership, universal nonnull pairing or fully initialized
 array invariant is inferred. Partial initialization, null-input early
 return, stale records outside the processed range and every original

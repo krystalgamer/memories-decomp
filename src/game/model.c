@@ -3218,7 +3218,6 @@ s32 ModelDebug_UpdateController(void)
 #define B(p, o) (*((u8 *)(p) + (o)))
 #define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
 #define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
-#define GS_COORD_UNIT_VIEW(unit) ((GsCOORDUNIT *)(unit))
 #define VECTOR_VIEW(vector) ((VECTOR *)(vector))
 
 #ifndef MODEL_RENDER_BLEND_MODE_5_WORD
@@ -3466,14 +3465,13 @@ void Model_DrawSlot(s32 index)
             continue;
         }
         if (slot->render_parent_coordinate != 0 &&
-            GS_COORD_UNIT_VIEW(head_unit->coordinate_address)->super == slot->render_parent_coordinate) {
+            head_unit->coord->super == slot->render_parent_coordinate) {
             s32 sequence_index;
             s32 scale_existing_matrix;
             u8 sequence_count;
             s32 coordinate_rewrite_index;
 
-            coordinate_rewrite_index = (GS_COORD_UNIT_VIEW(head_unit->coordinate_address) -
-                   GS_COORD_UNIT_VIEW(slot->entries)) * 0x14 + 0x04000001;
+            coordinate_rewrite_index = (head_unit->coord - slot->entries) * 0x14 + 0x04000001;
             sequence_index = 0;
             scale_existing_matrix = 0;
             sequence_count = slot->animation_sequence_count;
@@ -3489,11 +3487,11 @@ void Model_DrawSlot(s32 index)
             }
             if (scale_existing_matrix) {
                 ScaleMatrix(
-                    &GS_COORD_UNIT_VIEW(head_unit->coordinate_address)->matrix,
+                    &head_unit->coord->matrix,
                     VECTOR_VIEW(&slot->render_scale));
             } else {
                 Model_UpdateCoordinateUnitMatrix(
-                    GS_COORD_UNIT_VIEW(head_unit->coordinate_address),
+                    head_unit->coord,
                     VECTOR_VIEW(&slot->render_scale));
             }
         }
@@ -3501,7 +3499,7 @@ void Model_DrawSlot(s32 index)
             if (a) {
                 memset(&hidden_matrix, 0, 0x20);
                 GsSetLsMatrix(&hidden_matrix);
-            } else if ((coordinate_unit = GS_COORD_UNIT_VIEW(head_unit->coordinate_address)) != 0) {
+            } else if ((coordinate_unit = head_unit->coord) != 0) {
                 if (gModel_bCurrentDrawMode != 0) {
                     s32 matrix_index;
                     s32 coefficient_magnitude;
@@ -3566,7 +3564,7 @@ void Model_DrawSlot(s32 index)
         origin_count = x = y = z = 0;
         head_unit = slot->hmd_units;
         for (scan_index = 0; scan_index < slot->hmd_unit_count; scan_index++, head_unit++) {
-            coordinate_unit = GS_COORD_UNIT_VIEW(head_unit->coordinate_address);
+            coordinate_unit = head_unit->coord;
             if (coordinate_unit != 0 && head_unit->primitive_data != 0
                 && (W(head_unit->primitive_data, 0) != -1 || W(head_unit->primitive_data, 8) != 0)) {
                 origin_count++;
@@ -3593,7 +3591,7 @@ void Model_DrawSlot(s32 index)
         slot->cached_position[2] = z;
         head_unit = slot->hmd_units;
         for (scan_index = 0; scan_index < slot->hmd_unit_count; scan_index++, head_unit++) {
-            coordinate_unit = GS_COORD_UNIT_VIEW(head_unit->coordinate_address);
+            coordinate_unit = head_unit->coord;
             if (coordinate_unit != slot->render_parent_coordinate && coordinate_unit != slot->root_coordinate && coordinate_unit != 0 && (group_bytes = head_unit->primitive_data) != 0) {
                 s32 unit_origin_y;
 
@@ -5539,7 +5537,7 @@ void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 entry_index, SVECTOR *
     }
 
     GsGetLwUnit(
-        (GsCOORDUNIT *)(slot->entries + entry_index * MODEL_SLOT_DATA_ENTRY_SIZE),
+        &slot->entries[entry_index],
         &entry_world_matrix
     );
     GsSetLsMatrix(&entry_world_matrix);
