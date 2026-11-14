@@ -566,8 +566,8 @@ void DuelScene_UpdateEffectPreview(void);
 void Duel_UpdateCardMarkerRemovalTurn(DisplayObject *object);
 void DisplayObject_UpdateCosineSlideWithRollReset(DisplayObject *object);
 
-/* Callers that install this as a DisplayObjectCallback (u8 *) cast it; the
- * callback receives the same display-record address. */
+/* Installed as a DisplayObjectCallback; the callback receives the display
+ * record it is attached to. */
 void DisplayObject_UpdateCosineSlide(DisplayObject *object);
 
 /* These are installed in the update slot by the field-action controller,
@@ -1160,7 +1160,7 @@ typedef DuelCardDisplayObject *(*DuelCreateHandCardDisplayObjectAt)(
  * of the card flip animation.
  *
  * `DuelCardDisplayObject *` is the definition's own view. The callers hold
- * three others of the same memory -- DuelCardTurnObject, a local struct Obj,
+ * others of the same memory -- DisplayObject, a local struct Obj,
  * and a raw u8 * read out of the record's first word -- which is why the four
  * local declarations this header replaces disagreed: two said u8 *, one u8 *
  * with a named argument, one Obj *. The pointer value is identical in every
@@ -1225,53 +1225,8 @@ DuelCardDisplayObject *Duel_CreateFieldCardObject(s32 card_id, s32 x, s32 y);
    object. Callers handle retained flags/stat modifiers and old-object release. */
 void Duel_SetupFieldCardFromDeck(s32 slot, s32 deck_index);
 
-/* The fields the two card turn/flip animation steps read and write on a duel
- * card display object.
- *
- * This is NOT a full display-object description: it covers only the offsets
- * these two functions touch, and the padding names record the gaps rather
- * than claiming the memory is unused. Other translation units describe the
- * same object through their own, differently shaped views.
- *
- * The three bytes at 0x20..0x22 are written both individually and as one
- * 32-bit store, so they are modelled as a union. The 32-bit stores are the
- * retail code's way of setting all three channels at once: little-endian,
- * 0x8000 sets channel[1], 0xC000C0 sets channel[0] and channel[2], and
- * 0x800000 sets channel[2]. The same bytes are separately assigned the high
- * byte of the animation angle, which is what drives the tint across a flip.
- *
- * The angle at 0x2A is likewise a union. Every read and every stepping store
- * treats it as unsigned, and shifting its high byte out relies on that. The
- * two settle constants are stored signed, which is not interchangeable: a
- * negative 16-bit immediate is materialised with addiu, while the same
- * bit pattern written as unsigned becomes ori. Both spellings are therefore
- * kept rather than picking one and casting. */
-typedef struct {
-    u8 pad_00[0x08];
-    u16 flags;
-    u8 pad_0A[0x16];
-    union {
-        s32 packed;
-        u8 channel[4];
-    } tint;
-    s32 field_24;
-    u16 angle_step;
-    union {
-        u16 unsigned_value;
-        s16 signed_value;
-    } angle;
-    u8 pad_2C[0x02];
-    s16 mode;
-    u8 pad_30[0x30];
-    u16 counter;
-    u8 pad_62[0x08];
-    u8 record_index;
-    u8 pad_6B[0x01];
-    u8 phase;
-} DuelCardTurnObject;
-
-void Duel_UpdateCardToSelectionView(DuelCardTurnObject *p);
-void Duel_UpdateCardToFieldView(DuelCardTurnObject *p);
+void Duel_UpdateCardToSelectionView(DisplayObject *p);
+void Duel_UpdateCardToFieldView(DisplayObject *p);
 
 /* Checks Select in the two-player duel path and arms the quit dialog. It has
  * no caller in matched C; retail reaches it from assembly. */

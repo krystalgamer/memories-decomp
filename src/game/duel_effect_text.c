@@ -1810,7 +1810,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         prompt->field_2C.word = 0x2000;
         prompt->field_44.word = 0xC000;
         prompt->field_3C.word = 0xC000;
-        prompt->update = (DisplayObjectCallback)Widget_UpdatePulseColour;
+        prompt->update = Widget_UpdatePulseColour;
         prompt->attribute = prompt->attribute | (GsALON | GsAONE);
         Dialog_HighlightChoice(p);
     }

@@ -4,7 +4,8 @@
 #include "../types.h"
 #include "display_object_layout.h"
 
-typedef void (*DisplayObjectCallback)(u8 *);
+struct DisplayObject;
+typedef void (*DisplayObjectCallback)(struct DisplayObject *);
 
 /* One entry of the DISPLAY_OBJECT_POOL_CAPACITY-entry pool at gDisplayObject_aPool.
  *
@@ -695,10 +696,10 @@ extern u16 gDisplayObject_wAcquireCount;
  * companion object at the current position each frame.
  *
  * Declared here because this header owns both halves of its contract: the
- * DisplayObject it takes, and the DisplayObjectCallback typedef that
- * DuelScene_UpdateResultOutro casts it to when installing it. DuelScene_UpdateResultOutro's old file held
- * the only declaration and did not call the function itself, so the cast was
- * the whole use -- the declaration has to match for the address to be taken.
+ * DisplayObject it takes, and the DisplayObjectCallback typedef
+ * DuelScene_UpdateResultOutro installs it as. DuelScene_UpdateResultOutro's old file held
+ * the only declaration and did not call the function itself, so installing it
+ * was the whole use -- the declaration has to match for the address to be taken.
  *
  * This names one callback and claims nothing about the others that share the
  * slot; DisplayObject_FadeBrightnessAndRelease in display_object_lifecycle.h is a sibling by role but

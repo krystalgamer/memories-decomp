@@ -738,7 +738,7 @@ struct DisplayObject;
  * display_object.h documents -- with the four dimmed to a quarter.
  *
  * Dialog_UpdateChoice is the only consumer: it installs this as the
- * object's DisplayObjectCallback, casting it to that u8 * hook type. */
+ * object's DisplayObjectCallback. */
 void Widget_UpdatePulseColour(struct DisplayObject *object);
 /* The three scratchpad glyph sprites TextBox_DrawEntries fills at
  * 0x1F8000C0/0x1F800100/0x1F800140. Retail writes them field by field as

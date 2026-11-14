@@ -41,7 +41,7 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
     s32 v;
     s32 t;
 
-    if (DisplayObject_MarkInitialized((DisplayObjectLifecycle *)o) == 0) {
+    if (DisplayObject_MarkInitialized(o) == 0) {
         o->field_44.word = 0;
         o->field_60 = 0;
         o->attribute = o->attribute & ~GsROTOFF;
@@ -145,7 +145,7 @@ DisplayObject *BuildDeck_CreateCardTransferIcon(s32 index, s32 start_x, s32 star
         output->field_44.word = 0;
         output->field_18.target.x = field_18;
         output->field_18.target.y = target_y;
-        output->update = (DisplayObjectCallback)BuildDeck_UpdateCardTransferIcon;
+        output->update = BuildDeck_UpdateCardTransferIcon;
         output->flags &= 0xFFF7;
         output->attribute &= ~GsROTOFF;
         return output;

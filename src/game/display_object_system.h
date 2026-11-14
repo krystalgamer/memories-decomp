@@ -281,7 +281,7 @@ typedef char DisplayObjectLifecycle_flags_offset_must_be_0x6C[
 ];
 #undef DISPLAY_OBJECT_LIFECYCLE_OFFSET
 
-s32 DisplayObject_MarkInitialized(DisplayObjectLifecycle *object);
+s32 DisplayObject_MarkInitialized(DisplayObject *object);
 void DisplayObject_FadeBrightnessAndRelease(DisplayObjectLifecycle *object);
 
 /* The screen origin DisplayObject_SubmitPacket subtracts from every vertex before the
