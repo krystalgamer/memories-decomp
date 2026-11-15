@@ -42,12 +42,12 @@
     },
     {
       "path": "tools/bootstrap/patches/cygnus-2.7.2-970404-revert-r13734.patch",
-      "sha256": "ef5f361c4603469e2c534c636aa21103f9c93cfb7531361610ce4c68d5f6a658",
+      "sha256": "b85c0329dbdab48c24b22e87500be970cc602adca9b9cd8d318e53cae9556744",
       "arguments": ["-s", "-p1"]
     },
     {
       "path": "tools/bootstrap/patches/cygnus-2.7.2-970404-revert-r13805-reload-call.patch",
-      "sha256": "f847dff3a31c778302447b072de8a514a76700a117d6d20018eafdfab2e1556a",
+      "sha256": "12f61fda53e1421fa6abac9afe51955337013116f6fa188beefa1a20c1cc7d0c",
       "arguments": ["-s", "-p1"]
     }
   ],

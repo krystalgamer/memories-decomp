@@ -17,7 +17,7 @@ This patch is exactly the reverse of the commit's "(reload): Call
 reload_cse_regs" hunk.  The other hunks only add static functions, which
 the 970404 tree has already revised (reload_cse_noop_set_p takes two
 arguments there), so they are left in place and become unused.  The Sony
-safechk 2.0.0.x module (notes/overlays/apv2.md) was compiled before this
+safechk 2.0.0.x module (notes/overlays/safecheck2003.md) was compiled before this
 change: with it, `move rX,zero` delay-loop addresses become copies of
 another register holding zero.
 
