@@ -40,7 +40,7 @@ typedef struct {
     s32 field_1DF0, field_1DF4, field_1DF8, field_1DFC;
     s32 field_1E00, field_1E04, field_1E08;
     s16 field_1E0C, field_1E0E, field_1E10, field_1E12;
-    s32 field_1E14, field_1E18, phase, field_1E20, field_1E24;
+    s32 field_1E14, quad_angle, phase, field_1E20, field_1E24;
     u8 unknown_1E28[8];
     s32 tint;
     s16 slot, command;

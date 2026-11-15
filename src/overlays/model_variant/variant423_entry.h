@@ -31,7 +31,7 @@ typedef struct {
     u32 field_F04;
     GsCOORDUNIT *parts[3];
     s16 field_F14, field_F16, scale, field_F1A, progress, band_wave;
-    s32 field_F20;
+    s32 quad_angle;
     ModelVariantEntryTail tail;
 } Variant423EntryState;
 

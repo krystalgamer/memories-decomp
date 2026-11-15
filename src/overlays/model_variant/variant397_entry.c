@@ -265,7 +265,7 @@ s32 ModelVariant397_HandleRequest(SVECTOR *point, s32 command)
         work->scale = 4096;
         work->field_F6E = 1024;
         work->progress = 0;
-        work->field_F74 = 0;
+        work->quad_angle = 0;
         work->field_F6A = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;
