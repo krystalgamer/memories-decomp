@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant417_feedback.h"
+#include "../spanish_model_variant/variant417_entry.h"
 
-void FrenchModelVariant417_DrawFramebufferFeedback(u8 *context)
+void FrenchModelVariant417_DrawFramebufferFeedback(Variant417EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,10 +10,10 @@ void FrenchModelVariant417_DrawFramebufferFeedback(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Feedback417SizeRecord *record = (Feedback417SizeRecord *)(context + 0xA98);
-    Feedback417State *state = (Feedback417State *)context;
-    Feedback417 *group = state->groups;
-    POLY_GT4 *quad = &state->quad;
+    ModelVariantSheet *sheets = context->sheets;
+    Variant417EntryState *state = context;
+    ModelVariantTripleCurtain *group = state->curtains;
+    POLY_GT4 *quad = &state->plain;
     GsOT *ot;
     s32 i, j;
     s32 width, radius;
@@ -26,36 +26,36 @@ void FrenchModelVariant417_DrawFramebufferFeedback(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     active = GsGetActiveBuff();
-    yaw = ratan2(state->direction.vz, state->direction.vx) + 2048;
-    pitch = ratan2(state->direction.vy, state->direction.vz) + 2048;
+    yaw = ratan2(state->aim.direction.vz, state->aim.direction.vx) + 2048;
+    pitch = ratan2(state->aim.direction.vy, state->aim.direction.vz) + 2048;
     if (yaw < 2048) {
         yaw = -yaw + 1024;
     } else {
         yaw += 1024;
     }
-    width = record->size / 128;
-    radius = record->size * 100 / 8192;
+    width = sheets[1].size / 128;
+    radius = sheets[1].size * 100 / 8192;
     for (i = 0; i < 5; i++, group++) {
-        if (group->progress > 0) {
-            size = rsin(group->progress) * 4096 >> 12;
+        if (group->scale > 0) {
+            size = rsin(group->scale) * 4096 >> 12;
             if (state->phase >= 5) {
                 z = -width;
                 for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {
-                    setVector(&group->points[1][j], rcos(angle) * (256 + radius) >> 12,
+                    setVector(&group->b[j], rcos(angle) * (256 + radius) >> 12,
                               rsin(angle) * (256 + radius) >> 12, z);
-                    setVector(&group->points[2][j], rcos(angle) * (284 + radius) >> 12,
+                    setVector(&group->c[j], rcos(angle) * (284 + radius) >> 12,
                               rsin(angle) * (284 + radius) >> 12, z);
                 }
             }
             rotation.vx = -pitch;
             rotation.vy = yaw;
             rotation.vz = 0;
-            matrix.t[0] = state->origin.vx +
-                          state->direction.vx * (group->progress - 1024) / 2048;
-            matrix.t[1] = state->origin.vy +
-                          state->direction.vy * (group->progress - 1024) / 2048;
-            matrix.t[2] = state->origin.vz +
-                          state->direction.vz * (group->progress - 1024) / 2048;
+            matrix.t[0] = state->aim.target.vx +
+                          state->aim.direction.vx * (group->scale - 1024) / 2048;
+            matrix.t[1] = state->aim.target.vy +
+                          state->aim.direction.vy * (group->scale - 1024) / 2048;
+            matrix.t[2] = state->aim.target.vz +
+                          state->aim.direction.vz * (group->scale - 1024) / 2048;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -67,8 +67,8 @@ void FrenchModelVariant417_DrawFramebufferFeedback(u8 *context)
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
             for (j = 0; j < 16; j++) {
-                RotTransPers4(&group->points[0][j], &group->points[0][j + 1],
-                              &group->points[2][j], &group->points[2][j + 1],
+                RotTransPers4(&group->a[j], &group->a[j + 1],
+                              &group->c[j], &group->c[j + 1],
                               (long *)&quad->x0, (long *)&quad->x1,
                               (long *)&quad->x2, (long *)&quad->x3,
                               &interpolation, &flag);
@@ -93,29 +93,29 @@ void FrenchModelVariant417_DrawFramebufferFeedback(u8 *context)
                     setUV4(quad, quad->x0 - 128, quad->y0, quad->x1 - 128, quad->y1,
                            quad->x2 - 128, quad->y2, quad->x3 - 128, quad->y3);
                 }
-                depth = RotTransPers4(&group->points[0][j], &group->points[0][j + 1],
-                                     &group->points[1][j], &group->points[1][j + 1],
+                depth = RotTransPers4(&group->a[j], &group->a[j + 1],
+                                     &group->b[j], &group->b[j + 1],
                                      (long *)&quad->x0, (long *)&quad->x1,
                                      (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 SetSemiTrans(quad, 1);
                 SetShadeTex(quad, 0);
-                setRGB0(quad, group->inner.r, group->inner.g, group->inner.b);
-                setRGB1(quad, group->inner.r, group->inner.g, group->inner.b);
-                setRGB2(quad, group->outer.r, group->outer.g, group->outer.b);
-                setRGB3(quad, group->outer.r, group->outer.g, group->outer.b);
+                setRGB0(quad, group->color_a[0], group->color_a[1], group->color_a[2]);
+                setRGB1(quad, group->color_a[0], group->color_a[1], group->color_a[2]);
+                setRGB2(quad, group->color_b[0], group->color_b[1], group->color_b[2]);
+                setRGB3(quad, group->color_b[0], group->color_b[1], group->color_b[2]);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(quad, ot, (u16)depth);
                 }
             }
         }
-        if (group->progress < 2048) {
-            group->progress += state->step * 48;
-            if (group->progress >= 2048) {
-                group->progress -= 2048;
+        if (group->scale < 2048) {
+            group->scale += state->step * 48;
+            if (group->scale >= 2048) {
+                group->scale -= 2048;
                 if (state->phase == 4) {
-                    group->cycles++;
-                    if (group->cycles >= 2) {
+                    group->growth++;
+                    if (group->growth >= 2) {
                         state->phase = 5;
                     }
                 }
