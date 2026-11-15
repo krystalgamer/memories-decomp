@@ -1086,9 +1086,10 @@ typedef DisplayObject *(*DuelCreateHandCardDisplayObjectAt)(
 
 /* Re-derives a duel card object's visual state from its own card record:
  * gDuel_aCardRecords[object->kind_index.card_record_index] is the record,
- * and every field this writes comes from that record's flags. Face-down sets field_22, defense-position
- * sets field_21, DUEL_CARD_FLAG_USED_THIS_TURN dims the colour, and the deck number marker
- * is cleared unless DUEL_CARD_FLAG_DISPLAY_MARKER asks to keep it.
+ * and every field this writes comes from that record's flags. Face-down
+ * sets field_22, defense-position sets field_21, DUEL_CARD_FLAG_USED_THIS_TURN
+ * dims the colour, and the deck number marker is cleared unless
+ * DUEL_CARD_FLAG_DISPLAY_MARKER asks to keep it.
  *
  * The thing a prototype cannot say is why every caller calls it: the object
  * carries no state of its own here, so a caller that has just changed the

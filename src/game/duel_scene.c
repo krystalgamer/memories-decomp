@@ -9792,7 +9792,8 @@ void DuelEffect_ApplyTerrain(void) {
 /* Searches the acting side's five mapped field slots for an occupied trap
    whose id equals the argument. A hit records the id in gDuel_wSelectedTrapCardId, copies
    the owning object's kind_index.card_record_index to
-   gDuel_bSelectedTrapSlot and returns the id; a miss leaves gDuel_wSelectedTrapCardId cleared and returns 0. */
+   gDuel_bSelectedTrapSlot and returns the id; a miss leaves
+   gDuel_wSelectedTrapCardId cleared and returns 0. */
 s32 Duel_SelectTrapByCardId(s32 card_id)
 {
     s32 i;
