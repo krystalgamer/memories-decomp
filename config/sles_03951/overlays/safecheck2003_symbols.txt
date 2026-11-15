@@ -11,7 +11,7 @@ SafetyCheck5 = 0x80169284; // type:func
 __ps_libinfo__ = 0x80169414; // size:0x8
 safechk_commands = 0x8016941C;
 // D_80169458, D_8016945C and D_80169460 are safechk_cdregs[1..3] and D_8016946D and
-// D_8016946E are safechk_results[1..2]; the candidates keep them as separate symbols.
+// D_8016946E are safechk_results[1..2]; src/overlays/safecheck2003/safechk.c indexes the arrays.
 safechk_cdregs = 0x80169454;
 safechk_params = 0x80169464;
 safechk_results = 0x8016946C;
