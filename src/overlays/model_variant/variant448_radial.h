@@ -3,9 +3,11 @@
 
 #include "model_variant.h"
 
-/* One 0x128-byte radial record: center and ring points, three colors, size. */
+/* One 0x128-byte radial record: the centre point and seventeen inner-ring
+ * points, seventeen outer-ring points, three colours and a size. */
 typedef struct {
-    SVECTOR point[35];
+    SVECTOR inner[18];
+    SVECTOR outer[17];
     CVECTOR center;
     CVECTOR middle;
     CVECTOR edge;

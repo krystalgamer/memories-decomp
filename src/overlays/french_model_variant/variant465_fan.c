@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant465_fan.h"
 #include "../model_variant/variant448_entry.h"
 
 void ModelVariant448_DrawRadialDisc(Variant448EntryState *context)
@@ -15,13 +14,13 @@ void ModelVariant448_DrawRadialDisc(Variant448EntryState *context)
     s32 i;
     s32 j;
     Variant448EntryState *work;
-    Variant465Fan *fan;
+    Variant448Radial *fan;
     POLY_G3 *triangle;
     POLY_G4 *quad;
     s32 otz;
 
     work = context;
-    fan = (Variant465Fan *)work;
+    fan = work->radial;
     triangle = &work->packets.triangle;
     ot = Graphics_GetDefaultOrderingTable();
     quad = &work->packets.quad;
@@ -46,15 +45,15 @@ void ModelVariant448_DrawRadialDisc(Variant448EntryState *context)
             otz = RotTransPers3(&fan->inner[0], &fan->inner[j + 2], &fan->inner[j + 1],
                                (long *)&triangle->x0, (long *)&triangle->x1,
                                (long *)&triangle->x2, &p, &flag);
-            triangle->r0 = fan->center_color[0];
-            triangle->g0 = fan->center_color[1];
-            triangle->b0 = fan->center_color[2];
-            triangle->r1 = fan->middle_color[0];
-            triangle->g1 = fan->middle_color[1];
-            triangle->b1 = fan->middle_color[2];
-            triangle->r2 = fan->middle_color[0];
-            triangle->g2 = fan->middle_color[1];
-            triangle->b2 = fan->middle_color[2];
+            triangle->r0 = fan->center.r;
+            triangle->g0 = fan->center.g;
+            triangle->b0 = fan->center.b;
+            triangle->r1 = fan->middle.r;
+            triangle->g1 = fan->middle.g;
+            triangle->b1 = fan->middle.b;
+            triangle->r2 = fan->middle.r;
+            triangle->g2 = fan->middle.g;
+            triangle->b2 = fan->middle.b;
             if (otz >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)triangle, ot, (u16)otz, 1);
             }
@@ -62,18 +61,18 @@ void ModelVariant448_DrawRadialDisc(Variant448EntryState *context)
                                &fan->outer[j], &fan->outer[j + 1],
                                (long *)&quad->x0, (long *)&quad->x1,
                                (long *)&quad->x2, (long *)&quad->x3, &p, &flag);
-            quad->r0 = fan->middle_color[0];
-            quad->g0 = fan->middle_color[1];
-            quad->b0 = fan->middle_color[2];
-            quad->r1 = fan->middle_color[0];
-            quad->g1 = fan->middle_color[1];
-            quad->b1 = fan->middle_color[2];
-            quad->r2 = fan->outer_color[0];
-            quad->g2 = fan->outer_color[1];
-            quad->b2 = fan->outer_color[2];
-            quad->r3 = fan->outer_color[0];
-            quad->g3 = fan->outer_color[1];
-            quad->b3 = fan->outer_color[2];
+            quad->r0 = fan->middle.r;
+            quad->g0 = fan->middle.g;
+            quad->b0 = fan->middle.b;
+            quad->r1 = fan->middle.r;
+            quad->g1 = fan->middle.g;
+            quad->b1 = fan->middle.b;
+            quad->r2 = fan->edge.r;
+            quad->g2 = fan->edge.g;
+            quad->b2 = fan->edge.b;
+            quad->r3 = fan->edge.r;
+            quad->g3 = fan->edge.g;
+            quad->b3 = fan->edge.b;
             if (otz >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)otz, 1);
             }

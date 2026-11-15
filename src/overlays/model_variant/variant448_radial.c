@@ -45,7 +45,7 @@ void ModelVariant448_DrawRadialDisc(Variant448EntryState *context)
     GsSetLsMatrix(&ls);
     for (i = 0; i < 1; i++, rec++) {
         for (j = 0; j < 16; j++) {
-            otz = RotTransPers3(&rec->point[0], &rec->point[j + 2], &rec->point[j + 1],
+            otz = RotTransPers3(&rec->inner[0], &rec->inner[j + 2], &rec->inner[j + 1],
                                 (long *)&tri->x0, (long *)&tri->x1,
                                 (long *)&tri->x2, &p, &flag);
             tri->r0 = rec->center.r;
@@ -60,8 +60,8 @@ void ModelVariant448_DrawRadialDisc(Variant448EntryState *context)
             if (otz >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)tri, ot, (u16)otz, 1);
             }
-            otz = RotTransPers4(&rec->point[j + 1], &rec->point[j + 2],
-                                &rec->point[j + 18], &rec->point[j + 19],
+            otz = RotTransPers4(&rec->inner[j + 1], &rec->inner[j + 2],
+                                &rec->outer[j], &rec->outer[j + 1],
                                 (long *)&quad->x0, (long *)&quad->x1,
                                 (long *)&quad->x2, (long *)&quad->x3, &p, &flag);
             quad->r0 = rec->middle.r;
