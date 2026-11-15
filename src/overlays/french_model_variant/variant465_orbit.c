@@ -2,7 +2,7 @@
 #include "../model_variant/variant448_orbit.h"
 #include "../model_variant/variant448_entry.h"
 
-void ModelVariant448_DrawOrbitSheets(u8 *ctx)
+void ModelVariant448_DrawOrbitSheets(Variant448EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,7 +24,7 @@ void ModelVariant448_DrawOrbitSheets(u8 *ctx)
     s32 count;
     s32 otz;
 
-    work = (Variant448EntryState *)ctx;
+    work = context;
     fan = work->fans;
     sheet = work->orbit;
     ot = Graphics_GetDefaultOrderingTable();

@@ -2,7 +2,7 @@
 #include "variant448_orbit.h"
 #include "variant448_entry.h"
 
-void ModelVariant448_DrawOrbitSheets(u8 *ctx)
+void ModelVariant448_DrawOrbitSheets(Variant448EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,11 +24,11 @@ void ModelVariant448_DrawOrbitSheets(u8 *ctx)
     s32 count;
     s32 otz;
 
-    work = (Variant448EntryState *)ctx;
+    work = context;
     object = work->fans;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(ctx + 0x19BC);
-    sheet = (Variant448Orbit *)(ctx + 0x11F0);
+    poly = &context->packets.textured[1];
+    sheet = context->orbit;
     count = 0;
     for (i = 0, iangle = 0; i < 3; i++, object++, iangle = (i << 10) / 3) {
         for (j = 0, jangle = 0; j < 2; j++, jangle += 2048) {
