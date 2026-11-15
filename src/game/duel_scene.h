@@ -668,8 +668,9 @@ DisplayObject *Duel_GetOrCreateActionReadyMarker(DisplayObject *source);
  *
  * Both operands are duel card display objects, and the only offset either is
  * reached at is 0x6A -- the gDuel_aCardRecords index. That is the same use
- * Duel_DrawCardFrame makes of the byte through this record's kind_index.card_record_index, and the
- * evidence for calling these DisplayObject rather than something narrower.
+ * Duel_DrawCardFrame makes of the byte through this record's
+ * kind_index.card_record_index, and the evidence for calling these
+ * DisplayObject rather than something narrower.
  *
  * The field selectors now take canonical DuelCardRecord pointers and use
  * this same DisplayObject view, rather than separate one-pointer and
@@ -1084,8 +1085,8 @@ typedef DisplayObject *(*DuelCreateHandCardDisplayObjectAt)(
 );
 
 /* Re-derives a duel card object's visual state from its own card record:
- * gDuel_aCardRecords[object->kind_index.card_record_index] is the record, and every field this writes
- * comes from that record's flags. Face-down sets field_22, defense-position
+ * gDuel_aCardRecords[object->kind_index.card_record_index] is the record,
+ * and every field this writes comes from that record's flags. Face-down sets field_22, defense-position
  * sets field_21, DUEL_CARD_FLAG_USED_THIS_TURN dims the colour, and the deck number marker
  * is cleared unless DUEL_CARD_FLAG_DISPLAY_MARKER asks to keep it.
  *
@@ -1831,7 +1832,8 @@ void DuelScene_UpdateCardPlacement(void);
  * back by writing 5 into that word.
  *
  * On entry, while DUEL_SCENE_FLAG_INITIALIZED is clear, it latches the selected
- * slot's card id -- gDuel_aCardRecords[object->kind_index.card_record_index] -- into gDuel_wPlacementCardId, starts
+ * slot's card id -- gDuel_aCardRecords[object->kind_index.card_record_index]
+ * -- into gDuel_wPlacementCardId, starts
  * CardPreview_RequestResourceTransfer's resource request, bumps gDuel_pActiveSideState->field_05 for a
  * CARD_TYPE_MAGIC card, and seeds gDuel_bSceneSubStep with 1.
  *
@@ -2125,7 +2127,8 @@ struct DisplayObject;
 
 /* Decides whether the attacking card trips the trap it is walking into,
  * comparing its attack against gDuel_abTrapAttackThresholds scaled by 100.
- * The input is the attacking DisplayObject; kind_index.card_record_index indexes its card record.
+ * The input is the attacking DisplayObject; kind_index.card_record_index
+ * indexes its card record.
  * The threshold table is defined in this unit and names each entry. */
 s32 Duel_SelectAttackTrap(const struct DisplayObject *record);
 

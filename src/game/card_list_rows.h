@@ -42,8 +42,8 @@ typedef char CardListRowSet_entries_offset_must_be_0xA[
 #undef CARD_LIST_ROW_SET_OFFSET
 
 /* The two row sets CardList_CreateDeckBoxStatRows builds, and the array
- * CardList_RenderDeckBoxStats and
- * CardList_BuildRowSetTextBoxes index by the display object's kind_index.row_index.
+ * CardList_RenderDeckBoxStats and CardList_BuildRowSetTextBoxes index by the
+ * display object's kind_index.row_index.
  *
  * The records live in gFile_StagingBuffer, a shared staging buffer that
  * unrelated subsystems reinterpret wholesale at different times: script
