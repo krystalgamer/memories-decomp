@@ -79,10 +79,11 @@ returned 0 after 855,445 calls, 16.1 s into the boot; the warning
 - Interrupts: the entries whose count is 3 ended on INT3; Init, ReadTOC,
   GetID, SeekP and Pause, whose count is 5, ended on INT3 then INT2 - the
   `intsum` reading of the command table.
-- `SafetyInit` selected state 1 and message set 0. The run's BIOS region
-  byte read back as `0x00`, which the script could not confirm; a North
-  American retail BIOS would give `'A'` and message set 1, so the message
-  set observed here says nothing about retail consoles.
+- `SafetyInit` selected state 1 and message set 0 because the emulator ran
+  OpenBIOS, which does not carry Sony's region string at `0xBFC7FF52`; the
+  byte was neither `'A'` nor `'E'`. A North American retail BIOS gives `'A'`
+  (state 1, message set 1) and a European one `'E'` (the check is skipped).
+  Nothing else in the run depends on the BIOS.
 
 ## Identification: safechk 2.0.0.3
 
