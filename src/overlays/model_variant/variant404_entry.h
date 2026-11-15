@@ -29,7 +29,8 @@ typedef struct {
     ModelVariantPackets packets;
     POLY_GT4 extra;
     POLY_FT4 flat_textured[2];
-    u8 unknown_1864[0x24];
+    u8 unknown_1864[0x10];
+    GsGLINE line;
     MATRIX matrix, matrix0, matrix1;
     ModelVariantAim aim;
     ModelVariantClock clock;
