@@ -56,7 +56,7 @@ void SpanishModelVariant425_DrawSpiral(u8 *ctx)
     } else {
         spread = 0x400 - work->spiral.shrink;
     }
-    arm = (ModelVariantShadedRay *)work->spirals;
+    arm = work->spirals;
     for (i = 0; i < 12; i++, arm++) {
         phi = (i << 12) / 12 + work->spiral.angle * 2;
         theta = (i << 13) / 12 + work->spiral.angle;
@@ -78,7 +78,7 @@ void SpanishModelVariant425_DrawSpiral(u8 *ctx)
     } else {
         size = 0x1200;
     }
-    arm = (ModelVariantShadedRay *)work->spirals;
+    arm = work->spirals;
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
@@ -122,7 +122,7 @@ void SpanishModelVariant425_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (ModelVariantShadedRay *)work->spirals;
+    arm = work->spirals;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->projected[k] + arm->x_offset[k];

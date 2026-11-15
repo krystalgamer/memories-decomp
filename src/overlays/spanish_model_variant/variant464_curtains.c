@@ -44,7 +44,7 @@ void SpanishModelVariant464_DrawCurtains(Variant464EntryState *context)
     curtain = work->curtains;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx) + 0x800;
-    sheet = (ModelVariantSheet *)work->sheets;
+    sheet = work->sheets;
     poly = &work->curtain_poly;
     pitch = ratan2(work->aim.direction.vy, work->aim.direction.vz) + 0x800;
     if (yaw < 0x800) {
