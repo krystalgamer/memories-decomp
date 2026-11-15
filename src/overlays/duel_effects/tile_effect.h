@@ -36,6 +36,14 @@ typedef struct {
     CVECTOR colors_b[5][7];             /* 0x258 */
 } TileEffectState;
 
+#define TILE_EFFECT_STATE_OFFSET(member) ((u32)&(((TileEffectState *)0)->member))
+typedef char TileEffectState_colour_offsets_must_match[
+    TILE_EFFECT_STATE_OFFSET(colors_a) == 0x140 &&
+    TILE_EFFECT_STATE_OFFSET(colors_c) == 0x1CC &&
+    TILE_EFFECT_STATE_OFFSET(colors_b) == 0x258 ? 1 : -1
+];
+#undef TILE_EFFECT_STATE_OFFSET
+
 /* The texture-word table gDuelEffect_TexturePageClutPairs seen as the page/clut pairs the
  * dispatcher packs, one per image descriptor. */
 typedef struct {
