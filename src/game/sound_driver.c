@@ -70,8 +70,8 @@ void SD_InitSpuCommonVolume(void)
 #include "sound_output_state.h"
 #include "sound_init.h"
 #include "sound_transfer_lifecycle.h"
-#include "sound_effect_request.h"
-#include "sound_voice_selection.h"
+#include "sound_music.h"
+#include "sound_effect.h"
 
 #define SD_INIT_BLOCK_10_VIEW(block) ((SDInitBlk10 *)(block))
 #define SD_INIT_BLOCK_11_VIEW(block) ((SDInitBlk11 *)(block))
@@ -168,7 +168,6 @@ void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)
 }
 
 #include "../psyq/stdio.h"
-#include "sd_queue_value_link_transfer.h"
 #include "sound.h"
 
 /* MATCH 2026-09-06, first-day function from the m2c draft (248 instructions,
@@ -325,9 +324,7 @@ void SD_UpdateBankLoad(void) {
 
 #include "../psyq/libspu.h"
 #include "sound.h"
-#include "sound_effect_request.h"
 #include "sound_transfer_lifecycle.h"
-#include "sound_voice_selection.h"
 
 #include "sound_init.h"
 
@@ -392,7 +389,6 @@ void SD_ResetRuntime(void)
 }
 
 #include "sound_init.h"
-#include "sound_pending_entries.h"
 void SD_Shutdown(void)
 {
     SD_KeyOffVoiceSlots();

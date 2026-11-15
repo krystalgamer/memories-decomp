@@ -251,16 +251,16 @@ entry returns without starting playback.
 These names do not move allocation into the start helper: the caller below
 chooses the slot and performs voice stealing. The public parameter widths,
 low-halfword ID behavior, envelope-call order and SPU-call order remain
-unchanged. `sound_voice_selection.h` owns both declarations; the allocator's
+unchanged. `sound_effect.h` declares both; the allocator's
 scripted callee and declaration-visibility witness use the same start name.
 
 ### Slot allocator
 
-`SD_AllocateSoundEffectVoice` owns a separate 936-byte matching translation unit. Its
-`sound_voice_allocator.h` declaration retains a full-width incoming ID and
+`SD_AllocateSoundEffectVoice` is a 936-byte function of `src/game/sound_effect.c`. Its
+`sound_effect.h` declaration retains a full-width incoming ID and
 mode, signed halfword pitch and pan, and byte volume and selection value.
 The matching `SD_SEPlay` request path consumes this declaration directly.
-`sound_voice_selection.h` owns the
+The same header declares the
 keyed-group query and the adjacent count/start pair.
 
 The allocator rejects missing low-16-bit index-table entries before handling
@@ -391,7 +391,7 @@ offset is a note-record stride or an inferred capacity. Both cursors retain
 their original advancement even for skipped IDs. Register pins,
 pointer/count reloads, and the halfword rate adjustment remain unchanged.
 
-The shared `SDSeqBlock` in `sound_pending_entries.h` is consumed by both the
+The shared `SDSeqBlock` in `sound_effect.h` is consumed by both the
 pending-entry loader and `SD_LoadSequenceBankPair`. It has
 `SD_PENDING_INPUT_ENTRY_CAPACITY` IDs and note records. That capacity is
 derived from the ID region: `(0x1A0 - 0x08) / 2 = 204`, with an explicit
@@ -740,14 +740,14 @@ two:
 - `SD_ResetMusicTrackBuffer` writes the music-track pointer through
   `((u8 *)g_SDValue + 0x1564)` because a plain member assignment changes
   register allocation. Since #4457 it stores through the member's address,
-  `*(void **)&g_SDValue->s_pwSD_MUSIC_TRACK` in `src/game/sound_init.c`, and the
+  `*(void **)&g_SDValue->s_pwSD_MUSIC_TRACK` in `src/game/sound_music.c`, and the
   comment above that store carries the measurement.
 - `SD_CountActiveSoundEffectVoices` was documented as indexing the four voice IDs as
   `((u8 *)g_SDValue + index * 2 + 0x404)`. The source spelled that
   `((u8 *)g_SDValue + s0 * 2 + 0x404)`, and `ac4e0662` ("Coalesce the
   sound-effect voice slots (#2740)") replaced it with
   `g_SDValue->s_awSD_VOICE_SE_ID[s0]` -- `SD_CountActiveSoundEffectVoices` in
-  `src/game/sound_voice_selection.c`, and
+  `src/game/sound_effect.c`, and
   the function matches. Only the description is stale; the three-instruction
   cost it claimed was not re-measured against the current source.
 
@@ -913,8 +913,9 @@ Existing GCC constraints remain unchanged by layout migrations. The secondary
 spatialization contract below also covers callers containing constraints,
 without changing or adding those devices.
 
-The contiguous initialization block at `0x80049200-0x800495EC` now builds as
-`src/game/sound_init.c`. It preserves the explicit raw music-pointer write in
+The music half of the contiguous initialization block at `0x80049200-0x800495EC`, through
+`SD_ResetMusicTrackBuffer`, now builds in `src/game/sound_music.c` and the
+secondary half in `src/game/sound_init.c`. The music half preserves the explicit raw music-pointer write in
 `SD_ResetMusicTrackBuffer` while sharing `SDValue` declarations across the
 other music/sequence helpers.
 

@@ -4,12 +4,6 @@
 #include "../types.h"
 #include "../psyq/libspu_internal.h"
 
-void SD_RequestBgmPlaybackDefaultStep(s32 command_id);
-void SD_RequestBgmPlayback(s32 command_id, s32 step);
-void SD_Init(void);
-void SD_OpenMusicVab(void);
-void SD_SetMusicTrackBuffer(u16 *track_buffer);
-void SD_ResetMusicTrackBuffer(void);
 void SD_ResetSecondaryState(void);
 void SD_InitSecondaryWorkArea(s32 *work_area_cursor);
 void SD_EnableSecondarySequenceUpdates(void);

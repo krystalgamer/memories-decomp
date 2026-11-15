@@ -626,7 +626,7 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 #include "sound_driver.h"
 #include "model_scene_states.h"
 #include "fade.h"
-#include "sound_pending_entries.h"
+#include "sound_effect.h"
 #include "model_queue_tint_request.h"
 #include "file_transfer.h"
 #include "high_memory_addresses.h"
@@ -3911,7 +3911,7 @@ void Model_DrawSlot(s32 index)
 #include "model_slot_row_tables.h"
 #include "shared_work_base.h"
 #include "file_package_staging.h"
-#include "sound_effect_request.h"
+#include "sound_music.h"
 #include "script_scene.h"
 #include "duel_scene.h"
 

@@ -1,5 +1,4 @@
 #include "../types.h"
-#include "sound_effect_request.h"
 #include "sd_reset_secondary_playback_thunk.h"
 #include "../psyq/libspu.h"
 #include "sound.h"
@@ -7,83 +6,6 @@
 #include "sound_driver.h"
 #include "sound_init.h"
 #include "sound_transfer_lifecycle.h"
-
-void SD_RequestBgmPlaybackDefaultStep(s32 command_id)
-{
-    SD_RequestBgmPlayback((s16)command_id, g_SDValue->s_bSD_BGM_FADE_STEP_DEFAULT);
-}
-
-void SD_RequestBgmPlayback(s32 command_id, s32 step)
-{
-    SDCommand command;
-    s16 signed_command = command_id;
-
-    if (signed_command < 0) {
-        SD_ResetMusicState();
-        return;
-    }
-    if (*g_SDValue->s_pwSD_MUSIC_TRACK != (signed_command >> 4))
-        SD_RequestMusicPackageLoad(signed_command, 1);
-    command.command = 0x48;
-    command.value = command_id;
-    command.args.fade.step = (s16)step;
-    SD_EnqueueCommand(&command);
-    g_SDValue->s_wSD_BGM_FADE_STEP = step;
-    g_SDValue->s_bSD_BGM_FADE_TARGET = 255;
-}
-
-void SD_Init(void)
-{
-    SD_CancelMusicRequests();
-    SD_ResetMusicState();
-    SpuSetReverbModeType(SPU_REV_MODE_OFF);
-}
-
-void SD_OpenMusicVab(void)
-{
-    SDValue *open_state = g_SDValue;
-
-    if (open_state->s_wSD_MUSIC_VAB_ID != 0) {
-        SDMusicPackage *package = (SDMusicPackage *)open_state->s_pwSD_MUSIC_TRACK;
-        s32 vab_result =
-            SD_VabOpenHead(&package->vab_header, 0, package->spu_address);
-
-        g_SDValue->s_wSD_MUSIC_VAB_ID = vab_result;
-        if ((vab_result << 16) != 0) {
-            g_SDValue->s_wSD_OPEN_MUSIC_PACKAGE = -1;
-            g_SDValue->s_wSD_MUSIC_VAB_ID = -1;
-            return;
-        }
-    }
-    {
-        register SDValue *publish_state = g_SDValue;
-        register u16 *package_id_ptr = publish_state->s_pwSD_MUSIC_TRACK;
-        publish_state->s_wSD_OPEN_MUSIC_PACKAGE = *package_id_ptr;
-    }
-}
-
-void SD_SetMusicTrackBuffer(u16 *track_buffer)
-{
-    SD_ResetMusicState();
-    if (track_buffer != 0)
-        g_SDValue->s_pwSD_MUSIC_TRACK = track_buffer;
-    else
-        g_SDValue->s_pwSD_MUSIC_TRACK = (u16 *)0x801EA800;
-    *g_SDValue->s_pwSD_MUSIC_TRACK = 0xFFFF;
-}
-
-void SD_ResetMusicTrackBuffer(void)
-{
-    u16 *default_track_buffer;
-
-    SD_ResetMusicState();
-    default_track_buffer = (u16 *)0x801EA800;
-    /* Stored through the member's address as void **: a plain member store
-       (or a u16 ** cast, which fold turns back into one) picks a different
-       register for the pointer and changes seven words. Measured. */
-    *(void **)&g_SDValue->s_pwSD_MUSIC_TRACK = default_track_buffer;
-    default_track_buffer[0] = 0xFFFF;
-}
 
 void SD_ResetSecondaryState(void)
 {

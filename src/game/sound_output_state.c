@@ -367,7 +367,7 @@ s32 SD_HasQueuedStreamCommand(void) {
 #include "sound_transfer_lifecycle.h"
 #include "file_transfer.h"
 #include "sound.h"
-#include "sound_pending_entries.h"
+#include "sound_effect.h"
 #include "sound_output_state.h"
 #include "sound_sequence_timing.h"
 #include "../ygo_types.h"
