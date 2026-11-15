@@ -91,7 +91,7 @@ typedef struct {
 } EntryState443;
 
 extern u8 gFrenchModelVariant443_D45A8[];
-void FrenchModelVariant443_DrawRibbons(u8 *context);
+void FrenchModelVariant443_DrawRibbons(EntryState443 *context);
 void SpanishModelVariant443_DrawRings(u8 *context);
 void SpanishModelVariant443_DrawMesh(u8 *context);
 void SpanishModelVariant443_DrawSheets(u8 *context);

@@ -15,7 +15,7 @@
  * constant ribbon length once before the ribbon loop rather than per ribbon
  * (MODEL_VARIANT469_RIBBONS_EARLY_LEN); that keeps its sign extension inside
  * the ribbon loop and the hoisted projection addresses in retail order. */
-void FrenchModelVariant469_DrawRibbons(u8 *ctx)
+void FrenchModelVariant469_DrawRibbons(EntryState469 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -44,7 +44,7 @@ void FrenchModelVariant469_DrawRibbons(u8 *ctx)
     s32 dy;
     s32 turn;
 
-    work = (EntryState469 *)ctx;
+    work = context;
     ribbon = (Variant469Ribbon *)work->ribbons;
     ot = Graphics_GetDefaultOrderingTable();
     sum = 0;

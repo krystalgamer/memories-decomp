@@ -14,7 +14,7 @@
 #define RIBBONS443_VY(screen, n) ((screen)[n].point.vy)
 #endif
 
-void FrenchModelVariant443_DrawRibbons(u8 *ctx)
+void FrenchModelVariant443_DrawRibbons(EntryState443 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -41,7 +41,7 @@ void FrenchModelVariant443_DrawRibbons(u8 *ctx)
     Ribbons443Timing *timing;
     ModelVariantSheet *sheet;
 
-    work = (EntryState443 *)ctx;
+    work = context;
     sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

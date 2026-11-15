@@ -14,7 +14,7 @@
  * sorting. The last drawn segment ends on the bare projected spine point
  * instead of its width offsets. The unused `turn` and first-loop `bend` are
  * kept from the template, as in the header-469 helper. */
-void FrenchModelVariant461_DrawRibbons(u8 *ctx)
+void FrenchModelVariant461_DrawRibbons(EntryState461 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -44,7 +44,7 @@ void FrenchModelVariant461_DrawRibbons(u8 *ctx)
     s32 dy;
     s32 turn;
 
-    work = (EntryState461 *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     ribbon = (Variant469Ribbon *)work;
     sum = 0;

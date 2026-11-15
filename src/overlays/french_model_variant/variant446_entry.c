@@ -267,10 +267,10 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
                     SpanishModelVariant446_DrawPulse((u8 *)point);
                 }
                 if (work->config->rays_start <= work->elapsed) {
-                    FrenchModelVariant446_DrawRays((u8 *)point);
+                    FrenchModelVariant446_DrawRays((EntryState446 *)point);
                 }
                 if (work->phase > 0) {
-                    FrenchModelVariant446_DrawRibbons((u8 *)point);
+                    FrenchModelVariant446_DrawRibbons((EntryState446 *)point);
                     SpanishModelVariant446_DrawStrip((u8 *)point);
                 }
                 work->part_index++;

@@ -17,7 +17,7 @@
 #define TWIN_RIBBONS456_POINT ribbon->sa[j]
 #endif
 
-void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
+void FrenchModelVariant456_DrawTwinRibbons(Variant456EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -45,7 +45,7 @@ void FrenchModelVariant456_DrawTwinRibbons(u8 *ctx)
     TwinRibbon456 *ribbon;
     POLY_FT4 *poly;
 
-    work = (Variant456EntryState *)ctx;
+    work = context;
     ribbon = (TwinRibbon456 *)work->trails;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

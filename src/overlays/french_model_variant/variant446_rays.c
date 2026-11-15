@@ -10,7 +10,7 @@
  * one fading to black. ray_size grows by step * 128 up to 0x1000; once the
  * clock passes the config's rays_end the length shrinks to zero over the
  * span to field_48. */
-void FrenchModelVariant446_DrawRays(u8 *ctx)
+void FrenchModelVariant446_DrawRays(EntryState446 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -43,7 +43,7 @@ void FrenchModelVariant446_DrawRays(u8 *ctx)
     u8 c2;
     u8 c3;
 
-    work = (EntryState446 *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     sign = -1;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;

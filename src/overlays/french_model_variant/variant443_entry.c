@@ -514,7 +514,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
                 FrenchModelVariant443_DrawBands((u8 *)point);
             }
             if (work->phase >= 2) {
-                FrenchModelVariant443_DrawRibbons((u8 *)point);
+                FrenchModelVariant443_DrawRibbons((EntryState443 *)point);
             }
         }
         if (work->phase >= 4) {

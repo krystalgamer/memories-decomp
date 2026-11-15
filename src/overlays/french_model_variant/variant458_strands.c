@@ -15,7 +15,7 @@
 #define STRANDS458_SB(k) (strand->sb[k])
 #endif
 
-void FrenchModelVariant458_DrawStrands(u8 *ctx)
+void FrenchModelVariant458_DrawStrands(Variant458StrandView *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -42,7 +42,7 @@ void FrenchModelVariant458_DrawStrands(u8 *ctx)
     s32 dy;
     s32 row;
 
-    work = (Variant458StrandView *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->axis_z, work->axis_x) + 3072;
     ratan2(work->axis_y, work->axis_z);
