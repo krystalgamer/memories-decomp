@@ -3,9 +3,9 @@
 #include "variant425_spiral.h"
 #include "variant425_entry.h"
 
-/* Header 425's form of the header-418 spiral: sixteen two-point arms (records
- * in the record's arms) fanned on a sphere of radius 0x200 at angles i/16 of a
- * turn plus the sweep at spiral_angle, each with a copy moved along the view
+/* Header 425's form of the header-418 spiral: the sixteen two-point arms in
+ * arms, fanned on a sphere of radius 0x200 at angles i/16 of a turn plus
+ * the sweep at spiral_angle, each with a copy moved along the view
  * by (0x400 - field_2710) / 128 or / 32, projected and drawn as two POLY_GT4
  * halves in fixed yellow shades, only where the depth and the projection
  * flag are not negative. The scale comes from the timing record's size,
