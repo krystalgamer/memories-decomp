@@ -24,7 +24,7 @@ void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon)
     s32 amount;
 
     work = (Variant415EntryState *)ribbon;
-    poly = (POLY_GT4 *)((u8 *)work + 0x2B90);
+    poly = work->bars;
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 5; i++) {
         angle = ratan2(work->screen_y[i], work->screen_x[i]) + 0x800;
