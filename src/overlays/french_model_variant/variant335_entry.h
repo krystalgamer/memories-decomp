@@ -49,8 +49,8 @@ typedef struct {
 
 s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command);
 extern u8 gFrenchModelVariant335_D28EC[];
-void FrenchModelVariant335_DrawRibbons(u8 *context);
-void FrenchModelVariant335_DrawSheets(u8 *context);
-void FrenchModelVariant335_DrawRings(u8 *context);
-void FrenchModelVariant335_DrawStreamers(u8 *context);
+void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx);
+void FrenchModelVariant335_DrawSheets(Model335EntryState *context);
+void FrenchModelVariant335_DrawRings(Model335EntryState *work);
+void FrenchModelVariant335_DrawStreamers(Model335EntryState *ctx);
 #endif

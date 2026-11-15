@@ -2,7 +2,7 @@
 #include "../model_variant/model_variant.h"
 #include "variant335_entry.h"
 
-void FrenchModelVariant335_DrawSheets(u8 *context)
+void FrenchModelVariant335_DrawSheets(Model335EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,7 +24,7 @@ void FrenchModelVariant335_DrawSheets(u8 *context)
     s32 radius;
     s32 rotation_bias;
 
-    work = (Model335EntryState *)context;
+    work = context;
     sheet = (ModelVariantSheet *)work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     poly = &work->textured[1];

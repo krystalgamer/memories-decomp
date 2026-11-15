@@ -2,7 +2,7 @@
 #include "variant335_rings.h"
 #include "variant335_entry.h"
 
-void FrenchModelVariant335_DrawRings(u8 *work)
+void FrenchModelVariant335_DrawRings(Model335EntryState *work)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,8 +11,8 @@ void FrenchModelVariant335_DrawRings(u8 *work)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant335Ring *ring = ((Model335EntryState *)work)->rings;
-    POLY_GT4 *quad = &((Model335EntryState *)work)->textured[2];
+    Variant335Ring *ring = work->rings;
+    POLY_GT4 *quad = &work->textured[2];
     GsOT *ot;
     s32 j;
     s32 done;
@@ -32,9 +32,9 @@ void FrenchModelVariant335_DrawRings(u8 *work)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = ((Model335EntryState *)work)->aim.target.vx;
-            matrix.t[1] = ((Model335EntryState *)work)->aim.target.vy;
-            matrix.t[2] = ((Model335EntryState *)work)->aim.target.vz;
+            matrix.t[0] = work->aim.target.vx;
+            matrix.t[1] = work->aim.target.vy;
+            matrix.t[2] = work->aim.target.vz;
             scale.vx = ring->scale;
             scale.vy = ring->scale;
             scale.vz = ring->scale;
@@ -94,9 +94,9 @@ void FrenchModelVariant335_DrawRings(u8 *work)
             }
         }
         if (ring->scale <= 4096) {
-            ring->scale += ((Model335EntryState *)work)->clock.step * 64;
+            ring->scale += work->clock.step * 64;
             if (ring->scale >= 4096) {
-                if (((Model335EntryState *)work)->phase < 7) {
+                if (work->phase < 7) {
                     ring->scale -= 4096;
                     ring->cycles++;
                 } else {
@@ -106,8 +106,8 @@ void FrenchModelVariant335_DrawRings(u8 *work)
             }
         }
         if (j + 1 == 3 && done == 1
-            && ((Model335EntryState *)work)->phase == 7) {
-            ((Model335EntryState *)work)->phase = 8;
+            && work->phase == 7) {
+            work->phase = 8;
         }
     }
 }
