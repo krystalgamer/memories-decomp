@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "../psyq/libspu.h"
-#include "sd_key_off_secondary_object.h"
+#include "sound_secondary_voice.h"
 #include "sound_sequence_constants.h"
 #include "sound.h"
 

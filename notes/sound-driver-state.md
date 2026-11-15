@@ -1041,7 +1041,7 @@ fields that happen to contain similar values.
 
 ### Shared secondary spatialization contract
 
-`sound_spatialize_object.h` now declares both parameters with the existing
+`sound_secondary_voice.h` now declares both parameters with the existing
 `SDSecondaryObject` and `SDSecondaryRecord` types from `sound.h`.
 `SD_SpatializeSecondaryObject` at `0x8004A0FC` uses those members throughout,
 including typed `SDSecondaryState` root reads. The three matching callers
@@ -1579,7 +1579,7 @@ the major top-level offsets.
 
 The adjacent envelope setters `SD_SetVoiceEnvelopeFromTone` (`0x8004A6F8`) and
 `SD_ResetVoiceEnvelope` (`0x8004A764`) are pure C in
-[`sound_voice_setup.c`](../src/game/sound_voice_setup.c), following the pitch and reset helpers, since post-terminal refinements removed
+[`sound_secondary_voice.c`](../src/game/sound_secondary_voice.c), following the pitch and reset helpers, since post-terminal refinements removed
 their hard-register and inline-assembly dependency. They use the same
 `SpuVoiceAttr` block at `+0x4C0`: the first copies ADSR values from the
 caller's tone record, while the second sets the initialization defaults before

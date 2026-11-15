@@ -1,10 +1,9 @@
 #include "../types.h"
-#include "sound_spatialize_object.h"
+#include "sound_secondary_voice.h"
 #include "../psyq/libapi.h"
 
 #include "sound.h"
 #include "sound_event_runtime.h"
-#include "sound_spatialization.h"
 #include "sound_sequence_channel_events.h"
 
 #include "sound_secondary_commands.h"

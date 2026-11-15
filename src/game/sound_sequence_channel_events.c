@@ -3,10 +3,7 @@
 #include "sound_sequence_constants.h"
 
 #include "sound.h"
-#include "sound_secondary_object_selection.h"
-#include "sd_pitch_from_note.h"
-#include "sound_spatialize_object.h"
-#include "sound_spatialization.h"
+#include "sound_secondary_voice.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_sequence_channel_events.h"
 

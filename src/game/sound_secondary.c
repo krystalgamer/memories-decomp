@@ -5,9 +5,8 @@
 #include "sound_driver.h"
 #include "sound_secondary.h"
 #include "sound_transfer_lifecycle.h"
-#include "sound_spatialization.h"
+#include "sound_secondary_voice.h"
 #include "sound_sequence_timing.h"
-#include "sd_reset_secondary_playback_thunk.h"
 
 void SD_ResetSecondaryState(void)
 {

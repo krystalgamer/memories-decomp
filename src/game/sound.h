@@ -914,7 +914,7 @@ extern SDSecondaryState *gSD_pSecondaryState;
  * both of which take a voice mask.
  *
  * The table is const, and that is a codegen input, measured rather than
- * assumed: with the envelope setters in sound_voice_setup.c on a plain
+ * assumed: with the envelope setters (now in sound_secondary_voice.c) on a plain
  * declaration their former unit compiled to 204 bytes of text instead of 200.
  * SD_SetVoiceVolume needs it too: only an unchanging table load is free of
  * the stores through the state pointer, which is what puts its right-channel
@@ -924,7 +924,7 @@ extern SDSecondaryState *gSD_pSecondaryState;
 extern const s32 gSD_adwVoiceMasks[20];
 
 /* Submits one secondary object's stereo level, scaled by the two channel
- * masters, as a volume-only SpuSetVoiceAttr request (sound_voice_volume.c).
+ * masters, as a volume-only SpuSetVoiceAttr request (sound_secondary_voice.c).
  * Three arguments and no result: callers never read one. */
 void SD_SetVoiceVolume(s32 voice, s32 left, s32 right);
 /* Copies a tone record's ADSR fields into one SPU voice. */
@@ -977,7 +977,7 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
    SD_StopSequence (sound_secondary.c) calls the reset right before
    SD_ResetSecondaryPlayback, which rebuilds the voice tables. SD_UpdateSecondaryObjectPitch
    refreshes one secondary
-   object's pitch (src/game/sound_voice_setup.c), and its one caller is SD_UpdateSecondaryObjectVoices. It
+   object's pitch (src/game/sound_secondary_voice.c), and its one caller is SD_UpdateSecondaryObjectVoices. It
    stays here rather than in unmatched.h because it takes an
    SDSecondaryObject. */
 void SD_ResetSequenceTracks(void);
