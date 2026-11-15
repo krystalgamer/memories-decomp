@@ -47,11 +47,11 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
 
     work = (Variant433EntryState *)point;
     fan = work->fans;
-    ribbon = (Variant433EntryRibbon *)((u8 *)work + 0x270);
-    band = (Variant433EntryBand *)((u8 *)work + 0xF00);
-    ring = (Variant433EntryBand *)((u8 *)work + 0x1518);
-    sheet = (Variant433EntrySheet *)((u8 *)work + 0x3598);
-    streamer = (Variant433EntryStreamer *)((u8 *)work + 0x39F8);
+    ribbon = work->ribbons;
+    band = work->bands;
+    ring = work->rings;
+    sheet = work->sheets;
+    streamer = work->streamers;
     textured = work->packets.textured;
     flat = work->flat;
     extra = work->flat_extra;
