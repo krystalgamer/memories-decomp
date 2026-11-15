@@ -3,8 +3,7 @@
 The boot sequence loads WA_MRG module `0x16` at `0x80168000` before the
 title screen. It is Sony's anti-modchip check, the runtime library safechk
 2.0.0.3, and its modules are named `safecheck2003` after that version (they
-were formerly called `apv2`; the two pinned compiler patches under
-`tools/bootstrap/patches/` still cite this note as `apv2.md`).
+were formerly called `apv2`).
 `Main_RunBootSequence` calls `SafetyInit` once and then calls `SafetySync(1)`
 every frame until it returns zero.
 
