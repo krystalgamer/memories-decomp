@@ -12,10 +12,26 @@ typedef struct {
     u32 end;
 } Model335EntryConfig;
 
+typedef union {
+    DVECTOR point;
+    long packed;
+} Model335Screen;
+
+/* One 0x394-byte ribbon of seventeen points: the entry seeds style, and the
+ * ribbon drawer projects the points and takes its colour from style.inner. */
 typedef struct {
-    u8 unknown_000[0x220];
+    SVECTOR a[17];
+    Model335Screen sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    Model335Screen sb[17];
+    s32 width[17];
     ModelVariantStripStyle style;
-    u8 unknown_240[0x394 - 0x240];
+    u8 unknown_240[0x88];
+    s32 otz[17];
+    long flag[17];
+    s16 ox[17];
+    s16 oy[17];
 } Model335EntryRecord;
 
 /* Minimum observed context extent, not an allocation capacity. */
