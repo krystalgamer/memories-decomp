@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant335_ribbons.h"
 #include "variant335_entry.h"
 
 /* Header 318 projects its seventeenth point with fixed indices and reaches
@@ -31,7 +30,7 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
     s32 yaw;
     s32 angle;
     s16 len;
-    Model335Ribbon *ribbon;
+    Model335EntryRecord *ribbon;
     POLY_FT4 *poly;
     s16 k;
     s32 bend;
@@ -58,7 +57,7 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
     work->delta.vz = work->end.vz - work->origin.vz;
     sheet = (ModelVariantSheet *)work->sheets;
     len = work->width * 48 / 1024;
-    ribbon = (Model335Ribbon *)work;
+    ribbon = work->records;
     for (i = 0, phase = 0; i < 3; i++, ribbon++, phase = i * 2048 / 3) {
         angle = yaw + i * 4096 / 3 + work->spin;
         for (k = 0, wave = -work->wave0; k < 17; k++, wave += 1300) {
@@ -95,7 +94,7 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (Model335Ribbon *)work;
+    ribbon = work->records;
 #ifdef MODEL_VARIANT335_RIBBONS_FIXED_TIP
     for (i = 0, projection = &p; i < 3; i++, ribbon++) {
         for (k = 0; k < 17; k++) {
@@ -114,7 +113,7 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
             } else
 #else
     for (i = 0, projection = &p, previous = &ribbon->sa[15].point; i < 3; i++,
-         previous = (DVECTOR *)((u8 *)previous + sizeof(Model335Ribbon)), ribbon++) {
+         previous = (DVECTOR *)((u8 *)previous + sizeof(Model335EntryRecord)), ribbon++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
                 ribbon->otz[k] = RotTransPers4(&ribbon->a[15], &ribbon->a[k], &ribbon->a[15], &ribbon->a[k],
@@ -127,7 +126,7 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
                 ribbon->angle[k] = ratan2(dy, dx) - 1024;
                 ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
                 {
-                    Model335Ribbon *offsets = (Model335Ribbon *)((s16 *)ribbon + k);
+                    Model335EntryRecord *offsets = (Model335EntryRecord *)((s16 *)ribbon + k);
                     offsets->ox[0] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                     offsets->oy[0] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 }
@@ -148,7 +147,7 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
             }
         }
     }
-    ribbon = (Model335Ribbon *)work;
+    ribbon = work->records;
     for (i = 0; i < 3; i++, ribbon++) {
         k = 0;
         poly = work->flat_textured;
@@ -161,7 +160,7 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
             poly->y2 = (MODEL_VARIANT335_RIBBON_SCREEN(ribbon, k).packed >> 16) - ribbon->oy[k];
             poly->x3 = MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k).point.vx - ribbon->ox[k + 1];
             poly->y3 = (MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k).packed >> 16) - ribbon->oy[k + 1];
-            setRGB0(poly, ribbon->color[0], ribbon->color[1], ribbon->color[2]);
+            setRGB0(poly, ribbon->style.inner.r, ribbon->style.inner.g, ribbon->style.inner.b);
             if (ribbon->otz[k] >= 0 && ribbon->flag[k] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[k]);
             }
