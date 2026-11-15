@@ -2364,9 +2364,9 @@ void DuelScene_UpdateResume(void)
     }
     ViewState_ApplyOrbit();
     obj = DuelEffect_CreateRequest(0xB);
-    obj->field_00 = card->xy.h.x;
-    obj->field_02 = card->xy.h.y;
-    obj->field_04 = (u16)card->field_34.h.z;
+    obj->x = card->xy.h.x;
+    obj->y = card->xy.h.y;
+    obj->z = (u16)card->field_34.h.z;
     obj->phase = Duel_GetCardEffectVariant((CardObject *)card);
     DuelCard_RemoveFromField(&gDuel_aCardRecords[card->kind_index.card_record_index]);
     SD_SEPlayFull(0x1F);
@@ -2850,11 +2850,11 @@ void DuelScene_UpdateExodiaResult(void)
         }
         fx = DuelEffect_AllocateRequest(0x13);
         gDuelEffect_pTrackedRequest = fx;
-        fx->field_00 = (s16)((rand() & 0xFF) + 0x20);
+        fx->x = (s16)((rand() & 0xFF) + 0x20);
         r = Rand_GetInterval(0xB0);
         n = (u8)gDuel_bPresentationCursor;
         t14 = (s32)fx->buffer;
-        fx->field_02 = (s16)(r + 0x20);
+        fx->y = (s16)(r + 0x20);
         fx->buffer = (void *)(t14 + ((n & 3) << 13));
         gDuel_bPresentationCursor = n + 1;
         return;
@@ -2868,8 +2868,8 @@ void DuelScene_UpdateExodiaResult(void)
         if (gDuel_bPresentationCursor >= DISPLAY_OBJECT_WORK_SLOT_COUNT) {
             gDuel_wSceneStateFlags = (flags & 0xDFFF) | 0x1000;
             fx = DuelEffect_AllocateRequest(0x13);
-            fx->field_00 = 0xA0;
-            fx->field_02 = 0x78;
+            fx->x = 0xA0;
+            fx->y = 0x78;
             gDuelEffect_pTrackedRequest = fx;
             fx->buffer = (void *)((s32)fx->buffer + 0x8000);
             return;
@@ -2879,9 +2879,9 @@ void DuelScene_UpdateExodiaResult(void)
         k = gDuel_bPresentationCursor;
         slot = &gDisplayObject_apWorkSlots.slots[k];
         d = *slot;
-        fx->field_00 = (s16)(d->xy.h.x + 0x1A);
+        fx->x = (s16)(d->xy.h.x + 0x1A);
         d = *slot;
-        fx->field_02 = (s16)(d->xy.h.y + 0x1E);
+        fx->y = (s16)(d->xy.h.y + 0x1E);
         sum = (k << 12) + 0xA000;
         anim = (s32)fx->buffer + sum;
         fx->buffer = (void *)anim;
@@ -3832,9 +3832,9 @@ void DuelScene_UpdateCardPlacement(void)
                 gDuel_bSceneSubStep |= 0x20;
                 effect = DuelEffect_AllocateRequest(
                     ((u32)((u16)gDuel_wEquipCardId - 301) < 2) * 4);
-                effect->field_00 = gDisplayObject_apWorkSlots.slots[0]->xy.h.x + 26;
+                effect->x = gDisplayObject_apWorkSlots.slots[0]->xy.h.x + 26;
                 gDuelEffect_pTrackedRequest = effect;
-                effect->field_02 = gDisplayObject_apWorkSlots.slots[0]->xy.h.y + 30;
+                effect->y = gDisplayObject_apWorkSlots.slots[0]->xy.h.y + 30;
                 if (gDuel_wEquipCardId == 302)
                 effect->phase = 1;
                 if (gDuel_wEquipCardId == 0x291)
@@ -3886,9 +3886,9 @@ void DuelScene_UpdateCardPlacement(void)
                 {
                     DuelEffectRequest *request;
                     request = DuelEffect_AllocateRequest(1);
-                    request->field_00 = 128;
+                    request->x = 128;
                     /* A plain member store reschedules this function (it shrinks). */
-                    (*(s16 *)((u32)request + (u32)&((DuelEffectRequest *)0)->field_02)) = gDisplayObject_apWorkSlots.slots[0]->xy.h.y + 30;
+                    (*(s16 *)((u32)request + (u32)&((DuelEffectRequest *)0)->y)) = gDisplayObject_apWorkSlots.slots[0]->xy.h.y + 30;
                     gDuelEffect_pTrackedRequest = request;
                     slots = gDisplayObject_apWorkSlots.slots;
                     if (slots[0]->resource_branch_index >= 20 || slots[1]->resource_branch_index >= 20)
@@ -4187,11 +4187,11 @@ void DuelScene_UpdateCardMove(void)
                 break;
             }
             request = DuelEffect_CreateRequest(0xD);
-            request->field_00 = object->xy.h.x;
-            request->field_02 = object->xy.h.y;
+            request->x = object->xy.h.x;
+            request->y = object->xy.h.y;
             z = object->field_34.h.z;
             request->number = -gDuel_wPendingEquipBonus;
-            request->field_04 = z;
+            request->z = z;
             SD_SEPlayFull(0x21);
             gDuel_bSceneSubStep &= ~0x40;
             break;
@@ -6151,10 +6151,10 @@ s32 Duel_UpdateTrapPresentation(void) {
                     DUEL_CARD_STAGING_REPLAY_BASE_OFFSET);
                 p = (DisplayObject *)g->record.object;
                 e = DuelEffect_CreateRequest(8);
-                e->field_00 = (s16)p->xy.h.x;
-                e->field_02 = (s16)p->xy.h.y;
+                e->x = (s16)p->xy.h.x;
+                e->y = (s16)p->xy.h.y;
                 q34 = (u16 *)&p->field_34.h.z;
-                *(d = (u16 *)&e->field_04) = *q34;
+                *(d = (u16 *)&e->z) = *q34;
                 DuelCard_RemoveFromField(&gDuel_aCardRecords[p->kind_index.card_record_index]);
                 SD_SEPlayFull(0x17);
                 gDuel_wTrapPresentationMode = 2;
@@ -6527,11 +6527,11 @@ void DuelScene_UpdateBattle(void)
                         gDuelEffect_pTrackedRequest = req;
                         pos = side->xy.h.x;
                         pos += 0x46;
-                        req->field_00 = pos;
+                        req->x = pos;
                         gDuel_wStepCounter = 0;
                         arg = side->xy.h.y;
                         arg += DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
-                        req->field_02 = arg;
+                        req->y = arg;
                         pos = result - 1;
                         req->phase = pos;
                         gDuel_bSceneSubStep = t | 0x60;
@@ -6656,8 +6656,8 @@ void DuelScene_UpdateBattle(void)
                 }
                 req =
                     DuelEffect_AllocateRequest(2);
-                req->field_00 = side->xy.h.x + 0x46;
-                req->field_02 =
+                req->x = side->xy.h.x + 0x46;
+                req->y =
                     side->xy.h.y +
                     DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
                 result = gDuel_awBattleDamage[gDuel_bPresentationCursor];
@@ -6716,8 +6716,8 @@ void DuelScene_UpdateBattle(void)
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0x80;
             req = DuelEffect_CreateRequest(2);
-            req->field_00 = 0xF0;
-            req->field_02 = 0x78;
+            req->x = 0xF0;
+            req->y = 0x78;
             result = Duel_CompareBattleStrength(gDisplayObject_apWorkSlots.slots[0], 0);
             req->phase = result / 1000;
             if (req->phase >= 3) {
@@ -6739,8 +6739,8 @@ void DuelScene_UpdateBattle(void)
             SD_SEPlayFull(0x1B);
             req = DuelEffect_AllocateRequest(3);
             gDuelEffect_pTrackedRequest = req;
-            req->field_00 = side->xy.h.x + 0x46;
-            req->field_02 =
+            req->x = side->xy.h.x + 0x46;
+            req->y =
                 side->xy.h.y +
                 DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
             if (gDuel_wSelectedTrapCardId != 0) {
@@ -7959,21 +7959,21 @@ void DebugEffect_UpdatePreview(void) {
         p->phase = gDebugEffect_abOperands[1];
         switch (gDebugEffect_bPage) {
         case 0:
-            p->field_00 = (u16)gDuel_aCardSlotGroundPositions[6].x;
-            p->field_02 = -0x18;
-            p->field_04 = (u16)gDuel_aCardSlotGroundPositions[6].y;
+            p->x = (u16)gDuel_aCardSlotGroundPositions[6].x;
+            p->y = -0x18;
+            p->z = (u16)gDuel_aCardSlotGroundPositions[6].y;
             break;
         case 1:
-            p->field_00 = 0xA0;
-            p->field_02 = 0x78;
+            p->x = 0xA0;
+            p->y = 0x78;
             break;
         case 2:
-            p->field_00 = 0xA0;
-            p->field_02 = 0x70;
+            p->x = 0xA0;
+            p->y = 0x70;
             break;
         case 3:
-            p->field_00 = 0xA0;
-            p->field_02 = 0x70;
+            p->x = 0xA0;
+            p->y = 0x70;
             break;
         }
     }
@@ -9792,7 +9792,8 @@ void DuelEffect_ApplyTerrain(void) {
 /* Searches the acting side's five mapped field slots for an occupied trap
    whose id equals the argument. A hit records the id in gDuel_wSelectedTrapCardId, copies
    the owning object's kind_index.card_record_index to
-   gDuel_bSelectedTrapSlot and returns the id; a miss leaves gDuel_wSelectedTrapCardId cleared and returns 0. */
+   gDuel_bSelectedTrapSlot and returns the id; a miss leaves
+   gDuel_wSelectedTrapCardId cleared and returns 0. */
 s32 Duel_SelectTrapByCardId(s32 card_id)
 {
     s32 i;
@@ -9882,8 +9883,8 @@ void DuelEffect_ApplyLifePointRecovery(void) {
                        DUEL_LIFE_POINT_EFFECT_COUNT);
         }
         obj = DuelEffect_CreateRequest(5);
-        obj->field_00 = 0xA0;
-        obj->field_02 = 0x78;
+        obj->x = 0xA0;
+        obj->y = 0x78;
         obj->phase = effect_index;
         SD_SEPlayFull(0x14);
         return;
@@ -9909,8 +9910,8 @@ void DuelEffect_ApplyLifePointRecovery(void) {
         if (Duel_UpdateTrapPresentation() == 0) {
             gDuel_wCardEffectFlags &= 0xFFDF;
             obj = DuelEffect_CreateRequest(9);
-            obj->field_00 = 0xA0;
-            obj->field_02 = 0x78;
+            obj->x = 0xA0;
+            obj->y = 0x78;
             obj->phase = effect_index;
         }
     } else {
@@ -9940,8 +9941,8 @@ void DuelEffect_ApplyDirectDamage(void) {
             unit = DUEL_LIFE_POINT_EFFECT_COUNT;
         }
         obj = DuelEffect_CreateRequest(6);
-        obj->field_00 = 0xA0;
-        obj->field_02 = 0x78;
+        obj->x = 0xA0;
+        obj->y = 0x78;
         obj->phase = unit;
         SD_SEPlayFull(0x1C);
         return;
@@ -9960,8 +9961,8 @@ void DuelEffect_ApplyDirectDamage(void) {
             if (Duel_UpdateTrapPresentation() == 0) {
                 gDuel_wCardEffectFlags &= 0xFFDF;
                 obj = DuelEffect_CreateRequest(7);
-                obj->field_00 = 0xA0;
-                obj->field_02 = 0x78;
+                obj->x = 0xA0;
+                obj->y = 0x78;
                 obj->phase = unit;
                 SD_SEPlayFull(0x1C);
             }
@@ -9994,9 +9995,9 @@ void DuelEffect_ApplyMonsterRemoval(void) {
 
     if (DuelEffect_MarkInitialized() == 0) {
         p = DuelEffect_CreateRequest(0xF);
-        p->field_00 = 0;
-        p->field_02 = 0;
-        p->field_04 = 0;
+        p->x = 0;
+        p->y = 0;
+        p->z = 0;
         SD_SEPlayFull(0x22);
         i = 0;
         cb = gDuel_abMonsterRemovalRules;
@@ -10052,9 +10053,9 @@ void DuelEffect_ApplyMonsterRemoval(void) {
         gDuel_wMonsterRemovalZone + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
     ]];
     p = DuelEffect_CreateRequest(0xB);
-    p->field_00 = e->object->xy.h.x;
-    p->field_02 = e->object->xy.h.y;
-    p->field_04 = (u16)e->object->field_34.h.z;
+    p->x = e->object->xy.h.x;
+    p->y = e->object->xy.h.y;
+    p->z = (u16)e->object->field_34.h.z;
     p->phase = Duel_GetCardEffectVariant((CardObject *)e->object);
     DuelCard_RemoveFromField(e);
     SD_SEPlayFull(0x1F);
@@ -10117,9 +10118,9 @@ void DuelEffect_ApplyStopDefense(void) {
     ) + t);
     w = (u16)e->x;
     gDuelEffect_pTrackedRequest = p;
-    p->field_02 = 0;
-    p->field_00 = w;
-    p->field_04 = (u16)e->y;
+    p->y = 0;
+    p->x = w;
+    p->z = (u16)e->y;
     SD_SEPlayFull(0x20);
 
     gDuel_wCardEffectFlags = gDuel_wCardEffectFlags | 0x40;
@@ -10151,9 +10152,9 @@ void DuelEffect_ApplyBoardDestruction(void) {
             e->phase = 1;
             gDuel_wCardEffectFlags = g | 0x40;
         }
-        e->field_00 = 0;
-        e->field_02 = 0;
-        e->field_04 = 0;
+        e->x = 0;
+        e->y = 0;
+        e->z = 0;
         return;
     }
 
@@ -10219,10 +10220,10 @@ void DuelEffect_ApplyRaigeki(void) {
         w = (u16)e->x;
         p = q;
         gDuelEffect_pTrackedRequest = p;
-        p->field_02 = 0;
-        p->field_00 = w;
+        p->y = 0;
+        p->x = w;
         a = 0x15;
-        p->field_04 = (u16)e->y;
+        p->z = (u16)e->y;
         SD_SEPlayFull(a);
         return;
     }
@@ -10244,9 +10245,9 @@ void DuelEffect_ApplyRaigeki(void) {
         if (v != 0) {
             q = DuelEffect_AllocateRequest(0xB);
             q->buffer = (u8 *)q->buffer + gDuel_sEffectWorkCounter * 0x3000;
-            q->field_00 = r->object->xy.h.x;
-            q->field_02 = r->object->xy.h.y;
-            q->field_04 = (u16)r->object->field_34.h.z;
+            q->x = r->object->xy.h.x;
+            q->y = r->object->xy.h.y;
+            q->z = (u16)r->object->field_34.h.z;
             q->phase = Duel_GetCardEffectVariant((CardObject *)r->object);
             DuelCard_RemoveFromField(r);
             a = 0x1F;
@@ -10292,9 +10293,9 @@ void DuelEffect_ApplyDarkPiercingLight(void)
 
     if (DuelEffect_MarkInitialized() == 0) {
         object = DuelEffect_AllocateRequest(0x13);
-        object->field_00 = 0xA0;
+        object->x = 0xA0;
         gDuelEffect_pTrackedRequest = object;
-        object->field_02 = 0x68;
+        object->y = 0x68;
         SD_SEPlayFull(0x13);
         return;
     }
@@ -10356,9 +10357,9 @@ void DuelEffect_ApplyStatPenalty(void) {
     if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
         card = record->object;
         object = DuelEffect_AllocateRequest(0xD);
-        object->field_00 = (s16)card->xy.h.x;
-        object->field_02 = (s16)card->xy.h.y;
-        object->field_04 = (s16)(u16)card->field_34.h.z;
+        object->x = (s16)card->xy.h.x;
+        object->y = (s16)card->xy.h.y;
+        object->z = (s16)(u16)card->field_34.h.z;
         object->buffer =
             (void *)((s32)object->buffer + ((s16)gDuel_wStepCounter << 14));
         if (gDuel_wEffectCardID == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
@@ -10495,8 +10496,8 @@ void DuelEffect_StartSwords(void)
 
     if (DuelEffect_MarkInitialized() == 0) {
         object = DuelEffect_CreateRequest(0x12);
-        object->field_00 = 0xA0;
-        object->field_02 = 0x78;
+        object->x = 0xA0;
+        object->y = 0x78;
         object->phase = 1;
         SD_SEPlayFull(2);
     } else {
@@ -10522,8 +10523,8 @@ void DuelEffect_ApplySwords(void)
         gDuelEffect_pTrackedRequest = object;
         gDuel_apSwordsEffectObjects[side] = object;
         object->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
-        object->field_00 = 0xA0;
-        object->field_02 = 0x78;
+        object->x = 0xA0;
+        object->y = 0x78;
         field_side = DUEL_SIDE_SELECTOR_VOLATILE ^ 1;
         object->phase = field_side;
         SD_SEPlayFull(0x23);
@@ -10615,9 +10616,9 @@ void DuelEffect_ApplyCursebreaker(void) {
             positions
         );
         x = (u16)position->x;
-        object->field_02 = 0;
-        object->field_00 = (s16)x;
-        object->field_04 = (s16)(u16)position->y;
+        object->y = 0;
+        object->x = (s16)x;
+        object->z = (s16)(u16)position->y;
         object->buffer = (void *)((s32)object->buffer + step * 0x3000);
         SD_SEPlayFull(0x14);
 
@@ -10639,8 +10640,8 @@ void DuelEffect_StartRitual(void)
         if (gDuel_RitualResultCardId) {
             DuelEffectRequest *request = DuelEffect_CreateRequest(0x12);
 
-            request->field_00 = 0xA0;
-            request->field_02 = 0x78;
+            request->x = 0xA0;
+            request->y = 0x78;
             request->phase = 1;
             SD_SEPlayFull(2);
             CardPreview_RequestResourceTransfer(1, gDuel_RitualResultCardId);
@@ -10916,9 +10917,9 @@ void DuelEffect_ApplyHarpiesFeatherDuster(void)
         DuelEffectRequest *object = DuelEffect_CreateRequest(0x17);
         int side = gDuel_bActiveSide ^ 1;
 
-        object->field_04 = gDuel_aFieldGridGroundPositions[side][0].y;
+        object->z = gDuel_aFieldGridGroundPositions[side][0].y;
 #if !defined(VERSION_EUROPE)
-        printf("%d\n", (short)object->field_04);
+        printf("%d\n", (short)object->z);
 #endif
     } else {
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {

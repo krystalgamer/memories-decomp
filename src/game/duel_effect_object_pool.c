@@ -87,9 +87,9 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
         p->ordering_table_2 = (s32)t[2];
         b = (s32)t[1];
         p->base_priority = 8;
-        p->field_00 = 0;
-        p->field_02 = 0;
-        p->field_04 = 0;
+        p->x = 0;
+        p->y = 0;
+        p->z = 0;
         p->number = 0;
         p->ordering_table_1 = b;
     }

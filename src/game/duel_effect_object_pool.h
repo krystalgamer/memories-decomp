@@ -41,9 +41,13 @@ struct DuelEffectRequest *DuelEffect_AllocateRequest(s32 id);
  * x/y, which two of the private copies did, asserts the first reading over
  * the others. */
 typedef struct DuelEffectRequest {
-    s16 field_00;   /* 0x00 */
-    s16 field_02;   /* 0x02 */
-    s16 field_04;   /* 0x04 */
+    /* The effect's origin. Screen-space effects take a point (the centre
+     * 0xA0/0x78, or a card object's xy plus an offset); field effects also
+     * take z from the card's field_34.h.z, or a ground slot's position as
+     * (x, -0x18, z). DuelEffect_AllocateRequest clears all three. */
+    s16 x;          /* 0x00 */
+    s16 y;          /* 0x02 */
+    s16 z;          /* 0x04 */
     u8 pad_06[2];   /* 0x06 */
     s32 ordering_table_2;   /* 0x08 */
     s32 ordering_table_1;   /* 0x0C */
@@ -63,8 +67,8 @@ typedef struct DuelEffectRequest {
 typedef char DuelEffectRequest_size_must_be_0x20[
     sizeof(DuelEffectRequest) == 0x20 ? 1 : -1
 ];
-typedef char DuelEffectRequest_field_04_offset_must_be_0x4[
-    DUEL_EFFECT_REQUEST_OFFSET(field_04) == 0x4 ? 1 : -1
+typedef char DuelEffectRequest_z_offset_must_be_0x4[
+    DUEL_EFFECT_REQUEST_OFFSET(z) == 0x4 ? 1 : -1
 ];
 typedef char DuelEffectRequest_ordering_table_2_offset_must_be_0x8[
     DUEL_EFFECT_REQUEST_OFFSET(ordering_table_2) == 0x8 ? 1 : -1
