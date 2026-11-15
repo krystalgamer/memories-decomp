@@ -37,6 +37,6 @@ typedef struct {
 extern GsIMAGE gModelVariant423_aImages[9];
 extern ModelVariantWebConfig gModelVariant423_aConfigs[];
 void ModelVariant423_DrawBand(u8 *context);
-void ModelVariant423_DrawSheets(u8 *context);
+void ModelVariant423_DrawSheets(Variant423EntryState *context);
 void ModelVariant423_DrawWebs(Variant423EntryState *context);
 #endif
