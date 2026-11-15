@@ -4,7 +4,7 @@
 
 /* Header 426's copy of the header-405 webs (variant405_webs.c), kept in the
  * header-443 images over their entry state: the webs are its spheres and the
- * timing window runs from the config's start to its first timing word. */
+ * timing window runs from the config's start to its web_end. */
 void ModelVariant405_DrawWebs(u8 *ctx)
 {
     SVECTOR rot;
@@ -134,7 +134,7 @@ void ModelVariant405_DrawWebs(u8 *ctx)
             if (web->scale > 0) {
                 timing = work->config;
                 web->scale = ((work->clock.frame - timing->start) * 3 << 12) /
-                                 (timing->timing[0] - timing->start) -
+                                 (timing->web_end - timing->start) -
                              0x1000;
                 web->scale = (i << 12) / 3 - web->scale;
                 if (web->scale <= 0) {

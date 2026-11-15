@@ -38,7 +38,7 @@ void FrenchModelVariant443_DrawRibbons(EntryState443 *context)
     s32 bend;
     s32 dx;
     s32 dy;
-    Ribbons443Timing *timing;
+    EntryConfig443 *timing;
     ModelVariantSheet *sheet;
 
     work = context;
@@ -136,7 +136,7 @@ void FrenchModelVariant443_DrawRibbons(EntryState443 *context)
         }
     }
     if (work->phase == 2 && work->ribbon_start > 0) {
-        timing = *(Ribbons443Timing **)((u8 *)work + 0x3634);
+        timing = work->config;
         work->ribbon_start = 16 - (work->clock.frame - timing->spread_start) * 16
                                                     / (timing->spread_end - timing->spread_start);
         if (work->ribbon_start <= 0) {

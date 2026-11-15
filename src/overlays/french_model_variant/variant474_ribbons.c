@@ -37,7 +37,7 @@ void FrenchModelVariant474_DrawRibbon(Variant474EntryState *context)
     s32 cur;
     Ribbon474 *ribbon;
     POLY_GT4 *poly;
-    Ribbon474Timing *timing;
+    Variant474EntryConfig *timing;
 
     work = context;
     ot = Graphics_GetDefaultOrderingTable();
@@ -152,13 +152,13 @@ void FrenchModelVariant474_DrawRibbon(Variant474EntryState *context)
         }
     }
     if (work->scale < 0x1000) {
-        timing = *(Ribbon474Timing **)((u8 *)work + 0x1BA4);
-        work->scale = ((work->clock.frame - timing->grow_start) << 12) / (timing->grow_end - timing->grow_start);
+        timing = work->config;
+        work->scale = ((work->clock.frame - timing->trigger) << 12) / (timing->grow_end - timing->trigger);
         if (work->scale >= 0x1000) {
             work->scale = 0x1000;
         }
     }
-    if (work->clock.frame < (*(Ribbon474Timing **)((u8 *)work + 0x1BA4))->spin_end) {
+    if (work->clock.frame < work->config->fade_begin) {
         work->ribbon_angle += work->clock.step * 128;
     } else if (work->phase == 0) {
         prev = work->ribbon_angle / 4096;

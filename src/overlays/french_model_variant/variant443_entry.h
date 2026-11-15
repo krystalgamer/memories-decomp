@@ -16,7 +16,8 @@ typedef struct {
     u8 unknown_1C[4], parts[4];
     u16 vertices[4];
     u8 unknown_2C[12];
-    u32 start, timing[7];
+    u32 start, web_end, spread_start, spread_end;
+    u8 unknown_48[0x10];
 } EntryConfig443;
 
 typedef struct {
