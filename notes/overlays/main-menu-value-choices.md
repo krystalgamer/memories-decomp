@@ -61,7 +61,7 @@ Y 111 or 139; the existing callback/renderable branches and coordinate
 copying remain exact. This does not infer artwork or label text.
 
 Tween start saves the player index in object byte `field_6B`, the requested
-choice in `field_6C`, the ten-update countdown, callback and original
+choice in `update_state`, the ten-update countdown, callback and original
 coordinates. Tween update follows the shared marker unless its target is
 choice 2, in which case it follows the appropriate displayed-value bar.
 After decrementing the countdown, completion writes the target into that

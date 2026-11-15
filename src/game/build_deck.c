@@ -24,7 +24,7 @@ struct BuildDeckTransitionState *gBuildDeck_pState;
 /* The update callback BuildDeck_CreateCardTransferIcon (below)
    installs: a card's stat panel
    scales up over eight frames, then flies to its target at 0x18/0x1A, waits,
-   and scales back down before releasing itself. field_6C carries the phase --
+   and scales back down before releasing itself. update_state carries the phase --
    0x40 while it grows, 0x20 while it shrinks, neither while it travels.
 
    It seeds the velocity pair (field_34/field_38's `motion` arm) with
@@ -38,11 +38,11 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
         o->field_44.word = 0;
         o->field_60 = 0;
         o->attribute = o->attribute & ~GsROTOFF;
-        o->field_6C = o->field_6C | 0x40;
+        o->update_state = o->update_state | 0x40;
         SD_SEPlayFull(0xA);
     }
 
-    v = o->field_6C;
+    v = o->update_state;
 
     if ((v & 0x40) != 0) {
         t = *(u16 *)&o->field_60 + 1;
@@ -52,7 +52,7 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
         if (o->field_60 >= 8) {
             DisplayObject_ResetVelocity(o);
             o->field_34.motion.velocity_x = ((*(s16 *)&o->field_18.target.x - o->xy.s.x) << 8) / 12;
-            o->field_6C = o->field_6C & 0xBF;
+            o->update_state = o->update_state & 0xBF;
             o->field_60 = 0xC;
             o->field_38.motion.velocity_y = ((*(s16 *)&o->field_18.target.y - o->xy.s.y) << 8) / 12;
         }
@@ -71,7 +71,7 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
         if (o->field_60 <= 0) {
             o->xy.word = *(s32 *)&o->field_18.target.x;
             o->field_60 = 8;
-            o->field_6C = o->field_6C | 0x20;
+            o->update_state = o->update_state | 0x20;
         }
     }
 }

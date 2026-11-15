@@ -507,7 +507,7 @@ void MemCardDialog_CreateObject(void);
  * -0x400 to open or 0x400 to close. Each call moves the phase 0x40 toward
  * zero, eases the object against (target_x, target_y) through Widget_SlideSine and, for
  * index >= 0, moves text box `index` to the result. When the phase reaches
- * zero it clears field_6C, and that byte is the return value, so every
+ * zero it clears update_state, and that byte is the return value, so every
  * caller tests it against zero to mean "slide finished".
  * Japanese text-box channels have a 0x60-byte stride instead of 0x64.
  *

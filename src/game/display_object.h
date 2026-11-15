@@ -593,7 +593,15 @@ typedef struct DisplayObject {
        gTwoPlayerDuel_abSetupChoices byte it settles into. One object kind,
        so the offset is the name. */
     u8 field_6B;                   /* 0x6B */
-    u8 field_6C;                   /* 0x6C */
+    /* The byte each update callback keeps its own state in, cleared on
+       acquire. Its low nibble is the tag DisplayObject_FindAllocatedByTag
+       matches: callers set a tag (0xF for the duel card rotations) and wait
+       for the callback to clear it. The high bits are callback flags:
+       DisplayObject_MarkInitialized sets 0x80 on the first call, and
+       callbacks use 0x40/0x20 as phase bits. Some callbacks keep a counter
+       or value here instead (the main menu's 0x3C blink countdown, the
+       value-setup widget's choice). */
+    u8 update_state;               /* 0x6C */
     u8 pad_6D[DISPLAY_OBJECT_RECORD_SIZE - 0x6D];
 } DisplayObject;
 
@@ -744,7 +752,7 @@ extern u16 gDisplayObject_wAcquireCount;
  * It orbits an object around the base position it keeps at field_2C/field_2E,
  * stepping the angle at field_2A by 0x30 a frame and taking the radius from
  * field_28, which doubles as a countdown and decays by 2 each frame. When that
- * reaches zero it clears field_6C and update and snaps xy back to the
+ * reaches zero it clears update_state and update and snaps xy back to the
  * base in one word. While bit 0 of gGraphics_dwSyncedFrameCount is set it also spawns a
  * companion object at the current position each frame.
  *

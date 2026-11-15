@@ -15,7 +15,7 @@ allocate, copy by the private type's size, or advance a private-type array.
 | `step_x` | `0x36` | `field_34.h.field_36` |
 | `step_y` | `0x3A` | `field_38.h.field_3A` |
 | `steps` | `0x60` | `field_60` |
-| `moving` | `0x6C` | `field_6C` |
+| `moving` | `0x6C` | `update_state` |
 
 The removed view was `0x6E` bytes because its last byte was followed by
 halfword alignment. That was not the pool allocation size: the canonical
@@ -461,7 +461,7 @@ its position and depth, `DuelSelection_LinkDisplayObject` reads it as
 `DuelSelection_UpdateLinkedObject` now reads that pointer through
 `DuelSelectionRecord`, rather than a second padded `DuelSelectionDisplayRecord`
 view. It follows the parent's output position, retires the callback when the
-parent's `field_6C` latch is zero, and releases the child when the parent slot
+parent's `update_state` latch is zero, and releases the child when the parent slot
 is null. The signed record selector, 0x1C record stride, side offset, byte-base
 arithmetic and these branches are unchanged. The canonical offset-zero and
 existing 0x1C size assertions cover the removed view's layout contract.

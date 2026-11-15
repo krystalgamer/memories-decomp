@@ -476,7 +476,7 @@ typedef char DuelCursorMotion_step_offsets_must_match[
 ];
 typedef char DuelCursorMotion_control_offsets_must_match[
     DUEL_CURSOR_MOTION_OFFSET(field_60) == 0x60 &&
-    DUEL_CURSOR_MOTION_OFFSET(field_6C) == 0x6C ? 1 : -1
+    DUEL_CURSOR_MOTION_OFFSET(update_state) == 0x6C ? 1 : -1
 ];
 
 #undef DUEL_CURSOR_MOTION_OFFSET
@@ -588,7 +588,7 @@ void DisplayObject_SetResourceVariantFromSign(
 );
 
 /* Sets field_21 to start, stores target at 0x28 and the signed step at 0x2A,
-   sets field_6C and the clip-test flag, and installs
+   sets update_state and the clip-test flag, and installs
    DisplayObject_UpdateAlphaTransition as the update callback. */
 void DisplayObject_StartAlphaTransition(
     DisplayObject *object, u8 start, s16 target, s16 step
@@ -1167,7 +1167,7 @@ void Duel_SetupFieldCardFromDeck(s32 slot, s32 deck_index);
  *   field_6A                  the gDuel_aCardRecords index of the card;
  *   field_2C.h.field_2E       the mode chosen on the first frame (0 reveal,
  *                             1 face-up attack, 2 face-up defense);
- *   field_6C                  the step's phase bits (0x40 started, 0x20 the
+ *   update_state              the step's phase bits (0x40 started, 0x20 the
  *                             first half of the turn is done);
  *   field_60                  the frame counter of the current half;
  *   position.h.field_28       the per-frame angle step;
@@ -2160,7 +2160,7 @@ s32 Duel_UpdateCardUseConfirmation(void);
  * minus 0x140, takes its step from the phase value it was given (0x400 /
  * field_60), and starts the phase at -0x400. Each frame then eases it through
  * Widget_SlideSine. When the phase reaches zero it snaps to the target and
- * clears its update hook and field_6C. duel_scene.c installs it by
+ * clears its update hook and update_state. duel_scene.c installs it by
  * address. */
 void Duel_UpdateDrawCardSlide(DisplayObject *object);
 

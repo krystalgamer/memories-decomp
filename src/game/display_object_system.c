@@ -113,7 +113,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->flags = DISPLAY_OBJECT_RENDERABLE_MASK;
         slot->ot_index = 2;
         slot->field_54 = tail_data_start;
-        slot->field_6C = 0;
+        slot->update_state = 0;
         slot->update = 0;
         slot->list_key = key;
         slot->pool_index = index;
@@ -892,7 +892,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     *(s32 *)&packet->r0 = *(s32 *)&object->texture_uv;
                     *(s32 *)&packet->r1 = *(s32 *)&object->resource_branch_index;
                     *(u16 *)&packet->u0 = *(u16 *)&object->field_60;
-                    x2 = *(u16 *)&object->field_6C;
+                    x2 = *(u16 *)&object->update_state;
                     setlen(packet, twelve);
                     setcode(packet, hi);
                     *(u16 *)&packet->u1 = x2;
@@ -1948,19 +1948,19 @@ s32 DisplayObject_StepTowardZero(s32 value, s32 step)
     return value;
 }
 
-#define DISPLAY_OBJECT_FROM_FIELD_6C(field) \
+#define DISPLAY_OBJECT_FROM_UPDATE_STATE(field) \
     ((DisplayObject *)((field) - 0x6C))
 
 void *DisplayObject_FindAllocatedByTag(s32 value)
 {
     u8 *object = (u8 *)gDisplayObject_aPool;
     s32 count = DISPLAY_OBJECT_POOL_CAPACITY;
-    u8 *field = (&((DisplayObject *)object)->field_6C);
+    u8 *field = (&((DisplayObject *)object)->update_state);
 
     do {
-        if ((DISPLAY_OBJECT_FROM_FIELD_6C(field)->flags &
+        if ((DISPLAY_OBJECT_FROM_UPDATE_STATE(field)->flags &
              DISPLAY_OBJECT_FLAG_ALLOCATED) &&
-            ((DISPLAY_OBJECT_FROM_FIELD_6C(field)->field_6C & 0xF) == value))
+            ((DISPLAY_OBJECT_FROM_UPDATE_STATE(field)->update_state & 0xF) == value))
             return object;
         field += DISPLAY_OBJECT_RECORD_SIZE;
         count--;
@@ -1971,8 +1971,8 @@ void *DisplayObject_FindAllocatedByTag(s32 value)
 
 s32 DisplayObject_MarkInitialized(DisplayObject *object)
 {
-    if ((object->field_6C & DISPLAY_OBJECT_FLAG_ALLOCATED) == 0) {
-        object->field_6C |= DISPLAY_OBJECT_FLAG_ALLOCATED;
+    if ((object->update_state & DISPLAY_OBJECT_FLAG_ALLOCATED) == 0) {
+        object->update_state |= DISPLAY_OBJECT_FLAG_ALLOCATED;
         return 0;
     }
     return 1;

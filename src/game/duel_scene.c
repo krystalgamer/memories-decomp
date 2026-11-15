@@ -2598,7 +2598,7 @@ void Duel_UpdateDrawCardSlide(DisplayObject *o)
     o->field_60 += o->field_2C.h.field_2C;
     if (o->field_60 >= 0) {
         o->update = 0;
-        o->field_6C = 0;
+        o->update_state = 0;
         o->xy.h.x = (s16)o->position.h.field_28;
     }
 }
@@ -2698,7 +2698,7 @@ void DuelScene_UpdateDrawResolution(void) {
             i * 60 + 0x14E,
             DUEL_DRAW_RESOLUTION_CARD_Y
         );
-        p->field_6C = 1;
+        p->update_state = 1;
         p->field_60 = 0xC;
         p->update = Duel_UpdateDrawCardSlide;
         gDuelHand_aSlots[i].object = p;
@@ -2777,13 +2777,13 @@ void DuelScene_UpdateExodiaResult(void)
         /* s16 view: retail materialises li -64; a u16 store gets li 0xffc0. */
         *(s16 *)&obj->position.h.field_28 = -0x40;
         obj->field_2C.h.field_2C = 0x10;
-        obj->field_6C = 1;
+        obj->update_state = 1;
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.h.field_2A = obj->xy.h.y;
         obj = gDuel_pLifePointsPanel;
         obj->position.h.field_28 = 0x180;
         obj->field_2C.h.field_2C = 0x10;
-        obj->field_6C = 1;
+        obj->update_state = 1;
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.h.field_2A = obj->xy.h.y;
         rec = gDuelHand_aSlots;
@@ -2806,7 +2806,7 @@ void DuelScene_UpdateExodiaResult(void)
                 obj->position.h.field_28 = pose[1] - 0x1A;
                 py = pose[2];
                 obj->field_2C.h.field_2C = 0xB4;
-                obj->field_6C = 1;
+                obj->update_state = 1;
                 obj->update = (DisplayObjectCallback)fnv;
                 obj->position.h.field_2A = py - 0x1E;
                 objs[pose[0]] = obj;
@@ -3262,7 +3262,7 @@ void DisplayObject_UpdateAlphaTransition(DisplayObject *object) {
     if ((s8)d < 0) {
         u8 c = object->position.h.field_28;
 
-        object->field_6C = 0;
+        object->update_state = 0;
         object->update = 0;
         object->field_20.b.rotation_y = c;
         if (c == 0) {
@@ -3273,7 +3273,7 @@ void DisplayObject_UpdateAlphaTransition(DisplayObject *object) {
 
 void DisplayObject_StartAlphaTransition(DisplayObject *object, u8 start, s16 target, s16 step)
 {
-    object->field_6C = 1;
+    object->update_state = 1;
     object->field_20.b.rotation_y = start;
     object->position.h.field_28 = target;
     object->position.h.field_2A = step;
@@ -3298,18 +3298,18 @@ void Duel_UpdateCardMarkerRemovalTurn(DisplayObject *o)
     }
     current = o->field_20.b.rotation_y + 8;
     o->field_20.b.rotation_y = current;
-    if (o->field_6C & 0x40) {
+    if (o->update_state & 0x40) {
         if ((signed char)current >= 0) {
             o->field_20.b.rotation_y = 0;
             gDuel_aCardRecords[o->field_6A].flags &= ~DUEL_CARD_FLAG_DISPLAY_MARKER;
             if ((o->field_20.b.rotation_z | o->field_20.b.rotation_x) == 0) {
                 o->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             }
-            o->field_6C = 0;
+            o->update_state = 0;
             o->update = 0;
         }
     } else if (o->field_20.b.rotation_y >= o->field_2C.h.field_2E) {
-        o->field_6C |= 0x40;
+        o->update_state |= 0x40;
         o->field_20.b.rotation_y = 0xC0;
         o->resource_root_index = 0;
     }
@@ -3443,7 +3443,7 @@ void DuelScene_UpdateCardPlacement(void)
                     do {
                         object = *cursor;
                         if (object && (cards[object->field_6A].flags & 0x2000)) {
-                            object->field_6C = active;
+                            object->update_state = active;
                             object->update = callback;
                         }
                         n--;
@@ -3472,7 +3472,7 @@ void DuelScene_UpdateCardPlacement(void)
                     do {
                         object = *cursor;
                         if (object) {
-                            object->field_6C = active;
+                            object->update_state = active;
                             DisplayObject_SavePosition(object);
                             object->field_60 = 0;
                         }
@@ -3486,7 +3486,7 @@ void DuelScene_UpdateCardPlacement(void)
                 cursor = slots + 5;
                 do {
                     object = *cursor;
-                    if (object && object->field_6C) {
+                    if (object && object->update_state) {
                         value = 1;
                         if (!(gDuel_wSceneStateFlags & 0x4000) && object->field_20.b.rotation_y)
                         object->field_20.b.rotation_y += 8;
@@ -3496,7 +3496,7 @@ void DuelScene_UpdateCardPlacement(void)
                         (s16)object->position.h.field_28, (s16)object->position.h.field_2A, object->field_60);
                         object->field_60 += 128;
                         if (object->field_60 >= 2048) {
-                            object->field_6C = 0;
+                            object->update_state = 0;
                             object->field_20.b.rotation_z = 0;
                             if (!(gDuel_wSceneStateFlags & 0x4000))
                             object->field_20.b.rotation_y = 0;
@@ -4618,7 +4618,7 @@ void DuelScene_UpdateHandActions(void)
                 obj->position.s.x = 0x86;
                 obj->position.s.y = 0x5A;
                 obj->field_2C.h.field_2C = 0x10;
-                obj->field_6C = 1;
+                obj->update_state = 1;
                 obj->update = DisplayObject_UpdateCosineSlide;
                 DisplayObject_SetDepthOffset(
                     obj, (s8)(obj->depth_offset + 4));
@@ -4667,7 +4667,7 @@ void DuelScene_UpdateHandActions(void)
                 /* Copying the .word members reschedules the stores. */
                 *(s32 *)&obj->position = *(s32 *)&obj->field_2C;
                 obj->field_2C.h.field_2C = 0x10;
-                obj->field_6C = 1;
+                obj->update_state = 1;
                 return;
             }
             return;
@@ -5062,7 +5062,7 @@ void DuelCard_UpdateDefenseRotation(DisplayObject *o)
                 o->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             }
         }
-        o->field_6C = 0;
+        o->update_state = 0;
         o->update = 0;
     }
 }
@@ -5112,7 +5112,7 @@ void DisplayObject_UpdateColorTransition(DisplayObject *object)
     }
 
     if (remaining == 0) {
-        object->field_6C = 0;
+        object->update_state = 0;
         object->update = 0;
     }
 }
@@ -5122,7 +5122,7 @@ void DisplayObject_UpdatePositionRotationTransition(DisplayObject*o)
  if(!DisplayObject_MarkInitialized(o)){if((s16)o->field_2C.h.field_2C!=o->field_20.b.rotation_y)o->flags|=DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_2C.h.field_2E=o->field_60;DisplayObject_SavePosition(o);o->field_60=0;}
  if(o->field_20.b.rotation_y!=(s16)o->field_2C.h.field_2C)o->field_20.b.rotation_y+=0x80/o->field_2C.h.field_2E;
  DisplayObject_InterpolatePositionCosine(o,(s16)o->position.h.field_28,(s16)o->position.h.field_2A,o->field_60);o->field_60+=TRIG_ANGLE_HALF_TURN/o->field_2C.h.field_2E;
- if(o->field_60>=TRIG_ANGLE_HALF_TURN){u8 target=(s16)o->field_2C.h.field_2C;int position=o->position.word;o->field_20.b.rotation_y=target;o->xy.word=position;if(!(target&0xFF))o->flags&=~DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_6C=0;o->update=0;}
+ if(o->field_60>=TRIG_ANGLE_HALF_TURN){u8 target=(s16)o->field_2C.h.field_2C;int position=o->position.word;o->field_20.b.rotation_y=target;o->xy.word=position;if(!(target&0xFF))o->flags&=~DISPLAY_OBJECT_FLAG_CLIP_TEST;o->update_state=0;o->update=0;}
 }
 
 #include "display_object_layout.h"
@@ -5332,7 +5332,7 @@ void DuelScene_UpdateFieldActions(void)
                         o = card->object;
                         o->update =
                             DuelCard_UpdateDefenseRotation;
-                        o->field_6C = 0xF;
+                        o->update_state = 0xF;
                         return;
                     }
                     card->flags = f | 0x4000;
@@ -5356,7 +5356,7 @@ void DuelScene_UpdateFieldActions(void)
                     o = card->object;
                     o->update =
                         DuelCard_UpdateDefenseRotation;
-                    o->field_6C = 0xF;
+                    o->update_state = 0xF;
                 }
                 return;
             }
@@ -5412,7 +5412,7 @@ void DuelScene_UpdateFieldActions(void)
                     o = card->object;
                     o->update =
                         DuelCard_UpdateDefenseRotation;
-                    o->field_6C = 0xF;
+                    o->update_state = 0xF;
                     SD_SEPlayFull(0xB);
                 }
                 return;
@@ -5490,7 +5490,7 @@ void DuelScene_UpdateFieldActions(void)
             other = *(DisplayObject **)((u8 *)SEL_REC3 + gDuel_bActiveSide * 0x70 - 0x18);
             DisplayObject_ResetVelocity(o);
             o->field_60 = 0x10;
-            o->field_6C = 0;
+            o->update_state = 0;
             W(o, 0x2C) = W(o, 0x28);
             o->field_34.h.field_36 =
                 ((S(o, 0x28) - S(other, 0x28)) << 8) / 16;
@@ -5559,7 +5559,7 @@ void DuelScene_UpdateFieldActions(void)
                 other = FIELD_CURSOR.cursor_object;
                 DisplayObject_ResetVelocity(o);
                 o->field_60 = 0x10;
-                o->field_6C = 0;
+                o->update_state = 0;
                 o->field_34.h.field_36 =
                     ((S(other, 0x28) - S(o, 0x28)) << 8) / 16;
                 o->field_38.h.field_3A =
@@ -5648,7 +5648,7 @@ void DuelScene_UpdateFieldActions(void)
             o->position.h.field_28 = 0x86;
             o->position.h.field_2A = 0x5A;
             o->field_2C.h.field_2C = 0;
-            o->field_6C = 1;
+            o->update_state = 1;
             gDuel_pActionCard = o;
             co = side->cursor_object;
             co->flags &= 0xFFBF;
@@ -5658,7 +5658,7 @@ void DuelScene_UpdateFieldActions(void)
                 for (n = 0; n < 0x1E; card++, n++) {
                     if (card->flags & 0x8000) {
                         o = card->object;
-                        o->field_6C = 1;
+                        o->update_state = 1;
                         o->field_60 = 8;
                         o->update =
                             DisplayObject_UpdateColorTransition;
@@ -5740,7 +5740,7 @@ void DuelScene_UpdateFieldActions(void)
                 & 0x1000) {
                 o->field_2C.h.field_2C = 0x80;
             }
-            o->field_6C = 1;
+            o->update_state = 1;
         } else {
             SD_SEPlayFull(7);
         }
@@ -5750,7 +5750,7 @@ void DuelScene_UpdateFieldActions(void)
         for (n = 0; n < 0x1E; card++, n++) {
             if (card->flags & 0x8000) {
                 o = card->object;
-                o->field_6C = 1;
+                o->update_state = 1;
                 o->field_60 = 8;
                 o->update =
                     DisplayObject_UpdateColorTransition;
@@ -5830,7 +5830,7 @@ void DisplayObject_UpdateCosineSlide(DisplayObject *object)
     object->field_60 +=
         TRIG_ANGLE_HALF_TURN / (s16)object->field_2C.h.field_2C;
     if (object->field_60 >= TRIG_ANGLE_HALF_TURN) {
-        object->field_6C = 0;
+        object->update_state = 0;
         object->update = 0;
     }
 }
@@ -5855,7 +5855,7 @@ void DisplayObject_UpdateCosineSlideWithRollReset(DisplayObject *object)
         if (!object->field_20.b.rotation_y) {
             object->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
-        object->field_6C = 0;
+        object->update_state = 0;
         object->update = 0;
     }
 }
@@ -6253,21 +6253,21 @@ void DuelScene_UpdateBattle(void)
         S(o, 0x28) = -0x74;
         cb = DisplayObject_UpdateCosineSlideWithRollReset;
         o->field_2C.h.field_2C = w;
-        o->field_6C = one;
+        o->update_state = one;
         o->update = cb;
         o->position.h.field_2A = o->xy.h.y;
         o = gDuel_pLifePointsPanel;
         h = 0x18;
         o->position.h.field_28 = 0x198;
         o->field_2C.h.field_2C = w;
-        o->field_6C = one;
+        o->update_state = one;
         o->update = cb;
         o->position.h.field_2A = o->xy.h.y;
         o = slots[0];
         o->position.h.field_28 = 0x38;
         o->position.h.field_2A = y;
         o->field_2C.h.field_2C = h;
-        o->field_6C = one;
+        o->update_state = one;
         o->update = cb;
         CardPreview_RequestResourceTransfer(0,
             ((DuelCardReplayRecordBlock *)(
@@ -6279,7 +6279,7 @@ void DuelScene_UpdateBattle(void)
             o->position.h.field_28 = 0xD8;
             o->position.h.field_2A = y;
             o->field_2C.h.field_2C = h;
-            o->field_6C = one;
+            o->update_state = one;
             o->update = cb;
         } else {
             gDuel_bAnimatedBattleRequested = 0;
@@ -6795,13 +6795,13 @@ void DuelScene_UpdateBattle(void)
             o = gDuel_pTerrainIcon;
             o->position.h.field_28 = 0xC;
             o->field_2C.h.field_2C = 0x10;
-            o->field_6C = 1;
+            o->update_state = 1;
             o->update = DisplayObject_UpdateCosineSlideWithRollReset;
             o->position.h.field_2A = o->xy.h.y;
             o = gDuel_pLifePointsPanel;
             o->position.h.field_28 = 0x118;
             o->field_2C.h.field_2C = 0x10;
-            o->field_6C = 1;
+            o->update_state = 1;
             o->update = DisplayObject_UpdateCosineSlideWithRollReset;
             o->position.h.field_2A = o->xy.h.y;
         }
@@ -7087,7 +7087,7 @@ s32 gDuelResult_nOutroSpriteCount = 0;
 /* Per-frame update for an object that orbits a fixed base position
    (field_2C/field_2E) at DUEL_RESULT_ORBIT_ANGLE_STEP per frame, with radius
    the object's field_28 (which also serves as its countdown timer -- it decays
-   by 2/frame). When the timer reaches 0: clears field_6C/update, snaps the
+   by 2/frame). When the timer reaches 0: clears update_state/update, snaps the
    current position (xy.h.x/xy.h.y) back to the base position in one 32-bit
    copy, and returns. Otherwise, while gGraphics_dwSyncedFrameCount's bit 0 is set, spawns a
    companion slot object at the object's current position (tagged via
@@ -7103,7 +7103,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *object) {
     timer = (s16)object->position.h.field_28 - 2;
     object->position.h.field_28 = timer;
     if (timer <= 0) {
-        object->field_6C = 0;
+        object->update_state = 0;
         object->update = 0;
         object->xy.word = object->field_2C.word;
         return;
@@ -7228,13 +7228,13 @@ void DuelScene_UpdateResultOutro(void)
            sign, not the member. */
         *(s16 *)&obj->position.h.field_28 = -116;
         obj->field_2C.h.field_2C = 0x30;
-        obj->field_6C = 1;
+        obj->update_state = 1;
         obj->update = DisplayObject_UpdateCosineSlide;
         obj->position.h.field_2A = (s16)obj->xy.h.y;
         obj = gDuel_pLifePointsPanel;
         obj->position.h.field_28 = 0x198;
         obj->field_2C.h.field_2C = 0x30;
-        obj->field_6C = 1;
+        obj->update_state = 1;
         obj->update = DisplayObject_UpdateCosineSlide;
         gDuel_bSceneSubStep = 1;
         obj->position.h.field_2A = (s16)obj->xy.h.y;
@@ -7338,7 +7338,7 @@ void DuelScene_UpdateResultOutro(void)
                     obj->position.h.field_28 = (rand() & 0x3F) + 0x140;
                     obj->position.h.field_2A =
                         Rand_GetInterval(TRIG_ANGLE_FULL_TURN);
-                    obj->field_6C = 1;
+                    obj->update_state = 1;
                     obj->update =
                         DuelResult_UpdateOrbitSprite;
                     slots[i].object = obj;
@@ -7374,7 +7374,7 @@ void DuelScene_UpdateResultOutro(void)
             for (i = 0; i < DUEL_RESULT_OUTRO_ACTIVE_COUNT; i++) {
                 obj = slots[i].object;
                 if (obj != 0) {
-                    obj->field_6C = 1;
+                    obj->update_state = 1;
                     obj->update = DuelResult_UpdateDepartingSprite;
                 }
             }
@@ -8032,9 +8032,9 @@ void Duel_UpdateCardToSelectionView(DisplayObject *p) {
     }
     switch (p->field_2C.h.field_2E) {
     case 0:
-        f = p->field_6C;
+        f = p->update_state;
         if ((f & 0x40) == 0) {
-            p->field_6C = f | 0x40;
+            p->update_state = f | 0x40;
             p->field_60 = 8;
             e->flags = e->flags | 0x400;
             p->field_20.word = 0x8000;
@@ -8052,20 +8052,20 @@ void Duel_UpdateCardToSelectionView(DisplayObject *p) {
         /* The reset tops a loop that modes 1 and 2 enter through their case
            labels; a finished settle continues back into it. */
         for (;;) {
-            p->field_6C = 0;
+            p->update_state = 0;
             p->update = 0;
             Duel_UpdateCardDisplayState(p);
             return;
         case 1:
-            f = p->field_6C;
+            f = p->update_state;
             if ((f & 0x40) == 0) {
-                p->field_6C = f | 0x40;
+                p->update_state = f | 0x40;
                 p->position.h.field_28 = 0x1000;
                 p->position.h.field_2A = 0x80;
                 p->field_20.word = 0;
                 p->field_60 = 4;
             }
-            if ((p->field_6C & 0x20) == 0) {
+            if ((p->update_state & 0x20) == 0) {
                 u16 flags;
 
                 if (gDuel_bActiveSide != 0) {
@@ -8079,7 +8079,7 @@ void Duel_UpdateCardToSelectionView(DisplayObject *p) {
                 if (c != 0) {
                     return;
                 }
-                p->field_6C = p->field_6C | 0x20;
+                p->update_state = p->update_state | 0x20;
                 e->flags = e->flags | 0x400;
                 p->field_20.word = 0x4000;
                 p->position.s.y = 0x4080;
@@ -8102,15 +8102,15 @@ void Duel_UpdateCardToSelectionView(DisplayObject *p) {
             p->field_20.b.rotation_y = 0;
             continue;
         case 2:
-            f = p->field_6C;
+            f = p->update_state;
             if ((f & 0x40) == 0) {
-                p->field_6C = f | 0x40;
+                p->update_state = f | 0x40;
                 p->field_20.word = 0xC000;
                 p->position.h.field_28 = 0x1000;
                 p->position.h.field_2A = 0x80;
                 p->field_60 = 4;
             }
-            if ((p->field_6C & 0x20) == 0) {
+            if ((p->update_state & 0x20) == 0) {
                 u16 flags;
 
                 if (gDuel_bActiveSide != 0) {
@@ -8124,7 +8124,7 @@ void Duel_UpdateCardToSelectionView(DisplayObject *p) {
                 if (c != 0) {
                     return;
                 }
-                p->field_6C = p->field_6C | 0x20;
+                p->update_state = p->update_state | 0x20;
                 e->flags = e->flags | 0x400;
                 p->position.s.y = -0x3F80;
                 p->field_20.word = 0xC000C0;
@@ -8183,9 +8183,9 @@ void Duel_UpdateCardToFieldView(DisplayObject *p) {
     }
     switch (p->field_2C.h.field_2E) {
     case 0:
-        f = p->field_6C;
+        f = p->update_state;
         if ((f & 0x40) == 0) {
-            p->field_6C = f | 0x40;
+            p->update_state = f | 0x40;
             p->field_60 = 8;
         }
         c = p->field_60 - 1;
@@ -8208,16 +8208,16 @@ void Duel_UpdateCardToFieldView(DisplayObject *p) {
         /* The reset tops a loop that modes 1 and 2 enter through their case
            labels; a finished settle continues back into it. */
         for (;;) {
-            p->field_6C = 0;
+            p->update_state = 0;
             p->update = 0;
             Duel_ApplyCardObjectFlags(p);
             return;
         case 1:
-            f = p->field_6C;
+            f = p->update_state;
             if ((f & 0x40) == 0) {
                 u16 flags;
 
-                p->field_6C = f | 0x40;
+                p->update_state = f | 0x40;
                 p->position.h.field_28 = 0x1000;
                 p->position.h.field_2A = 0x80;
                 p->field_20.word = 0;
@@ -8229,7 +8229,7 @@ void Duel_UpdateCardToFieldView(DisplayObject *p) {
                     p->flags = flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
                 } while (0);
             }
-            if ((p->field_6C & 0x20) == 0) {
+            if ((p->update_state & 0x20) == 0) {
                 s1 = p->position.h.field_2A + p->position.h.field_28;
                 p->position.h.field_2A = s1;
                 p->field_20.b.rotation_y = s1 >> 8;
@@ -8238,7 +8238,7 @@ void Duel_UpdateCardToFieldView(DisplayObject *p) {
                 if (c != 0) {
                     return;
                 }
-                p->field_6C = p->field_6C | 0x20;
+                p->update_state = p->update_state | 0x20;
                 d = gDuel_bActiveSide;
                 e->flags = e->flags & 0xFBFF;
                 if (d != 0) {
@@ -8265,15 +8265,15 @@ void Duel_UpdateCardToFieldView(DisplayObject *p) {
             p->field_20.b.rotation_z = 0;
             continue;
         case 2:
-            f = p->field_6C;
+            f = p->update_state;
             if ((f & 0x40) == 0) {
-                p->field_6C = f | 0x40;
+                p->update_state = f | 0x40;
                 p->field_20.word = 0xC00000;
                 p->position.h.field_28 = 0x1000;
                 p->position.h.field_2A = 0x80;
                 p->field_60 = 4;
             }
-            if ((p->field_6C & 0x20) == 0) {
+            if ((p->update_state & 0x20) == 0) {
                 s2 = p->position.h.field_2A - p->position.h.field_28;
                 p->position.h.field_2A = s2;
                 p->field_20.b.rotation_x = s2 >> 8;
@@ -8282,7 +8282,7 @@ void Duel_UpdateCardToFieldView(DisplayObject *p) {
                 if (c != 0) {
                     return;
                 }
-                p->field_6C = p->field_6C | 0x20;
+                p->update_state = p->update_state | 0x20;
                 d = gDuel_bActiveSide;
                 e->flags = e->flags & 0xFBFF;
                 if (d != 0) {
@@ -8355,8 +8355,8 @@ void DuelSelection_UpdateLinkedObject(DisplayObject *object)
             parent->xy.h.x + object->position.h.field_28;
         object->xy.h.y =
             parent->xy.h.y + object->position.h.field_2A;
-        if (parent->field_6C == 0) {
-            object->field_6C = 0;
+        if (parent->update_state == 0) {
+            object->update_state = 0;
             object->update = 0;
         }
     }
@@ -8378,7 +8378,7 @@ void DuelSelection_LinkDisplayObject(
         object->position.h.field_28 = object->xy.h.x - base->xy.h.x;
         object->position.h.field_2A = object->xy.h.y - base->xy.h.y;
         index = parent->record_index;
-        object->field_6C = 1;
+        object->update_state = 1;
         object->update =
             DuelSelection_UpdateLinkedObject;
         object->field_2C.h.field_2C = index;
@@ -8692,7 +8692,7 @@ s32 Duel_UpdateDisplayTransition(void)
                         o = ((DuelCardReplayRecordBlock *)(
                             (u8 *)&((DuelCardRecord *)records)[i] +
                             DUEL_CARD_STAGING_REPLAY_BASE_OFFSET))->record.object;
-                        o->field_6C = 1;
+                        o->update_state = 1;
                         o->field_60 = 4;
                         o->update = Duel_UpdateCardToFieldView;
                     }
@@ -8711,7 +8711,7 @@ s32 Duel_UpdateDisplayTransition(void)
                 o->position.h.field_2A = source->panel_target_y;
                 DisplayObject_SavePosition(o);
                 o->field_60 = -0x400;
-                o->field_6C = 2;
+                o->update_state = 2;
                 source->info_panel = o;
                 if (source->hand != 0) {
                     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
@@ -8731,7 +8731,7 @@ s32 Duel_UpdateDisplayTransition(void)
                 o->position.h.field_28 = o->xy.h.x;
                 DisplayObject_SavePosition(o);
                 o->field_60 = 0x400;
-                o->field_6C = 2;
+                o->update_state = 2;
                 DuelSelection_LinkDisplayObjects(source, 1);
             }
             busy = 0;
@@ -8758,7 +8758,7 @@ s32 Duel_UpdateDisplayTransition(void)
             }
         }
         o = source->info_panel;
-        if ((gDuel_wDisplayTransitionFlags & 2) && o->field_6C != 0) {
+        if ((gDuel_wDisplayTransitionFlags & 2) && o->update_state != 0) {
             busy = 1;
             moving = busy;
             Widget_SlideSine(o,
@@ -8766,11 +8766,11 @@ s32 Duel_UpdateDisplayTransition(void)
                              (s16)o->position.h.field_2A, o->field_60);
             o->field_60 += 0x40;
             if (o->field_60 >= 0) {
-                o->field_6C = 0;
+                o->update_state = 0;
                 o->xy.word = o->position.word;
             }
         }
-        if ((gDuel_wDisplayTransitionFlags & 8) && o->field_6C != 0) {
+        if ((gDuel_wDisplayTransitionFlags & 8) && o->update_state != 0) {
             busy = 1;
             Widget_SlideSine(o,
                              (s16)o->position.h.field_28,
@@ -8789,7 +8789,7 @@ s32 Duel_UpdateDisplayTransition(void)
                         source->hand[i].order_marker = 0;
                     }
                 }
-                o->field_6C = 0;
+                o->update_state = 0;
                 moving = 0;
             }
         }
@@ -8830,7 +8830,7 @@ s32 Duel_UpdateDisplayTransition(void)
                             o = ((DuelCardReplayRecordBlock *)(
                                 (u8 *)&((DuelCardRecord *)replay)[i] +
                                 DUEL_CARD_STAGING_REPLAY_BASE_OFFSET))->record.object;
-                            o->field_6C = 1;
+                            o->update_state = 1;
                             o->field_60 = 4;
                             o->update = Duel_UpdateCardToSelectionView;
                         }
@@ -8893,7 +8893,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         o->row = pos;
         index = pos * DUEL_FIELD_ROW_SIZE + o->col;
         DisplayObject_ResetVelocity(d);
-        d->field_6C = 0;
+        d->update_state = 0;
         d->field_60 = shift;
         d->field_2C.h.field_2C = (s16)d->position.h.field_28;
         d->field_2C.h.field_2E = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].y;
@@ -8914,7 +8914,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         DisplayObject_ResetVelocity(d);
         shift = 8;
         d->field_60 = shift;
-        d->field_6C = 0;
+        d->update_state = 0;
         d->field_2C.h.field_2C = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].x;
         gDuel_wDisplayTransitionFlags = 0x40;
         d->field_2C.h.field_2E = (s16)d->position.h.field_2A;
@@ -10265,15 +10265,15 @@ void DuelEffect_ApplyRaigeki(void) {
 void DuelEffect_UpdateRevealCard(DisplayObject *o)
 {
     o->field_20.b.rotation_z += DUEL_FIELD_EFFECT_TIMER_STEP;
-    if (!(o->field_6C & 0x80) &&
+    if (!(o->update_state & 0x80) &&
         o->field_20.b.rotation_z >= DUEL_FIELD_EFFECT_MARK_THRESHOLD) {
-        o->field_6C |= 0x80;
+        o->update_state |= 0x80;
         gDuel_aCardRecords[o->field_6A].flags &= ~DUEL_CARD_FLAG_DISPLAY_MARKER;
         o->resource_root_index = 0;
     }
     if (o->field_20.b.rotation_z < DUEL_FIELD_EFFECT_TIMER_LIMIT) {
         o->field_20.b.rotation_z = 0;
-        o->field_6C = 0;
+        o->update_state = 0;
         o->update = 0;
         gDuel_aCardRecords[o->field_6A].flags &= ~0x3400;
         Duel_ApplyCardObjectFlags(o);
@@ -10312,7 +10312,7 @@ void DuelEffect_ApplyDarkPiercingLight(void)
                 0x90000000) {
                 target = record->object;
                 target->update = DuelEffect_UpdateRevealCard;
-                target->field_6C = 1;
+                target->update_state = 1;
             }
         }
     }
@@ -10542,7 +10542,7 @@ void DuelEffect_ApplySwords(void)
 
                     current = entry->object;
                     current->update = DuelEffect_UpdateRevealCard;
-                    current->field_6C = 1;
+                    current->update_state = 1;
                 }
             }
         }
@@ -10843,7 +10843,7 @@ void DuelEffect_ApplyRitual(void)
             object->position.h.field_28 = 134;
             object->position.h.field_2A = 42;
             object->field_2C.h.field_2C = 16;
-            object->field_6C = 1;
+            object->update_state = 1;
             object->update = DisplayObject_UpdateCosineSlide;
         } else if (!(gDuel_wTrapPresentationMode & 0x40)) {
             if (!DisplayObject_FindAllocatedByTag(1)) {
@@ -10872,7 +10872,7 @@ void DuelEffect_ApplyRitual(void)
                 object->position.h.field_28 = 134;
                 *(s16 *)&object->position.h.field_2A = -128;
                 object->field_2C.h.field_2C = 16;
-                object->field_6C = 1;
+                object->update_state = 1;
                 object->update = DisplayObject_UpdateCosineSlide;
                 card = &gDuel_aCardRecords[object->field_6A];
                 flags = card->flags & ~0x200;
