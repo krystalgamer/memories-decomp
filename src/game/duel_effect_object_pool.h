@@ -163,17 +163,19 @@ extern u8 gDuelEffect_bRequestFinished;
 extern DuelEffectRequest *gDuelEffect_pActiveRequest;
 
 /* Optional ritual-match output: the three matched tribute display objects,
- * followed by a word the function clears. */
+ * followed by the list's zero terminator. Duel_CheckRitual writes it into
+ * gDisplayObject_apWorkSlots at slot 2, so the terminator lands on +0x14,
+ * the word after the five slots that their consumers also clear. */
 typedef struct DuelRitualResult {
     void *tribute_objects[DUEL_RITUAL_TRIBUTE_COUNT];
-    s32 field_0C;
+    s32 terminator;
 } DuelRitualResult;
 
 typedef char DuelRitualResult_size_must_be_0x10[
     sizeof(DuelRitualResult) == 0x10 ? 1 : -1
 ];
 typedef char DuelRitualResult_clear_word_offset_must_be_0x0C[
-    (u32)&((DuelRitualResult *)0)->field_0C == 0x0C ? 1 : -1
+    (u32)&((DuelRitualResult *)0)->terminator == 0x0C ? 1 : -1
 ];
 
 /* The recipe table that Duel_CheckRitual walks.

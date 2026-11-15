@@ -235,7 +235,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
         for (i = 0; i < DUEL_RITUAL_TRIBUTE_COUNT; i++) {
             out->tribute_objects[i] = found[i]->object;
         }
-        out->field_0C = 0;
+        out->terminator = 0;
     }
     return p[DUEL_RITUAL_TRIBUTE_COUNT];
 }
