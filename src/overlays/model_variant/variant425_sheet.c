@@ -5,7 +5,7 @@
 
 /* Draws the four-quad sheet and updates its timed scale. After growth,
  * phase 1 also advances the value at +0x2734 to 0x600 before phase 2. */
-void ModelVariant425_DrawSheet(u8 *ctx)
+void ModelVariant425_DrawSheet(Variant425EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,10 +24,10 @@ void ModelVariant425_DrawSheet(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = (Variant425EntryState *)ctx;
-    sheet = (ModelVariantSheet *)(ctx + 0x1E68);
+    work = context;
+    sheet = context->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(ctx + 0x25A4);
+    poly = &context->packets.textured[1];
     for (i = 0; i < 1; i++, sheet++) {
         bias = 0;
         if (work->clock.frame_count & 1) {
