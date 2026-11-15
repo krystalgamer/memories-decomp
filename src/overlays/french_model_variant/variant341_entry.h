@@ -38,7 +38,7 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant341_aImages[9];
 extern Variant341EntryConfig gFrenchModelVariant341_aConfigs[];
 void ModelVariant324_DrawWebs(u8 *context);
-void ModelVariant324_DrawFan(u8 *context);
+void ModelVariant324_DrawFan(Variant341EntryState *context);
 void ModelVariant324_DrawBand(u8 *context);
 void ModelVariant324_DrawMovingRing(u8 *context);
 s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command);
