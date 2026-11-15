@@ -373,7 +373,7 @@ void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
     int requested_variant = 2;
 
     if (facing_area >= 0) {
-        requested_variant = source->field_6A;
+        requested_variant = source->kind_index.front_variant;
     }
     if (requested_variant != source->resource_variant) {
         DisplayObject_SetResourceVariant(source, requested_variant);
@@ -568,7 +568,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     object->field_48.pivot.x = 0x46;
     object->field_18.center.y = DUEL_RESOURCE_SECONDARY_Y;
     object->field_48.pivot.y = DUEL_RESOURCE_SECONDARY_Y;
-    object->field_6A = (u8)variant;
+    object->kind_index.front_variant = (u8)variant;
     object->attribute |= 0x01000000;
     object->flags |= 8;
 

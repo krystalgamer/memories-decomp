@@ -60,7 +60,7 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
 
     tbl = gCardList_SortIconTable;
     sp = (GsSPRITE *)SCRATCH_ADDR(0x320);
-    rec = &((CardListRowSet *)gFile_StagingBuffer)[obj->field_6A];
+    rec = &((CardListRowSet *)gFile_StagingBuffer)[obj->kind_index.row_index];
     pri = *(s16 *)&obj->ot_depth;
     sp->attribute = obj->attribute;
     sp->tpage = 0xB;
@@ -264,7 +264,7 @@ void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1)
         object->resource_variant = 0;
         object->xy.h.x = record->x;
         object->xy.h.y = record->y;
-        object->field_6A = i++;
+        object->kind_index.row_index = i++;
         DisplayObject_SelectOrderingTable1(object);
         object->field_4C.draw = CardList_RenderDeckBoxStats;
         record->object = object;

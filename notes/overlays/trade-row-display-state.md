@@ -57,7 +57,7 @@ as the resident's independently recovered `CardListRowSet`.
 
 `CardList_CreateDeckBoxStatRows`, called once during Trade initialization,
 initializes the two logical row sets and their display objects. It assigns
-each object's side byte `field_6A`, clears bytes `field_68/69` and attaches
+each object's row byte `kind_index.row_index`, clears bytes `field_68/69` and attaches
 `CardList_RenderDeckBoxStats`. The refresh later writes
 `gTrade_abSortMode[slot]` into that row object's byte `+0x69` through the
 original `object[0x69]` byte access. The resident renderer uses that byte

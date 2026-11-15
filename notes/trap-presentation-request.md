@@ -12,7 +12,7 @@ keeps the old `u16 *q34, *d` path: only the address of the real signed
 word or replaced with a differently scheduled struct assignment.
 
 All three stores precede `DuelCard_RemoveFromField`, which receives the
-card record indexed by the display object's `field_6A`. Sound follows the
+card record indexed by the display object's `kind_index.card_record_index`. Sound follows the
 removal, and the whole mode halfword becomes `2` afterward. These are
 distinct objects: request, selected display object, and card record.
 

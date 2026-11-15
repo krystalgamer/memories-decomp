@@ -334,7 +334,7 @@ void NameEntry_UpdateGlyphPulse(DisplayObject *sprite)
         ((DisplayObject *)obj)->update_state = 0;
         ((DisplayObject *)obj)->update = 0;
         obj->flags |= 0x08000000;
-        if (((DisplayObject *)obj)->field_6B == 0) {
+        if (((DisplayObject *)obj)->kind_arg.keep_after_pulse == 0) {
             DisplayObject_ReleaseIfPresent(obj);
         }
 #else
@@ -627,7 +627,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     obj->pivot = 0x80008;
     obj->textBoxSlot = slot;
     obj->sourceGlyph = w;
-    ((DisplayObject *)obj)->field_6B = 0;
+    ((DisplayObject *)obj)->kind_arg.keep_after_pulse = 0;
     return obj;
 }
 #else
@@ -993,7 +993,7 @@ void NameEntry_UpdateKeyboard(void)
             object->update_state = 1;
             object->update = NameEntry_UpdateGlyphPulse;
             object->field_4C.word = 0;
-            object->field_6B = 1;
+            object->kind_arg.keep_after_pulse = 1;
             return;
         }
         node = TextBox_GetGlyphAt(kind, gx | 2, gy);
