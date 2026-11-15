@@ -1,6 +1,6 @@
 # Display-effect resource acquisition and row blending
 
-The remaining two callbacks in `display_effect_resource_setup.c` now have
+The remaining two resource callbacks in `display_effect.c` now have
 evidence-backed names beside the existing resource probe, object builder
 and phased loader. The record producers, reset owner, transfer callback and
 transition callers establish their roles; the old descriptions alone do not.

@@ -334,8 +334,7 @@ void Script_OpOpenCampaignMap(void)
     gCampaignMap_bEntryLocation = value;
 }
 
-#include "display_effect_lifecycle.h"
-#include "display_effect_process_menu_records.h"
+#include "display_effect.h"
 #include "menu_record.h"
 
 void Script_OpShowMenu(void)

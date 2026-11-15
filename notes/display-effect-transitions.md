@@ -1,6 +1,6 @@
 # Display-effect transition handlers
 
-Five complete handlers in `display_effect_update_callbacks.c` use the
+Five complete handlers in `display_effect.c` use the
 existing `MenuRecord *` step ABI. Their bodies, locals, casts, first-call
 progression and cleanup order remain unchanged.
 
