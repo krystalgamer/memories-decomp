@@ -262,6 +262,10 @@ def validate_effective_profile(profile: Any, profile_name: str) -> None:
     compiler_g = profile_g_value(
         profile.get("compiler_flags"), f"{profile_name} compiler_flags"
     )
+    if profile.get("maspsx_flags") == ["--passthrough"]:
+        # MASPSX passes the compiler output through untouched, so it
+        # allocates no small data and takes no -G of its own.
+        return
     maspsx_g = profile_g_value(
         profile.get("maspsx_flags"), f"{profile_name} maspsx_flags"
     )

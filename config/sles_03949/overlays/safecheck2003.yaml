@@ -1,0 +1,76 @@
+name: german_safecheck2003
+sha1: d1eebddaa896279952b620be09a214e423d9e6e0
+
+options:
+  basename: german_safecheck2003
+  base_path: ../../..
+  target_path: tmp/overlays/german_safecheck2003/module.bin
+  elf_path: tmp/overlays/german_safecheck2003/build/german_safecheck2003.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/german_safecheck2003/asm
+  src_path: src
+  build_path: tmp/overlays/german_safecheck2003/build
+  asset_path: tmp/overlays/german_safecheck2003/assets
+  cache_path: tmp/overlays/german_safecheck2003/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/german_safecheck2003/german_safecheck2003.ld
+  generated_asm_macros_directory: tmp/overlays/german_safecheck2003/include
+  lib_path: tmp/overlays/german_safecheck2003/lib
+  o_path: tmp/overlays/german_safecheck2003/build
+  undefined_funcs_auto_path: tmp/overlays/german_safecheck2003/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/german_safecheck2003/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - config/sles_03949/overlays/safecheck2003_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".rodata"
+    - ".text"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/safecheck2003/module_header]
+
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x80168004
+    align: 4
+    subsegments:
+      - [0x4, .rodata, overlays/safecheck2003/safechk]
+      - [0xF4, c, overlays/safecheck2003/safechk]
+      - [0x1414, .data, overlays/safecheck2003/safechk]
+      - [0x14C4, .bss, overlays/safecheck2003/safechk]
+
+  - name: leftover
+    type: code
+    start: 0x14D4
+    vram: 0x801694D4
+    align: 4
+    subsegments:
+      - [0x14D4, data, overlays/safecheck2003/leftover]
+
+  - [0x1800]
