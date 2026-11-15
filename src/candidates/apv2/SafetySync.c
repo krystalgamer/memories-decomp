@@ -17,7 +17,7 @@ void func_80168C6C(s32);
 s32 func_80168A98(s32);
 void SafetyCheck2(void);
 
-s32 SafetyCheck(s32 arg)
+s32 SafetySync(s32 arg)
 {
     s32 ret;
     s32 t;

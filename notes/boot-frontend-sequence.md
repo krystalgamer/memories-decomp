@@ -57,7 +57,7 @@ Stage 3 begins with:
 ```
 
 The leading ID and pointer table are followed by valid MIPS code. The outer
-boot sequence calls `func_801680F4` and then polls `SafetyCheck(1)` until
+boot sequence calls `SafetyInit` and then polls `SafetySync(1)` until
 it returns zero.
 
 The module contains the exact strings:
@@ -68,8 +68,8 @@ CONSOLE MAY HAVE BEEN MODIFIED
 CALL 1-888-780-7690
 ```
 
-`func_801680F4` reads byte `0xBFC7FF52` from the PlayStation BIOS and selects
-initial state values for the module. `SafetyCheck` dispatches through a
+`SafetyInit` reads byte `0xBFC7FF52` from the PlayStation BIOS and selects
+initial state values for the module. `SafetySync` dispatches through a
 20-entry state table and drives the synchronous boot flow. Together with the
 warning text, this establishes a boot region/compliance role rather than an
 ordinary screen asset tail.
@@ -132,7 +132,7 @@ The known mode-zero flow is:
 4. initialize the fade and the first boot image, and hold it for 4 frames
    with `Main_HoldBootScreen`;
 5. initialize the debug font and flush the CD command state;
-6. call `func_801680F4` and poll `SafetyCheck(1)`;
+6. call `SafetyInit` and poll `SafetySync(1)`;
 7. crossfade to the second boot image and request the SU main-menu package;
 8. hold that screen through `Main_HoldBootScreen(0xB4)`: 180 frames, never
    less than the package load, and cut short by START or confirm once

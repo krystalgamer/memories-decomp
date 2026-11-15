@@ -84,8 +84,8 @@ void Main_RunBootSequence(s32 mode)
         first = object;
         Main_HoldBootScreen(0xB4);
         CdFlush();
-        func_801680F4();
-        while (SafetyCheck(1) != 0) {
+        SafetyInit();
+        while (SafetySync(1) != 0) {
         }
         DsInit();
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -154,8 +154,8 @@ void Main_RunBootSequence(s32 mode)
     ));
     gGraphics_wFlags = 0;
     CdFlush();
-    func_801680F4();
-    while (SafetyCheck(1) != 0) {
+    SafetyInit();
+    while (SafetySync(1) != 0) {
     }
     DsInit();
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -223,8 +223,8 @@ void Main_RunBootSequence(s32 mode)
     gGraphics_wFlags = 0;
     CdFlush();
     first = object;
-    func_801680F4();
-    while (SafetyCheck(1) != 0) {
+    SafetyInit();
+    while (SafetySync(1) != 0) {
     }
     DsInit();
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);

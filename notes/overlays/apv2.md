@@ -2,7 +2,7 @@
 
 The boot sequence loads WA_MRG module `0x16` at `0x80168000` before the
 title screen. It is Sony's APv2 anti-modchip check. `Main_RunBootSequence`
-calls `func_801680F4` once and then calls `SafetyCheck(1)` every frame until
+calls `SafetyInit` once and then calls `SafetySync(1)` every frame until
 it returns zero.
 
 | Region | Module | WA sectors | Header word |
@@ -34,8 +34,8 @@ binds those names to the region's addresses.
 
 | Function | USA size | Role |
 |---|---|---|
-| `func_801680F4` | `0x6C` | Reads BIOS region byte `0xBFC7FF52`. `'A'` selects state 1 and mode 1; `'E'` selects state 0 and mode 2, so the check is skipped; anything else selects state 1 and mode 0. |
-| `SafetyCheck` | `0x938` | 20-state controller: issues the CD commands, checks the results, and shows the warning when the drive answers like a modified console. |
+| `SafetyInit` | `0x6C` | Reads BIOS region byte `0xBFC7FF52`. `'A'` selects state 1 and mode 1; `'E'` selects state 0 and mode 2, so the check is skipped; anything else selects state 1 and mode 0. |
+| `SafetySync` | `0x938` | 20-state controller: issues the CD commands, checks the results, and shows the warning when the drive answers like a modified console. |
 | `func_80168A98` | `0x1D4` | Polls the CD controller for a command result. |
 | `func_80168C6C` | `0xF0` | Sends one CD command, described by `safechk_commands` entries of `{cmd, nparams, nresults, wait}` (14 commands). |
 | `SafetyCheck2` | `0x16C` | Draws the warning screen, then calls `exit()`. |
@@ -59,7 +59,8 @@ bytes make the correspondence clear:
 
 | Address | Name | Former name | Evidence |
 |---|---|---|---|
-| `0x80168160` | `SafetyCheck` | `func_80168160` | The only exported entry; sends the commands and calls `SafetyCheck2`. |
+| `0x801680F4` | `SafetyInit` | `SafetyInit` | Exported name in the 2.0.0.2 object (below); 2.0.0.3 adds the region select. |
+| `0x80168160` | `SafetySync` | `func_80168160`, `SafetyCheck` | Exported name in the 2.0.0.2 object, whose body is identical; sends the commands and calls `SafetyCheck2`. |
 | `0x80168D5C` | `SafetyCheck2` | `func_80168D5C` | Same SDK call sequence as v1, from `ResetGraph` to `exit`. |
 | `0x80168EC8` | `SafetyCheck3` | `func_80168EC8` | Calls `strlen`, `Krom2RawAdd` and `SafetyCheck4`. |
 | `0x8016903C` | `SafetyCheck4` | `func_8016903C` | One `DrawPrim` call site, per glyph. |
@@ -72,16 +73,36 @@ bytes make the correspondence clear:
 | `0x8016946C` | `safechk_results` | `D_8016946C` | Eight zero bytes, filled from the controller. |
 | `0x80169494` | `safechk_coords` | `D_80169494` | Bytes equal v1's 48. |
 
+The 2.0.0.2 object (`safechk.obj`, an SDK Psy-Q LNK object; not tracked)
+confirms two real names and much of the code. Its libinfo reads
+`... 20 02`, it exports `SafetyInit` (`.text+0`, four instructions) and
+`SafetySync` (`.text+0x10`), and it carries no local symbols, so the
+`SafetyCheck2`..`5` labels come from the MGS reconstruction, not from Sony.
+Its data equals ours apart from the English warning and the per-region
+message table that 2.0.0.3 adds. Comparing code with the object's
+relocated words masked:
+
+| Function | Object offset | Unpatched words that differ |
+|---|---|---|
+| `SafetySync` | `.text+0x10` | 0 of 590 |
+| `func_80168A98` | `.text+0x948` | 0 of 117 |
+| `func_80168C6C` | `.text+0xB1C` | 0 of 60 |
+| `SafetyCheck5` | `.text+0xF20` | 0 of 98 |
+| `SafetyInit` | `.text+0x0` | different: 2.0.0.3 adds the region select |
+| `SafetyCheck2`..`4`, `func_801691F0` | | changed or new for the English/ASCII text |
+
+The two functions that no tested compiler reproduces are therefore the
+same compiled code in both releases.
+
 Caveats:
 
-- v2's `SafetyCheck` is not v1's body. v1's is
+- v2's `SafetySync` is not v1's `SafetyCheck`. v1's entry is
   `SafetyCheck(minute, second, sector)` and runs to completion; v2's takes one
   `s32` (the boot loop passes 1) and advances the state in `D_80169474` once
   per call.
 - v1's `SafetyCheck1` sends a command and waits for its result. v2 splits it
   into `func_80168C6C` (send) and `func_80168A98` (wait), so both keep their
-  address names. `func_801680F4` (region select) and `func_801691F0` (glyph
-  width) have no v1 counterpart. The message table `D_8016947C`, the state
+  address names. `func_801691F0` (glyph width) has no v1 counterpart. The message table `D_8016947C`, the state
   words `D_80169474`, `D_80169478`, `D_801694C4`, `D_801694C8` and
   `D_801694D0`, and the bytes `D_801694CC`/`D_801694CD` are
   v2-only and keep their address names too.
@@ -110,7 +131,7 @@ code, built with Psy-Q GCC 2.7.2: decompals/old-gcc `gcc-2.7.2-psx`, installed
 by `make compiler-272-psx-prebuilt` and selected through the
 `gcc_2_7_2_psx_g0_gnu_reorder` profile. The evidence:
 
-- `func_801680F4` and `SafetyCheck5` match only with 2.7. GCC 2.8 duplicates
+- `SafetyInit` and `SafetyCheck5` match only with 2.7. GCC 2.8 duplicates
   the epilogue that the retail code shares.
 - Most retail delay slots are filled the way an assembler in reorder mode
   fills them. Its `move` instructions are `addu d,s,$0`, the ASPSX encoding.
@@ -138,16 +159,16 @@ entries in `config/slus_01411/candidates.json`. Their shared types are in
 
 | Function | Status |
 |---|---|
-| `func_801680F4`, `func_80168C6C`, `SafetyCheck2`, `SafetyCheck3`, `SafetyCheck4`, `func_801691F0`, `SafetyCheck5` | exact under the profile |
+| `SafetyInit`, `func_80168C6C`, `SafetyCheck2`, `SafetyCheck3`, `SafetyCheck4`, `func_801691F0`, `SafetyCheck5` | exact under the profile |
 | `func_80168A98` | 7 words differ |
-| `SafetyCheck` | 457 words differ; exact under Psy-Q 4.1 `CC1PSX` with `-mmips-as` (see below) |
+| `SafetySync` | 457 words differ; exact under Psy-Q 4.1 `CC1PSX` with `-mmips-as` (see below) |
 
 No available compiler builds all nine, so the module cannot move to C as a
 whole; see [Which compiler](#which-compiler).
 
 Source details that the matches depend on:
 
-- `func_801680F4` keeps a redundant `'J'` case, which GCC needs to build the
+- `SafetyInit` keeps a redundant `'J'` case, which GCC needs to build the
   retail binary-search tree.
 - Loops with bounds in memory are written as `if (n) do { } while (...)`. A
   `for` loop makes 2.7 emit `blez` and an unused 8-byte frame.

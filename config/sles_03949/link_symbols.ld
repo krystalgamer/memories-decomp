@@ -426,8 +426,8 @@ CdFlush = 0x8007E8E8;
 SetDumpFnt = 0x8007EE68;
 FntLoad = 0x8007EEA8;
 FntOpen = 0x8007EF48;
-func_801680F4 = 0x801680F4;
-SafetyCheck = 0x80168160;
+SafetyInit = 0x801680F4;
+SafetySync = 0x80168160;
 
 /* Semantic draw-state aliases retain the original native providers. */
 

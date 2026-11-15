@@ -2,8 +2,8 @@
 // Main_RunBootSequence. It is the runtime library safechk 2.0.0.3 (see __ps_libinfo__);
 // the names follow Sony's 1.0.0.3 object as published in mgs_reversing's asm/safechk.s.
 safechk_offset = 0x801680E4;
-func_801680F4 = 0x801680F4; // type:func
-SafetyCheck = 0x80168160; // type:func
+SafetyInit = 0x801680F4; // type:func
+SafetySync = 0x80168160; // type:func
 SafetyCheck2 = 0x80168D5C; // type:func
 SafetyCheck3 = 0x80168EC8; // type:func
 SafetyCheck4 = 0x8016903C; // type:func

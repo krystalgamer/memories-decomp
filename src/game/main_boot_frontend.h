@@ -15,7 +15,7 @@ s32 Main_RunFrontendLoop(void);
  * BIOS region byte and initializes the module, the second steps its 20-state
  * controller until it returns zero. The module is not decompiled; see
  * notes/boot-frontend-sequence.md. */
-void func_801680F4(void);
-s32 SafetyCheck(s32);
+void SafetyInit(void);
+s32 SafetySync(s32);
 
 #endif
