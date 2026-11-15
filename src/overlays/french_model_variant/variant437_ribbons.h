@@ -27,11 +27,4 @@ typedef struct {
     s32 count;
 } Ribbons437Ribbon;
 
-typedef struct {
-    u8 unknown00[0x14];
-    u32 reset_end;
-    u8 unknown18[0xC];
-    u32 wave_end;
-} Ribbons437Timing;
-
 #endif

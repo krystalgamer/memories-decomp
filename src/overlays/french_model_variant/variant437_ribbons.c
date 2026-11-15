@@ -58,7 +58,7 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
     }
     ribbon = (Ribbons437Ribbon *)work;
     for (i = 0, phase = 0; i < 4; i++, ribbon++, phase = i * 1024) {
-        if (work->elapsed < (*(Ribbons437Timing **)((u8 *)work + 0x15F4))->wave_end && !(i & 1)) {
+        if (work->elapsed < work->config->wave_end && !(i & 1)) {
             wave = -work->phase_a;
         } else {
             wave = work->phase_a;
@@ -168,7 +168,7 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)ribbon->otz[k], 1);
             }
         }
-        if (work->elapsed < (*(Ribbons437Timing **)((u8 *)work + 0x15F4))->wave_end) {
+        if (work->elapsed < work->config->wave_end) {
             if (!(i & 1)) {
                 if (ribbon->state == 0) {
                     ribbon->end += (u32)work->step / 2;
@@ -206,7 +206,7 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
                     }
                 }
             }
-        } else if (work->elapsed < (*(Ribbons437Timing **)((u8 *)work + 0x15F4))->reset_end) {
+        } else if (work->elapsed < work->config->scale_end) {
             ribbon->state = 0;
             ribbon->count = 0;
             ribbon->start = 0;

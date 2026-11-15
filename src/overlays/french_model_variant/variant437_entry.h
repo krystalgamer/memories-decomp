@@ -17,7 +17,8 @@ typedef struct {
     u32 start, scale_start, scale_end;
     u8 unknown_18[4];
     u32 move_start, move_end;
-    u8 unknown_24[0xC];
+    u32 wave_end;
+    u8 unknown_28[8];
 } Variant437EntryConfig;
 
 typedef struct {
