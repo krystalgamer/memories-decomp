@@ -306,16 +306,7 @@ segments:
     - game/sound_secondary_voice
   - - 244084
     - c
-    - game/sound_sequence_channel_events
-  - - 245764
-    - c
-    - game/sd_key_off_secondary_note
-  - - 246060
-    - c
-    - game/sound_secondary_commands
-  - - 247012
-    - c
-    - game/sd_open_sequence_timer_event
+    - game/sound_sequence_events
   - - 247200
     - c
     - game/sound_sequence_runtime

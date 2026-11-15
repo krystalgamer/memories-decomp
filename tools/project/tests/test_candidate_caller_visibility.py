@@ -50,7 +50,7 @@ PAIRS = [
     ("src/game/duel_scene.c", "CardPreview_CreateResourceObjects", '#include "card_preview.h"'),
     ("src/overlays/password/shop.c", "CardPreview_CreateResourceObjects", '#include "../../game/card_preview.h"'),
     ("src/game/sound_secondary_voice.c", "SD_SetVoiceVolume", '#include "sound.h"'),
-    ("src/game/sound_secondary_commands.c", "SD_UpdateSecondaryObjectVoices", '#include "sound.h"'),
+    ("src/game/sound_sequence_events.c", "SD_UpdateSecondaryObjectVoices", '#include "sound.h"'),
     ("src/overlays/password/shop.c", "CardPreview_RequestResourceTransfer", '#include "../../game/card_preview.h"'),
     ("src/game/sound_secondary.c", "SD_ResetSecondaryPlayback", '#include "sound.h"'),
     ("src/game/fade_runtime.c", "Fade_StepBands", '#include "fade.h"'),
