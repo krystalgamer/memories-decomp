@@ -5,7 +5,7 @@
 
 /* Draws a four-quad sheet at the variant origin. It grows to 0x1000 on
  * the first timing interval, expands to 0x2000, then shrinks to zero. */
-void ModelVariant459_DrawSheet(u8 *ctx)
+void ModelVariant459_DrawSheet(Variant459EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,10 +24,10 @@ void ModelVariant459_DrawSheet(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = (Variant459EntryState *)ctx;
-    sheet = (ModelVariantSheet *)(ctx + 0xF60);
+    work = context;
+    sheet = &context->sheet;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(ctx + 0x22E8);
+    poly = &context->packets.textured[1];
     for (i = 0; i < 1; i++, sheet++) {
         bias = 0;
         if (work->clock.frame_count & 1) {
