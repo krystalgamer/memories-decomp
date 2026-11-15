@@ -15,7 +15,7 @@
  */
 typedef struct MenuRecord {
     /* Four rows of three display objects, 0x30 bytes.
-       display_effect_update_callbacks.c hands rows 0 to 3 to
+       display_effect.c hands rows 0 to 3 to
        DisplayPositionGroup_SetChildPositions, which writes the x/y pair of
        each non-null object in the row, and DisplayPositionGroup_SetPosition
        sets the record's own x/y and pushes it to row 0.
@@ -27,7 +27,7 @@ typedef struct MenuRecord {
     struct DisplayObject *grid[4][3];
     s8 effect_id;
     /* DisplayEffect_ResetRecordState clears it; Script_OpShowMenu and
-       display_effect_update_callbacks.c reach it too. */
+       display_effect.c reach it too. */
     u8 resource_entry_index;
     /* Resource-variant activity/control bits, separate from the step byte. */
     u8 variant_update_flags;
@@ -144,7 +144,7 @@ extern MenuRecord gDisplayEffect_aMenuRecords[];
 
 /* The effect record Text_HandleDisplayEffectCommand last armed: it stores an element of
    gDisplayEffect_aMenuRecords here at three sites, and that is the whole of its provenance.
-   It was declared u8 * in display_effect_lifecycle.h while its readers
+   It was declared u8 * in the display-effect lifecycle header while its readers
    walked the record by byte offset -- 0x30, 0x32, 0x33, 0x3C, 0x40, 0x42
    and 0x44. This record names every one of those, the last of them in
    #3534, so the gap that justified the byte view is closed and the

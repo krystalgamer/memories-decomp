@@ -141,7 +141,7 @@ segments:
       - [0x815d8, .data, game/build_deck]
       - [0x81658, .data, game/duel_effect_text]
       - [0x816ac, .data, game/duel_effect_command_table]
-      - [0x81768, .data, game/display_effect_process_menu_records]
+      - [0x81768, .data, game/display_effect]
       - [0x8179c, .data, game/mem_card]
       - [0x817b0, .data, game/display_object_system]
       - [0x81808, .data, game/model_background_records]

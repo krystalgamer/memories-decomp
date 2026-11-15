@@ -313,7 +313,7 @@ their tables there:
 - `european/duel_effect_command_table`, a data-only unit compiled through
   `config/sles_03947/data_c.json`: two more secondary text commands and six
   more glyph-fade entry handlers.
-- `display_effect_process_menu_records`, `mem_card_dialog` and
+- `display_effect`, `mem_card_dialog` and
   `display_object_runtime`.
 - `model_effect_state`.
 - `european/movie_stream_requests`: six movies share one stream range.

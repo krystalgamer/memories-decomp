@@ -1959,7 +1959,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
 #include "file_constants.h"
 #include "file_transfer.h"
 #include "input.h"
-#include "display_effect_lifecycle.h"
+#include "display_effect.h"
 #include "menu_record.h"
 #include "script_scene.h"
 #include "sound.h"
@@ -3295,7 +3295,7 @@ void Text_PushPlayerNameStream(DuelEffectChannel *object)
 #include "duel_effect_command_table.h"
 #include "text_stream_commands.h"
 #include "campaign_flags.h"
-#include "display_effect_lifecycle.h"
+#include "display_effect.h"
 
 #include "menu_record.h"
 #include "script_scene.h"
@@ -3908,7 +3908,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
 }
 
 #include "input.h"
-#include "display_effect_process_menu_records.h"
+#include "display_effect.h"
 
 #include "duel_effect_process_entries.h"
 #include "sound.h"
@@ -4497,7 +4497,7 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
     }
 }
 
-#include "display_effect_resource_setup.h"
+#include "display_effect.h"
 #include "menu_record.h"
 #ifdef VERSION_JAPAN
 #include "high_memory_addresses.h"

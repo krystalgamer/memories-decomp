@@ -6886,7 +6886,7 @@ some call sites but not others. Measured one file at a time:
 - `card_preview_update_variant.c` passes a local whose value is either the constant 2 or an
   `lbu` of a `u8` field. GCC 2.8.1 can see the range is already 0..255 and
   emits nothing extra; the build stays byte-exact.
-- `display_effect_process_menu_records.c` passes `n` from `DisplayEffect_UpdateMenuRecord`,
+- `display_effect.c` passes `n` from `DisplayEffect_UpdateMenuRecord`,
   whose range the compiler cannot prove. The
   build breaks at VRAM `0x8003B484`, where the expected `addu` (`0x21`)
   becomes `andi $a1, $a1, 0xFF`. The truncation the prototype now demands is
@@ -6912,7 +6912,7 @@ scalar. That boundary is in the wrong place: an *incomplete* array and a
 *complete* small one are also different addressing decisions.
 
 `D_8015C410` was declared `extern s8 D_8015C410[]` in the
-`func_8003A560` implementation now in `display_effect_resource_setup.c` and
+`func_8003A560` implementation now in `display_effect.c` and
 `extern s8 D_8015C410[5]` in `menu_record_reset.c`. Adopting the bounded
 spelling in the first file does not merely add information. Five bytes is
 under the `-G8` threshold, so once the type is complete GCC treats the symbol

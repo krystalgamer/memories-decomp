@@ -197,7 +197,7 @@ subsequent stream position.
 
 `DisplayEffect_UpdateMenuRecord` and `func_80039F44` each initialize a delay with
 `(rand() & DISPLAY_EFFECT_DELAY_MASK) + DISPLAY_EFFECT_DELAY_BASE`.
-`display_effect_constants.h` names the mask as `0xFF` and the base as `60`
+`display_effect.c` names the mask as `0xFF` and the base as `60`
 (`0x3C`), producing every value from 60 through 315 with equal frequency.
 Both write the display-effect counter at offset `+0x3E`; the initializer
 sets it, and the updater's flag-bit-0 path renews it when the linked object's
