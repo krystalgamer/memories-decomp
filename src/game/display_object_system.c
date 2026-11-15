@@ -886,7 +886,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
 
                 if (DISPLAY_OBJECT_BYTES(object)[0x72] != 0) {
                     x0 = *(s32 *)&object->field_58;
-                    x1 = *(s32 *)&object->field_64;
+                    x1 = *(s32 *)&object->fraction_z;
                     *(s32 *)&packet->x0 = x0;
                     *(s32 *)&packet->x1 = x1;
                     *(s32 *)&packet->r0 = *(s32 *)&object->texture_uv;
@@ -1872,7 +1872,7 @@ void DisplayObject_ResetVelocity(DisplayObject *object)
         object->field_38.motion.velocity_z = 0;
         object->fraction_x = 0x80;
         object->fraction_y = 0x80;
-        object->field_64 = 0x80;
+        object->fraction_z = 0x80;
     }
 }
 
@@ -1896,10 +1896,10 @@ void DisplayObject_StepPositionY(DisplayObject *object)
 
 void DisplayObject_StepPositionZ(DisplayObject *object)
 {
-    int value = (object->field_34.motion.z << 8) | object->field_64;
+    int value = (object->field_34.motion.z << 8) | object->fraction_z;
 
     value += object->field_38.motion.velocity_z;
-    object->field_64 = value;
+    object->fraction_z = value;
     object->field_34.motion.z = value >> 8;
 }
 

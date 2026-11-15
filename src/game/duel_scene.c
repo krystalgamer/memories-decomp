@@ -8744,10 +8744,10 @@ s32 Duel_UpdateDisplayTransition(void)
                 t += o->field_34.h.field_36;
                 o->fraction_x = t;
                 o->position.h.field_28 = t >> 8;
-                t = ((s16)o->position.h.field_2A << 8) | o->field_64;
+                t = ((s16)o->position.h.field_2A << 8) | o->fraction_z;
                 t += o->field_38.h.field_3A;
                 o->position.h.field_2A = t >> 8;
-                o->field_64 = t;
+                o->fraction_z = t;
                 o->field_60--;
                 busy = 1;
                 if (o->field_60 <= 0) {
