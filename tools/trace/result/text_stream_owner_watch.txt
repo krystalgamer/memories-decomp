@@ -1,0 +1,313 @@
+==== USER CONTEXT ==== 
+
+First we hit a row-budget of 240 so I can only reference moments until it stopped printing.
+
+t=3s Appeared when the Free Duel screen loaded saying "SELECT OPPONENT!"
+t=4s After a pressed cross to dismiss the "SELECT OPPONENT!" modal
+t=4.5 until 5.3 appeared while I was scrolling from "Build Deck" to "Duel Master K"
+vs=527 t=8.8 everything in between selecting Duel Master K and loading the build deck screen. I had all first 8 cards from Blue-Eyes to Mushroom Man and they're all rendering all their details
+t=26.1s appeared after playing Sparks and it rendered -50
+t=31.1s no idea why it printed, it was after the opponent chose a spot to play a card, it was a face-down Gate Guardian
+t=33.5s when he chose to attack and the cursor moved to my side of the field
+t=33.9s as he moved the cursor to the middle spot
+t=36.9s appeared after a direct attack where the card was rendered an on my side -3750 from the attack
+t=41.s I was selecting the card on my hand and it printed so...
+
+I'll proceed to describe what I did.
+- played Dark Hole
+- opponent played face down magic or trap card
+- i opened the preview of tremendous fire
+- i played perfectly ultimate great moth and attacked
+- opponent played meteor b. dragon and destroyed my moth
+- i opened preview of gate guardian, played it and destroyed meteor b. dragon
+- opponent played face down card and ended turn
+- i played another moth, destroyed they face down card and attacked directly with my gate guarding
+- opponent played face down monster
+- I beat them with Tremendous Fire
+
+Then I just waited on Free Duel screen until the 3 minutes had passed.
+
+This are the worse type of scripts, too much too log and it's unclear what is being traced here. So many things trigger it that it's too hard to know if i'm missing the important details.
+ 
+==== TRACE RESULT ===== 
+ 
+script: text_stream_owner_watch 
+setup: debugger=on configured_cpu=interpreter active_cpu=unverified execution_breakpoint=observed 
+status: 180-second window ended 
+vsyncs: 10800 control_hits: 10586 reset: no 
+verdict: stream_index ranged -1..2 over 2969 accepted hits; live slots used: 0,1,2; pushes=380 pops=304 transitions=644; out-of-range stream_index=98 
+signatures: 9/9 US words ok at end 
+bounds: rows=240/240 dropped_rows=636 owners=4/16 untracked_owner_hits=0 transitions_suppressed=456 
+ 
+fn TextBox_BuildStep 0x800393B0 hits=2210 accepted=2210 refused_owner=0 refused_signature=0 
+fn Text_ExpandSelectedCardInfo 0x80037DA4 hits=229 accepted=229 refused_owner=0 refused_signature=0 
+fn Text_PushFormattedDecimal 0x80038148 hits=75 accepted=75 refused_owner=0 refused_signature=0 
+fn Text_PushStagedString 0x800383DC hits=8 accepted=8 refused_owner=0 refused_signature=0 
+fn Text_PushStreamOffset 0x80038DB8 hits=68 accepted=68 refused_owner=0 refused_signature=0 
+fn Text_EndStream 0x80038E7C hits=304 accepted=304 refused_owner=0 refused_signature=0 
+fn TextStream_ReadU32LE 0x80036D70 hits=75 accepted=75 refused_owner=0 refused_signature=0 
+fn TextStream_ReadByte 0x8003B7E0 hits=0 accepted=0 refused_owner=0 refused_signature=0 
+ 
+owner 0x800EB15C gText_aChannels[1] hits=581 idx=-1..2 last=0 transitions=113 first_vs=182 TextBox_BuildStep=455 Text_ExpandSelectedCardInfo=49 Text_PushFormattedDecimal=4 Text_PushStreamOffset=16 Text_EndStream=53 TextStream_ReadU32LE=4 
+owner 0x800EB0F8 gText_aChannels[0] hits=1648 idx=-1..2 last=0 transitions=319 first_vs=240 TextBox_BuildStep=1246 Text_ExpandSelectedCardInfo=128 Text_PushFormattedDecimal=47 Text_PushStagedString=8 Text_PushStreamOffset=18 Text_EndStream=154 TextStream_ReadU32LE=47 
+owner 0x800EB1C0 gText_aChannels[2] hits=711 idx=-1..2 last=0 transitions=203 first_vs=524 TextBox_BuildStep=493 Text_ExpandSelectedCardInfo=52 Text_PushFormattedDecimal=20 Text_PushStreamOffset=34 Text_EndStream=92 TextStream_ReadU32LE=20 
+owner 0x800EB224 gText_aChannels[3] hits=29 idx=-1..1 last=0 transitions=9 first_vs=527 TextBox_BuildStep=16 Text_PushFormattedDecimal=4 Text_EndStream=5 TextStream_ReadU32LE=4 
+ 
+slot 00 +0x00 live=2871 {tail-banks=2871} examples=801B0182,801B0183,801B0184,801B0185 | above=98 {tail-banks=98} 
+slot 01 +0x04 live=1983 {self=102 tail-banks=1881} examples=801D8BFD,801D8BFE,801D8BFF,801D8C00 | above=986 {self=109 tail-banks=877} 
+slot 02 +0x08 live=250 {self=250} examples=800EB205,800EB206,800EB207,800EB208 | above=1862 {self=1862} 
+slot 08 +0x20 live=0 {-} examples=- | above=2969 {resident-bss=2969} 
+slot 09 +0x24 live=0 {-} examples=- | above=2969 {resident-bss=2969} 
+slot 10 +0x28 live=0 {-} examples=- | above=2909 {resident-bss=2909} 
+slot 11 +0x2C live=0 {-} examples=- | above=205 {resident-bss=205} 
+slot 13 +0x34 live=0 {-} examples=- | above=2969 {other=2969} 
+slot 14 +0x38 live=0 {-} examples=- | above=2635 {other=2635} 
+slot 15 +0x3C live=0 {-} examples=- | above=2969 {other=2969} 
+slot 16 +0x40 live=0 {-} examples=- | above=2969 {other=2969} 
+slot 17 +0x44 live=0 {-} examples=- | above=2455 {other=2455} 
+slot 18 +0x48 live=0 {-} examples=- | above=2141 {other=2141} 
+slot 20 +0x50 live=0 {-} examples=- | above=2969 {other=2969} 
+slot 21 +0x54 live=0 {-} examples=- | above=2086 {other=2086} 
+ 
+vs=182 t=   3.0s OWNER 0x800EB15C gText_aChannels[1] first seen in TextBox_BuildStep ra=0x80039804 in=resident idx=-1 live=[none] sel=not-RAM 
+vs=182 t=   3.0s IDX 0x800EB15C gText_aChannels[1] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039804 live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=182 t=   3.0s CALL Text_EndStream owner=0x800EB15C gText_aChannels[1] ra=0x800396C0 in=resident idx=0  live=[0=801B0197(tail-banks)] sel=F8 06 06 01 F8 03 0C 56 
+vs=240 t=   4.0s OWNER 0x800EB0F8 gText_aChannels[0] first seen in TextBox_BuildStep ra=0x80039A88 in=resident idx=-1 live=[none] sel=not-RAM 
+vs=240 t=   4.0s IDX 0x800EB0F8 gText_aChannels[0] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801D8BD0(tail-banks)] sel=2D 0D 05 0A 0C 00 20 01 
+vs=240 t=   4.0s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=0  live=[0=801D8BDB(tail-banks)] sel=1D 05 0E 04 06 00 1E 0D 
+vs=268 t=   4.5s IDX 0x800EB0F8 gText_aChannels[0] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[none] sel=not-RAM 
+vs=268 t=   4.5s IDX 0x800EB0F8 gText_aChannels[0] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0165(tail-banks)] sel=F8 09 F8 06 A0 00 22 1A 
+vs=268 t=   4.5s CALL Text_PushStagedString owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 staged_id=0x832D live=[0=801B0167(tail-banks)] sel=F8 06 A0 00 22 1A 2C F8 
+vs=268 t=   4.5s IDX 0x800EB0F8 gText_aChannels[0] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0167(tail-banks) 1=801D8BFD(tail-banks)] sel=05 0A 0A 03 10 01 08 3A 
+vs=268 t=   4.5s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0167(tail-banks) 1=801D8C06(tail-banks)] sel=39 05 0A 0A 03 10 01 08 
+vs=268 t=   4.5s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B016C(tail-banks)] sel=1A 2C F8 03 08 56 1D 80 
+vs=268 t=   4.5s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D5608(tail-banks) format=0x83 value=0 live=[0=801B0170(tail-banks)] sel=08 56 1D 80 83 00 2A 21 
+vs=268 t=   4.5s IDX 0x800EB0F8 gText_aChannels[0] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0175(tail-banks) 1=800EB13D(self+0x45)] sel=00 38 FF 00 00 00 00 00 
+vs=268 t=   4.5s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0175(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=268 t=   4.5s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0176(tail-banks)] sel=2A 21 1D 1D F8 03 0C 56 
+vs=268 t=   4.5s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D560C(tail-banks) format=0x83 value=0 live=[0=801B017C(tail-banks)] sel=0C 56 1D 80 83 FF 00 00 
+vs=268 t=   4.5s IDX 0x800EB0F8 gText_aChannels[0] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0181(tail-banks) 1=800EB13D(self+0x45)] sel=00 38 FF 00 00 00 00 00 
+vs=268 t=   4.5s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0181(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=268 t=   4.5s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=268 t=   4.5s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=0  live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=276 t=   4.6s IDX 0x800EB0F8 gText_aChannels[0] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[none] sel=not-RAM 
+vs=276 t=   4.6s IDX 0x800EB0F8 gText_aChannels[0] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0165(tail-banks)] sel=F8 09 F8 06 A0 00 22 1A 
+vs=276 t=   4.6s CALL Text_PushStagedString owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 staged_id=0x8332 live=[0=801B0167(tail-banks)] sel=F8 06 A0 00 22 1A 2C F8 
+vs=276 t=   4.6s IDX 0x800EB0F8 gText_aChannels[0] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0167(tail-banks) 1=801D8C29(tail-banks)] sel=01 01 19 05 0A 00 35 06 
+vs=276 t=   4.6s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0167(tail-banks) 1=801D8C39(tail-banks)] sel=1E 03 05 00 39 03 0A 01 
+vs=276 t=   4.6s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B016C(tail-banks)] sel=1A 2C F8 03 08 56 1D 80 
+vs=276 t=   4.6s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D5608(tail-banks) format=0x83 value=0 live=[0=801B0170(tail-banks)] sel=08 56 1D 80 83 00 2A 21 
+vs=276 t=   4.6s IDX 0x800EB0F8 gText_aChannels[0] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0175(tail-banks) 1=800EB13D(self+0x45)] sel=00 38 FF 00 00 00 00 00 
+vs=276 t=   4.6s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0175(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=276 t=   4.6s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0176(tail-banks)] sel=2A 21 1D 1D F8 03 0C 56 
+vs=276 t=   4.6s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D560C(tail-banks) format=0x83 value=0 live=[0=801B017C(tail-banks)] sel=0C 56 1D 80 83 FF 00 00 
+vs=276 t=   4.6s IDX 0x800EB0F8 gText_aChannels[0] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0181(tail-banks) 1=800EB13D(self+0x45)] sel=00 38 FF 00 00 00 00 00 
+vs=276 t=   4.6s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0181(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=276 t=   4.6s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=276 t=   4.6s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=0  live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=284 t=   4.7s IDX 0x800EB0F8 gText_aChannels[0] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[none] sel=not-RAM 
+vs=284 t=   4.7s IDX 0x800EB0F8 gText_aChannels[0] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0165(tail-banks)] sel=F8 09 F8 06 A0 00 22 1A 
+vs=284 t=   4.7s CALL Text_PushStagedString owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 staged_id=0x8337 live=[0=801B0167(tail-banks)] sel=F8 06 A0 00 22 1A 2C F8 
+vs=284 t=   4.7s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0167(tail-banks) 1=801D8C6E(tail-banks)] sel=1A 07 05 07 FF 33 03 05 
+vs=284 t=   4.7s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B016C(tail-banks)] sel=1A 2C F8 03 08 56 1D 80 
+vs=284 t=   4.7s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D5608(tail-banks) format=0x83 value=0 live=[0=801B0170(tail-banks)] sel=08 56 1D 80 83 00 2A 21 
+vs=284 t=   4.7s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0175(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=284 t=   4.7s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0176(tail-banks)] sel=2A 21 1D 1D F8 03 0C 56 
+vs=284 t=   4.7s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D560C(tail-banks) format=0x83 value=0 live=[0=801B017C(tail-banks)] sel=0C 56 1D 80 83 FF 00 00 
+vs=284 t=   4.7s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0181(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=284 t=   4.7s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=284 t=   4.7s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=0  live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=292 t=   4.9s IDX 0x800EB0F8 gText_aChannels[0] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[none] sel=not-RAM 
+vs=292 t=   4.9s IDX 0x800EB0F8 gText_aChannels[0] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0165(tail-banks)] sel=F8 09 F8 06 A0 00 22 1A 
+vs=292 t=   4.9s CALL Text_PushStagedString owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 staged_id=0x833D live=[0=801B0167(tail-banks)] sel=F8 06 A0 00 22 1A 2C F8 
+vs=292 t=   4.9s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0167(tail-banks) 1=801D8CA4(tail-banks)] sel=23 05 10 09 00 1E 03 10 
+vs=292 t=   4.9s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D5608(tail-banks) format=0x83 value=0 live=[0=801B0170(tail-banks)] sel=08 56 1D 80 83 00 2A 21 
+vs=292 t=   4.9s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0175(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=292 t=   4.9s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D560C(tail-banks) format=0x83 value=0 live=[0=801B017C(tail-banks)] sel=0C 56 1D 80 83 FF 00 00 
+vs=292 t=   4.9s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0181(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=292 t=   4.9s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=292 t=   4.9s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=0  live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=300 t=   5.0s IDX 0x800EB0F8 gText_aChannels[0] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[none] sel=not-RAM 
+vs=300 t=   5.0s IDX 0x800EB0F8 gText_aChannels[0] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A88 live=[0=801B0165(tail-banks)] sel=F8 09 F8 06 A0 00 22 1A 
+vs=300 t=   5.0s CALL Text_PushStagedString owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 staged_id=0x8343 live=[0=801B0167(tail-banks)] sel=F8 06 A0 00 22 1A 2C F8 
+vs=300 t=   5.0s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0167(tail-banks) 1=801D8D02(tail-banks)] sel=23 05 10 09 00 1E 03 10 
+vs=300 t=   5.0s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D5608(tail-banks) format=0x83 value=0 live=[0=801B0170(tail-banks)] sel=08 56 1D 80 83 00 2A 21 
+vs=300 t=   5.0s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0175(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=300 t=   5.0s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D560C(tail-banks) format=0x83 value=0 live=[0=801B017C(tail-banks)] sel=0C 56 1D 80 83 FF 00 00 
+vs=300 t=   5.0s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0181(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=300 t=   5.0s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=300 t=   5.0s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=0  live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=308 t=   5.1s IDX 0x800EB0F8 gText_aChannels[0] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A88 live=[none] sel=not-RAM 
+vs=308 t=   5.1s CALL Text_PushStagedString owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 staged_id=0x8349 live=[0=801B0167(tail-banks)] sel=F8 06 A0 00 22 1A 2C F8 
+vs=308 t=   5.1s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0167(tail-banks) 1=801D8D57(tail-banks)] sel=29 0D 03 08 0C 05 03 06 
+vs=308 t=   5.1s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D5608(tail-banks) format=0x83 value=0 live=[0=801B0170(tail-banks)] sel=08 56 1D 80 83 00 2A 21 
+vs=308 t=   5.1s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0175(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=308 t=   5.1s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D560C(tail-banks) format=0x83 value=0 live=[0=801B017C(tail-banks)] sel=0C 56 1D 80 83 FF 00 00 
+vs=308 t=   5.1s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0181(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=308 t=   5.1s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=308 t=   5.1s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=0  live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=316 t=   5.3s CALL Text_PushStagedString owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 staged_id=0x834F live=[0=801B0167(tail-banks)] sel=F8 06 A0 00 22 1A 2C F8 
+vs=316 t=   5.3s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0167(tail-banks) 1=801D8D9A(tail-banks)] sel=F8 02 18 1E 01 02 08 04 
+vs=316 t=   5.3s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D5608(tail-banks) format=0x83 value=1 live=[0=801B0170(tail-banks)] sel=08 56 1D 80 83 00 2A 21 
+vs=316 t=   5.3s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0175(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=316 t=   5.3s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=0 value_addr=801D560C(tail-banks) format=0x83 value=0 live=[0=801B017C(tail-banks)] sel=0C 56 1D 80 83 FF 00 00 
+vs=316 t=   5.3s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=1  live=[0=801B0181(tail-banks) 1=800EB140(self+0x48)] sel=00 00 00 00 00 00 00 00 
+vs=316 t=   5.3s CALL Text_EndStream owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=0  live=[0=801B0182(tail-banks)] sel=00 00 00 00 1D 25 2A 25 
+vs=524 t=   8.7s OWNER 0x800EB1C0 gText_aChannels[2] first seen in TextBox_BuildStep ra=0x80039A3C in=resident idx=-1 live=[none] sel=not-RAM 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x00 card=67 live=[0=801B007D(tail-banks)] sel=00 F8 02 04 F8 00 01 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x01 card=67 live=[0=801B0083(tail-banks)] sel=01 F8 02 01 F8 00 02 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x02 card=67 live=[0=801B0089(tail-banks)] sel=02 F8 06 00 00 F8 07 10 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x20 card=67 live=[0=801B0094(tail-banks)] sel=20 FF F8 06 AF 00 F8 00 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D63FD(tail-banks)] sel=01 08 13 01 0F 02 0A 11 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x00 card=67 live=[0=801B007D(tail-banks)] sel=00 F8 02 04 F8 00 01 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x01 card=67 live=[0=801B0083(tail-banks)] sel=01 F8 02 01 F8 00 02 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x02 card=67 live=[0=801B0089(tail-banks)] sel=02 F8 06 00 00 F8 07 10 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x20 card=67 live=[0=801B0094(tail-banks)] sel=20 FF F8 06 AF 00 F8 00 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D63FD(tail-banks)] sel=01 08 13 01 0F 02 0A 11 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x00 card=67 live=[0=801B007D(tail-banks)] sel=00 F8 02 04 F8 00 01 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x01 card=67 live=[0=801B0083(tail-banks)] sel=01 F8 02 01 F8 00 02 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x02 card=67 live=[0=801B0089(tail-banks)] sel=02 F8 06 00 00 F8 07 10 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x20 card=67 live=[0=801B0094(tail-banks)] sel=20 FF F8 06 AF 00 F8 00 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D63FD(tail-banks)] sel=01 08 13 01 0F 02 0A 11 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x00 card=217 live=[0=801B007D(tail-banks)] sel=00 F8 02 04 F8 00 01 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x01 card=217 live=[0=801B0083(tail-banks)] sel=01 F8 02 01 F8 00 02 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x02 card=217 live=[0=801B0089(tail-banks)] sel=02 F8 06 00 00 F8 07 10 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x20 card=217 live=[0=801B0094(tail-banks)] sel=20 FF F8 06 AF 00 F8 00 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D6CF2(tail-banks)] sel=0B 00 1D 16 0D 0A 0A 00 
+vs=524 t=   8.7s CALL Text_EndStream owner=0x800EB1C0 gText_aChannels[2] ra=0x800396C0 in=resident idx=1  live=[0=801B0095(tail-banks) 1=801D6D01(tail-banks)] sel=1C 12 04 30 0E 04 0D 02 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_EndStream owner=0x800EB1C0 gText_aChannels[2] ra=0x800396C0 in=resident idx=0  live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x00 card=217 live=[0=801B007D(tail-banks)] sel=00 F8 02 04 F8 00 01 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x01 card=217 live=[0=801B0083(tail-banks)] sel=01 F8 02 01 F8 00 02 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x02 card=217 live=[0=801B0089(tail-banks)] sel=02 F8 06 00 00 F8 07 10 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x20 card=217 live=[0=801B0094(tail-banks)] sel=20 FF F8 06 AF 00 F8 00 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D6CF2(tail-banks)] sel=0B 00 1D 16 0D 0A 0A 00 
+vs=524 t=   8.7s CALL Text_EndStream owner=0x800EB1C0 gText_aChannels[2] ra=0x800396C0 in=resident idx=1  live=[0=801B0095(tail-banks) 1=801D6D01(tail-banks)] sel=1C 12 04 30 0E 04 0D 02 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_EndStream owner=0x800EB1C0 gText_aChannels[2] ra=0x800396C0 in=resident idx=0  live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x00 card=217 live=[0=801B007D(tail-banks)] sel=00 F8 02 04 F8 00 01 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x01 card=217 live=[0=801B0083(tail-banks)] sel=01 F8 02 01 F8 00 02 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x02 card=217 live=[0=801B0089(tail-banks)] sel=02 F8 06 00 00 F8 07 10 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x20 card=217 live=[0=801B0094(tail-banks)] sel=20 FF F8 06 AF 00 F8 00 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D6CF2(tail-banks)] sel=0B 00 1D 16 0D 0A 0A 00 
+vs=524 t=   8.7s CALL Text_EndStream owner=0x800EB1C0 gText_aChannels[2] ra=0x800396C0 in=resident idx=1  live=[0=801B0095(tail-banks) 1=801D6D01(tail-banks)] sel=1C 12 04 30 0E 04 0D 02 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_EndStream owner=0x800EB1C0 gText_aChannels[2] ra=0x800396C0 in=resident idx=0  live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x00 card=329 live=[0=801B007D(tail-banks)] sel=00 F8 02 04 F8 00 01 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x01 card=329 live=[0=801B0083(tail-banks)] sel=01 F8 02 01 F8 00 02 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x02 card=329 live=[0=801B0089(tail-banks)] sel=02 F8 06 00 00 F8 07 10 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x20 card=329 live=[0=801B0094(tail-banks)] sel=20 FF F8 06 AF 00 F8 00 
+vs=524 t=   8.7s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x00 card=329 live=[0=801B007D(tail-banks)] sel=00 F8 02 04 F8 00 01 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x01 card=329 live=[0=801B0083(tail-banks)] sel=01 F8 02 01 F8 00 02 F8 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x02 card=329 live=[0=801B0089(tail-banks)] sel=02 F8 06 00 00 F8 07 10 
+vs=524 t=   8.7s CALL Text_ExpandSelectedCardInfo owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=0 op=0x20 card=329 live=[0=801B0094(tail-banks)] sel=20 FF F8 06 AF 00 F8 00 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s CALL Text_ExpandSelectedCardInfo owner=0x800EB15C gText_aChannels[1] ra=0x80038B98 in=resident idx=0 op=0x00 card=1 live=[0=801B007D(tail-banks)] sel=00 F8 02 04 F8 00 01 F8 
+vs=527 t=   8.8s CALL Text_ExpandSelectedCardInfo owner=0x800EB15C gText_aChannels[1] ra=0x80038B98 in=resident idx=0 op=0x01 card=1 live=[0=801B0083(tail-banks)] sel=01 F8 02 01 F8 00 02 F8 
+vs=527 t=   8.8s CALL Text_ExpandSelectedCardInfo owner=0x800EB15C gText_aChannels[1] ra=0x80038B98 in=resident idx=0 op=0x02 card=1 live=[0=801B0089(tail-banks)] sel=02 F8 06 00 00 F8 07 10 
+vs=527 t=   8.8s CALL Text_ExpandSelectedCardInfo owner=0x800EB15C gText_aChannels[1] ra=0x80038B98 in=resident idx=0 op=0x20 card=1 live=[0=801B0094(tail-banks)] sel=20 FF F8 06 AF 00 F8 00 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D6002(tail-banks)] sel=0A 0D 01 30 01 11 01 07 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s CALL Text_ExpandSelectedCardInfo owner=0x800EB15C gText_aChannels[1] ra=0x80038B98 in=resident idx=0 op=0x00 card=2 live=[0=801B007D(tail-banks)] sel=00 F8 02 04 F8 00 01 F8 
+vs=527 t=   8.8s CALL Text_ExpandSelectedCardInfo owner=0x800EB15C gText_aChannels[1] ra=0x80038B98 in=resident idx=0 op=0x01 card=2 live=[0=801B0083(tail-banks)] sel=01 F8 02 01 F8 00 02 F8 
+vs=527 t=   8.8s CALL Text_ExpandSelectedCardInfo owner=0x800EB15C gText_aChannels[1] ra=0x80038B98 in=resident idx=0 op=0x02 card=2 live=[0=801B0089(tail-banks)] sel=02 F8 06 00 00 F8 07 10 
+vs=527 t=   8.8s CALL Text_ExpandSelectedCardInfo owner=0x800EB15C gText_aChannels[1] ra=0x80038B98 in=resident idx=0 op=0x20 card=2 live=[0=801B0094(tail-banks)] sel=20 FF F8 06 AF 00 F8 00 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D6019(tail-banks)] sel=11 07 02 05 0F 03 0A 00 
+vs=527 t=   8.8s CALL Text_EndStream owner=0x800EB15C gText_aChannels[1] ra=0x800396C0 in=resident idx=1  live=[0=801B0095(tail-banks) 1=801D6025(tail-banks)] sel=23 05 02 04 02 07 0D 30 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s CALL Text_EndStream owner=0x800EB15C gText_aChannels[1] ra=0x800396C0 in=resident idx=0  live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D6026(tail-banks)] sel=05 02 04 02 07 0D 30 0E 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D6037(tail-banks)] sel=03 15 11 00 20 08 03 10 
+vs=527 t=   8.8s CALL Text_EndStream owner=0x800EB15C gText_aChannels[1] ra=0x800396C0 in=resident idx=1  live=[0=801B0095(tail-banks) 1=801D6042(tail-banks)] sel=26 11 0D 30 16 05 07 09 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s CALL Text_EndStream owner=0x800EB15C gText_aChannels[1] ra=0x800396C0 in=resident idx=0  live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D6043(tail-banks)] sel=11 0D 30 16 05 07 09 05 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0095(tail-banks) 1=801D604E(tail-banks)] sel=01 08 03 0A 00 1A 0E 14 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0077(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s IDX 0x800EB15C gText_aChannels[1] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0096(tail-banks)] sel=F8 06 AF 00 F8 00 00 F8 
+vs=527 t=   8.8s OWNER 0x800EB224 gText_aChannels[3] first seen in TextBox_BuildStep ra=0x80039A3C in=resident idx=-1 live=[none] sel=not-RAM 
+vs=527 t=   8.8s IDX 0x800EB224 gText_aChannels[3] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0197(tail-banks)] sel=F8 06 06 01 F8 03 0C 56 
+vs=527 t=   8.8s CALL Text_PushFormattedDecimal owner=0x800EB224 gText_aChannels[3] ra=0x80038B98 in=resident idx=0 value_addr=801D560C(tail-banks) format=0x82 value=40 live=[0=801B019D(tail-banks)] sel=0C 56 1D 80 82 F8 06 36 
+vs=527 t=   8.8s IDX 0x800EB224 gText_aChannels[3] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B01A2(tail-banks) 1=800EB269(self+0x45)] sel=38 FF 4E FF 4E FF 00 00 
+vs=527 t=   8.8s IDX 0x800EB224 gText_aChannels[3] 1 -> 0 seen-in=Text_PushFormattedDecimal ra=0x80038B98 live=[0=801B01A8(tail-banks)] sel=08 56 1D 80 86 F8 01 05 
+vs=527 t=   8.8s CALL Text_PushFormattedDecimal owner=0x800EB224 gText_aChannels[3] ra=0x80038B98 in=resident idx=0 value_addr=801D5608(tail-banks) format=0x86 value=3746 live=[0=801B01A8(tail-banks)] sel=08 56 1D 80 86 F8 01 05 
+vs=527 t=   8.8s IDX 0x800EB224 gText_aChannels[3] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B01AD(tail-banks) 1=800EB269(self+0x45)] sel=00 41 45 4A 4E FF 00 00 
+vs=527 t=   8.8s IDX 0x800EB224 gText_aChannels[3] 1 -> 0 seen-in=Text_PushFormattedDecimal ra=0x80038B98 live=[0=801B01B6(tail-banks)] sel=08 56 1D 80 06 F8 06 2E 
+vs=527 t=   8.8s CALL Text_PushFormattedDecimal owner=0x800EB224 gText_aChannels[3] ra=0x80038B98 in=resident idx=0 value_addr=801D5608(tail-banks) format=0x06 value=3746 live=[0=801B01B6(tail-banks)] sel=08 56 1D 80 06 F8 06 2E 
+vs=527 t=   8.8s IDX 0x800EB224 gText_aChannels[3] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B01BB(tail-banks) 1=800EB269(self+0x45)] sel=45 4A 4E FF 4E FF 00 00 
+vs=527 t=   8.8s IDX 0x800EB224 gText_aChannels[3] 1 -> 0 seen-in=Text_PushFormattedDecimal ra=0x80038B98 live=[0=801B01C1(tail-banks)] sel=0C 56 1D 80 02 FF 41 20 
+vs=527 t=   8.8s CALL Text_PushFormattedDecimal owner=0x800EB224 gText_aChannels[3] ra=0x80038B98 in=resident idx=0 value_addr=801D560C(tail-banks) format=0x02 value=40 live=[0=801B01C1(tail-banks)] sel=0C 56 1D 80 02 FF 41 20 
+vs=527 t=   8.8s IDX 0x800EB224 gText_aChannels[3] 0 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B01C6(tail-banks) 1=800EB269(self+0x45)] sel=38 FF 4E FF 4E FF 00 00 
+vs=527 t=   8.8s IDX 0x800EB224 gText_aChannels[3] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B01C7(tail-banks)] sel=41 20 00 00 00 00 00 00 
+vs=1567 t=  26.1s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0AC1(tail-banks)] sel=F8 01 E4 FC 52 0A F8 01 
+vs=1567 t=  26.1s CALL Text_PushStreamOffset owner=0x800EB1C0 gText_aChannels[2] ra=0x800396C0 in=resident idx=0 offset=0x0A52 live=[0=801B0AC5(tail-banks)] sel=52 0A F8 01 1C FD FA 09 
+vs=1567 t=  26.1s IDX 0x800EB1C0 gText_aChannels[2] 0 -> 1 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0AC7(tail-banks) 1=801B0AC1(tail-banks)] sel=F8 01 E4 FC 52 0A F8 01 
+vs=1567 t=  26.1s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0A22(tail-banks)] sel=F8 06 07 01 F8 08 FF FC 
+vs=1863 t=  31.1s IDX 0x800EB1C0 gText_aChannels[2] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=1863 t=  31.1s IDX 0x800EB1C0 gText_aChannels[2] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B09FA(tail-banks)] sel=F8 17 21 0A 04 0A 29 0A 
+vs=1988 t=  33.1s IDX 0x800EB1C0 gText_aChannels[2] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=1988 t=  33.1s IDX 0x800EB1C0 gText_aChannels[2] -1 -> 0 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0AC1(tail-banks)] sel=F8 01 E4 FC 52 0A F8 01 
+vs=1988 t=  33.1s CALL Text_PushStreamOffset owner=0x800EB1C0 gText_aChannels[2] ra=0x800396C0 in=resident idx=0 offset=0x0A52 live=[0=801B0AC5(tail-banks)] sel=52 0A F8 01 1C FD FA 09 
+vs=1988 t=  33.1s IDX 0x800EB1C0 gText_aChannels[2] 0 -> 1 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0AC7(tail-banks) 1=801B0AC1(tail-banks)] sel=F8 01 E4 FC 52 0A F8 01 
+vs=1988 t=  33.1s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0A29(tail-banks)] sel=FC D3 09 F8 02 0A F8 08 
+vs=2012 t=  33.5s IDX 0x800EB15C gText_aChannels[1] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=2012 t=  33.5s CALL Text_PushStreamOffset owner=0x800EB15C gText_aChannels[1] ra=0x800396C0 in=resident idx=0 offset=0x0A52 live=[0=801B0ADD(tail-banks)] sel=52 0A F8 01 E4 FD FA 09 
+vs=2012 t=  33.5s IDX 0x800EB15C gText_aChannels[1] 0 -> 1 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0ADF(tail-banks) 1=801B0AC1(tail-banks)] sel=F8 01 E4 FC 52 0A F8 01 
+vs=2012 t=  33.5s IDX 0x800EB15C gText_aChannels[1] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0A22(tail-banks)] sel=F8 06 07 01 F8 08 FF FC 
+vs=2022 t=  33.7s CALL Text_PushStreamOffset owner=0x800EB15C gText_aChannels[1] ra=0x800396C0 in=resident idx=0 offset=0x0A52 live=[0=801B0ADD(tail-banks)] sel=52 0A F8 01 E4 FD FA 09 
+vs=2022 t=  33.7s IDX 0x800EB15C gText_aChannels[1] 0 -> 1 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0ADF(tail-banks) 1=801B0AC1(tail-banks)] sel=F8 01 E4 FC 52 0A F8 01 
+vs=2031 t=  33.9s CALL Text_PushStreamOffset owner=0x800EB15C gText_aChannels[1] ra=0x800396C0 in=resident idx=0 offset=0x0A52 live=[0=801B0ADD(tail-banks)] sel=52 0A F8 01 E4 FD FA 09 
+vs=2031 t=  33.9s IDX 0x800EB15C gText_aChannels[1] 0 -> 1 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0ADF(tail-banks) 1=801B0AC1(tail-banks)] sel=F8 01 E4 FC 52 0A F8 01 
+vs=2211 t=  36.9s IDX 0x800EB1C0 gText_aChannels[2] 0 -> -1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[none] sel=not-RAM 
+vs=2211 t=  36.9s CALL Text_PushStreamOffset owner=0x800EB1C0 gText_aChannels[2] ra=0x800396C0 in=resident idx=0 offset=0x0A52 live=[0=801B0AC5(tail-banks)] sel=52 0A F8 01 1C FD FA 09 
+vs=2211 t=  36.9s IDX 0x800EB1C0 gText_aChannels[2] 0 -> 1 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0AC7(tail-banks) 1=801B0AC1(tail-banks)] sel=F8 01 E4 FC 52 0A F8 01 
+vs=2211 t=  36.9s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=Text_PushStreamOffset ra=0x800396C0 live=[0=801B0A2A(tail-banks)] sel=D3 09 F8 02 0A F8 08 FD 
+vs=2211 t=  36.9s CALL Text_PushStreamOffset owner=0x800EB1C0 gText_aChannels[2] ra=0x800396C0 in=resident idx=0 offset=0x09D3 live=[0=801B0A2A(tail-banks)] sel=D3 09 F8 02 0A F8 08 FD 
+vs=2211 t=  36.9s CALL Text_PushFormattedDecimal owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=1 value_addr=801D5608(tail-banks) format=0x84 value=3750 live=[0=801B0A2C(tail-banks) 1=801B09DD(tail-banks)] sel=08 56 1D 80 84 FE F8 06 
+vs=2211 t=  36.9s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 2 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0A2C(tail-banks) 1=801B09E2(tail-banks) 2=800EB205(self+0x45)] sel=45 42 38 FF 00 00 00 00 
+vs=2211 t=  36.9s IDX 0x800EB1C0 gText_aChannels[2] 2 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0A2C(tail-banks) 1=801B09E3(tail-banks)] sel=F8 06 C3 00 49 F8 03 0C 
+vs=2211 t=  36.9s CALL Text_PushFormattedDecimal owner=0x800EB1C0 gText_aChannels[2] ra=0x80038B98 in=resident idx=1 value_addr=801D560C(tail-banks) format=0x84 value=3400 live=[0=801B0A2C(tail-banks) 1=801B09EA(tail-banks)] sel=0C 56 1D 80 84 F8 01 F8 
+vs=2211 t=  36.9s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 2 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0A2C(tail-banks) 1=801B09EF(tail-banks) 2=800EB205(self+0x45)] sel=4A 38 38 FF 00 00 00 00 
+vs=2211 t=  36.9s IDX 0x800EB1C0 gText_aChannels[2] 2 -> 1 seen-in=Text_ExpandSelectedCardInfo ra=0x80038B98 live=[0=801B0A2C(tail-banks) 1=801B09F8(tail-banks)] sel=00 FF F8 17 21 0A 04 0A 
+vs=2211 t=  36.9s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=Text_ExpandSelectedCardInfo ra=0x80038B98 live=[0=801B0A20(tail-banks)] sel=20 FF F8 06 07 01 F8 08 
+vs=2211 t=  36.9s IDX 0x800EB1C0 gText_aChannels[2] 1 -> 0 seen-in=Text_EndStream ra=0x800396C0 live=[0=801B0A22(tail-banks)] sel=F8 06 07 01 F8 08 FF FC 
+vs=2377 t=  39.6s CALL Text_PushStreamOffset owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=0 offset=0x09D3 live=[0=801B0A05(tail-banks)] sel=D3 09 F8 02 02 F8 00 01 
+vs=2377 t=  39.6s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=1 value_addr=801D5608(tail-banks) format=0x84 value=3500 live=[0=801B0A07(tail-banks) 1=801B09DD(tail-banks)] sel=08 56 1D 80 84 FE F8 06 
+vs=2377 t=  39.6s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 2 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0A07(tail-banks) 1=801B09E2(tail-banks) 2=800EB13D(self+0x45)] sel=42 38 38 FF 00 00 00 00 
+vs=2377 t=  39.6s IDX 0x800EB0F8 gText_aChannels[0] 2 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0A07(tail-banks) 1=801B09E3(tail-banks)] sel=F8 06 C3 00 49 F8 03 0C 
+vs=2377 t=  39.6s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=1 value_addr=801D560C(tail-banks) format=0x84 value=3000 live=[0=801B0A07(tail-banks) 1=801B09EA(tail-banks)] sel=0C 56 1D 80 84 F8 01 F8 
+vs=2377 t=  39.6s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 2 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0A07(tail-banks) 1=801B09EF(tail-banks) 2=800EB13D(self+0x45)] sel=38 38 38 FF 00 00 00 00 
+vs=2377 t=  39.6s IDX 0x800EB0F8 gText_aChannels[0] 2 -> 1 seen-in=Text_ExpandSelectedCardInfo ra=0x80038B98 live=[0=801B0A07(tail-banks) 1=801B09F8(tail-banks)] sel=00 FF F8 17 21 0A 04 0A 
+vs=2377 t=  39.6s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 0 seen-in=Text_ExpandSelectedCardInfo ra=0x80038B98 live=[0=801B0A0C(tail-banks)] sel=01 F8 02 02 F8 00 02 F8 
+vs=2466 t=  41.1s CALL Text_PushStreamOffset owner=0x800EB0F8 gText_aChannels[0] ra=0x800396C0 in=resident idx=0 offset=0x09D3 live=[0=801B0A05(tail-banks)] sel=D3 09 F8 02 02 F8 00 01 
+vs=2466 t=  41.1s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=1 value_addr=801D5608(tail-banks) format=0x84 value=3500 live=[0=801B0A07(tail-banks) 1=801B09DD(tail-banks)] sel=08 56 1D 80 84 FE F8 06 
+vs=2466 t=  41.1s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 2 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0A07(tail-banks) 1=801B09E2(tail-banks) 2=800EB13D(self+0x45)] sel=42 38 38 FF 00 00 00 00 
+vs=2466 t=  41.1s IDX 0x800EB0F8 gText_aChannels[0] 2 -> 1 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0A07(tail-banks) 1=801B09E3(tail-banks)] sel=F8 06 C3 00 49 F8 03 0C 
+vs=2466 t=  41.1s CALL Text_PushFormattedDecimal owner=0x800EB0F8 gText_aChannels[0] ra=0x80038B98 in=resident idx=1 value_addr=801D560C(tail-banks) format=0x84 value=3000 live=[0=801B0A07(tail-banks) 1=801B09EA(tail-banks)] sel=0C 56 1D 80 84 F8 01 F8 
+vs=2466 t=  41.1s IDX 0x800EB0F8 gText_aChannels[0] 1 -> 2 seen-in=TextBox_BuildStep ra=0x80039A3C live=[0=801B0A07(tail-banks) 1=801B09EF(tail-banks) 2=800EB13D(self+0x45)] sel=38 38 38 FF 00 00 00 00 
+vs=2466 t=  41.1s IDX 0x800EB0F8 gText_aChannels[0] 2 -> 1 seen-in=Text_ExpandSelectedCardInfo ra=0x80038B98 live=[0=801B0A07(tail-banks) 1=801B09F8(tail-banks)] sel=00 FF F8 17 21 0A 04 0A 
+ 
+--- end of trace, copy everything above into tools/trace/result/text_stream_owner_watch.txt --- 
