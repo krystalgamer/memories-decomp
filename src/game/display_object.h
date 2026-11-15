@@ -190,6 +190,9 @@ typedef struct DisplayObject {
             u16 field_2C;
             s16 field_2E;
         } h;
+        /* A gouraud quad's vertex colour (DisplayObject_InitializeGouraudQuad
+           clears it, DebugMenu_Init sets its green). */
+        CVECTOR colour;
     } field_2C;                    /* 0x2C */
     /* The 2D x/y pair the renderers draw at. DisplayObject_RenderSpriteList
        and DisplayObject_RenderSpriteStrips copy the word into SpritePrim.xy
@@ -254,6 +257,9 @@ typedef struct DisplayObject {
             s16 z;
             s16 start_x;
         } ease;
+        /* A gouraud quad's vertex colour (DisplayObject_InitializeGouraudQuad
+           clears it, DebugMenu_Init sets its green). */
+        CVECTOR colour;
     } field_34;                    /* 0x34 */
     /* Read both ways, and by the same device as its neighbours.
 
@@ -316,6 +322,9 @@ typedef struct DisplayObject {
             u16 w;
             u16 h;
         } size;
+        /* A gouraud quad's vertex colour (DisplayObject_InitializeGouraudQuad
+           clears it, DebugMenu_Init sets its green). */
+        CVECTOR colour;
     } field_3C;                    /* 0x3C */
     /* 0x40 and 0x48 are the last two words display_object_config.h's separate
        halfword view covers. display_object_core.c clears each with one sw
@@ -393,6 +402,9 @@ typedef struct DisplayObject {
             s16 x;
             s16 y;
         } target;
+        /* A gouraud quad's vertex colour (DisplayObject_InitializeGouraudQuad
+           clears it, DebugMenu_Init sets its green). */
+        CVECTOR colour;
     } field_44;                    /* 0x44 */
     /* Three readings, one per object kind.
 
