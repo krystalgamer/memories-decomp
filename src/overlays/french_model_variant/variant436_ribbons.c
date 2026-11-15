@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant436_ribbons.h"
+#include "../../game/graphics_packet_submission.h"
 #include "variant436_entry.h"
 
 /* The North American header-419 build reads the projected points through
@@ -32,9 +32,9 @@ void FrenchModelVariant436_DrawRibbons(u8 *ctx)
     s32 yaw;
     s32 pitch;
     s16 len;
-    Ribbons436Ribbon *ribbon;
+    EntryRibbon436 *ribbon;
     POLY_FT4 *poly;
-    Ribbons436Screen screen;
+    EntryRibbonScreen436 screen;
     s32 bend;
     s32 curve;
     s32 amp;
@@ -54,7 +54,7 @@ void FrenchModelVariant436_DrawRibbons(u8 *ctx)
     } else {
         len = 10;
     }
-    ribbon = (Ribbons436Ribbon *)work;
+    ribbon = work->ribbons;
     for (i = 0, phase = 0; i < 4; i++, ribbon++, phase = i * 1024) {
         if (work->elapsed < work->config->wave_end && !(i & 1)) {
             wave = -work->phase_a;
@@ -111,7 +111,7 @@ void FrenchModelVariant436_DrawRibbons(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (Ribbons436Ribbon *)work;
+    ribbon = work->ribbons;
     for (i = 0; i < 4; i++, ribbon++) {
         for (k = 0; k < 9; k++) {
             if (k == 8) {
@@ -140,7 +140,7 @@ void FrenchModelVariant436_DrawRibbons(u8 *ctx)
             }
         }
     }
-    ribbon = (Ribbons436Ribbon *)work;
+    ribbon = work->ribbons;
     for (i = 0; i < 4; i++, ribbon++) {
         lo = 0;
         if (ribbon->start >= 0) {
@@ -159,9 +159,9 @@ void FrenchModelVariant436_DrawRibbons(u8 *ctx)
             poly->y2 = (RIBBONS436_SA(k).packed >> 16) - ribbon->oy[k];
             poly->x3 = RIBBONS436_SA(k + 1).point.vx - ribbon->ox[k + 1];
             poly->y3 = (RIBBONS436_SA(k + 1).packed >> 16) - ribbon->oy[k + 1];
-            poly->r0 = ribbon->color[0];
-            poly->g0 = ribbon->color[1];
-            poly->b0 = ribbon->color[2];
+            poly->r0 = ribbon->style.inner.r;
+            poly->g0 = ribbon->style.inner.g;
+            poly->b0 = ribbon->style.inner.b;
             if (ribbon->otz[k] >= 0 && flags[i][k] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[k]);
             }
