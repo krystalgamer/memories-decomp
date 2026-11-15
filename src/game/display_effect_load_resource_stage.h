@@ -18,8 +18,9 @@
  * FileTransferDescriptor's own comment calls the VRAM position pair the
  * phase-2 paths write there.
  *
- * The two `*(s32 *)&p->phase_size = FILE_SECTOR_SIZE;` stores in phases 1 and
- * 2 are spelled that way deliberately. Written as the plain assignment,
+ * The two phase_size stores in phases 1 and 2 go through a local
+ * `u32 *phase_size = &p->phase_size` deliberately. Written as the plain
+ * member assignment,
  * GCC cross-jumps the two phases' tails into one shared
  * block and the executable comes out eight bytes short; retail keeps them
  * duplicated. Only that one statement does it -- `transfer_mode`, `sector_destination` and
