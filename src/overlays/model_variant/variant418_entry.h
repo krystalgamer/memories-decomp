@@ -51,7 +51,7 @@ typedef struct {
 
 extern GsIMAGE gModelVariant418_aImages[9];
 extern Variant418EntryConfig gModelVariant418_aConfigs[];
-void ModelVariant418_DrawSpiral(u8 *context);
+void ModelVariant418_DrawSpiral(Variant418EntryState *context);
 void ModelVariant418_DrawSheet(u8 *context);
-void ModelVariant418_DrawWebs(u8 *context);
+void ModelVariant418_DrawWebs(Variant418EntryState *context);
 #endif

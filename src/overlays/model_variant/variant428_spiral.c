@@ -7,7 +7,7 @@
  * radius is half the size at (u8 *)work + 0x15A8, drawn only where both the depth
  * and the projection flag are not negative; the size grows to 0x400.
  * The two products tested before the arms are template code with dead arms. */
-void ModelVariant428_DrawSpiral(u8 *ctx)
+void ModelVariant428_DrawSpiral(Variant428EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -35,7 +35,7 @@ void ModelVariant428_DrawSpiral(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant428EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     poly = work->packets.textured;

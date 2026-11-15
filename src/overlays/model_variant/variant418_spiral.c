@@ -7,7 +7,7 @@
  * projects each spine and a copy of it moved along the view, and draws each
  * arm as two POLY_GT4 halves as wide as the projected offset. The spiral turns
  * by 0x10 a frame and grows and widens through the timing record's phases. */
-void ModelVariant418_DrawSpiral(u8 *ctx)
+void ModelVariant418_DrawSpiral(Variant418EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -34,7 +34,7 @@ void ModelVariant418_DrawSpiral(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant418EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     ux = work->aim.direction.vx;

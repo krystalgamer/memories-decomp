@@ -303,10 +303,10 @@ s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
             ModelVariant428_DrawSheets((u8 *)point);
-            ModelVariant428_DrawWebs((u8 *)point);
+            ModelVariant428_DrawWebs((Variant428EntryState *)point);
         }
         if (work->config->spiral_start <= work->clock.frame) {
-            ModelVariant428_DrawSpiral((u8 *)point);
+            ModelVariant428_DrawSpiral((Variant428EntryState *)point);
         }
         if (work->tail.phase > 0) {
             ModelVariant428_DrawBands((u8 *)point);

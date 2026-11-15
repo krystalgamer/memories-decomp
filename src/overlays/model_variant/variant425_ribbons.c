@@ -5,7 +5,7 @@
 
 /* Header 425's form of the header-418 ribbons: 0x6C-byte records, drawn only
  * when the depth is positive. */
-void ModelVariant425_DrawRibbons(u8 *ctx)
+void ModelVariant425_DrawRibbons(Variant425EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -30,7 +30,7 @@ void ModelVariant425_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant425EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     ratan2(work->view_delta.vy, work->view_delta.vx);

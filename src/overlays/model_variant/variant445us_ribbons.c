@@ -13,7 +13,7 @@
  * only moves between flat[0] and flat[1]; `count` never exceeds 12, so
  * `k + 1` stays within the thirteen points. The French header-462 images
  * build it with GCC 2.8.1, 12 bytes longer. */
-void ModelVariant445_DrawRibbons(u8 *ctx)
+void ModelVariant445_DrawRibbons(EntryState445Us *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -43,7 +43,7 @@ void ModelVariant445_DrawRibbons(u8 *ctx)
     s32 dy;
     s32 turn;
 
-    work = (EntryState445Us *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     ribbon = work->ribbons;
     sum = 0;

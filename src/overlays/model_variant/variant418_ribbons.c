@@ -7,7 +7,7 @@
  * from the angle at (u8 *)work + 0x1B98, projects each spine and its sideways copy,
  * and draws the first point of each as a POLY_G3 as wide as the projected
  * offset. The fan turns by step * 32 on the last frame of the timing record. */
-void ModelVariant418_DrawRibbons(u8 *ctx)
+void ModelVariant418_DrawRibbons(Variant418EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -32,7 +32,7 @@ void ModelVariant418_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant418EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);

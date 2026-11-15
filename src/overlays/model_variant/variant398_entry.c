@@ -349,10 +349,10 @@ s32 ModelVariant398_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant398_DrawRings((u8 *)point);
         }
         if (work->phase >= 2) {
-            ModelVariant398_DrawCurtains((u8 *)point);
+            ModelVariant398_DrawCurtains((Variant398EntryState *)point);
         }
         if (work->phase > 0) {
-            ModelVariant398_DrawBand((u8 *)point);
+            ModelVariant398_DrawBand((Variant398EntryState *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

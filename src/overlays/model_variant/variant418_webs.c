@@ -6,7 +6,7 @@
 /* Draws three webs of 6x6 GsGLINE segments between their near and far grids,
  * fading each web's colour once its scale passes 0x1000, and grows each scale
  * to 0x2000, wrapping it until the fourth phase. */
-void ModelVariant418_DrawWebs(u8 *ctx)
+void ModelVariant418_DrawWebs(Variant418EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -31,7 +31,7 @@ void ModelVariant418_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant418EntryState *)ctx;
+    work = context;
     web = (ModelVariantWeb *)work;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

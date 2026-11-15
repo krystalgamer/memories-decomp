@@ -6,7 +6,7 @@
 /* Header 398's form of the header-422 curtains: each frame the two rows of
  * every shown curtain are rebuilt around the rotating angle at (u8 *)work + 0x1A2C,
  * the outer row lifted by the first sheet's size when flag bit 0 is set. */
-void ModelVariant398_DrawCurtains(u8 *ctx)
+void ModelVariant398_DrawCurtains(Variant398EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -38,7 +38,7 @@ void ModelVariant398_DrawCurtains(u8 *ctx)
     u8 g1;
     u8 b1;
 
-    work = (Variant398EntryState *)ctx;
+    work = context;
     curtain = work->curtains;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx) + 0x800;

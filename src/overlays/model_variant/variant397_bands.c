@@ -6,7 +6,7 @@
 /* Draws one band of five points as pairs of POLY_GT4 quads along the variant's
  * path. The radius is scaled by the word at + 0x44 of the timing record at
  * (u8 *)work + 0xF54, and fades in and out with that record's two phases. */
-void ModelVariant397_DrawBands(u8 *ctx)
+void ModelVariant397_DrawBands(Variant397EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,7 +24,7 @@ void ModelVariant397_DrawBands(u8 *ctx)
     s16 j;
     s16 r;
 
-    work = (Variant397EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;

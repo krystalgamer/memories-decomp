@@ -64,5 +64,5 @@ typedef struct {
 
 extern GsIMAGE gModelVariant407_aImages[9];
 extern Variant407EntryConfig gModelVariant407_aConfigs[];
-void ModelVariant407_DrawPetals(u8 *context);
+void ModelVariant407_DrawPetals(Variant407EntryState *context);
 #endif
