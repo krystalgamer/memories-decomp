@@ -278,7 +278,7 @@ s32 ModelVariant423_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
-            ModelVariant423_DrawSheets((u8 *)point);
+            ModelVariant423_DrawSheets((Variant423EntryState *)point);
             ModelVariant423_DrawWebs((Variant423EntryState *)point);
         }
         if (work->tail.phase > 0) {
