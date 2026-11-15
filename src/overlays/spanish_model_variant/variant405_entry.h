@@ -14,13 +14,13 @@ typedef struct {
 
 typedef struct {
     SVECTOR a[2], b[2], c[2];
-    u8 unknown_30[0x18];
+    long sa[2], sb[2], sc[2];
     u8 field_48, field_49, field_4A, unknown_4B;
     s32 field_4C, field_50, field_54;
     u8 unknown_58[4];
     s16 field_5C, field_5E, field_60, started;
     s32 progress, tail_progress;
-    u8 unknown_6C[8];
+    s32 otz[2];
 } Variant405EntryRing;
 
 typedef struct {
@@ -83,7 +83,7 @@ typedef struct {
 extern GsIMAGE gSpanishModelVariant405_aImages[2];
 extern Variant405EntryConfig gSpanishModelVariant405_aConfigs[];
 void SpanishModelVariant405_DrawPulses(u8 *context);
-void FrenchModelVariant562_DrawShards(u8 *context);
+void FrenchModelVariant562_DrawShards(Variant405EntryState *context);
 void SpanishModelVariant405_DrawOuterBands(u8 *context);
 typedef char Variant405EntryConfigSize[(sizeof(Variant405EntryConfig) == 0x20) ? 1 : -1];
 typedef char Variant405EntryStateSize[(sizeof(Variant405EntryState) == 0x326C) ? 1 : -1];
