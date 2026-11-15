@@ -361,7 +361,7 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
                   work->target.vy - work->orbit.vy,
                   work->target.vz - work->orbit.vz);
         if (work->config->start <= work->clock.frame) {
-            ModelVariant425_DrawSheet((u8 *)point);
+            ModelVariant425_DrawSheet((Variant425EntryState *)point);
             ModelVariant425_DrawSpiral((u8 *)point);
             ModelVariant425_DrawWebs((Variant425EntryState *)point);
             if (work->phase >= 2) {
