@@ -31,7 +31,7 @@ void ModelVariant425_DrawWebs(Variant425EntryState *context)
     s32 otz;
 
     work = context;
-    web = (ModelVariantWebSmall *)work;
+    web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     ratan2(work->view_delta.vz, work->view_delta.vx);

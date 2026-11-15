@@ -46,7 +46,7 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
     u32 frame;
 
     work = (Variant433EntryState *)point;
-    fan = (Variant433EntryFan *)work;
+    fan = work->fans;
     ribbon = (Variant433EntryRibbon *)((u8 *)work + 0x270);
     band = (Variant433EntryBand *)((u8 *)work + 0xF00);
     ring = (Variant433EntryBand *)((u8 *)work + 0x1518);

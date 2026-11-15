@@ -47,7 +47,7 @@ void ModelVariant428_DrawSpiral(Variant428EntryState *context)
     if (eighth * work->field_15A6 < 0) {
         length = 0;
     }
-    arm = (ModelVariantShadedRay *)work;
+    arm = work->arms;
     for (i = 0; i < 12; i++, arm++) {
         phi = (i << 12) / 12 + work->field_15A4 * 2;
         theta = (i << 13) / 12 + work->field_15A4;
@@ -89,7 +89,7 @@ void ModelVariant428_DrawSpiral(Variant428EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (ModelVariantShadedRay *)work;
+    arm = work->arms;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -115,7 +115,7 @@ void ModelVariant428_DrawSpiral(Variant428EntryState *context)
             }
         }
     }
-    arm = (ModelVariantShadedRay *)work;
+    arm = work->arms;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->projected[k] + arm->x_offset[k];

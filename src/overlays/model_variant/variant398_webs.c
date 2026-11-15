@@ -32,7 +32,7 @@ void ModelVariant398_DrawPhasedWebs(Variant398EntryState *context)
     s32 done;
 
     work = context;
-    web = (ModelVariantWebNarrow *)work;
+    web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
