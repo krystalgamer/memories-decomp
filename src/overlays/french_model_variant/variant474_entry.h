@@ -14,7 +14,7 @@ typedef struct {
     u8 unknown_08[8];
     u8 part, unknown_11[7];
     u32 trigger;
-    u8 unknown_1C[4];
+    u32 grow_end;
     u32 fade_begin;
     u32 fade_end;
     u8 unknown_28[12];

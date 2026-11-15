@@ -24,11 +24,4 @@ typedef struct {
     ModelVariantStripOffsets offsets;
 } Ribbon474;
 
-typedef struct {
-    u8 unknown00[0x18];
-    u32 grow_start;
-    u32 grow_end;
-    u32 spin_end;
-} Ribbon474Timing;
-
 #endif
