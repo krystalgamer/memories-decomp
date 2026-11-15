@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant388_strips.h"
 #include "../spanish_model_variant/variant388_entry.h"
 
 /* Projects five cross sections along the path from the matrix translation
@@ -29,7 +28,7 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
     GsOT *ot;
     Variant388EntryTube *unit;
     POLY_GT4 *poly;
-    Strip388Timing *rec;
+    Variant388EntryConfig *rec;
     Variant388EntryTube *col;
     Variant388EntryTube *next;
     s16 i;
@@ -153,11 +152,11 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
             }
         }
         col = next = work->tubes;
-        rec = (Strip388Timing *)work->config;
-        if (work->index + 1 == rec->frame) {
+        rec = work->config;
+        if (work->index + 1 == rec->count) {
             if (work->phase == 1 && work->progress <= 0x400) {
-                if (rec->grow_start <= (u32)work->clock.frame) {
-                    work->progress = ((u32)work->clock.frame - rec->grow_start << 10) / (rec->grow_end - rec->grow_start);
+                if (rec->grow_end <= (u32)work->clock.frame) {
+                    work->progress = ((u32)work->clock.frame - rec->grow_end << 10) / (rec->strip_end - rec->grow_end);
                 }
                 if (work->progress >= 0x400) {
                     work->progress = 0x400;
@@ -165,9 +164,9 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
                 }
             }
             if (work->strip_width > 0) {
-                rec = (Strip388Timing *)work->config;
-                if ((u32)work->clock.frame >= rec->shrink_start) {
-                    work->strip_width = 0x400 - ((u32)work->clock.frame - rec->shrink_start << 10) / (rec->shrink_end - rec->shrink_start);
+                rec = work->config;
+                if ((u32)work->clock.frame >= rec->track_end) {
+                    work->strip_width = 0x400 - ((u32)work->clock.frame - rec->track_end << 10) / (rec->shrink_end - rec->track_end);
                 }
                 if (work->strip_width <= 0) {
                     work->strip_width = 0;
