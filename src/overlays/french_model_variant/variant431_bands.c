@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant431_entry.h"
 
-void FrenchModelVariant431_DrawBands(u8 *ctx)
+void FrenchModelVariant431_DrawBands(Variant431EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -23,7 +23,7 @@ void FrenchModelVariant431_DrawBands(u8 *ctx)
     s32 distance;
     Variant414Fan *fan;
 
-    work = (Variant431EntryState *)ctx;
+    work = context;
     band = work->bands;
     poly = &work->packets.textured[0];
     ot = Graphics_GetDefaultOrderingTable();

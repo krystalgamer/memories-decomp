@@ -223,11 +223,11 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start < work->clock.frame) {
-            FrenchModelVariant336_DrawStreamers((u8 *)point);
+            FrenchModelVariant336_DrawStreamers((Variant336EntryState *)point);
         }
         if (work->phase > 0) {
-            FrenchModelVariant336_DrawRibbon((u8 *)point);
-            FrenchModelVariant336_DrawSheets((u8 *)point);
+            FrenchModelVariant336_DrawRibbon((Variant336EntryState *)point);
+            FrenchModelVariant336_DrawSheets((Variant336EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

@@ -41,5 +41,5 @@ typedef struct {
     s32 phase;
 } Family373QuadView;
 
-void FrenchModelVariant373_DrawQuads(u8 *context);
+void FrenchModelVariant373_DrawQuads(Family373QuadView *context);
 #endif

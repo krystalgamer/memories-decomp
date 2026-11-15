@@ -322,7 +322,7 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant427_DrawMeshes((u8 *)point);
         }
         if ((u32)(work->phase - 2) < 3) {
-            FrenchModelVariant427_DrawRibbons((u8 *)point);
+            FrenchModelVariant427_DrawRibbons((EntryState427 *)point);
         }
         if ((u32)(work->phase - 1) < 4) {
             SpanishModelVariant427_DrawSpiral((u8 *)point);

@@ -216,7 +216,7 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->frame) {
-            FrenchModelVariant400_DrawRibbons((u8 *)point);
+            FrenchModelVariant400_DrawRibbons((Variant400EntryState *)point);
             FrenchModelVariant400_DrawSheets((u8 *)point);
             FrenchModelVariant400_DrawStreamers((u8 *)point);
         }

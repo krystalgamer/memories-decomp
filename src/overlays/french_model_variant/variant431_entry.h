@@ -61,7 +61,7 @@ extern GsIMAGE gFrenchModelVariant431_aImages[9];
 extern Variant431EntryConfig gFrenchModelVariant431_aConfigs[];
 void FrenchModelVariant431_DrawWebs(u8 *context);
 void FrenchModelVariant431_DrawFans(u8 *context);
-void FrenchModelVariant431_DrawBands(u8 *context);
+void FrenchModelVariant431_DrawBands(Variant431EntryState *context);
 void FrenchModelVariant431_DrawSheets(u8 *context);
 s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command);
 #endif

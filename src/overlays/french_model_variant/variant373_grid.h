@@ -43,5 +43,5 @@ typedef struct {
     s16 orientation;
 } Family373GridView;
 
-void FrenchModelVariant373_DrawGrid(u8 *context);
+void FrenchModelVariant373_DrawGrid(Family373GridView *context);
 #endif

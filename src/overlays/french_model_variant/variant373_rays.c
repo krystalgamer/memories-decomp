@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant373_rays.h"
 
-void FrenchModelVariant373_DrawRays(u8 *context)
+void FrenchModelVariant373_DrawRays(Family373RayView *context)
 {
-    Family373RayView *work = (Family373RayView *)context;
+    Family373RayView *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;

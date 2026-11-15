@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant410_rings.h"
 
-void FrenchModelVariant410_DrawRings(u8 *context)
+void FrenchModelVariant410_DrawRings(Family410RingView *context)
 {
-    Family410RingView *work = (Family410RingView *)context;
+    Family410RingView *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;

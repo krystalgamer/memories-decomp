@@ -2,7 +2,7 @@
 #include "../model_variant/model_variant.h"
 #include "variant336_entry.h"
 
-void FrenchModelVariant336_DrawStrand(u8 *ctx)
+void FrenchModelVariant336_DrawStrand(Variant336EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -20,7 +20,7 @@ void FrenchModelVariant336_DrawStrand(u8 *ctx)
     s32 b;
     s32 r;
 
-    work = (Variant336EntryState *)ctx;
+    work = context;
     strand = (ModelVariantStrandWide *)work->unknown_1AB0;
     line = (GsLINE *)work->unknown_1F10;
     if (work->phase >= 2) {

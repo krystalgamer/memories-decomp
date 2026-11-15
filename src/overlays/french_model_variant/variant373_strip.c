@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant373_strip.h"
 
-void FrenchModelVariant373_DrawStrip(u8 *context)
+void FrenchModelVariant373_DrawStrip(Family373StripView *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -19,7 +19,7 @@ void FrenchModelVariant373_DrawStrip(u8 *context)
     s32 size;
     s32 width;
 
-    work = (Family373StripView *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     strip = &work->strip;
     angle = ratan2(work->angle_delta[1], work->angle_delta[0]);

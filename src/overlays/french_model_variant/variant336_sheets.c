@@ -2,7 +2,7 @@
 #include "../model_variant/model_variant.h"
 #include "variant336_entry.h"
 
-void FrenchModelVariant336_DrawSheets(u8 *context)
+void FrenchModelVariant336_DrawSheets(Variant336EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -21,7 +21,7 @@ void FrenchModelVariant336_DrawSheets(u8 *context)
     s32 bias;
     s32 depth;
 
-    work = (Variant336EntryState *)context;
+    work = context;
     node = work->records;
     sheet = (ModelVariantSheet *)work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
