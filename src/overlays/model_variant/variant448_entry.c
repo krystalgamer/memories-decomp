@@ -361,7 +361,7 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant448_DrawRadialDisc((u8 *)point);
         }
         if (work->phase >= 5) {
-            ModelVariant448_DrawOrbitSheets((u8 *)point);
+            ModelVariant448_DrawOrbitSheets((Variant448EntryState *)point);
         }
         if (work->phase > 0) {
             ModelVariant448_DrawFans((u8 *)point);
