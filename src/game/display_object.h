@@ -534,15 +534,16 @@ typedef struct DisplayObject {
        grounds #3004 set out for 0x44. */
     s16 field_60;                  /* 0x60 */
     /* The 8.8 fraction bytes DisplayObject_StepPosition* carry below xy;
-       the z fraction is field_64. */
+       the z fraction is fraction_z at 0x64. */
     u8 fraction_x;                 /* 0x62 */
     u8 fraction_y;                 /* 0x63 */
-    /* Only reached as the first byte of a word:
-       DisplayObject_RenderTexturedGouraudQuadList reads the s32 at 0x64 as
-       the second vertex's x/y pair of its second POLY_GT4 submission, the
-       same slot 0x34 fills in its first. The other three bytes of that word
-       are named below for their own byte users. */
-    u8 field_64;                   /* 0x64 */
+    /* The 8.8 fraction byte DisplayObject_StepPositionZ carries below
+       field_34.motion.z, reset to 0x80 with fraction_x/fraction_y.
+       DisplayObject_RenderTexturedGouraudQuadList instead reads the s32 at
+       0x64 as the second vertex's x/y pair of its second POLY_GT4
+       submission, the same slot 0x34 fills in its first; the other three
+       bytes of that word are named below for their own byte users. */
+    u8 fraction_z;                 /* 0x64 */
     /* DisplayObject_ProjectRotationFacing copies it into
        ProjectionOut.divisions, which the packet backend hands to DivideFT4
        as DIVPOLYGON4.ndiv when nonzero. AcquireSlot clears it; the card
@@ -609,7 +610,7 @@ typedef struct DisplayObject {
    Neither reach stops the file converting. object[0x72] stays a byte reach,
    ((u8 *)object)[0x72], the spelling DisplayObject_InitializeTexturedGouraudQuad already uses for the
    identical write, and the second vertex set is reached from the members
-   its words begin at: *(s32 *)&object->field_58, &object->field_64 and so on.
+   its words begin at: *(s32 *)&object->field_58, &object->fraction_z and so on.
 
    What the earlier wording here called the real obstacle -- a member read
    is a struct reference, the scratchpad stores it sits between are not, and
@@ -657,8 +658,8 @@ typedef char DisplayObject_field_52_must_be_at_0x52[
 typedef char DisplayObject_field_58_must_be_at_0x58[
     DISPLAY_OBJECT_OFFSET(field_58) == 0x58 ? 1 : -1
 ];
-typedef char DisplayObject_field_64_must_be_at_0x64[
-    DISPLAY_OBJECT_OFFSET(field_64) == 0x64 ? 1 : -1
+typedef char DisplayObject_fraction_z_must_be_at_0x64[
+    DISPLAY_OBJECT_OFFSET(fraction_z) == 0x64 ? 1 : -1
 ];
 typedef char DisplayObject_subdivisions_must_be_at_0x65[
     DISPLAY_OBJECT_OFFSET(subdivisions) == 0x65 ? 1 : -1
