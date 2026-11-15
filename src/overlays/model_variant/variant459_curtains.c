@@ -97,7 +97,7 @@ void ModelVariant459_DrawCurtains(Variant459EntryState *context)
                 curtain->scale -= 0x1800;
                 curtain->rotation.vx += 0x180;
                 curtain->rotation.vz += 0x320;
-                if ((u32)work->clock.frame > (u32)work->config->field_34) {
+                if (work->clock.frame > work->config->field_34) {
                     curtain->scale = 0x1800;
                 }
             }

@@ -2,7 +2,7 @@
 #include "../model_variant/variant418_spiral.h"
 #include "../model_variant/variant459_entry.h"
 
-void FrenchModelVariant476_DrawSpiral(u8 *ctx)
+void FrenchModelVariant476_DrawSpiral(Variant459EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -27,11 +27,11 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
     s16 inner_rg, inner_blue;
     s16 outer_rg, outer_blue;
 
-    work = (Variant459EntryState *)ctx;
-    arm = (ModelVariantFlaggedSpiralArm *)((u8 *)work + 0x720);
+    work = context;
+    arm = (ModelVariantFlaggedSpiralArm *)work->glows;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
-    poly = (POLY_GT4 *)((u8 *)work + 0x22B4);
+    poly = &work->packets.textured[0];
     for (i = 0; i < 16; i++, arm++) {
         if (!(i & 1)) {
             phi = (i << 8) + work->spiral_angle;
@@ -78,7 +78,7 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (ModelVariantFlaggedSpiralArm *)((u8 *)work + 0x720);
+    arm = (ModelVariantFlaggedSpiralArm *)work->glows;
     for (i = 0; i < 16; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -104,7 +104,7 @@ void FrenchModelVariant476_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (ModelVariantFlaggedSpiralArm *)((u8 *)work + 0x720);
+    arm = (ModelVariantFlaggedSpiralArm *)work->glows;
     i = 0;
     inner_rg = 64;
     inner_blue = 0;

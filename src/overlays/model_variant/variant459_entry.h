@@ -16,7 +16,7 @@ typedef struct {
     s32 field_24;
     s32 field_28;
     u32 fade_start, fade_end;
-    s32 field_34;
+    u32 field_34;
 } Variant459EntryConfig;
 
 typedef struct {
@@ -58,11 +58,11 @@ typedef struct {
 } Variant459EntryState;
 
 void ModelVariant459_DrawSheet(Variant459EntryState *context);
-void FrenchModelVariant476_DrawSpiral(u8 *context);
+void FrenchModelVariant476_DrawSpiral(Variant459EntryState *context);
 void ModelVariant459_DrawCurtains(Variant459EntryState *context);
-void ModelVariant459_DrawGlobe(u8 *context);
+void ModelVariant459_DrawGlobe(Variant459EntryState *context);
 extern GsIMAGE gModelVariant459_aImages[9];
 extern Variant459EntryConfig gModelVariant459_aConfigs[];
-void FrenchModelVariant476_DrawScreenGrid(u8 *context);
+void FrenchModelVariant476_DrawScreenGrid(Variant459EntryState *context);
 
 #endif
