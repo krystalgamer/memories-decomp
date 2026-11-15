@@ -29,13 +29,13 @@ unrestricted three-axis projection.
 ## Linked-position wrapper
 
 `DisplayObject_ProjectLinkedGroundPosition` first copies the complete
-position word from `D_800EFE48[object->field_6A]`, then invokes the projector
+position word from `D_800EFE48[object->kind_index.linked_pool_index]`, then invokes the projector
 above. `Duel_GetOrCreateActionReadyMarker` supplies the link by storing
-`source->pool_index` in `field_6A` when it creates the follower object and
+`source->pool_index` in `kind_index.linked_pool_index` when it creates the follower object and
 installs this wrapper as its update callback.
 
 This establishes a linked pool-object index for this constructor/consumer
-pair only. It does not rename `field_6A` globally: the same offset has other
+pair only. The byte is `kind_index.linked_pool_index`, one member of a union: the same offset has other
 meanings on other object kinds, including the card-frame renderer.
 
 ### Action-ready marker acquisition (`0x8001D518`)

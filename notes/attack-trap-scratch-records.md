@@ -12,7 +12,7 @@ view of that region, not a claim about the whole allocation's lifetime.
 |---|---|---|
 | `0x3C68..0x3C73` | `table.entries.card_ids[6]` | The initial loop clears six halfwords; occupied trap cards with IDs `681..686` store their ID at `card_id - DUEL_ATTACK_TRAP_FIRST_CARD_ID`. Zero means absent. |
 | `0x3C74..0x3C87` | Opaque padding | No interpretation or initialization is added. |
-| `0x3C88..0x3C93` | `table.entries.record_indices[6]` | For the same trap type, the scan stores the display object's `field_6A` record index as a halfword. Selection later reads the chosen index's low byte. |
+| `0x3C88..0x3C93` | `table.entries.record_indices[6]` | For the same trap type, the scan stores the display object's `kind_index.card_record_index` as a halfword. Selection later reads the chosen index's low byte. |
 
 The `0x20` separation is independently visible in both producer and
 consumer arithmetic: the store subtracts `0x299` rather than the first
@@ -39,7 +39,7 @@ the named word member to preserve retail's `lbu`, despite the producer's
 `sh`. The array offsets, total table/block sizes and alignment are checked.
 
 The attacker's input is now `const DisplayObject *`. Its only use is
-`field_6A`, which selects the attacker's card record for stat calculation;
+`kind_index.card_record_index`, which selects the attacker's card record for stat calculation;
 the battle caller already has a `DisplayObject *` and no longer casts it
 down to bytes. Thresholds, ordering, fallback-trap handling and selected
 outputs do not change.

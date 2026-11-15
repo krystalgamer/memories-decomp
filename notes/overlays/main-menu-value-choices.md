@@ -60,7 +60,7 @@ at Y 74. A player in choice 2 uses the value-scaled bar position at
 Y 111 or 139; the existing callback/renderable branches and coordinate
 copying remain exact. This does not infer artwork or label text.
 
-Tween start saves the player index in object byte `field_6B`, the requested
+Tween start saves the player index in object byte `kind_arg.choice_index`, the requested
 choice in `update_state`, the ten-update countdown, callback and original
 coordinates. Tween update follows the shared marker unless its target is
 choice 2, in which case it follows the appropriate displayed-value bar.

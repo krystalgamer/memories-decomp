@@ -583,16 +583,45 @@ typedef struct DisplayObject {
     u8 resource_root_index;        /* 0x67 */
     u8 resource_branch_index;      /* 0x68 */
     u8 resource_variant;           /* 0x69 */
-    /* duel_scene.c copies a byte into this offset when it builds the
-       projection slot's object, taking it from 0x0A on the record it is given.
-       That is the only evidence for it, so it takes the offset for a name. */
-    u8 field_6A;                   /* 0x6A */
-    /* The value-setup widgets in the main_menu overlay keep their own index
-       here: MainMenu_StartValueWidgetTween stores it and the tween callback
-       reads it back to pick the value its target tracks and the
-       gTwoPlayerDuel_abSetupChoices byte it settles into. One object kind,
-       so the offset is the name. */
-    u8 field_6B;                   /* 0x6B */
+    /* Two bytes each object kind uses for its own index and argument.
+
+       kind_index (0x6A):
+       - card_record_index: a duel card's gDuel_aCardRecords index. The card
+         object constructors store it, and the card display, flag and
+         marker code reads its record through it.
+       - row_index: a card-list deck box's row; CardList_RenderDeckBoxStats
+         indexes the staged CardListRowSet table by it.
+       - front_variant: a card preview's resource variant while it faces the
+         camera; CardPreview_UpdateVariant selects variant 2 instead when it
+         is turned away.
+       - linked_pool_index: the gDisplayObject_aPool entry whose ground
+         position DisplayObject_ProjectLinkedGroundPosition follows, copied
+         from that entry's pool_index.
+       - language: a PAL options language flag; PalOptions_DrawWaveSprite
+         draws the wave effect only on the flag whose language matches
+         gPalOptions_bLanguage.
+
+       kind_arg (0x6B):
+       - deck_index: a duel card's deck entry, the second argument the card
+         replay hands to Duel_SetupFieldCardFromDeck beside its record.
+       - choice_index: a two-player value-setup widget's slot;
+         MainMenu_StartValueWidgetTween stores it and the tween callback
+         settles the widget's value into gTwoPlayerDuel_abSetupChoices[it].
+       - keep_after_pulse: in the European name entry, 1 for the persistent
+         keyboard sprites, which survive their pulse, and 0 for spawned glyph
+         sprites, which the pulse releases. */
+    union {
+        u8 card_record_index;
+        u8 row_index;
+        u8 front_variant;
+        u8 linked_pool_index;
+        u8 language;
+    } kind_index;                  /* 0x6A */
+    union {
+        u8 deck_index;
+        u8 choice_index;
+        u8 keep_after_pulse;
+    } kind_arg;                    /* 0x6B */
     /* The byte each update callback keeps its own state in, cleared on
        acquire. Its low nibble is the tag DisplayObject_FindAllocatedByTag
        matches: callers set a tag (0xF for the duel card rotations) and wait

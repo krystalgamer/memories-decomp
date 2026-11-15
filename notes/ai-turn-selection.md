@@ -41,7 +41,7 @@ give-up path. Renaming does not reinterpret `source_code`, `target_code` or
 `Ai_FindFavorableFaceUpFieldTarget` (`0x800278A0`) both take a
 `DuelCardRecord *source`. Their caller already has exactly that record.
 Its first word is the `object` pointer, and the returned object's byte
-`+0x6A` is `DisplayObject.field_6A`, the same card-record index read by
+`+0x6A` is `DisplayObject.kind_index.card_record_index`, the same card-record index read by
 the comparison and battle-resolution paths.
 
 This replaces the selector-only `DuelSelectionSource` and
@@ -61,7 +61,7 @@ count before excluding face-down cards. Consequently:
   plus seven.
 - With occupied cards but no accepted positive comparison, both return `-1`.
   In particular, an all-face-down row is not an empty row.
-- A successful comparison returns the candidate object's `field_6A`, not
+- A successful comparison returns the candidate object's `kind_index.card_record_index`, not
   the loop's grid position. The empty-row fallback instead returns the grid
   entry directly. This mixed-domain behavior is preserved.
 
@@ -73,7 +73,7 @@ random conditions.
 ## Battle-strength result, not a generic comparator
 
 `Duel_CompareBattleStrength` (`0x8001EFD4`) takes two `DisplayObject *`
-arguments and uses their `field_6A` bytes to select canonical card records.
+arguments and uses their `kind_index.card_record_index` bytes to select canonical card records.
 The left card's defense-position flag chooses `Duel_CalcBattleDefense` or
 `Duel_CalcBattleAttack`, including the existing guardian-star bonus and
 clamp. The right card's defense-position flag selects the high or low half

@@ -7,7 +7,7 @@ stores this callback in its primary object's `back_face_handler` (`+0x10`).
 `void (*)(DisplayObject *, s32)` with the same object pointer.
 
 The canonical record is `0x70` bytes (`display_object_layout.h`), and its
-`field_6A` is an unsigned byte at the same offset as the old variant view.
+`kind_index.front_variant` is an unsigned byte at the same offset as the old variant view.
 The former `CardVariantSource` shell claimed a `0x17A` extent but only
 exposed that byte here; no source used its size for allocation or stride.
 Removing that unused shell and its size assertion corrects a type claim,

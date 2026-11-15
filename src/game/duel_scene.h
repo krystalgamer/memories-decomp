@@ -668,7 +668,7 @@ DisplayObject *Duel_GetOrCreateActionReadyMarker(DisplayObject *source);
  *
  * Both operands are duel card display objects, and the only offset either is
  * reached at is 0x6A -- the gDuel_aCardRecords index. That is the same use
- * Duel_DrawCardFrame makes of the byte through this record's field_6A, and the
+ * Duel_DrawCardFrame makes of the byte through this record's kind_index.card_record_index, and the
  * evidence for calling these DisplayObject rather than something narrower.
  *
  * The field selectors now take canonical DuelCardRecord pointers and use
@@ -1049,7 +1049,7 @@ void DuelCard_UpdateDefenseRotation(DisplayObject *object);
  *   resource_root_index     the original-deck number marker (0x67);
  *   resource_branch_index   the cached card type (0x68);
  *   resource_variant        the back-facing flag (0x69);
- *   field_6A / field_6B     the card record index and the deck-entry index. */
+ *   kind_index / kind_arg   the card record index and the deck-entry index. */
 
 void Duel_UpdateCardDisplayMarker(DisplayObject *object);
 void Duel_UpdateCardDisplayState(DisplayObject *object);
@@ -1084,7 +1084,7 @@ typedef DisplayObject *(*DuelCreateHandCardDisplayObjectAt)(
 );
 
 /* Re-derives a duel card object's visual state from its own card record:
- * gDuel_aCardRecords[object->field_6A] is the record, and every field this writes
+ * gDuel_aCardRecords[object->kind_index.card_record_index] is the record, and every field this writes
  * comes from that record's flags. Face-down sets field_22, defense-position
  * sets field_21, DUEL_CARD_FLAG_USED_THIS_TURN dims the colour, and the deck number marker
  * is cleared unless DUEL_CARD_FLAG_DISPLAY_MARKER asks to keep it.
@@ -1164,7 +1164,7 @@ void Duel_SetupFieldCardFromDeck(s32 slot, s32 deck_index);
 
 /* The card turn/flip animation steps. Their meaning of each DisplayObject
  * member they drive:
- *   field_6A                  the gDuel_aCardRecords index of the card;
+ *   kind_index                the gDuel_aCardRecords index of the card;
  *   field_2C.h.field_2E       the mode chosen on the first frame (0 reveal,
  *                             1 face-up attack, 2 face-up defense);
  *   update_state              the step's phase bits (0x40 started, 0x20 the
@@ -1831,7 +1831,7 @@ void DuelScene_UpdateCardPlacement(void);
  * back by writing 5 into that word.
  *
  * On entry, while DUEL_SCENE_FLAG_INITIALIZED is clear, it latches the selected
- * slot's card id -- gDuel_aCardRecords[object->field_6A] -- into gDuel_wPlacementCardId, starts
+ * slot's card id -- gDuel_aCardRecords[object->kind_index.card_record_index] -- into gDuel_wPlacementCardId, starts
  * CardPreview_RequestResourceTransfer's resource request, bumps gDuel_pActiveSideState->field_05 for a
  * CARD_TYPE_MAGIC card, and seeds gDuel_bSceneSubStep with 1.
  *
@@ -2125,7 +2125,7 @@ struct DisplayObject;
 
 /* Decides whether the attacking card trips the trap it is walking into,
  * comparing its attack against gDuel_abTrapAttackThresholds scaled by 100.
- * The input is the attacking DisplayObject; field_6A indexes its card record.
+ * The input is the attacking DisplayObject; kind_index.card_record_index indexes its card record.
  * The threshold table is defined in this unit and names each entry. */
 s32 Duel_SelectAttackTrap(const struct DisplayObject *record);
 

@@ -62,7 +62,7 @@ field_0C/field_14 remain unchanged, particularly request ordering-table
 words, ritual-result scratch, selection cursors, view state, glyph entry
 coordinates/metadata and digit packet fields. (The checkerboard records
 were named later; see [checkerboard-background.md](checkerboard-background.md).)
-No forced name for overloaded vertex/motion words or the unrelated field_6A.
+No forced name for overloaded vertex/motion words or the per-kind kind_index/kind_arg bytes.
 
 Existing library-outline, preview-packet and sprite-table fixtures change
 member identifiers only, including their original selectors and negative

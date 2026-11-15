@@ -26,7 +26,7 @@ void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table)
     sprite->uv.word = object->texture_uv.word;
     sprite->tpage = object->texture_page;
     packet = (POLY_GT4 *)SCRATCH_ADDR(0x344);
-    if (gPalOptions_bLanguage == object->field_6A) {
+    if (gPalOptions_bLanguage == object->kind_index.language) {
         packet->tpage = sprite->tpage;
         packet->clut = getClut(sprite->cxcy.h.cx, sprite->cxcy.h.cy);
         for (row = 0; row < 4; row++) {
