@@ -6,7 +6,7 @@
 /* Draws four rings of eight GsGLINE spokes, each scaled by its angle against
  * the sheet size at context + 0x754 (0x6CC + 0x88) and faded out over the
  * second half turn, and advances each ring's angle and cycle count. */
-void ModelVariant324_DrawSpokeRings(u8 *ctx)
+void ModelVariant324_DrawSpokeRings(Variant341EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -27,10 +27,10 @@ void ModelVariant324_DrawSpokeRings(u8 *ctx)
     s32 otz;
     s32 f;
 
-    line = (GsGLINE *)(ctx + 0xEB0);
-    work = (Variant341EntryState *)ctx;
+    line = &context->line;
+    work = context;
     obj = work->sheets;
-    ring = (ModelVariantRing *)(ctx + 0xAC4);
+    ring = context->spokes;
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 4; i++, ring++) {
         if (ring->count >= 0) {
