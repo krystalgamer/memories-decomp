@@ -330,7 +330,7 @@ s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
                   work->target.vz - work->position.vz);
         if (work->config->start <= work->clock.frame) {
             FrenchModelVariant452_DrawSheets((u8 *)point);
-            FrenchModelVariant452_DrawStreamers((u8 *)point);
+            FrenchModelVariant452_DrawStreamers((Variant452EntryState *)point);
             if (work->phase > 0) {
                 FrenchModelVariant452_DrawLines((u8 *)point);
             }

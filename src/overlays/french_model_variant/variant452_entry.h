@@ -54,7 +54,7 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant452_aImages[9];
 extern Variant452EntryConfig gFrenchModelVariant452_aConfigs[];
 void FrenchModelVariant452_DrawSheets(u8 *context);
-void FrenchModelVariant452_DrawStreamers(u8 *context);
+void FrenchModelVariant452_DrawStreamers(Variant452EntryState *context);
 void FrenchModelVariant452_DrawLines(u8 *context);
 s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command);
 #endif
