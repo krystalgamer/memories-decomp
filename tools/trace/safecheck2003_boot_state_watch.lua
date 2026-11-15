@@ -2,55 +2,56 @@
 --
 -- WHAT THIS ANSWERS
 --   The safechk boot module (Sony's anti-modchip check, notes/overlays/safecheck2003.md)
---   is WA_MRG module 0x16 at 0x80168000. Three of its nine functions and its
---   20 controller states are still address-named. Main_RunBootSequence
+--   is WA_MRG module 0x16 at 0x80168000. Its 20 controller states are
+--   described statically in that note. Main_RunBootSequence
 --   (src/game/main_boot_frontend.c) calls SafetyInit once and then
 --   `while (SafetySync(1) != 0) {}`: a busy loop, not one call per frame;
 --   the controller's waits (states 9, 14, 19) poll VSync(-1). So: on a real
 --   boot, which states does SafetySync walk through in which order and
---   for how long, which CD commands does func_80168C6C send with which
---   parameters, what does func_80168A98 read back, which region and message
+--   for how long, which CD commands does SafetySendCommand send with which
+--   parameters, what does SafetyPollResult read back, which region and message
 --   set does SafetyInit select, and does the warning SafetyCheck2 ever
---   run? Each answer names something: the state order and the command per
---   state name the 20 states and the jump table at 0x80168004; the command
---   bytes and results confirm func_80168C6C as the command sender,
---   func_80168A98 as the result poll and SafetyInit as the region select;
+--   run? Each answer checks the static reading: the state order and the
+--   command per state check the note's state table and the jump table at
+--   0x80168004; the command bytes and results check SafetySendCommand as the
+--   command sender, SafetyPollResult as the result poll and SafetyInit as
+--   the region select;
 --   a warning or helper hit (or its absence) is recorded for SafetyCheck2,
---   SafetyCheck3, SafetyCheck4, func_801691F0 and SafetyCheck5.
+--   SafetyCheck3, SafetyCheck4, SafetyGetGlyphRange and SafetyCheck5.
 --   The emulator answers like an unmodified console, so only the clean path
 --   is observable here; the warning branches stay static evidence.
 --
 -- WHERE THE VALUES LIVE (from src/overlays/safecheck2003/safechk.c)
---   * State: the s32 D_80169474. SafetySync loads it at 0x80168178, bounds
+--   * State: the s32 safechk_state. SafetySync loads it at 0x80168178, bounds
 --     it with sltiu 0x14 and indexes the jump table at 0x80168004; every case
 --     stores the next state back there. SafetyInit writes it (1 or 0) and
---     the message index D_801694D0 (0, 1 or 2).
+--     the message index safechk_message_set (0, 1 or 2).
 --   * SafetyInit lbu's the BIOS region byte 0xBFC7FF52 into $v1 and never
 --     overwrites it, so $v1 at its only jr ra (0x80168158) is that byte; the
 --     ROM itself is not read.
 --   * SafetySync(a0): its return value is $s0, copied to $v0 in the delay
 --     slot at 0x80168A78; every path reaches the jr ra at 0x80168A90, where
---     $v0 and D_80169474 are read.
---   * func_80168C6C(a0 = command index n): the command is entry n of
---     safechk_commands {cmd, nparams, nresults, wait} (14 entries); the
+--     $v0 and safechk_state are read.
+--   * SafetySendCommand(a0 = command index n): the command is entry n of
+--     safechk_commands {cmd, nparams, nresults, intsum} (14 entries); the
 --     parameter bytes are safechk_params[0..nparams), filled by the
 --     controller before the call. All are read at the entry breakpoint.
---   * func_80168A98(a0 = n): a0 is overwritten on its error path, so n is
+--   * SafetyPollResult(a0 = n): a0 is overwritten on its error path, so n is
 --     kept from the entry breakpoint. Its only jr ra is 0x80168C64 (nop delay
 --     slot); there $v0 is the result (0 nothing yet, 1 done, -1 error, -2
 --     error with status bit 4) and $a3 the interrupt cause (low three bits
 --     of 0x1F801803). The result bytes are safechk_results[0..nresults), two
 --     bytes for cause 5. Zero returns are only counted: the busy loop calls
 --     it hundreds of thousands of times.
---   * SafetyCheck2 reads message D_8016947C[D_801694D0] (12-byte entries;
---     text pointer at +8). The pointer is printed only when it lies inside
---     the module.
+--   * SafetyCheck2 reads message safechk_messages[safechk_message_set]
+--     (12-byte entries; text pointer at +8). The pointer is printed only
+--     when it lies inside the module.
 --
 -- WHAT IS WATCHED
 --   Exec breakpoints: Main_RunFrameServices (0x8001306C, control);
 --   SafetyInit entry and exit; SafetySync entry and exit;
---   func_80168A98 entry and exit; func_80168C6C, SafetyCheck2,
---   SafetyCheck3, SafetyCheck4, func_801691F0 and SafetyCheck5 entries.
+--   SafetyPollResult entry and exit; SafetySendCommand, SafetyCheck2,
+--   SafetyCheck3, SafetyCheck4, SafetyGetGlyphRange and SafetyCheck5 entries.
 --   Several modules share 0x80168000, so every hit in the module first checks
 --   12 words of the North American image (module word, jump table, function
 --   entries, exits, and the US VSync/ResetGraph jal words that differ in the
@@ -152,14 +153,14 @@ local FPS = 60
 local MODULE = 0x80168000
 local MODULE_END = 0x80169800
 
-local STATE = 0x80169474        -- D_80169474, controller state
-local MESSAGE_INDEX = 0x801694D0 -- D_801694D0, set by SafetyInit
+local STATE = 0x80169474        -- safechk_state, controller state
+local MESSAGE_INDEX = 0x801694D0 -- safechk_message_set, set by SafetyInit
 local COMMANDS = 0x8016941C     -- safechk_commands {cmd, nparams, ...}
 local COMMAND_COUNT = 14
 local PARAMS = 0x80169464       -- safechk_params, parameter bytes
 local RESULTS = 0x8016946C      -- safechk_results, result bytes
 local BUFFER_SIZE = 8
-local MESSAGES = 0x8016947C     -- D_8016947C, 12-byte entries
+local MESSAGES = 0x8016947C     -- safechk_messages, 12-byte entries
 local MESSAGE_COUNT = 2
 
 -- Address, retail entry word, name.
@@ -168,14 +169,14 @@ local SELECT = {0x801680f4, 0x3c03bfc8, 'SafetyInit'}
 local SELECT_EXIT = {0x80168158, 0x03e00008, 'SafetyInit jr ra'}
 local CONTROLLER = {0x80168160, 0x27bdffe0, 'SafetySync'}
 local CONTROLLER_EXIT = {0x80168a90, 0x03e00008, 'SafetySync jr ra'}
-local POLL = {0x80168a98, 0x00041080, 'func_80168A98'}
-local POLL_EXIT = {0x80168c64, 0x03e00008, 'func_80168A98 jr ra'}
-local SEND = {0x80168c6c, 0x00002821, 'func_80168C6C'}
+local POLL = {0x80168a98, 0x00041080, 'SafetyPollResult'}
+local POLL_EXIT = {0x80168c64, 0x03e00008, 'SafetyPollResult jr ra'}
+local SEND = {0x80168c6c, 0x00002821, 'SafetySendCommand'}
 local WARNING = {0x80168d5c, 0x27bdff08, 'SafetyCheck2'}
 local HELPERS = {
     {0x80168ec8, 0x27bdffd0, 'SafetyCheck3'},
     {0x8016903c, 0x27bdff90, 'SafetyCheck4'},
-    {0x801691f0, 0x00003821, 'func_801691F0'},
+    {0x801691f0, 0x00003821, 'SafetyGetGlyphRange'},
     {0x80169284, 0x27bdffb0, 'SafetyCheck5'},
 }
 
@@ -337,7 +338,7 @@ local function command(n)
     if type(n) ~= 'number' or n < 0 or n >= COMMAND_COUNT then return nil end
     local base = COMMANDS + 4 * n
     local c = {cmd = u8(base), nparams = u8(base + 1),
-               nresults = u8(base + 2), wait = u8(base + 3)}
+               nresults = u8(base + 2), intsum = u8(base + 3)}
     if c.cmd == nil then return nil end
     return c
 end
@@ -353,9 +354,9 @@ local function commandText(n, c)
         return string.format('n=%s index refused (outside 0..%d)', dec(n),
                              COMMAND_COUNT - 1)
     end
-    return string.format('n=%d cmd=0x%s(%s) nparams=%s nresults=%s wait=%s',
+    return string.format('n=%d cmd=0x%s(%s) nparams=%s nresults=%s intsum=%s',
                          n, hex(c.cmd), CD_HINT[c.cmd] or '?', dec(c.nparams),
-                         dec(c.nresults), dec(c.wait))
+                         dec(c.nresults), dec(c.intsum))
 end
 
 local function noteState(s)
@@ -721,11 +722,11 @@ local function finish(reason)
             c and hex(c.cmd) or '??', c and (CD_HINT[c.cmd] or '?') or '?',
             boot.sendCounts[k])
     end
-    print(string.format('func_80168C6C: sends=%d %s', boot.sends,
+    print(string.format('SafetySendCommand: sends=%d %s', boot.sends,
                         #parts > 0 and table.concat(parts, ' ') or '-'))
     for _, k in ipairs(sortedKeys(boot.polls)) do
         local p = boot.polls[k]
-        print(string.format('func_80168A98: n=%s zero=%d ok=%d err=%d '
+        print(string.format('SafetyPollResult: n=%s zero=%d ok=%d err=%d '
                             .. 'err_status=%d other=%d', k, p.zero, p.ok,
                             p.err, p.err2, p.other))
     end

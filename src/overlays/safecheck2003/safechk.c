@@ -12,28 +12,29 @@
  * library's single object: its .rdata (the SafetySync jump table, the two
  * warning texts and SafetyCheck5's offsets), .text, .data and .bss follow
  * each other in the module in that order. Definition order sets both the
- * .data order and, through the string literals in D_8016947C, the .rdata
+ * .data order and, through the string literals in safechk_messages, the .rdata
  * order, so the message table comes after SafetySync. The 2.0.0.2 object
  * exports only SafetyInit and SafetySync, so the data is static. */
 
 /* 'P' 's', library 28 (safechk), version 2.0.0.3. */
 static u8 __ps_libinfo__[8] = { 'P', 's', 28, 0, 0, 0, 0x20, 3 };
 
+/* CD-ROM controller commands, by SafetySendCommand index. */
 static SafechkCdCommand safechk_commands[14] = {
-    { 0x01, 0, 1, 3 },
-    { 0x13, 0, 3, 3 },
-    { 0x14, 1, 3, 3 },
-    { 0x02, 3, 1, 3 },
-    { 0x16, 0, 1, 5 },
-    { 0x0E, 1, 1, 3 },
-    { 0x0A, 0, 1, 5 },
-    { 0x0B, 0, 1, 3 },
-    { 0x03, 0, 1, 3 },
-    { 0x19, 1, 1, 3 },
-    { 0x19, 1, 2, 3 },
-    { 0x09, 0, 1, 5 },
-    { 0x1E, 0, 1, 5 },
-    { 0x1A, 0, 1, 5 },
+    { 0x01, 0, 1, 3 }, /* 0 Getstat */
+    { 0x13, 0, 3, 3 }, /* 1 GetTN */
+    { 0x14, 1, 3, 3 }, /* 2 GetTD track */
+    { 0x02, 3, 1, 3 }, /* 3 Setloc mm, ss, sect */
+    { 0x16, 0, 1, 5 }, /* 4 SeekP */
+    { 0x0E, 1, 1, 3 }, /* 5 Setmode */
+    { 0x0A, 0, 1, 5 }, /* 6 Init */
+    { 0x0B, 0, 1, 3 }, /* 7 Mute */
+    { 0x03, 0, 1, 3 }, /* 8 Play */
+    { 0x19, 1, 1, 3 }, /* 9 Test 04h: read SCEx */
+    { 0x19, 1, 2, 3 }, /* 10 Test 05h: SCEx counters */
+    { 0x09, 0, 1, 5 }, /* 11 Pause */
+    { 0x1E, 0, 1, 5 }, /* 12 ReadTOC */
+    { 0x1A, 0, 1, 5 }, /* 13 GetID */
 };
 
 /* CD-ROM controller registers: status/index, command, parameter, request. */
@@ -48,36 +49,44 @@ static volatile u8 *safechk_cdregs[4] = {
  * them; GCC 2.7 puts only uninitialized statics in .bss. */
 static u8 safechk_params[8] = { 0 };
 static u8 safechk_results[8] = { 0 };
-/* Controller state; SafetyInit sets the start state and message set. */
-static s32 D_80169474 = 1;
-/* Status polls accumulated by func_80168A98. */
-static s32 D_80169478 = 0;
+/* Controller state 0..19; SafetyInit sets the start state and message set. */
+static s32 safechk_state = 1;
+/* Sum of the interrupt numbers (INT3 = 3, INT2 = 2, ...) answered for the
+ * current command; SafetyPollResult waits until it reaches the command's
+ * intsum (3 for one INT3 response, 5 for INT3 then INT2). */
+static s32 safechk_intsum = 0;
 
 /* .bss, in declaration order. */
-static s32 D_801694C4;
-static s32 D_801694C8;
-static u8 D_801694CC;
-static u8 D_801694CD;
-static s32 D_801694D0;
+/* VSync(-1) count at the start of the state 9, 14 and 19 delays. */
+static s32 safechk_vsync;
+/* Last track number (BCD) from GetTN. */
+static s32 safechk_last_track;
+/* BCD minute and second sent with Setloc: half the start time of track 2,
+ * or of the lead-out on a one-track disc. */
+static u8 safechk_minute;
+static u8 safechk_second;
+/* Index into safechk_messages: 0 Shift-JIS, 1 English, 2 (no warning) for
+ * an 'E' BIOS. */
+static s32 safechk_message_set;
 
 void SafetyInit(void)
 {
     switch (*(u8 *)0xBFC7FF52) {
     case 'A':
-        D_80169474 = 1;
-        D_801694D0 = 1;
+        safechk_state = 1;
+        safechk_message_set = 1;
         break;
     case 'E':
-        D_80169474 = 0;
-        D_801694D0 = 2;
+        safechk_state = 0;
+        safechk_message_set = 2;
         break;
     case 'J':
-        D_80169474 = 1;
-        D_801694D0 = 0;
+        safechk_state = 1;
+        safechk_message_set = 0;
         break;
     default:
-        D_80169474 = 1;
-        D_801694D0 = 0;
+        safechk_state = 1;
+        safechk_message_set = 0;
         break;
     }
 }
@@ -112,51 +121,51 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
 {
     s32 t;
 
-    switch (D_80169474) {
+    switch (safechk_state) {
     case 1:
-        func_80168C6C(1);
-        D_80169474 = 2;
+        SafetySendCommand(1);
+        safechk_state = 2;
         ret = 1;
         break;
     case 2:
-        ret = func_80168A98(1);
+        ret = SafetyPollResult(1);
         switch (ret) {
         case 0:
         default:
             ret = 2;
             break;
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = 2;
             break;
         case 1:
             ret = 2;
-            D_801694C8 = safechk_results[2];
-            func_80168C6C(6);
-            D_80169474 = 3;
+            safechk_last_track = safechk_results[2];
+            SafetySendCommand(6);
+            safechk_state = 3;
             break;
         case -1:
-            func_80168C6C(1);
+            SafetySendCommand(1);
             ret = 2;
             break;
         }
         break;
     case 3:
-        ret = func_80168A98(6);
+        ret = SafetyPollResult(6);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
-            safechk_params[0] = (D_801694C8 >= 2) << 1;
-            func_80168C6C(2);
-            D_80169474 = 4;
+            safechk_params[0] = (safechk_last_track >= 2) << 1;
+            SafetySendCommand(2);
+            safechk_state = 4;
         case 0:
         default:
             ret = 3;
@@ -164,15 +173,15 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         }
         break;
     case 4:
-        ret = func_80168A98(2);
+        ret = SafetyPollResult(2);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
             {
@@ -182,13 +191,14 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
                 mm = (p[0] >> 4) * 10 + (p[0] & 0xF);
                 ss = (p[1] >> 4) * 10 + (p[1] & 0xF);
                 tt = (mm * 60 + ss) >> 1;
-                D_801694CC = tt / 60;
-                D_801694CD = tt % 60;
-                D_801694CC = ((D_801694CC / 10) << 4) | (D_801694CC % 10);
-                D_801694CD = ((D_801694CD / 10) << 4) | (D_801694CC % 10);
+                safechk_minute = tt / 60;
+                safechk_second = tt % 60;
+                safechk_minute = ((safechk_minute / 10) << 4) | (safechk_minute % 10);
+                /* Retail takes the units digit from the BCD minute. */
+                safechk_second = ((safechk_second / 10) << 4) | (safechk_minute % 10);
             }
-            func_80168C6C(12);
-            D_80169474 = 5;
+            SafetySendCommand(12);
+            safechk_state = 5;
         case 0:
         default:
             ret = 7;
@@ -196,11 +206,11 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         }
         break;
     case 5:
-        ret = func_80168A98(12);
+        ret = SafetyPollResult(12);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
@@ -208,22 +218,22 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
                 u8 *r = SafetySync_Results();
 
                 if (!(r[0] & 1)) {
-                    D_80169474 = 1;
+                    safechk_state = 1;
                 } else if (r[1] & 0x40) {
                     u8 *q = SafetySync_Params();
 
                     ret = 5;
-                    q[0] = D_801694CC;
-                    q[1] = D_801694CD;
+                    q[0] = safechk_minute;
+                    q[1] = safechk_second;
                     q[2] = 0;
-                    func_80168C6C(3);
-                    D_80169474 = 7;
+                    SafetySendCommand(3);
+                    safechk_state = 7;
                 }
             }
             break;
         case 1:
-            func_80168C6C(13);
-            D_80169474 = 6;
+            SafetySendCommand(13);
+            safechk_state = 6;
         case 0:
         default:
             ret = 5;
@@ -231,11 +241,11 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         }
         break;
     case 6:
-        ret = func_80168A98(13);
+        ret = SafetyPollResult(13);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
@@ -245,12 +255,12 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
             {
                 u8 *q = SafetySync_Params();
 
-                q[0] = D_801694CC;
-                q[1] = D_801694CD;
+                q[0] = safechk_minute;
+                q[1] = safechk_second;
                 q[2] = 0;
             }
-            func_80168C6C(3);
-            D_80169474 = 7;
+            SafetySendCommand(3);
+            safechk_state = 7;
         case 0:
         default:
             ret = 6;
@@ -258,20 +268,20 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         }
         break;
     case 7:
-        ret = func_80168A98(3);
+        ret = SafetyPollResult(3);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
             safechk_params[0] = ret;
-            func_80168C6C(5);
-            D_80169474 = 8;
+            SafetySendCommand(5);
+            safechk_state = 8;
         case 0:
         default:
             ret = 7;
@@ -279,19 +289,19 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         }
         break;
     case 8:
-        ret = func_80168A98(5);
+        ret = SafetyPollResult(5);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
-            D_801694C4 = VSync(-1);
-            D_80169474 = 9;
+            safechk_vsync = VSync(-1);
+            safechk_state = 9;
         case 0:
         default:
             ret = 8;
@@ -300,26 +310,26 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         break;
     case 9:
         t = VSync(-1);
-        if (D_801694C4 + 3 < t) {
-            func_80168C6C(4);
-            D_80169474 = 10;
+        if (safechk_vsync + 3 < t) {
+            SafetySendCommand(4);
+            safechk_state = 10;
         }
         ret = 9;
         break;
     case 10:
-        ret = func_80168A98(4);
+        ret = SafetyPollResult(4);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
-            func_80168C6C(7);
-            D_80169474 = 11;
+            SafetySendCommand(7);
+            safechk_state = 11;
         case 0:
         default:
             ret = 10;
@@ -327,19 +337,19 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         }
         break;
     case 11:
-        ret = func_80168A98(7);
+        ret = SafetyPollResult(7);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
-            func_80168C6C(8);
-            D_80169474 = 12;
+            SafetySendCommand(8);
+            safechk_state = 12;
         case 0:
         default:
             ret = 11;
@@ -347,20 +357,20 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         }
         break;
     case 12:
-        ret = func_80168A98(8);
+        ret = SafetyPollResult(8);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
             safechk_params[0] = 4;
-            func_80168C6C(9);
-            D_80169474 = 13;
+            SafetySendCommand(9);
+            safechk_state = 13;
         case 0:
         default:
             ret = 12;
@@ -368,19 +378,19 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         }
         break;
     case 13:
-        ret = func_80168A98(9);
+        ret = SafetyPollResult(9);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
-            D_801694C4 = VSync(-1);
-            D_80169474 = 14;
+            safechk_vsync = VSync(-1);
+            safechk_state = 14;
         case 0:
         default:
             ret = 13;
@@ -389,31 +399,31 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         break;
     case 14:
         t = VSync(-1);
-        if (D_801694C4 + 200 < t) {
+        if (safechk_vsync + 200 < t) {
             safechk_params[0] = 5;
-            func_80168C6C(10);
-            D_80169474 = 15;
+            SafetySendCommand(10);
+            safechk_state = 15;
         }
         ret = 14;
         break;
     case 15:
-        ret = func_80168A98(10);
+        ret = SafetyPollResult(10);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
             if (safechk_results[1] != 0) {
-                func_80168C6C(0);
-                D_80169474 = 16;
+                SafetySendCommand(0);
+                safechk_state = 16;
             } else {
-                D_801694C4 = VSync(-1);
-                D_80169474 = 19;
+                safechk_vsync = VSync(-1);
+                safechk_state = 19;
             }
         case 0:
         default:
@@ -422,15 +432,15 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         }
         break;
     case 16:
-        ret = func_80168A98(0);
+        ret = SafetyPollResult(0);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
             SafetyCheck2();
@@ -441,38 +451,38 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         }
         break;
     case 17:
-        ret = func_80168A98(0);
+        ret = SafetyPollResult(0);
         switch (ret) {
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 0:
         default:
             ret = 16;
             break;
         case 1:
-            D_80169474 = ret;
+            safechk_state = ret;
             ret = 16;
             break;
         case -2:
-            func_80168C6C(0);
+            SafetySendCommand(0);
             ret = 16;
             break;
         }
         break;
     case 18:
-        ret = func_80168A98(11);
+        ret = SafetyPollResult(11);
         switch (ret) {
         case -2:
-            func_80168C6C(0);
-            D_80169474 = 17;
+            SafetySendCommand(0);
+            safechk_state = 17;
             ret = -1;
             break;
         case -1:
-            D_80169474 = 1;
+            safechk_state = 1;
             break;
         case 1:
-            D_80169474 = 0;
+            safechk_state = 0;
         case 0:
         default:
             ret = 18;
@@ -481,9 +491,9 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         break;
     case 19:
         t = VSync(-1);
-        if (D_801694C4 + 10 < t) {
-            func_80168C6C(11);
-            D_80169474 = 18;
+        if (safechk_vsync + 10 < t) {
+            SafetySendCommand(11);
+            safechk_state = 18;
         }
         ret = 19;
         break;
@@ -501,15 +511,20 @@ s32 SafetySync(s32 arg)
     return SafetySync_Run(arg, 0);
 }
 
-s32 func_80168A98(s32 n)
+/* Polls the controller for command N's responses: 0 while none has arrived
+ * or their interrupt numbers sum to less than the command's intsum, 1 when
+ * done (results in safechk_results), -1 on an INT5 error and -2 when the
+ * status reports the shell open. Command 10's results carry no status byte,
+ * so it skips that test. */
+s32 SafetyPollResult(s32 n)
 {
-    s32 wait;
+    s32 intsum;
     s32 stat;
     s32 i;
     s32 t;
     u8 c;
 
-    wait = safechk_commands[n].wait;
+    intsum = safechk_commands[n].intsum;
     *safechk_cdregs[0] = 1;
     /* reorg predicts a jump out of a loop as not taken, so the return 0
      * branch fills its delay slot from the fall-through, as retail does. */
@@ -522,16 +537,16 @@ s32 func_80168A98(s32 n)
     stat = t;
     c = stat;
     if (c != 0) {
-        D_80169478 += c;
+        safechk_intsum += c;
         *safechk_cdregs[0] = 1;
         *safechk_cdregs[3] = 7;
         for (i = 0; i < 4; i++) {
             *(volatile s32 *)0 = i;
         }
-        if (D_80169478 < wait) {
+        if (safechk_intsum < intsum) {
             return 0;
         }
-        D_80169478 = 0;
+        safechk_intsum = 0;
         if (stat == 5) {
             volatile u8 *src = safechk_cdregs[1];
 
@@ -560,7 +575,9 @@ s32 func_80168A98(s32 n)
     return 0;
 }
 
-void func_80168C6C(s32 n)
+/* Acknowledges pending interrupts, masks them, and sends command N with its
+ * parameters from safechk_params. */
+void SafetySendCommand(s32 n)
 {
     s32 i;
     s32 k;
@@ -589,7 +606,7 @@ void func_80168C6C(s32 n)
  * BIOS kanji ROM ("forced termination; the console may have been
  * modified"), and 1 English. SafetyInit selects set 2 only for an 'E' BIOS,
  * whose check starts in the finished state 0 and never draws. */
-static SafechkMessage D_8016947C[2] = {
+static SafechkMessage safechk_messages[2] = {
     { 2, 10, 16, 3, 80, 92,
       "\213\255\220\247\217I\227\271\202\265\202\334\202\265\202\275\201B\n"
       "\226{\221\314\202\252\211\374\221\242\202\263\202\352\202\304\202\242\202\351\n"
@@ -635,14 +652,14 @@ void SafetyCheck2(void)
     prim[2] = 0;
     DrawPrim(prim);
     color = 0xFFFF;
-    rect.w = D_8016947C[D_801694D0].width;
+    rect.w = safechk_messages[safechk_message_set].width;
     rect.h = 1;
     for (i = 0; i < 2; i++) {
-        x = D_8016947C[D_801694D0].x;
-        y = D_8016947C[D_801694D0].y;
+        x = safechk_messages[safechk_message_set].x;
+        y = safechk_messages[safechk_message_set].y;
         rect.x = x + i;
         rect.y = y + i;
-        SafetyCheck3(D_8016947C[D_801694D0].text, &rect, color);
+        SafetyCheck3(safechk_messages[safechk_message_set].text, &rect, color);
         color = 0x8000;
     }
     SafetyCheck5();
@@ -668,7 +685,7 @@ void SafetyCheck3(u8 *str, SafechkRect *rect, s32 color)
         if (c == '\n') {
             rect->x = x;
             rect->y += 18;
-        } else if (D_801694D0 == 0) {
+        } else if (safechk_message_set == 0) {
             hi = *str++ << 8;
             glyph = (u8 *)Krom2RawAdd(*str | hi);
             SafetyCheck4(rect, glyph, color, 7);
@@ -677,7 +694,7 @@ void SafetyCheck3(u8 *str, SafechkRect *rect, s32 color)
             rect->x += 8;
         } else {
             glyph = (u8 *)0xBFC7F8DE + (*str - 0x21) * 15;
-            range = func_801691F0(glyph);
+            range = SafetyGetGlyphRange(glyph);
             rect->w = range - (range >> 16) + 1;
             SafetyCheck4(rect, glyph, color, range);
             rect->x += rect->w + 2;
@@ -708,7 +725,7 @@ void SafetyCheck4(SafechkRect *rect, u8 *bits, s32 color, u32 range)
     for (row = 0; row < 15; row++) {
         p = prim.data;
         i = 0;
-        if (D_8016947C[D_801694D0].count != 0) {
+        if (safechk_messages[safechk_message_set].count != 0) {
             do {
                 for (b = lo; b >= hi; b--) {
                     zero = *bits >> 8;
@@ -716,7 +733,7 @@ void SafetyCheck4(SafechkRect *rect, u8 *bits, s32 color, u32 range)
                 }
                 i++;
                 bits++;
-            } while (i < D_8016947C[D_801694D0].count);
+            } while (i < safechk_messages[safechk_message_set].count);
         }
         for (i = 0; i < 2; i++) {
             prim.xy = *(u32 *)rect;
@@ -729,7 +746,9 @@ void SafetyCheck4(SafechkRect *rect, u8 *bits, s32 color, u32 range)
     rect->y = y;
 }
 
-u32 func_801691F0(u8 *p)
+/* Returns the lowest (high half) and highest (low half) bit set in any row of
+ * a 15-row BIOS font glyph; SafetyCheck3 derives the glyph width from it. */
+u32 SafetyGetGlyphRange(u8 *p)
 {
     u16 max;
     u16 min;

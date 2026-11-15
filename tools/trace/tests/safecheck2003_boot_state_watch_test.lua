@@ -210,16 +210,16 @@ do
     assert(t:has('SafetyInit entry ra=0x80043A10'))
     assert(t:has('SafetyInit exit region_byte=0x41(A) state=1 '
                  .. 'message_index=1'))
-    assert(t:has('func_80168C6C n=1 cmd=0x13(GetTN) nparams=0 nresults=3 '
-                 .. 'wait=3 params=- ra=0x801681B0'))
-    assert(t:has('func_80168C6C n=3 cmd=0x02(Setloc) nparams=3 nresults=1 '
-                 .. 'wait=3 params=00 02 00'))
-    assert(t:has('func_80168C6C n=10 cmd=0x19(Test) nparams=1 nresults=2 '
-                 .. 'wait=3 params=05'))
-    assert(t:has('func_80168A98 n=1 cmd=0x13(GetTN) nparams=0 nresults=3 '
-                 .. 'wait=3 ret=1 cause=3 results=02 01 14 zero_polls=2'))
-    assert(t:has('func_80168A98 n=10 cmd=0x19(Test) nparams=1 nresults=2 '
-                 .. 'wait=3 ret=1 cause=3 results=02 00'))
+    assert(t:has('SafetySendCommand n=1 cmd=0x13(GetTN) nparams=0 nresults=3 '
+                 .. 'intsum=3 params=- ra=0x801681B0'))
+    assert(t:has('SafetySendCommand n=3 cmd=0x02(Setloc) nparams=3 nresults=1 '
+                 .. 'intsum=3 params=00 02 00'))
+    assert(t:has('SafetySendCommand n=10 cmd=0x19(Test) nparams=1 nresults=2 '
+                 .. 'intsum=3 params=05'))
+    assert(t:has('SafetyPollResult n=1 cmd=0x13(GetTN) nparams=0 nresults=3 '
+                 .. 'intsum=3 ret=1 cause=3 results=02 01 14 zero_polls=2'))
+    assert(t:has('SafetyPollResult n=10 cmd=0x19(Test) nparams=1 nresults=2 '
+                 .. 'intsum=3 ret=1 cause=3 results=02 00'))
     assert(t:has('SafetySync a0=1 state 1 -> 2 ret=1'))
     assert(t:countOf('SafetySync a0=1 state 2 -> 2 ret=2') == 1,
            'repeats print once')
@@ -243,12 +243,12 @@ do
     assert(t:has('state_path: 1@0.0s > 2@0.0s > 3@0.0s > 14@0.5s > 15@0.5s '
                  .. '> 18@0.5s > 0@0.5s'))
     assert(t:has('state_entry_calls: 0:1 1:1 2:3 14:1001 18:1'))
-    assert(t:has('func_80168C6C: sends=4 1(0x13 GetTN)x1 3(0x02 Setloc)x1 '
+    assert(t:has('SafetySendCommand: sends=4 1(0x13 GetTN)x1 3(0x02 Setloc)x1 '
                  .. '6(0x0A Init)x1 10(0x19 Test)x1'))
-    assert(t:has('func_80168A98: n=1 zero=2 ok=1 err=0 err_status=0'))
+    assert(t:has('SafetyPollResult: n=1 zero=2 ok=1 err=0 err_status=0'))
     assert(t:has('SafetyCheck2: never ran'))
     assert(t:has('helpers: SafetyCheck3=0 SafetyCheck4=0 '
-                 .. 'func_801691F0=0 SafetyCheck5=0'))
+                 .. 'SafetyGetGlyphRange=0 SafetyCheck5=0'))
     assert(t:has('signature: verified_hits_this_boot='))
     assert(t:has('refused_hits=0'))
     finished(t)
@@ -278,7 +278,7 @@ do
     assert(t:has('refused_hits=45'))
     assert(t:has('verified_hits_this_boot=0'))
     assert(t:has('SafetySync: calls=0'))
-    assert(t:has('func_80168C6C: sends=0 -'))
+    assert(t:has('SafetySendCommand: sends=0 -'))
     assert(t:has('verdict: inconclusive: only code other than the US safechk '
                  .. 'image ran at the watched addresses (45 refused hits)'))
     finished(t)
@@ -320,7 +320,7 @@ do
                  .. 'controller_calls=1 sends=1 path=1@0.0s>2@0.0s '
                  .. 'returned_zero=no warning=no'))
     assert(t:has('SafetySync: calls=0'), 'per-boot capture cleared')
-    assert(t:has('func_80168A98: n=13 zero=0 ok=0 err=1'))
+    assert(t:has('SafetyPollResult: n=13 zero=0 ok=0 err=1'))
     assert(t:has('verdict: the warning SafetyCheck2 RAN'))
     assert(t:has('helpers: SafetyCheck3=2'))
     finished(t)
@@ -334,10 +334,10 @@ do
     t:setState(3)
     t:exec(SEND, {a0 = 14})
     t:exec(SEND, {a0 = 0xffffffff})
-    assert(t:has('func_80168C6C n=14 index refused (outside 0..13) params=-'))
-    assert(t:has('func_80168C6C n=-1 index refused'))
+    assert(t:has('SafetySendCommand n=14 index refused (outside 0..13) params=-'))
+    assert(t:has('SafetySendCommand n=-1 index refused'))
     t:poll(200, 1, 3)
-    assert(t:has('func_80168A98 n=200 index refused (outside 0..13) ret=1 '
+    assert(t:has('SafetyPollResult n=200 index refused (outside 0..13) ret=1 '
                  .. 'cause=3 results=-'))
     -- Message index outside the table, and text pointers outside the module.
     t:word(MESSAGE_INDEX, 7)
@@ -366,15 +366,15 @@ do
     for _ = 1, 10 do t:poll(0, 1, 3, {2}) end
     for n = 1, 13 do for _ = 1, 8 do t:poll(n, -2, 5, {0x12, 0x80}) end end
     assert(t:countOf('SafetySync a0=1 state') == 80)
-    assert(t:countOf('func_80168C6C n=0 cmd=0x01(Getstat)') == 60)
-    assert(t:countOf('func_80168A98 n=0') == 6)
-    assert(t:has('func_80168A98 n=1 cmd=0x13(GetTN) nparams=0 nresults=3 '
-                 .. 'wait=3 ret=-2 cause=5 results=12 80'))
+    assert(t:countOf('SafetySendCommand n=0 cmd=0x01(Getstat)') == 60)
+    assert(t:countOf('SafetyPollResult n=0') == 6)
+    assert(t:has('SafetyPollResult n=1 cmd=0x13(GetTN) nparams=0 nresults=3 '
+                 .. 'intsum=3 ret=-2 cause=5 results=12 80'))
     assert(t:countOf('row budget of 200 reached') == 1)
     t:frames(WINDOW)
     assert(t:rowLines() == 400, 'two copies of 200 rows')
-    assert(t:has('func_80168C6C: sends=70 0(0x01 Getstat)x70'))
-    assert(t:has('func_80168A98: n=1 zero=0 ok=0 err=0 err_status=8'))
+    assert(t:has('SafetySendCommand: sends=70 0(0x01 Getstat)x70'))
+    assert(t:has('SafetyPollResult: n=1 zero=0 ok=0 err=0 err_status=8'))
     assert(t:has('controller_rows=80/80 send_rows=60/60'))
     assert(t:has('verdict: inconclusive: safechk ran but SafetySync never '
                  .. 'returned 0 within the window (last state 2)'))
