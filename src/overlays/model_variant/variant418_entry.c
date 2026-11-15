@@ -223,12 +223,12 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
         }
         for (i = 0; i < 12; i++, arm++) {
             for (j = 0; j < 2; j++) {
-                arm->ca[j][0] = work->config->inner.r * (1 - j);
-                arm->ca[j][1] = work->config->inner.g * (1 - j);
-                arm->ca[j][2] = work->config->inner.b * (1 - j);
-                arm->cb[j][0] = work->config->outer.r * (1 - j);
-                arm->cb[j][1] = work->config->outer.g * (1 - j);
-                arm->cb[j][2] = work->config->outer.b * (1 - j);
+                arm->outer[j].r = work->config->inner.r * (1 - j);
+                arm->outer[j].g = work->config->inner.g * (1 - j);
+                arm->outer[j].b = work->config->inner.b * (1 - j);
+                arm->inner[j].r = work->config->outer.r * (1 - j);
+                arm->inner[j].g = work->config->outer.g * (1 - j);
+                arm->inner[j].b = work->config->outer.b * (1 - j);
             }
         }
         for (row = 0, base_angle = 0; row < 4; row++, spoke++, base_angle += 200) {

@@ -23,7 +23,7 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
     Variant388EntrySheet *sheet = work->sheets;
     Variant388EntryFeedback *feedback = work->feedback;
     ModelVariantColorRing *spoke = work->spokes;
-    ModelVariantSpiralWide *arm = work->arms;
+    ModelVariantFlaggedSpiralArm *arm = work->arms;
     POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat_textured;
     POLY_G3 *triangle = &work->packets.triangle;

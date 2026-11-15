@@ -29,7 +29,7 @@ typedef struct {
 typedef struct {
     Mesh427 meshes[3];
     EntryRibbon427 ribbons[3];
-    ModelVariantSpiralWide spirals[12];
+    ModelVariantFlaggedSpiralArm spirals[12];
     ModelVariantSheet sheets[6];
     Streamer427 streamers[2];
     ModelVariantCurtain curtains[9];

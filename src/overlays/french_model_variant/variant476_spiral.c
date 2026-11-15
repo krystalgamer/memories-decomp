@@ -28,7 +28,7 @@ void FrenchModelVariant476_DrawSpiral(Variant459EntryState *context)
     s16 outer_rg, outer_blue;
 
     work = context;
-    arm = (ModelVariantFlaggedSpiralArm *)work->glows;
+    arm = work->glows;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     poly = &work->packets.textured[0];
@@ -78,7 +78,7 @@ void FrenchModelVariant476_DrawSpiral(Variant459EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (ModelVariantFlaggedSpiralArm *)work->glows;
+    arm = work->glows;
     for (i = 0; i < 16; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -104,7 +104,7 @@ void FrenchModelVariant476_DrawSpiral(Variant459EntryState *context)
             }
         }
     }
-    arm = (ModelVariantFlaggedSpiralArm *)work->glows;
+    arm = work->glows;
     i = 0;
     inner_rg = 64;
     inner_blue = 0;

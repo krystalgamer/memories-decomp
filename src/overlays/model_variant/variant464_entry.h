@@ -34,7 +34,7 @@ typedef struct {
     ModelVariantCurtain funnels[2];
     Variant464EntryBand bands[1];
     ModelVariantDome dome;
-    ModelVariantSpiralWide spirals[12];
+    ModelVariantFlaggedSpiralArm spirals[12];
     ModelVariantSheet sheets[2];
     ModelVariantStreamer streamers[2];
     u8 unknown_1DD0[0x34];

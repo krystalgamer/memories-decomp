@@ -899,8 +899,8 @@ typedef struct {
     SVECTOR b[2];
     long sb[2];
     s32 width[2];
-    u8 cb[2][4];
-    u8 ca[2][4];
+    CVECTOR inner[2];
+    CVECTOR outer[2];
     u8 unknown60[4];
     long flag[2];
     s32 otz[2];
@@ -1275,12 +1275,6 @@ typedef struct {
     s32 scale, count;
 } ModelVariantTwoToneScreenRing;
 
-/* ModelVariantSpiral in a 0x84-byte record. */
-typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2], outer[2];
-    u8 unknown_60[0x24];
-} ModelVariantSpiralWide;
 
 /* One 0x12C-byte beam record: inner and outer colours and a scale vector. */
 typedef struct {

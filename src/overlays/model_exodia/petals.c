@@ -34,7 +34,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
     work = (ExodiaSecondEntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
-    arm = (ModelVariantFlaggedSpiralArm *)work->petals;
+    arm = work->petals;
     poly = work->packets.textured;
     radius = work->petal_radius * 4;
     eighth = work->petal_radius / 8;
@@ -88,7 +88,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (ModelVariantFlaggedSpiralArm *)work->petals;
+    arm = work->petals;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
@@ -114,7 +114,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
             }
         }
     }
-    arm = (ModelVariantFlaggedSpiralArm *)work->petals;
+    arm = work->petals;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 1; k++) {
             poly->x0 = arm->sa[k] + arm->ox[k];
@@ -125,18 +125,18 @@ void ModelExodia_DrawPetals(u8 *ctx)
             poly->y2 = arm->sa[k] >> 16;
             poly->x3 = arm->sa[k + 1];
             poly->y3 = arm->sa[k + 1] >> 16;
-            poly->r0 = arm->ca[k][0];
-            poly->g0 = arm->ca[k][1];
-            poly->b0 = arm->ca[k][2];
-            poly->r1 = arm->ca[k + 1][0];
-            poly->g1 = arm->ca[k + 1][1];
-            poly->b1 = arm->ca[k + 1][2];
-            poly->r2 = arm->cb[k][0];
-            poly->g2 = arm->cb[k][1];
-            poly->b2 = arm->cb[k][2];
-            poly->r3 = arm->cb[k + 1][0];
-            poly->g3 = arm->cb[k + 1][1];
-            poly->b3 = arm->cb[k + 1][2];
+            poly->r0 = arm->outer[k].r;
+            poly->g0 = arm->outer[k].g;
+            poly->b0 = arm->outer[k].b;
+            poly->r1 = arm->outer[k + 1].r;
+            poly->g1 = arm->outer[k + 1].g;
+            poly->b1 = arm->outer[k + 1].b;
+            poly->r2 = arm->inner[k].r;
+            poly->g2 = arm->inner[k].g;
+            poly->b2 = arm->inner[k].b;
+            poly->r3 = arm->inner[k + 1].r;
+            poly->g3 = arm->inner[k + 1].g;
+            poly->b3 = arm->inner[k + 1].b;
             arm->otz[k] = 0;
             arm->flag[k] = 0;
             if (arm->otz[k] >= 0) {
@@ -150,18 +150,18 @@ void ModelExodia_DrawPetals(u8 *ctx)
             poly->y2 = arm->sa[k] >> 16;
             poly->x3 = arm->sa[k + 1];
             poly->y3 = arm->sa[k + 1] >> 16;
-            poly->r0 = arm->ca[k][0];
-            poly->g0 = arm->ca[k][1];
-            poly->b0 = arm->ca[k][2];
-            poly->r1 = arm->ca[k + 1][0];
-            poly->g1 = arm->ca[k + 1][1];
-            poly->b1 = arm->ca[k + 1][2];
-            poly->r2 = arm->cb[k][0];
-            poly->g2 = arm->cb[k][1];
-            poly->b2 = arm->cb[k][2];
-            poly->r3 = arm->cb[k + 1][0];
-            poly->g3 = arm->cb[k + 1][1];
-            poly->b3 = arm->cb[k + 1][2];
+            poly->r0 = arm->outer[k].r;
+            poly->g0 = arm->outer[k].g;
+            poly->b0 = arm->outer[k].b;
+            poly->r1 = arm->outer[k + 1].r;
+            poly->g1 = arm->outer[k + 1].g;
+            poly->b1 = arm->outer[k + 1].b;
+            poly->r2 = arm->inner[k].r;
+            poly->g2 = arm->inner[k].g;
+            poly->b2 = arm->inner[k].b;
+            poly->r3 = arm->inner[k + 1].r;
+            poly->g3 = arm->inner[k + 1].g;
+            poly->b3 = arm->inner[k + 1].b;
             arm->otz[k] = 0;
             arm->flag[k] = 0;
             if (arm->otz[k] >= 0) {
