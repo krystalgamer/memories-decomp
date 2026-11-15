@@ -6,7 +6,7 @@
 /* Builds one two-point streamer that coils around the variant's axis, projects
  * the spine and a copy of it moved along the view, and draws the segment as a
  * POLY_G4 as wide as the projected offset where the depth is not negative. */
-void SpanishModelVariant425_DrawStreamers(u8 *ctx)
+void SpanishModelVariant425_DrawStreamers(EntryState425 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -46,7 +46,7 @@ void SpanishModelVariant425_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (EntryState425 *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_G4 *)work->flat;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;

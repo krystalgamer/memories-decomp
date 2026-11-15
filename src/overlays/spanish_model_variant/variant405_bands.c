@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant405_bands.h"
 
-void SpanishModelVariant405_DrawBands(u8 *context)
+void SpanishModelVariant405_DrawBands(Bands405State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void SpanishModelVariant405_DrawBands(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Bands405State *state = (Bands405State *)context;
+    Bands405State *state = context;
     Bands405Band *band = state->bands;
     POLY_GT4 *polygon;
     s32 i, j;

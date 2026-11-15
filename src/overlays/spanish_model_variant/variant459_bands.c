@@ -8,7 +8,7 @@
  * record's size and the entry's shrinking scale; the bands grow
  * along their own directions through phase 1 and shrink from the record's
  * fade window until phase 3. */
-void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
+void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -27,7 +27,7 @@ void SpanishModelVariant459_DrawTimedBands(u8 *ctx)
     s16 r;
     s32 angle;
 
-    work = (Variant459EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;

@@ -340,7 +340,7 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
             } while (++work->index < work->config->count);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant417_DrawSpiral((u8 *)point);
+            SpanishModelVariant417_DrawSpiral((Variant417EntryState *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

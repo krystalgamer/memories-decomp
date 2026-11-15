@@ -335,7 +335,7 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant456_DrawSheets((u8 *)point);
         }
         if (work->config->lines_start <= work->clock.frame) {
-            SpanishModelVariant456_DrawSprays((u8 *)point);
+            SpanishModelVariant456_DrawSprays((Variant456EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

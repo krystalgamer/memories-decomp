@@ -8,7 +8,7 @@
  * first point of each as a POLY_G3 as wide as the projected offset when
  * both its depth and its projection flag are non-negative. The fan turns
  * by step * 32 on the last frame of the timing record. */
-void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
+void SpanishModelVariant388_DrawRibbonFan(Variant388EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -33,7 +33,7 @@ void SpanishModelVariant388_DrawRibbonFan(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant388EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);

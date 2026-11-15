@@ -18,7 +18,7 @@
  * segment as a POLY_G4 as wide as the projected offset. Below the fifth
  * phase, a positive length follows one eighth of the pulse size held in the
  * record at (u8 *)work + 0x1580. */
-void SpanishModelVariant456_DrawCoiledStreamers(u8 *ctx)
+void SpanishModelVariant456_DrawCoiledStreamers(Variant456EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -55,7 +55,7 @@ void SpanishModelVariant456_DrawCoiledStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant456EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     poly = (POLY_G4 *)work->flat;

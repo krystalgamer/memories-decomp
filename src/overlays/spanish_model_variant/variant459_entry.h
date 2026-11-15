@@ -57,10 +57,10 @@ typedef struct {
 
 extern GsIMAGE gSpanishModelVariant459_aImages[9];
 extern Variant459EntryConfig gSpanishModelVariant459_aConfigs[];
-void SpanishModelVariant459_DrawCurtains(u8 *context);
-void SpanishModelVariant459_DrawSpiral(u8 *context);
-void SpanishModelVariant459_DrawTimedBands(u8 *context);
-void SpanishModelVariant459_DrawPairedSheets(u8 *context);
+void SpanishModelVariant459_DrawCurtains(Variant459EntryState *context);
+void SpanishModelVariant459_DrawSpiral(Variant459EntryState *context);
+void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context);
+void SpanishModelVariant459_DrawPairedSheets(Variant459EntryState *context);
 void SpanishModelVariant459_DrawLines(u8 *context);
 typedef char Variant459EntryConfigSize[(sizeof(Variant459EntryConfig) == 0x48) ? 1 : -1];
 typedef char Variant459EntryStateSize[(sizeof(Variant459EntryState) == 0x30F4) ? 1 : -1];

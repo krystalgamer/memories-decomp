@@ -2,7 +2,7 @@
 #include "variant438_rays.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant438_DrawRays(u8 *context)
+void SpanishModelVariant438_DrawRays(Rays438State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void SpanishModelVariant438_DrawRays(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Rays438State *state = (Rays438State *)context;
+    Rays438State *state = context;
     ModelVariantOffsetRay *ray = state->rays;
     ModelVariantPulse *pulse = &state->pulse;
     POLY_G3 *triangle = &state->triangle;

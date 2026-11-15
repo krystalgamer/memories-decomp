@@ -7,7 +7,7 @@
  * direction. Ring 3 grows with the timing record and shrinks over its fade
  * window; the other rings grow by step * 128 a frame, cycle until phase 5 and
  * fade out past half size. The ring angle advances by step * 80. */
-void SpanishModelVariant385_DrawRings(u8 *ctx)
+void SpanishModelVariant385_DrawRings(Variant385EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -36,7 +36,7 @@ void SpanishModelVariant385_DrawRings(u8 *ctx)
     u8 ir, ig, ib;
     u8 or, og, ob;
 
-    work = (Variant385EntryState *)ctx;
+    work = context;
     ring = work->curtains;
     ot = Graphics_GetDefaultOrderingTable();
     first = 1;

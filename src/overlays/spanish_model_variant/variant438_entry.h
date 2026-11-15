@@ -68,8 +68,8 @@ typedef struct {
 extern GsIMAGE gSpanishModelVariant438_aImages[9];
 extern Variant438EntryConfig gSpanishModelVariant438_aConfigs[];
 void SpanishModelVariant438_DrawWarpRings(u8 *context);
-void SpanishModelVariant438_DrawRing(u8 *context);
-void SpanishModelVariant438_DrawSpiral(u8 *context);
+void SpanishModelVariant438_DrawRing(Variant438EntryState *context);
+void SpanishModelVariant438_DrawSpiral(Variant438EntryState *context);
 void SpanishModelVariant438_DrawAdvancingBand(u8 *context);
 void SpanishModelVariant438_DrawTargetClampedSheets(u8 *context);
 void SpanishModelVariant438_DrawLines(u8 *context);

@@ -5,7 +5,7 @@
 /* Draws five rotating curtains of sixteen textured strips. Each grows and
  * fades from 0x1400 to 0x1800, wraps with a new rotation until its deadline,
  * then stops at full scale with zero color. */
-void ModelVariant459_DrawCurtains(u8 *ctx)
+void ModelVariant459_DrawCurtains(Variant459EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -27,7 +27,7 @@ void ModelVariant459_DrawCurtains(u8 *ctx)
     s32 fade;
     s32 otz;
 
-    work = (Variant459EntryState *)ctx;
+    work = context;
     curtain = (Variant459Curtain *)((u8 *)work + 0x1A18);
     ot = Graphics_GetDefaultOrderingTable();
     GsGetActiveBuff();

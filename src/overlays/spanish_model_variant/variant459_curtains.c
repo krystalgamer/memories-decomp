@@ -8,7 +8,7 @@
  * fade with size. Before phase 3 each scale grows with the clock at
  * work + 0x3084 toward the timing record's limit, which counts a cycle;
  * otherwise it shrinks back between the record's fade start and fade end. */
-void SpanishModelVariant459_DrawCurtains(u8 *ctx)
+void SpanishModelVariant459_DrawCurtains(Variant459EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -41,7 +41,7 @@ void SpanishModelVariant459_DrawCurtains(u8 *ctx)
     u8 g1;
     u8 b1;
 
-    work = (Variant459EntryState *)ctx;
+    work = context;
     curtain = work->rings;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx) + 0x800;

@@ -8,7 +8,7 @@
  * point is pushed sideways along its screen normal by a sway built from the
  * phase at +0x235C and the spine wave. Each segment is drawn as a POLY_FT4 as
  * wide as the scaled projected offset. */
-void SpanishModelVariant456_DrawRibbons(u8 *ctx)
+void SpanishModelVariant456_DrawRibbons(Variant456EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -34,7 +34,7 @@ void SpanishModelVariant456_DrawRibbons(u8 *ctx)
     Ribbon456 *ribbon;
     POLY_FT4 *poly;
 
-    work = (Variant456EntryState *)ctx;
+    work = context;
     ribbon = (Ribbon456 *)work->ribbons;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

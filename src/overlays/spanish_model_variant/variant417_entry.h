@@ -59,7 +59,7 @@ extern Variant417EntryConfig gSpanishModelVariant417_aConfigs[];
 void SpanishModelVariant417_DrawPhasedLines(u8 *context);
 void SpanishModelVariant417_DrawTube(u8 *context);
 void SpanishModelVariant441_DrawRainbowSheets(u8 *context);
-void SpanishModelVariant417_DrawSpiral(u8 *context);
+void SpanishModelVariant417_DrawSpiral(Variant417EntryState *context);
 typedef char Variant417EntryConfigSize[(sizeof(Variant417EntryConfig) == 0x44) ? 1 : -1];
 typedef char Variant417EntryStateSize[(sizeof(Variant417EntryState) == 0x2188) ? 1 : -1];
 #endif
