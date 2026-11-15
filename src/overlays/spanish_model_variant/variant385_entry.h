@@ -24,7 +24,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_00[0x6C];
-    s16 field_6C, field_6E;
+    s16 update_state, field_6E;
     s32 field_70;
     u8 unknown_74[0x18];
 } Variant385EntryTube;

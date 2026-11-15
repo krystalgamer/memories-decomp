@@ -39,7 +39,7 @@ void GameOver_Init(void)
     DisplayObject_ConfigureSpriteAtPositionWithResource(object, 448, 192, 0, 0, 0, 18, 1, gDisplay_abResourceBank0);
     object->resource_uv.b.u = 128;
     DisplayObject_SetDepthOffset(object, 4);
-    object->field_6C = 0;
+    object->update_state = 0;
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_ResetVelocity(object);
@@ -59,12 +59,12 @@ s32 GameOver_Update(void)
     DisplayObject_StepPositionX(p);
     value = p->field_5A;
     if (value == 0) {
-        switch (p->field_6C) {
+        switch (p->update_state) {
         case 0:
             DisplayObject_SetResourceVariant(
                 p, 1
             );
-            p->field_6C = 1;
+            p->update_state = 1;
             p->field_34.motion.velocity_x = -0xC0;
             break;
         case 1:
@@ -72,13 +72,13 @@ s32 GameOver_Update(void)
             DisplayObject_SetResourceVariant(
                 p, 2
             );
-            p->field_6C = 2;
+            p->update_state = 2;
             break;
         case 2:
             DisplayObject_SetResourceVariant(
                 p, 0
             );
-            p->field_6C = 0;
+            p->update_state = 0;
             if (p->xy.s.x < -0x2F) {
                 p->xy.s.x = 0x160;
                 p->xy.s.y = Rand_GetInterval(0xB0) + 0x30;

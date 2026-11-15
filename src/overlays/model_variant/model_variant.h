@@ -1103,7 +1103,7 @@ typedef struct {
 typedef struct {
     SVECTOR point[9];
     CVECTOR color[9];
-    s32 field_6C, field_70, field_74, field_78, offset[9], field_A0, field_A4;
+    s32 update_state, field_70, field_74, field_78, offset[9], field_A0, field_A4;
 } ModelVariantTrail;
 
 /* The 0x40-byte stack block below the entry handlers' projection locals;

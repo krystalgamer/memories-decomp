@@ -530,7 +530,7 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     targetY = (s16)widget->xy.h.y;
     valueA = gTwoPlayerDuel_aSetupEntries[0].shown;
     valueB = gTwoPlayerDuel_aSetupEntries[1].shown;
-    if (o->field_6C == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
+    if (o->update_state == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
         if (o->field_6B == 0) {
             targetX = (valueA * 128) / DUEL_STARTING_LIFE_POINTS + 176;
             targetY = 111;
@@ -542,7 +542,7 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     remaining = o->field_60 - 1;
     o->field_60 = remaining;
     if (remaining <= 0) {
-        gTwoPlayerDuel_abSetupChoices[o->field_6B] = o->field_6C;
+        gTwoPlayerDuel_abSetupChoices[o->field_6B] = o->update_state;
         o->update = 0;
     }
     o->xy.h.x =
@@ -603,7 +603,7 @@ void MainMenu_StartValueWidgetTween(s32 index, s32 value)
 
     object->field_6B = index;
     object->field_60 = 0xA;
-    object->field_6C = value;
+    object->update_state = value;
     object->update = MainMenu_UpdateValueWidgetTween;
     object->field_34.h.field_36 = object->xy.h.x;
     object->field_38.h.field_38 = object->xy.h.y;

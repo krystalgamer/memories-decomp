@@ -2133,13 +2133,13 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 target_x, s32 target_y,
     if (value < 0) {
         value += 0x40;
         if (value >= 0) {
-            object->field_6C = 0;
+            object->update_state = 0;
             value = 0;
         }
     } else {
         value -= 0x40;
         if (value <= 0) {
-            object->field_6C = 0;
+            object->update_state = 0;
             value = 0;
         }
     }
@@ -2154,7 +2154,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 target_x, s32 target_y,
             (s16)object->xy.h.y);
     }
 
-    return object->field_6C;
+    return object->update_state;
 }
 
 void MemCardDialog_CreateObject(void)

@@ -100,7 +100,7 @@ The sparkle path is fully on the shared display-object type.
 `FREE_DUEL_SPARKLE_POOL_CAPACITY`-entry `gFreeDuel_apSparklePool`; and
 `FreeDuel_UpdateCursorTween` publishes the new object through a
 `DisplayObject **`. The updater uses the shared record's attribute, flags,
-colour word, `field_60` timer, and `field_6C` state directly. It initializes
+colour word, `field_60` timer, and `update_state` byte directly. It initializes
 an additive grey sparkle for 16 updates, subtracts four from all RGB channels
 per update, then releases the ambient object and clears the pool slot.
 

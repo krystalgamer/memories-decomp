@@ -371,9 +371,9 @@ void FreeDuel_UpdateSparkle(void)
 
     for (i = FREE_DUEL_SPARKLE_POOL_CAPACITY - 1; i >= 0; i--) {
         obj = gFreeDuel_apSparklePool[i];
-        if (obj != 0 && (obj->field_6C & 0xF) == 1) {
-            if (!(obj->field_6C & 0x80)) {
-                obj->field_6C |= 0x80;
+        if (obj != 0 && (obj->update_state & 0xF) == 1) {
+            if (!(obj->update_state & 0x80)) {
+                obj->update_state |= 0x80;
                 obj->field_60 = 16;
                 obj->rgb = COLOR_RGB24_DIM_GREY;
                 obj->attribute |= (GsALON | GsAONE);
@@ -445,7 +445,7 @@ void FreeDuel_UpdateCursorTween(void)
             DisplayObject_SetDepthOffset(sparkle, (s8)((u8)widget->depth_offset - 1));
             DisplayObject_UpdateCommandStream(sparkle);
             sparkle->field_4C.word = widget->field_4C.word;
-            sparkle->field_6C = 1;
+            sparkle->update_state = 1;
             sparkle->flags |= 1;
             *slot = sparkle;
         }

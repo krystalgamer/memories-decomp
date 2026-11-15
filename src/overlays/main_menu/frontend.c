@@ -78,7 +78,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
                             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(gMainMenu_pStartPrompt);
         third = gMainMenu_pStartPrompt;
-        third->field_6C = 0x3C;
+        third->update_state = 0x3C;
         fourth = gMainMenu_pStartPrompt;
         third->field_60 = -2;
         fourth->field_34.h.field_36 = 0;
@@ -239,7 +239,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             ((u8 *)&ent2->rgb)[1] = 0x80;
             ((u8 *)&ent2->rgb)[0] = 0x80;
             ent2->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
-            gMainMenu_pStartPrompt->field_6C = 0x3C;
+            gMainMenu_pStartPrompt->update_state = 0x3C;
             gMainMenu_pStartPrompt->field_34.h.field_36 = 0;
         }
         gMainMenu_nFadeDirection = 0;
@@ -249,8 +249,8 @@ s32 MainMenu_UpdateFrontendMenu(void)
     entry = gMainMenu_pStartPrompt;
     if (entry != 0 &&
         (entry->flags & DISPLAY_OBJECT_FLAG_RENDERABLE) != 0) {
-        if (entry->field_6C != 0) {
-            entry->field_6C = entry->field_6C - 1;
+        if (entry->update_state != 0) {
+            entry->update_state = entry->update_state - 1;
         } else {
             lvl = ((u8 *)&entry->rgb)[2] + (u8)entry->field_60;
             ((u8 *)&entry->rgb)[2] = lvl;
@@ -260,7 +260,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             chr = ((u8 *)&entry->rgb)[0];
             if ((u32)(chr - 0x41) >= 0x3F) {
                 if ((s8)chr < 0) {
-                    entry->field_6C = 0x3C;
+                    entry->update_state = 0x3C;
                 }
                 ent5 = gMainMenu_pStartPrompt;
                 neg = ent5->field_60;

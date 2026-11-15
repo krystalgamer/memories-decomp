@@ -38,7 +38,7 @@ typedef struct {
     CVECTOR inner[2], outer[2];
     VECTOR scale;
     s16 field_68, field_6A;
-    s32 field_6C;
+    s32 update_state;
     u8 unknown_70[8];
 } EntryShortBand443;
 
