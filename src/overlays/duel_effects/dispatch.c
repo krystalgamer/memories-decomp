@@ -21,7 +21,7 @@ void DuelEffect_DispatchRequest(s32 effect, s32 phase, void *buffer, DuelEffectR
     s32 i;
     u16 flags = context->base_priority;
 
-    setVector(&gDuelEffect_DrawOffset, context->field_00, context->field_02, context->field_04);
+    setVector(&gDuelEffect_DrawOffset, context->x, context->y, context->z);
     gDuelEffect_wBasePriority = flags;
     if (phase >= 0) {
         for (i = 0; i < 21; i++) {
