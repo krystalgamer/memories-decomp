@@ -191,11 +191,25 @@ Source details that the matches depend on:
   retail binary-search tree.
 - Loops with bounds in memory are written as `if (n) do { } while (...)`. A
   `for` loop makes 2.7 emit `blez` and an unused 8-byte frame.
-- The controller keeps its `goto` back to the `switch`. A `do { } while` or
-  `for (;;)` loop gets loop notes, and loop.c then hoists `-1`, `-2`, `1` and
-  `17` into saved registers (546 words). Its `case 2` and `case 17` labels
-  are in the order that makes reorg pick retail's copy of the shared
-  `j; li s0,N` tails.
+- The controller has no loop. `SafetySync` returns
+  `SafetySync_Run(arg, 0)`, a static inline function that runs the `switch`
+  and repeats by tail call (`return SafetySync_Run(arg, ret)`). GCC compiles
+  the tail call as a jump back to the `switch`, after the parameter copies,
+  so `ret = 0` stays before the jump target. A `do { } while` or `for (;;)`
+  loop gets loop notes: loop.c hoists `-1`, `-2`, `1` and `17` into saved
+  registers (546 words), and even when loop.c skips the loop (a second entry
+  into it), flow's loop-depth weighting of register references reorders
+  local-alloc in the state 4 BCD block (8 words). A direct
+  `return SafetySync(arg)` jumps back before `ret = 0` (9 words).
+- Integration substitutes a constant array address into every access
+  (`try_constants` in integrate.c), while retail loads `safechk_results`,
+  `D_8016946D` and `safechk_params` once into a register (389 words).
+  States 4, 5 and 6, which touch several bytes of one buffer, take its
+  address from an inline accessor (`SafetySync_Results` and the like) into
+  a local pointer. The integrated accessor ends in a label, and the
+  substitution does not cross labels.
+- The controller's `case 2` and `case 17` labels are in the order that makes
+  reorg pick retail's copy of the shared `j; li s0,N` tails.
 - `exit()` is declared without a prototype (`PSYQ_EXIT_UNPROTOTYPED` in
   `src/psyq/exit.h`), as the call passes no argument.
 - `func_80168A98` reads the controller status inside `do { } while (0)`.
