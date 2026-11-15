@@ -14,14 +14,23 @@ typedef struct {
     u32 track_end, shrink_end;
 } Variant388EntryConfig;
 
+/* One 0xF8-byte tube: five cross sections of three points each, their
+ * packed screen positions, the colour and scale the entry seeds, and the
+ * projection flags and depths. */
 typedef struct {
-    u8 unknown_00[0xB4];
+    SVECTOR a[5];
+    SVECTOR b[5];
+    SVECTOR c[5];
+    long sa[5];
+    long sb[5];
+    long sc[5];
     CVECTOR color;
     s32 scale[3];
     u8 unknown_C4[4];
     s16 field_C8, field_CA;
     s32 field_CC;
-    u8 unknown_D0[0x28];
+    long flag[5];
+    long otz[5];
 } Variant388EntryTube;
 
 typedef struct {

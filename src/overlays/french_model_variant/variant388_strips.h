@@ -4,21 +4,6 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
 
-/* The 0xF8-byte strip unit at the start of the work area: five cross
- * sections of three points each, their packed screen positions, and the
- * projection flags and depths. */
-typedef struct {
-    SVECTOR a[5];
-    SVECTOR b[5];
-    SVECTOR c[5];
-    long sa[5];
-    long sb[5];
-    long sc[5];
-    u8 unknown_B4[0x1C];
-    long flag[5];
-    long otz[5];
-} Strip388Unit;
-
 /* The timing record addressed by the word at +0x186C. */
 typedef struct {
     u32 unknown_00[3];
