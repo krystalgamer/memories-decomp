@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant443_ribbons.h"
 #include "variant443_entry.h"
 
 /* Header 426 reads its projected points through pointer arithmetic and
@@ -50,9 +49,9 @@ void FrenchModelVariant443_DrawRibbons(EntryState443 *context)
     ribbon = work->ribbons;
     for (i = 0, phase = 0; i < 3; i++, ribbon++, phase = i * 4096 / 3) {
         setVector(&ribbon->delta,
-                  ((Ribbons443State *)work)->origins[i].vx - work->origin.vx,
-                  ((Ribbons443State *)work)->origins[i].vy - work->origin.vy,
-                  ((Ribbons443State *)work)->origins[i].vz - work->origin.vz);
+                  work->positions[i].vx - work->origin.vx,
+                  work->positions[i].vy - work->origin.vy,
+                  work->positions[i].vz - work->origin.vz);
         for (k = 0, wave = work->ribbon_wave; k < 17; k++, wave += 1300) {
             if (k == 0 || k == 16) {
                 bend = 0;
