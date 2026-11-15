@@ -278,7 +278,7 @@ s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command)
             work->screen_y[i] = dy;
         }
         if (work->config->first_start <= work->frame) {
-            FrenchModelVariant431_DrawFans((u8 *)point);
+            FrenchModelVariant431_DrawFans((Variant431EntryState *)point);
         }
         if (work->config->timings[0] <= work->frame) {
             FrenchModelVariant431_DrawSheets((u8 *)point);

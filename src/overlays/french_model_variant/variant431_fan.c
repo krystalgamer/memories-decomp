@@ -2,7 +2,7 @@
 #include "../model_variant/variant414_fan.h"
 #include "variant431_entry.h"
 
-void FrenchModelVariant431_DrawFans(u8 *ctx)
+void FrenchModelVariant431_DrawFans(Variant431EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -20,9 +20,9 @@ void FrenchModelVariant431_DrawFans(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = (Variant431EntryState *)ctx;
-    rec = (Variant414Fan *)(ctx + 0x13B0);
-    poly = (POLY_G4 *)(ctx + 0x1610);
+    work = context;
+    rec = context->fans;
+    poly = &context->packets.quad;
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 5; i++, rec++) {
         bias = 0;
