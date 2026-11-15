@@ -5,7 +5,11 @@
 
 /* Draws two sheets of four POLY_GT4 quads, the second placed along the
  * variant's path, and grows or shrinks each sheet's size through the
- * variant's phases. */
+ * variant's phases.
+ *
+ * Named for the US header-422 images, but those build the header-439
+ * entry (variant422_entry.c includes the French variant439_entry.c), so
+ * the record it draws from is Variant439EntryState. */
 void ModelVariant422_DrawSheets(Variant439EntryState *context)
 {
     SVECTOR rot;
