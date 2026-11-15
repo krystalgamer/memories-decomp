@@ -42,7 +42,7 @@ typedef struct {
 extern GsIMAGE gModelVariant428_aImages[9];
 extern Variant428EntryConfig gModelVariant428_aConfigs[];
 void ModelVariant428_DrawBands(u8 *context);
-void ModelVariant428_DrawSheets(u8 *context);
+void ModelVariant428_DrawSheets(Variant428EntryState *context);
 void ModelVariant428_DrawWebs(Variant428EntryState *context);
 void ModelVariant428_DrawSpiral(Variant428EntryState *context);
 #endif
