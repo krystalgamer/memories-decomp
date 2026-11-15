@@ -33,8 +33,8 @@ and the secondary phase becomes 2.
 ## Relationship to the other spirals
 
 This is the routine of the accepted MODEL421 palette spiral with MODEL417
-offsets, used as structural evidence. The `Variant425SpiralArm` record of the
-accepted shared header is reused. Three details differ from MODEL421 and were
+offsets, used as structural evidence. The shared arm record (then the
+`Variant425SpiralArm` view, now `ModelVariantShadedRay`) is reused. Three details differ from MODEL421 and were
 recovered from the retail body:
 
 - the palette index is a signed `% 8`, and the eighth entry keeps its explicit

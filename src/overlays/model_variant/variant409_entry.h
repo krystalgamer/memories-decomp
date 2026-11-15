@@ -20,7 +20,7 @@ typedef struct {
 typedef struct {
     ModelVariantMesh mesh;
     ModelVariantLongRibbon ribbons[1];
-    ModelVariantSpiral spirals[12];
+    ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[2];
     EntryStreamer409 streamers[4];
     ModelVariantCurtain funnels[2];

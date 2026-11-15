@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "../model_variant/variant425_spiral.h"
 #include "variant441_entry.h"
 
 /* Phase-guarded twelve-arm spiral with an eight-entry palette: while the phase
@@ -25,7 +24,7 @@ void SpanishModelVariant441_DrawSpiral(Variant441EntryState *context)
     s32 eighth;
     s16 k;
     s32 r;
-    Variant425SpiralArm *arm;
+    ModelVariantShadedRay *arm;
     POLY_GT4 *poly;
     s32 spread;
     s32 turn;
@@ -54,7 +53,7 @@ void SpanishModelVariant441_DrawSpiral(Variant441EntryState *context)
     } else {
         spread = 0x400 - work->field_2702;
     }
-    arm = (Variant425SpiralArm *)work->glows;
+    arm = work->glows;
     for (i = 0; i < 12; i++, arm++) {
         phi = (i << 12) / 12 + work->field_26FC * 2;
         theta = (i << 13) / 12 + work->field_26FC;
@@ -65,14 +64,14 @@ void SpanishModelVariant441_DrawSpiral(Variant441EntryState *context)
                 length = spread / 32;
             }
             if (k == 0) {
-                setVector(&arm->a[k], 0, 0, 0);
+                setVector(&arm->points[k], 0, 0, 0);
             } else {
-                setVector(&arm->a[k], rcos(phi) * (rsin(theta) * (r * k) >> 12) >> 12,
+                setVector(&arm->points[k], rcos(phi) * (rsin(theta) * (r * k) >> 12) >> 12,
                           rcos(theta) * (r * k) >> 12,
                           rsin(phi) * (rsin(theta) * (r * k) >> 12) >> 12);
             }
-            setVector(&arm->b[k], arm->a[k].vx + (rcos(turn) * length >> 12), arm->a[k].vy,
-                      arm->a[k].vz + (rsin(turn) * length >> 12));
+            setVector(&arm->edges[k], arm->points[k].vx + (rcos(turn) * length >> 12), arm->points[k].vy,
+                      arm->points[k].vz + (rsin(turn) * length >> 12));
         }
     }
     if (!(work->frame_count & 1)) {
@@ -90,7 +89,7 @@ void SpanishModelVariant441_DrawSpiral(Variant441EntryState *context)
     } else {
         size = 0x1200;
     }
-    arm = (Variant425SpiralArm *)work->glows;
+    arm = work->glows;
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;
@@ -110,30 +109,30 @@ void SpanishModelVariant441_DrawSpiral(Variant441EntryState *context)
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
-                arm->otz[k] = RotTransPers4(&arm->a[0], &arm->a[1], &arm->a[0], &arm->a[1],
-                                            &arm->sa[0], &arm->sa[1], &arm->sa[0], &arm->sa[1], &p, &flag);
-                RotTransPers(&arm->b[1], &arm->sb[1], &p, &flag);
-                dx = (s16)arm->sa[k] - (s16)arm->sa[0];
-                dy = (arm->sa[k] >> 16) - (arm->sa[0] >> 16);
+                arm->depth[k] = RotTransPers4(&arm->points[0], &arm->points[1], &arm->points[0], &arm->points[1],
+                                            &arm->projected[0], &arm->projected[1], &arm->projected[0], &arm->projected[1], &p, &flag);
+                RotTransPers(&arm->edges[1], &arm->edge_projected[1], &p, &flag);
+                dx = (s16)arm->projected[k] - (s16)arm->projected[0];
+                dy = (arm->projected[k] >> 16) - (arm->projected[0] >> 16);
                 arm->angle[k] = ratan2(dy, dx) + 0xC00;
-                arm->width[k] = (s16)arm->sb[k] - (s16)arm->sa[k];
-                arm->ox[1] = rcos(arm->angle[k]) * arm->width[k] >> 12;
-                arm->oy[1] = rsin(arm->angle[k]) * arm->width[k] >> 12;
+                arm->width[k] = (s16)arm->edge_projected[k] - (s16)arm->projected[k];
+                arm->x_offset[1] = rcos(arm->angle[k]) * arm->width[k] >> 12;
+                arm->y_offset[1] = rsin(arm->angle[k]) * arm->width[k] >> 12;
             } else {
-                arm->otz[k] = RotTransPers4(&arm->a[k], &arm->a[k + 1], &arm->a[k], &arm->a[k + 1],
-                                            &arm->sa[k], &arm->sa[k + 1], &arm->sa[k], &arm->sa[k + 1],
+                arm->depth[k] = RotTransPers4(&arm->points[k], &arm->points[k + 1], &arm->points[k], &arm->points[k + 1],
+                                            &arm->projected[k], &arm->projected[k + 1], &arm->projected[k], &arm->projected[k + 1],
                                             &p, &flag);
-                RotTransPers(&arm->b[k], &arm->sb[k], &p, &flag);
-                dx = (s16)arm->sa[k + 1] - (s16)arm->sa[k];
-                dy = (arm->sa[k + 1] >> 16) - (arm->sa[k] >> 16);
+                RotTransPers(&arm->edges[k], &arm->edge_projected[k], &p, &flag);
+                dx = (s16)arm->projected[k + 1] - (s16)arm->projected[k];
+                dy = (arm->projected[k + 1] >> 16) - (arm->projected[k] >> 16);
                 arm->angle[k] = ratan2(dy, dx) + 0xC00;
-                arm->width[k] = (s16)arm->sb[k] - (s16)arm->sa[k];
-                arm->ox[k] = rcos(arm->angle[k]) * arm->width[k] >> 12;
-                arm->oy[k] = rsin(arm->angle[k]) * arm->width[k] >> 12;
+                arm->width[k] = (s16)arm->edge_projected[k] - (s16)arm->projected[k];
+                arm->x_offset[k] = rcos(arm->angle[k]) * arm->width[k] >> 12;
+                arm->y_offset[k] = rsin(arm->angle[k]) * arm->width[k] >> 12;
             }
         }
     }
-    arm = (Variant425SpiralArm *)work->glows;
+    arm = work->glows;
     for (i = 0; i < 12; i++, arm++) {
         u8 r0;
         u8 g0;
@@ -201,14 +200,14 @@ void SpanishModelVariant441_DrawSpiral(Variant441EntryState *context)
         }
 
         for (k = 0; k < 1; k++) {
-            poly->x0 = arm->sa[k] + arm->ox[k];
-            poly->y0 = (arm->sa[k] >> 16) + arm->oy[k];
-            poly->x1 = arm->sa[k + 1] + arm->ox[k + 1];
-            poly->y1 = (arm->sa[k + 1] >> 16) + arm->oy[k + 1];
-            poly->x2 = arm->sa[k];
-            poly->y2 = arm->sa[k] >> 16;
-            poly->x3 = arm->sa[k + 1];
-            poly->y3 = arm->sa[k + 1] >> 16;
+            poly->x0 = arm->projected[k] + arm->x_offset[k];
+            poly->y0 = (arm->projected[k] >> 16) + arm->y_offset[k];
+            poly->x1 = arm->projected[k + 1] + arm->x_offset[k + 1];
+            poly->y1 = (arm->projected[k + 1] >> 16) + arm->y_offset[k + 1];
+            poly->x2 = arm->projected[k];
+            poly->y2 = arm->projected[k] >> 16;
+            poly->x3 = arm->projected[k + 1];
+            poly->y3 = arm->projected[k + 1] >> 16;
             if (k + 1 == 1) {
                 poly->r0 = r0;
                 poly->g0 = g0;
@@ -236,17 +235,17 @@ void SpanishModelVariant441_DrawSpiral(Variant441EntryState *context)
                 poly->g3 = g2;
                 poly->b3 = b2;
             }
-            if (arm->otz[k] > 0) {
-                GsSortPoly(poly, ot, arm->otz[k]);
+            if (arm->depth[k] > 0) {
+                GsSortPoly(poly, ot, arm->depth[k]);
             }
-            poly->x0 = arm->sa[k] - arm->ox[k];
-            poly->y0 = (arm->sa[k] >> 16) - arm->oy[k];
-            poly->x1 = arm->sa[k + 1] - arm->ox[k + 1];
-            poly->y1 = (arm->sa[k + 1] >> 16) - arm->oy[k + 1];
-            poly->x2 = arm->sa[k];
-            poly->y2 = arm->sa[k] >> 16;
-            poly->x3 = arm->sa[k + 1];
-            poly->y3 = arm->sa[k + 1] >> 16;
+            poly->x0 = arm->projected[k] - arm->x_offset[k];
+            poly->y0 = (arm->projected[k] >> 16) - arm->y_offset[k];
+            poly->x1 = arm->projected[k + 1] - arm->x_offset[k + 1];
+            poly->y1 = (arm->projected[k + 1] >> 16) - arm->y_offset[k + 1];
+            poly->x2 = arm->projected[k];
+            poly->y2 = arm->projected[k] >> 16;
+            poly->x3 = arm->projected[k + 1];
+            poly->y3 = arm->projected[k + 1] >> 16;
             if (k + 1 == 1) {
                 poly->r0 = r0;
                 poly->g0 = g0;
@@ -274,8 +273,8 @@ void SpanishModelVariant441_DrawSpiral(Variant441EntryState *context)
                 poly->g3 = g2;
                 poly->b3 = b2;
             }
-            if (arm->otz[k] > 0) {
-                GsSortPoly(poly, ot, arm->otz[k]);
+            if (arm->depth[k] > 0) {
+                GsSortPoly(poly, ot, arm->depth[k]);
             }
         }
     }

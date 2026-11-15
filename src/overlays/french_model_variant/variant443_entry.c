@@ -24,7 +24,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantTubeView *mesh = work->meshes;
     ModelVariantShortStreamer *streamer = work->streamers;
     EntryShortBand443 *band = work->bands;
-    ModelVariantSpiral *spiral = work->spirals;
+    ModelVariantShadedRay *spiral = work->spirals;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantWebNarrow *sphere = work->spheres;
     ModelVariantColorBand *long_band = work->long_bands;

@@ -11,7 +11,7 @@ the helper directly.
 ## Behaviour and method
 
 This is the twelve-arm spiral of the accepted MODEL473 spiral (#7134), using
-the shared `Variant425SpiralArm` records at `+0x84C` and the packet at
+the shared arm records (now `ModelVariantShadedRay`) at `+0x84C` and the packet at
 `+0x1F90`. While the phase at `+0x2180` is not negative:
 
 - **Radius.** It is `0x300` from phase 1 on, otherwise three quarters of the

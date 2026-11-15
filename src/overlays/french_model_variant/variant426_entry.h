@@ -8,7 +8,7 @@
 typedef struct {
     ModelVariantMesh mesh;
     EntryRibbon425 ribbons[1];
-    ModelVariantSpiral spirals[12];
+    ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[2];
     Variant458Streamer streamers[4];
     ModelVariantFunnel funnels[2];

@@ -72,7 +72,7 @@ typedef struct {
     ModelVariantTubeView meshes[1];
     ModelVariantShortStreamer streamers[3];
     ModelVariantWebNarrow spheres[3];
-    ModelVariantSpiral spirals[12];
+    ModelVariantShadedRay spirals[12];
     u8 unknown_23D8[0x360];
     ModelVariantColorBand long_bands[1];
     EntryShortBand443 bands[3];

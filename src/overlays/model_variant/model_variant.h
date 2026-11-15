@@ -1073,21 +1073,11 @@ typedef struct {
     s16 width_y[2];
 } ModelVariantOffsetRay;
 
-/* One 0x7C-byte spiral record: two inner and two outer colours after 0x50
- * unknown bytes. The DrawSpiral helpers (e.g. SpanishModelVariant421_DrawSpiral)
- * and FrenchModelVariant383_DrawRays, which draws sixteen of them as rays,
- * read these records. */
-typedef struct {
-    u8 unknown_00[0x50];
-    CVECTOR inner[2];
-    CVECTOR outer[2];
-    u8 unknown_60[0x1C];
-} ModelVariantSpiral;
 
 /* One 0xB8-byte ray: a three-point spine and a copy of it moved along the
  * view, both projected, and per point the screen angle, the projected width,
  * the inner and outer colours (the entries seed inner grey and outer the
- * bright colour, as ModelVariantSpiral's are), the depth and the width's
+ * bright colour, as ModelVariantShadedRay's are), the depth and the width's
  * screen offset. */
 typedef struct {
     u8 unknown_00[0x18];
@@ -1245,11 +1235,13 @@ typedef struct {
 } ModelVariantScreenRing;
 
 /* One 0x7C-byte ray of headers 373 and 383, also drawn as the arms of the
- * header-425, 428 and 448 spirals: two points and their edge copies, both
+ * header-425, 428 and 448 spirals and as the spiral/glow records of the
+ * Spanish DrawSpiral helpers: two points and their edge copies, both
  * projected, the angles and widths, the inner and outer colours, the depths
  * and the screen offsets. Each segment is a POLY_GT4 with outer on its first
- * two corners and inner on the last two. ModelVariantSpiral is the entries'
- * colour-only view of the same record. */
+ * two corners and inner on the last two. The entries of many other headers
+ * declare their spiral and glow arrays with it too, and the Spanish
+ * DrawSpiral helpers draw those. */
 typedef struct {
     u8 unknown_00[0x10];
     SVECTOR points[2];

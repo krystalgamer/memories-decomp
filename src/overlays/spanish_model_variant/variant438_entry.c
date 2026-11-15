@@ -24,7 +24,7 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantColorRing *petal = work->petals;
     Variant438EntryStar *star = work->stars;
     ModelVariantWebNarrow *web = work->webs;
-    ModelVariantSpiral *glow = work->glows;
+    ModelVariantShadedRay *glow = work->glows;
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *textured = work->packets.textured;

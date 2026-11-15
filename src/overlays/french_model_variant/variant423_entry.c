@@ -17,7 +17,7 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantLongRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     Variant458Streamer *streamer = work->streamers;
-    ModelVariantSpiral *spiral = work->spirals;
+    ModelVariantShadedRay *spiral = work->spirals;
     POLY_GT4 *extra = &work->extra;
     POLY_GT4 *funnel_packet = &work->funnel_packet;
     POLY_G3 *triangle = &work->packets.triangle;

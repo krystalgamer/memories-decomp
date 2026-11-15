@@ -45,7 +45,7 @@ typedef struct {
     u8 unknown_F4[0x360];
     Variant366Ribbon ribbons[3];
     ModelVariantColorRing rings[4];
-    ModelVariantSpiral rays[16];
+    ModelVariantShadedRay rays[16];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_F4 mask;

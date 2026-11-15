@@ -34,7 +34,7 @@ typedef struct {
     ModelVariantTripleCurtain curtains[5];
     ModelVariantCurtain rings[1];
     ModelVariantWebNarrow webs[3];
-    ModelVariantSpiral glows[12];
+    ModelVariantShadedRay glows[12];
     u8 rays[0x360];
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];

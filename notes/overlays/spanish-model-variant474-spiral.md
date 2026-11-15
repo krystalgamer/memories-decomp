@@ -30,8 +30,8 @@ sweep at `+0x1BE8` advance by 32.
 
 This routine has the same twelve-arm, `0x1000`/`0x1200`-scale form as the
 accepted shared `model_variant/variant448_spiral.c`, and the same two-pass
-projection as `variant425_spiral.c`. Those sources, and the arm record in
-`variant425_spiral.h`, were used only as structural evidence. The phase guard,
+projection as `variant425_spiral.c`. Those sources, and the arm record then in
+`variant425_spiral.h` (now `ModelVariantShadedRay`), were used only as structural evidence. The phase guard,
 spread, offsets, shades and tail were recovered from the retail body.
 
 The ledger keeps 17 rejected experiments. They cover pointer partitioning, declaration

@@ -42,7 +42,7 @@ typedef struct {
     ModelVariantCurtain funnels[2];
     Variant474EntryRibbon ribbon;
     ModelVariantMesh mesh;
-    ModelVariantSpiral spirals[12];
+    ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[2];
     Variant458Streamer streamers[2];
     u8 unknown_1930[0x34];
