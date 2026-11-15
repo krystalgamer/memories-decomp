@@ -4,7 +4,7 @@
 
 /* Draws four Gouraud quads around the shared center point. Its scale
  * changes only for the selected sequence entry; rotation advances each call. */
-void ModelVariant324_DrawFan(u8 *ctx)
+void ModelVariant324_DrawFan(Variant341EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -22,9 +22,9 @@ void ModelVariant324_DrawFan(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = (Variant341EntryState *)ctx;
-    rec = (Variant324Fan *)(ctx + 0xD04);
-    poly = (POLY_G4 *)(ctx + 0xD90);
+    work = context;
+    rec = context->fans;
+    poly = &context->packets.quad;
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 1; i++, rec++) {
         bias = 0;

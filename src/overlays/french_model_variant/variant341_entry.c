@@ -292,7 +292,7 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
                           work->aim.target.vx - work->matrix.t[0],
                           work->aim.target.vy - work->matrix.t[1],
                           work->aim.target.vz - work->matrix.t[2]);
-                ModelVariant324_DrawFan((u8 *)point);
+                ModelVariant324_DrawFan((Variant341EntryState *)point);
                 if (work->tail.phase > 0) {
                     if (work->tail.phase < 2 || work->substep == 0) {
                         ModelVariant324_DrawMovingRing((u8 *)point);
