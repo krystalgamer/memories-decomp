@@ -10,7 +10,8 @@ typedef struct {
     u8 unknown_14[8];
     s32 mode;
     u32 start;
-    u8 unknown_24[16];
+    u8 unknown_24[8];
+    u32 fade_start, fade_end;
 } Variant338EntryConfig;
 
 /* Minimum observed context extent, not an allocation capacity. */

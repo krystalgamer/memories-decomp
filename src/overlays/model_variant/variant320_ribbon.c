@@ -158,9 +158,9 @@ void ModelVariant320_DrawRibbon(u8 *ctx)
         }
         if (work->tail.phase == 1) {
             if (work->ribbon_length < 0x11) {
-                start = *(u32 *)(*(u8 **)((u8 *)work + 0xD34) + 0x14);
+                start = work->config->end;
                 work->ribbon_length = ((work->clock.frame - start) << 4) /
-                                                  (*(u32 *)(*(u8 **)((u8 *)work + 0xD34) + 0x18) - start);
+                                                  (work->config->ribbon_end - start);
                 if (work->ribbon_length >= 0x10) {
                     work->ribbon_length = 0x10;
                     work->tail.phase = 2;
@@ -168,11 +168,11 @@ void ModelVariant320_DrawRibbon(u8 *ctx)
             }
         } else if (work->tail.phase == 3) {
             if (work->width > 0) {
-                start = *(u32 *)(*(u8 **)((u8 *)work + 0xD34) + 0x1C);
+                start = work->config->fade_start;
                 now = work->clock.frame;
                 if ((u32)now >= (u32)start) {
                     work->width =
-                        0x400 - ((u32)(now - start) << 10) / (*(u32 *)(*(u8 **)((u8 *)work + 0xD34) + 0x20) - start);
+                        0x400 - ((u32)(now - start) << 10) / (work->config->fade_end - start);
                 }
                 if (work->width <= 0) {
                     work->width = 0;
