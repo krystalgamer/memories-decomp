@@ -453,7 +453,7 @@ read by `MemCardDialog_UpdateSave` (`mem_card_dialog.c`) and
 name for the unit better than its address.
 
 Those strings have since become literals of the units that use them
-(`mem_card.c`, `mem_card_driver.c` and `sound_find_midi_track_chunk.c`), in
+(`mem_card.c`, `mem_card_driver.c` and `sound_sequence_parser.c`), in
 each unit's `.sdata`; only the depth table remains in
 `display_object_system.c`.
 

@@ -309,16 +309,7 @@ segments:
     - game/sound_sequence_events
   - - 247200
     - c
-    - game/sound_sequence_runtime
-  - - 247884
-    - c
-    - game/sound_find_midi_track_chunk
-  - - 247996
-    - c
     - game/sound_sequence_parser
-  - - 250032
-    - c
-    - game/sd_read_sequence_event
   - - 250352
     - c
     - game/sound_sequence_tracks
@@ -455,7 +446,7 @@ segments:
   - [0x8CAF8, .sdata, game/european/display_object_system]
   - [0x8CB00, .sdata, game/mem_card_driver]
   - [0x8CB02, pad]
-  - [0x8CB04, .sdata, game/sound_find_midi_track_chunk]
+  - [0x8CB04, .sdata, game/sound_sequence_parser]
   - [0x8CB09, pad]
   - [0x8CB0C, .sdata, game/european/model_camera_effects]
   - [0x8CB18, .sdata, game/european/model]

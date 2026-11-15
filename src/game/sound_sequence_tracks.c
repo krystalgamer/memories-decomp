@@ -10,10 +10,8 @@
  */
 #include "../types.h"
 #include "sound.h"
-#include "sound_sequence_reader.h"
 #include "sound_sequence_timing.h"
 #include "sound_sequence_parser.h"
-#include "sd_read_sequence_event.h"
 
 int SD_OpenSequenceTrack(SDSequenceTrack *entry)
 {

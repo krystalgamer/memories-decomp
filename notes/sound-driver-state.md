@@ -1115,11 +1115,12 @@ classifications.
 
 The adjacent meta/SysEx handlers and channel dispatcher share
 `src/game/sound_sequence_parser.c` with the fixed-width readers and the header
-reader, covering `0x8004BC2C` through `0x8004C420` in their original
-definition order under `gcc_2_8_1_g0`.
-The following running-status parser remains separate because its
-`gcc_2_8_1_g8_split` profile differs. Grouping does not change the event bodies,
-their local track view, or their external declarations.
+reader, and with the timer close/stop, `SD_UpdateSecondarySequence`, the byte
+and variable-length readers, `SD_FindMidiTrackChunk` and the running-status
+reader `SD_ReadSequenceEvent`: one `gcc_2_8_1_g8_split` unit covering
+`0x8004B910` through `0x8004C560` in their original definition order.
+Grouping does not change the event bodies, their local track view, or their
+external declarations.
 
 `SD_ReadVariableLengthValue` uses the separate `SD_SEQUENCE_VLQ_*` constants
 for seven-bit payload groups and their continuation bit. Its
