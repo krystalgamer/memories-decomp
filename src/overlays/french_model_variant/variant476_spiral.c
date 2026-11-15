@@ -158,25 +158,25 @@ void FrenchModelVariant476_DrawSpiral(Variant459EntryState *context)
             }
         }
     }
-    if ((u32)work->clock.frame >=
-        (u32)work->config->second &&
+    if (work->clock.frame >=
+        work->config->second &&
         work->spiral_size < 4096) {
         work->spiral_size =
             (u32)((work->clock.frame -
                    work->config->second) << 12) /
-            (u32)(work->config->field_24 -
+            (work->config->field_24 -
                   work->config->second);
         if (work->spiral_size >= 4096) {
             work->spiral_size = 4096;
         }
     }
-    if ((u32)work->clock.frame >=
-        (u32)work->config->field_24 &&
+    if (work->clock.frame >=
+        work->config->field_24 &&
         work->spiral_arm_length > 0) {
         work->spiral_arm_length = 1024 -
             (u32)((work->clock.frame -
                    work->config->field_24) << 10) /
-            (u32)(work->config->field_28 -
+            (work->config->field_28 -
                   work->config->field_24);
         if (work->spiral_arm_length <= 0) {
             work->spiral_arm_length = 0;
