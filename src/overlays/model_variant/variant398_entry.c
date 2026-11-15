@@ -288,9 +288,9 @@ s32 ModelVariant398_HandleRequest(SVECTOR *point, s32 command)
             spoke->angle = 1024 - row * 256;
             spoke->count = 0;
         }
-        work->field_1960 = 0;
+        work->field_1A14 = 0;
         work->band_scale = 4096;
-        work->field_1966 = 1024;
+        work->field_1A1A = 1024;
         work->displacement = 0;
         work->outer.r = work->config->outer.r;
         work->outer.g = work->config->outer.g;
@@ -299,8 +299,8 @@ s32 ModelVariant398_HandleRequest(SVECTOR *point, s32 command)
         work->inner.g = work->config->inner.g;
         work->inner.b = work->config->inner.b;
         work->curtain_angle = 0;
-        work->field_196C = 0;
-        work->field_1962 = 0;
+        work->field_1A20 = 0;
+        work->field_1A16 = 0;
         work->frame_count = 0;
         work->frame = 0;
         work->animation_frame = 0;
