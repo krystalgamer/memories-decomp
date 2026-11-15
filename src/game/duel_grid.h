@@ -19,9 +19,6 @@ typedef struct {
     s16 y;
 } DuelFieldPosition;
 
-#define DUEL_FIELD_SIDE_POSITION_BYTES \
-    (DUEL_FIELD_SIDE_GRID_SLOT_COUNT * sizeof(DuelFieldPosition))
-
 /* Cursor coordinates are the signed col/row members of the actual
  * DuelSelectionRecord in duel_scene.h, not a separate object. */
 

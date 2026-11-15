@@ -1001,7 +1001,8 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *object);
  * order matters. Duel_CheckFusion sorts its pair first, so it does not. */
 /* The two tables those lookups read, which the comment above already names.
  * Duel_CheckEquip walks gDuel_awEquipTable as u16 pairs; Duel_CheckFusion
- * takes gDuel_aFusionTable's base as a u8 * and strides it itself.
+ * reads gDuel_aFusionTable's u16 offset for the lower card id and walks the
+ * packed pair records that byte offset points at.
  *
  * Neither is defined in C. Duel_LoadPackageStage
  * (src/game/duel_scene.c) fills both from the disc, handing their
@@ -1009,11 +1010,17 @@ void DuelCard_CaptureRoundedTexture(DisplayObject *object);
  * `d->sector_destination = d->alternate_sector_destination = (u32)gDuel_awEquipTable`, which is why that
  * source declared them too and now includes this header instead.
  *
- * Both keep the incomplete-array spelling both consumers already used; the
- * loader is the only thing that knows how long they are and it learns that
- * from the package. */
+ * The equip table keeps the incomplete-array spelling; the loader learns its
+ * length from the package. The fusion table is the 32 sectors case 3 loads:
+ * a u16 byte offset per card id, followed by the pair records. */
 extern u16 gDuel_awEquipTable[];
-extern u16 gDuel_aFusionTable[];
+
+typedef union {
+    u16 offsets[CARD_ID_END];
+    u8 bytes[32 * 0x800];
+} DuelFusionTable;
+
+extern DuelFusionTable gDuel_aFusionTable;
 
 s32 Duel_CheckEquip(s32 equipment, s32 monster);
 s32 Duel_CheckFusion(s32 card_a, s32 card_b);
