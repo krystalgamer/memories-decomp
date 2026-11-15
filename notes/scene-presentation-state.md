@@ -231,7 +231,7 @@ The integer object-address view is not retyped as a pointer or merged
 with `ScriptImageEntry.pointer`. Its role is established for the three
 dispatched records; slot three's separately cast image-ID head and the
 historical five-record/unresolved-boundary caveats above remain distinct.
-Unused words, `ScriptImageEntry.field_10`, its padding and the explicit
+Unused words, the write-only `ScriptImageEntry.object_built`, its padding and the explicit
 signed-halfword image-ID view stay unchanged. No reader or stronger role
 is invented for the creation marker at `+0x10`.
 

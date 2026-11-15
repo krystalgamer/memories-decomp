@@ -144,7 +144,7 @@ void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode)
 
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 2, 0, 0, size, mode);
     DisplayObject_SetDepthOffset(object, (s8)mode);
-    record->field_10 = 1;
+    record->object_built = 1;
     if (mode == 2) {
         record->callback_control = 1;
         object->attribute |= (GsALON | GsAONE);
