@@ -46,6 +46,14 @@ typedef struct {
     CVECTOR colors_b[48];               /* 0x9E0 */
 } GatherEffectState;
 
+#define GATHER_EFFECT_STATE_OFFSET(member) ((u32)&(((GatherEffectState *)0)->member))
+typedef char GatherEffectState_colour_offsets_must_match[
+    GATHER_EFFECT_STATE_OFFSET(colors) == 0x95C &&
+    GATHER_EFFECT_STATE_OFFSET(color) == 0x9DC &&
+    GATHER_EFFECT_STATE_OFFSET(colors_b) == 0x9E0 ? 1 : -1
+];
+#undef GATHER_EFFECT_STATE_OFFSET
+
 /* The update's stack frame: the matrix, packet, vectors and quad it hands
  * the helpers, in the order the frame lays them out. */
 typedef struct {
