@@ -35,8 +35,8 @@ typedef struct {
 
 typedef struct {
     SVECTOR v0[4], v1[4], v2[4], v3[4];
-    CVECTOR inner, outer;
-    s32 field_88, field_8C, field_90;
+    CVECTOR outer, inner;
+    s32 size, field_8C, field_90;
     u8 unknown_94[4];
 } Variant388EntrySheet;
 

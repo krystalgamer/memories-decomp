@@ -65,9 +65,9 @@ void SpanishModelVariant388_DrawRibbonFan(Variant388EntryState *context)
     m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->progress / 1024;
     m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->progress / 1024;
     m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->progress / 1024;
-    scale.vx = timing->field_88;
-    scale.vy = timing->field_88;
-    scale.vz = timing->field_88;
+    scale.vx = timing->size;
+    scale.vy = timing->size;
+    scale.vz = timing->size;
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     coord.coord = m;
