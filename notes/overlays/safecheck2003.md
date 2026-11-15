@@ -34,9 +34,9 @@ rounded up to sixteen bytes, in the order `.rdata`, `.text`, `.data`,
 | `0xE4` | | `safechk_offset`, the `s8 dir[8]` initializer of `SafetyCheck5`, and 8 padding bytes |
 | `0xF4` | `.text` | nine functions, to `0x140C` |
 | `0x140C` | | 8 padding bytes |
-| `0x1414` | `.data` | `__ps_libinfo__`, `safechk_commands`, `safechk_cdregs`, `safechk_params`, `safechk_results`, `D_80169474` (`= 1`), `D_80169478` |
-| `0x147C` | | message table `D_8016947C`, `safechk_coords` (34 bytes) and 14 padding bytes |
-| `0x14C4` | `.bss` | `D_801694C4`, `D_801694C8`, `D_801694CC`, `D_801694CD`, `D_801694D0` |
+| `0x1414` | `.data` | `__ps_libinfo__`, `safechk_commands`, `safechk_cdregs`, `safechk_params`, `safechk_results`, `safechk_state` (`= 1`), `safechk_intsum` |
+| `0x147C` | | message table `safechk_messages`, `safechk_coords` (34 bytes) and 14 padding bytes |
+| `0x14C4` | `.bss` | `safechk_vsync`, `safechk_last_track`, `safechk_minute`, `safechk_second`, `safechk_message_set` |
 | `0x14D4-` | | leftover memory, different in each region; kept raw |
 
 The 2.0.0.2 object shows the same rounding: its `.text` (`0x10B0` bytes)
@@ -49,14 +49,14 @@ message table.
 
 | Function | USA size | Role |
 |---|---|---|
-| `SafetyInit` | `0x6C` | Reads BIOS region byte `0xBFC7FF52`. `'A'` selects state 1 and mode 1; `'E'` selects state 0 and mode 2, so the check is skipped; anything else selects state 1 and mode 0. |
-| `SafetySync` | `0x938` | 20-state controller: issues the CD commands, checks the results, and shows the warning when the drive answers like a modified console. |
-| `func_80168A98` | `0x1D4` | Polls the CD controller for a command result. |
-| `func_80168C6C` | `0xF0` | Sends one CD command, described by `safechk_commands` entries of `{cmd, nparams, nresults, wait}` (14 commands). |
+| `SafetyInit` | `0x6C` | Reads BIOS region byte `0xBFC7FF52`. `'A'` selects state 1 and message set 1; `'E'` selects state 0 and message set 2, so the check is skipped; anything else selects state 1 and message set 0. |
+| `SafetySync` | `0x938` | 20-state controller (see Controller states): issues the CD commands, checks the results, and shows the warning when the drive answers like a modified console. |
+| `SafetyPollResult` | `0x1D4` | Polls the CD controller for a command's responses; returns 0 pending, 1 done, -1 error, -2 shell open. |
+| `SafetySendCommand` | `0xF0` | Sends one CD command, described by `safechk_commands` entries of `{cmd, nparams, nresults, intsum}` (14 commands). |
 | `SafetyCheck2` | `0x16C` | Draws the warning screen, then calls `exit()`. |
 | `SafetyCheck3` | `0x174` | Draws a text line. |
 | `SafetyCheck4` | `0x1B4` | Draws the glyph rows of one character through `Krom2RawAdd`. |
-| `func_801691F0` | `0x94` | Returns a glyph's width. |
+| `SafetyGetGlyphRange` | `0x94` | Returns the lowest and highest bit set in a BIOS-font ASCII glyph; the caller derives the width. |
 | `SafetyCheck5` | `0x188` | Draws the frame polygons. |
 
 The USA warning reads `SOFTWARE TERMINATED` / `CONSOLE MAY HAVE BEEN MODIFIED`
@@ -82,7 +82,7 @@ bytes make the correspondence clear:
 | `0x80169284` | `SafetyCheck5` | `func_80169284` | Two `DrawPrim` call sites, using `safechk_coords` and `safechk_offset`. |
 | `0x801680E4` | `safechk_offset` | `D_801680E4` | Bytes equal v1's `dh 257, 511, -255, -1, 0, 0, 0, 0`. |
 | `0x80169414` | `__ps_libinfo__` | (inside `D_8016940C`) | Library 28, version 2.0.0.3. |
-| `0x8016941C` | `safechk_commands` | `D_8016941C` | Same `{cmd, nparams, nresults, wait}` words; 14 entries against v1's 10, seven of them shared. |
+| `0x8016941C` | `safechk_commands` | `D_8016941C` | Same `{cmd, nparams, nresults, intsum}` words; 14 entries against v1's 10, eight of them shared. |
 | `0x80169454` | `safechk_cdregs` | `D_80169454` | Bytes equal v1's: `0x1F801800` to `0x1F801803`. |
 | `0x80169464` | `safechk_params` | `D_80169464` | Eight zero bytes, sent as command parameters. |
 | `0x8016946C` | `safechk_results` | `D_8016946C` | Eight zero bytes, filled from the controller. |
@@ -100,11 +100,11 @@ relocated words masked:
 | Function | Object offset | Unpatched words that differ |
 |---|---|---|
 | `SafetySync` | `.text+0x10` | 0 of 590 |
-| `func_80168A98` | `.text+0x948` | 0 of 117 |
-| `func_80168C6C` | `.text+0xB1C` | 0 of 60 |
+| `SafetyPollResult` | `.text+0x948` | 0 of 117 |
+| `SafetySendCommand` | `.text+0xB1C` | 0 of 60 |
 | `SafetyCheck5` | `.text+0xF20` | 0 of 98 |
 | `SafetyInit` | `.text+0x0` | different: 2.0.0.3 adds the region select |
-| `SafetyCheck2`..`4`, `func_801691F0` | | changed or new for the English/ASCII text |
+| `SafetyCheck2`..`4`, `SafetyGetGlyphRange` | | changed or new for the English/ASCII text |
 
 The two functions that no tested compiler reproduces are therefore the
 same compiled code in both releases.
@@ -113,14 +113,12 @@ Caveats:
 
 - v2's `SafetySync` is not v1's `SafetyCheck`. v1's entry is
   `SafetyCheck(minute, second, sector)` and runs to completion; v2's takes one
-  `s32` (the boot loop passes 1) and advances the state in `D_80169474` once
+  `s32` (the boot loop passes 1) and advances the state in `safechk_state` once
   per call.
 - v1's `SafetyCheck1` sends a command and waits for its result. v2 splits it
-  into `func_80168C6C` (send) and `func_80168A98` (wait), so both keep their
-  address names. `func_801691F0` (glyph width) has no v1 counterpart. The message table `D_8016947C`, the state
-  words `D_80169474`, `D_80169478`, `D_801694C4`, `D_801694C8` and
-  `D_801694D0`, and the bytes `D_801694CC`/`D_801694CD` are
-  v2-only and keep their address names too.
+  into `SafetySendCommand` (send) and `SafetyPollResult` (wait), and adds
+  `SafetyGetGlyphRange` and the state words; their names are descriptive
+  (see Descriptive names).
 - `D_80169458`, `D_8016945C` and `D_80169460` were `safechk_cdregs[1..3]`,
   `D_8016946D` and `D_8016946E` `safechk_results[1..2]`, and `D_8016941D` the
   `nparams` byte of `safechk_commands[0]`. The source indexes the arrays;
@@ -137,6 +135,125 @@ Sony compiled each release only with the Unix GCC 2.x and post-converted the
 COFF objects to Psy-Q format; the few `safechk.obj` releases most likely came
 from that environment. That fits the findings below: no SN `CC1PSX` build
 reproduces the module, while a Cygnus GCC 2.7.2 source snapshot does.
+
+## CD-ROM commands
+
+`safechk_commands` holds `{cmd, nparams, nresults, intsum}` per command.
+`SafetySendCommand(n)` acknowledges the controller interrupts (index 1,
+`0x1F801803 = 7`), sets the interrupt enable register to `0x18`, writes
+`nparams` bytes of `safechk_params` to the parameter FIFO `0x1F801802` and
+the command byte to `0x1F801801` (index 0). `SafetyPollResult(n)` reads the
+response number (`0x1F801803 & 7`), adds it to `safechk_intsum` and
+acknowledges; once the sum reaches `intsum` it reads `nresults` bytes from the
+response FIFO `0x1F801801` into `safechk_results` and re-enables the
+interrupts (`0x1F`). `intsum` is 5 for exactly the commands that answer INT3
+then INT2 (3 + 2) and 3 for those that answer INT3 alone; v1's `SafetyCheck1`
+waits on the same byte with the sum in a register. An INT5 (error) response
+returns -1, or -2 when status bit 4 (ShellOpen) is set; a normal response
+with ShellOpen also returns -2, except for command 10, whose first byte is
+not a status. The decode follows the psx-spx "CDROM Drive" chapter
+(<https://psx-spx.consoledev.net/cdromdrive/>: command summary, status
+code, Setmode and test commands):
+
+| Index | Bytes | Command | psx-spx responses | Use |
+|---|---|---|---|---|
+| 0 | `01 00 01 03` | Getstat (psx-spx: Nop) | INT3(stat) | after shell open (17) and before the warning (16); reading stat clears ShellOpen once the lid is closed |
+| 1 | `13 00 03 03` | GetTN | INT3(stat, first, last), BCD | last track to `safechk_last_track` |
+| 2 | `14 01 03 03` | GetTD track | INT3(stat, mm, ss), BCD | start of track 2, or of the lead-out (track 0) on a one-track disc |
+| 3 | `02 03 01 03` | Setloc amm, ass, asect | INT3(stat) | `safechk_minute`, `safechk_second`, 0 |
+| 4 | `16 00 01 05` | SeekP | INT3, INT2 | audio seek to that position |
+| 5 | `0E 01 01 03` | Setmode | INT3(stat) | mode 1: bit 0, CDDA |
+| 6 | `0A 00 01 05` | Init | INT3, INT2 | after GetTN |
+| 7 | `0B 00 01 03` | Mute | INT3(stat) | silence the audio about to play |
+| 8 | `03 00 01 03` | Play | INT3(stat) | play from the Setloc position |
+| 9 | `19 01 01 03` | Test 04h | INT3(stat) | read SCEx string (and force motor on); resets the counters |
+| 10 | `19 01 02 03` | Test 05h | INT3(total, success) | get SCEx counters |
+| 11 | `09 00 01 05` | Pause | INT3, INT2 | stop the audio |
+| 12 | `1E 00 01 05` | ReadTOC | INT3, INT2 | needs BIOS vC1+; vC0 answers error `40h` (invalid command) |
+| 13 | `1A 00 01 05` | GetID | INT3, INT2 or INT5 | an INT5 (for example ID denied) shows the warning |
+
+v1's ten entries are Getstat, MotorOn (`07`), Setloc, SeekP, Setmode, a
+four-result Test (sent as `20h`, the controller version), Mute, Play, a
+two-result Test (sent as `04h`, then as `05h`) and Pause. 2.0.0.3 keeps eight
+of those words, drops MotorOn and the four-result Test, gives Test `04h` its
+own one-result entry and adds GetTN, GetTD, Init, ReadTOC and GetID; the
+2.0.0.2 table is identical to 2.0.0.3's.
+
+The check is the one psx-spx describes under Test `04h`: it "resets the
+total/success counters to zero, and does then try to read the SCEx string
+from the current location (the SCEx is stored only in the Lead-In area, so,
+if the drive head is elsewhere, it will usually not find any strings, unless
+a modchip is permanently simulating SCEx strings)". The controller plays
+muted CD-DA from halfway to track 2 (or to the lead-out), sends Test `04h`,
+waits 200 vertical blanks and reads the counters with Test `05h`. A nonzero
+success count leads to the warning. v1 runs the same Test `04h`/`05h` pair at
+the position its caller passes.
+
+## Controller states
+
+`safechk_state` selects the case of `SafetySync`; `SafetySync(1)` runs one
+state per call, `SafetySync(0)` runs states until one returns 0. "Send n"
+is `SafetySendCommand(n)`, and each polling state calls
+`SafetyPollResult` with the command its predecessor sent; a 0 result stays
+in the state. Unless noted, -1 restarts at state 1, and -2 sends Getstat and
+goes to state 17.
+
+| State | Polls | On success | Exceptions |
+|---|---|---|---|
+| 0 | | finished: returns 0 | `'E'` BIOS starts here |
+| 1 | | send 1 (GetTN), go to 2 | start state |
+| 2 | GetTN | `safechk_last_track = safechk_results[2]`; send 6 (Init), go to 3 | -1 resends GetTN |
+| 3 | Init | `safechk_params[0]` = 2 if the last track is at least 2, else 0; send 2 (GetTD), go to 4 | |
+| 4 | GetTD | half of the returned mm:ss to `safechk_minute`/`safechk_second` (BCD); send 12 (ReadTOC), go to 5 | |
+| 5 | ReadTOC | send 13 (GetID), go to 6 | -1: if stat bit 0 is clear, state 1; if the error byte has `40h` (no ReadTOC), Setloc as in state 6 and go to 7; otherwise stay |
+| 6 | GetID | Setloc(`safechk_minute`, `safechk_second`, 0), go to 7 | -1: warning (`SafetyCheck2`) |
+| 7 | Setloc | `safechk_params[0] = 1`; send 5 (Setmode CDDA), go to 8 | |
+| 8 | Setmode | `safechk_vsync = VSync(-1)`, go to 9 | |
+| 9 | | after more than 3 VSyncs: send 4 (SeekP), go to 10 | |
+| 10 | SeekP | send 7 (Mute), go to 11 | |
+| 11 | Mute | send 8 (Play), go to 12 | |
+| 12 | Play | `safechk_params[0] = 4`; send 9 (Test 04h), go to 13 | |
+| 13 | Test 04h | `safechk_vsync = VSync(-1)`, go to 14 | |
+| 14 | | after more than 200 VSyncs: `safechk_params[0] = 5`; send 10 (Test 05h), go to 15 | |
+| 15 | Test 05h | success count nonzero: send 0 (Getstat), go to 16; zero: `safechk_vsync = VSync(-1)`, go to 19 | |
+| 16 | Getstat | warning (`SafetyCheck2`) | |
+| 17 | Getstat | state 1 (restart) | -2 resends Getstat and stays |
+| 18 | Pause | state 0 | |
+| 19 | | after more than 10 VSyncs: send 11 (Pause), go to 18 | |
+
+Two details are as compiled: state 4 builds the BCD second's units digit
+from the already converted BCD minute (`safechk_minute % 10`), and an `'E'`
+BIOS selects message set 2, outside the two-entry `safechk_messages`, but
+never reaches the warning.
+
+## Descriptive names
+
+Sony's own names are known only for `SafetyInit` and `SafetySync`, which the
+2.0.0.2 object exports; it has no local symbols. `SafetyCheck2`..`5` and the
+`safechk_*` data names come from the MGS reconstruction of v1. The
+functions and data that v1 lacks, or that it keeps in registers, have
+descriptive names in the same two families: `Safety<Verb><Object>` like
+Sony's exported entries, rather than the project's `<Subsystem>_<Verb>`
+form, and lowercase `safechk_<role>` like the v1 data. They were address
+names until the roles above were worked out.
+
+| Address | Name | Former name | Confidence | Evidence |
+|---|---|---|---|---|
+| `0x80168A98` | `SafetyPollResult` | `func_80168A98` | high | Reads the interrupt flags and response FIFO and returns 0, 1, -1 or -2 (CD-ROM commands); the wait half of v1's `SafetyCheck1`. 2.0.0.2 `.text+0x948`. |
+| `0x80168C6C` | `SafetySendCommand` | `func_80168C6C` | high | Writes the parameters and command byte; the send half of v1's `SafetyCheck1`. 2.0.0.2 `.text+0xB1C`. |
+| `0x801691F0` | `SafetyGetGlyphRange` | `func_801691F0` | high | Returns `(lowest set bit << 16) \| highest set bit` over a glyph's 15 rows; `SafetyCheck3` computes the width from it and `SafetyCheck4` draws that bit range. New in 2.0.0.3. |
+| `0x80169474` | `safechk_state` | `D_80169474` | high | The `SafetySync` switch value; 2.0.0.2 `.data+0x60`, set by its four-instruction `SafetyInit`. |
+| `0x80169478` | `safechk_intsum` | `D_80169478` | high | The running sum compared with `intsum` (formerly called `wait`); 2.0.0.2 `.data+0x64`. |
+| `0x8016947C` | `safechk_messages` | `D_8016947C` | high | Two `SafechkMessage` entries; entry 0 is the text that v1 keeps alone as `safechk_message`. New in 2.0.0.3. |
+| `0x801694C4` | `safechk_vsync` | `D_801694C4` | high | `VSync(-1)` at the start of the state 9, 14 and 19 delays; 2.0.0.2 `.bss+0`. |
+| `0x801694C8` | `safechk_last_track` | `D_801694C8` | high | GetTN's last track; 2.0.0.2 `.bss+4`. |
+| `0x801694CC` | `safechk_minute` | `D_801694CC` | high | Setloc's minute; v1 takes it as `SafetyCheck`'s `minute`. 2.0.0.2 `.bss+8`. |
+| `0x801694CD` | `safechk_second` | `D_801694CD` | high | Setloc's second (with the units-digit caveat above); v1's `second`. 2.0.0.2 `.bss+9`. |
+| `0x801694D0` | `safechk_message_set` | `D_801694D0` | high | Set by `SafetyInit` from the region byte; indexes `safechk_messages` and selects kanji (0) or ASCII glyphs. New in 2.0.0.3: the 2.0.0.2 object has no reference to `.bss+0xC`. |
+
+The 2.0.0.2 offsets are those of the object's relocations. The struct types
+in `safechk.h` are `SafechkCdCommand`, `SafechkMessage`, `SafechkRect`,
+`SafechkGlyphPrim` and `SafechkFramePoly`.
 
 ## Compiler
 
@@ -206,7 +323,7 @@ table is defined, the English text first, so the table comes after
 initializer follows them. The data are `static`, as the 2.0.0.2 object
 exports only `SafetyInit` and `SafetySync`; the five `.bss` words are
 tentative definitions, which GCC emits as `.lcomm` in declaration order.
-`safechk_params`, `safechk_results` and `D_80169478` have explicit zero
+`safechk_params`, `safechk_results` and `safechk_intsum` have explicit zero
 initializers: GCC 2.7 puts zero-initialized statics in `.data`.
 
 Source details that the matches depend on:
@@ -236,7 +353,7 @@ Source details that the matches depend on:
   reorg pick retail's copy of the shared `j; li s0,N` tails.
 - `exit()` is declared without a prototype (`PSYQ_EXIT_UNPROTOTYPED` in
   `src/psyq/exit.h`), as the call passes no argument.
-- `func_80168A98` reads the controller status inside `do { } while (0)`.
+- `SafetyPollResult` reads the controller status inside `do { } while (0)`.
   reorg (`mostly_true_jump`) predicts a jump out of a loop as not taken, so
   the `return 0` branch fills its delay slot from the fall-through (`move
   a3,v1`) instead of taking `move v0,zero` from the return block. Without the
@@ -259,7 +376,7 @@ Source details that the matches depend on:
 
 The target-filled delay slots rule out FSF 2.7.x. Retail fills slots from the
 branch target, for example `li v0,-1; beq s0,v0,L [li v0,1]` in the controller
-and `li v0,10; beq a0,v0,ret [li v0,1]` in `func_80168A98`. GCC's reorg pass
+and `li v0,10; beq a0,v0,ret [li v0,1]` in `SafetyPollResult`. GCC's reorg pass
 steals such an instruction only if the register is dead on the fall-through
 path. In FSF 2.7.2 `mark_target_live_regs` stops at the next conditional
 branch and still counts `v0` as live, so these slots stay empty for any
@@ -273,7 +390,7 @@ Every SN compiler that could be found was run on the earlier sources: the
 `mkst/esa` Psy-Q binaries and the Runtime Library, SDevTC and Net Yaroze discs
 in archive.org's `ps1_sdks` collection. The Win32 builds run under `wibo`, the
 DOS builds under DOSBox. Each column is a function, named by the last three
-digits of its address; `func_80168A98` is the source before the loop head.
+digits of its address; `SafetyPollResult` (A98) is the source before the loop head.
 
 | `CC1PSX` | Found in | 0F4 | 160 | A98 | C6C | D5C | EC8 | 03C | 1F0 | 284 |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -296,8 +413,8 @@ reproduces the controller exactly. Two March 1997 changes in it contradict
 retail elsewhere, and are the two reverts above:
 
 - `reload_cse_regs` rewrites the delay-loop address `move a2,zero` as `move
-  a2,a1` in `func_80168C6C` and `SafetyCheck2`, and `move t0,zero` as `move
-  t0,a1` in `func_80168A98`. Retail has `zero`. The pass
+  a2,a1` in `SafetySendCommand` and `SafetyCheck2`, and `move t0,zero` as `move
+  t0,a1` in `SafetyPollResult`. Retail has `zero`. The pass
   turns a word-sized constant load into a copy whenever another register
   already holds the constant and no label lies between, so every delay-loop
   form tried is rewritten.
@@ -341,11 +458,11 @@ backward and 95 forward. With the current sources:
 
 | Commit | Date, author: entry | Effect when absent / present |
 |---|---|---|
-| FSF r13561 `538fe8cddb4` | 1997-01-29 Ian Lance Taylor: combine.c (try_combine), "Add a case where reg_n_refs is cleared" | `func_80168A98` 118 words without it |
+| FSF r13561 `538fe8cddb4` | 1997-01-29 Ian Lance Taylor: combine.c (try_combine), "Add a case where reg_n_refs is cleared" | `SafetyPollResult` 118 words without it |
 | `bd8c4b14b51` | 1996-12-10 Kenner: "Treat ZERO_EXTEND like SIGN_EXTEND in emit_unop_insn" | without it `u8` global reads become QImode loads: the controller 457 words, as in 96q3, and `SafetyCheck3` 63 |
 | FSF r13734 `38b610ed8e0` | 1997-03-18 Ian Lance Taylor: assign_parms REG_EQUIV | present: `SafetyCheck3` 35 words |
-| FSF r13805 `2a9fb5489fc` | 1997-03-26 Ian Lance Taylor: reload_cse_regs | present: `func_80168A98` 1, `func_80168C6C` 1, `SafetyCheck2` 2 |
-| `1f2d8f510f4` | 1997-07-11 Wilson: MIPS RTL epilogue | present: `SafetyInit` 5, `SafetyCheck5` 26, `func_80168A98` 36 |
+| FSF r13805 `2a9fb5489fc` | 1997-03-26 Ian Lance Taylor: reload_cse_regs | present: `SafetyPollResult` 1, `SafetySendCommand` 1, `SafetyCheck2` 2 |
+| `1f2d8f510f4` | 1997-07-11 Wilson: MIPS RTL epilogue | present: `SafetyInit` 5, `SafetyCheck5` 26, `SafetyPollResult` 36 |
 
 No other applied commit changes any of the nine functions, apart from a
 1996-07 `expand_mult_highpart` change and its revert, which cancel. The
@@ -353,6 +470,6 @@ retail compiler is therefore a Cygnus snapshot whose FSF merge falls between
 1997-01-29 and 1997-03-18, which the 970404 tree less those two later
 changes reproduces. As a cross-check, the real Psy-Q 4.1 `CC1PSX` with
 `-mmips-as` differs from retail on the current sources in exactly the words
-those two changes explain: `func_80168A98` 1, `func_80168C6C` 1,
+those two changes explain: `SafetyPollResult` 1, `SafetySendCommand` 1,
 `SafetyCheck2` 2 and `SafetyCheck3` 35; the 970404 source built without the
 reverts gives the same.

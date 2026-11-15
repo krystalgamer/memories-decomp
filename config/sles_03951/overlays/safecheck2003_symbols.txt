@@ -1,12 +1,16 @@
 // safechk (formerly called APv2), Sony's anti-modchip protection (WA_MRG module ID 0x16), loaded at 0x80168000 by
 // Main_RunBootSequence. It is the runtime library safechk 2.0.0.3 (see __ps_libinfo__);
-// the names follow Sony's 1.0.0.3 object as published in mgs_reversing's asm/safechk.s.
+// the names follow Sony's 1.0.0.3 object as published in mgs_reversing's asm/safechk.s, and
+// the Safety*/safechk_* names it lacks are descriptive (see notes/overlays/safecheck2003.md).
 safechk_offset = 0x801680E4;
 SafetyInit = 0x801680F4; // type:func
 SafetySync = 0x80168160; // type:func
+SafetyPollResult = 0x80168A98; // type:func
+SafetySendCommand = 0x80168C6C; // type:func
 SafetyCheck2 = 0x80168D5C; // type:func
 SafetyCheck3 = 0x80168EC8; // type:func
 SafetyCheck4 = 0x8016903C; // type:func
+SafetyGetGlyphRange = 0x801691F0; // type:func
 SafetyCheck5 = 0x80169284; // type:func
 __ps_libinfo__ = 0x80169414; // size:0x8
 safechk_commands = 0x8016941C;
@@ -15,5 +19,12 @@ safechk_commands = 0x8016941C;
 safechk_cdregs = 0x80169454;
 safechk_params = 0x80169464;
 safechk_results = 0x8016946C;
+safechk_state = 0x80169474; // size:0x4
+safechk_intsum = 0x80169478; // size:0x4
+safechk_messages = 0x8016947C; // size:0x18
 safechk_coords = 0x80169494;
-D_801694CD = 0x801694CD; // size:0x1
+safechk_vsync = 0x801694C4; // size:0x4
+safechk_last_track = 0x801694C8; // size:0x4
+safechk_minute = 0x801694CC; // size:0x1
+safechk_second = 0x801694CD; // size:0x1
+safechk_message_set = 0x801694D0; // size:0x4

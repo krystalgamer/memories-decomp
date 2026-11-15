@@ -8,15 +8,16 @@
  * accesses. */
 
 /* One safechk_commands entry: a CD-ROM controller command, its parameter and
- * result byte counts, and a wait value. */
+ * result byte counts, and the sum of the interrupt numbers that complete it
+ * (3 for INT3 alone, 5 for INT3 then INT2). */
 typedef struct {
     u8 cmd;
     u8 nparams;
     u8 nresults;
-    u8 wait;
+    u8 intsum;
 } SafechkCdCommand;
 
-/* One D_8016947C entry: a warning message line. */
+/* One safechk_messages entry: the warning text and its glyph layout. */
 typedef struct {
     u8 count;
     u8 unk1;
@@ -52,12 +53,12 @@ typedef struct {
 
 void SafetyInit(void);
 s32 SafetySync(s32 arg);
-s32 func_80168A98(s32 n);
-void func_80168C6C(s32 n);
+s32 SafetyPollResult(s32 n);
+void SafetySendCommand(s32 n);
 void SafetyCheck2(void);
 void SafetyCheck3(u8 *str, SafechkRect *rect, s32 color);
 void SafetyCheck4(SafechkRect *rect, u8 *bits, s32 color, u32 range);
-u32 func_801691F0(u8 *p);
+u32 SafetyGetGlyphRange(u8 *p);
 void SafetyCheck5(void);
 
 #endif
