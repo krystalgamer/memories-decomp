@@ -122,33 +122,54 @@ that SCEI first built the runtime libraries both with GCC 2.x hosted on Unix
 Sony compiled each release only with the Unix GCC 2.x and post-converted the
 COFF objects to Psy-Q format; the few `safechk.obj` releases most likely came
 from that environment. That fits the findings below: no SN `CC1PSX` build
-reproduces the module, while a Cygnus-derived GCC 2.7.2 comes closest.
+reproduces the module, while a Cygnus GCC 2.7.2 source snapshot does.
 
 ## Compiler
 
 The module was not built with the game's GCC 2.8.1 pipeline. It is Sony's
-code, built with Psy-Q GCC 2.7.2: decompals/old-gcc `gcc-2.7.2-psx`, installed
-by `make compiler-272-psx-prebuilt` and selected through the
-`gcc_2_7_2_psx_g0_gnu_reorder` profile. The evidence:
+code, built with a Cygnus GCC 2.7.2 from early 1997: the
+`cygnus-2.7.2-970404` source (decompals/old-gcc `b18.tar.gz`, the compiler
+of Psy-Q 4.1 `CC1PSX` SN32.3.7.0004) without two of its March 1997 changes.
+`make compiler-272-cygnus` builds it from source
+(`tools/bootstrap/old_gcc_cygnus.py`, pinned by
+`tools/bootstrap/old_gcc_cygnus.json`):
 
-- `SafetyInit` and `SafetyCheck5` match only with 2.7. GCC 2.8 duplicates
-  the epilogue that the retail code shares.
-- Most retail delay slots are filled the way an assembler in reorder mode
-  fills them. Its `move` instructions are `addu d,s,$0`, the ASPSX encoding.
-  The slots filled from a branch target come from the compiler (see
-  [Which compiler](#which-compiler)).
-- All nine candidates match at the stock `-O2` flags. An earlier
-  `SafetyCheck3` source needed `-fno-cse-follow-jumps`; the current source
-  does not (see the source details below).
+- the `b18.tar.gz` source and the four decompals CDK build patches
+  (`Makefile.in`, `obstack.h`, little-endian `mips.h`, the `mips-sony-psx`
+  configuration), at old-gcc commit `cf70ec58`;
+- `tools/bootstrap/patches/cygnus-2.7.2-970404-revert-r13734.patch`, the
+  reverse of FSF r13734 (gcc-mirror `38b610ed8e0`, Ian Lance Taylor,
+  1997-03-18, "function.c (assign_parms): Add a REG_EQUIV note to the
+  instruction which copies a parameter into a pseudo-register whenever there
+  is an associated stack slot, even if the parameter actually arrived in a
+  register");
+- `tools/bootstrap/patches/cygnus-2.7.2-970404-revert-r13805-reload-call.patch`,
+  the reverse of the "reload1.c (reload): Call reload_cse_regs" hunk of FSF
+  r13805 (gcc-mirror `2a9fb5489fc`, Ian Lance Taylor, 1997-03-26). The new
+  static functions of that commit stay in the file, unused;
+- a Debian copy of byacc 20140715 to generate the C parser, which the
+  snapshot does not ship.
+
+The build uses the host C compiler and takes well under a minute. A zig
+`x86-linux-musl` build of the same tree emits identical assembly.
+
+The candidates select `gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder`:
+
+- `-O2` with the module's usual `-G0 -mel -mips1 -mcpu=R3000 -msoft-float
+  -fno-builtin`, plus `-mmips-as`. Built for GNU as, this Cygnus snapshot
+  splits every global access into separately scheduled `%hi`/`%lo`
+  instructions (`mips_split_addresses`, which needs `TARGET_GAS`); retail has
+  no split, and `-mmips-as` turns it off.
+- MASPSX runs with `--passthrough`, which only drops COFF debug directives;
+  `build_baseline.py` then rewrites `move d,s` as `addu d,s,$0` (GNU as would
+  emit `or`) and lets GNU as reorder the code. Most retail delay slots are
+  filled the way an assembler in reorder mode fills them, with the ASPSX
+  `move` encoding; the slots filled from a branch target come from the
+  compiler's reorg pass. `-O1`, which CI's system-binutils flags add, is
+  dropped for these units.
 
 MASPSX's normal processing cannot model this output: it always emits
-`.set noreorder` and pads jumps with `nop`. With MASPSX 2.67 only
-`func_801691F0` matches. The profile therefore runs MASPSX with
-`--passthrough`, which only drops COFF debug directives, then
-`build_baseline.py` rewrites `move d,s` as `addu d,s,$0` (GNU as would emit
-`or`) and lets GNU as reorder the code. At the default optimization level
-GNU as fills delay slots as the original assembler did; `-O1`, which CI's
-system-binutils flags add, is dropped for these units.
+`.set noreorder` and pads jumps with `nop`.
 
 ## Candidates
 
@@ -157,14 +178,12 @@ The module still builds from assembly. All nine functions have C candidates in
 entries in `config/slus_01411/candidates.json`. Their shared types are in
 `src/candidates/apv2/apv2.h`.
 
-| Function | Status |
-|---|---|
-| `SafetyInit`, `func_80168C6C`, `SafetyCheck2`, `SafetyCheck3`, `SafetyCheck4`, `func_801691F0`, `SafetyCheck5` | exact under the profile |
-| `func_80168A98` | 7 words differ |
-| `SafetySync` | 457 words differ; exact under Psy-Q 4.1 `CC1PSX` with `-mmips-as` (see below) |
-
-No available compiler builds all nine, so the module cannot move to C as a
-whole; see [Which compiler](#which-compiler).
+All nine are exact under the profile: built through `candidate_builds.py`,
+each object linked at its retail address, with the jump table of
+`SafetySync` at `0x80168004` and `safechk_offset` at `0x801680E4`, reproduces
+the retail bytes. Linked against each region's `apv2_linker_symbols.txt`,
+the same objects reproduce all four regional images as well. The module can
+therefore move to C as a whole.
 
 Source details that the matches depend on:
 
@@ -172,44 +191,47 @@ Source details that the matches depend on:
   retail binary-search tree.
 - Loops with bounds in memory are written as `if (n) do { } while (...)`. A
   `for` loop makes 2.7 emit `blez` and an unused 8-byte frame.
-- The controller keeps its `goto` back to the `switch`. A `do { } while`
-  loop gets loop notes, and loop.c then hoists `-1`, `-2`, `1` and `17` into
-  saved registers (546 words under Psy-Q 4.1 with `-mmips-as`). Its `case 2`
-  and `case 17` labels are in the order that makes reorg pick retail's copy
-  of the shared `j; li s0,N` tails.
+- The controller keeps its `goto` back to the `switch`. A `do { } while` or
+  `for (;;)` loop gets loop notes, and loop.c then hoists `-1`, `-2`, `1` and
+  `17` into saved registers (546 words). Its `case 2` and `case 17` labels
+  are in the order that makes reorg pick retail's copy of the shared
+  `j; li s0,N` tails.
 - `exit()` is declared without a prototype (`PSYQ_EXIT_UNPROTOTYPED` in
   `src/psyq/exit.h`), as the call passes no argument.
-- `SafetyCheck3` reuses the character variable `c` for the spacing of the
-  Krom, space and ASCII branches (`c = 1`, `8`, `2`), and adds it as
-  `rect->x = rect->x + c + rect->w`. Retail reloads the character from the
-  string in the Krom and ASCII branches. Without the reassignment, `-O2` CSE
-  follows the newline branch into those blocks and reuses `c`, so 12 bytes
-  of reloads disappear. Assigning `c` first ends that equivalence; the
-  constant then propagates and flow deletes the dead assignment. The
-  `rect->x += rect->w + c` form swaps the two `lhu` loads.
+- `func_80168A98` reads the controller status inside `do { } while (0)`.
+  reorg (`mostly_true_jump`) predicts a jump out of a loop as not taken, so
+  the `return 0` branch fills its delay slot from the fall-through (`move
+  a3,v1`) instead of taking `move v0,zero` from the return block. Without the
+  loop, every Cygnus compiler steals from the target (99 words). v1's
+  `SafetyCheck1` (`asm/safechk.s` in `mgs_reversing`) shows where the loop
+  comes from: it re-reads the status until two reads agree (`bne v1,v0,
+  @lab_12c; move a1,v1`), then tests `andi v0,a1,0xff`. v2 returns 0 instead
+  of reading again, but keeps the loop around the read, the copy after the
+  compare (`stat = t`) and the `u8` test (`c = stat`). The results loop
+  reuses `t` as its index, which keeps the retail register assignment.
+- `SafetyCheck3` is written plainly (`rect->x += rect->w + 1`, `+= 8`,
+  `+= rect->w + 2`). The `gcc-2.7.2-psx` profile it used before needed `c`
+  reassigned to the spacing in each branch.
 
 ## Which compiler
 
-The words that `gcc-2.7.2-psx` cannot produce are compiler output, not
-assembler output:
+The target-filled delay slots rule out FSF 2.7.x. Retail fills slots from the
+branch target, for example `li v0,-1; beq s0,v0,L [li v0,1]` in the controller
+and `li v0,10; beq a0,v0,ret [li v0,1]` in `func_80168A98`. GCC's reorg pass
+steals such an instruction only if the register is dead on the fall-through
+path. In FSF 2.7.2 `mark_target_live_regs` stops at the next conditional
+branch and still counts `v0` as live, so these slots stay empty for any
+source. Cygnus's `find_dead_or_set_registers` follows that branch and sees
+`v0` set on both paths. The real Psy-Q assemblers, ASPSX 2.56, 2.67, 2.77,
+2.81 and 2.86, fill none of these slots, and they build an indexed load's
+address in `$at` where retail builds it in the destination register, as GNU
+as does.
 
-- Retail fills branch delay slots from the branch target, for example
-  `li v0,-1; beq s0,v0,L [li v0,1]` in the controller and
-  `li v0,10; beq a0,v0,ret [li v0,1]` in `func_80168A98`. GCC's reorg pass
-  steals such an instruction only if the register is dead on the fall-through
-  path. In FSF 2.7.2 `mark_target_live_regs` stops at the next conditional
-  branch and still counts `v0` as live, so these slots stay empty for any
-  source. Cygnus's `find_dead_or_set_registers` follows that branch and sees
-  `v0` set on both paths.
-- The real Psy-Q assemblers, ASPSX 2.56, 2.67, 2.77, 2.81 and 2.86, fill none
-  of these slots. They also build an indexed load's address in `$at`. Retail
-  builds it in the destination register, as GNU as does.
-
-Every SN compiler that could be found was run on the committed sources: the
+Every SN compiler that could be found was run on the earlier sources: the
 `mkst/esa` Psy-Q binaries and the Runtime Library, SDevTC and Net Yaroze discs
 in archive.org's `ps1_sdks` collection. The Win32 builds run under `wibo`, the
 DOS builds under DOSBox. Each column is a function, named by the last three
-digits of its address:
+digits of its address; `func_80168A98` is the source before the loop head.
 
 | `CC1PSX` | Found in | 0F4 | 160 | A98 | C6C | D5C | EC8 | 03C | 1F0 | 284 |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -225,59 +247,70 @@ digits of its address:
 | `2.7.2` (DOS) | Net Yaroze | 0 | 457 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
 
 The 2.8 builds do no better with `-mno-split-addresses` (5, 488, 102, 1, 2,
-35, 0, 0, 79), nor does any decompals/old-gcc release from 2.5.7 to 2.95.2. All
-FSF-based 2.7.x builds match decompals `gcc-2.7.2-psx`, and the Cygnus builds
-match `gcc-2.7.2-cdk`.
+35, 0, 0, 79), nor does any decompals/old-gcc release from 2.5.7 to 2.95.2.
+All FSF-based 2.7.x builds match decompals `gcc-2.7.2-psx` (7 of 9 exact), and
+the Cygnus builds match `gcc-2.7.2-cdk`. Psy-Q 4.1 with `-mmips-as`
+reproduces the controller exactly. Two March 1997 changes in it contradict
+retail elsewhere, and are the two reverts above:
 
-On its own, 4.1 splits every global access into
-separately scheduled `%hi`/`%lo` instructions (`mips_split_addresses`, which
-requires `TARGET_GAS`). Retail has no split, and `-mmips-as` (or `-fpic`) turns
-the split off. 4.1 with `-mmips-as` then reproduces the controller exactly,
-including its target-filled slots and the `la`-based loads of
-`D_8016946D[0..1]`. Two March 1997 Cygnus changes in 4.1 contradict retail
-elsewhere:
+- `reload_cse_regs` rewrites the delay-loop address `move a2,zero` as `move
+  a2,a1` in `func_80168C6C` and `SafetyCheck2`, and `move t0,zero` as `move
+  t0,a1` in `func_80168A98`. Retail has `zero`. The pass
+  turns a word-sized constant load into a copy whenever another register
+  already holds the constant and no label lies between, so every delay-loop
+  form tried is rewritten.
+- The `assign_parms` change makes `update_equiv_regs` double the live length
+  of `rect` and `color` in `SafetyCheck3`, and global allocation permutes
+  `s1`-`s4`.
 
-- `reload_cse_regs` (reload1.c, Ian Lance Taylor, 1997-03-26, "reload1.c
-  (reload): Call reload_cse_regs"; FSF r13805) rewrites the delay-loop address
-  `move a2,zero` as `move a2,a1` in `func_80168C6C` and `SafetyCheck2`, and
-  `move t0,zero` as `move t0,a1` in `func_80168A98`. Retail has `zero` in
-  all three. The pass turns a word-sized constant load into a copy whenever
-  another register already holds the constant and no label lies between, so
-  every delay-loop form tried is rewritten.
-- `assign_parms` (function.c, Ian Lance Taylor, 1997-03-18, "Add a REG_EQUIV
-  note to the instruction which copies a parameter into a pseudo-register
-  whenever there is an associated stack slot") makes `update_equiv_regs`
-  double the live length of `rect` and `color` in `SafetyCheck3`, and global
-  allocation permutes `s1`-`s4`.
+### Bisecting the history
 
-Two source builds frame the compiler that retail needs:
+Cygnus did not publish its own revision history, but its `reorg.c`, `cse.c`,
+`sched.c`, `combine.c` and most other passes are FSF trunk files of the day
+plus marked `CYGNUS LOCAL` hunks, and FSF trunk is in the GCC Git history
+(gcc-mirror). The 970404 files equal FSF revisions from 1997-03-28 to
+1997-04-03; the September 1996 Cygnus `2.7-96q3 SOA-960904` snapshot (Sega's
+GPL source, `sozud/saturn-compiler-repro`) carries `reorg.c` as of FSF
+`eed04dff2e1` (1996-05-20).
 
-- The `cygnus-2.7.2-970404` source (old-gcc's `b18.tar.gz`) with those two
-  ChangeLog entries reverted, and nothing else changed, matches eight
-  functions with the committed sources. It also matches `SafetyCheck3` with
-  the natural source that does not reassign `c`. `func_80168A98` still differs.
-- Cygnus `2.7-96q3 SOA-960904` (September 1996): its GPL source was
-  distributed by Sega and is published in `sozud/saturn-compiler-repro`
-  (`source/SOA-960904.src.tar.gz`). It has the new reorg pass and neither
-  March 1997 change, and has no split addresses at all. Built for
-  `mips-sony-psx` with the decompals CDK patches, it matches 0F4, C6C, D5C,
-  EC8, 03C, 1F0 and 284. In the controller it fills the same slots as retail,
-  but it expands a `u8` global read as a QImode load. CSE then forwards the
-  value just stored to `D_801694CC` (457 words), where retail and 970404
-  reload it. `func_80168A98` differs as well.
+Every FSF `reorg.c` revision from the 2.7.2 release to 1997-03-28, swapped
+alone into the 970404 tree with the two reverts:
 
-`func_80168A98` needs one reorg decision that neither source makes, and no
-source shape produces it. In retail the first `bne v1,v0` takes `move a3,v1`
-(the `n = t` copy) from the fall-through. Both Cygnus versions follow the next
-conditional branch, `beq a2,zero`. They see `v0` set on both of its paths and
-steal `move v0,zero` from the return-0 block instead. Their `reorg.c` files are
-the same in this logic. The controller needs exactly this following:
+| `reorg.c` | Date, author: entry | 160 | A98 (old source) | Others |
+|---|---|---|---|---|
+| FSF 2.7.2 release | 1995-11 | 220 | 54 | 0 |
+| `126db1fa328` | 1995-12-31 Law: fill_simple_delay_slots tries the target of an unconditional branch | 497 | 54 | 0 |
+| `2142b2d5d6e` | 1996-01-15 Kenner: TRAP_IF sets volatil | 497 | 54 | 0 |
+| `c170c8c2082` | 1996-01-24 Wilson: find_dead_or_set_registers (Cygnus 1995-11-14 "Rewrite code to handle conditional branches") | 0 | 99 | 0 |
+| `b55f96db06a` to `a6c383b0d8a` | 1996-04-15 to 1997-03-28 (spill registers at labels, update_block, EPILOGUE_USES, asm operands, moved insns, REG_BR_PROB) | 0 | 99 | 0 |
 
-- State 7's `bltz` steals `li v0,-2` in pass 1.
-- That frees state 4's `bgez`, which fills its slot in pass 2.
+Only the conditional-branch following matters, and the controller needs it;
+`MAX_REORG_PASSES` is 2 throughout. The A98 decision is not a reorg revision
+but the branch prediction described in the source details, which every
+version has.
 
-Writing the copy before the compare lets the slot fill backward, as in retail.
-CSE then computes `(u8)n` from `t`, and five words differ. A search of 448
-generated sources and 16 documented options found nothing better. The
-`insn_n_dups[-1]` read in Cygnus `cse.c`, whose value depends on how `cc1` was
-built, makes no difference here.
+The rest of the compiler was bisected by applying FSF trunk commits to the
+same tree, one build per commit: the 455 commits to the cc1 sources and the
+MIPS port from 1997-04-05 back to 1996-06-01, undone newest first, and the 202
+up to the egcs import of 1997-08-21, applied oldest first. Commits that only
+build together were applied as a group; the 102 that conflict with Cygnus
+changes (the two March changes among them) were skipped. That gave 285 builds
+backward and 95 forward. With the current sources:
+
+| Commit | Date, author: entry | Effect when absent / present |
+|---|---|---|
+| FSF r13561 `538fe8cddb4` | 1997-01-29 Ian Lance Taylor: combine.c (try_combine), "Add a case where reg_n_refs is cleared" | `func_80168A98` 118 words without it |
+| `bd8c4b14b51` | 1996-12-10 Kenner: "Treat ZERO_EXTEND like SIGN_EXTEND in emit_unop_insn" | without it `u8` global reads become QImode loads: the controller 457 words, as in 96q3, and `SafetyCheck3` 63 |
+| FSF r13734 `38b610ed8e0` | 1997-03-18 Ian Lance Taylor: assign_parms REG_EQUIV | present: `SafetyCheck3` 35 words |
+| FSF r13805 `2a9fb5489fc` | 1997-03-26 Ian Lance Taylor: reload_cse_regs | present: `func_80168A98` 1, `func_80168C6C` 1, `SafetyCheck2` 2 |
+| `1f2d8f510f4` | 1997-07-11 Wilson: MIPS RTL epilogue | present: `SafetyInit` 5, `SafetyCheck5` 26, `func_80168A98` 36 |
+
+No other applied commit changes any of the nine functions, apart from a
+1996-07 `expand_mult_highpart` change and its revert, which cancel. The
+retail compiler is therefore a Cygnus snapshot whose FSF merge falls between
+1997-01-29 and 1997-03-18, which the 970404 tree less those two later
+changes reproduces. As a cross-check, the real Psy-Q 4.1 `CC1PSX` with
+`-mmips-as` differs from retail on the current sources in exactly the words
+those two changes explain: `func_80168A98` 1, `func_80168C6C` 1,
+`SafetyCheck2` 2 and `SafetyCheck3` 35; the 970404 source built without the
+reverts gives the same.

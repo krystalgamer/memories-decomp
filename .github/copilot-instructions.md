@@ -133,11 +133,12 @@ Matching, attempt-ledger updates, and integration remain sequential.
   (the decompals/old-gcc `gcc-2.8.0-psx` release); its only difference from
   2.8.1 there is register choice in a struct-argument packing (see
   `notes/overlays/french-model-image60348-entry.md`). The boot APv2
-  protection module is Sony code built with Psy-Q GCC 2.7.2; its candidates
-  in `config/slus_01411/candidates.json` select `gcc_2_7_2_psx_g0_gnu_reorder`
-  (the decompals/old-gcc `gcc-2.7.2-psx` release), which skips MASPSX and
-  lets GNU as reorder, because MASPSX cannot fill delay slots (see
-  `notes/overlays/apv2.md`). A profile is still chosen by name in the
+  protection module is Sony code built with a Cygnus GCC 2.7.2 of early
+  1997; its candidates in `config/slus_01411/candidates.json` select
+  `gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder` (cygnus-2.7.2-970404 less two
+  March 1997 changes, built from source by `make compiler-272-cygnus`), which
+  skips MASPSX and lets GNU as reorder, because MASPSX cannot fill delay
+  slots (see `notes/overlays/apv2.md`). A profile is still chosen by name in the
   `*_matching_c.json` manifests, never by ad hoc flags, and exact full-image
   matching stays mandatory.
 - Record every materially distinct source/compiler experiment and its precise

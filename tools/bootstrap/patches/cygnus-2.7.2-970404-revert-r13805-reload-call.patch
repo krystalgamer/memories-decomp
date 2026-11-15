@@ -1,0 +1,36 @@
+Revert of the reload() hunk of FSF GCC r13805 (gcc-mirror/gcc commit
+2a9fb5489fc58447f5a69fa7a607d08dd263ac4a), applied to the
+cygnus-2.7.2-970404 source (decompals/old-gcc b18.tar.gz).
+
+Original commit: Ian Lance Taylor, Wed Mar 26 1997,
+"Add a CSE pass over the hard registers after reload is complete".
+ChangeLog.fsf entry in the 970404 tree:
+
+  Wed Mar 26 12:34:21 1997  Ian Lance Taylor  <ian@cygnus.com>
+
+	* reload1.c (reload): Call reload_cse_regs.
+	(reg_values): New static variable.
+	(reload_cse_invalidate_regno): New static function.
+	...
+
+This patch is exactly the reverse of the commit's "(reload): Call
+reload_cse_regs" hunk.  The other hunks only add static functions, which
+the 970404 tree has already revised (reload_cse_noop_set_p takes two
+arguments there), so they are left in place and become unused.  The Sony
+safechk 2.0.0.x module (notes/overlays/apv2.md) was compiled before this
+change: with it, `move rX,zero` delay-loop addresses become copies of
+another register holding zero.
+
+--- a/reload1.c
++++ b/reload1.c
+@@ -2135,10 +2135,6 @@
+ 	}
+     }
+ 
+-  /* Do a very simple CSE pass over just the hard registers.  */
+-  if (optimize > 0)
+-    reload_cse_regs (first);
+-
+ #ifdef PRESERVE_DEATH_INFO_REGNO_P
+   /* Make a pass over all the insns and remove death notes for things that
+      are no longer registers or no longer die in the insn (e.g., an input

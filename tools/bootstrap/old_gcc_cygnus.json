@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "name": "gcc-2.7.2-cygnus-970404-r",
+  "description": "cygnus-2.7.2-970404 (SN32.3.7.0004) without the 1997-03-18 assign_parms and 1997-03-26 reload_cse_regs changes: the compiler of the Sony safechk module (notes/overlays/apv2.md)",
+  "source": {
+    "url": "https://github.com/decompals/old-gcc/releases/download/0.14/b18.tar.gz",
+    "sha256": "de4cba44576a4de3b6f750a5a3559fe9e91de1a75ccdf02d41bcf71f76114144",
+    "archive": "tools/downloads/cdk-gcc-b18.tar.gz",
+    "root": "cdk-gcc-b18",
+    "destination": "tools/vendor/gcc-2.7.2-cygnus-970404-r-source"
+  },
+  "yacc": {
+    "url": "https://deb.debian.org/debian/pool/main/b/byacc/byacc_20140715.orig.tar.gz",
+    "sha256": "ecd0d87bf7e62b5536fb096ada96ecd564c6411866bbe6644e30ee7963e97fe5",
+    "archive": "tools/downloads/byacc_20140715.orig.tar.gz",
+    "root": "byacc-20140715"
+  },
+  "patches": [
+    {
+      "url": "https://raw.githubusercontent.com/decompals/old-gcc/cf70ec58bce58128732062bc9930045c82904cbb/patches/Makefile-2.7.2-cdk.in.patch",
+      "path": "tools/downloads/old-gcc-cf70ec58/Makefile-2.7.2-cdk.in.patch",
+      "sha256": "38aebaa82deb94360999b132f2bd69da051f9f9436683749e09312375c418df6",
+      "arguments": ["-u", "-p1", "Makefile.in"]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/decompals/old-gcc/cf70ec58bce58128732062bc9930045c82904cbb/patches/obstack-2.7.2-cdk.h.patch",
+      "path": "tools/downloads/old-gcc-cf70ec58/obstack-2.7.2-cdk.h.patch",
+      "sha256": "9665e0eec5dc3ec4f83aa0ddab5bbe48e780210bbf64804cb5a3ae9a91d0cbbc",
+      "arguments": ["-u", "-p1", "obstack.h"]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/decompals/old-gcc/cf70ec58bce58128732062bc9930045c82904cbb/patches/mipsel-2.7-cdk.patch",
+      "path": "tools/downloads/old-gcc-cf70ec58/mipsel-2.7-cdk.patch",
+      "sha256": "3e92c240f28622da87339508cbff8a9716e820b3bba8321f22a1228b32f52238",
+      "arguments": ["-u", "-p1", "config/mips/mips.h"]
+    },
+    {
+      "url": "https://raw.githubusercontent.com/decompals/old-gcc/cf70ec58bce58128732062bc9930045c82904cbb/patches/psx-2.7.2-cdk.patch",
+      "path": "tools/downloads/old-gcc-cf70ec58/psx-2.7.2-cdk.patch",
+      "sha256": "a9e20db39fb160a4bc522240bb76f45a3d8ac5090a4baf17c1d8e3f599c8356e",
+      "arguments": ["-s", "-u", "-p1"]
+    },
+    {
+      "path": "tools/bootstrap/patches/cygnus-2.7.2-970404-revert-r13734.patch",
+      "sha256": "ef5f361c4603469e2c534c636aa21103f9c93cfb7531361610ce4c68d5f6a658",
+      "arguments": ["-s", "-p1"]
+    },
+    {
+      "path": "tools/bootstrap/patches/cygnus-2.7.2-970404-revert-r13805-reload-call.patch",
+      "sha256": "f847dff3a31c778302447b072de8a514a76700a117d6d20018eafdfab2e1556a",
+      "arguments": ["-s", "-p1"]
+    }
+  ],
+  "build": "tmp/build/gcc-2.7.2-cygnus",
+  "prefix": "tools/toolchains/gcc-2.7.2-cygnus",
+  "real_gcc": "libexec/gcc-2.7.2-cygnus",
+  "target": "mips-sony-psx",
+  "version": "2.7.2",
+  "dumpversion": "cygnus-2.7.2-970404 SN32.3.7.0004",
+  "host_cflags": "-std=gnu89 -O2 -fcommon -w"
+}

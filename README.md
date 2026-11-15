@@ -55,6 +55,7 @@ extracts the `DATA` files from `game/rpg-yfm.bin`/`.cue`.
 ```sh
 make tools                                   # pinned Python env, binutils, GCC 2.8.1 and MASPSX
 make compiler-272-prebuilt compiler-280-prebuilt   # GCC 2.7.2 CDK and 2.8.0, used by MODEL overlays
+make compiler-272-cygnus                     # Cygnus GCC 2.7.2 from source, used by the APv2 candidates
 make verify-inputs                           # check the North American inputs
 MAKEFLAGS=-j"$(nproc)" make match            # rebuild SLUS-01411 and compare byte-for-byte
 MAKEFLAGS=-j"$(nproc)" make match-overlays   # extract, rebuild and compare its overlays
