@@ -7,7 +7,7 @@
 #include "sound_sequence_constants.h"
 #include "sound_voice_constants.h"
 #include "sound_transfer_lifecycle.h"
-#include "sd_request_music_package_load.h"
+#include "sound_music.h"
 
 #define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 #define SD_COMMAND_QUEUE_COUNT 16
@@ -988,7 +988,7 @@ void SD_UpdateBankLoad(void);
 /* Sets the live secondary-object count in the 0x510 field of *gSD_pSecondaryState,
    accepting 1 .. SD_SECONDARY_OBJECT_COUNT and returning 0xFF when the byte
    is zero or out of range. SD_InitSecondaryRuntime
-   (src/game/sound_effect_request.c)
+   (src/game/sound_music.c)
    is the only caller, passes the constant 0x14, and discards the result; its
    original local extern disagreed with the definition on both the return
    type and the parameter's signedness. */

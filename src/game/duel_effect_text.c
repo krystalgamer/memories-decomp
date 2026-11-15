@@ -1963,7 +1963,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
 #include "menu_record.h"
 #include "script_scene.h"
 #include "sound.h"
-#include "sound_effect_request.h"
+#include "sound_music.h"
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */

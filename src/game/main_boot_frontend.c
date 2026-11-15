@@ -19,7 +19,7 @@ static u32 D_8009B42C;
 #include "main_boot_frontend.h"
 #include "graphics_constants.h"
 #include "main_reset_frontend_runtime.h"
-#include "sound_voice_selection.h"
+#include "sound_effect.h"
 #include "display_asset_banks.h"
 #include "duel_effect_states.h"
 #include "duel_effect_text.h"

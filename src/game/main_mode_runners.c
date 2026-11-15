@@ -77,8 +77,7 @@ void Main_RunCampaign(void) {
 #include "../game/main_reset_frontend_runtime.h"
 #include "../game/main_services.h"
 #include "../game/sound.h"
-#include "../game/sound_pending_entries.h"
-#include "../game/sound_voice_selection.h"
+#include "../game/sound_effect.h"
 #include "../game/library.h"
 #include "duel_session_controls.h"
 

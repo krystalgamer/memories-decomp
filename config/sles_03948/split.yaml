@@ -294,26 +294,11 @@ segments:
     - game/european/sound_driver
   - - 229648
     - c
-    - game/sd_init_voice_state
-  - - 230092
+    - game/sound_effect
+  - - 236452
     - c
-    - game/sound_pending_entries
-  - - 230424
-    - c
-    - game/sd_queue_value_link_transfer
-  - - 230644
-    - c
-    - game/sound_voice_selection
-  - - 233280
-    - c
-    - game/sd_allocate_sound_effect_voice
-  - - 234216
-    - c
-    - game/sound_effect_request
-  - - 237000
-    - c
-    - game/sd_request_music_package_load
-  - - 237200
+    - game/sound_music
+  - - 237764
     - c
     - game/sound_init
   - - 239024
