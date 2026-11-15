@@ -17,8 +17,6 @@
 /* duel_load_terrain_package */
 #define DUEL_TERRAIN_LOAD_FIRST_SECTOR 0x16B5
 #define DUEL_TERRAIN_LOAD_SECTOR_COUNT 0xEF
-/* value * 0xEF */
-#define DUEL_TERRAIN_LOAD_OFFSET(value) (((value) * 15) * 16 - (value))
 
 /* duel_init_scene */
 #define DUEL_INIT_TERRAIN_SECTOR(value) ((((value) * 15) * 16 - (value)) + 0x16B5)

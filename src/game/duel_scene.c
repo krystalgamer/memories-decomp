@@ -1875,9 +1875,8 @@ void Duel_InitGroundProjectionReference(void)
 #include "duel_package.h"
 #include "file_transfer.h"
 
-/* Each terrain's package is DUEL_TERRAIN_LOAD_SECTOR_COUNT sectors long, and the
- * multiply is spelled as the shift sequence that matches. A regional build
- * defines all three. */
+/* Each terrain's package is DUEL_TERRAIN_LOAD_SECTOR_COUNT sectors long. A
+ * regional build defines both. */
 #ifndef DUEL_TERRAIN_LOAD_FIRST_SECTOR
 #define DUEL_TERRAIN_LOAD_FIRST_SECTOR DUEL_TERRAIN_PACKAGE_FIRST_SECTOR
 #endif
@@ -1886,15 +1885,11 @@ void Duel_InitGroundProjectionReference(void)
 #define DUEL_TERRAIN_LOAD_SECTOR_COUNT DUEL_TERRAIN_PACKAGE_SECTOR_COUNT
 #endif
 
-/* value * 0xEB */
-#ifndef DUEL_TERRAIN_LOAD_OFFSET
-#define DUEL_TERRAIN_LOAD_OFFSET(value) ((((value) * 15) * 4 - (value)) * 4 - (value))
-#endif
-
 void Duel_LoadTerrainPackage(void)
 {
     int value = gDuel_bTerrain;
-    int index = DUEL_TERRAIN_LOAD_OFFSET(value) + DUEL_TERRAIN_LOAD_FIRST_SECTOR;
+    int index = value * DUEL_TERRAIN_LOAD_SECTOR_COUNT +
+                DUEL_TERRAIN_LOAD_FIRST_SECTOR;
     File_RequestAsyncTransfer(
         0, 0, index, DUEL_TERRAIN_LOAD_SECTOR_COUNT,
         Duel_LoadPackageStage, 0, 0);
@@ -6206,10 +6201,6 @@ s32 Duel_UpdateTrapPresentation(void) {
 #define DUEL_BATTLE_STAT_DISPLAY_Y 0x16
 #endif
 
-#ifndef DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET
-#define DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET 0x62
-#endif
-
 void DuelScene_UpdateBattle(void)
 {
     DisplayObject *o;
@@ -6530,7 +6521,11 @@ void DuelScene_UpdateBattle(void)
                         req->x = pos;
                         gDuel_wStepCounter = 0;
                         arg = side->xy.h.y;
-                        arg += DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
+#ifdef VERSION_EUROPE
+                        arg += 0x6A;
+#else
+                        arg += 0x62;
+#endif
                         req->y = arg;
                         pos = result - 1;
                         req->phase = pos;
@@ -6657,9 +6652,11 @@ void DuelScene_UpdateBattle(void)
                 req =
                     DuelEffect_AllocateRequest(2);
                 req->x = side->xy.h.x + 0x46;
-                req->y =
-                    side->xy.h.y +
-                    DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
+#ifdef VERSION_EUROPE
+                req->y = side->xy.h.y + 0x6A;
+#else
+                req->y = side->xy.h.y + 0x62;
+#endif
                 result = gDuel_awBattleDamage[gDuel_bPresentationCursor];
                 gDuelEffect_pTrackedRequest = req;
                 req->number = result;
@@ -6740,9 +6737,11 @@ void DuelScene_UpdateBattle(void)
             req = DuelEffect_AllocateRequest(3);
             gDuelEffect_pTrackedRequest = req;
             req->x = side->xy.h.x + 0x46;
-            req->y =
-                side->xy.h.y +
-                DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET;
+#ifdef VERSION_EUROPE
+            req->y = side->xy.h.y + 0x6A;
+#else
+            req->y = side->xy.h.y + 0x62;
+#endif
             if (gDuel_wSelectedTrapCardId != 0) {
                 req->phase = 1;
             }

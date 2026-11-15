@@ -463,10 +463,6 @@ void Main_RunPasswordMenu(void)
 #define MAIN_RUN_TRADE_SCREEN_HEIGHT 0xF0
 #endif
 
-#ifndef MAIN_RUN_TRADE_TEXT_BOX_Y_OFFSET
-#define MAIN_RUN_TRADE_TEXT_BOX_Y_OFFSET 0x20
-#endif
-
 #ifndef MAIN_RUN_OPTIONS_INIT
 #define MAIN_RUN_OPTIONS_INIT() \
     do { \
@@ -594,7 +590,11 @@ void Main_RunTrade(void)
         TextBox_SetPos(
             box,
             *(s16 *)&obj->xy.h.x + 0x18,
-            *(s16 *)&obj->xy.h.y + MAIN_RUN_TRADE_TEXT_BOX_Y_OFFSET
+#ifdef VERSION_EUROPE
+            *(s16 *)&obj->xy.h.y + 0x28
+#else
+            *(s16 *)&obj->xy.h.y + 0x20
+#endif
         );
         if (obj->field_60 <= 0) {
             gMain_bModeRunnerStep = 0;

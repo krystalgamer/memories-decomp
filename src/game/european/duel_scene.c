@@ -33,8 +33,6 @@
 /* duel_load_terrain_package */
 #define DUEL_TERRAIN_LOAD_FIRST_SECTOR 0x1B88
 #define DUEL_TERRAIN_LOAD_SECTOR_COUNT 0xF0
-/* value * 0xF0 */
-#define DUEL_TERRAIN_LOAD_OFFSET(value) (((value) * 15) * 16)
 
 /* duel_init_scene */
 #define DUEL_INIT_TERRAIN_SECTOR(value) ((((value) * 15) * 16) + 0x1B88)
@@ -87,7 +85,6 @@
 /* duel_battle_stats */
 
 /* duel_scene_battle */
-#define DUEL_BATTLE_EFFECT_REQUEST_Y_OFFSET 0x6A
 #define DUEL_BATTLE_STAT_DISPLAY_Y 0xE
 
 /* duel_result_runtime */
