@@ -156,9 +156,9 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&sheet->v3[k], 0, 0, 0);
                 }
             }
-            SETC(sheet->inner, 255, 255, 255);
-            SETC(sheet->outer, 255, 0, 255);
-            sheet->field_88 = 0;
+            SETC(sheet->outer, 255, 255, 255);
+            SETC(sheet->inner, 255, 0, 255);
+            sheet->size = 0;
             sheet->field_8C = 0;
             sheet->field_90 = 0;
         }
