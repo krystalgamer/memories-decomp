@@ -10,13 +10,17 @@ typedef struct {
     u8 unknown_18[12];
 } Variant336EntryConfig;
 
+/* One 0x3C0-byte ribbon: the projected spine, the style the entry seeds
+ * (the ribbon drawer shades by style.inner), the ribbon's origin and end,
+ * its state, count and extent, and the projection flags and offsets. */
 typedef struct {
-    u8 unknown_000[0x220];
+    ModelVariantStripSpine spine;
     ModelVariantStripStyle style;
-    u8 unknown_240[0x2C8 - 0x240];
-    VECTOR field_2C8, field_2D8;
+    u8 unknown_240[0x88];
+    VECTOR origin, end;
     s32 state, count, extent;
-    u8 unknown_2F4[0x3C0 - 0x2F4];
+    long flag[17];
+    ModelVariantStripOffsets offsets;
 } Variant336EntryRecord;
 
 /* Only the entry's measured view, not an allocation-capacity claim. */

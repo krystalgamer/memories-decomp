@@ -34,13 +34,13 @@ void FrenchModelVariant336_DrawSheets(Variant336EntryState *context)
         }
         setVector(&rot, 0, 0, 0);
         if ((i & 1) == 0) {
-            matrix.t[0] = work->origin[0] + node->field_2C8.vx;
-            matrix.t[1] = node->field_2C8.vy;
-            matrix.t[2] = work->origin[2] + node->field_2C8.vz;
+            matrix.t[0] = work->origin[0] + node->origin.vx;
+            matrix.t[1] = node->origin.vy;
+            matrix.t[2] = work->origin[2] + node->origin.vz;
         } else {
-            matrix.t[0] = work->origin[0] + node->field_2D8.vx;
-            matrix.t[1] = node->field_2D8.vy;
-            matrix.t[2] = work->origin[2] + node->field_2D8.vz;
+            matrix.t[0] = work->origin[0] + node->end.vx;
+            matrix.t[1] = node->end.vy;
+            matrix.t[2] = work->origin[2] + node->end.vz;
         }
         setVector(&scale, sheet->size + bias, sheet->size + bias, sheet->size + bias);
         RotMatrix(&rot, &matrix);

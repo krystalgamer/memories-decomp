@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant336_ribbon.h"
 #include "variant336_entry.h"
 
 void FrenchModelVariant336_DrawRibbon(Variant336EntryState *context)
@@ -18,7 +17,7 @@ void FrenchModelVariant336_DrawRibbon(Variant336EntryState *context)
     s32 phase;
     s32 yaw;
     s16 len;
-    ModelVariant336Ribbon *ribbon;
+    Variant336EntryRecord *ribbon;
     POLY_FT4 *poly;
     s16 k;
     s32 bend;
@@ -29,7 +28,7 @@ void FrenchModelVariant336_DrawRibbon(Variant336EntryState *context)
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     if (work->phase > 0) {
-        ribbon = (ModelVariant336Ribbon *)work;
+        ribbon = work->records;
         for (i = 0, phase = 0; i < 4; i++, ribbon++, phase = i * 0x400) {
             len = ribbon->extent * 48 / 1024;
             ribbon->origin.vx = work->aim.direction.vx * (i + 1) / 4;
@@ -69,7 +68,7 @@ void FrenchModelVariant336_DrawRibbon(Variant336EntryState *context)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        ribbon = (ModelVariant336Ribbon *)work;
+        ribbon = work->records;
         for (i = 0; i < 4; i++, ribbon++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
@@ -97,7 +96,7 @@ void FrenchModelVariant336_DrawRibbon(Variant336EntryState *context)
                 }
             }
         }
-        ribbon = (ModelVariant336Ribbon *)work;
+        ribbon = work->records;
         for (i = 0; i < 4; i++, ribbon++) {
             k = 0;
             poly = work->flat_textured;
@@ -110,9 +109,9 @@ void FrenchModelVariant336_DrawRibbon(Variant336EntryState *context)
                 poly->y2 = (ribbon->spine.sa[k] >> 16) - ribbon->offsets.oy[k];
                 poly->x3 = ribbon->spine.sa[k + 1] - ribbon->offsets.ox[k + 1];
                 poly->y3 = (ribbon->spine.sa[k + 1] >> 16) - ribbon->offsets.oy[k + 1];
-                poly->r0 = ribbon->color[0];
-                poly->g0 = ribbon->color[1];
-                poly->b0 = ribbon->color[2];
+                poly->r0 = ribbon->style.inner.r;
+                poly->g0 = ribbon->style.inner.g;
+                poly->b0 = ribbon->style.inner.b;
                 if (ribbon->offsets.otz[k] >= 0 && ribbon->flag[k] >= 0) {
                     GsSortPoly(poly, ot, ribbon->offsets.otz[k]);
                 }
