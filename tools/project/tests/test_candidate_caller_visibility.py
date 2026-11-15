@@ -52,7 +52,7 @@ PAIRS = [
     ("src/game/sound_spatialization.c", "SD_SetVoiceVolume", '#include "sound.h"'),
     ("src/game/sound_secondary_commands.c", "SD_UpdateSecondaryObjectVoices", '#include "sound.h"'),
     ("src/overlays/password/shop.c", "CardPreview_RequestResourceTransfer", '#include "../../game/card_preview.h"'),
-    ("src/game/sound_secondary_playback.c", "SD_ResetSecondaryPlayback", '#include "sound.h"'),
+    ("src/game/sound_secondary.c", "SD_ResetSecondaryPlayback", '#include "sound.h"'),
     ("src/game/fade_runtime.c", "Fade_StepBands", '#include "fade.h"'),
     ("src/game/sound_voice_setup.c", "SD_ResetVoiceEnvelope", '#include "sound.h"'),
     ("src/game/sd_update_secondary_object_voices.c", "SD_UpdateSecondaryObjectPitch", '#include "sound.h"'),

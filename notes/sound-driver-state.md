@@ -915,7 +915,7 @@ without changing or adding those devices.
 
 The music half of the contiguous initialization block at `0x80049200-0x800495EC`, through
 `SD_ResetMusicTrackBuffer`, now builds in `src/game/sound_music.c` and the
-secondary half in `src/game/sound_init.c`. The music half preserves the explicit raw music-pointer write in
+secondary half in `src/game/sound_secondary.c`. The music half preserves the explicit raw music-pointer write in
 `SD_ResetMusicTrackBuffer` while sharing `SDValue` declarations across the
 other music/sequence helpers.
 
@@ -2067,8 +2067,8 @@ the signed-halfword store and test after the canonical word-sized result.
 `SD_PlaySequence` takes a second argument it never reads; its one caller
 loads `$a1` with 1, so the definition and declaration both carry it.
 
-The complete five-function secondary playback lifecycle now builds from
-`src/game/sound_secondary_playback.c`, covering `0x80049A64` through
+The complete five-function secondary playback lifecycle now builds in
+`src/game/sound_secondary.c`, covering `0x80049A64` through
 `0x80049CF8`. Its two sequence-start paths retain distinct declaration views:
 `SD_PlaySequence` calls the canonical `SD_StartSequenceTracks(void)`, while
 `SD_PlaySequenceFastForward` uses a narrow same-symbol no-argument alias
@@ -2156,7 +2156,7 @@ behavior, branch polarity and repeated alias-sensitive reads remain exact.
 `SDSecondaryState.field_0512` is a different signed halfword at the same
 relative offset in a different backing object. Its initialization, spatial
 scaling, command consumers and layout assertion remain untouched. The
-`sound_init.c` secondary-state store is not a CD-fade-step store.
+`sound_secondary.c` secondary-state store is not a CD-fade-step store.
 
 The six then-tentative sound-function names were not promoted here. Their existing
 uncalled-duplicate and voice-ID-domain caveats are not resolved by naming

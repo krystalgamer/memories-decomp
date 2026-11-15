@@ -974,7 +974,7 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 value, s32 unused);
 /* Three more runtime entry points that were each reached through a local
    extern. SD_ResetSequenceTracks marks every sequence track ended and rewinds
    its position; SD_UpdateBankLoad dispatches on g_SDValue->s_dwSD_BANK_LOAD_PHASE.
-   sound_secondary_playback.c calls the reset right before
+   SD_StopSequence (sound_secondary.c) calls the reset right before
    SD_ResetSecondaryPlayback, which rebuilds the voice tables. SD_UpdateSecondaryObjectPitch
    refreshes one secondary
    object's pitch (src/game/sound_voice_setup.c), and its one caller is SD_UpdateSecondaryObjectVoices. It
@@ -1011,7 +1011,7 @@ s32 SD_RequestMusicPackageLoad(s16 arg0, s32 arg1);
 /* The third track-walk export of sound_sequence_tracks.c, joining its two siblings above.
    It walks the track records from gSD_pSecondaryState for track_count entries and
    returns 1 as soon as it finds one whose ended flag is not 1, or 3 when
-   every track has ended. sound_secondary_levels.c is the only caller and
+   every track has ended. SD_PollSequenceState (sound_secondary.c) is the only caller and
    its local extern already agreed with this.
 
    The 3 is the value SD_PollSequenceState promotes into the secondary

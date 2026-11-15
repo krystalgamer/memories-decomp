@@ -107,13 +107,13 @@ callers, replacing the older tentative per-frame description.
 Primary evidence is in `sound.h`, `sound_sequence_tracks.c`,
 `sound_sequence_channel_events.c`, `sound_secondary_object_selection.c`,
 `sd_update_secondary_object_voices.c`, `sound_voice_setup.c`,
-`sound_secondary_commands.c`, `sound_sequence_runtime.c`,
-`sound_secondary_voice_mute.c`, and `sound_secondary_silent_key_off.c`.
+`sound_secondary_commands.c`, `sound_sequence_runtime.c`
+and `sound_secondary.c`.
 
 ## Classified helper source filename
 
 The unchanged source at func_80049920.c now lives at
-sound_secondary_silent_key_off.c. Its namespace, SPU status reads and
+sound_secondary_silent_key_off.c, which #39 folded into sound_secondary.c. Its namespace, SPU status reads and
 existing body establish the secondary-voice/silent-envelope grouping;
 this filename is not new evidence that anything calls
 SD_KeyOffSilentSecondaryObjects. The later name promotion rests on the body

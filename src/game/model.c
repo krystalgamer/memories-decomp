@@ -636,7 +636,7 @@ ModelSlot gModel_aSlots[MODEL_SLOT_COUNT];
 #include "../psyq/rand.h"
 #include "card_constants.h"
 #include "model_scene_imports.h"
-#include "sound_init.h"
+#include "sound_secondary.h"
 #include "../psyq/memory.h"
 #include "../ygo_types.h"
 #include "../psyq/stdarg.h"
