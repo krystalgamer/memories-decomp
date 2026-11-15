@@ -50,10 +50,10 @@ void SpanishModelVariant426_DrawSpiral(u8 *ctx)
         r = 0x300;
     }
     eighth = work->spiral_size / 8;
-    if (r * work->field_17DA < 0) {
+    if (r * work->field_214E < 0) {
         length = 0;
     }
-    if (eighth * work->field_17DA < 0) {
+    if (eighth * work->field_214E < 0) {
         length = 0;
     }
     spread = work->spiral_size;
