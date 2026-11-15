@@ -49,6 +49,6 @@ extern Variant404EntryConfig gModelVariant404_aConfigs[];
 void ModelVariant404_DrawRibbons(Variant404EntryState *context);
 void SpanishModelVariant421_DrawSpiral(u8 *context);
 void ModelVariant404_DrawBands(Variant404EntryState *context);
-void ModelVariant404_DrawSheets(u8 *context);
+void ModelVariant404_DrawSheets(Variant404EntryState *context);
 void ModelVariant404_DrawWebs(Variant404EntryState *context);
 #endif
