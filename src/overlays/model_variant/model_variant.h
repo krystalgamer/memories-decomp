@@ -528,17 +528,23 @@ typedef struct {
     long flag[5];
 } ModelVariantBandShort;
 
-/* The 0x1C8-byte ModelVariantBand seen from the entry handlers: the inner
- * (ModelVariantBand's ca) and outer (cb) colour rows, set from the entry
- * config's inner and outer colours, and the scale vector and words its pad
- * holds. */
+/* One 0x1C8-byte colour band: three rows of nine points and the screen
+ * coordinates RotTransPers3 writes for them, the inner and outer colour rows
+ * the entries set from their config, a scale vector and words, and the nine
+ * depths. ModelVariantBand is the same layout with the colour rows as byte
+ * arrays (ca = inner, cb = outer). */
 typedef struct {
-    u8 unknown_00[0x144];
+    SVECTOR a[9];
+    SVECTOR b[9];
+    SVECTOR c[9];
+    long sa[9];
+    long sb[9];
+    long sc[9];
     CVECTOR inner[9], outer[9];
     VECTOR scale;
     s16 field_19C, field_19E;
     s32 field_1A0;
-    u8 unknown_1A4[0x24];
+    s32 otz[9];
 } ModelVariantColorBand;
 
 /* ModelVariantColorBand in the 0x1EC-byte ModelVariantBandPadded record. */

@@ -20,8 +20,8 @@ void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
     Variant459EntryState *work;
     GsOT *ot;
     POLY_GT4 *poly;
-    ModelVariantBand *band;
-    ModelVariantBand *col;
+    ModelVariantColorBand *band;
+    ModelVariantColorBand *col;
     s16 i;
     s16 j;
     s16 r;
@@ -38,7 +38,7 @@ void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
             (work->config->field_2A +
              (rsin(0x100) * work->config->field_2A >> 12)) / 4096;
     }
-    band = (ModelVariantBand *)work->bands;
+    band = work->bands;
     for (i = 0; i < work->config->count; i++, band++) {
         for (j = 0; j < 9; j++) {
             setVector(&band->a[j], rcos(0x400) * r >> 12, rsin(0x400) * r >> 12, 0);
@@ -74,7 +74,7 @@ void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
                                          &band->sc[j], &p, &flag[i][j]);
         }
     }
-    band = (ModelVariantBand *)work->bands;
+    band = work->bands;
     for (i = 0; i < work->config->count; i++, band++) {
         for (j = 0; j < 8; j++) {
             poly->x0 = band->sa[j];
@@ -85,18 +85,18 @@ void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
             poly->y2 = band->sb[j] >> 16;
             poly->x3 = band->sb[j + 1];
             poly->y3 = band->sb[j + 1] >> 16;
-            poly->r0 = band->ca[j][0];
-            poly->g0 = band->ca[j][1];
-            poly->b0 = band->ca[j][2];
-            poly->r1 = band->ca[j + 1][0];
-            poly->g1 = band->ca[j + 1][1];
-            poly->b1 = band->ca[j + 1][2];
-            poly->r2 = band->cb[j][0];
-            poly->g2 = band->cb[j][1];
-            poly->b2 = band->cb[j][2];
-            poly->r3 = band->cb[j + 1][0];
-            poly->g3 = band->cb[j + 1][1];
-            poly->b3 = band->cb[j + 1][2];
+            poly->r0 = band->inner[j].r;
+            poly->g0 = band->inner[j].g;
+            poly->b0 = band->inner[j].b;
+            poly->r1 = band->inner[j + 1].r;
+            poly->g1 = band->inner[j + 1].g;
+            poly->b1 = band->inner[j + 1].b;
+            poly->r2 = band->outer[j].r;
+            poly->g2 = band->outer[j].g;
+            poly->b2 = band->outer[j].b;
+            poly->r3 = band->outer[j + 1].r;
+            poly->g3 = band->outer[j + 1].g;
+            poly->b3 = band->outer[j + 1].b;
             if (band->otz[j] < 0) {
                 band->otz[j] = 0;
             }
@@ -106,7 +106,7 @@ void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
             }
             /* Every field is a four-byte array, so moving the record pointer
              * by j words views column j as index 0. */
-            col = (ModelVariantBand *)((s32 *)band + j);
+            col = (ModelVariantColorBand *)((s32 *)band + j);
             poly->x0 = col->sc[0];
             poly->y0 = col->sc[0] >> 16;
             poly->x1 = band->sc[j + 1];
@@ -115,22 +115,22 @@ void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
             poly->y2 = col->sb[0] >> 16;
             poly->x3 = band->sb[j + 1];
             poly->y3 = band->sb[j + 1] >> 16;
-            poly->r0 = col->ca[0][0];
-            poly->g0 = col->ca[0][1];
-            poly->b0 = col->ca[0][2];
-            poly->r1 = band->ca[j + 1][0];
-            poly->g1 = band->ca[j + 1][1];
-            poly->b1 = band->ca[j + 1][2];
-            poly->r2 = col->cb[0][0];
-            poly->g2 = col->cb[0][1];
-            poly->b2 = col->cb[0][2];
-            poly->r3 = band->cb[j + 1][0];
-            poly->g3 = band->cb[j + 1][1];
-            poly->b3 = band->cb[j + 1][2];
+            poly->r0 = col->inner[0].r;
+            poly->g0 = col->inner[0].g;
+            poly->b0 = col->inner[0].b;
+            poly->r1 = band->inner[j + 1].r;
+            poly->g1 = band->inner[j + 1].g;
+            poly->b1 = band->inner[j + 1].b;
+            poly->r2 = col->outer[0].r;
+            poly->g2 = col->outer[0].g;
+            poly->b2 = col->outer[0].b;
+            poly->r3 = band->outer[j + 1].r;
+            poly->g3 = band->outer[j + 1].g;
+            poly->b3 = band->outer[j + 1].b;
             if (col->otz[0] < 0) {
                 col->otz[0] = 0;
             }
-            col = (ModelVariantBand *)((s32 *)band + j + 1);
+            col = (ModelVariantColorBand *)((s32 *)band + j + 1);
             flag[i][j] = 0;
             if (band->otz[j] >= 0) {
                 GsSortPoly(poly, ot, band->otz[j]);
