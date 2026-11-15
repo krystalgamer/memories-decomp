@@ -37,7 +37,7 @@ void ModelVariant324_DrawFan(Variant341EntryState *context)
         }
         rot.vx = 0;
         rot.vy = 0;
-        rot.vz = *(u16 *)((u8 *)work + 0xF4C);
+        rot.vz = work->spin;
         m.t[0] = work->matrix.t[0];
         m.t[1] = work->matrix.t[1];
         m.t[2] = work->matrix.t[2];

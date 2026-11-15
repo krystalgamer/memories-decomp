@@ -31,7 +31,7 @@ void FrenchModelVariant431_DrawFans(Variant431EntryState *context)
         }
         rot.vx = 0;
         rot.vy = 0;
-        rot.vz = *(u16 *)((u8 *)work + 0x18DC);
+        rot.vz = work->spin;
         m.t[0] = work->matrices[i].t[0];
         m.t[1] = work->matrices[i].t[1];
         m.t[2] = work->matrices[i].t[2];
