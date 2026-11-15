@@ -3,7 +3,11 @@
 #include "../french_model_variant/variant341_entry.h"
 
 /* Draws four Gouraud quads around the shared center point. Its scale
- * changes only for the selected sequence entry; rotation advances each call. */
+ * changes only for the selected sequence entry; rotation advances each call.
+ *
+ * Named for the US header-324 images, but those build the header-341
+ * entry (variant324_entry.c includes the French variant341_entry.c), so
+ * the record it draws from is Variant341EntryState. */
 void ModelVariant324_DrawFan(Variant341EntryState *context)
 {
     SVECTOR rot;
