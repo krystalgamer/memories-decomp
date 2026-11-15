@@ -167,7 +167,7 @@ extern DuelEffectRequest *gDuelEffect_pActiveRequest;
  * gDisplayObject_apWorkSlots at slot 2, so the terminator lands on +0x14,
  * the word after the five slots that their consumers also clear. */
 typedef struct DuelRitualResult {
-    void *tribute_objects[DUEL_RITUAL_TRIBUTE_COUNT];
+    struct DisplayObject *tribute_objects[DUEL_RITUAL_TRIBUTE_COUNT];
     s32 terminator;
 } DuelRitualResult;
 
