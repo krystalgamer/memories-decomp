@@ -32,10 +32,10 @@ typedef struct {
     ModelVariantAim aim;
     ModelVariantClock clock;
     ModelVariantWebConfig *config;
-    u32 field_1A64;
+    u32 field_1AF8;
     GsCOORDUNIT *parts[3];
-    s16 field_1A74, field_1A76, scale, field_1A7A;
-    s32 field_1A7C, quad_angle;
+    s16 field_1B08, field_1B0A, scale, field_1B0E;
+    s32 field_1B10, quad_angle;
     ModelVariantEntryTail tail;
 } Variant401EntryState;
 
