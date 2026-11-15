@@ -15,7 +15,7 @@ ChangeLog.fsf entry in the 970404 tree:
 
 This patch is exactly the reverse of that commit's two function.c hunks;
 it restores the pre-1997-03-18 condition (only stack-passed parameters get
-the note).  The Sony safechk 2.0.0.x module (notes/overlays/apv2.md) was
+the note).  The Sony safechk 2.0.0.x module (notes/overlays/safecheck2003.md) was
 compiled before this change: with it, SafetyCheck3 permutes $s1-$s4.
 
 --- a/function.c
