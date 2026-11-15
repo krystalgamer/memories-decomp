@@ -35,7 +35,7 @@ void ModelVariant459_DrawWebs(Variant459EntryState *context)
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
-    line = (GsGLINE *)((u8 *)work + 0x237C);
+    line = &work->line;
     ratan2(work->view_delta.vz, work->view_delta.vx);
     ratan2(work->view_delta.vy, work->view_delta.vx);
     ratan2(work->direction.vz, work->direction.vy);
