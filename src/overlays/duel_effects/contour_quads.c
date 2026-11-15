@@ -7,7 +7,7 @@
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
 
-void DuelEffect_DrawQuadContour(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags)
+void DuelEffect_DrawQuadContour(CVECTOR *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags)
 {
     POLY_G4 gradient;
     POLY_G4 *edge = &gradient;
@@ -23,14 +23,14 @@ void DuelEffect_DrawQuadContour(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 b
     setPolyG4(edge);
     setRGB0(edge, 0, 0, 0);
     setRGB1(edge, 0, 0, 0);
-    setRGB2(edge, color[0] >> 1, color[1] >> 1, color[2] >> 1);
-    setRGB3(&gradient, color[0] >> 1, color[1] >> 1, color[2] >> 1);
+    setRGB2(edge, color->r >> 1, color->g >> 1, color->b >> 1);
+    setRGB3(&gradient, color->r >> 1, color->g >> 1, color->b >> 1);
     setSemiTrans(edge, 1);
     setPolyFT4(packet);
     packet->tpage = gDuelEffect_TexturePageClutPairs.named.page_at_00;
     packet->clut = gDuelEffect_TexturePageClutPairs.named.clut_at_02;
     setUV4(packet, 0, 0, 63, 0, 0, 63, 63, 63);
-    setRGB0(packet, color[0], color[1], color[2]);
+    setRGB0(packet, color->r, color->g, color->b);
     setSemiTrans(packet, 1);
     for (i = 0; i < 4; i++) {
         depth = RotAverage4(&outer[i], &outer[(i + 1) % 4],

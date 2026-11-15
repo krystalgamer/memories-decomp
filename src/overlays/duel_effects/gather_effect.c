@@ -74,7 +74,7 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 velocity->vy = -state->particles[i].vy / state->descriptor->frames;
                 velocity->vz = 0;
                 state->sizes[i] = state->descriptor->size;
-                DuelEffect_SetGrayColor(state->colors[i], 1);
+                DuelEffect_SetGrayColor(&state->colors[i], 1);
                 state->flags[i] = 0;
             }
             for (i = 0; i < 48; i++) {
@@ -83,10 +83,10 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 velocity->vx = -state->particles_b[i].vx / state->descriptor->frames;
                 velocity->vy = -state->particles_b[i].vy / state->descriptor->frames;
                 velocity->vz = 0;
-                DuelEffect_SetGrayColor(state->colors_b[i], 1);
+                DuelEffect_SetGrayColor(&state->colors_b[i], 1);
             }
             DuelEffect_InitRandomVectorsUnscaled(16, state->rotations);
-            DuelEffect_SetGrayColor(state->color, 1);
+            DuelEffect_SetGrayColor(&state->color, 1);
             state->done = 0;
             state->frame = 0;
             state->particle_count = 0;
@@ -127,8 +127,8 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
             state->particle_b_count = 0x30;
         }
         for (i = 0; i < state->particle_count; i++) {
-            if ((u16)DuelEffect_HasNonzeroColor(state->colors[i]) != 0) {
-                setRGB0(packet, state->colors[i][0], state->colors[i][1], state->colors[i][2]);
+            if ((u16)DuelEffect_HasNonzeroColor(&state->colors[i]) != 0) {
+                setRGB0(packet, state->colors[i].r, state->colors[i].g, state->colors[i].b);
                 DuelEffect_InitSquareVertices(frame.quad, state->sizes[i]);
                 for (j = 0; j < 4; j++) {
                     SVECTOR *vertex = (SVECTOR *)((u8 *)&frame + j * 8 + 0x68);
@@ -151,16 +151,16 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 }
                 state->sizes[i] -= state->descriptor->size * 3 / 4 / state->descriptor->frames;
                 if (state->flags[i] == 0) {
-                    state->flags[i] = DuelEffect_StepColorToTarget(state->colors[i], 0xFF, 0xFF, 0xFF, 0x2F);
+                    state->flags[i] = DuelEffect_StepColorToTarget(&state->colors[i], 0xFF, 0xFF, 0xFF, 0x2F);
                 } else {
-                    DuelEffect_DarkenColor(state->colors[i], 0xF);
+                    DuelEffect_DarkenColor(&state->colors[i], 0xF);
                 }
             }
         }
         for (i = 0; i < state->particle_b_count; i++) {
-            if ((u16)DuelEffect_HasNonzeroColor(state->colors_b[i]) != 0) {
+            if ((u16)DuelEffect_HasNonzeroColor(&state->colors_b[i]) != 0) {
                 DuelEffect_InitOffsetQuadVertices(frame.quad, &state->particles_b[i]);
-                DuelEffect_DrawRandomTileQuad(state->colors_b[i], frame.quad, 0);
+                DuelEffect_DrawRandomTileQuad(&state->colors_b[i], frame.quad, 0);
                 if (__builtin_abs(state->particles_b[i].vx) >= 17 ||
                     __builtin_abs(state->particles_b[i].vy) >= 17) {
                     particle_b = (SVECTOR *)((u8 *)state + i * 8 + 0x5C4);
@@ -168,24 +168,24 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                     particle_b->vx += velocity_b->vx;
                     particle_b->vy += velocity_b->vy;
                     particle_b->vz += velocity_b->vz;
-                    DuelEffect_StepColorToTarget(state->colors_b[i], 0xB0, 0xB0, 0xFF, 0xF);
+                    DuelEffect_StepColorToTarget(&state->colors_b[i], 0xB0, 0xB0, 0xFF, 0xF);
                 } else {
-                    DuelEffect_DarkenColor(state->colors_b[i], 0xF);
+                    DuelEffect_DarkenColor(&state->colors_b[i], 0xF);
                 }
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor(state->color) != 0) {
-            DuelEffect_DrawQuadContour(state->color, state->curves[0], state->curves[1], 0, 1);
+        if ((u16)DuelEffect_HasNonzeroColor(&state->color) != 0) {
+            DuelEffect_DrawQuadContour(&state->color, state->curves[0], state->curves[1], 0, 1);
             frame.scale.vx = state->scale >> 3;
             frame.scale.vy = state->scale >> 3;
             frame.scale.vz = 0x1000;
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &frame.scale);
-            DuelEffect_DrawGradientRingStrip(state->color, state->rings[0], state->rings[1], state->rings[2], 0);
+            DuelEffect_DrawGradientRingStrip(&state->color, state->rings[0], state->rings[1], state->rings[2], 0);
             frame.scale.vx = state->scale;
             frame.scale.vy = state->scale;
             frame.scale.vz = 0x1000;
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &frame.scale);
-            DuelEffect_DrawLayeredTileQuad(state->color, state->descriptor->curve_size, 0, &frame.position);
+            DuelEffect_DrawLayeredTileQuad(&state->color, state->descriptor->curve_size, 0, &frame.position);
             frame.scale.vx = 0x1000;
             frame.scale.vy = state->scale;
             frame.scale.vz = 0x1000;
@@ -193,7 +193,7 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 SVECTOR *rotate;
 
                 DuelEffect_SetTransformMatrix(&frame.world, &saved, &frame.position, &state->rotations[i], &frame.scale, 2);
-                DuelEffect_DrawLayeredGradientTrapezoid(state->color, state->descriptor->widths,
+                DuelEffect_DrawLayeredGradientTrapezoid(&state->color, state->descriptor->widths,
                               state->descriptor->height, 0);
                 rotate = (SVECTOR *)((u8 *)state + i * 8 + 0x544);
                 rotate->vx += 0x80;
@@ -204,15 +204,15 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 state->scale += 0x800;
             }
             if (state->done == 0) {
-                state->done = DuelEffect_StepColorToTarget(state->color, 0xB0, 0xB0, 0xFF, 0xF);
+                state->done = DuelEffect_StepColorToTarget(&state->color, 0xB0, 0xB0, 0xFF, 0xF);
             } else if (state->done == 2) {
-                DuelEffect_DarkenColor(state->color, 0xF);
+                DuelEffect_DarkenColor(&state->color, 0xF);
             }
         }
         state->frame += frame_step;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack(state->colors[31]) != 0 &&
-            (u16)DuelEffect_IsColorBlack(state->color) != 0) {
+        if ((u16)DuelEffect_IsColorBlack(&state->colors[31]) != 0 &&
+            (u16)DuelEffect_IsColorBlack(&state->color) != 0) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

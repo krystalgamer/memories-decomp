@@ -49,14 +49,14 @@ void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
             }
             DuelEffect_InitRandomVectorsXYZ(work->columns, 139, 0, 182, 64);
             for (i = 0; i < 64; i++) {
-                DuelEffect_SetGrayColor((u8 *)&work->column_colors[i], 1);
+                DuelEffect_SetGrayColor(&work->column_colors[i], 1);
                 work->ages[i] = 0;
             }
-            DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color.r >> 3,
+            DuelEffect_SetRgbColor(&work->color, work->config->color.r >> 3,
                          work->config->color.g >> 3, work->config->color.b >> 3);
-            DuelEffect_SetGrayColor((u8 *)&work->screen_color, 255);
-            DuelEffect_SetGrayColor((u8 *)&work->ring_color, 1);
-            DuelEffect_SetGrayColor((u8 *)&work->plane_color, 1);
+            DuelEffect_SetGrayColor(&work->screen_color, 255);
+            DuelEffect_SetGrayColor(&work->ring_color, 1);
+            DuelEffect_SetGrayColor(&work->plane_color, 1);
             work->height = 8;
             work->stage = 0;
             work->ring_ready = 0;
@@ -85,20 +85,20 @@ void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) && work->stage == 0) {
-            DuelEffect_DrawProjectedFlatQuad((u8 *)&work->color, work->plane, work->config->mode, 1);
-            DuelEffect_DrawProjectedFlatQuad((u8 *)&work->plane_color, work->plane, work->config->mode, 1);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->color) && work->stage == 0) {
+            DuelEffect_DrawProjectedFlatQuad(&work->color, work->plane, work->config->mode, 1);
+            DuelEffect_DrawProjectedFlatQuad(&work->plane_color, work->plane, work->config->mode, 1);
             if (work->config->mode == 1) {
-                DuelEffect_StepColorToTarget((u8 *)&work->color, work->config->color.r,
+                DuelEffect_StepColorToTarget(&work->color, work->config->color.r,
                              work->config->color.g, work->config->color.b, 4);
-                work->color_ready = DuelEffect_StepColorToTarget((u8 *)&work->plane_color, 192, 192, 192, 2);
+                work->color_ready = DuelEffect_StepColorToTarget(&work->plane_color, 192, 192, 192, 2);
             } else {
-                work->color_ready = DuelEffect_StepColorToTarget((u8 *)&work->color,
+                work->color_ready = DuelEffect_StepColorToTarget(&work->color,
                     work->config->color.r, work->config->color.g, work->config->color.b, 4);
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->ring_color) && work->stage == 0) {
-            DuelEffect_DrawQuadContour((u8 *)&work->ring_color, work->rings[0], work->rings[1], 1, 1);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->ring_color) && work->stage == 0) {
+            DuelEffect_DrawQuadContour(&work->ring_color, work->rings[0], work->rings[1], 1, 1);
             if (work->height < work->config->maximum_height) {
                 work->height += work->config->height_step;
                 for (i = 0; i < 4; i++) {
@@ -106,21 +106,21 @@ void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
                 }
             }
             if (work->ring_ready == 0) {
-                work->ring_ready = DuelEffect_StepColorToTarget((u8 *)&work->ring_color, 255, 255, 255, 8);
+                work->ring_ready = DuelEffect_StepColorToTarget(&work->ring_color, 255, 255, 255, 8);
             }
         }
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) && work->stage == 1) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->color) && work->stage == 1) {
             for (i = 0; i < 64; i++) {
                 DuelEffect_InitOffsetQuadVertices(quad, &work->particles[i]);
-                DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 80);
+                DuelEffect_DrawRandomTileQuad(&work->color, quad, 80);
                 work->particles[i].vy -= work->speeds[i];
             }
-            DuelEffect_DarkenColor((u8 *)&work->color, 8);
+            DuelEffect_DarkenColor(&work->color, 8);
         }
         if (work->stage == 0) {
             for (i = 0; i < work->spawned; i++) {
-                if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->column_colors[i])) {
+                if ((u16)DuelEffect_HasNonzeroColor(&work->column_colors[i])) {
                     setPolyFT4(packet);
                     packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[12][0];
                     packet->clut = gDuelEffect_TexturePageClutPairs.pairs[12][1];
@@ -143,13 +143,13 @@ void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
                     }
                     work->ages[i] += 12;
                     if (work->ages[i] > 160) {
-                        DuelEffect_DarkenColor((u8 *)&work->column_colors[i], 15);
-                        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->column_colors[i])) {
+                        DuelEffect_DarkenColor(&work->column_colors[i], 15);
+                        if ((u16)DuelEffect_IsColorBlack(&work->column_colors[i])) {
                             work->ages[i] = 0;
-                            DuelEffect_SetGrayColor((u8 *)&work->column_colors[i], 1);
+                            DuelEffect_SetGrayColor(&work->column_colors[i], 1);
                         }
                     } else {
-                        DuelEffect_StepColorToTarget((u8 *)&work->column_colors[i],
+                        DuelEffect_StepColorToTarget(&work->column_colors[i],
                             work->config->color.r >> 1, work->config->color.g >> 1,
                             work->config->color.b >> 1, 15);
                     }
@@ -162,23 +162,23 @@ void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
                 }
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->screen_color) && work->stage == 1) {
-            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->screen_color, 15);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->screen_color) && work->stage == 1) {
+            DuelEffect_DrawFadingFullscreenColor(&work->screen_color, 15);
         }
         if (*(u32 *)&work->color_ready == 0x10001) {
             gDuelEffect_pActiveRequest->progress = 1;
         }
         if (work->stage == 0 && phase < -1) {
             if (work->config->mode == 2) {
-                DuelEffect_SetGrayColor((u8 *)&work->color, 64);
+                DuelEffect_SetGrayColor(&work->color, 64);
             }
             work->stage = 1;
         }
         work->frame += frame_step;
         work->tick++;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->screen_color) && work->stage == 1) {
+        if ((u16)DuelEffect_IsColorBlack(&work->color) &&
+            (u16)DuelEffect_IsColorBlack(&work->screen_color) && work->stage == 1) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

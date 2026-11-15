@@ -69,12 +69,12 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
             for (i = 0; i < 64; i++) {
                 setVector(&work->velocities[i], -work->particles[i].vx / 32,
                           -work->particles[i].vy / 32, -work->particles[i].vz / 32);
-                DuelEffect_SetRgbColor((u8 *)&work->particle_colors[i], work->config->color[0] / 8,
+                DuelEffect_SetRgbColor(&work->particle_colors[i], work->config->color[0] / 8,
                              work->config->color[1] / 8, work->config->color[2] / 8);
             }
             for (i = 0; i < 48; i++) {
                 DuelEffect_InitJaggedColumnVertices(24, 8, work->config->height, 8, work->paths[i]);
-                DuelEffect_SetRgbColor((u8 *)&work->path_colors[i], work->config->burst_color[0],
+                DuelEffect_SetRgbColor(&work->path_colors[i], work->config->burst_color[0],
                              work->config->burst_color[1], work->config->burst_color[2]);
                 setVector(&work->endpoints[i], 0, 0, 0);
                 work->path_ages[i] = 0;
@@ -82,9 +82,9 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
                 work->angles[i] = rand() % 512;
             }
             work->tick = 0;
-            DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color[0] / 8,
+            DuelEffect_SetRgbColor(&work->color, work->config->color[0] / 8,
                          work->config->color[1] / 8, work->config->color[2] / 8);
-            DuelEffect_SetGrayColor((u8 *)&work->burst_color, 0);
+            DuelEffect_SetGrayColor(&work->burst_color, 0);
             work->field_1D94 = 0;
             work->completed = 0;
             work->stage = 0;
@@ -125,21 +125,21 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
         setVector(&rotation, 0, 0, work->config->spin * work->tick % 4096);
         DuelEffect_SetTransformMatrix(&world, &saved, &work->center, &rotation, &scale, 0);
         for (i = 0; i < work->active_particles; i++) {
-            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->particle_colors[i])) {
+            if ((u16)DuelEffect_HasNonzeroColor(&work->particle_colors[i])) {
                 DuelEffect_InitOffsetQuadVertices(vertices, &work->particles[i]);
                 if (!(i & 3)) {
-                    DuelEffect_DrawLayeredTileQuad((u8 *)&work->particle_colors[i], 8, 1, &work->particles[i]);
+                    DuelEffect_DrawLayeredTileQuad(&work->particle_colors[i], 8, 1, &work->particles[i]);
                 }
-                DuelEffect_DrawRandomTileQuad((u8 *)&work->particle_colors[i], vertices, 1);
+                DuelEffect_DrawRandomTileQuad(&work->particle_colors[i], vertices, 1);
                 if (__builtin_abs(work->particles[i].vx) > 32 ||
                     __builtin_abs(work->particles[i].vy) > 32 ||
                     __builtin_abs(work->particles[i].vz) > 32) {
                     addVector(&work->particles[i], &work->velocities[i]);
-                    DuelEffect_StepColorToTarget((u8 *)&work->particle_colors[i], work->config->color[0],
+                    DuelEffect_StepColorToTarget(&work->particle_colors[i], work->config->color[0],
                                  work->config->color[1], work->config->color[2], 31);
                 } else {
-                    DuelEffect_DarkenColor((u8 *)&work->particle_colors[i], 31);
-                    if ((u16)DuelEffect_IsColorBlack((u8 *)&work->particle_colors[i]) &&
+                    DuelEffect_DarkenColor(&work->particle_colors[i], 31);
+                    if ((u16)DuelEffect_IsColorBlack(&work->particle_colors[i]) &&
                         work->card_states[work->card_count - 1] == 0) {
                         setVector(&work->particles[i],
                                   work->config->radius * (s32)((u32)((rand() - rand()) % 4096) << 1) / 4096,
@@ -147,16 +147,16 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
                                   work->config->radius * (s32)((u32)((rand() - rand()) % 4096) << 1) / 4096);
                         setVector(&work->velocities[i], -work->particles[i].vx / 32,
                                   -work->particles[i].vy / 32, -work->particles[i].vz / 32);
-                        DuelEffect_SetRgbColor((u8 *)&work->particle_colors[i], work->config->color[0] / 8,
+                        DuelEffect_SetRgbColor(&work->particle_colors[i], work->config->color[0] / 8,
                                      work->config->color[1] / 8, work->config->color[2] / 8);
                     }
-                    if (!(u16)DuelEffect_IsColorBlack((u8 *)&work->particle_colors[i]) && work->stage >= 2) {
+                    if (!(u16)DuelEffect_IsColorBlack(&work->particle_colors[i]) && work->stage >= 2) {
                         work->stage = 2;
                     }
                 }
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->color)) {
             setPolyGT4(packet);
             packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[15][0];
             packet->clut = gDuelEffect_TexturePageClutPairs.pairs[15][1];
@@ -186,10 +186,10 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
                     work->field_1D94 -= 64;
                 }
                 if (work->stage < 2) {
-                    work->stage = DuelEffect_StepColorToTarget((u8 *)&work->color, work->config->color[0],
+                    work->stage = DuelEffect_StepColorToTarget(&work->color, work->config->color[0],
                                               work->config->color[1], work->config->color[0], 2);
                 } else {
-                    DuelEffect_DarkenColor((u8 *)&work->color, 1);
+                    DuelEffect_DarkenColor(&work->color, 1);
                 }
             }
         }
@@ -222,7 +222,7 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
                     work->completed++;
                     ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->flags &= ~0x40;
                     work->card_states[i] = 2;
-                    DuelEffect_SetRgbColor((u8 *)&work->burst_color, work->config->burst_color[0],
+                    DuelEffect_SetRgbColor(&work->burst_color, work->config->burst_color[0],
                                  work->config->burst_color[1], work->config->burst_color[2]);
                 }
             }
@@ -236,16 +236,16 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
         setVector(&scale, 4096, 4096, 4096);
         setVector(&rotation, 0, 0, 0);
         DuelEffect_SetTransformMatrix(&world, &saved, &work->center, &rotation, &scale, 0);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->burst_color)) {
-            DuelEffect_DrawLayeredTileQuad((u8 *)&work->burst_color, 32, 1, 0);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->burst_color)) {
+            DuelEffect_DrawLayeredTileQuad(&work->burst_color, 32, 1, 0);
             color = work->burst_color;
             color.r >>= 1;
             color.g >>= 1;
             color.b >>= 1;
-            DuelEffect_DrawSharedBaseTriangles((u8 *)&color, 3, work->card_particles[work->completed - 1], 16, 36);
-            DuelEffect_DarkenColor((u8 *)&work->burst_color, 15);
+            DuelEffect_DrawSharedBaseTriangles(&color, 3, work->card_particles[work->completed - 1], 16, 36);
+            DuelEffect_DarkenColor(&work->burst_color, 15);
             if (work->card_states[work->card_count - 1] >= 2 &&
-                (u16)DuelEffect_IsColorBlack((u8 *)&work->burst_color)) {
+                (u16)DuelEffect_IsColorBlack(&work->burst_color)) {
                 work->stage = 2;
             }
         }
@@ -253,25 +253,25 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
             for (i = 0; i < work->active_paths; i++) {
                 setVector(&rotation, 0, work->angles[i], 0);
                 DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 2);
-                if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->path_colors[i])) {
+                if ((u16)DuelEffect_HasNonzeroColor(&work->path_colors[i])) {
                     if (work->path_states[i] != 2) {
-                        work->path_states[i] = DuelEffect_DrawGradientPath((u8 *)&work->path_colors[i], work->path_ages[i],
+                        work->path_states[i] = DuelEffect_DrawGradientPath(&work->path_colors[i], work->path_ages[i],
                             work->paths[i], 16, 1, &work->endpoints[i], 1, &work->origin);
                     } else {
-                        DuelEffect_DrawGradientPath((u8 *)&work->path_colors[i], work->path_ages[i],
+                        DuelEffect_DrawGradientPath(&work->path_colors[i], work->path_ages[i],
                             work->paths[i], 32, 0, &work->endpoints[i], 1, &work->origin);
                     }
                     if (work->path_states[i] == 2 &&
-                        (u16)DuelEffect_HasNonzeroColor((u8 *)&work->path_colors[i])) {
+                        (u16)DuelEffect_HasNonzeroColor(&work->path_colors[i])) {
                         DuelEffect_SetTransformMatrix(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
-                        DuelEffect_DrawLayeredTileQuad((u8 *)&work->path_colors[i], 4, 1, 0);
+                        DuelEffect_DrawLayeredTileQuad(&work->path_colors[i], 4, 1, 0);
                     }
                     work->path_ages[i]++;
                     if (work->path_ages[i] >= 8) {
                         work->path_ages[i] = 7;
-                        DuelEffect_DarkenColor((u8 *)&work->path_colors[i], 15);
-                        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->path_colors[i]) && work->stage < 2) {
-                            DuelEffect_SetRgbColor((u8 *)&work->path_colors[i], work->config->burst_color[0],
+                        DuelEffect_DarkenColor(&work->path_colors[i], 15);
+                        if ((u16)DuelEffect_IsColorBlack(&work->path_colors[i]) && work->stage < 2) {
+                            DuelEffect_SetRgbColor(&work->path_colors[i], work->config->burst_color[0],
                                          work->config->burst_color[1], work->config->burst_color[2]);
                             work->path_ages[i] = 0;
                         }

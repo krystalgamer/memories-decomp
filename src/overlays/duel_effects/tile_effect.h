@@ -31,9 +31,9 @@ typedef struct {
     u32 frame;                          /* 0x134 */
     s32 updates;                        /* 0x138 */
     u16 texture_words[2];               /* 0x13C */
-    u8 colors_a[5][7][4];               /* 0x140 */
-    u8 colors_c[5][7][4];               /* 0x1CC */
-    u8 colors_b[5][7][4];               /* 0x258 */
+    CVECTOR colors_a[5][7];             /* 0x140 */
+    CVECTOR colors_c[5][7];             /* 0x1CC */
+    CVECTOR colors_b[5][7];             /* 0x258 */
 } TileEffectState;
 
 /* The texture-word table gDuelEffect_TexturePageClutPairs seen as the page/clut pairs the

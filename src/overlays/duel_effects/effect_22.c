@@ -106,7 +106,7 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                       -work->particles[i].vx / 8,
                       -work->particles[i].vy / 8,
                       -work->particles[i].vz / 8);
-            DuelEffect_SetRgbColor((u8 *)&work->colors[i],
+            DuelEffect_SetRgbColor(&work->colors[i],
                          work->config->color[0], work->config->color[1], work->config->color[2]);
             j = (rand() - rand()) % 4096;
             k = (rand() - rand()) % 4096;
@@ -127,13 +127,13 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
         work->hold = 0;
         work->active_particles = 0;
         work->fan_speed = 8;
-        DuelEffect_SetGrayColor((u8 *)&work->portal_color, 1);
-        DuelEffect_SetGrayColor((u8 *)&work->flame_color, 1);
-        DuelEffect_SetRgbColor((u8 *)&work->flash_color,
+        DuelEffect_SetGrayColor(&work->portal_color, 1);
+        DuelEffect_SetGrayColor(&work->flame_color, 1);
+        DuelEffect_SetRgbColor(&work->flash_color,
                      work->config->color[0], work->config->color[1], work->config->color[2]);
-        DuelEffect_SetRgbColor((u8 *)&work->particle_color,
+        DuelEffect_SetRgbColor(&work->particle_color,
                      work->config->color[0], work->config->color[1], work->config->color[2]);
-        DuelEffect_SetRgbColor((u8 *)&work->fan_color,
+        DuelEffect_SetRgbColor(&work->fan_color,
                      work->config->fan_color[0] / 8,
                      work->config->fan_color[1] / 8,
                      work->config->fan_color[2] / 8);
@@ -169,7 +169,7 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->portal_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->portal_color)) {
             for (i = 0; i < 2; i++) {
                 setPolyFT4(packet);
                 packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[17][0];
@@ -187,13 +187,13 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                 }
             }
             if (work->stage < 4) {
-                DuelEffect_StepColorToTarget((u8 *)&work->portal_color, 128, 128, 128, 4);
+                DuelEffect_StepColorToTarget(&work->portal_color, 128, 128, 128, 4);
             } else {
-                DuelEffect_DarkenColor((u8 *)&work->portal_color, 8);
+                DuelEffect_DarkenColor(&work->portal_color, 8);
             }
         }
         if (work->portal_color.r == 128 && work->portal_color.g == 128 && work->portal_color.b == 128 &&
-            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->flame_color)) {
+            (u16)DuelEffect_HasNonzeroColor(&work->flame_color)) {
             setPolyFT4(packet);
             setRGB0(packet, work->flame_color.r, work->flame_color.g, work->flame_color.b);
             for (i = 0; i < 2; i++) {
@@ -221,9 +221,9 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                     SD_SEPlayFull(31);
                     work->sound_played = 1;
                 }
-                DuelEffect_StepColorToTarget((u8 *)&work->flame_color, 128, 128, 128, 4);
+                DuelEffect_StepColorToTarget(&work->flame_color, 128, 128, 128, 4);
             } else {
-                DuelEffect_DarkenColor((u8 *)&work->flame_color, 8);
+                DuelEffect_DarkenColor(&work->flame_color, 8);
             }
         }
         if (work->flame_color.r == 128 && work->flame_color.g == 128 && work->flame_color.b == 128 &&
@@ -259,27 +259,27 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
             }
         }
         if ((work->stage == 1 || work->stage == 2) &&
-            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->flash_color)) {
+            (u16)DuelEffect_HasNonzeroColor(&work->flash_color)) {
             if (work->stage == 1) {
                 work->stage = 2;
             }
             setVector(&position, 0, -96, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-            DuelEffect_DrawSharedBaseTriangles((u8 *)&work->flash_color, work->config->point_size, work->points, 32, 1);
-            DuelEffect_DrawQuadContour((u8 *)&work->flash_color, work->rings[0], work->rings[1], 1, 1);
+            DuelEffect_DrawSharedBaseTriangles(&work->flash_color, work->config->point_size, work->points, 32, 1);
+            DuelEffect_DrawQuadContour(&work->flash_color, work->rings[0], work->rings[1], 1, 1);
             setVector(&scale, work->ring_scale, work->ring_scale, 4096);
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
             setVector(&position, 0, 0, 0);
-            DuelEffect_DrawLayeredTileQuad((u8 *)&work->flash_color, 12, 1, &position);
-            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 8);
+            DuelEffect_DrawLayeredTileQuad(&work->flash_color, 12, 1, &position);
+            DuelEffect_DrawFadingFullscreenColor(&work->flash_color, 8);
             if (work->ring_scale < 28672) {
                 work->ring_scale += 4096;
             }
         }
         if ((work->stage == 2 || work->stage == 3) &&
-            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->particle_color)) {
+            (u16)DuelEffect_HasNonzeroColor(&work->particle_color)) {
             if (work->frame % 2 == 0) {
-                DuelEffect_SetGrayColor((u8 *)&color, 255);
+                DuelEffect_SetGrayColor(&color, 255);
             } else {
                 color = work->particle_color;
             }
@@ -293,13 +293,13 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                 saved = backup;
                 RotMatrix(&work->rotations[i], &saved);
                 GsSetLsMatrix(&saved);
-                DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&color, work->config->inner_widths, work->config->inner_height, 1);
+                DuelEffect_DrawLayeredGradientTrapezoid(&color, work->config->inner_widths, work->config->inner_height, 1);
                 applyVector(&work->rotations[i], 16, 16, 16, +=);
             }
             setVector(&rotation, 0, 0, -(work->frame * 12) % 4096);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
             setVector(&position, 0, 0, 0);
-            DuelEffect_DrawLayeredTileQuad((u8 *)&color, 32, 64, &position);
+            DuelEffect_DrawLayeredTileQuad(&color, 32, 64, &position);
             setVector(&rotation, 0, 0, 0);
             setVector(&position, 0, -96, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
@@ -344,19 +344,19 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
         }
         if (work->stage == 2 || work->stage == 3) {
             for (i = 0; i < work->active_particles; i++) {
-                if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
+                if ((u16)DuelEffect_HasNonzeroColor(&work->colors[i])) {
                     DuelEffect_InitOffsetQuadVertices(vertices, &work->particles[i]);
                     if (i % 4 == 0) {
-                        DuelEffect_DrawLayeredTileQuad((u8 *)&work->colors[i], 4, 32, &work->particles[i]);
+                        DuelEffect_DrawLayeredTileQuad(&work->colors[i], 4, 32, &work->particles[i]);
                     }
-                    DuelEffect_DrawRandomTileQuad((u8 *)&work->colors[i], vertices, 32);
+                    DuelEffect_DrawRandomTileQuad(&work->colors[i], vertices, 32);
                     if (__builtin_abs(work->particles[i].vx) > 32 ||
                         __builtin_abs(work->particles[i].vy) > 32 ||
                         __builtin_abs(work->particles[i].vz) > 32) {
                         addVector(&work->particles[i], &work->particle_velocities[i]);
                     } else {
-                        DuelEffect_DarkenColor((u8 *)&work->colors[i], 31);
-                        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->colors[i])) {
+                        DuelEffect_DarkenColor(&work->colors[i], 31);
+                        if ((u16)DuelEffect_IsColorBlack(&work->colors[i])) {
                             setVector(&work->particles[i],
                                       ((rand() - rand()) % 4096) * 392 / 4096,
                                       ((rand() - rand()) % 4096) * 392 / 4096,
@@ -365,7 +365,7 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                                       -work->particles[i].vx / 8,
                                       -work->particles[i].vy / 8,
                                       -work->particles[i].vz / 8);
-                            DuelEffect_SetRgbColor((u8 *)&work->colors[i],
+                            DuelEffect_SetRgbColor(&work->colors[i],
                                          work->config->color[0], work->config->color[1], work->config->color[2]);
                         }
                     }
@@ -373,7 +373,7 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
             }
         }
         if ((work->stage == 2 || work->stage == 3) &&
-            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->fan_color)) {
+            (u16)DuelEffect_HasNonzeroColor(&work->fan_color)) {
             setVector(&position, 0, -96, 0);
             setPolyGT4(gradient_packet);
             gradient_packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[15][0];
@@ -403,7 +403,7 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                     }
                 }
             }
-            DuelEffect_StepColorToTarget((u8 *)&work->fan_color, work->config->fan_color[0],
+            DuelEffect_StepColorToTarget(&work->fan_color, work->config->fan_color[0],
                          work->config->fan_color[1], work->config->fan_color[2], 2);
             work->fan_speed++;
             if (work->fan_speed > 24) {
@@ -411,27 +411,27 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
             }
         }
         if (work->stage == 3) {
-            DuelEffect_DrawFullscreenColor((u8 *)&work->flash_color);
-            if ((u16)DuelEffect_StepColorToTarget((u8 *)&work->flash_color, 192, 192, 192, 4)) {
+            DuelEffect_DrawFullscreenColor(&work->flash_color);
+            if ((u16)DuelEffect_StepColorToTarget(&work->flash_color, 192, 192, 192, 4)) {
                 work->stage = 4;
-                DuelEffect_SetGrayColor((u8 *)&work->flash_color, 255);
-                DuelEffect_SetRgbColor((u8 *)&work->particle_color,
+                DuelEffect_SetGrayColor(&work->flash_color, 255);
+                DuelEffect_SetRgbColor(&work->particle_color,
                              work->config->color[0], work->config->color[1], work->config->color[2]);
                 DuelEffect_InitParticleVectors(4, work->particles, work->particle_velocities, 64);
             }
         }
         if (work->stage >= 4) {
             gDuelEffect_pActiveRequest->progress = 1;
-            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 4);
+            DuelEffect_DrawFadingFullscreenColor(&work->flash_color, 4);
             setVector(&position, 0, -96, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
             for (i = 0; i < 64; i++) {
                 DuelEffect_InitOffsetQuadVertices(vertices, &work->particles[i]);
-                DuelEffect_DrawRandomTileQuad((u8 *)&work->particle_color, vertices, 8);
+                DuelEffect_DrawRandomTileQuad(&work->particle_color, vertices, 8);
                 addVector(&work->particles[i], &work->particle_velocities[i]);
             }
             setVector(&position, 0, 0, 0);
-            DuelEffect_DrawLayeredTileQuad((u8 *)&work->particle_color, 128, 1, &position);
+            DuelEffect_DrawLayeredTileQuad(&work->particle_color, 128, 1, &position);
             setVector(&position, 0, -96, 0);
             GsSetLsMatrix(&world);
             RotTrans(&position, (VECTOR *)&saved.t[0], (long *)&flag);
@@ -445,15 +445,15 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                 saved = backup;
                 RotMatrix(&work->rotations[i], &saved);
                 GsSetLsMatrix(&saved);
-                DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->particle_color,
+                DuelEffect_DrawLayeredGradientTrapezoid(&work->particle_color,
                              work->config->outer_widths, work->config->outer_height, 1);
             }
-            DuelEffect_DarkenColor((u8 *)&work->particle_color, 4);
+            DuelEffect_DarkenColor(&work->particle_color, 4);
         }
         work->frame++;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->flash_color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->flash_color) &&
+        if ((u16)DuelEffect_IsColorBlack(&work->flash_color) &&
+            (u16)DuelEffect_IsColorBlack(&work->flash_color) &&
             work->stage == 5) {
             gDuelEffect_bRequestFinished = 1;
         }

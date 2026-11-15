@@ -50,7 +50,7 @@ void DuelEffect_RunFieldColumnBurst(void *buffer, s32 phase)
                          work->velocities, work->config->particle_count);
             work->scale = 4096;
             work->frame = 0;
-            DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color.r,
+            DuelEffect_SetRgbColor(&work->color, work->config->color.r,
                          work->config->color.g, work->config->color.b);
         }
     } else if (work->cross_frame != 0) {
@@ -69,17 +69,17 @@ void DuelEffect_RunFieldColumnBurst(void *buffer, s32 phase)
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 1);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
-            DuelEffect_DrawSharedBaseTriangles((u8 *)&work->color, work->config->ray_width, work->rays,
+        if ((u16)DuelEffect_HasNonzeroColor(&work->color)) {
+            DuelEffect_DrawSharedBaseTriangles(&work->color, work->config->ray_width, work->rays,
                          work->config->ray_count, 64);
             for (i = 0; i < work->config->particle_count; i++) {
                 DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 1);
+                DuelEffect_DrawRandomTileQuad(&work->color, quad, 1);
                 addVector(&work->positions[i], &work->velocities[i]);
                 /* The zero acceleration retains the original halfword read. */
                 work->velocities[i].vy -= 0;
             }
-            DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, work->config->sprite_size,
+            DuelEffect_DrawLayeredTileQuad(&work->color, work->config->sprite_size,
                          64, &rotation);
             setPolyGT4(packet);
             packet->tpage = gDuelEffect_TexturePageClutPairs.named.page1;
@@ -104,7 +104,7 @@ void DuelEffect_RunFieldColumnBurst(void *buffer, s32 phase)
             }
             if (work->height == work->config->maximum_height &&
                 work->width == work->config->minimum_width) {
-                DuelEffect_DarkenColor((u8 *)&work->color, 8);
+                DuelEffect_DarkenColor(&work->color, 8);
             }
             if (work->config->draw_rings != 0) {
                 color_copy = work->color;
@@ -115,13 +115,13 @@ void DuelEffect_RunFieldColumnBurst(void *buffer, s32 phase)
                 scale.vy = 4096;
                 scale.vz = work->scale;
                 DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 3);
-                DuelEffect_DrawTexturedRingStrip((u8 *)&color_copy, work->rings[0],
+                DuelEffect_DrawTexturedRingStrip(&color_copy, work->rings[0],
                              work->rings[1], work->rings[2], 1);
                 scale.vx = work->scale >> 1;
                 scale.vy = 6144;
                 scale.vz = work->scale >> 1;
                 DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-                DuelEffect_DrawTexturedRingStrip((u8 *)&work->color, work->rings[0],
+                DuelEffect_DrawTexturedRingStrip(&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 1);
                 if (work->scale < 0x4000) {
                     work->scale += 0x1000;
@@ -130,7 +130,7 @@ void DuelEffect_RunFieldColumnBurst(void *buffer, s32 phase)
         }
         work->frame += frame_step;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack(&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

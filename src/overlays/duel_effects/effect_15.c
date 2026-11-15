@@ -47,7 +47,7 @@ void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
             work->state = 0;
             work->timer = 0;
             work->scale = 4096;
-            DuelEffect_SetGrayColor((u8 *)&work->color, 1);
+            DuelEffect_SetGrayColor(&work->color, 1);
         }
     } else if (work->cross_frame != 0) {
         if (work->cross_frame == 1) {
@@ -67,7 +67,7 @@ void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
         scale.vx = work->scale;
         scale.vy = work->scale;
         scale.vz = work->scale;
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) && work->visible != 0) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->color) && work->visible != 0) {
             setPolyFT4(packet);
             packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[13][0];
             packet->clut = gDuelEffect_TexturePageClutPairs.pairs[13][1];
@@ -91,12 +91,12 @@ void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
                 work->scale -= 512;
             }
             if (work->state == 0) {
-                work->state = DuelEffect_StepColorToTarget((u8 *)&work->color,
+                work->state = DuelEffect_StepColorToTarget(&work->color,
                     work->config->color.r, work->config->color.g,
                     work->config->color.b, 15);
             }
             if (work->state == 2 && work->scale == 1024) {
-                DuelEffect_DarkenColor((u8 *)&work->color, 31);
+                DuelEffect_DarkenColor(&work->color, 31);
             }
         }
         if (work->state == 1 && work->timer < 16) {
@@ -112,7 +112,7 @@ void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
             work->state = 2;
         }
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack(&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

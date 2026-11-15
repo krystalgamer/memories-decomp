@@ -66,8 +66,8 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
                     DuelEffect_InitRandomVectorsXYZ(work->particles[i][j], work->config->spread,
                                  work->config->spread, work->config->spread, 16);
                     addVector(&work->positions[i][j], &work->origin);
-                    DuelEffect_SetGrayColor((u8 *)&work->colors[i][j], 128);
-                    DuelEffect_SetGrayColor((u8 *)&work->particle_colors[i][j], 255);
+                    DuelEffect_SetGrayColor(&work->colors[i][j], 128);
+                    DuelEffect_SetGrayColor(&work->particle_colors[i][j], 255);
                     work->states[i][j] = 0;
                     work->frames[i][j] = rand() % 4;
                     for (k = 0; k < 16; k++) {
@@ -92,7 +92,7 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
                 DuelEffect_InitXZRingVertices(work->config->radii[i], work->config->radii[i],
                              work->config->ring_height * i, work->rings[i], 32);
             }
-            DuelEffect_SetRgbColor((u8 *)&work->glow, work->config->color.r,
+            DuelEffect_SetRgbColor(&work->glow, work->config->color.r,
                          work->config->color.g, work->config->color.b);
             work->scale = 4096;
             work->completed = 0;
@@ -115,16 +115,16 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
         setPolyFT4(packet);
         setPolyGT4(gradient_packet);
         DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &zero, &scale, 2);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->glow)) {
-            DuelEffect_DrawSharedBaseTriangles((u8 *)&work->glow, work->config->ray_width, work->rays,
+        if ((u16)DuelEffect_HasNonzeroColor(&work->glow)) {
+            DuelEffect_DrawSharedBaseTriangles(&work->glow, work->config->ray_width, work->rays,
                          work->config->ray_count, 64);
             for (i = 0; i < work->config->dust_count; i++) {
                 DuelEffect_InitOffsetQuadVertices(vertices, &work->dust[i]);
-                DuelEffect_DrawRandomTileQuad((u8 *)&work->glow, vertices, 1);
+                DuelEffect_DrawRandomTileQuad(&work->glow, vertices, 1);
                 addVector(&work->dust[i], &work->dust_velocities[i]);
                 work->dust_velocities[i].vy += 0;
             }
-            DuelEffect_DrawLayeredTileQuad((u8 *)&work->glow, work->config->glow_size, 64, &zero);
+            DuelEffect_DrawLayeredTileQuad(&work->glow, work->config->glow_size, 64, &zero);
             gradient_packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[11][0];
             gradient_packet->clut = gDuelEffect_TexturePageClutPairs.pairs[11][1];
             setUV4(gradient_packet, 0, 0, 31, 0, 0, 127, 31, 127);
@@ -146,7 +146,7 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
                 work->height = work->config->max_height;
             }
             if (work->height == work->config->max_height && work->width == work->config->min_width) {
-                DuelEffect_DarkenColor((u8 *)&work->glow, 8);
+                DuelEffect_DarkenColor(&work->glow, 8);
             }
             color = work->glow;
             color.r >>= 1;
@@ -154,17 +154,17 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
             color.b >>= 1;
             setVector(&scale, work->scale, 4096, work->scale);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &zero, &scale, 3);
-            DuelEffect_DrawTexturedRingStrip((u8 *)&color, work->rings[0], work->rings[1], work->rings[2], 1);
+            DuelEffect_DrawTexturedRingStrip(&color, work->rings[0], work->rings[1], work->rings[2], 1);
             setVector(&scale, work->scale >> 1, 6144, work->scale >> 1);
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-            DuelEffect_DrawTexturedRingStrip((u8 *)&work->glow, work->rings[0], work->rings[1], work->rings[2], 1);
+            DuelEffect_DrawTexturedRingStrip(&work->glow, work->rings[0], work->rings[1], work->rings[2], 1);
             if (work->scale < 16384) {
                 work->scale += 4096;
             }
         }
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 7; j++) {
-                if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->particle_colors[i][j])) {
+                if ((u16)DuelEffect_HasNonzeroColor(&work->particle_colors[i][j])) {
                     if (work->states[i][j] == 0) {
                         if (work->modes[i][j] == 1) {
                             packet->tpage = work->base_texture[0];
@@ -190,7 +190,7 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
                         work->positions[i][j].vy >= -31) {
                         if (rand() % work->chances[i][j] == 0) {
                             work->states[i][j] = 1;
-                            DuelEffect_SetGrayColor((u8 *)&work->colors[i][j], 0);
+                            DuelEffect_SetGrayColor(&work->colors[i][j], 0);
                         } else {
                             work->chances[i][j]--;
                         }
@@ -218,7 +218,7 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
                         if (work->states[i][j] > 16) {
                             work->states[i][j] = 16;
                         }
-                        DuelEffect_DarkenColor((u8 *)&work->particle_colors[i][j], 31);
+                        DuelEffect_DarkenColor(&work->particle_colors[i][j], 31);
                     }
                     if (work->states[i][j]) {
                         work->positions[i][j].vy -= 8;
@@ -255,7 +255,7 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
                             work->states[i][j] = 1;
                         }
                     }
-                    if ((u16)DuelEffect_IsColorBlack((u8 *)&work->particle_colors[i][j])) {
+                    if ((u16)DuelEffect_IsColorBlack(&work->particle_colors[i][j])) {
                         work->completed++;
                     }
                 }
@@ -263,7 +263,7 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
         }
         work->tick++;
         PopMatrix();
-        if (work->completed == 28 && (u16)DuelEffect_IsColorBlack((u8 *)&work->glow)) {
+        if (work->completed == 28 && (u16)DuelEffect_IsColorBlack(&work->glow)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

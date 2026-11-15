@@ -37,7 +37,7 @@ void DuelEffect_RunExpandingRingBurst(void *buffer, s32 phase)
         work->frame = 0;
         work->fade_started = 0;
         work->spawned = 0;
-        DuelEffect_SetRgbColor((u8 *)&work->color, 31, 28, 30);
+        DuelEffect_SetRgbColor(&work->color, 31, 28, 30);
     } else {
         work->widths[0] = 1;
         work->widths[1] = 2;
@@ -46,11 +46,11 @@ void DuelEffect_RunExpandingRingBurst(void *buffer, s32 phase)
         PushMatrix();
         DuelEffect_InitBaseMatrix(&world);
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->color)) {
             if (work->fade_started == 1) {
                 for (i = 0; i < 32; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad(&work->color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
             }
@@ -58,12 +58,12 @@ void DuelEffect_RunExpandingRingBurst(void *buffer, s32 phase)
             scale.vy = work->scale;
             scale.vz = 0;
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-            DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, 12, 0, &position);
+            DuelEffect_DrawLayeredTileQuad(&work->color, 12, 0, &position);
             scale.vx = work->scale >> 2;
             scale.vy = work->scale >> 2;
             scale.vz = 0;
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-            DuelEffect_DrawGradientRingStrip((u8 *)&work->color, work->rings[0],
+            DuelEffect_DrawGradientRingStrip(&work->color, work->rings[0],
                          work->rings[1], work->rings[2], 0);
             scale.vx = 4096;
             scale.vy = 4096 + (work->scale >> 2);
@@ -76,7 +76,7 @@ void DuelEffect_RunExpandingRingBurst(void *buffer, s32 phase)
                     color_copy.r >>= 2;
                     color_copy.g >>= 2;
                     color_copy.b >>= 2;
-                    DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->color, work->widths, 48, 0);
+                    DuelEffect_DrawLayeredGradientTrapezoid(&work->color, work->widths, 48, 0);
                     work->rotations[i].vx += 32;
                     work->rotations[i].vy += 32;
                     work->rotations[i].vz += 32;
@@ -88,7 +88,7 @@ void DuelEffect_RunExpandingRingBurst(void *buffer, s32 phase)
             }
             if (work->fade_started == 0) {
                 work->fade_started =
-                    DuelEffect_StepColorToTarget((u8 *)&work->color, 255, 224, 240, 4);
+                    DuelEffect_StepColorToTarget(&work->color, 255, 224, 240, 4);
                 if (work->scale < 0x5000) {
                     work->scale += 0x100;
                 } else {
@@ -96,12 +96,12 @@ void DuelEffect_RunExpandingRingBurst(void *buffer, s32 phase)
                 }
             } else {
                 gDuelEffect_pActiveRequest->progress = 1;
-                DuelEffect_DrawFadingFullscreenColor((u8 *)&work->color, 8);
+                DuelEffect_DrawFadingFullscreenColor(&work->color, 8);
             }
         }
         work->frame++;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack(&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

@@ -7,7 +7,7 @@
 #include "render_state_semantic_views.h"
 #include "texture_state_semantic_views.h"
 
-void DuelEffect_DrawProjectedNumber(s32 value, u8 *color, SVECTOR *offset, u16 mode, u16 size, u16 bias)
+void DuelEffect_DrawProjectedNumber(s32 value, CVECTOR *color, SVECTOR *offset, u16 mode, u16 size, u16 bias)
 {
     SVECTOR vertices[20];
     u16 digits[8];
@@ -29,7 +29,7 @@ void DuelEffect_DrawProjectedNumber(s32 value, u8 *color, SVECTOR *offset, u16 m
     DuelEffect_WriteNumberDigits(__builtin_abs(value), digits);
     vertex = 0;
     setPolyFT4(packet);
-    setRGB0(packet, color[0], color[1], color[2]);
+    setRGB0(packet, color->r, color->g, color->b);
     for (i = 0; i < count * 2 + 4; i++) {
         setVector(&vertices[i],
             size * (i / 2 << 1)

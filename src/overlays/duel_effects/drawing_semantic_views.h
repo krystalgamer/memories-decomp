@@ -4,10 +4,10 @@
 #include "../../types.h"
 #include "../../psyq/libgte.h"
 
-extern void DuelEffect_DrawQuadContour(u8 *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags);
-extern void DuelEffect_DrawFixedTileQuad(u8 *color);
-extern void DuelEffect_DrawRandomTileQuad(u8 *color, SVECTOR *vertices, s16 depth);
-extern void DuelEffect_DrawTexturedRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, s16 mode);
-extern void DuelEffect_DrawGradientRingStrip(u8 *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, u16 bias);
+extern void DuelEffect_DrawQuadContour(CVECTOR *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags);
+extern void DuelEffect_DrawFixedTileQuad(CVECTOR *color);
+extern void DuelEffect_DrawRandomTileQuad(CVECTOR *color, SVECTOR *vertices, s16 depth);
+extern void DuelEffect_DrawTexturedRingStrip(CVECTOR *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, s16 mode);
+extern void DuelEffect_DrawGradientRingStrip(CVECTOR *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, u16 bias);
 
 #endif

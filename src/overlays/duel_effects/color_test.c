@@ -2,12 +2,12 @@
 #include "color_semantic_views.h"
 #include "utility_helpers.h"
 
-s32 DuelEffect_IsColorBlack(const u8 *color)
+s32 DuelEffect_IsColorBlack(const CVECTOR *color)
 {
-    return color[0] == 0 && color[1] == 0 && color[2] == 0;
+    return color->r == 0 && color->g == 0 && color->b == 0;
 }
 
-s32 DuelEffect_HasNonzeroColor(const u8 *color)
+s32 DuelEffect_HasNonzeroColor(const CVECTOR *color)
 {
-    return color[0] != 0 || color[1] != 0 || color[2] != 0;
+    return color->r != 0 || color->g != 0 || color->b != 0;
 }

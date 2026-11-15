@@ -56,7 +56,7 @@ void DuelEffect_RunParticleContourBurst(void *buffer, s32 phase)
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->outer_radii[i], work->outer_rings[i]);
             }
-            DuelEffect_SetGrayColor((u8 *)&work->color, 1);
+            DuelEffect_SetGrayColor(&work->color, 1);
             work->scale = 4096;
             work->frame = 0;
         }
@@ -75,17 +75,17 @@ void DuelEffect_RunParticleContourBurst(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         DuelEffect_InitBaseMatrix(&world);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->color)) {
             setVector(&position, 0, 0, 0);
             setVector(&rotation, 0, 0, 0);
             setVector(&scale, 4096, 4096, 4096);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-            DuelEffect_DrawQuadContour((u8 *)&work->color, work->quads[0], work->quads[1], 0, 1);
+            DuelEffect_DrawQuadContour(&work->color, work->quads[0], work->quads[1], 0, 1);
             if (work->frame >= work->config->delay) {
                 gDuelEffect_pActiveRequest->progress = 1;
                 for (i = 0; i < 32; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad(&work->color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
                 scale.vx = work->scale >> 3;
@@ -94,14 +94,14 @@ void DuelEffect_RunParticleContourBurst(void *buffer, s32 phase)
                 working = saved;
                 ScaleMatrix(&working, &scale);
                 GsSetLsMatrix(&working);
-                DuelEffect_DrawGradientRingStrip((u8 *)&work->color, work->rings[0],
+                DuelEffect_DrawGradientRingStrip(&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 0);
                 color_copy = work->color;
                 color_copy.r >>= 1;
                 color_copy.g >>= 1;
                 color_copy.b >>= 1;
                 if (work->config->variant == 1) {
-                    DuelEffect_DrawTexturedRingStrip((u8 *)&color_copy, work->outer_rings[0],
+                    DuelEffect_DrawTexturedRingStrip(&color_copy, work->outer_rings[0],
                                  work->outer_rings[1], work->outer_rings[2], 0);
                 }
                 scale.vx = work->scale;
@@ -110,7 +110,7 @@ void DuelEffect_RunParticleContourBurst(void *buffer, s32 phase)
                 working = saved;
                 ScaleMatrix(&working, &scale);
                 GsSetLsMatrix(&working);
-                DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, work->config->sprite_size,
+                DuelEffect_DrawLayeredTileQuad(&work->color, work->config->sprite_size,
                              0, &position);
                 scale.vx = 4096;
                 scale.vy = work->scale;
@@ -118,22 +118,22 @@ void DuelEffect_RunParticleContourBurst(void *buffer, s32 phase)
                 for (i = 0; i < 16; i++) {
                     DuelEffect_SetTransformMatrix(&world, &saved, &position,
                                  &work->rotations[i], &scale, 2);
-                    DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->color, work->config->widths,
+                    DuelEffect_DrawLayeredGradientTrapezoid(&work->color, work->config->widths,
                                  work->config->height, 0);
                     applyVector(&work->rotations[i], 128, 128, 128, +=);
                 }
-                DuelEffect_DarkenColor((u8 *)&work->color, 15);
+                DuelEffect_DarkenColor(&work->color, 15);
                 if (work->scale < 0x7000) {
                     work->scale += 0x1000;
                 }
             } else {
-                DuelEffect_StepColorToTarget((u8 *)&work->color, work->config->color.r,
+                DuelEffect_StepColorToTarget(&work->color, work->config->color.r,
                              work->config->color.g, work->config->color.b, 31);
             }
         }
         work->frame += frame_step;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack(&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }
@@ -168,7 +168,7 @@ void DuelEffect_RunContourBurst(void *buffer, s32 phase)
                 DuelEffect_InitHalfStepXYRingVertices(24 + i * 6, 28 + i * 6, work->quads[i], 4);
             }
             DuelEffect_InitRandomVectorsUnscaled(16, work->rotations);
-            DuelEffect_SetGrayColor((u8 *)&work->color, 1);
+            DuelEffect_SetGrayColor(&work->color, 1);
             work->scale = 4096;
             work->frame = 0;
         }
@@ -187,12 +187,12 @@ void DuelEffect_RunContourBurst(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         DuelEffect_InitBaseMatrix(&world);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->color)) {
             setVector(&position, 0, 0, 0);
             setVector(&rotation, 0, 0, 0);
             setVector(&scale, 4096, 4096, 4096);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-            DuelEffect_DrawQuadContour((u8 *)&work->color, work->quads[0], work->quads[1], 0, 1);
+            DuelEffect_DrawQuadContour(&work->color, work->quads[0], work->quads[1], 0, 1);
             if (work->frame >= work->config->delay) {
                 gDuelEffect_pActiveRequest->progress = 1;
                 scale.vx = work->scale >> 3;
@@ -201,7 +201,7 @@ void DuelEffect_RunContourBurst(void *buffer, s32 phase)
                 working = saved;
                 ScaleMatrix(&working, &scale);
                 GsSetLsMatrix(&working);
-                DuelEffect_DrawGradientRingStrip((u8 *)&work->color, work->rings[0],
+                DuelEffect_DrawGradientRingStrip(&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 0);
                 scale.vx = work->scale;
                 scale.vy = work->scale;
@@ -209,7 +209,7 @@ void DuelEffect_RunContourBurst(void *buffer, s32 phase)
                 working = saved;
                 ScaleMatrix(&working, &scale);
                 GsSetLsMatrix(&working);
-                DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, work->config->sprite_size,
+                DuelEffect_DrawLayeredTileQuad(&work->color, work->config->sprite_size,
                              0, &position);
                 scale.vx = 4096;
                 scale.vy = work->scale;
@@ -217,22 +217,22 @@ void DuelEffect_RunContourBurst(void *buffer, s32 phase)
                 for (i = 0; i < 16; i++) {
                     DuelEffect_SetTransformMatrix(&world, &saved, &position,
                                  &work->rotations[i], &scale, 2);
-                    DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->color, work->config->widths,
+                    DuelEffect_DrawLayeredGradientTrapezoid(&work->color, work->config->widths,
                                  work->config->height, 0);
                     applyVector(&work->rotations[i], 128, 128, 128, +=);
                 }
-                DuelEffect_DarkenColor((u8 *)&work->color, 15);
+                DuelEffect_DarkenColor(&work->color, 15);
                 if (work->scale < 0x7000) {
                     work->scale += 0x1000;
                 }
             } else {
-                DuelEffect_StepColorToTarget((u8 *)&work->color, work->config->color.r,
+                DuelEffect_StepColorToTarget(&work->color, work->config->color.r,
                              work->config->color.g, work->config->color.b, 31);
             }
         }
         work->frame += frame_step;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack(&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

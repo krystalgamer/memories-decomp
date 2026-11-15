@@ -80,9 +80,9 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
         work->scale = 4096;
         work->tick = 0;
         work->arrival = 0;
-        DuelEffect_SetGrayColor((u8 *)&work->center_color, 1);
-        DuelEffect_SetGrayColor((u8 *)&work->flash_color, 255);
-        DuelEffect_SetRgbColor((u8 *)&work->line_color, 255, 128, 128);
+        DuelEffect_SetGrayColor(&work->center_color, 1);
+        DuelEffect_SetGrayColor(&work->flash_color, 255);
+        DuelEffect_SetRgbColor(&work->line_color, 255, 128, 128);
         work->beam_width = 1;
         work->connection_tick = 0;
         work->line_count = 0;
@@ -98,7 +98,7 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
         setPolyFT4(packet);
         packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[18][0];
         packet->clut = gDuelEffect_TexturePageClutPairs.pairs[18][1];
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->center_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->center_color)) {
             setRGB0(packet, work->center_color.r, work->center_color.g, work->center_color.b);
             setUV4(packet, 192, 128, 255, 128, 192, 255, 255, 255);
             for (i = 0; i < 2; i++) {
@@ -109,34 +109,34 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
                 DuelEffect_ProjectSubmitFt4(packet, vertices, 0, 1);
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->line_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->line_color)) {
             if (!(work->tick & 1)) {
                 color = work->line_color;
                 color.r >>= 1;
                 color.g >>= 1;
                 color.b >>= 1;
             } else {
-                DuelEffect_SetGrayColor((u8 *)&color, 255);
+                DuelEffect_SetGrayColor(&color, 255);
             }
             if (work->arrival == 8) {
                 if (work->connection_tick > 0) {
-                    DuelEffect_DrawGradientConnectionBands((u8 *)&color, (DVECTOR *)&work->targets[0],
+                    DuelEffect_DrawGradientConnectionBands(&color, (DVECTOR *)&work->targets[0],
                                  (DVECTOR *)&work->targets[2], work->beam_width * 2);
                 }
                 if (work->connection_tick > 4) {
-                    DuelEffect_DrawGradientConnectionBands((u8 *)&color, (DVECTOR *)&work->targets[2],
+                    DuelEffect_DrawGradientConnectionBands(&color, (DVECTOR *)&work->targets[2],
                                  (DVECTOR *)&work->targets[4], work->beam_width);
                 }
                 if (work->connection_tick > 8) {
-                    DuelEffect_DrawGradientConnectionBands((u8 *)&color, (DVECTOR *)&work->targets[1],
+                    DuelEffect_DrawGradientConnectionBands(&color, (DVECTOR *)&work->targets[1],
                                  (DVECTOR *)&work->targets[4], work->beam_width);
                 }
                 if (work->connection_tick > 12) {
-                    DuelEffect_DrawGradientConnectionBands((u8 *)&color, (DVECTOR *)&work->targets[1],
+                    DuelEffect_DrawGradientConnectionBands(&color, (DVECTOR *)&work->targets[1],
                                  (DVECTOR *)&work->targets[3], work->beam_width);
                 }
                 if (work->connection_tick > 16) {
-                    DuelEffect_DrawGradientConnectionBands((u8 *)&color, (DVECTOR *)&work->targets[0],
+                    DuelEffect_DrawGradientConnectionBands(&color, (DVECTOR *)&work->targets[0],
                                  (DVECTOR *)&work->targets[3], work->beam_width * 2);
                 }
                 work->connection_tick++;
@@ -148,17 +148,17 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
                         if (work->stage == 0) {
                             work->stage = 1;
                         }
-                        DuelEffect_StepColorToTarget((u8 *)&work->center_color, 255, 255, 255, 1);
+                        DuelEffect_StepColorToTarget(&work->center_color, 255, 255, 255, 1);
                     }
                 }
             }
             if (!(work->tick & 1)) {
                 color = work->line_color;
             } else {
-                DuelEffect_SetGrayColor((u8 *)&color, 255);
+                DuelEffect_SetGrayColor(&color, 255);
             }
             for (i = 0; i < 5; i++) {
-                DuelEffect_DrawLayeredTileQuad((u8 *)&color, 16, 0, &work->points[i]);
+                DuelEffect_DrawLayeredTileQuad(&color, 16, 0, &work->points[i]);
                 if (work->arrival < 8) {
                     addVector(&work->points[i], &work->point_steps[i]);
                 }
@@ -197,15 +197,15 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
                               -work->tails[i].vy / 8, -work->tails[i].vz / 8);
                 }
             }
-            DuelEffect_SetRgbColor((u8 *)&color, 255, 128, 128);
+            DuelEffect_SetRgbColor(&color, 255, 128, 128);
             setVector(&scale, work->scale, work->scale, work->scale);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
-            DuelEffect_DrawLayeredTileQuad((u8 *)&color, 8, 0, &position);
-            DuelEffect_SetRgbColor((u8 *)&color, 127, 64, 64);
+            DuelEffect_DrawLayeredTileQuad(&color, 8, 0, &position);
+            DuelEffect_SetRgbColor(&color, 127, 64, 64);
             for (i = 0; i < work->ray_count; i++) {
                 setVector(&scale, 4096, work->ray_scales[i], 4096);
                 DuelEffect_SetTransformMatrix(&world, &saved, &position, &work->rotations[i], &scale, 0);
-                DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&color, work->widths, 32, 0);
+                DuelEffect_DrawLayeredGradientTrapezoid(&color, work->widths, 32, 0);
                 if (work->ray_scales[i] < 0x6000) {
                     work->ray_scales[i] += 0x400;
                 } else {
@@ -233,19 +233,19 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
             work->stage < 2) {
             work->stage = 2;
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->flash_color) && work->stage == 0) {
-            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 15);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->flash_color) && work->stage == 0) {
+            DuelEffect_DrawFadingFullscreenColor(&work->flash_color, 15);
         }
         if (work->stage == 2) {
-            DuelEffect_DrawFullscreenColor((u8 *)&work->flash_color);
-            if ((u16)DuelEffect_StepColorToTarget((u8 *)&work->flash_color, 192, 192, 192, 4)) {
-                DuelEffect_SetGrayColor((u8 *)&work->flash_color, 255);
+            DuelEffect_DrawFullscreenColor(&work->flash_color);
+            if ((u16)DuelEffect_StepColorToTarget(&work->flash_color, 192, 192, 192, 4)) {
+                DuelEffect_SetGrayColor(&work->flash_color, 255);
                 gDuelEffect_pActiveRequest->progress = 1;
                 work->stage = 3;
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->flash_color) && work->stage == 3) {
-            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->flash_color, 0);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->flash_color) && work->stage == 3) {
+            DuelEffect_DrawFadingFullscreenColor(&work->flash_color, 0);
         }
         work->tick++;
         PopMatrix();

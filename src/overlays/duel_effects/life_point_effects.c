@@ -50,17 +50,17 @@ void DuelEffect_RunLifePointRecovery(void *buffer, s32 phase)
                 setVector(&work->rising_positions[i],
                           (rand() - rand()) % 4096 * 70 / 4096, -EFFECT_5_RISING_HEIGHT,
                           (rand() - rand()) % 4096 * 70 / 4096);
-                DuelEffect_SetGrayColor((u8 *)&work->rising_colors[i], 1);
+                DuelEffect_SetGrayColor(&work->rising_colors[i], 1);
             }
             setVector(&work->number_position, 0, 0, 0);
             setVector(&work->number_velocity, 0, -work->config->bounce_speed, 0);
             DuelEffect_InitParticleVectors(work->config->particle_speed, work->positions,
                          work->velocities, work->config->particle_count);
             DuelEffect_InitRandomVectorsUnscaled(work->config->strip_count, work->rotations);
-            DuelEffect_SetGrayColor((u8 *)&work->background_color, 1);
-            DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color[0],
+            DuelEffect_SetGrayColor(&work->background_color, 1);
+            DuelEffect_SetRgbColor(&work->color, work->config->color[0],
                          work->config->color[1], work->config->color[2]);
-            DuelEffect_SetRgbColor((u8 *)&work->number_color, work->config->number_color[0],
+            DuelEffect_SetRgbColor(&work->number_color, work->config->number_color[0],
                          work->config->number_color[1], work->config->number_color[2]);
             work->spawned = 0;
             work->bounces = 1;
@@ -88,32 +88,32 @@ void DuelEffect_RunLifePointRecovery(void *buffer, s32 phase)
         DuelEffect_InitBaseMatrix(&world);
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
         for (i = 0; i < work->spawned; i++) {
-            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->rising_colors[i])) {
+            if ((u16)DuelEffect_HasNonzeroColor(&work->rising_colors[i])) {
                 DuelEffect_InitOffsetQuadVertices(quad, &work->rising_positions[i]);
-                DuelEffect_DrawRandomTileQuad((u8 *)&work->rising_colors[i], quad, 0);
+                DuelEffect_DrawRandomTileQuad(&work->rising_colors[i], quad, 0);
                 work->rising_positions[i].vy += work->config->rise_speed;
             }
             if (work->rising_positions[i].vy < 0) {
-                DuelEffect_StepColorToTarget((u8 *)&work->rising_colors[i], work->config->color[0],
+                DuelEffect_StepColorToTarget(&work->rising_colors[i], work->config->color[0],
                              work->config->color[1], work->config->color[2], 31);
             } else {
-                DuelEffect_DarkenColor((u8 *)&work->rising_colors[i], 15);
+                DuelEffect_DarkenColor(&work->rising_colors[i], 15);
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
-            DuelEffect_DrawFullscreenGradient((u8 *)&work->background_color);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->background_color)) {
+            DuelEffect_DrawFullscreenGradient(&work->background_color);
             if (work->rising_positions[work->config->strip_count - 1].vy < 0) {
-                DuelEffect_StepColorToTarget((u8 *)&work->background_color,
+                DuelEffect_StepColorToTarget(&work->background_color,
                              work->config->color[0] >> 1,
                              work->config->color[1] >> 1,
                              work->config->color[2] >> 1, 4);
             } else if (work->variant < 5) {
-                DuelEffect_DarkenColor((u8 *)&work->background_color, 4);
+                DuelEffect_DarkenColor(&work->background_color, 4);
             }
         }
         if (work->rising_positions[work->config->strip_count - 1].vy > 0) {
-            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
-                DuelEffect_DrawProjectedNumber(work->config->number, (u8 *)&work->number_color,
+            if ((u16)DuelEffect_HasNonzeroColor(&work->number_color)) {
+                DuelEffect_DrawProjectedNumber(work->config->number, &work->number_color,
                              &work->number_position, work->number_state, 16, 0);
                 addVector(&work->number_position, &work->number_velocity);
                 work->number_velocity.vy += 4;
@@ -126,17 +126,17 @@ void DuelEffect_RunLifePointRecovery(void *buffer, s32 phase)
                         if (work->variant < 5) {
                             work->number_state = 1;
                             work->number_velocity.vy = 0;
-                            DuelEffect_DarkenColor((u8 *)&work->number_color, 15);
+                            DuelEffect_DarkenColor(&work->number_color, 15);
                         } else {
                             work->hold_frames++;
                         }
                     }
                 }
             }
-            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
+            if ((u16)DuelEffect_HasNonzeroColor(&work->color)) {
                 for (i = 0; i < work->config->particle_count; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad(&work->color, quad, 0);
                     if (work->variant < 5 || work->hold_frames == 0) {
                         addVector(&work->positions[i], &work->velocities[i]);
                     }
@@ -147,7 +147,7 @@ void DuelEffect_RunLifePointRecovery(void *buffer, s32 phase)
                 matrix = saved;
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                DuelEffect_DrawGradientRingStrip((u8 *)&work->color, work->rings[0],
+                DuelEffect_DrawGradientRingStrip(&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 0);
                 scale.vx = work->scale;
                 scale.vy = work->scale;
@@ -155,7 +155,7 @@ void DuelEffect_RunLifePointRecovery(void *buffer, s32 phase)
                 matrix = saved;
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, work->config->sprite_size,
+                DuelEffect_DrawLayeredTileQuad(&work->color, work->config->sprite_size,
                              0, &position);
                 scale.vx = 4096;
                 scale.vy = work->scale;
@@ -163,14 +163,14 @@ void DuelEffect_RunLifePointRecovery(void *buffer, s32 phase)
                 for (i = 0; i < work->config->strip_count; i++) {
                     DuelEffect_SetTransformMatrix(&world, &saved, &position, &work->rotations[i],
                                  &scale, 0);
-                    DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->color, work->config->widths,
+                    DuelEffect_DrawLayeredGradientTrapezoid(&work->color, work->config->widths,
                                  work->config->height, 0);
                     if (work->variant < 5 || work->hold_frames == 0) {
                         applyVector(&work->rotations[i], 128, 128, 128, +=);
                     }
                 }
                 if (work->variant < 5) {
-                    DuelEffect_DarkenColor((u8 *)&work->color, 15);
+                    DuelEffect_DarkenColor(&work->color, 15);
                 }
                 if (work->scale < 0x7000) {
                     work->scale += 0x1000;
@@ -184,11 +184,11 @@ void DuelEffect_RunLifePointRecovery(void *buffer, s32 phase)
         work->frame += frame_step;
         work->tick++;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->background_color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->number_color) && work->variant < 5) {
+        if ((u16)DuelEffect_IsColorBlack(&work->background_color) &&
+            (u16)DuelEffect_IsColorBlack(&work->color) &&
+            (u16)DuelEffect_IsColorBlack(&work->number_color) && work->variant < 5) {
             gDuelEffect_bRequestFinished = 1;
-        } else if ((u16)DuelEffect_IsColorBlack((u8 *)&work->rising_colors[work->config->strip_count - 1]) &&
+        } else if ((u16)DuelEffect_IsColorBlack(&work->rising_colors[work->config->strip_count - 1]) &&
                    work->variant >= 5 && work->hold_frames >= 24) {
             gDuelEffect_bRequestFinished = 1;
         }
@@ -242,7 +242,7 @@ void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
                 work->velocities[i].vy =
                     (((rand() - rand()) % 4096) * EFFECT_7_TARGET_HEIGHT / 4096 -
                      work->trails[i][0].vy) / work->config->duration;
-                DuelEffect_SetRgbColor((u8 *)&work->colors[i], work->config->color[0],
+                DuelEffect_SetRgbColor(&work->colors[i], work->config->color[0],
                              work->config->color[1], work->config->color[2]);
                 work->ages[i] = 0;
                 work->sizes[i] = work->config->size;
@@ -255,8 +255,8 @@ void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
             for (i = 0; i < 3; i++) {
                 DuelEffect_InitCircle32Vertices(work->config->radii[i], work->rings[i]);
             }
-            DuelEffect_SetGrayColor((u8 *)&work->background_color, 1);
-            DuelEffect_SetRgbColor((u8 *)&work->number_color, work->config->number_color[0],
+            DuelEffect_SetGrayColor(&work->background_color, 1);
+            DuelEffect_SetRgbColor(&work->number_color, work->config->number_color[0],
                          work->config->number_color[1], work->config->number_color[2]);
             work->number_mode = 0;
             work->active = 0;
@@ -290,7 +290,7 @@ void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
                     color.r /= j + 1;
                     color.g /= j + 1;
                     color.b /= j + 1;
-                    DuelEffect_DrawFixedTextureQuad((u8 *)&color, work->sizes[i] / (j + 1),
+                    DuelEffect_DrawFixedTextureQuad(&color, work->sizes[i] / (j + 1),
                                  &work->trails[i][j]);
                     work->trails[i][j].vx += work->velocities[i].vx / (j + 1);
                     work->trails[i][j].vy += work->velocities[i].vy / (j + 1);
@@ -303,12 +303,12 @@ void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
                 }
             } else if (work->states[i] == 1) {
                 gDuelEffect_pActiveRequest->progress = 1;
-                if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
+                if ((u16)DuelEffect_HasNonzeroColor(&work->colors[i])) {
                     setVector(&scale, 4096, 4096, 4096);
                     DuelEffect_SetTransformMatrix(&world, &saved, &work->trails[i][0],
                                  &rotation, &scale, 1);
                     for (j = 0; j < work->config->particle_count; j++) {
-                        DuelEffect_DrawFixedTextureQuad((u8 *)&work->colors[i], work->config->particle_size,
+                        DuelEffect_DrawFixedTextureQuad(&work->colors[i], work->config->particle_size,
                                      &work->particles[i][j]);
                         addVector(&work->particles[i][j],
                                   &work->particle_velocities[i][j]);
@@ -319,15 +319,15 @@ void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
                     matrix = saved;
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);
-                    DuelEffect_DrawTexturedRingStrip((u8 *)&work->colors[i], work->rings[0],
+                    DuelEffect_DrawTexturedRingStrip(&work->colors[i], work->rings[0],
                                  work->rings[1], work->rings[2], 0);
-                    DuelEffect_DrawLayeredTileQuad((u8 *)&work->colors[i], work->sizes[i], 0, &position);
+                    DuelEffect_DrawLayeredTileQuad(&work->colors[i], work->sizes[i], 0, &position);
                     if (work->scales[i] < 0x6000) {
                         work->scales[i] += 0x1000;
                     }
-                    DuelEffect_DarkenColor((u8 *)&work->colors[i], 15);
+                    DuelEffect_DarkenColor(&work->colors[i], 15);
                 } else {
-                    if ((u16)DuelEffect_IsColorBlack((u8 *)&work->colors[i])) {
+                    if ((u16)DuelEffect_IsColorBlack(&work->colors[i])) {
                         work->states[i] = 2;
                     }
                 }
@@ -344,8 +344,8 @@ void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
         scale.vz = 4096;
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 0);
         if (work->states[work->config->count - 1] != 0 &&
-            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
-            DuelEffect_DrawProjectedNumber(work->config->number, (u8 *)&work->number_color,
+            (u16)DuelEffect_HasNonzeroColor(&work->number_color)) {
+            DuelEffect_DrawProjectedNumber(work->config->number, &work->number_color,
                          &work->number_position, work->number_mode, 16, 0);
             addVector(&work->number_position, &work->number_velocity);
             work->number_velocity.vy += 4;
@@ -357,26 +357,26 @@ void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
                 } else {
                     work->number_mode = 1;
                     work->number_velocity.vy = 0;
-                    DuelEffect_DarkenColor((u8 *)&work->number_color, 15);
+                    DuelEffect_DarkenColor(&work->number_color, 15);
                 }
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
-            DuelEffect_DrawFullscreenGradient((u8 *)&work->background_color);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->background_color)) {
+            DuelEffect_DrawFullscreenGradient(&work->background_color);
             if (work->states[work->config->count - 1] == 0) {
-                DuelEffect_StepColorToTarget((u8 *)&work->background_color,
+                DuelEffect_StepColorToTarget(&work->background_color,
                              work->config->color[0] >> 1, work->config->color[1] >> 1,
                              work->config->color[2] >> 1, 4);
             } else {
-                DuelEffect_DarkenColor((u8 *)&work->background_color, 4);
+                DuelEffect_DarkenColor(&work->background_color, 4);
             }
         }
         work->frame += frame_step;
         work->tick++;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->colors[work->config->count - 1]) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->background_color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->number_color)) {
+        if ((u16)DuelEffect_IsColorBlack(&work->colors[work->config->count - 1]) &&
+            (u16)DuelEffect_IsColorBlack(&work->background_color) &&
+            (u16)DuelEffect_IsColorBlack(&work->number_color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }
@@ -414,12 +414,12 @@ void DuelEffect_RunInvertedLifePointRecovery(void *buffer, s32 phase)
             DuelEffect_InitRandomVectorsUnscaled(work->config->rotation_count, work->rotations);
             DuelEffect_InitParticleVectors(work->config->particle_speed, work->positions,
                          work->velocities, 32);
-            DuelEffect_SetRgbColor((u8 *)&work->negative_color, 255, 64, 64);
-            DuelEffect_SetRgbColor((u8 *)&work->background_color, work->config->color[0] >> 2,
+            DuelEffect_SetRgbColor(&work->negative_color, 255, 64, 64);
+            DuelEffect_SetRgbColor(&work->background_color, work->config->color[0] >> 2,
                          work->config->color[1] >> 2, work->config->color[2] >> 2);
-            DuelEffect_SetRgbColor((u8 *)&work->effects_color, work->config->color[0],
+            DuelEffect_SetRgbColor(&work->effects_color, work->config->color[0],
                          work->config->color[1], work->config->color[2]);
-            DuelEffect_SetRgbColor((u8 *)&work->positive_color, work->config->number_color[0],
+            DuelEffect_SetRgbColor(&work->positive_color, work->config->number_color[0],
                          work->config->number_color[1], work->config->number_color[2]);
             work->bounce_count = 1;
             work->unused_72C = 0;
@@ -446,14 +446,14 @@ void DuelEffect_RunInvertedLifePointRecovery(void *buffer, s32 phase)
         PushMatrix();
         DuelEffect_InitBaseMatrix(&world);
         DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 1);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
-            DuelEffect_DrawFullscreenGradient((u8 *)&work->background_color);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->background_color)) {
+            DuelEffect_DrawFullscreenGradient(&work->background_color);
             if (work->stage != 0) {
-                DuelEffect_DarkenColor((u8 *)&work->background_color, 4);
+                DuelEffect_DarkenColor(&work->background_color, 4);
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->negative_color)) {
-            DuelEffect_DrawProjectedNumber(-work->config->value, (u8 *)&work->negative_color,
+        if ((u16)DuelEffect_HasNonzeroColor(&work->negative_color)) {
+            DuelEffect_DrawProjectedNumber(-work->config->value, &work->negative_color,
                          &work->negative, work->negative_mode, 16, 0);
             work->negative.vy += work->negative_step;
             work->negative_step += 4;
@@ -470,27 +470,27 @@ void DuelEffect_RunInvertedLifePointRecovery(void *buffer, s32 phase)
                 } else {
                     work->negative_mode = 1;
                     work->negative_step = 0;
-                    DuelEffect_DarkenColor((u8 *)&work->negative_color, 15);
+                    DuelEffect_DarkenColor(&work->negative_color, 15);
                 }
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->positive_color) &&
+        if ((u16)DuelEffect_HasNonzeroColor(&work->positive_color) &&
             work->positive.vy < 200) {
-            DuelEffect_DrawProjectedNumber(work->config->value, (u8 *)&work->positive_color,
+            DuelEffect_DrawProjectedNumber(work->config->value, &work->positive_color,
                          &work->positive, work->positive_mode, 16, 0);
             work->positive.vy += work->positive_step;
             if (work->stage != 0) {
                 work->positive_mode = 1;
-                DuelEffect_DarkenColor((u8 *)&work->positive_color, 15);
+                DuelEffect_DarkenColor(&work->positive_color, 15);
             }
         } else if (work->positive.vy >= 200) {
-            DuelEffect_SetGrayColor((u8 *)&work->positive_color, 0);
+            DuelEffect_SetGrayColor(&work->positive_color, 0);
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->effects_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->effects_color)) {
             if (work->stage >= 2) {
                 for (i = 0; i < 32; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    DuelEffect_DrawRandomTileQuad((u8 *)&work->effects_color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad(&work->effects_color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
             }
@@ -498,13 +498,13 @@ void DuelEffect_RunInvertedLifePointRecovery(void *buffer, s32 phase)
             scale.vy = work->scale >> 3;
             scale.vz = 4096;
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-            DuelEffect_DrawGradientRingStrip((u8 *)&work->effects_color, work->rings[0],
+            DuelEffect_DrawGradientRingStrip(&work->effects_color, work->rings[0],
                          work->rings[1], work->rings[2], 0);
             scale.vx = work->scale;
             scale.vy = work->scale;
             scale.vz = 4096;
             DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-            DuelEffect_DrawLayeredTileQuad((u8 *)&work->effects_color, work->config->sprite_size,
+            DuelEffect_DrawLayeredTileQuad(&work->effects_color, work->config->sprite_size,
                          0, &translation);
             scale.vx = 4096;
             scale.vy = work->scale;
@@ -512,27 +512,27 @@ void DuelEffect_RunInvertedLifePointRecovery(void *buffer, s32 phase)
             for (i = 0; i < work->config->rotation_count; i++) {
                 DuelEffect_SetTransformMatrix(&world, &saved, &translation, &work->rotations[i],
                              &scale, 2);
-                DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->effects_color, work->config->widths,
+                DuelEffect_DrawLayeredGradientTrapezoid(&work->effects_color, work->config->widths,
                              work->config->height, 0);
             }
             if (work->stage != 0) {
-                DuelEffect_DarkenColor((u8 *)&work->effects_color, 15);
+                DuelEffect_DarkenColor(&work->effects_color, 15);
             }
         }
         if (work->stage == 1) {
             SD_SEPlayFull(26);
             gDuelEffect_pActiveRequest->progress = 1;
-            DuelEffect_SetRgbColor((u8 *)&work->background_color, 63, 16, 63);
-            DuelEffect_SetRgbColor((u8 *)&work->effects_color, 255, 64, 255);
+            DuelEffect_SetRgbColor(&work->background_color, 63, 16, 63);
+            DuelEffect_SetRgbColor(&work->effects_color, 255, 64, 255);
             work->stage = 2;
         }
         work->frame += frame_step;
         work->tick++;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->negative_color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->background_color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->effects_color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->positive_color)) {
+        if ((u16)DuelEffect_IsColorBlack(&work->negative_color) &&
+            (u16)DuelEffect_IsColorBlack(&work->background_color) &&
+            (u16)DuelEffect_IsColorBlack(&work->effects_color) &&
+            (u16)DuelEffect_IsColorBlack(&work->positive_color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

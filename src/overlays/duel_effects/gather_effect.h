@@ -41,9 +41,9 @@ typedef struct {
     u16 particle_b_count;               /* 0x956 */
     u16 scale;                          /* 0x958 */
     u16 step;                           /* 0x95A */
-    u8 colors[32][4];                   /* 0x95C */
-    u8 color[4];                        /* 0x9DC */
-    u8 colors_b[48][4];                 /* 0x9E0 */
+    CVECTOR colors[32];                 /* 0x95C */
+    CVECTOR color;                      /* 0x9DC */
+    CVECTOR colors_b[48];               /* 0x9E0 */
 } GatherEffectState;
 
 /* The update's stack frame: the matrix, packet, vectors and quad it hands
