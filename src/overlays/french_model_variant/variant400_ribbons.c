@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant400_ribbons.h"
 #include "variant400_entry.h"
 
 /* The North American header-383 build reads the projected points through
@@ -31,8 +30,8 @@ void FrenchModelVariant400_DrawRibbons(Variant400EntryState *context)
     s32 yaw;
     s32 pitch;
     s16 len;
-    Model400FirstRibbon *ribbon;
-    Model400Screen screen;
+    Variant400EntryNode *ribbon;
+    Variant400NodeScreen screen;
     POLY_FT4 *poly;
     s32 bend;
     s32 dx;
@@ -48,7 +47,7 @@ void FrenchModelVariant400_DrawRibbons(Variant400EntryState *context)
         } else {
             len = work->width / 32;
         }
-        ribbon = (Model400FirstRibbon *)work;
+        ribbon = work->nodes;
         for (i = 0, phase = 0; i < 5; i++, ribbon++, phase = i * 4096 / 5) {
             if (work->tail.phase < 4) {
                 setVector(&ribbon->delta,
@@ -105,7 +104,7 @@ void FrenchModelVariant400_DrawRibbons(Variant400EntryState *context)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        ribbon = (Model400FirstRibbon *)work;
+        ribbon = work->nodes;
         for (i = 0; i < 5; i++, ribbon++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
@@ -134,7 +133,7 @@ void FrenchModelVariant400_DrawRibbons(Variant400EntryState *context)
                 }
             }
         }
-        ribbon = (Model400FirstRibbon *)work;
+        ribbon = work->nodes;
         for (i = 0; i < 5; i++, ribbon++) {
             for (k = work->segment_start, poly = work->flat_textured;
                  k < work->segment_end;
@@ -170,9 +169,9 @@ void FrenchModelVariant400_DrawRibbons(Variant400EntryState *context)
                     poly->x3 = RIBBONS400_SA(k + 1).point.vx - ribbon->ox[k + 1];
                     poly->y3 = (RIBBONS400_SA(k + 1).packed >> 16) - ribbon->oy[k + 1];
                 }
-                poly->r0 = ribbon->color[0];
-                poly->g0 = ribbon->color[1];
-                poly->b0 = ribbon->color[2];
+                poly->r0 = ribbon->style.inner.r;
+                poly->g0 = ribbon->style.inner.g;
+                poly->b0 = ribbon->style.inner.b;
                 if (ribbon->otz[k] >= 0 && flags[i][k] >= 0) {
                     GsSortPoly(poly, ot, ribbon->otz[k]);
                 }

@@ -2,7 +2,7 @@
 #define FRENCH_MODEL_VARIANT443_RIBBONS_H
 
 #include "../../types.h"
-#include "variant400_ribbons.h"
+#include "../model_variant/model_variant.h"
 
 typedef struct {
     u8 unknown0000[0x3570];
