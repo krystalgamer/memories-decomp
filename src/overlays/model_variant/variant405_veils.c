@@ -140,7 +140,7 @@ void ModelVariant405_DrawVeils(u8 *ctx)
                     veil->scale -= 0x800;
                 }
                 if (work->phase == 0 &&
-                    *(u32 *)(*(u8 **)((u8 *)work + 0x1DC8) + 0x20) <= work->clock.frame) {
+                    work->config->burst_start <= work->clock.frame) {
                     work->phase = 2;
                 }
             }
