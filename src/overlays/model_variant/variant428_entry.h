@@ -36,7 +36,7 @@ typedef struct {
     GsCOORDUNIT *parts[3];
     s16 field_15A4, field_15A6, spiral_size, field_15AA, field_15AC, field_15AE;
     s16 scale, field_15B2;
-    s32 progress, field_15B8;
+    s32 progress, quad_angle;
     ModelVariantEntryTail tail;
 } Variant428EntryState;
 

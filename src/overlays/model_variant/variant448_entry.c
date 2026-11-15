@@ -314,7 +314,7 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
         work->field_1B30 = 4096;
         work->field_1B32 = 1024;
         work->field_1B34 = 0;
-        work->field_1B38 = 0;
+        work->quad_angle = 0;
         work->field_1B2E = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;

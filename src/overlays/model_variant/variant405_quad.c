@@ -31,7 +31,7 @@ void ModelVariant405_DrawQuad(Variant422EntryState *work)
         }
         rot.vx = 0;
         rot.vy = 0;
-        rot.vz = *(u16 *)((u8 *)work + 0x1E18);
+        rot.vz = work->quad_angle;
         m.t[0] = work->matrix.t[0];
         m.t[1] = work->matrix.t[1];
         m.t[2] = work->matrix.t[2];
@@ -76,10 +76,10 @@ void ModelVariant405_DrawQuad(Variant422EntryState *work)
                 }
             }
         } else if (work->phase == 1) {
-            if (work->field_1E18 < 0x800) {
-                work->field_1E18 += work->clock.step << 6;
-                if (work->field_1E18 >= 0x800) {
-                    work->field_1E18 = 0x800;
+            if (work->quad_angle < 0x800) {
+                work->quad_angle += work->clock.step << 6;
+                if (work->quad_angle >= 0x800) {
+                    work->quad_angle = 0x800;
                     work->phase = 2;
                 }
             }

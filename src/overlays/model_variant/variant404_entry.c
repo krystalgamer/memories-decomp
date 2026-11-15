@@ -278,7 +278,7 @@ s32 ModelVariant404_HandleRequest(SVECTOR *point, s32 command)
         work->band_scale = 4096;
         work->field_1952 = 1024;
         work->displacement = 0;
-        work->field_1958 = 0;
+        work->quad_angle = 0;
         work->ribbon_angle = 0;
         work->field_194E = 0;
         work->clock.frame_count = 0;

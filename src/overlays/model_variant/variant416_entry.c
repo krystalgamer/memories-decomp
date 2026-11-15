@@ -272,7 +272,7 @@ s32 ModelVariant416_HandleRequest(SVECTOR *point, s32 command)
         work->field_1A78 = 4096;
         work->field_1A7A = 1024;
         work->field_1A7C = 0;
-        work->field_1A80 = 0;
+        work->quad_angle = 0;
         work->field_1A76 = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;

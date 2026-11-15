@@ -44,7 +44,7 @@ typedef struct {
     u32 field_1B14;
     GsCOORDUNIT *parts[3];
     s16 field_1B24, field_1B26, field_1B28, field_1B2A, field_1B2C, field_1B2E, field_1B30, field_1B32;
-    s32 field_1B34, field_1B38, phase;
+    s32 field_1B34, quad_angle, phase;
     SVECTOR offset;
     s32 tint;
     s16 slot, command;
