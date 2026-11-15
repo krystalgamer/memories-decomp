@@ -27,11 +27,11 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     GsOT *ot;
-    Strip388Unit *unit;
+    Variant388EntryTube *unit;
     POLY_GT4 *poly;
     Strip388Timing *rec;
-    Strip388Unit *col;
-    Strip388Unit *next;
+    Variant388EntryTube *col;
+    Variant388EntryTube *next;
     s16 i;
     s16 k;
     s16 width;
@@ -42,7 +42,7 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (work->phase > 0) {
-        unit = (Strip388Unit *)work;
+        unit = work->tubes;
         width = work->strip_width / 32;
         for (i = 0; i < 1; i++, unit++) {
             for (k = 0; k < 5; k++) {
@@ -78,7 +78,7 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
                                              &unit->sb[k], &unit->sc[k], &p, &unit->flag[k]);
             }
         }
-        unit = (Strip388Unit *)work;
+        unit = work->tubes;
         for (i = 0; i < 1; i++, unit++) {
             for (k = 0; k < 4; k++) {
                 poly->x0 = unit->sa[k];
@@ -109,7 +109,7 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
                     GsSortPoly(poly, ot, unit->otz[k + 1]);
                 }
 #ifdef MODEL_VARIANT388_STRIPS_SHARED_COLUMN
-                col = (Strip388Unit *)((u8 *)unit + k * 4);
+                col = (Variant388EntryTube *)((u8 *)unit + k * 4);
                 poly->x0 = col->sc[0];
                 poly->y0 = (col->sc[0] >> 16);
                 poly->x1 = col->sc[1];
@@ -119,8 +119,8 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
                 poly->x3 = col->sb[1];
                 poly->y3 = (col->sb[1] >> 16);
 #else
-                col = (Strip388Unit *)((u8 *)unit + k * 4);
-                next = (Strip388Unit *)((u8 *)unit + (k + 1) * 4);
+                col = (Variant388EntryTube *)((u8 *)unit + k * 4);
+                next = (Variant388EntryTube *)((u8 *)unit + (k + 1) * 4);
                 poly->x0 = col->sc[0];
                 poly->y0 = (col->sc[0] >> 16);
                 poly->x1 = next->sc[0];
@@ -145,14 +145,14 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
                 if (col->otz[0] < 0) {
                     col->otz[0] = 0;
                 }
-                col = next = (Strip388Unit *)work;
+                col = next = work->tubes;
                 unit->flag[k] = 0;
                 if (unit->otz[k] >= 0) {
                     GsSortPoly(poly, ot, unit->otz[k + 1]);
                 }
             }
         }
-        col = next = (Strip388Unit *)work;
+        col = next = work->tubes;
         rec = (Strip388Timing *)work->config;
         if (work->index + 1 == rec->frame) {
             if (work->phase == 1 && work->progress <= 0x400) {
