@@ -4,7 +4,7 @@
 
 /* Draws sixteen triangles and sixteen outer quads with three color bands,
  * then advances the timed growth and step-based shrink. */
-void ModelVariant448_DrawRadialDisc(u8 *ctx)
+void ModelVariant448_DrawRadialDisc(Variant448EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -22,11 +22,11 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
     s32 j;
     s32 otz;
 
-    work = (Variant448EntryState *)ctx;
-    rec = (Variant448Radial *)ctx;
-    tri = (POLY_G3 *)(ctx + 0x1948);
+    work = context;
+    rec = context->radial;
+    tri = &context->packets.triangle;
     ot = Graphics_GetDefaultOrderingTable();
-    quad = (POLY_G4 *)(ctx + 0x1964);
+    quad = &context->packets.quad;
     rot.vx = 0;
     rot.vy = 0;
     rot.vz = 0;

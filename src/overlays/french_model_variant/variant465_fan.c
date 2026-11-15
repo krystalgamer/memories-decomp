@@ -2,7 +2,7 @@
 #include "variant465_fan.h"
 #include "../model_variant/variant448_entry.h"
 
-void ModelVariant448_DrawRadialDisc(u8 *ctx)
+void ModelVariant448_DrawRadialDisc(Variant448EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -20,7 +20,7 @@ void ModelVariant448_DrawRadialDisc(u8 *ctx)
     POLY_G4 *quad;
     s32 otz;
 
-    work = (Variant448EntryState *)ctx;
+    work = context;
     fan = (Variant465Fan *)work;
     triangle = &work->packets.triangle;
     ot = Graphics_GetDefaultOrderingTable();

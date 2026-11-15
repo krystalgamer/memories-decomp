@@ -52,7 +52,7 @@ typedef struct {
 
 extern GsIMAGE gModelVariant448_aImages[9];
 extern Variant448EntryConfig gModelVariant448_aConfigs[];
-void ModelVariant448_DrawRadialDisc(u8 *context);
+void ModelVariant448_DrawRadialDisc(Variant448EntryState *context);
 void ModelVariant448_DrawFans(u8 *context);
 void ModelVariant448_DrawOrbitSheets(Variant448EntryState *context);
 
