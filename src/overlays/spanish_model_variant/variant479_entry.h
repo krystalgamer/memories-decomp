@@ -63,8 +63,8 @@ typedef struct {
 extern GsIMAGE gSpanishModelVariant479_aImages[9];
 extern Variant479EntryConfig gSpanishModelVariant479_aConfigs[];
 void FrenchModelVariant379_DrawGrid(u8 *context);
-void SpanishModelVariant479_DrawSpiral(u8 *context);
-void SpanishModelVariant479_DrawRibs(u8 *context);
+void SpanishModelVariant479_DrawSpiral(Variant479EntryState *context);
+void SpanishModelVariant479_DrawRibs(Variant479EntryState *context);
 void SpanishModelVariant479_DrawSheets(u8 *context);
 void SpanishModelVariant479_DrawCurtains(u8 *context);
 s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command);

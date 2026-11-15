@@ -9,7 +9,7 @@
  * spread, projects them, and draws two POLY_GT4 halves per segment at the pass
  * position where the depth and the projection flag are not negative. Reaching
  * size 0x400 moves phase 1 to 2; from phase 2 on the sweep advances by 48. */
-void SpanishModelVariant479_DrawSpiral(u8 *ctx)
+void SpanishModelVariant479_DrawSpiral(Variant479EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -42,7 +42,7 @@ void SpanishModelVariant479_DrawSpiral(u8 *ctx)
     u8 c3;
     u8 c2;
 
-    work = (Variant479EntryState *)ctx;
+    work = context;
     timing = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;

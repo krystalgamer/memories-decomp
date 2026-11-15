@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant474_mesh.h"
 
-void SpanishModelVariant474_DrawGouraudMesh(u8 *context)
+void SpanishModelVariant474_DrawGouraudMesh(Mesh474State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void SpanishModelVariant474_DrawGouraudMesh(u8 *context)
     u8 red[9], green[9], blue[9];
     long interpolation;
     long flag;
-    Mesh474State *state = (Mesh474State *)context;
+    Mesh474State *state = context;
     ModelVariantMesh *mesh = &state->mesh;
     POLY_G4 *polygon;
     GsOT *ot;

@@ -8,7 +8,7 @@
  * segment as a POLY_G4 as wide as the projected offset where the depth is
  * positive. The spin advances by 0x20 a frame and by 0x514 every tenth
  * frame. */
-void SpanishModelVariant479_DrawStreamers(u8 *ctx)
+void SpanishModelVariant479_DrawStreamers(Variant479EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -41,7 +41,7 @@ void SpanishModelVariant479_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant479EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_G4 *)work->flat_textured;
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

@@ -8,7 +8,7 @@
  * sheet's size when flag bit 0 is set, and draws each strip as a POLY_GT4
  * when its depth is positive. A curtain that reaches full size wraps
  * and counts a cycle before phase 4, and stops there from phase 4 on. */
-void SpanishModelVariant464_DrawCurtains(u8 *ctx)
+void SpanishModelVariant464_DrawCurtains(Variant464EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -40,7 +40,7 @@ void SpanishModelVariant464_DrawCurtains(u8 *ctx)
     u8 g1;
     u8 b1;
 
-    work = (Variant464EntryState *)ctx;
+    work = context;
     curtain = work->curtains;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx) + 0x800;

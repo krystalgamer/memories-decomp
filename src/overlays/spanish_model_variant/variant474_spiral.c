@@ -8,7 +8,7 @@
  * half the size at (u8 *)work + 0x1BEC are moved along the view by the spread and
  * drawn as two POLY_GT4 halves where the depth is positive. The size grows
  * to 0x400; only then does the sweep at (u8 *)work + 0x1BE8 advance by 32. */
-void SpanishModelVariant474_DrawSpiral(u8 *ctx)
+void SpanishModelVariant474_DrawSpiral(Variant474EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -38,7 +38,7 @@ void SpanishModelVariant474_DrawSpiral(u8 *ctx)
     u8 c1;
     u8 c3;
 
-    work = (Variant474EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
