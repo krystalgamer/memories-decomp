@@ -323,7 +323,7 @@ s32 FrenchModelVariant439_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
-            ModelVariant422_DrawSheets((u8 *)point);
+            ModelVariant422_DrawSheets((Variant439EntryState *)point);
         }
         if (work->tail.phase >= 2) {
             ModelVariant422_DrawCurtains((u8 *)point);
