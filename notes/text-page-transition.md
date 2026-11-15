@@ -50,7 +50,7 @@ checking completion.
 On subsequent completion calls, the original check reads only the first
 configured range entry's active flag. It does not add a full-range scan.
 Once that flag clears, it resets line count, pen X/Y and text state;
-only NA additionally clears `field_62`. All regional field/reset behavior
+only NA additionally clears `staged_icon_variant`. All regional field/reset behavior
 is retained.
 
 ## Page input and shared signed-byte countdown
@@ -127,5 +127,5 @@ regional view; it is not a gap-skipping or whole-allocation operation.
 CompletePageAdvance still checks ONLY the first configured entry after
 its original initialization/return path, even when a new count guard might
 look desirable. It does not scan to entry_write_cursor or add an empty-
-range special case. State/pen/newline resets and NA field_62 behavior stay.
+range special case. State/pen/newline resets and NA staged_icon_variant behavior stay.
 The names add no bounds, capacity policy or handler/release timing.

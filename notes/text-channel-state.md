@@ -13,8 +13,8 @@ are `0x64` bytes in North America and Europe and `0x60` bytes in Japan.
 `DuelEffectChannel` in `src/ygo_types.h` carries both shapes: under
 `VERSION_JAPAN` its tail after `line_advance_y` is the byte-sized
 `entry_range_start`, `entry_range_count`, `output_count` and `output_limit`
-(`0x5C`-`0x5F`), and the North American/PAL `field_62`/`pad_63` do not
-exist. Every Japanese unit that touches the pool therefore defines
+(`0x5C`-`0x5F`), and the bytes at `0x62`/`0x63` (North American
+`staged_icon_variant`/`pad_63`, PAL `output_limit`) do not exist. Every Japanese unit that touches the pool therefore defines
 `VERSION_JAPAN`, and native strides follow `sizeof(DuelEffectChannel)`.
 
 Canonical includes follow the original selector-dependent declarations.

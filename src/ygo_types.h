@@ -541,8 +541,12 @@ typedef struct DuelEffectChannel {
     /* NA byte counter/limit. */
     u8 output_count;
     u8 output_limit;
-    /* NA stages an icon variant here; choice/page completion clears it. */
-    u8 field_62;
+    /* The icon variant the next icon glyph takes: the type-icon text command
+       stages a magic/trap/ritual/... card type here, DuelEffect_AppendEntry
+       copies it into the entry's icon_variant, and choice and page
+       completion clear it. North America only: Japan has no such byte and
+       PAL's output_limit occupies 0x62. */
+    u8 staged_icon_variant;
     u8 pad_63;
 #endif
 #endif
