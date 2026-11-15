@@ -284,7 +284,7 @@ s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command)
             FrenchModelVariant431_DrawSheets((u8 *)point);
         }
         if (work->config->timings[work->start_index] <= work->frame) {
-            FrenchModelVariant431_DrawBands((u8 *)point);
+            FrenchModelVariant431_DrawBands((Variant431EntryState *)point);
         }
         if (work->tail.phase >= 2) {
             FrenchModelVariant431_DrawWebs((u8 *)point);

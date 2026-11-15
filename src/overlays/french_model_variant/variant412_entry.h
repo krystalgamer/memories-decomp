@@ -47,6 +47,6 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant412_aImages[9];
 extern Variant412EntryConfig gFrenchModelVariant412_aConfigs[];
-void FrenchModelVariant412_DrawTrails(u8 *context);
+void FrenchModelVariant412_DrawTrails(Variant412EntryState *context);
 
 #endif

@@ -239,7 +239,7 @@ s32 FrenchModelVariant412_HandleRequest(SVECTOR *point, s32 command)
             } while (work->part_index < work->config->part_count);
         }
         if (work->config->capture_start <= work->elapsed) {
-            FrenchModelVariant412_DrawTrails((u8 *)point);
+            FrenchModelVariant412_DrawTrails((Variant412EntryState *)point);
         }
         work->frame_count++;
         if (work->current_animation_frame != work->animation_frame) {

@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant373_quads.h"
 
-void FrenchModelVariant373_DrawQuads(u8 *context)
+void FrenchModelVariant373_DrawQuads(Family373QuadView *context)
 {
-    Family373QuadView *work = (Family373QuadView *)context;
+    Family373QuadView *work = context;
     SVECTOR rotation;
     /* Retail leaves 16 bytes between rotation and scale. */
     u8 unknown_stack[16];

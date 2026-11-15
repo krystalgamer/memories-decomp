@@ -2,7 +2,7 @@
 #include "variant412_trails.h"
 #include "variant412_entry.h"
 
-void FrenchModelVariant412_DrawTrails(u8 *ctx)
+void FrenchModelVariant412_DrawTrails(Variant412EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -31,7 +31,7 @@ void FrenchModelVariant412_DrawTrails(u8 *ctx)
     SVECTOR *row_points;
     SVECTOR *point;
 
-    work = (Variant412EntryState *)ctx;
+    work = context;
     trail = (Variant412Trail *)work;
     ot = Graphics_GetDefaultOrderingTable();
     ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);

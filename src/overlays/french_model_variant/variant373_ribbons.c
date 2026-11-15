@@ -2,7 +2,7 @@
 #include "variant373_ribbons.h"
 #include "../../game/gpu_packets.h"
 
-void FrenchModelVariant373_DrawRibbons(u8 *context)
+void FrenchModelVariant373_DrawRibbons(Family373RibbonView *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -27,7 +27,7 @@ void FrenchModelVariant373_DrawRibbons(u8 *context)
     s32 dx;
     s32 dy;
 
-    work = (Family373RibbonView *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
     ratan2(work->view_direction[1], work->view_direction[0]);

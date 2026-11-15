@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant373_layers.h"
 
-void FrenchModelVariant373_DrawLayers(u8 *context)
+void FrenchModelVariant373_DrawLayers(Family373LayerView *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -26,7 +26,7 @@ void FrenchModelVariant373_DrawLayers(u8 *context)
     s32 all_done;
     s32 texture_v, angle, byte_offset;
 
-    work = (Family373LayerView *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     all_done = 1;
     GsGetActiveBuff();

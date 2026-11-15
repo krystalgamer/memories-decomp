@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant373_points.h"
 
-void FrenchModelVariant373_DrawPoints(u8 *context)
+void FrenchModelVariant373_DrawPoints(Family373PointView *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -24,7 +24,7 @@ void FrenchModelVariant373_DrawPoints(u8 *context)
     s32 fade;
     s32 depth;
 
-    work = (Family373PointView *)context;
+    work = context;
     group = work->groups;
     quad = &work->quad;
     ot = Graphics_GetDefaultOrderingTable();

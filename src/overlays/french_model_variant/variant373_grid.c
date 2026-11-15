@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant373_grid.h"
 
-void FrenchModelVariant373_DrawGrid(u8 *context)
+void FrenchModelVariant373_DrawGrid(Family373GridView *context)
 {
-    Family373GridView *work = (Family373GridView *)context;
+    Family373GridView *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
