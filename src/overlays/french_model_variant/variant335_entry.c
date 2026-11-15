@@ -22,7 +22,7 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
     Model335EntryRecord *record = work->records;
     ModelVariantPointSheet *sheet = work->sheets;
     Variant335Ring *ring = work->rings;
-    Variant337EntryStreamer *streamer = work->streamers;
+    ModelVariantFlaggedStreamer *streamer = work->streamers;
     ModelVariantStreamer *short_streamer = work->short_streamers;
     GsOT *ot = Graphics_GetDefaultOrderingTable();
     POLY_GT4 *textured = work->textured;

@@ -55,7 +55,7 @@ void FrenchModelVariant336_DrawStreamers(Variant336EntryState *context)
     } else {
         phase = 0x5DC;
     }
-    streamer = (ModelVariantFlaggedStreamer *)work->streamers;
+    streamer = work->streamers;
     i = 0;
     base = work->rotation[1];
     spin = phase;
@@ -95,7 +95,7 @@ void FrenchModelVariant336_DrawStreamers(Variant336EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (ModelVariantFlaggedStreamer *)work->streamers;
+    streamer = work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
@@ -131,7 +131,7 @@ void FrenchModelVariant336_DrawStreamers(Variant336EntryState *context)
             }
         }
     }
-    streamer = (ModelVariantFlaggedStreamer *)work->streamers;
+    streamer = work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -142,9 +142,9 @@ void FrenchModelVariant336_DrawStreamers(Variant336EntryState *context)
             poly->y2 = (streamer->sa[k] >> 16) - streamer->oy[k];
             poly->x3 = streamer->sa[k + 1] - streamer->ox[k + 1];
             poly->y3 = (streamer->sa[k + 1] >> 16) - streamer->oy[k + 1];
-            poly->r0 = streamer->color[k][0];
-            poly->g0 = streamer->color[k][1];
-            poly->b0 = streamer->color[k][2];
+            poly->r0 = streamer->color[k].r;
+            poly->g0 = streamer->color[k].g;
+            poly->b0 = streamer->color[k].b;
             if (streamer->otz[k] >= 0 && streamer->flag[k] >= 0) {
                 GsSortPoly(poly, ot, streamer->otz[k]);
             }

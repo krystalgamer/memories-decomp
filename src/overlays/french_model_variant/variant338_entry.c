@@ -15,7 +15,7 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     Variant337EntryRecord *record = work->records;
     ModelVariantPointSheet *ring = work->rings;
-    Variant337EntryStreamer *streamer = work->streamers;
+    ModelVariantFlaggedStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat_textured;
     POLY_FT4 *extra = work->extra_textured;

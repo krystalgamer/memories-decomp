@@ -16,7 +16,7 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     Variant460EntryRecord *record = work->records;
     ModelVariantSheetSet *sheet = work->sheets;
-    Variant337EntryStreamer *streamer = work->streamers;
+    ModelVariantFlaggedStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat_textured;
     POLY_G3 *triangle = &work->packets.triangle;

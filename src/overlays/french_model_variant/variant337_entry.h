@@ -26,18 +26,11 @@ typedef struct {
     u8 unknown_2D8[0x3A4 - 0x2D8];
 } Variant337EntryRecord;
 
-typedef struct {
-    u8 unknown_000[0x264];
-    CVECTOR color[17];
-    s32 field_2A8;
-    u8 unknown_2AC[0x378 - 0x2AC];
-} Variant337EntryStreamer;
-
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
     Variant337EntryRecord records[1];
     ModelVariantPointSheet rings[2];
-    Variant337EntryStreamer streamers[2];
+    ModelVariantFlaggedStreamer streamers[2];
     ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
     u8 unknown_CBC[0xCCC - 0xCBC];

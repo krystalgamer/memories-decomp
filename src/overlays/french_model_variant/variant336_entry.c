@@ -14,7 +14,7 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Variant336EntryRecord *record = work->records;
-    Variant337EntryStreamer *streamer = work->streamers;
+    ModelVariantFlaggedStreamer *streamer = work->streamers;
     ModelVariantPointSheet *sheet = work->sheets;
     GsOT *ot = Graphics_GetDefaultOrderingTable();
     POLY_GT4 *textured = work->packets.textured;
