@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "variant469_ribbons.h"
 #include "variant469_entry.h"
 
 /* Builds five eleven-point ribbons from the per-ribbon end points and a copy
@@ -32,7 +31,7 @@ void FrenchModelVariant469_DrawRibbons(EntryState469 *context)
     s32 sum;
     s32 yaw;
     s16 len;
-    Variant469Ribbon *ribbon;
+    ModelVariantCountedRibbon *ribbon;
     POLY_FT4 *poly;
     s16 k;
     s32 bend;
@@ -45,7 +44,7 @@ void FrenchModelVariant469_DrawRibbons(EntryState469 *context)
     s32 turn;
 
     work = context;
-    ribbon = (Variant469Ribbon *)work->ribbons;
+    ribbon = work->ribbons;
     ot = Graphics_GetDefaultOrderingTable();
     sum = 0;
 #ifdef MODEL_VARIANT469_RIBBONS_EARLY_LEN
@@ -111,7 +110,7 @@ void FrenchModelVariant469_DrawRibbons(EntryState469 *context)
             }
             ribbon->angle[k] = ratan2(dy, dx) - 0x400;
             ribbon->width[k] = (s16)ribbon->sb[k] - (s16)ribbon->sa[k];
-            w = ribbon->len * ribbon->width[k] / 1024;
+            w = ribbon->length * ribbon->width[k] / 1024;
             ribbon->ox[k] = rcos(ribbon->angle[k]) * w >> 12;
             ribbon->oy[k] = rsin(ribbon->angle[k]) * w >> 12;
             if (k == 0 || k == 10) {
@@ -146,9 +145,9 @@ void FrenchModelVariant469_DrawRibbons(EntryState469 *context)
             poly->y2 = (ribbon->sa[k] >> 16) - ribbon->oy[k];
             poly->x3 = ribbon->sa[k + 1] - ribbon->ox[k + 1];
             poly->y3 = (ribbon->sa[k + 1] >> 16) - ribbon->oy[k + 1];
-            poly->r0 = ribbon->color[0];
-            poly->g0 = ribbon->color[1];
-            poly->b0 = ribbon->color[2];
+            poly->r0 = ribbon->inner.r;
+            poly->g0 = ribbon->inner.g;
+            poly->b0 = ribbon->inner.b;
             if (ribbon->otz[k] > 0) {
                 GsSortPoly(poly, ot, ribbon->otz[k]);
             }
@@ -169,15 +168,15 @@ void FrenchModelVariant469_DrawRibbons(EntryState469 *context)
                     work->phase = 3;
                 }
             }
-        } else if (ribbon->state == 1 && ribbon->len > 0) {
-            ribbon->len -= work->clock.step << 6;
-            if (ribbon->len <= 0) {
+        } else if (ribbon->state == 1 && ribbon->length > 0) {
+            ribbon->length -= work->clock.step << 6;
+            if (ribbon->length <= 0) {
                 if (work->phase >= 5) {
-                    ribbon->len = 0;
+                    ribbon->length = 0;
                     ribbon->count = 0;
                     ribbon->state = 2;
                 } else {
-                    ribbon->len = 0x400;
+                    ribbon->length = 0x400;
                     ribbon->count = -50;
                     ribbon->state = 0;
                 }
