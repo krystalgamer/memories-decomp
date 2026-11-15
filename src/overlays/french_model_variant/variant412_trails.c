@@ -32,7 +32,7 @@ void FrenchModelVariant412_DrawTrails(Variant412EntryState *context)
     SVECTOR *point;
 
     work = context;
-    trail = (Variant412Trail *)work;
+    trail = work->trails;
     ot = Graphics_GetDefaultOrderingTable();
     ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     rotation.vx = 0;
