@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant437_ribbons.h"
+#include "../../game/graphics_packet_submission.h"
 #include "variant437_entry.h"
 
 /* The North American header-420 ribbons address the closing segment's
@@ -35,7 +35,7 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
     s32 yaw;
     s32 pitch;
     s16 len;
-    Ribbons437Ribbon *ribbon;
+    Variant437EntryRibbon *ribbon;
     POLY_FT4 *poly;
     s32 bend;
     s32 curve;
@@ -56,7 +56,7 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
     } else {
         len = 32;
     }
-    ribbon = (Ribbons437Ribbon *)work;
+    ribbon = work->ribbons;
     for (i = 0, phase = 0; i < 4; i++, ribbon++, phase = i * 1024) {
         if (work->elapsed < work->config->wave_end && !(i & 1)) {
             wave = -work->phase_a;
@@ -114,7 +114,7 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (Ribbons437Ribbon *)work;
+    ribbon = work->ribbons;
     for (i = 0; i < 4; i++, ribbon++) {
         for (k = 0; k < 9; k++) {
             if (k == 8) {
@@ -142,7 +142,7 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
             }
         }
     }
-    ribbon = (Ribbons437Ribbon *)work;
+    ribbon = work->ribbons;
     for (i = 0; i < 4; i++, ribbon++) {
         lo = 0;
         if (ribbon->start >= 0) {
@@ -161,9 +161,9 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
             poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->oy[k];
             poly->x3 = RIBBONS437_NEXT(ribbon->sa, k).point.vx - ribbon->ox[k + 1];
             poly->y3 = (RIBBONS437_NEXT(ribbon->sa, k).packed >> 16) - ribbon->oy[k + 1];
-            poly->r0 = ribbon->color[0];
-            poly->g0 = ribbon->color[1];
-            poly->b0 = ribbon->color[2];
+            poly->r0 = ribbon->style.inner.r;
+            poly->g0 = ribbon->style.inner.g;
+            poly->b0 = ribbon->style.inner.b;
             if (ribbon->otz[k] > 0) {
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)ribbon->otz[k], 1);
             }
