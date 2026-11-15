@@ -21,7 +21,7 @@ typedef struct {
 
 typedef struct {
     ModelVariantWeb webs[3];
-    ModelVariantSpiralWide glows[16];
+    ModelVariantFlaggedSpiralArm glows[16];
     ModelVariantSheet sheet;
     ModelVariantMesh grid;
     Variant476ScreenGrid screen_grid;

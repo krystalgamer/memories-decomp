@@ -20,7 +20,7 @@ s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
     Variant464EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantStreamer *streamer = work->streamers;
-    ModelVariantSpiralWide *spiral = work->spirals;
+    ModelVariantFlaggedSpiralArm *spiral = work->spirals;
     POLY_GT4 *special = &work->special;
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;

@@ -46,7 +46,7 @@ typedef struct {
 typedef struct {
     ExodiaSecondEntryBeam beams[1];
     ModelVariantPointSheet rings[2];
-    ModelVariantSpiralWide petals[12];
+    ModelVariantFlaggedSpiralArm petals[12];
     POLY_F4 flat;
     ModelVariantPackets packets;
     u8 gap_B28[0xC04 - 0xB28];

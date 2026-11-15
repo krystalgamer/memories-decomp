@@ -11,7 +11,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     ExodiaSecondEntryBeam *beam = work->beams;
     ModelVariantPointSheet *ring = work->rings;
-    ModelVariantSpiralWide *colors = work->petals;
+    ModelVariantFlaggedSpiralArm *colors = work->petals;
     POLY_GT4 *textured = work->packets.textured;
     POLY_F4 *flat = &work->flat;
     POLY_G3 *triangle = &work->packets.triangle;

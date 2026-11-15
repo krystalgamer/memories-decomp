@@ -52,7 +52,7 @@ typedef struct {
     u8 unknown_228[0x3A0];
     Variant388EntryFeedback feedback[5];
     ModelVariantColorRing spokes[4];
-    ModelVariantSpiralWide arms[12];
+    ModelVariantFlaggedSpiralArm arms[12];
     ModelVariantPackets packets;
     POLY_GT4 paged;
     POLY_GT4 plain;
