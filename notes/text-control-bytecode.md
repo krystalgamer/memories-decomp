@@ -226,16 +226,18 @@ table entries, layout fields or constructor/release behavior are introduced.
 ## Canonical channel stream-storage names
 
 stream_index names the channel's original s8 stream_58 at +0x58, matching
-the existing narrow TextStreamOwner.stream_index. root_stream names its
-original stored u8 pointer text_00 at +0x00: it is the mutable cursor for
-slot zero, NOT a saved immutable root-string base. decimal_buffer names
+the then-existing narrow TextStreamOwner.stream_index. root_stream named its
+original stored u8 pointer text_00 at +0x00 (now streams[0] of the channel's
+u8 *streams[8] stack, which replaced root_stream, the 0x04-0x1F padding and
+TextStreamOwner; see duel-effect-structures.md, "Runtime: the text stream
+stack"): it is the mutable cursor for slot zero, NOT a saved immutable
+root-string base. decimal_buffer names
 the original u8 text_44[0x0D] at +0x44. No pointer array, stack allocation,
 record layout or narrow-view field is added or changed.
 
 BuildStep stores zero to stream_index and the selected bank pointer to
-root_stream on first build. All ordinary byte/halfword readers select the
-same pointer word with the signed byte; U32LE retains its unchanged
-TextStreamOwner view. Cursor updates, secondary dispatch and command
+streams[0] on first build. All ordinary byte/halfword readers, U32LE
+included, select the same pointer word with the signed byte. Cursor updates, secondary dispatch and command
 operand order remain exactly as before.
 
 FC retains the current slot's high half AFTER its two-byte operand read,
@@ -244,13 +246,14 @@ current-slot replacement. FF keeps signed decrement, the below-zero
 completion test, original flags and disposition. Staged-string push keeps
 its special unsigned-byte increment/store followed by the signed slot
 cast and pointer-slot return. No underflow, overflow or slot bound is
-introduced; the existing 22-pointer view is not a validated depth limit.
+introduced; the eight-slot streams array is a layout bound, not a validated
+depth limit.
 
 Selected-card expansions, formatted decimal and the PAL-only player-name
 push retain their original index/store order, bank expressions and native
-wrappers. The display-effect command's narrow EffectObject.depth view and
-the byte/U32 readers' existing TextStreamOwner.stream_index remain
-unchanged. The new names identify existing storage, not a unified parser
+wrappers. The display-effect command's narrow EffectObject.depth view
+remains unchanged; the byte/U32 readers now take the channel and its
+stream_index. The new names identify existing storage, not a unified parser
 or new stream-lifetime policy.
 
 The existing campaign-duel fixture changes five identifier words only:

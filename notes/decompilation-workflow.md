@@ -644,7 +644,8 @@ adds two more of its own:
 Single ownership applies to unique records too, not only duplicated shapes.
 The text/script pass moved `TextStreamOwner`, `EffectObject`,
 `SceneScriptSlot`, `ScriptImageEntry`, `SceneScriptRecordCallback`, and
-`TextBoxStateCallback` from six interface headers into `ygo_types.h`. Their
+`TextBoxStateCallback` from six interface headers into `ygo_types.h`
+(`TextStreamOwner` was later replaced by `DuelEffectChannel::streams`). Their
 domain headers still own constants, globals, and function declarations; the
 shared type file owns the measured layouts and offset assertions.
 

@@ -250,7 +250,7 @@ in its original offset/width checks. Every assertion, numeric expectation,
 oracle, mutation, scenario, control and flag remains unchanged. No new
 behavioral harness or local cloud-fixture execution is introduced.
 
-`func_800383DC` returns the selected `TextStreamOwner::streams` slot as
+`func_800383DC` returns the selected `DuelEffectChannel::streams` slot as
 `u8 **`, matching the stored byte-stream pointer it publishes there,
 instead of exposing that pointer slot as an integer payload word.
 Regional bank/address construction remains `u32`; conversion to `u8 *`
@@ -341,7 +341,7 @@ that remain in `Dialog_UpdateChoice` mark calls to helpers that still take
 `u8 *`, not uncertainty about the callback record.
 
 `Text_SetFastPrintMode` (originally `func_800384E4`, `0x800384E4`)
-selects the same prefix through `TextStreamOwner::streams`
+selects the same prefix through `DuelEffectChannel::streams`
 and a `u8 **` local rather than raw `u8 **` owner indexing. Its original
 register-qualified locals and their order remain; the operand capture is
 still a full unsigned word, written with the equivalent `u32` alias.
@@ -716,11 +716,11 @@ expressions and other record owners remain. There are zero fixture edits.
 
 ## Runtime: the text stream stack
 
-`TextStreamOwner` views a text channel as 22 stream pointers followed by
-`stream_index` at `+0x58`. A #418 run of `text_stream_owner_watch` (a Free
-Duel against Duel Master K with card previews, damage and LP messages; 10,586
-frames, all nine watched entry words verified) shows the stream part is much
-smaller:
+The code used to read a channel's streams through `TextStreamOwner`, a view of
+22 stream pointers that only existed to place `stream_index` at `+0x58`. A
+#418 run of `text_stream_owner_watch` (a Free Duel against Duel Master K with
+card previews, damage and LP messages; 10,586 frames, all nine watched entry
+words verified) shows the stream part is much smaller:
 
 - Only `gText_aChannels[0..3]` (`0x800EB0F8`, stride `0x64`) were ever passed
   to the text builder, the push/pop commands or the stream readers.
@@ -733,4 +733,12 @@ smaller:
   `.bss` at `+0x20`..`+0x2C`, plain values from `+0x34`.
 
 So the stream stack is at most eight pointers (`+0x00`..`+0x1F`), probably
-fewer, and the 22-pointer view only exists to place `stream_index`.
+fewer. `DuelEffectChannel` now declares it as `u8 *streams[8]` (replacing the
+old `root_stream` plus `pad_04[0x1C]`; slot 0 is the former `root_stream`),
+and every reader indexes `channel->streams[channel->stream_index]` directly.
+`TextStreamOwner`, its `TEXT_STREAM_OWNER`/`TEXT_STREAM_OWNER_VIEW` casts and
+the `DuelEffectCommand` view used by `DuelEffect_FadeOutBgmCommand` are gone;
+`TextStream_ReadByte`, `TextStream_ReadU32LE` and `Text_ExtendGlyphCode` take
+`DuelEffectChannel *`. Every regional executable and overlay still matches
+byte-for-byte. Eight is the bound the layout allows, not a measured depth;
+nothing in the code checks it.
