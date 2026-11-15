@@ -6,7 +6,7 @@
 /* Draws two sheets of four POLY_GT4 quads, the second placed along the
  * variant's path, and grows or shrinks each sheet's size through the
  * variant's phases. */
-void ModelVariant405_DrawSheets(u8 *ctx)
+void ModelVariant405_DrawSheets(Variant422EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,10 +24,10 @@ void ModelVariant405_DrawSheets(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = (Variant422EntryState *)ctx;
-    sheet = (ModelVariantSheet *)(ctx + 0x147C);
+    work = context;
+    sheet = context->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(ctx + 0x1C84);
+    poly = &context->packets.textured[1];
     for (i = 0; i < 2; i++, sheet++) {
         bias = 0;
         if (work->clock.frame_count & 1) {
