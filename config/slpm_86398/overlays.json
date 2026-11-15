@@ -3,11 +3,11 @@
     {
       "archive": "game/japanese/DATA/WA_MRG.MRG",
       "archive_sha256": "e779da0cb32efc6f1cc5e32d9e45b22c2b449c5c37a7735592cd5ac90f0c63fc",
-      "layout": "config/slpm_86398/overlays/apv2.yaml",
-      "linker_symbols": "config/slpm_86398/overlays/apv2_linker_symbols.txt",
+      "layout": "config/slpm_86398/overlays/safecheck2003.yaml",
+      "linker_symbols": "config/slpm_86398/overlays/safecheck2003_linker_symbols.txt",
       "load_address": "0x80168000",
-      "name": "japanese_apv2",
-      "output": "tmp/overlays/japanese_apv2/module.bin",
+      "name": "japanese_safecheck2003",
+      "output": "tmp/overlays/japanese_safecheck2003/module.bin",
       "sector_count": 3,
       "sector_offset": 5810,
       "sha256": "d3a0866d686b186e697b2726f44f96c5c4362cfa1188a2d7008a883c55adede9"

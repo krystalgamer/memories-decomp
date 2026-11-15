@@ -1,14 +1,14 @@
 #include "../../types.h"
-#include "apv2.h"
+#include "safecheck2003.h"
 #include "../../psyq/libapi.h"
 #include "../../psyq/strings.h"
 
 extern s32 D_801694D0;
 
 u32 func_801691F0(u8 *);
-void SafetyCheck4(Apv2Rect *, u8 *, s32, u32);
+void SafetyCheck4(SafechkRect *, u8 *, s32, u32);
 
-void SafetyCheck3(u8 *str, Apv2Rect *rect, s32 color)
+void SafetyCheck3(u8 *str, SafechkRect *rect, s32 color)
 {
     s32 len;
     s32 x;

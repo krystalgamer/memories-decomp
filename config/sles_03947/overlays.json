@@ -3,11 +3,11 @@
     {
       "archive": "game/europe/DATA/WA_MRG.MRG",
       "archive_sha256": "b0b4ddca3a872e7579343eb18874bc22db0d9a3adf43ca440ab7d8e337a81d7c",
-      "layout": "config/sles_03947/overlays/apv2.yaml",
-      "linker_symbols": "config/sles_03947/overlays/apv2_linker_symbols.txt",
+      "layout": "config/sles_03947/overlays/safecheck2003.yaml",
+      "linker_symbols": "config/sles_03947/overlays/safecheck2003_linker_symbols.txt",
       "load_address": "0x80168000",
-      "name": "european_apv2",
-      "output": "tmp/overlays/european_apv2/module.bin",
+      "name": "european_safecheck2003",
+      "output": "tmp/overlays/european_safecheck2003/module.bin",
       "sector_count": 3,
       "sector_offset": 9509,
       "sha256": "35b88eeddc1320f740e24f7ba7c3972ebe5549aebb8c478ebcfdd046f151a25c"

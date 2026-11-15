@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "apv2.h"
+#include "safecheck2003.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 
@@ -7,7 +7,7 @@ extern u8 safechk_coords[][2];
 
 void SafetyCheck5(void)
 {
-    Apv2FramePoly poly;
+    SafechkFramePoly poly;
     s32 i;
     s32 j;
     s32 k;
@@ -19,7 +19,7 @@ void SafetyCheck5(void)
     poly.code = 0x280000FF;
     for (i = 0; i < 16; i++) {
         for (j = 0; j < 4; j++) {
-            Apv2FramePoly *pp = &poly;
+            SafechkFramePoly *pp = &poly;
             s8 dir[8] = { 1, 1, -1, 1, 1, -1, -1, -1 };
 
             for (k = 0; k < 4; k++) {

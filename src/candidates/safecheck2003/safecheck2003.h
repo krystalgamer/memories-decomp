@@ -1,9 +1,9 @@
-#ifndef MEMORIES_DECOMP_CANDIDATES_APV2_H
-#define MEMORIES_DECOMP_CANDIDATES_APV2_H
+#ifndef MEMORIES_DECOMP_CANDIDATES_SAFECHECK2003_H
+#define MEMORIES_DECOMP_CANDIDATES_SAFECHECK2003_H
 
 #include "../../types.h"
 
-/* Types shared by the APv2 module candidates (WA_MRG module 0x16, loaded at
+/* Types shared by the safechk module candidates (WA_MRG module 0x16, loaded at
  * 0x80168000). Offsets come from the retail accesses. */
 
 /* One safechk_commands entry: a CD-ROM controller command, its parameter and
@@ -13,7 +13,7 @@ typedef struct {
     u8 nparams;
     u8 nresults;
     u8 wait;
-} Apv2CdCommand;
+} SafechkCdCommand;
 
 /* One D_8016947C entry: a warning message line. */
 typedef struct {
@@ -24,14 +24,14 @@ typedef struct {
     s16 x;
     s16 y;
     u8 *text;
-} Apv2Message;
+} SafechkMessage;
 
 typedef struct {
     s16 x;
     s16 y;
     s16 w;
     s16 h;
-} Apv2Rect;
+} SafechkRect;
 
 /* The glyph sprite SafetyCheck4 builds on the stack. */
 typedef struct {
@@ -40,13 +40,13 @@ typedef struct {
     u32 xy;
     u32 wh;
     u16 data[16];
-} Apv2GlyphPrim;
+} SafechkGlyphPrim;
 
 /* The frame polygon SafetyCheck5 builds on the stack. */
 typedef struct {
     u32 tag;
     u32 code;
     u32 xy[4];
-} Apv2FramePoly;
+} SafechkFramePoly;
 
 #endif

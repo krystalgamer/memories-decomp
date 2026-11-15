@@ -45,7 +45,7 @@ class RetiredProfileTests(unittest.TestCase):
                     # the WA_MRG boot module's Sony code, passed through
                     # MASPSX untouched and assembled in reorder mode; it
                     # builds seven of its nine functions. See
-                    # notes/overlays/apv2.md.
+                    # notes/overlays/safecheck2003.md.
                     self.assertIn("gcc-2.7.2-psx", profile["compiler"])
                     self.assertEqual(profile["maspsx_flags"], ["--passthrough"])
                 elif name.startswith("gcc_2_7_2_cygnus_"):

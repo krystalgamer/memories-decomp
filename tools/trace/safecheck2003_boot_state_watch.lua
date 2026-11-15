@@ -1,7 +1,7 @@
--- apv2_boot_state_watch.lua
+-- safecheck2003_boot_state_watch.lua
 --
 -- WHAT THIS ANSWERS
---   The APv2 boot module (Sony's anti-modchip check, notes/overlays/apv2.md)
+--   The safechk boot module (Sony's anti-modchip check, notes/overlays/safecheck2003.md)
 --   is WA_MRG module 0x16 at 0x80168000. All nine of its functions and its
 --   20 controller states are still address-named. Main_RunBootSequence
 --   (src/game/main_boot_frontend.c) calls SafetyInit once and then
@@ -20,7 +20,7 @@
 --   The emulator answers like an unmodified console, so only the clean path
 --   is observable here; the warning branches stay static evidence.
 --
--- WHERE THE VALUES LIVE (from src/candidates_target/apv2/*.S)
+-- WHERE THE VALUES LIVE (from src/candidates_target/safecheck2003/*.S)
 --   * State: the s32 D_80169474. SafetySync loads it at 0x80168178, bounds
 --     it with sltiu 0x14 and indexes the jump table at 0x80168004; every case
 --     stores the next state back there. SafetyInit writes it (1 or 0) and
@@ -73,7 +73,7 @@
 --   3. Reset the console (soft or hard reset) and let the game boot by
 --      itself to the title screen. The boot may run slower than usual.
 --   4. The document prints by itself. Copy it into
---      tools/trace/result/apv2_boot_state_watch.txt and fill in the context.
+--      tools/trace/result/safecheck2003_boot_state_watch.txt and fill in the context.
 --
 -- WHAT TO WRITE IN THE CONTEXT
 --   Soft or hard reset? Did a "SOFTWARE TERMINATED" warning appear, and did
@@ -81,7 +81,7 @@
 
 local ffi = require('ffi')
 
-local SCRIPT_NAME = 'apv2_boot_state_watch'
+local SCRIPT_NAME = 'safecheck2003_boot_state_watch'
 -- Breakpoints fire only while the debugger setting is on and the interpreter
 -- CPU is the engine actually running. PCSX-Redux reads the debugger flag live,
 -- so a script can switch it on itself. The CPU engine is chosen at emulator
@@ -271,7 +271,7 @@ local function newBoot()
 end
 newBoot()
 
-breakpoints_apv2_boot_state_watch = {}
+breakpoints_safecheck2003_boot_state_watch = {}
 
 local function stamp()
     return string.format('b=%d vs=%d t=%6.1fs bt=%5.1fs', resets, vsyncs,
@@ -313,7 +313,7 @@ local function moduleIsUs(label)
     end
     refused = refused + 1
     local text = string.format('refused %s: 0x80168000 does not hold the US '
-                               .. 'APv2 image (%d/%d words differ; %s)', label,
+                               .. 'safechk image (%d/%d words differ; %s)', label,
                                #bad, #MODULE_SIGNATURE, bad[1])
     if firstRefused == nil then firstRefused = text end
     if refusedRows < MAX_REFUSED_ROWS then
@@ -442,7 +442,7 @@ local function onControllerExit()
     end
     if ret == 0 and boot.doneAt == nil then
         boot.doneAt = vsyncs
-        live(string.format('%s %s returned 0 after %d calls: APv2 finished; '
+        live(string.format('%s %s returned 0 after %d calls: safechk finished; '
                            .. 'the document follows in %d s', stamp(),
                            CONTROLLER[3], boot.controllerCalls,
                            GRACE_FRAMES / FPS))
@@ -565,7 +565,7 @@ local function guarded(handler)
 end
 
 local function add(sig, handler)
-    local list = breakpoints_apv2_boot_state_watch
+    local list = breakpoints_safecheck2003_boot_state_watch
     local mine = generation
     list[#list + 1] = traceAddBreakpoint(sig[1], 'Exec', 4,
                                          SCRIPT_NAME .. ': ' .. sig[3],
@@ -576,7 +576,7 @@ end
 
 local function installBreakpoints(note)
     generation = generation + 1
-    breakpoints_apv2_boot_state_watch = {}
+    breakpoints_safecheck2003_boot_state_watch = {}
     add(CONTROL, onControl)
     add(SELECT, onSelect)
     add(SELECT_EXIT, onSelectExit)
@@ -589,7 +589,7 @@ local function installBreakpoints(note)
     for _, sig in ipairs(HELPERS) do add(sig, onHelper(sig)) end
     installNote = note
     print(string.format('%s: %d breakpoints %s', SCRIPT_NAME,
-                        #breakpoints_apv2_boot_state_watch, note))
+                        #breakpoints_safecheck2003_boot_state_watch, note))
 end
 
 local function sortedKeys(t)
@@ -603,7 +603,7 @@ local function sortedKeys(t)
     return keys
 end
 
-local function apv2Hits(b)
+local function safecheck2003Hits(b)
     return b.selectCalls + b.controllerCalls + b.sends
         + (b.warning and 1 or 0)
 end
@@ -623,7 +623,7 @@ local function bootSummary(b)
 end
 
 local function verdict()
-    local any = controlTotal + refused + apv2Hits(boot)
+    local any = controlTotal + refused + safecheck2003Hits(boot)
     if any == 0 and not traceExecutionObserved then
         return 'nothing fired, not even the Main_RunFrameServices control: '
             .. 'the setup failed (debugger off, dynarec still running, or '
@@ -633,17 +633,17 @@ local function verdict()
     if callbackError ~= nil then
         return 'inconclusive: a callback failed'
     end
-    if resets == 0 and apv2Hits(boot) == 0 then
-        return 'inconclusive: no reset observed after arming; APv2 only runs '
+    if resets == 0 and safecheck2003Hits(boot) == 0 then
+        return 'inconclusive: no reset observed after arming; safechk only runs '
             .. 'while the game boots, so reset the console after pasting'
     end
-    if apv2Hits(boot) == 0 then
+    if safecheck2003Hits(boot) == 0 then
         if refused > 0 then
             return string.format('inconclusive: only code other than the US '
-                .. 'APv2 image ran at the watched addresses (%d refused '
+                .. 'safechk image ran at the watched addresses (%d refused '
                 .. 'hits); wrong disc or region?', refused)
         end
-        return string.format('inconclusive: no APv2 breakpoint fired after '
+        return string.format('inconclusive: no safechk breakpoint fired after '
             .. 'the reset (control hits this boot=%d)', boot.control)
     end
     if boot.warning ~= nil then
@@ -651,7 +651,7 @@ local function verdict()
             .. dec(boot.finalState) .. '); see its row'
     end
     if boot.doneAt ~= nil then
-        return string.format('APv2 completed on the unmodified path: '
+        return string.format('safechk completed on the unmodified path: '
             .. 'SafetyInit %s, SafetySync returned 0 after %d calls at '
             .. 'bt=%.1fs, %d CD commands sent, the warning never ran; the '
             .. 'game ran %d frame services afterwards',
@@ -659,14 +659,14 @@ local function verdict()
             (boot.doneAt - boot.startVs) / FPS, boot.sends,
             boot.controlAfterDone)
     end
-    return 'inconclusive: APv2 ran but SafetySync never returned 0 '
+    return 'inconclusive: safechk ran but SafetySync never returned 0 '
         .. 'within the window (last state ' .. dec(boot.finalState) .. ')'
 end
 
 local function finish(reason)
     if done then return end
     done = true
-    for _, bp in ipairs(breakpoints_apv2_boot_state_watch) do
+    for _, bp in ipairs(breakpoints_safecheck2003_boot_state_watch) do
         pcall(function() bp:disable() end)
     end
     print('')
@@ -777,7 +777,7 @@ local function poll()
     end
 end
 
-listeners_apv2_boot_state_watch = {
+listeners_safecheck2003_boot_state_watch = {
     PCSX.Events.createEventListener('GPU::Vsync', function()
         local ok, err = pcall(poll)
         if not ok then finish('script error: ' .. tostring(err)) end
@@ -787,9 +787,9 @@ listeners_apv2_boot_state_watch = {
             if done then return end
             -- PCSX-Redux drops Lua breakpoints on reset; each boot is its
             -- own capture.
-            breakpoints_apv2_boot_state_watch = {}
+            breakpoints_safecheck2003_boot_state_watch = {}
             generation = generation + 1
-            if apv2Hits(boot) > 0 and #earlierBoots < MAX_EARLIER_BOOTS then
+            if safecheck2003Hits(boot) > 0 and #earlierBoots < MAX_EARLIER_BOOTS then
                 earlierBoots[#earlierBoots + 1] = bootSummary(boot)
             end
             resets = resets + 1
@@ -819,11 +819,11 @@ do
                                                            .. bad[1])))
     local moduleBad = checkWords(MODULE_SIGNATURE)
     print(string.format('%s: 0x80168000 now holds %s', SCRIPT_NAME,
-                        #moduleBad == 0 and 'the US APv2 image'
+                        #moduleBad == 0 and 'the US safechk image'
                             or 'another module (expected at the main menu)'))
 end
 print(SCRIPT_NAME .. ': armed. Route: reset the console now (soft or hard '
       .. 'reset) and let the game boot by itself to the title screen; the '
       .. 'boot may run slower than usual. The document prints by itself '
-      .. (GRACE_FRAMES / FPS) .. ' s after the APv2 check finishes, or '
+      .. (GRACE_FRAMES / FPS) .. ' s after the safechk check finishes, or '
       .. (WINDOW_FRAMES / FPS) .. ' s after the last reset.')

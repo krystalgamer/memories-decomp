@@ -4,7 +4,7 @@
 The source is the cygnus-2.7.2-970404 tree published by decompals/old-gcc
 (b18.tar.gz, the compiler of Psy-Q 4.1 CC1PSX SN32.3.7.0004), with the
 decompals CDK build patches and two historical reverts kept under
-tools/bootstrap/patches/ (see their headers and notes/overlays/apv2.md).
+tools/bootstrap/patches/ (see their headers and notes/overlays/safecheck2003.md).
 The C parser is generated with a pinned byacc built from source.
 """
 

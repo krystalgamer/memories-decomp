@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "name": "gcc-2.7.2-cygnus-970404-r",
-  "description": "cygnus-2.7.2-970404 (SN32.3.7.0004) without the 1997-03-18 assign_parms and 1997-03-26 reload_cse_regs changes: the compiler of the Sony safechk module (notes/overlays/apv2.md)",
+  "description": "cygnus-2.7.2-970404 (SN32.3.7.0004) without the 1997-03-18 assign_parms and 1997-03-26 reload_cse_regs changes: the compiler of the Sony safechk module (notes/overlays/safecheck2003.md)",
   "source": {
     "url": "https://github.com/decompals/old-gcc/releases/download/0.14/b18.tar.gz",
     "sha256": "de4cba44576a4de3b6f750a5a3559fe9e91de1a75ccdf02d41bcf71f76114144",

@@ -6,7 +6,7 @@
 /* Process termination without the legacy stdlib header's include bundle. */
 #ifdef PSYQ_EXIT_UNPROTOTYPED
 /* The legacy stdlib.h spelling: no prototype and no noreturn, so a call
- * passes no argument and keeps its return path (the APv2 module's
+ * passes no argument and keeps its return path (the safechk module's
  * SafetyCheck2 calls exit() this way). */
 extern void exit();
 #else

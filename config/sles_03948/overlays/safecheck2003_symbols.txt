@@ -1,4 +1,4 @@
-// APv2, Sony's anti-modchip protection (WA_MRG module ID 0x16), loaded at 0x80168000 by
+// safechk (formerly called APv2), Sony's anti-modchip protection (WA_MRG module ID 0x16), loaded at 0x80168000 by
 // Main_RunBootSequence. It is the runtime library safechk 2.0.0.3 (see __ps_libinfo__);
 // the names follow Sony's 1.0.0.3 object as published in mgs_reversing's asm/safechk.s.
 safechk_offset = 0x801680E4;

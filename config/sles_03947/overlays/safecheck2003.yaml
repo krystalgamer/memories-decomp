@@ -1,0 +1,66 @@
+name: european_safecheck2003
+sha1: 6574560455a6f8b510c822dae896a5c490b37d0b
+
+options:
+  basename: european_safecheck2003
+  base_path: ../../..
+  target_path: tmp/overlays/european_safecheck2003/module.bin
+  elf_path: tmp/overlays/european_safecheck2003/build/european_safecheck2003.elf
+  platform: psx
+  compiler: PSYQ
+  endianness: little
+
+  asm_path: tmp/overlays/european_safecheck2003/asm
+  src_path: src
+  build_path: tmp/overlays/european_safecheck2003/build
+  asset_path: tmp/overlays/european_safecheck2003/assets
+  cache_path: tmp/overlays/european_safecheck2003/cache
+  data_path: data
+  nonmatchings_path: nonmatchings
+  matchings_path: matchings
+
+  ld_script_path: tmp/overlays/european_safecheck2003/european_safecheck2003.ld
+  generated_asm_macros_directory: tmp/overlays/european_safecheck2003/include
+  lib_path: tmp/overlays/european_safecheck2003/lib
+  o_path: tmp/overlays/european_safecheck2003/build
+  undefined_funcs_auto_path: tmp/overlays/european_safecheck2003/undefined_funcs_auto.txt
+  undefined_syms_auto_path: tmp/overlays/european_safecheck2003/undefined_syms_auto.txt
+
+  symbol_addrs_path:
+    - config/sles_03947/overlays/safecheck2003_symbols.txt
+
+  find_file_boundaries: false
+  check_consecutive_segment_types: false
+  o_as_suffix: true
+  use_legacy_include_asm: false
+  create_asm_dependencies: true
+  ld_dependencies: true
+  subalign: 2
+
+  section_order:
+    - ".rodata"
+    - ".text"
+    - ".data"
+    - ".sdata"
+    - ".sbss"
+    - ".bss"
+
+segments:
+  - name: module_header
+    type: code
+    start: 0x0
+    vram: 0x80168000
+    align: 4
+    subsegments:
+      - [0x0, data, overlays/safecheck2003/module_header]
+
+  - name: module
+    type: code
+    start: 0xF4
+    vram: 0x801680F4
+    align: 4
+    subsegments:
+      - [0xF4, asm, overlays/safecheck2003/safecheck2003]
+      - [0x140C, data, overlays/safecheck2003/data]
+
+  - [0x1800]

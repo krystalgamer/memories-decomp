@@ -1,10 +1,10 @@
 -- Run from the repository root:
---   luajit tools/trace/tests/apv2_boot_state_watch_test.lua
+--   luajit tools/trace/tests/safecheck2003_boot_state_watch_test.lua
 -- Replays callbacks with mock PCSX events and real LuaJIT FFI memory.
 local ffi = require('ffi')
 assert(PCSX == nil, 'run this standalone, not inside the emulator console')
 local hostPrint = print
-local scriptPath = SCRIPT_UNDER_TEST or 'tools/trace/apv2_boot_state_watch.lua'
+local scriptPath = SCRIPT_UNDER_TEST or 'tools/trace/safecheck2003_boot_state_watch.lua'
 
 local RAM_BASE = 0x80000000
 local CONTROL = 0x8001306c
@@ -26,7 +26,7 @@ local MODULE_WORDS = {
     [POLL_EXIT] = 0x03e00008, [SEND] = 0x00002821,
     [0x80168a30] = 0x0c01d05c, [0x80168d6c] = 0x0c01fcd4,
 }
--- safechk_commands, as in tmp/overlays/apv2/module.bin.
+-- safechk_commands, as in tmp/overlays/safecheck2003/module.bin.
 local COMMAND_TABLE = {
     {0x01, 0, 1, 3}, {0x13, 0, 3, 3}, {0x14, 1, 3, 3}, {0x02, 3, 1, 3},
     {0x16, 0, 1, 5}, {0x0e, 1, 1, 3}, {0x0a, 0, 1, 5}, {0x0b, 0, 1, 3},
@@ -69,8 +69,8 @@ local function capture()
             return {}
         end},
     }
-    breakpoints_apv2_boot_state_watch = nil
-    listeners_apv2_boot_state_watch = nil
+    breakpoints_safecheck2003_boot_state_watch = nil
+    listeners_safecheck2003_boot_state_watch = nil
     dofile(scriptPath)
 
     local t = {output = output}
@@ -157,7 +157,7 @@ end
 local function finished(t)
     assert(t:countOf('==== TRACE RESULT =====') == 1)
     assert(t:countOf('==== USER CONTEXT ====') == 1)
-    assert(t:countOf('script: apv2_boot_state_watch') == 1)
+    assert(t:countOf('script: safecheck2003_boot_state_watch') == 1)
     assert(t:has('setup: debugger=on configured_cpu=interpreter'))
     assert(t:allDisabled())
     t:frames(WINDOW + 1)
@@ -225,14 +225,14 @@ do
            'repeats print once')
     assert(t:countOf('state 14 -> 14 ret=14') == 1)
     assert(t:has('state 14 -> 15 ret=14 calls=1005 repeats_before=999'))
-    assert(t:has('returned 0 after 1007 calls: APv2 finished'))
+    assert(t:has('returned 0 after 1007 calls: safechk finished'))
     t:frames(GRACE - 1)
     assert(not t:has('==== TRACE RESULT ====='), 'grace period pinned')
     t:exec(CONTROL)
     t:frames(1)
     assert(t:has('status: SafetySync returned 0 and 5 s passed'))
     assert(t:has('resets: 1'))
-    assert(t:has('verdict: APv2 completed on the unmodified path: '
+    assert(t:has('verdict: safechk completed on the unmodified path: '
                  .. 'SafetyInit ran, SafetySync returned 0 after 1007 '
                  .. 'calls at bt=0.5s, 4 CD commands sent, the warning never '
                  .. 'ran; the game ran 1 frame services afterwards'))
@@ -267,7 +267,7 @@ do
     for _ = 1, 20 do t:poll(1, 1, 3, {1}) end
     assert(t:countOf(': 0x80168000 does not hold the US') == 8)
     assert(t:has('refused SafetyInit: 0x80168000 does not hold the US '
-                 .. 'APv2 image (12/12 words differ; module word 0x80168000 '
+                 .. 'safechk image (12/12 words differ; module word 0x80168000 '
                  .. 'expected 0x00000016 read 0000002A)'))
     -- The Japanese image differs only in its jal words.
     t:loadUs()
@@ -279,7 +279,7 @@ do
     assert(t:has('verified_hits_this_boot=0'))
     assert(t:has('SafetySync: calls=0'))
     assert(t:has('func_80168C6C: sends=0 -'))
-    assert(t:has('verdict: inconclusive: only code other than the US APv2 '
+    assert(t:has('verdict: inconclusive: only code other than the US safechk '
                  .. 'image ran at the watched addresses (45 refused hits)'))
     finished(t)
 end
@@ -376,12 +376,12 @@ do
     assert(t:has('func_80168C6C: sends=70 0(0x01 Getstat)x70'))
     assert(t:has('func_80168A98: n=1 zero=0 ok=0 err=0 err_status=8'))
     assert(t:has('controller_rows=80/80 send_rows=60/60'))
-    assert(t:has('verdict: inconclusive: APv2 ran but SafetySync never '
+    assert(t:has('verdict: inconclusive: safechk ran but SafetySync never '
                  .. 'returned 0 within the window (last state 2)'))
     finished(t)
 end
 
--- No reset: APv2 cannot have run; the human is told to reset.
+-- No reset: safechk cannot have run; the human is told to reset.
 do
     local t = capture()
     t:exec(CONTROL)
@@ -391,13 +391,13 @@ do
     finished(t)
 end
 
--- Reset, control fired again, APv2 silent.
+-- Reset, control fired again, safechk silent.
 do
     local t = capture()
     t:reset()
     t:exec(CONTROL)
     t:frames(WINDOW)
-    assert(t:has('verdict: inconclusive: no APv2 breakpoint fired after the '
+    assert(t:has('verdict: inconclusive: no safechk breakpoint fired after the '
                  .. 'reset (control hits this boot=1)'))
     finished(t)
 end
@@ -429,4 +429,4 @@ end
 
 print = hostPrint
 PCSX = nil
-print('apv2_boot_state_watch_test: all scenarios passed')
+print('safecheck2003_boot_state_watch_test: all scenarios passed')

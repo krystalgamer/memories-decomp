@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "apv2.h"
+#include "safecheck2003.h"
 
-extern Apv2CdCommand safechk_commands[];
+extern SafechkCdCommand safechk_commands[];
 /* D_8016941D is the nparams byte of safechk_commands[0]. */
 extern u8 D_8016941D[];
 /* D_80169458, D_8016945C and D_80169460 are safechk_cdregs[1..3]; indexing

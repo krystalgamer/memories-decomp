@@ -1,15 +1,15 @@
 #include "../../types.h"
-#include "apv2.h"
+#include "safecheck2003.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libetc.h"
 #define PSYQ_EXIT_UNPROTOTYPED
 #include "../../psyq/exit.h"
 
-extern Apv2Message D_8016947C[];
+extern SafechkMessage D_8016947C[];
 extern s32 D_801694D0;
 
-extern void SafetyCheck3(u8 *, Apv2Rect *, s32);
+extern void SafetyCheck3(u8 *, SafechkRect *, s32);
 extern void SafetyCheck5(void);
 
 void SafetyCheck2(void)
@@ -18,7 +18,7 @@ void SafetyCheck2(void)
     DISPENV disp;
     DR_ENV drenv;
     u32 prim[3];
-    Apv2Rect rect;
+    SafechkRect rect;
     s32 i;
     s32 color;
     s16 x;

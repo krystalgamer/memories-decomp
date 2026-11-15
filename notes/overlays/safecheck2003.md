@@ -1,20 +1,23 @@
-# APv2 boot protection module
+# safechk 2.0.0.3 boot protection module (`safecheck2003`)
 
 The boot sequence loads WA_MRG module `0x16` at `0x80168000` before the
-title screen. It is Sony's APv2 anti-modchip check. `Main_RunBootSequence`
-calls `SafetyInit` once and then calls `SafetySync(1)` every frame until
-it returns zero.
+title screen. It is Sony's anti-modchip check, the runtime library safechk
+2.0.0.3, and its modules are named `safecheck2003` after that version (they
+were formerly called `apv2`; the two pinned compiler patches under
+`tools/bootstrap/patches/` still cite this note as `apv2.md`).
+`Main_RunBootSequence` calls `SafetyInit` once and then calls `SafetySync(1)`
+every frame until it returns zero.
 
 | Region | Module | WA sectors | Header word |
 |---|---|---|---|
-| USA | `apv2` | `5827` x3 | `0x16` |
-| Japan | `japanese_apv2` | `5810` x3 | `0x16` |
-| Europe | `european_apv2` | `9509` x3 | `0x09` |
-| France, Germany, Italy, Spain | `french_apv2`, `german_apv2`, `italian_apv2`, `spanish_apv2` | `9509` x3 | `0x09` |
+| USA | `safecheck2003` | `5827` x3 | `0x16` |
+| Japan | `japanese_safecheck2003` | `5810` x3 | `0x16` |
+| Europe | `european_safecheck2003` | `9509` x3 | `0x09` |
+| France, Germany, Italy, Spain | `french_safecheck2003`, `german_safecheck2003`, `italian_safecheck2003`, `spanish_safecheck2003` | `9509` x3 | `0x09` |
 
 There are four distinct images: USA, Japan, Europe, and one image shared by the
 four other PAL regions. Their code is identical apart from the `jal` targets
-of the twelve resident Psy-Q calls. Each region's `apv2_linker_symbols.txt`
+of the twelve resident Psy-Q calls. Each region's `safecheck2003_linker_symbols.txt`
 binds those names to the region's addresses.
 
 ## Layout
@@ -174,14 +177,14 @@ MASPSX's normal processing cannot model this output: it always emits
 ## Candidates
 
 The module still builds from assembly. All nine functions have C candidates in
-`src/candidates/apv2/`, with targets in `src/candidates_target/apv2/` and
+`src/candidates/safecheck2003/`, with targets in `src/candidates_target/safecheck2003/` and
 entries in `config/slus_01411/candidates.json`. Their shared types are in
-`src/candidates/apv2/apv2.h`.
+`src/candidates/safecheck2003/safecheck2003.h`.
 
 All nine are exact under the profile: built through `candidate_builds.py`,
 each object linked at its retail address, with the jump table of
 `SafetySync` at `0x80168004` and `safechk_offset` at `0x801680E4`, reproduces
-the retail bytes. Linked against each region's `apv2_linker_symbols.txt`,
+the retail bytes. Linked against each region's `safecheck2003_linker_symbols.txt`,
 the same objects reproduce all four regional images as well. The module can
 therefore move to C as a whole.
 

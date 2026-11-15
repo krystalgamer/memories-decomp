@@ -1,14 +1,14 @@
 #include "../../types.h"
-#include "apv2.h"
+#include "safecheck2003.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 
 extern s32 D_801694D0;
-extern Apv2Message D_8016947C[];
+extern SafechkMessage D_8016947C[];
 
-void SafetyCheck4(Apv2Rect *rect, u8 *bits, u16 color, u32 range)
+void SafetyCheck4(SafechkRect *rect, u8 *bits, u16 color, u32 range)
 {
-    Apv2GlyphPrim prim;
+    SafechkGlyphPrim prim;
     s32 x;
     s32 y;
     s32 row;
