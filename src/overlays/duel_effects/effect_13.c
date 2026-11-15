@@ -45,7 +45,7 @@ void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
                 DuelEffect_InitJaggedColumnVertices(work->config->radius, work->config->size >> 1,
                              work->config->height, 8, work->paths[i]);
                 setVector(&work->endpoints[i], 0, 0, 0);
-                DuelEffect_SetRgbColor((u8 *)&work->colors[i], work->config->color[0],
+                DuelEffect_SetRgbColor(&work->colors[i], work->config->color[0],
                              work->config->color[1], work->config->color[2]);
                 work->ages[i] = 0;
                 work->states[i] = 0;
@@ -60,14 +60,14 @@ void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
             work->ready = 0;
             work->number_mode = 0;
             work->number = number;
-            DuelEffect_SetRgbColor((u8 *)&work->glow_color, work->config->color[0] >> 3,
+            DuelEffect_SetRgbColor(&work->glow_color, work->config->color[0] >> 3,
                          work->config->color[1] >> 3, work->config->color[2] >> 3);
             if (work->config->background == 0) {
-                DuelEffect_SetGrayColor((u8 *)&work->background_color, 0);
+                DuelEffect_SetGrayColor(&work->background_color, 0);
             } else {
-                DuelEffect_SetGrayColor((u8 *)&work->background_color, 1);
+                DuelEffect_SetGrayColor(&work->background_color, 1);
             }
-            DuelEffect_SetRgbColor((u8 *)&work->number_color, work->config->number_color[0],
+            DuelEffect_SetRgbColor(&work->number_color, work->config->number_color[0],
                          work->config->number_color[1], work->config->number_color[2]);
         }
     } else if (work->cross_frame != 0) {
@@ -85,14 +85,14 @@ void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         world = *(MATRIX *)Model_GetLightSourceMatrix();
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->glow_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->glow_color)) {
             setVector(&rotation, 0, 0, work->tick * 128);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, scale_pointer, 0);
             if (work->config->blend != 1) {
                 gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(gDuelEffect_StatPenaltyTextureImages[0].pmode,
                     work->config->blend, gDuelEffect_StatPenaltyTextureImages[0].px, gDuelEffect_StatPenaltyTextureImages[0].py);
             }
-            DuelEffect_DrawLayeredTileQuad((u8 *)&work->glow_color, work->config->size, 1, position_pointer);
+            DuelEffect_DrawLayeredTileQuad(&work->glow_color, work->config->size, 1, position_pointer);
             if (work->config->blend != 1) {
                 color = work->glow_color;
                 color.r /= 4;
@@ -100,44 +100,44 @@ void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
                 color.r /= 4;
                 gDuelEffect_TexturePageClutPairs.named.page_at_00 = getTPage(gDuelEffect_StatPenaltyTextureImages[0].pmode,
                     1, gDuelEffect_StatPenaltyTextureImages[0].px, gDuelEffect_StatPenaltyTextureImages[0].py);
-                DuelEffect_DrawLayeredTileQuad((u8 *)&color, work->config->size * 2, 16, position_pointer);
+                DuelEffect_DrawLayeredTileQuad(&color, work->config->size * 2, 16, position_pointer);
             }
             if (work->active == 48) {
-                DuelEffect_DarkenColor((u8 *)&work->glow_color, 15);
+                DuelEffect_DarkenColor(&work->glow_color, 15);
             } else {
-                DuelEffect_StepColorToTarget((u8 *)&work->glow_color, work->config->color[0] >> 1,
+                DuelEffect_StepColorToTarget(&work->glow_color, work->config->color[0] >> 1,
                              work->config->color[1] >> 1, work->config->color[2] >> 1, 15);
             }
         }
         if (work->config->background == 1 &&
-            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
+            (u16)DuelEffect_HasNonzeroColor(&work->background_color)) {
             setVector(&rotation, 0, 0, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 0);
-            DuelEffect_DrawQuadrantTileQuads((u8 *)&work->background_color, work->config->size * 2, 32);
+            DuelEffect_DrawQuadrantTileQuads(&work->background_color, work->config->size * 2, 32);
             if (work->ready == 0) {
-                work->ready = DuelEffect_StepColorToTarget((u8 *)&work->background_color, 128, 128, 128, 8);
+                work->ready = DuelEffect_StepColorToTarget(&work->background_color, 128, 128, 128, 8);
             }
             if (work->active == 48) {
-                DuelEffect_DarkenColor((u8 *)&work->background_color, 8);
+                DuelEffect_DarkenColor(&work->background_color, 8);
             }
         }
         for (i = 0; i < work->active; i++) {
             setVector(&rotation, 0, work->angles[i], 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->offset, &rotation, &scale, 2);
-            if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
+            if ((u16)DuelEffect_HasNonzeroColor(&work->colors[i])) {
                 if (work->states[i] != 2) {
-                    work->states[i] = DuelEffect_DrawGradientPath((u8 *)&work->colors[i], work->ages[i],
+                    work->states[i] = DuelEffect_DrawGradientPath(&work->colors[i], work->ages[i],
                         work->paths[i], 16, 1, &work->endpoints[i], work->config->blend,
                         &work->offset);
                 } else {
-                    DuelEffect_DrawGradientPath((u8 *)&work->colors[i], work->ages[i],
+                    DuelEffect_DrawGradientPath(&work->colors[i], work->ages[i],
                         work->paths[i], 32, 0, &work->endpoints[i], work->config->blend,
                         &work->offset);
                 }
                 work->ages[i]++;
                 if (work->ages[i] >= 8) {
                     work->ages[i] = 7;
-                    DuelEffect_DarkenColor((u8 *)&work->colors[i], 15);
+                    DuelEffect_DarkenColor(&work->colors[i], 15);
                 }
             }
         }
@@ -147,17 +147,17 @@ void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
         }
         for (i = 0; i < work->active; i++) {
             if (work->states[i] == 2 &&
-                (u16)DuelEffect_HasNonzeroColor((u8 *)&work->colors[i])) {
+                (u16)DuelEffect_HasNonzeroColor(&work->colors[i])) {
                 gDuelEffect_pActiveRequest->progress = 1;
                 DuelEffect_SetTransformMatrix(&world, &saved, &work->endpoints[i], &rotation, &scale, 0);
-                DuelEffect_DrawLayeredTileQuad((u8 *)&work->colors[i], work->config->particle_size, 1, &position);
+                DuelEffect_DrawLayeredTileQuad(&work->colors[i], work->config->particle_size, 1, &position);
             }
         }
-        if (work->active >= 12 && (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color)) {
+        if (work->active >= 12 && (u16)DuelEffect_HasNonzeroColor(&work->number_color)) {
             setVector(&scale, 4096, 4096, 4096);
             setVector(&rotation, 0, 0, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->offset, &rotation, &scale, 0);
-            DuelEffect_DrawProjectedNumber(-__builtin_abs(work->number), (u8 *)&work->number_color,
+            DuelEffect_DrawProjectedNumber(-__builtin_abs(work->number), &work->number_color,
                          &work->number_position, work->number_mode, 10, 1);
             addVector(&work->number_position, &work->number_velocity);
             work->number_velocity.vy += 3;
@@ -169,7 +169,7 @@ void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
                 } else {
                     work->number_mode = 1;
                     work->number_velocity.vy = 0;
-                    DuelEffect_DarkenColor((u8 *)&work->number_color, 15);
+                    DuelEffect_DarkenColor(&work->number_color, 15);
                 }
             }
         }
@@ -180,9 +180,9 @@ void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
         work->frame += frame_step;
         work->tick++;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->colors[47]) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->background_color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->number_color)) {
+        if ((u16)DuelEffect_IsColorBlack(&work->colors[47]) &&
+            (u16)DuelEffect_IsColorBlack(&work->background_color) &&
+            (u16)DuelEffect_IsColorBlack(&work->number_color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

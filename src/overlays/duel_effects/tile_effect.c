@@ -51,9 +51,9 @@ void DuelEffect_RunDestroyFlames(void *buffer, s32 phase)
             DuelEffect_PackTexturePageClut(state->texture_words, &gDuelEffect_DestroyFlamesTextureImage, 1);
             for (k = 0; k < 5; k++) {
                 for (i = 0; i < 7; i++) {
-                    DuelEffect_SetGrayColor(state->colors_a[k][i], 0x80);
-                    DuelEffect_SetGrayColor(state->colors_c[k][i], 0x80);
-                    DuelEffect_SetGrayColor(state->colors_b[k][i], 0x80);
+                    DuelEffect_SetGrayColor(&state->colors_a[k][i], 0x80);
+                    DuelEffect_SetGrayColor(&state->colors_c[k][i], 0x80);
+                    DuelEffect_SetGrayColor(&state->colors_b[k][i], 0x80);
                     state->active[k][i] = 0;
                     state->sparkle[k][i] = rand() % 4;
                     state->cursor[k] = 6;
@@ -88,13 +88,13 @@ void DuelEffect_RunDestroyFlames(void *buffer, s32 phase)
         spark->clut = ((TileEffectTextureWords *)&gDuelEffect_TexturePageClutPairs)[state->descriptor->texture].clut;
         for (k = 0; k < 5; k++) {
             for (i = 0; i < 7; i++) {
-                if ((u16)DuelEffect_HasNonzeroColor(state->colors_a[k][i]) != 0 ||
-                    (u16)DuelEffect_HasNonzeroColor(state->colors_c[k][i]) != 0 ||
-                    (u16)DuelEffect_HasNonzeroColor(state->colors_b[k][i]) != 0) {
-                    setRGB0(tile, state->colors_a[k][i][0], state->colors_a[k][i][1], state->colors_a[k][i][2]);
-                    setRGB1(tile, state->colors_a[k][i][0], state->colors_a[k][i][1], state->colors_a[k][i][2]);
-                    setRGB2(tile, state->colors_c[k][i][0], state->colors_c[k][i][1], state->colors_c[k][i][2]);
-                    setRGB3(tile, state->colors_c[k][i][0], state->colors_c[k][i][1], state->colors_c[k][i][2]);
+                if ((u16)DuelEffect_HasNonzeroColor(&state->colors_a[k][i]) != 0 ||
+                    (u16)DuelEffect_HasNonzeroColor(&state->colors_c[k][i]) != 0 ||
+                    (u16)DuelEffect_HasNonzeroColor(&state->colors_b[k][i]) != 0) {
+                    setRGB0(tile, state->colors_a[k][i].r, state->colors_a[k][i].g, state->colors_a[k][i].b);
+                    setRGB1(tile, state->colors_a[k][i].r, state->colors_a[k][i].g, state->colors_a[k][i].b);
+                    setRGB2(tile, state->colors_c[k][i].r, state->colors_c[k][i].g, state->colors_c[k][i].b);
+                    setRGB3(tile, state->colors_c[k][i].r, state->colors_c[k][i].g, state->colors_c[k][i].b);
                     tile->x0 = k * 28 - 70;
                     tile->y0 = i * TILE_ROW_STEP - TILE_Y_ORIGIN;
                     tile->x1 = k * 28 - 42;
@@ -120,9 +120,9 @@ void DuelEffect_RunDestroyFlames(void *buffer, s32 phase)
                     quad[3].vy = tile->y3 + state->jitter[k][i];
                     quad[3].vz = 0;
                     if (state->active[k][i] == 1) {
-                        DuelEffect_DarkenColor(state->colors_a[k][i], 0xF);
-                        DuelEffect_DarkenColor(state->colors_c[k][i], 0x1F);
-                        setRGB0(spark, state->colors_b[k][i][0], state->colors_b[k][i][1], state->colors_b[k][i][2]);
+                        DuelEffect_DarkenColor(&state->colors_a[k][i], 0xF);
+                        DuelEffect_DarkenColor(&state->colors_c[k][i], 0x1F);
+                        setRGB0(spark, state->colors_b[k][i].r, state->colors_b[k][i].g, state->colors_b[k][i].b);
                         if (state->descriptor->texture == 4) {
                             setUV4(spark, state->sparkle[k][i] * 32 - 0x80, 0x40,
                                    state->sparkle[k][i] * 32 - 0x61, 0x40,
@@ -143,7 +143,7 @@ void DuelEffect_RunDestroyFlames(void *buffer, s32 phase)
                         spark->x3 = quad[3].vx + state->radius[k][i];
                         spark->y3 = quad[3].vy + state->radius[k][i];
                         DuelEffect_SubmitOffsetFt4(spark, 1);
-                        DuelEffect_DarkenColor(state->colors_b[k][i], 8);
+                        DuelEffect_DarkenColor(&state->colors_b[k][i], 8);
                         state->sparkle[k][i] = (state->sparkle[k][i] + 1) % 4;
                         DuelEffect_SubmitOffsetGt4(tile, 1);
                     } else {

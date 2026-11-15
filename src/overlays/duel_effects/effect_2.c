@@ -51,24 +51,24 @@ void DuelEffect_RunAttackSlash(void *buffer, s32 phase, s16 number)
                          work->velocities, work->config->particle_count);
             DuelEffect_InitRandomVectorsUnscaled(64, work->rotations);
             work->scale = 0;
-            DuelEffect_SetRgbColor((u8 *)&work->color, work->config->color[0],
+            DuelEffect_SetRgbColor(&work->color, work->config->color[0],
                          work->config->color[1], work->config->color[2]);
-            DuelEffect_SetGrayColor((u8 *)&work->background_color, 0);
+            DuelEffect_SetGrayColor(&work->background_color, 0);
             work->frame = 0;
             work->stage = 0;
             work->number_state = 0;
             if (value > 0) {
-                DuelEffect_SetRgbColor((u8 *)&work->number_color,
+                DuelEffect_SetRgbColor(&work->number_color,
                              work->config->number_red[1] >> 3,
                              work->config->number_green[1] >> 3,
                              work->config->number_blue[1] >> 3);
             } else if (value < 0) {
-                DuelEffect_SetRgbColor((u8 *)&work->number_color,
+                DuelEffect_SetRgbColor(&work->number_color,
                              work->config->number_red[0] >> 3,
                              work->config->number_green[0] >> 3,
                              work->config->number_blue[0] >> 3);
             } else if (value == 0) {
-                DuelEffect_SetGrayColor((u8 *)&work->number_color, 0);
+                DuelEffect_SetGrayColor(&work->number_color, 0);
             }
             work->number = value;
         }
@@ -89,24 +89,24 @@ void DuelEffect_RunAttackSlash(void *buffer, s32 phase, s16 number)
         DuelEffect_InitBaseMatrix(&world);
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
         if (work->stage != 0 &&
-            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->number_color) && work->number != 0) {
-            DuelEffect_DrawProjectedNumber(-__builtin_abs(work->number), (u8 *)&work->number_color,
+            (u16)DuelEffect_HasNonzeroColor(&work->number_color) && work->number != 0) {
+            DuelEffect_DrawProjectedNumber(-__builtin_abs(work->number), &work->number_color,
                          &position, 1, 16, 0);
             if (work->number_state == 0) {
                 if (work->number > 0) {
                     work->number_state = DuelEffect_StepColorToTarget(
-                        (u8 *)&work->number_color, work->config->number_red[1],
+                        &work->number_color, work->config->number_red[1],
                         work->config->number_green[1], work->config->number_blue[1], 15);
                 } else if (work->number < 0) {
                     work->number_state = DuelEffect_StepColorToTarget(
-                        (u8 *)&work->number_color, work->config->number_red[0],
+                        &work->number_color, work->config->number_red[0],
                         work->config->number_green[0], work->config->number_blue[0], 15);
                 }
             } else {
-                DuelEffect_DarkenColor((u8 *)&work->number_color, 8);
+                DuelEffect_DarkenColor(&work->number_color, 8);
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->color)) {
             setPolyGT4(packet);
             packet->tpage = gDuelEffect_TexturePageClutPairs.named.page_at_04;
             packet->clut = gDuelEffect_TexturePageClutPairs.named.clut_at_06;
@@ -129,7 +129,7 @@ void DuelEffect_RunAttackSlash(void *buffer, s32 phase, s16 number)
                 DuelEffect_ProjectSubmitGt4(packet, quad, 0, 1);
             } else {
                 if (work->stage == 1) {
-                    DuelEffect_SetGrayColor((u8 *)&work->background_color, 255);
+                    DuelEffect_SetGrayColor(&work->background_color, 255);
                 }
                 DuelEffect_InitIndexedQuadToYZero(quad, 2, 1, 1, work->config->widths,
                              work->config->heights);
@@ -144,14 +144,14 @@ void DuelEffect_RunAttackSlash(void *buffer, s32 phase, s16 number)
                 gDuelEffect_pActiveRequest->progress = 1;
                 for (i = 0; i < work->config->particle_count; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad(&work->color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
                 scale.vx = (work->scale >> 1) + 4096;
                 scale.vy = (work->scale >> 1) + 4096;
                 scale.vz = 0;
                 DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-                DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, work->config->sprite_size,
+                DuelEffect_DrawLayeredTileQuad(&work->color, work->config->sprite_size,
                              0, &position);
                 scale.vx = work->scale + 4096;
                 scale.vy = work->scale + 4096;
@@ -161,14 +161,14 @@ void DuelEffect_RunAttackSlash(void *buffer, s32 phase, s16 number)
                 color_copy.r >>= 1;
                 color_copy.g >>= 1;
                 color_copy.b >>= 1;
-                DuelEffect_DrawTexturedRingStrip((u8 *)&color_copy, work->rings[0], work->rings[1],
+                DuelEffect_DrawTexturedRingStrip(&color_copy, work->rings[0], work->rings[1],
                              work->rings[2], 0);
                 if (work->config->variant == 1) {
                     scale.vx = (work->scale + 4096) >> 1;
                     scale.vy = (work->scale + 4096) >> 1;
                     scale.vz = 0;
                     DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-                    DuelEffect_DrawTexturedRingStrip((u8 *)&work->color, work->rings[0],
+                    DuelEffect_DrawTexturedRingStrip(&work->color, work->rings[0],
                                  work->rings[1], work->rings[2], 0);
                     scale.vx = 4096;
                     scale.vy = work->scale;
@@ -176,27 +176,27 @@ void DuelEffect_RunAttackSlash(void *buffer, s32 phase, s16 number)
                     for (i = 0; i < 64; i++) {
                         DuelEffect_SetTransformMatrix(&world, &saved, &position,
                                      &work->rotations[i], &scale, 2);
-                        DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->color, work->config->strip_widths,
+                        DuelEffect_DrawLayeredGradientTrapezoid(&work->color, work->config->strip_widths,
                                      work->config->strip_height, 0);
                     }
                 }
                 if (work->scale < 0x6000) {
                     work->scale += 0x800;
                 }
-                DuelEffect_DarkenColor((u8 *)&work->color, 8);
+                DuelEffect_DarkenColor(&work->color, 8);
             }
             if (work->stage < 3) {
                 work->stage++;
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->background_color)) {
-            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->background_color, 15);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->background_color)) {
+            DuelEffect_DrawFadingFullscreenColor(&work->background_color, 15);
         }
         work->frame += frame_step;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->background_color) &&
-            (u16)DuelEffect_IsColorBlack((u8 *)&work->number_color)) {
+        if ((u16)DuelEffect_IsColorBlack(&work->color) &&
+            (u16)DuelEffect_IsColorBlack(&work->background_color) &&
+            (u16)DuelEffect_IsColorBlack(&work->number_color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }

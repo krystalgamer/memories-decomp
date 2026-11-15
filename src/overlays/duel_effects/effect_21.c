@@ -26,7 +26,7 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
     slots[1] = (DuelEffect21Work *)(gRuntime_pSharedWorkBase + 0x2880);
     if (phase >= 0) {
         if (slots[__builtin_abs(phase) % 2]->enabled != 0) {
-            DuelEffect_SetGrayColor((u8 *)&slots[__builtin_abs(phase) % 2]->color, 0);
+            DuelEffect_SetGrayColor(&slots[__builtin_abs(phase) % 2]->color, 0);
             slots[__builtin_abs(phase) % 2]->enabled = 0;
             gDuelEffect_pActiveRequest->phase = phase;
         } else {
@@ -40,7 +40,7 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
                 DuelEffect_SwapVectorRecords(&slots[__builtin_abs(phase) % 2]->positions[first],
                              &slots[__builtin_abs(phase) % 2]->positions[second]);
             }
-            DuelEffect_SetGrayColor((u8 *)&slots[__builtin_abs(phase) % 2]->color, 128);
+            DuelEffect_SetGrayColor(&slots[__builtin_abs(phase) % 2]->color, 128);
             /* The original initializes only tile 8 after the eight swaps. */
             slots[__builtin_abs(phase) % 2]->tiles[i] = rand() % 3;
             slots[__builtin_abs(phase) % 2]->enabled = 1;
@@ -65,7 +65,7 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
         for (i = 0; i < slots[__builtin_abs(phase + 1) % 2]->count; i++) {
             copyVector(&position, &slots[__builtin_abs(phase + 1) % 2]->positions[i]);
             position.vy -= slots[__builtin_abs(phase + 1) % 2]->offsets[i];
-            DuelEffect_DrawTranslatedTileRect((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color,
+            DuelEffect_DrawTranslatedTileRect(&slots[__builtin_abs(phase + 1) % 2]->color,
                          &position, 30, 80,
                          slots[__builtin_abs(phase + 1) % 2]->tiles[i]);
             slots[__builtin_abs(phase + 1) % 2]->tiles[i] =
@@ -84,13 +84,13 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
             slots[__builtin_abs(phase + 1) % 2]->count = 10;
         }
         if (__builtin_abs(phase) > 2) {
-            DuelEffect_DarkenColor((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color, 4);
+            DuelEffect_DarkenColor(&slots[__builtin_abs(phase + 1) % 2]->color, 4);
         }
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color) ||
+        if ((u16)DuelEffect_IsColorBlack(&slots[__builtin_abs(phase + 1) % 2]->color) ||
             slots[__builtin_abs(phase + 1) % 2]->enabled == 0) {
             slots[__builtin_abs(phase + 1) % 2]->enabled = 0;
-            DuelEffect_SetGrayColor((u8 *)&slots[__builtin_abs(phase + 1) % 2]->color, 0);
+            DuelEffect_SetGrayColor(&slots[__builtin_abs(phase + 1) % 2]->color, 0);
             gDuelEffect_bRequestFinished = 1;
         }
     }

@@ -2,43 +2,43 @@
 #include "color_semantic_views.h"
 #include "color_helpers.h"
 
-void DuelEffect_DarkenColor(u8 *color, u16 step)
+void DuelEffect_DarkenColor(CVECTOR *color, u16 step)
 {
-    if (color[0] > step + 1) {
-        color[0] -= step;
+    if (color->r > step + 1) {
+        color->r -= step;
     } else {
-        color[0] = 0;
+        color->r = 0;
     }
-    if (color[1] > step + 1) {
-        color[1] -= step;
+    if (color->g > step + 1) {
+        color->g -= step;
     } else {
-        color[1] = 0;
+        color->g = 0;
     }
-    if (color[2] > step + 1) {
-        color[2] -= step;
+    if (color->b > step + 1) {
+        color->b -= step;
     } else {
-        color[2] = 0;
+        color->b = 0;
     }
 }
 
-s32 DuelEffect_StepColorToTarget(u8 *color, u8 red, u8 green, u8 blue, u16 step)
+s32 DuelEffect_StepColorToTarget(CVECTOR *color, u8 red, u8 green, u8 blue, u16 step)
 {
-    if (color[0] < (u16)(red + 1) - step) {
-        color[0] += step;
+    if (color->r < (u16)(red + 1) - step) {
+        color->r += step;
     } else {
-        color[0] = red;
+        color->r = red;
     }
-    if (color[1] < (u16)(green + 1) - step) {
-        color[1] += step;
+    if (color->g < (u16)(green + 1) - step) {
+        color->g += step;
     } else {
-        color[1] = green;
+        color->g = green;
     }
-    if (color[2] < (u16)(blue + 1) - step) {
-        color[2] += step;
+    if (color->b < (u16)(blue + 1) - step) {
+        color->b += step;
     } else {
-        color[2] = blue;
+        color->b = blue;
     }
-    if (color[0] == red && color[1] == green && color[2] == blue) {
+    if (color->r == red && color->g == green && color->b == blue) {
         return 1;
     }
     return 0;

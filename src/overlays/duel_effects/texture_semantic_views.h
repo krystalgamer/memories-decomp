@@ -8,7 +8,7 @@
 
 extern void DuelEffect_PackTexturePageClut(u16 *output, GsIMAGE *image, s32 mode);
 extern void DuelEffect_PackFixedPageClut(u16 *output, GsIMAGE *image);
-extern void DuelEffect_DrawFixedTextureQuad(u8 *color, u16 size, SVECTOR *offset);
+extern void DuelEffect_DrawFixedTextureQuad(CVECTOR *color, u16 size, SVECTOR *offset);
 extern void DuelEffect_DrawAtlasColumnQuad(u16 size, u16 index, SVECTOR *offset);
 
 #endif

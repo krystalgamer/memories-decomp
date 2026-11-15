@@ -5,18 +5,18 @@
 #include "geometry_semantic_views.h"
 #include "number_semantic_views.h"
 
-void DuelEffect_SetGrayColor(u8 *color, u8 value)
+void DuelEffect_SetGrayColor(CVECTOR *color, u8 value)
 {
-    color[0] = value;
-    color[1] = value;
-    color[2] = value;
+    color->r = value;
+    color->g = value;
+    color->b = value;
 }
 
-void DuelEffect_SetRgbColor(u8 *color, u8 red, u8 green, u8 blue)
+void DuelEffect_SetRgbColor(CVECTOR *color, u8 red, u8 green, u8 blue)
 {
-    color[0] = red;
-    color[1] = green;
-    color[2] = blue;
+    color->r = red;
+    color->g = green;
+    color->b = blue;
 }
 
 void DuelEffect_InitParticleVectors(u16 scale, SVECTOR *positions, SVECTOR *velocities, u16 count)

@@ -44,9 +44,9 @@ void DuelEffect_RunCardFlashBurst(void *buffer, s32 phase)
             DuelEffect_InitRandomVectorsUnscaled(16, work->rotations);
             DuelEffect_InitParticleVectors(work->config->particle_speed, work->positions,
                          work->velocities, 24);
-            DuelEffect_SetGrayColor((u8 *)&work->color, 1);
-            DuelEffect_SetGrayColor((u8 *)&work->card_color, 1);
-            DuelEffect_SetGrayColor((u8 *)&work->screen_color, 0);
+            DuelEffect_SetGrayColor(&work->color, 1);
+            DuelEffect_SetGrayColor(&work->card_color, 1);
+            DuelEffect_SetGrayColor(&work->screen_color, 0);
             work->stage = 0;
             work->scale = 4096;
             work->frame = 0;
@@ -66,13 +66,13 @@ void DuelEffect_RunCardFlashBurst(void *buffer, s32 phase)
         Model_SetFrameStepOverride(1);
         PushMatrix();
         DuelEffect_InitBaseMatrix(&world);
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->color) ||
-            (u16)DuelEffect_HasNonzeroColor((u8 *)&work->card_color)) {
+        if ((u16)DuelEffect_HasNonzeroColor(&work->color) ||
+            (u16)DuelEffect_HasNonzeroColor(&work->card_color)) {
             setVector(&position, 0, 0, 0);
             setVector(&rotation, 0, 0, 0);
             setVector(&scale, 4096, 4096, 4096);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 1);
-            DuelEffect_DrawQuadContour((u8 *)&work->color, work->card_rings[0],
+            DuelEffect_DrawQuadContour(&work->color, work->card_rings[0],
                          work->card_rings[1], 0, 1);
             setPolyFT4(packet);
             packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[work->config->texture][0];
@@ -99,27 +99,27 @@ void DuelEffect_RunCardFlashBurst(void *buffer, s32 phase)
             }
             if (work->frame >= work->config->duration) {
                 if (work->stage == 0) {
-                    DuelEffect_SetGrayColor((u8 *)&work->card_color, 0);
-                    DuelEffect_SetGrayColor((u8 *)&work->screen_color, 255);
+                    DuelEffect_SetGrayColor(&work->card_color, 0);
+                    DuelEffect_SetGrayColor(&work->screen_color, 255);
                     work->stage = 1;
                 }
                 gDuelEffect_pActiveRequest->progress = 1;
                 for (i = 0; i < 24; i++) {
                     DuelEffect_InitOffsetQuadVertices(quad, &work->positions[i]);
-                    DuelEffect_DrawRandomTileQuad((u8 *)&work->color, quad, 0);
+                    DuelEffect_DrawRandomTileQuad(&work->color, quad, 0);
                     addVector(&work->positions[i], &work->velocities[i]);
                 }
                 scale.vx = work->scale >> 3;
                 scale.vy = work->scale >> 3;
                 scale.vz = 4096;
                 DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-                DuelEffect_DrawGradientRingStrip((u8 *)&work->color, work->rings[0],
+                DuelEffect_DrawGradientRingStrip(&work->color, work->rings[0],
                              work->rings[1], work->rings[2], 0);
                 scale.vx = work->scale;
                 scale.vy = work->scale;
                 scale.vz = 4096;
                 DuelEffect_SetScaledLocalScreenMatrix(&saved, &scale);
-                DuelEffect_DrawLayeredTileQuad((u8 *)&work->color, work->config->sprite_size,
+                DuelEffect_DrawLayeredTileQuad(&work->color, work->config->sprite_size,
                              0, &position);
                 scale.vx = 4096;
                 scale.vy = work->scale;
@@ -127,26 +127,26 @@ void DuelEffect_RunCardFlashBurst(void *buffer, s32 phase)
                 for (i = 0; i < 16; i++) {
                     DuelEffect_SetTransformMatrix(&world, &saved, &position, &work->rotations[i],
                                  &scale, 2);
-                    DuelEffect_DrawLayeredGradientTrapezoid((u8 *)&work->color, work->config->widths,
+                    DuelEffect_DrawLayeredGradientTrapezoid(&work->color, work->config->widths,
                                  work->config->height, 0);
                     applyVector(&work->rotations[i], 128, 128, 128, +=);
                 }
-                DuelEffect_DarkenColor((u8 *)&work->color, 15);
+                DuelEffect_DarkenColor(&work->color, 15);
                 if (work->scale < 0x7000) {
                     work->scale += 0x1000;
                 }
             } else {
-                DuelEffect_StepColorToTarget((u8 *)&work->color, work->config->color.r,
+                DuelEffect_StepColorToTarget(&work->color, work->config->color.r,
                              work->config->color.g, work->config->color.b, 31);
-                DuelEffect_StepColorToTarget((u8 *)&work->card_color, 128, 128, 128, 31);
+                DuelEffect_StepColorToTarget(&work->card_color, 128, 128, 128, 31);
             }
         }
-        if ((u16)DuelEffect_HasNonzeroColor((u8 *)&work->screen_color)) {
-            DuelEffect_DrawFadingFullscreenColor((u8 *)&work->screen_color, 31);
+        if ((u16)DuelEffect_HasNonzeroColor(&work->screen_color)) {
+            DuelEffect_DrawFadingFullscreenColor(&work->screen_color, 31);
         }
         work->frame += frame_step;
         PopMatrix();
-        if ((u16)DuelEffect_IsColorBlack((u8 *)&work->color)) {
+        if ((u16)DuelEffect_IsColorBlack(&work->color)) {
             gDuelEffect_bRequestFinished = 1;
         }
     }
