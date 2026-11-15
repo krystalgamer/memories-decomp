@@ -16,7 +16,7 @@
 /* Draws 48 petals: each a POLY_G4 grown from the variant centre along its own
  * velocity and swung around a circle, faded past half size, and cycles each
  * petal's size through the timing record's phases. */
-void ModelVariant407_DrawPetals(u8 *ctx)
+void ModelVariant407_DrawPetals(Variant407EntryState *context)
 {
     SVECTOR rot;
     /* The target reserves 16 unused bytes between rot and scale. */
@@ -49,8 +49,8 @@ void ModelVariant407_DrawPetals(u8 *ctx)
     s32 ang;
     s32 otz;
 
-    work = (Variant407EntryState *)ctx;
-    base = (Variant407EntryState *)ctx;
+    work = context;
+    base = context;
     poly = &base->sprite.g4;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

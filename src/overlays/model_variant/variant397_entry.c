@@ -323,10 +323,10 @@ s32 ModelVariant397_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
             ModelVariant397_DrawSheets((u8 *)point);
-            ModelVariant397_DrawWebs((u8 *)point);
+            ModelVariant397_DrawWebs((Variant397EntryState *)point);
         }
         if (work->tail.phase > 0) {
-            ModelVariant397_DrawBands((u8 *)point);
+            ModelVariant397_DrawBands((Variant397EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

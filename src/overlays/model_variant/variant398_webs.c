@@ -6,7 +6,7 @@
 /* Header 398's form of the header-397 phased webs: the records start at
  * work, phase 0 staggers them along the progress of the timing record, and
  * each web keeps its own finished flag. */
-void ModelVariant398_DrawPhasedWebs(u8 *ctx)
+void ModelVariant398_DrawPhasedWebs(Variant398EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -31,7 +31,7 @@ void ModelVariant398_DrawPhasedWebs(u8 *ctx)
     s32 otz;
     s32 done;
 
-    work = (Variant398EntryState *)ctx;
+    work = context;
     web = (ModelVariantWebNarrow *)work;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

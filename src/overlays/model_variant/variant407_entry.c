@@ -355,7 +355,7 @@ s32 ModelVariant407_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            ModelVariant407_DrawPetals((u8 *)point);
+            ModelVariant407_DrawPetals((Variant407EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

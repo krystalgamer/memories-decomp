@@ -279,7 +279,7 @@ s32 ModelVariant423_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
             ModelVariant423_DrawSheets((u8 *)point);
-            ModelVariant423_DrawWebs((u8 *)point);
+            ModelVariant423_DrawWebs((Variant423EntryState *)point);
         }
         if (work->tail.phase > 0) {
             ModelVariant423_DrawBand((u8 *)point);

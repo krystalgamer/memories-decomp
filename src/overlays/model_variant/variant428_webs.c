@@ -6,7 +6,7 @@
 /* Header 428's form of the header-397 phased webs: the records start at
  * (u8 *)work + 0x5D0, the lines are projected with RotTransPers3, and phase 0
  * shrinks each scale by step * 0xE0. */
-void ModelVariant428_DrawWebs(u8 *ctx)
+void ModelVariant428_DrawWebs(Variant428EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -32,7 +32,7 @@ void ModelVariant428_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant428EntryState *)ctx;
+    work = context;
     timing = work->sheets;
     web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();

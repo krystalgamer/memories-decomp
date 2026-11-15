@@ -56,5 +56,5 @@ extern Variant425EntryConfig gModelVariant425_aConfigs[];
 void ModelVariant425_DrawSheet(u8 *context);
 void ModelVariant425_DrawSpiral(u8 *context);
 void ModelVariant425_DrawRays(u8 *context);
-void ModelVariant425_DrawWebs(u8 *context);
+void ModelVariant425_DrawWebs(Variant425EntryState *context);
 #endif

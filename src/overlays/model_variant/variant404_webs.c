@@ -5,7 +5,7 @@
 
 /* Header 404's copy of the header-397 phased webs, at its own work-area
  * offsets. */
-void ModelVariant404_DrawWebs(u8 *ctx)
+void ModelVariant404_DrawWebs(Variant404EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -31,7 +31,7 @@ void ModelVariant404_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant404EntryState *)ctx;
+    work = context;
     timing = work->sheets;
     web = (ModelVariantWebNarrow *)work;
     ot = Graphics_GetDefaultOrderingTable();

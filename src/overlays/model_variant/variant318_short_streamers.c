@@ -9,7 +9,7 @@
  * POLY_FT4 quads. The end count then grows to sixteen, after which the start
  * count follows it and both reset once it passes sixteen. Nothing in the image
  * calls this helper. */
-void ModelVariant318_DrawShortStreamers(u8 *ctx)
+void ModelVariant318_DrawShortStreamers(Model335EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -36,7 +36,7 @@ void ModelVariant318_DrawShortStreamers(u8 *ctx)
     s32 dy;
     s32 twist;
 
-    work = (Model335EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     streamer = (Variant458Streamer *)work->short_streamers;
     poly = work->flat_textured;

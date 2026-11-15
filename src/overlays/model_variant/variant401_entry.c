@@ -313,7 +313,7 @@ s32 ModelVariant401_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant416_DrawWebs((u8 *)point);
         }
         if (work->tail.phase > 0) {
-            ModelVariant401_DrawBand((u8 *)point);
+            ModelVariant401_DrawBand((Variant401EntryState *)point);
         }
         if (work->tail.phase >= 2) {
             FrenchModelVariant433_DrawRays((u8 *)point);

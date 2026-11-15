@@ -309,8 +309,8 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
         if (work->config->start <= work->clock.frame) {
             ModelVariant418_DrawSheet((u8 *)point);
             if (work->phase > 0) {
-                ModelVariant418_DrawWebs((u8 *)point);
-                ModelVariant418_DrawSpiral((u8 *)point);
+                ModelVariant418_DrawWebs((Variant418EntryState *)point);
+                ModelVariant418_DrawSpiral((Variant418EntryState *)point);
             }
         }
         work->clock.frame_count++;

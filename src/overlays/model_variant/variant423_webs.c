@@ -5,7 +5,7 @@
 
 /* Header 423's form of the header-416 webs: the records start at work, and
  * the lines are projected with RotTransPers3. */
-void ModelVariant423_DrawWebs(u8 *ctx)
+void ModelVariant423_DrawWebs(Variant423EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -31,7 +31,7 @@ void ModelVariant423_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant423EntryState *)ctx;
+    work = context;
     web = (ModelVariantWebNarrow *)work;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

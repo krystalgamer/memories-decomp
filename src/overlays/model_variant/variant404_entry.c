@@ -330,11 +330,11 @@ s32 ModelVariant404_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
             ModelVariant404_DrawSheets((u8 *)point);
-            ModelVariant404_DrawWebs((u8 *)point);
+            ModelVariant404_DrawWebs((Variant404EntryState *)point);
         }
         if (work->phase > 0) {
-            ModelVariant404_DrawRibbons((u8 *)point);
-            ModelVariant404_DrawBands((u8 *)point);
+            ModelVariant404_DrawRibbons((Variant404EntryState *)point);
+            ModelVariant404_DrawBands((Variant404EntryState *)point);
         }
         if (work->phase >= 2) {
             SpanishModelVariant421_DrawSpiral((u8 *)point);
