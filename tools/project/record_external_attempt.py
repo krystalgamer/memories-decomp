@@ -52,6 +52,10 @@ RETIRED_PROFILES = frozenset(
     {
         "gcc_2_7_2_g0",
         "gcc_2_7_2_g8",
+        # Psy-Q GCC 2.7.2 (decompals/old-gcc gcc-2.7.2-psx) for the safechk
+        # boot module, replaced by the Cygnus 2.7.2 profile that builds all
+        # nine of its functions.
+        "gcc_2_7_2_psx_g0_gnu_reorder",
         # The assembler now runs at -G0 for every unit, so profiles that gave
         # it a different -G from the compiler and MASPSX no longer exist.
         "gcc_2_8_1_cc_g0_as_g8",

@@ -40,18 +40,13 @@ class RetiredProfileTests(unittest.TestCase):
                     # gcc-2.7.2-cdk), not with the retired gcc-2.7.2-mips
                     # profiles below.
                     self.assertIn("gcc-2.7.2-cdk", profile["compiler"])
-                elif name.startswith("gcc_2_7_2_psx_"):
-                    # Psy-Q GCC 2.7.2 (decompals/old-gcc gcc-2.7.2-psx) for
-                    # the WA_MRG boot module's Sony code, passed through
-                    # MASPSX untouched and assembled in reorder mode; it
-                    # builds seven of its nine functions. See
-                    # notes/overlays/safecheck2003.md.
-                    self.assertIn("gcc-2.7.2-psx", profile["compiler"])
-                    self.assertEqual(profile["maspsx_flags"], ["--passthrough"])
                 elif name.startswith("gcc_2_7_2_cygnus_"):
-                    # The same module builds exactly with cygnus-2.7.2-970404
-                    # less two March 1997 changes, built from source by
-                    # tools/bootstrap/old_gcc_cygnus.py.
+                    # The WA_MRG boot module, Sony's safechk 2.0.0.3, builds
+                    # exactly with cygnus-2.7.2-970404 less two March 1997
+                    # changes, built from source by
+                    # tools/bootstrap/old_gcc_cygnus.py, passed through MASPSX
+                    # untouched and assembled in reorder mode. See
+                    # notes/overlays/safecheck2003.md.
                     self.assertIn("gcc-2.7.2-cygnus", profile["compiler"])
                     self.assertEqual(profile["maspsx_flags"], ["--passthrough"])
                 elif name.startswith("gcc_2_8_0_"):

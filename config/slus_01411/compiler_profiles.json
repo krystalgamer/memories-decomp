@@ -556,26 +556,6 @@
       ],
       "data_limit": 0
     },
-    "gcc_2_7_2_psx_g0_gnu_reorder": {
-      "compiler": "tools/toolchains/gcc-2.7.2-psx/bin/mips-sony-psx-gcc",
-      "compiler_flags": [
-        "-O2",
-        "-G0",
-        "-mel",
-        "-mips1",
-        "-mcpu=R3000",
-        "-msoft-float",
-        "-fno-builtin",
-        "-Dpsx",
-        "-D__psx__",
-        "-D__psx"
-      ],
-      "aspsx_version": "2.81",
-      "maspsx_flags": [
-        "--passthrough"
-      ],
-      "data_limit": 0
-    },
     "gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder": {
       "compiler": "tools/toolchains/gcc-2.7.2-cygnus/bin/mips-sony-psx-gcc",
       "compiler_flags": [

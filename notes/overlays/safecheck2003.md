@@ -227,8 +227,9 @@ Source details that the matches depend on:
   compare (`stat = t`) and the `u8` test (`c = stat`). The results loop
   reuses `t` as its index, which keeps the retail register assignment.
 - `SafetyCheck3` is written plainly (`rect->x += rect->w + 1`, `+= 8`,
-  `+= rect->w + 2`). The `gcc-2.7.2-psx` profile it used before needed `c`
-  reassigned to the spacing in each branch.
+  `+= rect->w + 2`). The retired `gcc_2_7_2_psx_g0_gnu_reorder` profile
+  (decompals `gcc-2.7.2-psx`) it used before needed `c` reassigned to the
+  spacing in each branch.
 
 ## Which compiler
 
