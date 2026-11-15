@@ -56,7 +56,7 @@ void FrenchModelVariant436_DrawRibbons(u8 *ctx)
     }
     ribbon = (Ribbons436Ribbon *)work;
     for (i = 0, phase = 0; i < 4; i++, ribbon++, phase = i * 1024) {
-        if (work->elapsed < (*(Ribbons436Timing **)((u8 *)work + 0x15F4))->wave_end && !(i & 1)) {
+        if (work->elapsed < work->config->wave_end && !(i & 1)) {
             wave = -work->phase_a;
         } else {
             wave = work->phase_a;
@@ -226,7 +226,7 @@ void FrenchModelVariant436_DrawRibbons(u8 *ctx)
             } else {
                 ribbon->start += work->step;
                 if (ribbon->start >= 8) {
-                    if ((*(Ribbons436Timing **)((u8 *)work + 0x15F4))->loop_end <= work->elapsed) {
+                    if (work->config->loop_end <= work->elapsed) {
                         ribbon->start = 8;
                         ribbon->end = 8;
                         ribbon->count++;
