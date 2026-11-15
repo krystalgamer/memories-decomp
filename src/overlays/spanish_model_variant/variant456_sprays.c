@@ -72,7 +72,7 @@ void SpanishModelVariant456_DrawSprays(Variant456EntryState *context)
                 if (spray->growth[j] >= 1024) {
                     spray->growth[j] = 1024;
                     if (j == 16) {
-                        if ((*(Sprays456Timing **)((u8 *)work + 0x2330))->restart <= work->clock.frame) {
+                        if (work->config->fade_start <= work->clock.frame) {
                             spray->growth[16] = 1024;
                         } else {
                             for (j = 0; j < 17; j++) {

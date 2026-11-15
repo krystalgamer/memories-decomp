@@ -4,12 +4,6 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
 
-/* The command row behind work + 0x2330; only the restart frame is read. */
-typedef struct {
-    u8 unknown_00[0x1C];
-    u32 restart;
-} Sprays456Timing;
-
 /* One 0x108-byte spray of header 456: a colour, the growth of each of its
  * seventeen points, the spin added to its direction and a hide flag. */
 typedef struct {
