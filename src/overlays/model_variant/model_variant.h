@@ -657,16 +657,25 @@ typedef struct {
     u8 unknown_2D8[0x88];
 } ModelVariantLongRibbon;
 
-/* One 0x250-byte ribbon: inner and outer colours, a scale vector, a count, a
- * state, a length and a position. */
+/* One 0x250-byte ribbon: an eleven-point spine and a copy of it moved along
+ * the view, both projected with per-point screen angle and width; inner and
+ * outer colours (the ribbon drawers shade by inner), a scale vector, a
+ * count, a state, a length, a position and the depth and screen offsets. */
 typedef struct {
-    u8 unknown_000[0x160];
+    SVECTOR a[11];
+    long sa[11];
+    s32 angle[11];
+    SVECTOR b[11];
+    long sb[11];
+    s32 width[11];
     CVECTOR inner, outer;
     VECTOR scale;
     s32 field_178, field_17C, count, field_184, state, length;
     u8 unknown_190[0x58];
     VECTOR position;
-    u8 unknown_1F8[0x58];
+    s32 otz[11];
+    s16 ox[11];
+    s16 oy[11];
 } ModelVariantCountedRibbon;
 
 /* A 0x6C-byte ribbon record: a colour and three scale words. */
