@@ -6,7 +6,7 @@
 /* Draws the six expanding rings of eight GsGLINE spokes each, fading the
  * spoke colour in over the first quarter turn, and advances each ring's
  * angle and cycle count. */
-void ModelVariant416_DrawRings(u8 *ctx)
+void ModelVariant416_DrawRings(Variant416EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -26,9 +26,9 @@ void ModelVariant416_DrawRings(u8 *ctx)
     s32 otz;
     s32 c;
 
-    line = (GsGLINE *)(ctx + 0x19E4);
-    work = (Variant416EntryState *)ctx;
-    ring = (ModelVariantRing *)(ctx + 0x1278);
+    line = &context->line;
+    work = context;
+    ring = context->rings;
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 6; i++, ring++) {
         if (ring->count > 0) {
