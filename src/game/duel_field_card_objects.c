@@ -4,23 +4,16 @@
 #include "duel_scene.h"
 #include "display_object.h"
 
-#define DUEL_CARD_RECORD_AT_OFFSET(records, offset) \
-    ((DuelCardRecord *)((u8 *)(records) + (offset)))
-
 void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
 {
     s32 base =
         gDuel_bActiveSide ? DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
-    s32 scaled;
     DuelCardRecord *entry;
 
     if (back_row != 0) {
         base += DUEL_FIELD_ROW_SIZE;
     }
-    scaled = base << 3;
-    scaled -= base;
-    scaled <<= 2;
-    entry = DUEL_CARD_RECORD_AT_OFFSET(gDuel_aCardRecords, scaled);
+    entry = &gDuel_aCardRecords[base];
     base = 0;
     for (; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
         if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {

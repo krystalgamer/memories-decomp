@@ -656,9 +656,10 @@ typedef struct DisplayObject {
    carry differently shaped payloads. Recorded as an open question rather
    than guessed at.
 
-   Neither reach stops the file converting. object[0x72] stays a byte reach,
-   ((u8 *)object)[0x72], the spelling DisplayObject_InitializeTexturedGouraudQuad already uses for the
-   identical write, and the second vertex set is reached from the members
+   Neither reach stops the file converting. The renderer reads object[0x72]
+   as (u8)object[1].next, the low byte of the following entry's `next`, which
+   compiles to the same lbu; DisplayObject_InitializeTexturedGouraudQuad keeps
+   the byte store ((u8 *)object)[0x72], and the second vertex set is reached from the members
    its words begin at: *(s32 *)&object->field_58, &object->fraction_z and so on.
 
    What the earlier wording here called the real obstacle -- a member read

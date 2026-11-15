@@ -478,7 +478,6 @@ void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
 GsF_LIGHT gDisplayObject_FlatLightDown = { 0, 0x1000, 0, 0x60, 0x60, 0x60 };
 GsF_LIGHT gDisplayObject_FlatLightUp = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };
 
-#define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
 /* Caching this pointer shortens retail; each use must reload field_4C. */
 #define SPRITE_SHEET_HEADER(object) \
     ((SpriteSheetHeader *)(object)->field_4C.frame_data)
@@ -792,8 +791,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
 /* The POLY_GT4 sibling for the list rooted at gDisplayObject_awListHeads[5]: the same walk,
  * with each vertex carrying a texture coordinate as well. Its second
  * submission, gated on the byte at 0x72 two bytes past the record, rewrites
- * the first two vertices from 0x58; display_object.h records why that reach
- * stays a byte reach. */
+ * the first two vertices from 0x58; display_object.h records that reach. */
 void DisplayObject_RenderTexturedGouraudQuadList(void) {
     POLY_GT4 *packet;
     DisplayObjectPacketOrigin *projection;
@@ -884,7 +882,8 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                 DisplayObject_SubmitPacket((SpritePrim *)attribute, packet, table[object->ot_index],
                                            object->ot_depth | bit, projection);
 
-                if (DISPLAY_OBJECT_BYTES(object)[0x72] != 0) {
+                /* Byte 0x72 is the low byte of the next pool entry's `next`. */
+                if ((u8)object[1].next != 0) {
                     x0 = *(s32 *)&object->field_58;
                     x1 = *(s32 *)&object->fraction_z;
                     *(s32 *)&packet->x0 = x0;

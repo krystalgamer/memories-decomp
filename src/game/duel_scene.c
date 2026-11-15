@@ -1192,7 +1192,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->transfer_mode = 1;
         break;
     case 3:
-        d->sector_destination = d->alternate_sector_destination = (u32)gDuel_aFusionTable;
+        d->sector_destination = d->alternate_sector_destination = (u32)&gDuel_aFusionTable;
         d->phase_size = 32 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
@@ -3170,9 +3170,6 @@ void DuelScene_UpdateCardUse(void)
 
 #include "card_constants.h"
 
-#define FUSION_TABLE_BYTES(table) ((u8 *)(table))
-#define FUSION_TABLE_OFFSETS(table) ((u16 *)(table))
-
 s32 Duel_CheckEquip(s32 key_card_id, s32 candidate_card_id)
 {
     u16 *table_cursor = gDuel_awEquipTable;
@@ -3202,7 +3199,7 @@ s32 Duel_CheckEquip(s32 key_card_id, s32 candidate_card_id)
 
 s32 Duel_CheckFusion(s32 card_a, s32 card_b)
 {
-    u8 *fusion_bytes = FUSION_TABLE_BYTES(gDuel_aFusionTable);
+    DuelFusionTable *table = &gDuel_aFusionTable;
     u8 *pair_cursor;
     s32 table_offset;
     s32 remaining_pairs;
@@ -3213,11 +3210,11 @@ s32 Duel_CheckFusion(s32 card_a, s32 card_b)
         card_b = card_a;
         card_a = swap_card_id;
     }
-    table_offset = FUSION_TABLE_OFFSETS(fusion_bytes)[card_a];
+    table_offset = table->offsets[card_a];
     if (table_offset == 0) {
         return 0;
     }
-    pair_cursor = fusion_bytes + table_offset;
+    pair_cursor = &table->bytes[table_offset];
     remaining_pairs = pair_cursor[0];
     if (remaining_pairs == 0) {
         remaining_pairs = FUSION_TABLE_EXTENDED_COUNT_BASE - pair_cursor[1];
@@ -5071,27 +5068,21 @@ void DuelCard_UpdateDefenseRotation(DisplayObject *o)
 #include "display_object.h"
 #include "trig_constants.h"
 
-#define DISPLAY_OBJECT_BYTES(object) ((u8 *)(object))
 #define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
-#define DISPLAY_OBJECT_SIGNED_HALFWORD(bytes, offset) \
-    (*(s16 *)((bytes) + (offset)))
 
 void DisplayObject_UpdateColorTransition(DisplayObject *object)
 {
     s32 step = object->field_60;
     s32 remaining = 3;
     s32 i = 0;
-    /* Byte cursors even though the object is typed: the three colour bytes
-       of rgb step against the halfwords at 0x28, 0x2A and 0x2C, which
-       are position.h and field_2C.h -- two different members, so no member
-       array covers the walk. */
+    /* The three colour bytes of rgb step against the signed halfwords at
+       0x28, 0x2A and 0x2C: position.h's two and then field_2C.h's first, so
+       the target walk indexes on from position.h.field_28. */
     u8 *current = DISPLAY_OBJECT_COLOR_BYTES(object);
-    u8 *target = DISPLAY_OBJECT_BYTES(object);
 
     for (; i < 3; i++) {
         s32 value = *current;
-        s32 limit = DISPLAY_OBJECT_SIGNED_HALFWORD(
-            target, (u32)&((DisplayObject *)0)->position.h.field_28);
+        s32 limit = (s16)(&object->position.h.field_28)[i];
 
         if (value < limit) {
             value += step;
@@ -5108,7 +5099,6 @@ void DisplayObject_UpdateColorTransition(DisplayObject *object)
         }
         *current = value;
         current++;
-        target += 2;
     }
 
     if (remaining == 0) {
@@ -8622,9 +8612,10 @@ void Duel_CreateFieldCursorObject(DuelSelectionRecord *source)
     );
 
     {
+        /* Byte offset kept: typed [side][index] adds the array base first; retail adds it last. */
         u8 *base = (u8 *)gDuel_aFieldGridGroundPositions;
         s32 offset = (u32)&((DuelFieldPosition *)0)[index] +
-            gDuel_bActiveSide * DUEL_FIELD_SIDE_POSITION_BYTES;
+            gDuel_bActiveSide * sizeof(gDuel_aFieldGridGroundPositions[0]);
 
         position = (DuelFieldPosition *)(base + offset);
     }
@@ -10110,11 +10101,12 @@ void DuelEffect_ApplyStopDefense(void) {
     }
 
     p = DuelEffect_AllocateRequest(0xC);
+    /* Byte offset kept: typed [side][index] adds the array base first; retail adds it last. */
     t = (u8 *)gDuel_aFieldGridGroundPositions;
     e = (DuelFieldPosition *)((
         (gDuel_sEffectWorkCounter + DUEL_FIELD_ROW_SIZE) *
             sizeof(DuelFieldPosition) +
-        gDuel_bActiveSide * DUEL_FIELD_SIDE_POSITION_BYTES
+        gDuel_bActiveSide * sizeof(gDuel_aFieldGridGroundPositions[0])
     ) + t);
     w = (u16)e->x;
     gDuelEffect_pTrackedRequest = p;
@@ -10211,11 +10203,12 @@ void DuelEffect_ApplyRaigeki(void) {
     if (DuelEffect_MarkInitialized() == 0) {
         gDuel_sEffectWorkCounter = 0;
         q = DuelEffect_AllocateRequest(0x10);
+        /* Byte offset kept: typed [side][index] adds the array base first; retail adds it last. */
         t = (u8 *)gDuel_aFieldGridGroundPositions;
         e = (DuelFieldPosition *)((
             (gDuel_sEffectWorkCounter + DUEL_FIELD_ROW_SIZE) *
                 sizeof(DuelFieldPosition) +
-            gDuel_bActiveSide * DUEL_FIELD_SIDE_POSITION_BYTES
+            gDuel_bActiveSide * sizeof(gDuel_aFieldGridGroundPositions[0])
         ) + t);
         w = (u16)e->x;
         p = q;
@@ -10605,6 +10598,7 @@ void DuelEffect_ApplyCursebreaker(void) {
         card = grid[(s16)next + base_slot];
         record = &gDuel_aCardRecords[card];
         object = DuelEffect_AllocateRequest(8);
+        /* Byte offset kept: typed [side][index] adds the array base first; retail adds it last. */
         positions = (u8 *)gDuel_aFieldGridGroundPositions;
         step = gDuel_sEffectWorkCounter;
         /* Keep the row bias in the typed index for retail scheduling. */
@@ -10612,7 +10606,7 @@ void DuelEffect_ApplyCursebreaker(void) {
         object->phase = 3;
         position = (DuelFieldPosition *)(
             (u32)&((DuelFieldPosition *)0)[position_index] +
-            DUEL_SIDE_SELECTOR_VOLATILE * DUEL_FIELD_SIDE_POSITION_BYTES +
+            DUEL_SIDE_SELECTOR_VOLATILE * sizeof(gDuel_aFieldGridGroundPositions[0]) +
             positions
         );
         x = (u16)position->x;
@@ -10982,9 +10976,6 @@ void DuelEffect_StartCardEffect(int value, int flag)
     }
 }
 
-#define DUEL_CARD_RECORD_AT_OFFSET(records, offset) \
-    ((DuelCardRecord *)((u8 *)(records) + (offset)))
-
 s32 Duel_FindFreeFieldSlot(s32 start)
 {
     s32 base;
@@ -10997,7 +10988,8 @@ s32 Duel_FindFreeFieldSlot(s32 start)
         off = base << 3;
         off -= base;
         off <<= 2;
-        p = DUEL_CARD_RECORD_AT_OFFSET(gDuel_aCardRecords, off);
+        /* Byte offset kept: &gDuel_aCardRecords[base] swaps base and p's registers. */
+        p = (DuelCardRecord *)((u8 *)gDuel_aCardRecords + off);
         for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
             off = p->flags & DUEL_CARD_FLAG_OCCUPIED;
             if (off == 0) {
