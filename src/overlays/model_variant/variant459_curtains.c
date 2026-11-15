@@ -31,7 +31,7 @@ void ModelVariant459_DrawCurtains(Variant459EntryState *context)
     curtain = work->curtains;
     ot = Graphics_GetDefaultOrderingTable();
     GsGetActiveBuff();
-    poly = (POLY_GT4 *)((u8 *)work + 0x2704);
+    poly = &work->ray;
     i = 0;
     ratan2(work->direction.vz, work->direction.vx);
     ratan2(work->direction.vy, work->direction.vz);
