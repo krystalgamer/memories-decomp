@@ -76,7 +76,7 @@ ScriptImageOverlayPlacementTable gScriptImage_OverlayPlacements = {
  *     36 -> 33, empty census.
  *   - `n` is REUSED for the decoded BCD index -- retail's `addu $s1,$v1,$v0`
  *     writes the index back into the argument's own register. 33 -> 22.
- *   - the slot's field_10 store (then `p[0x10] = 1;`) goes BELOW the two
+ *   - the slot's object_built store (then `p[0x10] = 1;`) goes BELOW the two
  *     read-modify-writes. 22 -> 14. The
  *     August park said "above (22 -> 19)", measured before the `n` reuse.
  *   - the gScriptImage_OverlayPairs base local is assigned AFTER the else arm's index, not
@@ -124,7 +124,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 image_id) {
         n = ((n >> 4) & 0xF) * 10 + (n & 0xF);
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         o->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-        p->entries[0].field_10 = 1;
+        p->entries[0].object_built = 1;
         p->entries[0].pointer = (u8 *)o;
         t = &gScriptImage_OverlayPlacements.rows[n];
         p->entries[0].callback_control = 0;
