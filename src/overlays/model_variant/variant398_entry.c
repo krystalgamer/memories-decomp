@@ -345,7 +345,7 @@ s32 ModelVariant398_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->frame) {
-            ModelVariant398_DrawSheets((u8 *)point);
+            ModelVariant398_DrawSheets((Variant398EntryState *)point);
             ModelVariant398_DrawRings((u8 *)point);
         }
         if (work->phase >= 2) {
