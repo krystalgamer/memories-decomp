@@ -312,10 +312,17 @@ typedef union {
     u8 rotation[4];
 } DuelEffectEntryRotation;
 
+/* The Japanese entry is word-aligned like the US one, so its glyph reveal
+   and conceal set all four corner shades with one word store. */
+typedef union {
+    s32 word;
+    u8 corner_shade[4];
+} JapaneseDuelEffectEntryShade;
+
 typedef struct {
     /* Word alignment preserves whole-record copies during compaction. */
     u32 pad_00;
-    DuelEffectEntryShade field_04;
+    JapaneseDuelEffectEntryShade field_04;
     DuelEffectEntryRotation field_08;
     u16 local_x;
     u16 local_y;

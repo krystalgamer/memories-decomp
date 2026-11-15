@@ -1875,27 +1875,12 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 #define DUEL_EFFECT_ENTRIES ((EuropeanDuelEffectEntry *)gDuelEffect_aEntries)
 #define DUEL_EFFECT_RANGE_START(channel) ((channel)->entry_range_start)
 #define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->entry_range_count)
-#define DUEL_EFFECT_FIELD_13_OFFSET 0x11
-#define DUEL_EFFECT_FIELD_15_OFFSET 0x13
 #else
 #define DUEL_EFFECT_ENTRY_TYPE DuelEffectEntry
 #define DUEL_EFFECT_ENTRIES gDuelEffect_aEntries
 #define DUEL_EFFECT_RANGE_START(channel) ((channel)->entry_range_start)
 #define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->entry_range_count)
 #endif
-
-#ifndef DUEL_EFFECT_FIELD_13_OFFSET
-#define DUEL_EFFECT_FIELD_13_OFFSET 0x13
-#endif
-#ifndef DUEL_EFFECT_FIELD_15_OFFSET
-#define DUEL_EFFECT_FIELD_15_OFFSET 0x15
-#endif
-
-#define DUEL_EFFECT_ENTRY_FROM_FIELD_13(field) \
-    ((DUEL_EFFECT_ENTRY_TYPE *)((field) - DUEL_EFFECT_FIELD_13_OFFSET))
-#define DUEL_EFFECT_ENTRY_FROM_FIELD_15(field) \
-    ((DUEL_EFFECT_ENTRY_TYPE *)((field) - DUEL_EFFECT_FIELD_15_OFFSET))
-#define DUEL_EFFECT_ENTRY_BYTES(entry) ((u8 *)(entry))
 
 /* Starting from the record's entry range, scans its active entries;
    returns 1 on the first entry with DUEL_EFFECT_ENTRY_FLAG_ACTIVE set and
@@ -4134,9 +4119,6 @@ void DisplayObjectFade_ReleaseChannel(DuelEffectGlyphEntry *object)
 #ifdef VERSION_EUROPE
 #endif
 
-#define DUEL_EFFECT_FIELD_04_WORD(type, object) \
-    (*(type *)&(object)->field_04)
-
 #ifdef VERSION_EUROPE
 void DuelEffect_UpdateGlyphReveal(EuropeanDuelEffectEntry *record)
 {
@@ -4177,7 +4159,7 @@ void DuelEffect_UpdateGlyphReveal(DuelEffectGlyphEntry *record)
 {
     if (DisplayObjectFade_MarkInitialized(record) == 0) {
         record->render_mode = 2;
-        DUEL_EFFECT_FIELD_04_WORD(s32, record) = 0;
+        record->field_04.word = 0;
         record->shear = 32;
     }
     record->shear = record->shear - gGraphics_nBaseFrameStep * 2;
@@ -4241,7 +4223,7 @@ void DuelEffect_UpdateGlyphConceal(DuelEffectGlyphEntry *p)
 
     if (!DisplayObjectFade_MarkInitialized(p)) {
         p->render_mode = 2;
-        DUEL_EFFECT_FIELD_04_WORD(u32, p) = 0x80808080;
+        p->field_04.word = 0x80808080;
         p->shear = 0;
     }
     if (!(p->handler_state & DISPLAY_OBJECT_FADE_FLAG_SECOND_PHASE)) {
