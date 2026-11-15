@@ -31,7 +31,7 @@ void FrenchModelVariant431_DrawWebs(u8 *ctx)
     s32 otz;
 
     work = (Variant431EntryState *)ctx;
-    web = (ModelVariantWebNarrow *)work;
+    web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;

@@ -33,7 +33,7 @@ void ModelVariant404_DrawWebs(Variant404EntryState *context)
 
     work = context;
     timing = work->sheets;
-    web = (ModelVariantWebNarrow *)work;
+    web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;

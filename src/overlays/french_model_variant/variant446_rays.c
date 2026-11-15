@@ -58,7 +58,7 @@ void FrenchModelVariant446_DrawRays(EntryState446 *context)
     } else {
         yaw += 0x400;
     }
-    ray = (ModelVariantRay *)work;
+    ray = work->rays;
     for (i = 0; i < 16; i++, ray++) {
         spin = work->spin;
         base = i;
@@ -103,7 +103,7 @@ void FrenchModelVariant446_DrawRays(EntryState446 *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ray = (ModelVariantRay *)work;
+    ray = work->rays;
     for (i = 0; i < 16; i++, ray++) {
         for (k = 0; k < 3; k++) {
             if (k == 2) {
@@ -131,7 +131,7 @@ void FrenchModelVariant446_DrawRays(EntryState446 *context)
             }
         }
     }
-    ray = (ModelVariantRay *)work;
+    ray = work->rays;
     for (i = 0; i < 16; i++, ray++) {
         c0 = 0x20;
         c1 = 0;

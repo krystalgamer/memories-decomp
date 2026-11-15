@@ -32,7 +32,7 @@ void ModelVariant423_DrawWebs(Variant423EntryState *context)
     s32 otz;
 
     work = context;
-    web = (ModelVariantWebNarrow *)work;
+    web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
