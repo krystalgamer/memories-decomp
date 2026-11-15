@@ -13,7 +13,7 @@
 #define MODEL_VARIANT335_RIBBON_NEXT_SCREEN(ribbon, k) (ribbon)->sa[(k) + 1]
 #endif
 
-void FrenchModelVariant335_DrawRibbons(u8 *ctx)
+void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -41,7 +41,7 @@ void FrenchModelVariant335_DrawRibbons(u8 *ctx)
     DVECTOR *previous;
     long *projection;
 
-    work = (Model335EntryState *)ctx;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 3072;
     ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);

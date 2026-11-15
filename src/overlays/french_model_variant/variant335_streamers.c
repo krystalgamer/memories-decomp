@@ -11,7 +11,7 @@
 #define STREAMERS335_PREVIOUS previous
 #endif
 
-void FrenchModelVariant335_DrawStreamers(u8 *ctx)
+void FrenchModelVariant335_DrawStreamers(Model335EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -45,7 +45,7 @@ void FrenchModelVariant335_DrawStreamers(u8 *ctx)
     s32 dy;
     DVECTOR *previous;
 
-    work = (Model335EntryState *)ctx;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     poly = work->extra_textured;

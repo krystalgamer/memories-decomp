@@ -250,12 +250,12 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
         }
         if (work->config->start <= work->clock.frame) {
             if (work->phase < 7) {
-                FrenchModelVariant335_DrawRibbons((u8 *)point);
-                FrenchModelVariant335_DrawSheets((u8 *)point);
+                FrenchModelVariant335_DrawRibbons((Model335EntryState *)point);
+                FrenchModelVariant335_DrawSheets((Model335EntryState *)point);
             }
             if (work->phase >= 5) {
-                FrenchModelVariant335_DrawStreamers((u8 *)point);
-                FrenchModelVariant335_DrawRings((u8 *)point);
+                FrenchModelVariant335_DrawStreamers((Model335EntryState *)point);
+                FrenchModelVariant335_DrawRings((Model335EntryState *)point);
             }
         }
         work->clock.frame_count++;
