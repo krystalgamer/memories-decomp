@@ -207,8 +207,8 @@ do
     assert(t:has('reset observed; per-boot capture cleared'))
     assert(t:has('13 breakpoints reinstalled at BIOS shell'))
     cleanBoot(t)
-    assert(t:has('func_801680F4 entry ra=0x80043A10'))
-    assert(t:has('func_801680F4 exit region_byte=0x41(A) state=1 '
+    assert(t:has('SafetyInit entry ra=0x80043A10'))
+    assert(t:has('SafetyInit exit region_byte=0x41(A) state=1 '
                  .. 'message_index=1'))
     assert(t:has('func_80168C6C n=1 cmd=0x13(GetTN) nparams=0 nresults=3 '
                  .. 'wait=3 params=- ra=0x801681B0'))
@@ -220,8 +220,8 @@ do
                  .. 'wait=3 ret=1 cause=3 results=02 01 14 zero_polls=2'))
     assert(t:has('func_80168A98 n=10 cmd=0x19(Test) nparams=1 nresults=2 '
                  .. 'wait=3 ret=1 cause=3 results=02 00'))
-    assert(t:has('SafetyCheck a0=1 state 1 -> 2 ret=1'))
-    assert(t:countOf('SafetyCheck a0=1 state 2 -> 2 ret=2') == 1,
+    assert(t:has('SafetySync a0=1 state 1 -> 2 ret=1'))
+    assert(t:countOf('SafetySync a0=1 state 2 -> 2 ret=2') == 1,
            'repeats print once')
     assert(t:countOf('state 14 -> 14 ret=14') == 1)
     assert(t:has('state 14 -> 15 ret=14 calls=1005 repeats_before=999'))
@@ -230,15 +230,15 @@ do
     assert(not t:has('==== TRACE RESULT ====='), 'grace period pinned')
     t:exec(CONTROL)
     t:frames(1)
-    assert(t:has('status: SafetyCheck returned 0 and 5 s passed'))
+    assert(t:has('status: SafetySync returned 0 and 5 s passed'))
     assert(t:has('resets: 1'))
     assert(t:has('verdict: APv2 completed on the unmodified path: '
-                 .. 'func_801680F4 ran, SafetyCheck returned 0 after 1007 '
+                 .. 'SafetyInit ran, SafetySync returned 0 after 1007 '
                  .. 'calls at bt=0.5s, 4 CD commands sent, the warning never '
                  .. 'ran; the game ran 1 frame services afterwards'))
-    assert(t:has('func_801680F4: calls=1 ra=0x80043A10 region_byte=0x41(A) '
+    assert(t:has('SafetyInit: calls=1 ra=0x80043A10 region_byte=0x41(A) '
                  .. 'state=1 message_index=1'))
-    assert(t:has('SafetyCheck: calls=1007 first_state=1 final_state=0 '
+    assert(t:has('SafetySync: calls=1007 first_state=1 final_state=0 '
                  .. 'returned_zero=yes at bt=0.5s'))
     assert(t:has('state_path: 1@0.0s > 2@0.0s > 3@0.0s > 14@0.5s > 15@0.5s '
                  .. '> 18@0.5s > 0@0.5s'))
@@ -266,7 +266,7 @@ do
     t:send(1)
     for _ = 1, 20 do t:poll(1, 1, 3, {1}) end
     assert(t:countOf(': 0x80168000 does not hold the US') == 8)
-    assert(t:has('refused func_801680F4: 0x80168000 does not hold the US '
+    assert(t:has('refused SafetyInit: 0x80168000 does not hold the US '
                  .. 'APv2 image (12/12 words differ; module word 0x80168000 '
                  .. 'expected 0x00000016 read 0000002A)'))
     -- The Japanese image differs only in its jal words.
@@ -277,7 +277,7 @@ do
     assert(t:has('status: 120-second window since the last reset ended'))
     assert(t:has('refused_hits=45'))
     assert(t:has('verified_hits_this_boot=0'))
-    assert(t:has('SafetyCheck: calls=0'))
+    assert(t:has('SafetySync: calls=0'))
     assert(t:has('func_80168C6C: sends=0 -'))
     assert(t:has('verdict: inconclusive: only code other than the US APv2 '
                  .. 'image ran at the watched addresses (45 refused hits)'))
@@ -319,7 +319,7 @@ do
     assert(t:has('earlier_boot 1: select=region 0x41 state 1 message 1 '
                  .. 'controller_calls=1 sends=1 path=1@0.0s>2@0.0s '
                  .. 'returned_zero=no warning=no'))
-    assert(t:has('SafetyCheck: calls=0'), 'per-boot capture cleared')
+    assert(t:has('SafetySync: calls=0'), 'per-boot capture cleared')
     assert(t:has('func_80168A98: n=13 zero=0 ok=0 err=1'))
     assert(t:has('verdict: the warning SafetyCheck2 RAN'))
     assert(t:has('helpers: SafetyCheck3=2'))
@@ -365,7 +365,7 @@ do
     for _ = 1, 70 do t:send(0) end
     for _ = 1, 10 do t:poll(0, 1, 3, {2}) end
     for n = 1, 13 do for _ = 1, 8 do t:poll(n, -2, 5, {0x12, 0x80}) end end
-    assert(t:countOf('SafetyCheck a0=1 state') == 80)
+    assert(t:countOf('SafetySync a0=1 state') == 80)
     assert(t:countOf('func_80168C6C n=0 cmd=0x01(Getstat)') == 60)
     assert(t:countOf('func_80168A98 n=0') == 6)
     assert(t:has('func_80168A98 n=1 cmd=0x13(GetTN) nparams=0 nresults=3 '
@@ -376,7 +376,7 @@ do
     assert(t:has('func_80168C6C: sends=70 0(0x01 Getstat)x70'))
     assert(t:has('func_80168A98: n=1 zero=0 ok=0 err=0 err_status=8'))
     assert(t:has('controller_rows=80/80 send_rows=60/60'))
-    assert(t:has('verdict: inconclusive: APv2 ran but SafetyCheck never '
+    assert(t:has('verdict: inconclusive: APv2 ran but SafetySync never '
                  .. 'returned 0 within the window (last state 2)'))
     finished(t)
 end

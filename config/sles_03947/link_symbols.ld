@@ -81,7 +81,8 @@ func_80014474 = File_StepActiveTransfer;
 func_80014A48 = SD_ConfigureTransferPhase;
 func_80014B58 = File_RequestSecondarySlot;
 gDuel_aCardUploadRects = 0x80177EA4;
-SafetyCheck = 0x80168160;
+SafetyInit = 0x801680F4;
+SafetySync = 0x80168160;
 
 /* Semantic draw-state aliases retain the original native providers. */
 CampaignMap_SetLocation = 0x8016866C;

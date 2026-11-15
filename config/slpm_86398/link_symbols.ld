@@ -1,7 +1,8 @@
 /* Retain the original generated glyph-scratch provider and storage identity. */
 
 
-SafetyCheck = 0x80168160;
+SafetyInit = 0x801680F4;
+SafetySync = 0x80168160;
 CampaignMap_SetLocation = 0x8016866C;
 FreeDuel_Entry = 0x80168FB4;
 func_800612C0 = Model_DrawFt3Primitives;

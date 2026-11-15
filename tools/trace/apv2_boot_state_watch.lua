@@ -4,31 +4,31 @@
 --   The APv2 boot module (Sony's anti-modchip check, notes/overlays/apv2.md)
 --   is WA_MRG module 0x16 at 0x80168000. All nine of its functions and its
 --   20 controller states are still address-named. Main_RunBootSequence
---   (src/game/main_boot_frontend.c) calls func_801680F4 once and then
---   `while (SafetyCheck(1) != 0) {}`: a busy loop, not one call per frame;
+--   (src/game/main_boot_frontend.c) calls SafetyInit once and then
+--   `while (SafetySync(1) != 0) {}`: a busy loop, not one call per frame;
 --   the controller's waits (states 9, 14, 19) poll VSync(-1). So: on a real
---   boot, which states does SafetyCheck walk through in which order and
+--   boot, which states does SafetySync walk through in which order and
 --   for how long, which CD commands does func_80168C6C send with which
 --   parameters, what does func_80168A98 read back, which region and message
---   set does func_801680F4 select, and does the warning SafetyCheck2 ever
+--   set does SafetyInit select, and does the warning SafetyCheck2 ever
 --   run? Each answer names something: the state order and the command per
 --   state name the 20 states and the jump table at 0x80168004; the command
 --   bytes and results confirm func_80168C6C as the command sender,
---   func_80168A98 as the result poll and func_801680F4 as the region select;
+--   func_80168A98 as the result poll and SafetyInit as the region select;
 --   a warning or helper hit (or its absence) is recorded for SafetyCheck2,
 --   SafetyCheck3, SafetyCheck4, func_801691F0 and SafetyCheck5.
 --   The emulator answers like an unmodified console, so only the clean path
 --   is observable here; the warning branches stay static evidence.
 --
 -- WHERE THE VALUES LIVE (from src/candidates_target/apv2/*.S)
---   * State: the s32 D_80169474. SafetyCheck loads it at 0x80168178, bounds
+--   * State: the s32 D_80169474. SafetySync loads it at 0x80168178, bounds
 --     it with sltiu 0x14 and indexes the jump table at 0x80168004; every case
---     stores the next state back there. func_801680F4 writes it (1 or 0) and
+--     stores the next state back there. SafetyInit writes it (1 or 0) and
 --     the message index D_801694D0 (0, 1 or 2).
---   * func_801680F4 lbu's the BIOS region byte 0xBFC7FF52 into $v1 and never
+--   * SafetyInit lbu's the BIOS region byte 0xBFC7FF52 into $v1 and never
 --     overwrites it, so $v1 at its only jr ra (0x80168158) is that byte; the
 --     ROM itself is not read.
---   * SafetyCheck(a0): its return value is $s0, copied to $v0 in the delay
+--   * SafetySync(a0): its return value is $s0, copied to $v0 in the delay
 --     slot at 0x80168A78; every path reaches the jr ra at 0x80168A90, where
 --     $v0 and D_80169474 are read.
 --   * func_80168C6C(a0 = command index n): the command is entry n of
@@ -48,7 +48,7 @@
 --
 -- WHAT IS WATCHED
 --   Exec breakpoints: Main_RunFrameServices (0x8001306C, control);
---   func_801680F4 entry and exit; SafetyCheck entry and exit;
+--   SafetyInit entry and exit; SafetySync entry and exit;
 --   func_80168A98 entry and exit; func_80168C6C, SafetyCheck2,
 --   SafetyCheck3, SafetyCheck4, func_801691F0 and SafetyCheck5 entries.
 --   Several modules share 0x80168000, so every hit in the module first checks
@@ -153,7 +153,7 @@ local MODULE = 0x80168000
 local MODULE_END = 0x80169800
 
 local STATE = 0x80169474        -- D_80169474, controller state
-local MESSAGE_INDEX = 0x801694D0 -- D_801694D0, set by func_801680F4
+local MESSAGE_INDEX = 0x801694D0 -- D_801694D0, set by SafetyInit
 local COMMANDS = 0x8016941C     -- safechk_commands {cmd, nparams, ...}
 local COMMAND_COUNT = 14
 local PARAMS = 0x80169464       -- safechk_params, parameter bytes
@@ -164,10 +164,10 @@ local MESSAGE_COUNT = 2
 
 -- Address, retail entry word, name.
 local CONTROL = {0x8001306c, 0x27bdffe0, 'Main_RunFrameServices'}
-local SELECT = {0x801680f4, 0x3c03bfc8, 'func_801680F4'}
-local SELECT_EXIT = {0x80168158, 0x03e00008, 'func_801680F4 jr ra'}
-local CONTROLLER = {0x80168160, 0x27bdffe0, 'SafetyCheck'}
-local CONTROLLER_EXIT = {0x80168a90, 0x03e00008, 'SafetyCheck jr ra'}
+local SELECT = {0x801680f4, 0x3c03bfc8, 'SafetyInit'}
+local SELECT_EXIT = {0x80168158, 0x03e00008, 'SafetyInit jr ra'}
+local CONTROLLER = {0x80168160, 0x27bdffe0, 'SafetySync'}
+local CONTROLLER_EXIT = {0x80168a90, 0x03e00008, 'SafetySync jr ra'}
 local POLL = {0x80168a98, 0x00041080, 'func_80168A98'}
 local POLL_EXIT = {0x80168c64, 0x03e00008, 'func_80168A98 jr ra'}
 local SEND = {0x80168c6c, 0x00002821, 'func_80168C6C'}
@@ -652,14 +652,14 @@ local function verdict()
     end
     if boot.doneAt ~= nil then
         return string.format('APv2 completed on the unmodified path: '
-            .. 'func_801680F4 %s, SafetyCheck returned 0 after %d calls at '
+            .. 'SafetyInit %s, SafetySync returned 0 after %d calls at '
             .. 'bt=%.1fs, %d CD commands sent, the warning never ran; the '
             .. 'game ran %d frame services afterwards',
             boot.select and 'ran' or 'NOT seen', boot.controllerCalls,
             (boot.doneAt - boot.startVs) / FPS, boot.sends,
             boot.controlAfterDone)
     end
-    return 'inconclusive: APv2 ran but SafetyCheck never returned 0 '
+    return 'inconclusive: APv2 ran but SafetySync never returned 0 '
         .. 'within the window (last state ' .. dec(boot.finalState) .. ')'
 end
 
@@ -689,17 +689,17 @@ local function finish(reason)
     if firstRefused ~= nil then print('first_refused: ' .. firstRefused) end
     print('verdict: ' .. verdict())
     if boot.select ~= nil then
-        print(string.format('func_801680F4: calls=%d ra=0x%s '
+        print(string.format('SafetyInit: calls=%d ra=0x%s '
                             .. 'region_byte=0x%s(%s) state=%s '
                             .. 'message_index=%s', boot.selectCalls,
                             hex(boot.selectRa, 8), hex(boot.select.region),
                             boot.select.ch, dec(boot.select.state),
                             dec(boot.select.mode)))
     else
-        print(string.format('func_801680F4: exit not seen (entries=%d)',
+        print(string.format('SafetyInit: exit not seen (entries=%d)',
                             boot.selectCalls))
     end
-    print(string.format('SafetyCheck: calls=%d first_state=%s '
+    print(string.format('SafetySync: calls=%d first_state=%s '
                         .. 'final_state=%s returned_zero=%s', boot.controllerCalls,
                         dec(boot.firstState), dec(boot.finalState),
                         boot.doneAt and string.format('yes at bt=%.1fs',
@@ -765,7 +765,7 @@ local function poll()
         return
     end
     if boot.doneAt ~= nil and vsyncs - boot.doneAt >= GRACE_FRAMES then
-        finish(string.format('SafetyCheck returned 0 and %d s passed',
+        finish(string.format('SafetySync returned 0 and %d s passed',
                              GRACE_FRAMES / FPS))
     elseif boot.warningAt ~= nil and vsyncs - boot.warningAt >= GRACE_FRAMES then
         finish(string.format('the warning ran and %d s passed',
