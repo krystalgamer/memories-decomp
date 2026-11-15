@@ -1,22 +1,135 @@
 #include "../types.h"
+#include "../psyq/libapi.h"
+
 #include "sound.h"
+#include "sound_event_runtime.h"
 #include "sound_sequence_events.h"
 #include "sound_sequence_parser.h"
-#include "sound_sequence_reader.h"
+
+/* The secondary sequencer's stream reader, in image order: closing and
+   stopping the root-counter timer that sound_sequence_events.c opens, the
+   per-tick SD_UpdateSecondarySequence, the byte and variable-length readers,
+   SD_FindMidiTrackChunk (the unit's only data, the "MTrk" literal in .sdata),
+   the big-endian readers and header reader, the meta, SysEx and channel event
+   handlers, and SD_ReadSequenceEvent, the running-status reader that
+   dispatches to them. Everything consumes an SDSequenceTrack stream through
+   SD_ReadSequenceByte; sound_sequence_tracks.c walks the tracks with it. */
+
+void SD_CloseSequenceTimerEvent(void)
+{
+    gSD_pSecondaryState->event_guard = 1;
+    EnterCriticalSection();
+    StopRCnt(RCntCNT2);
+    DisableEvent(gSD_pSecondaryState->event_handle);
+    CloseEvent(gSD_pSecondaryState->event_handle);
+    ExitCriticalSection();
+    gSD_pSecondaryState->timer_update_inhibit = 0;
+}
+
+void SD_StopSequenceTimer(void)
+{
+    gSD_pSecondaryState->event_guard = 1;
+    EnterCriticalSection();
+    StopRCnt(RCntCNT2);
+    ExitCriticalSection();
+    gSD_pSecondaryState->timer_update_inhibit = 0;
+}
+
+void SD_UpdateSecondarySequence(void)
+{
+    if (gSD_pSecondaryState->update_in_progress)
+        return;
+    gSD_pSecondaryState->update_in_progress = 1;
+    if (gSD_pSecondaryState->shared_track_updates_enabled) {
+        SD_ProcessSequenceTracks();
+        SD_ProcessSequenceTracks();
+        SD_ProcessSequenceTracks();
+        SD_ProcessSequenceTracks();
+        SD_ProcessSequenceTracks();
+        SD_ProcessSequenceTracks();
+        SD_ProcessSequenceTracks();
+        SD_ProcessSequenceTracks();
+        SD_ProcessSequenceTracks();
+        SD_ProcessSequenceTracks();
+    }
+    SD_UpdateSecondaryObjectReuseCountdowns();
+    SD_UpdateSecondaryObjectVoices();
+    gSD_pSecondaryState->update_in_progress = 0;
+}
+
+/* Compares count bytes; returns the difference at the first mismatch. */
+s32 SD_CompareBytes(u8 *left, u8 *right, s32 count) {
+    if (count == 0) {
+        return -1;
+    }
+
+    while (--count != 0 && *left == *right) {
+        left++;
+        right++;
+    }
+
+    return *left - *right;
+}
+
+s32 SD_ReadSequenceByte(SDSequenceTrack *reader)
+{
+    SDSecondaryState *state = gSD_pSecondaryState;
+    int offset = reader->pos;
+    int value = state->sequence_read_base[offset];
+
+    offset++;
+    reader->pos = offset;
+    if ((u32)state->sequence_read_limit < (u32)offset) {
+        reader->ended = 1;
+        return -1;
+    }
+    return value;
+}
+
+s32 SD_ReadVariableLengthValue(SDSequenceTrack *input)
+{
+    int value = SD_ReadSequenceByte(input);
+    int result;
+
+    if (value == 0) {
+        return 0;
+    }
+    if (value == SD_SEQUENCE_VLQ_INITIAL_STOP) {
+        input->ended = 1;
+        return 0;
+    }
+    result = value;
+    if (result & SD_SEQUENCE_VLQ_CONTINUATION_BIT) {
+        result &= SD_SEQUENCE_VLQ_PAYLOAD_MASK;
+        do {
+            value = SD_ReadSequenceByte(input);
+            result = (result << SD_SEQUENCE_VLQ_PAYLOAD_BITS) +
+                     (value & SD_SEQUENCE_VLQ_PAYLOAD_MASK);
+        } while (value & SD_SEQUENCE_VLQ_CONTINUATION_BIT);
+    }
+    return result;
+}
+
+#define SD_SEQUENCE_MARKER_SIZE 4
+
+s32 SD_FindMidiTrackChunk(s32 offset)
+{
+    do {
+        if (SD_CompareBytes(
+                (u8 *)"MTrk",
+                gSD_pSecondaryState->sequence_read_base + offset,
+                SD_SEQUENCE_MARKER_SIZE) == 0) {
+            return offset + SD_SEQUENCE_MARKER_SIZE;
+        }
+
+        offset++;
+    } while ((u32)gSD_pSecondaryState->sequence_read_limit >= (u32)offset);
+
+    return -1;
+}
 
 #define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
     ((SDSecondaryState *)((u8 *)(state) + (offset)))
-
-/* The sequence parser: the fixed-width big-endian readers, the header reader
-   that uses them to set up track and tempo, and the handlers for the meta,
-   SysEx and channel events the running-status reader dispatches. All eight
-   consume the same SDSequenceTrack stream through SD_ReadSequenceByte.
-
-   SD_ReadSequenceHeader was recorded at gcc_2_8_1_cc_g8_as_g0_split against
-   gcc_2_8_1_g0 for the rest; it compiles to an identical object at
-   gcc_2_8_1_g0, as its own history note below says it was first matched
-   with -G0. Bounded below by SD_FindMidiTrackChunk, which does need its
-   profile, and above by SD_ReadSequenceEvent at gcc_2_8_1_g8_split. */
 
 s32 SD_ReadSequenceU32BE(SDSequenceTrack *input)
 {
@@ -337,5 +450,59 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
     case SD_SEQUENCE_PITCH_BEND:
         SD_SetSequenceChannelPitchBendMsb(ch, d1, d2);
         break;
+    }
+}
+
+/* The event byte is kept twice: `cmd` as read, and `ev` as a u8 copy. GCC
+ * 2.8.1 assigns a u8 local with a plain move and zero-extends at each use,
+ * which is retail's `$a1` to `$a0` copy followed by `andi 0xFF` at the meta
+ * test and in the tail. `byte2` is declared before `type` so the two
+ * equal-priority callee-saved pseudos keep retail's $s2/$s3 order. */
+s32 SD_ReadSequenceEvent(SDSequenceTrack *track)
+{
+    s32 cmd;
+    u8 ev;
+    u32 status;
+    u8 byte2;
+    s32 type;
+    u8 byte3;
+
+    byte3 = 0;
+    cmd = SD_ReadSequenceByte(track);
+    ev = cmd;
+    if (!(cmd & SD_SEQUENCE_STATUS_BIT)) {
+        status = track->running_status;
+        track->running_status_held = 1;
+    } else {
+        if (ev != SD_SEQUENCE_META_EVENT) {
+            track->running_status = cmd;
+        }
+        status = cmd;
+        track->running_status_held = 0;
+    }
+    type = gSD_adwStatusDataByteCounts[(status >> SD_SEQUENCE_STATUS_SHIFT) &
+                      SD_SEQUENCE_STATUS_INDEX_MASK];
+    if (type != 0) {
+        if (track->running_status_held == 0) {
+            byte2 = SD_ReadSequenceByte(track);
+        } else {
+            byte2 = ev;
+        }
+        if (type == 2) {
+            byte3 = SD_ReadSequenceByte(track);
+        }
+        SD_DispatchSequenceChannelEvent(track, status & 0xFF, byte2, byte3);
+        return 0;
+    }
+    switch (ev) {
+    case SD_SEQUENCE_META_EVENT:
+        SD_HandleSequenceMetaEvent(track, SD_ReadSequenceByte(track) & 0xFF);
+        return 0;
+    case SD_SEQUENCE_SYSEX_EVENT:
+        SD_SkipSequenceSysEx(track);
+        return 0;
+    default:
+        SD_IgnoreSequenceEvent(ev);
+        return 0;
     }
 }

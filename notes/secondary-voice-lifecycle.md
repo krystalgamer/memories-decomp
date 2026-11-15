@@ -106,7 +106,7 @@ callers, replacing the older tentative per-frame description.
 
 Primary evidence is in `sound.h`, `sound_sequence_tracks.c`,
 `sound_sequence_events.c`, `sound_secondary_voice.c`,
-`sound_sequence_runtime.c`
+`sound_sequence_parser.c`
 and `sound_secondary.c`.
 
 ## Classified helper source filename

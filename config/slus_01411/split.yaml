@@ -163,7 +163,7 @@ segments:
       - [0x8B774, .sdata, game/display_object_system]
       - [0x8B77C, .sdata, game/mem_card_driver]
       - [0x8B77E, pad]
-      - [0x8B780, .sdata, game/sound_find_midi_track_chunk]
+      - [0x8B780, .sdata, game/sound_sequence_parser]
       - [0x8B785, pad]
       - [0x8B788, .sdata, game/model]
       - [0x8B856, pad]

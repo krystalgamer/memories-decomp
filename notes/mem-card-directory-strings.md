@@ -22,7 +22,7 @@ dialog wildcard. `mem_card_driver.c` owns the device path format ahead of
 its `MemCard_ProcessRequest` tables and the driver wildcard in `.sdata`.
 The depth table between the two wildcards is the only `.sdata` of
 `display_object_system.c`, and the `"MTrk"` marker after them is the
-literal `SD_FindMidiTrackChunk` (`sound_find_midi_track_chunk.c`) compares.
+literal `SD_FindMidiTrackChunk` (`sound_sequence_parser.c`) compares.
 
 ## Directory enumeration and diagnostic arguments
 
