@@ -12,18 +12,4 @@ typedef struct {
     CVECTOR outer[6][31];
 } Variant412Trail;
 
-typedef struct {
-    u8 before_capture[20];
-    u32 capture_start;
-    u32 capture_stop;
-} Variant412Timing;
-
-typedef struct {
-    Variant412Timing *timing;
-} Variant412TimingLink;
-
-typedef struct {
-    GsCOORDINATE2 *part[6];
-} Variant412Links;
-
 #endif
