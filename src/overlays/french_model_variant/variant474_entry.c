@@ -25,7 +25,7 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
     Variant474EntryRibbon *ribbon;
     ModelVariantSheet *sheet;
     Variant458Streamer *streamer;
-    ModelVariantSpiral *spiral;
+    ModelVariantShadedRay *spiral;
     POLY_GT4 *glow;
     POLY_G4 *quad;
     s32 result;

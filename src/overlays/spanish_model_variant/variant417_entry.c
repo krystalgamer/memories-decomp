@@ -18,7 +18,7 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantTripleCurtain *curtain = work->curtains;
     ModelVariantColorRing *spoke = work->spokes;
-    ModelVariantSpiral *glow = work->glows;
+    ModelVariantShadedRay *glow = work->glows;
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *textured = work->packets.textured;

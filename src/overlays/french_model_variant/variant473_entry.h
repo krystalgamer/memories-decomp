@@ -35,7 +35,7 @@ typedef struct {
 typedef struct {
     ModelVariantGridSheet meshes[5];
     EntryRibbon473 ribbons[5];
-    ModelVariantSpiral spirals[12];
+    ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[6];
     Variant458Streamer streamers[2];
     ModelVariantFunnel funnels[5];

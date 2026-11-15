@@ -36,7 +36,8 @@ this retail body:
 - The length uses a step of 48 instead of 32.
 
 The accepted shared `variant448_spiral.c` and `variant425_spiral.c`, and the
-arm record in `variant425_spiral.h`, were used only as structural evidence. The
+arm record then in `variant425_spiral.h` (now
+`ModelVariantShadedRay`), were used only as structural evidence. The
 first candidate missed only the three translation-field offsets; it is kept in
 the ledger.
 

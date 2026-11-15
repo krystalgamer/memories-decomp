@@ -33,7 +33,8 @@ by step × 32 up to 0x400 and the secondary phase becomes 2.
 
 This is the routine of the accepted MODEL438 and MODEL421 palette spirals with
 MODEL459 work offsets, both gates of MODEL421 and its own timing details. The
-`Variant425SpiralArm` record of the accepted shared header is reused. The
+shared arm record (then the `Variant425SpiralArm` view, now
+`ModelVariantShadedRay`) is reused. The
 ledger keeps every rejected form. Three details were required:
 
 - **Pointer order.** The context, arm pointer and indexed timing pointer are

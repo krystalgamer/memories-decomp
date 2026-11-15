@@ -35,7 +35,8 @@ The source combines two structures recovered in companion changes:
 - the phase-guarded MODEL474 spiral (#7138)
 - the status-keeping projection of the MODEL473 spiral (#7134)
 
-The `Variant425SpiralArm` record of the accepted shared header is reused. The
+The shared arm record (then the `Variant425SpiralArm` view, now
+`ModelVariantShadedRay`) is reused. The
 palette, half-word translation, gates, offsets and tail were recovered from the
 retail body. The ledger keeps every rejected form. Three details were required:
 

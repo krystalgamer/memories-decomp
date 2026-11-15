@@ -26,8 +26,8 @@ From phase 2 on, the sweep at `+0x3C28` advances by 48.
 
 This routine combines the twelve-arm form of the accepted shared
 `model_variant/variant448_spiral.c` with the flag-gated projection of
-`variant425_spiral.c`. Those sources, and the arm record in
-`variant425_spiral.h`, were used only as structural evidence. The guard, spread,
+`variant425_spiral.c`. Those sources, and the arm record then in
+`variant425_spiral.h` (now `ModelVariantShadedRay`), were used only as structural evidence. The guard, spread,
 offsets, shades and tail were recovered from the retail body.
 
 The ledger keeps 25 rejected experiments. They cover declaration order, pointer

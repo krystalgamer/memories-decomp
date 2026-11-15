@@ -26,7 +26,7 @@ typedef struct {
     u8 rays[0x360];
     ModelVariantTripleCurtain curtains[5];
     ModelVariantColorRing spokes[4];
-    ModelVariantSpiral glows[12];
+    ModelVariantShadedRay glows[12];
     ModelVariantPackets packets;
     POLY_GT4 plain;
     POLY_FT4 flat_textured[2];

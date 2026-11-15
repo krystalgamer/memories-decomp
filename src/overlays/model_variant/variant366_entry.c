@@ -20,7 +20,7 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
     Variant366Quads *quads = work->quads;
     Variant366Ribbon *ribbon = work->ribbons;
     ModelVariantColorRing *ring = work->rings;
-    ModelVariantSpiral *ray = work->rays;
+    ModelVariantShadedRay *ray = work->rays;
     POLY_GT4 *textured = work->textured;
     POLY_FT4 *flat = work->flat;
     POLY_G3 *triangle = &work->triangle;

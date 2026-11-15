@@ -32,8 +32,8 @@ secondary phase becomes 2.
 This is the MODEL438 palette spiral (#7145) with MODEL421 work offsets. The
 only structural difference is the first-half gate: MODEL438 tests for a
 positive depth, while MODEL421 tests for a non-negative depth and status word,
-which accounts for the 24 extra bytes. The `Variant425SpiralArm` record of the
-accepted shared header is reused. The ledger keeps every rejected form.
+which accounts for the 24 extra bytes. The shared arm record (then the
+`Variant425SpiralArm` view, now `ModelVariantShadedRay`) is reused. The ledger keeps every rejected form.
 
 ## Integration
 

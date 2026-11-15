@@ -37,7 +37,8 @@ The routine combines two accepted Spanish spirals, used as structural evidence:
 - the phase-guarded MODEL474 spiral (body, projection and gates)
 - the MODEL421 palette spiral (palette values and tail form)
 
-The `Variant425SpiralArm` record of the accepted shared header is reused. The
+The shared arm record (then the `Variant425SpiralArm` view, now
+`ModelVariantShadedRay`) is reused. The
 offsets, the half-word translation and the signed tail were recovered from the
 retail body. The ledger keeps every form. Two details were required:
 

@@ -24,7 +24,7 @@ s32 ModelVariant404_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantRing *spoke;
     ModelVariantFan *quad_record;
     ModelVariantWebNarrow *web;
-    ModelVariantSpiral *glow;
+    ModelVariantShadedRay *glow;
     POLY_GT4 *textured;
     POLY_G3 *triangle;
     POLY_G4 *quad;
