@@ -53,5 +53,5 @@ typedef struct {
     s32 state;
 } Variant458StrandView;
 
-void FrenchModelVariant458_DrawStrands(u8 *ctx);
+void FrenchModelVariant458_DrawStrands(Variant458StrandView *context);
 #endif

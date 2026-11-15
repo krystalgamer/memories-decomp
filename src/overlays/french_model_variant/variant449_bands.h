@@ -44,5 +44,5 @@ typedef struct {
     s16 direction;
 } Variant449BandView;
 
-void FrenchModelVariant449_DrawBands(u8 *context);
+void FrenchModelVariant449_DrawBands(Variant449BandView *context);
 #endif

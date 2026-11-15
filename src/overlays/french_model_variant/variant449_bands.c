@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant449_bands.h"
 
-void FrenchModelVariant449_DrawBands(u8 *context)
+void FrenchModelVariant449_DrawBands(Variant449BandView *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -22,7 +22,7 @@ void FrenchModelVariant449_DrawBands(u8 *context)
     s32 lift;
     s32 progress;
 
-    work = (Variant449BandView *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     angle = ratan2(work->axis_y, work->axis_x) + 0x800;
     poly = &work->quads[1];

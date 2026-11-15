@@ -252,7 +252,7 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->draw_start <= work->elapsed) {
-            FrenchModelVariant458_DrawStrands((u8 *)point);
+            FrenchModelVariant458_DrawStrands((Variant458StrandView *)point);
             FrenchModelVariant458_DrawStreamers((u8 *)point);
         }
         if (work->elapsed > work->config->sheet_start) {

@@ -2,7 +2,7 @@
 #include "../model_variant/variant443_streamers.h"
 #include "variant460_entry.h"
 
-void FrenchModelVariant460_DrawStreamers(u8 *ctx)
+void FrenchModelVariant460_DrawStreamers(Variant460EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -35,7 +35,7 @@ void FrenchModelVariant460_DrawStreamers(u8 *ctx)
     s32 dy;
     long *previous;
 
-    work = (Variant460EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
     poly = (POLY_G4 *)work->flat_textured;

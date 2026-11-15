@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant447_rings.h"
 
-void FrenchModelVariant447_DrawRings(u8 *context)
+void FrenchModelVariant447_DrawRings(Rings447State *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -13,7 +13,7 @@ void FrenchModelVariant447_DrawRings(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Rings447State *state = (Rings447State *)context;
+    Rings447State *state = context;
     ModelVariantQuadRingView *ring;
     POLY_FT4 *polygon;
     s16 i;

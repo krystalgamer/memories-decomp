@@ -3,7 +3,7 @@
 #include "variant446_ribbons.h"
 #include "variant446_entry.h"
 
-void FrenchModelVariant446_DrawRibbons(u8 *ctx)
+void FrenchModelVariant446_DrawRibbons(EntryState446 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -28,7 +28,7 @@ void FrenchModelVariant446_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (EntryState446 *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     ribbon = work->ribbons;

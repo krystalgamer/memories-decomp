@@ -13,7 +13,7 @@
 #define RIBBONS474_NEXT_SA ribbon->sa[k + 1]
 #endif
 
-void FrenchModelVariant474_DrawRibbon(u8 *ctx)
+void FrenchModelVariant474_DrawRibbon(Variant474EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -39,7 +39,7 @@ void FrenchModelVariant474_DrawRibbon(u8 *ctx)
     POLY_GT4 *poly;
     Ribbon474Timing *timing;
 
-    work = (Variant474EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;

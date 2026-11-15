@@ -72,9 +72,9 @@ extern GsIMAGE gFrenchModelVariant446_aImages[9];
 extern EntryConfig446 gFrenchModelVariant446_aConfigs[];
 void SpanishModelVariant446_DrawLines(u8 *context);
 void SpanishModelVariant446_DrawStrip(u8 *context);
-void FrenchModelVariant446_DrawRibbons(u8 *context);
+void FrenchModelVariant446_DrawRibbons(EntryState446 *context);
 void SpanishModelVariant446_DrawPulse(u8 *context);
 void SpanishModelVariant446_DrawRings(u8 *context);
-void FrenchModelVariant446_DrawRays(u8 *context);
+void FrenchModelVariant446_DrawRays(EntryState446 *context);
 
 #endif

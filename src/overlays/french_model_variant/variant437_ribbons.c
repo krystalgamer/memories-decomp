@@ -17,7 +17,7 @@
 #define RIBBONS437_NEXT(points, k) ((points)[(k) + 1])
 #endif
 
-void FrenchModelVariant437_DrawRibbons(u8 *ctx)
+void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -47,7 +47,7 @@ void FrenchModelVariant437_DrawRibbons(u8 *ctx)
     s32 hi;
     s32 odd;
 
-    work = (Variant437EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vz) + 0xC00;

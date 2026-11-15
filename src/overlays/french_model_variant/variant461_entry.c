@@ -380,7 +380,7 @@ s32 FrenchModelVariant461_HandleRequest(SVECTOR *point, s32 command)
                 SpanishModelVariant461_DrawSheets((u8 *)point);
             }
             if (work->phase >= 2) {
-                FrenchModelVariant461_DrawRibbons((u8 *)point);
+                FrenchModelVariant461_DrawRibbons((EntryState461 *)point);
             }
         }
         work->clock.frame_count++;
