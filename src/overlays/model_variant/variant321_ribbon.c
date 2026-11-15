@@ -203,11 +203,11 @@ void ModelVariant321_DrawRibbon(u8 *ctx)
             }
         }
         if (work->phase == 3 && work->width > 0) {
-            start = *(u32 *)(*(u8 **)((u8 *)work + 0x1F3C) + 0x2C);
+            start = work->config->fade_start;
             now = work->clock.frame;
             if ((u32)now >= (u32)start) {
                 work->width =
-                    0x400 - ((u32)(now - start) << 10) / (*(u32 *)(*(u8 **)((u8 *)work + 0x1F3C) + 0x30) - start);
+                    0x400 - ((u32)(now - start) << 10) / (work->config->fade_end - start);
             }
             if (work->width <= 0) {
                 work->width = 0;
