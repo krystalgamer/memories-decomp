@@ -135,9 +135,9 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
         SetShadeTex(extra, 0);
         for (outer = 0; outer < 1; outer++, radial++) {
             for (m = 0, angle = 0; m < 17; m++, angle = m << 8) {
-                setVector(&radial->point[0], 0, 0, 0);
-                setVector(&radial->point[m + 1], (u32)(rcos(angle) * 3) >> 5, 0, (u32)(rsin(angle) * 3) >> 5);
-                setVector(&radial->point[m + 18], (u32)rcos(angle) >> 3, 0, (u32)rsin(angle) >> 3);
+                setVector(&radial->inner[0], 0, 0, 0);
+                setVector(&radial->inner[m + 1], (u32)(rcos(angle) * 3) >> 5, 0, (u32)(rsin(angle) * 3) >> 5);
+                setVector(&radial->outer[m], (u32)rcos(angle) >> 3, 0, (u32)rsin(angle) >> 3);
             }
             radial->center.r = 255;
             radial->center.g = 255;

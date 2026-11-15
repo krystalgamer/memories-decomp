@@ -145,15 +145,16 @@ without pending French431 work. No suitable Spanish or accepted local
 fan body was found. The standalone
 `src/overlays/french_model_variant/variant465_fan.c` reconstructs the
 complete local assembly using existing project SDK declarations; both
-slots build it directly. The family-local
-`src/overlays/french_model_variant/variant465_fan.h` owns the measured
-view, following the repository prohibition on C-file type definitions.
+slots build it directly. The measured view is the record's leading
+`Variant448Radial radial[1]` from
+`src/overlays/model_variant/variant448_radial.h` (an earlier family-local
+`Variant465Fan` header described the same bytes and has been folded into it).
 Shared source, existing headers and compiler profiles remain unchanged.
 
-The accessed local `Variant465Fan` is **one 296-byte record at context
+The accessed `Variant448Radial` is **one 296-byte record at context
 zero**. It is not the separately established 296-byte sheet-compatible
 record at `0x11F0`. The fan has 18 `SVECTOR` inner vertices at `0`,
-17 outer vertices at `0x90`, three four-byte color groups at
+17 outer vertices at `0x90`, three four-byte color groups (`center`, `middle`, `edge`) at
 `0x118/0x11C/0x120`, and signed scale at `0x124`.
 Entry captures the context at `0xC/0x14`, saves its unadvanced record
 pointer at `0x90`, clears the outer counter at `0x150`, and forms
