@@ -29,7 +29,7 @@ s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     Variant380EntryBeam *beam = work->beams;
     ModelVariantSheetSet *sheet = work->sheets;
-    Variant337EntryStreamer *streamer = work->streamers;
+    ModelVariantFlaggedStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_G3 *triangle = &work->packets.triangle;

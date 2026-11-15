@@ -40,7 +40,7 @@ typedef struct {
     ModelVariantPointSheet sheets[4];
     Variant335Ring rings[3];
     ModelVariantStreamer short_streamers[6];
-    Variant337EntryStreamer streamers[2];
+    ModelVariantFlaggedStreamer streamers[2];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[3];

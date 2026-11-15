@@ -27,7 +27,7 @@ typedef struct {
 typedef struct {
     Variant336EntryRecord records[4];
     ModelVariantPointSheet sheets[8];
-    Variant337EntryStreamer streamers[2];
+    ModelVariantFlaggedStreamer streamers[2];
     u8 unknown_1AB0[0x1DC8 - 0x1AB0];
     ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
