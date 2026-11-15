@@ -113,7 +113,7 @@ void ModelVariant401_DrawBand(Variant401EntryState *context)
                 if (j == 0) {
                     t = work->config->burst_start;
                     rec->offset[0] = ((work->clock.frame - t) << 10) /
-                                     (u32)(work->config->field_24 - t);
+                                     (work->config->field_24 - t);
                 } else {
                     *(s32 *)((u8 *)rec + off4 + 0x1D4) += work->clock.step << 6;
                 }
@@ -181,7 +181,7 @@ void ModelVariant401_DrawBand(Variant401EntryState *context)
         t = work->config->field_28;
         if (work->clock.frame >= (u32)t) {
             work->scale = 0x1000 - ((work->clock.frame - t) << 12) /
-                                               (u32)(work->config->field_2C - t);
+                                               (work->config->field_2C - t);
             if (work->scale <= 0) {
                 work->scale = 0;
                 work->tail.phase = 3;

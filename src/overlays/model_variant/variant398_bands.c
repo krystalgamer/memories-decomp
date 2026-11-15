@@ -154,9 +154,9 @@ void ModelVariant398_DrawBand(Variant398EntryState *context)
             }
         }
     } else if (work->phase < 3 && work->band_scale > 0) {
-        if (work->frame >= (u32)work->config->field_28) {
+        if (work->frame >= work->config->field_28) {
             work->band_scale = 0x1000 - ((work->frame - work->config->field_28) << 12) /
-                                          (u32)(work->config->field_2C - work->config->field_28);
+                                          (work->config->field_2C - work->config->field_28);
             if (work->band_scale <= 0) {
                 work->band_scale = 0;
                 work->phase = 3;

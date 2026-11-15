@@ -1288,9 +1288,9 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u32 start, burst_start;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
+    u32 field_24;
+    u32 field_28;
+    u32 field_2C;
 } ModelVariantWebConfig;
 
 /* One 0xC-byte row of a header 636-682 entry's command table, indexed by
