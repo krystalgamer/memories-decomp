@@ -4,15 +4,15 @@
 #include "variant425_entry.h"
 
 /* Header 425's form of the header-418 spiral: sixteen two-point arms (records
- * from (u8 *)work + 0x600) fanned on a sphere of radius 0x200 at angles i/16 of a
- * turn plus the sweep at (u8 *)work + 0x2708, each with a copy moved along the view
- * by (0x400 - ((u8 *)work)[0x2710]) / 128 or / 32, projected and drawn as two POLY_GT4
+ * in the record's arms) fanned on a sphere of radius 0x200 at angles i/16 of a
+ * turn plus the sweep at spiral_angle, each with a copy moved along the view
+ * by (0x400 - field_2710) / 128 or / 32, projected and drawn as two POLY_GT4
  * halves in fixed yellow shades, only where the depth and the projection
  * flag are not negative. The scale comes from the timing record's size,
- * shrunk by ((u8 *)work)[0x2738]; from phase 2 on that grows by step * 128 up to
+ * shrunk by spiral_shrink; from phase 2 on that grows by step * 128 up to
  * 0x800. The sweep advances by 16 a frame. The two products tested before the
  * arms are template code with dead arms. */
-void ModelVariant425_DrawSpiral(u8 *ctx)
+void ModelVariant425_DrawSpiral(Variant425EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -44,8 +44,8 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
     u8 c2;
     u8 c3;
 
-    arm = (Variant425SpiralArm *)(ctx + 0x600);
-    work = (Variant425EntryState *)ctx;
+    arm = (Variant425SpiralArm *)context->arms;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     spread = 0x400 - work->field_2710;
 #if defined(VERSION_FRENCH)
@@ -54,7 +54,7 @@ void ModelVariant425_DrawSpiral(u8 *ctx)
     turn += 0xC00;
 #else
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
-    timing = (u8 *)work + 0x1E68;
+    timing = work->sheets;
 #endif
     poly = work->packets.textured;
     r = 0x200;
