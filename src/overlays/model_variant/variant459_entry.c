@@ -449,7 +449,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
         work->offset.vy = work->target.vy - work->position.vy;
         work->offset.vz = work->target.vz - work->position.vz;
         if (work->config->start <= work->clock.frame && work->clock.frame < work->config->fade_start) {
-            ModelVariant459_DrawSheet((u8 *)point);
+            ModelVariant459_DrawSheet((Variant459EntryState *)point);
         }
         if (work->config->second <= work->clock.frame && work->clock.frame < work->config->fade_start) {
             FrenchModelVariant476_DrawSpiral((u8 *)point);

@@ -28,7 +28,7 @@ void ModelVariant459_DrawCurtains(Variant459EntryState *context)
     s32 otz;
 
     work = context;
-    curtain = (Variant459Curtain *)((u8 *)work + 0x1A18);
+    curtain = work->curtains;
     ot = Graphics_GetDefaultOrderingTable();
     GsGetActiveBuff();
     poly = (POLY_GT4 *)((u8 *)work + 0x2704);

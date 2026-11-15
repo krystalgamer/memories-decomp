@@ -57,7 +57,7 @@ typedef struct {
     s16 slot, command;
 } Variant459EntryState;
 
-void ModelVariant459_DrawSheet(u8 *context);
+void ModelVariant459_DrawSheet(Variant459EntryState *context);
 void FrenchModelVariant476_DrawSpiral(u8 *context);
 void ModelVariant459_DrawCurtains(Variant459EntryState *context);
 void ModelVariant459_DrawGlobe(u8 *context);
