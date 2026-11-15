@@ -147,7 +147,7 @@ void ModelVariant324_DrawBand(u8 *ctx)
             }
         }
     }
-    if (work->substep + 1 == *(u16 *)(*(u8 **)((u8 *)work + 0xF2C) + 0xC)) {
+    if (work->substep + 1 == work->config->substeps) {
         if (work->tail.phase == 1) {
             if (work->progress < 0x401) {
                 work->progress += work->step * 64;
