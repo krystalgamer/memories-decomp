@@ -2,7 +2,7 @@
 #include "variant476_screen_grid.h"
 #include "../model_variant/variant459_entry.h"
 
-void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
+void FrenchModelVariant476_DrawScreenGrid(Variant459EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -21,7 +21,7 @@ void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
     s32 tpage;
     s32 otz;
 
-    work = (Variant459EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     active = GsGetActiveBuff();
     rot.vx = -(s16)work->facing - 1024;
@@ -40,8 +40,8 @@ void FrenchModelVariant476_DrawScreenGrid(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    grid = (Variant476ScreenGrid *)((u8 *)work + 0x14E4);
-    poly = (POLY_GT4 *)((u8 *)work + 0x2390);
+    grid = &work->screen_grid;
+    poly = &work->plain;
     if (work->phase < 5) {
         work->screen_grid_brightness = 1024 - (work->field_2818 - 8192) / 8;
         for (i = 0; i < 9; i++) {

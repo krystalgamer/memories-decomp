@@ -2,7 +2,7 @@
 #include "variant476_globe.h"
 #include "../model_variant/variant459_entry.h"
 
-void ModelVariant459_DrawGlobe(u8 *ctx)
+void ModelVariant459_DrawGlobe(Variant459EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -20,9 +20,9 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     s32 j;
     s32 otz;
 
-    work = (Variant459EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    globe = (ModelVariantMesh *)((u8 *)work + 0xFF8);
+    globe = &work->grid;
     ratan2(work->direction.vz, work->direction.vx);
     poly = &work->veil;
     ratan2(work->direction.vy, work->direction.vz);

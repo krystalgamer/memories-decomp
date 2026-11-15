@@ -2,14 +2,14 @@
 #include "variant459_grid.h"
 #include "variant459_entry.h"
 
-/* Draws the header-459 grid at (u8 *)work + 0xFF8 (nine rows of seventeen points)
+/* Draws the header-459 grid (nine rows of seventeen points)
  * as POLY_GT4 strips shaded per row, sorted when the depth and the flag are
  * not negative. Before phase 5 the row colours fade from blue to red by the
- * scale at (u8 *)work + 0x27FC; the scale grows by step << 9 to 0x2000, swings
+ * globe scale; the scale grows by step << 9 to 0x2000, swings
  * around 0x1800 on rcos in phase 3, grows to 0x4000 in phase 4 and fades out
  * in phase 5. The two ratan2 results are unused. */
 
-void ModelVariant459_DrawGlobe(u8 *ctx)
+void ModelVariant459_DrawGlobe(Variant459EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -26,11 +26,11 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     s32 j;
     s32 otz;
 
-    work = (Variant459EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     ratan2(work->direction.vz, work->direction.vx);
     ratan2(work->direction.vy, work->direction.vz);
-    grid = (ModelVariantMesh *)((u8 *)work + 0xFF8);
+    grid = &work->grid;
     poly = &work->veil;
     /* Retail reads only the signed low halfword of globe_rotation_x here. */
     if (work->slot == 0) {
@@ -104,7 +104,7 @@ void ModelVariant459_DrawGlobe(u8 *ctx)
     } else if (work->phase == 3) {
         work->globe_scale = (rcos(work->globe_pulse_angle) * 0x800 >> 12) + 0x1800;
         work->globe_pulse_angle += work->clock.step << 6;
-        if (*(u32 *)(*(u8 **)((u8 *)work + 0x27C0) + 0x34) < (u32)work->clock.frame) {
+        if (work->config->field_34 < work->clock.frame) {
             work->phase = 4;
         }
     } else if (work->phase == 4) {

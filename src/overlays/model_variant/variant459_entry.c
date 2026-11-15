@@ -452,13 +452,13 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant459_DrawSheet((Variant459EntryState *)point);
         }
         if (work->config->second <= work->clock.frame && work->clock.frame < work->config->fade_start) {
-            FrenchModelVariant476_DrawSpiral((u8 *)point);
+            FrenchModelVariant476_DrawSpiral((Variant459EntryState *)point);
         }
         if (work->config->fade_start <= work->clock.frame && work->clock.frame <= work->config->fade_end + 4) {
             if (work->clock.frame <= work->config->fade_end - 10) {
                 work->facing = ratan2(work->direction.vy, work->direction.vz) + 2048;
             }
-            FrenchModelVariant476_DrawScreenGrid((u8 *)point);
+            FrenchModelVariant476_DrawScreenGrid((Variant459EntryState *)point);
         }
         if (work->config->fade_end <= work->clock.frame) {
             if (work->phase < 2) {
@@ -466,7 +466,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             }
             ModelVariant459_DrawCurtains((Variant459EntryState *)point);
             if (work->phase < 6) {
-                ModelVariant459_DrawGlobe((u8 *)point);
+                ModelVariant459_DrawGlobe((Variant459EntryState *)point);
                 if (work->phase >= 5) {
                     packed2 = ModelTexture_PackPageClutCopy(work->slot, 2, &gModelVariant459_aImages[0]);
                     unknown_stack[31] = packed2;
