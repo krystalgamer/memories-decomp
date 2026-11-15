@@ -54,7 +54,6 @@
 #include "display_object_layout.h"
 #include "../psyq/rand.h"
 
-#define DISPLAY_OBJECT_WORD_BYTES(field) ((u8 *)&(field))
 #include "../game/display_object.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAED8-0x800EAF08 (#2602), a
@@ -172,10 +171,10 @@ void DebugMenu_Init(void)
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 4);
     gDebugMenu_pCursorQuad = object;
     DisplayObject_InitializeGouraudQuad(object, 0);
-    DISPLAY_OBJECT_WORD_BYTES(object->field_44)[1] = 0xC0;
-    DISPLAY_OBJECT_WORD_BYTES(object->field_3C)[1] = 0xC0;
-    DISPLAY_OBJECT_WORD_BYTES(object->field_34)[1] = 0xC0;
-    DISPLAY_OBJECT_WORD_BYTES(object->field_2C)[1] = 0xC0;
+    object->field_44.colour.g = 0xC0;
+    object->field_3C.colour.g = 0xC0;
+    object->field_34.colour.g = 0xC0;
+    object->field_2C.colour.g = 0xC0;
     DebugMenu_UpdateCursorLayout();
     Fade_WaitIn();
 }

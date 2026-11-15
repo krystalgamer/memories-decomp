@@ -64,9 +64,6 @@ static PADDING_VARIABLE(4);
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
-#ifndef LIBRARY_GRID_TEXTURE_WORD
-#define LIBRARY_GRID_TEXTURE_WORD 0xF70130
-#endif
 #ifndef LIBRARY_GRID_SCREEN_HEIGHT
 #define LIBRARY_GRID_SCREEN_HEIGHT 0xF0
 #endif
@@ -143,7 +140,12 @@ void Library_DrawCardGrid(void)
         return;
     }
     e = 0xE000C;
-    f = LIBRARY_GRID_TEXTURE_WORD;
+    /* cx in the low half, cy in the high half: the pair is stored as one word. */
+#ifdef VERSION_EUROPE
+    f = (0xE7 << 16) | 0x2B0;
+#else
+    f = (0xF7 << 16) | 0x130;
+#endif
     white = 0x808080;
     grey = 0x404040;
     a = n * 178 + 8;
