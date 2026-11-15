@@ -5027,49 +5027,49 @@
       "address": "0x8004B174",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x104",
-      "source": "src/game/sound_sequence_channel_events.c"
+      "source": "src/game/sound_sequence_events.c"
     },
     {
       "address": "0x8004B278",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58C",
-      "source": "src/game/sound_sequence_channel_events.c"
+      "source": "src/game/sound_sequence_events.c"
     },
     {
       "address": "0x8004B804",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x128",
-      "source": "src/game/sd_key_off_secondary_note.c"
+      "source": "src/game/sound_sequence_events.c"
     },
     {
       "address": "0x8004B92C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24C",
-      "source": "src/game/sound_secondary_commands.c"
+      "source": "src/game/sound_sequence_events.c"
     },
     {
       "address": "0x8004BB78",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/sound_secondary_commands.c"
+      "source": "src/game/sound_sequence_events.c"
     },
     {
       "address": "0x8004BB9C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/sound_secondary_commands.c"
+      "source": "src/game/sound_sequence_events.c"
     },
     {
       "address": "0x8004BBC4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x120",
-      "source": "src/game/sound_secondary_commands.c"
+      "source": "src/game/sound_sequence_events.c"
     },
     {
       "address": "0x8004BCE4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xBC",
-      "source": "src/game/sd_open_sequence_timer_event.c"
+      "source": "src/game/sound_sequence_events.c"
     },
     {
       "address": "0x8004BDA0",

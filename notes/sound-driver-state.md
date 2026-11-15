@@ -1083,7 +1083,7 @@ incomplete declaration. Only those two obsolete private-extern dependencies
 are removed from its metadata; all nineteen candidate object fingerprints,
 targets and profiles remain unchanged; the note starter was still a near
 miss at that point (it has since matched and now lives in
-`src/game/sound_sequence_channel_events.c`).
+`src/game/sound_sequence_events.c`).
 The matched note starter no longer needs `SDSECONDARYSTATE_AS_BYTES`
 either: its channel-record, object, transfer-pointer, `voice_attr` and
 `master_level_left/right` accesses are typed members, with identical bytes in every
@@ -1566,12 +1566,11 @@ stores the event handle at `+0x504`, and enables it.
 event handle. All three lifecycle paths use the imported Psy-Q `libapi.h`
 declarations and `kernel.h` constants.
 
-The callback now follows the three contiguous secondary command handlers in
-`src/game/sound_secondary_commands.c`, restoring the complete `0x8004B49C`-
-`0x8004B854` translation unit after its pure-C promotion. The command handlers
-update the channel/object state that the interrupt callback advances and
-periodically maintains; the different-profile event setup at
-`SD_OpenSequenceTimerEvent` fixes the upper boundary.
+The callback follows the three contiguous secondary command handlers in
+`src/game/sound_sequence_events.c` after its pure-C promotion, and
+`SD_OpenSequenceTimerEvent`, which installs it, closes that unit at
+`0x8004B910`. The command handlers update the channel/object state that the
+interrupt callback advances and periodically maintains.
 
 The header uses GCC-2.8.1-compatible negative-array assertions for the
 `0x18`, `0x28`, and `0x1C` subview sizes, the complete `0x848` state size, and

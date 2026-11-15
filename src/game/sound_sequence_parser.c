@@ -1,9 +1,8 @@
 #include "../types.h"
 #include "sound.h"
-#include "sound_secondary_commands.h"
+#include "sound_sequence_events.h"
 #include "sound_sequence_parser.h"
 #include "sound_sequence_reader.h"
-#include "sound_sequence_channel_events.h"
 
 #define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
     ((SDSecondaryState *)((u8 *)(state) + (offset)))
