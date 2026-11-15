@@ -6,7 +6,7 @@
 #include "duel_effect_states.h"
 
 /* Reads one byte from the selected text stream and advances its cursor. */
-u8 TextStream_ReadByte(TextStreamOwner *object);
+u8 TextStream_ReadByte(DuelEffectChannel *object);
 
 /* The builder's shared current command/glyph code. Its volatile common
  * definition stays in text_box_build_step.c; the extension handler retains
@@ -22,13 +22,10 @@ extern volatile u16 gText_CurrentStreamCode;
  * branch delay slot. The qualifier preserves access order rather than making
  * a claim about the caller's storage.
  *
- * Text_ExtendGlyphCode and Text_SetStateFromStream both advance one of the
- * byte streams held at the front of the object, chosen by the signed byte at
- * 0x58. Text_ExtendGlyphCode takes TextStreamOwner *, the record that names
- * that array and selector; the command table casts every one of its entries
- * anyway, so the typed declaration costs no call site. */
+ * Text_ExtendGlyphCode and Text_SetStateFromStream both advance the
+ * channel's selected stream, streams[stream_index]. */
 void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object);
-void Text_ExtendGlyphCode(TextStreamOwner *owner);
+void Text_ExtendGlyphCode(DuelEffectChannel *owner);
 void Text_SetStateFromStream(DuelEffectChannel *object);
 
 /* Writes TextStream_ReadU16LE's result into the low halfword of the same word those

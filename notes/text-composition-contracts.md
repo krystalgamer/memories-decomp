@@ -161,5 +161,5 @@ Staged-string push still resolves its regional bank BEFORE byte increment,
 keeps the explicit u8 store and subsequent s8 slot cast, and returns the
 address of pointer storage. Every regional ID mask/adjustment, OR versus
 addition, independent table/anchor and generic-table return-value cast
-remains. root_stream is slot zero's mutable cursor, not storage for either
+remains. streams[0] (formerly root_stream) is slot zero's mutable cursor, not storage for either
 of these nested stream pushes.

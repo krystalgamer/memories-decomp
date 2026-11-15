@@ -1491,13 +1491,13 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 
 int TextStream_ReadU16LE(DuelEffectChannel *object)
 {
-    u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_index];
+    u8 **stream = &object->streams[object->stream_index];
     u8 *current = *stream;
     *stream = current + 2;
     return current[0] | (current[1] << 8);
 }
 
-u32 TextStream_ReadU32LE(TextStreamOwner *object)
+u32 TextStream_ReadU32LE(DuelEffectChannel *object)
 {
     u8 **stream = &object->streams[object->stream_index];
     u8 *current = *stream;
@@ -2026,7 +2026,7 @@ void Text_StageScriptImage(DuelEffectChannel *state)
 
     if (result & SCRIPT_IMAGE_OPERAND_HAS_VIEWPORT) {
         u8 **slot =
-            &((TextStreamOwner *)state)->streams[state->stream_index];
+            &state->streams[state->stream_index];
         u8 *script = *slot;
         s32 value = *script;
 
@@ -2332,7 +2332,7 @@ volatile s32 gText_CommandDisposition;
    read-back after the store, which retail issues at every use. */
 volatile u16 gText_CurrentStreamCode;
 
-void Text_ExtendGlyphCode(TextStreamOwner *owner)
+void Text_ExtendGlyphCode(DuelEffectChannel *owner)
 {
     volatile u16 *code = &gText_CurrentStreamCode;
 
@@ -2347,7 +2347,7 @@ void Text_ExtendGlyphCode(TextStreamOwner *owner)
 
 void Text_SetStateFromStream(DuelEffectChannel *object)
 {
-    u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_index];
+    u8 **stream = &object->streams[object->stream_index];
     u8 *current = *stream;
     u8 value = current[0];
 
@@ -2373,8 +2373,6 @@ u16 gText_StagedStringId;
 u8 gText_GuardianGlyphCode;
 s16 gDuel_wSelectedCardID;
 u8 gText_SelectedCardColorIndex;
-
-#define TEXT_STREAM_OWNER(object) ((TextStreamOwner *)(object))
 
 /* Entries 0 through 12 of the secondary text-command table gText_SecondaryCommandHandlers,
    the handlers the F8 escape reaches, together with Text_EmitSymbolGlyph, the
@@ -2454,7 +2452,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
             text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) |
                           gText_PrimaryStringOffsets[n]);
         }
-        TEXT_STREAM_OWNER(object)->streams[object->stream_index] = text;
+        object->streams[object->stream_index] = text;
         return;
     }
     object->flags_34 |= 0x80;
@@ -2539,7 +2537,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
             text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
                           gText_GlobalStringOffsets[id - 0x8000]);
         }
-        TEXT_STREAM_OWNER(object)->streams[object->stream_index] = text;
+        object->streams[object->stream_index] = text;
         return;
     }
     object->flags_34 |= 0x100;
@@ -2632,7 +2630,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
             }
             text = (u8 *)((u32)gText_PrimaryStringAddressAnchor & 0xFFFF0000) + gText_PrimaryStringOffsets[n];
         }
-        slot = &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
+        slot = &object->streams[object->stream_index];
         *slot = text;
         return;
     }
@@ -2668,7 +2666,7 @@ void Text_EmitGuardianStarGlyph(DuelEffectChannel *object)
 void Text_EmitNextSymbolGlyph(DuelEffectChannel *object)
 {
     u8 **stream =
-        &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
+        &object->streams[object->stream_index];
 
     Text_EmitSymbolGlyph(object, *(*stream)++);
 }
@@ -2681,7 +2679,7 @@ void Text_ResetPenXAndAdvanceY(DuelEffectChannel *object)
 
     object->pen_x = 0;
     stream =
-        &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
+        &object->streams[object->stream_index];
     current = *stream;
     value = current[0];
     current++;
@@ -2692,7 +2690,7 @@ void Text_ResetPenXAndAdvanceY(DuelEffectChannel *object)
 void Text_AdvancePenX(DuelEffectChannel *object)
 {
     u8 **stream =
-        &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
+        &object->streams[object->stream_index];
     register u8 **slot = stream;
     register u8 *current = *slot;
     register u32 value = current[0];
@@ -2715,8 +2713,8 @@ void Text_PushFormattedDecimal(DuelEffectChannel *object)
     s32 pad_glyph;
     s32 glyph;
 
-    value_address = TextStream_ReadU32LE(TEXT_STREAM_OWNER(object));
-    operand = *TEXT_STREAM_OWNER(object)->streams[object->stream_index]++;
+    value_address = TextStream_ReadU32LE(object);
+    operand = *object->streams[object->stream_index]++;
     format = operand;
     Text_EncodeDecimalDigits(*(s32 *)value_address, format & 0xF, buf);
 
@@ -2761,14 +2759,14 @@ void Text_PushFormattedDecimal(DuelEffectChannel *object)
 
     *out = TEXT_STRING_TERMINATOR;
     object->stream_index++;
-    TEXT_STREAM_OWNER(object)->streams[object->stream_index] = object->decimal_buffer;
+    object->streams[object->stream_index] = object->decimal_buffer;
 }
 
 /* Inlining keeps the stream value and channel in independent live ranges. */
 static __inline__ u32 read_operand(DuelEffectChannel *object)
 {
     u8 **stream =
-        &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
+        &object->streams[object->stream_index];
     u8 *cursor = *stream;
     u32 value = *cursor++;
 
@@ -2840,7 +2838,7 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object)
     /* Separate lifetimes preserve allocation across the two stream reads. */
     {
         u8 **stream =
-            &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
+            &object->streams[object->stream_index];
         u8 *current = *stream;
         u8 value = *current++;
 
@@ -2849,7 +2847,7 @@ void Text_SetGlyphCellSize(DuelEffectChannel *object)
     }
     {
         u8 **stream =
-            &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
+            &object->streams[object->stream_index];
         u8 *current = *stream;
         u8 value = *current++;
 
@@ -2937,7 +2935,7 @@ u8 **Text_PushStagedString(DuelEffectChannel *channel) {
 
     counter = (u8)stream_channel->stream_index + 1;
     stream_channel->stream_index = counter;
-    slot = &TEXT_STREAM_OWNER(stream_channel)->streams[(s8)counter];
+    slot = &stream_channel->streams[(s8)counter];
     *slot = (u8 *)string_address;
     return slot;
 }
@@ -2945,7 +2943,7 @@ u8 **Text_PushStagedString(DuelEffectChannel *channel) {
 void Text_SetColorIndex(DuelEffectChannel *object)
 {
     u8 **slot =
-        &TEXT_STREAM_OWNER(object)->streams[object->stream_index];
+        &object->streams[object->stream_index];
     u8 *q = *slot;
     s32 v = *q;
     s32 w;
@@ -2967,7 +2965,7 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
 
     obj = object;
     obj->flags_34 &= 0xEFFF;
-    stream = &TEXT_STREAM_OWNER(obj)->streams[obj->stream_index];
+    stream = &obj->streams[obj->stream_index];
     current = *stream;
     value = *current;
     current++;
@@ -2981,8 +2979,6 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
 #include "duel_session_controls.h"
 
 #include "main_mode_state.h"
-
-#define TEXT_STREAM_OWNER_VIEW(object) ((TextStreamOwner *)(object))
 
 /*
  * Each byte read owns its slot pointer, advancing cursor and unsigned value.
@@ -3001,7 +2997,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 **p;
         u8 *q;
         u32 v;
-        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
+        p = &o->streams[o->stream_index];
         q = *p;
         v = *q++;
         *p = q;
@@ -3011,7 +3007,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 **p;
         u8 *q;
         u32 v;
-        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
+        p = &o->streams[o->stream_index];
         q = *p;
         v = *q++;
         *p = q;
@@ -3021,7 +3017,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 **p;
         u8 *q;
         u32 v;
-        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
+        p = &o->streams[o->stream_index];
         q = *p;
         v = *q++;
         *p = q;
@@ -3031,7 +3027,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
         u8 **p;
         u8 *q;
         u32 v;
-        p = &TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];
+        p = &o->streams[o->stream_index];
         q = *p;
         v = *q++;
         *p = q;
@@ -3067,7 +3063,7 @@ void DuelEffect_PlayBgmCommand(DuelEffectChannel *object)
 void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object)
 {
     u8 **slot =
-        &((TextStreamOwner *)object)->streams[object->stream_index];
+        &object->streams[object->stream_index];
     u8 *stream = *slot;
     s32 command = *stream;
     s32 op;
@@ -3107,7 +3103,7 @@ void DuelEffect_PlaySoundCommand(DuelEffectChannel *object) {
     }
 }
 
-void DuelEffect_FadeOutBgmCommand(DuelEffectCommand *command)
+void DuelEffect_FadeOutBgmCommand(DuelEffectChannel *command)
 {
     u8 **slot;
     u8 *cursor;
@@ -3116,7 +3112,7 @@ void DuelEffect_FadeOutBgmCommand(DuelEffectCommand *command)
     u32 opcode;
     u32 high_bit;
 
-    slot = &((TextStreamOwner *)command)->streams[command->cursor_slot];
+    slot = &command->streams[command->stream_index];
     cursor = *slot;
     raw = *cursor++;
     saved_raw = raw;
@@ -3131,7 +3127,7 @@ void DuelEffect_FadeOutBgmCommand(DuelEffectCommand *command)
 
     high_bit = saved_raw & 0x80;
     if (high_bit != 0) {
-        command->command_state = 13;
+        command->playback_state = 13;
         gText_CommandDisposition = 1;
     }
 }
@@ -3146,7 +3142,7 @@ void Text_NoOpSecondary13(void)
 
 void Text_OpenCampaignMap(DuelEffectChannel *object)
 {
-    u8 **stream = &((TextStreamOwner *)object)->streams[object->stream_index];
+    u8 **stream = &object->streams[object->stream_index];
     u8 value = *(*stream)++;
     gMain_bActiveModeState = 5;
     gCampaignMap_bEntryLocation = value;
@@ -3156,7 +3152,7 @@ void Text_OpenCampaignMap(DuelEffectChannel *object)
 
 void Text_ApplyFadeCommand(DuelEffectChannel *object)
 {
-    u8 **cursor = &((TextStreamOwner *)object)->streams[object->stream_index];
+    u8 **cursor = &object->streams[object->stream_index];
     u8 *stream = *cursor;
     s32 command = *stream;
     s32 opcode;
@@ -3217,26 +3213,24 @@ void Text_DisableCompletionWait(DuelEffectChannel *value)
 
 void Text_JumpBySelectorA(DuelEffectChannel *object)
 {
-    TextStreamOwner *owner = (TextStreamOwner *)object;
     s32 value;
 
-    owner->streams[object->stream_index] += gText_BranchSelectorA * 2;
+    object->streams[object->stream_index] += gText_BranchSelectorA * 2;
     value = TextStream_ReadU16LE(object);
-    owner->streams[object->stream_index] =
-        (u8 *)(((u32)owner->streams[object->stream_index] &
+    object->streams[object->stream_index] =
+        (u8 *)(((u32)object->streams[object->stream_index] &
                 DUEL_EFFECT_STREAM_HIGH_MASK) |
                (value & 0xFFFF));
 }
 
 void Text_JumpBySelectorB(DuelEffectChannel *object)
 {
-    TextStreamOwner *owner = (TextStreamOwner *)object;
     s32 value;
 
-    owner->streams[object->stream_index] += gText_BranchSelectorB * 2;
+    object->streams[object->stream_index] += gText_BranchSelectorB * 2;
     value = TextStream_ReadU16LE(object);
-    owner->streams[object->stream_index] =
-        (u8 *)(((u32)owner->streams[object->stream_index] &
+    object->streams[object->stream_index] =
+        (u8 *)(((u32)object->streams[object->stream_index] &
                 DUEL_EFFECT_STREAM_HIGH_MASK) |
                (value & 0xFFFF));
 }
@@ -3248,7 +3242,7 @@ void Text_UnlockDuelist(DuelEffectChannel *object)
     u8 **stream;
     u8 *cursor;
 
-    stream = &((TextStreamOwner *)object)->streams[object->stream_index];
+    stream = &object->streams[object->stream_index];
     cursor = *stream;
     value = *cursor++;
     duelist_id = value;
@@ -3276,7 +3270,7 @@ void Text_CloseChoice(DuelEffectChannel *object)
    next text stream. */
 void Text_PushPlayerNameStream(DuelEffectChannel *object)
 {
-    ((TextStreamOwner *)object)->streams[object->stream_index + 1] = gText_aCurrentPlayerNameGlyphs;
+    object->streams[object->stream_index + 1] = gText_aCurrentPlayerNameGlyphs;
     object->stream_index++;
 }
 #endif
@@ -3326,7 +3320,7 @@ void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
 
 void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
 {
-    u8 **pp = &TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index];
+    u8 **pp = &object->streams[object->stream_index];
     u8 *p = *pp;
     s32 op = *p;
 
@@ -3334,7 +3328,7 @@ void Text_DispatchSecondaryCommand(DuelEffectChannel *object)
     gText_SecondaryCommandHandlers[op](object);
 }
 
-  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&TEXT_STREAM_OWNER_VIEW(o)->streams[o->stream_index];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}
+  void Text_SetCursorOffset(DuelEffectChannel *o){int v; u8 **p;v=TextStream_ReadU16LE(o);p=&o->streams[o->stream_index];*p=(u8 *)(((u32)*p&TEXT_STREAM_CURSOR_HIGH_MASK)|(v&0xFFFF));}
 
 void Text_HandleChoiceCommand(DuelEffectChannel *object)
 {
@@ -3346,16 +3340,16 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
     s32 options;
 
     gText_CommandDisposition = 1;
-    operand = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index]++;
+    operand = *object->streams[object->stream_index]++;
     command = operand;
     options = TEXT_CHOICE_OPTIONS_ENABLED_MASK;
     if (command & TEXT_CHOICE_COMMAND_HAS_OPTIONS) {
-        options_operand = *TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index]++;
+        options_operand = *object->streams[object->stream_index]++;
         operand = options_operand;
         options = operand;
     }
     if (command & TEXT_CHOICE_COMMAND_BRANCH) {
-        TEXT_STREAM_OWNER_VIEW(object)->streams[object->stream_index] +=
+        object->streams[object->stream_index] +=
             gDialog_bChoice * 2;
         Text_SetCursorOffset(object);
     } else {
@@ -3413,14 +3407,13 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 
 void Text_PushStreamOffset(DuelEffectChannel *object)
 {
-    TextStreamOwner *owner = TEXT_STREAM_OWNER_VIEW(object);
     s32 stream_slot;
     s32 offset;
 
     offset = TextStream_ReadU16LE(object);
     stream_slot = object->stream_index;
-    owner->streams[stream_slot + 1] =
-        (u8 *)(((u32)owner->streams[stream_slot] & TEXT_STREAM_CURSOR_HIGH_MASK) |
+    object->streams[stream_slot + 1] =
+        (u8 *)(((u32)object->streams[stream_slot] & TEXT_STREAM_CURSOR_HIGH_MASK) |
                (offset & 0xFFFF));
     object->stream_index++;
 }
@@ -3801,7 +3794,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
                 gText_PrimaryStringOffsets[id]);
         }
 #endif
-        object->root_stream = text;
+        object->streams[0] = text;
         object->explicit_newline_count = 0;
         object->playback_state = 0;
         DisplayObject_ReleaseIfPresent(object->prompt_object);
@@ -3857,7 +3850,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         }
         for (;;) {
     case 0:
-            slot = &((TextStreamOwner *)object)->streams[object->stream_index];
+            slot = &object->streams[object->stream_index];
             script = *slot;
             gText_CurrentStreamCode = script[0];
             op = (s16)gText_CurrentStreamCode;
