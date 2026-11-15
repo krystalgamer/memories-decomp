@@ -358,7 +358,7 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            ModelVariant448_DrawRadialDisc((u8 *)point);
+            ModelVariant448_DrawRadialDisc((Variant448EntryState *)point);
         }
         if (work->phase >= 5) {
             ModelVariant448_DrawOrbitSheets((Variant448EntryState *)point);
