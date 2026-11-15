@@ -56,6 +56,6 @@ extern GsIMAGE gModelVariant398_aImages[9];
 extern ModelVariantWebConfig gModelVariant398_aConfigs[];
 void ModelVariant398_DrawRings(u8 *context);
 void ModelVariant398_DrawBand(Variant398EntryState *context);
-void ModelVariant398_DrawSheets(u8 *context);
+void ModelVariant398_DrawSheets(Variant398EntryState *context);
 void ModelVariant398_DrawCurtains(Variant398EntryState *context);
 #endif
