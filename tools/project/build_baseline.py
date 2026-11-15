@@ -286,12 +286,19 @@ def compile_c(
         # with Psy-Q GCC 2.7.2): MASPSX passes it through untouched and GNU as
         # fills the delay slots in its default reorder mode, as the original
         # assembler did. That assembler encoded the `move` pseudo-instruction
-        # as `addu`; GNU as would emit `or`, so spell it out.
+        # as `addu`; GNU as would emit `or`, so spell it out. That assembler
+        # also rounded each section up to sixteen bytes (the safechk objects'
+        # .text, .rdata and .data end in zero padding), which mipsel-none-elf
+        # GNU as does not do.
         transformed_assembly.write_text(
             re.sub(
                 r"(?m)^(\s*)move\t(\$\w+),(\$\w+)",
                 r"\1addu\t\2,\3,$0",
                 transformed_assembly.read_text(encoding="utf-8", errors="replace"),
+            )
+            + "".join(
+                f"\t{section}\n\t.align\t4\n"
+                for section in (".text", ".rdata", ".data")
             ),
             encoding="utf-8",
         )

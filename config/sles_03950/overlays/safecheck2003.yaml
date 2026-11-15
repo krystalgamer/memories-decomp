@@ -56,11 +56,21 @@ segments:
 
   - name: module
     type: code
-    start: 0xF4
-    vram: 0x801680F4
+    start: 0x4
+    vram: 0x80168004
     align: 4
     subsegments:
-      - [0xF4, asm, overlays/safecheck2003/safecheck2003]
-      - [0x140C, data, overlays/safecheck2003/data]
+      - [0x4, .rodata, overlays/safecheck2003/safechk]
+      - [0xF4, c, overlays/safecheck2003/safechk]
+      - [0x1414, .data, overlays/safecheck2003/safechk]
+      - [0x14C4, .bss, overlays/safecheck2003/safechk]
+
+  - name: leftover
+    type: code
+    start: 0x14D4
+    vram: 0x801694D4
+    align: 4
+    subsegments:
+      - [0x14D4, data, overlays/safecheck2003/leftover]
 
   - [0x1800]

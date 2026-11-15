@@ -2,7 +2,7 @@
 --
 -- WHAT THIS ANSWERS
 --   The safechk boot module (Sony's anti-modchip check, notes/overlays/safecheck2003.md)
---   is WA_MRG module 0x16 at 0x80168000. All nine of its functions and its
+--   is WA_MRG module 0x16 at 0x80168000. Three of its nine functions and its
 --   20 controller states are still address-named. Main_RunBootSequence
 --   (src/game/main_boot_frontend.c) calls SafetyInit once and then
 --   `while (SafetySync(1) != 0) {}`: a busy loop, not one call per frame;
@@ -20,7 +20,7 @@
 --   The emulator answers like an unmodified console, so only the clean path
 --   is observable here; the warning branches stay static evidence.
 --
--- WHERE THE VALUES LIVE (from src/candidates_target/safecheck2003/*.S)
+-- WHERE THE VALUES LIVE (from src/overlays/safecheck2003/safechk.c)
 --   * State: the s32 D_80169474. SafetySync loads it at 0x80168178, bounds
 --     it with sltiu 0x14 and indexes the jump table at 0x80168004; every case
 --     stores the next state back there. SafetyInit writes it (1 or 0) and

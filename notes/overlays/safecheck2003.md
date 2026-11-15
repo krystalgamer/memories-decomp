@@ -22,16 +22,29 @@ binds those names to the region's addresses.
 
 ## Layout
 
-| Offset | Contents |
-|---|---|
-| `0x0` | module word |
-| `0x4` | 20-entry state jump table |
-| `0x54` | English warning text |
-| `0xA8` | Shift-JIS warning text |
-| `0xE4` | `safechk_offset` (`s8 dir[8]` in the candidate) |
-| `0xF4-0x140C` | code: nine functions |
-| `0x140C-0x14D4` | data: eight zero bytes, `__ps_libinfo__`, CD command table, message table, state |
-| `0x14D4-` | leftover memory, different in each region; kept raw |
+After the module word, the image is the sections of one object, each
+rounded up to sixteen bytes, in the order `.rdata`, `.text`, `.data`,
+`.bss`:
+
+| Offset | Section | Contents |
+|---|---|---|
+| `0x0` | | module word (WA_MRG packaging, kept raw) |
+| `0x4` | `.rdata` | 20-entry state jump table of `SafetySync` |
+| `0x54` | | English warning text |
+| `0xA8` | | Shift-JIS warning text |
+| `0xE4` | | `safechk_offset`, the `s8 dir[8]` initializer of `SafetyCheck5`, and 8 padding bytes |
+| `0xF4` | `.text` | nine functions, to `0x140C` |
+| `0x140C` | | 8 padding bytes |
+| `0x1414` | `.data` | `__ps_libinfo__`, `safechk_commands`, `safechk_cdregs`, `safechk_params`, `safechk_results`, `D_80169474` (`= 1`), `D_80169478` |
+| `0x147C` | | message table `D_8016947C`, `safechk_coords` (34 bytes) and 14 padding bytes |
+| `0x14C4` | `.bss` | `D_801694C4`, `D_801694C8`, `D_801694CC`, `D_801694CD`, `D_801694D0` |
+| `0x14D4-` | | leftover memory, different in each region; kept raw |
+
+The 2.0.0.2 object shows the same rounding: its `.text` (`0x10B0` bytes)
+ends in two zero words after the last `jr ra`, its `.rdata` (`0xA0`) in four
+zero bytes after the offsets, and its `.data` (`0x90`) in six after the
+coordinates. Its `.bss` is the same `0x10` bytes; its `.data` lacks only the
+message table.
 
 ## Behaviour
 
@@ -109,14 +122,13 @@ Caveats:
   words `D_80169474`, `D_80169478`, `D_801694C4`, `D_801694C8` and
   `D_801694D0`, and the bytes `D_801694CC`/`D_801694CD` are
   v2-only and keep their address names too.
-- `D_80169458`, `D_8016945C` and `D_80169460` are `safechk_cdregs[1..3]`, and
-  `D_8016946D` and `D_8016946E` are `safechk_results[1..2]`. They stay separate
-  symbols: indexing the arrays in the candidates links to the same code but
-  moves the offset into the objects' relocation addends, so the object bytes
-  would change.
+- `D_80169458`, `D_8016945C` and `D_80169460` were `safechk_cdregs[1..3]`,
+  `D_8016946D` and `D_8016946E` `safechk_results[1..2]`, and `D_8016941D` the
+  `nparams` byte of `safechk_commands[0]`. The source indexes the arrays;
+  the linked bytes are the same.
 - The eight zero bytes at `0x8016940C-0x80169413`, between the end of `.text`
-  and `__ps_libinfo__`, are unexplained. In v1, `.data` begins with
-  `__ps_libinfo__`.
+  and `__ps_libinfo__`, are the `.text` section's rounding to sixteen bytes
+  (see Layout). In v1, `.data` also begins with `__ps_libinfo__`.
 
 The `mgs_reversing` file opens with a note that `safechk.obj` was probably
 written in C but cannot be matched with "the PSSN compiler toolchain". It says
@@ -156,7 +168,7 @@ of Psy-Q 4.1 `CC1PSX` SN32.3.7.0004) without two of its March 1997 changes.
 The build uses the host C compiler and takes well under a minute. A zig
 `x86-linux-musl` build of the same tree emits identical assembly.
 
-The candidates select `gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder`:
+The module selects `gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder`:
 
 - `-O2` with the module's usual `-G0 -mel -mips1 -mcpu=R3000 -msoft-float
   -fno-builtin`, plus `-mmips-as`. Built for GNU as, this Cygnus snapshot
@@ -169,24 +181,34 @@ The candidates select `gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder`:
   filled the way an assembler in reorder mode fills them, with the ASPSX
   `move` encoding; the slots filled from a branch target come from the
   compiler's reorg pass. `-O1`, which CI's system-binutils flags add, is
-  dropped for these units.
+  dropped for these units. `build_baseline.py` also ends `.text`, `.rdata`
+  and `.data` with `.align 4`, the sixteen-byte rounding of Sony's
+  assembler, which `mipsel-none-elf` GNU as does not apply.
 
 MASPSX's normal processing cannot model this output: it always emits
 `.set noreorder` and pads jumps with `nop`.
 
-## Candidates
+## Source
 
-The module still builds from assembly. All nine functions have C candidates in
-`src/candidates/safecheck2003/`, with targets in `src/candidates_target/safecheck2003/` and
-entries in `config/slus_01411/candidates.json`. Their shared types are in
-`src/candidates/safecheck2003/safecheck2003.h`.
+The module builds from C in every region: `src/overlays/safecheck2003/safechk.c`
+is the whole library as one translation unit, with its types and
+prototypes in `safechk.h`. Each region's `safecheck2003.yaml` places the
+unit's `.rdata` at `0x4`, `.text` at `0xF4`, `.data` at `0x1414` and `.bss`
+at `0x14C4`, and keeps the module word and the leftover bytes from `0x14D4`
+raw; the `*_matching_c.json` manifests select the Cygnus profile, and each
+region's `safecheck2003_linker_symbols.txt` binds the twelve resident calls.
+The nine functions were promoted from exact per-function candidates, which
+are retired.
 
-All nine are exact under the profile: built through `candidate_builds.py`,
-each object linked at its retail address, with the jump table of
-`SafetySync` at `0x80168004` and `safechk_offset` at `0x801680E4`, reproduces
-the retail bytes. Linked against each region's `safecheck2003_linker_symbols.txt`,
-the same objects reproduce all four regional images as well. The module can
-therefore move to C as a whole.
+Definition order reproduces both data sections. `.data` follows definition
+order; the string literals of the message table go to `.rdata` when the
+table is defined, the English text first, so the table comes after
+`SafetySync`, whose jump table leads `.rdata`, and `SafetyCheck5`'s `dir`
+initializer follows them. The data are `static`, as the 2.0.0.2 object
+exports only `SafetyInit` and `SafetySync`; the five `.bss` words are
+tentative definitions, which GCC emits as `.lcomm` in declaration order.
+`safechk_params`, `safechk_results` and `D_80169478` have explicit zero
+initializers: GCC 2.7 puts zero-initialized statics in `.data`.
 
 Source details that the matches depend on:
 
@@ -226,6 +248,9 @@ Source details that the matches depend on:
   of reading again, but keeps the loop around the read, the copy after the
   compare (`stat = t`) and the `u8` test (`c = stat`). The results loop
   reuses `t` as its index, which keeps the retail register assignment.
+- `color` is an `s32` from `SafetyCheck2` through `SafetyCheck4`. As a
+  `u16` parameter of `SafetyCheck3`, its pass to `SafetyCheck4` gains an
+  `andi` (two words).
 - `SafetyCheck3` is written plainly (`rect->x += rect->w + 1`, `+= 8`,
   `+= rect->w + 2`). The retired `gcc_2_7_2_psx_g0_gnu_reorder` profile
   (decompals `gcc-2.7.2-psx`) it used before needed `c` reassigned to the

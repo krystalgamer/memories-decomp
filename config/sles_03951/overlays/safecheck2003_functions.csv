@@ -1,1 +1,10 @@
 address,size,name,status,module,notes
+0x801680F4,0x6C,SafetyInit,matching_c,overlay/safecheck2003,Same safechk 2.0.0.3 code as the North American image; the resident Psy-Q calls bind through this region's linker symbols.
+0x80168160,0x938,SafetySync,matching_c,overlay/safecheck2003,Same safechk 2.0.0.3 code as the North American image; the resident Psy-Q calls bind through this region's linker symbols.
+0x80168A98,0x1D4,func_80168A98,matching_c,overlay/safecheck2003,Same safechk 2.0.0.3 code as the North American image; the resident Psy-Q calls bind through this region's linker symbols.
+0x80168C6C,0xF0,func_80168C6C,matching_c,overlay/safecheck2003,Same safechk 2.0.0.3 code as the North American image; the resident Psy-Q calls bind through this region's linker symbols.
+0x80168D5C,0x16C,SafetyCheck2,matching_c,overlay/safecheck2003,Same safechk 2.0.0.3 code as the North American image; the resident Psy-Q calls bind through this region's linker symbols.
+0x80168EC8,0x174,SafetyCheck3,matching_c,overlay/safecheck2003,Same safechk 2.0.0.3 code as the North American image; the resident Psy-Q calls bind through this region's linker symbols.
+0x8016903C,0x1B4,SafetyCheck4,matching_c,overlay/safecheck2003,Same safechk 2.0.0.3 code as the North American image; the resident Psy-Q calls bind through this region's linker symbols.
+0x801691F0,0x94,func_801691F0,matching_c,overlay/safecheck2003,Same safechk 2.0.0.3 code as the North American image; the resident Psy-Q calls bind through this region's linker symbols.
+0x80169284,0x188,SafetyCheck5,matching_c,overlay/safecheck2003,Same safechk 2.0.0.3 code as the North American image; the resident Psy-Q calls bind through this region's linker symbols.

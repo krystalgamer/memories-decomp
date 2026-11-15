@@ -78,7 +78,7 @@ This module is Sony's anti-modchip check, the runtime library safechk 2.0.0.3
 (formerly called APv2 here). It is registered as the `safecheck2003` overlay
 in every region; see
 [`overlays/safecheck2003.md`](overlays/safecheck2003.md) for its states, its compiler and
-the candidate sources.
+its source.
 
 ## Spanish SDK ownership evidence
 
@@ -120,8 +120,8 @@ unique payload locations, not names inferred solely from call arguments.
 
 The resident calls support the display, timing, font, and termination paths
 already visible in the boot code. They do not establish ownership of the
-boot-local callers, which are registered as the `safecheck2003` overlays and kept as
-assembly with C candidates (see [`overlays/safecheck2003.md`](overlays/safecheck2003.md)).
+boot-local callers, which are registered as the `safecheck2003` overlays and
+build from C (see [`overlays/safecheck2003.md`](overlays/safecheck2003.md)).
 
 ## Outer startup flow
 

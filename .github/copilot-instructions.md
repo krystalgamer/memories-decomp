@@ -135,7 +135,7 @@ Matching, attempt-ledger updates, and integration remain sequential.
   `notes/overlays/french-model-image60348-entry.md`). The boot
   protection module `safecheck2003` (Sony's safechk 2.0.0.3, formerly called
   APv2) is Sony code built with a Cygnus GCC 2.7.2 of early
-  1997; its candidates in `config/slus_01411/candidates.json` select
+  1997; its `safecheck2003_matching_c.json` manifests select
   `gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder` (cygnus-2.7.2-970404 less two
   March 1997 changes, built from source by `make compiler-272-cygnus`), which
   skips MASPSX and lets GNU as reorder, because MASPSX cannot fill delay

@@ -246,6 +246,22 @@ class MatchingSourceContractTests(unittest.TestCase):
                 "mixed",
             )
 
+    def test_passthrough_profile_needs_only_the_compiler_g_value(self) -> None:
+        validate_effective_profile(
+            {"compiler_flags": ["-O2", "-G0"], "maspsx_flags": ["--passthrough"]},
+            "passthrough",
+        )
+        with self.assertRaisesRegex(IntegrationError, "exactly one"):
+            validate_effective_profile(
+                {"compiler_flags": ["-O2"], "maspsx_flags": ["--passthrough"]},
+                "passthrough",
+            )
+        with self.assertRaisesRegex(IntegrationError, "exactly one"):
+            validate_effective_profile(
+                {"compiler_flags": ["-O2", "-G0"], "maspsx_flags": ["--expand-div"]},
+                "ordinary",
+            )
+
     def test_canonical_declaration_symbol_shapes(self) -> None:
         self.assertEqual(declared_symbol(" void callback(void)"), "callback")
         self.assertEqual(declared_symbol(" void (*callback)(void)"), "callback")
