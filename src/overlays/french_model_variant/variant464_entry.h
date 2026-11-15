@@ -20,7 +20,7 @@ typedef struct {
     CVECTOR inner[2], outer[2];
     VECTOR scale;
     s16 field_68, field_6A;
-    s32 update_state;
+    s32 field_6C;
     u8 unknown_70[8];
     s32 progress[2];
     s32 active;

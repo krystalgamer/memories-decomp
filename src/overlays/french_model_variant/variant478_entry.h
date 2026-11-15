@@ -38,7 +38,7 @@ typedef struct {
 typedef struct {
     u8 unknown_00[0x48];
     u8 color[9][4];
-    s32 update_state, field_70, field_74;
+    s32 field_6C, field_70, field_74;
     u8 unknown_78[4];
     s32 progress[9], field_A0, field_A4;
 } EntryExtra478;
