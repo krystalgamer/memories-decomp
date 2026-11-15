@@ -5,7 +5,7 @@
 
 /* Header 459's form of the header-418 webs: faded past scale 0x800, grown by
  * step * 128 to 0x1000, and sorted whenever the depth is positive. */
-void ModelVariant459_DrawWebs(u8 *ctx)
+void ModelVariant459_DrawWebs(Variant459EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -30,7 +30,7 @@ void ModelVariant459_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant459EntryState *)ctx;
+    work = context;
     web = (ModelVariantWeb *)work;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

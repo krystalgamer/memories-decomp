@@ -6,7 +6,7 @@
  * of a fixed radius and an outer ring 160 plus the flicker wider, set back by 256
  * plus the flicker, drawn as sixteen POLY_GT4 quads scaled by the size word.
  * From phase 5 the colours fade with +0x2138; the rings spin by step * 80. */
-void SpanishModelVariant426_DrawFunnel(u8 *context)
+void SpanishModelVariant426_DrawFunnel(Funnel426State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -15,7 +15,7 @@ void SpanishModelVariant426_DrawFunnel(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Funnel426State *state = (Funnel426State *)context;
+    Funnel426State *state = context;
     ModelVariantSheet *sheet;
     ModelVariantFunnel *funnel;
     POLY_GT4 *quad;

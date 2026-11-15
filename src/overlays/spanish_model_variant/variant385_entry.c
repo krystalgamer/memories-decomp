@@ -276,7 +276,7 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
             } while (++work->index < work->config->count);
         }
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant385_DrawRings((u8 *)point);
+            SpanishModelVariant385_DrawRings((Variant385EntryState *)point);
             if (work->phase <= 0) {
                 SpanishModelVariant385_DrawLines((u8 *)point);
             }

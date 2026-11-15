@@ -87,7 +87,7 @@ void SpanishModelVariant385_DrawLines(u8 *context);
 void SpanishModelVariant385_DrawStationStrip(u8 *context);
 void FrenchModelVariant385_DrawRibbonFan(u8 *context);
 void SpanishModelVariant385_DrawPulsingQuads(u8 *context);
-void SpanishModelVariant385_DrawRings(u8 *context);
+void SpanishModelVariant385_DrawRings(Variant385EntryState *context);
 typedef char Variant385EntryConfigSize[(sizeof(Variant385EntryConfig) == 0x4C) ? 1 : -1];
 typedef char Variant385EntryStateSize[(sizeof(Variant385EntryState) == 0x1048) ? 1 : -1];
 #endif

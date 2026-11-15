@@ -362,14 +362,14 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
         if (work->config->start <= work->clock.frame) {
             SpanishModelVariant438_DrawTargetClampedSheets((u8 *)point);
         }
-        SpanishModelVariant438_DrawRing((u8 *)point);
+        SpanishModelVariant438_DrawRing((Variant438EntryState *)point);
         if (work->phase > 0) {
             SpanishModelVariant438_DrawLines((u8 *)point);
             SpanishModelVariant438_DrawAdvancingBand((u8 *)point);
             SpanishModelVariant438_DrawWarpRings((u8 *)point);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant438_DrawSpiral((u8 *)point);
+            SpanishModelVariant438_DrawSpiral((Variant438EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

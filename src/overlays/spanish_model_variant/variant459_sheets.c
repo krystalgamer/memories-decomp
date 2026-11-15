@@ -2,7 +2,7 @@
 #include "variant459_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant459_DrawPairedSheets(u8 *context)
+void SpanishModelVariant459_DrawPairedSheets(Variant459EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void SpanishModelVariant459_DrawPairedSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant459EntryState *state = (Variant459EntryState *)context;
+    Variant459EntryState *state = context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *quad;
     GsOT *ot;

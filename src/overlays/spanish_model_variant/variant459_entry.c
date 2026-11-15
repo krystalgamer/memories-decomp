@@ -360,17 +360,17 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
         work->aim.direction.vy = work->aim.target.vy - work->matrices[0].t[1];
         work->aim.direction.vz = work->aim.target.vz - work->matrices[0].t[2];
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant459_DrawPairedSheets((u8 *)point);
+            SpanishModelVariant459_DrawPairedSheets((Variant459EntryState *)point);
         }
         if (work->config->curtains == 1) {
-            SpanishModelVariant459_DrawCurtains((u8 *)point);
+            SpanishModelVariant459_DrawCurtains((Variant459EntryState *)point);
         }
         if (work->phase > 0) {
             SpanishModelVariant459_DrawLines((u8 *)point);
-            SpanishModelVariant459_DrawTimedBands((u8 *)point);
+            SpanishModelVariant459_DrawTimedBands((Variant459EntryState *)point);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant459_DrawSpiral((u8 *)point);
+            SpanishModelVariant459_DrawSpiral((Variant459EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

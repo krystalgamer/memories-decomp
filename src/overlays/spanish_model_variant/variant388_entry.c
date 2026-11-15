@@ -252,7 +252,7 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
                 SpanishModelVariant388_DrawSheets((u8 *)point);
             }
             if (work->phase > 0) {
-                SpanishModelVariant388_DrawRibbonFan((u8 *)point);
+                SpanishModelVariant388_DrawRibbonFan((Variant388EntryState *)point);
                 FrenchModelVariant388_DrawStrips((u8 *)point);
             }
         }

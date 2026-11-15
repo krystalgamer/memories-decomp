@@ -2,7 +2,7 @@
 #include "variant456_lines.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant456_DrawLineGroups(u8 *context)
+void SpanishModelVariant456_DrawLineGroups(Lines456State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -26,7 +26,7 @@ void SpanishModelVariant456_DrawLineGroups(u8 *context)
     s32 companion_index;
     s32 control_index;
 
-    state = (Lines456State *)context;
+    state = context;
     companion_index = 0;
     control_index = 0;
     group = state->groups;

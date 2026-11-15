@@ -7,7 +7,7 @@
  * (u8 *)work + 0x128) on a spiral whose radius is half the size at (u8 *)work + 0x1B28,
  * drawn only where the depth is positive; the size grows to 0x400. The two
  * products tested before the arms are template code with dead arms. */
-void ModelVariant448_DrawSpiral(u8 *ctx)
+void ModelVariant448_DrawSpiral(Variant448EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -34,7 +34,7 @@ void ModelVariant448_DrawSpiral(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant448EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     arm = work->spiral;

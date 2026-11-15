@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant441_lines.h"
 
-void SpanishModelVariant441_DrawLines(u8 *context)
+void SpanishModelVariant441_DrawLines(Lines441State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,7 +10,7 @@ void SpanishModelVariant441_DrawLines(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Lines441State *state = (Lines441State *)context;
+    Lines441State *state = context;
     Lines441 *group = state->groups;
     GsGLINE *line = &state->line;
     GsOT *ot;

@@ -7,7 +7,7 @@
  * frame buffer each strip lands on. The inner row is rebuilt each frame on a
  * radius that follows the ring's scale; each scale grows by step * 96 and
  * wraps with a count until phase 3, then stays at full size. */
-void SpanishModelVariant439_DrawScreenRings(u8 *ctx)
+void SpanishModelVariant439_DrawScreenRings(Variant439EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -29,7 +29,7 @@ void SpanishModelVariant439_DrawScreenRings(u8 *ctx)
     s32 tpage;
     s32 size;
 
-    work = (Variant439EntryState *)ctx;
+    work = context;
     ring = work->screen_rings;
     poly = &work->extra;
     ot = Graphics_GetDefaultOrderingTable();

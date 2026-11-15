@@ -7,7 +7,7 @@
  * moved along the view, and draws each beam as two POLY_GT4 halves fading to
  * black whose depth lies inside the ordering-table range. Header 444 also
  * rejects a zero depth for the first half (MODEL_VARIANT444_BEAMS). */
-void SpanishModelVariant411_DrawBeams(u8 *context)
+void SpanishModelVariant411_DrawBeams(Beam411State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -32,8 +32,8 @@ void SpanishModelVariant411_DrawBeams(u8 *context)
     s32 dx;
     s32 dy;
 
-    beam = ((Beam411State *)context)->beams;
-    state = (Beam411State *)context;
+    beam = context->beams;
+    state = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(state->direction[2], state->direction[0]) + 0xC00;
     ratan2(state->direction[1], state->direction[0]);

@@ -464,7 +464,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             if (work->phase < 2) {
                 work->phase = 2;
             }
-            ModelVariant459_DrawCurtains((u8 *)point);
+            ModelVariant459_DrawCurtains((Variant459EntryState *)point);
             if (work->phase < 6) {
                 ModelVariant459_DrawGlobe((u8 *)point);
                 if (work->phase >= 5) {
