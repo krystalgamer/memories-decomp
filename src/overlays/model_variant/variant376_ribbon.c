@@ -41,7 +41,7 @@ void ModelVariant376_DrawRibbon(u8 *ctx)
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
     if (work->tail.phase > 0) {
-        twist = (work->part_index << 12) / *(u16 *)(*(u8 **)((u8 *)work + 0xDB4) + 0x1C) + yaw;
+        twist = (work->part_index << 12) / work->config->count + yaw;
         len = work->width * 40 / 1024;
         ribbon = (Variant376Ribbon *)work;
         for (i = 0, phase = 0; i < 1; i++, ribbon++, phase = i << 12) {
@@ -156,11 +156,11 @@ void ModelVariant376_DrawRibbon(u8 *ctx)
                 }
             }
         } else {
-            start = *(u32 *)(*(u8 **)((u8 *)work + 0xDB4) + 0x30);
+            start = work->config->fade_start;
             now = work->clock.frame;
             if ((u32)now >= (u32)start && work->width > 0) {
                 work->width =
-                    0x400 - ((u32)(now - start) << 10) / (*(u32 *)(*(u8 **)((u8 *)work + 0xDB4) + 0x34) - start);
+                    0x400 - ((u32)(now - start) << 10) / (work->config->fade_end - start);
                 if (work->width <= 0) {
                     work->width = 0;
                 }
