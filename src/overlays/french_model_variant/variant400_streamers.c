@@ -12,7 +12,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
     long flags[2][17];
     long p;
     long flag;
-    Model400FirstRibbon *ribbon;
+    Variant400EntryNode *ribbon;
     POLY_FT4 *poly;
     GsOT *ot;
     s16 i;
@@ -42,7 +42,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
     s32 dy;
 
     work = (Variant400EntryState *)ctx;
-    ribbon = (Model400FirstRibbon *)work;
+    ribbon = work->nodes;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->flat_textured;
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;

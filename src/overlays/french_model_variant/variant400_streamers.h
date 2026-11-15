@@ -2,7 +2,7 @@
 #define FRENCH_MODEL_VARIANT400_STREAMERS_H
 
 #include "../../types.h"
-#include "variant400_ribbons.h"
+#include "../model_variant/model_variant.h"
 
 typedef struct {
     SVECTOR a[17];

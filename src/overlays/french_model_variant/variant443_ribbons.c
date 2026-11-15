@@ -33,7 +33,7 @@ void FrenchModelVariant443_DrawRibbons(EntryState443 *context)
     s32 yaw;
     s32 pitch;
     s16 len;
-    Model400FirstRibbon *ribbon;
+    EntryRibbon443 *ribbon;
     POLY_FT4 *poly;
     s32 bend;
     s32 dx;
@@ -47,7 +47,7 @@ void FrenchModelVariant443_DrawRibbons(EntryState443 *context)
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
     len = sheet->size * 48 / 4096;
-    ribbon = (Model400FirstRibbon *)work;
+    ribbon = work->ribbons;
     for (i = 0, phase = 0; i < 3; i++, ribbon++, phase = i * 4096 / 3) {
         setVector(&ribbon->delta,
                   ((Ribbons443State *)work)->origins[i].vx - work->origin.vx,
@@ -81,7 +81,7 @@ void FrenchModelVariant443_DrawRibbons(EntryState443 *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (Model400FirstRibbon *)work;
+    ribbon = work->ribbons;
     for (i = 0; i < 3; i++, ribbon++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
@@ -111,7 +111,7 @@ void FrenchModelVariant443_DrawRibbons(EntryState443 *context)
             }
         }
     }
-    ribbon = (Model400FirstRibbon *)work;
+    ribbon = work->ribbons;
     for (i = 0; i < 3; i++, ribbon++) {
         for (k = work->ribbon_start, poly = work->additional;
              k < 16;
@@ -127,9 +127,9 @@ void FrenchModelVariant443_DrawRibbons(EntryState443 *context)
             poly->y2 = (RIBBONS443_SCREEN(ribbon->sa, k).packed >> 16) - ribbon->oy[k];
             poly->x3 = RIBBONS443_SCREEN(ribbon->sa, k + 1).point.vx - ribbon->ox[k + 1];
             poly->y3 = (RIBBONS443_SCREEN(ribbon->sa, k + 1).packed >> 16) - ribbon->oy[k + 1];
-            poly->r0 = ribbon->color[0];
-            poly->g0 = ribbon->color[1];
-            poly->b0 = ribbon->color[2];
+            poly->r0 = ribbon->style.inner.r;
+            poly->g0 = ribbon->style.inner.g;
+            poly->b0 = ribbon->style.inner.b;
             if (ribbon->otz[k] >= 0 && flags[i][k] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[k]);
             }
