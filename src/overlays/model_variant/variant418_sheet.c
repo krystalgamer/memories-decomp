@@ -5,7 +5,7 @@
 
 /* Draws one sheet of four POLY_GT4 quads at the variant's origin and grows or
  * shrinks its size along the two phases of the pointed-to timing record. */
-void ModelVariant418_DrawSheet(u8 *ctx)
+void ModelVariant418_DrawSheet(Variant418EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,10 +24,10 @@ void ModelVariant418_DrawSheet(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = (Variant418EntryState *)ctx;
-    sheet = (ModelVariantSheet *)(ctx + 0x12DC);
+    work = context;
+    sheet = context->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = (POLY_GT4 *)(ctx + 0x1A18);
+    poly = &context->packets.textured[1];
     for (i = 0; i < 1; i++, sheet++) {
         bias = 0;
         if (work->clock.frame_count & 1) {
