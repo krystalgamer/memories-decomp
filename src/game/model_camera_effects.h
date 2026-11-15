@@ -68,12 +68,20 @@ s32 Model_AdjustCameraDistanceForSlot(s32 level, s32 value);
  * Model_ApplyEffectKeyQueueCommand dispatches begin/append/preparation for the
  * ring that Model_EvaluateKeyframeSpline evaluates. Its two endpoint pointers
  * are the narrowest common view used by its callers, which
- * pass ModelEffectEndpoint pointers, a local s16[4], or generic byte pointers.
+ * pass ModelEffectEndpoint pointers, a local ModelEffectEndpointHalfwords, or
+ * generic byte pointers.
  * Model_QueueEffectEndpointSequences walks sequences of that same endpoint type. Its post-step
  * stop tests retain an aligned s16 view of kind: retail loads that field
  * with lh, while direct access through the packed type expands it.
  * These operations return early while gModel_bCameraHoldState and gModel_bHandlerCallbackState are both 1. */
 void Model_SetCameraOrbitFromPreset(s32 mode, s32 coefficient, SVECTOR *offset);
+/* Model_QueueCameraShake's local endpoint. It is initialised through the
+ * aligned halfwords, which keeps retail's four sh stores; the packed
+ * ModelEffectEndpoint alone would be stored a byte at a time. */
+typedef union {
+    s16 halfwords[4];
+    ModelEffectEndpoint endpoint;
+} ModelEffectEndpointHalfwords;
 /* Steps the active effect-key queue and its two camera endpoint channels. */
 void Model_UpdateEffectKeyframes(void);
 void Model_SetCameraOrbit(s32 mode, s32 y, s32 a, s32 b, SVECTOR *offset);

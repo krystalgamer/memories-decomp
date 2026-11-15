@@ -10,9 +10,6 @@
 #define DISPLAY_EFFECT_RESOURCE_LOAD_X 0x200
 #endif
 
-#define FILE_TRANSFER_PHASE_SIZE_WORD(descriptor) \
-    (*(s32 *)&(descriptor)->phase_size)
-
 void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
 {
     s32 v_0;
@@ -26,6 +23,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
     s32 k;
     s32 m;
     s32 m2;
+    u32 *phase_size;
 
     switch (mode) {
     case 0:
@@ -50,7 +48,8 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
 
     case 1:
         m2 = 0xFFDCFFFF;
-        FILE_TRANSFER_PHASE_SIZE_WORD(p) = FILE_SECTOR_SIZE;
+        phase_size = &p->phase_size;
+        *phase_size = FILE_SECTOR_SIZE;
         v_1 = gFile_dwTransferState;
         t = gFile_TransferBufferBase;
         v_1 &= m2;
@@ -69,7 +68,8 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         p->y = k * 2 + 0xF0;
         LoadImage2((RECT *)p, (u32 *)c);
         m2 = 0xFFDCFFFF;
-        FILE_TRANSFER_PHASE_SIZE_WORD(p) = FILE_SECTOR_SIZE;
+        phase_size = &p->phase_size;
+        *phase_size = FILE_SECTOR_SIZE;
         v_2 = gFile_dwTransferState;
         t = (s32)p->callback_data;
         v_2 &= m2;

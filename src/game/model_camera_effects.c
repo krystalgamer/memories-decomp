@@ -470,8 +470,6 @@ void Model_UpdateEffectKeyframes(void)
     }
 }
 
-#define MODEL_EFFECT_ENDPOINT_VIEW(value) ((ModelEffectEndpoint *)(value))
-
 /*
  * Semantic absolute value and keyframe bounds: `Model_PrepareEffectKey`
  *
@@ -928,9 +926,7 @@ void Model_QueueEffectEndpointPair(s32 a, s32 b, s32 c)
 
 void Model_QueueCameraShake(s32 value, s32 arg)
 {
-    /* The aligned array keeps retail's four halfword stores; a packed local
-       would expand them into byte stores. */
-    s16 shake_halfwords[4] = {value, 0, 0, 5};
+    ModelEffectEndpointHalfwords shake = {{value, 0, 0, 5}};
     s32 ordinal_or_mode;
     s32 unsigned_ordinal;
 
@@ -946,7 +942,7 @@ void Model_QueueCameraShake(s32 value, s32 arg)
         ordinal_or_mode = ordinal_or_mode > 0;
     }
     Model_ApplyEffectKeyQueueCommand(
-        ordinal_or_mode, MODEL_EFFECT_ENDPOINT_VIEW(&shake_halfwords), MODEL_EFFECT_ENDPOINT_VIEW(&shake_halfwords), arg
+        ordinal_or_mode, &shake.endpoint, &shake.endpoint, arg
     );
 }
 

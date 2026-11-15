@@ -5,11 +5,6 @@
 #include "../psyq/libgs.h"
 #include "gpu_packets.h"
 
-#define GPU_PACKET_CODE_OFFSET(prefix_words) \
-    ((u32)&((u32 *)0)[prefix_words] + (u32)&((P_CODE *)0)->code)
-#define GPU_PACKET_TAG(packet) ((P_TAG *)(packet))
-#define GPU_PACKET_BYTES(packet) ((u8 *)(packet))
-
 void Graphics_SubmitDrawModePacket(void *src, GsOT *ot, s32 idx, s32 flags)
 {
     u32 *s;
@@ -22,7 +17,7 @@ void Graphics_SubmitDrawModePacket(void *src, GsOT *ot, s32 idx, s32 flags)
     draw = 0xE1000200;
     s = src;
     index = idx;
-    len = GPU_PACKET_TAG(s)->len;
+    len = getlen(s);
     gGraphics_pPacketWorkCursor[0] = *s++;
     gGraphics_pPacketWorkCursor[1] = ((flags & 3) << 5) | draw;
     dst = gGraphics_pPacketWorkCursor;
@@ -32,9 +27,10 @@ void Graphics_SubmitDrawModePacket(void *src, GsOT *ot, s32 idx, s32 flags)
     }
     draw = (u8)(len + 1);
     i = draw;
-    GPU_PACKET_TAG(gGraphics_pPacketWorkCursor)->len = i;
+    setlen(gGraphics_pPacketWorkCursor, i);
     if (flags >= 0) {
-        GPU_PACKET_BYTES(gGraphics_pPacketWorkCursor)[GPU_PACKET_CODE_OFFSET(2)] |= 2;
+        /* The copied primitive's colour/code word follows the tag and draw-mode words. */
+        ((P_CODE *)&gGraphics_pPacketWorkCursor[2])->code |= 2;
     }
     addPrim(&ot->org[index & 0xFFFF], gGraphics_pPacketWorkCursor);
     gGraphics_pPacketWorkCursor = gGraphics_pPacketWorkCursor + (len + 2);
@@ -57,7 +53,7 @@ void Graphics_SubmitTextureWindowPacket(
     s32 index;
     u32 first;
 
-    len = GPU_PACKET_TAG(src)->len;
+    len = getlen(src);
     index = idx;
     first = src[0];
     gGraphics_pPacketWorkCursor[0] = first;
@@ -92,7 +88,7 @@ void Graphics_SubmitMaskWritePacket(u32 *src, GsOT *ot, s32 idx, s32 flags)
     mask_on = 0xE6000001;
     s = src;
     index = idx;
-    len = GPU_PACKET_TAG(s)->len;
+    len = getlen(s);
     gGraphics_pPacketWorkCursor[0] = *s++;
     gGraphics_pPacketWorkCursor[1] = ((flags & 3) << 5) | draw_mode;
     gGraphics_pPacketWorkCursor[2] = mask_on;
@@ -103,7 +99,8 @@ void Graphics_SubmitMaskWritePacket(u32 *src, GsOT *ot, s32 idx, s32 flags)
     *(gGraphics_pPacketWorkCursor + len + 3) = 0xE6000000;
     setlen(gGraphics_pPacketWorkCursor, len + 3);
     if (flags >= 0) {
-        GPU_PACKET_BYTES(gGraphics_pPacketWorkCursor)[GPU_PACKET_CODE_OFFSET(3)] |= 2;
+        /* The copied primitive's colour/code word follows the tag, draw-mode and mask words. */
+        ((P_CODE *)&gGraphics_pPacketWorkCursor[3])->code |= 2;
     }
     addPrim(&ot->org[index & 0xFFFF], gGraphics_pPacketWorkCursor);
     gGraphics_pPacketWorkCursor = gGraphics_pPacketWorkCursor + (len + 4);
