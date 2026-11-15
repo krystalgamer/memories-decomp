@@ -322,7 +322,7 @@ s32 ModelVariant397_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            ModelVariant397_DrawSheets((u8 *)point);
+            ModelVariant397_DrawSheets((Variant397EntryState *)point);
             ModelVariant397_DrawWebs((Variant397EntryState *)point);
         }
         if (work->tail.phase > 0) {
