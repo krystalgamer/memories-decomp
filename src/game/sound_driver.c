@@ -68,7 +68,7 @@ void SD_InitSpuCommonVolume(void)
 #include "file_transfer.h"
 #include "sound.h"
 #include "sound_output_state.h"
-#include "sound_init.h"
+#include "sound_secondary.h"
 #include "sound_transfer_lifecycle.h"
 #include "sound_music.h"
 #include "sound_effect.h"
@@ -326,7 +326,7 @@ void SD_UpdateBankLoad(void) {
 #include "sound.h"
 #include "sound_transfer_lifecycle.h"
 
-#include "sound_init.h"
+#include "sound_secondary.h"
 
 /* Each block re-reads g_SDValue rather than caching it once: the driver block
    is reachable through the global, so every store through one pointer forces
@@ -388,7 +388,7 @@ void SD_ResetRuntime(void)
     status_state->s_wSD_STATUS = 0;
 }
 
-#include "sound_init.h"
+#include "sound_secondary.h"
 void SD_Shutdown(void)
 {
     SD_KeyOffVoiceSlots();

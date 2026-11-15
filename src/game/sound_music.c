@@ -4,7 +4,7 @@
 #include "sound.h"
 #include "sound_driver.h"
 #include "sound_output_state.h"
-#include "sound_init.h"
+#include "sound_secondary.h"
 #include "sound_music.h"
 
 /* Sound driver initialisation after the SPU is up: enables reverb in studio-A
