@@ -62,6 +62,28 @@ message table.
 The USA warning reads `SOFTWARE TERMINATED` / `CONSOLE MAY HAVE BEEN MODIFIED`
 / `CALL 1-888-780-7690`.
 
+## Runtime trace
+
+A #418 run of `safecheck2003_boot_state_watch` (interpreter CPU, North
+American image, soft reset into a normal boot; signature verified on
+2,064,439 hits, none refused) watched one complete check. `SafetySync`
+returned 0 after 855,445 calls, 16.1 s into the boot; the warning
+(`SafetyCheck2` and its helpers) never ran and the title screen followed.
+
+- State path: `1 > 2 > 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 > 11 > 12 > 13 > 14 >
+  15 > 19 > 18 > 0`. States 16 and 17 (error paths) were not visited.
+- Commands, in order, each answered with result `1`: GetTN (`02 01 01`),
+  Init, GetTD 0 (`02 48 57`), ReadTOC, GetID, Setloc `24 26 00`, Setmode
+  `01`, SeekP, Mute, Play, Test `04`, then about 3.3 s in state 14, Test `05`
+  (`82 00`: status `0x82`, SCEx count 0, so no modchip) and Pause.
+- Interrupts: the entries whose count is 3 ended on INT3; Init, ReadTOC,
+  GetID, SeekP and Pause, whose count is 5, ended on INT3 then INT2 - the
+  `intsum` reading of the command table.
+- `SafetyInit` selected state 1 and message set 0. The run's BIOS region
+  byte read back as `0x00`, which the script could not confirm; a North
+  American retail BIOS would give `'A'` and message set 1, so the message
+  set observed here says nothing about retail consoles.
+
 ## Identification: safechk 2.0.0.3
 
 The module is Sony's runtime library `safechk`. Its `__ps_libinfo__` block at

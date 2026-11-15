@@ -713,3 +713,24 @@ identifier. Three whole headers change five declarations and the two
 existing shared offset assertions' member/label identifiers. All types,
 widths, offsets, numeric assertions, sizes, qualifiers, G32 annotations,
 expressions and other record owners remain. There are zero fixture edits.
+
+## Runtime: the text stream stack
+
+`TextStreamOwner` views a text channel as 22 stream pointers followed by
+`stream_index` at `+0x58`. A #418 run of `text_stream_owner_watch` (a Free
+Duel against Duel Master K with card previews, damage and LP messages; 10,586
+frames, all nine watched entry words verified) shows the stream part is much
+smaller:
+
+- Only `gText_aChannels[0..3]` (`0x800EB0F8`, stride `0x64`) were ever passed
+  to the text builder, the push/pop commands or the stream readers.
+- `stream_index` ranged from -1 (idle) to 2: pushed strings nest at most
+  three deep.
+- Only slots 0..2 held stream pointers: slot 0 the string banks above
+  `0x801AC000`, slot 1 the banks or the channel's own decimal buffer, slot
+  2 the decimal buffer. Slots 3..7 were always null.
+- From `+0x20` on, the words are other fields: pointers into resident
+  `.bss` at `+0x20`..`+0x2C`, plain values from `+0x34`.
+
+So the stream stack is at most eight pointers (`+0x00`..`+0x1F`), probably
+fewer, and the 22-pointer view only exists to place `stream_index`.
