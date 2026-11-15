@@ -37,7 +37,7 @@ void ModelVariant404_DrawWebs(Variant404EntryState *context)
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     i = 0;
-    line = (GsGLINE *)((u8 *)work + 0x1874);
+    line = &work->line;
     ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
     ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
     ratan2(work->aim.direction.vz, work->aim.direction.vy);

@@ -28,7 +28,8 @@ typedef struct {
     Variant459Curtain curtains[5];
     ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
-    u8 unknown_236C[0x24];
+    u8 unknown_236C[0x10];
+    GsGLINE line;
     POLY_GT4 plain;
     u8 unknown_23C4[0x30C];
     POLY_GT4 veil, ray;
