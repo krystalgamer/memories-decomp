@@ -16,7 +16,7 @@
  * projects each spine and a copy of it moved along the view, and draws each
  * segment as a POLY_G4 as wide as the projected offset. From the fifth phase
  * on, the streamer length is reset from the entry's mesh_intensity. */
-void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
+void SpanishModelVariant474_DrawCoiledStreamers(Variant474EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -52,7 +52,7 @@ void SpanishModelVariant474_DrawCoiledStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant474EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = &work->flat.g4;
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

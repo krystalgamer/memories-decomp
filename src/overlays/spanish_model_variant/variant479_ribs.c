@@ -13,7 +13,7 @@
  * The ripples (field_41DC/field_41E0) advance by 850 and 128 per step, and
  * once the clock passes the fade start rib_fade falls linearly from
  * 0x400, moving phase 4 to 5 when it reaches zero. */
-void SpanishModelVariant479_DrawRibs(u8 *ctx)
+void SpanishModelVariant479_DrawRibs(Variant479EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -51,7 +51,7 @@ void SpanishModelVariant479_DrawRibs(u8 *ctx)
     s32 k;
     s32 n;
 
-    work = (Variant479EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     ratan2(work->view_delta.vy, work->view_delta.vx);

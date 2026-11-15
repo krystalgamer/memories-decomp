@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant474_sheets.h"
 
-void SpanishModelVariant474_DrawOffsetSheets(u8 *context)
+void SpanishModelVariant474_DrawOffsetSheets(Sheets474State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void SpanishModelVariant474_DrawOffsetSheets(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Sheets474State *state = (Sheets474State *)context;
+    Sheets474State *state = context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *polygon;
     s32 i, j;

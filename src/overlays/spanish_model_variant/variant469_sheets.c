@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant469_sheets.h"
 
-void SpanishModelVariant469_DrawSheets(u8 *context)
+void SpanishModelVariant469_DrawSheets(Sheets469State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,7 +10,7 @@ void SpanishModelVariant469_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets469State *state = (Sheets469State *)context;
+    Sheets469State *state = context;
     ModelVariantSheetPrimary *primary = state->primary;
     ModelVariantSheetSet *sheet = state->sheets;
     POLY_GT4 *polygon = state->polygons;
