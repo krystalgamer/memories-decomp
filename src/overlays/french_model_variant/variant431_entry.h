@@ -32,7 +32,9 @@ typedef struct {
     ModelVariantPackets packets;
     POLY_GT4 extra;
     POLY_FT4 flat_textured[2];
-    u8 unknown_1720[0x38];
+    u8 unknown_1720[0x10];
+    GsGLINE line;
+    u8 unknown_1744[0x14];
     s32 position[3];
     SVECTOR target;
     u8 unknown_176C[0x4];
