@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant452_streamers.h"
+#include "variant452_entry.h"
 
-void FrenchModelVariant452_DrawStreamers(u8 *ctx)
+void FrenchModelVariant452_DrawStreamers(Variant452EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -11,7 +11,7 @@ void FrenchModelVariant452_DrawStreamers(u8 *ctx)
     long flags[16][5];
     long p;
     long flag;
-    Variant452StreamersView *work;
+    Variant452EntryState *work;
     ModelVariantSheet *sheet;
     GsOT *ot;
     s16 i;
@@ -29,31 +29,31 @@ void FrenchModelVariant452_DrawStreamers(u8 *ctx)
     s16 matrix_scale;
     s32 dx, dy;
 
-    streamer = (Variant452Streamer *)(ctx + 0x720);
-    work = (Variant452StreamersView *)ctx;
+    streamer = context->streamers;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->delta.vz, work->delta.vx);
-    sheet = &work->sheet;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx);
+    sheet = work->sheets;
     turn += 3072;
-    poly = &work->poly;
-    radius = work->radius / 8;
-    length = work->field336C / 8;
-    if (radius * work->field336A < 0) {
+    poly = &work->packets.textured[0];
+    radius = work->streamer_radius / 8;
+    length = work->field_336C / 8;
+    if (radius * work->field_336A < 0) {
         width = 0;
     }
-    if (length * work->field336A < 0) {
+    if (length * work->field_336A < 0) {
         width = 0;
     }
     for (i = 0; i < 16; i++, streamer++) {
         if (!(i & 1)) {
-            longitude = i * 256 + work->rotation;
-            latitude = i * 512 + work->rotation;
+            longitude = i * 256 + work->streamer_rotation;
+            latitude = i * 512 + work->streamer_rotation;
         } else {
-            longitude = i * 256 - work->rotation;
-            latitude = i * 512 + work->rotation;
+            longitude = i * 256 - work->streamer_rotation;
+            latitude = i * 512 + work->streamer_rotation;
         }
         for (j = 0; j < 5; j++) {
-            if (!(work->flags & 1)) {
+            if (!(work->clock.frame_count & 1)) {
                 width = (j + 1) * sheet->size / 4096;
             } else {
                 width = (j * 2 + 2) * sheet->size / 4096;
@@ -73,22 +73,22 @@ void FrenchModelVariant452_DrawStreamers(u8 *ctx)
         }
     }
     if (work->phase < 3) {
-        if (!(work->flags & 1)) {
+        if (!(work->clock.frame_count & 1)) {
             matrix_scale = 4096;
         } else {
             matrix_scale = 4608;
         }
     } else {
-        if (!(work->flags & 1)) {
+        if (!(work->clock.frame_count & 1)) {
             matrix_scale = 8192;
         } else {
             matrix_scale = 8704;
         }
     }
     setVector(&rot, 0, 0, 0);
-    m.t[0] = work->translation[0];
-    m.t[1] = work->translation[1];
-    m.t[2] = work->translation[2];
+    m.t[0] = work->position.vx;
+    m.t[1] = work->position.vy;
+    m.t[2] = work->position.vz;
     setVector(&scale, matrix_scale, matrix_scale, matrix_scale);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
@@ -208,20 +208,20 @@ void FrenchModelVariant452_DrawStreamers(u8 *ctx)
             }
         }
     }
-    if (work->radius < 1024 && work->phase < 2) {
-        work->radius += work->step << 5;
-        if (work->radius >= 1024) {
-            work->radius = 1024;
+    if (work->streamer_radius < 1024 && work->phase < 2) {
+        work->streamer_radius += work->clock.step << 5;
+        if (work->streamer_radius >= 1024) {
+            work->streamer_radius = 1024;
         }
-    } else if (work->radius < 2048 && work->phase >= 2) {
-        work->radius += work->step << 7;
-        if (work->radius >= 2048) {
-            work->radius = 2048;
+    } else if (work->streamer_radius < 2048 && work->phase >= 2) {
+        work->streamer_radius += work->clock.step << 7;
+        if (work->streamer_radius >= 2048) {
+            work->streamer_radius = 2048;
         }
     }
     if (work->phase >= 2) {
-        work->rotation += 48;
+        work->streamer_rotation += 48;
     } else {
-        work->rotation += 32;
+        work->streamer_rotation += 32;
     }
 }
