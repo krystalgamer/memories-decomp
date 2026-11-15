@@ -94,6 +94,7 @@ jobs:
           make compiler-272-prebuilt
           make compiler-280-prebuilt
           make compiler-272-psx-prebuilt
+          make compiler-272-cygnus
           make check-build-tools
 
       - name: Exercise build-tool and policy regressions

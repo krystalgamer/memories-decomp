@@ -41,11 +41,18 @@ class RetiredProfileTests(unittest.TestCase):
                     # profiles below.
                     self.assertIn("gcc-2.7.2-cdk", profile["compiler"])
                 elif name.startswith("gcc_2_7_2_psx_"):
-                    # The WA_MRG boot compliance module is a Sony library
-                    # built with Psy-Q GCC 2.7.2 (decompals/old-gcc
-                    # gcc-2.7.2-psx), passed through MASPSX untouched and
-                    # assembled in reorder mode; see notes/overlays/apv2.md.
+                    # Psy-Q GCC 2.7.2 (decompals/old-gcc gcc-2.7.2-psx) for
+                    # the WA_MRG boot module's Sony code, passed through
+                    # MASPSX untouched and assembled in reorder mode; it
+                    # builds seven of its nine functions. See
+                    # notes/overlays/apv2.md.
                     self.assertIn("gcc-2.7.2-psx", profile["compiler"])
+                    self.assertEqual(profile["maspsx_flags"], ["--passthrough"])
+                elif name.startswith("gcc_2_7_2_cygnus_"):
+                    # The same module builds exactly with cygnus-2.7.2-970404
+                    # less two March 1997 changes, built from source by
+                    # tools/bootstrap/old_gcc_cygnus.py.
+                    self.assertIn("gcc-2.7.2-cygnus", profile["compiler"])
                     self.assertEqual(profile["maspsx_flags"], ["--passthrough"])
                 elif name.startswith("gcc_2_8_0_"):
                     # The USA MODEL60348/168560 entry, an older debug build

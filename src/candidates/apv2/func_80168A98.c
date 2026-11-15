@@ -11,56 +11,59 @@ extern u8 safechk_results[];
 extern s32 D_80169478;
 s32 func_80168A98(s32 n)
 {
+    s32 wait;
+    s32 stat;
     s32 i;
-    s32 j;
-    u8 wait;
-    s32 a;
-    s32 b;
+    s32 t;
     u8 c;
 
     wait = safechk_commands[n].wait;
     *safechk_cdregs = 1;
-    b = *D_80169460 & 7;
-    if (b == (*D_80169460 & 7)) {
-        a = b;
-        c = a;
-        if (c != 0) {
-            D_80169478 += c;
+    /* reorg predicts a jump out of a loop as not taken, so the return 0
+     * branch fills its delay slot from the fall-through, as retail does. */
+    do {
+        t = *D_80169460 & 7;
+        if (t != (*D_80169460 & 7)) {
+            return 0;
+        }
+    } while (0);
+    stat = t;
+    c = stat;
+    if (c != 0) {
+        D_80169478 += c;
+        *safechk_cdregs = 1;
+        *D_80169460 = 7;
+        for (i = 0; i < 4; i++) {
+            *(volatile s32 *)0 = i;
+        }
+        if (D_80169478 < wait) {
+            return 0;
+        }
+        D_80169478 = 0;
+        if (stat == 5) {
+            volatile u8 *src = D_80169458;
+
+            safechk_results[0] = *src;
+            safechk_results[1] = *src;
             *safechk_cdregs = 1;
-            *D_80169460 = 7;
-            for (i = 0; i < 4; i++) {
-                *(volatile s32 *)0 = i;
-            }
-            if (D_80169478 >= wait) {
-                D_80169478 = 0;
-                if (a == 5) {
-                    safechk_results[0] = *D_80169458;
-                    safechk_results[1] = *D_80169458;
-                    *safechk_cdregs = 1;
-                    *D_8016945C = 0x1F;
-                    if (!(safechk_results[0] & 0x10)) {
-                        return -1;
-                    }
-                    return -2;
-                }
-                j = 0;
-                if (safechk_commands[n].nresults != 0) {
-                    do {
-                        safechk_results[j] = *D_80169458;
-                        j++;
-                    } while (j < safechk_commands[n].nresults);
-                }
-                *safechk_cdregs = 1;
-                *D_8016945C = 0x1F;
-                if (n == 10) {
-                    return 1;
-                }
-                if (!(safechk_results[0] & 0x10)) {
-                    return 1;
-                }
+            *D_8016945C = 0x1F;
+            if (safechk_results[0] & 0x10) {
                 return -2;
             }
+            return -1;
         }
+        for (t = 0; t < safechk_commands[n].nresults; t++) {
+            safechk_results[t] = *D_80169458;
+        }
+        *safechk_cdregs = 1;
+        *D_8016945C = 0x1F;
+        if (n == 10) {
+            return 1;
+        }
+        if (safechk_results[0] & 0x10) {
+            return -2;
+        }
+        return 1;
     }
     return 0;
 }

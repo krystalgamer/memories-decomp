@@ -1,0 +1,46 @@
+Revert of FSF GCC r13734 (gcc-mirror/gcc commit
+38b610ed8e01c374874a3f37437b8a7fe3f060b0), applied to the
+cygnus-2.7.2-970404 source (decompals/old-gcc b18.tar.gz).
+
+Original commit: Ian Lance Taylor, Tue Mar 18 1997,
+"Add a REG_EQUIV note when a register parameter has a stack location".
+ChangeLog.fsf entry in the 970404 tree:
+
+  Tue Mar 18 14:59:12 1997  Ian Lance Taylor  <ian@cygnus.com>
+
+	* function.c (assign_parms): Add a REG_EQUIV note to the
+	instruction which copies a parameter into a pseudo-register
+	whenever there is an associated stack slot, even if the parameter
+	actually arrived in a register.
+
+This patch is exactly the reverse of that commit's two function.c hunks;
+it restores the pre-1997-03-18 condition (only stack-passed parameters get
+the note).  The Sony safechk 2.0.0.x module (notes/overlays/apv2.md) was
+compiled before this change: with it, SafetyCheck3 permutes $s1-$s4.
+
+--- a/function.c
++++ b/function.c
+@@ -3978,11 +3978,11 @@
+ 	     as we make here would screw up life analysis for it.  */
+ 	  if (nominal_mode == passed_mode
+ 	      && ! did_conversion
+-	      && stack_parm != 0
+-	      && GET_CODE (stack_parm) == MEM
++	      && GET_CODE (entry_parm) == MEM
++	      && entry_parm == stack_parm
+ 	      && stack_offset.var == 0
+ 	      && reg_mentioned_p (virtual_incoming_args_rtx,
+-				  XEXP (stack_parm, 0)))
++				  XEXP (entry_parm, 0)))
+ 	    {
+ 	      rtx linsn = get_last_insn ();
+ 	      rtx sinsn, set;
+@@ -4012,7 +4012,7 @@
+ 		       && SET_DEST (set) == parmreg)
+ 	        REG_NOTES (linsn)
+ 		  = gen_rtx (EXPR_LIST, REG_EQUIV,
+-			     stack_parm, REG_NOTES (linsn));
++			     entry_parm, REG_NOTES (linsn));
+ 	    }
+ 
+ 	  /* For pointer data type, suggest pointer register.  */

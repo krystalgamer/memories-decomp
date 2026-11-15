@@ -4,7 +4,7 @@
     {
       "address": "0x801680F4",
       "module": "apv2",
-      "profile": "gcc_2_7_2_psx_g0_gnu_reorder",
+      "profile": "gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder",
       "source": "src/candidates/apv2/SafetyInit.c",
       "target": "src/candidates_target/apv2/SafetyInit.S",
       "candidate_build_sha256": "c8335104b2f41c6b0a1eade927d7614b66468e899a2b96633fc787bda4ba3c9f",
@@ -18,10 +18,10 @@
     {
       "address": "0x80168160",
       "module": "apv2",
-      "profile": "gcc_2_7_2_psx_g0_gnu_reorder",
+      "profile": "gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder",
       "source": "src/candidates/apv2/SafetySync.c",
       "target": "src/candidates_target/apv2/SafetySync.S",
-      "candidate_build_sha256": "8e7f816bca1c6337e48cf29373e8ca7a0f7292137dd553965e368dae05e9c347",
+      "candidate_build_sha256": "5c222127f7ca4f28504747e7134583352104c86284c903b499db8cfa0d418266",
       "target_bytes_sha256": "1f43ab6e0c7f8b0372aac055154094392f687557f3faab8ae5ed19c35c213714",
       "canonical_contract_sha256": "c0ff4c66d4eec526b8d32dae252a9dcbad8456f8baaf2733c7f3002c4a662daa",
       "canonical_contracts": {
@@ -39,10 +39,10 @@
     {
       "address": "0x80168A98",
       "module": "apv2",
-      "profile": "gcc_2_7_2_psx_g0_gnu_reorder",
+      "profile": "gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder",
       "source": "src/candidates/apv2/func_80168A98.c",
       "target": "src/candidates_target/apv2/func_80168A98.S",
-      "candidate_build_sha256": "8ffbf5b888526b812cc4f6b3cf168552e0f1e66683e057424846512ea364d541",
+      "candidate_build_sha256": "c7919f9a9995b63afcccd2b00829533b469512548e3e07996c9cb62adf813f2c",
       "target_bytes_sha256": "d79df527f9d805ff59a4fedadff814630377f761bcf42a4a675ee6d9f6c94307",
       "canonical_contract_sha256": "7415e5e42369cef2d46f23fcf6bdc700011dc3065c8d55e71f602b81001aeb9b",
       "canonical_contracts": {
@@ -58,7 +58,7 @@
     {
       "address": "0x80168C6C",
       "module": "apv2",
-      "profile": "gcc_2_7_2_psx_g0_gnu_reorder",
+      "profile": "gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder",
       "source": "src/candidates/apv2/func_80168C6C.c",
       "target": "src/candidates_target/apv2/func_80168C6C.S",
       "candidate_build_sha256": "dee7b669c3f10cf16c70c86a3990c0ab8debde8d55d06d7ff91872c0df5f3c1c",
@@ -77,7 +77,7 @@
     {
       "address": "0x80168D5C",
       "module": "apv2",
-      "profile": "gcc_2_7_2_psx_g0_gnu_reorder",
+      "profile": "gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder",
       "source": "src/candidates/apv2/SafetyCheck2.c",
       "target": "src/candidates_target/apv2/SafetyCheck2.S",
       "candidate_build_sha256": "cfea2bc639cc594aa9b112453988d19db70de7f7eefcf9c70954bdc24850fe1d",
@@ -102,7 +102,7 @@
     {
       "address": "0x80168EC8",
       "module": "apv2",
-      "profile": "gcc_2_7_2_psx_g0_gnu_reorder",
+      "profile": "gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder",
       "source": "src/candidates/apv2/SafetyCheck3.c",
       "target": "src/candidates_target/apv2/SafetyCheck3.S",
       "candidate_build_sha256": "48280e7718be6c17b3ec2d168a80e959525e2fade9943c170a010dafa84882d8",
@@ -115,7 +115,7 @@
     {
       "address": "0x8016903C",
       "module": "apv2",
-      "profile": "gcc_2_7_2_psx_g0_gnu_reorder",
+      "profile": "gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder",
       "source": "src/candidates/apv2/SafetyCheck4.c",
       "target": "src/candidates_target/apv2/SafetyCheck4.S",
       "candidate_build_sha256": "06ce9f82a790db148e43edcabbcd1ee50be6afccb45a864116ee1b418553a60e",
@@ -129,7 +129,7 @@
     {
       "address": "0x801691F0",
       "module": "apv2",
-      "profile": "gcc_2_7_2_psx_g0_gnu_reorder",
+      "profile": "gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder",
       "source": "src/candidates/apv2/func_801691F0.c",
       "target": "src/candidates_target/apv2/func_801691F0.S",
       "candidate_build_sha256": "e001a56a235162f31a64f39b77129226292707cb32010c695fab6930b75f8417",
@@ -140,7 +140,7 @@
     {
       "address": "0x80169284",
       "module": "apv2",
-      "profile": "gcc_2_7_2_psx_g0_gnu_reorder",
+      "profile": "gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder",
       "source": "src/candidates/apv2/SafetyCheck5.c",
       "target": "src/candidates_target/apv2/SafetyCheck5.S",
       "candidate_build_sha256": "016744d8a36cd04b776d6a4a4cd1611cde5f472c08a35d528725105b2a9547d3",

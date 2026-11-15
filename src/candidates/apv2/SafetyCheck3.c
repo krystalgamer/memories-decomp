@@ -27,21 +27,18 @@ void SafetyCheck3(u8 *str, Apv2Rect *rect, s32 color)
             rect->x = x;
             rect->y += 18;
         } else if (D_801694D0 == 0) {
-            c = 1;
             hi = *str++ << 8;
             glyph = (u8 *)Krom2RawAdd(*str | hi);
             SafetyCheck4(rect, glyph, color, 7);
-            rect->x = rect->x + c + rect->w;
+            rect->x += rect->w + 1;
         } else if (c == ' ') {
-            c = 8;
-            rect->x += c;
+            rect->x += 8;
         } else {
-            c = 2;
             glyph = (u8 *)0xBFC7F8DE + (*str - 0x21) * 15;
             range = func_801691F0(glyph);
             rect->w = range - (range >> 16) + 1;
             SafetyCheck4(rect, glyph, color, range);
-            rect->x = rect->x + c + rect->w;
+            rect->x += rect->w + 2;
         }
     }
 }
