@@ -332,15 +332,6 @@ typedef char DuelEffectEntry_layout_selector_offset_must_be_0x18[
     YGO_TYPE_OFFSET(DuelEffectEntry, layout_selector) == 0x18 ? 1 : -1
 ];
 
-#define TEXT_STREAM_SLOT_COUNT 22
-
-/* Narrow text-command view: twenty-two stream pointers place the signed
- * selector at the measured 0x58 offset. */
-typedef struct {
-    u8 *streams[TEXT_STREAM_SLOT_COUNT];
-    s8 stream_index;
-} TextStreamOwner;
-
 /* Display-effect command view. Its depth selector follows twenty stream
  * pointers and the command state bytes at the same measured 0x58 offset. */
 typedef struct {
@@ -377,9 +368,6 @@ struct DuelEffectChannel;
 typedef void (*SceneScriptRecordCallback)(void *, s32);
 typedef void (*TextBoxStateCallback)(struct DuelEffectChannel *);
 
-typedef char TextStreamOwner_stream_index_offset_must_be_0x58[
-    YGO_TYPE_OFFSET(TextStreamOwner, stream_index) == 0x58 ? 1 : -1
-];
 typedef char EffectObject_depth_offset_must_be_0x58[
     YGO_TYPE_OFFSET(EffectObject, depth) == 0x58 ? 1 : -1
 ];
@@ -467,18 +455,20 @@ typedef char LibraryMotionState_size_must_be_0x48[
 
 /* One text-box record, the element type of gText_aChannels: 0x64 bytes in
    North America and PAL, 0x60 bytes in Japan (VERSION_JAPAN), whose entry
-   range and output counters are single bytes. 0x00 is the
-   decoded string the record is playing back (TextBox_BuildStep stores it
-   there), and 0x20/0x24 bracket the record's slice of gDuelEffect_aEntries:
+   range and output counters are single bytes. 0x00-0x1F is the
+   record's text stream stack (TextBox_BuildStep stores the decoded string
+   it plays back in slot 0), and 0x20/0x24 bracket the record's slice of gDuelEffect_aEntries:
    TextBox_BuildStep seeds both with &gDuelEffect_aEntries[entry_range_start],
    DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
 typedef struct DuelEffectChannel {
-    u8 *root_stream;
-    /* No code reads 0x04-0x1F of a channel. An older view named entry-handler
-       fields here (shades, rotation, local XY, handler_state, render_mode)
-       because the glyph handlers were typed to take a channel; they take
-       the DuelEffectEntry that DuelEffect_ProcessEntries walks. */
-    u8 pad_04[0x1C];
+    /* Text stream stack, selected by the signed stream_index at 0x58 (-1
+       when idle). Slot 0 is the string being played back; string pushes
+       and Text_PushFormattedDecimal (which pushes decimal_buffer) fill the
+       next slot, and Text_EndStream pops. A #418 owner-watch trace of a
+       Free Duel saw stream_index range -1..2 and only slots 0..2 hold
+       pointers, slots 3..7 staying null; 0x20 onward are the fields below.
+       Eight slots is the bound the layout allows, not a measured depth. */
+    u8 *streams[8];
     DuelEffectEntry *entry_write_cursor;
     DuelEffectEntry *entry_begin;
     /* Every consumer proves this is a DisplayObject pointer:
@@ -561,6 +551,10 @@ typedef char DuelEffectChannel_size_must_be_0x64[
     sizeof(DuelEffectChannel) == 0x64 ? 1 : -1
 ];
 #endif
+typedef char DuelEffectChannel_streams_must_span_0x00_0x1F[
+    YGO_TYPE_OFFSET(DuelEffectChannel, streams) == 0 &&
+    sizeof(((DuelEffectChannel *)0)->streams) == 0x20 ? 1 : -1
+];
 typedef char DuelEffectChannel_entry_write_cursor_offset_must_be_0x20[
     YGO_TYPE_OFFSET(DuelEffectChannel, entry_write_cursor) == 0x20 ? 1 : -1
 ];

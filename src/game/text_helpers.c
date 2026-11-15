@@ -211,7 +211,7 @@ u8 *Text_LookupString(s32 unused_word, s32 string_id)
 }
 #endif
 
-u8 TextStream_ReadByte(TextStreamOwner *object)
+u8 TextStream_ReadByte(DuelEffectChannel *object)
 {
     return *object->streams[object->stream_index]++;
 }

@@ -408,20 +408,9 @@ s32 DuelEffect_FindFreeOccupancySlot(void);
 void DuelEffect_ClearMatchingMarker(s32 value);
 void DuelEffect_ResetEntryMarkers(void);
 
-/* The record DuelEffect_FadeOutBgmCommand walks. It covers only the three
- * fields the handler itself reaches: the command state byte at 0x51 and the
- * signed cursor slot at 0x58 that selects which of the byte streams at the
- * front of the record the opcode is read from. */
-typedef struct {
-    u8 pad_00[0x51];
-    u8 command_state;
-    u8 pad_52[6];
-    s8 cursor_slot;
-} DuelEffectCommand;
-
-/* Takes the record above, not the u8 * the command table's element type
- * spells. The table casts it there. */
-void DuelEffect_FadeOutBgmCommand(DuelEffectCommand *command);
+/* Reads one opcode byte from the channel's selected stream and fades the BGM
+ * out; a set high bit moves the channel to playback state 13. */
+void DuelEffect_FadeOutBgmCommand(DuelEffectChannel *command);
 
 /* Initialises channel `index` for string `value`, ORs 0x8000 into its flags,
  * and takes its range from consecutive gDuelEffect_awEntryRangeBoundaries
@@ -737,16 +726,12 @@ int TextStream_ReadU16LE(DuelEffectChannel *object);
 
 /* Reads one little-endian 32-bit word out of a script stream and advances it.
  *
- * The TextStreamOwner carries 22 stream pointers followed by the signed
- * selector at +0x58. The selected pointer is stepped four bytes on, and the
- * word is assembled from those bytes low-first, so the stream is
- * little-endian here, unlike the sequence readers in the sound path.
- *
- * DuelEffectChannel has the same stream-pointer prefix and calls its selector
- * stream_index; the sole caller casts that wider record to this narrow view.
+ * The channel's selected stream, streams[stream_index], is stepped four
+ * bytes on, and the word is assembled from those bytes low-first, so the
+ * stream is little-endian here, unlike the sequence readers in the sound path.
  *
  * Text_PushFormattedDecimal is the only consumer. */
-u32 TextStream_ReadU32LE(TextStreamOwner *object);
+u32 TextStream_ReadU32LE(DuelEffectChannel *object);
 
 struct DisplayObject;
 

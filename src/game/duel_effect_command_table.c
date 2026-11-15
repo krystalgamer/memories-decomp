@@ -39,7 +39,7 @@ void (*gText_SecondaryCommandHandlers[])(DuelEffectChannel *) = {
     DuelEffect_PlayBgmCommand,
     DuelEffect_ProcessBgmCommand,
     DuelEffect_PlaySoundCommand,
-    (void (*)(DuelEffectChannel *))DuelEffect_FadeOutBgmCommand,
+    DuelEffect_FadeOutBgmCommand,
     (void (*)(DuelEffectChannel *))Text_NoOpSecondary12,
     (void (*)(DuelEffectChannel *))Text_NoOpSecondary13,
     Text_OpenCampaignMap,
