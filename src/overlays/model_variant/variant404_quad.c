@@ -69,7 +69,7 @@ void ModelVariant404_DrawQuad(Variant404EntryState *work)
         }
         if (work->phase == 0) {
             if (rec->size < 0x1000) {
-                rec->size = (u32)(work->clock.frame << 12) / *(u32 *)((u8 *)work->config + 0x24);
+                rec->size = (u32)(work->clock.frame << 12) / work->config->field_24;
                 if (rec->size >= 0x1000) {
                     rec->size = 0x1000;
                     work->phase = 1;

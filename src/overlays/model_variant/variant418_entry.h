@@ -8,7 +8,9 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13;
     u16 vertex;
-    u8 unknown_16[0x0E];
+    u8 unknown_16[0x0A];
+    u16 count;
+    u8 unknown_22[2];
     s32 mode;
     u32 start;
     s32 field_2C;

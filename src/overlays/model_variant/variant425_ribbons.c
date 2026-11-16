@@ -122,7 +122,7 @@ void ModelVariant425_DrawRibbons(Variant425EntryState *context)
             }
         }
     }
-    if (work->field_2728 + 1 == *(u16 *)((u8 *)work->config + 0x18)) {
+    if (work->field_2728 + 1 == work->config->count) {
         work->field_2744 += work->clock.step << 5;
     }
 }
