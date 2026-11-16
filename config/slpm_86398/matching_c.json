@@ -1665,9 +1665,9 @@
     },
     {
       "address": "0x8002CB6C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/main_reset_frontend_runtime.c"
+      "source": "src/game/japanese/main_mode_runners.c"
     },
     {
       "address": "0x8002CBC8",

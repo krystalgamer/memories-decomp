@@ -118,7 +118,7 @@ exits or bypass of that comparison; the name is not a new hard global
 step cap. The byte, common definition and all seven binding addresses remain
 unchanged.
 
-[`Main_ResetFrontendRuntime`](../src/game/main_reset_frontend_runtime.c)
+[`Main_ResetFrontendRuntime`](../src/game/main_mode_runners.c)
 clears the wait threshold `gGraphics_bSyncVBlankTarget`, but that does not force the sampled
 counter to zero or guarantee a factor of `1`. Actual GPU/render work and
 VBlank timing still determine the sample.

@@ -70,7 +70,6 @@ jmp_buf gMain_RecoveryJmpBuf;
 #include "main_mode_runners.h"
 #include "duel_effect_text.h"
 #include "main_boot_frontend.h"
-#include "main_reset_frontend_runtime.h"
 #include "main_services.h"
 #include "rand_constants.h"
 #include "movie_playback_control.h"

@@ -177,9 +177,6 @@ segments:
     - game/campaign_story_flags
   - - 120672
     - c
-    - game/european/main_reset_frontend_runtime
-  - - 120764
-    - c
     - game/european/main_mode_runners
   - - 124904
     - c
