@@ -147,7 +147,7 @@ under the same French profile. Each image's symbols file binds
 replace only the assembly owner at `0x28A4..0x2FB0`, adding 46,904 C bytes.
 The band helper remains outside the entry's direct call graph.
 
-The entry initializes one `ModelVariantBandPadded` at `context + 0x10F0`,
+The entry initializes one `ModelVariantBandPadded` (now `ModelVariantColorBandPadded`) at `context + 0x10F0`,
 saving that pointer at `sp + 0x80`. It reloads, advances and stores the
 pointer by 492 bytes at offsets `0x4B0/0x4B8/0x4C0`. The counter `a1`
 starts at zero (`0x3F8`), increments once (`0x4A0`), and repeats only while

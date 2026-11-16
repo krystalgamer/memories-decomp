@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "variant324_bands.h"
 #include "../french_model_variant/variant341_entry.h"
 
 /* Draws one band of nine points as pairs of POLY_GT4 quads along the variant's
@@ -20,14 +19,14 @@ void ModelVariant324_DrawBand(u8 *ctx)
     GsOT *ot;
     s32 angle;
     POLY_GT4 *poly;
-    Variant324Band *band;
+    ModelVariantColorBandPadded *band;
     s16 i;
     s16 j;
     s16 r;
 
     work = (Variant341EntryState *)ctx;
     ot = Graphics_GetDefaultOrderingTable();
-    band = (Variant324Band *)work->bands;
+    band = work->bands;
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     r = work->radius / 32;
@@ -66,7 +65,7 @@ void ModelVariant324_DrawBand(u8 *ctx)
                                          &band->sc[j], &p, &band->flag[j]);
         }
     }
-    band = (Variant324Band *)work->bands;
+    band = work->bands;
     for (i = 0; i < 1; i++, band++) {
         for (j = 0; j < 8; j++) {
             poly->x0 = band->sa[j];
@@ -78,31 +77,31 @@ void ModelVariant324_DrawBand(u8 *ctx)
             poly->x3 = band->sb[j + 1];
             poly->y3 = band->sb[j + 1] >> 16;
             if (work->tail.phase >= 3) {
-                poly->r0 = band->ca[j][0] * work->brightness / 1024;
-                poly->g0 = band->ca[j][1] * work->brightness / 1024;
-                poly->b0 = band->ca[j][2] * work->brightness / 1024;
-                poly->r1 = band->ca[j + 1][0] * work->brightness / 1024;
-                poly->g1 = band->ca[j + 1][1] * work->brightness / 1024;
-                poly->b1 = band->ca[j + 1][2] * work->brightness / 1024;
-                poly->r2 = band->cb[j][0] * work->brightness / 1024;
-                poly->g2 = band->cb[j][1] * work->brightness / 1024;
-                poly->b2 = band->cb[j][2] * work->brightness / 1024;
-                poly->r3 = band->cb[j + 1][0] * work->brightness / 1024;
-                poly->g3 = band->cb[j + 1][1] * work->brightness / 1024;
-                poly->b3 = band->cb[j + 1][2] * work->brightness / 1024;
+                poly->r0 = band->inner[j].r * work->brightness / 1024;
+                poly->g0 = band->inner[j].g * work->brightness / 1024;
+                poly->b0 = band->inner[j].b * work->brightness / 1024;
+                poly->r1 = band->inner[j + 1].r * work->brightness / 1024;
+                poly->g1 = band->inner[j + 1].g * work->brightness / 1024;
+                poly->b1 = band->inner[j + 1].b * work->brightness / 1024;
+                poly->r2 = band->outer[j].r * work->brightness / 1024;
+                poly->g2 = band->outer[j].g * work->brightness / 1024;
+                poly->b2 = band->outer[j].b * work->brightness / 1024;
+                poly->r3 = band->outer[j + 1].r * work->brightness / 1024;
+                poly->g3 = band->outer[j + 1].g * work->brightness / 1024;
+                poly->b3 = band->outer[j + 1].b * work->brightness / 1024;
             } else {
-                poly->r0 = band->ca[j][0];
-                poly->g0 = band->ca[j][1];
-                poly->b0 = band->ca[j][2];
-                poly->r1 = band->ca[j + 1][0];
-                poly->g1 = band->ca[j + 1][1];
-                poly->b1 = band->ca[j + 1][2];
-                poly->r2 = band->cb[j][0];
-                poly->g2 = band->cb[j][1];
-                poly->b2 = band->cb[j][2];
-                poly->r3 = band->cb[j + 1][0];
-                poly->g3 = band->cb[j + 1][1];
-                poly->b3 = band->cb[j + 1][2];
+                poly->r0 = band->inner[j].r;
+                poly->g0 = band->inner[j].g;
+                poly->b0 = band->inner[j].b;
+                poly->r1 = band->inner[j + 1].r;
+                poly->g1 = band->inner[j + 1].g;
+                poly->b1 = band->inner[j + 1].b;
+                poly->r2 = band->outer[j].r;
+                poly->g2 = band->outer[j].g;
+                poly->b2 = band->outer[j].b;
+                poly->r3 = band->outer[j + 1].r;
+                poly->g3 = band->outer[j + 1].g;
+                poly->b3 = band->outer[j + 1].b;
             }
             if (band->otz[j] >= 0 && band->flag[j] >= 0) {
                 GsSortPoly(poly, ot, band->otz[j]);
@@ -116,31 +115,31 @@ void ModelVariant324_DrawBand(u8 *ctx)
             poly->x3 = band->sb[j + 1];
             poly->y3 = band->sb[j + 1] >> 16;
             if (work->tail.phase >= 3) {
-                poly->r0 = band->ca[j][0] * work->brightness / 1024;
-                poly->g0 = band->ca[j][1] * work->brightness / 1024;
-                poly->b0 = band->ca[j][2] * work->brightness / 1024;
-                poly->r1 = band->ca[j + 1][0] * work->brightness / 1024;
-                poly->g1 = band->ca[j + 1][1] * work->brightness / 1024;
-                poly->b1 = band->ca[j + 1][2] * work->brightness / 1024;
-                poly->r2 = band->cb[j][0] * work->brightness / 1024;
-                poly->g2 = band->cb[j][1] * work->brightness / 1024;
-                poly->b2 = band->cb[j][2] * work->brightness / 1024;
-                poly->r3 = band->cb[j + 1][0] * work->brightness / 1024;
-                poly->g3 = band->cb[j + 1][1] * work->brightness / 1024;
-                poly->b3 = band->cb[j + 1][2] * work->brightness / 1024;
+                poly->r0 = band->inner[j].r * work->brightness / 1024;
+                poly->g0 = band->inner[j].g * work->brightness / 1024;
+                poly->b0 = band->inner[j].b * work->brightness / 1024;
+                poly->r1 = band->inner[j + 1].r * work->brightness / 1024;
+                poly->g1 = band->inner[j + 1].g * work->brightness / 1024;
+                poly->b1 = band->inner[j + 1].b * work->brightness / 1024;
+                poly->r2 = band->outer[j].r * work->brightness / 1024;
+                poly->g2 = band->outer[j].g * work->brightness / 1024;
+                poly->b2 = band->outer[j].b * work->brightness / 1024;
+                poly->r3 = band->outer[j + 1].r * work->brightness / 1024;
+                poly->g3 = band->outer[j + 1].g * work->brightness / 1024;
+                poly->b3 = band->outer[j + 1].b * work->brightness / 1024;
             } else {
-                poly->r0 = band->ca[j][0];
-                poly->g0 = band->ca[j][1];
-                poly->b0 = band->ca[j][2];
-                poly->r1 = band->ca[j + 1][0];
-                poly->g1 = band->ca[j + 1][1];
-                poly->b1 = band->ca[j + 1][2];
-                poly->r2 = band->cb[j][0];
-                poly->g2 = band->cb[j][1];
-                poly->b2 = band->cb[j][2];
-                poly->r3 = band->cb[j + 1][0];
-                poly->g3 = band->cb[j + 1][1];
-                poly->b3 = band->cb[j + 1][2];
+                poly->r0 = band->inner[j].r;
+                poly->g0 = band->inner[j].g;
+                poly->b0 = band->inner[j].b;
+                poly->r1 = band->inner[j + 1].r;
+                poly->g1 = band->inner[j + 1].g;
+                poly->b1 = band->inner[j + 1].b;
+                poly->r2 = band->outer[j].r;
+                poly->g2 = band->outer[j].g;
+                poly->b2 = band->outer[j].b;
+                poly->r3 = band->outer[j + 1].r;
+                poly->g3 = band->outer[j + 1].g;
+                poly->b3 = band->outer[j + 1].b;
             }
             if (band->otz[j] >= 0 && band->flag[j] >= 0) {
                 GsSortPoly(poly, ot, band->otz[j]);

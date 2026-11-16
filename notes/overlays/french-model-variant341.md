@@ -374,7 +374,7 @@ fixed-cutoff README snapshot are unchanged.
 
 ## Entry-called bands follow-up
 
-The unchanged accepted `variant324_bands.c` and `Variant324Band` view
+The unchanged accepted `variant324_bands.c` and `Variant324Band` view (now `ModelVariantColorBandPadded`)
 produce the remaining `+0x17C0..+0x22F8` helper in both French slots:
 2,872 bytes and a 256-byte frame under `gcc_2_8_1_g0_split`, using
 GCC 2.8.1/MASPSX 2.81 rather than the accepted North American profile.
