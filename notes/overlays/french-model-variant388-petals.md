@@ -4,7 +4,7 @@
 0xA6C bytes) builds twelve petal arms, projects them and draws them, then
 advances the bloom. **No release had matching C for this body before.**
 
-It follows the accepted MODEL_EXODIA petals helper (`model_exodia/petals.c`)
+It follows the accepted MODEL_EXODIA petals helper (`ModelExodia_DrawPetals` in `model_exodia/exodia_slot1.c`)
 over a local 0x84-byte arm, `ModelVariantFlaggedSpiralArm` in `variant388_petals.h`. The arms
 start at `+0x1050` and the `POLY_GT4` cursor at `+0x16C0`.
 

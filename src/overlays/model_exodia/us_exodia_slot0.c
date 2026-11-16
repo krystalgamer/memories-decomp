@@ -1,4 +1,4 @@
 #include "../../types.h"
 
 #define MODEL_EXODIA_USA
-#include "beam.c"
+#include "exodia_slot0.c"

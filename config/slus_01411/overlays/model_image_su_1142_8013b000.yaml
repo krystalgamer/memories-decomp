@@ -56,21 +56,7 @@ segments:
     vram: 0x8013b004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_exodia/us_entry]
-  - name: ring
-    type: code
-    start: 0x864
-    vram: 0x8013b864
-    align: 4
-    subsegments:
-      - [0x864, c, overlays/model_exodia/us_ring]
-  - name: spokes
-    type: code
-    start: 0xc58
-    vram: 0x8013bc58
-    align: 4
-    subsegments:
-      - [0xc58, c, overlays/model_exodia/us_spokes]
+      - [0x4, c, overlays/model_exodia/us_exodia_slot0]
   - name: unclassified_tail
     type: code
     start: 0x1784

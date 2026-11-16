@@ -156,7 +156,7 @@ contains 34 resident bindings, retaining every previously accepted binding.
 ## Exact petals template recovery
 
 The remaining slot-1 helper at `0x8017BDF0` now owns all 2,416 instruction
-bytes through `src/overlays/model_exodia/petals.c`, with the observed
+bytes through `src/overlays/model_exodia/exodia_slot1.c`, with the observed
 304-byte frame. Its dedicated header reuses the existing
 `ModelVariantFlaggedSpiralArm` access view and canonical SDK declarations; the entry
 imports that header instead of retaining a separate helper prototype.
@@ -239,8 +239,8 @@ sources match the US helpers unchanged. Under `gcc_2_8_1_g0_split` the same
 sources still fill the epilogue delay slot, but these US helpers end in
 `addiu $sp; jr $ra; nop`.
 
-The `src/overlays/model_exodia/us_*.c` wrappers define `MODEL_EXODIA_USA` and
-include the shared source. The helpers and tables keep one name in every
+The `src/overlays/model_exodia/us_exodia_slot0.c` and `us_exodia_slot1.c`
+wrappers define `MODEL_EXODIA_USA` and include the shared source. The helpers and tables keep one name in every
 region; each image's `*_symbols.txt` and `*_functions.csv` bind it at that
 image's address:
 
@@ -259,15 +259,15 @@ image offset.
 
 With the macro undefined, every source compiles exactly as before. With it defined:
 
-- `ring.c` and `ring_second.c` store the four projected corners back into the
+- `ModelExodia_DrawRing` and `ModelExodia_DrawRings` store the four projected corners back into the
   quad after `RotTransPers4`, as the US build does.
-- `entry_second.c` uses CLUT rows `(256, 241)` and `(512, 244)` instead of
+- `ModelExodia_HandleSecondRequest` uses CLUT rows `(256, 241)` and `(512, 244)` instead of
   `(640, 225)` and `(640, 244)`, and a 240-line fade quad instead of 256.
-- `entry.c` uses CLUT row `(256, 241)` instead of `(640, 225)`. After the
+- `ModelExodia_HandleRequest` uses CLUT row `(256, 241)` instead of `(640, 225)`. After the
   second `GsGetLwUnit` it loads `t[1]`, `t[2]`, `target.vx` and `t[0]` into
   block-scoped temporaries, then an empty `do {} while (0);` barrier, then the
   stores. The barrier keeps the four loads ahead of the stores, as in retail.
-- `spokes.c` has three changes:
+- `ModelExodia_DrawSpokes` has three changes:
   - The `j == 1` branch indexes the tip pair as `[j - 1]` and `[j]`.
   - An empty `do {} while (0);` barrier follows the `j == 0` `RotTransPers`
     call. It splits CSE there, so the j loop keeps more insns. As a result
@@ -278,3 +278,27 @@ With the macro undefined, every source compiles exactly as before. With it defin
     of the frame base.
 
 All seven functions match, and both images verify byte for byte.
+
+## Translation units
+
+Each image links its handler and the draw helpers only that handler calls, in
+the same order in every region, so each image's text is one translation unit
+(#39):
+
+| Source | Image | Members (address order) |
+|---|---|---|
+| `src/overlays/model_exodia/exodia_slot0.c` | slot 0 | `ModelExodia_HandleRequest`, `ModelExodia_DrawRing`, `ModelExodia_DrawSpokes` |
+| `src/overlays/model_exodia/exodia_slot1.c` | slot 1 | `ModelExodia_HandleSecondRequest`, `ModelExodia_DrawRings`, `ModelExodia_DrawPetals`, `ModelExodia_DrawBeam` |
+
+The five PAL images build these sources directly under `gcc_2_8_1_g0_split`;
+the US and Japanese SU images build them through the `us_exodia_slot0.c` and
+`us_exodia_slot1.c` wrappers under `gcc_2_7_2_cdk_g0`. Each image keeps its
+one profile, and each unit covers the image's whole text from offset 4 to its
+unclassified tail: slot 0 is `[0x8013B004, 0x8013C7AC)` in PAL and
+`[0x8013B004, 0x8013C784)` in US/Japanese, slot 1 is `[0x8017B004,
+0x8017CD3C)` in PAL and `[0x8017B004, 0x8017CD08)` in US/Japanese. No member
+defines data, so the header and tail owners are unchanged.
+`exodia_slot0.h` and `exodia_slot1.h` replace the seven per-function headers;
+the slot-1 header includes the slot-0 header for the shared ring layout. The
+[attempt ledger](exodia-helpers-attempts.csv) rows stay as recorded: their
+source hashes describe the per-function sources tested at the time.

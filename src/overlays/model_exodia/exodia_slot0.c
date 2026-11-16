@@ -1,0 +1,532 @@
+#include "../../types.h"
+#include "exodia_slot0.h"
+
+s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command)
+{
+    ExodiaEntryState *work = (ExodiaEntryState *)point;
+    MATRIX unused_matrix0;
+    MATRIX unused_matrix1;
+    SVECTOR position, target;
+    VECTOR squared;
+    ModelVariantProjection projection;
+    ModelVariantPointSheet *ring = work->rings;
+    ExodiaColorRecord *colors = work->colors;
+    POLY_GT4 *textured = work->packets.textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    s32 result = 0;
+    s32 ring_index, ring_point;
+    s32 i, j;
+    u16 tpage, clut;
+    GsRVIEW2 *view;
+    s16 screen_x;
+    s32 screen_y;
+    u32 frame;
+    s16 dx;
+    s32 dy;
+
+    if (command >= 0) {
+        work->slot = Model_GetActiveSlotIndex();
+        work->config = &gModelExodia_aConfigs[command];
+        work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
+        work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
+        work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
+        if (work->slot == 0) {
+            setVector(&work->target, 0, -300, -450);
+        } else {
+            setVector(&work->target, 0, -300, 450);
+        }
+        GsGetLwUnit(work->parts[0], &work->matrix);
+        work->delta.vx = work->target.vx - work->matrix.t[0];
+        work->delta.vy = work->target.vy - work->matrix.t[1];
+        work->delta.vz = work->target.vz - work->matrix.t[2];
+        tpage = GetTPage(1, 1, 416, 256);
+        clut = GetClut(EXODIA_ENTRY_CLUT_X, EXODIA_ENTRY_CLUT_Y);
+        SetPolyG3(triangle);
+        SetSemiTrans(triangle, 1);
+        SetPolyG4(quad);
+        SetSemiTrans(quad, 1);
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        textured->u0 = 127;
+        textured->v0 = 0;
+        textured->u1 = 127;
+        textured->v1 = 0;
+        textured->u2 = 127;
+        textured->v2 = 63;
+        textured->u3 = 127;
+        textured->v3 = 63;
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        textured++;
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        textured->u0 = 64;
+        textured->v0 = 0;
+        textured->u1 = 127;
+        textured->v1 = 0;
+        textured->u2 = 64;
+        textured->v2 = 63;
+        textured->u3 = 127;
+        textured->v3 = 63;
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        for (ring_index = 0; ring_index < 1; ring_index++, ring++) {
+            for (ring_point = 0; ring_point < 4; ring_point++) {
+                if (ring_point == 0) {
+                    setVector(&ring->points[ring_point], -1536, -1536, 0);
+                    setVector(&ring->points[ring_point + 4], 0, -1536, 0);
+                    setVector(&ring->points[ring_point + 8], -1536, 0, 0);
+                    setVector(&ring->points[ring_point + 12], 0, 0, 0);
+                } else if (ring_point == 1) {
+                    setVector(&ring->points[ring_point], 1536, -1536, 0);
+                    setVector(&ring->points[ring_point + 4], 1536, 0, 0);
+                    setVector(&ring->points[ring_point + 8], 0, -1536, 0);
+                    setVector(&ring->points[ring_point + 12], 0, 0, 0);
+                } else if (ring_point == 2) {
+                    setVector(&ring->points[ring_point], 1536, 1536, 0);
+                    setVector(&ring->points[ring_point + 4], 0, 1536, 0);
+                    setVector(&ring->points[ring_point + 8], 1536, 0, 0);
+                    setVector(&ring->points[ring_point + 12], 0, 0, 0);
+                } else if (ring_point == 3) {
+                    setVector(&ring->points[ring_point], -1536, 1536, 0);
+                    setVector(&ring->points[ring_point + 4], -1536, 0, 0);
+                    setVector(&ring->points[ring_point + 8], 0, 1536, 0);
+                    setVector(&ring->points[ring_point + 12], 0, 0, 0);
+                }
+            }
+            ring->outer.r = work->config->inner.r;
+            ring->outer.g = work->config->inner.g;
+            ring->outer.b = work->config->inner.b;
+            ring->inner.r = work->config->outer.r;
+            ring->inner.g = work->config->outer.g;
+            ring->inner.b = work->config->outer.b;
+            ring->size = 0;
+            ring->field_8C = 0;
+            ring->field_90 = 0;
+        }
+        for (i = 0; i < 16; i++, colors++) {
+            for (j = 0; j < 2; j++) {
+                if (j == 1) {
+                    colors->outer[j].r = 0;
+                    colors->outer[j].g = 0;
+                    colors->outer[j].b = 0;
+                    colors->inner[j].r = 0;
+                    colors->inner[j].g = 0;
+                    colors->inner[j].b = 0;
+                } else {
+                    colors->outer[j].r = 255;
+                    colors->outer[j].g = 0;
+                    colors->outer[j].b = 255;
+                    colors->inner[j].r = 128;
+                    colors->inner[j].g = 128;
+                    colors->inner[j].b = 128;
+                }
+            }
+        }
+        work->field_4B0 = 1024;
+        work->field_4CC = 1024;
+        work->field_4A0 = 0;
+        work->field_4A4 = 0;
+        work->field_4A8 = 0;
+        work->field_4AC = 0;
+        work->field_4B4 = 0;
+        work->field_4B8 = 0;
+        work->field_4BC = 0;
+        work->field_4C0 = 0;
+        work->field_4C4 = 0;
+        work->field_4C8 = 0;
+        work->field_4D0 = 0;
+        work->field_4D4 = 0;
+        work->progress = 0;
+        work->spoke_scale = 0;
+        work->field_48C = 0;
+        work->spoke_width = 1024;
+        work->spoke_angle = 0;
+        work->field_478 = 0;
+        work->field_47C = 4096;
+        work->field_47E = 1024;
+        work->field_480 = 0;
+        work->field_498 = 0;
+        work->field_49C = 0;
+        work->field_47A = 0;
+        work->frame_count = 0;
+        work->frame = 0;
+        work->animation_frame = 0;
+        work->step = 0;
+        work->grown = 0;
+        work->field_4E0 = 0;
+        work->field_460 = 0;
+        work->field_4EC = 2048;
+        work->command = command;
+    } else {
+        view = Model_GetCameraViewBuffer();
+        work->view_delta.vx = view->vrx - view->vpx;
+        work->view_delta.vy = view->vry - view->vpy;
+        work->view_delta.vz = view->vrz - view->vpz;
+        Square0(&work->view_delta, &squared);
+        work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        if (work->slot == 0) {
+            Model_CopySlotPosition(1, (u16 *)&work->target);
+        } else {
+            Model_CopySlotPosition(0, (u16 *)&work->target);
+        }
+        GsGetLwUnit(work->parts[0], &work->matrix);
+#ifdef MODEL_EXODIA_USA
+        {
+            /* Block-scoped temporaries load the target and translation
+             * words up front; the empty loop is a scheduling barrier that
+             * keeps those loads ahead of the stores, as in the US build. */
+            s32 origin_y = work->matrix.t[1];
+            s32 origin_z = work->matrix.t[2];
+            s32 target_x = work->target.vx;
+            s32 origin_x = work->matrix.t[0];
+
+            do {
+            } while (0);
+            work->matrix.t[1] = origin_y + 256;
+            work->delta.vx = target_x - origin_x;
+            work->delta.vy = work->target.vy - work->matrix.t[1];
+            work->delta.vz = work->target.vz - origin_z;
+        }
+#else
+        work->matrix.t[1] += 256;
+        work->delta.vx = work->target.vx - work->matrix.t[0];
+        work->delta.vy = work->target.vy - work->matrix.t[1];
+        work->delta.vz = work->target.vz - work->matrix.t[2];
+#endif
+        GsSetLsMatrix(Model_GetLightSourceMatrix());
+        setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
+        RotTransPers(&position, (long *)&projection.projected,
+                     (&projection.interpolation), (&projection.flag));
+        screen_x = projection.projected.vx;
+        screen_y = projection.projected.vy;
+        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        RotTransPers(&target, (long *)&projection.target,
+                     (&projection.interpolation), (&projection.flag));
+        dx = projection.target.vx - screen_x;
+        dy = projection.target.vy - screen_y;
+        work->screen_delta.vx = dx;
+        work->screen_delta.vy = dy;
+        work->position.vx = work->matrix.t[0] + work->delta.vx * work->progress / 1536;
+        work->position.vy = work->matrix.t[1] + work->delta.vy * work->progress / 1536 -
+                            (rsin(work->progress) * 256 >> 12);
+        work->position.vz = work->matrix.t[2] + work->delta.vz * work->progress / 2048;
+        work->remaining.vx = work->target.vx - work->position.vx;
+        work->remaining.vy = work->target.vy - work->position.vy;
+        work->remaining.vz = work->target.vz - work->position.vz;
+        if (work->config->start <= work->frame && work->frame < work->config->end) {
+            ModelExodia_DrawRing((u8 *)point);
+        }
+        if (work->config->ramp_end <= work->frame && work->frame < work->config->end) {
+            ModelExodia_DrawSpokes((u8 *)point);
+        }
+        work->frame_count++;
+        frame = Model_GetSlotAnimationFrame(work->slot);
+        if (frame != work->animation_frame) {
+            work->frame += Model_GetFrameStep();
+            work->step = Model_GetFrameStep();
+            work->animation_frame = frame;
+        }
+    }
+    if (work->config->shrink_end < work->frame) {
+        result = 2;
+    }
+    return result;
+}
+
+void ModelExodia_DrawRing(u8 *context)
+{
+    ExodiaRingState *work;
+    SVECTOR rotation;
+    VECTOR scale;
+    MATRIX local;
+    MATRIX screen;
+    GsCOORDINATE2 coordinate;
+    s32 interpolation;
+    s32 flag;
+    GsOT *ot;
+    s32 i, j;
+    s32 flicker;
+    ExodiaRing *ring;
+    POLY_GT4 *quad;
+
+    work = (ExodiaRingState *)context;
+    ring = work->rings;
+    ot = Graphics_GetDefaultOrderingTable();
+    quad = &work->quad;
+    for (i = 0; i < 1; i++, ring++) {
+        flicker = 0;
+        if (work->frame_count & 1) {
+            flicker = ring->scale / 8;
+        }
+        setVector(&rotation, 0, 0, 0);
+        local.t[0] = work->origin.vx;
+        local.t[1] = work->origin.vy;
+        local.t[2] = work->origin.vz;
+        scale.vx = ring->scale + flicker;
+        scale.vy = ring->scale + flicker;
+        scale.vz = ring->scale + flicker;
+        RotMatrix(&rotation, &local);
+        coordinate.coord = local;
+        coordinate.super = 0;
+        coordinate.flg = 0;
+        GsGetLs(&coordinate, &screen);
+        GsSetLsMatrix(&screen);
+        ReadRotMatrix(&screen);
+        RotMatrix(&rotation, &screen);
+        ScaleMatrix(&screen, &scale);
+        SetRotMatrix(&screen);
+        setRGB0(quad, ring->outer.r, ring->outer.g, ring->outer.b);
+        setRGB1(quad, ring->outer.r, ring->outer.g, ring->outer.b);
+        setRGB2(quad, ring->outer.r, ring->outer.g, ring->outer.b);
+        setRGB3(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+        for (j = 0; j < 4; j++) {
+            RotTransPers4(&ring->points[j], &ring->points[j + 4],
+                          &ring->points[j + 8], &ring->points[j + 12],
+                          (long *)&quad->x0, (long *)&quad->x1,
+                          (long *)&quad->x2, (long *)&quad->x3,
+                          (long *)&interpolation, (long *)&flag);
+#ifdef MODEL_EXODIA_USA
+            /* The US build stores the projected corners back in place. */
+            setXY4(quad, quad->x0, quad->y0, quad->x1, quad->y1,
+                   quad->x2, quad->y2, quad->x3, quad->y3);
+#endif
+            flag = 0;
+            GsSortPoly(quad, ot, 0);
+        }
+        if (ring->scale < 4096 && work->grown == 0) {
+            ring->scale = ((work->frame - work->timing->start) << 12) /
+                          (work->timing->ramp_end - work->timing->start);
+            if (ring->scale >= 4096) {
+                ring->scale = 4096;
+                work->grown = 1;
+            }
+        } else if (work->frame < work->timing->growth_end) {
+            ring->scale += work->step << 9;
+            if (ring->scale >= 8192) {
+                ring->scale = 8192;
+            }
+        } else {
+            ring->scale = 8192 - ((work->frame - work->timing->growth_end) << 13) /
+                          (work->timing->shrink_end - work->timing->growth_end);
+            if (ring->scale <= 0) {
+                ring->scale = 0;
+            }
+        }
+    }
+}
+
+void ModelExodia_DrawSpokes(u8 *context)
+{
+    ExodiaSpokeState *work;
+    SVECTOR rotation;
+    VECTOR scale;
+    MATRIX local;
+    MATRIX screen;
+    GsCOORDINATE2 coordinate;
+    SVECTOR unused[16][2];
+    SVECTOR points[16][2];
+    s32 projected[16][2];
+    s32 angles[16][2];
+    SVECTOR displaced[16][2];
+    s32 displaced_projected[16][2];
+    s32 widths[16][2];
+    s32 flags[16][2];
+    s32 depth[16][2];
+    s16 dx[16][2], dy[16][2];
+    s32 interpolation, flag;
+    GsOT *ot;
+    s16 i, j;
+    s16 width, matrix_scale;
+    s32 longitude, latitude, angle;
+    s32 x_delta, y_delta;
+    u8 r0, g0, b0, r1, g1, b1;
+    POLY_GT4 *quad;
+
+    work = (ExodiaSpokeState *)context;
+    quad = &work->quad;
+    ot = Graphics_GetDefaultOrderingTable();
+    angle = ratan2(work->direction.vz, work->direction.vx) + 3072;
+    for (i = 0; i < 16; i++) {
+        if (!(i & 1)) {
+            longitude = i * 256 + work->angle;
+            latitude = i * 512 + work->angle;
+        } else {
+            longitude = i * 256 - work->angle;
+            latitude = i * 512 + work->angle;
+        }
+        for (j = 0; j < 2; j++) {
+            if (!(work->frame_count & 1)) {
+                width = (j * 128 + 32) * work->width / 1024;
+            } else {
+                width = (j * 160 + 48) * work->width / 1024;
+            }
+            if (j == 0) {
+                setVector(&points[i][j], 0, 0, 0);
+            } else {
+                (j + points[i])->vx = rcos(longitude) * (((rsin(latitude) * 3 << 10) * j) >> 12) >> 12;
+                (j + points[i])->vy = (rcos(latitude) * 3 << 10) * j >> 12;
+                (j + points[i])->vz = rsin(longitude) * (((rsin(latitude) * 3 << 10) * j) >> 12) >> 12;
+            }
+            (j + displaced[i])->vx = points[i][j].vx + (rcos(angle) * width >> 12);
+            (j + displaced[i])->vy = points[i][j].vy;
+            (j + displaced[i])->vz = points[i][j].vz + (rsin(angle) * width >> 12);
+        }
+    }
+    if (!(work->frame_count & 1)) {
+        matrix_scale = work->scale;
+    } else {
+        matrix_scale = work->scale + work->scale / 8;
+    }
+    i = 0;
+    setVector(&rotation, 0, 0, 0);
+    local.t[0] = work->origin.vx;
+    local.t[1] = work->origin.vy;
+    local.t[2] = work->origin.vz;
+    setVector(&scale, matrix_scale, matrix_scale, matrix_scale);
+    RotMatrix(&rotation, &local);
+    ScaleMatrix(&local, &scale);
+    coordinate.coord = local;
+    coordinate.super = 0;
+    coordinate.flg = 0;
+    GsGetLs(&coordinate, &screen);
+    GsSetLsMatrix(&screen);
+    for (; i < 16; i++) {
+        for (j = 0; j < 2; j++) {
+            if (j == 1) {
+#ifdef MODEL_EXODIA_USA
+                /* The US build indexes the spoke tip pair relative to j. */
+                depth[i][j] = RotTransPers4(&points[i][j - 1], &points[i][j],
+                    &points[i][j - 1], &points[i][j],
+                    (long *)&projected[i][j - 1], (long *)&projected[i][j],
+                    (long *)&projected[i][j - 1], (long *)&projected[i][j],
+                    (long *)&interpolation, (long *)&flags[i][j]);
+                RotTransPers(&displaced[i][j], (long *)&displaced_projected[i][j],
+                             (long *)&interpolation, (long *)&flag);
+                x_delta = (s16)projected[i][j] - (s16)projected[i][j - 1];
+                y_delta = (projected[i][j] >> 16) - (projected[i][j - 1] >> 16);
+#else
+                depth[i][j] = RotTransPers4(&points[i][0], &points[i][1],
+                    &points[i][0], &points[i][1],
+                    (long *)&projected[i][0], (long *)&projected[i][1],
+                    (long *)&projected[i][0], (long *)&projected[i][1],
+                    (long *)&interpolation, (long *)&flags[i][j]);
+                RotTransPers(&displaced[i][j], (long *)&displaced_projected[i][j],
+                             (long *)&interpolation, (long *)&flag);
+                x_delta = (s16)projected[i][j] - (s16)projected[i][0];
+                y_delta = (projected[i][j] >> 16) - (projected[i][0] >> 16);
+#endif
+                angles[i][j] = ratan2(y_delta, x_delta) + 3072;
+                widths[i][j] = (s16)displaced_projected[i][j] - (s16)projected[i][j];
+                dx[i][j] = rcos(angles[i][j]) * widths[i][j] >> 12;
+                dy[i][j] = rsin(angles[i][j]) * widths[i][j] >> 12;
+            } else {
+                depth[i][j] = RotTransPers4(&points[i][j], &points[i][j + 1],
+                    &points[i][j], &points[i][j + 1],
+                    (long *)&projected[i][j], (long *)&projected[i][j + 1],
+                    (long *)&projected[i][j], (long *)&projected[i][j + 1],
+                    (long *)&interpolation, (long *)&flags[i][j]);
+                RotTransPers(&displaced[i][j], (long *)&displaced_projected[i][j],
+                             (long *)&interpolation, (long *)&flag);
+#ifdef MODEL_EXODIA_USA
+                /* Empty-loop barrier: it splits CSE here, which leaves the
+                 * j loop with more insns, so loop.c hoists &interpolation from
+                 * the i loop instead and keeps the dx/dy row addresses in
+                 * their own registers, as in the US build. */
+                do {
+                } while (0);
+#endif
+                x_delta = (s16)projected[i][j + 1] - (s16)projected[i][j];
+                y_delta = (projected[i][j + 1] >> 16) - (projected[i][j] >> 16);
+                angles[i][j] = ratan2(y_delta, x_delta) + 3072;
+                widths[i][j] = (s16)displaced_projected[i][j] - (s16)projected[i][j];
+                dx[i][j] = rcos(angles[i][j]) * widths[i][j] >> 12;
+                dy[i][j] = rsin(angles[i][j]) * widths[i][j] >> 12;
+            }
+        }
+    }
+    for (i = 0; i < 16; i++) {
+        for (j = 0; j < 1; j++) {
+#ifdef MODEL_EXODIA_USA
+            /* Assigning the constant blue first makes it the first invariant
+             * hoisted out of this loop, ahead of the frame base. */
+            b0 = 0;
+#endif
+            quad->x0 = projected[i][j] + dx[i][j];
+            quad->y0 = (projected[i][j] >> 16) + dy[i][j];
+            quad->x1 = projected[i][j + 1] + dx[i][j + 1];
+            quad->y1 = (projected[i][j + 1] >> 16) + dy[i][j + 1];
+            quad->x2 = projected[i][j];
+            quad->y2 = projected[i][j] >> 16;
+            quad->x3 = projected[i][j + 1];
+            quad->y3 = projected[i][j + 1] >> 16;
+            r0 = 128 - j * 64;
+            g0 = 96 - j * 64;
+#ifndef MODEL_EXODIA_USA
+            b0 = 0;
+#endif
+            r1 = 160 - j * 64;
+            g1 = 160 - j * 64;
+            b1 = 128 - j * 64;
+            if (j + 1 == 1) {
+                setRGB0(quad, r0, g0, b0);
+                setRGB1(quad, 0, 0, 0);
+                setRGB2(quad, r1, g1, b1);
+                setRGB3(quad, 0, 0, 0);
+            } else {
+                setRGB0(quad, r0, g0, b0);
+                setRGB1(quad, r0, g0, b0);
+                setRGB2(quad, r1, g1, b1);
+                setRGB3(quad, r1, g1, b1);
+            }
+            depth[i][j] = 0;
+            flags[i][j] = 0;
+            if (depth[i][j] >= 0 && flags[i][j] >= 0) {
+                GsSortPoly(quad, ot, depth[i][j]);
+            }
+            quad->x0 = projected[i][j] - dx[i][j];
+            quad->y0 = (projected[i][j] >> 16) - dy[i][j];
+            quad->x1 = projected[i][j + 1] - dx[i][j + 1];
+            quad->y1 = (projected[i][j + 1] >> 16) - dy[i][j + 1];
+            quad->x2 = projected[i][j];
+            quad->y2 = projected[i][j] >> 16;
+            quad->x3 = projected[i][j + 1];
+            quad->y3 = projected[i][j + 1] >> 16;
+            if (j + 1 == 1) {
+                setRGB0(quad, r0, g0, b0);
+                setRGB1(quad, 0, 0, 0);
+                setRGB2(quad, r1, g1, b1);
+                setRGB3(quad, 0, 0, 0);
+            } else {
+                setRGB0(quad, r0, g0, b0);
+                setRGB1(quad, r0, g0, b0);
+                setRGB2(quad, r1, g1, b1);
+                setRGB3(quad, r1, g1, b1);
+            }
+            depth[i][j] = 0;
+            flags[i][j] = 0;
+            if (depth[i][j] >= 0 && flags[i][j] >= 0) {
+                GsSortPoly(quad, ot, depth[i][j]);
+            }
+        }
+    }
+    if (work->timing->ramp_end <= work->frame && work->scale < 4096) {
+        work->scale = ((work->frame - work->timing->ramp_end) << 12) /
+            (work->timing->growth_end - work->timing->ramp_end);
+        if (work->scale >= 4096) {
+            work->scale = 4096;
+        }
+    }
+    if (work->timing->growth_end <= work->frame && work->width > 0) {
+        work->width = 1024 - ((work->frame - work->timing->growth_end) << 10) /
+            (work->timing->shrink_end - work->timing->growth_end);
+        if (work->width <= 0) {
+            work->width = 0;
+        }
+    }
+    work->angle += 48;
+}

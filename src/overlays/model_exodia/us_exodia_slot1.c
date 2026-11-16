@@ -1,4 +1,4 @@
 #include "../../types.h"
 
 #define MODEL_EXODIA_USA
-#include "ring_second.c"
+#include "exodia_slot1.c"
