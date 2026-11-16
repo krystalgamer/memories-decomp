@@ -14,7 +14,7 @@ void ModelVariant458_DrawQuads(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    ModelVariantSheet *sheet;
+    ModelVariantSheetSet *sheet;
     GsOT *ot;
     s16 i;
     s16 j;
@@ -26,7 +26,7 @@ void ModelVariant458_DrawQuads(u8 *ctx)
     s32 otz;
 
     work = (Variant475EntryState *)ctx;
-    sheet = (ModelVariantSheet *)work->sheets;
+    sheet = work->sheets;
     quads = work->quads;
     poly = &work->extra_flat;
     ot = Graphics_GetDefaultOrderingTable();
