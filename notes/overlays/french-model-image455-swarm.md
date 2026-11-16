@@ -21,7 +21,9 @@ The trig argument must be written as `spread - 1024 + angle`. Other
 groupings, or a separate `angle - 1024` temporary, reassociate the bias or
 swap the `a0`/`v1` registers of the two sign-extended operands.
 
-The local view lives in `variant455_swarm.h`. The resident calls are covered
+The helper reads `Variant438EntryState` (its `swarm`, whose `+0xB14`/`+0xD14`
+words are `done`/`initialized`); the former local view `variant455_swarm.h`
+was removed. The resident calls are covered
 by `model_variant455_linker_symbols.txt`. All French overlay images rebuild
 exactly. The [attempt ledger](french-model-image455-swarm-attempts.csv)
 records the 13 measured probes.

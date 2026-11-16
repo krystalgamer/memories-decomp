@@ -19,9 +19,9 @@ typedef struct {
     CVECTOR color;
     u8 unknown_F4[0x10];
     s32 scale[6];
-    s32 field_11C[6];
-    s32 field_134[6];
     s32 done[6];
+    s32 field_134[6];
+    s32 initialized[6];
 } Variant412EntryFlares;
 
 typedef struct {
@@ -58,6 +58,6 @@ typedef struct {
 
 extern GsIMAGE gModelVariant412_aImages[9];
 extern Variant412EntryConfig gModelVariant412_aConfigs[];
-void FrenchModelVariant429_DrawSwarm(u8 *context);
-void FrenchModelVariant429_DrawQuads(u8 *context);
+void FrenchModelVariant429_DrawSwarm(Variant412EntryState *context);
+void FrenchModelVariant429_DrawQuads(Variant412EntryState *context);
 #endif

@@ -135,9 +135,9 @@ s32 ModelVariant412_HandleRequest(SVECTOR *point, s32 command)
             flares->color.g = work->config->outer.g;
             flares->color.b = work->config->outer.b;
             flares->scale[i] = -(i * 1024 / 6);
-            flares->field_11C[i] = 0;
-            flares->field_134[i] = 0;
             flares->done[i] = 0;
+            flares->field_134[i] = 0;
+            flares->initialized[i] = 0;
             flares->origin[i].vx = work->matrix.t[0] + work->direction.vx;
             flares->origin[i].vy = work->matrix.t[1] + work->direction.vy;
             flares->origin[i].vz = work->matrix.t[2] + work->direction.vz;
@@ -342,7 +342,7 @@ s32 ModelVariant412_HandleRequest(SVECTOR *point, s32 command)
         }
         flares = &work->flares;
         for (i = 0; i < 6; i++) {
-            if (flares->scale[i] >= 0 && flares->done[i] == 0) {
+            if (flares->scale[i] >= 0 && flares->initialized[i] == 0) {
                 if (work->tail.slot == 0) {
                     setVector(&work->positions[i], work->target.vx - (rsin(work->sweep) * 512 >> 12),
                               work->target.vy, work->target.vz);
@@ -350,7 +350,7 @@ s32 ModelVariant412_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&work->positions[i], work->target.vx + (rsin(work->sweep) * 512 >> 12),
                               work->target.vy, work->target.vz);
                 }
-                flares->done[i] = 1;
+                flares->initialized[i] = 1;
             }
             setVector(&work->offsets[i], work->positions[i].vx - work->matrix.t[0],
                       work->positions[i].vy - work->matrix.t[1],
@@ -369,10 +369,10 @@ s32 ModelVariant412_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant429_DrawSwarm((u8 *)point);
+            FrenchModelVariant429_DrawSwarm((Variant412EntryState *)point);
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant429_DrawQuads((u8 *)point);
+            FrenchModelVariant429_DrawQuads((Variant412EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

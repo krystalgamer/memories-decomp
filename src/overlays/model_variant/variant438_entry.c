@@ -141,16 +141,16 @@ s32 ModelVariant438_HandleRequest(SVECTOR *point, s32 command)
             setVector(&swarm->b[i], 256, -256, 0);
             setVector(&swarm->c[i], -256, 256, 0);
             setVector(&swarm->d[i], 256, 256, 0);
-            swarm->color[0] = work->config->outer.r;
-            swarm->color[1] = work->config->outer.g;
-            swarm->color[2] = work->config->outer.b;
+            swarm->color.r = work->config->outer.r;
+            swarm->color.g = work->config->outer.g;
+            swarm->color.b = work->config->outer.b;
             swarm->size[i] = -(i * 1024 / work->config->count);
-            swarm->field_B14[i] = 0;
-            swarm->field_C14[i] = 0;
             swarm->done[i] = 0;
-            swarm->origin[i].vx = work->matrix.t[0] + work->direction.vx;
-            swarm->origin[i].vy = work->matrix.t[1] + work->direction.vy;
-            swarm->origin[i].vz = work->matrix.t[2] + work->direction.vz;
+            swarm->field_C14[i] = 0;
+            swarm->initialized[i] = 0;
+            swarm->positions[i].vx = work->matrix.t[0] + work->direction.vx;
+            swarm->positions[i].vy = work->matrix.t[1] + work->direction.vy;
+            swarm->positions[i].vz = work->matrix.t[2] + work->direction.vz;
         }
         for (band_index = 0; band_index < 1; band_index++, band++) {
             setVector(&band->scale, 4096, 4096, 4096);
@@ -337,7 +337,7 @@ s32 ModelVariant438_HandleRequest(SVECTOR *point, s32 command)
                 if (work->config->sweep_start <= work->clock.frame) {
                     swarm = &work->swarm;
                     for (i = 0; i < work->config->count; i++) {
-                        if (swarm->size[i] >= 0 && swarm->done[i] == 0) {
+                        if (swarm->size[i] >= 0 && swarm->initialized[i] == 0) {
                             if (work->tail.slot == 0) {
                                 setVector(&work->positions[i], work->target.vx,
                                           work->target.vy + (rcos(work->sweep) * 256 >> 12),
@@ -348,7 +348,7 @@ s32 ModelVariant438_HandleRequest(SVECTOR *point, s32 command)
                                           work->target.vz);
                             }
                             GsGetLwUnit(work->parts[0], &swarm->origins[i]);
-                            swarm->done[i] = 1;
+                            swarm->initialized[i] = 1;
                         }
                         setVector(&work->offsets[i], work->positions[i].vx - swarm->origins[i].t[0],
                                   work->positions[i].vy - swarm->origins[i].t[1],
@@ -359,11 +359,11 @@ s32 ModelVariant438_HandleRequest(SVECTOR *point, s32 command)
         } else if (work->config->start <= work->clock.frame) {
             swarm = &work->swarm;
             for (i = 0; i < work->config->count; i++) {
-                if (swarm->size[i] >= 0 && swarm->done[i] == 0) {
+                if (swarm->size[i] >= 0 && swarm->initialized[i] == 0) {
                     setVector(&work->positions[i], work->target.vx, work->target.vy,
                               work->target.vz);
                     GsGetLwUnit(work->parts[0], &swarm->origins[i]);
-                    swarm->done[i] = 1;
+                    swarm->initialized[i] = 1;
                 }
                 setVector(&work->offsets[i], work->positions[i].vx - swarm->origins[i].t[0],
                           work->positions[i].vy - swarm->origins[i].t[1],
@@ -383,7 +383,7 @@ s32 ModelVariant438_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant455_DrawSwarm((u8 *)point);
+            FrenchModelVariant455_DrawSwarm((Variant438EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

@@ -15,30 +15,18 @@ typedef struct {
     u8 unknown_2C[8];
 } Variant402EntryConfig;
 
-/* Ten growing quads launched along the target direction; the quads helper
- * animates them. */
-typedef struct {
-    SVECTOR a[10], b[10], c[10], d[10];
-    SVECTOR position[10];
-    u8 color[4];
-    s32 size[10], angle[10], done[10];
-    s32 field_20C[10];
-    s32 reset[10];
-    u8 unknown_25C[0xA0];
-} Variant402EntryQuads;
-
 /* The swarm helper's thirty-two quads, laid out like the quad group. */
 typedef struct {
     SVECTOR a[32], b[32], c[32], d[32];
-    SVECTOR position[32];
-    u8 color[4];
+    SVECTOR positions[32];
+    CVECTOR color;
     u8 unknown_504[0x10];
     s32 size[32], done[32], reset[32];
 } Variant402EntrySwarm;
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
-    Variant402EntryQuads quads[1];
+    ModelVariantQuadGroup quads[1];
     Variant402EntrySwarm swarm;
     ModelVariantTrail streaks[16];
     ModelVariantWebNarrow webs[3];
@@ -64,6 +52,6 @@ typedef struct {
 
 extern GsIMAGE gModelVariant402_aImages[9];
 extern Variant402EntryConfig gModelVariant402_aConfigs[];
-void FrenchModelVariant419_DrawSwarm(u8 *context);
-void FrenchModelVariant419_DrawQuads(u8 *context);
+void FrenchModelVariant419_DrawSwarm(Variant402EntryState *context);
+void FrenchModelVariant419_DrawQuads(Variant402EntryState *context);
 #endif
