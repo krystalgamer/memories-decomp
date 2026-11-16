@@ -676,52 +676,50 @@ typedef struct DisplayObject {
    it is how the two DisplayObject_Render*GouraudQuadList functions name
    every offset they touch except 0x72. */
 
-#define DISPLAY_OBJECT_OFFSET(member) ((u32)&(((DisplayObject *)0)->member))
-
 typedef char DisplayObject_size_must_match_record_size[
     sizeof(DisplayObject) == DISPLAY_OBJECT_RECORD_SIZE ? 1 : -1
 ];
 typedef char DisplayObject_rotation_z_must_be_at_0x22[
-    DISPLAY_OBJECT_OFFSET(field_20.h.rotation_z) == 0x22 ? 1 : -1
+    OFFSETOF(DisplayObject, field_20.h.rotation_z) == 0x22 ? 1 : -1
 ];
 typedef char DisplayObject_update_must_be_at_0x24[
-    DISPLAY_OBJECT_OFFSET(update) == 0x24 ? 1 : -1
+    OFFSETOF(DisplayObject, update) == 0x24 ? 1 : -1
 ];
 typedef char DisplayObject_position_must_be_at_0x28[
-    DISPLAY_OBJECT_OFFSET(position) == 0x28 ? 1 : -1
+    OFFSETOF(DisplayObject, position) == 0x28 ? 1 : -1
 ];
 typedef char DisplayObject_size_h_must_be_at_0x3E[
-    DISPLAY_OBJECT_OFFSET(field_3C.size.h) == 0x3E ? 1 : -1
+    OFFSETOF(DisplayObject, field_3C.size.h) == 0x3E ? 1 : -1
 ];
 typedef char DisplayObject_clut_y_must_be_at_0x42[
-    DISPLAY_OBJECT_OFFSET(field_40.clut.y) == 0x42 ? 1 : -1
+    OFFSETOF(DisplayObject, field_40.clut.y) == 0x42 ? 1 : -1
 ];
 typedef char DisplayObject_pivot_y_must_be_at_0x4A[
-    DISPLAY_OBJECT_OFFSET(field_48.pivot.y) == 0x4A ? 1 : -1
+    OFFSETOF(DisplayObject, field_48.pivot.y) == 0x4A ? 1 : -1
 ];
 typedef char DisplayObject_field_3A_must_be_at_0x3A[
-    DISPLAY_OBJECT_OFFSET(field_38.h.field_3A) == 0x3A ? 1 : -1
+    OFFSETOF(DisplayObject, field_38.h.field_3A) == 0x3A ? 1 : -1
 ];
 typedef char DisplayObject_field_52_must_be_at_0x52[
-    DISPLAY_OBJECT_OFFSET(field_50.h.field_52) == 0x52 ? 1 : -1
+    OFFSETOF(DisplayObject, field_50.h.field_52) == 0x52 ? 1 : -1
 ];
 typedef char DisplayObject_field_58_must_be_at_0x58[
-    DISPLAY_OBJECT_OFFSET(field_58) == 0x58 ? 1 : -1
+    OFFSETOF(DisplayObject, field_58) == 0x58 ? 1 : -1
 ];
 typedef char DisplayObject_fraction_z_must_be_at_0x64[
-    DISPLAY_OBJECT_OFFSET(fraction_z) == 0x64 ? 1 : -1
+    OFFSETOF(DisplayObject, fraction_z) == 0x64 ? 1 : -1
 ];
 typedef char DisplayObject_subdivisions_must_be_at_0x65[
-    DISPLAY_OBJECT_OFFSET(subdivisions) == 0x65 ? 1 : -1
+    OFFSETOF(DisplayObject, subdivisions) == 0x65 ? 1 : -1
 ];
 typedef char DisplayObject_back_face_handler_must_be_at_0x10[
-    DISPLAY_OBJECT_OFFSET(back_face_handler) == 0x10 ? 1 : -1
+    OFFSETOF(DisplayObject, back_face_handler) == 0x10 ? 1 : -1
 ];
 typedef char DisplayObject_resource_uv_must_be_at_0x5E[
-    DISPLAY_OBJECT_OFFSET(resource_uv) == 0x5E ? 1 : -1
+    OFFSETOF(DisplayObject, resource_uv) == 0x5E ? 1 : -1
 ];
 typedef char DisplayObject_texture_page_must_be_at_0x66[
-    DISPLAY_OBJECT_OFFSET(texture_page) == 0x66 ? 1 : -1
+    OFFSETOF(DisplayObject, texture_page) == 0x66 ? 1 : -1
 ];
 
 /* The DISPLAY_OBJECT_LIST_COUNT list heads, immediately below the pool.
