@@ -264,7 +264,7 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
                 work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
                 work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
                 if (work->config->draw_start <= work->elapsed) {
-                    SpanishModelVariant446_DrawPulse((u8 *)point);
+                    SpanishModelVariant446_DrawPulse((EntryState446 *)point);
                 }
                 if (work->config->rays_start <= work->elapsed) {
                     FrenchModelVariant446_DrawRays((EntryState446 *)point);
@@ -279,7 +279,7 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
         if (work->config->draw_start <= work->elapsed) {
             SpanishModelVariant446_DrawRings((EntryState446 *)point);
             if (work->phase <= 0) {
-                SpanishModelVariant446_DrawLines((u8 *)point);
+                SpanishModelVariant446_DrawLines((EntryState446 *)point);
             }
         }
         work->frame_count++;

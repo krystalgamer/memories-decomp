@@ -5,14 +5,15 @@ image offset `0xFD0`, 0x528 bytes) scales,
 fades and draws five 9×17 point sheets as gouraud quads.
 **No release had matching C for this body before.**
 
-The local view in `variant379_grid.h` holds:
+The helper reads `Variant479EntryState`, the record the 479 entry passes
+(a local view in `variant379_grid.h` until it was folded). It uses:
 - five 0x4F8-byte sheets at `+0`, each with a 9×17 point grid, nine
   colours at `+0x4C8`, the size at `+0x4EC` and a done flag at `+0x4F4`;
-- five 0x250-byte pulse records from `+0x18D8`, with progress, offset and
-  state at `+0x180`;
-- the `POLY_GT4` at `+0x3E38` and the positions at `+0x4078`;
-- the flags at `+0x4164`, the step at `+0x4170`, a pulse value at `+0x4198`
-  and the phase at `+0x41EC`.
+- the five 0x250-byte `ribs` from `+0x18D8`, with `size`, `fade` and
+  `state` at `+0x180`;
+- `frame_poly` (`POLY_GT4`) at `+0x3E38` and the `points` at `+0x4078`;
+- the clock's `frame_count` at `+0x4164` and `step` at `+0x4170`, `size`
+  at `+0x4198`, and `phase` at `+0x41EC`.
 
 Measured shape:
 - **Scale:** each sheet is scaled by its size, plus `pulse / 32` when flag

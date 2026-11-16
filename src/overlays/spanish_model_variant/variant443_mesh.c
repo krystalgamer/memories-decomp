@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant443_mesh.h"
+#include "../french_model_variant/variant443_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant443_DrawMesh(u8 *context)
+void SpanishModelVariant443_DrawMesh(EntryState443 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,10 +11,10 @@ void SpanishModelVariant443_DrawMesh(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Mesh443State *state = (Mesh443State *)context;
-    POLY_G4 *quad = &state->quad;
-    ModelVariantTube *mesh = state->mesh;
-    ModelVariantPulse *companion = &state->companion;
+    EntryState443 *state = context;
+    POLY_G4 *quad = &state->packets.quad;
+    ModelVariantTube *mesh = state->meshes;
+    ModelVariantSheet *companion = state->sheets;
     GsOT *ot;
     s16 i, j, k;
     s16 row_angle, angle, radius;
@@ -23,21 +23,21 @@ void SpanishModelVariant443_DrawMesh(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(state->direction[2], state->direction[0]);
-    ratan2(state->direction[1], state->direction[0]);
-    tilt = ratan2(state->path[2], state->path[1]) + 3072;
+    ratan2(state->view_delta.vz, state->view_delta.vx);
+    ratan2(state->view_delta.vy, state->view_delta.vx);
+    tilt = ratan2(state->direction.vz, state->direction.vy) + 3072;
     ratan2(state->projected.vy, state->projected.vx);
     radius = companion->size / 64;
     for (i = 0; i < 1; i++, mesh++) {
-        for (j = 0, row_angle = state->angle; j < 9; j++, row_angle += 512) {
+        for (j = 0, row_angle = state->mesh_angle; j < 9; j++, row_angle += 512) {
             for (k = 0, angle = row_angle, row_index = j,
                  row = (SVECTOR *)(row_index * sizeof(mesh->points[0]) + (u32)mesh->points);
                  k < 9; k++, angle = row_angle + k * 512) {
-                row[k].vx = (state->path[0] * state->progress / 1024) * row_index / 8
+                row[k].vx = (state->direction.vx * state->progress / 1024) * row_index / 8
                     + (rcos(angle) * radius >> 12);
-                row[k].vy = (state->path[1] * state->progress / 1024) * row_index / 8
+                row[k].vy = (state->direction.vy * state->progress / 1024) * row_index / 8
                     + (rsin(angle) * (rcos(tilt) * radius >> 12) >> 12);
-                row[k].vz = (state->path[2] * state->progress / 1024) * row_index / 8
+                row[k].vz = (state->direction.vz * state->progress / 1024) * row_index / 8
                     + (rsin(angle) * (rsin(tilt) * radius >> 12) >> 12);
             }
         }
@@ -45,9 +45,9 @@ void SpanishModelVariant443_DrawMesh(u8 *context)
     rotation.vx = 0;
     rotation.vy = 0;
     rotation.vz = 0;
-    matrix.t[0] = state->origin[0];
-    matrix.t[1] = state->origin[1];
-    matrix.t[2] = state->origin[2];
+    matrix.t[0] = state->origin.vx;
+    matrix.t[1] = state->origin.vy;
+    matrix.t[2] = state->origin.vz;
     /* Retail initializes this vector but does not apply it. */
     scale.vx = 4096;
     scale.vy = 4096;
@@ -58,7 +58,7 @@ void SpanishModelVariant443_DrawMesh(u8 *context)
     coordinate.flg = 0;
     GsGetLs(&coordinate, &light);
     GsSetLsMatrix(&light);
-    mesh = state->mesh;
+    mesh = state->meshes;
     for (i = 0; i < 1; i++, mesh++) {
         for (j = 0; j < 8; j++) {
             for (k = 0; k < 8; k++) {
@@ -86,12 +86,12 @@ void SpanishModelVariant443_DrawMesh(u8 *context)
         }
     }
     if (state->phase == 4 && state->progress < 1024) {
-        state->progress = (state->time - state->timing->grow_start) * 1024
-            / (state->timing->grow_end - state->timing->grow_start);
+        state->progress = (state->clock.frame - state->config->mesh_start) * 1024
+            / (state->config->mesh_end - state->config->mesh_start);
         if (state->progress >= 1024) {
             state->progress = 1024;
             state->phase = 5;
         }
     }
-    state->angle -= state->step * 128;
+    state->mesh_angle -= state->clock.step * 128;
 }

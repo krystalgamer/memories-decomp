@@ -24,7 +24,11 @@ semantic map, which has no field kind.
 `FrenchModelVariant472_DrawBlooms` reads `+0x2C` as `limit`,
 `FrenchModelVariant472_DrawMesh` reads it as `fade_start` and
 `SpanishModelVariant472_DrawSheets` reads it as `fade_end`.
-`EntryConfig443` has no placeholder under any view field.
+`EntryConfig443`'s `+0x48`/`+0x4C` placeholder sat under the 443 mesh
+view's `grow_start`/`grow_end`. When `SpanishModelVariant443_DrawMesh` was
+moved onto `EntryState443`, these became `mesh_start`/`mesh_end`, the window
+over which the mesh's `progress` grows. The 443 sheets view uses `grow_start`
+for `+0x38`, the config's `start`.
 
 ## `Model386Config`
 

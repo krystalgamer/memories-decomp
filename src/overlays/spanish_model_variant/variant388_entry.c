@@ -257,7 +257,7 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
             }
         }
         if (work->phase >= 2) {
-            SpanishModelVariant388_DrawFeedbackStrips((u8 *)point);
+            SpanishModelVariant388_DrawFeedbackStrips((Variant388EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

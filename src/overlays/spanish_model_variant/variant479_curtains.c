@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant479_curtains.h"
+#include "variant479_entry.h"
 
-void SpanishModelVariant479_DrawCurtains(u8 *context)
+void SpanishModelVariant479_DrawCurtains(Variant479EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,8 +10,8 @@ void SpanishModelVariant479_DrawCurtains(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Curtains479State *state = (Curtains479State *)context;
-    ModelVariantGridScale *primary = state->primary;
+    Variant479EntryState *state = context;
+    ModelVariantGridSheet *primary = state->grids;
     ModelVariantCurtain *curtain = state->curtains;
     POLY_GT4 *polygon;
     GsOT *ot;
@@ -28,15 +28,15 @@ void SpanishModelVariant479_DrawCurtains(u8 *context)
     u8 outer_r, outer_g, outer_b;
 
     ot = Graphics_GetDefaultOrderingTable();
-    polygon = &state->polygon;
-    extra = ((state->frame & 1) << 5) * state->pulse_scale / 4096;
+    polygon = &state->glow;
+    extra = (((s32)state->clock.frame_count & 1) << 5) * state->sheets[1].size / 4096;
     radius = (rsin(1300) * 256) >> 12;
     for (i = 0; i < 5; i++, curtain++, primary++) {
-        if (state->gate >= 0) {
+        if (state->size >= 0) {
             size = primary->size;
             base_radius = radius + 160;
             outer_radius = base_radius + extra;
-            for (j = 0, angle = state->angle; j < 17; j++, angle = state->angle + j * 256) {
+            for (j = 0, angle = state->curtain_angle; j < 17; j++, angle = state->curtain_angle + j * 256) {
                 setVector(&curtain->a[j], (rcos(angle) * radius) >> 12, 0,
                           (rsin(angle) * radius) >> 12);
                 setVector(&curtain->b[j], (rcos(angle) * outer_radius) >> 12,
@@ -45,9 +45,9 @@ void SpanishModelVariant479_DrawCurtains(u8 *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->positions[i].vx;
-            matrix.t[1] = state->positions[i].vy - ((rcos(1300) * 256) >> 12);
-            matrix.t[2] = state->positions[i].vz;
+            matrix.t[0] = state->points[i].vx;
+            matrix.t[1] = state->points[i].vy - ((rcos(1300) * 256) >> 12);
+            matrix.t[2] = state->points[i].vz;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -98,5 +98,5 @@ void SpanishModelVariant479_DrawCurtains(u8 *context)
             }
         }
     }
-    state->angle += state->step * 80;
+    state->curtain_angle += state->clock.step * 80;
 }

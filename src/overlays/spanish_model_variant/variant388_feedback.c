@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant388_feedback.h"
+#include "variant388_entry.h"
 
-void SpanishModelVariant388_DrawFeedbackStrips(u8 *context)
+void SpanishModelVariant388_DrawFeedbackStrips(Variant388EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,9 +10,9 @@ void SpanishModelVariant388_DrawFeedbackStrips(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Feedback388State *state = (Feedback388State *)context;
-    Feedback388 *group = state->groups;
-    POLY_GT4 *quad = &state->quad;
+    Variant388EntryState *state = context;
+    Variant388EntryFeedback *group = state->feedback;
+    POLY_GT4 *quad = &state->plain;
     GsOT *ot;
     s32 i, j;
     s32 complete;
@@ -24,8 +24,8 @@ void SpanishModelVariant388_DrawFeedbackStrips(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     active = GsGetActiveBuff();
-    yaw = ratan2(state->direction.vz, state->direction.vx) + 2048;
-    pitch = ratan2(state->direction.vy, state->direction.vz) + 2048;
+    yaw = ratan2(state->aim.direction.vz, state->aim.direction.vx) + 2048;
+    pitch = ratan2(state->aim.direction.vy, state->aim.direction.vz) + 2048;
     if (yaw < 2048) {
         yaw = -yaw + 1024;
     } else {
@@ -37,12 +37,12 @@ void SpanishModelVariant388_DrawFeedbackStrips(u8 *context)
             rotation.vx = -pitch;
             rotation.vy = yaw;
             rotation.vz = 0;
-            matrix.t[0] = state->origin.vx +
-                          state->direction.vx * (group->progress - 1024) / 2048;
-            matrix.t[1] = state->origin.vy +
-                          state->direction.vy * (group->progress - 1024) / 2048;
-            matrix.t[2] = state->origin.vz +
-                          state->direction.vz * (group->progress - 1024) / 2048;
+            matrix.t[0] = state->aim.target.vx +
+                          state->aim.direction.vx * (group->progress - 1024) / 2048;
+            matrix.t[1] = state->aim.target.vy +
+                          state->aim.direction.vy * (group->progress - 1024) / 2048;
+            matrix.t[2] = state->aim.target.vz +
+                          state->aim.direction.vz * (group->progress - 1024) / 2048;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;

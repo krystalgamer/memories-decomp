@@ -2,7 +2,6 @@
 #define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT479_ENTRY_H
 #include "../../types.h"
 #include "../../overlays/french_model_variant/variant337_entry.h"
-#include "../../overlays/french_model_variant/variant379_grid.h"
 #include "../model_variant/model_variant.h"
 #include "variant479_ribs.h"
 #include "variant479_spiral.h"
@@ -46,12 +45,12 @@ typedef struct {
     u32 field_417C;
     GsCOORDUNIT *parts[3];
     s16 field_418C, field_418E;
-    s32 rib_fade, field_4194, curtain_gate, field_419C, field_41A0;
+    s32 rib_fade, field_4194, size, field_419C, field_41A0;
     s32 field_41A4, field_41A8, field_41AC, field_41B0, field_41B4;
     ModelVariantSpiralParams spiral;
     ModelVariantStreamerParams streamer;
-    u8 color_a[4];
-    u8 color_b[4];
+    u8 inner[4];
+    u8 outer[4];
     s32 curtain_angle, ribbon_sway, ribbon_wave, field_41E4, field_41E8;
     s32 phase;
     s32 field_41F0, field_41F4;
@@ -62,10 +61,10 @@ typedef struct {
 
 extern GsIMAGE gSpanishModelVariant479_aImages[9];
 extern Variant479EntryConfig gSpanishModelVariant479_aConfigs[];
-void FrenchModelVariant379_DrawGrid(u8 *context);
+void FrenchModelVariant379_DrawGrid(Variant479EntryState *context);
 void SpanishModelVariant479_DrawSpiral(Variant479EntryState *context);
 void SpanishModelVariant479_DrawRibs(Variant479EntryState *context);
 void SpanishModelVariant479_DrawSheets(u8 *context);
-void SpanishModelVariant479_DrawCurtains(u8 *context);
+void SpanishModelVariant479_DrawCurtains(Variant479EntryState *context);
 s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command);
 #endif
