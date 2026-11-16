@@ -67,6 +67,15 @@ rodata block at module `+0x7C`. #3859 had returned the updater to a
 build-integrated candidate because its match pinned a register; it is pure C
 again (#5).
 
+The Japanese `password`/`name_entry` images (module offset `0x198C`) and every
+PAL `password_a`/`password_b` image (`0x1A44`) keep these ten functions
+together in NA order under the same profile, so each builds `shop.c` as the
+same single object as NA through one wrapper per directory,
+`../japanese/password/shop.c` and `../european/password_{a,b}/shop.c` (#39).
+That object also owns the updater's jump table, there the only rodata at
+module `+0x4`. These replaced ten Japanese and four per-directory European
+wrappers and their `VERSION_*_PASSWORD_*` guards.
+
 The first three functions rebuild the entered password, publish the starchip
 balance, and create the modal messages used by the lifecycle. All three
 create fixed text slots through `TextBox_Create`, and the refreshers and
