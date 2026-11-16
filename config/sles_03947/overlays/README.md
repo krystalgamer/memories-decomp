@@ -87,7 +87,8 @@ The options module is the six-sector `WA_MRG.MRG` slice beginning at sector
 `10170`; identical copies at sectors `10211`, `10252`, `10293` and `10334`
 are registered as duplicates. All sixteen functions reuse
 `src/overlays/pal_options/` with the French layout and profiles; the
-fourteen optimized ones are one `options_screen.c` unit. Only the
+fourteen optimized ones are one `options_screen.c` unit and the two `-O0`
+suffix copies one `options_suffix.c` unit. Only the
 resident bindings in `options_linker_symbols.txt` differ; see
 [`european-options.md`](../../../notes/overlays/european-options.md).
 

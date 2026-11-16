@@ -62,20 +62,13 @@ segments:
     align: 4
     subsegments:
       - [0x1040, data, overlays/italian_options/unclassified_tail]
-  - name: PalOptions_StepStripScrollCopy
+  - name: options_suffix
     type: code
     start: 0x1D78
     vram: 0x80169D78
     align: 4
     subsegments:
-      - [0x1D78, c, overlays/pal_options/suffix_signed_step]
-  - name: PalOptions_GetLanguageCopy
-    type: code
-    start: 0x1F3C
-    vram: 0x80169F3C
-    align: 4
-    subsegments:
-      - [0x1F3C, c, overlays/pal_options/suffix_byte]
+      - [0x1D78, c, overlays/pal_options/options_suffix]
   - name: unclassified_suffix
     type: code
     start: 0x1F74
