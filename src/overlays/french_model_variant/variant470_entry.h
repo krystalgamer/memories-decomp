@@ -51,7 +51,7 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant470_aImages[9];
 extern ModelVariantMoveConfig gFrenchModelVariant470_aConfigs[];
-void FrenchModelVariant470_DrawQuadPairs(u8 *context);
-void SpanishModelVariant470_DrawQuads(u8 *context);
+void FrenchModelVariant470_DrawQuadPairs(EntryState470 *context);
+void SpanishModelVariant470_DrawQuads(EntryState470 *context);
 
 #endif

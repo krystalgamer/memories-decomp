@@ -423,15 +423,6 @@ typedef struct {
     u8 unknown_190[0xC0];
 } ModelVariantSheetPrimary;
 
-/* A 0x2B0-byte primary record the sheet helpers read for its active flag and
- * size. */
-typedef struct {
-    u8 unknown_000[0x1C8];
-    s32 active;
-    s32 size;
-    u8 unknown_1D0[0xE0];
-} ModelVariantSheetPrimaryWide;
-
 /* ModelVariantSheet with its sixteen corners as one points[16] array and its
  * colours as CVECTORs: outer is the colour of the fourth corner and inner that
  * of the other three, as FrenchModelVariant400_DrawSheets and the header-335

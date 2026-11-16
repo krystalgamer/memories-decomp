@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant582_sheets.h"
+#include "variant469_entry.h"
 
-void FrenchModelVariant582_DrawSheets(u8 *context)
+void FrenchModelVariant582_DrawSheets(EntryState469 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,9 +10,9 @@ void FrenchModelVariant582_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets129State *state = (Sheets129State *)context;
-    Sheet129 *sheet = state->sheets;
-    POLY_GT4 *quad = &state->quad;
+    EntryState469 *state = context;
+    EntrySheet469 *sheet = state->sheets;
+    POLY_GT4 *quad = &state->sheet_packet;
     POLY_F4 *mask = &state->mask;
     GsOT *ot;
     s32 i, j;
@@ -27,8 +27,8 @@ void FrenchModelVariant582_DrawSheets(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     total = 0;
-    yaw = ratan2(state->direction[2], state->direction[0]) + 2048;
-    pitch = ratan2(state->direction[1], state->direction[2]) + 2048;
+    yaw = ratan2(state->direction.vz, state->direction.vx) + 2048;
+    pitch = ratan2(state->direction.vy, state->direction.vz) + 2048;
     active = GsGetActiveBuff();
     if (yaw < 2048) {
         yaw = -yaw + 1024;
@@ -124,7 +124,7 @@ void FrenchModelVariant582_DrawSheets(u8 *context)
             }
         }
         if (sheet->progress < 4096) {
-            sheet->progress += state->step * 96;
+            sheet->progress += state->clock.step * 96;
             if (sheet->progress >= 4096) {
                 if (state->phase < 3) {
                     sheet->progress -= 4096;

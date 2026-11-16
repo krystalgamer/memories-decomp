@@ -15,7 +15,11 @@ The code follows the French header-470 quad-pairs helper
   to -1024 or below finishes once the time limit passes.
 - **Completion:** moves phase 2 to phase 3.
 
-The local view lives in `variant471_quad_pairs.h`; the resident calls are
+The helper reads `Variant454EntryState`, the record the US header-454 entry
+passes: the group is `groups[0]` (`Variant454EntryGroup`, whose `+0x2D4`/`+0x354`
+words are `done`/`initialized`), the anchors are `origins[j].t` and the
+polygon is `glow`. Its former local view `variant471_quad_pairs.h` was
+removed. The resident calls are
 covered by `model_variant471_linker_symbols.txt`. The
 [attempt ledger](french-model-image471-quad-pairs-attempts.csv) records the
 probe, which matched on the first build.

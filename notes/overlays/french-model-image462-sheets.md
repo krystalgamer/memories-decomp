@@ -18,7 +18,11 @@ The control flow follows the Spanish header-461 sheets helper
 - timed phases: sheets grow from the elapsed time between two timing marks
   (phase 0 to 1) and fade between two later marks (phase 5 to 6).
 
-The local view lives in `variant462_sheets.h`, and the resident calls are
+The helper reads `EntryState445Us`, the record the entry passes: the
+primaries are its counted `ribbons` (`state`, `length`), the sheets are its
+`quads`, the positions are `path_origins`/`path_targets`, and the timing is
+the `ModelVariantGrowConfig` (fade window `phase3_end..matrix_end`). The
+local view `variant462_sheets.h` was removed. The resident calls are
 covered by `model_variant462_linker_symbols.txt`. The
 [attempt ledger](french-model-image462-sheets-attempts.csv) records the
 probe, which matched on the first build.

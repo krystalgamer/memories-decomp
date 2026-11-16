@@ -382,10 +382,10 @@ s32 FrenchModelVariant470_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->draw_start <= work->clock.frame) {
-            FrenchModelVariant470_DrawQuadPairs((u8 *)point);
+            FrenchModelVariant470_DrawQuadPairs((EntryState470 *)point);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant470_DrawQuads((u8 *)point);
+            SpanishModelVariant470_DrawQuads((EntryState470 *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
