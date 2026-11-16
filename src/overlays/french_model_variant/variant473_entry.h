@@ -21,15 +21,27 @@ typedef struct {
     u32 fade_begin, fade_end;
 } EntryConfig473;
 
+/* One 0x22C-byte ribbon: a nine-point spine and a copy of it moved along the
+ * view, both projected, the per-point screen angle and projected width, the
+ * inner and outer colour rows and scale the entry seeds, the growth progress
+ * (staggered below zero), fade and state, the position, and per point the
+ * depth and the width's screen offset. */
 typedef struct {
-    u8 unknown_000[0x120];
+    SVECTOR a[9];
+    long sa[9];
+    s32 angle[9];
+    SVECTOR b[9];
+    long sb[9];
+    s32 width[9];
     CVECTOR inner[9], outer[9];
     VECTOR scale;
     s16 field_178, field_17A;
     s32 field_17C, progress, fade, state;
     u8 unknown_18C[0x48];
     VECTOR position;
-    u8 unknown_1E4[0x48];
+    s32 otz[9];
+    s16 ox[9];
+    s16 oy[9];
 } EntryRibbon473;
 
 typedef struct {
