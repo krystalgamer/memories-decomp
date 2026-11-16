@@ -4,7 +4,7 @@
 #include "variant398_entry.h"
 
 /* Header 398's form of the header-422 curtains: each frame the two rows of
- * every shown curtain are rebuilt around the rotating angle at (u8 *)work + 0x1A2C,
+ * every shown curtain are rebuilt around the rotating curtain_angle,
  * the outer row lifted by the first sheet's size when flag bit 0 is set. */
 void ModelVariant398_DrawCurtains(Variant398EntryState *context)
 {
@@ -79,20 +79,20 @@ void ModelVariant398_DrawCurtains(Variant398EntryState *context)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (curtain->scale < 0x800) {
-                r0 = ((u8 *)work)[0x1A24];
-                g0 = ((u8 *)work)[0x1A25];
-                b0 = ((u8 *)work)[0x1A26];
-                r1 = ((u8 *)work)[0x1A28];
-                g1 = ((u8 *)work)[0x1A29];
-                b1 = ((u8 *)work)[0x1A2A];
+                r0 = work->outer.r;
+                g0 = work->outer.g;
+                b0 = work->outer.b;
+                r1 = work->inner.r;
+                g1 = work->inner.g;
+                b1 = work->inner.b;
             } else {
                 fade = 0x1000 - curtain->scale;
-                r0 = ((u8 *)work)[0x1A24] * fade / 2048;
-                g0 = ((u8 *)work)[0x1A25] * fade / 2048;
-                b0 = ((u8 *)work)[0x1A26] * fade / 2048;
-                r1 = ((u8 *)work)[0x1A28] * fade / 2048;
-                g1 = ((u8 *)work)[0x1A29] * fade / 2048;
-                b1 = ((u8 *)work)[0x1A2A] * fade / 2048;
+                r0 = work->outer.r * fade / 2048;
+                g0 = work->outer.g * fade / 2048;
+                b0 = work->outer.b * fade / 2048;
+                r1 = work->inner.r * fade / 2048;
+                g1 = work->inner.g * fade / 2048;
+                b1 = work->inner.b * fade / 2048;
             }
             for (j = 0; j < 16; j++) {
                 otz = RotTransPers4(&curtain->a[j], &curtain->a[j + 1], &curtain->b[j], &curtain->b[j + 1],
