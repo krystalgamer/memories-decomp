@@ -5,9 +5,6 @@
 #include "duel_scene.h"
 #include "file_staging_buffer.h"
 
-#define CARD_LIST_ROW_SET_OFFSET(member) \
-    ((u32)&(((CardListRowSet *)0)->member))
-
 /* The number of card entries in a row set: seven in the US build. The
  * European build (src/game/european/) defines its own, eight, which makes
  * the record 0x1C bytes. */
@@ -33,13 +30,11 @@ typedef char CardListRowSet_size_must_match_the_entry_count[
         : -1
 ];
 typedef char CardListRowSet_enabled_offset_must_be_0x8[
-    CARD_LIST_ROW_SET_OFFSET(enabled) == 0x8 ? 1 : -1
+    OFFSETOF(CardListRowSet, enabled) == 0x8 ? 1 : -1
 ];
 typedef char CardListRowSet_entries_offset_must_be_0xA[
-    CARD_LIST_ROW_SET_OFFSET(card_entries) == 0xA ? 1 : -1
+    OFFSETOF(CardListRowSet, card_entries) == 0xA ? 1 : -1
 ];
-
-#undef CARD_LIST_ROW_SET_OFFSET
 
 /* The two row sets CardList_CreateDeckBoxStatRows builds, and the array
  * CardList_RenderDeckBoxStats and CardList_BuildRowSetTextBoxes index by the
