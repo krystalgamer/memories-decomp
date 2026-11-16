@@ -91,8 +91,8 @@ typedef struct {
 
 extern GsIMAGE gModelVariant446_aImages[9];
 extern Variant446EntryConfig gModelVariant446_aConfigs[];
-void FrenchModelVariant463_DrawRibbons(u8 *context);
+void FrenchModelVariant463_DrawRibbons(Variant446EntryState *context);
 void FrenchModelVariant463_DrawPairedSheets(u8 *context);
-void FrenchModelVariant463_DrawTrailRibbons(u8 *context);
+void FrenchModelVariant463_DrawTrailRibbons(Variant446EntryState *context);
 void FrenchModelVariant463_DrawSheets(u8 *context);
 #endif

@@ -13,7 +13,7 @@
 #define RIBBONS463_SB(k) (ribbon->sb[k])
 #endif
 
-void FrenchModelVariant463_DrawRibbons(u8 *ctx)
+void FrenchModelVariant463_DrawRibbons(Variant446EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -42,7 +42,7 @@ void FrenchModelVariant463_DrawRibbons(u8 *ctx)
     Ribbon463 *ribbon;
     POLY_FT4 *poly;
 
-    work = (Variant446EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     total = 0;
     i = 0;

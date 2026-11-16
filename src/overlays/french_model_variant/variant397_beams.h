@@ -57,5 +57,5 @@ typedef struct {
     s32 wave, bend, phase;
 } Variant397BeamsState;
 
-void FrenchModelVariant397_DrawBeams(u8 *ctx);
+void FrenchModelVariant397_DrawBeams(Variant397BeamsState *context);
 #endif

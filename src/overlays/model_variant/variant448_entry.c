@@ -364,7 +364,7 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant448_DrawOrbitSheets((Variant448EntryState *)point);
         }
         if (work->phase > 0) {
-            ModelVariant448_DrawFans((u8 *)point);
+            ModelVariant448_DrawFans((Variant448EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

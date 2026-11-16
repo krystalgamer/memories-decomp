@@ -282,7 +282,7 @@ s32 ModelVariant423_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant423_DrawWebs((Variant423EntryState *)point);
         }
         if (work->tail.phase > 0) {
-            ModelVariant423_DrawBand((u8 *)point);
+            ModelVariant423_DrawBand((Variant423EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

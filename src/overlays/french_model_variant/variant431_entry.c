@@ -281,13 +281,13 @@ s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command)
             FrenchModelVariant431_DrawFans((Variant431EntryState *)point);
         }
         if (work->config->timings[0] <= work->frame) {
-            FrenchModelVariant431_DrawSheets((u8 *)point);
+            FrenchModelVariant431_DrawSheets((Variant431EntryState *)point);
         }
         if (work->config->timings[work->start_index] <= work->frame) {
             FrenchModelVariant431_DrawBands((Variant431EntryState *)point);
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant431_DrawWebs((u8 *)point);
+            FrenchModelVariant431_DrawWebs((Variant431EntryState *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

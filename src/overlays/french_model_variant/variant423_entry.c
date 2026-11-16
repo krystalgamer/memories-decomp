@@ -294,7 +294,7 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
             FrenchModelVariant423_DrawRibbon((u8 *)point);
         }
         if (work->phase > 0) {
-            SpanishModelVariant423_DrawSpiral((u8 *)point);
+            SpanishModelVariant423_DrawSpiral((EntryState423 *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

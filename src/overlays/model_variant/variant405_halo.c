@@ -8,7 +8,7 @@
  * height, which grows by step << 5 up to 0x400 and wraps with a count until
  * the timing record's deadline. The strips fade from grey as the heights pass
  * 0x300. */
-void ModelVariant405_DrawHalo(u8 *ctx)
+void ModelVariant405_DrawHalo(Variant422EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -39,7 +39,7 @@ void ModelVariant405_DrawHalo(u8 *ctx)
     s32 gap;
     s32 otz;
 
-    work = (Variant422EntryState *)ctx;
+    work = context;
     poly = &work->halo_poly;
     ot = Graphics_GetDefaultOrderingTable();
     halo = &work->halo;

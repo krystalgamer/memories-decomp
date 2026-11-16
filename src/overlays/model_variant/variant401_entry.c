@@ -309,7 +309,7 @@ s32 ModelVariant401_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant418_DrawSheets((u8 *)point);
+            FrenchModelVariant418_DrawSheets((Variant401EntryState *)point);
             ModelVariant416_DrawWebs((u8 *)point);
         }
         if (work->tail.phase > 0) {

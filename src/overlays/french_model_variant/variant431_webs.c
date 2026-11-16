@@ -3,7 +3,7 @@
 #include "../model_variant/model_variant.h"
 #include "variant431_entry.h"
 
-void FrenchModelVariant431_DrawWebs(u8 *ctx)
+void FrenchModelVariant431_DrawWebs(Variant431EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -28,7 +28,7 @@ void FrenchModelVariant431_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant431EntryState *)ctx;
+    work = context;
     web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

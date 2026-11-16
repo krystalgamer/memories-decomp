@@ -334,7 +334,7 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant450_DrawLines((u8 *)point);
             SpanishModelVariant450_DrawQuadGroups((u8 *)point);
             if (work->tail.phase < 2) {
-                ModelVariant433_DrawRings((u8 *)point);
+                ModelVariant433_DrawRings((Variant433EntryState *)point);
             }
             if (work->tail.phase > 0) {
                 ModelVariant433_DrawRibbons((u8 *)point);

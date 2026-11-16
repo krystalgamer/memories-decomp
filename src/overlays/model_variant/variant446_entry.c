@@ -490,8 +490,8 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
             }
             FrenchModelVariant463_DrawSheets((u8 *)point);
             if (work->phase > 0) {
-                FrenchModelVariant463_DrawRibbons((u8 *)point);
-                FrenchModelVariant463_DrawTrailRibbons((u8 *)point);
+                FrenchModelVariant463_DrawRibbons((Variant446EntryState *)point);
+                FrenchModelVariant463_DrawTrailRibbons((Variant446EntryState *)point);
             }
         }
         work->clock.frame_count++;

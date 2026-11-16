@@ -9,7 +9,7 @@
  * spread and drawn as two POLY_GT4 halves in each arm's own colours where the
  * depth and projection flag are not negative. Reaching size 0x400 moves phase
  * 1 to 2; from phase 2 on the sweep spiral.angle advances by 48. */
-void SpanishModelVariant425_DrawSpiral(u8 *ctx)
+void SpanishModelVariant425_DrawSpiral(EntryState425 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -37,7 +37,7 @@ void SpanishModelVariant425_DrawSpiral(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (EntryState425 *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;

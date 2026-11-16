@@ -281,7 +281,7 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
                 work->direction.vy = work->target.vy - work->matrix.t[1];
                 work->direction.vz = work->target.vz - work->matrix.t[2];
                 if (work->config->start <= work->clock.frame) {
-                    ModelVariant376_DrawRibbon((u8 *)point);
+                    ModelVariant376_DrawRibbon((Variant393EntryState *)point);
                     ModelVariant376_DrawRings((u8 *)point);
                 }
                 work->part_index++;
@@ -289,7 +289,7 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
             } while (work->part_index < config->count);
         }
         if (work->tail.phase >= 3) {
-            FrenchModelVariant393_DrawStreamers((u8 *)point);
+            FrenchModelVariant393_DrawStreamers((Variant393EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

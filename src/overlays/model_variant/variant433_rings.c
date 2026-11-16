@@ -8,7 +8,7 @@
  * then-arm is dead (reload's post-pass deletes the repeated store), but the
  * register copy reload makes for it stays and fills the j == 8 branch's
  * delay slot as in the retail code. */
-void ModelVariant433_DrawRings(u8 *ctx)
+void ModelVariant433_DrawRings(Variant433EntryState *context)
 {
     long p;
     SVECTOR rot;
@@ -40,7 +40,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
     s32 radius;
     s32 half_radius;
 
-    work = (Variant433EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;

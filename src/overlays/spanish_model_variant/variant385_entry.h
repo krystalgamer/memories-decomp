@@ -85,7 +85,7 @@ extern GsIMAGE gSpanishModelVariant385_aImages[9];
 extern Variant385EntryConfig gSpanishModelVariant385_aConfigs[];
 void SpanishModelVariant385_DrawLines(u8 *context);
 void SpanishModelVariant385_DrawStationStrip(u8 *context);
-void FrenchModelVariant385_DrawRibbonFan(u8 *context);
+void FrenchModelVariant385_DrawRibbonFan(Variant385EntryState *context);
 void SpanishModelVariant385_DrawPulsingQuads(u8 *context);
 void SpanishModelVariant385_DrawRings(Variant385EntryState *context);
 typedef char Variant385EntryConfigSize[(sizeof(Variant385EntryConfig) == 0x4C) ? 1 : -1];

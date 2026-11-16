@@ -325,7 +325,7 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
             FrenchModelVariant427_DrawRibbons((EntryState427 *)point);
         }
         if ((u32)(work->phase - 1) < 4) {
-            SpanishModelVariant427_DrawSpiral((u8 *)point);
+            SpanishModelVariant427_DrawSpiral((EntryState427 *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

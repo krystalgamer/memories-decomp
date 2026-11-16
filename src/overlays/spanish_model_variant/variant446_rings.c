@@ -7,7 +7,7 @@
  * POLY_GT4 rings around the variant's direction, ring 3 timed by the record and
  * the others grown by step * 128 until phase 5. Quads are sorted whenever the
  * depth is positive. */
-void SpanishModelVariant446_DrawRings(u8 *ctx)
+void SpanishModelVariant446_DrawRings(EntryState446 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -36,7 +36,7 @@ void SpanishModelVariant446_DrawRings(u8 *ctx)
     u8 ir, ig, ib;
     u8 or, og, ob;
 
-    work = (EntryState446 *)ctx;
+    work = context;
     ring = work->rings;
     ot = Graphics_GetDefaultOrderingTable();
     first = 1;

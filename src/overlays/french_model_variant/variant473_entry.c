@@ -328,10 +328,10 @@ s32 FrenchModelVariant473_HandleRequest(SVECTOR *point, s32 command)
             FrenchModelVariant385_DrawGrid((u8 *)point);
         }
         if ((u32)(work->phase - 2) < 3) {
-            FrenchModelVariant473_DrawRibs((u8 *)point);
+            FrenchModelVariant473_DrawRibs((EntryState473 *)point);
         }
         if ((u32)(work->phase - 1) < 4) {
-            SpanishModelVariant473_DrawSpiral((u8 *)point);
+            SpanishModelVariant473_DrawSpiral((EntryState473 *)point);
         }
         if (work->config->draw_start <= work->clock.frame && work->phase < 5) {
             SpanishModelVariant473_DrawSheets((u8 *)point);

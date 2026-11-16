@@ -277,7 +277,7 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
             } while (work->part_index < work->config->count);
         }
         if (work->config->draw_start <= work->elapsed) {
-            SpanishModelVariant446_DrawRings((u8 *)point);
+            SpanishModelVariant446_DrawRings((EntryState446 *)point);
             if (work->phase <= 0) {
                 SpanishModelVariant446_DrawLines((u8 *)point);
             }

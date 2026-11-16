@@ -5,7 +5,7 @@
 
 /* Draws three 4x6 webs, swapping the lit endpoint with the phase. Scale
  * fades past 0x1800 and wraps at 0x2000 until phase 5 marks each web done. */
-void FrenchModelVariant431_DrawWebs(u8 *ctx)
+void FrenchModelVariant431_DrawWebs(Variant431EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -30,7 +30,7 @@ void FrenchModelVariant431_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant431EntryState *)ctx;
+    work = context;
     web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

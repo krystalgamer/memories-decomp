@@ -13,7 +13,7 @@
 #define RIBBONS436_SB(k) (ribbon->sb[k])
 #endif
 
-void FrenchModelVariant436_DrawRibbons(u8 *ctx)
+void FrenchModelVariant436_DrawRibbons(EntryState436 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -45,7 +45,7 @@ void FrenchModelVariant436_DrawRibbons(u8 *ctx)
     s32 hi;
     s32 odd;
 
-    work = (EntryState436 *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vz) + 0xC00;

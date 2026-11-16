@@ -9,7 +9,7 @@
  * two POLY_GT4 halves at the pass position where the depth and the arm's
  * projection flag are not negative. Reaching size 0x400 moves phase 1 to 2;
  * from phase 2 on the sweep advances by step * 24. */
-void SpanishModelVariant427_DrawSpiral(u8 *ctx)
+void SpanishModelVariant427_DrawSpiral(EntryState427 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -41,7 +41,7 @@ void SpanishModelVariant427_DrawSpiral(u8 *ctx)
     u8 c1;
     u8 c3;
 
-    work = (EntryState427 *)ctx;
+    work = context;
     timing = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;

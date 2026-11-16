@@ -297,13 +297,13 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
                     if (work->tail.phase < 2 || work->substep == 0) {
                         ModelVariant324_DrawMovingRing((u8 *)point);
                     }
-                    ModelVariant324_DrawBand((u8 *)point);
+                    ModelVariant324_DrawBand((Variant341EntryState *)point);
                 }
                 work->substep++;
             } while (work->substep < work->config->substeps);
         }
         if (work->tail.phase >= 2) {
-            ModelVariant324_DrawWebs((u8 *)point);
+            ModelVariant324_DrawWebs((Variant341EntryState *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

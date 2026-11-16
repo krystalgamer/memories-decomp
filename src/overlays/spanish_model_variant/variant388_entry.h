@@ -77,11 +77,11 @@ typedef struct {
 
 extern GsIMAGE gSpanishModelVariant388_aImages[9];
 extern Variant388EntryConfig gSpanishModelVariant388_aConfigs[];
-void FrenchModelVariant388_DrawStrips(u8 *context);
+void FrenchModelVariant388_DrawStrips(Variant388EntryState *context);
 void SpanishModelVariant388_DrawRibbonFan(Variant388EntryState *context);
 void SpanishModelVariant388_DrawSheets(Variant388EntryState *context);
 void SpanishModelVariant388_DrawFeedbackStrips(u8 *context);
-void FrenchModelVariant388_DrawPetals(u8 *context);
+void FrenchModelVariant388_DrawPetals(Variant388EntryState *context);
 typedef char Variant388EntryConfigSize[(sizeof(Variant388EntryConfig) == 0x24) ? 1 : -1];
 typedef char Variant388EntryStateSize[(sizeof(Variant388EntryState) == 0x18B0) ? 1 : -1];
 #endif

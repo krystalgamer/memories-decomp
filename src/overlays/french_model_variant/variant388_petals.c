@@ -6,7 +6,7 @@
  * state word at +0x1898 is non-negative, then advances the spin, grows the
  * radius after the first timing mark and widens the spread over the timing
  * window. */
-void FrenchModelVariant388_DrawPetals(u8 *ctx)
+void FrenchModelVariant388_DrawPetals(Variant388EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -33,7 +33,7 @@ void FrenchModelVariant388_DrawPetals(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant388EntryState *)ctx;
+    work = context;
     arm = work->arms;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;

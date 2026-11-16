@@ -8,7 +8,7 @@
  * segment as a POLY_G4 as wide as the projected offset. Before the fifth
  * phase, a visible streamer's length follows the record at 0x43C (its word at
  * 0x88 divided by eight, clamped at zero). */
-void ModelVariant320_DrawStreamers(u8 *ctx)
+void ModelVariant320_DrawStreamers(Variant337EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -44,7 +44,7 @@ void ModelVariant320_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant337EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     poly = (POLY_G4 *)work->flat_textured;

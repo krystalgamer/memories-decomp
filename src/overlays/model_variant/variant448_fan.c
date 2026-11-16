@@ -12,7 +12,7 @@
  * a no-op, some stores sit in `do { } while (0)` blocks whose loop notes keep
  * them in place, and the colour addresses use one name per channel. */
 
-void ModelVariant448_DrawFans(u8 *ctx)
+void ModelVariant448_DrawFans(Variant448EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -49,7 +49,7 @@ void ModelVariant448_DrawFans(u8 *ctx)
     s32 turn;
     s32 st;
 
-    work = (Variant448EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     count = 0;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;

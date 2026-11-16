@@ -16,7 +16,7 @@
  * The loop increment's dead angle and the empty loop in the projection keep
  * the retail hoisting of the /5 constant and the retail projection schedule;
  * the per-point locals are scoped to the build loop for the retail slots. */
-void FrenchModelVariant473_DrawRibs(u8 *ctx)
+void FrenchModelVariant473_DrawRibs(EntryState473 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -43,7 +43,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     s32 k;
     s32 n;
 
-    work = (EntryState473 *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     ratan2(work->view_delta.vy, work->view_delta.vx);

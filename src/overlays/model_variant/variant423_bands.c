@@ -5,7 +5,7 @@
 /* Draws one band of nine segments as pairs of POLY_GT4 quads along the variant's
  * path, fading its radius in and out with the two phases timed by its
  * config record. */
-void ModelVariant423_DrawBand(u8 *ctx)
+void ModelVariant423_DrawBand(Variant423EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,7 +24,7 @@ void ModelVariant423_DrawBand(u8 *ctx)
     s16 j;
     s16 r;
 
-    work = (Variant423EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;

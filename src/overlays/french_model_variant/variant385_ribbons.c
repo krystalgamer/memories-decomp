@@ -3,7 +3,7 @@
 #include "variant385_ribbons.h"
 #include "../spanish_model_variant/variant385_entry.h"
 
-void FrenchModelVariant385_DrawRibbonFan(u8 *ctx)
+void FrenchModelVariant385_DrawRibbonFan(Variant385EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -28,7 +28,7 @@ void FrenchModelVariant385_DrawRibbonFan(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant385EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     ribbon = work->ribbons;

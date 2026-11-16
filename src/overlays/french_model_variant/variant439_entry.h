@@ -34,7 +34,7 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant439_aImages[9];
 extern ModelVariantWebConfig gFrenchModelVariant439_aConfigs[];
-void ModelVariant422_DrawBands(u8 *context);
+void ModelVariant422_DrawBands(Variant439EntryState *context);
 void ModelVariant422_DrawSheets(Variant439EntryState *context);
-void ModelVariant422_DrawCurtains(u8 *context);
+void ModelVariant422_DrawCurtains(Variant439EntryState *context);
 #endif

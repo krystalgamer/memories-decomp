@@ -270,7 +270,7 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
                     SpanishModelVariant385_DrawPulsingQuads((u8 *)point);
                 }
                 if (work->phase > 0) {
-                    FrenchModelVariant385_DrawRibbonFan((u8 *)point);
+                    FrenchModelVariant385_DrawRibbonFan((Variant385EntryState *)point);
                     SpanishModelVariant385_DrawStationStrip((u8 *)point);
                 }
             } while (++work->index < work->config->count);

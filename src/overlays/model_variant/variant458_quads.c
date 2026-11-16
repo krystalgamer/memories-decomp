@@ -3,7 +3,7 @@
 
 /* Draws the visible quads, fading past scale 0x600, then advances the
  * timed quad count. The packet is reused for each submitted quad. */
-void ModelVariant458_DrawQuads(u8 *ctx)
+void ModelVariant458_DrawQuads(Variant475EntryState *context)
 {
     SVECTOR rot;
     /* Retail reserves 16 bytes between rotation and scale. */
@@ -25,7 +25,7 @@ void ModelVariant458_DrawQuads(u8 *ctx)
     s32 fade;
     s32 otz;
 
-    work = (Variant475EntryState *)ctx;
+    work = context;
     sheet = work->sheets;
     quads = work->quads;
     poly = &work->extra_flat;

@@ -10,7 +10,7 @@
  * frame steps up to 12, then the view offset shrinks by step * 128 and the
  * ribbon restarts or retires. The first loop's `bend` is template code left
  * unused, as in the header-443 ribbons. */
-void ModelVariant458_DrawRibbons(u8 *ctx)
+void ModelVariant458_DrawRibbons(Variant475EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -40,7 +40,7 @@ void ModelVariant458_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant475EntryState *)ctx;
+    work = context;
     ribbon = work->ribbons;
     ot = Graphics_GetDefaultOrderingTable();
     sum = 0;

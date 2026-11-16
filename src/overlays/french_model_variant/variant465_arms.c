@@ -10,7 +10,7 @@
  * through `ot` rather than `poly` keeps `poly` below the first arm loop's
  * `t` in global-allocation priority, as the retail registers require. */
 
-void ModelVariant448_DrawFans(u8 *ctx)
+void ModelVariant448_DrawFans(Variant448EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -48,7 +48,7 @@ void ModelVariant448_DrawFans(u8 *ctx)
     s32 turn;
     s32 st;
 
-    work = (Variant448EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     count = 0;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;

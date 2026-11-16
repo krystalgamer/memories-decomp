@@ -17,7 +17,7 @@
  * origin, and draws each segment as a POLY_G4 as wide as the projected offset
  * with the depth scaled by 9/10. From phase 6 on the scale shrinks from 0x4000
  * and the streamer length fades out. */
-void SpanishModelVariant437_DrawStreamers(u8 *ctx)
+void SpanishModelVariant437_DrawStreamers(Variant437EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -54,7 +54,7 @@ void SpanishModelVariant437_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant437EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_G4 *)work->extra;
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

@@ -3,7 +3,7 @@
 #include "../model_variant/model_variant.h"
 #include "../model_variant/variant416_entry.h"
 
-void ModelVariant416_DrawSheets(u8 *ctx)
+void ModelVariant416_DrawSheets(Variant416EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -23,7 +23,7 @@ void ModelVariant416_DrawSheets(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = (Variant416EntryState *)ctx;
+    work = context;
     record = work->bands;
     sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
