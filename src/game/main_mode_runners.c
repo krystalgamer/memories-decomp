@@ -1,7 +1,27 @@
 #include "../types.h"
+#include "display_object_system.h"
+#include "main.h"
+#include "duel_effect_text.h"
+#include "input.h"
+#include "main_mode_runners.h"
+#include "main_services.h"
+#include "duel_effect_states.h"
+
+void Main_ResetFrontendRuntime(void)
+{
+    gGraphics_bSyncVBlankTarget = 0;
+    DisplayObject_Reset();
+    DuelEffect_ResetState();
+    DisplayEffect_ResetMenuRecords();
+    Main_ClearFrameServiceCallbacks();
+    gInput_bRepeatDelay = INPUT_REPEAT_THRESHOLD;
+    gDuel_bEffectState = 0;
+    gInput_bRepeatInterval = INPUT_REPEAT_RELOAD_VALUE;
+}
+
 #include "debug_menu.h"
 #include "main_modes.h"
-#include "main_reset_frontend_runtime.h"
+#include "main_mode_runners.h"
 #include "main_mode_state.h"
 
 /* Small globals other units own, declared here as common symbols the
@@ -74,7 +94,7 @@ void Main_RunCampaign(void) {
 #include "../game/fade.h"
 #include "../game/file_transfer.h"
 #include "../game/main_modes.h"
-#include "../game/main_reset_frontend_runtime.h"
+#include "../game/main_mode_runners.h"
 #include "../game/main_services.h"
 #include "../game/sound.h"
 #include "../game/sound_effect.h"
@@ -322,7 +342,7 @@ void Main_RunFreeDuelMenu(void) {
 #include "../overlays/main_menu/value_setup.h"
 #include "duel_session_controls.h"
 #include "main_mode_runners.h"
-#include "main_reset_frontend_runtime.h"
+#include "main_mode_runners.h"
 #include "../overlays/password/name_entry_main.h"
 #include "../overlays/free_duel/free_duel.h"
 #include "../overlays/main_menu/frontend.h"

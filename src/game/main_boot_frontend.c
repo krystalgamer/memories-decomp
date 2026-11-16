@@ -20,7 +20,7 @@ static u32 D_8009B42C;
 #include "fade.h"
 #include "file_transfer.h"
 #include "graphics_constants.h"
-#include "main_reset_frontend_runtime.h"
+#include "main_mode_runners.h"
 #include "sound_effect.h"
 #include "display_asset_banks.h"
 #include "duel_effect_states.h"
