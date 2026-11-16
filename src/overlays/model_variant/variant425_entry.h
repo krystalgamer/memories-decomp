@@ -41,7 +41,7 @@ typedef struct {
     DVECTOR screen_delta;
     VECTOR view_delta;
     ModelVariantClock clock;
-    s16 spiral_angle, field_270A, field_270C, field_270E;
+    s16 spiral_angle, field_270A, spiral_size, field_270E;
     s32 field_2710;
     Variant425EntryConfig *config;
     u32 field_2718;
