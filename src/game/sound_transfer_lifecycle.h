@@ -27,13 +27,13 @@ typedef struct {
 } SDVabHeader;
 
 typedef char SDVabHeader_file_size_offset_must_be_0x0C[
-    ((u32)&(((SDVabHeader *)0)->file_size)) == 0x0C ? 1 : -1
+    OFFSETOF(SDVabHeader, file_size) == 0x0C ? 1 : -1
 ];
 typedef char SDVabHeader_program_count_offset_must_be_0x12[
-    ((u32)&(((SDVabHeader *)0)->program_count)) == 0x12 ? 1 : -1
+    OFFSETOF(SDVabHeader, program_count) == 0x12 ? 1 : -1
 ];
 typedef char SDVabHeader_master_volume_offset_must_be_0x18[
-    ((u32)&(((SDVabHeader *)0)->master_volume)) == 0x18 ? 1 : -1
+    OFFSETOF(SDVabHeader, master_volume) == 0x18 ? 1 : -1
 ];
 typedef char SDVabHeader_size_must_be_0x20[
     sizeof(SDVabHeader) == 0x20 ? 1 : -1
@@ -88,10 +88,10 @@ typedef char SDVabProgram_size_must_be_0x10[
     sizeof(SDVabProgram) == 0x10 ? 1 : -1
 ];
 typedef char SDVabTone_adsr1_offset_must_be_0x10[
-    ((u32)&(((SDVabTone *)0)->adsr1)) == 0x10 ? 1 : -1
+    OFFSETOF(SDVabTone, adsr1) == 0x10 ? 1 : -1
 ];
 typedef char SDVabTone_vag_offset_must_be_0x16[
-    ((u32)&(((SDVabTone *)0)->vag)) == 0x16 ? 1 : -1
+    OFFSETOF(SDVabTone, vag) == 0x16 ? 1 : -1
 ];
 typedef char SDVabTone_size_must_be_0x20[
     sizeof(SDVabTone) == 0x20 ? 1 : -1

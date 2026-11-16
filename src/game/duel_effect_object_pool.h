@@ -171,7 +171,7 @@ typedef char DuelRitualResult_size_must_be_0x10[
     sizeof(DuelRitualResult) == 0x10 ? 1 : -1
 ];
 typedef char DuelRitualResult_clear_word_offset_must_be_0x0C[
-    (u32)&((DuelRitualResult *)0)->terminator == 0x0C ? 1 : -1
+    OFFSETOF(DuelRitualResult, terminator) == 0x0C ? 1 : -1
 ];
 
 /* The recipe table that Duel_CheckRitual walks.

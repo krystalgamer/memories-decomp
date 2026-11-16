@@ -67,17 +67,17 @@ typedef char MemCardWorkArea_size_must_be_0x4EC[
     sizeof(MemCardWorkArea) == 0x4EC ? 1 : -1
 ];
 typedef char MemCardWorkSlot_offsets_must_match[
-    (u32)&((MemCardWorkSlot *)0)->free_blocks == 0xC &&
-    (u32)&((MemCardWorkSlot *)0)->entry_index == 0xD ? 1 : -1
+    OFFSETOF(MemCardWorkSlot, free_blocks) == 0xC &&
+    OFFSETOF(MemCardWorkSlot, entry_index) == 0xD ? 1 : -1
 ];
 typedef char MemCardWorkRoot_offsets_must_match[
-    (u32)&((MemCardWorkRoot *)0)->box_object == 0x0 &&
-    (u32)&((MemCardWorkRoot *)0)->spotlight_object == 0x4 &&
-    (u32)&((MemCardWorkRoot *)0)->blocks == 0x10 &&
-    (u32)&((MemCardWorkRoot *)0)->remaining == 0x12 &&
-    (u32)&((MemCardWorkRoot *)0)->offset == 0x14 &&
-    (u32)&((MemCardWorkRoot *)0)->chunk == 0x16 &&
-    (u32)&((MemCardWorkRoot *)0)->text_index == 0x1A ? 1 : -1
+    OFFSETOF(MemCardWorkRoot, box_object) == 0x0 &&
+    OFFSETOF(MemCardWorkRoot, spotlight_object) == 0x4 &&
+    OFFSETOF(MemCardWorkRoot, blocks) == 0x10 &&
+    OFFSETOF(MemCardWorkRoot, remaining) == 0x12 &&
+    OFFSETOF(MemCardWorkRoot, offset) == 0x14 &&
+    OFFSETOF(MemCardWorkRoot, chunk) == 0x16 &&
+    OFFSETOF(MemCardWorkRoot, text_index) == 0x1A ? 1 : -1
 ];
 
 extern MemCardWorkArea gMemCardWork_Area;
@@ -586,35 +586,35 @@ typedef char SaveDataPrimaryIntegrity_size_must_be_0x380[
     sizeof(SaveDataPrimaryIntegrity) == 0x380 ? 1 : -1
 ];
 typedef char SaveDataPrimaryIntegrity_mask_offset_must_be_0x340[
-    (u32)&(((SaveDataPrimaryIntegrity *)0)->mask_words) ==
+    OFFSETOF(SaveDataPrimaryIntegrity, mask_words) ==
         SAVE_DATA_PRIMARY_LENGTH ? 1 : -1
 ];
 typedef char SaveDataPrimaryIntegrity_checksum_offset_must_be_0x37c[
-    (u32)&(((SaveDataPrimaryIntegrity *)0)->checksum) == 0x37C ? 1 : -1
+    OFFSETOF(SaveDataPrimaryIntegrity, checksum) == 0x37C ? 1 : -1
 ];
 typedef char SaveDataSecondaryIntegrity_size_must_be_0x80[
     sizeof(SaveDataSecondaryIntegrity) == 0x80 ? 1 : -1
 ];
 typedef char SaveDataSecondaryIntegrity_mask_offset_must_be_0x6c[
-    (u32)&(((SaveDataSecondaryIntegrity *)0)->mask_words) ==
+    OFFSETOF(SaveDataSecondaryIntegrity, mask_words) ==
         SAVE_DATA_SECONDARY_LENGTH ? 1 : -1
 ];
 typedef char SaveDataSecondaryIntegrity_checksum_offset_must_be_0x7c[
-    (u32)&(((SaveDataSecondaryIntegrity *)0)->checksum) == 0x7C ? 1 : -1
+    OFFSETOF(SaveDataSecondaryIntegrity, checksum) == 0x7C ? 1 : -1
 ];
 typedef char SaveDataTertiaryIntegrity_size_must_be_0x228[
     sizeof(SaveDataTertiaryIntegrity) == 0x228 ? 1 : -1
 ];
 typedef char SaveDataTertiaryIntegrity_checksum_offset_must_be_0x204[
-    (u32)&(((SaveDataTertiaryIntegrity *)0)->checksum) ==
+    OFFSETOF(SaveDataTertiaryIntegrity, checksum) ==
         SAVE_DATA_TERTIARY_LENGTH ? 1 : -1
 ];
 typedef char SaveDataTertiaryIntegrity_mask_offset_must_be_0x208[
-    (u32)&(((SaveDataTertiaryIntegrity *)0)->mask_words) == 0x208 ? 1 : -1
+    OFFSETOF(SaveDataTertiaryIntegrity, mask_words) == 0x208 ? 1 : -1
 ];
 typedef char SaveDataSeals_offsets_must_match[
-    (u32)&(((SaveDataSeals *)0)->secondary) == 0x380 &&
-    (u32)&(((SaveDataSeals *)0)->tertiary) == 0x400 &&
+    OFFSETOF(SaveDataSeals, secondary) == 0x380 &&
+    OFFSETOF(SaveDataSeals, tertiary) == 0x400 &&
     sizeof(SaveDataSeals) == 0x628 ? 1 : -1
 ];
 
@@ -690,36 +690,36 @@ typedef struct {
 } SaveDataPayload;
 
 typedef char SaveDataState_card_quantities_offset_must_be_0x50[
-    (u32)&(((SaveDataState *)0)->card_quantities) ==
+    OFFSETOF(SaveDataState, card_quantities) ==
         SAVE_DATA_CARD_QUANTITIES_OFFSET ? 1 : -1
 ];
 typedef char SaveDataState_duelist_code_offset_must_be_0x334[
-    (u32)&(((SaveDataState *)0)->duelist_code) == 0x334 ? 1 : -1
+    OFFSETOF(SaveDataState, duelist_code) == 0x334 ? 1 : -1
 ];
 typedef char SaveDataState_credits_flags_offset_must_be_0x3DE[
-    (u32)&(((SaveDataState *)0)->credits_flags) == 0x3DE ? 1 : -1
+    OFFSETOF(SaveDataState, credits_flags) == 0x3DE ? 1 : -1
 ];
 typedef char SaveDataState_campaign_flags_offset_must_be_0x418[
-    (u32)&(((SaveDataState *)0)->campaign_flags) == 0x418 ? 1 : -1
+    OFFSETOF(SaveDataState, campaign_flags) == 0x418 ? 1 : -1
 ];
 typedef char SaveDataState_duelist_records_offset_must_be_0x51C[
-    (u32)&(((SaveDataState *)0)->duelist_records) == 0x51C ? 1 : -1
+    OFFSETOF(SaveDataState, duelist_records) == 0x51C ? 1 : -1
 ];
 typedef char SaveDataState_duel_totals_offsets_must_match[
-    (u32)&(((SaveDataState *)0)->duel_wins) == 0x518 &&
-    (u32)&(((SaveDataState *)0)->duel_losses) == 0x51A ? 1 : -1
+    OFFSETOF(SaveDataState, duel_wins) == 0x518 &&
+    OFFSETOF(SaveDataState, duel_losses) == 0x51A ? 1 : -1
 ];
 typedef char SaveDataState_campaign_scene_index_offset_must_be_0x5DC[
-    (u32)&(((SaveDataState *)0)->campaign_scene) == 0x5DC ? 1 : -1
+    OFFSETOF(SaveDataState, campaign_scene) == 0x5DC ? 1 : -1
 ];
 typedef char SaveDataState_starchips_offset_must_be_0x5E0[
-    (u32)&(((SaveDataState *)0)->starchips) == 0x5E0 ? 1 : -1
+    OFFSETOF(SaveDataState, starchips) == 0x5E0 ? 1 : -1
 ];
 typedef char SaveDataState_size_must_be_0x5E4[
     sizeof(SaveDataState) == 0x5E4 ? 1 : -1
 ];
 typedef char SaveDataPayload_duplicate_offset_must_follow_the_state[
-    (u32)&(((SaveDataPayload *)0)->duplicate) ==
+    OFFSETOF(SaveDataPayload, duplicate) ==
         SAVE_DATA_HEADER_SIZE + SAVE_DATA_STATE_SIZE ? 1 : -1
 ];
 typedef char SaveDataPayload_size_must_be_0xF00[
@@ -727,7 +727,7 @@ typedef char SaveDataPayload_size_must_be_0xF00[
         SAVE_DATA_HEADER_SIZE + SAVE_DATA_REPLICATED_STATE_SIZE ? 1 : -1
 ];
 typedef char SaveDataWorkspace_state_offset_must_be_0x200[
-    (u32)&(((SaveDataWorkspace *)0)->state) == SAVE_DATA_HEADER_SIZE ? 1 : -1
+    OFFSETOF(SaveDataWorkspace, state) == SAVE_DATA_HEADER_SIZE ? 1 : -1
 ];
 
 /* The head of the reusable 0x3000-byte save workspace at 0x801D0000. */

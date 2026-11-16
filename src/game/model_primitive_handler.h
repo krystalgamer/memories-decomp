@@ -21,7 +21,7 @@ typedef struct {
 } ModelType2Scratch;
 
 typedef char ModelType2Scratch_clut_data_offset_must_be_0x18[
-    ((u32)&(((ModelType2Scratch *)0)->clut_data)) == 0x18 ? 1 : -1
+    OFFSETOF(ModelType2Scratch, clut_data) == 0x18 ? 1 : -1
 ];
 
 /* Four-byte prefix of the type-2 record stream; its size advances the stream

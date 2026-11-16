@@ -39,9 +39,9 @@ typedef struct {
 
 typedef char AnimatedBattleModelProperties_size_must_be_0x8[
     sizeof(AnimatedBattleModelProperties) == 0x8 &&
-    (u32)&((AnimatedBattleModelProperties *)0)->defense_position == 0x6 &&
+    OFFSETOF(AnimatedBattleModelProperties, defense_position) == 0x6 &&
     sizeof(((AnimatedBattleModelProperties *)0)->defense_position) == 1 &&
-    (u32)&((AnimatedBattleModelProperties *)0)->guardian_star_selection == 0x7 &&
+    OFFSETOF(AnimatedBattleModelProperties, guardian_star_selection) == 0x7 &&
     sizeof(((AnimatedBattleModelProperties *)0)->guardian_star_selection) == 1 ? 1 : -1
 ];
 

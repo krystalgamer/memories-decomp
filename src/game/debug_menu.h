@@ -222,9 +222,9 @@ typedef char FrontendDebugDigitCountsSize[
 typedef char FrontendDebugValuesSize[
     sizeof(FrontendDebugValues) == 6 ? 1 : -1];
 typedef char FrontendDebugValueRow1Offset[
-    (u32)&((FrontendDebugValues *)0)->row[1] == 2 ? 1 : -1];
+    OFFSETOF(FrontendDebugValues, row[1]) == 2 ? 1 : -1];
 typedef char FrontendDebugValueRow2Offset[
-    (u32)&((FrontendDebugValues *)0)->row[2] == 4 ? 1 : -1];
+    OFFSETOF(FrontendDebugValues, row[2]) == 4 ? 1 : -1];
 typedef char FrontendDebugSoundValuesSize[
     sizeof(FrontendDebugSoundValues) == 4 ? 1 : -1];
 

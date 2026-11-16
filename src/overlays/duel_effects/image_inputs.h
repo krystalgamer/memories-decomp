@@ -17,7 +17,7 @@ typedef char DuelEffectImageInputs_size_must_be_0xB4[
     sizeof(DuelEffectImageInputs) == 0xB4 ? 1 : -1
 ];
 typedef char DuelEffectImageInputs_images_offset_must_be_0x28[
-    (u32)&((DuelEffectImageInputs *)0)->variant.images == 0x28 ? 1 : -1
+    OFFSETOF(DuelEffectImageInputs, variant.images) == 0x28 ? 1 : -1
 ];
 
 #endif

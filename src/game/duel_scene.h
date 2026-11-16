@@ -347,40 +347,40 @@ typedef struct DuelSelectionRecord {
 } DuelSelectionRecord;
 
 typedef char DuelSelectionRecord_info_panel_offset_must_be_0[
-    (u32)&(((DuelSelectionRecord *)0)->info_panel) == 0 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, info_panel) == 0 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_cursor_object_offset_must_be_4[
-    (u32)&(((DuelSelectionRecord *)0)->cursor_object) == 4 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, cursor_object) == 4 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_hand_offset_must_be_8[
-    (u32)&(((DuelSelectionRecord *)0)->hand) == 8 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, hand) == 8 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_hand_cursor_slot_offset_must_be_0xE[
-    (u32)&(((DuelSelectionRecord *)0)->hand_cursor_slot) == 0xE ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, hand_cursor_slot) == 0xE ? 1 : -1
 ];
 typedef char DuelSelectionRecord_col_offset_must_be_0xF[
-    (u32)&(((DuelSelectionRecord *)0)->col) == 0xF ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, col) == 0xF ? 1 : -1
 ];
 typedef char DuelSelectionRecord_row_offset_must_be_0x10[
-    (u32)&(((DuelSelectionRecord *)0)->row) == 0x10 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, row) == 0x10 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_text_y_offset_must_be_0x16[
-    (u32)&(((DuelSelectionRecord *)0)->text_y_offset) == 0x16 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, text_y_offset) == 0x16 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_record_index_offset_must_be_0x17[
-    (u32)&(((DuelSelectionRecord *)0)->record_index) == 0x17 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, record_index) == 0x17 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_status_offset_must_be_0x19[
-    (u32)&(((DuelSelectionRecord *)0)->status) == 0x19 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, status) == 0x19 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_ordered_pick_count_offset_must_be_0x15[
-    (u32)&(((DuelSelectionRecord *)0)->ordered_pick_count) == 0x15 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, ordered_pick_count) == 0x15 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_panel_variant_offset_must_be_0x13[
-    (u32)&(((DuelSelectionRecord *)0)->panel_variant) == 0x13 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, panel_variant) == 0x13 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_field_actions_mode_offset_must_be_0x18[
-    (u32)&(((DuelSelectionRecord *)0)->field_actions_mode) == 0x18 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, field_actions_mode) == 0x18 ? 1 : -1
 ];
 typedef char DuelSelectionRecord_size_must_be_record_size[
     sizeof(DuelSelectionRecord) == DUEL_SELECTION_RECORD_SIZE ? 1 : -1
@@ -1237,7 +1237,7 @@ typedef char DuelCardThumbnailBlock_size_must_be_0x580[
     sizeof(DuelCardThumbnailBlock) == DUEL_CARD_DATA_BLOCK_SIZE ? 1 : -1
 ];
 typedef char DuelCardThumbnailBlock_clut_offset_must_be_0x500[
-    (u32)&(((DuelCardThumbnailBlock *)0)->clut) == 0x500 ? 1 : -1
+    OFFSETOF(DuelCardThumbnailBlock, clut) == 0x500 ? 1 : -1
 ];
 
 typedef struct {

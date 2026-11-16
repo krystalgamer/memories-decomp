@@ -18,14 +18,14 @@ typedef char ModelPrimitiveBlockHeader_size_must_be_0x8[
     sizeof(ModelPrimitiveBlockHeader) == 0x8 ? 1 : -1
 ];
 typedef char ModelPrimitiveBlockHeader_record_count_offset_must_be_0x2[
-    (u32)&((ModelPrimitiveBlockHeader *)0)->record_count == 0x2 ? 1 : -1
+    OFFSETOF(ModelPrimitiveBlockHeader, record_count) == 0x2 ? 1 : -1
 ];
 typedef char ModelPrimitiveBlockHeader_word_offset_must_be_0x4[
-    (u32)&((ModelPrimitiveBlockHeader *)0)->word_offset == 0x4 ? 1 : -1
+    OFFSETOF(ModelPrimitiveBlockHeader, word_offset) == 0x4 ? 1 : -1
 ];
 typedef char ModelPrimitiveContexts_share_primtop_offset_0x14[
-    (u32)&((GsARGUNIT_NORMAL *)0)->primtop == 0x14 &&
-    (u32)&((GsARGUNIT_SHARED *)0)->primtop == 0x14 ? 1 : -1
+    OFFSETOF(GsARGUNIT_NORMAL, primtop) == 0x14 &&
+    OFFSETOF(GsARGUNIT_SHARED, primtop) == 0x14 ? 1 : -1
 ];
 
 /* Psy-Q HMD textured polygon records selected by unit->type's low

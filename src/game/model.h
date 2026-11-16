@@ -999,40 +999,40 @@ typedef char ModelBackgroundVPage_size_must_be_2[
     sizeof(ModelBackgroundVPage) == 2 ? 1 : -1
 ];
 typedef char ModelBackgroundVPage_v_offset_must_be_0[
-    ((u32)&(((ModelBackgroundVPage *)0)->bytes.v)) == 0 ? 1 : -1
+    OFFSETOF(ModelBackgroundVPage, bytes.v) == 0 ? 1 : -1
 ];
 typedef char ModelBackgroundVPage_upper_offset_must_be_1[
-    ((u32)&(((ModelBackgroundVPage *)0)->bytes.upper)) == 1 ? 1 : -1
+    OFFSETOF(ModelBackgroundVPage, bytes.upper) == 1 ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_selector_offset_must_be_0xA0[
-    ((u32)&(((ModelBackgroundRecord *)0)->selector)) == 0xA0 ? 1 : -1
+    OFFSETOF(ModelBackgroundRecord, selector) == 0xA0 ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_flags_offset_must_be_0xA1[
-    ((u32)&(((ModelBackgroundRecord *)0)->flags)) == 0xA1 ? 1 : -1
+    OFFSETOF(ModelBackgroundRecord, flags) == 0xA1 ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_shadow_y_offset_must_be_0xA2[
-    ((u32)&(((ModelBackgroundRecord *)0)->shadow_y_offset)) == 0xA2 ? 1 : -1
+    OFFSETOF(ModelBackgroundRecord, shadow_y_offset) == 0xA2 ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_stage_height_offset_must_be_0xA4[
-    ((u32)&(((ModelBackgroundRecord *)0)->stage_height)) == 0xA4 ? 1 : -1
+    OFFSETOF(ModelBackgroundRecord, stage_height) == 0xA4 ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_texture_width_offset_must_be_0xA6[
-    ((u32)&(((ModelBackgroundRecord *)0)->texture_width)) == 0xA6 ? 1 : -1
+    OFFSETOF(ModelBackgroundRecord, texture_width) == 0xA6 ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_texture_height_flags_offset_must_be_0xA8[
-    ((u32)&(((ModelBackgroundRecord *)0)->texture_height_flags)) == 0xA8 ? 1 : -1
+    OFFSETOF(ModelBackgroundRecord, texture_height_flags) == 0xA8 ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_texture_u_page_offset_must_be_0xAA[
-    ((u32)&(((ModelBackgroundRecord *)0)->texture_u_page)) == 0xAA ? 1 : -1
+    OFFSETOF(ModelBackgroundRecord, texture_u_page) == 0xAA ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_texture_v_page_offset_must_be_0xAC[
-    ((u32)&(((ModelBackgroundRecord *)0)->texture_v_page)) == 0xAC ? 1 : -1
+    OFFSETOF(ModelBackgroundRecord, texture_v_page) == 0xAC ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_clut_x_offset_must_be_0xAE[
-    ((u32)&(((ModelBackgroundRecord *)0)->clut_x)) == 0xAE ? 1 : -1
+    OFFSETOF(ModelBackgroundRecord, clut_x) == 0xAE ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_clut_y_offset_must_be_0xB0[
-    ((u32)&(((ModelBackgroundRecord *)0)->clut_y)) == 0xB0 ? 1 : -1
+    OFFSETOF(ModelBackgroundRecord, clut_y) == 0xB0 ? 1 : -1
 ];
 typedef char ModelBackgroundRecord_size_must_be_0xB2[
     sizeof(ModelBackgroundRecord) == 0xB2 ? 1 : -1

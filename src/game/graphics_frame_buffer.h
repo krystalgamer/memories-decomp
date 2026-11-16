@@ -11,7 +11,7 @@ struct GraphicsFrameBuffer {
 };
 
 typedef char GraphicsFrameBuffer_ordering_tables_offset_must_be_0x5110[
-    (u32)&((GraphicsFrameBuffer *)0)->ordering_tables == 0x5110 ? 1 : -1
+    OFFSETOF(GraphicsFrameBuffer, ordering_tables) == 0x5110 ? 1 : -1
 ];
 typedef char GraphicsFrameBuffer_size_must_be_0x5160[
     sizeof(GraphicsFrameBuffer) == 0x5160 ? 1 : -1

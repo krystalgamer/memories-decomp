@@ -56,7 +56,7 @@ typedef char DisplayObjectWorkSlots_size_must_be_0x20[
     sizeof(DisplayObjectWorkSlots) == 0x20 ? 1 : -1
 ];
 typedef char DisplayObjectWorkSlots_result_offset_must_be_8[
-    (u32)&((DisplayObjectWorkSlots *)0)->ritual.result == 8 ? 1 : -1
+    OFFSETOF(DisplayObjectWorkSlots, ritual.result) == 8 ? 1 : -1
 ];
 extern DisplayObjectWorkSlots gDisplayObject_apWorkSlots;
 

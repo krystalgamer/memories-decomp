@@ -28,16 +28,16 @@ typedef struct {
 } ModelControlCommandView;
 
 typedef char ModelControlCommandOffset[
-    (u32)&((ModelControlCommandView *)0)->commands ==
-        (u32)&((ModelSlot *)0)->metadata + 0x10 ? 1 : -1
+    OFFSETOF(ModelControlCommandView, commands) ==
+        OFFSETOF(ModelSlot, metadata) + 0x10 ? 1 : -1
 ];
 typedef char ModelControlCommandMembersMatchSlot[
-    (u32)&((ModelControlCommandView *)0)->commands[0] ==
-        (u32)&((ModelSlot *)0)->metadata.first_star_module_command &&
-    (u32)&((ModelControlCommandView *)0)->commands[1] ==
-        (u32)&((ModelSlot *)0)->metadata.second_star_module_command &&
-    (u32)&((ModelControlCommandView *)0)->commands[2] ==
-        (u32)&((ModelSlot *)0)->metadata.primary_module_command &&
+    OFFSETOF(ModelControlCommandView, commands[0]) ==
+        OFFSETOF(ModelSlot, metadata.first_star_module_command) &&
+    OFFSETOF(ModelControlCommandView, commands[1]) ==
+        OFFSETOF(ModelSlot, metadata.second_star_module_command) &&
+    OFFSETOF(ModelControlCommandView, commands[2]) ==
+        OFFSETOF(ModelSlot, metadata.primary_module_command) &&
     sizeof(((ModelControlCommandView *)0)->commands) == 12 ? 1 : -1
 ];
 typedef char ModelControlCommandViewFitsSlot[

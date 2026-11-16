@@ -159,10 +159,10 @@ typedef struct {
 } MovieWorkArea;
 
 typedef char MovieWorkArea_decoded_offset_must_be_0x37000[
-    (u32)&((MovieWorkArea *)0)->out.decoded == MOVIE_DECODED_OFFSET ? 1 : -1
+    OFFSETOF(MovieWorkArea, out.decoded) == MOVIE_DECODED_OFFSET ? 1 : -1
 ];
 typedef char MovieWorkArea_window_offset_must_be_0x40000[
-    (u32)&((MovieWorkArea *)0)->out.rects.window ==
+    OFFSETOF(MovieWorkArea, out.rects.window) ==
             MOVIE_RECT_WINDOW_OFFSET ? 1 : -1
 ];
 
