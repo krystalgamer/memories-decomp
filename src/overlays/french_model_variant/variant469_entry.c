@@ -378,9 +378,9 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->draw_start <= work->clock.frame && work->phase < 8) {
-            SpanishModelVariant469_DrawQuadRing((u8 *)point);
+            SpanishModelVariant469_DrawQuadRing((EntryState469 *)point);
             if (work->phase > 0) {
-                FrenchModelVariant582_DrawArcs((u8 *)point);
+                FrenchModelVariant582_DrawArcs((EntryState469 *)point);
             }
             if (work->phase >= 2) {
                 FrenchModelVariant582_DrawSheets((u8 *)point);

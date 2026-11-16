@@ -3,13 +3,27 @@
 
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
-#include "../french_model_variant/variant582_arcs.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../game/model_camera_effects.h"
+
+/* One arc pair: near and far point rows and their growth progress. */
+typedef struct {
+    SVECTOR near_points[2][5];
+    SVECTOR far_points[2][5];
+    u8 unknown_A0[0x4];
+    s32 field_A4;
+    s32 field_A8;
+    s32 field_AC;
+    u8 unknown_B0[0x4];
+    s32 near_progress[2];
+    s32 far_progress[2];
+    s32 done[2];
+    s32 field_CC;
+} Arcs582Group;
 
 typedef struct {
     CVECTOR outer, inner, arc_color;
@@ -42,8 +56,8 @@ typedef struct {
     POLY_GT4 textured[2];
     u8 unknown_33F0[0x34];
     POLY_FT4 flat[2], ring_packet;
+    u8 unknown_349C[0x10];
     GsGLINE line;
-    u8 unknown_34B0[0x10];
     MATRIX matrix;
     VECTOR origin;
     SVECTOR target;
@@ -67,8 +81,8 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant469_aImages[9];
 extern EntryConfig469 gFrenchModelVariant469_aConfigs[];
-void FrenchModelVariant582_DrawArcs(u8 *context);
+void FrenchModelVariant582_DrawArcs(EntryState469 *context);
 void FrenchModelVariant582_DrawSheets(u8 *context);
-void SpanishModelVariant469_DrawQuadRing(u8 *context);
+void SpanishModelVariant469_DrawQuadRing(EntryState469 *context);
 
 #endif

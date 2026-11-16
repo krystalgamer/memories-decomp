@@ -4,14 +4,16 @@
 animates and draws four groups of paired five-point arcs as gouraud lines.
 **No release had matching C for this body before.**
 
-The local view in `variant582_arcs.h` holds:
-- four 0xD0-byte groups at `+0`, each with near and far point grids
-  `[2][5]`, the near/far progress words at `+0xB4`/`+0xBC` and done flags at
-  `+0xC4`;
-- the `GsGLINE` at `+0x34AC` and the origin at `+0x34E0`;
-- the direction at `+0x3658`, the unsigned time at `+0x3988`, the step at
-  `+0x3990`, the timing pointer at `+0x3998` (limit at `+0x28`) and the
-  phase at `+0x39D8`.
+The helper reads `EntryState469`, the record the 469 entry passes (a local
+view in `variant582_arcs.h` until it was folded). It uses:
+- the four 0xD0-byte `arcs` (`Arcs582Group`) at `+0`, each with near and
+  far point grids `[2][5]`, the near/far progress words at `+0xB4`/`+0xBC`
+  and done flags at `+0xC4`;
+- the `GsGLINE` `line` at `+0x34AC` (the record placed it 0x10 bytes early
+  until this fold) and `origin` at `+0x34E0`;
+- `line_direction` at `+0x3658`, the clock's `frame` at `+0x3988` and
+  `step` at `+0x3990`, the config's `arc_limit` (`+0x28`) and `phase` at
+  `+0x39D8`.
 
 Measured shape:
 - **Points:** each arc `k` clamps its near/far progress to 0..1024 and places
