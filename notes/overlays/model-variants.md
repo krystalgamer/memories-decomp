@@ -752,11 +752,25 @@ copy and the other five were derived from it by the same offset substitution.
 Model ids follow the compact-record ledger in
 [`spanish-model-return-two-instances.csv`](spanish-model-return-two-instances.csv).
 The modules are named `model_variant_<model>_<stage>_slot0`. The Spanish
-notes tie record sectors 200..209 to loader stage 9, so the `+ 200` images are named `stage9`. The stage that
-reads sectors 180..189 has not been confirmed from the loader, so those images
-keep the neutral `pos0`. The images built from Spanish sources take the Spanish
-module names instead: `stage7` for `+ 180`, `stage8` for `+ 190` and `stage10` for
-`+ 210`, with the `+ 190` and `+ 210` images in slot 1 at `0x8017B000`.
+notes tie record sectors 200..209 to loader stage 9, so the `+ 200` images are named `stage9`. The
+North American images for sectors 180..189 keep the neutral `pos0`, although
+`Model_LoadMonsterMergeStage` (`src/game/model.c`) shows they are stage 7. Its
+stages 7..10 read the four variant images in sector order, and each writes its
+image only for one slot and one value of `ModelSlot.guardian_star_selection`,
+which `Model_LoadMonsterMerge` passes as the transfer position:
+
+| Stage | Sectors | Slot | `guardian_star_selection` |
+|---:|---|---|---:|
+| 7 | `+ 180` | 0 (`0x8013B000`) | 0 |
+| 8 | `+ 190` | 1 (`0x8017B000`) | 0 |
+| 9 | `+ 200` | 0 (`0x8013B000`) | 1 |
+| 10 | `+ 210` | 1 (`0x8017B000`) | 1 |
+
+A model's variant images are therefore its effect for each of its two guardian
+stars, in each slot. That 0 is the first star printed on the card is not yet
+confirmed at runtime; `tools/trace/model_variant373_helper_reach.lua` logs the
+selection. The images built from Spanish sources take the Spanish module names:
+`stage7` for `+ 180`, `stage8` for `+ 190` and `stage10` for `+ 210`.
 
 | Header | Sector offset | Models |
 |---:|---|---|
