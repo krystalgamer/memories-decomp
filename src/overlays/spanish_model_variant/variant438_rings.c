@@ -148,7 +148,7 @@ void SpanishModelVariant438_DrawRing(Variant438EntryState *context)
         if (i == LAST_RING) {
             if (ring->scale < 0x1000 && work->phase < 3) {
                 ring->scale = (work->clock.frame << 12) /
-                             work->config->field_20;
+                             work->config->grow_end;
                 if (ring->scale >= 0x1000) {
                     ring->scale = 0x1000;
                     ring->count++;

@@ -30,8 +30,12 @@ corner arrays `v0..v3`. The quad packet lives at `+0x219C` in the context.
 - **Phase.** The last sheet sets phase 3 when it finishes spreading and phase
   5 when it finishes fading.
 
-The sheet, timing and context records are declared in
-`variant456_sheets.h`. No other routine shares their offsets.
+The helper reads `Variant456EntryState`, the record the entry passes: the
+sheets are its `Variant456EntrySheet`s (the sheet position is `target`), the
+growth, fade and spread times are the config's `sheets_start`,
+`lines_start`, `fade_start`, `fade_end` and `phase_start`, and the phase is
+`tail.phase`. Its private view, `variant456_sheets.h`, was removed when the
+helper moved onto the record.
 
 The accepted MODEL411 sheets were used only as evidence for the overall
 structure. Every offset, the sheet count, the scale handling, the UV halves

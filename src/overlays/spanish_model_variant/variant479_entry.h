@@ -64,7 +64,7 @@ extern Variant479EntryConfig gSpanishModelVariant479_aConfigs[];
 void FrenchModelVariant379_DrawGrid(Variant479EntryState *context);
 void SpanishModelVariant479_DrawSpiral(Variant479EntryState *context);
 void SpanishModelVariant479_DrawRibs(Variant479EntryState *context);
-void SpanishModelVariant479_DrawSheets(u8 *context);
+void SpanishModelVariant479_DrawSheets(Variant479EntryState *context);
 void SpanishModelVariant479_DrawCurtains(Variant479EntryState *context);
 s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command);
 #endif

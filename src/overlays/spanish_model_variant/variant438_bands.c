@@ -118,8 +118,8 @@ void SpanishModelVariant438_DrawAdvancingBand(Variant438EntryState *context)
     }
     if (state->phase == 1) {
         if (state->progress < 1025) {
-            state->progress = ((state->clock.frame - state->config->field_20) << 10) /
-                              (state->config->band_grow_end - state->config->field_20);
+            state->progress = ((state->clock.frame - state->config->grow_end) << 10) /
+                              (state->config->band_grow_end - state->config->grow_end);
             if (state->progress >= 1024) {
                 state->progress = 1024;
                 state->phase = 2;

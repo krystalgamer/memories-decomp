@@ -1,12 +1,12 @@
 #include "../../types.h"
 
-#include "variant443_sheets.h"
+#include "../french_model_variant/variant443_entry.h"
 
 /* Five sheets of four POLY_GT4 quads: three at their positions in their own inner
  * colour, and two at the origin and along the direction (or at the rest position
  * once the travel reaches 0x400) in a colour cycling through eight hues. The
  * sheets grow and fade over the timing record's windows as the phase advances. */
-void SpanishModelVariant443_DrawSheets(u8 *context)
+void SpanishModelVariant443_DrawSheets(EntryState443 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -15,7 +15,7 @@ void SpanishModelVariant443_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets443State *state = (Sheets443State *)context;
+    EntryState443 *state = context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *quad;
     GsOT *ot;
@@ -24,10 +24,10 @@ void SpanishModelVariant443_DrawSheets(u8 *context)
     u8 r, g, b;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &state->quad;
+    quad = &state->packets.textured[1];
     for (i = 0; i < 5; i++, sheet++) {
         depth = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             depth = sheet->size / 8;
         }
         rotation.vx = 0;
@@ -38,17 +38,17 @@ void SpanishModelVariant443_DrawSheets(u8 *context)
             matrix.t[1] = state->positions[i].vy;
             matrix.t[2] = state->positions[i].vz;
         } else if (i == 3) {
-            matrix.t[0] = state->origin[0];
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2];
+            matrix.t[0] = state->origin.vx;
+            matrix.t[1] = state->origin.vy;
+            matrix.t[2] = state->origin.vz;
         } else if (state->travel < 1024) {
-            matrix.t[0] = state->origin[0] + state->direction[0] * state->progress / 1024;
-            matrix.t[1] = state->origin[1] + state->direction[1] * state->progress / 1024;
-            matrix.t[2] = state->origin[2] + state->direction[2] * state->progress / 1024;
+            matrix.t[0] = state->origin.vx + state->direction.vx * state->progress / 1024;
+            matrix.t[1] = state->origin.vy + state->direction.vy * state->progress / 1024;
+            matrix.t[2] = state->origin.vz + state->direction.vz * state->progress / 1024;
         } else {
-            matrix.t[0] = state->rest[0];
-            matrix.t[1] = state->rest[1];
-            matrix.t[2] = state->rest[2];
+            matrix.t[0] = state->target.vx;
+            matrix.t[1] = state->target.vy;
+            matrix.t[2] = state->target.vz;
         }
         scale.vx = sheet->size + depth;
         scale.vy = sheet->size + depth;
@@ -82,31 +82,31 @@ void SpanishModelVariant443_DrawSheets(u8 *context)
                 quad->g3 = sheet->outer[1];
                 quad->b3 = sheet->outer[2];
             } else {
-                if (state->frame % 8 == 0) {
+                if (state->clock.frame_count % 8 == 0) {
                     r = 255;
                     g = 0;
                     b = 0;
-                } else if (state->frame % 8 == 1) {
+                } else if (state->clock.frame_count % 8 == 1) {
                     r = 255;
                     g = 128;
                     b = 0;
-                } else if (state->frame % 8 == 2) {
+                } else if (state->clock.frame_count % 8 == 2) {
                     r = 255;
                     g = 255;
                     b = 0;
-                } else if (state->frame % 8 == 3) {
+                } else if (state->clock.frame_count % 8 == 3) {
                     r = 0;
                     g = 255;
                     b = 0;
-                } else if (state->frame % 8 == 4) {
+                } else if (state->clock.frame_count % 8 == 4) {
                     r = 0;
                     g = 255;
                     b = 255;
-                } else if (state->frame % 8 == 5) {
+                } else if (state->clock.frame_count % 8 == 5) {
                     r = 0;
                     g = 0;
                     b = 255;
-                } else if (state->frame % 8 == 6) {
+                } else if (state->clock.frame_count % 8 == 6) {
                     r = 255;
                     g = 0;
                     b = 255;
@@ -136,16 +136,16 @@ void SpanishModelVariant443_DrawSheets(u8 *context)
         if (i < 3) {
             if (state->phase == 0) {
                 if (sheet->size < 4096) {
-                    sheet->size = (state->time - state->timing->grow_start) * 4096 /
-                                  (state->timing->grow_end - state->timing->grow_start);
+                    sheet->size = (state->clock.frame - state->config->start) * 4096 /
+                                  (state->config->web_end - state->config->start);
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
                         state->phase = 1;
                     }
                 }
-            } else if (state->timing->fade_start < state->time && sheet->size > 0) {
-                sheet->size = 4096 - (state->time - state->timing->fade_start) * 4096 /
-                                     (state->timing->fade_end - state->timing->fade_start);
+            } else if (state->config->fade_start < state->clock.frame && sheet->size > 0) {
+                sheet->size = 4096 - (state->clock.frame - state->config->fade_start) * 4096 /
+                                     (state->config->fade_end - state->config->fade_start);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                     if (state->phase == 5) {
@@ -156,16 +156,16 @@ void SpanishModelVariant443_DrawSheets(u8 *context)
         } else if (i == 3) {
             if (state->phase == i) {
                 if (sheet->size < 6144) {
-                    sheet->size = (state->time - state->timing->spread_start) * 6144 /
-                                  (state->timing->spread_end - state->timing->spread_start);
+                    sheet->size = (state->clock.frame - state->config->spread_end) * 6144 /
+                                  (state->config->mesh_start - state->config->spread_end);
                     if (sheet->size >= 6144) {
                         sheet->size = 6144;
                         state->phase = 4;
                     }
                 }
-            } else if (state->timing->fade_start < state->time && sheet->size > 0) {
-                sheet->size = 6144 - (state->time - state->timing->fade_start) * 6144 /
-                                     (state->timing->fade_end - state->timing->fade_start);
+            } else if (state->config->fade_start < state->clock.frame && sheet->size > 0) {
+                sheet->size = 6144 - (state->clock.frame - state->config->fade_start) * 6144 /
+                                     (state->config->fade_end - state->config->fade_start);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
@@ -174,9 +174,9 @@ void SpanishModelVariant443_DrawSheets(u8 *context)
             sheet->size = 0;
         } else if (state->phase == 4) {
             sheet->size = 6144;
-        } else if (state->timing->fade_start < state->time && sheet->size > 0) {
-            sheet->size = 8192 - (state->time - state->timing->fade_start) * 8192 /
-                                 (state->timing->fade_end - state->timing->fade_start);
+        } else if (state->config->fade_start < state->clock.frame && sheet->size > 0) {
+            sheet->size = 8192 - (state->clock.frame - state->config->fade_start) * 8192 /
+                                 (state->config->fade_end - state->config->fade_start);
             if (sheet->size <= 0) {
                 sheet->size = 0;
             }

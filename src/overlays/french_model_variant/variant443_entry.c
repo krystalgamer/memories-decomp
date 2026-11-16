@@ -508,7 +508,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
             }
         }
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant443_DrawSheets((u8 *)point);
+            SpanishModelVariant443_DrawSheets((EntryState443 *)point);
             FrenchModelVariant443_DrawStreamers((EntryState443 *)point);
             if (work->phase > 0) {
                 FrenchModelVariant443_DrawBands((EntryState443 *)point);

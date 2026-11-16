@@ -31,7 +31,8 @@ typedef struct {
     ModelVariantPackets packets;
     POLY_GT4 plain;
     POLY_FT4 flat_textured[2];
-    u8 unknown_20AC[0x24];
+    u8 unknown_20AC[0x10];
+    GsGLINE line;
     MATRIX matrix;
     ModelVariantAim aim;
     s32 angles[2];
@@ -56,7 +57,7 @@ typedef struct {
 
 extern GsIMAGE gSpanishModelVariant417_aImages[9];
 extern Variant417EntryConfig gSpanishModelVariant417_aConfigs[];
-void SpanishModelVariant417_DrawPhasedLines(u8 *context);
+void SpanishModelVariant417_DrawPhasedLines(Variant417EntryState *context);
 void SpanishModelVariant417_DrawTube(u8 *context);
 void SpanishModelVariant441_DrawRainbowSheets(u8 *context);
 void SpanishModelVariant417_DrawSpiral(Variant417EntryState *context);

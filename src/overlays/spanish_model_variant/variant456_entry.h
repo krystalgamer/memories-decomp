@@ -140,5 +140,5 @@ typedef struct {
 extern GsIMAGE gSpanishModelVariant456_aImages[9];
 extern Variant456EntryConfig gSpanishModelVariant456_aConfigs[];
 void SpanishModelVariant456_DrawSprays(Variant456EntryState *context);
-void SpanishModelVariant456_DrawSheets(u8 *context);
+void SpanishModelVariant456_DrawSheets(Variant456EntryState *context);
 #endif

@@ -27,8 +27,14 @@ semantic map, which has no field kind.
 `EntryConfig443`'s `+0x48`/`+0x4C` placeholder sat under the 443 mesh
 view's `grow_start`/`grow_end`. When `SpanishModelVariant443_DrawMesh` was
 moved onto `EntryState443`, these became `mesh_start`/`mesh_end`, the window
-over which the mesh's `progress` grows. The 443 sheets view uses `grow_start`
-for `+0x38`, the config's `start`.
+over which the mesh's `progress` grows. The 443 sheets view used `grow_start`/`grow_end`
+for `+0x38`/`+0x3C`, the config's `start`/`web_end`. When that helper was
+moved onto the record, its `+0x50`/`+0x54` fade window became
+`fade_start`/`fade_end`. The words from `+0x38` to `+0x54` form a chain of times, and
+helpers read adjacent pairs as windows under different names. The ribbons
+read `spread_start..spread_end` (`+0x40..+0x44`), the sheets'
+spread reads `spread_end..mesh_start` (`+0x44..+0x48`), and the mesh reads
+`mesh_start..mesh_end`.
 
 ## `Model386Config`
 

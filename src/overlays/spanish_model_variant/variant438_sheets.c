@@ -80,7 +80,7 @@ void SpanishModelVariant438_DrawTargetClampedSheets(Variant438EntryState *contex
             if (state->phase == 0) {
                 if (sheet->size < 4096) {
                     sheet->size = (state->clock.frame - state->config->start) * 4096 /
-                        (state->config->field_20 - state->config->start);
+                        (state->config->grow_end - state->config->start);
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
                         state->phase = 1;
