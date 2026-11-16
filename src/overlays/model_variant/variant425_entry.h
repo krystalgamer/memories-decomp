@@ -47,7 +47,7 @@ typedef struct {
     u32 field_2718;
     GsCOORDUNIT *parts[3];
     s16 field_2728, field_272A, band_scale, field_272E;
-    s32 field_2730, sweep, spiral_shrink, ray_scale, field_2740, field_2744;
+    s32 field_2730, sweep, spiral_shrink, ray_scale, quad_angle, ribbon_angle;
     s32 phase, field_274C;
     u8 unknown_2750[8];
     s32 tint;

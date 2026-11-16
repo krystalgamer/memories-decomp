@@ -46,8 +46,8 @@ void ModelVariant418_DrawRibbons(Variant418EntryState *context)
     }
     length = 16;
     flags = work->clock.frame_count;
-    for (i = 0, angle = work->field_1B98; i < 8;
-         i++, angle = work->field_1B98 + i * 0x200, ribbon++) {
+    for (i = 0, angle = work->ribbon_angle; i < 8;
+         i++, angle = work->ribbon_angle + i * 0x200, ribbon++) {
         for (k = 0; k < 2; k++) {
             radius = 0x96;
             if (k == 0) {
@@ -125,6 +125,6 @@ void ModelVariant418_DrawRibbons(Variant418EntryState *context)
         }
     }
     if (work->field_1B88 + 1 == work->config->count) {
-        work->field_1B98 += work->clock.step << 5;
+        work->ribbon_angle += work->clock.step << 5;
     }
 }
