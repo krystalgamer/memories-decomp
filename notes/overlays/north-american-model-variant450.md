@@ -43,8 +43,8 @@ The `DDC..1770` ribbons and `1770..1E7C` bands helpers are written for the
 North American instruction streams. They are the French header-450 ribbons and
 bands (`french_model_variant/variant450_ribbons.c` and `variant450_bands.c`)
 with the retail register allocation put back, so they are separate sources
-with their own per-header state types in `variant433_ribbons.h` and
-`variant433_bands.h` rather than wrappers. `gcc_2_7_2_cdk_g0` compiles the
+that read `Variant433EntryState` (`variant433_entry.h`) directly rather
+than wrappers. `gcc_2_7_2_cdk_g0` compiles the
 French bodies 28 and 32 bytes too large, and with a different register
 allocation.
 
@@ -91,7 +91,7 @@ bytes.
 
 The `30A8..38DC` coils helper (`variant433_coils.c`) is the French header-450
 coils (`french_model_variant/variant450_coils.c`) with the retail allocation
-put back. It uses that file's state types through `variant433_coils.h`.
+put back. Both copies read `Variant433EntryState` directly.
 `gcc_2_7_2_cdk_g0` compiles the French body 14 instructions too large. What
 the retail code needs:
 

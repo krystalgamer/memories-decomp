@@ -80,10 +80,17 @@ typedef struct {
 } Variant433EntrySheet;
 
 typedef struct {
-    u8 unknown_000[0x264];
+    SVECTOR points[17];
+    Variant433RingScreen screen[17];
+    s32 angle[17];
+    SVECTOR edges[17];
+    Variant433RingScreen edge_screen[17];
+    s32 width[17];
+    u8 unknown_220[0x44];
     CVECTOR color[17];
     s32 field_2A8;
-    u8 unknown_2AC[0xCC];
+    s32 field_2AC[17];
+    ModelVariantStripOffsets offsets;
 } Variant433EntryStreamer;
 
 /* Minimum observed extent, not an allocation capacity. */
@@ -119,6 +126,7 @@ extern Variant433EntryConfig gModelVariant433_aConfigs[];
 void ModelVariant433_DrawRibbons(Variant433EntryState *context);
 void ModelVariant433_DrawRings(Variant433EntryState *context);
 void ModelVariant433_DrawBands(Variant433EntryState *context);
+void ModelVariant433_DrawCoils(Variant433EntryState *context);
 void SpanishModelVariant450_DrawQuadGroups(u8 *context);
 void SpanishModelVariant450_DrawLines(u8 *context);
 #endif

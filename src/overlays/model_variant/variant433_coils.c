@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant433_coils.h"
+#include "../model_variant/variant433_entry.h"
 
 /* Header 433's coils: the French header-450 coils body with the retail
  * register allocation and addressing put back. The `j == 16` arm names its
@@ -7,7 +7,7 @@
  * `(&x[j])[1]` so their `+ 4` is folded into the load, and the `+= 0` on
  * rotation[2] is dead: reload's post-pass deletes the store but keeps the
  * load the retail code has in front of the matrix setup. */
-void ModelVariant433_DrawCoils(u8 *context)
+void ModelVariant433_DrawCoils(Variant433EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -16,8 +16,8 @@ void ModelVariant433_DrawCoils(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Model450CoilView *work;
-    Variant450QuadGroup *driver;
+    Variant433EntryState *work;
+    Variant433EntrySheet *driver;
     POLY_FT4 *quad;
     GsOT *ot;
     s16 i;
@@ -30,7 +30,7 @@ void ModelVariant433_DrawCoils(u8 *context)
     s32 wave;
     s32 turn;
     s32 radius;
-    Model450Coil *coil;
+    Variant433EntryStreamer *coil;
     s16 j;
     s32 twist;
     s32 bulge;
@@ -40,14 +40,14 @@ void ModelVariant433_DrawCoils(u8 *context)
     s16 reach;
     s32 dx, dy;
 
-    work = (Model450CoilView *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
-    quad = &work->packet;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
+    quad = &work->flat[0];
     reach = 192;
     step = 1024;
-    driver = &work->groups[1];
-    if (!(work->flags & 1)) {
+    driver = &work->sheets[1];
+    if (!(work->clock.frame_count & 1)) {
         size = 4096;
         rx = 512;
         ry = 0;
@@ -56,14 +56,14 @@ void ModelVariant433_DrawCoils(u8 *context)
         rx = 1536;
         ry = step;
     }
-    if ((u32)(work->flags & 3) < 2) {
+    if ((u32)(work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 1500;
     }
-    coil = work->coils;
+    coil = work->streamers;
     i = 0;
-    base = work->rotation[1];
+    base = work->streamer.rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 2; i++, coil++, base += step) {
@@ -72,7 +72,7 @@ void ModelVariant433_DrawCoils(u8 *context)
              j++, twist = base * 2 + j * 1500 / 16, spin += 1500, wave += 512) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = work->length / 64;
+            length = work->streamer.length / 64;
             setVector(&coil->points[j],
                 bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                 bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
@@ -83,17 +83,17 @@ void ModelVariant433_DrawCoils(u8 *context)
                 coil->points[j].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rotation.vx = (s16)work->rotation[0] + rx;
-    rotation.vy = (s16)work->rotation[1] + ry;
-    rotation.vz = (s16)work->rotation[2];
-    if ((u32)work->flags % 10 == 0) {
-        work->rotation[1] += 1300;
+    rotation.vx = (s16)work->streamer.rotation_x + rx;
+    rotation.vy = (s16)work->streamer.rotation_y + ry;
+    rotation.vz = (s16)work->streamer.rotation_z;
+    if ((u32)work->clock.frame_count % 10 == 0) {
+        work->streamer.rotation_y += 1300;
     }
-    work->rotation[1] += 32;
-    work->rotation[2] += 0;
-    matrix.t[0] = work->origin.vx;
-    matrix.t[1] = work->origin.vy;
-    matrix.t[2] = work->origin.vz;
+    work->streamer.rotation_y += 32;
+    work->streamer.rotation_z += 0;
+    matrix.t[0] = work->target.vx;
+    matrix.t[1] = work->target.vy;
+    matrix.t[2] = work->target.vz;
     setVector(&scale, size, size, size);
     RotMatrix(&rotation, &matrix);
     ScaleMatrix(&matrix, &scale);
@@ -102,7 +102,7 @@ void ModelVariant433_DrawCoils(u8 *context)
     coordinate.flg = 0;
     GsGetLs(&coordinate, &light);
     GsSetLsMatrix(&light);
-    coil = work->coils;
+    coil = work->streamers;
     for (i = 0; i < 2; i++, coil++) {
         for (j = 0; j < 17; j++) {
             if (j == 16) {
@@ -114,7 +114,7 @@ void ModelVariant433_DrawCoils(u8 *context)
                 dx = coil->screen[16].point.vx - coil->screen[15].point.vx;
                 dy = coil->screen[16].point.vy - coil->screen[15].point.vy;
                 coil->angle[16] = ratan2(dy, dx) + 3072;
-                if (work->length > 512) {
+                if (work->streamer.length > 512) {
                     coil->width[16] = 1;
                 } else {
                     coil->width[j] = coil->edge_screen[j].point.vx - coil->screen[j].point.vx;
@@ -130,7 +130,7 @@ void ModelVariant433_DrawCoils(u8 *context)
                 dx = (&coil->screen[j])[1].point.vx - coil->screen[j].point.vx;
                 dy = (&coil->screen[j])[1].point.vy - coil->screen[j].point.vy;
                 coil->angle[j] = ratan2(dy, dx) + 3072;
-                if (work->length > 512) {
+                if (work->streamer.length > 512) {
                     coil->width[j] = 1;
                 } else {
                     coil->width[j] = coil->edge_screen[j].point.vx - coil->screen[j].point.vx;
@@ -140,7 +140,7 @@ void ModelVariant433_DrawCoils(u8 *context)
             }
         }
     }
-    coil = work->coils;
+    coil = work->streamers;
     for (i = 0; i < 2; i++, coil++) {
         for (j = 0; j < 16; j++) {
             quad->x0 = ((Variant433RingScreen *)((u8 *)coil->screen + j * 4))->point.vx + coil->offsets.ox[j];
@@ -157,10 +157,10 @@ void ModelVariant433_DrawCoils(u8 *context)
             }
         }
     }
-    if (work->state < 5 && work->length > 0) {
-        work->length = driver->scale / 8;
-        if (work->length <= 0) {
-            work->length = 0;
+    if (work->tail.phase < 5 && work->streamer.length > 0) {
+        work->streamer.length = driver->size / 8;
+        if (work->streamer.length <= 0) {
+            work->streamer.length = 0;
         }
     }
 }

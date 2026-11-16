@@ -242,8 +242,11 @@ seventeen colors initialized to 128, the separate `+0x2A8` field, and the
 length/rotation state. The draw gate at `+0x2AC` is not the projection flag;
 its initialization and external ownership are not inferred from this helper.
 
-The view reuses accepted `Model450Screen` and `Variant450QuadGroup`
-declarations without changing their headers. Thirty-seven target-compiled
+The view reused accepted `Model450Screen` and `Variant450QuadGroup`
+declarations without changing their headers. (The helper now reads the 433
+record directly: the coils are `Variant433EntryState.streamers`, whose
+`Variant433EntryStreamer` carries the layout above, and the driver is
+`sheets[1]`.) Thirty-seven target-compiled
 constants check those types, the coil fields, SDK packet/matrix types and
 the `0x42FC` minimum context view. Its 764-byte overlap with the primary
 loader window remains an explicit limit, not an allocation, lifetime or
