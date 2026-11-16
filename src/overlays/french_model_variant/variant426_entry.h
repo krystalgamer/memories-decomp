@@ -2,7 +2,7 @@
 #define MEMORIES_FRENCH_MODEL_VARIANT426_ENTRY_H
 
 #include "../../types.h"
-#include "../model_variant/variant458_streamers.h"
+#include "../model_variant/model_variant.h"
 #include "variant425_entry.h"
 
 typedef struct {
@@ -10,7 +10,7 @@ typedef struct {
     EntryRibbon425 ribbons[1];
     ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[2];
-    Variant458Streamer streamers[4];
+    ModelVariantStreamer streamers[4];
     ModelVariantFunnel funnels[2];
     POLY_GT4 extra, funnel_packet;
     u8 unknown_1EB4[0x34];

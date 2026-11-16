@@ -14,7 +14,7 @@ this routine.
 
 ## Relationship to the other streamers
 
-This routine shares the `Variant458Streamer` record and the coil, projection
+This routine shares the `ModelVariantStreamer` (formerly `Variant458Streamer`) record and the coil, projection
 and draw structure with two other streamer routines:
 
 - the accepted MODEL475 streamers, which are configured for Spanish modules

@@ -4,7 +4,7 @@
 offset `0x2BC0`, 0x880 bytes) in the
 model_variant_0 stage 7 slot 0 and stage 8 slot 1 images is the coiled
 streamer body (`spanish_model_variant/variant474_streamers.c`) on the
-header-458 streamer layout (`Variant458Streamer`, 0x334 bytes). It differs in
+header-458 streamer layout (`ModelVariantStreamer` (formerly `Variant458Streamer`), 0x334 bytes). It differs in
 these ways:
 
 - four streamers at `work + 0xF4C`, coil radius `0x240`;

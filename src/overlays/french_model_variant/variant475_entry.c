@@ -17,7 +17,7 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
     Variant475EntryQuads *quads;
     Variant475EntryRibbon *ribbon;
     ModelVariantSheetSet *sheet;
-    Variant458Streamer *streamer;
+    ModelVariantStreamer *streamer;
     POLY_G3 *triangle;
     POLY_G4 *quad;
     POLY_GT4 *poly;
@@ -200,9 +200,9 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 2; i++, streamer++) {
             s32 point;
             for (point = 0; point < 17; point++) {
-                streamer->color[point][0] = 128;
-                streamer->color[point][1] = 128;
-                streamer->color[point][2] = 128;
+                streamer->color[point].r = 128;
+                streamer->color[point].g = 128;
+                streamer->color[point].b = 128;
             }
             streamer->field_2A8 = 0;
         }

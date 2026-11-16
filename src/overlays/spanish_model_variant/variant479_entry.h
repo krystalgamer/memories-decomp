@@ -3,7 +3,7 @@
 #include "../../types.h"
 #include "../../overlays/french_model_variant/variant337_entry.h"
 #include "../../overlays/french_model_variant/variant379_grid.h"
-#include "../model_variant/variant458_streamers.h"
+#include "../model_variant/model_variant.h"
 #include "variant479_ribs.h"
 #include "variant479_spiral.h"
 
@@ -26,7 +26,7 @@ typedef struct {
     Variant479Rib ribs[5];
     Variant479SpiralArm arms[12];
     ModelVariantSheet sheets[8];
-    Variant458Streamer streamers[2];
+    ModelVariantStreamer streamers[2];
     ModelVariantCurtain curtains[5];
     POLY_GT4 frame_poly, glow;
     u8 unknown_3EA0[0x34];

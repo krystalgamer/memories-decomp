@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../model_variant/variant458_streamers.h"
+#include "../model_variant/model_variant.h"
 #include "variant479_entry.h"
 
 /* Builds two seventeen-point streamers that coil around the variant's axis,
@@ -30,7 +30,7 @@ void SpanishModelVariant479_DrawStreamers(Variant479EntryState *context)
     s32 wave;
     s32 turn;
     s32 radius;
-    Variant458Streamer *streamer;
+    ModelVariantStreamer *streamer;
     s16 k;
     s32 twist;
     s32 bulge;
@@ -149,9 +149,9 @@ void SpanishModelVariant479_DrawStreamers(Variant479EntryState *context)
             poly->y2 = (streamer->sa[k] >> 16) - streamer->oy[k];
             poly->x3 = streamer->sa[k + 1] - streamer->ox[k + 1];
             poly->y3 = (streamer->sa[k + 1] >> 16) - streamer->oy[k + 1];
-            poly->r0 = streamer->color[k][0];
-            poly->g0 = streamer->color[k][1];
-            poly->b0 = streamer->color[k][2];
+            poly->r0 = streamer->color[k].r;
+            poly->g0 = streamer->color[k].g;
+            poly->b0 = streamer->color[k].b;
             if (streamer->otz[k] > 0) {
                 GsSortPoly(poly, ot, streamer->otz[k]);
             }

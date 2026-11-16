@@ -2,7 +2,7 @@
 #define MEMORIES_FRENCH_MODEL_VARIANT475_ENTRY_H
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
-#include "../model_variant/variant458_streamers.h"
+#include "../model_variant/model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_copy_slot_u16_values.h"
@@ -50,7 +50,7 @@ typedef struct {
     Variant475EntryRibbon ribbons[8];
     ModelVariantSheetSet sheets[16];
     ModelVariantStrandWide strands[6];
-    Variant458Streamer streamers[2];
+    ModelVariantStreamer streamers[2];
     ModelVariantPackets packets;
     POLY_GT4 extra;
     /* The entry fills two POLY_FT4 templates here; the 458 streamer drawer

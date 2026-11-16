@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../model_variant/variant458_streamers.h"
+#include "../model_variant/model_variant.h"
 #include "variant426_entry.h"
 
 /* Builds four seventeen-point streamers that coil around the variant's axis,
@@ -33,7 +33,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
     s32 wave;
     s32 turn;
     s32 radius;
-    Variant458Streamer *streamer;
+    ModelVariantStreamer *streamer;
     s16 k;
     s32 twist;
     s32 bulge;
@@ -153,9 +153,9 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
             poly->y2 = (streamer->sa[k] >> 16) - streamer->oy[k];
             poly->x3 = streamer->sa[k + 1] - streamer->ox[k + 1];
             poly->y3 = (streamer->sa[k + 1] >> 16) - streamer->oy[k + 1];
-            poly->r0 = streamer->color[k][0];
-            poly->g0 = streamer->color[k][1];
-            poly->b0 = streamer->color[k][2];
+            poly->r0 = streamer->color[k].r;
+            poly->g0 = streamer->color[k].g;
+            poly->b0 = streamer->color[k].b;
             if (streamer->otz[k] >= 0 && depth[i][k] >= 0 && work->size >= 0x1000) {
                 GsSortPoly(poly, ot, streamer->otz[k]);
             }

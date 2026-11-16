@@ -16,7 +16,7 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantFunnel *funnel = work->funnels;
     ModelVariantLongRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
-    Variant458Streamer *streamer = work->streamers;
+    ModelVariantStreamer *streamer = work->streamers;
     ModelVariantShadedRay *spiral = work->spirals;
     POLY_GT4 *extra = &work->extra;
     POLY_GT4 *funnel_packet = &work->funnel_packet;
@@ -208,9 +208,9 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
         }
         for (i = 0; i < 2; i++, streamer++) {
             for (j = 0; j < 17; j++) {
-                streamer->color[j][0] = 128;
-                streamer->color[j][1] = 128;
-                streamer->color[j][2] = 128;
+                streamer->color[j].r = 128;
+                streamer->color[j].g = 128;
+                streamer->color[j].b = 128;
             }
             streamer->field_2A8 = 0;
         }

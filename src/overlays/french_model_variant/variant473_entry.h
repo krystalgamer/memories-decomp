@@ -9,7 +9,7 @@
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
 #include "../french_model_variant/variant385_grid.h"
-#include "../model_variant/variant458_streamers.h"
+#include "../model_variant/model_variant.h"
 #include "../spanish_model_variant/variant473_funnels.h"
 
 typedef struct {
@@ -37,7 +37,7 @@ typedef struct {
     EntryRibbon473 ribbons[5];
     ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[6];
-    Variant458Streamer streamers[2];
+    ModelVariantStreamer streamers[2];
     ModelVariantFunnel funnels[5];
     POLY_GT4 extra, funnel_packet;
     u8 unknown_395C[0x34];
