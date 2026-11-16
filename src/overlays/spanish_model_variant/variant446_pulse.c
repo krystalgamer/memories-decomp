@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant446_pulse.h"
+#include "../french_model_variant/variant446_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant446_DrawPulse(u8 *context)
+void SpanishModelVariant446_DrawPulse(EntryState446 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,8 +11,8 @@ void SpanishModelVariant446_DrawPulse(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Pulse446State *state = (Pulse446State *)context;
-    ModelVariantPulseGroup *group = state->groups;
+    EntryState446 *state = context;
+    EntryPulse446 *group = state->pulses;
     POLY_GT4 *quad;
     GsOT *ot;
     s32 i, j;
@@ -20,27 +20,27 @@ void SpanishModelVariant446_DrawPulse(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &state->quad;
+    quad = &state->textured[1];
     for (i = 0; i < 2; i++, group++) {
         pulse = 0;
-        if (state->frame & 1) {
-            pulse = group->size / 8;
+        if (state->frame_count & 1) {
+            pulse = group->scale.vx / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i == 0) {
-            matrix.t[0] = state->origin[0];
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2];
+            matrix.t[0] = state->matrix.t[0];
+            matrix.t[1] = state->matrix.t[1];
+            matrix.t[2] = state->matrix.t[2];
         } else {
-            matrix.t[0] = state->origin[0] + state->direction[0] * state->progress / 1024;
-            matrix.t[1] = state->origin[1] + state->direction[1] * state->progress / 1024;
-            matrix.t[2] = state->origin[2] + state->direction[2] * state->progress / 1024;
+            matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * state->radius / 1024;
+            matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * state->radius / 1024;
+            matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * state->radius / 1024;
         }
-        scale.vx = group->size + pulse;
-        scale.vy = group->size + pulse;
-        scale.vz = group->size + pulse;
+        scale.vx = group->scale.vx + pulse;
+        scale.vy = group->scale.vx + pulse;
+        scale.vz = group->scale.vx + pulse;
         RotMatrix(&rotation, &matrix);
         coordinate.coord = matrix;
         coordinate.super = 0;
@@ -65,44 +65,44 @@ void SpanishModelVariant446_DrawPulse(u8 *context)
                 GsSortPoly(quad, ot, (u16)(depth - 32));
             }
         }
-        if (state->index + 1 == state->timing->count) {
+        if (state->part_index + 1 == state->config->count) {
             if (i == 0) {
                 if (state->phase == 0) {
-                    if (group->size < 4096) {
-                        group->size = (state->time - state->timing->start) * 4096 /
-                                      (state->timing->end - state->timing->start);
-                        if (group->size >= 4096) {
-                            group->size = 4096;
+                    if (group->scale.vx < 4096) {
+                        group->scale.vx = (state->elapsed - state->config->draw_start) * 4096 /
+                                      (state->config->duration - state->config->draw_start);
+                        if (group->scale.vx >= 4096) {
+                            group->scale.vx = 4096;
                             state->phase = 1;
                         }
                     }
-                } else if (state->timing->fade_start <= state->time && group->size > 0) {
-                    group->size = 1024 - (state->time - state->timing->fade_start) * 1024 /
-                                        (state->timing->fade_end - state->timing->fade_start);
-                    if (group->size <= 0) {
-                        group->size = 0;
+                } else if (state->config->fade <= state->elapsed && group->scale.vx > 0) {
+                    group->scale.vx = 1024 - (state->elapsed - state->config->fade) * 1024 /
+                                        (state->config->end - state->config->fade);
+                    if (group->scale.vx <= 0) {
+                        group->scale.vx = 0;
                         if (state->phase == 3) {
                             state->phase = 4;
                         }
                     }
                 }
             } else if (state->phase <= 0) {
-                group->size = 0;
+                group->scale.vx = 0;
             } else if (state->phase == 1) {
-                group->size = 4096;
+                group->scale.vx = 4096;
             } else if (state->phase == 2) {
-                if (group->size < 8192) {
-                    group->size += state->step * 1024;
-                    if (group->size >= 8192) {
-                        group->size = 8192;
+                if (group->scale.vx < 8192) {
+                    group->scale.vx += state->step * 1024;
+                    if (group->scale.vx >= 8192) {
+                        group->scale.vx = 8192;
                         state->phase = 3;
                     }
                 }
             } else if (state->phase == 4) {
-                if (group->size > 0) {
-                    group->size -= state->step * 64;
-                    if (group->size <= 0) {
-                        group->size = 0;
+                if (group->scale.vx > 0) {
+                    group->scale.vx -= state->step * 64;
+                    if (group->scale.vx <= 0) {
+                        group->scale.vx = 0;
                         state->phase = 5;
                     }
                 }
