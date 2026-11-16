@@ -1449,7 +1449,9 @@ The region lists are all empty for now. The regional wrapper sources under
 `VERSION_*` macros, and a region-wide `-DVERSION_EUROPE` on top of a wrapper's
 `#define VERSION_EUROPE` would be a macro redefinition. A wrapper that only
 defines macros can instead be replaced by pointing its entries at the shared
-source with a per-entry `"defines"` list.
+source with a per-entry `"defines"` list, as the five European builds now
+compile `src/game/model_animation_unit.c` with `"defines": ["VERSION_EUROPE"]`
+in place of their former European wrapper of that source.
 
 Neither the resident nor the regional builds embed `__FILE__`
 (`src/psyq/assert.h` is the only user, and no source includes it), and no

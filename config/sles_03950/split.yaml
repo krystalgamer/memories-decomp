@@ -83,7 +83,7 @@ segments:
       - [0xF10, .rodata, game/european/sound_driver]
       - {start: 0xF60, type: bin, name: italian_raw_80010760, linker_section_order: .rodata}
       - [0x1BF0, .rodata, game/european/model]
-      - [0x1EF4, .rodata, game/european/model_animation_unit]
+      - [0x1EF4, .rodata, game/model_animation_unit]
       - [0x1F83, pad]
       - [0x1F84, .rodata, game/european/model_primitive_handler]
       - [0x1FFB, pad]
@@ -147,7 +147,7 @@ segments:
       - [0x4C828, c, game/european/model_slot_support]
       - [0x4CFA4, c, game/model_scene_runtime]
       - [0x4E294, c, game/european/model_texture_pack_page_clut]
-      - [0x4E358, c, game/european/model_animation_unit]
+      - [0x4E358, c, game/model_animation_unit]
       - [0x4F67C, c, game/european/model_primitive_handler]
       - [0x50020, c, game/european/polygon_renderers]
       - [0x55964, c, game/shared_polygon_renderers]

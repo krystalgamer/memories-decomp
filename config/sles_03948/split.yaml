@@ -109,7 +109,7 @@ segments:
     - game/european/model
   - - 7924
     - .rodata
-    - game/european/model_animation_unit
+    - game/model_animation_unit
   - - 8067
     - pad
   - - 8068
@@ -297,7 +297,7 @@ segments:
     - game/european/model_texture_pack_page_clut
   - - 320344
     - c
-    - game/european/model_animation_unit
+    - game/model_animation_unit
   - - 325244
     - c
     - game/european/model_primitive_handler
