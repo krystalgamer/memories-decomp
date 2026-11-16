@@ -5,11 +5,12 @@ animates and draws five three-row sheets as semi-transparent `POLY_GT4`
 quads with a masking `POLY_F4`. **No release had matching C for this body
 before.**
 
-The local view in `variant582_sheets.h` holds:
-- five 0x174-byte sheets at `+0x340`, each with points `[3][13]`, progress
+The helper reads `EntryState469`, the record the 469 entry passes (a local
+view in `variant582_sheets.h` until it was folded). It uses:
+- the five 0x174-byte `EntrySheet469` sheets at `+0x340`, each with points `[3][13]`, progress
   at `+0x16C` and a state word at `+0x170`;
-- the `POLY_F4` mask at `+0x3370` and the `POLY_GT4` quad at `+0x33F0`;
-- the positions at `+0x3508`, the direction at `+0x3648`, the step at
+- the `POLY_F4` mask at `+0x3370` and the `POLY_GT4` `sheet_packet` at `+0x33F0`;
+- the positions at `+0x3508`, the direction at `+0x3648`, the clock's step at
   `+0x3990` and the phase at `+0x39D8`.
 
 Measured shape:

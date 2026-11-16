@@ -54,7 +54,7 @@ typedef struct {
     POLY_G4 quad;
     POLY_F4 mask;
     POLY_GT4 textured[2];
-    u8 unknown_33F0[0x34];
+    POLY_GT4 sheet_packet;
     POLY_FT4 flat[2], ring_packet;
     u8 unknown_349C[0x10];
     GsGLINE line;
@@ -82,7 +82,7 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant469_aImages[9];
 extern EntryConfig469 gFrenchModelVariant469_aConfigs[];
 void FrenchModelVariant582_DrawArcs(EntryState469 *context);
-void FrenchModelVariant582_DrawSheets(u8 *context);
+void FrenchModelVariant582_DrawSheets(EntryState469 *context);
 void SpanishModelVariant469_DrawQuadRing(EntryState469 *context);
 
 #endif

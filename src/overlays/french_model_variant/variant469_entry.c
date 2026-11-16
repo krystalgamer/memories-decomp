@@ -383,7 +383,7 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
                 FrenchModelVariant582_DrawArcs((EntryState469 *)point);
             }
             if (work->phase >= 2) {
-                FrenchModelVariant582_DrawSheets((u8 *)point);
+                FrenchModelVariant582_DrawSheets((EntryState469 *)point);
             }
         }
         work->clock.frame_count++;
