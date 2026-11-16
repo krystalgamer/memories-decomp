@@ -9,7 +9,7 @@
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 #include "utility_helpers.h"
-#include "layered_drawing.h"
+#include "effect_drawing.h"
 #include "drawing_tail.h"
 #include "color_helpers.h"
 

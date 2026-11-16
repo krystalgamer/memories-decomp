@@ -382,103 +382,103 @@
       "address": "0x80163C50",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1D0",
-      "source": "src/overlays/duel_effects/layered_drawing.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80163E20",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x204",
-      "source": "src/overlays/duel_effects/layered_drawing.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80164024",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD0",
-      "source": "src/overlays/duel_effects/layered_drawing.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x801640F4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x108",
-      "source": "src/overlays/duel_effects/layered_drawing.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x801641FC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x2DC",
-      "source": "src/overlays/duel_effects/layered_drawing.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x801644D8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x28C",
-      "source": "src/overlays/duel_effects/layered_drawing.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80164764",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x400",
-      "source": "src/overlays/duel_effects/number_renderer.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80164B64",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6C",
-      "source": "src/overlays/duel_effects/number_renderer.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80164BD0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x100",
-      "source": "src/overlays/duel_effects/number_renderer.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80164CD0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x110",
-      "source": "src/overlays/duel_effects/primitive_draw.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80164DE0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x108",
-      "source": "src/overlays/duel_effects/primitive_draw.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80164EE8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x14C",
-      "source": "src/overlays/duel_effects/primitive_draw.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80165034",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10C",
-      "source": "src/overlays/duel_effects/primitive_draw.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80165140",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x2F8",
-      "source": "src/overlays/duel_effects/primitive_draw.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80165438",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xEC",
-      "source": "src/overlays/duel_effects/primitive_draw.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80165524",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x138",
-      "source": "src/overlays/duel_effects/primitive_draw.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x8016565C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1C8",
-      "source": "src/overlays/duel_effects/primitive_draw.c"
+      "source": "src/overlays/duel_effects/effect_drawing.c"
     },
     {
       "address": "0x80165824",

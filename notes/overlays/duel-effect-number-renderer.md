@@ -79,7 +79,8 @@ or new numeric behavior is added.
 
 The complete Spanish `func_801566D4` interval,
 `0x801566D4..0x80156AD4`, is 1,024 bytes of matching C in
-`src/overlays/duel_effects/number_renderer.c`. It uses the existing
+`number_renderer.c` (now part of
+`src/overlays/duel_effects/effect_drawing.c`). It uses the existing
 `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and MASPSX 2.81. The existing drawing
 header owns the glyph-table declaration, keeping source-local `extern`s out
 of the C file as required by #6459. No compiler profile, inline assembly or
@@ -289,3 +290,11 @@ tree. Only the reviewed pair is added: 83/85 bank functions / 72,752 C bytes,
 207/209 configured instances / 128,604 bytes and 50 complete bank C objects.
 Whole-image and actual linked-owner checks are repeated. Ritual and curve
 remain assembly on this independent branch.
+
+## Later grouping
+
+This object is now part of `src/overlays/duel_effects/effect_drawing.c`,
+merged for #39 with the other former drawing units at the same
+`gcc_2_8_1_g0_split` profile in every region (see the grouping list in
+`duel-effect-bank.md`). The sections above record the unit as it was
+accepted.

@@ -8,7 +8,7 @@
 #include "utility_helpers.h"
 #include "drawing_helpers.h"
 #include "color_helpers.h"
-#include "layered_drawing.h"
+#include "effect_drawing.h"
 #include "textured_quads.h"
 #include "dispatch.h"
 #include "drawing_tail.h"

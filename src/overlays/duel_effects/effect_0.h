@@ -8,7 +8,7 @@
 #include "../../psyq/string.h"
 #include "utility_helpers.h"
 #include "packet_helpers.h"
-#include "layered_drawing.h"
+#include "effect_drawing.h"
 #include "drawing_helpers.h"
 #include "color_helpers.h"
 
