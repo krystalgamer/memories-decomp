@@ -16,14 +16,9 @@
 #include "model.h"
 
 /* Zero-initialized storage this unit owns at 0x800F5918-0x800F5B98, defined in
- * address order ahead of the headers that declare it (#2602). The regional
- * builds split this source into one unit per function; the dispatch unit owns
- * the array and the others use model.h's declaration. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_HANDLER_DISPATCH)
+ * address order ahead of the headers that declare it (#2602). */
 ModelHandlerRegistryEntry gModel_aHandlerKeyRegistry[80];
-#endif
 
-#include "model_primitive_handler.h"
 #include "model_handler_registry.h"
 #include "direct_polygon_renderers.h"
 #include "shared_primitive_renderers.h"
@@ -48,7 +43,6 @@ static inline s32 Model_LookupHandlerKey(s32 handler_value)
     return -1;
 }
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_HANDLER_DISPATCH)
 /* Maps an id to its handler in the second dispatch family: looks the id up
  * in the handler registry at gModel_aHandlerKeyRegistry (GsU_00000000 is the sentinel that
  * skips the search), then dispatches on the high halfword's group and the
@@ -182,11 +176,9 @@ s32 Model_MapToBasePrimitiveHandler(s32 handler_value) {
     }
     return handler_value;
 }
-#endif
 
 /* Finds `type_key` in the table; if absent and there is a free slot, claims it
    with (type_key, handler_value). No-op once all 80 slots are taken and no match exists. */
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_REGISTER_HANDLER_KEY)
 void Model_RegisterHandlerKey(s32 type_key, s32 handler_value) {
     s32 registry_index;
     ModelHandlerRegistryEntry *registry_entry = gModel_aHandlerKeyRegistry;
@@ -205,12 +197,9 @@ void Model_RegisterHandlerKey(s32 type_key, s32 handler_value) {
         return;
     }
 }
-#endif
 
-#if !defined(VERSION_JAPAN) || defined(VERSION_JAPAN_MODEL_FIND_HANDLER_KEY)
 /* Reverse lookup: finds the entry whose handler_value matches, returns its key (or -1
    if handler_value is the sentinel, or if no entry matches after scanning all 80). */
 s32 Model_FindHandlerKey(s32 handler_value) {
     return Model_LookupHandlerKey(handler_value);
 }
-#endif

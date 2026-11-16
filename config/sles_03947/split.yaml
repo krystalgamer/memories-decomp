@@ -156,9 +156,7 @@ segments:
       - [0x0513DC, c, game/european/polygon_renderers]
       - [0x056D20, c, game/shared_polygon_renderers]
       - [0x059944, c, game/color_transform]
-      - [0x05A218, c, game/european/model_handler_dispatch]
-      - [0x05A76C, c, game/european/model_register_handler_key]
-      - [0x05A7CC, c, game/european/model_find_handler_key]
+      - [0x05A218, c, game/model_handler_registry]
       - [0x05A81C, c, game/wireframe_renderers]
       - [0x05B94C, c, game/european/main_menu_load_package_stage]
       - [0x05BBB0, c, game/european/model_effect_handlers]
@@ -244,7 +242,7 @@ segments:
       - [0xe4438, bss, movie_pipeline_bss_commons]
       - [0xe4450, bss, model_bss_commons]
       - [0xe6fd0, bss, model_scene_runtime_bss_commons]
-      - [0xe7080, .bss, game/european/model_handler_dispatch]
+      - [0xe7080, .bss, game/model_handler_registry]
       - [0xe7300, .bss, game/european/ai_script]
       - {start: 0xe7424, type: bin, name: bss_image_800f6c24, linker_section_order: .bss}
 
