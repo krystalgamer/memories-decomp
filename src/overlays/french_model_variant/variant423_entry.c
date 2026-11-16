@@ -284,11 +284,11 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->draw_start <= work->clock.frame) {
-            SpanishModelVariant423_DrawSheets((u8 *)point);
+            SpanishModelVariant423_DrawSheets((EntryState423 *)point);
         }
         if (work->phase >= 3) {
             FrenchModelVariant423_DrawFunnel((u8 *)point);
-            SpanishModelVariant423_DrawMesh((u8 *)point);
+            SpanishModelVariant423_DrawMesh((EntryState423 *)point);
         }
         if (work->phase >= 2) {
             FrenchModelVariant423_DrawRibbon((u8 *)point);

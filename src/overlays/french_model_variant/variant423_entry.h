@@ -8,7 +8,6 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
-#include "../spanish_model_variant/variant423_mesh.h"
 #include "variant423_funnel.h"
 #include "../model_variant/model_variant.h"
 
@@ -58,10 +57,10 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant423_aImages[9];
 extern EntryConfig423 gFrenchModelVariant423_aConfigs[];
-void SpanishModelVariant423_DrawMesh(u8 *context);
+void SpanishModelVariant423_DrawMesh(EntryState423 *context);
 void SpanishModelVariant423_DrawSpiral(EntryState423 *context);
 void FrenchModelVariant423_DrawRibbon(u8 *context);
-void SpanishModelVariant423_DrawSheets(u8 *context);
+void SpanishModelVariant423_DrawSheets(EntryState423 *context);
 void FrenchModelVariant423_DrawFunnel(u8 *context);
 
 #endif
