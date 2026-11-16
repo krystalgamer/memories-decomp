@@ -34,9 +34,9 @@ void ModelVariant416_DrawBands(u8 *ctx)
     /* Both arms fold to the same division, so the test leaves no code; the
      * split assignment keeps the srl/sll/sra form of the radius. */
     if (!(work->clock.frame_count & 1)) {
-        r = work->field_1A78 / 256;
+        r = work->scale / 256;
     } else {
-        r = work->field_1A78 * 16 / 4096;
+        r = work->scale * 16 / 4096;
     }
     band = work->bands;
     for (i = 0; i < 2; i++, band++) {

@@ -39,7 +39,7 @@ typedef struct {
     ModelVariantWebConfig *config;
     u32 field_1A64;
     GsCOORDUNIT *parts[3];
-    s16 field_1A74, field_1A76, field_1A78, field_1A7A;
+    s16 field_1A74, field_1A76, scale, field_1A7A;
     s32 field_1A7C, quad_angle;
     ModelVariantEntryTail tail;
 } Variant416EntryState;

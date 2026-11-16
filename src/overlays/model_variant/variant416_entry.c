@@ -269,7 +269,7 @@ s32 ModelVariant416_HandleRequest(SVECTOR *point, s32 command)
             spoke->count = 0;
         }
         work->field_1A74 = 0;
-        work->field_1A78 = 4096;
+        work->scale = 4096;
         work->field_1A7A = 1024;
         work->field_1A7C = 0;
         work->quad_angle = 0;
