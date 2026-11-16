@@ -311,7 +311,7 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
         work->spiral_size = 0;
         work->field_1B2A = 0;
         work->field_1B2C = 0;
-        work->field_1B30 = 4096;
+        work->scale = 4096;
         work->field_1B32 = 1024;
         work->field_1B34 = 0;
         work->quad_angle = 0;

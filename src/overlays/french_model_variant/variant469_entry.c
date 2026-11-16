@@ -294,7 +294,7 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
         work->angle = 0;
         work->wave = 0;
         work->scale = 1024;
-        work->field_39BC = 0;
+        work->ribbon_wave = 0;
         work->field_39C0 = 0;
         work->field_39C4 = 0;
         work->field_39CC = reset_value;

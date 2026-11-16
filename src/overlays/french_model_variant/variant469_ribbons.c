@@ -92,7 +92,7 @@ void FrenchModelVariant469_DrawRibbons(EntryState469 *context)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        for (k = 0, wave = -work->field_39BC; k < 11; k++, wave += 0x514) {
+        for (k = 0, wave = -work->ribbon_wave; k < 11; k++, wave += 0x514) {
             if (k == 10) {
                 ribbon->otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k], &ribbon->a[k - 1], &ribbon->a[k],
                                                 &ribbon->sa[k - 1], &ribbon->sa[k], &ribbon->sa[k - 1], &ribbon->sa[k],
@@ -187,6 +187,6 @@ void FrenchModelVariant469_DrawRibbons(EntryState469 *context)
             work->phase = 6;
         }
     }
-    work->field_39BC += work->clock.step * 384;
+    work->ribbon_wave += work->clock.step * 384;
     work->field_39C0 += work->clock.step << 7;
 }

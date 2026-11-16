@@ -55,7 +55,7 @@ typedef struct {
     EntryConfig469 *config;
     u32 field_399C;
     GsCOORDUNIT *parts[3];
-    s32 angle, scale, wave, intensity, field_39BC, field_39C0;
+    s32 angle, scale, wave, intensity, ribbon_wave, field_39C0;
     s16 field_39C4, field_39C6;
     s32 field_39C8;
     s16 field_39CC, field_39CE;

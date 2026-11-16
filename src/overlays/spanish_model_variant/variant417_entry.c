@@ -255,7 +255,7 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
         work->spiral_angle = 0;
         work->field_2152 = 0;
         work->spiral_size = 0;
-        work->field_2156 = 0;
+        work->spiral_shrink = 0;
         work->progress = 0;
         work->field_216C = 0;
         work->field_2164 = 0;
