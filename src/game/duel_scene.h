@@ -73,41 +73,38 @@ typedef char DuelEffectResourceRecord_size_must_be_0x40[
     sizeof(DuelEffectResourceRecord) == 0x40 ? 1 : -1
 ];
 
-#define DUEL_EFFECT_RESOURCE_RECORD_OFFSET(member) \
-    ((u32)&(((DuelEffectResourceRecord *)0)->member))
-
 typedef char DuelEffectResourceRecord_primary_object_offset_must_be_0x0[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(primary_object) == 0 ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, primary_object) == 0 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_secondary_object_offset_must_be_0x4[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(secondary_object) == 4 ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, secondary_object) == 4 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_rects_offset_must_be_0x8[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(rects) == 8 ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, rects) == 8 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_card_id_offset_must_be_0x30[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(card_id) == 0x30 ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, card_id) == 0x30 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_attack_offset_must_be_0x32[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attack) == 0x32 ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, attack) == 0x32 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_defense_offset_must_be_0x34[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(defense) == 0x34 ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, defense) == 0x34 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_attack_adjustment_offset_must_be_0x36[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attack_adjustment) == 0x36 ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, attack_adjustment) == 0x36 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_defense_adjustment_offset_must_be_0x38[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(defense_adjustment) == 0x38 ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, defense_adjustment) == 0x38 ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_level_offset_must_be_0x3A[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(level) == 0x3A ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, level) == 0x3A ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_attribute_icon_offset_must_be_0x3B[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(attribute_icon) == 0x3B ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, attribute_icon) == 0x3B ? 1 : -1
 ];
 typedef char DuelEffectResourceRecord_stat_palette_flags_offset_must_be_0x3C[
-    DUEL_EFFECT_RESOURCE_RECORD_OFFSET(stat_palette_flags) == 0x3C ? 1 : -1
+    OFFSETOF(DuelEffectResourceRecord, stat_palette_flags) == 0x3C ? 1 : -1
 ];
 
 /* The array itself. Seven sources declared it identically and all seven
@@ -216,8 +213,6 @@ extern DisplayObject *gDuel_pActionReadyMarker;
 
 struct DisplayObject;
 
-#define DUEL_HAND_SLOT_OFFSET(member) ((u32)&(((DuelHandSlot *)0)->member))
-
 /* One of the HAND_SIZE hand slots at gDuelHand_aSlots.
  *
  * `object` is the card object the draw spawns for the slot; `order_marker` is the
@@ -236,19 +231,17 @@ typedef struct DuelHandSlot {
 } DuelHandSlot;
 
 typedef char DuelHandSlot_object_offset_must_be_0x00[
-    DUEL_HAND_SLOT_OFFSET(object) == 0x00 ? 1 : -1
+    OFFSETOF(DuelHandSlot, object) == 0x00 ? 1 : -1
 ];
 typedef char DuelHandSlot_size_must_be_0xC[
     sizeof(DuelHandSlot) == 0xC ? 1 : -1
 ];
 typedef char DuelHandSlot_order_marker_offset_must_be_0x04[
-    DUEL_HAND_SLOT_OFFSET(order_marker) == 0x04 ? 1 : -1
+    OFFSETOF(DuelHandSlot, order_marker) == 0x04 ? 1 : -1
 ];
 typedef char DuelHandSlot_selection_order_offset_must_be_0x09[
-    DUEL_HAND_SLOT_OFFSET(selection_order) == 0x09 ? 1 : -1
+    OFFSETOF(DuelHandSlot, selection_order) == 0x09 ? 1 : -1
 ];
-
-#undef DUEL_HAND_SLOT_OFFSET
 
 extern DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
 
@@ -459,42 +452,32 @@ s32 DuelCursor_UpdateDirection(DuelSelectionRecord *object);
  * DuelCursor_ProcessGridDirection argument call through this type. */
 typedef s32 (*DuelCursorUpdateDirectionWithDir)(DuelSelectionRecord *cursor, s8 dir);
 
-#define DUEL_CURSOR_MOTION_OFFSET(member) \
-    ((u32)&(((DisplayObject *)0)->member))
-
 typedef char DuelCursorMotion_position_offsets_must_match[
-    DUEL_CURSOR_MOTION_OFFSET(position.h.field_28) == 0x28 &&
-    DUEL_CURSOR_MOTION_OFFSET(position.h.field_2A) == 0x2A ? 1 : -1
+    OFFSETOF(DisplayObject, position.h.field_28) == 0x28 &&
+    OFFSETOF(DisplayObject, position.h.field_2A) == 0x2A ? 1 : -1
 ];
 typedef char DuelCursorMotion_target_offsets_must_match[
-    DUEL_CURSOR_MOTION_OFFSET(field_2C.h.field_2C) == 0x2C &&
-    DUEL_CURSOR_MOTION_OFFSET(field_2C.h.field_2E) == 0x2E ? 1 : -1
+    OFFSETOF(DisplayObject, field_2C.h.field_2C) == 0x2C &&
+    OFFSETOF(DisplayObject, field_2C.h.field_2E) == 0x2E ? 1 : -1
 ];
 typedef char DuelCursorMotion_step_offsets_must_match[
-    DUEL_CURSOR_MOTION_OFFSET(field_34.h.field_36) == 0x36 &&
-    DUEL_CURSOR_MOTION_OFFSET(field_38.h.field_3A) == 0x3A ? 1 : -1
+    OFFSETOF(DisplayObject, field_34.h.field_36) == 0x36 &&
+    OFFSETOF(DisplayObject, field_38.h.field_3A) == 0x3A ? 1 : -1
 ];
 typedef char DuelCursorMotion_control_offsets_must_match[
-    DUEL_CURSOR_MOTION_OFFSET(field_60) == 0x60 &&
-    DUEL_CURSOR_MOTION_OFFSET(update_state) == 0x6C ? 1 : -1
+    OFFSETOF(DisplayObject, field_60) == 0x60 &&
+    OFFSETOF(DisplayObject, update_state) == 0x6C ? 1 : -1
 ];
-
-#undef DUEL_CURSOR_MOTION_OFFSET
-
-#define DUEL_CURSOR_RECORD_OFFSET(member) \
-    ((u32)&(((DuelSelectionRecord *)0)->member))
 
 typedef char DuelCursor_record_offsets_must_match[
-    DUEL_CURSOR_RECORD_OFFSET(cursor_object) == 0x04 &&
-    DUEL_CURSOR_RECORD_OFFSET(col) == 0x0F &&
-    DUEL_CURSOR_RECORD_OFFSET(row) == 0x10 &&
-    DUEL_CURSOR_RECORD_OFFSET(row_min) == 0x11 &&
-    DUEL_CURSOR_RECORD_OFFSET(row_end) == 0x12 &&
-    DUEL_CURSOR_RECORD_OFFSET(field_actions_mode) == 0x18 &&
-    DUEL_CURSOR_RECORD_OFFSET(status) == 0x19 ? 1 : -1
+    OFFSETOF(DuelSelectionRecord, cursor_object) == 0x04 &&
+    OFFSETOF(DuelSelectionRecord, col) == 0x0F &&
+    OFFSETOF(DuelSelectionRecord, row) == 0x10 &&
+    OFFSETOF(DuelSelectionRecord, row_min) == 0x11 &&
+    OFFSETOF(DuelSelectionRecord, row_end) == 0x12 &&
+    OFFSETOF(DuelSelectionRecord, field_actions_mode) == 0x18 &&
+    OFFSETOF(DuelSelectionRecord, status) == 0x19 ? 1 : -1
 ];
-
-#undef DUEL_CURSOR_RECORD_OFFSET
 
 /* One step of the duel field cursor. `dir` is the direction index
  * DuelCursor_ProcessHeldGridDirection priority-encodes out of the held pad bits: negative for no
@@ -762,25 +745,23 @@ typedef struct DuelSideState {
     s8 card_view_mode;
 } DuelSideState;
 
-#define DUEL_SIDE_STATE_OFFSET(member) ((u32)&(((DuelSideState *)0)->member))
-
 typedef char DuelSideState_size_must_be_0x20[
     sizeof(DuelSideState) == 0x20 ? 1 : -1
 ];
 typedef char DuelSideState_hand_must_be_at_0x1A[
-    DUEL_SIDE_STATE_OFFSET(hand) == 0x1A ? 1 : -1
+    OFFSETOF(DuelSideState, hand) == 0x1A ? 1 : -1
 ];
 typedef char DuelRankStatistics_size_must_be_0x0D[
     sizeof(DuelRankStatistics) == 0x0D ? 1 : -1
 ];
 typedef char DuelSideState_deck_draw_cursor_must_be_at_0x18[
-    DUEL_SIDE_STATE_OFFSET(deck_draw_cursor) == 0x18 ? 1 : -1
+    OFFSETOF(DuelSideState, deck_draw_cursor) == 0x18 ? 1 : -1
 ];
 typedef char DuelSideState_swords_turns_remaining_must_be_at_0x19[
-    DUEL_SIDE_STATE_OFFSET(swords_turns_remaining) == 0x19 ? 1 : -1
+    OFFSETOF(DuelSideState, swords_turns_remaining) == 0x19 ? 1 : -1
 ];
 typedef char DuelSideState_card_view_mode_must_be_at_0x1F[
-    DUEL_SIDE_STATE_OFFSET(card_view_mode) == 0x1F ? 1 : -1
+    OFFSETOF(DuelSideState, card_view_mode) == 0x1F ? 1 : -1
 ];
 
 /* The side selector: 0 or 1, and the index behind both cursors this header
@@ -1273,23 +1254,21 @@ typedef struct {
 typedef char DuelDeckCardRecord_size_must_be_6[
     sizeof(DuelDeckCardRecord) == 6 ? 1 : -1
 ];
-#define DUEL_DECK_CARD_OFFSET(member) ((u32)&(((DuelDeckCardRecord *)0)->member))
 typedef char DuelDeckCardRecord_id_offset_must_be_0[
-    DUEL_DECK_CARD_OFFSET(id) == 0 ? 1 : -1
+    OFFSETOF(DuelDeckCardRecord, id) == 0 ? 1 : -1
 ];
 typedef char DuelDeckCardRecord_index_offset_must_be_2[
-    DUEL_DECK_CARD_OFFSET(deck_index) == 2 ? 1 : -1
+    OFFSETOF(DuelDeckCardRecord, deck_index) == 2 ? 1 : -1
 ];
 typedef char DuelDeckCardRecord_data_block_offset_must_be_3[
-    DUEL_DECK_CARD_OFFSET(data_block_index) == 3 ? 1 : -1
+    OFFSETOF(DuelDeckCardRecord, data_block_index) == 3 ? 1 : -1
 ];
 typedef char DuelDeckCardRecord_pre_shuffle_index_offset_must_be_4[
-    DUEL_DECK_CARD_OFFSET(pre_shuffle_index) == 4 ? 1 : -1
+    OFFSETOF(DuelDeckCardRecord, pre_shuffle_index) == 4 ? 1 : -1
 ];
 typedef char DuelDeckCardRecord_unknown_offset_must_be_5[
-    DUEL_DECK_CARD_OFFSET(unk_05) == 5 ? 1 : -1
+    OFFSETOF(DuelDeckCardRecord, unk_05) == 5 ? 1 : -1
 ];
-#undef DUEL_DECK_CARD_OFFSET
 
 extern DuelDeckCardRecord gDuel_aDeckCardRecords[];
 
@@ -1627,8 +1606,6 @@ extern DuelRankScoreChangeEntry
 s32 Duel_CalcRankScoreChange(s32 rule, s32 value);
 
 #define DUEL_RESULT_DISPLAY_CHILD_COUNT 10
-#define DUEL_RESULT_DISPLAY_OFFSET(member) \
-    ((u32)&(((DuelResultDisplayState *)0)->member))
 
 typedef struct DuelResultDisplayState {
     DisplayObject *root;
@@ -1650,28 +1627,26 @@ typedef struct DuelResultDisplayState {
 } DuelResultDisplayState;
 
 typedef char DuelResultDisplayState_children_offset_must_be_0x4[
-    DUEL_RESULT_DISPLAY_OFFSET(children) == 0x4 ? 1 : -1
+    OFFSETOF(DuelResultDisplayState, children) == 0x4 ? 1 : -1
 ];
 typedef char DuelResultDisplayState_page_text_ids_offset_must_be_0x34[
-    DUEL_RESULT_DISPLAY_OFFSET(page_text_ids) == 0x34 ? 1 : -1
+    OFFSETOF(DuelResultDisplayState, page_text_ids) == 0x34 ? 1 : -1
 ];
 typedef char DuelResultDisplayState_page_index_offset_must_be_0x37[
-    DUEL_RESULT_DISPLAY_OFFSET(page_index) == 0x37 ? 1 : -1
+    OFFSETOF(DuelResultDisplayState, page_index) == 0x37 ? 1 : -1
 ];
 typedef char DuelResultDisplayState_rank_tier_offset_must_be_0x38[
-    DUEL_RESULT_DISPLAY_OFFSET(rank_tier) == 0x38 ? 1 : -1
+    OFFSETOF(DuelResultDisplayState, rank_tier) == 0x38 ? 1 : -1
 ];
 typedef char DuelResultDisplayState_starchip_prize_offset_must_be_0x3A[
-    DUEL_RESULT_DISPLAY_OFFSET(starchip_prize) == 0x3A ? 1 : -1
+    OFFSETOF(DuelResultDisplayState, starchip_prize) == 0x3A ? 1 : -1
 ];
 typedef char DuelResultDisplayState_dropped_card_id_offset_must_be_0x3C[
-    DUEL_RESULT_DISPLAY_OFFSET(dropped_card_id) == 0x3C ? 1 : -1
+    OFFSETOF(DuelResultDisplayState, dropped_card_id) == 0x3C ? 1 : -1
 ];
 typedef char DuelResultDisplayState_size_must_be_0x40[
     sizeof(DuelResultDisplayState) == 0x40 ? 1 : -1
 ];
-
-#undef DUEL_RESULT_DISPLAY_OFFSET
 
 /* The record itself, or rather the pointer the game reaches it through. It
  * belongs beside the layout above because that layout is the whole of what

@@ -73,13 +73,12 @@ typedef union {
     DuelAttackTrapScratch attack_traps;
 } DuelCardStagingBuffer;
 
-#define DUEL_CARD_STAGING_OFFSET(type, member) ((u32)&(((type *)0)->member))
 typedef char DuelAttackTrapScratch_card_ids_offset_must_be_0x1BC68[
-    DUEL_CARD_STAGING_OFFSET(DuelAttackTrapScratch, table.entries.card_ids) ==
+    OFFSETOF(DuelAttackTrapScratch, table.entries.card_ids) ==
         0x1BC68 ? 1 : -1
 ];
 typedef char DuelAttackTrapScratch_record_indices_offset_must_be_0x1BC88[
-    DUEL_CARD_STAGING_OFFSET(DuelAttackTrapScratch, table.entries.record_indices) ==
+    OFFSETOF(DuelAttackTrapScratch, table.entries.record_indices) ==
         0x1BC68 + DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS * sizeof(u16)
             ? 1 : -1
 ];
@@ -87,11 +86,11 @@ typedef char DuelAttackTrapTable_size_must_be_0x2c[
     sizeof(DuelAttackTrapTable) == 0x2C ? 1 : -1
 ];
 typedef char DuelCardStagingDeckView_cards_offset_must_be_0x4B9FC[
-    DUEL_CARD_STAGING_OFFSET(DuelCardStagingDeckView, cards) ==
+    OFFSETOF(DuelCardStagingDeckView, cards) ==
         0x48000 + 0x39FC ? 1 : -1
 ];
 typedef char DuelCardStagingDeckView_field_cards_offset_must_be_0x4B6B4[
-    DUEL_CARD_STAGING_OFFSET(DuelCardStagingDeckView, field_cards) ==
+    OFFSETOF(DuelCardStagingDeckView, field_cards) ==
         0x48000 + 0x36B4 ? 1 : -1
 ];
 typedef char DuelCardStagingDeckView_size_must_preserve_deck_extent[
@@ -99,25 +98,24 @@ typedef char DuelCardStagingDeckView_size_must_preserve_deck_extent[
         0x4B9FC + COMBINED_DECK_SIZE * sizeof(DuelDeckCardRecord) ? 1 : -1
 ];
 typedef char DuelCombinedDeckInput_pre_shuffle_indices_offset_must_be_0x1BB70[
-    DUEL_CARD_STAGING_OFFSET(DuelCombinedDeckInput, pre_shuffle_indices) ==
+    OFFSETOF(DuelCombinedDeckInput, pre_shuffle_indices) ==
         0x1BB70 ? 1 : -1
 ];
 typedef char DuelCombinedDeckInput_card_ids_offset_must_be_0x1BBC4[
-    DUEL_CARD_STAGING_OFFSET(DuelCombinedDeckInput, card_ids) == 0x1BBC4
+    OFFSETOF(DuelCombinedDeckInput, card_ids) == 0x1BBC4
         ? 1 : -1
 ];
 typedef char DuelCombinedDeckInput_sorted_ids_follow_by_one_stride[
-    DUEL_CARD_STAGING_OFFSET(DuelCombinedDeckInput, sorted_card_ids) ==
+    OFFSETOF(DuelCombinedDeckInput, sorted_card_ids) ==
         0x1BBC4 + DUEL_DECK_ID_BUFFER_STRIDE ? 1 : -1
 ];
 typedef char DuelCombinedDeckInput_unique_ids_offset_must_be_0x1BD0C[
-    DUEL_CARD_STAGING_OFFSET(DuelCombinedDeckInput, unique_card_ids) ==
+    OFFSETOF(DuelCombinedDeckInput, unique_card_ids) ==
         0x1BD0C ? 1 : -1
 ];
 typedef char DuelCardStagingBuffer_size_must_end_at_0x801A8000[
     sizeof(DuelCardStagingBuffer) == 0x801A8000 - 0x8015C424 ? 1 : -1
 ];
-#undef DUEL_CARD_STAGING_OFFSET
 
 /* The deck-view readers index a member at a large constant offset; retail
  * materialises the base `lui %hi` / `addiu %lo`, adds the 0x48000 part
