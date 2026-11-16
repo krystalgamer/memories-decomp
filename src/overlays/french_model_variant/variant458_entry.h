@@ -21,11 +21,11 @@ typedef union {
 } Variant458Screen;
 
 typedef struct {
-    SVECTOR a[9];
-    Variant458Screen sa[9];
+    SVECTOR points[9];
+    Variant458Screen screen[9];
     s32 angle[9];
-    SVECTOR b[9];
-    Variant458Screen sb[9];
+    SVECTOR edges[9];
+    Variant458Screen edge_screen[9];
     s32 width[9];
     CVECTOR inner, outer;
     VECTOR scale;
@@ -33,8 +33,8 @@ typedef struct {
     s32 field_13C;
     u8 unknown_140[0x68];
     s32 depth[9];
-    s16 ox[9];
-    s16 oy[9];
+    s16 x_offset[9];
+    s16 y_offset[9];
     s32 delay, count, field_1F8, field_1FC;
 } EntryStrand458;
 

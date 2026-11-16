@@ -8,12 +8,12 @@
  * from sa[k]; the default spelling is the French one. */
 #ifdef MODEL_VARIANT441_STRANDS_POINTER_SCREEN
 #define STRANDS458_ROW i
-#define STRANDS458_SA(k, n) (*(strand->sa + (k) + (n)))
-#define STRANDS458_SB(k) (*(strand->sb + (k)))
+#define STRANDS458_SA(k, n) (*(strand->screen + (k) + (n)))
+#define STRANDS458_SB(k) (*(strand->edge_screen + (k)))
 #else
 #define STRANDS458_ROW row
-#define STRANDS458_SA(k, n) (strand->sa[(k) + (n)])
-#define STRANDS458_SB(k) (strand->sb[k])
+#define STRANDS458_SA(k, n) (strand->screen[(k) + (n)])
+#define STRANDS458_SB(k) (strand->edge_screen[k])
 #endif
 
 void FrenchModelVariant458_DrawStrands(EntryState458 *context)
@@ -65,10 +65,10 @@ void FrenchModelVariant458_DrawStrands(EntryState458 *context)
             }
             rsin(sway);
             rsin(phase);
-            setVector(&strand->a[k], work->spans[i].vx * k / 8, work->spans[i].vy * k / 8,
+            setVector(&strand->points[k], work->spans[i].vx * k / 8, work->spans[i].vy * k / 8,
                       work->spans[i].vz * k / 8);
-            setVector(&strand->b[k], strand->a[k].vx + (rcos(turn) * radius >> 12), strand->a[k].vy,
-                      strand->a[k].vz + (rsin(turn) * radius >> 12));
+            setVector(&strand->edges[k], strand->points[k].vx + (rcos(turn) * radius >> 12), strand->points[k].vy,
+                      strand->points[k].vz + (rsin(turn) * radius >> 12));
             row = i;
             setVector(&rot, 0, 0, 0);
             m.t[0] = work->destinations[row].vx;
@@ -83,31 +83,31 @@ void FrenchModelVariant458_DrawStrands(EntryState458 *context)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (k == 8) {
-                strand->depth[k] = RotTransPers4(&strand->a[k - 1], &strand->a[k], &strand->a[k - 1], &strand->a[k],
-                                                 &strand->sa[k - 1].packed, &strand->sa[k].packed,
-                                                 &strand->sa[k - 1].packed, &strand->sa[k].packed, &p, &flags[STRANDS458_ROW][k]);
-                RotTransPers(&strand->b[k], &strand->sb[k].packed, &p, &flag);
-                dx = strand->sa[k].point.vx - strand->sa[k - 1].point.vx;
-                dy = strand->sa[k].point.vy - strand->sa[k - 1].point.vy;
+                strand->depth[k] = RotTransPers4(&strand->points[k - 1], &strand->points[k], &strand->points[k - 1], &strand->points[k],
+                                                 &strand->screen[k - 1].packed, &strand->screen[k].packed,
+                                                 &strand->screen[k - 1].packed, &strand->screen[k].packed, &p, &flags[STRANDS458_ROW][k]);
+                RotTransPers(&strand->edges[k], &strand->edge_screen[k].packed, &p, &flag);
+                dx = strand->screen[k].point.vx - strand->screen[k - 1].point.vx;
+                dy = strand->screen[k].point.vy - strand->screen[k - 1].point.vy;
                 strand->angle[k] = ratan2(dy, dx) - 0x400;
-                strand->width[k] = strand->sb[k].point.vx - strand->sa[k].point.vx;
-                strand->ox[k] = rcos(strand->angle[k]) * strand->width[k] >> 12;
-                strand->oy[k] = rsin(strand->angle[k]) * strand->width[k] >> 12;
+                strand->width[k] = strand->edge_screen[k].point.vx - strand->screen[k].point.vx;
+                strand->x_offset[k] = rcos(strand->angle[k]) * strand->width[k] >> 12;
+                strand->y_offset[k] = rsin(strand->angle[k]) * strand->width[k] >> 12;
             } else {
-                strand->depth[k] = RotTransPers4(&strand->a[k], &strand->a[k + 1], &strand->a[k], &strand->a[k + 1],
-                                                 &strand->sa[k].packed, &strand->sa[k + 1].packed,
-                                                 &strand->sa[k].packed, &strand->sa[k + 1].packed, &p, &flags[STRANDS458_ROW][k]);
-                RotTransPers(&strand->b[k], &strand->sb[k].packed, &p, &flag);
+                strand->depth[k] = RotTransPers4(&strand->points[k], &strand->points[k + 1], &strand->points[k], &strand->points[k + 1],
+                                                 &strand->screen[k].packed, &strand->screen[k + 1].packed,
+                                                 &strand->screen[k].packed, &strand->screen[k + 1].packed, &p, &flags[STRANDS458_ROW][k]);
+                RotTransPers(&strand->edges[k], &strand->edge_screen[k].packed, &p, &flag);
                 dx = STRANDS458_SA(k, 1).point.vx - STRANDS458_SA(k, 0).point.vx;
                 dy = STRANDS458_SA(k, 1).point.vy - STRANDS458_SA(k, 0).point.vy;
                 strand->angle[k] = ratan2(dy, dx) - 0x400;
                 strand->width[k] = STRANDS458_SB(k).point.vx - STRANDS458_SA(k, 0).point.vx;
-                strand->ox[k] = rcos(strand->angle[k]) * strand->width[k] >> 12;
-                strand->oy[k] = rsin(strand->angle[k]) * strand->width[k] >> 12;
+                strand->x_offset[k] = rcos(strand->angle[k]) * strand->width[k] >> 12;
+                strand->y_offset[k] = rsin(strand->angle[k]) * strand->width[k] >> 12;
             }
             wave = base - k * 1024 + work->wave_phase;
-            strand->sa[k].packed += rcos(strand->angle[k]) * (rsin(wave) * 8 >> 12) >> 12;
-            strand->sa[k].packed = (u32)strand->sa[k].packed + ((u32)(rsin(strand->angle[k]) * (rsin(wave) * 8 >> 12) >> 12) << 16);
+            strand->screen[k].packed += rcos(strand->angle[k]) * (rsin(wave) * 8 >> 12) >> 12;
+            strand->screen[k].packed = (u32)strand->screen[k].packed + ((u32)(rsin(strand->angle[k]) * (rsin(wave) * 8 >> 12) >> 12) << 16);
         }
     }
     strand = work->strands;
@@ -120,14 +120,14 @@ void FrenchModelVariant458_DrawStrands(EntryState458 *context)
             if ((s16)(k % 2) == 1) {
                 poly++;
             }
-            poly->x0 = STRANDS458_SA(k, 0).point.vx + strand->ox[k];
-            poly->y0 = (STRANDS458_SA(k, 0).packed >> 16) + strand->oy[k];
-            poly->x1 = STRANDS458_SA(k, 1).point.vx + strand->ox[k + 1];
-            poly->y1 = (STRANDS458_SA(k, 1).packed >> 16) + strand->oy[k + 1];
-            poly->x2 = STRANDS458_SA(k, 0).point.vx - strand->ox[k];
-            poly->y2 = (STRANDS458_SA(k, 0).packed >> 16) - strand->oy[k];
-            poly->x3 = STRANDS458_SA(k, 1).point.vx - strand->ox[k + 1];
-            poly->y3 = (STRANDS458_SA(k, 1).packed >> 16) - strand->oy[k + 1];
+            poly->x0 = STRANDS458_SA(k, 0).point.vx + strand->x_offset[k];
+            poly->y0 = (STRANDS458_SA(k, 0).packed >> 16) + strand->y_offset[k];
+            poly->x1 = STRANDS458_SA(k, 1).point.vx + strand->x_offset[k + 1];
+            poly->y1 = (STRANDS458_SA(k, 1).packed >> 16) + strand->y_offset[k + 1];
+            poly->x2 = STRANDS458_SA(k, 0).point.vx - strand->x_offset[k];
+            poly->y2 = (STRANDS458_SA(k, 0).packed >> 16) - strand->y_offset[k];
+            poly->x3 = STRANDS458_SA(k, 1).point.vx - strand->x_offset[k + 1];
+            poly->y3 = (STRANDS458_SA(k, 1).packed >> 16) - strand->y_offset[k + 1];
             poly->r0 = strand->inner.r;
             poly->g0 = strand->inner.g;
             poly->b0 = strand->inner.b;

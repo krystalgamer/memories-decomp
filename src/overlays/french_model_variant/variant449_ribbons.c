@@ -7,12 +7,12 @@
  * starts each quad through a pointer to its first point. */
 #ifdef MODEL_VARIANT449_RIBBONS_FOLDED_NEXT
 #define RIBBONS449_CLOSING(array) (ribbon->array[16])
-#define RIBBONS449_NEXT(n) ((ribbon->sa + 1)[n])
-#define RIBBONS449_START(n) (*(ribbon->sa + (n)))
+#define RIBBONS449_NEXT(n) ((ribbon->screen + 1)[n])
+#define RIBBONS449_START(n) (*(ribbon->screen + (n)))
 #else
 #define RIBBONS449_CLOSING(array) (ribbon->array[k])
-#define RIBBONS449_NEXT(n) (ribbon->sa[(n) + 1])
-#define RIBBONS449_START(n) (ribbon->sa[n])
+#define RIBBONS449_NEXT(n) (ribbon->screen[(n) + 1])
+#define RIBBONS449_START(n) (ribbon->screen[n])
 #endif
 
 void FrenchModelVariant449_DrawRibbons(Variant432EntryState *context)
@@ -64,14 +64,14 @@ void FrenchModelVariant449_DrawRibbons(Variant432EntryState *context)
                 sway = base - k * 384 - work->phase_b;
             }
             bend = rsin(sway) * ((rsin(phase) * 16 >> 12) + 32) >> 12;
-            setVector(&ribbon->a[k],
+            setVector(&ribbon->points[k],
                       work->direction.vx * k / 16,
                       work->direction.vy * k / 16 + (rcos(base + work->spin) * bend >> 12),
                       work->direction.vz * k / 16 + (rsin(base + work->spin) * bend >> 12));
-            setVector(&ribbon->b[k],
-                      ribbon->a[k].vx + (rcos(turn) * len >> 12),
-                      ribbon->a[k].vy,
-                      ribbon->a[k].vz + (rsin(turn) * len >> 12));
+            setVector(&ribbon->edges[k],
+                      ribbon->points[k].vx + (rcos(turn) * len >> 12),
+                      ribbon->points[k].vy,
+                      ribbon->points[k].vz + (rsin(turn) * len >> 12));
         }
     }
     setVector(&rot, 0, 0, 0);
@@ -90,33 +90,33 @@ void FrenchModelVariant449_DrawRibbons(Variant432EntryState *context)
     for (i = 0; i < 4; i++, ribbon++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
-                ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k], &ribbon->a[k - 1], &ribbon->a[k],
-                                              &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed,
-                                              &ribbon->sa[k - 1].packed, &ribbon->sa[k].packed,
+                ribbon->offsets.otz[k] = RotTransPers4(&ribbon->points[k - 1], &ribbon->points[k], &ribbon->points[k - 1], &ribbon->points[k],
+                                              &ribbon->screen[k - 1].packed, &ribbon->screen[k].packed,
+                                              &ribbon->screen[k - 1].packed, &ribbon->screen[k].packed,
                                               &interpolation, &flags[i][k]);
-                RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &interpolation, &flag);
-                dx = RIBBONS449_CLOSING(sa).point.vx - ribbon->sa[k - 1].point.vx;
-                dy = RIBBONS449_CLOSING(sa).point.vy - ribbon->sa[k - 1].point.vy;
+                RotTransPers(&ribbon->edges[k], &ribbon->edge_screen[k].packed, &interpolation, &flag);
+                dx = RIBBONS449_CLOSING(screen).point.vx - ribbon->screen[k - 1].point.vx;
+                dy = RIBBONS449_CLOSING(screen).point.vy - ribbon->screen[k - 1].point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                ribbon->width[k] = RIBBONS449_CLOSING(sb).point.vx - RIBBONS449_CLOSING(sa).point.vx;
+                ribbon->width[k] = RIBBONS449_CLOSING(edge_screen).point.vx - RIBBONS449_CLOSING(screen).point.vx;
                 ribbon->offsets.ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 ribbon->offsets.oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             } else {
-                ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1], &ribbon->a[k], &ribbon->a[k + 1],
-                                              &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
-                                              &ribbon->sa[k].packed, &ribbon->sa[k + 1].packed,
+                ribbon->offsets.otz[k] = RotTransPers4(&ribbon->points[k], &ribbon->points[k + 1], &ribbon->points[k], &ribbon->points[k + 1],
+                                              &ribbon->screen[k].packed, &ribbon->screen[k + 1].packed,
+                                              &ribbon->screen[k].packed, &ribbon->screen[k + 1].packed,
                                               &interpolation, &flags[i][k]);
-                RotTransPers(&ribbon->b[k], &ribbon->sb[k].packed, &interpolation, &flag);
+                RotTransPers(&ribbon->edges[k], &ribbon->edge_screen[k].packed, &interpolation, &flag);
 #ifdef MODEL_VARIANT449_RIBBONS_FOLDED_NEXT
                 /* Dead store, overwritten below: it only lengthens the CDK
                  * compiler's projection loop, which keeps the flag-row
                  * addresses inside the loop as in the header-432 copy. */
-                dx = ribbon->sa[k + 1].point.vx;
+                dx = ribbon->screen[k + 1].point.vx;
 #endif
-                dx = RIBBONS449_NEXT(k).point.vx - ribbon->sa[k].point.vx;
-                dy = RIBBONS449_NEXT(k).point.vy - ribbon->sa[k].point.vy;
+                dx = RIBBONS449_NEXT(k).point.vx - ribbon->screen[k].point.vx;
+                dy = RIBBONS449_NEXT(k).point.vy - ribbon->screen[k].point.vy;
                 ribbon->angle[k] = ratan2(dy, dx) - 0x400;
-                ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                ribbon->width[k] = ribbon->edge_screen[k].point.vx - ribbon->screen[k].point.vx;
                 ribbon->offsets.ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 ribbon->offsets.oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
             }
@@ -138,11 +138,11 @@ void FrenchModelVariant449_DrawRibbons(Variant432EntryState *context)
                 poly++;
             }
             poly->x0 = RIBBONS449_START(k).point.vx + ribbon->offsets.ox[k];
-            poly->y0 = (ribbon->sa[k].packed >> 16) + ribbon->offsets.oy[k];
+            poly->y0 = (ribbon->screen[k].packed >> 16) + ribbon->offsets.oy[k];
             poly->x1 = RIBBONS449_NEXT(k).point.vx + ribbon->offsets.ox[k + 1];
             poly->y1 = (RIBBONS449_NEXT(k).packed >> 16) + ribbon->offsets.oy[k + 1];
-            poly->x2 = ribbon->sa[k].point.vx - ribbon->offsets.ox[k];
-            poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->offsets.oy[k];
+            poly->x2 = ribbon->screen[k].point.vx - ribbon->offsets.ox[k];
+            poly->y2 = (ribbon->screen[k].packed >> 16) - ribbon->offsets.oy[k];
             poly->x3 = RIBBONS449_NEXT(k).point.vx - ribbon->offsets.ox[k + 1];
             poly->y3 = (RIBBONS449_NEXT(k).packed >> 16) - ribbon->offsets.oy[k + 1];
             poly->r0 = ribbon->style.inner.r;
