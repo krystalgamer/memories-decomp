@@ -3,7 +3,7 @@
 
 Thousands of overlay modules link the same few C units, and the seven regions
 share most of them. A unit's object depends only on its preprocessed source,
-its compiler profile and the compile pipeline, so it is compiled once into
+its compiler profile, its configured defines and the compile pipeline, so it is compiled once into
 `tmp/overlay-object-cache` and copied into every module that links it.
 Objects come from tracked sources only; the store never holds retail bytes.
 """
@@ -29,6 +29,7 @@ from build_baseline import (
     load_compiler_profiles,
     tool,
 )
+from compile_defines import define_flags
 from overlay_sources import OverlaySourceError, c_segments
 from workspace import (
     WorkspaceError,
@@ -38,12 +39,13 @@ from workspace import (
 )
 
 STORE_DIRECTORY = "tmp/overlay-object-cache"
-FORMAT = "overlay-objects-v2"
+FORMAT = "overlay-objects-v3"
 # The scripts and vendored tools a compiled object depends on besides its
 # source and toolchain: build_baseline.compile_c and its imports, plus the
 # MASPSX entry point it executes and the package that entry point imports.
 PIPELINE_FILES = (
     "tools/project/build_baseline.py",
+    "tools/project/compile_defines.py",
     "tools/project/overlay_objects.py",
     "tools/project/workspace.py",
     "tools/vendor/maspsx/maspsx.py",
@@ -81,6 +83,14 @@ def _hash_tree(digest: Any, directory: Path) -> None:
         _hash_file(digest, path)
 
 
+def unit_identity(segment: dict[str, Any]) -> tuple[str, str, tuple[str, ...]]:
+    return (
+        segment["source"],
+        segment["profile"],
+        tuple(segment.get("defines") or ()),
+    )
+
+
 class ObjectStore:
     def __init__(self, root: Path, directory: str = STORE_DIRECTORY) -> None:
         self.root = root
@@ -88,7 +98,7 @@ class ObjectStore:
         self.profiles = load_compiler_profiles(root)
         self._pipeline: str | None = None
         self._profile_hashes: dict[str, str] = {}
-        self._keys: dict[tuple[str, str], str] = {}
+        self._keys: dict[tuple[str, str, tuple[str, ...]], str] = {}
 
     def pipeline_fingerprint(self) -> str:
         if self._pipeline is None:
@@ -126,12 +136,20 @@ class ObjectStore:
         self._profile_hashes[name] = digest.hexdigest()
         return self._profile_hashes[name]
 
-    def _preprocess(self, source: Path, profile: dict[str, Any]) -> bytes:
+    def _preprocess(
+        self, source: Path, profile: dict[str, Any], defines: Iterable[str] = ()
+    ) -> bytes:
         compiler = resolve_within(self.root, str(profile["compiler"]), must_exist=True)
         environment = os.environ.copy()
         environment.update(local_environment(self.root))
         result = subprocess.run(
-            [str(compiler), "-E", *profile["compiler_flags"], str(source)],
+            [
+                str(compiler),
+                "-E",
+                *profile["compiler_flags"],
+                *define_flags(list(defines)),
+                str(source),
+            ],
             cwd=self.root,
             env=environment,
             capture_output=True,
@@ -146,7 +164,7 @@ class ObjectStore:
         return result.stdout
 
     def key(self, segment: dict[str, str]) -> str:
-        identity = (segment["source"], segment["profile"])
+        identity = unit_identity(segment)
         cached = self._keys.get(identity)
         if cached is not None:
             return cached
@@ -156,7 +174,11 @@ class ObjectStore:
         digest.update(profile_hash.encode())
         # compile_c names the source by absolute path, which GCC records.
         digest.update(str(source).encode() + b"\0")
-        digest.update(self._preprocess(source, self.profiles[segment["profile"]]))
+        defines = identity[2]
+        digest.update(json.dumps(list(defines)).encode() + b"\0")
+        digest.update(
+            self._preprocess(source, self.profiles[segment["profile"]], defines)
+        )
         self._keys[identity] = digest.hexdigest()
         return self._keys[identity]
 
@@ -185,9 +207,9 @@ class ObjectStore:
 
     def keys(self, segments: Iterable[dict[str, str]], jobs: int) -> list[dict[str, str]]:
         """Key every distinct unit in parallel; return the distinct units."""
-        distinct: dict[tuple[str, str], dict[str, str]] = {}
+        distinct: dict[tuple[str, str, tuple[str, ...]], dict[str, str]] = {}
         for segment in segments:
-            distinct.setdefault((segment["source"], segment["profile"]), segment)
+            distinct.setdefault(unit_identity(segment), segment)
         units = list(distinct.values())
         with ThreadPoolExecutor(max_workers=max(1, jobs)) as pool:
             list(pool.map(self.key, units))

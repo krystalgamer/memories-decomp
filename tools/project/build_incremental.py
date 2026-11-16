@@ -16,15 +16,23 @@ from pathlib import Path
 from typing import Any
 
 import build_baseline
+import compile_defines
+from compile_defines import DefineError, validate_defines
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
 # Clean splits remove tmp/splat, so cached objects and their signatures are
 # kept outside it. Warm splits can retain the objects at the paths Splat's
-# generated linker script names.
+# generated linker script names. CACHE_ENVIRONMENT (or --cache-dir) points a
+# build at another workspace-relative cache directory, for example to keep a
+# private cache beside a shared one.
+CACHE_ENVIRONMENT = "MEMORIES_INCREMENTAL_CACHE"
 CACHE_DIRECTORY = "tmp/incremental"
-CACHE_OBJECT_DIRECTORY = f"{CACHE_DIRECTORY}/obj"
 CACHE_PATH = f"{CACHE_DIRECTORY}/cache.json"
+# Version 2 keys objects by region and define set as well as source.
+CACHE_SCHEMA = 2
+# The configuration whose resident executable this script rebuilds.
+REGION = "slus_01411"
 CACHE_CHECKPOINT_INTERVAL = 16
 TARGET_PATH = "game/SLUS_014.11"
 OUTPUT_ELF = "tmp/project-build/SLUS_014.11.elf"
@@ -40,12 +48,34 @@ class IncrementalBuildError(RuntimeError):
     pass
 
 
+def cache_directory() -> str:
+    """Workspace-relative incremental cache directory."""
+    value = os.environ.get(CACHE_ENVIRONMENT) or CACHE_DIRECTORY
+    if Path(value).is_absolute():
+        raise IncrementalBuildError(
+            f"{CACHE_ENVIRONMENT} must be a workspace-relative path"
+        )
+    return Path(value).as_posix()
+
+
+def cache_path() -> str:
+    return f"{cache_directory()}/cache.json"
+
+
+def define_variant(defines: tuple[str, ...]) -> str:
+    """Cache subdirectory for one define set; units without defines share one."""
+    if not defines:
+        return "default"
+    return "d" + digest_value(list(defines))[:16]
+
+
 @dataclass(frozen=True)
 class Component:
     kind: str
     source: str
     object_name: str
     profile: str | None = None
+    defines: tuple[str, ...] = ()
 
 
 def sha256(path: Path) -> str:
@@ -210,6 +240,16 @@ def tree_digest(
     return digest_value(entries)
 
 
+def segment_defines(segment: dict[str, Any], index: int) -> tuple[str, ...]:
+    try:
+        defines = validate_defines(segment.get("defines"), f"segment {index}")
+    except DefineError as error:
+        raise IncrementalBuildError(str(error)) from error
+    if defines and segment.get("kind") != "c":
+        raise IncrementalBuildError(f"segment {index}: only C units take defines")
+    return defines
+
+
 def load_components(root: Path) -> list[Component]:
     components = [Component("asm", "tmp/splat/asm/header.s", "header.o")]
     seen = {"header.o"}
@@ -243,7 +283,11 @@ def load_components(root: Path) -> list[Component]:
         ):
             raise IncrementalBuildError(f"invalid text segment {index}")
         seen.add(object_name)
-        components.append(Component(kind, source, object_name, profile))
+        components.append(
+            Component(
+                kind, source, object_name, profile, segment_defines(segment, index)
+            )
+        )
     trailing_components = []
     # The initialized data is split wherever a C translation unit owns part of
     # it, so track every piece in the same order as a clean baseline build.
@@ -266,7 +310,9 @@ def load_components(root: Path) -> list[Component]:
             raise IncrementalBuildError(f"invalid data segment {index}")
         build_baseline.require_linker_placement(root, source)
         trailing_components.append(
-            Component(kind, source, object_name, profile)
+            Component(
+                kind, source, object_name, profile, segment_defines(segment, index)
+            )
         )
     trailing_components += [
         *[
@@ -301,7 +347,7 @@ def load_components(root: Path) -> list[Component]:
 
 
 def load_cache(root: Path) -> dict[str, str]:
-    path = resolve_within(root, CACHE_PATH)
+    path = resolve_within(root, cache_path())
     if not path.is_file():
         return {}
     try:
@@ -311,7 +357,7 @@ def load_cache(root: Path) -> dict[str, str]:
     if not isinstance(value, dict):
         return {}
     objects = value.get("objects")
-    if value.get("schema") != 1 or not isinstance(objects, dict):
+    if value.get("schema") != CACHE_SCHEMA or not isinstance(objects, dict):
         return {}
     if not all(
         isinstance(name, str) and isinstance(signature, str)
@@ -322,12 +368,12 @@ def load_cache(root: Path) -> dict[str, str]:
 
 
 def write_cache(root: Path, signatures: dict[str, str]) -> None:
-    path = resolve_within(root, CACHE_PATH)
+    path = resolve_within(root, cache_path())
     path.parent.mkdir(parents=True, exist_ok=True)
     temporary = path.with_suffix(".json.tmp")
     temporary.write_text(
         json.dumps(
-            {"schema": 1, "objects": signatures},
+            {"schema": CACHE_SCHEMA, "objects": signatures},
             indent=2,
             sort_keys=True,
         )
@@ -401,6 +447,7 @@ def dependency_context(
     return {
         "build_baseline_sha256": file_cache.sha256(Path(build_baseline.__file__)),
         "build_incremental_sha256": file_cache.sha256(Path(__file__)),
+        "compile_defines_sha256": file_cache.sha256(Path(compile_defines.__file__)),
         "assembler_sha256": file_cache.sha256(assembler),
         "objcopy_sha256": file_cache.sha256(objcopy),
         "maspsx_sha256": file_cache.sha256(maspsx),
@@ -428,6 +475,8 @@ def component_signature(
         # Hash and parse the source in one read, before the include traversal.
         file_cache.quoted_includes(source)
     value: dict[str, Any] = {
+        "cache_schema": CACHE_SCHEMA,
+        "region": REGION,
         "kind": component.kind,
         "source": component.source,
         "source_sha256": file_cache.sha256(source),
@@ -456,8 +505,10 @@ def component_signature(
                 ),
                 "assembler_sha256": context["assembler_sha256"],
                 "maspsx_sha256": context["maspsx_sha256"],
+                "compile_defines_sha256": context["compile_defines_sha256"],
                 "profile": component.profile,
                 "profile_context": context["profiles"][component.profile],
+                "defines": list(component.defines),
             }
         )
     return digest_value(value)
@@ -482,9 +533,16 @@ def cached_object_path(
     *,
     file_cache: _FileCache | None = None,
 ) -> Path:
-    """Object location that survives clean splits."""
+    """Object location that survives clean splits.
+
+    The region and define set are part of the path, so one source compiled
+    for two configurations never shares a cached object.
+    """
     trimmed = component.source[: component.source.rindex(".")]
-    relative = f"{CACHE_OBJECT_DIRECTORY}/{trimmed}.o"
+    relative = (
+        f"{cache_directory()}/obj/{REGION}/{define_variant(component.defines)}/"
+        f"{trimmed}.o"
+    )
     if file_cache is not None:
         return file_cache.workspace_path(root, relative)
     return resolve_within(root, relative)
@@ -556,6 +614,7 @@ def build_component(
                 "source": component.source,
                 "object": component.object_name,
                 "profile": component.profile,
+                **({"defines": list(component.defines)} if component.defines else {}),
             },
             profiles,
             use_splat_object_paths=True,
@@ -885,12 +944,21 @@ def main() -> int:
         help="trust an already matched clean build and record its object signatures",
     )
     parser.add_argument(
+        "--cache-dir",
+        help=(
+            "workspace-relative cache directory; overrides "
+            f"{CACHE_ENVIRONMENT} and the default {CACHE_DIRECTORY}"
+        ),
+    )
+    parser.add_argument(
         "--jobs",
         type=positive_job_count,
         default=make_job_count(),
         help="parallel component builds; defaults to a numeric MAKEFLAGS job count",
     )
     args = parser.parse_args()
+    if args.cache_dir is not None:
+        os.environ[CACHE_ENVIRONMENT] = args.cache_dir
     try:
         root = require_workspace_root()
         build_incrementally(root, seed=args.seed_existing, jobs=args.jobs)

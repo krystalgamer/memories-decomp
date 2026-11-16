@@ -1,5 +1,6 @@
 {
   "schema": 1,
+  "defines": [],
   "functions": [
     {
       "address": "0x80012A3C",

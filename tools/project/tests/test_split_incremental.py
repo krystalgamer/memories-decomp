@@ -271,6 +271,31 @@ class IncrementalSplitTests(unittest.TestCase):
         self.assertEqual(len(functions), 2)
         self.assertEqual(source_resolutions, 1)
 
+    def test_matching_functions_carry_region_and_entry_defines(self) -> None:
+        generator = split_incremental.generate_build_config
+        self.write_json(
+            "config/slus_01411/matching_c.json",
+            {"schema": 1, "defines": ["REGION_A"], "functions": [{
+                "address": "0x80010000", "size": "0x10",
+                "source": "src/game/example.c", "profile": "test",
+                "defines": ["ENTRY_B=1"],
+            }]},
+        )
+        functions = generator.load_matching_functions(self.root)
+        self.assertEqual(functions[0]["defines"], ["REGION_A", "ENTRY_B=1"])
+        units = generator.group_translation_units(functions)
+        self.assertEqual(units[0]["defines"], ["REGION_A", "ENTRY_B=1"])
+        self.write_json(
+            "config/slus_01411/matching_c.json",
+            {"schema": 1, "functions": [{
+                "address": "0x80010000", "size": "0x10",
+                "source": "src/game/example.c", "profile": "test",
+                "defines": ["bad-name"],
+            }]},
+        )
+        with self.assertRaisesRegex(generator.GenerationError, "invalid define"):
+            generator.load_matching_functions(self.root)
+
     def test_cached_matching_source_path_must_match_its_key(self) -> None:
         other = self.write("src/game/other.c", "void Other(void) {}\n").resolve()
         with self.assertRaisesRegex(

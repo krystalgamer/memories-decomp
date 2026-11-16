@@ -20,6 +20,7 @@ from splat.util.compiler import IDO
 import build_baseline
 import clean
 import generate_build_config
+import build_incremental
 from build_incremental import digest_value, sha256
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
@@ -29,6 +30,11 @@ class IncrementalSplitError(RuntimeError):
 
 
 CACHE_PATH = "tmp/incremental/split-cache.json"
+
+
+def cache_path() -> str:
+    """The split state beside the object cache build_incremental uses."""
+    return f"{build_incremental.cache_directory()}/split-cache.json"
 CONFIG_PATH = "config/slus_01411/split.yaml"
 GENERATED_CONFIG = "tmp/generated/slus_01411.split.yaml"
 OUTPUT_ROOTS = ("tmp/generated", "tmp/splat")
@@ -56,6 +62,7 @@ INPUT_FILES = (
     "tools/project/split_incremental.py",
     "tools/project/build_incremental.py",
     "tools/project/build_baseline.py",
+    "tools/project/compile_defines.py",
     "tools/project/workspace.py",
     "tools/project/clean.py",
     "tools/bootstrap/tools.json",
@@ -285,8 +292,8 @@ def output_snapshot(root: Path) -> dict[str, str]:
 
 
 def state_file(root: Path) -> Path:
-    path = resolve_within(root, CACHE_PATH)
-    if path != root / CACHE_PATH:
+    path = resolve_within(root, cache_path())
+    if path != root / cache_path():
         raise IncrementalSplitError("split cache path must not contain symlinks")
     return path
 
@@ -353,7 +360,7 @@ def prepare(root: Path) -> bool:
     if input_signature(root) != signature:
         raise IncrementalSplitError("split inputs changed during generation; retry the build")
     state_path.parent.mkdir(parents=True, exist_ok=True)
-    if resolve_within(root, f"{CACHE_PATH}.tmp") != root / f"{CACHE_PATH}.tmp":
+    if resolve_within(root, f"{cache_path()}.tmp") != root / f"{cache_path()}.tmp":
         raise IncrementalSplitError("split cache temporary path must not contain symlinks")
     generate_build_config.write_json(
         state_path,
@@ -366,7 +373,8 @@ def main() -> int:
     try:
         prepare(require_workspace_root())
     except (
-        IncrementalSplitError, build_baseline.BuildError, clean.CleanError,
+        IncrementalSplitError, build_incremental.IncrementalBuildError,
+        build_baseline.BuildError, clean.CleanError,
         generate_build_config.GenerationError, WorkspaceError,
         OSError, UnicodeError, ValueError, TypeError, KeyError,
         json.JSONDecodeError, yaml.YAMLError,

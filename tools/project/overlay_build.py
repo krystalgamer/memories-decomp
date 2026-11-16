@@ -457,10 +457,11 @@ def verify_module(root: Path, module: dict[str, Any]) -> None:
     print(f"overlay match: {name} {actual_hash}")
 
 
-FINGERPRINT_FORMAT = "overlay-module-v3"
+FINGERPRINT_FORMAT = "overlay-module-v4"
 # Every script whose behavior shapes a module's split, objects or link.
 FINGERPRINT_SCRIPTS = (
     "tools/project/build_baseline.py",
+    "tools/project/compile_defines.py",
     "tools/project/overlay_build.py",
     "tools/project/overlay_extract.py",
     "tools/project/overlay_objects.py",
@@ -550,7 +551,7 @@ def module_fingerprints(
             "files": {path: file_hash(path) for path in sorted(files)},
             "objects": [
                 [segment["kind"], segment["source"], segment["profile"],
-                 segment["object"], unit_hash(segment)]
+                 segment.get("defines", []), segment["object"], unit_hash(segment)]
                 for segment in segments[name]
             ],
         }

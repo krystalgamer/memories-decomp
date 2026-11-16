@@ -11,6 +11,7 @@ from typing import Any
 
 import yaml
 
+from compile_defines import DefineError, combine_defines, validate_defines
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -104,6 +105,12 @@ def load_matching_functions(
     functions = configuration.get("functions")
     if not isinstance(functions, list):
         raise GenerationError("matching C functions must be a list")
+    try:
+        region_defines = validate_defines(
+            configuration.get("defines"), "config/slus_01411/matching_c.json"
+        )
+    except DefineError as error:
+        raise GenerationError(str(error)) from error
 
     inventory = load_inventory(root)
     profiles = load_profiles(root)
@@ -135,6 +142,16 @@ def load_matching_functions(
             raise GenerationError(
                 f"matching function {address:#010x} uses unknown profile {profile}"
             )
+        try:
+            defines = combine_defines(
+                region_defines,
+                validate_defines(
+                    function.get("defines"), f"matching function {address:#010x}"
+                ),
+                f"matching function {address:#010x}",
+            )
+        except DefineError as error:
+            raise GenerationError(str(error)) from error
 
         source = source_cache.get(source_value)
         if source is None:
@@ -179,6 +196,7 @@ def load_matching_functions(
                 "source": source_value,
                 "segment": source_relative.with_suffix("").as_posix(),
                 "profile": profile,
+                "defines": list(defines),
             }
         )
         seen_addresses.add(address)
@@ -202,6 +220,10 @@ def load_matching_functions(
         if len(profiles_used) != 1:
             raise GenerationError(
                 f"{source_value}: grouped functions use multiple profiles"
+            )
+        if len({tuple(member["defines"]) for member in members}) != 1:
+            raise GenerationError(
+                f"{source_value}: grouped functions use multiple define sets"
             )
         source_text = source_cache[source_value].read_text(encoding="utf-8")
         expected = members[0]["address"]
@@ -241,6 +263,7 @@ def group_translation_units(
                 "source": first["source"],
                 "segment": first["segment"],
                 "profile": first["profile"],
+                "defines": first.get("defines", []),
                 "members": [member["address"] for member in members],
             }
         )
@@ -345,11 +368,36 @@ def load_data_profiles(root: Path, profiles: set[str]) -> dict[str, str]:
     return result
 
 
+def load_data_defines(root: Path) -> dict[str, list[str]]:
+    """Effective defines of every data C unit that has any."""
+    region = load_json(root, "config/slus_01411/matching_c.json")
+    configuration = load_json(root, "config/slus_01411/data_c.json")
+    result: dict[str, list[str]] = {}
+    try:
+        region_defines = validate_defines(
+            region.get("defines"), "config/slus_01411/matching_c.json"
+        )
+        for unit in configuration.get("units", []):
+            if not isinstance(unit, dict) or not isinstance(unit.get("source"), str):
+                continue
+            defines = combine_defines(
+                region_defines,
+                validate_defines(unit.get("defines"), unit["source"]),
+                unit["source"],
+            )
+            if defines:
+                result[unit["source"]] = list(defines)
+    except DefineError as error:
+        raise GenerationError(str(error)) from error
+    return result
+
+
 def collect_data_sources(
     root: Path,
     segments: list[Any],
     data_profiles: dict[str, str],
     text_sources: list[dict[str, Any]],
+    data_defines: dict[str, list[str]] | None = None,
 ) -> list[dict[str, Any]]:
     """Assembly blobs and C units the template declares outside the text."""
     text_c_sources = {
@@ -407,6 +455,8 @@ def collect_data_sources(
                     "object": object_name,
                     "profile": profile,
                 }
+                if data_defines and data_defines.get(source):
+                    entry_value["defines"] = data_defines[source]
             else:
                 continue
             if object_name in seen_objects:
@@ -498,6 +548,7 @@ def generate(root: Path) -> tuple[Path, Path, Path]:
                 "source": unit["source"],
                 "object": f"c_{unit['address']:08x}.o",
                 "profile": unit["profile"],
+                **({"defines": unit["defines"]} if unit.get("defines") else {}),
                 "members": [
                     f"0x{address:08X}" for address in unit["members"]
                 ],
@@ -524,7 +575,11 @@ def generate(root: Path) -> tuple[Path, Path, Path]:
     text_segment["subsegments"] = subsegments[leading_count:]
 
     data_sources = collect_data_sources(
-        root, segments, load_data_profiles(root, load_profiles(root)), text_sources
+        root,
+        segments,
+        load_data_profiles(root, load_profiles(root)),
+        text_sources,
+        load_data_defines(root),
     )
 
     # The initialized data and the zero-filled image follow the text in one

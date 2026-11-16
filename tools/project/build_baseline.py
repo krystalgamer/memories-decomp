@@ -9,6 +9,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+from compile_defines import DefineError, define_flags, validate_defines
 from workspace import (
     WorkspaceError,
     local_environment,
@@ -222,6 +223,10 @@ def compile_c(
         )
     ):
         raise BuildError(f"invalid C compiler configuration for {source}")
+    try:
+        defines = validate_defines(segment.get("defines"), str(segment["source"]))
+    except DefineError as error:
+        raise BuildError(str(error)) from error
 
     run(
         root,
@@ -229,6 +234,7 @@ def compile_c(
             str(compiler),
             "-S",
             *compiler_flags,
+            *define_flags(defines),
             "-o",
             str(raw_assembly),
             str(source),

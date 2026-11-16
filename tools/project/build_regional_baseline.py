@@ -10,6 +10,7 @@ from dataclasses import dataclass
 from pathlib import Path
 
 from build_baseline import BuildError, compile_c, load_compiler_profiles
+from compile_defines import DefineError, combine_defines, validate_defines
 from workspace import local_environment, resolve_within
 
 TOOLCHAIN = "tools/toolchains/binutils-2.42/bin"
@@ -156,11 +157,17 @@ def compile_matching_sources(
         config = json.load(handle)
     if config.get("schema") != 1 or not isinstance(config.get("functions"), list):
         raise BuildError(f"{config_path}: unsupported matching-C configuration")
+    try:
+        region_defines = validate_defines(
+            config.get("defines"), configuration.matching_config
+        )
+    except DefineError as error:
+        raise BuildError(str(error)) from error
 
     profiles = load_compiler_profiles(root)
     assembler = tool(root, "as")
     # Grouped functions share one object, so one profile must build it.
-    compiled: dict[str, object] = {}
+    compiled: dict[str, tuple[object, tuple[str, ...]]] = {}
     objects: list[str] = []
     owned = owned_data_sections(root, configuration)
     for index, function in enumerate(
@@ -174,18 +181,32 @@ def compile_matching_sources(
         source = Path(source_value)
         if source.suffix != ".c" or source.is_absolute():
             raise BuildError(f"matching function {index} has an invalid source")
+        try:
+            defines = combine_defines(
+                region_defines,
+                validate_defines(function.get("defines"), source_value),
+                source_value,
+            )
+        except DefineError as error:
+            raise BuildError(str(error)) from error
         if source_value in compiled:
-            if compiled[source_value] != function.get("profile"):
+            profile, previous = compiled[source_value]
+            if profile != function.get("profile"):
                 raise BuildError(
                     f"{source_value}: grouped functions use multiple profiles"
                 )
+            if previous != defines:
+                raise BuildError(
+                    f"{source_value}: grouped functions use multiple define sets"
+                )
             continue
-        compiled[source_value] = function.get("profile")
+        compiled[source_value] = (function.get("profile"), defines)
         compile_c(
             root,
             assembler,
             {
                 **function,
+                "defines": list(defines),
                 "object": f"{source.stem}.o",
             },
             profiles,
@@ -277,6 +298,7 @@ def owned_data_units(
         function.get("source") for function in functions if isinstance(function, dict)
     }
     profiles: dict[str, object] = {}
+    defines: dict[str, object] = {}
     for manifest in (
         "config/slus_01411/data_c.json",
         str(Path(configuration.matching_config).parent / "data_c.json"),
@@ -286,6 +308,7 @@ def owned_data_units(
             with path.open("r", encoding="utf-8") as handle:
                 for unit in json.load(handle).get("units", []):
                     profiles[unit["source"]] = unit["profile"]
+                    defines[unit["source"]] = unit.get("defines")
     units = []
     for section in sorted(owned_data_sections(root, configuration)):
         match = re.search(r"/build/src/(.+)\.o\(", section)
@@ -295,7 +318,10 @@ def owned_data_units(
         if source not in profiles:
             raise BuildError(f"{source}: owns data but has no data_c.json profile")
         function_sources.add(source)
-        units.append({"source": source, "profile": profiles[source]})
+        unit: dict[str, object] = {"source": source, "profile": profiles[source]}
+        if defines.get(source) is not None:
+            unit["defines"] = defines[source]
+        units.append(unit)
     return units
 
 
