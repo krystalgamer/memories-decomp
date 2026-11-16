@@ -86,8 +86,6 @@ typedef struct { u8 r, g, b, code; ModelPrimGT3 prim; } ModelPrimGT3C;
 typedef struct { u8 r, g, b, code; ModelPrimFT4 prim; } ModelPrimFT4C;
 typedef struct { u8 r, g, b, code; ModelPrimGT4 prim; } ModelPrimGT4C;
 
-#define PRIM_OFFSET(type, member) ((u32)&((type *)0)->member)
-
 typedef char ModelPrimFT3_size_must_be_0x14[sizeof(ModelPrimFT3) == 0x14 ? 1 : -1];
 typedef char ModelPrimGT3_size_must_be_0x18[sizeof(ModelPrimGT3) == 0x18 ? 1 : -1];
 typedef char ModelPrimFT4_size_must_be_0x18[sizeof(ModelPrimFT4) == 0x18 ? 1 : -1];
@@ -97,20 +95,20 @@ typedef char ModelPrimGT3C_size_must_be_0x1C[sizeof(ModelPrimGT3C) == 0x1C ? 1 :
 typedef char ModelPrimFT4C_size_must_be_0x1C[sizeof(ModelPrimFT4C) == 0x1C ? 1 : -1];
 typedef char ModelPrimGT4C_size_must_be_0x20[sizeof(ModelPrimGT4C) == 0x20 ? 1 : -1];
 typedef char ModelPrim_cba_tsb_must_be_0x2_0x6[
-    PRIM_OFFSET(ModelPrimFT3, cba) == 0x2 && PRIM_OFFSET(ModelPrimFT3, tsb) == 0x6 &&
-    PRIM_OFFSET(ModelPrimGT4C, prim.cba) == 0x6 && PRIM_OFFSET(ModelPrimGT4C, prim.tsb) == 0xA ? 1 : -1
+    OFFSETOF(ModelPrimFT3, cba) == 0x2 && OFFSETOF(ModelPrimFT3, tsb) == 0x6 &&
+    OFFSETOF(ModelPrimGT4C, prim.cba) == 0x6 && OFFSETOF(ModelPrimGT4C, prim.tsb) == 0xA ? 1 : -1
 ];
-typedef char ModelPrimFT3_norm0_must_be_0xC[PRIM_OFFSET(ModelPrimFT3, norm0) == 0xC ? 1 : -1];
+typedef char ModelPrimFT3_norm0_must_be_0xC[OFFSETOF(ModelPrimFT3, norm0) == 0xC ? 1 : -1];
 typedef char ModelPrimGT3_norms_must_be_0xC_0x10_0x14[
-    PRIM_OFFSET(ModelPrimGT3, norm0) == 0xC && PRIM_OFFSET(ModelPrimGT3, norm1) == 0x10 &&
-    PRIM_OFFSET(ModelPrimGT3, norm2) == 0x14 ? 1 : -1
+    OFFSETOF(ModelPrimGT3, norm0) == 0xC && OFFSETOF(ModelPrimGT3, norm1) == 0x10 &&
+    OFFSETOF(ModelPrimGT3, norm2) == 0x14 ? 1 : -1
 ];
-typedef char ModelPrimFT4_norm0_must_be_0xE[PRIM_OFFSET(ModelPrimFT4, norm0) == 0xE ? 1 : -1];
+typedef char ModelPrimFT4_norm0_must_be_0xE[OFFSETOF(ModelPrimFT4, norm0) == 0xE ? 1 : -1];
 typedef char ModelPrimGT4_norms_must_be_0xA_0x10_0x14_0x18[
-    PRIM_OFFSET(ModelPrimGT4, norm0) == 0xA && PRIM_OFFSET(ModelPrimGT4, norm1) == 0x10 &&
-    PRIM_OFFSET(ModelPrimGT4, norm2) == 0x14 && PRIM_OFFSET(ModelPrimGT4, norm3) == 0x18 ? 1 : -1
+    OFFSETOF(ModelPrimGT4, norm0) == 0xA && OFFSETOF(ModelPrimGT4, norm1) == 0x10 &&
+    OFFSETOF(ModelPrimGT4, norm2) == 0x14 && OFFSETOF(ModelPrimGT4, norm3) == 0x18 ? 1 : -1
 ];
-typedef char ModelPrimGT4C_norm3_must_be_0x1C[PRIM_OFFSET(ModelPrimGT4C, prim.norm3) == 0x1C ? 1 : -1];
+typedef char ModelPrimGT4C_norm3_must_be_0x1C[OFFSETOF(ModelPrimGT4C, prim.norm3) == 0x1C ? 1 : -1];
 
 s32 tent_Model_RebaseTexturedPrimitives(
     s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx,

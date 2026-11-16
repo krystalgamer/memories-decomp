@@ -510,8 +510,6 @@ s32 Model_FindBranchingChildCoord(ModelSlot *model, GsCOORDUNIT *parent)
     return i;
 }
 
-#define MODEL_UNIT_OFFSET(member) ((u32)&(((GsCOORDUNIT *)0)->member))
-
 /* The slot data entries at ModelSlot.entries, the record root_coordinate points at
  * and the block Model_BuildViewRelativeCoordinateUnit builds on the stack are all one type: libhmd's
  * GsCOORDUNIT. These pin every offset the game still reaches by hand. */
@@ -519,27 +517,25 @@ extern char ModelSlotDataEntry_must_be_a_GsCOORDUNIT[
     sizeof(GsCOORDUNIT) == MODEL_SLOT_DATA_ENTRY_SIZE ? 1 : -1
 ];
 extern char GsCOORDUNIT_matrix_offset_must_be_0x4[
-    MODEL_UNIT_OFFSET(matrix) == 0x4 ? 1 : -1
+    OFFSETOF(GsCOORDUNIT, matrix) == 0x4 ? 1 : -1
 ];
 extern char GsCOORDUNIT_matrix_t_offset_must_be_0x18[
-    MODEL_UNIT_OFFSET(matrix.t) == 0x18 ? 1 : -1
+    OFFSETOF(GsCOORDUNIT, matrix.t) == 0x18 ? 1 : -1
 ];
 extern char GsCOORDUNIT_workm_offset_must_be_0x24[
-    MODEL_UNIT_OFFSET(workm) == 0x24 ? 1 : -1
+    OFFSETOF(GsCOORDUNIT, workm) == 0x24 ? 1 : -1
 ];
 extern char GsCOORDUNIT_rot_offset_must_be_0x44[
-    MODEL_UNIT_OFFSET(rot) == 0x44 ? 1 : -1
+    OFFSETOF(GsCOORDUNIT, rot) == 0x44 ? 1 : -1
 ];
 extern char GsCOORDUNIT_super_offset_must_be_0x4C[
-    MODEL_UNIT_OFFSET(super) == 0x4C ? 1 : -1
+    OFFSETOF(GsCOORDUNIT, super) == 0x4C ? 1 : -1
 ];
-
-#undef MODEL_UNIT_OFFSET
 
 /* ModelSlotPart is model.h's mirror of libhmd's GsSEQ, kept there so that
  * header does not need the libhmd chain. Every field agrees. */
 #define MODEL_SEQ_AGREES(member) \
-    ((u32)&(((ModelSlotPart *)0)->member) == (u32)&(((GsSEQ *)0)->member))
+    (OFFSETOF(ModelSlotPart, member) == OFFSETOF(GsSEQ, member))
 extern char ModelSlotPart_must_be_a_GsSEQ[
     sizeof(ModelSlotPart) == sizeof(GsSEQ) ? 1 : -1
 ];

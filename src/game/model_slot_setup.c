@@ -321,50 +321,50 @@ s32 tent_Model_RebaseTexturedPrimitives(
     kind = (u16)unit->type;
     switch (kind) {
     case 9:
-        tsb_offset = PRIM_OFFSET(ModelPrimFT3, tsb);
-        value = PRIM_OFFSET(ModelPrimFT3, cba);
+        tsb_offset = OFFSETOF(ModelPrimFT3, tsb);
+        value = OFFSETOF(ModelPrimFT3, cba);
         record_stride = sizeof(ModelPrimFT3);
         packet_size = sizeof(POLY_FT3);
         break;
     case 0x209:
-        tsb_offset = PRIM_OFFSET(ModelPrimFT3C, prim.tsb);
-        value = PRIM_OFFSET(ModelPrimFT3C, prim.cba);
+        tsb_offset = OFFSETOF(ModelPrimFT3C, prim.tsb);
+        value = OFFSETOF(ModelPrimFT3C, prim.cba);
         record_stride = sizeof(ModelPrimFT3C);
         packet_size = sizeof(POLY_FT3);
         break;
     case 0xD:
-        tsb_offset = PRIM_OFFSET(ModelPrimGT3, tsb);
-        value = PRIM_OFFSET(ModelPrimGT3, cba);
+        tsb_offset = OFFSETOF(ModelPrimGT3, tsb);
+        value = OFFSETOF(ModelPrimGT3, cba);
         record_stride = sizeof(ModelPrimGT3);
         packet_size = sizeof(POLY_GT3);
         break;
     case 0x20D:
-        tsb_offset = PRIM_OFFSET(ModelPrimGT3C, prim.tsb);
-        value = PRIM_OFFSET(ModelPrimGT3C, prim.cba);
+        tsb_offset = OFFSETOF(ModelPrimGT3C, prim.tsb);
+        value = OFFSETOF(ModelPrimGT3C, prim.cba);
         record_stride = sizeof(ModelPrimGT3C);
         packet_size = sizeof(POLY_GT3);
         break;
     case 0x11:
-        tsb_offset = PRIM_OFFSET(ModelPrimFT4, tsb);
-        value = PRIM_OFFSET(ModelPrimFT4, cba);
+        tsb_offset = OFFSETOF(ModelPrimFT4, tsb);
+        value = OFFSETOF(ModelPrimFT4, cba);
         record_stride = sizeof(ModelPrimFT4);
         packet_size = sizeof(POLY_FT4);
         break;
     case 0x211:
-        tsb_offset = PRIM_OFFSET(ModelPrimFT4C, prim.tsb);
-        value = PRIM_OFFSET(ModelPrimFT4C, prim.cba);
+        tsb_offset = OFFSETOF(ModelPrimFT4C, prim.tsb);
+        value = OFFSETOF(ModelPrimFT4C, prim.cba);
         record_stride = sizeof(ModelPrimFT4C);
         packet_size = sizeof(POLY_FT4);
         break;
     case 0x15:
-        tsb_offset = PRIM_OFFSET(ModelPrimGT4, tsb);
-        value = PRIM_OFFSET(ModelPrimGT4, cba);
+        tsb_offset = OFFSETOF(ModelPrimGT4, tsb);
+        value = OFFSETOF(ModelPrimGT4, cba);
         record_stride = sizeof(ModelPrimGT4);
         packet_size = sizeof(POLY_GT4);
         break;
     case 0x215:
-        tsb_offset = PRIM_OFFSET(ModelPrimGT4C, prim.tsb);
-        value = PRIM_OFFSET(ModelPrimGT4C, prim.cba);
+        tsb_offset = OFFSETOF(ModelPrimGT4C, prim.tsb);
+        value = OFFSETOF(ModelPrimGT4C, prim.cba);
         record_stride = sizeof(ModelPrimGT4C);
         packet_size = sizeof(POLY_GT4);
         break;
