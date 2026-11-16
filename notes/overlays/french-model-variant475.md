@@ -10,7 +10,7 @@ Every complete French image is byte-identical to its corresponding accepted
 shared NA458 sheet, quad and strand bodies and the accepted Spanish 475 ribbon
 body directly. The entry has a locally recovered French body and entry-only
 header; no accepted Spanish entry body was available. Retained streamers have a
-local French body using the unchanged `Variant458Streamer` header. There are no regional conditionals.
+local French body using the unchanged `ModelVariantStreamer` (formerly `Variant458Streamer`) header. There are no regional conditionals.
 Independent French compilation uses
 `gcc_2_8_1_g0_split`, GCC 2.8.1 / MASPSX 2.81, not the historical NA compiler
 registration or the older compiler claim in the common header's comment.
@@ -181,7 +181,7 @@ target-compiled layout constants and 34 resident callee owners are checked.
 Streamers, like strand, have no direct entry-call path; loading and
 initializing their records does not establish that either renderer executes.
 
-The unchanged local `Variant458Streamer` describes two `0x334`-byte
+The unchanged local `ModelVariantStreamer` (formerly `Variant458Streamer`) describes two `0x334`-byte
 records at context `0x25DC..0x2C44`. Seventeen-point arrays `a/sa/angle/b/sb`
 start at `0/0x88/0xCC/0x110/0x198`; widths, colors, depths and signed
 screen offsets are at `0x1DC/0x264/0x2AC/0x2F0/0x312`. Projection outputs

@@ -33,7 +33,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
     s32 wave;
     s32 turn;
     s32 radius;
-    Variant458Streamer *streamer;
+    ModelVariantStreamer *streamer;
     s16 k;
     s32 twist;
     s32 bulge;
@@ -156,7 +156,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
     }
 #else
     for (i = 0, previous = &streamer->sa[15]; i < 2; i++,
-         previous = (long *)((u8 *)previous + sizeof(Variant458Streamer)), streamer++) {
+         previous = (long *)((u8 *)previous + sizeof(ModelVariantStreamer)), streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
                 streamer->otz[k] = RotTransPers4(&streamer->a[15], &streamer->a[16], &streamer->a[15], &streamer->a[16],
@@ -203,9 +203,9 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
             poly->y2 = (streamer->sa[k] >> 16) - streamer->oy[k];
             poly->x3 = streamer->sa[k + 1] - streamer->ox[k + 1];
             poly->y3 = (streamer->sa[k + 1] >> 16) - streamer->oy[k + 1];
-            poly->r0 = streamer->color[k][0];
-            poly->g0 = streamer->color[k][1];
-            poly->b0 = streamer->color[k][2];
+            poly->r0 = streamer->color[k].r;
+            poly->g0 = streamer->color[k].g;
+            poly->b0 = streamer->color[k].b;
             if (streamer->otz[k] > 0) {
                 GsSortPoly(poly, ot, streamer->otz[k]);
             }

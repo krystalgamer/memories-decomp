@@ -10,7 +10,7 @@
 #include "../../psyq/libhmd.h"
 #include "../spanish_model_variant/variant423_mesh.h"
 #include "variant423_funnel.h"
-#include "../model_variant/variant458_streamers.h"
+#include "../model_variant/model_variant.h"
 
 typedef struct {
     CVECTOR outer, inner;
@@ -23,7 +23,7 @@ typedef struct {
     ModelVariantLongRibbon ribbons[1];
     ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[2];
-    Variant458Streamer streamers[2];
+    ModelVariantStreamer streamers[2];
     ModelVariantFunnel funnels[5];
     POLY_GT4 extra, funnel_packet;
     u8 unknown_1B94[0x34];

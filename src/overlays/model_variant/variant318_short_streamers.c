@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "variant458_streamers.h"
+#include "model_variant.h"
 #include "../french_model_variant/variant335_entry.h"
 
 /* Builds six seventeen-point streamers that fan out around the variant's
@@ -27,7 +27,7 @@ void ModelVariant318_DrawShortStreamers(Model335EntryState *context)
     s32 spin;
     s32 wave;
     s32 turn;
-    Variant458Streamer *streamer;
+    ModelVariantStreamer *streamer;
     s16 k;
     s32 bulge;
     s32 wobble;
@@ -38,7 +38,7 @@ void ModelVariant318_DrawShortStreamers(Model335EntryState *context)
 
     work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    streamer = (Variant458Streamer *)work->short_streamers;
+    streamer = work->short_streamers;
     poly = work->flat_textured;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     if ((u32)(work->clock.frame_count & 3) < 2) {
@@ -72,7 +72,7 @@ void ModelVariant318_DrawShortStreamers(Model335EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant458Streamer *)work->short_streamers;
+    streamer = work->short_streamers;
     for (i = 0; i < 6; i++, streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
@@ -108,7 +108,7 @@ void ModelVariant318_DrawShortStreamers(Model335EntryState *context)
             }
         }
     }
-    streamer = (Variant458Streamer *)work->short_streamers;
+    streamer = work->short_streamers;
     for (i = 0; i < 6; i++, streamer++) {
         for (k = work->field_2E94; k < work->field_2E96; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -119,9 +119,9 @@ void ModelVariant318_DrawShortStreamers(Model335EntryState *context)
             poly->y2 = (streamer->sa[k] >> 16) - streamer->oy[k];
             poly->x3 = streamer->sa[k + 1] - streamer->ox[k + 1];
             poly->y3 = (streamer->sa[k + 1] >> 16) - streamer->oy[k + 1];
-            poly->r0 = streamer->color[k][0];
-            poly->g0 = streamer->color[k][1];
-            poly->b0 = streamer->color[k][2];
+            poly->r0 = streamer->color[k].r;
+            poly->g0 = streamer->color[k].g;
+            poly->b0 = streamer->color[k].b;
             if (streamer->otz[k] > 0) {
                 if (streamer->otz[k] < 2048) {
                     GsSortPoly(poly, ot, streamer->otz[k]);

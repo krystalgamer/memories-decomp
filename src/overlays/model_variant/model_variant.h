@@ -1406,13 +1406,23 @@ typedef struct {
     CVECTOR color[2];
 } ModelVariantQuadSheet;
 
-/* One 0x334-byte streamer: seventeen colours the entry handlers reset to
- * grey. */
+/* One 0x334-byte streamer: a seventeen-point spine and a copy of it moved
+ * along the view, both projected, per point the screen angle and projected
+ * width, seventeen colours the entry handlers reset to grey, a word the
+ * entries clear, and per point the depth and the width's screen offset. */
 typedef struct {
-    u8 unknown_000[0x264];
+    SVECTOR a[17];
+    long sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    long sb[17];
+    s32 width[17];
+    u8 unknown_220[0x44];
     CVECTOR color[17];
     s32 field_2A8;
-    u8 unknown_2AC[0x88];
+    s32 otz[17];
+    s16 ox[17];
+    s16 oy[17];
 } ModelVariantStreamer;
 
 /* The strip of headers 373 and 383: three rows of two points, their screen

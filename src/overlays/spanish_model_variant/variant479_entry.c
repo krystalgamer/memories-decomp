@@ -15,7 +15,7 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantGridSheet *grid = work->grids;
     Variant479Rib *rib = work->ribs;
     ModelVariantSheet *sheet = work->sheets;
-    Variant458Streamer *streamer = work->streamers;
+    ModelVariantStreamer *streamer = work->streamers;
     Variant479SpiralArm *arm = work->arms;
     POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *frame = &work->frame_poly;
@@ -224,9 +224,9 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
         }
         for (k = 0; k < 2; k++, streamer++) {
             for (j = 0; j < 17; j++) {
-                streamer->color[j][0] = 128;
-                streamer->color[j][1] = 128;
-                streamer->color[j][2] = 128;
+                streamer->color[j].r = 128;
+                streamer->color[j].g = 128;
+                streamer->color[j].b = 128;
             }
             streamer->field_2A8 = 0;
         }

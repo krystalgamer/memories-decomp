@@ -20,7 +20,7 @@ by 0x514 every tenth frame.
 The same routine, with different context offsets, is also carried by MODEL423,
 MODEL427 and MODEL473 at stages 7–10 of MODEL379 and MODEL385. The source
 follows the coiled-streamer structure recovered for MODEL474, which is pending
-as #7129 and uses the same 0x334-byte `Variant458Streamer` record. That source
+as #7129 and uses the same 0x334-byte `ModelVariantStreamer` (formerly `Variant458Streamer`) record. That source
 was used only as structural evidence. The following were recovered from the
 retail body:
 

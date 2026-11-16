@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../model_variant/variant458_streamers.h"
+#include "../model_variant/model_variant.h"
 #include "variant456_entry.h"
 
 /* The North American header-439 copy, built with the CDK compiler, reloads
@@ -44,7 +44,7 @@ void SpanishModelVariant456_DrawCoiledStreamers(Variant456EntryState *context)
     s32 wave;
     s32 turn;
     s32 radius;
-    Variant458Streamer *streamer;
+    ModelVariantStreamer *streamer;
     s16 k;
     s32 twist;
     s32 bulge;
@@ -76,7 +76,7 @@ void SpanishModelVariant456_DrawCoiledStreamers(Variant456EntryState *context)
     } else {
         phase = 0x5DC;
     }
-    streamer = (Variant458Streamer *)work->streamers;
+    streamer = work->streamers;
     i = 0;
     base = work->streamer.rotation_y;
     spin = phase;
@@ -118,12 +118,12 @@ void SpanishModelVariant456_DrawCoiledStreamers(Variant456EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant458Streamer *)work->streamers;
+    streamer = work->streamers;
 #ifdef MODEL_VARIANT456_STREAMERS_DIRECT_PREVIOUS
     for (i = 0; i < 2; i++, streamer++) {
 #else
     for (i = 0, previous = &streamer->sa[15]; i < 2; i++,
-         previous = (long *)((u8 *)previous + sizeof(Variant458Streamer)), streamer++) {
+         previous = (long *)((u8 *)previous + sizeof(ModelVariantStreamer)), streamer++) {
 #endif
         for (k = 0; k < 17; k++) {
             if (k == 16) {
@@ -159,7 +159,7 @@ void SpanishModelVariant456_DrawCoiledStreamers(Variant456EntryState *context)
             }
         }
     }
-    streamer = (Variant458Streamer *)work->streamers;
+    streamer = work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -170,9 +170,9 @@ void SpanishModelVariant456_DrawCoiledStreamers(Variant456EntryState *context)
             poly->y2 = (streamer->sa[k] >> 16) - streamer->oy[k];
             poly->x3 = streamer->sa[k + 1] - streamer->ox[k + 1];
             poly->y3 = (streamer->sa[k + 1] >> 16) - streamer->oy[k + 1];
-            poly->r0 = streamer->color[k][0];
-            poly->g0 = streamer->color[k][1];
-            poly->b0 = streamer->color[k][2];
+            poly->r0 = streamer->color[k].r;
+            poly->g0 = streamer->color[k].g;
+            poly->b0 = streamer->color[k].b;
             if (streamer->otz[k] > 0) {
                 if (streamer->otz[k] < 0x800) {
                     GsSortPoly(poly, ot, streamer->otz[k]);

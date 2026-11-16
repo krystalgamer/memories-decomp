@@ -4,7 +4,7 @@
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_camera_effects.h"
 #include "variant337_entry.h"
-#include "../model_variant/variant458_streamers.h"
+#include "../model_variant/model_variant.h"
 
 /* One 0x34-byte command row: the outer and inner sheet colours, the model
  * part, the trigger frame and the fade window. */
@@ -44,7 +44,7 @@ typedef struct {
     ModelVariantMesh mesh;
     ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[2];
-    Variant458Streamer streamers[2];
+    ModelVariantStreamer streamers[2];
     u8 unknown_1930[0x34];
     POLY_GT4 glow;
     u8 unknown_1998[0x34];

@@ -30,7 +30,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
     Model400Size *size;
     s32 n;
     Variant400EntryState *work;
-    Model400Streamer *streamer;
+    ModelVariantStreamer *streamer;
     s16 k;
     s32 twist;
     s32 bulge;
@@ -59,7 +59,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
     } else {
         phase = 1500;
     }
-    streamer = (Model400Streamer *)work->columns;
+    streamer = work->columns;
     i = 0;
     base = work->streamer_rotation_y;
     spin = phase;
@@ -125,11 +125,11 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        streamer = (Model400Streamer *)work->columns;
+        streamer = work->columns;
         for (i = 0; i < 2; i++, streamer++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
-                    streamer->depth[k] = RotTransPers4(
+                    streamer->otz[k] = RotTransPers4(
                         &streamer->a[15], &streamer->a[k], &streamer->a[15], &streamer->a[k],
                         &streamer->sa[15], &streamer->sa[k], &streamer->sa[15], &streamer->sa[k],
                         &p, &flags[i][k]);
@@ -145,7 +145,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
                     streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
                     streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
                 } else {
-                    streamer->depth[k] = RotTransPers4(
+                    streamer->otz[k] = RotTransPers4(
                         &streamer->a[k], &streamer->a[k + 1], &streamer->a[k], &streamer->a[k + 1],
                         &streamer->sa[k], &streamer->sa[k + 1], &streamer->sa[k], &streamer->sa[k + 1],
                         &p, &flags[i][k]);
@@ -163,7 +163,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
                 }
             }
         }
-        streamer = (Model400Streamer *)work->columns;
+        streamer = work->columns;
         for (i = 0; i < 2; i++, streamer++) {
             for (k = 0; k < 16; k++) {
                 poly->x0 = streamer->sa[k] + streamer->ox[k];
@@ -177,8 +177,8 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
                 poly->r0 = streamer->color[k].r;
                 poly->g0 = streamer->color[k].g;
                 poly->b0 = streamer->color[k].b;
-                if (streamer->depth[k] >= 0 && flags[i][k] >= 0) {
-                    GsSortPoly(poly, ot, streamer->depth[k]);
+                if (streamer->otz[k] >= 0 && flags[i][k] >= 0) {
+                    GsSortPoly(poly, ot, streamer->otz[k]);
                 }
             }
         }
