@@ -76,7 +76,7 @@ PAIRS = [
     ("src/game/display_object_system.c", "DisplayObject_SubmitPacket", '#include "display_object_system.h"'),
     ("src/game/model.c", "Model_InitSlot", '#include "model_slot_control.h"'),
     ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model.h"'),
-    ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_scene_runtime.h"'),
+    ("src/game/model_slot_setup.c", "Model_FindBranchingChildCoord", '#include "../game/model_scene_runtime.h"'),
     ("src/game/build_deck.c", "Text_EncodeDecimalNoPadding", '#include "util.h"'),
     ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "build_deck.h"'),
     ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "../game/build_deck.h"'),
@@ -411,7 +411,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
         )
 
     def test_parent_search_caller_needs_owning_header(self) -> None:
-        source = "src/game/model_init_slot.c"
+        source = "src/game/model_slot_setup.c"
         include = '#include "../game/model_scene_runtime.h"\n'
         text = (REPOSITORY / source).read_text(encoding="utf-8")
         self.assertIn(include, text)

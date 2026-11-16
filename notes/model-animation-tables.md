@@ -2,7 +2,7 @@
 
 These names describe resident game helpers, not recovered original symbols
 or Psy-Q entry points. The supporting code is the matched
-`src/game/model_slot_row_tables.c` group and its independently typed
+`src/game/model_slot_setup.c` group and its independently typed
 `ModelSlot`, `ModelSlotRow` and `ModelSlotPart` records.
 
 | Address | Name | Confidence |

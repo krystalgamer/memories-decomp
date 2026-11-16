@@ -20,7 +20,7 @@ class ModelPrimitiveContextHeaderTests(unittest.TestCase):
             source = directory / "probe.c"
             source.write_text(
                 '#include "../../src/types.h"\n'
-                '#include "../../src/game/model_slot_row_tables.h"\n' + body
+                '#include "../../src/game/model_slot_setup.h"\n' + body
             )
             environment = os.environ.copy()
             environment["TMPDIR"] = str(directory)

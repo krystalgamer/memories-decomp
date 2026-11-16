@@ -3906,9 +3906,8 @@ void Model_DrawSlot(s32 index)
  * Model_ControlSlotAnimation.
  */
 
-#include "model_link_slot_animation_rows.h"
 #include "model_word_memory.h"
-#include "model_slot_row_tables.h"
+#include "model_slot_setup.h"
 #include "shared_work_base.h"
 #include "file_package_staging.h"
 #include "sound_music.h"

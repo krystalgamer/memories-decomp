@@ -955,7 +955,7 @@ their canonical names at the addresses of their former native labels:
 |---|---|---|---|
 | `Model_UpdateCreditsMonsterSlot` | Japan | `func_80053E40` | `model_scene_states.h` |
 | `Model_StartBattleSlotAction` | Japan | `func_800547E0` | `model.h` (formerly `model_scene_controllers.h`) |
-| `tent_Model_RebaseTexturedPrimitives` | PAL | `func_80051610` | `model_slot_row_tables.h` |
+| `tent_Model_RebaseTexturedPrimitives` | PAL | `func_80051610` | `model_slot_setup.h` (formerly `model_slot_row_tables.h`) |
 | `ModelTexture_LoadTim` | PAL | `func_8005CFD0` | `model_texture_upload.h` |
 | `ModelTexture_PackPageClut` | PAL | `func_8005EE50` | `model_texture_upload.h` |
 

@@ -6588,7 +6588,7 @@ reuse the parameter identity for the later `lhu`, so that load stays based on
 shape has made the body exact, record it with `--allow-register-pins`, and
 verify the complete linked bytes and relocations.
 
-**Resolved without pins or the volatile read** (`src/game/model_slot_row_tables.c`).
+**Resolved without pins or the volatile read** (`src/game/model_slot_row_tables.c`, now part of `src/game/model_slot_setup.c`).
 Both devices stood in for source structure:
 
 - The `0x20D`/`0x15` tails stay apart because of how jump2 cross-jumps. A jump
@@ -7596,7 +7596,8 @@ source-level exit structure as the discriminator beyond that deferred series.
 ## func_80051610: the last -fno-strength-reduce unit, resolved by typed records
 
 The European slot-decoder build of `model_slot_row_tables.c`
-(`src/game/european/func_80051610.c`, `0x80051610`,
+(`src/game/european/func_80051610.c`, now part of
+`src/game/european/model_slot_setup.c` at `gcc_2_8_1_g8_split`, `0x80051610`,
 `gcc_2_8_1_g0_split_no_strength_reduce`) is intended to be the last resident
 unit on a `*no_strength_reduce*` profile once the per-function conversions
 proposed alongside it land. Each of those units matched the ordinary profile

@@ -356,7 +356,7 @@ typedef struct {
     /* 12.4 animation position; retain original u16 store truncation. */
     u16 animation_position;
     /* Model_ResetSlotAnimationTables clears this halfword beside animation_position
-     * in src/game/model_slot_row_tables.c. */
+     * in src/game/model_slot_setup.c. */
     u16 animation_sound_position;
     /* Model_ResetSlot seeds this halfword with 0x1000 and
      * Model_LoadSlot reads it back; this unit's own header describes

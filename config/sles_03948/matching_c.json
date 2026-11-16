@@ -5405,31 +5405,31 @@
       "address": "0x8004FC2C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x628",
-      "source": "src/game/european/model_init_slot.c"
+      "source": "src/game/european/model_slot_setup.c"
     },
     {
       "address": "0x80050254",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x48C",
-      "source": "src/game/european/func_80051610.c"
+      "source": "src/game/european/model_slot_setup.c"
     },
     {
       "address": "0x800506E0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D0",
-      "source": "src/game/european/model_slot_row_tables.c"
+      "source": "src/game/european/model_slot_setup.c"
     },
     {
       "address": "0x800508B0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
-      "source": "src/game/european/model_slot_row_tables.c"
+      "source": "src/game/european/model_slot_setup.c"
     },
     {
       "address": "0x80050A68",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x200",
-      "source": "src/game/european/model_slot_row_tables.c"
+      "source": "src/game/european/model_slot_setup.c"
     },
     {
       "address": "0x80050C68",
