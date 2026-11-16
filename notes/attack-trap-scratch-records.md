@@ -1,14 +1,15 @@
 # Attack-trap candidate scratch records
 
-`Duel_SelectAttackTrap` uses the reusable staging buffer at `0x8015C424`
-through a high-base bias of `0x18000`. The small displacement `0x3C68`
-then reaches the candidate table at buffer offset `0x1BC68`.
-`DuelAttackTrapScratchBlock` in `src/game/duel_card_staging.h` is an offset
-view of that region, not a claim about the whole allocation's lifetime.
+`Duel_SelectAttackTrap` uses the reusable staging buffer at `0x8015C424`.
+Its candidate table lives at buffer offset `0x1BC68`, which retail reaches
+as a `0x18000` high part plus a `0x3C68` load displacement. The table is the
+`attack_traps.table` member of the buffer's `DuelCardStagingBuffer` union in
+`src/game/duel_card_staging.h`; it reuses the storage of the sorted
+combined-deck IDs once deck population is done with them.
 
 ## The two six-entry arrays
 
-| Relative to the biased base | Member | Evidence |
+| Relative to `0x18000` | Member | Evidence |
 |---|---|---|
 | `0x3C68..0x3C73` | `table.entries.card_ids[6]` | The initial loop clears six halfwords; occupied trap cards with IDs `681..686` store their ID at `card_id - DUEL_ATTACK_TRAP_FIRST_CARD_ID`. Zero means absent. |
 | `0x3C74..0x3C87` | Opaque padding | No interpretation or initialization is added. |
@@ -27,16 +28,21 @@ nonzero ID; stale index entries and all padding remain untouched.
 
 ## Exact access shape and input type
 
-The high bias, small displacement, byte cursors and biased word selectors
-remain separate. A measured direct-array-base candidate failed the
-whole-image size gate (`0x1D07E8` instead of `0x1D0800`). The accepted view
-keeps the retail cursor arithmetic and typed word slots, rather than
-cancelling the index bias or rebasing every local to an array.
+The clearing loop and the final selection read index the union member
+directly; GCC splits the `0x1BC68` member offset into the retail
+`lui 0x1` / `ori 0x8000` high part and `0x3C68` displacement. Two shapes
+remain explicit because the member form changes codegen:
 
-The reverse cursor advances by halfwords, so the block's alignment is
-asserted to match `u16`. The final record-index read takes a byte view of
-the named word member to preserve retail's `lbu`, despite the producer's
-`sh`. The array offsets, total table/block sizes and alignment are checked.
+- The candidate scan's two stores compute `slot offset + base` as an
+  integer and cast it to `DuelCardStagingBuffer *`: retail emits
+  `addu offset, base`, while indexing the member swaps the operands.
+- The reverse threshold scan keeps a byte cursor and a local holding the
+  `0x18000` high part, reading `(DuelAttackTrapTable *)(q + high + 0x3C68)`.
+  Retail keeps that high part in a register across the loop; a plain member
+  read rematerialises `lui`/`ori` on every iteration.
+
+The final record-index read uses the table's byte view to preserve retail's
+`lbu`, despite the producer's `sh`. The table offsets and size are checked.
 
 The attacker's input is now `const DisplayObject *`. Its only use is
 `kind_index.card_record_index`, which selects the attacker's card record for stat calculation;

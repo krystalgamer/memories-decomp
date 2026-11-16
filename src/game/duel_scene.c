@@ -5920,9 +5920,6 @@ s32 Duel_CompareBattleStrength(DisplayObject *left, DisplayObject *right)
     return -1;
 }
 
-#define DUEL_ATTACK_TRAP_SCRATCH_VIEW(value) \
-    ((DuelAttackTrapScratchBlock *)(value))
-
 /* Small data at 0x8009AF24, owned here: the attack threshold of each trap
    from House of Adhesive Tape through Widespread Ruin, which
    Duel_SelectAttackTrap
@@ -5940,13 +5937,11 @@ u8 gDuel_abTrapAttackThresholds[DUEL_ATTACK_TRAP_COUNT] = {
 
 s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     s32 i;
-    s32 off1;
-    u8 *b1;
+    DuelCardStagingBuffer *b1;
     s32 n;
     u8 *tbl2;
     u8 *rec2;
-    u8 *b2;
-    s32 off2;
+    DuelCardStagingBuffer *b2;
     s32 h2;
     DuelCardRecord *e;
     s32 id;
@@ -5954,14 +5949,13 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     s32 sx2;
     s32 th;
     s32 sel;
-    s32 off3;
-    u8 *b3;
+    DuelCardStagingBuffer *b3;
     u8 *q;
+    s32 high;
     u8 *tb;
     s32 v;
     DisplayObject *w;
-    s32 off4;
-    u8 *b4;
+    DuelCardStagingBuffer *b4;
     s32 j2;
     u8 *tbl3;
     u8 *rec3;
@@ -5969,19 +5963,15 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     s32 k;
 
     i = 0;
-    /* Keep the unrebased byte cursors and the record-index word-slot bias. */
-    off1 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
-    b1 = gDuel_abCardStagingBuffer.bytes;
+    b1 = &gDuel_abCardStagingBuffer;
     for (; i < DUEL_ATTACK_TRAP_COUNT; i++) {
-        DUEL_ATTACK_TRAP_SCRATCH_VIEW(
-            b1 + i * sizeof(u16) + off1)->table.entries.card_ids[0] = 0;
+        b1->attack_traps.table.entries.card_ids[i] = 0;
     }
     n = 0;
     i = n;
     tbl2 = gDuel_abFieldGridCardRecordIndices.flat;
     rec2 = (u8 *)gDuel_aCardRecords;
-    b2 = gDuel_abCardStagingBuffer.bytes;
-    off2 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
+    b2 = &gDuel_abCardStagingBuffer;
     h2 = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
         /* Integer address arithmetic keeps retail's addu operand order here
@@ -5995,12 +5985,14 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
                 sx = (s16)id;
                 th = sx - DUEL_ATTACK_TRAP_FIRST_CARD_ID;
                 n++;
-                DUEL_ATTACK_TRAP_SCRATCH_VIEW(
-                    b2 + th * sizeof(u16) + off2)->table.entries.card_ids[0] = id;
+                /* Retail adds the slot offset to the base (addu offset,
+                   base); indexing the member swaps the operands. */
+                ((DuelCardStagingBuffer *)(th * sizeof(u16) + (u32)b2))
+                    ->attack_traps.table.entries.card_ids[0] = id;
                 sx2 = sx - (DUEL_ATTACK_TRAP_FIRST_CARD_ID -
                     DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS);
-                DUEL_ATTACK_TRAP_SCRATCH_VIEW(
-                    b2 + sx2 * sizeof(u16) + off2)->table.words[0] =
+                ((DuelCardStagingBuffer *)(sx2 * sizeof(u16) + (u32)b2))
+                    ->attack_traps.table.words[0] =
                     ((DisplayObject *)e->object)->kind_index.card_record_index;
             }
         }
@@ -6012,13 +6004,16 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
             ) & 0xFFFF;
         } while (0);
         sel = -1;
-        off3 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
-        b3 = gDuel_abCardStagingBuffer.bytes;
-        q = b3 + 0xA;
+        /* Retail holds the table offset's 0x18000 high part in a register
+           across the loop and reads at a 0x3C68 displacement from it. */
+        high = 0x18000;
+        b3 = &gDuel_abCardStagingBuffer;
+        q = &b3->bytes[(DUEL_ATTACK_TRAP_COUNT - 1) * sizeof(u16)];
         i = DUEL_ATTACK_TRAP_COUNT - 1;
         tb = gDuel_abTrapAttackThresholds;
         do {
-            if (DUEL_ATTACK_TRAP_SCRATCH_VIEW(q + off3)->table.entries.card_ids[0] != 0) {
+            if (((DuelAttackTrapTable *)(q + high + 0x3C68))
+                    ->entries.card_ids[0] != 0) {
                 v = *(u8 *)(i + (s32)tb);
                 if (v * DUEL_ATTACK_TRAP_THRESHOLD_SCALE < th) {
                     break;
@@ -6026,16 +6021,15 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
                 sel = i;
             }
             i--;
-            q -= 2;
+            q -= sizeof(u16);
         } while (i >= 0);
         if (sel >= 0) {
-            off4 = DUEL_CARD_STAGING_TRAP_BASE_OFFSET;
             gDuel_wSelectedTrapCardId = sel + DUEL_ATTACK_TRAP_FIRST_CARD_ID;
-            b4 = gDuel_abCardStagingBuffer.bytes;
+            b4 = &gDuel_abCardStagingBuffer;
             j2 = sel + DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS;
+            /* Retail reads the low byte (lbu) of the halfword slot. */
             gDuel_bSelectedTrapSlot =
-                *(u8 *)&DUEL_ATTACK_TRAP_SCRATCH_VIEW(
-                    b4 + j2 * sizeof(u16) + off4)->table.words[0];
+                b4->attack_traps.table.bytes[j2 * sizeof(u16)];
             return 1;
         }
     }
