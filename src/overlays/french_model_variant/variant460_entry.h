@@ -42,7 +42,7 @@ typedef struct {
     u32 field_2E80;
     GsCOORDUNIT *parts[8];
     s16 field_2EA4, strand_start, strand_end, width;
-    s32 field_2EAC, field_2EB0, field_2EB4, field_2EB8;
+    s32 streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
     s32 ribbon_wave, ribbon_phase;
     ModelVariantEntryTail tail;
 } Variant460EntryState;
