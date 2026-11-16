@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant397_beams.h"
+#include "../model_variant/variant380_entry.h"
 
 /* Header 397's beams: for every configured record, a thirteen-point beam
  * coils from the record's matrix along its direction, is projected with a
@@ -9,7 +9,7 @@
  * done. As in header 376, the length offset is an s16 and each branch of the
  * last-point test computes its own width offset. */
 
-void FrenchModelVariant397_DrawBeams(Variant397BeamsState *context)
+void FrenchModelVariant397_DrawBeams(Variant380EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -18,9 +18,9 @@ void FrenchModelVariant397_DrawBeams(Variant397BeamsState *context)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant397BeamsState *work;
+    Variant380EntryState *work;
     ModelVariantSheetSet *sheet;
-    Variant397Beam *beam;
+    Variant380EntryBeam *beam;
     GsOT *ot;
     s16 i;
     s16 k;
@@ -139,9 +139,9 @@ void FrenchModelVariant397_DrawBeams(Variant397BeamsState *context)
             poly->y2 = (beam->sa[k] >> 16) - beam->oy[k];
             poly->x3 = beam->sa[k + 1] - beam->ox[k + 1];
             poly->y3 = (beam->sa[k + 1] >> 16) - beam->oy[k + 1];
-            poly->r0 = beam->color[0];
-            poly->g0 = beam->color[1];
-            poly->b0 = beam->color[2];
+            poly->r0 = beam->inner.r;
+            poly->g0 = beam->inner.g;
+            poly->b0 = beam->inner.b;
             if (work->mode[i] < 5 && beam->otz[k] >= 0 && beam->flag[k] >= 0) {
                 GsSortPoly(poly, ot, beam->otz[k]);
             }
@@ -159,11 +159,11 @@ void FrenchModelVariant397_DrawBeams(Variant397BeamsState *context)
             } else if (work->mode[i] < 5) {
                 work->mode[i]++;
             }
-            if (work->config->grow_end < work->frame && work->phase == 1) {
+            if (work->config->fade_at < work->frame && work->phase == 1) {
                 work->mode[i]++;
             }
             if (work->mode[i] >= 5) {
-                if (work->config->grow_end < work->frame && work->phase == 1) {
+                if (work->config->fade_at < work->frame && work->phase == 1) {
                     work->length[i] = 12;
                     work->done[i] = 1;
                     work->mode[i] = 5;

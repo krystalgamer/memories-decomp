@@ -71,13 +71,6 @@ typedef struct {
 } ModelVariantSwarmGroup;
 
 
-/* A 0x20-byte anchor whose position becomes the translation of a sheet,
- * ribbon or quad-pair matrix. */
-typedef struct {
-    VECTOR position;
-    u8 unknown_10[0x10];
-} ModelVariantAnchor;
-
 /* An eight-byte copy of the view metrics (Model_GetViewMetricsBuffer) that
  * the header 630-683 entries and image 60348 take each frame; the entries
  * that use it turn their sprites with the yaw at +2 and the pitch at +4. */
