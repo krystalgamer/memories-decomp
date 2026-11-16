@@ -142,15 +142,15 @@ s32 ModelVariant430_HandleRequest(SVECTOR *point, s32 command)
             setVector(&swarm->b[i], 256, -256, 0);
             setVector(&swarm->c[i], -256, 256, 0);
             setVector(&swarm->d[i], 256, 256, 0);
-            swarm->color[0] = 64;
-            swarm->color[1] = 64;
-            swarm->color[2] = 64;
+            swarm->color.r = 64;
+            swarm->color.g = 64;
+            swarm->color.b = 64;
             swarm->size[i] = 384 + i * 32;
             swarm->done[i] = 0;
             swarm->field_614[i] = 0;
-            swarm->origin[i].vx = work->matrix.t[0] + work->aim.direction.vx;
-            swarm->origin[i].vy = work->matrix.t[1] + work->aim.direction.vy;
-            swarm->origin[i].vz = work->matrix.t[2] + work->aim.direction.vz;
+            swarm->positions[i].vx = work->matrix.t[0] + work->aim.direction.vx;
+            swarm->positions[i].vy = work->matrix.t[1] + work->aim.direction.vy;
+            swarm->positions[i].vz = work->matrix.t[2] + work->aim.direction.vz;
         }
         for (band_index = 0; band_index < 1; band_index++, band++) {
             setVector(&band->scale, 4096, 4096, 4096);
@@ -338,9 +338,9 @@ s32 ModelVariant430_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame && work->tail.phase == 0) {
-            FrenchModelVariant447_DrawSwarm((u8 *)point);
+            FrenchModelVariant447_DrawSwarm((Variant430EntryState *)point);
         } else if (work->config->end <= work->clock.frame) {
-            FrenchModelVariant447_DrawSwarm((u8 *)point);
+            FrenchModelVariant447_DrawSwarm((Variant430EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

@@ -11,8 +11,11 @@ growing `POLY_FT4` quads. The loader entry reaches it.
   and later, the colour scales by the clamped fade, and each fade then counts
   down by `step * 8`. The last fade to reach zero moves phase 4 to 5. A
   drift vector, scaled by a value that grows from phase 3, offsets every
-  quad, and a spin angle pulses the size. The view lives in
-  `french_model_variant/image134622_swarm.h`.
+  quad, and a spin angle pulses the size. The helper reads
+  `Variant451EntryState`, the record the US header-451 entry passes. Its
+  group's `+0x2D4` words are `done` and `+0x354` (set by the entry once a
+  quad's scale reaches 0) are `initialized`. The former view
+  `image134622_swarm.h` was removed.
 - **Fade temporary.** The fade clamp is tested through a second local, and
   that same local carries `step * 8` for the decrement. Only then does GCC
   keep the target's `lw v0; move a1, v0` copy. decomp-permuter found this

@@ -361,7 +361,7 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant430_DrawSwarm((u8 *)point);
+            FrenchModelVariant430_DrawSwarm((Variant413EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

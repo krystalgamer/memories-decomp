@@ -10,8 +10,10 @@ targets differ.
   body widened to 32 quads per group and wrapped in an outer loop over three
   groups (stride `0x714`). Each group has its own origin matrix and
   per-quad direction row. The ring radius is `512`, growth is `step * 8`, and
-  the last done quad of a group moves phase 2 to 5. The view lives in
-  `french_model_variant/image132118_swarm.h`.
+  the last done quad of a group moves phase 2 to 5. The helper reads
+  `Variant413EntryState`, the record the US header-413 entry passes
+  (`groups`, `origins`, `offsets`, `sprite`); its former view
+  `image132118_swarm.h` was removed.
 - **Register split.** `polygon` is taken before the `ot` call and `group`
   is set before the loop, which matches the target's stack slots and keeps
   `group` in `s4` and the state copy in `s5`. The unscaled colour branch

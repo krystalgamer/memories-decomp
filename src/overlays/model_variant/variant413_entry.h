@@ -38,5 +38,5 @@ typedef struct {
 
 extern GsIMAGE gModelVariant413_aImages[9];
 extern ModelVariantSweepConfig gModelVariant413_aConfigs[];
-void FrenchModelVariant430_DrawSwarm(u8 *context);
+void FrenchModelVariant430_DrawSwarm(Variant413EntryState *context);
 #endif

@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant447_swarm.h"
+#include "../model_variant/variant430_entry.h"
 
-void FrenchModelVariant447_DrawSwarm(u8 *context)
+void FrenchModelVariant447_DrawSwarm(Variant430EntryState *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -12,9 +12,9 @@ void FrenchModelVariant447_DrawSwarm(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Swarm447State *state = (Swarm447State *)context;
-    ModelVariantSwarmGroup *group = &state->group;
-    POLY_FT4 *polygon = &state->polygon;
+    Variant430EntryState *state = context;
+    Variant430EntrySwarm *group = &state->swarm;
+    POLY_FT4 *polygon = &state->sprite;
     GsOT *ot;
     s16 j;
     s16 angle, spread;
@@ -26,11 +26,11 @@ void FrenchModelVariant447_DrawSwarm(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
-    ratan2(state->direction.vy, state->direction.vz);
-    ratan2(state->projected.vy, state->projected.vx);
+    ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
     for (j = 0, angle = 0, spread = 0; j < 32; j++, spread = j * 1024, angle += 96) {
         if (group->size[j] > 0) {
-            if (state->phase < 2) {
+            if (state->tail.phase < 2) {
                 if (group->size[j] > 128 && group->size[j] < 384) {
                     red = group->color.r * (384 - group->size[j]) / 256;
                     green = group->color.g * (384 - group->size[j]) / 256;
@@ -60,11 +60,11 @@ void FrenchModelVariant447_DrawSwarm(u8 *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->origin[0] + state->direction.vx * group->size[j] / 512 +
+            matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * group->size[j] / 512 +
                           (rcos(spread - 1024 + angle) * radius >> 12);
-            matrix.t[1] = state->origin[1] + state->direction.vy * group->size[j] / 512 +
+            matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * group->size[j] / 512 +
                           (rsin(spread - 1024 + angle) * radius >> 12) - lift;
-            matrix.t[2] = state->origin[2] + state->direction.vz * group->size[j] / 512;
+            matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * group->size[j] / 512;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -89,20 +89,20 @@ void FrenchModelVariant447_DrawSwarm(u8 *context)
                 GsSortPoly(polygon, ot, (u16)depth);
             }
         }
-        if (group->size[j] < 1024 && state->phase > 0) {
+        if (group->size[j] < 1024 && state->tail.phase > 0) {
             group->size[j] += state->clock.step * 8;
-            if (group->size[0] >= 512 && state->phase < 3) {
-                state->phase = 3;
+            if (group->size[0] >= 512 && state->tail.phase < 3) {
+                state->tail.phase = 3;
             }
             if (group->size[j] >= 1024) {
-                if (state->timing->limit <= state->clock.frame) {
+                if (state->config->limit <= state->clock.frame) {
                     group->size[j] = 1024;
                     group->done[j] = 1;
                 } else {
                     group->size[j] -= 1024;
                 }
             } else if (group->size[j] <= 0) {
-                if (state->timing->limit <= state->clock.frame) {
+                if (state->config->limit <= state->clock.frame) {
                     group->size[j] = 1024;
                     group->done[j] = 1;
                 }
@@ -110,18 +110,18 @@ void FrenchModelVariant447_DrawSwarm(u8 *context)
         } else {
             group->size[j] -= state->clock.step * 24;
             if (j + 1 == 32 && group->size[j] <= 0) {
-                state->phase = 1;
+                state->tail.phase = 1;
             }
         }
         complete *= group->done[j];
-        if (j + 1 == 32 && complete == 1 && state->phase == 3) {
-            state->phase = 5;
+        if (j + 1 == 32 && complete == 1 && state->tail.phase == 3) {
+            state->tail.phase = 5;
         }
     }
-    if (state->phase == 1) {
+    if (state->tail.phase == 1) {
         for (j = 0; j < 32; j++) {
             group->size[j] = -(j * 32);
         }
-        state->phase = 2;
+        state->tail.phase = 2;
     }
 }
