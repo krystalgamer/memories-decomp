@@ -12,7 +12,7 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantPackedProjection projection;
-    EntryQuads478 *quad_group;
+    ModelVariantQuadGroup *quad_group;
     EntryPetals478 *petal;
     EntrySwarm478 *swarm = &work->swarm;
     ModelVariantBandPair *pair = work->pairs;
@@ -120,14 +120,14 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&quad_group->b[i], 384, -384, 0);
                 setVector(&quad_group->c[i], -384, 384, 0);
                 setVector(&quad_group->d[i], 384, 384, 0);
-                quad_group->color[0] = work->config->outer.r;
-                quad_group->color[1] = work->config->outer.g;
-                quad_group->color[2] = work->config->outer.b;
+                quad_group->color.r = work->config->outer.r;
+                quad_group->color.g = work->config->outer.g;
+                quad_group->color.b = work->config->outer.b;
                 quad_group->size[i] = -(i * 4096 / 10);
                 quad_group->angle[i] = 0;
                 quad_group->done[i] = 0;
                 quad_group->field_20C[i] = 0;
-                quad_group->reset[i] = 0;
+                quad_group->initialized[i] = 0;
                 quad_group->positions[i].vx = work->matrix.t[0] + work->aim.direction.vx;
                 quad_group->positions[i].vy = work->matrix.t[1] + work->aim.direction.vy;
                 quad_group->positions[i].vz = work->matrix.t[2] + work->aim.direction.vz;
@@ -341,13 +341,13 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant478_DrawPetalRings((u8 *)point);
+            SpanishModelVariant478_DrawPetalRings((EntryState478 *)point);
         }
         if (work->config->swarm_start <= work->clock.frame) {
-            FrenchModelVariant478_DrawSwarm((u8 *)point);
+            FrenchModelVariant478_DrawSwarm((EntryState478 *)point);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant478_DrawOrbitingQuads((u8 *)point);
+            SpanishModelVariant478_DrawOrbitingQuads((EntryState478 *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
