@@ -310,8 +310,8 @@ their tables there:
 - `duel_effect_update_object_layout`: an 800-entry pool, split
   280/220/220/80.
 - `text_box_build_step`.
-- `european/duel_effect_command_table`, a data-only unit compiled through
-  `config/sles_03947/data_c.json`: two more secondary text commands and six
+- `duel_effect_command_table`, a data-only unit compiled with a
+  `VERSION_EUROPE` entry define in `config/sles_03947/data_c.json`: two more secondary text commands and six
   more glyph-fade entry handlers.
 - `display_effect`, `mem_card_dialog` and
   `display_object_runtime`.
@@ -331,7 +331,7 @@ in the North American image are their own data-only unit,
 `model_background_records.c`, because the European builds place other
 units' tables between the two. In every PAL build, byte 0xAE of records 1
 and 3 is 0x80 (`MODEL_BACKGROUND_RECORD_PAL_FLAG`). The five PAL builds
-compile the unit through `european/model_background_records.c` and place
+compile the unit with a `VERSION_EUROPE` entry define and place
 it at `0x800920EC` (Europe) and `0x800924CC` (language builds).
 
 The four language builds keep Europe's middle range `0x414` higher through

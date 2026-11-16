@@ -2,11 +2,17 @@
   "schema": 1,
   "units": [
     {
-      "source": "src/game/european/duel_effect_command_table.c",
+      "source": "src/game/duel_effect_command_table.c",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0"
     },
     {
-      "source": "src/game/european/model_background_records.c",
+      "source": "src/game/model_background_records.c",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0"
     }
   ]
