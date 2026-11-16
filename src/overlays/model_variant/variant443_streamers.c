@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "variant443_streamers.h"
 #include "../french_model_variant/variant460_entry.h"
 
 /* Builds two seventeen-point streamers that coil around the variant's axis,
@@ -29,7 +28,7 @@ void ModelVariant443_DrawStreamers(Variant460EntryState *context)
     s32 wave;
     s32 turn;
     s32 radius;
-    Variant443Streamer *streamer;
+    ModelVariantFlaggedStreamer *streamer;
     s16 k;
     s32 twist;
     s32 bulge;
@@ -62,7 +61,7 @@ void ModelVariant443_DrawStreamers(Variant460EntryState *context)
     } else {
         phase = 0x5DC;
     }
-    streamer = (Variant443Streamer *)work->streamers;
+    streamer = work->streamers;
     i = 0;
     base = work->field_2EB4;
     spin = phase;
@@ -73,11 +72,11 @@ void ModelVariant443_DrawStreamers(Variant460EntryState *context)
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
             length = work->field_2EAC / 64;
-            setVector(&streamer->spine.a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
+            setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                       bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                       rsin(twist) * (radius + (s16)wobble) >> 12);
-            setVector(&streamer->spine.b[k], streamer->spine.a[k].vx + (rcos(turn) * (s16)length >> 12), streamer->spine.a[k].vy,
-                      streamer->spine.a[k].vz + (rsin(turn) * (s16)length >> 12));
+            setVector(&streamer->b[k], streamer->a[k].vx + (rcos(turn) * (s16)length >> 12), streamer->a[k].vy,
+                      streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
     rot.vx = (s16)work->field_2EB0 + rx;
@@ -101,65 +100,65 @@ void ModelVariant443_DrawStreamers(Variant460EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant443Streamer *)work->streamers;
+    streamer = work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
-                streamer->offsets.otz[16] = RotTransPers4(&streamer->spine.a[15], &streamer->spine.a[16], &streamer->spine.a[15], &streamer->spine.a[16],
-                                                  &streamer->spine.sa[15], &streamer->spine.sa[16],
-                                                  &streamer->spine.sa[15], &streamer->spine.sa[16], &p, &flag);
-                RotTransPers(&streamer->spine.b[16], &streamer->spine.sb[16], &p, &flag);
-                dx = (s16)streamer->spine.sa[16] - (s16)streamer->spine.sa[15];
-                dy = (streamer->spine.sa[16] >> 16) - (streamer->spine.sa[15] >> 16);
-                streamer->spine.angle[16] = ratan2(dy, dx) + 0xC00;
+                streamer->otz[16] = RotTransPers4(&streamer->a[15], &streamer->a[16], &streamer->a[15], &streamer->a[16],
+                                                  &streamer->sa[15], &streamer->sa[16],
+                                                  &streamer->sa[15], &streamer->sa[16], &p, &flag);
+                RotTransPers(&streamer->b[16], &streamer->sb[16], &p, &flag);
+                dx = (s16)streamer->sa[16] - (s16)streamer->sa[15];
+                dy = (streamer->sa[16] >> 16) - (streamer->sa[15] >> 16);
+                streamer->angle[16] = ratan2(dy, dx) + 0xC00;
                 if (work->field_2EAC > 0x200) {
                     w = 2;
                 } else {
-                    r = (s16)streamer->spine.sb[16];
-                    dx = (s16)streamer->spine.sa[16];
+                    r = (s16)streamer->sb[16];
+                    dx = (s16)streamer->sa[16];
                     w = r - dx;
                 }
-                streamer->spine.width[16] = w;
+                streamer->width[16] = w;
             } else {
-                streamer->offsets.otz[k] = RotTransPers4(&streamer->spine.a[k], &streamer->spine.a[k + 1], &streamer->spine.a[k], &streamer->spine.a[k + 1],
-                                                 &streamer->spine.sa[k], &streamer->spine.sa[k + 1],
-                                                 &streamer->spine.sa[k], &streamer->spine.sa[k + 1], &p, &flag);
-                RotTransPers(&streamer->spine.b[k], &streamer->spine.sb[k], &p, &flag);
-                dx = (s16)streamer->spine.sa[k + 1] - (s16)streamer->spine.sa[k];
-                dy = (streamer->spine.sa[k + 1] >> 16) - (streamer->spine.sa[k] >> 16);
-                streamer->spine.angle[k] = ratan2(dy, dx) + 0xC00;
+                streamer->otz[k] = RotTransPers4(&streamer->a[k], &streamer->a[k + 1], &streamer->a[k], &streamer->a[k + 1],
+                                                 &streamer->sa[k], &streamer->sa[k + 1],
+                                                 &streamer->sa[k], &streamer->sa[k + 1], &p, &flag);
+                RotTransPers(&streamer->b[k], &streamer->sb[k], &p, &flag);
+                dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
+                dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
+                streamer->angle[k] = ratan2(dy, dx) + 0xC00;
                 if (work->field_2EAC > 0x200) {
-                    streamer->spine.width[k] = 2;
+                    streamer->width[k] = 2;
                 } else {
-                    streamer->spine.width[k] = (s16)streamer->spine.sb[k] - (s16)streamer->spine.sa[k];
+                    streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
                 }
             }
             if (work) {
-                streamer->offsets.ox[k] = rcos(streamer->spine.angle[k]) * streamer->spine.width[k] >> 12;
-                streamer->offsets.oy[k] = rsin(streamer->spine.angle[k]) * streamer->spine.width[k] >> 12;
+                streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
+                streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
             } else {
-                streamer->offsets.ox[k] = rcos(streamer->spine.angle[k]) * streamer->spine.width[k] >> 12;
-                streamer->offsets.oy[k] = rsin(streamer->spine.angle[k]) * streamer->spine.width[k] >> 12;
+                streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
+                streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
             }
         }
     }
-    streamer = (Variant443Streamer *)work->streamers;
+    streamer = work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {
-            poly->x0 = streamer->spine.sa[k] + streamer->offsets.ox[k];
-            poly->y0 = (streamer->spine.sa[k] >> 16) + streamer->offsets.oy[k];
-            poly->x1 = streamer->spine.sa[k + 1] + streamer->offsets.ox[k + 1];
-            poly->y1 = (streamer->spine.sa[k + 1] >> 16) + streamer->offsets.oy[k + 1];
-            poly->x2 = streamer->spine.sa[k] - streamer->offsets.ox[k];
-            poly->y2 = (streamer->spine.sa[k] >> 16) - streamer->offsets.oy[k];
-            poly->x3 = streamer->spine.sa[k + 1] - streamer->offsets.ox[k + 1];
-            poly->y3 = (streamer->spine.sa[k + 1] >> 16) - streamer->offsets.oy[k + 1];
-            poly->r0 = streamer->color[k][0];
-            poly->g0 = streamer->color[k][1];
-            poly->b0 = streamer->color[k][2];
-            if (streamer->offsets.otz[k] >= 0) {
-                if (streamer->offsets.otz[k] < 0x800) {
-                    GsSortPoly(poly, ot, streamer->offsets.otz[k]);
+            poly->x0 = streamer->sa[k] + streamer->ox[k];
+            poly->y0 = (streamer->sa[k] >> 16) + streamer->oy[k];
+            poly->x1 = streamer->sa[k + 1] + streamer->ox[k + 1];
+            poly->y1 = (streamer->sa[k + 1] >> 16) + streamer->oy[k + 1];
+            poly->x2 = streamer->sa[k] - streamer->ox[k];
+            poly->y2 = (streamer->sa[k] >> 16) - streamer->oy[k];
+            poly->x3 = streamer->sa[k + 1] - streamer->ox[k + 1];
+            poly->y3 = (streamer->sa[k + 1] >> 16) - streamer->oy[k + 1];
+            poly->r0 = streamer->color[k].r;
+            poly->g0 = streamer->color[k].g;
+            poly->b0 = streamer->color[k].b;
+            if (streamer->otz[k] >= 0) {
+                if (streamer->otz[k] < 0x800) {
+                    GsSortPoly(poly, ot, streamer->otz[k]);
                 }
             }
         }

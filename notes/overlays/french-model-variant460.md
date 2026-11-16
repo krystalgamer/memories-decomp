@@ -259,8 +259,8 @@ header/suffix storage owners retain 281,120 bytes; the suffix is still
 unclassified. Neither this helper nor strand has a demonstrated direct
 entry-call path.
 
-The implementation reuses the unchanged, independently measured
-`Variant443Streamer` declaration. Two `0x378` records occupy
+The implementation reuses the independently measured 0x378-byte streamer
+(then `Variant443Streamer`, now `ModelVariantFlaggedStreamer`). Two `0x378` records occupy
 `context + 0x23E8..0x2AD8`. Each has seventeen-element point arrays at
 `0/0x110`, projected words at `0x88/0x198`, angles at `0xCC`, widths at
 `0x1DC`, colors at `0x264`, depths at `0x2F0`, and signed screen offsets
