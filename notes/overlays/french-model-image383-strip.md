@@ -16,7 +16,7 @@ The code is the French header-373 strip helper (`variant373_strip.c`) over a
 different layout: the strip at `+0`, the quad at `+0x138C`, the origin at
 `+0x14E4` and the phase at `+0x1580`. Because the strip now starts at the
 context itself, the strip pointer is assigned inside the phase block, which
-reproduces the target's register copy. The local view lives in
-`variant383_strip.h`, and `model_variant383_linker_symbols.txt` covers the
+reproduces the target's register copy. The helper reads the header-366
+record (`Variant366State` in `model_variant/variant366_entry.h`), and `model_variant383_linker_symbols.txt` covers the
 resident calls. The [attempt ledger](french-model-image383-strip-attempts.csv)
 records five measured probes.

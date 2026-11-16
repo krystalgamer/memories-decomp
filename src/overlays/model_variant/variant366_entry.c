@@ -17,7 +17,7 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
 {
     Variant366State *work = (Variant366State *)context;
     Variant366Strip *strip = work->strips;
-    Variant366Quads *quads = work->quads;
+    ModelVariantQuadSheet *quads = work->quads;
     Variant366Ribbon *ribbon = work->ribbons;
     ModelVariantColorRing *ring = work->rings;
     ModelVariantShadedRay *ray = work->rays;
@@ -141,33 +141,33 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
         for (k = 0; k < 1; k++, quads++) {
             for (j = 0; j < 4; j++) {
                 if (j == 0) {
-                    setVector(&quads->v0[j], -192, -192, 0);
-                    setVector(&quads->v1[j], 0, -192, 0);
-                    setVector(&quads->v2[j], -192, 0, 0);
-                    setVector(&quads->v3[j], 0, 0, 0);
+                    setVector(&quads->points[0][j], -192, -192, 0);
+                    setVector(&quads->points[1][j], 0, -192, 0);
+                    setVector(&quads->points[2][j], -192, 0, 0);
+                    setVector(&quads->points[3][j], 0, 0, 0);
                 } else if (j == 1) {
-                    setVector(&quads->v0[j], 192, -192, 0);
-                    setVector(&quads->v1[j], 192, 0, 0);
-                    setVector(&quads->v2[j], 0, -192, 0);
-                    setVector(&quads->v3[j], 0, 0, 0);
+                    setVector(&quads->points[0][j], 192, -192, 0);
+                    setVector(&quads->points[1][j], 192, 0, 0);
+                    setVector(&quads->points[2][j], 0, -192, 0);
+                    setVector(&quads->points[3][j], 0, 0, 0);
                 } else if (j == 2) {
-                    setVector(&quads->v0[j], 192, 192, 0);
-                    setVector(&quads->v1[j], 0, 192, 0);
-                    setVector(&quads->v2[j], 192, 0, 0);
-                    setVector(&quads->v3[j], 0, 0, 0);
+                    setVector(&quads->points[0][j], 192, 192, 0);
+                    setVector(&quads->points[1][j], 0, 192, 0);
+                    setVector(&quads->points[2][j], 192, 0, 0);
+                    setVector(&quads->points[3][j], 0, 0, 0);
                 } else if (j == 3) {
-                    setVector(&quads->v0[j], -192, 192, 0);
-                    setVector(&quads->v1[j], -192, 0, 0);
-                    setVector(&quads->v2[j], 0, 192, 0);
-                    setVector(&quads->v3[j], 0, 0, 0);
+                    setVector(&quads->points[0][j], -192, 192, 0);
+                    setVector(&quads->points[1][j], -192, 0, 0);
+                    setVector(&quads->points[2][j], 0, 192, 0);
+                    setVector(&quads->points[3][j], 0, 0, 0);
                 }
             }
-            quads->outer.r = 255;
-            quads->outer.g = 255;
-            quads->outer.b = 255;
-            quads->inner.r = 0;
-            quads->inner.g = 128;
-            quads->inner.b = 255;
+            quads->color[0].r = 255;
+            quads->color[0].g = 255;
+            quads->color[0].b = 255;
+            quads->color[1].r = 0;
+            quads->color[1].g = 128;
+            quads->color[1].b = 255;
         }
         for (k = 0; k < 3; k++, ribbon++) {
             for (i = 0, angle = 0; i < 17; i++, angle = i * 256) {
@@ -200,7 +200,7 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
             work->cone_opening[k] = 0;
         }
         work->brightness = 255;
-        work->field_157A = 1024;
+        work->width = 1024;
         work->scale = 0;
         work->ray_polar_angle = 0;
         work->ray_azimuth = 0;
@@ -264,12 +264,12 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
                           work->aim.target.vy - work->matrix.t[1],
                           work->aim.target.vz - work->matrix.t[2]);
                 if (work->phase > 0) {
-                    FrenchModelVariant383_DrawRays(context);
+                    FrenchModelVariant383_DrawRays((Variant366State *)context);
                 }
                 if (work->phase == 3) {
-                    FrenchModelVariant383_DrawRibbons(context);
+                    FrenchModelVariant383_DrawRibbons((Variant366State *)context);
                 }
-                FrenchModelVariant383_DrawQuads(context);
+                FrenchModelVariant383_DrawQuads((Variant366State *)context);
             } while (++work->index < work->config->count);
         }
         if (work->phase >= 4) {

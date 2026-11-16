@@ -77,6 +77,6 @@ Entry `model_variant/variant366_entry.c` line 49: `work->config = &gModelVariant
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x10` | `unknown_10[4]` bytes → `u32 duration` | `Family383QuadConfig.duration_10` | `FrenchModelVariant383_DrawQuads` (french_model_variant/variant383_quads.c; `model_variant/variant366_entry.c:272`, `Family383QuadView.config` at +0x1538) | `work->scale = (work->elapsed << 12) / work->config->duration_10;` | high |
+| `+0x10` | `unknown_10[4]` bytes → `u32 duration` | `Variant366Config.duration` (the 383 helpers now read `Variant366State` directly) | `FrenchModelVariant383_DrawQuads` (french_model_variant/variant383_quads.c; `model_variant/variant366_entry.c:272`, `Variant366State.config` at +0x1538) | `work->scale = (work->clock.frame << 12) / work->config->duration;` | high |
 
 The view's `count_0C` matches the config's existing `count` at `+0x0C`. The view suffix `_10` only marks the offset, so the config member is `duration`. naming3 found this field.
