@@ -692,6 +692,12 @@ points `main_mode_runners.c` calls and the four helpers that only
 they and each
 other reach. It covers `0x80180FD8..0x80181F68` as one contiguous
 `gcc_2_8_1_g0_split` run, wired as one C subsegment at module offset `0xFD8`.
+The Japanese image (also at `0xFD8`) and every PAL `main_menu*` image (at
+`0x1050`, EU `0x80181050..0x801820C0`) keep these seven functions together
+in the same order under the same profile, so they build it as the same single
+object through one wrapper per region, `../japanese/main_menu/value_setup.c`
+and `../european/main_menu/value_setup.c` (#39). These replaced seven
+per-function wrappers per region and their `VERSION_*_MAIN_MENU_*` guards.
 
 | Address | Function | Callers |
 |---|---|---|

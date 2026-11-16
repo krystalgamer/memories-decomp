@@ -62,13 +62,7 @@ segments:
     subsegments:
       - [0x4, rodata, overlays/german_main_menu_language_3/rodata]
       - [0x1C, c, overlays/european/main_menu/frontend]
-      - [0x1050, c, overlays/european/main_menu/start_value_setup]
-      - [0x1408, c, overlays/european/main_menu/update_value_setup]
-      - [0x187C, c, overlays/european/main_menu/draw_value_setup]
-      - [0x1E10, c, overlays/european/main_menu/update_value_widget_tween]
-      - [0x1F88, c, overlays/european/main_menu/finish_value_setup]
-      - [0x2044, c, overlays/european/main_menu/count_decimal_digits]
-      - [0x2078, c, overlays/european/main_menu/start_value_widget_tween]
+      - [0x1050, c, overlays/european/main_menu/value_setup]
       - [0x20C0, c, overlays/european/main_menu/trade_screen]
       - [0x4784, data, overlays/german_main_menu_language_3/data]
 

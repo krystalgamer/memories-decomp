@@ -46,43 +46,43 @@
       "address": "0x80181050",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3B8",
-      "source": "src/overlays/european/main_menu/start_value_setup.c"
+      "source": "src/overlays/european/main_menu/value_setup.c"
     },
     {
       "address": "0x80181408",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x474",
-      "source": "src/overlays/european/main_menu/update_value_setup.c"
+      "source": "src/overlays/european/main_menu/value_setup.c"
     },
     {
       "address": "0x8018187C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x594",
-      "source": "src/overlays/european/main_menu/draw_value_setup.c"
+      "source": "src/overlays/european/main_menu/value_setup.c"
     },
     {
       "address": "0x80181E10",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x178",
-      "source": "src/overlays/european/main_menu/update_value_widget_tween.c"
+      "source": "src/overlays/european/main_menu/value_setup.c"
     },
     {
       "address": "0x80181F88",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBC",
-      "source": "src/overlays/european/main_menu/finish_value_setup.c"
+      "source": "src/overlays/european/main_menu/value_setup.c"
     },
     {
       "address": "0x80182044",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
-      "source": "src/overlays/european/main_menu/count_decimal_digits.c"
+      "source": "src/overlays/european/main_menu/value_setup.c"
     },
     {
       "address": "0x80182078",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x48",
-      "source": "src/overlays/european/main_menu/start_value_widget_tween.c"
+      "source": "src/overlays/european/main_menu/value_setup.c"
     },
     {
       "address": "0x801820C0",
