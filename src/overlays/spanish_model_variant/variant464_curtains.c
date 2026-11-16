@@ -31,7 +31,7 @@ void SpanishModelVariant464_DrawCurtains(Variant464EntryState *context)
     s32 size;
     s32 done;
     s32 angle;
-    ModelVariantSheet *sheet;
+    ModelVariantSheetSet *sheet;
     s16 fade;
     u8 r0;
     u8 g0;
