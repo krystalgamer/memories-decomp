@@ -43,8 +43,8 @@ precede one PR rather than publishing this header checkpoint on its own.
 
 ## Boot callback bridge and declaration owner
 
-`main_boot_screen.h` (formerly `main_boot_load_stages.h`) owns the existing package and image callbacks.
-The grouped implementation and `Main_RunBootSequence` both include it.
+`main_boot_frontend.h` (formerly `main_boot_load_stages.h`, then `main_boot_screen.h`) owns the existing package and image callbacks.
+The callbacks and `Main_RunBootSequence` now share one unit, `main_boot_frontend.c`.
 The declarations retain `FileTransferDescriptor *` and signed stage/mode
 arguments; the generic transfer interface no longer carries a private boot
 prototype or numeric `func_800434F4` callback spelling.
@@ -57,7 +57,7 @@ in their original order.
 
 Japan compiles and calls `Main_LoadBootImageStage` under that name;
 `config/slpm_86398/symbols.txt` binds it at `0x80042B64`, the address of the
-former native label `func_80042B64`. `main_boot_screen.h` (formerly `main_boot_load_stages.h`) declares it
+former native label `func_80042B64`. `main_boot_frontend.h` declares it
 the same way in every region, with no assembler label or wrapper macro, and
 the Japanese inventory entry carries the canonical name. Fixed bindings and the compiled definition are
 unchanged. The European numeric-to-canonical caller
