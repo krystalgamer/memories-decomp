@@ -33,7 +33,7 @@ void ModelVariant397_DrawBands(Variant397EntryState *context)
     } else {
         r = work->scale * (work->config->radius * 20 / 16) / 4096;
     }
-    band = (ModelVariantBandShort *)work->bands;
+    band = work->bands;
     for (i = 0; i < 1; i++, band++) {
         for (j = 0; j < 5; j++) {
             setVector(&band->a[j], rcos(0x400) * r >> 12, rsin(0x400) * r >> 12, 0);
@@ -69,7 +69,7 @@ void ModelVariant397_DrawBands(Variant397EntryState *context)
                                          &band->sc[j], &p, &band->flag[j]);
         }
     }
-    band = (ModelVariantBandShort *)work->bands;
+    band = work->bands;
     for (i = 0; i < 1; i++, band++) {
         for (j = 0; j < 4; j++) {
             poly->x0 = band->sa[j];
@@ -80,18 +80,18 @@ void ModelVariant397_DrawBands(Variant397EntryState *context)
             poly->y2 = band->sb[j] >> 16;
             poly->x3 = band->sb[j + 1];
             poly->y3 = band->sb[j + 1] >> 16;
-            poly->r0 = band->ca[j][0];
-            poly->g0 = band->ca[j][1];
-            poly->b0 = band->ca[j][2];
-            poly->r1 = band->ca[j + 1][0];
-            poly->g1 = band->ca[j + 1][1];
-            poly->b1 = band->ca[j + 1][2];
-            poly->r2 = band->cb[j][0];
-            poly->g2 = band->cb[j][1];
-            poly->b2 = band->cb[j][2];
-            poly->r3 = band->cb[j + 1][0];
-            poly->g3 = band->cb[j + 1][1];
-            poly->b3 = band->cb[j + 1][2];
+            poly->r0 = band->ca[j].r;
+            poly->g0 = band->ca[j].g;
+            poly->b0 = band->ca[j].b;
+            poly->r1 = band->ca[j + 1].r;
+            poly->g1 = band->ca[j + 1].g;
+            poly->b1 = band->ca[j + 1].b;
+            poly->r2 = band->cb[j].r;
+            poly->g2 = band->cb[j].g;
+            poly->b2 = band->cb[j].b;
+            poly->r3 = band->cb[j + 1].r;
+            poly->g3 = band->cb[j + 1].g;
+            poly->b3 = band->cb[j + 1].b;
             if (band->otz[j] < 0) {
                 band->otz[j] = 0;
             }
@@ -120,18 +120,18 @@ void ModelVariant397_DrawBands(Variant397EntryState *context)
             poly->x3 = col->sb[1];
             poly->y3 = col->sb[1] >> 16;
 #endif
-            poly->r0 = col->ca[0][0];
-            poly->g0 = col->ca[0][1];
-            poly->b0 = col->ca[0][2];
-            poly->r1 = band->ca[j + 1][0];
-            poly->g1 = band->ca[j + 1][1];
-            poly->b1 = band->ca[j + 1][2];
-            poly->r2 = col->cb[0][0];
-            poly->g2 = col->cb[0][1];
-            poly->b2 = col->cb[0][2];
-            poly->r3 = band->cb[j + 1][0];
-            poly->g3 = band->cb[j + 1][1];
-            poly->b3 = band->cb[j + 1][2];
+            poly->r0 = col->ca[0].r;
+            poly->g0 = col->ca[0].g;
+            poly->b0 = col->ca[0].b;
+            poly->r1 = band->ca[j + 1].r;
+            poly->g1 = band->ca[j + 1].g;
+            poly->b1 = band->ca[j + 1].b;
+            poly->r2 = col->cb[0].r;
+            poly->g2 = col->cb[0].g;
+            poly->b2 = col->cb[0].b;
+            poly->r3 = band->cb[j + 1].r;
+            poly->g3 = band->cb[j + 1].g;
+            poly->b3 = band->cb[j + 1].b;
             if (col->otz[0] < 0) {
                 col->otz[0] = 0;
             }
