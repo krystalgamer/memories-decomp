@@ -378,7 +378,7 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
             work->phase = 5;
         }
         if (work->config->draw_start <= work->elapsed && work->phase < 8) {
-            FrenchModelVariant462_DrawSheets((u8 *)point);
+            FrenchModelVariant462_DrawSheets((EntryState445Us *)point);
             if (work->phase > 0) {
                 ModelVariant445_DrawRibbons((EntryState445Us *)point);
             }
