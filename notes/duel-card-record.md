@@ -652,7 +652,7 @@ including the terminator**. The function has no capacity argument.
 
 ## Which row the two object collectors read
 
-Both collectors in `src/game/duel_field_card_objects.c` start from
+Both collectors in `src/game/duel_effect_object_pool.c` start from
 `gDuel_bActiveSide ? 5 : 20`, which is the opposite side's block, not the selecting
 side's: `gDuel_abHandCardRecordIndices` in `src/game/duel_field_layout.c` maps the two hands to
 records `{0..4}` and `{15..19}`, and `gDuel_abFieldGridCardRecordIndices`

@@ -108,7 +108,6 @@ segments:
       - [0x1A2CC, c, game/european/library_draw_wireframe_globe]
       - [0x1A848, c, game/european/library]
       - [0x1CF6C, c, game/duel_effect_object_pool]
-      - [0x1D30C, c, game/duel_field_card_objects]
       - [0x1D554, c, game/duel_card_stat_rules]
       - [0x1D67C, c, game/campaign_story_flags]
       - [0x1D760, c, game/european/main_reset_frontend_runtime]

@@ -390,8 +390,9 @@ Japan's small initialized data starts `0xC0` below the North American
 model units. Its split places nineteen owners from `main_services`
 (`0x8009AE48`) to `japanese/ai_script`. Its layout differs from the
 North American one in three places:
-- Japan's `duel_field_card_objects` adds a Japanese-only `"Ex %d\n"` string
-  literal, its own `.sdata` right after `duel_scene`'s;
+- Japan's `duel_effect_object_pool` (its field card-object collector) adds a
+  Japanese-only `"Ex %d\n"` string literal, its own `.sdata` right after
+  `duel_scene`'s;
 - `model_graphics_state` has no selected-digit byte and keeps the frame-step
   control as unaligned single bytes from `0x8009AF0B`, given as Japanese
   storage (`D_8009AF0B_slpm_86398` onward) through

@@ -178,9 +178,6 @@ segments:
   - - 118636
     - c
     - game/duel_effect_object_pool
-  - - 119564
-    - c
-    - game/duel_field_card_objects
   - - 120148
     - c
     - game/duel_card_stat_rules
