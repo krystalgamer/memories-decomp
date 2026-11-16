@@ -61,9 +61,6 @@
    gTwoPlayerDuel_abSetupChoices[2] (0x801845BE) is the shared toggle choice.
    Input writes it; finish reads it and preserves its != 1 rule.
    The resident caller finishes on both accept and cancel, committing both. */
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_START_VALUE_SETUP) || \
-    defined(VERSION_EUROPE_MAIN_MENU_START_VALUE_SETUP)
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
     DisplayObject *object;
@@ -153,11 +150,7 @@ void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
     gTwoPlayerDuel_aSetupEntries[1].value = gTwoPlayerDuel_aSetupEntries[1].shown = *second;
     gMain_apFrameServiceCallbacks[0] = MainMenu_DrawValueSetup;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_UPDATE_VALUE_SETUP) || \
-    defined(VERSION_EUROPE_MAIN_MENU_UPDATE_VALUE_SETUP)
 #ifdef VERSION_JAPAN
 #define MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON PAD_BUTTON_CROSS
 #else
@@ -304,11 +297,7 @@ s32 MainMenu_UpdateValueSetup(void)
     return 0;
 }
 #undef MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_DRAW_VALUE_SETUP) || \
-    defined(VERSION_EUROPE_MAIN_MENU_DRAW_VALUE_SETUP)
 void MainMenu_DrawValueSetup(void)
 {
     POLY_GT4 digit;
@@ -511,11 +500,6 @@ void MainMenu_DrawValueSetup(void)
     }
 }
 
-#endif
-
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_UPDATE_VALUE_WIDGET_TWEEN) || \
-    defined(VERSION_EUROPE_MAIN_MENU_UPDATE_VALUE_WIDGET_TWEEN)
 void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
 {
     DisplayObject *widget;
@@ -552,11 +536,7 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
         (o->field_38.h.field_38 * o->field_60) / 10 +
         (targetY * (10 - o->field_60)) / 10;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_FINISH_VALUE_SETUP) || \
-    defined(VERSION_EUROPE_MAIN_MENU_FINISH_VALUE_SETUP)
 void MainMenu_FinishValueSetup(void)
 {
     *gTwoPlayerDuel_aSetupEntries[0].out = gTwoPlayerDuel_aSetupEntries[0].value;
@@ -574,11 +554,7 @@ void MainMenu_FinishValueSetup(void)
     gTwoPlayerDuel_apSetupCursors[2] = 0;
     gMain_apFrameServiceCallbacks[0] = 0;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_COUNT_DECIMAL_DIGITS) || \
-    defined(VERSION_EUROPE_MAIN_MENU_COUNT_DECIMAL_DIGITS)
 s32 MainMenu_CountDecimalDigits(s32 value)
 {
     s32 digits = 0;
@@ -592,11 +568,7 @@ s32 MainMenu_CountDecimalDigits(s32 value)
 
     return digits;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_START_VALUE_WIDGET_TWEEN) || \
-    defined(VERSION_EUROPE_MAIN_MENU_START_VALUE_WIDGET_TWEEN)
 void MainMenu_StartValueWidgetTween(s32 index, s32 value)
 {
     DisplayObject *object = gTwoPlayerDuel_apSetupCursors[index];
@@ -608,4 +580,3 @@ void MainMenu_StartValueWidgetTween(s32 index, s32 value)
     object->field_34.h.field_36 = object->xy.h.x;
     object->field_38.h.field_38 = object->xy.h.y;
 }
-#endif

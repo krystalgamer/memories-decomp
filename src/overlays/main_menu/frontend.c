@@ -4,7 +4,7 @@
  * leave behind. The initialiser builds the three singleton objects and the
  * wheel of eleven entries the module opens on; the update steps the wheel
  * from the pad and returns the chosen entry. The Japanese and European builds
- * compile each function on its own through their regional wrappers. */
+ * compile the whole unit through one regional wrapper each. */
 /* Each input branch of the update samples the pressed-pad word
  * independently; no other function in this unit reads pad state. */
 #include "../../types.h"
@@ -25,9 +25,6 @@
 #include "../../overlays/main_menu/ordering_tables.h"
 #include "../../game/main.h"
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_INIT_FRONTEND_MENU) || \
-    defined(VERSION_EUROPE_MAIN_MENU_INIT_FRONTEND_MENU)
 #ifdef VERSION_EUROPE
 #define MAIN_MENU_ENTRY_TOP_Y 58
 #define MAIN_MENU_ENTRY_BOTTOM_Y 50
@@ -127,11 +124,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
 
 #undef MAIN_MENU_ENTRY_TOP_Y
 #undef MAIN_MENU_ENTRY_BOTTOM_Y
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_UPDATE_FRONTEND_MENU) || \
-    defined(VERSION_EUROPE_MAIN_MENU_UPDATE_FRONTEND_MENU)
 #ifdef VERSION_JAPAN
 #define MAIN_MENU_FRONTEND_CANCEL_BUTTON PAD_BUTTON_CROSS
 #else
@@ -442,11 +435,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
     }
     return -1;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_DRAW_FRONTEND_BACKGROUND) || \
-    defined(VERSION_EUROPE_MAIN_MENU_DRAW_FRONTEND_BACKGROUND)
 void MainMenu_DrawFrontendBackground(void)
 {
     POLY_F4 flat;
@@ -596,11 +585,7 @@ void MainMenu_DrawFrontendBackground(void)
 #endif
     Graphics_SubmitDrawModePacket((u32 *)&shade, gGraphics_apOrderingTables[2], 4094, 2);
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_START_FRONTEND_ENTRY_TRANSITION) || \
-    defined(VERSION_EUROPE_MAIN_MENU_START_FRONTEND_ENTRY_TRANSITION)
 void MainMenu_StartFrontendEntryTransition(s32 mode)
 {
     s32 i;
@@ -630,11 +615,7 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
     gMainMenu_bTransitionMode = mode;
     gMainMenu_bTransitionActive = 1;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_DESTROY_FRONTEND_MENU) || \
-    defined(VERSION_EUROPE_MAIN_MENU_DESTROY_FRONTEND_MENU)
 void MainMenu_DestroyFrontendMenu(void)
 {
     s32 i;
@@ -653,11 +634,7 @@ void MainMenu_DestroyFrontendMenu(void)
     }
     gMain_apFrameServiceCallbacks[0] = 0;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_SPAWN_FRONTEND_ENTRY_AFTERIMAGE) || \
-    defined(VERSION_EUROPE_MAIN_MENU_SPAWN_FRONTEND_ENTRY_AFTERIMAGE)
 void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
 {
     DisplayObject *object;
@@ -680,11 +657,6 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
     }
 }
 
-#endif
-
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_UPDATE_FRONTEND_ENTRY_AFTERIMAGE) || \
-    defined(VERSION_EUROPE_MAIN_MENU_UPDATE_FRONTEND_ENTRY_AFTERIMAGE)
 void MainMenu_UpdateFrontendEntryAfterimage(DisplayObject *object)
 {
     s32 r;
@@ -711,4 +683,3 @@ void MainMenu_UpdateFrontendEntryAfterimage(DisplayObject *object)
         DisplayObject_ReleaseIfPresent(object);
     }
 }
-#endif

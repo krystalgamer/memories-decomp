@@ -632,10 +632,13 @@ later restored generated assembly for the register-bound updater and split
 the run into three C subsegments. It is one again: `frontend.c` at module
 offset `0x1C` holds the initializer, the binding-free updater at `0x390`
 (formerly `frontend_update.c`) and the five functions from `0xB4C` (formerly
-`frontend_background.c`). The Japanese and European builds still compile
-each function separately, each wrapper selecting one function from
-`frontend.c` through its `VERSION_*_MAIN_MENU_*` guard.
-Their boundaries and compiler profile are unchanged.
+`frontend_background.c`). The Japanese and every PAL `main_menu*` image build
+it as the same single object through one wrapper per region,
+`../japanese/main_menu/frontend.c` and `../european/main_menu/frontend.c`
+(#39), in place of seven per-function wrappers that each selected one
+function through a `VERSION_*_MAIN_MENU_*` guard; those guards are gone. Every
+region keeps these seven functions together, in NA order, under the one
+profile. Their boundaries and compiler profile are unchanged.
 
 The updater retains a shared scratch value for menu-group selection, the
 signed endpoint, and the phase limit. Keeping the limit live through both
@@ -689,6 +692,12 @@ points `main_mode_runners.c` calls and the four helpers that only
 they and each
 other reach. It covers `0x80180FD8..0x80181F68` as one contiguous
 `gcc_2_8_1_g0_split` run, wired as one C subsegment at module offset `0xFD8`.
+The Japanese image (also at `0xFD8`) and every PAL `main_menu*` image (at
+`0x1050`, EU `0x80181050..0x801820C0`) keep these seven functions together
+in the same order under the same profile, so they build it as the same single
+object through one wrapper per region, `../japanese/main_menu/value_setup.c`
+and `../european/main_menu/value_setup.c` (#39). These replaced seven
+per-function wrappers per region and their `VERSION_*_MAIN_MENU_*` guards.
 
 | Address | Function | Callers |
 |---|---|---|
