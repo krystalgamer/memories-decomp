@@ -12,7 +12,7 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
     long projection;
     long flag;
     Variant400EntryNode *node;
-    ModelVariantSheet *quad;
+    ModelVariantPointSheet *quad;
     GsOT *ot;
     Variant400EntryState *work;
     POLY_GT4 *poly;
@@ -23,7 +23,7 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
 
     work = (Variant400EntryState *)context;
     node = work->nodes;
-    quad = (ModelVariantSheet *)work->sheets;
+    quad = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     poly = &work->packets.textured[1];
     for (i = 0; i < 7; i++, quad++) {
@@ -60,22 +60,22 @@ void FrenchModelVariant400_DrawSheets(u8 *context)
         SetRotMatrix(&light);
         for (k = 0; k < 4; k++) {
             depth = RotTransPers4(
-                &quad->v0[k], &quad->v1[k], &quad->v2[k], &quad->v3[k],
+                &quad->points[k], &quad->points[k + 4], &quad->points[k + 8], &quad->points[k + 12],
                 (long *)&poly->x0, (long *)&poly->x1,
                 (long *)&poly->x2, (long *)&poly->x3,
                 &projection, &flag);
-            poly->r0 = quad->inner[0];
-            poly->g0 = quad->inner[1];
-            poly->b0 = quad->inner[2];
-            poly->r1 = quad->inner[0];
-            poly->g1 = quad->inner[1];
-            poly->b1 = quad->inner[2];
-            poly->r2 = quad->inner[0];
-            poly->g2 = quad->inner[1];
-            poly->b2 = quad->inner[2];
-            poly->r3 = quad->outer[0];
-            poly->g3 = quad->outer[1];
-            poly->b3 = quad->outer[2];
+            poly->r0 = quad->inner.r;
+            poly->g0 = quad->inner.g;
+            poly->b0 = quad->inner.b;
+            poly->r1 = quad->inner.r;
+            poly->g1 = quad->inner.g;
+            poly->b1 = quad->inner.b;
+            poly->r2 = quad->inner.r;
+            poly->g2 = quad->inner.g;
+            poly->b2 = quad->inner.b;
+            poly->r3 = quad->outer.r;
+            poly->g3 = quad->outer.g;
+            poly->b3 = quad->outer.b;
             depth = depth * 8 / 10;
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(poly, ot, depth);

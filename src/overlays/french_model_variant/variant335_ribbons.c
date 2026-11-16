@@ -22,7 +22,7 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
     long p;
     long flag;
     Model335EntryState *work;
-    ModelVariantSheet *sheet;
+    ModelVariantPointSheet *sheet;
     GsOT *ot;
     s16 i;
     s32 wave;
@@ -55,7 +55,7 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
     work->delta.vx = work->end.vx - work->origin.vx;
     work->delta.vy = work->end.vy - work->origin.vy;
     work->delta.vz = work->end.vz - work->origin.vz;
-    sheet = (ModelVariantSheet *)work->sheets;
+    sheet = work->sheets;
     len = work->width * 48 / 1024;
     ribbon = work->records;
     for (i = 0, phase = 0; i < 3; i++, ribbon++, phase = i * 2048 / 3) {
