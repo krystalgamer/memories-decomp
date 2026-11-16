@@ -1,5 +1,6 @@
 #include "../../types.h"
-#include "variant458_strands.h"
+#include "variant458_entry.h"
+#include "../../game/gpu_packets.h"
 
 /* The North American header-441 build indexes the depth flags by the loop
  * counter and reads the projected points of the open segments and the quads
@@ -15,7 +16,7 @@
 #define STRANDS458_SB(k) (strand->sb[k])
 #endif
 
-void FrenchModelVariant458_DrawStrands(Variant458StrandView *context)
+void FrenchModelVariant458_DrawStrands(EntryState458 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -25,7 +26,7 @@ void FrenchModelVariant458_DrawStrands(Variant458StrandView *context)
     long flags[6][9];
     long p;
     long flag;
-    Variant458StrandView *work;
+    EntryState458 *work;
     POLY_FT4 *poly;
     GsOT *ot;
     s16 i;
@@ -37,42 +38,42 @@ void FrenchModelVariant458_DrawStrands(Variant458StrandView *context)
     s32 wave;
     s32 sway;
     s32 count;
-    Variant458Strand *strand;
+    EntryStrand458 *strand;
     s32 dx;
     s32 dy;
     s32 row;
 
     work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->axis_z, work->axis_x) + 3072;
-    ratan2(work->axis_y, work->axis_z);
-    radius = work->size / 128;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
+    ratan2(work->view_delta.vy, work->view_delta.vz);
+    radius = work->scale / 128;
     strand = work->strands;
     for (i = 0, base = 0; i < 6; i++, strand++, base = i * 4096 / 6) {
         if (!(i & 1)) {
-            phase = -work->phase_a;
+            phase = -work->strand_phase;
         } else {
-            phase = work->phase_a;
+            phase = work->strand_phase;
         }
         for (k = 0; k < 9; k++, phase += 1300) {
             if (k == 0 || k == 8) {
                 sway = 0;
             } else if (!(i & 1)) {
-                sway = base - k * 768 + work->phase_b;
+                sway = base - k * 768 + work->wave_phase;
             } else {
-                sway = base - k * 768 - work->phase_b;
+                sway = base - k * 768 - work->wave_phase;
             }
             rsin(sway);
             rsin(phase);
-            setVector(&strand->a[k], work->directions[i].vx * k / 8, work->directions[i].vy * k / 8,
-                      work->directions[i].vz * k / 8);
+            setVector(&strand->a[k], work->spans[i].vx * k / 8, work->spans[i].vy * k / 8,
+                      work->spans[i].vz * k / 8);
             setVector(&strand->b[k], strand->a[k].vx + (rcos(turn) * radius >> 12), strand->a[k].vy,
                       strand->a[k].vz + (rsin(turn) * radius >> 12));
             row = i;
             setVector(&rot, 0, 0, 0);
-            m.t[0] = work->origins[row].vx;
-            m.t[1] = work->origins[row].vy;
-            m.t[2] = work->origins[row].vz;
+            m.t[0] = work->destinations[row].vx;
+            m.t[1] = work->destinations[row].vy;
+            m.t[2] = work->destinations[row].vz;
             setVector(&scale, 4096, 4096, 4096);
             RotMatrix(&rot, &m);
             ScaleMatrix(&m, &scale);
@@ -104,7 +105,7 @@ void FrenchModelVariant458_DrawStrands(Variant458StrandView *context)
                 strand->ox[k] = rcos(strand->angle[k]) * strand->width[k] >> 12;
                 strand->oy[k] = rsin(strand->angle[k]) * strand->width[k] >> 12;
             }
-            wave = base - k * 1024 + work->phase_b;
+            wave = base - k * 1024 + work->wave_phase;
             strand->sa[k].packed += rcos(strand->angle[k]) * (rsin(wave) * 8 >> 12) >> 12;
             strand->sa[k].packed = (u32)strand->sa[k].packed + ((u32)(rsin(strand->angle[k]) * (rsin(wave) * 8 >> 12) >> 12) << 16);
         }
@@ -115,7 +116,7 @@ void FrenchModelVariant458_DrawStrands(Variant458StrandView *context)
         if (strand->count >= 0) {
             count = strand->count;
         }
-        for (k = 0, poly = work->quads; k < count; k++, poly = work->quads) {
+        for (k = 0, poly = work->strand_flat; k < count; k++, poly = work->strand_flat) {
             if ((s16)(k % 2) == 1) {
                 poly++;
             }
@@ -127,24 +128,24 @@ void FrenchModelVariant458_DrawStrands(Variant458StrandView *context)
             poly->y2 = (STRANDS458_SA(k, 0).packed >> 16) - strand->oy[k];
             poly->x3 = STRANDS458_SA(k, 1).point.vx - strand->ox[k + 1];
             poly->y3 = (STRANDS458_SA(k, 1).packed >> 16) - strand->oy[k + 1];
-            poly->r0 = strand->color.r;
-            poly->g0 = strand->color.g;
-            poly->b0 = strand->color.b;
+            poly->r0 = strand->inner.r;
+            poly->g0 = strand->inner.g;
+            poly->b0 = strand->inner.b;
             if (strand->depth[k] >= 0 && flags[i][k] >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)strand->depth[k], 1);
             }
         }
-        if (work->state == 3 && strand->count < 8) {
-            strand->count += work->speed;
+        if (work->phase == 3 && strand->count < 8) {
+            strand->count += work->step;
             if (strand->count >= 8) {
                 strand->count = 8;
                 if (i + 1 == 6) {
-                    work->state = 4;
+                    work->phase = 4;
                 }
             }
         }
     }
-    work->phase_a += work->speed * 192;
-    work->phase_b += work->speed * 384;
+    work->strand_phase += work->step * 192;
+    work->wave_phase += work->step * 384;
     work->spin += 64;
 }

@@ -3,7 +3,6 @@
 
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
-#include "variant443_streamers.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_texture_upload.h"
@@ -112,7 +111,7 @@ void FrenchModelVariant443_DrawRibbons(EntryState443 *context);
 void SpanishModelVariant443_DrawRings(u8 *context);
 void SpanishModelVariant443_DrawMesh(u8 *context);
 void SpanishModelVariant443_DrawSheets(u8 *context);
-void FrenchModelVariant443_DrawStreamers(u8 *context);
+void FrenchModelVariant443_DrawStreamers(EntryState443 *context);
 void FrenchModelVariant443_DrawBands(u8 *context);
 
 #endif

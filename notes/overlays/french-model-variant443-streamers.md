@@ -7,15 +7,15 @@ passes. **No release had matching C for this body before.** It is reachable
 from the entry.
 
 It follows the accepted MODEL458 streamers helper (`variant458_streamers.c`)
-over a MODEL443 view, `variant443_streamers.h`:
-- streamers at `+0x11CC`, sheets at `+0x2A68`, the `POLY_FT4` pair at
-  `+0x34BC` and positions at `+0x3570`;
-- the axis at `+0x3608`, flags at `+0x3620`, and length and rotation at
-  `+0x3680..+0x368C`.
+over the MODEL443 record, `EntryState443` in `variant443_entry.h`:
+- `streamers` at `+0x11CC`, `sheets` at `+0x2A68`, the `additional`
+  `POLY_FT4` pair at `+0x34BC` and `positions` at `+0x3570`;
+- `view_delta` at `+0x3608`, `clock.frame_count` at `+0x3620`, and
+  `length` and the rotations at `+0x3680..+0x368C`.
 
 Measured differences from MODEL458:
-- the flags are unsigned: the phase is 0 when `(flags & 3) < 2`, and the
-  rotation boost uses an unsigned `% 10`;
+- the frame count is unsigned: the phase is 0 when `(frame_count & 3) < 2`,
+  and the rotation boost uses an unsigned `% 10`;
 - three passes instead of seven. Each is translated directly to `positions[j]`
   and scaled by `sheets[j].size`, instead of an origin plus a scaled delta and
   one shared scale.

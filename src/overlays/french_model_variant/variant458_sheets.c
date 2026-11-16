@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant458_sheets.h"
+#include "variant458_entry.h"
 
-void FrenchModelVariant458_DrawSheets(u8 *context)
+void FrenchModelVariant458_DrawSheets(EntryState458 *context)
 {
-    Variant458View *work = (Variant458View *)context;
+    EntryState458 *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -22,20 +22,20 @@ void FrenchModelVariant458_DrawSheets(u8 *context)
     SVECTOR *point;
 
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(work->axis_z, work->axis_x);
-    ratan2(work->axis_y, work->axis_x);
+    ratan2(work->view_delta.vz, work->view_delta.vx);
+    ratan2(work->view_delta.vy, work->view_delta.vx);
     sheet = work->sheets;
-    quad = work->quads;
-    if (!(work->flags & 1)) {
+    quad = work->packets.textured;
+    if (!(work->frame_count & 1)) {
         bias = 0;
     } else {
         bias = work->scale / 8;
     }
     quad++;
     for (i = 0; i < 7; i++, sheet++) {
-        matrix.t[0] = work->origins[i].t[0] + work->delta[i].vx * work->factor / 1024;
-        matrix.t[1] = work->origins[i].t[1] + work->delta[i].vy * work->factor / 1024;
-        matrix.t[2] = work->origins[i].t[2] + work->delta[i].vz * work->factor / 1024;
+        matrix.t[0] = work->origins[i].t[0] + work->deltas[i].vx * work->factor / 1024;
+        matrix.t[1] = work->origins[i].t[1] + work->deltas[i].vy * work->factor / 1024;
+        matrix.t[2] = work->origins[i].t[2] + work->deltas[i].vz * work->factor / 1024;
         scale.vx = work->scale + bias;
         scale.vy = work->scale + bias;
         scale.vz = work->scale + bias;
@@ -74,18 +74,18 @@ void FrenchModelVariant458_DrawSheets(u8 *context)
             }
         }
     }
-    if (work->phase == 0 && work->elapsed >= work->timing->scale_start) {
+    if (work->phase == 0 && work->elapsed >= work->config->sheet_start) {
         if (work->scale < 2048) {
-        work->scale = ((work->elapsed - work->timing->scale_start) << 11) /
-                      (work->timing->scale_end - work->timing->scale_start);
+        work->scale = ((work->elapsed - work->config->sheet_start) << 11) /
+                      (work->config->sheet_end - work->config->sheet_start);
         if (work->scale >= 2048) {
             work->scale = 2048;
             work->phase = 1;
         }
         }
-    } else if (work->phase == 1 && work->elapsed >= work->timing->move_start) {
-        work->factor = ((work->elapsed - work->timing->move_start) << 10) /
-                   (work->timing->move_end - work->timing->move_start);
+    } else if (work->phase == 1 && work->elapsed >= work->config->move_start) {
+        work->factor = ((work->elapsed - work->config->move_start) << 10) /
+                   (work->config->move_end - work->config->move_start);
         if (work->factor >= 1024) {
         work->factor = 1024;
         work->phase = 2;
@@ -98,7 +98,7 @@ void FrenchModelVariant458_DrawSheets(u8 *context)
                 work->phase = 3;
             }
         }
-    } else if (work->phase == 4 && work->timing->fade_start <= work->elapsed) {
+    } else if (work->phase == 4 && work->config->fade_start <= work->elapsed) {
         if (work->scale > 0) {
         work->scale -= work->step << 6;
         if (work->scale <= 0) {

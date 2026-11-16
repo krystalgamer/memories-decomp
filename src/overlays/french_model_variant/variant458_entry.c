@@ -15,7 +15,7 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantBandTriple *ribbon = work->ribbons;
     EntryStrand458 *strand = work->strands;
     ModelVariantQuadSheet *sheet = work->sheets;
-    EntryStreamer458 *streamer = work->streamers;
+    ModelVariantShortStreamer *streamer = work->streamers;
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *textured = work->packets.textured;
@@ -185,14 +185,14 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
         work->field_1F50 = 1024;
         work->field_1F54 = 0;
         work->field_1F58 = 0;
-        work->field_1F5C = 0;
+        work->spin = 0;
         work->factor = 0;
         work->field_1E04 = 0;
         work->scale = 0;
         work->field_1E0C = 0;
         work->field_1F60 = 0;
         work->field_1F62 = 0;
-        work->field_1F74 = 0;
+        work->strand_phase = 0;
         work->wave_phase = 0;
         work->streamer.length = 1024;
         work->streamer.rotation_x = 0;
@@ -252,11 +252,11 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->draw_start <= work->elapsed) {
-            FrenchModelVariant458_DrawStrands((Variant458StrandView *)point);
-            FrenchModelVariant458_DrawStreamers((u8 *)point);
+            FrenchModelVariant458_DrawStrands((EntryState458 *)point);
+            FrenchModelVariant458_DrawStreamers((EntryState458 *)point);
         }
         if (work->elapsed > work->config->sheet_start) {
-            FrenchModelVariant458_DrawSheets((u8 *)point);
+            FrenchModelVariant458_DrawSheets((EntryState458 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

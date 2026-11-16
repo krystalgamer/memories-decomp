@@ -8,9 +8,6 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
-#include "variant458_sheets.h"
-#include "variant458_strands.h"
-#include "variant458_streamers.h"
 
 typedef struct {
     u8 unknown_00[4], parts[7], unknown_0B[5];
@@ -18,28 +15,34 @@ typedef struct {
     s32 move_start, move_end, fade_start;
 } EntryConfig458;
 
+typedef union {
+    DVECTOR point;
+    long packed;
+} Variant458Screen;
+
 typedef struct {
-    u8 unknown_000[0x120];
+    SVECTOR a[9];
+    Variant458Screen sa[9];
+    s32 angle[9];
+    SVECTOR b[9];
+    Variant458Screen sb[9];
+    s32 width[9];
     CVECTOR inner, outer;
     VECTOR scale;
     s16 field_138, field_13A;
     s32 field_13C;
-    u8 unknown_140[0xB0];
+    u8 unknown_140[0x68];
+    s32 depth[9];
+    s16 ox[9];
+    s16 oy[9];
     s32 delay, count, field_1F8, field_1FC;
 } EntryStrand458;
-
-typedef struct {
-    u8 unknown_000[0x1D4];
-    CVECTOR color[13];
-    s32 field_208;
-    u8 unknown_20C[0x68];
-} EntryStreamer458;
 
 typedef struct {
     EntryStrand458 strands[6];
     ModelVariantQuadSheet sheets[7];
     ModelVariantBandTriple ribbons[1];
-    EntryStreamer458 streamers[3];
+    ModelVariantShortStreamer streamers[3];
     u8 unknown_17C8[0x318];
     ModelVariantPackets packets;
     POLY_FT4 flat[2], strand_flat[2];
@@ -55,7 +58,7 @@ typedef struct {
     DVECTOR screen_delta;
     VECTOR view_delta;
     s32 angles[2];
-    u32 frame_count;
+    s32 frame_count;
     s32 elapsed;
     u32 animation;
     s32 step, duration, fade;
@@ -63,10 +66,10 @@ typedef struct {
     u32 field_1F28;
     GsCOORDUNIT *parts[7];
     s16 field_1F48, field_1F4A;
-    s32 field_1F4C, field_1F50, field_1F54, field_1F58, field_1F5C;
+    s32 field_1F4C, field_1F50, field_1F54, field_1F58, spin;
     s16 field_1F60, field_1F62;
     ModelVariantStreamerParams streamer;
-    s32 field_1F74, wave_phase;
+    s32 strand_phase, wave_phase;
     s32 phase;
     u8 unknown_1F80[8];
     s32 ambient;
@@ -74,7 +77,8 @@ typedef struct {
 } EntryState458;
 
 extern u8 gFrenchModelVariant458_D230C[];
-void FrenchModelVariant458_DrawSheets(u8 *context);
-void FrenchModelVariant458_DrawStreamers(u8 *ctx);
+void FrenchModelVariant458_DrawSheets(EntryState458 *context);
+void FrenchModelVariant458_DrawStrands(EntryState458 *context);
+void FrenchModelVariant458_DrawStreamers(EntryState458 *context);
 
 #endif

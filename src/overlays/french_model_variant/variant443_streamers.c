@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant443_streamers.h"
+#include "variant443_entry.h"
 
-void FrenchModelVariant443_DrawStreamers(u8 *ctx)
+void FrenchModelVariant443_DrawStreamers(EntryState443 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -11,7 +11,7 @@ void FrenchModelVariant443_DrawStreamers(u8 *ctx)
     long flags[3][13];
     long p;
     long flag;
-    Streamer443View *work;
+    EntryState443 *work;
     POLY_FT4 *poly;
     GsOT *ot;
     s16 i;
@@ -35,19 +35,19 @@ void FrenchModelVariant443_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Streamer443View *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = work->quads;
-    turn = ratan2(work->axis_z, work->axis_x) + 3072;
+    poly = work->additional;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
     reach = 96;
-    if (!(work->flags & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         rx = 512;
         ry = 0;
     } else {
         rx = 1536;
         ry = 1024;
     }
-    if ((work->flags & 3) < 2) {
+    if ((work->clock.frame_count & 3) < 2) {
         phase = 0;
     } else {
         phase = 1500;
@@ -76,7 +76,7 @@ void FrenchModelVariant443_DrawStreamers(u8 *ctx)
     rot.vx = (s16)work->rotation_x + rx;
     rot.vy = (s16)work->rotation_y + ry;
     rot.vz = (s16)work->rotation_z;
-    if (work->flags % 10 == 0) {
+    if (work->clock.frame_count % 10 == 0) {
         work->rotation_y += 1300;
     }
     work->rotation_y += 32;
