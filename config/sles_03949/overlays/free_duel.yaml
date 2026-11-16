@@ -60,11 +60,7 @@ segments:
     vram: 0x80168004
     align: 4
     subsegments:
-      - [0x4, c, overlays/european/free_duel/update_scrollbar]
-      - [0x90, c, overlays/european/free_duel/place_cursor]
-      - [0x1BC, c, overlays/european/free_duel/spawn_sparkle]
-      - [0x254, c, overlays/european/free_duel/init]
-      - [0xA0C, c, overlays/european/free_duel/tail_runtime]
+      - [0x4, c, overlays/european/free_duel/screen_runtime]
       - [0x10A0, data, overlays/german_free_duel/data]
 
   - [0x2800]

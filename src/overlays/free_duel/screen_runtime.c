@@ -38,9 +38,6 @@
    pointers, and FreeDuel_GetSparkleSlot returns DisplayObject **. The cursor
    and thumb use the same record; signed coordinate reads are explicit. */
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SCROLLBAR) || \
-    defined(VERSION_EUROPE_FREE_DUEL_UPDATE_SCROLLBAR)
 void FreeDuel_UpdateScrollbar(void)
 {
     DisplayObject *cursor = gFreeDuel_pCursorWidget;
@@ -55,11 +52,7 @@ void FreeDuel_UpdateScrollbar(void)
     gFreeDuel_pThumbWidget->xy.h.y =
         ((s16)cursor->xy.h.y - 0x28) * 72 / 364 + 7;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_FREE_DUEL_PLACE_CURSOR) || \
-    defined(VERSION_EUROPE_FREE_DUEL_PLACE_CURSOR)
 void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
 {
     s32 col;
@@ -103,11 +96,6 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     TextBox_BuildBlockingWithGlyphScratch(panel);
 }
 
-#endif
-
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_FREE_DUEL_SPAWN_SPARKLE) || \
-    defined(VERSION_EUROPE_FREE_DUEL_SPAWN_SPARKLE)
 DisplayObject *FreeDuel_SpawnSparkle(void)
 {
     DisplayObject *x;
@@ -121,11 +109,6 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
     return x;
 }
 
-#endif
-
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_FREE_DUEL_INIT) || \
-    defined(VERSION_EUROPE_FREE_DUEL_INIT)
 #ifdef VERSION_EUROPE
 #define FREE_DUEL_INIT_DIALOG_X 32
 #define FREE_DUEL_INIT_DIALOG_WIDTH 248
@@ -341,11 +324,6 @@ void FreeDuel_Init(u8 *src)
 #undef FREE_DUEL_INIT_FIRST_ICON_PALETTE_Y
 #undef FREE_DUEL_INIT_SECOND_ICON_PALETTE_Y
 
-#endif
-
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_FREE_DUEL_GET_SPARKLE_SLOT) || \
-    defined(VERSION_EUROPE_FREE_DUEL_GET_SPARKLE_SLOT)
 DisplayObject **FreeDuel_GetSparkleSlot(void)
 {
     s32 i;
@@ -357,11 +335,7 @@ DisplayObject **FreeDuel_GetSparkleSlot(void)
     }
     return 0;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SPARKLE) || \
-    defined(VERSION_EUROPE_FREE_DUEL_UPDATE_SPARKLE)
 void FreeDuel_UpdateSparkle(void)
 {
     DisplayObject *obj;
@@ -391,11 +365,7 @@ void FreeDuel_UpdateSparkle(void)
         }
     }
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_FREE_DUEL_UPDATE_CURSOR_TWEEN) || \
-    defined(VERSION_EUROPE_FREE_DUEL_UPDATE_CURSOR_TWEEN)
 void FreeDuel_UpdateCursorTween(void)
 {
     DisplayObject *widget = gFreeDuel_pCursorWidget;
@@ -452,11 +422,6 @@ void FreeDuel_UpdateCursorTween(void)
     }
 }
 
-#endif
-
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_FREE_DUEL_UPDATE_SCREEN) || \
-    defined(VERSION_EUROPE_FREE_DUEL_UPDATE_SCREEN)
 #ifdef VERSION_JAPAN
 #define FREE_DUEL_CANCEL_BUTTON PAD_BUTTON_CROSS
 #define FREE_DUEL_CONFIRM_BUTTONS (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
@@ -567,11 +532,6 @@ void FreeDuel_UpdateScreen(void)
     }
 }
 
-#endif
-
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_FREE_DUEL_ENTRY) || \
-    defined(VERSION_EUROPE_FREE_DUEL_ENTRY)
 void FreeDuel_Entry(void)
 {
     s32 phase;
@@ -590,4 +550,3 @@ void FreeDuel_Entry(void)
     }
     FreeDuel_UpdateSparkle();
 }
-#endif

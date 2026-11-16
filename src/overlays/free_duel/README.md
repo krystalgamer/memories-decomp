@@ -139,6 +139,16 @@ unit's include set declares that symbol, so the local spelling is still the
 only one in scope - worth stating, because it is the kind of thing a merge
 can quietly break.
 
+The Japanese image and every PAL image keep these nine functions together at
+module offset `0x4`, in NA order and under the same profile, so each builds
+`screen_runtime.c` as the same single object as NA through one wrapper,
+`../japanese/free_duel/screen_runtime.c` and
+`../european/free_duel/screen_runtime.c` (#39); all five PAL images share the
+European wrapper. These replaced nine Japanese and five European per-function
+wrappers and their `VERSION_*_FREE_DUEL_*` guards. The wrappers keep only the
+region macro, which still selects the PAL cursor text box, initializer layout
+and dialog, and the Japanese and PAL input buttons.
+
 ## Duelist portrait record sizes
 
 `FreeDuel_Init` walks the transferred portrait arena with two named strides
