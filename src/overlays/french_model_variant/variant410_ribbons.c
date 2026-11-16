@@ -1,5 +1,6 @@
 #include "../../types.h"
-#include "variant410_ribbons.h"
+#include "variant410_entry.h"
+#include "../../game/gpu_packets.h"
 
 /* The North American header-393 copy, built with the CDK compiler, names the
  * closing point's screen fields with the literal index, reads the following
@@ -15,7 +16,7 @@
 #define RIBBONS410_START(n) (ribbon->sa[n])
 #endif
 
-void FrenchModelVariant410_DrawRibbons(u8 *context)
+void FrenchModelVariant410_DrawRibbons(Variant410EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -25,27 +26,27 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
     long flags[9][17];
     long interpolation;
     long flag;
-    Family410RibbonView *work;
+    Variant410EntryState *work;
     GsOT *ot;
     s16 i;
     s32 angle;
     s32 yaw;
     s32 pitch;
     s16 length;
-    Family410Ribbon *ribbon;
+    Variant410EntryRibbon *ribbon;
     POLY_G4 *quad;
     s16 k;
     s32 progress;
     s32 dx;
     s32 dy;
 
-    work = (Family410RibbonView *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
-    pitch = ratan2(work->view_direction[1], work->view_direction[0]);
+    yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 3072;
+    pitch = ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
     ribbon = work->ribbons;
-    quad = &work->quad;
-    if (work->phase >= 0) {
+    quad = &work->gradient;
+    if (work->tail.phase >= 0) {
         for (i = 0; i < 9; i++, ribbon++) {
             if (i == 0) {
                 angle = 1024;
@@ -61,11 +62,11 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
                     progress = 0;
                 }
                 setVector(&ribbon->a[k],
-                          -work->direction[0] * progress / 1024
+                          -work->aim.direction.vx * progress / 1024
                               + (rcos(angle) * (-(rsin(progress * 2) * 128) >> 12) >> 12),
-                          -work->direction[1] * progress / 1024
+                          -work->aim.direction.vy * progress / 1024
                               + (rsin(angle) * (-(rsin(progress * 2) * 128) >> 12) >> 12),
-                          -work->direction[2] * progress / 1024);
+                          -work->aim.direction.vz * progress / 1024);
                 setVector(&ribbon->b[k],
                           ribbon->a[k].vx + (rcos(yaw) * length >> 12),
                           ribbon->a[k].vy,
@@ -74,17 +75,17 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
                     ribbon->progress[k] += work->clock.step * 40;
                     if (ribbon->progress[k] >= 1024) {
                         ribbon->progress[k] = 1024;
-                        if (k == 0 && work->phase == 1) {
-                            work->phase = 2;
+                        if (k == 0 && work->tail.phase == 1) {
+                            work->tail.phase = 2;
                         }
                     }
                 }
             }
         }
         setVector(&rotation, 0, 0, 0);
-        matrix.t[0] = work->target.vx;
-        matrix.t[1] = work->target.vy;
-        matrix.t[2] = work->target.vz;
+        matrix.t[0] = work->aim.target.vx;
+        matrix.t[1] = work->aim.target.vy;
+        matrix.t[2] = work->aim.target.vz;
         setVector(&scale, 4096, 4096, 4096);
         RotMatrix(&rotation, &matrix);
         coordinate.coord = matrix;
@@ -142,25 +143,25 @@ void FrenchModelVariant410_DrawRibbons(u8 *context)
                 quad->x3 = RIBBONS410_NEXT(k).point.vx - ribbon->offsets.ox[k + 1];
                 quad->y3 = (RIBBONS410_NEXT(k).packed >> 16) - ribbon->offsets.oy[k + 1];
                 if (k + 1 == 16) {
-                    setRGB0(quad, ribbon->outer.r, ribbon->outer.g, ribbon->outer.b);
+                    setRGB0(quad, ribbon->style.outer.r, ribbon->style.outer.g, ribbon->style.outer.b);
                     setRGB1(quad, 0, 0, 0);
-                    setRGB2(quad, ribbon->inner.r, ribbon->inner.g, ribbon->inner.b);
+                    setRGB2(quad, ribbon->style.inner.r, ribbon->style.inner.g, ribbon->style.inner.b);
                     setRGB3(quad, 0, 0, 0);
                 } else {
-                    setRGB0(quad, ribbon->outer.r, ribbon->outer.g, ribbon->outer.b);
-                    setRGB1(quad, ribbon->outer.r, ribbon->outer.g, ribbon->outer.b);
-                    setRGB2(quad, ribbon->inner.r, ribbon->inner.g, ribbon->inner.b);
-                    setRGB3(quad, ribbon->inner.r, ribbon->inner.g, ribbon->inner.b);
+                    setRGB0(quad, ribbon->style.outer.r, ribbon->style.outer.g, ribbon->style.outer.b);
+                    setRGB1(quad, ribbon->style.outer.r, ribbon->style.outer.g, ribbon->style.outer.b);
+                    setRGB2(quad, ribbon->style.inner.r, ribbon->style.inner.g, ribbon->style.inner.b);
+                    setRGB3(quad, ribbon->style.inner.r, ribbon->style.inner.g, ribbon->style.inner.b);
                 }
                 if (ribbon->offsets.otz[k] >= 0 && flags[i][k] >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)ribbon->offsets.otz[k], 1);
                 }
             }
-            if (i + 1 == 9 && ribbon->progress[16] >= 1024 && work->phase == 2) {
-                work->phase = 3;
+            if (i + 1 == 9 && ribbon->progress[16] >= 1024 && work->tail.phase == 2) {
+                work->tail.phase = 3;
             }
         }
     }
-    work->animation_angle += work->clock.step * 384;
-    work->animation_angle2 += work->clock.step << 6;
+    work->ribbon_sway += work->clock.step * 384;
+    work->ribbon_wave += work->clock.step << 6;
 }

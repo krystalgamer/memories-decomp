@@ -16,7 +16,6 @@ typedef struct {
     u32 end;
 } Variant410EntryConfig;
 
-/* Entry views of the helper records; the helpers keep their own views. */
 typedef struct {
     SVECTOR points[4][10];
     SVECTOR positions[10];
@@ -29,11 +28,21 @@ typedef struct {
     u8 unknown_25C[0x2FC - 0x25C];
 } Variant410EntryQuads;
 
+typedef union {
+    DVECTOR point;
+    long packed;
+} Variant410Screen;
+
 typedef struct {
-    u8 unknown_000[0x220];
+    SVECTOR a[17];
+    Variant410Screen sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    Variant410Screen sb[17];
+    s32 width[17];
     ModelVariantStripStyle style;
     VECTOR velocity;
-    u8 unknown_250[0x2D8 - 0x250];
+    ModelVariantStripOffsets offsets;
     s32 progress[17];
 } Variant410EntryRibbon;
 
@@ -56,12 +65,13 @@ typedef struct {
     u32 field_21DC;
     GsCOORDUNIT *part;
     s16 field_21E4, width;
-    s32 field_21E8, field_21EC;
+    s32 ribbon_sway, ribbon_wave;
     ModelVariantEntryTail tail;
 } Variant410EntryState;
 
 extern u8 gFrenchModelVariant410_D1D04[];
-void FrenchModelVariant410_DrawQuads(u8 *context);
-void FrenchModelVariant410_DrawRibbons(u8 *context);
+void FrenchModelVariant410_DrawQuads(Variant410EntryState *context);
+void FrenchModelVariant410_DrawRibbons(Variant410EntryState *context);
+void FrenchModelVariant410_DrawRings(Variant410EntryState *context);
 s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command);
 #endif

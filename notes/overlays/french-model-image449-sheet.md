@@ -24,7 +24,8 @@ The control flow follows the French MODEL458 sheets helper
   - phase 3 fades it by `step << 7`;
 - timing fields 4 bytes lower than MODEL458.
 
-The local view lives in `variant449_sheet.h`. The new
+The helper reads the header-432 record (`Variant432EntryState` in
+`model_variant/variant432_entry.h`). The new
 `model_variant449_linker_symbols.txt` binds the ten resident calls at
 their French addresses, and each split image names it in the overlay
 manifest. All French overlay images rebuild exactly. The

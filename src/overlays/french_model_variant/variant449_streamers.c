@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant449_streamers.h"
+#include "../model_variant/variant432_entry.h"
 
-void FrenchModelVariant449_DrawStreamers(u8 *ctx)
+void FrenchModelVariant449_DrawStreamers(Variant432EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -11,7 +11,7 @@ void FrenchModelVariant449_DrawStreamers(u8 *ctx)
     long flags[3][13];
     long p;
     long flag;
-    Variant449StreamerView *work;
+    Variant432EntryState *work;
     POLY_FT4 *poly;
     GsOT *ot;
     s16 i;
@@ -34,19 +34,19 @@ void FrenchModelVariant449_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant449StreamerView *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    poly = work->quads;
-    turn = ratan2(work->axis_z, work->axis_x) + 3072;
+    poly = work->extra;
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
     reach = 144;
-    if (!(work->flags & 1)) {
+    if (!(work->frame_count & 1)) {
         rx = 512;
         ry = 0;
     } else {
         rx = 1536;
         ry = 1024;
     }
-    if (!(work->flags & 3) || work->flags % 4 == 1) {
+    if (!(work->frame_count & 3) || work->frame_count % 4 == 1) {
         phase = 0;
     } else {
         phase = 1500;
@@ -75,16 +75,16 @@ void FrenchModelVariant449_DrawStreamers(u8 *ctx)
     rot.vx = (s16)work->rotation_x + rx;
     rot.vy = (s16)work->rotation_y + ry;
     rot.vz = (s16)work->rotation_z;
-    if (work->flags % 10 == 0) {
+    if (work->frame_count % 10 == 0) {
         work->rotation_y += 1300;
     }
     work->rotation_y += 32;
     /* A zero step: the PAL build drops it, the USA build keeps its load. */
     work->rotation_z += 0;
     for (j = 0; j < 1; j++) {
-        m.t[0] = work->origin.t[0] + work->delta.vx * work->factor / 1024;
-        m.t[1] = work->origin.t[1] + work->delta.vy * work->factor / 1024;
-        m.t[2] = work->origin.t[2] + work->delta.vz * work->factor / 1024;
+        m.t[0] = work->origin.vx + work->path.vx * work->factor / 1024;
+        m.t[1] = work->origin.vy + work->path.vy * work->factor / 1024;
+        m.t[2] = work->origin.vz + work->path.vz * work->factor / 1024;
         setVector(&scale, work->scale, work->scale, work->scale);
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);

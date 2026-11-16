@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant410_quads.h"
+#include "variant410_entry.h"
 
-void FrenchModelVariant410_DrawQuads(u8 *context)
+void FrenchModelVariant410_DrawQuads(Variant410EntryState *context)
 {
-    Family410QuadView *work = (Family410QuadView *)context;
+    Variant410EntryState *work = context;
     SVECTOR rotation;
     /* Retail reserves 16 unaccessed bytes between rotation and scale. */
     u8 unknown_stack[16];
@@ -15,7 +15,7 @@ void FrenchModelVariant410_DrawQuads(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Family410QuadRecord *record = &work->record;
+    Variant410EntryQuads *record = work->quads;
     GsOT *ot;
     POLY_FT4 *quad;
     s16 i, j;
@@ -27,8 +27,8 @@ void FrenchModelVariant410_DrawQuads(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     done = 0;
     quad = &work->quad;
-    turn = ratan2(work->direction[1], work->direction[2]);
-    tilt = ratan2(work->screen_delta[1], work->screen_delta[0]);
+    turn = ratan2(work->aim.direction.vy, work->aim.direction.vz);
+    tilt = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     for (i = 0; i < 1; i++, record++) {
         for (j = 0, angle = 0, angle2 = 0; j < 10; j++, angle += 1300, angle2 += 1700) {
             if (record->scale[j] >= 0) {
@@ -44,9 +44,9 @@ void FrenchModelVariant410_DrawQuads(u8 *context)
                 rotation.vx = 0;
                 rotation.vy = 0;
                 rotation.vz = 0;
-                matrix.t[0] = work->target.vx + ((rcos(angle + angle2 + record->angle[j]) * 128) >> 12);
-                matrix.t[1] = work->target.vy + ((rsin(angle + record->angle[j]) * 128) >> 12);
-                matrix.t[2] = work->target.vz + ((rsin(angle2 + record->angle[j]) * 128) >> 12);
+                matrix.t[0] = work->aim.target.vx + ((rcos(angle + angle2 + record->angle[j]) * 128) >> 12);
+                matrix.t[1] = work->aim.target.vy + ((rsin(angle + record->angle[j]) * 128) >> 12);
+                matrix.t[2] = work->aim.target.vz + ((rsin(angle2 + record->angle[j]) * 128) >> 12);
                 scale.vx = record->scale[j];
                 scale.vy = record->scale[j];
                 scale.vz = record->scale[j];
@@ -70,13 +70,13 @@ void FrenchModelVariant410_DrawQuads(u8 *context)
                     GsSortPoly(quad, ot, depth);
                 }
             }
-            if (work->phase < 3) {
+            if (work->tail.phase < 3) {
                 if (record->scale[j] < 4096) {
                     record->scale[j] += work->clock.step << 8;
                     if (record->scale[j] >= 4096) {
                         record->scale[j] = 0;
-                        if (work->phase == 1) {
-                            work->phase = 2;
+                        if (work->tail.phase == 1) {
+                            work->tail.phase = 2;
                         }
                     }
                 }
@@ -90,8 +90,8 @@ void FrenchModelVariant410_DrawQuads(u8 *context)
                 }
             }
             done += record->done[j];
-            if (j + 1 == 10 && done >= 10 && work->phase == 3) {
-                work->phase = 4;
+            if (j + 1 == 10 && done >= 10 && work->tail.phase == 3) {
+                work->tail.phase = 4;
             }
         }
     }

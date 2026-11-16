@@ -453,9 +453,9 @@ typedef struct {
  * colours as CVECTORs: outer is the colour of the fourth corner and inner that
  * of the other three, as FrenchModelVariant400_DrawSheets and the header-335
  * and 336 sheet drawers read them. (The header-337, 400 and 410 entries and
- * the Exodia entries named the two colours the other way round; the
- * header-410 ring drawer's Family410Ring and the Exodia ring drawers'
- * ExodiaRing keep that naming.) */
+ * the Exodia entries named the two colours the other way round; the Exodia
+ * ring drawers' ExodiaRing keeps that naming.) The header-410 ring drawer
+ * reads its rings as this type, indexing the four rows as points[4 * k + j]. */
 typedef struct {
     SVECTOR points[16];
     CVECTOR outer, inner;
