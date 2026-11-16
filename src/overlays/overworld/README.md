@@ -64,6 +64,19 @@ The call graph closes the family:
 All thirteen share the selected 66-byte location record, live camera,
 location objects, marker, transition accumulators, and map state.
 
+The Japanese and every PAL `overworld_before_coup`/`overworld_after_coup`
+image keep these thirteen functions together at module offset `0x4`, in NA
+order and under the same profile, so each builds `set_location.c` as the
+same single object as NA through one wrapper per directory,
+`../japanese/overworld/set_location.c` and
+`../european/overworld/set_location.c` (#39). These replaced
+thirteen per-directory wrappers and their `VERSION_*_CAMPAIGN_MAP_*` guards.
+The before- and after-coup images of each region, whose wrappers were
+identical, share that one `../japanese/overworld/` or `../european/overworld/`
+wrapper directory, which also holds the alternate pair's two wrappers.
+The wrappers keep only the region macro, which still selects the label
+render mode and Japan's fast-camera, cancel and confirm buttons.
+
 `gCampaignMap_apExitObjects` is one bounded pointer array: the location
 setter's zero stores and the exit-sprite spawn/release accesses all use it
 (see `notes/overlays/live-state-data.md` for the two views it replaced).
