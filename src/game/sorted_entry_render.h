@@ -80,19 +80,17 @@ typedef struct SortedEntry {
     s16 sorted_position;
 } SortedEntry;
 
-#define SORTED_ENTRY_OFFSET(member) ((u32)&(((SortedEntry *)0)->member))
-
 typedef char SortedEntry_size_must_be_8[
     sizeof(SortedEntry) == 8 ? 1 : -1
 ];
 typedef char SortedEntry_distance_must_be_at_2[
-    SORTED_ENTRY_OFFSET(distance) == 2 ? 1 : -1
+    OFFSETOF(SortedEntry, distance) == 2 ? 1 : -1
 ];
 typedef char SortedEntry_append_index_must_be_at_4[
-    SORTED_ENTRY_OFFSET(append_index) == 4 ? 1 : -1
+    OFFSETOF(SortedEntry, append_index) == 4 ? 1 : -1
 ];
 typedef char SortedEntry_sorted_position_must_be_at_6[
-    SORTED_ENTRY_OFFSET(sorted_position) == 6 ? 1 : -1
+    OFFSETOF(SortedEntry, sorted_position) == 6 ? 1 : -1
 ];
 
 /* The grey fill word. Model_SetFogDrawFlags stores 0x808080 here alongside its write

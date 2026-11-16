@@ -5,8 +5,6 @@
 #include "ai_constants.h"
 #include "duel_grid.h"
 
-#define AI_SCRIPT_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
-
 typedef void (*AiScriptHandler)(void);
 
 typedef struct {
@@ -138,28 +136,28 @@ typedef char AiActiveCard_size_must_be_0x0C[
     sizeof(AiActiveCard) == AI_ACTIVE_CARD_RECORD_SIZE ? 1 : -1
 ];
 typedef char AiActiveCard_card_id_offset_must_be_0x00[
-    AI_SCRIPT_STATE_OFFSET(AiActiveCard, card_id) == 0x00 ? 1 : -1
+    OFFSETOF(AiActiveCard, card_id) == 0x00 ? 1 : -1
 ];
 typedef char AiActiveCard_attack_offset_must_be_0x02[
-    AI_SCRIPT_STATE_OFFSET(AiActiveCard, attack) == 0x02 ? 1 : -1
+    OFFSETOF(AiActiveCard, attack) == 0x02 ? 1 : -1
 ];
 typedef char AiActiveCard_defense_offset_must_be_0x04[
-    AI_SCRIPT_STATE_OFFSET(AiActiveCard, defense) == 0x04 ? 1 : -1
+    OFFSETOF(AiActiveCard, defense) == 0x04 ? 1 : -1
 ];
 typedef char AiActiveCard_flags_offset_must_be_0x06[
-    AI_SCRIPT_STATE_OFFSET(AiActiveCard, flags) == 0x06 ? 1 : -1
+    OFFSETOF(AiActiveCard, flags) == 0x06 ? 1 : -1
 ];
 typedef char AiActiveCard_card_type_offset_must_be_0x08[
-    AI_SCRIPT_STATE_OFFSET(AiActiveCard, card_type) == 0x08 ? 1 : -1
+    OFFSETOF(AiActiveCard, card_type) == 0x08 ? 1 : -1
 ];
 typedef char AiActiveCard_guardian_star_offset_must_be_0x09[
-    AI_SCRIPT_STATE_OFFSET(AiActiveCard, guardian_star) == 0x09 ? 1 : -1
+    OFFSETOF(AiActiveCard, guardian_star) == 0x09 ? 1 : -1
 ];
 typedef char AiActiveCard_guardian_star_2_offset_must_be_0x0A[
-    AI_SCRIPT_STATE_OFFSET(AiActiveCard, guardian_star_2) == 0x0A ? 1 : -1
+    OFFSETOF(AiActiveCard, guardian_star_2) == 0x0A ? 1 : -1
 ];
 typedef char AiActiveCard_deck_index_offset_must_be_0x0B[
-    AI_SCRIPT_STATE_OFFSET(AiActiveCard, deck_index) == 0x0B ? 1 : -1
+    OFFSETOF(AiActiveCard, deck_index) == 0x0B ? 1 : -1
 ];
 typedef char AiActiveCard_row_slot_count_must_be_the_field_row_size[
     AI_ACTIVE_CARD_ROW_SLOT_COUNT == DUEL_FIELD_ROW_SIZE ? 1 : -1
@@ -174,61 +172,61 @@ typedef char AiScriptState_size_must_be_0xD4[
     sizeof(AiScriptState) == 0xD4 ? 1 : -1
 ];
 typedef char AiScriptState_card_set_offset_must_be_0x3E[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, card_set) == 0x3E ? 1 : -1
+    OFFSETOF(AiScriptState, card_set) == 0x3E ? 1 : -1
 ];
 typedef char AiScriptState_card_set_entry_size_must_be_2[
     sizeof(((AiScriptState *)0)->card_set[0]) ==
         AI_SCRIPT_CARD_SET_ENTRY_SIZE ? 1 : -1
 ];
 typedef char AiScriptState_type_set_offset_must_be_0x7E[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, type_set) == 0x7E ? 1 : -1
+    OFFSETOF(AiScriptState, type_set) == 0x7E ? 1 : -1
 ];
 typedef char AiScriptState_combo_offset_must_be_0x38[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, combo_cards) ==
+    OFFSETOF(AiScriptState, combo_cards) ==
         AI_SCRIPT_COMBO_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiScriptState_unread_flag_offset_must_be_0x97[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, unread_flag) == 0x97 ? 1 : -1
+    OFFSETOF(AiScriptState, unread_flag) == 0x97 ? 1 : -1
 ];
 typedef char AiScriptState_attack_best_stat_offset_must_be_0x98[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, attack_best_stat) == 0x98 ? 1 : -1
+    OFFSETOF(AiScriptState, attack_best_stat) == 0x98 ? 1 : -1
 ];
 typedef char AiScriptState_attack_best_slot_offset_must_be_0x9A[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, attack_best_slot) == 0x9A ? 1 : -1
+    OFFSETOF(AiScriptState, attack_best_slot) == 0x9A ? 1 : -1
 ];
 typedef char AiScriptState_attack_best_target_offset_must_be_0x9B[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, attack_best_target) == 0x9B ? 1 : -1
+    OFFSETOF(AiScriptState, attack_best_target) == 0x9B ? 1 : -1
 ];
 typedef char AiScriptState_fusion_count_offset_must_be_0x9C[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_count) ==
+    OFFSETOF(AiScriptState, fusion_count) ==
         AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiScriptState_fusion_limit_offset_must_be_0x9D[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_limit) ==
+    OFFSETOF(AiScriptState, fusion_limit) ==
         AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiScriptState_fusion_set_offset_must_be_0x9E[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_set) ==
+    OFFSETOF(AiScriptState, fusion_set) ==
         AI_SCRIPT_FUSION_SET_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiScriptState_fusion_best_stat_offset_must_be_0xA0[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_best_stat) ==
+    OFFSETOF(AiScriptState, fusion_best_stat) ==
         AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiScriptState_fusion_depth_offset_must_be_0xA2[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_depth) ==
+    OFFSETOF(AiScriptState, fusion_depth) ==
         AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiScriptState_fusion_best_depth_offset_must_be_0xA3[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_best_depth) ==
+    OFFSETOF(AiScriptState, fusion_best_depth) ==
         AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiScriptState_fusion_path_offset_must_be_0xA4[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_path) ==
+    OFFSETOF(AiScriptState, fusion_path) ==
         AI_SCRIPT_FUSION_PATH_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiScriptState_fusion_used_offset_must_be_0xAA[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_used) == 0xAA ? 1 : -1
+    OFFSETOF(AiScriptState, fusion_used) == 0xAA ? 1 : -1
 ];
 typedef char AiSelection_size_must_be_0x0C[
     sizeof(AiSelection) == 0x0C ? 1 : -1
@@ -237,34 +235,32 @@ typedef char AiSelectionFields_size_must_be_0x0C[
     sizeof(AiSelectionFields) == 0x0C ? 1 : -1
 ];
 typedef char AiSelection_result_offset_must_be_0x00[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, result) == 0x00 ? 1 : -1
+    OFFSETOF(AiSelectionFields, result) == 0x00 ? 1 : -1
 ];
 typedef char AiSelection_field1_offset_must_be_0x01[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field1) == 0x01 ? 1 : -1
+    OFFSETOF(AiSelectionFields, field1) == 0x01 ? 1 : -1
 ];
 typedef char AiSelection_field_02_offset_must_be_0x02[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, field_02) == 0x02 ? 1 : -1
+    OFFSETOF(AiSelectionFields, field_02) == 0x02 ? 1 : -1
 ];
 typedef char AiSelection_value_offset_must_be_0x06[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, value) == 0x06 ? 1 : -1
+    OFFSETOF(AiSelectionFields, value) == 0x06 ? 1 : -1
 ];
 typedef char AiSelection_zero_offset_must_be_0x07[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, zero) == 0x07 ? 1 : -1
+    OFFSETOF(AiSelectionFields, zero) == 0x07 ? 1 : -1
 ];
 typedef char AiSelection_face_down_offset_must_be_0x08[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, face_down) == 0x08 ? 1 : -1
+    OFFSETOF(AiSelectionFields, face_down) == 0x08 ? 1 : -1
 ];
 typedef char AiSelection_source_code_offset_must_be_0x09[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, source_code) == 0x09 ? 1 : -1
+    OFFSETOF(AiSelectionFields, source_code) == 0x09 ? 1 : -1
 ];
 typedef char AiSelection_target_code_offset_must_be_0x0A[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, target_code) == 0x0A ? 1 : -1
+    OFFSETOF(AiSelectionFields, target_code) == 0x0A ? 1 : -1
 ];
 typedef char AiSelection_change_position_offset_must_be_0x0B[
-    AI_SCRIPT_STATE_OFFSET(AiSelectionFields, change_position) == 0x0B ? 1 : -1
+    OFFSETOF(AiSelectionFields, change_position) == 0x0B ? 1 : -1
 ];
-
-#undef AI_SCRIPT_STATE_OFFSET
 
 extern s32 gAiScript_aMemory[AI_SCRIPT_MEMORY_COUNT];
 extern AiScriptHandler gAiScript_apfnCommand[];

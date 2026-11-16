@@ -10,8 +10,6 @@ struct DuelEffectRequest;
  * full. The separate pool-status latch is raised by DuelEffect_CreateRequest. */
 struct DuelEffectRequest *DuelEffect_AllocateRequest(s32 id);
 
-#define DUEL_EFFECT_REQUEST_OFFSET(member) \
-    ((u32)&(((DuelEffectRequest *)0)->member))
 #define DUEL_EFFECT_REQUEST_COUNT 8
 #define DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING 0x20
 #define DUEL_EFFECT_REQUEST_FLAG_INITIALIZED 0x40
@@ -68,25 +66,23 @@ typedef char DuelEffectRequest_size_must_be_0x20[
     sizeof(DuelEffectRequest) == 0x20 ? 1 : -1
 ];
 typedef char DuelEffectRequest_z_offset_must_be_0x4[
-    DUEL_EFFECT_REQUEST_OFFSET(z) == 0x4 ? 1 : -1
+    OFFSETOF(DuelEffectRequest, z) == 0x4 ? 1 : -1
 ];
 typedef char DuelEffectRequest_ordering_table_2_offset_must_be_0x8[
-    DUEL_EFFECT_REQUEST_OFFSET(ordering_table_2) == 0x8 ? 1 : -1
+    OFFSETOF(DuelEffectRequest, ordering_table_2) == 0x8 ? 1 : -1
 ];
 typedef char DuelEffectRequest_buffer_offset_must_be_0x14[
-    DUEL_EFFECT_REQUEST_OFFSET(buffer) == 0x14 ? 1 : -1
+    OFFSETOF(DuelEffectRequest, buffer) == 0x14 ? 1 : -1
 ];
 typedef char DuelEffectRequest_id_offset_must_be_0x18[
-    DUEL_EFFECT_REQUEST_OFFSET(id) == 0x18 ? 1 : -1
+    OFFSETOF(DuelEffectRequest, id) == 0x18 ? 1 : -1
 ];
 typedef char DuelEffectRequest_phase_offset_must_be_0x1A[
-    DUEL_EFFECT_REQUEST_OFFSET(phase) == 0x1A ? 1 : -1
+    OFFSETOF(DuelEffectRequest, phase) == 0x1A ? 1 : -1
 ];
 typedef char DuelEffectRequest_flags_offset_must_be_0x1C[
-    DUEL_EFFECT_REQUEST_OFFSET(flags) == 0x1C ? 1 : -1
+    OFFSETOF(DuelEffectRequest, flags) == 0x1C ? 1 : -1
 ];
-
-#undef DUEL_EFFECT_REQUEST_OFFSET
 
 /* The allocator starts phase at zero. The updater saves its signed value
  * before replacing an uninitialized request's stored phase with -1, then

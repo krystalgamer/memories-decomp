@@ -9,7 +9,6 @@
 #include "sound_transfer_lifecycle.h"
 #include "sound_music.h"
 
-#define SD_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
 #define SD_COMMAND_QUEUE_COUNT 16
 #define SD_COMMAND_RECORD_SIZE 0x30
 #define SD_COMMAND_QUEUE_BYTE_OFFSET 0x80
@@ -489,66 +488,66 @@ typedef char SDCommand_size_must_be_0x30[
     sizeof(SDCommand) == SD_COMMAND_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDCommand_payload_offsets_must_match[
-    SD_STATE_OFFSET(SDCommand, value) == 0x02 &&
-    SD_STATE_OFFSET(SDCommand, args.raw.arg0) == 0x04 &&
-    SD_STATE_OFFSET(SDCommand, args.raw.arg1) == 0x08 &&
-    SD_STATE_OFFSET(SDCommand, args.raw.arg2) == 0x0C &&
-    SD_STATE_OFFSET(SDCommand, args.fade.step) == 0x08 &&
-    SD_STATE_OFFSET(SDCommand, args.cd_play.descriptor_table) == 0x0C &&
-    SD_STATE_OFFSET(SDCommand, args.seq_block.block_buffer) == 0x0C &&
-    SD_STATE_OFFSET(SDCommand, transfer_selector) == 0x10 &&
-    SD_STATE_OFFSET(SDCommand, field_002C) == 0x2C ? 1 : -1
+    OFFSETOF(SDCommand, value) == 0x02 &&
+    OFFSETOF(SDCommand, args.raw.arg0) == 0x04 &&
+    OFFSETOF(SDCommand, args.raw.arg1) == 0x08 &&
+    OFFSETOF(SDCommand, args.raw.arg2) == 0x0C &&
+    OFFSETOF(SDCommand, args.fade.step) == 0x08 &&
+    OFFSETOF(SDCommand, args.cd_play.descriptor_table) == 0x0C &&
+    OFFSETOF(SDCommand, args.seq_block.block_buffer) == 0x0C &&
+    OFFSETOF(SDCommand, transfer_selector) == 0x10 &&
+    OFFSETOF(SDCommand, field_002C) == 0x2C ? 1 : -1
 ];
 typedef char SDCommandTail_size_must_be_0x20[
     sizeof(SDCommandTail) == 0x20 ? 1 : -1
 ];
 typedef char SDCommand_value_offset_must_be_0x02[
-    SD_STATE_OFFSET(SDCommand, value) == 0x02 ? 1 : -1
+    OFFSETOF(SDCommand, value) == 0x02 ? 1 : -1
 ];
 typedef char SDCommand_cd_fade_wait_offset_must_be_0x01[
-    SD_STATE_OFFSET(SDCommand, wait_for_cd_fade) == 0x01 ? 1 : -1
+    OFFSETOF(SDCommand, wait_for_cd_fade) == 0x01 ? 1 : -1
 ];
 typedef char SDCommand_args_offset_must_be_0x04[
-    SD_STATE_OFFSET(SDCommand, args) == 0x04 ? 1 : -1
+    OFFSETOF(SDCommand, args) == 0x04 ? 1 : -1
 ];
 typedef char SDCommand_transfer_selector_offset_must_be_0x10[
-    SD_STATE_OFFSET(SDCommand, transfer_selector) == 0x10 ? 1 : -1
+    OFFSETOF(SDCommand, transfer_selector) == 0x10 ? 1 : -1
 ];
 typedef char SDNote_size_must_be_0x08[
     sizeof(SDNote) == SD_NOTE_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDNote_priority_offset_must_be_0x02[
-    SD_STATE_OFFSET(SDNote, priority) == 0x02 ? 1 : -1
+    OFFSETOF(SDNote, priority) == 0x02 ? 1 : -1
 ];
 typedef char SDNote_mode_offset_must_be_0x03[
-    SD_STATE_OFFSET(SDNote, mode) == 0x03 ? 1 : -1
+    OFFSETOF(SDNote, mode) == 0x03 ? 1 : -1
 ];
 typedef char SDNote_spu_address_div16_must_be_at_0x06[
-    SD_STATE_OFFSET(SDNote, spu_address_div16) == 6 ? 1 : -1
+    OFFSETOF(SDNote, spu_address_div16) == 6 ? 1 : -1
 ];
 typedef char SDValueLink_size_must_be_0x08[
     sizeof(SDValueLink) == SD_VALUE_LINK_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDValueLink_sector_offset_must_be_at_0x00[
-    SD_STATE_OFFSET(SDValueLink, sector_offset) == 0 ? 1 : -1
+    OFFSETOF(SDValueLink, sector_offset) == 0 ? 1 : -1
 ];
 typedef char SDValueLink_spu_size_must_be_at_0x04[
-    SD_STATE_OFFSET(SDValueLink, spu_size) == 4 ? 1 : -1
+    OFFSETOF(SDValueLink, spu_size) == 4 ? 1 : -1
 ];
 typedef char SDValue_note_and_link_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, s_dwSD_SEGROUP_SPU_ADDR) == 0x438 &&
-    SD_STATE_OFFSET(SDValue, s_pwSD_SE_INDEX) == 0x43C &&
-    SD_STATE_OFFSET(SDValue, s_wSD_NEXT_SE_INDEX) == 0x440 &&
-    SD_STATE_OFFSET(SDValue, s_wSD_SEGROUP_REQUEST) == 0x442 &&
-    SD_STATE_OFFSET(SDValue, s_pstSD_SE_TABLE) == 0x444 &&
-    SD_STATE_OFFSET(SDValue, s_pstSD_SEGROUP_TABLE) == 0x448 ? 1 : -1
+    OFFSETOF(SDValue, s_dwSD_SEGROUP_SPU_ADDR) == 0x438 &&
+    OFFSETOF(SDValue, s_pwSD_SE_INDEX) == 0x43C &&
+    OFFSETOF(SDValue, s_wSD_NEXT_SE_INDEX) == 0x440 &&
+    OFFSETOF(SDValue, s_wSD_SEGROUP_REQUEST) == 0x442 &&
+    OFFSETOF(SDValue, s_pstSD_SE_TABLE) == 0x444 &&
+    OFFSETOF(SDValue, s_pstSD_SEGROUP_TABLE) == 0x448 ? 1 : -1
 ];
 typedef char SDValue_size_must_be_0x164C[
     sizeof(SDValue) == 0x164C ? 1 : -1
 ];
 typedef char SDCommandShiftView_queue_must_overlay_commands[
-    SD_STATE_OFFSET(SDCommandShiftView, c) ==
-        SD_STATE_OFFSET(SDValue, s_uSD_COMMAND_QUEUE) ? 1 : -1
+    OFFSETOF(SDCommandShiftView, c) ==
+        OFFSETOF(SDValue, s_uSD_COMMAND_QUEUE) ? 1 : -1
 ];
 typedef char SDCommandShiftView_must_fit_inside_SDValue[
     sizeof(SDCommandShiftView) <= sizeof(SDValue) ? 1 : -1
@@ -567,117 +566,117 @@ typedef char SDVoiceLookup_selector_fields_must_not_overlap[
     (SD_VOICE_LOOKUP_INDEX_MASK & SD_VOICE_LOOKUP_BANK_FLAG) == 0 ? 1 : -1
 ];
 typedef char SDValue_lookup_offset_must_be_0x44C[
-    SD_STATE_OFFSET(SDValue, s_aawSD_INDIRECT_SE_ID) ==
+    OFFSETOF(SDValue, s_aawSD_INDIRECT_SE_ID) ==
         SD_VOICE_LOOKUP_BYTE_OFFSET ? 1 : -1
 ];
 typedef char SDValue_lookup_end_must_match_extent[
-    SD_STATE_OFFSET(SDValue, s_aawSD_INDIRECT_SE_ID) +
+    OFFSETOF(SDValue, s_aawSD_INDIRECT_SE_ID) +
         sizeof(((SDValue *)0)->s_aawSD_INDIRECT_SE_ID) ==
         SD_VOICE_LOOKUP_END_BYTE_OFFSET ? 1 : -1
 ];
 typedef char SDValue_commands_offset_must_be_0x80[
-    SD_STATE_OFFSET(SDValue, s_uSD_COMMAND_QUEUE) == SD_COMMAND_QUEUE_BYTE_OFFSET ? 1 : -1
+    OFFSETOF(SDValue, s_uSD_COMMAND_QUEUE) == SD_COMMAND_QUEUE_BYTE_OFFSET ? 1 : -1
 ];
 typedef char SDValue_voice_attr_offset_must_be_0x384[
-    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_ATTR) == 0x384 ? 1 : -1
+    OFFSETOF(SDValue, s_stSD_VOICE_ATTR) == 0x384 ? 1 : -1
 ];
 typedef char SDValue_voice_attr_note_offset_must_be_0x39A[
-    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_ATTR) +
-        SD_STATE_OFFSET(SpuVoiceAttr, note) == 0x39A ? 1 : -1
+    OFFSETOF(SDValue, s_stSD_VOICE_ATTR) +
+        OFFSETOF(SpuVoiceAttr, note) == 0x39A ? 1 : -1
 ];
 typedef char SDValue_voice_attr_must_end_at_voice_volume_attr[
-    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_ATTR) + sizeof(SpuVoiceAttr) ==
-        SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR) ? 1 : -1
+    OFFSETOF(SDValue, s_stSD_VOICE_ATTR) + sizeof(SpuVoiceAttr) ==
+        OFFSETOF(SDValue, s_stSD_VOICE_VOLUME_ATTR) ? 1 : -1
 ];
 typedef char SDValue_voice_volume_attr_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR.voice) == 0x3C4 &&
-    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR.mask) == 0x3C8 &&
-    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR.volume.left) == 0x3CC &&
-    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR.volume.right) == 0x3CE ? 1 : -1
+    OFFSETOF(SDValue, s_stSD_VOICE_VOLUME_ATTR.voice) == 0x3C4 &&
+    OFFSETOF(SDValue, s_stSD_VOICE_VOLUME_ATTR.mask) == 0x3C8 &&
+    OFFSETOF(SDValue, s_stSD_VOICE_VOLUME_ATTR.volume.left) == 0x3CC &&
+    OFFSETOF(SDValue, s_stSD_VOICE_VOLUME_ATTR.volume.right) == 0x3CE ? 1 : -1
 ];
 typedef char SDValue_voice_volume_attr_must_end_at_voice_ids[
-    SD_STATE_OFFSET(SDValue, s_stSD_VOICE_VOLUME_ATTR) + sizeof(SpuVoiceAttr) ==
-        SD_STATE_OFFSET(SDValue, s_awSD_VOICE_SE_ID) ? 1 : -1
+    OFFSETOF(SDValue, s_stSD_VOICE_VOLUME_ATTR) + sizeof(SpuVoiceAttr) ==
+        OFFSETOF(SDValue, s_awSD_VOICE_SE_ID) ? 1 : -1
 ];
 typedef char SDValue_voice_allocation_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, s_abSD_VOICE_PRIORITY) == 0x40C &&
-    SD_STATE_OFFSET(SDValue, s_bSD_VOICE_CURSOR) == 0x435 ? 1 : -1
+    OFFSETOF(SDValue, s_abSD_VOICE_PRIORITY) == 0x40C &&
+    OFFSETOF(SDValue, s_bSD_VOICE_CURSOR) == 0x435 ? 1 : -1
 ];
 typedef char SDValue_secondary_mix_scale_offset_must_be_0x44[
-    SD_STATE_OFFSET(SDValue, s_wSD_SMF_MIXER_OUT) == 0x44 ? 1 : -1
+    OFFSETOF(SDValue, s_wSD_SMF_MIXER_OUT) == 0x44 ? 1 : -1
 ];
 typedef char SDValue_bank_header_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, s_stGlobalHdrSE.s_wSD_NUM_SE) == 0x00 &&
-    SD_STATE_OFFSET(SDValue, s_stGlobalHdrSE.s_wSD_NUM_SEGROUP) == 0x02 &&
-    SD_STATE_OFFSET(SDValue, s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START) == 0x04 ? 1 : -1
+    OFFSETOF(SDValue, s_stGlobalHdrSE.s_wSD_NUM_SE) == 0x00 &&
+    OFFSETOF(SDValue, s_stGlobalHdrSE.s_wSD_NUM_SEGROUP) == 0x02 &&
+    OFFSETOF(SDValue, s_stGlobalHdrSE.s_wSD_SE_DYNAMIC_START) == 0x04 ? 1 : -1
 ];
 typedef char SDValue_bank_load_phase_offset_must_be_0x3C[
-    SD_STATE_OFFSET(SDValue, s_dwSD_BANK_LOAD_PHASE) == 0x3C ? 1 : -1
+    OFFSETOF(SDValue, s_dwSD_BANK_LOAD_PHASE) == 0x3C ? 1 : -1
 ];
 typedef char SDValue_flag_domains_layout_must_match[
-    SD_STATE_OFFSET(SDValue, s_wSD_STATUS) == 0x40 &&
+    OFFSETOF(SDValue, s_wSD_STATUS) == 0x40 &&
     sizeof(((SDValue *)0)->s_wSD_STATUS) == 2 &&
-    SD_STATE_OFFSET(SDValue, s_bSD_DATA_SOURCE) == 0x4A &&
+    OFFSETOF(SDValue, s_bSD_DATA_SOURCE) == 0x4A &&
     sizeof(((SDValue *)0)->s_bSD_DATA_SOURCE) == 1 ? 1 : -1
 ];
 typedef char SDValue_cd_descriptor_banks_offset_must_be_0x518[
-    SD_STATE_OFFSET(SDValue, s_apbSD_CD_DESCRIPTOR_BANK) == 0x518 ? 1 : -1
+    OFFSETOF(SDValue, s_apbSD_CD_DESCRIPTOR_BANK) == 0x518 ? 1 : -1
 ];
 typedef char SDValue_cd_descriptor_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, s_dwSD_CD_START_SECTOR) == 0x528 &&
-    SD_STATE_OFFSET(SDValue, s_dwSD_CD_END_SECTOR) == 0x52C &&
-    SD_STATE_OFFSET(SDValue, s_bSD_CD_FILTER_CHANNEL) == 0x530 &&
-    SD_STATE_OFFSET(SDValue, s_bSD_CD_FILTER_FILE) == 0x531 &&
-    SD_STATE_OFFSET(SDValue, s_wSD_CD_REQUEST_CODE) == 0x534 ? 1 : -1
+    OFFSETOF(SDValue, s_dwSD_CD_START_SECTOR) == 0x528 &&
+    OFFSETOF(SDValue, s_dwSD_CD_END_SECTOR) == 0x52C &&
+    OFFSETOF(SDValue, s_bSD_CD_FILTER_CHANNEL) == 0x530 &&
+    OFFSETOF(SDValue, s_bSD_CD_FILTER_FILE) == 0x531 &&
+    OFFSETOF(SDValue, s_wSD_CD_REQUEST_CODE) == 0x534 ? 1 : -1
 ];
 typedef char SDValue_mix_multiplier_offset_must_be_0x533[
-    SD_STATE_OFFSET(SDValue, s_bSD_CD_MIX_MULTIPLIER) == 0x533 ? 1 : -1
+    OFFSETOF(SDValue, s_bSD_CD_MIX_MULTIPLIER) == 0x533 ? 1 : -1
 ];
 typedef char SDValue_cd_mix_default_offset_must_be_0x1649[
-    SD_STATE_OFFSET(SDValue, s_bSD_CD_MIXER_OUT_DEFAULT) == 0x1649 ? 1 : -1
+    OFFSETOF(SDValue, s_bSD_CD_MIXER_OUT_DEFAULT) == 0x1649 ? 1 : -1
 ];
 typedef char SDValue_secondary_mix_default_offset_must_be_0x164A[
-    SD_STATE_OFFSET(SDValue, s_bSD_SMF_MIXER_OUT_DEFAULT) == 0x164A ? 1 : -1
+    OFFSETOF(SDValue, s_bSD_SMF_MIXER_OUT_DEFAULT) == 0x164A ? 1 : -1
 ];
 typedef char SDValue_default_bgm_step_offset_must_be_0x164B[
-    SD_STATE_OFFSET(SDValue, s_bSD_BGM_FADE_STEP_DEFAULT) == 0x164B ? 1 : -1
+    OFFSETOF(SDValue, s_bSD_BGM_FADE_STEP_DEFAULT) == 0x164B ? 1 : -1
 ];
 typedef char SDValue_active_payload_layout_must_match[
-    SD_STATE_OFFSET(SDValue, s_wSD_ACTIVE_COMMAND_VALUE) == 0x4E &&
-    SD_STATE_OFFSET(SDValue, s_dwSD_ACTIVE_COMMAND_ARG0) == 0x50 &&
-    SD_STATE_OFFSET(SDValue, s_dwSD_ACTIVE_COMMAND_ARG1) == 0x54 &&
-    SD_STATE_OFFSET(SDValue, s_dwSD_ACTIVE_COMMAND_ARG2) == 0x58 &&
-    SD_STATE_OFFSET(SDValue, s_adwSD_ACTIVE_COMMAND_TAIL) == 0x5C &&
+    OFFSETOF(SDValue, s_wSD_ACTIVE_COMMAND_VALUE) == 0x4E &&
+    OFFSETOF(SDValue, s_dwSD_ACTIVE_COMMAND_ARG0) == 0x50 &&
+    OFFSETOF(SDValue, s_dwSD_ACTIVE_COMMAND_ARG1) == 0x54 &&
+    OFFSETOF(SDValue, s_dwSD_ACTIVE_COMMAND_ARG2) == 0x58 &&
+    OFFSETOF(SDValue, s_adwSD_ACTIVE_COMMAND_TAIL) == 0x5C &&
     sizeof(((SDValue *)0)->s_adwSD_ACTIVE_COMMAND_TAIL) == sizeof(SDCommandTail) ? 1 : -1
 ];
 typedef char SDValue_active_command_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, s_bSD_ACTIVE_COMMAND) == 0x7C &&
-    SD_STATE_OFFSET(SDValue, s_bSD_ACTIVE_COMMAND_PHASE) == 0x7D &&
-    SD_STATE_OFFSET(SDValue, s_bSD_ACTIVE_CD_FADE_WAIT) == 0x7E ? 1 : -1
+    OFFSETOF(SDValue, s_bSD_ACTIVE_COMMAND) == 0x7C &&
+    OFFSETOF(SDValue, s_bSD_ACTIVE_COMMAND_PHASE) == 0x7D &&
+    OFFSETOF(SDValue, s_bSD_ACTIVE_CD_FADE_WAIT) == 0x7E ? 1 : -1
 ];
 typedef char SDValue_bgm_fade_level_offset_must_be_0x1580[
-    SD_STATE_OFFSET(SDValue, s_wSD_BGM_FADE_LEVEL) == 0x1580 ? 1 : -1
+    OFFSETOF(SDValue, s_wSD_BGM_FADE_LEVEL) == 0x1580 ? 1 : -1
 ];
 typedef char SDValue_sequence_fade_target_offset_must_be_0x158A[
-    SD_STATE_OFFSET(SDValue, s_bSD_SEQ_FADE_TARGET) == 0x158A ? 1 : -1
+    OFFSETOF(SDValue, s_bSD_SEQ_FADE_TARGET) == 0x158A ? 1 : -1
 ];
 typedef char SDValue_music_package_state_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, s_pstSD_MUSIC_TABLE) == 0x1560 &&
-    SD_STATE_OFFSET(SDValue, s_wSD_OPEN_MUSIC_PACKAGE) == 0x1578 &&
-    SD_STATE_OFFSET(SDValue, s_wSD_MUSIC_VAB_ID) == 0x157A &&
-    SD_STATE_OFFSET(SDValue, s_wSD_OPEN_SEQUENCE_COMMAND) == 0x157C &&
-    SD_STATE_OFFSET(SDValue, s_wSD_SEQ_ACCESS) == 0x157E ? 1 : -1
+    OFFSETOF(SDValue, s_pstSD_MUSIC_TABLE) == 0x1560 &&
+    OFFSETOF(SDValue, s_wSD_OPEN_MUSIC_PACKAGE) == 0x1578 &&
+    OFFSETOF(SDValue, s_wSD_MUSIC_VAB_ID) == 0x157A &&
+    OFFSETOF(SDValue, s_wSD_OPEN_SEQUENCE_COMMAND) == 0x157C &&
+    OFFSETOF(SDValue, s_wSD_SEQ_ACCESS) == 0x157E ? 1 : -1
 ];
 typedef char SDValue_voice_key_status_20_offset_must_be_0x15EC[
-    SD_STATE_OFFSET(SDValue, s_abSD_VOICE_KEY_STATUS[20]) == 0x15EC ? 1 : -1
+    OFFSETOF(SDValue, s_abSD_VOICE_KEY_STATUS[20]) == 0x15EC ? 1 : -1
 ];
 typedef char SDValue_field_15F4_offset_must_be_0x15F4[
-    SD_STATE_OFFSET(SDValue, s_wSD_DEQUEUE_MARK) == 0x15F4 ? 1 : -1
+    OFFSETOF(SDValue, s_wSD_DEQUEUE_MARK) == 0x15F4 ? 1 : -1
 ];
 typedef char SDValue_file_name_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, s_szSD_BGM_FILE) == 0x1619 &&
-    SD_STATE_OFFSET(SDValue, s_szSD_SE_FILE) == 0x1629 &&
-    SD_STATE_OFFSET(SDValue, s_szSD_MASTER_XA_FILE) == 0x1639 ? 1 : -1
+    OFFSETOF(SDValue, s_szSD_BGM_FILE) == 0x1619 &&
+    OFFSETOF(SDValue, s_szSD_SE_FILE) == 0x1629 &&
+    OFFSETOF(SDValue, s_szSD_MASTER_XA_FILE) == 0x1639 ? 1 : -1
 ];
 typedef char SDValue_file_name_sizes_must_match[
     sizeof(((SDValue *)0)->s_szSD_BGM_FILE) == 0x10 &&
@@ -685,7 +684,7 @@ typedef char SDValue_file_name_sizes_must_match[
     sizeof(((SDValue *)0)->s_szSD_MASTER_XA_FILE) == 0x10 ? 1 : -1
 ];
 typedef char SDValue_decoded_half_offset_must_be_0x538[
-    SD_STATE_OFFSET(SDValue, s_dwSD_DECODED_HALF) == 0x538 ? 1 : -1
+    OFFSETOF(SDValue, s_dwSD_DECODED_HALF) == 0x538 ? 1 : -1
 ];
 typedef char SDDecodedData_half_and_record_sizes_must_match[
     SPU_DECODEDDATA_SIZE == 2 * SD_MIX_SAMPLE_COUNT &&
@@ -693,210 +692,208 @@ typedef char SDDecodedData_half_and_record_sizes_must_match[
     sizeof(SpuDecodedData) == 0x1000 ? 1 : -1
 ];
 typedef char SDValue_decoded_data_offsets_must_match[
-    SD_STATE_OFFSET(SDValue, s_stSD_DECODED_DATA.cd_left) == 0x53C &&
-    SD_STATE_OFFSET(SDValue, s_stSD_DECODED_DATA.cd_right) == 0x93C &&
-    SD_STATE_OFFSET(SDValue, s_stSD_DECODED_DATA.voice1) == 0xD3C &&
-    SD_STATE_OFFSET(SDValue, s_stSD_DECODED_DATA.voice3) == 0x113C ? 1 : -1
+    OFFSETOF(SDValue, s_stSD_DECODED_DATA.cd_left) == 0x53C &&
+    OFFSETOF(SDValue, s_stSD_DECODED_DATA.cd_right) == 0x93C &&
+    OFFSETOF(SDValue, s_stSD_DECODED_DATA.voice1) == 0xD3C &&
+    OFFSETOF(SDValue, s_stSD_DECODED_DATA.voice3) == 0x113C ? 1 : -1
 ];
 typedef char SDValue_decoded_data_must_end_at_cd_halves[
-    SD_STATE_OFFSET(SDValue, s_stSD_DECODED_DATA) + sizeof(SpuDecodedData) ==
-        SD_STATE_OFFSET(SDValue, s_apwSD_DECODED_CD_HALF) &&
-    SD_STATE_OFFSET(SDValue, s_apwSD_DECODED_CD_HALF) == 0x153C ? 1 : -1
+    OFFSETOF(SDValue, s_stSD_DECODED_DATA) + sizeof(SpuDecodedData) ==
+        OFFSETOF(SDValue, s_apwSD_DECODED_CD_HALF) &&
+    OFFSETOF(SDValue, s_apwSD_DECODED_CD_HALF) == 0x153C ? 1 : -1
 ];
 typedef char SDValue_output_level_offset_must_be_0x154C[
-    SD_STATE_OFFSET(SDValue, s_uSD_OUTPUT_LEVEL) == 0x154C &&
-    SD_STATE_OFFSET(SDValue, s_uSD_OUTPUT_LEVEL_AUX) == 0x1550 ? 1 : -1
+    OFFSETOF(SDValue, s_uSD_OUTPUT_LEVEL) == 0x154C &&
+    OFFSETOF(SDValue, s_uSD_OUTPUT_LEVEL_AUX) == 0x1550 ? 1 : -1
 ];
 typedef char SDSecondaryObject_size_must_be_0x28[
     sizeof(SDSecondaryObject) == SD_SECONDARY_OBJECT_SIZE ? 1 : -1
 ];
 typedef char SDSecondaryObject_envelope_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryObject, program) == 0x02 &&
-    SD_STATE_OFFSET(SDSecondaryObject, tone_index) == 0x04 &&
-    SD_STATE_OFFSET(SDSecondaryObject, adsr1) == 0x20 &&
-    SD_STATE_OFFSET(SDSecondaryObject, adsr2) == 0x22 &&
-    SD_STATE_OFFSET(SDSecondaryObject, a_mode) == 0x24 ? 1 : -1
+    OFFSETOF(SDSecondaryObject, program) == 0x02 &&
+    OFFSETOF(SDSecondaryObject, tone_index) == 0x04 &&
+    OFFSETOF(SDSecondaryObject, adsr1) == 0x20 &&
+    OFFSETOF(SDSecondaryObject, adsr2) == 0x22 &&
+    OFFSETOF(SDSecondaryObject, a_mode) == 0x24 ? 1 : -1
 ];
 typedef char SDSecondaryObject_channel_index_offset_must_be_0x03[
-    SD_STATE_OFFSET(SDSecondaryObject, channel_index) == 0x03 ? 1 : -1
+    OFFSETOF(SDSecondaryObject, channel_index) == 0x03 ? 1 : -1
 ];
 typedef char SDSecondaryObject_gain_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryObject, program_volume) == 0x08 &&
-    SD_STATE_OFFSET(SDSecondaryObject, tone_volume) == 0x09 &&
-    SD_STATE_OFFSET(SDSecondaryObject, velocity) == 0x0E ? 1 : -1
+    OFFSETOF(SDSecondaryObject, program_volume) == 0x08 &&
+    OFFSETOF(SDSecondaryObject, tone_volume) == 0x09 &&
+    OFFSETOF(SDSecondaryObject, velocity) == 0x0E ? 1 : -1
 ];
 typedef char SDSecondaryObject_pan_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryObject, program_pan) == 0x0A &&
-    SD_STATE_OFFSET(SDSecondaryObject, tone_pan) == 0x0B &&
-    SD_STATE_OFFSET(SDSecondaryObject, pan) == 0x0C ? 1 : -1
+    OFFSETOF(SDSecondaryObject, program_pan) == 0x0A &&
+    OFFSETOF(SDSecondaryObject, tone_pan) == 0x0B &&
+    OFFSETOF(SDSecondaryObject, pan) == 0x0C ? 1 : -1
 ];
 typedef char SDSecondaryObject_level_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryObject, level_left) == 0x14 &&
-    SD_STATE_OFFSET(SDSecondaryObject, level_right) == 0x16 ? 1 : -1
+    OFFSETOF(SDSecondaryObject, level_left) == 0x14 &&
+    OFFSETOF(SDSecondaryObject, level_right) == 0x16 ? 1 : -1
 ];
 typedef char SDSecondaryRecord_size_must_be_0x18[
     sizeof(SDSecondaryRecord) == SD_SEQUENCE_CHANNEL_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDSecondaryRecord_program_offset_must_be_0x00[
-    SD_STATE_OFFSET(SDSecondaryRecord, program) == 0x00 ? 1 : -1
+    OFFSETOF(SDSecondaryRecord, program) == 0x00 ? 1 : -1
 ];
 typedef char SDSecondaryRecord_pan_offset_must_be_0x01[
-    SD_STATE_OFFSET(SDSecondaryRecord, pan) == 0x01 ? 1 : -1
+    OFFSETOF(SDSecondaryRecord, pan) == 0x01 ? 1 : -1
 ];
 typedef char SDSecondaryRecord_volume_offset_must_be_0x03[
-    SD_STATE_OFFSET(SDSecondaryRecord, volume) == 0x03 ? 1 : -1
+    OFFSETOF(SDSecondaryRecord, volume) == 0x03 ? 1 : -1
 ];
 typedef char SDSecondaryRecord_expression_offset_must_be_0x05[
-    SD_STATE_OFFSET(SDSecondaryRecord, expression) == 0x05 ? 1 : -1
+    OFFSETOF(SDSecondaryRecord, expression) == 0x05 ? 1 : -1
 ];
 typedef char SDSecondaryRecord_pitch_bend_msb_offset_must_be_0x07[
-    SD_STATE_OFFSET(SDSecondaryRecord, pitch_bend_msb) == 0x07 ? 1 : -1
+    OFFSETOF(SDSecondaryRecord, pitch_bend_msb) == 0x07 ? 1 : -1
 ];
 typedef char SDSecondaryRecord_parameter_selector_offset_must_be_0x11[
-    SD_STATE_OFFSET(SDSecondaryRecord, parameter_selector) == 0x11 ? 1 : -1
+    OFFSETOF(SDSecondaryRecord, parameter_selector) == 0x11 ? 1 : -1
 ];
 typedef char SDSecondaryRecord_control_mode_offset_must_be_0x12[
-    SD_STATE_OFFSET(SDSecondaryRecord, control_mode) == 0x12 ? 1 : -1
+    OFFSETOF(SDSecondaryRecord, control_mode) == 0x12 ? 1 : -1
 ];
 typedef char SDSecondaryRecord_control_value_offset_must_be_0x13[
-    SD_STATE_OFFSET(SDSecondaryRecord, control_value) == 0x13 ? 1 : -1
+    OFFSETOF(SDSecondaryRecord, control_value) == 0x13 ? 1 : -1
 ];
 typedef char SDSequenceTrack_size_must_be_0x2C[
     sizeof(SDSequenceTrack) == SD_SEQUENCE_TRACK_RECORD_SIZE ? 1 : -1
 ];
 typedef char SDSequenceTrack_tempo_accumulator_offset_must_be_0x14[
-    SD_STATE_OFFSET(SDSequenceTrack, tempo_accumulator) == 0x14 ? 1 : -1
+    OFFSETOF(SDSequenceTrack, tempo_accumulator) == 0x14 ? 1 : -1
 ];
 typedef char SDSequenceTrack_delta_remaining_offset_must_be_0x1C[
-    SD_STATE_OFFSET(SDSequenceTrack, delta_remaining) == 0x1C ? 1 : -1
+    OFFSETOF(SDSequenceTrack, delta_remaining) == 0x1C ? 1 : -1
 ];
 typedef char SDSequenceTrack_delta_scale_remainder_offsets_must_match[
-    SD_STATE_OFFSET(SDSequenceTrack, delta_scale_remainder) == 0x18 &&
-    SD_STATE_OFFSET(SDSequenceTrack, delta_scale_remainder_saved) == 0x1A ? 1 : -1
+    OFFSETOF(SDSequenceTrack, delta_scale_remainder) == 0x18 &&
+    OFFSETOF(SDSequenceTrack, delta_scale_remainder_saved) == 0x1A ? 1 : -1
 ];
 typedef char SDSequenceTrack_ended_offset_must_be_0x24[
-    SD_STATE_OFFSET(SDSequenceTrack, ended) == 0x24 ? 1 : -1
+    OFFSETOF(SDSequenceTrack, ended) == 0x24 ? 1 : -1
 ];
 typedef char SDSequenceTrack_running_status_offset_must_be_0x29[
-    SD_STATE_OFFSET(SDSequenceTrack, running_status) == 0x29 ? 1 : -1
+    OFFSETOF(SDSequenceTrack, running_status) == 0x29 ? 1 : -1
 ];
 typedef char SDSecondaryTransfer_size_must_be_0x1C[
     sizeof(SDSecondaryTransfer) == 0x1C ? 1 : -1
 ];
 typedef char SDSecondaryTransfer_core_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryTransfer, state_token) == 0x00 &&
-    SD_STATE_OFFSET(SDSecondaryTransfer, vab_header) == 0x04 &&
-    SD_STATE_OFFSET(SDSecondaryTransfer, header_size_bytes) == 0x08 &&
-    SD_STATE_OFFSET(SDSecondaryTransfer, full_body_source_address) == 0x0C &&
-    SD_STATE_OFFSET(SDSecondaryTransfer, body_size_bytes) == 0x10 &&
-    SD_STATE_OFFSET(SDSecondaryTransfer, spu_body_base) == 0x14 ? 1 : -1
+    OFFSETOF(SDSecondaryTransfer, state_token) == 0x00 &&
+    OFFSETOF(SDSecondaryTransfer, vab_header) == 0x04 &&
+    OFFSETOF(SDSecondaryTransfer, header_size_bytes) == 0x08 &&
+    OFFSETOF(SDSecondaryTransfer, full_body_source_address) == 0x0C &&
+    OFFSETOF(SDSecondaryTransfer, body_size_bytes) == 0x10 &&
+    OFFSETOF(SDSecondaryTransfer, spu_body_base) == 0x14 ? 1 : -1
 ];
 typedef char SDSecondaryState_size_must_be_0x848[
     sizeof(SDSecondaryState) == 0x848 ? 1 : -1
 ];
 typedef char SDSecondaryState_channels_offset_must_be_0x00[
-    SD_STATE_OFFSET(SDSecondaryState, channels) == 0x00 ? 1 : -1
+    OFFSETOF(SDSecondaryState, channels) == 0x00 ? 1 : -1
 ];
 typedef char SDSecondaryState_objects_offset_must_be_0x180[
-    SD_STATE_OFFSET(SDSecondaryState, objects) == 0x180 ? 1 : -1
+    OFFSETOF(SDSecondaryState, objects) == 0x180 ? 1 : -1
 ];
 typedef char SDSecondaryState_transfer_offset_must_be_0x4A4[
-    SD_STATE_OFFSET(SDSecondaryState, transfer) == 0x4A4 ? 1 : -1
+    OFFSETOF(SDSecondaryState, transfer) == 0x4A4 ? 1 : -1
 ];
 typedef char SDSecondaryState_transfer_gain_pan_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, transfer.vab_master_volume) == 0x4BC &&
-    SD_STATE_OFFSET(SDSecondaryState, transfer.vab_pan) == 0x4BF ? 1 : -1
+    OFFSETOF(SDSecondaryState, transfer.vab_master_volume) == 0x4BC &&
+    OFFSETOF(SDSecondaryState, transfer.vab_pan) == 0x4BF ? 1 : -1
 ];
 typedef char SDSecondaryState_master_level_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, master_level_left) == 0x514 &&
-    SD_STATE_OFFSET(SDSecondaryState, master_level_right) == 0x516 ? 1 : -1
+    OFFSETOF(SDSecondaryState, master_level_left) == 0x514 &&
+    OFFSETOF(SDSecondaryState, master_level_right) == 0x516 ? 1 : -1
 ];
 typedef char SDSecondaryState_spatial_level_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, sequence_level) == 0x512 &&
-    SD_STATE_OFFSET(SDSecondaryState, spatial_level_left) == 0x7E4 &&
-    SD_STATE_OFFSET(SDSecondaryState, spatial_level_right) == 0x7E6 ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence_level) == 0x512 &&
+    OFFSETOF(SDSecondaryState, spatial_level_left) == 0x7E4 &&
+    OFFSETOF(SDSecondaryState, spatial_level_right) == 0x7E6 ? 1 : -1
 ];
 typedef char SDSecondaryState_pan_override_offset_must_be_0x815[
-    SD_STATE_OFFSET(SDSecondaryState, pan_center_override) == 0x815 ? 1 : -1
+    OFFSETOF(SDSecondaryState, pan_center_override) == 0x815 ? 1 : -1
 ];
 typedef char SDSecondaryState_update_gate_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, timer_update_inhibit) == 0x500 &&
-    SD_STATE_OFFSET(SDSecondaryState, update_in_progress) == 0x501 &&
-    SD_STATE_OFFSET(SDSecondaryState, shared_track_updates_enabled) == 0x502 ? 1 : -1
+    OFFSETOF(SDSecondaryState, timer_update_inhibit) == 0x500 &&
+    OFFSETOF(SDSecondaryState, update_in_progress) == 0x501 &&
+    OFFSETOF(SDSecondaryState, shared_track_updates_enabled) == 0x502 ? 1 : -1
 ];
 typedef char SDSecondaryState_event_guard_offset_must_be_0x503[
-    SD_STATE_OFFSET(SDSecondaryState, event_guard) == 0x503 ? 1 : -1
+    OFFSETOF(SDSecondaryState, event_guard) == 0x503 ? 1 : -1
 ];
 typedef char SDSecondaryState_event_handle_offset_must_be_0x504[
-    SD_STATE_OFFSET(SDSecondaryState, event_handle) == 0x504 ? 1 : -1
+    OFFSETOF(SDSecondaryState, event_handle) == 0x504 ? 1 : -1
 ];
 typedef char SDSecondaryState_voice_attr_offset_must_be_0x4C0[
-    SD_STATE_OFFSET(SDSecondaryState, voice_attr) == 0x4C0 ? 1 : -1
+    OFFSETOF(SDSecondaryState, voice_attr) == 0x4C0 ? 1 : -1
 ];
 typedef char SpuVoiceAttr_size_must_be_0x40[
     sizeof(SpuVoiceAttr) == 0x40 ? 1 : -1
 ];
 typedef char SDSecondaryState_object_count_offset_must_be_0x510[
-    SD_STATE_OFFSET(SDSecondaryState, object_count) == 0x510 ? 1 : -1
+    OFFSETOF(SDSecondaryState, object_count) == 0x510 ? 1 : -1
 ];
 typedef char SDSecondaryState_sequence_read_base_offset_must_be_0x7DC[
-    SD_STATE_OFFSET(SDSecondaryState, sequence_read_base) == 0x7DC ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence_read_base) == 0x7DC ? 1 : -1
 ];
 typedef char SDSecondaryState_sequence_open_token_offset_must_be_0x7E0[
-    SD_STATE_OFFSET(SDSecondaryState, sequence_open_token) == 0x7E0 ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence_open_token) == 0x7E0 ? 1 : -1
 ];
 typedef char SDSecondaryState_sequence_control_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, sequence_state) == 0x7E2 &&
-    SD_STATE_OFFSET(SDSecondaryState, sequence_source) == 0x7E8 &&
-    SD_STATE_OFFSET(SDSecondaryState, sequence_read_limit) == 0x7EC ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence_state) == 0x7E2 &&
+    OFFSETOF(SDSecondaryState, sequence_source) == 0x7E8 &&
+    OFFSETOF(SDSecondaryState, sequence_read_limit) == 0x7EC ? 1 : -1
 ];
 typedef char SDSecondaryState_tracks_offset_must_be_0x518[
-    SD_STATE_OFFSET(SDSecondaryState, tracks) ==
+    OFFSETOF(SDSecondaryState, tracks) ==
         SD_SEQUENCE_TRACK_ARRAY_OFFSET ? 1 : -1
 ];
 typedef char SDSecondaryState_track_count_offset_must_be_0x7FA[
-    SD_STATE_OFFSET(SDSecondaryState, track_count) == 0x7FA ? 1 : -1
+    OFFSETOF(SDSecondaryState, track_count) == 0x7FA ? 1 : -1
 ];
 typedef char SDSecondaryState_field_0801_offset_must_be_0x801[
-    SD_STATE_OFFSET(SDSecondaryState, field_0801) == 0x801 ? 1 : -1
+    OFFSETOF(SDSecondaryState, field_0801) == 0x801 ? 1 : -1
 ];
 typedef char SDSecondaryState_timebase_offset_must_be_0x7FC[
-    SD_STATE_OFFSET(SDSecondaryState, timebase) == 0x7FC ? 1 : -1
+    OFFSETOF(SDSecondaryState, timebase) == 0x7FC ? 1 : -1
 ];
 typedef char SDSecondaryState_bytes_consumed_offset_must_be_0x818[
-    SD_STATE_OFFSET(SDSecondaryState, bytes_consumed) == 0x818 ? 1 : -1
+    OFFSETOF(SDSecondaryState, bytes_consumed) == 0x818 ? 1 : -1
 ];
 typedef char SDSecondaryState_delta_timing_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, delta_scale_gate) == 0x804 &&
-    SD_STATE_OFFSET(SDSecondaryState, tempo_us_per_quarter) == 0x808 ? 1 : -1
+    OFFSETOF(SDSecondaryState, delta_scale_gate) == 0x804 &&
+    OFFSETOF(SDSecondaryState, tempo_us_per_quarter) == 0x808 ? 1 : -1
 ];
 typedef char SDSecondaryState_update_dispatch_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, timer_maintenance_counter) == 0x508 &&
-    SD_STATE_OFFSET(SDSecondaryState, vsync_update_mode) == 0x509 &&
-    SD_STATE_OFFSET(SDSecondaryState, timer_maintenance_callback) == 0x50C &&
-    SD_STATE_OFFSET(SDSecondaryState, sequence_updates_enabled) == 0x814 ? 1 : -1
+    OFFSETOF(SDSecondaryState, timer_maintenance_counter) == 0x508 &&
+    OFFSETOF(SDSecondaryState, vsync_update_mode) == 0x509 &&
+    OFFSETOF(SDSecondaryState, timer_maintenance_callback) == 0x50C &&
+    OFFSETOF(SDSecondaryState, sequence_updates_enabled) == 0x814 ? 1 : -1
 ];
 typedef char SDSecondaryState_clock_and_cursor_offsets_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, sequence_tick_count) == 0x7F0 &&
-    SD_STATE_OFFSET(SDSecondaryState, sequence_tick_count_saved) == 0x7F4 &&
-    SD_STATE_OFFSET(SDSecondaryState, fast_forward_target_address) == 0x80C &&
-    SD_STATE_OFFSET(SDSecondaryState, last_track_cursor_address) == 0x810 ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence_tick_count) == 0x7F0 &&
+    OFFSETOF(SDSecondaryState, sequence_tick_count_saved) == 0x7F4 &&
+    OFFSETOF(SDSecondaryState, fast_forward_target_address) == 0x80C &&
+    OFFSETOF(SDSecondaryState, last_track_cursor_address) == 0x810 ? 1 : -1
 ];
 typedef char SDSecondaryState_sequence_tick_mode_offset_must_be_0x81C[
-    SD_STATE_OFFSET(SDSecondaryState, sequence_tick_mode) == 0x81C ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence_tick_mode) == 0x81C ? 1 : -1
 ];
 typedef char SDSecondaryState_reverb_mode_control_offset_must_be_0x844[
-    SD_STATE_OFFSET(SDSecondaryState, reverb_mode_control) == 0x844 ? 1 : -1
+    OFFSETOF(SDSecondaryState, reverb_mode_control) == 0x844 ? 1 : -1
 ];
 
 typedef char SDSecondaryState_reverb_control_layout_must_match[
-    SD_STATE_OFFSET(SDSecondaryState, reverb_mode_control) == 0x844 &&
-    SD_STATE_OFFSET(SDSecondaryState, reverb_depth_control) == 0x845 &&
+    OFFSETOF(SDSecondaryState, reverb_mode_control) == 0x844 &&
+    OFFSETOF(SDSecondaryState, reverb_depth_control) == 0x845 &&
     sizeof(((SDSecondaryState *)0)->reverb_mode_control) == 1 &&
     sizeof(((SDSecondaryState *)0)->reverb_depth_control) == 1 ? 1 : -1
 ];
-
-#undef SD_STATE_OFFSET
 
 /* The sound root. Every unit outside its owner loads it with lui %hi /
  * lw %lo at each use, the assembler's -G0 form for an extern. */

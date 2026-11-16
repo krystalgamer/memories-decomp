@@ -106,37 +106,33 @@ typedef struct MenuRecord {
     s16 tween_angle_step;
 } MenuRecord;
 
-#define MENU_RECORD_OFFSET(member) ((u32)&(((MenuRecord *)0)->member))
-
 typedef char MenuRecord_size_must_be_0x4C[
     sizeof(MenuRecord) == 0x4C ? 1 : -1
 ];
 typedef char MenuRecord_effect_id_must_be_at_0x30[
-    MENU_RECORD_OFFSET(effect_id) == 0x30 ? 1 : -1
+    OFFSETOF(MenuRecord, effect_id) == 0x30 ? 1 : -1
 ];
 typedef char MenuRecord_resource_entry_index_must_be_at_0x31[
-    MENU_RECORD_OFFSET(resource_entry_index) == 0x31 ? 1 : -1
+    OFFSETOF(MenuRecord, resource_entry_index) == 0x31 ? 1 : -1
 ];
 typedef char MenuRecord_display_effect_step_must_be_at_0x33[
-    MENU_RECORD_OFFSET(display_effect_step) == 0x33 ? 1 : -1
+    OFFSETOF(MenuRecord, display_effect_step) == 0x33 ? 1 : -1
 ];
 typedef char MenuRecord_x_must_be_at_0x34[
-    MENU_RECORD_OFFSET(x) == 0x34 ? 1 : -1
+    OFFSETOF(MenuRecord, x) == 0x34 ? 1 : -1
 ];
 typedef char MenuRecord_y_must_be_at_0x36[
-    MENU_RECORD_OFFSET(y) == 0x36 ? 1 : -1
+    OFFSETOF(MenuRecord, y) == 0x36 ? 1 : -1
 ];
 typedef char MenuRecord_slot_index_must_be_at_0x3C[
-    MENU_RECORD_OFFSET(slot_index) == 0x3C ? 1 : -1
+    OFFSETOF(MenuRecord, slot_index) == 0x3C ? 1 : -1
 ];
 typedef char MenuRecord_step_arg_must_be_at_0x40[
-    MENU_RECORD_OFFSET(step_arg) == 0x40 ? 1 : -1
+    OFFSETOF(MenuRecord, step_arg) == 0x40 ? 1 : -1
 ];
 typedef char MenuRecord_tween_angle_step_must_be_at_0x4A[
-    MENU_RECORD_OFFSET(tween_angle_step) == 0x4A ? 1 : -1
+    OFFSETOF(MenuRecord, tween_angle_step) == 0x4A ? 1 : -1
 ];
-
-#undef MENU_RECORD_OFFSET
 
 #define MENU_RECORD_COUNT 3
 

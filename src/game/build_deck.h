@@ -26,32 +26,30 @@ typedef struct {
     u8 pad_0E[2];
 } CardEntry;
 
-#define CARD_ENTRY_OFFSET(member) ((u32)&(((CardEntry *)0)->member))
-
 typedef char CardEntry_size_must_be_0x10[sizeof(CardEntry) == 0x10 ? 1 : -1];
 typedef char CardEntry_key_offset_must_be_0[
-    CARD_ENTRY_OFFSET(key) == 0 ? 1 : -1
+    OFFSETOF(CardEntry, key) == 0 ? 1 : -1
 ];
 typedef char CardEntry_id_offset_must_be_4[
-    CARD_ENTRY_OFFSET(id) == 4 ? 1 : -1
+    OFFSETOF(CardEntry, id) == 4 ? 1 : -1
 ];
 typedef char CardEntry_attack_offset_must_be_6[
-    CARD_ENTRY_OFFSET(attack) == 6 ? 1 : -1
+    OFFSETOF(CardEntry, attack) == 6 ? 1 : -1
 ];
 typedef char CardEntry_defense_offset_must_be_8[
-    CARD_ENTRY_OFFSET(defense) == 8 ? 1 : -1
+    OFFSETOF(CardEntry, defense) == 8 ? 1 : -1
 ];
 typedef char CardEntry_type_offset_must_be_0xA[
-    CARD_ENTRY_OFFSET(type) == 0xA ? 1 : -1
+    OFFSETOF(CardEntry, type) == 0xA ? 1 : -1
 ];
 typedef char CardEntry_flags_offset_must_be_0xD[
-    CARD_ENTRY_OFFSET(flags) == 0xD ? 1 : -1
+    OFFSETOF(CardEntry, flags) == 0xD ? 1 : -1
 ];
 
 /* The matching builder and NTSC renderer walk interior member cursors.
  * Recover the containing row without changing their cursor or its stride. */
 #define CARD_ENTRY_FROM_MEMBER(pointer, member) \
-    ((CardEntry *)((u8 *)(pointer) - CARD_ENTRY_OFFSET(member)))
+    ((CardEntry *)((u8 *)(pointer) - OFFSETOF(CardEntry, member)))
 
 /* The card list itself: CARD_ID_END rows, then the scroll offset the slot is
  * measured from and the list kind that picks the box template. */
@@ -106,33 +104,31 @@ typedef struct CardList {
     s8 cursor;
 } CardList;
 
-#define CARD_LIST_OFFSET(member) ((u32)&(((CardList *)0)->member))
-
 typedef char CardListAssertCursorBox[
-    CARD_LIST_OFFSET(cursor_box) == 0x2D34 ? 1 : -1
+    OFFSETOF(CardList, cursor_box) == 0x2D34 ? 1 : -1
 ];
 typedef char CardListAssertScrollBox[
-    CARD_LIST_OFFSET(scroll_box) == 0x2D38 ? 1 : -1
+    OFFSETOF(CardList, scroll_box) == 0x2D38 ? 1 : -1
 ];
-typedef char CardListAssertFirst[CARD_LIST_OFFSET(first) == 0x2D3C ? 1 : -1];
+typedef char CardListAssertFirst[OFFSETOF(CardList, first) == 0x2D3C ? 1 : -1];
 typedef char CardListAssertFirstTarget[
-    CARD_LIST_OFFSET(first_target) == 0x2D3E ? 1 : -1
+    OFFSETOF(CardList, first_target) == 0x2D3E ? 1 : -1
 ];
 typedef char CardListAssertRowCount[
-    CARD_LIST_OFFSET(row_count) == 0x2D40 ? 1 : -1
+    OFFSETOF(CardList, row_count) == 0x2D40 ? 1 : -1
 ];
 typedef char CardListAssertSortRowCount[
-    CARD_LIST_OFFSET(sort_row_count) == 0x2D42 ? 1 : -1
+    OFFSETOF(CardList, sort_row_count) == 0x2D42 ? 1 : -1
 ];
 typedef char CardListAssertSortMode[
-    CARD_LIST_OFFSET(sort_mode) == 0x2D45 ? 1 : -1
+    OFFSETOF(CardList, sort_mode) == 0x2D45 ? 1 : -1
 ];
 typedef char CardListAssertSortChoice[
-    CARD_LIST_OFFSET(sort_choice) == 0x2D46 ? 1 : -1
+    OFFSETOF(CardList, sort_choice) == 0x2D46 ? 1 : -1
 ];
-typedef char CardListAssertKind[CARD_LIST_OFFSET(kind) == 0x2D47 ? 1 : -1];
+typedef char CardListAssertKind[OFFSETOF(CardList, kind) == 0x2D47 ? 1 : -1];
 typedef char CardListAssertCursor[
-    CARD_LIST_OFFSET(cursor) == 0x2D48 ? 1 : -1
+    OFFSETOF(CardList, cursor) == 0x2D48 ? 1 : -1
 ];
 /* build_deck.c reaches the pane's two lists as p + 4 and
    p + 0x2D50, and picks between them with p[0x6342] * 0x2D4C + 4. That
@@ -140,15 +136,10 @@ typedef char CardListAssertCursor[
    `cursor` accounts for. */
 typedef char CardListAssertSize[sizeof(CardList) == 0x2D4C ? 1 : -1];
 
-#undef CARD_LIST_OFFSET
-
 void CardList_CreateSlotTextBox(CardList *list, s32 slot);
 void CardList_CreateSlotTextBoxes(CardList *list, s32 count);
 
 #define BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG 0x80
-
-#define BUILD_DECK_TRANSITION_STATE_OFFSET(member) \
-    ((u32)&(((BuildDeckTransitionState *)0)->member))
 
 /* Shared Build Deck workspace used by the list, count, input, and transition
  * callbacks. The two CardList records account for the formerly repeated
@@ -173,37 +164,35 @@ typedef struct BuildDeckTransitionState {
 } BuildDeckTransitionState;
 
 typedef char BuildDeckTransitionState_target_offset_must_be_0x5AA4[
-    BUILD_DECK_TRANSITION_STATE_OFFSET(viewport_target_x) == 0x5AA4 ? 1 : -1
+    OFFSETOF(BuildDeckTransitionState, viewport_target_x) == 0x5AA4 ? 1 : -1
 ];
 typedef char BuildDeckTransitionState_lists_offset_must_be_0x4[
-    BUILD_DECK_TRANSITION_STATE_OFFSET(lists) == 0x4 ? 1 : -1
+    OFFSETOF(BuildDeckTransitionState, lists) == 0x4 ? 1 : -1
 ];
 typedef char BuildDeckTransitionState_deck_list_offset_must_be_0x2D50[
-    BUILD_DECK_TRANSITION_STATE_OFFSET(lists[1]) == 0x2D50 ? 1 : -1
+    OFFSETOF(BuildDeckTransitionState, lists[1]) == 0x2D50 ? 1 : -1
 ];
 typedef char BuildDeckTransitionState_chest_total_offset_must_be_0x5A9C[
-    BUILD_DECK_TRANSITION_STATE_OFFSET(chest_total) == 0x5A9C ? 1 : -1
+    OFFSETOF(BuildDeckTransitionState, chest_total) == 0x5A9C ? 1 : -1
 ];
 typedef char BuildDeckTransitionState_deck_quantity_offset_must_be_0x5AC4[
-    BUILD_DECK_TRANSITION_STATE_OFFSET(deck_card_quantities) == 0x5AC4 ? 1 : -1
+    OFFSETOF(BuildDeckTransitionState, deck_card_quantities) == 0x5AC4 ? 1 : -1
 ];
 typedef char BuildDeckTransitionState_chest_quantity_offset_must_be_0x5D97[
-    BUILD_DECK_TRANSITION_STATE_OFFSET(chest_card_quantities) == 0x5D97 ? 1 : -1
+    OFFSETOF(BuildDeckTransitionState, chest_card_quantities) == 0x5D97 ? 1 : -1
 ];
 typedef char BuildDeckTransitionState_sort_rank_offset_must_be_0x606A[
-    BUILD_DECK_TRANSITION_STATE_OFFSET(card_sort_rank) == 0x606A ? 1 : -1
+    OFFSETOF(BuildDeckTransitionState, card_sort_rank) == 0x606A ? 1 : -1
 ];
 typedef char BuildDeckTransitionState_state_offset_must_be_0x633E[
-    BUILD_DECK_TRANSITION_STATE_OFFSET(state) == 0x633E ? 1 : -1
+    OFFSETOF(BuildDeckTransitionState, state) == 0x633E ? 1 : -1
 ];
 typedef char BuildDeckTransitionState_pane_index_offset_must_be_0x6342[
-    BUILD_DECK_TRANSITION_STATE_OFFSET(pane_index) == 0x6342 ? 1 : -1
+    OFFSETOF(BuildDeckTransitionState, pane_index) == 0x6342 ? 1 : -1
 ];
 typedef char BuildDeckTransitionState_size_must_be_0x6344[
     sizeof(BuildDeckTransitionState) == 0x6344 ? 1 : -1
 ];
-
-#undef BUILD_DECK_TRANSITION_STATE_OFFSET
 
 /* Stored by build_deck.c, which writes the first workspace's address and
  * reloads it once both panes are set up. The pointer identifies one complete

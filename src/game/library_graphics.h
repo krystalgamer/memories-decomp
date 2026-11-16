@@ -22,31 +22,27 @@ typedef struct {
     LibraryCardRecord cards[CARD_ID_END];
 } LibraryState;
 
-#define LIBRARY_STATE_OFFSET(type, member) ((u32)&(((type *)0)->member))
-
 typedef char LibraryCardRecord_flags_offset_must_be_0x2[
-    LIBRARY_STATE_OFFSET(LibraryCardRecord, flags) == 0x2 ? 1 : -1
+    OFFSETOF(LibraryCardRecord, flags) == 0x2 ? 1 : -1
 ];
 typedef char LibraryCardRecord_size_must_be_0x4[
     sizeof(LibraryCardRecord) == 0x4 ? 1 : -1
 ];
 typedef char LibraryState_selector_sprite_offset_must_be_0x48[
-    LIBRARY_STATE_OFFSET(LibraryState, selector_sprite) == 0x48 ? 1 : -1
+    OFFSETOF(LibraryState, selector_sprite) == 0x48 ? 1 : -1
 ];
 typedef char LibraryState_card_view_offset_must_be_0x4c[
-    LIBRARY_STATE_OFFSET(LibraryState, card_view) == 0x4C ? 1 : -1
+    OFFSETOF(LibraryState, card_view) == 0x4C ? 1 : -1
 ];
 typedef char LibraryState_loading_icon_offset_must_be_0x50[
-    LIBRARY_STATE_OFFSET(LibraryState, loading_icon) == 0x50 ? 1 : -1
+    OFFSETOF(LibraryState, loading_icon) == 0x50 ? 1 : -1
 ];
 typedef char LibraryState_cards_offset_must_be_0x54[
-    LIBRARY_STATE_OFFSET(LibraryState, cards) == 0x54 ? 1 : -1
+    OFFSETOF(LibraryState, cards) == 0x54 ? 1 : -1
 ];
 typedef char LibraryState_size_must_be_0xba0[
     sizeof(LibraryState) == 0xBA0 ? 1 : -1
 ];
-
-#undef LIBRARY_STATE_OFFSET
 
 extern LibraryState gLibrary_State;
 

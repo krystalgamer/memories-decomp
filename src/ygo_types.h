@@ -248,8 +248,6 @@ typedef struct {
     void **handler;
 } ModelHandlerObject;
 
-#define YGO_TYPE_OFFSET(type, member) ((u32)&(((type *)0)->member))
-
 /* Shared text/effect node. The word members preserve the alignment required
    by the resident compactor's whole-entry lw/sw copies. */
 typedef struct {
@@ -290,46 +288,46 @@ typedef char DuelEffectEntry_must_be_four_byte_aligned[
     sizeof(struct { u8 lead; DuelEffectEntry entry; }) == 0x20 ? 1 : -1
 ];
 typedef char DuelEffectEntry_glyph_code_offset_must_be_0[
-    YGO_TYPE_OFFSET(DuelEffectEntry, glyph_code) == 0 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, glyph_code) == 0 ? 1 : -1
 ];
 typedef char DuelEffectEntry_shade_offset_must_be_0x04[
-    YGO_TYPE_OFFSET(DuelEffectEntry, shade) == 0x04 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, shade) == 0x04 ? 1 : -1
 ];
 typedef char DuelEffectEntry_rotation_offset_must_be_0x08[
-    YGO_TYPE_OFFSET(DuelEffectEntry, rotation) == 0x08 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, rotation) == 0x08 ? 1 : -1
 ];
 typedef char DuelEffectEntry_local_x_offset_must_be_0x0C[
-    YGO_TYPE_OFFSET(DuelEffectEntry, local_x) == 0x0C ? 1 : -1
+    OFFSETOF(DuelEffectEntry, local_x) == 0x0C ? 1 : -1
 ];
 typedef char DuelEffectEntry_local_y_offset_must_be_0x0E[
-    YGO_TYPE_OFFSET(DuelEffectEntry, local_y) == 0x0E ? 1 : -1
+    OFFSETOF(DuelEffectEntry, local_y) == 0x0E ? 1 : -1
 ];
 typedef char DuelEffectEntry_glyph_index_offset_must_be_0x10[
-    YGO_TYPE_OFFSET(DuelEffectEntry, glyph_index) == 0x10 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, glyph_index) == 0x10 ? 1 : -1
 ];
 typedef char DuelEffectEntry_entry_flags_offset_must_be_0x11[
-    YGO_TYPE_OFFSET(DuelEffectEntry, entry_flags) == 0x11 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, entry_flags) == 0x11 ? 1 : -1
 ];
 typedef char DuelEffectEntry_owner_channel_tag_offset_must_be_0x12[
-    YGO_TYPE_OFFSET(DuelEffectEntry, owner_channel_tag) == 0x12 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, owner_channel_tag) == 0x12 ? 1 : -1
 ];
 typedef char DuelEffectEntry_handler_state_offset_must_be_0x13[
-    YGO_TYPE_OFFSET(DuelEffectEntry, handler_state) == 0x13 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, handler_state) == 0x13 ? 1 : -1
 ];
 typedef char DuelEffectEntry_shear_offset_must_be_0x14[
-    YGO_TYPE_OFFSET(DuelEffectEntry, shear) == 0x14 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, shear) == 0x14 ? 1 : -1
 ];
 typedef char DuelEffectEntry_render_mode_offset_must_be_0x15[
-    YGO_TYPE_OFFSET(DuelEffectEntry, render_mode) == 0x15 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, render_mode) == 0x15 ? 1 : -1
 ];
 typedef char DuelEffectEntry_palette_index_offset_must_be_0x16[
-    YGO_TYPE_OFFSET(DuelEffectEntry, palette_index) == 0x16 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, palette_index) == 0x16 ? 1 : -1
 ];
 typedef char DuelEffectEntry_icon_variant_offset_must_be_0x17[
-    YGO_TYPE_OFFSET(DuelEffectEntry, icon_variant) == 0x17 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, icon_variant) == 0x17 ? 1 : -1
 ];
 typedef char DuelEffectEntry_layout_selector_offset_must_be_0x18[
-    YGO_TYPE_OFFSET(DuelEffectEntry, layout_selector) == 0x18 ? 1 : -1
+    OFFSETOF(DuelEffectEntry, layout_selector) == 0x18 ? 1 : -1
 ];
 
 /* Display-effect command view. Its depth selector follows twenty stream
@@ -369,7 +367,7 @@ typedef void (*SceneScriptRecordCallback)(void *, s32);
 typedef void (*TextBoxStateCallback)(struct DuelEffectChannel *);
 
 typedef char EffectObject_depth_offset_must_be_0x58[
-    YGO_TYPE_OFFSET(EffectObject, depth) == 0x58 ? 1 : -1
+    OFFSETOF(EffectObject, depth) == 0x58 ? 1 : -1
 ];
 typedef char SceneScriptSlot_size_must_be_0x14[
     sizeof(SceneScriptSlot) == 0x14 ? 1 : -1
@@ -378,7 +376,7 @@ typedef char ScriptImageEntry_size_must_be_0x14[
     sizeof(ScriptImageEntry) == 0x14 ? 1 : -1
 ];
 typedef char ScriptImageEntry_object_built_offset_must_be_0x10[
-    YGO_TYPE_OFFSET(ScriptImageEntry, object_built) == 0x10 ? 1 : -1
+    OFFSETOF(ScriptImageEntry, object_built) == 0x10 ? 1 : -1
 ];
 
 struct DisplayObject;
@@ -396,10 +394,10 @@ typedef char LibraryDisplayObjects_size_must_be_0x24[
     sizeof(LibraryDisplayObjects) == 0x24 ? 1 : -1
 ];
 typedef char LibraryDisplayObjects_render_offset_must_be_0x20[
-    YGO_TYPE_OFFSET(LibraryDisplayObjects, by_role.render) == 0x20 ? 1 : -1
+    OFFSETOF(LibraryDisplayObjects, by_role.render) == 0x20 ? 1 : -1
 ];
 typedef char LibraryDisplayObjects_ninth_offset_must_be_0x20[
-    YGO_TYPE_OFFSET(LibraryDisplayObjects, all[8]) == 0x20 ? 1 : -1
+    OFFSETOF(LibraryDisplayObjects, all[8]) == 0x20 ? 1 : -1
 ];
 
 /* The 0x48-byte motion prefix of game/library_state.h's LibraryState.
@@ -429,25 +427,25 @@ typedef struct {
 } LibraryMotionState;
 
 typedef char LibraryMotionState_selected_card_id_offset_must_be_0x6[
-    YGO_TYPE_OFFSET(LibraryMotionState, selected_card_id) == 0x6 ? 1 : -1
+    OFFSETOF(LibraryMotionState, selected_card_id) == 0x6 ? 1 : -1
 ];
 typedef char LibraryMotionState_x_offset_must_be_0x8[
-    YGO_TYPE_OFFSET(LibraryMotionState, x) == 0x8 ? 1 : -1
+    OFFSETOF(LibraryMotionState, x) == 0x8 ? 1 : -1
 ];
 typedef char LibraryMotionState_frames_offset_must_be_0x16[
-    YGO_TYPE_OFFSET(LibraryMotionState, frames) == 0x16 ? 1 : -1
+    OFFSETOF(LibraryMotionState, frames) == 0x16 ? 1 : -1
 ];
 typedef char LibraryMotionState_velocity_x_offset_must_be_0x18[
-    YGO_TYPE_OFFSET(LibraryMotionState, velocity_x) == 0x18 ? 1 : -1
+    OFFSETOF(LibraryMotionState, velocity_x) == 0x18 ? 1 : -1
 ];
 typedef char LibraryMotionState_animation_countdown_offset_must_be_0x20[
-    YGO_TYPE_OFFSET(LibraryMotionState, animation_countdown) == 0x20 ? 1 : -1
+    OFFSETOF(LibraryMotionState, animation_countdown) == 0x20 ? 1 : -1
 ];
 typedef char LibraryMotionState_render_offset_must_be_0x44[
-    YGO_TYPE_OFFSET(LibraryMotionState, display_objects.by_role.render) == 0x44 ? 1 : -1
+    OFFSETOF(LibraryMotionState, display_objects.by_role.render) == 0x44 ? 1 : -1
 ];
 typedef char LibraryMotionState_display_objects_offset_must_be_0x24[
-    YGO_TYPE_OFFSET(LibraryMotionState, display_objects) == 0x24 ? 1 : -1
+    OFFSETOF(LibraryMotionState, display_objects) == 0x24 ? 1 : -1
 ];
 typedef char LibraryMotionState_size_must_be_0x48[
     sizeof(LibraryMotionState) == 0x48 ? 1 : -1
@@ -552,82 +550,82 @@ typedef char DuelEffectChannel_size_must_be_0x64[
 ];
 #endif
 typedef char DuelEffectChannel_streams_must_span_0x00_0x1F[
-    YGO_TYPE_OFFSET(DuelEffectChannel, streams) == 0 &&
+    OFFSETOF(DuelEffectChannel, streams) == 0 &&
     sizeof(((DuelEffectChannel *)0)->streams) == 0x20 ? 1 : -1
 ];
 typedef char DuelEffectChannel_entry_write_cursor_offset_must_be_0x20[
-    YGO_TYPE_OFFSET(DuelEffectChannel, entry_write_cursor) == 0x20 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, entry_write_cursor) == 0x20 ? 1 : -1
 ];
 typedef char DuelEffectChannel_entry_begin_offset_must_be_0x24[
-    YGO_TYPE_OFFSET(DuelEffectChannel, entry_begin) == 0x24 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, entry_begin) == 0x24 ? 1 : -1
 ];
 typedef char DuelEffectChannel_render_object_offset_must_be_0x28[
-    YGO_TYPE_OFFSET(DuelEffectChannel, render_object) == 0x28 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, render_object) == 0x28 ? 1 : -1
 ];
 typedef char DuelEffectChannel_aux_object_offset_must_be_0x2C[
-    YGO_TYPE_OFFSET(DuelEffectChannel, aux_object) == 0x2C ? 1 : -1
+    OFFSETOF(DuelEffectChannel, aux_object) == 0x2C ? 1 : -1
 ];
 typedef char DuelEffectChannel_prompt_object_offset_must_be_0x30[
-    YGO_TYPE_OFFSET(DuelEffectChannel, prompt_object) == 0x30 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, prompt_object) == 0x30 ? 1 : -1
 ];
 typedef char DuelEffectChannel_flags_34_offset_must_be_0x34[
-    YGO_TYPE_OFFSET(DuelEffectChannel, flags_34) == 0x34 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, flags_34) == 0x34 ? 1 : -1
 ];
 typedef char DuelEffectChannel_pen_x_offset_must_be_0x38[
-    YGO_TYPE_OFFSET(DuelEffectChannel, pen_x) == 0x38 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, pen_x) == 0x38 ? 1 : -1
 ];
 typedef char DuelEffectChannel_pen_y_offset_must_be_0x3A[
-    YGO_TYPE_OFFSET(DuelEffectChannel, pen_y) == 0x3A ? 1 : -1
+    OFFSETOF(DuelEffectChannel, pen_y) == 0x3A ? 1 : -1
 ];
 typedef char DuelEffectChannel_pen_fields_must_be_halfwords[
     sizeof(((DuelEffectChannel *)0)->pen_x) == 2 &&
     sizeof(((DuelEffectChannel *)0)->pen_y) == 2 ? 1 : -1
 ];
 typedef char DuelEffectChannel_rect_x_offset_must_be_0x3C[
-    YGO_TYPE_OFFSET(DuelEffectChannel, rect_x) == 0x3C ? 1 : -1
+    OFFSETOF(DuelEffectChannel, rect_x) == 0x3C ? 1 : -1
 ];
 typedef char DuelEffectChannel_playback_state_offset_must_be_0x51[
-    YGO_TYPE_OFFSET(DuelEffectChannel, playback_state) == 0x51 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, playback_state) == 0x51 ? 1 : -1
 ];
 typedef char DuelEffectChannel_glyph_delay_offset_must_be_0x53[
-    YGO_TYPE_OFFSET(DuelEffectChannel, glyph_delay) == 0x53 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, glyph_delay) == 0x53 ? 1 : -1
 ];
 typedef char DuelEffectChannel_explicit_newline_count_offset_must_be_0x56[
-    YGO_TYPE_OFFSET(DuelEffectChannel, explicit_newline_count) == 0x56 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, explicit_newline_count) == 0x56 ? 1 : -1
 ];
 typedef char DuelEffectChannel_channel_index_offset_must_be_0x57[
-    YGO_TYPE_OFFSET(DuelEffectChannel, channel_index) == 0x57 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, channel_index) == 0x57 ? 1 : -1
 ];
 typedef char DuelEffectChannel_stream_index_offset_must_be_0x58[
-    YGO_TYPE_OFFSET(DuelEffectChannel, stream_index) == 0x58 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, stream_index) == 0x58 ? 1 : -1
 ];
 typedef char DuelEffectChannel_glyph_advance_x_offset_must_be_0x5A[
-    YGO_TYPE_OFFSET(DuelEffectChannel, glyph_advance_x) == 0x5A ? 1 : -1
+    OFFSETOF(DuelEffectChannel, glyph_advance_x) == 0x5A ? 1 : -1
 ];
 typedef char DuelEffectChannel_line_advance_y_offset_must_be_0x5B[
-    YGO_TYPE_OFFSET(DuelEffectChannel, line_advance_y) == 0x5B ? 1 : -1
+    OFFSETOF(DuelEffectChannel, line_advance_y) == 0x5B ? 1 : -1
 ];
 typedef char DuelEffectChannel_glyph_metrics_must_be_bytes[
     sizeof(((DuelEffectChannel *)0)->glyph_advance_x) == 1 &&
     sizeof(((DuelEffectChannel *)0)->line_advance_y) == 1 ? 1 : -1
 ];
 typedef char DuelEffectChannel_entry_range_start_offset_must_be_0x5C[
-    YGO_TYPE_OFFSET(DuelEffectChannel, entry_range_start) == 0x5C ? 1 : -1
+    OFFSETOF(DuelEffectChannel, entry_range_start) == 0x5C ? 1 : -1
 ];
 #ifdef VERSION_JAPAN
 typedef char DuelEffectChannel_output_count_offset_must_be_0x5E[
-    YGO_TYPE_OFFSET(DuelEffectChannel, output_count) == 0x5E ? 1 : -1
+    OFFSETOF(DuelEffectChannel, output_count) == 0x5E ? 1 : -1
 ];
 typedef char DuelEffectChannel_output_limit_offset_must_be_0x5F[
-    YGO_TYPE_OFFSET(DuelEffectChannel, output_limit) == 0x5F ? 1 : -1
+    OFFSETOF(DuelEffectChannel, output_limit) == 0x5F ? 1 : -1
 ];
 #elif defined(VERSION_EUROPE)
 typedef char DuelEffectChannel_output_limit_offset_must_be_0x62[
-    YGO_TYPE_OFFSET(DuelEffectChannel, output_limit) == 0x62 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, output_limit) == 0x62 ? 1 : -1
 ];
 #else
 typedef char DuelEffectChannel_output_limit_offset_must_be_0x61[
-    YGO_TYPE_OFFSET(DuelEffectChannel, output_limit) == 0x61 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, output_limit) == 0x61 ? 1 : -1
 ];
 #endif
 
@@ -659,19 +657,19 @@ typedef char GlyphSprite_size_must_be_0x6C[
     sizeof(GlyphSprite) == 0x6C ? 1 : -1
 ];
 typedef char GlyphSprite_scale_offset_must_be_0x44[
-    YGO_TYPE_OFFSET(GlyphSprite, scale_x) == 0x44 ? 1 : -1
+    OFFSETOF(GlyphSprite, scale_x) == 0x44 ? 1 : -1
 ];
 typedef char GlyphSprite_source_offset_must_be_0x4C[
-    YGO_TYPE_OFFSET(GlyphSprite, sourceGlyph) == 0x4C ? 1 : -1
+    OFFSETOF(GlyphSprite, sourceGlyph) == 0x4C ? 1 : -1
 ];
 typedef char GlyphSprite_saved_x_offset_must_be_0x5A[
-    YGO_TYPE_OFFSET(GlyphSprite, savedSourceX) == 0x5A ? 1 : -1
+    OFFSETOF(GlyphSprite, savedSourceX) == 0x5A ? 1 : -1
 ];
 typedef char GlyphSprite_frame_offset_must_be_0x60[
-    YGO_TYPE_OFFSET(GlyphSprite, frame) == 0x60 ? 1 : -1
+    OFFSETOF(GlyphSprite, frame) == 0x60 ? 1 : -1
 ];
 typedef char GlyphSprite_sequence_offset_must_be_0x6A[
-    YGO_TYPE_OFFSET(GlyphSprite, sequence) == 0x6A ? 1 : -1
+    OFFSETOF(GlyphSprite, sequence) == 0x6A ? 1 : -1
 ];
 
 /* Dialog panel reached through the text box, not the keyboard selection
@@ -692,13 +690,13 @@ typedef char DialogCaret_size_must_be_0x6E[
     sizeof(DialogCaret) == 0x6E ? 1 : -1
 ];
 typedef char DialogCaret_position_offset_must_be_0x30[
-    YGO_TYPE_OFFSET(DialogCaret, x) == 0x30 ? 1 : -1
+    OFFSETOF(DialogCaret, x) == 0x30 ? 1 : -1
 ];
 typedef char DialogCaret_slide_offset_must_be_0x60[
-    YGO_TYPE_OFFSET(DialogCaret, slide) == 0x60 ? 1 : -1
+    OFFSETOF(DialogCaret, slide) == 0x60 ? 1 : -1
 ];
 typedef char DialogCaret_status_offset_must_be_0x6C[
-    YGO_TYPE_OFFSET(DialogCaret, status) == 0x6C ? 1 : -1
+    OFFSETOF(DialogCaret, status) == 0x6C ? 1 : -1
 ];
 
 /* The drawing callback and keyboard tween operate on the same allocation.
@@ -760,35 +758,35 @@ typedef struct {
 } PasswordCursorView;
 
 typedef char PasswordCursorView_phase_offset_must_be_0x22[
-    YGO_TYPE_OFFSET(PasswordCursorView, phase) == 0x22 ? 1 : -1
+    OFFSETOF(PasswordCursorView, phase) == 0x22 ? 1 : -1
 ];
 typedef char PasswordCursorView_step_x_offset_must_be_0x36[
-    YGO_TYPE_OFFSET(PasswordCursorView, step_x) == 0x36 ? 1 : -1
+    OFFSETOF(PasswordCursorView, step_x) == 0x36 ? 1 : -1
 ];
 typedef char PasswordCursorView_timer_offset_must_be_0x60[
-    YGO_TYPE_OFFSET(PasswordCursorView, timer) == 0x60 ? 1 : -1
+    OFFSETOF(PasswordCursorView, timer) == 0x60 ? 1 : -1
 ];
 typedef char PasswordCursorView_update_flags_offset_must_be_0x6C[
-    YGO_TYPE_OFFSET(PasswordCursorView, updateFlags) == 0x6C ? 1 : -1
+    OFFSETOF(PasswordCursorView, updateFlags) == 0x6C ? 1 : -1
 ];
 
 typedef char SelectionFrame_priority_offset_must_be_0x14[
-    YGO_TYPE_OFFSET(SelectionFrame, priority) == 0x14 ? 1 : -1
+    OFFSETOF(SelectionFrame, priority) == 0x14 ? 1 : -1
 ];
 typedef char SelectionFrame_position_offset_must_be_0x30[
-    YGO_TYPE_OFFSET(SelectionFrame, x) == 0x30 ? 1 : -1
+    OFFSETOF(SelectionFrame, x) == 0x30 ? 1 : -1
 ];
 typedef char SelectionFrame_velocity_offset_must_be_0x36[
-    YGO_TYPE_OFFSET(SelectionFrame, stepX) == 0x36 ? 1 : -1
+    OFFSETOF(SelectionFrame, stepX) == 0x36 ? 1 : -1
 ];
 typedef char SelectionFrame_extent_offset_must_be_0x3C[
-    YGO_TYPE_OFFSET(SelectionFrame, width) == 0x3C ? 1 : -1
+    OFFSETOF(SelectionFrame, width) == 0x3C ? 1 : -1
 ];
 typedef char SelectionFrame_bonus_offset_must_be_0x5E[
-    YGO_TYPE_OFFSET(SelectionFrame, widthBonus) == 0x5E ? 1 : -1
+    OFFSETOF(SelectionFrame, widthBonus) == 0x5E ? 1 : -1
 ];
 typedef char SelectionFrame_timer_offset_must_be_0x60[
-    YGO_TYPE_OFFSET(SelectionFrame, timer) == 0x60 ? 1 : -1
+    OFFSETOF(SelectionFrame, timer) == 0x60 ? 1 : -1
 ];
 
 #define NAME_ENTRY_STARTER_DECK_POOL_PADDING_SIZE 18
@@ -803,7 +801,7 @@ typedef char NameEntryStarterDeckPool_size_must_be_0x5B8[
     sizeof(NameEntryStarterDeckPool) == 0x5B8 ? 1 : -1
 ];
 typedef char NameEntryStarterDeckPool_weights_offset_must_be_2[
-    YGO_TYPE_OFFSET(NameEntryStarterDeckPool, weights) == 2 ? 1 : -1
+    OFFSETOF(NameEntryStarterDeckPool, weights) == 2 ? 1 : -1
 ];
 
 /* Live overworld records: camera setup/tween, marker placement and exit
@@ -841,19 +839,19 @@ typedef char CampaignMapExit_size_must_be_12[
     sizeof(CampaignMapExit) == 12 ? 1 : -1
 ];
 typedef char CampaignMapExit_input_mask_offset_must_be_6[
-    YGO_TYPE_OFFSET(CampaignMapExit, input_mask) == 6 ? 1 : -1
+    OFFSETOF(CampaignMapExit, input_mask) == 6 ? 1 : -1
 ];
 typedef char CampaignMapExit_destination_offset_must_be_9[
-    YGO_TYPE_OFFSET(CampaignMapExit, destination) == 9 ? 1 : -1
+    OFFSETOF(CampaignMapExit, destination) == 9 ? 1 : -1
 ];
 typedef char MapLocation_size_must_be_66[
     sizeof(MapLocation) == 66 ? 1 : -1
 ];
 typedef char MapLocation_marker_offset_must_be_12[
-    YGO_TYPE_OFFSET(MapLocation, marker_x) == 12 ? 1 : -1
+    OFFSETOF(MapLocation, marker_x) == 12 ? 1 : -1
 ];
 typedef char MapLocation_exits_offset_must_be_18[
-    YGO_TYPE_OFFSET(MapLocation, exits) == 18 ? 1 : -1
+    OFFSETOF(MapLocation, exits) == 18 ? 1 : -1
 ];
 
 
@@ -870,7 +868,7 @@ typedef char ModelEffectEndpoint_size_must_be_0x8[
     sizeof(ModelEffectEndpoint) == 0x8 ? 1 : -1
 ];
 typedef char ModelEffectEndpoint_kind_offset_must_be_0x6[
-    YGO_TYPE_OFFSET(ModelEffectEndpoint, kind) == 0x6 ? 1 : -1
+    OFFSETOF(ModelEffectEndpoint, kind) == 0x6 ? 1 : -1
 ];
 
 /* Four halfwords produced by Model_GetSlotDimensionsWithOverrides. The fourth is the maximum of the
@@ -886,7 +884,7 @@ typedef char ModelEffectAdjustment_size_must_be_0x8[
     sizeof(ModelEffectAdjustment) == 0x8 ? 1 : -1
 ];
 typedef char ModelEffectAdjustment_max_offset_must_be_0x6[
-    YGO_TYPE_OFFSET(ModelEffectAdjustment, max) == 0x6 ? 1 : -1
+    OFFSETOF(ModelEffectAdjustment, max) == 0x6 ? 1 : -1
 ];
 
 typedef struct FileTransferDescriptor FileTransferDescriptor;
@@ -945,43 +943,43 @@ typedef char FileTransferDescriptor_size_must_be_0x48[
     sizeof(FileTransferDescriptor) == 0x48 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_w_offset_must_be_0x04[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, w) == 0x04 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, w) == 0x04 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_h_offset_must_be_0x06[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, h) == 0x06 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, h) == 0x06 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_sector_destination_offset_must_be_0x08[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, sector_destination) == 0x08 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, sector_destination) == 0x08 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_total_bytes_offset_must_be_0x10[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, total_bytes) == 0x10 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, total_bytes) == 0x10 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_phase_size_offset_must_be_0x1C[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, phase_size) == 0x1C ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, phase_size) == 0x1C ? 1 : -1
 ];
 typedef char FileTransferDescriptor_phase_callback_offset_must_be_0x20[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, phase_callback) == 0x20 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, phase_callback) == 0x20 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_absolute_lba_offset_must_be_0x24[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, absolute_lba) == 0x24 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, absolute_lba) == 0x24 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_status_flags_offset_must_be_0x2C[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, status_flags) == 0x2C ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, status_flags) == 0x2C ? 1 : -1
 ];
 typedef char FileTransferDescriptor_counter_offset_must_be_0x30[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, field_30.h.counter) == 0x30 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, field_30.h.counter) == 0x30 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_field_32_offset_must_be_0x32[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, field_30.h.field_32) == 0x32 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, field_30.h.field_32) == 0x32 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_callback_data_offset_must_be_0x38[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, callback_data) == 0x38 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, callback_data) == 0x38 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_transfer_mode_offset_must_be_0x46[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, transfer_mode) == 0x46 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, transfer_mode) == 0x46 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_substate_offset_must_be_0x47[
-    YGO_TYPE_OFFSET(FileTransferDescriptor, substate) == 0x47 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, substate) == 0x47 ? 1 : -1
 ];
 
 #define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
@@ -1016,31 +1014,31 @@ typedef char FileRequestSlot_size_must_be_0x20[
     sizeof(FileRequestSlot) == 0x20 ? 1 : -1
 ];
 typedef char FileRequestSlot_file_selector_offset_must_be_0x00[
-    YGO_TYPE_OFFSET(FileRequestSlot, file_selector) == 0x00 ? 1 : -1
+    OFFSETOF(FileRequestSlot, file_selector) == 0x00 ? 1 : -1
 ];
 typedef char FileRequestSlot_sector_offset_offset_must_be_0x04[
-    YGO_TYPE_OFFSET(FileRequestSlot, sector_offset) == 0x04 ? 1 : -1
+    OFFSETOF(FileRequestSlot, sector_offset) == 0x04 ? 1 : -1
 ];
 typedef char FileRequestSlot_spu_destination_offset_must_be_0x0C[
-    YGO_TYPE_OFFSET(FileRequestSlot, spu_destination) == 0x0C ? 1 : -1
+    OFFSETOF(FileRequestSlot, spu_destination) == 0x0C ? 1 : -1
 ];
 typedef char FileRequestSlot_ram_destination_offset_must_be_0x10[
-    YGO_TYPE_OFFSET(FileRequestSlot, ram_destination) == 0x10 ? 1 : -1
+    OFFSETOF(FileRequestSlot, ram_destination) == 0x10 ? 1 : -1
 ];
 typedef char FileRequestSlot_spu_transfer_size_offset_must_be_0x14[
-    YGO_TYPE_OFFSET(FileRequestSlot, spu_transfer_size) == 0x14 ? 1 : -1
+    OFFSETOF(FileRequestSlot, spu_transfer_size) == 0x14 ? 1 : -1
 ];
 typedef char FileRequestSlot_ram_transfer_size_offset_must_be_0x18[
-    YGO_TYPE_OFFSET(FileRequestSlot, ram_transfer_size) == 0x18 ? 1 : -1
+    OFFSETOF(FileRequestSlot, ram_transfer_size) == 0x18 ? 1 : -1
 ];
 typedef char FileRequestSlot_range_sector_count_offset_must_be_0x1C[
-    YGO_TYPE_OFFSET(FileRequestSlot, range_sector_count) == 0x1C ? 1 : -1
+    OFFSETOF(FileRequestSlot, range_sector_count) == 0x1C ? 1 : -1
 ];
 typedef char FileRequestSlot_cd_filter_file_offset_must_be_0x1E[
-    YGO_TYPE_OFFSET(FileRequestSlot, cd_filter_file) == 0x1E ? 1 : -1
+    OFFSETOF(FileRequestSlot, cd_filter_file) == 0x1E ? 1 : -1
 ];
 typedef char FileRequestSlot_cd_filter_channel_offset_must_be_0x1F[
-    YGO_TYPE_OFFSET(FileRequestSlot, cd_filter_channel) == 0x1F ? 1 : -1
+    OFFSETOF(FileRequestSlot, cd_filter_channel) == 0x1F ? 1 : -1
 ];
 
 typedef char FileRequestSlot_member_widths_must_match[
@@ -1067,7 +1065,7 @@ typedef char MovieStreamRange_size_must_be_4[
     sizeof(MovieStreamRange) == 4 ? 1 : -1
 ];
 typedef char MovieStreamRange_end_frame_offset_must_be_2[
-    YGO_TYPE_OFFSET(MovieStreamRange, end_frame) == 2 ? 1 : -1
+    OFFSETOF(MovieStreamRange, end_frame) == 2 ? 1 : -1
 ];
 
 /* The updater selects the duel outcome with a halfword cursor; the text
@@ -1084,9 +1082,8 @@ typedef char SaveDataDuelistRecord_size_must_be_4[
     sizeof(SaveDataDuelistRecord) == FREE_DUEL_GRID_RECORD_SIZE ? 1 : -1
 ];
 typedef char SaveDataDuelistRecord_losses_offset_must_be_2[
-    YGO_TYPE_OFFSET(SaveDataDuelistRecord, result.losses) == sizeof(u16) ? 1 : -1
+    OFFSETOF(SaveDataDuelistRecord, result.losses) == sizeof(u16) ? 1 : -1
 ];
-#undef YGO_TYPE_OFFSET
 
 #ifndef FADE_BAND_COUNT
 #define FADE_BAND_COUNT 30
