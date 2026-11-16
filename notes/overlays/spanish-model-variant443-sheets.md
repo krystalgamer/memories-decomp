@@ -44,8 +44,9 @@ the retail schedule:
 
 ## Integration
 
-Both modules convert the `+0x2F2C` helper from assembly to C. The record
-declarations live in `variant443_sheets.h`. The MODEL443 binding list gains
+Both modules convert the `+0x2F2C` helper from assembly to C. The helper
+now reads `EntryState443`. Its record declarations lived in
+`variant443_sheets.h` until it was folded. The MODEL443 binding list gains
 the SDK aliases `ReadRotMatrix` and `SetRotMatrix`; their addresses were
 already bound.
 
