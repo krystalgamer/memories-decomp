@@ -55,7 +55,7 @@ typedef struct {
     ModelVariantSpiralParams spiral;
     ModelVariantStreamerParams streamer;
     CVECTOR inner, outer;
-    s32 spin, ribbon_sway, field_1800, field_1804, field_1808, phase;
+    s32 spin, ribbon_sway, ribbon_wave, field_1804, field_1808, phase;
     s32 field_1810, field_1814;
     u8 unknown_1818[8];
     s32 ambient;

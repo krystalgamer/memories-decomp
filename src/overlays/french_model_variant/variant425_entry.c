@@ -238,7 +238,7 @@ s32 FrenchModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         work->field_17A8 = 0;
         work->field_17AA = 0;
         work->ribbon_sway = 0;
-        work->field_1800 = 0;
+        work->ribbon_wave = 0;
         work->field_1804 = 0;
         work->field_1808 = 0;
         work->streamer.length = 1024;

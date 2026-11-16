@@ -64,7 +64,7 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
             if (k == 0 || k == 16) {
                 bend = 0;
             } else {
-                bend = work->field_1800 - k * 384;
+                bend = work->ribbon_wave - k * 384;
             }
             setVector(&ribbon->spine.a[k], work->aim.direction.vx * work->progress / 1024 * k / 16, y * k / 16, z * k / 16);
             setVector(&ribbon->spine.b[k], ribbon->spine.a[k].vx + (rcos(yaw) * (len + (rcos(wave) * amp >> 12)) >> 12),
@@ -144,7 +144,7 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
         }
     }
     work->ribbon_sway += work->clock.step * 384;
-    work->field_1800 += work->clock.step * 128;
+    work->ribbon_wave += work->clock.step * 128;
     if (work->progress < 0x400 && work->clock.frame >= work->config->ribbon_start) {
         work->progress = ((work->clock.frame - work->config->ribbon_start) << 10)
                          / (work->config->travel_start - work->config->ribbon_start);
