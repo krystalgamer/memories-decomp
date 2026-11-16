@@ -1607,43 +1607,43 @@
       "address": "0x8002C490",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x84",
-      "source": "src/game/duel_grid_offsets.c"
+      "source": "src/game/european/library.c"
     },
     {
       "address": "0x8002C514",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/duel_grid_offsets.c"
+      "source": "src/game/european/library.c"
     },
     {
       "address": "0x8002C56C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/duel_deck_lookup.c"
+      "source": "src/game/european/library.c"
     },
     {
       "address": "0x8002C5A8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/duel_deck_lookup.c"
+      "source": "src/game/european/library.c"
     },
     {
       "address": "0x8002C5F0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/noop_callbacks.c"
+      "source": "src/game/european/library.c"
     },
     {
       "address": "0x8002C5F8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/noop_callbacks.c"
+      "source": "src/game/european/library.c"
     },
     {
       "address": "0x8002C600",
-      "profile": "gcc_2_8_1_g8_split_comm",
+      "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/duel_effect_object_pool.c"
+      "source": "src/game/european/library.c"
     },
     {
       "address": "0x8002C628",
@@ -1683,21 +1683,21 @@
     },
     {
       "address": "0x8002C9C8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x7C",
-      "source": "src/game/duel_field_card_objects.c"
+      "source": "src/game/duel_effect_object_pool.c"
     },
     {
       "address": "0x8002CA44",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x19C",
-      "source": "src/game/duel_field_card_objects.c"
+      "source": "src/game/duel_effect_object_pool.c"
     },
     {
       "address": "0x8002CBE0",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
-      "source": "src/game/duel_field_card_objects.c"
+      "source": "src/game/duel_effect_object_pool.c"
     },
     {
       "address": "0x8002CC10",

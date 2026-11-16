@@ -34,7 +34,7 @@ include remain unchanged in this namespace-only migration.
 
 These are grid/rest target coordinates, not a promise of final
 viewport-adjusted screen coordinates. The old static and bounded runtime
-no-observed-call evidence stays verbatim in `duel_grid_offsets.c`.
+no-observed-call evidence stays verbatim beside the helpers in `library.c`.
 That evidence concerns calls, not whether independent code computes
 the same mapping. No new Library caller, original gameplay purpose,
 unreachability or unused-code claim is asserted.
@@ -51,8 +51,11 @@ The X branch chooses only two bases. It is not generalized to an
 arbitrary number of horizontal sections for arguments at or above 20.
 The Y quotient-based section pitch is also unchanged.
 
-The source filename, first-X/second-Y definition order and contiguous
-`0x84/0x58` extents stay intact under the named `gcc_2_8_1_g0` profile.
+The first-X/second-Y definition order and contiguous `0x84/0x58`
+extents stay intact. For #39 the pair left its own `duel_grid_offsets.c`
+and now closes `library.c` (`gcc_2_8_1_g8_split`), right after
+`Library_InitializeScreen` and ahead of the card-ownership lookups; the
+prototypes moved from `card_grid_coordinates.h` to `library.h`.
 All fourteen native records retain game ownership, matching-C status
 and prior notes. The manifests and compiler profiles are unchanged.
 

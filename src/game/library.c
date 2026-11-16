@@ -42,7 +42,6 @@ static PADDING_VARIABLE(4);
 #include "main_services.h"
 #include "duel_card.h"
 #include "duel_scene.h"
-#include "duel_deck_lookup.h"
 #include "library_create_grid_section_sprites.h"
 #include "sorted_entry_render.h"
 #include "card_preview.h"
@@ -60,7 +59,9 @@ static PADDING_VARIABLE(4);
  * that calls it, the selected-card text refresh and the cursor tween that
  * drives it), the grid scroll, the grid cursor and the Library runtime. Retail
  * reads the grid cursor bytes above gp-relative only from these functions;
- * all of them share gcc_2_8_1_g8_split. */
+ * all of them share gcc_2_8_1_g8_split. The unit closes with the grid's
+ * cell-coordinate helpers and the card-ownership lookups behind
+ * Library_MarkOwnedCards (#39). */
 
 #define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
@@ -1562,4 +1563,75 @@ void Library_InitializeScreen(void) {
     m->render_object->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     Library_RefreshSelectedCardText((const LibraryState *)r);
     SD_BGMPlay(0x72D0);
+}
+
+/* Neither card-grid coordinate helper has a caller the static tools can
+   find: no C call, no jal and no stored pointer in the executable or any
+   extracted DATA file. A runtime trace under #418 (interpreter CPU, 2,448
+   control hits) saw no call to either while visiting the main menu, the
+   Library card list and a monster's 3-D view, and Build Deck, so those
+   screens are ruled out; a duel and the Free Duel opponent grid were not
+   visited. Later traces also saw no call on the idle title screen with its
+   intro movie, in the Library 3-D view, or while moving the cursor over
+   every zone of the duel board; see notes/trace-uncalled-functions.md. */
+
+s32 CardGrid_GetColumnX(s32 value)
+{
+    if (value >= DUEL_FIELD_SIDE_ZONE_COUNT) {
+        return (value % DUEL_FIELD_SIDE_ZONE_COUNT) * 14 + 174;
+    }
+    return (value % DUEL_FIELD_SIDE_ZONE_COUNT) * 14 + 14;
+}
+
+s32 CardGrid_GetRowY(s32 value)
+{
+    s32 quotient = value / DUEL_FIELD_SIDE_ZONE_COUNT;
+
+    return quotient * 178 +
+           (value - quotient * DUEL_FIELD_SIDE_ZONE_COUNT) * 16 + 14;
+}
+
+int Duel_FindPlayerDeckCard(int card_id)
+{
+    unsigned short *entry = gDuel_awPlayerDeck;
+    int i = 0;
+
+    while (i < DECK_SIZE) {
+        if (*entry == card_id) {
+            return i;
+        }
+        i++;
+        entry++;
+    }
+    return -1;
+}
+
+/* Any copy in the trunk returns 1 at once; otherwise the deck slot decides. */
+int Library_CheckCardOwned(int card_id)
+{
+    int flag;
+
+    flag = (((SaveDataWorkspace *)gSaveData_Workspace)->state.card_quantities[
+        card_id - CARD_ID_FIRST] != 0) ? 1 : -1;
+    if (flag < 0) {
+        return Duel_FindPlayerDeckCard(card_id);
+    }
+    return 1;
+}
+
+void func_8002C560(void)
+{
+}
+
+void func_8002C568(void)
+{
+}
+
+int Library_CheckCardInChest(int card_id)
+{
+    if (((SaveDataWorkspace *)gSaveData_Workspace)->state.card_quantities[
+            card_id - CARD_ID_FIRST]) {
+        return 1;
+    }
+    return -1;
 }

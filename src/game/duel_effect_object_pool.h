@@ -198,6 +198,4 @@ extern u16 gDuel_awRitualData[];
 
 s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritual_id);
 
-s32 Library_CheckCardInChest(s32 card_id);
-
 #endif

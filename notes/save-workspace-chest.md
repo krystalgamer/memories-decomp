@@ -52,8 +52,11 @@ sentinel values remain unchanged. There is no input-range validation;
 this naming change adds no guard, clamp or invalid-ID result. The
 definition retains its existing `int(int offset)` spelling, compatible
 with the frozen `s32(s32)` declaration and the new canonical prototype.
-The helper stays first in its existing effect-request-pool source group:
-the source filename does not establish an effect-pool data role.
+The helper first sat at the head of the effect-request-pool source group,
+but it shares no data or caller with the pool. For #39 it moved to the
+end of `library.c`, after `Library_CheckCardOwned` (the same trunk test
+plus the deck fallback) and the two empty `func_8002C560`/`func_8002C568`
+that separate them; its prototype moved to `library.h`.
 
 The old `Library_UpdateCardUsedFlag` name is not evidence of flags packed
 inside a quantity byte: that function actually manipulates the campaign

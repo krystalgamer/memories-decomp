@@ -13,6 +13,9 @@
 #include "card_constants.h"
 #include "duel_card_layout.h"
 #include "duel_grid.h"
+#include "card_presentation.h"
+#include "display_object.h"
+#include "display_object_work_slots.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * duel_effect_object_pool_commons subsegments place it at the retail
@@ -21,15 +24,6 @@ u8 gDuel_bEffectRequestStatus;
 u8 gDuelEffect_bRequestFinished;
 DuelEffectRequest *gDuelEffect_pActiveRequest;
 DuelEffectRequest gDuelEffect_aRequests[8];
-
-int Library_CheckCardInChest(int card_id)
-{
-    if (((SaveDataWorkspace *)gSaveData_Workspace)->state.card_quantities[
-            card_id - CARD_ID_FIRST]) {
-        return 1;
-    }
-    return -1;
-}
 
 void DuelEffect_ResetRequestPool(void)
 {
@@ -238,4 +232,84 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
         out->terminator = 0;
     }
     return p[DUEL_RITUAL_TRIBUTE_COUNT];
+}
+
+void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
+{
+    s32 base =
+        gDuel_bActiveSide ? DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+    DuelCardRecord *entry;
+
+    if (back_row != 0) {
+        base += DUEL_FIELD_ROW_SIZE;
+    }
+    entry = &gDuel_aCardRecords[base];
+    base = 0;
+    for (; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
+        if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
+            *output++ = (u32)entry->object;
+        }
+    }
+    *output = 0;
+}
+
+void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
+{
+    DuelCardRecord *entry;
+    s32 base;
+    DuelCardRecord *other;
+
+    if (selector < 0) {
+        entry = gDuel_aFieldCardRecords;
+        other = entry + DUEL_CARD_SIDE_RECORD_COUNT;
+        for (
+            base = 0;
+            base < DUEL_FIELD_SIDE_ZONE_COUNT;
+            base++, entry++, other++
+        ) {
+            if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
+                *output++ = (u32)entry->object;
+            if (other->flags & DUEL_CARD_FLAG_OCCUPIED)
+                *output++ = (u32)other->object;
+        }
+        *output = 0;
+        return;
+    }
+
+    base = gDuel_bActiveSide ?
+        DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
+    entry = &gDuel_aCardRecords[base];
+    if (selector >= 21) {
+#ifdef VERSION_JAPAN
+        /* The Japanese build still carries a debug print of the selector. */
+        printf("Ex %d\n", selector);
+#endif
+        for (base = 0; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
+            if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
+                (u16)Duel_CalcCardStats(entry) >= selector)
+                *output++ = (u32)entry->object;
+        }
+    } else {
+        for (base = 0; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
+            if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
+                (selector < 0 ||
+                 ((DisplayObject *)entry->object)->resource_branch_index == selector))
+                *output++ = (u32)entry->object;
+        }
+    }
+    *output = 0;
+}
+
+void DisplayObject_CopyWorkSlots(s32 *destination)
+{
+    s32 i;
+    DisplayObject **source;
+
+    i = 0;
+    source = gDisplayObject_apWorkSlots.slots;
+    while (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {
+        *destination++ = (s32)*source++;
+        i++;
+    }
+    *destination = 0;
 }
