@@ -26,7 +26,9 @@ images (slot 0 and slot 1). All of them bind their region's
     48 the priority that places it in `s6`.
   - **Amplitude clamp.** A dead store in the clamp's copy arm stops jump
     optimisation from hoisting the `1024` store above the clamp test.
-- **View.** The view lives in `variant456_twin_ribbons.h`.
+- **View.** The drawer reads the record's `Variant456EntryTrail` array
+  (`spanish_model_variant/variant456_entry.h`); its earlier
+  `TwinRibbon456` view has been folded into that type.
 
 All twelve images rebuild exactly. The
 [attempt ledger](french-model-variant456-twin-ribbons-attempts.csv) records

@@ -23,14 +23,32 @@ typedef struct {
 
 /* A 0xF0-byte trail: two colours, a scale, three phases and a travelling
  * target with its offset from the part. */
+typedef union {
+    DVECTOR point;
+    long packed;
+} Variant456TrailScreen;
+
+/* A 0xF0-byte trail: a three-point spine and a copy of it moved along the
+ * view, both projected, the per-point screen angle and projected width, the
+ * colours and scale the entry seeds, per point the depth and the width's
+ * screen offset, the phases, a completion flag, the target and the step
+ * toward it. The twin-ribbon helper scales each projected width by
+ * width_scale / 1024. */
 typedef struct {
-    u8 unknown_00[0x60];
+    SVECTOR a[3];
+    Variant456TrailScreen sa[3];
+    s32 angle[3];
+    SVECTOR b[3];
+    Variant456TrailScreen sb[3];
+    s32 width[3];
     CVECTOR color, secondary;
     VECTOR scale;
     s16 field_78, field_7A;
-    /* The twin-ribbon helper scales each projected width by width_scale / 1024. */
     s32 field_7C, width_scale;
-    u8 unknown_84[0x3C];
+    u8 unknown_84[0x24];
+    s32 otz[3];
+    s16 ox[3];
+    s16 oy[3];
     s32 phase[3];
     s32 completed;
     VECTOR target;
