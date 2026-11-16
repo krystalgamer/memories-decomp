@@ -342,12 +342,6 @@ segments:
     - game/european/main_menu_load_package_stage
   - - 376244
     - c
-    - game/european/model_subdivided_effect
-  - - 379600
-    - c
-    - game/triangle_subdivision
-  - - 381352
-    - c
     - game/european/model_effect_handlers
   - - 398264
     - c
@@ -374,7 +368,7 @@ segments:
   - [0x82CCC, .data, game/european/model_background_records]
   - [0x831CC, .data, game/model_image_copy_frames]
   - [0x831D4, .data, game/european/movie_pipeline]
-  - [0x83208, .data, game/european/model_subdivided_effect]
+  - [0x83208, .data, game/european/model_effect_handlers]
   - [0x83300, .data, game/european/ai_script]
   - [0x83578, data, resident_tail_80092d78]
   - [0x8CA98, .sdata, game/french/main]

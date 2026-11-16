@@ -1,27 +1,519 @@
 #include "../types.h"
 #include "graphics_packet_submission.h"
-#include "model_effect_handlers.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/memory.h"
 #include "../psyq/rand.h"
-#include "../game/model_subdivided_effect.h"
-#include "../game/model.h"
-#include "../game/model_slot_getters.h"
-#include "../game/model_slot_support.h"
-#include "../game/gpu_packets.h"
-#include "../game/model_geometry_tables.h"
-#include "../game/model_scene_runtime.h"
-#include "../game/sound.h"
+#include "../psyq/strings.h"
+#include "../psyq/stdio.h"
+#include "model.h"
+#include "model_slot_getters.h"
+#include "model_slot_support.h"
+#include "gpu_packets.h"
+#include "model_scene_runtime.h"
+#include "sound.h"
+#include "model_effect_handlers.h"
 
-/* Three of the four handlers in the gModel_apfnEffectHandlers model effect table, which sit
-   back to back in the image: Model_UpdateDiscEffect (the 67-point disc over a
-   ModelDiscEffectState), Model_UpdateBurstEffect (rings, flash, dust, sparks, embers
-   and smoke over a ModelBurstEffect) and Model_UpdateSparkEffect (sparks, flashes and
-   dust over a ModelSparkEffect). The two particle bursts take their texture
-   from the same regional burst CLUT; the disc draws untextured Gouraud
-   polygons. */
+/* The four handlers of the gModel_apfnEffectHandlers model effect table, back
+   to back in the image with the triangle subdivision the subdivided effect
+   is built from: Model_UpdateSubdividedEffect (0x8006AF74), the recursive
+   subdividers and triplet primitives (0x8006BCA4 through 0x8006C37C), then
+   Model_UpdateDiscEffect (the 67-point disc over a ModelDiscEffectState),
+   Model_UpdateBurstEffect (rings, flash, dust, sparks, embers and smoke over
+   a ModelBurstEffect) and Model_UpdateSparkEffect (sparks, flashes and dust
+   over a ModelSparkEffect). The handlers' initialized data and their .rodata
+   scale vectors and size trace sit in the image in this same order. The two
+   particle bursts take their texture from the same regional burst CLUT; the
+   disc draws untextured Gouraud polygons. */
+
+/* Initialized data at 0x800915E8 through 0x800916E0, previously a generated
+   blob (#2602), in the order of the handlers that read it.
+
+   Model_UpdateSubdividedEffect reads gModel_SubdividedEffectConfigWords as
+   three six-byte colour channels followed by signed height/radius minima and
+   growth/fade durations. The four-byte element view remains the storage
+   owner; the consumer describes the measured 28-byte record locally.
+
+   Model_UpdateDiscEffect reads gModel_DiscEffectConfig as the
+   ModelDiscEffectConfig record it is stored as. Model_UpdateBurstEffect reads
+   gModel_BurstRingPaletteWords as three ring colours stored a channel at a
+   time (ModelBurstPalette), and the head of gModel_BurstImageData as one
+   28-byte image record (ModelBurstImage): a pixel mode and the frame-buffer
+   rectangles of the image and its colour table. Only that first record is
+   ever read, so the storage keeps its flat halfword view.
+
+   The other element widths are the ones the extractor assigned from the
+   labelling and alignment in the image. */
+u32 gModel_SubdividedEffectConfigWords[] = {
+    0x0000A0A0, 0x00A000A0, 0xA0A000A0, 0xA00000A0,
+    0x012CA000, 0x000A012C, 0x0000005A,
+};
+
+ModelDiscEffectConfig gModel_DiscEffectConfig = {
+    0x20, 0x20, 0x20, 0, 300, 20, 10, 0,
+};
+
+/* Regional value: halfword 8 of each 14-halfword burst image record
+ * (0x200 -> 0x280 in the European build). */
+#ifdef VERSION_EUROPE
+#define MODEL_BURST_IMAGE_FIELD_8 0x0280
+#else
+#define MODEL_BURST_IMAGE_FIELD_8 0x0200
+#endif
+
+u16 gModel_BurstImageData[] = {
+    0x0008, 0x0000, 0x03C0, 0x0000, 0x0008, 0x0040, 0x0000, 0x0000,
+    MODEL_BURST_IMAGE_FIELD_8, 0x00F5, 0x0010, 0x0001, 0x0000, 0x0000, 0x0009, 0x0000,
+    0x0380, 0x0000, 0x0020, 0x0040, 0x0000, 0x0000, MODEL_BURST_IMAGE_FIELD_8, 0x00F4,
+    0x0100, 0x0001, 0x0000, 0x0000, 0x0009, 0x0000, 0x03A0, 0x0000,
+    0x0020, 0x0040, 0x0000, 0x0000, MODEL_BURST_IMAGE_FIELD_8, 0x00F4, 0x0100, 0x0001,
+    0x0000, 0x0000, 0x0009, 0x0000, 0x0380, 0x0040, 0x0020, 0x0040,
+    0x0000, 0x0000, MODEL_BURST_IMAGE_FIELD_8, 0x00F4, 0x0100, 0x0001, 0x0000, 0x0000,
+    0x0009, 0x0000, 0x03A0, 0x0040, 0x0020, 0x0040, 0x0000, 0x0000,
+    MODEL_BURST_IMAGE_FIELD_8, 0x00F4, 0x0100, 0x0001, 0x0000, 0x0000, 0x0009, 0x0000,
+    0x0380, 0x0080, 0x0010, 0x0080, 0x0000, 0x0000, MODEL_BURST_IMAGE_FIELD_8, 0x00F4,
+    0x0100, 0x0001, 0x0000, 0x0000, 0x0009, 0x0000, 0x0390, 0x0080,
+    0x0010, 0x0080, 0x0000, 0x0000, MODEL_BURST_IMAGE_FIELD_8, 0x00F4, 0x0100, 0x0001,
+    0x0000, 0x0000,
+};
+
+u32 gModel_BurstRingPaletteWords[] = {
+    0x404040FF, 0x404040FF, 0x000000FF,
+};
+
+#define CLAMP(value, lower, upper) \
+    ((value) < (lower) ? (lower) : ((value) > (upper) ? (upper) : (value)))
+
+s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
+{
+    MATRIX base;
+    MATRIX matrix;
+    POLY_G3 triangle;
+    POLY_G4 quad;
+    GsLINE line;
+    SVECTOR rotation;
+    SVECTOR position;
+    VECTOR scale;
+    ModelEffectAdjustment bounds;
+    s32 flag;
+    s32 interpolation;
+    s32 depth;
+    GsOT *ot;
+    s32 i;
+    ModelSubdividedEffect *effect;
+    ModelSubdividedEffectConfig *config;
+    SVECTOR *vertex;
+    Triplet *color;
+    SVECTOR **vertices;
+    u8 **colors;
+    s32 height;
+    s32 elapsed;
+    s32 remaining;
+    s32 work;
+    s32 red, green, blue;
+
+    memset(&rotation, 0, sizeof(rotation));
+    memset(&position, 0, sizeof(position));
+    scale = gModel_SubdividedEffectInitialScale;
+    effect = data;
+    Model_GetActiveSlotIndex();
+    {
+        s32 ticks = Model_GetFrameStep();
+        if (mode >= 0) {
+            config = effect->config = (ModelSubdividedEffectConfig *)gModel_SubdividedEffectConfigWords;
+            Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex(), &bounds);
+            work = height = bounds.max;
+            work /= 2;
+            height /= 2;
+            work = CLAMP(work, config->minimum_radius, 700);
+            height = CLAMP(height, config->minimum_height, 700);
+            vertex = &effect->vertices[0];
+            vertex->vx = 0;
+            vertex->vy = -height;
+            vertex->vz = 0;
+            vertex = &effect->vertices[1];
+            vertex->vx = 0;
+            vertex->vy = 0;
+            vertex->vz = -work;
+            vertex = &effect->vertices[2];
+            vertex->vx = -work;
+            vertex->vy = 0;
+            vertex->vz = 0;
+            vertex = &effect->vertices[3];
+            vertex->vx = 0;
+            vertex->vy = 0;
+            vertex->vz = work;
+            vertex = &effect->vertices[4];
+            vertex->vx = work;
+            vertex->vy = 0;
+            vertex->vz = 0;
+            vertex = &effect->vertices[5];
+            vertex->vx = 0;
+            vertex->vy = height;
+            vertex->vz = 0;
+            color = effect->colors;
+            for (i = 0; i < 6; color++, i++) {
+                Triplet_SetComponents(*color, config->colors[0][i],
+                    config->colors[1][i], config->colors[2][i]);
+            }
+            vertex = effect->vertices;
+            color = effect->colors;
+            vertices = effect->vertex_links;
+            colors = effect->color_links;
+            for (i = 1; i < 5; i++) {
+                *vertices = vertex;
+                vertices++;
+                *colors = color[0];
+                colors++;
+                *vertices = &vertex[i];
+                vertices++;
+                *colors = color[i];
+                colors++;
+                *vertices = &effect->vertices[i % 4] + 1;
+                vertices++;
+                *colors = effect->colors[i % 4] + 4;
+                colors++;
+            }
+            for (i = 1; i < 5; i++) {
+                *vertices = &vertex[5];
+                vertices++;
+                *colors = color[5];
+                colors++;
+                *vertices = &effect->vertices[i % 4] + 1;
+                vertices++;
+                *colors = effect->colors[i % 4] + 4;
+                colors++;
+                *vertices = &vertex[i];
+                vertices++;
+                *colors = color[i];
+                colors++;
+            }
+            vertex = effect->subdivided_vertices;
+            color = effect->subdivided_colors;
+            vertices = effect->vertex_links;
+            colors = effect->color_links;
+            for (i = 0; i < 8; i++) {
+                Model_SubdivideTriangle((s16 *)vertices[0], (s16 *)vertices[1],
+                    (s16 *)vertices[2], (s16 *)vertex, 2);
+                vertices += 3;
+                vertex += 48;
+                Triplet_SubdivideTriangle(colors[0], colors[1], colors[2], color, 2);
+                colors += 3;
+                color += 48;
+            }
+            effect->elapsed = 0;
+            effect->remaining = config->fade_duration;
+            effect->field_130C = 0;
+            effect->field_130D = 0;
+#ifndef VERSION_EUROPE
+            /* The European build makes no printf call here. */
+            printf("%d (0x%x) Byte\n", 0x1318, 0x1318);
+#endif
+            return 0;
+        }
+
+        config = effect->config;
+        vertex = effect->subdivided_vertices;
+        ot = Graphics_GetDefaultOrderingTable();
+        base = *(MATRIX *)Model_GetLightSourceMatrix();
+        color = effect->subdivided_colors;
+        PushMatrix();
+        SetPolyG3(&triangle);
+        SetPolyG4(&quad);
+        line.attribute = 0x50000000;
+        elapsed = effect->elapsed;
+        remaining = effect->remaining;
+        rotation.vx = 0;
+        rotation.vy = (u32)elapsed << 5;
+        rotation.vz = 0;
+        GsSetLsMatrix(&base);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&position);
+        GsSetLsMatrix(&base);
+        /* RotTrans writes three words, exactly the extent of MATRIX.t. */
+        RotTrans(&position, (VECTOR *)matrix.t, (long *)&flag);
+        RotMatrix(&rotation, &matrix);
+        MulMatrix2(&base, &matrix);
+        ScaleMatrix(&matrix, &scale);
+        GsSetLsMatrix(&matrix);
+        {
+            s32 triangle_index;
+            for (triangle_index = 0; triangle_index < 128; triangle_index++) {
+                work = RotAverageNclip3(vertex, vertex + 1, vertex + 2,
+                    (long *)&triangle.x0, (long *)&triangle.x1, (long *)&triangle.x2,
+                    (long *)&interpolation, (long *)&depth, (long *)&flag);
+                if (remaining >= 0 && remaining < config->fade_duration) {
+                    red = (*color)[0] * remaining / config->fade_duration;
+                    green = (*color)[1] * remaining / config->fade_duration;
+                    blue = (*color)[2] * remaining / config->fade_duration;
+                    color++;
+                    triangle.r0 = red;
+                    triangle.g0 = green;
+                    triangle.b0 = blue;
+                    red = (*color)[0] * remaining / config->fade_duration;
+                    green = (*color)[1] * remaining / config->fade_duration;
+                    blue = (*color)[2] * remaining / config->fade_duration;
+                    color++;
+                    triangle.r1 = red;
+                    triangle.g1 = green;
+                    triangle.b1 = blue;
+                    red = (*color)[0] * remaining / config->fade_duration;
+                    green = (*color)[1] * remaining / config->fade_duration;
+                    blue = (*color)[2] * remaining / config->fade_duration;
+                    color++;
+                    triangle.r2 = red;
+                    triangle.g2 = green;
+                    triangle.b2 = blue;
+                } else if (elapsed >= 0 && elapsed < config->growth_duration) {
+                    red = (*color)[0] * elapsed / config->growth_duration;
+                    green = (*color)[1] * elapsed / config->growth_duration;
+                    blue = (*color)[2] * elapsed / config->growth_duration;
+                    color++;
+                    triangle.r0 = red;
+                    triangle.g0 = green;
+                    triangle.b0 = blue;
+                    red = (*color)[0] * elapsed / config->growth_duration;
+                    green = (*color)[1] * elapsed / config->growth_duration;
+                    blue = (*color)[2] * elapsed / config->growth_duration;
+                    color += 2;
+                    triangle.r1 = red;
+                    triangle.r2 = red;
+                    triangle.g1 = green;
+                    triangle.g2 = green;
+                    triangle.b1 = blue;
+                    triangle.b2 = blue;
+                } else {
+                    triangle.r0 = (*color)[0];
+                    triangle.g0 = (*color)[1];
+                    triangle.b0 = (*color)[2];
+                    color++;
+                    triangle.r1 = (*color)[0];
+                    triangle.g1 = (*color)[1];
+                    triangle.b1 = (*color)[2];
+                    color++;
+                    triangle.r2 = (*color)[0];
+                    triangle.g2 = (*color)[1];
+                    triangle.b2 = (*color)[2];
+                    color++;
+                }
+                if (depth >= 0 && flag >= 0 && work > 0) {
+                    Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 1);
+                }
+                vertex += 3;
+            }
+        }
+        if (remaining >= 0 && remaining < config->fade_duration) {
+            line.r = (remaining << 5) / config->fade_duration;
+            line.g = (remaining << 5) / config->fade_duration;
+            line.b = (remaining << 5) / config->fade_duration;
+        } else if (elapsed >= 0 && elapsed < config->growth_duration) {
+            line.r = (elapsed << 5) / config->growth_duration;
+            line.g = (elapsed << 5) / config->growth_duration;
+            line.b = (elapsed << 5) / config->growth_duration;
+        } else {
+            line.r = 32;
+            line.g = 32;
+            line.b = 32;
+        }
+        vertices = effect->vertex_links;
+        for (i = 0; i < 8; i++) {
+            work = RotAverageNclip3(vertices[0], vertices[1], vertices[2],
+                (long *)&triangle.x0, (long *)&triangle.x1, (long *)&triangle.x2,
+                (long *)&interpolation, (long *)&depth, (long *)&flag);
+            if (depth >= 0 && flag >= 0 && work > 0) {
+                line.x0 = triangle.x0;
+                line.y0 = triangle.y0;
+                line.x1 = triangle.x1;
+                line.y1 = triangle.y1;
+                GsSortLine(&line, ot, (u16)depth);
+                line.x0 = triangle.x2;
+                line.y0 = triangle.y2;
+                GsSortLine(&line, ot, (u16)depth);
+                line.x1 = triangle.x0;
+                line.y1 = triangle.y0;
+                GsSortLine(&line, ot, (u16)depth);
+            }
+            vertices += 3;
+        }
+        PopMatrix();
+        effect->elapsed += ticks;
+        if (mode == -2) {
+            effect->remaining -= ticks;
+        }
+        return (effect->remaining < 0) * 2;
+    }
+}
+
+/* Recursive triangle subdivision, written twice: once over s16 vertices
+   (Model_SubdivideTriangle) and once over three-byte colour triplets (Triplet_SubdivideTriangle),
+   followed by the three primitives the triplet version is built from.
+
+   The two subdividers are the same algorithm - split at the three edge
+   midpoints, recurse four ways, write twelve vertices at the last depth -
+   and neither calls the other. They sit back to back in the image, between
+   Model_UpdateSubdividedEffect, their only caller, and Model_UpdateDiscEffect.
+
+   The primitives touch exactly indices 0, 1 and 2 of whatever they are
+   handed, and none of them reads a fourth byte or a stride. The caller's
+   buffer is a Triplet, which strides 4 - the fourth byte is never read or
+   written by any of the four functions here, so it is carried, not used.
+
+   Model_UpdateSubdividedEffect initializes six colours with
+   Triplet_SetComponents and calls both subdividers at depth two for each of its eight base faces. */
+
+/* Recursive triangle subdivision: splits the triangle (a, b, c) at its
+ * three edge midpoints and, at the last depth, writes the four resulting
+ * triangles (twelve 8-byte vertices) to out and returns the advanced
+ * pointer; otherwise recurses into the four sub-triangles. The three sums
+ * are written before the three halvings on purpose: per-component pairs
+ * let gcc forward the first store and the function comes out short. */
+s16 *Model_SubdivideTriangle(s16 *a, s16 *b, s16 *c, s16 *out, s32 depth) {
+    s16 A[4];
+    s16 B[4];
+    s16 C[4];
+    s16 m0[4];
+    s16 m1[4];
+    s16 m2[4];
+    s32 t;
+
+    t = *(u16 *)a;
+    A[0] = t;
+    A[1] = a[1];
+    A[2] = a[2];
+    B[0] = b[0];
+    B[1] = b[1];
+    B[2] = b[2];
+    C[0] = c[0];
+    C[1] = c[1];
+    C[2] = c[2];
+    m0[0] = b[0];
+    m0[1] = b[1];
+    m0[2] = b[2];
+    m0[0] = m0[0] + c[0];
+    m0[1] = m0[1] + c[1];
+    m0[2] = m0[2] + c[2];
+    m0[0] = m0[0] / 2;
+    m0[1] = m0[1] / 2;
+    m0[2] = m0[2] / 2;
+    m1[0] = c[0];
+    m1[1] = c[1];
+    m1[2] = c[2];
+    m1[0] = m1[0] + a[0];
+    m1[1] = m1[1] + a[1];
+    m1[2] = m1[2] + a[2];
+    m1[0] = m1[0] / 2;
+    m1[1] = m1[1] / 2;
+    m1[2] = m1[2] / 2;
+    m2[0] = a[0];
+    m2[1] = a[1];
+    m2[2] = a[2];
+    m2[0] = m2[0] + b[0];
+    m2[1] = m2[1] + b[1];
+    m2[2] = m2[2] + b[2];
+    m2[0] = m2[0] / 2;
+    m2[1] = m2[1] / 2;
+    m2[2] = m2[2] / 2;
+    depth--;
+    if (depth == 0) {
+        out[0] = t;
+        out[1] = A[1];
+        out[2] = A[2];
+        out[4] = m2[0];
+        out[5] = m2[1];
+        out[6] = m2[2];
+        out[8] = m1[0];
+        out[9] = m1[1];
+        out[10] = m1[2];
+        out[12] = B[0];
+        out[13] = B[1];
+        out[14] = B[2];
+        out[16] = m0[0];
+        out[17] = m0[1];
+        out[18] = m0[2];
+        out[20] = m2[0];
+        out[21] = m2[1];
+        out[22] = m2[2];
+        out[24] = C[0];
+        out[25] = C[1];
+        out[26] = C[2];
+        out[28] = m1[0];
+        out[29] = m1[1];
+        out[30] = m1[2];
+        out[32] = m0[0];
+        out[33] = m0[1];
+        out[34] = m0[2];
+        out[36] = m0[0];
+        out[37] = m0[1];
+        out[38] = m0[2];
+        out[40] = m1[0];
+        out[41] = m1[1];
+        out[42] = m1[2];
+        out[44] = m2[0];
+        out[45] = m2[1];
+        out[46] = m2[2];
+        return out + 0x30;
+    }
+    out = Model_SubdivideTriangle(A, m2, m1, out, depth);
+    out = Model_SubdivideTriangle(B, m0, m2, out, depth);
+    out = Model_SubdivideTriangle(C, m1, m0, out, depth);
+    out = Model_SubdivideTriangle(m0, m1, m2, out, depth);
+    return out;
+}
+
+Triplet *Triplet_SubdivideTriangle(u8 *a, u8 *b, u8 *c, Triplet *out, s32 depth)
+{
+    Triplet *result;
+
+    Triplet mid[6];
+
+    Triplet_CopyComponents(mid[0], a);
+    Triplet_CopyComponents(mid[1], b);
+    Triplet_CopyComponents(mid[2], c);
+    Triplet_AverageComponents(mid[3], b, c);
+    Triplet_AverageComponents(mid[4], c, a);
+    Triplet_AverageComponents(mid[5], a, b);
+
+    if (--depth != 0) {
+        result = Triplet_SubdivideTriangle(mid[0], mid[5], mid[4], out, depth);
+        result = Triplet_SubdivideTriangle(mid[1], mid[3], mid[5], result, depth);
+        result = Triplet_SubdivideTriangle(mid[2], mid[4], mid[3], result, depth);
+        result = Triplet_SubdivideTriangle(mid[3], mid[4], mid[5], result, depth);
+    } else {
+        Triplet_CopyComponents(out[0], mid[0]);
+        Triplet_CopyComponents(out[1], mid[5]);
+        Triplet_CopyComponents(out[2], mid[4]);
+        Triplet_CopyComponents(out[3], mid[1]);
+        Triplet_CopyComponents(out[4], mid[3]);
+        Triplet_CopyComponents(out[5], mid[5]);
+        Triplet_CopyComponents(out[6], mid[2]);
+        Triplet_CopyComponents(out[7], mid[4]);
+        Triplet_CopyComponents(out[8], mid[3]);
+        Triplet_CopyComponents(out[9], mid[3]);
+        Triplet_CopyComponents(out[10], mid[4]);
+        Triplet_CopyComponents(out[11], mid[5]);
+        result = out + 12;
+    }
+    return result;
+}
+
+void Triplet_SetComponents(u8 *output, s32 first, s32 second, s32 third)
+{
+    output[0] = first;
+    output[1] = second;
+    output[2] = third;
+}
+
+void Triplet_CopyComponents(u8 *destination, const u8 *source)
+{
+    destination[0] = source[0];
+    destination[1] = source[1];
+    destination[2] = source[2];
+}
+
+void Triplet_AverageComponents(u8 *out, u8 *a, u8 *b)
+{
+    out[0]=(a[0]+b[0])/2; out[1]=(a[1]+b[1])/2; out[2]=(a[2]+b[2])/2;
+}
 
 s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
 {

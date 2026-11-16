@@ -2,9 +2,70 @@
 #define MEMORIES_DECOMP_MODEL_EFFECT_HANDLERS_H
 
 #include "../types.h"
+#include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "model_geometry_tables.h"
+
+typedef struct {
+    u8 colors[3][6];
+    s16 minimum_height;
+    s16 minimum_radius;
+    s16 growth_duration;
+    s16 fade_duration;
+    s16 pad;
+} ModelSubdividedEffectConfig;
+
+typedef struct {
+    ModelSubdividedEffectConfig *config;
+    SVECTOR vertices[6];
+    SVECTOR *vertex_links[24];
+    SVECTOR subdivided_vertices[384];
+    Triplet colors[6];
+    u8 *color_links[24];
+    Triplet subdivided_colors[384];
+    u8 field_130C;
+    u8 field_130D;
+    u8 pad_130E[2];
+    s32 elapsed;
+    s32 remaining;
+} ModelSubdividedEffect;
+
+typedef char ModelSubdividedEffectConfig_size_must_be_28[
+    sizeof(ModelSubdividedEffectConfig) == 28 ? 1 : -1
+];
+#if !defined(__SIZEOF_POINTER__) || __SIZEOF_POINTER__ == 4
+typedef char ModelSubdividedEffect_size_must_be_0x1318[
+    sizeof(ModelSubdividedEffect) == 0x1318 ? 1 : -1
+];
+#endif
+
+extern VECTOR gModel_SubdividedEffectInitialScale;
+extern VECTOR gModel_BurstEffectInitialScale;
+extern VECTOR gModel_SparkEffectInitialScale;
+
+s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode);
+
+s16 *Model_SubdivideTriangle(s16 *a, s16 *b, s16 *c, s16 *out, s32 depth);
+Triplet *Triplet_SubdivideTriangle(u8 *a, u8 *b, u8 *c, Triplet *out, s32 depth);
+void Triplet_SetComponents(u8 *output, s32 first, s32 second, s32 third);
+void Triplet_CopyComponents(u8 *destination, const u8 *source);
+void Triplet_AverageComponents(u8 *out, u8 *a, u8 *b);
+
+/* The parameter record Model_UpdateDiscEffect points its `table` at: the rim
+   colour, the smallest radius the disc is built with, the level it starts at
+   and fades from, and the scale it grows to. The last two are also the
+   divisors of the colour ramp. gModel_DiscEffectConfig is the only instance, and its last
+   halfword is zero and unread. */
+typedef struct {
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 pad_03;
+    s16 min_radius;
+    s16 full_level;
+    s16 full_scale;
+    u16 pad_0A;
+} ModelDiscEffectConfig;
 
 /* State for Model_UpdateDiscEffect, one of the four handlers in the pointer
    table at gModel_apfnEffectHandlers. request >= 0 builds a disc of 67 points: a centre at a
@@ -39,7 +100,7 @@ typedef struct {
     u8 pad;
 } ModelBurstColor;
 
-/* The ring colours `table` points at, gModel_BurstRingPaletteWords in model_subdivided_effect.c:
+/* The ring colours `table` points at, gModel_BurstRingPaletteWords in model_effect_handlers.c:
  * one byte per ring for each channel. */
 typedef struct {
     u8 r[3];
@@ -47,7 +108,7 @@ typedef struct {
     u8 b[3];
 } ModelBurstPalette;
 
-/* One texture record of gModel_BurstImageData in model_subdivided_effect.c: the pixel mode
+/* One texture record of gModel_BurstImageData in model_effect_handlers.c: the pixel mode
  * and the frame-buffer rectangles of the image and of its colour table. */
 typedef struct {
     u16 mode;

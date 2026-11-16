@@ -6652,37 +6652,37 @@
       "address": "0x8006AF74",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD30",
-      "source": "src/game/model_subdivided_effect.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006BCA4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x47C",
-      "source": "src/game/triangle_subdivision.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C120",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1DC",
-      "source": "src/game/triangle_subdivision.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C2FC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x10",
-      "source": "src/game/triangle_subdivision.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C30C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
-      "source": "src/game/triangle_subdivision.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C330",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/triangle_subdivision.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C37C",

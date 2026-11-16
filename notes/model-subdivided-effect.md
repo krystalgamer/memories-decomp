@@ -1,6 +1,6 @@
 # Subdivided model effect at 0x8006AF74
 
-`src/game/model_subdivided_effect.c` reproduces all 844 instructions
+`src/game/model_effect_handlers.c` reproduces all 844 instructions
 (3,376 bytes) of `Model_UpdateSubdividedEffect` with `gcc_2_8_1_g8_split`. The complete
 executable retains SHA-256
 `84a54ed74f3d0edd6d81380839f7e4ef5bfb21ecea18be9a062bd6bfa5a45c88`.

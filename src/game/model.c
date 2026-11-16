@@ -568,7 +568,6 @@ void Model_UpdateBackgroundScroll(s32 force)
 }
 
 #include "model_effect_handlers.h"
-#include "model_subdivided_effect.h"
 #include "model_scene_effect_handler_table.h"
 #include "file_names.h"
 #include "model_handler_state.h"

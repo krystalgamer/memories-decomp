@@ -1,6 +1,9 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/model_effect_handlers.c. The US source is included as is. */
+/* SLES-03947 build of src/game/model_effect_handlers.c, with its European
+ * bodies and values. */
+
+#define VERSION_EUROPE
 
 /* Values that differ in the European release; the US source names each
  * with an #ifndef default (jp_promote.REGIONAL). */
