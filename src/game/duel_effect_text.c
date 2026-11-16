@@ -2361,7 +2361,7 @@ void Text_SetStateFromStream(DuelEffectChannel *object)
 #include "text_constants.h"
 #include "text_string_bank_views.h"
 #include "european_text_bank_views.h"
-#include "text_encode_decimal_digits.h"
+#include "util.h"
 
 /* Zero-initialized storage this unit owns at 0x800EAFF8-0x800EB010 in the
  * US build. */

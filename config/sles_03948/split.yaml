@@ -216,13 +216,7 @@ segments:
     - game/sorted_entry_render
   - - 156576
     - c
-    - game/util_memory
-  - - 156904
-    - c
-    - game/text_encode_decimal_digits
-  - - 157180
-    - c
-    - game/rand_get_interval
+    - game/util
   - - 157260
     - c
     - game/movie_playback_control

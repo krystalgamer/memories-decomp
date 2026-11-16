@@ -14,7 +14,7 @@
 #include "color_constants.h"
 #include "display_object.h"
 #include "display_object_layout.h"
-#include "util_memory.h"
+#include "util.h"
 #include "high_memory_addresses.h"
 #include "shared_work_base.h"
 #include "display_asset_banks.h"

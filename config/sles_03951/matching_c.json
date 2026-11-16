@@ -2482,31 +2482,31 @@
       "address": "0x80035BA0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/util_memory.c"
+      "source": "src/game/util.c"
     },
     {
       "address": "0x80035C48",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/util_memory.c"
+      "source": "src/game/util.c"
     },
     {
       "address": "0x80035CE8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB8",
-      "source": "src/game/text_encode_decimal_digits.c"
+      "source": "src/game/util.c"
     },
     {
       "address": "0x80035DA0",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/text_encode_decimal_digits.c"
+      "source": "src/game/util.c"
     },
     {
       "address": "0x80035DFC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/rand_get_interval.c"
+      "source": "src/game/util.c"
     },
     {
       "address": "0x80035E4C",

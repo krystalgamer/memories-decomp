@@ -92,7 +92,7 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
     LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
 }
 
-#include "text_encode_decimal_digits.h"
+#include "util.h"
 #include "display_object_system.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"

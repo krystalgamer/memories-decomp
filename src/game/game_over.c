@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "display_object_system.h"
-#include "rand_get_interval.h"
+#include "util.h"
 #include "display_object.h"
 #include "fade.h"
 #include "graphics_constants.h"

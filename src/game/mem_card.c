@@ -8,7 +8,7 @@
 #include "main.h"
 #include "sound.h"
 #include "frontend_package_stages.h"
-#include "util_memory.h"
+#include "util.h"
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * mem_card_commons subsegments place it at the retail addresses. */
@@ -745,7 +745,6 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
 #include "../psyq/stdio.h"
 #include "mem_card_driver.h"
 #include "file_constants.h"
-#include "util_memory.h"
 #include "card_constants.h"
 #include "input.h"
 #include "sound.h"

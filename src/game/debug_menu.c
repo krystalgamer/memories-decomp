@@ -48,7 +48,7 @@
 #include "../psyq/setjmp.h"
 #include "../overlays/free_duel/free_duel.h"
 #include "display_effect.h"
-#include "rand_get_interval.h"
+#include "util.h"
 #include "menu_record.h"
 #include "display_object_layout.h"
 #include "../psyq/rand.h"
