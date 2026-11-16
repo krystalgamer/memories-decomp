@@ -32,7 +32,7 @@ void SpanishModelVariant479_DrawCurtains(Variant479EntryState *context)
     extra = (((s32)state->clock.frame_count & 1) << 5) * state->sheets[1].size / 4096;
     radius = (rsin(1300) * 256) >> 12;
     for (i = 0; i < 5; i++, curtain++, primary++) {
-        if (state->curtain_gate >= 0) {
+        if (state->size >= 0) {
             size = primary->size;
             base_radius = radius + 160;
             outer_radius = base_radius + extra;

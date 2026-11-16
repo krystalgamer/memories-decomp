@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant379_grid.h"
+#include "../spanish_model_variant/variant479_entry.h"
 
-void FrenchModelVariant379_DrawGrid(u8 *context)
+void FrenchModelVariant379_DrawGrid(Variant479EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -13,10 +13,10 @@ void FrenchModelVariant379_DrawGrid(u8 *context)
     u8 blue[9];
     long interpolation;
     long flag;
-    Grid379State *state = (Grid379State *)context;
-    ModelVariantGridSheet *sheet = state->sheets;
-    Grid379Pulse *pulse = state->pulses;
-    POLY_GT4 *quad = &state->quad;
+    Variant479EntryState *state = context;
+    ModelVariantGridSheet *sheet = state->grids;
+    Variant479Rib *rib = state->ribs;
+    POLY_GT4 *quad = &state->frame_poly;
     GsOT *ot;
     s32 i, j, k;
     s32 size, count;
@@ -24,18 +24,18 @@ void FrenchModelVariant379_DrawGrid(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     count = 0;
-    for (i = 0; i < 5; i++, sheet++, pulse++) {
-        if (!(state->flags & 1)) {
-            size = sheet->size + state->pulse / 32;
+    for (i = 0; i < 5; i++, sheet++, rib++) {
+        if (!(state->clock.frame_count & 1)) {
+            size = sheet->size + state->size / 32;
         } else {
             size = sheet->size;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
-        matrix.t[0] = state->positions[i].vx;
-        matrix.t[1] = state->positions[i].vy;
-        matrix.t[2] = state->positions[i].vz;
+        matrix.t[0] = state->points[i].vx;
+        matrix.t[1] = state->points[i].vy;
+        matrix.t[2] = state->points[i].vz;
         scale.vx = size;
         scale.vy = size;
         scale.vz = size;
@@ -68,25 +68,25 @@ void FrenchModelVariant379_DrawGrid(u8 *context)
                                       (long *)&quad->x0, (long *)&quad->x1,
                                       (long *)&quad->x2, (long *)&quad->x3,
                                       &interpolation, &flag);
-                if (pulse->progress >= 1024 && depth >= 0 && flag >= 0) {
+                if (rib->size >= 1024 && depth >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket((u32 *)quad, ot, (u16)depth, 1);
                 }
             }
         }
-        if (pulse->progress >= 1024) {
+        if (rib->size >= 1024) {
             if (sheet->size <= 8192) {
-                sheet->size += state->step * 192;
+                sheet->size += state->clock.step * 192;
                 if (sheet->size >= 8192) {
                     if (state->phase < 5) {
                         sheet->size = 0;
-                        pulse->progress = 0;
-                        pulse->offset = 0;
-                        pulse->state = 1;
+                        rib->size = 0;
+                        rib->fade = 0;
+                        rib->state = 1;
                     } else {
                         sheet->size = 0;
-                        pulse->progress = 0;
-                        pulse->offset = 0;
-                        pulse->state = 3;
+                        rib->size = 0;
+                        rib->fade = 0;
+                        rib->state = 3;
                         sheet->done = 1;
                     }
                 }

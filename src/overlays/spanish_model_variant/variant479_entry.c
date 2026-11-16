@@ -237,7 +237,7 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
         work->outer[0] = 0;
         work->outer[2] = 0;
         work->curtain_angle = 0;
-        work->curtain_gate = 0;
+        work->size = 0;
         work->field_419C = 0;
         work->field_41A0 = 0;
         work->field_41A4 = 0;
@@ -309,7 +309,7 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         if (work->phase >= 3 && work->phase <= 5) {
             SpanishModelVariant479_DrawCurtains((Variant479EntryState *)point);
-            FrenchModelVariant379_DrawGrid((u8 *)point);
+            FrenchModelVariant379_DrawGrid((Variant479EntryState *)point);
         }
         if (work->phase >= 2 && work->phase <= 4) {
             SpanishModelVariant479_DrawRibs((Variant479EntryState *)point);
