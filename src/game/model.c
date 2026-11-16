@@ -4534,10 +4534,11 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense
             gModel_aSlots[slot].load_step = 0;
         }
     } else {
+        /* The table is defined as 1248 bytes (not whole 0xB2 records), so it
+         * is viewed as ModelBackgroundRecord here, as at gModel_pBackgroundRecord. */
         if (!(model >= 0 && model < 7
-              && (model = gModel_abBackgroundRecords[
-                      model * MODEL_AUX_LOOKUP_RECORD_SIZE
-                      + MODEL_AUX_LOOKUP_VALUE_OFFSET],
+              && (model = ((ModelBackgroundRecord *)
+                               gModel_abBackgroundRecords)[model].selector,
                   model >= 0 && model < 7))) {
             request_result++;
         } else {

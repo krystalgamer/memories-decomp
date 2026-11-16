@@ -7,6 +7,14 @@
 #include "../psyq/libhmd.h"
 #include "model.h"
 
+/* Model_GetSlot0OffsetWorldPosition's stack block: one object preserves the
+ * retail SVECTOR/GsCOORDUNIT/MATRIX stack order. */
+typedef struct {
+    SVECTOR offset;
+    GsCOORDUNIT unit;
+    MATRIX world;
+} ModelWorldPositionScratch;
+
 /* The size of host file `path`, found by opening it through the SN fileserver
  * and seeking to its end. Returns -1 when the open fails. */
 int HostFile_GetSize(char *path);

@@ -391,8 +391,10 @@ or general camera-hold policy is asserted.
 
 The tail members denote the SAME bytes as ModelSlot's accepted guardian
 selection and defense position, proved by relative/absolute offset and
-width checks. MODEL_SLOT_CF8_DFE_OFFSET and MODEL_SLOT_CF8_DFF_OFFSET
-address constructions remain, rooted at &gModel_aSlots[0].metadata. Reset can
+width checks. Model_GetSlotCameraPresetYaw reads the selection as
+gModel_aSlots[slot].guardian_star_selection beside a
+`ModelSlotMetadataBlock *` to the slot's metadata; CSE re-derives retail's
+metadata-relative `+0x106` load from that pointer. Reset can
 still store the auxiliary slot index two in guardian_star_selection;
 only the established property setters normalize nonnegative requests.
 The two-element arrays and getter mask add no new index validation.
@@ -1037,11 +1039,11 @@ offset arithmetic; the dimension helpers keep their distinct floor/
 override policies. Slot-control, scene, reset and transfer accesses use
 the same storage, without an extra copy, allocation or new access path.
 
-ModelSlotCF8TailView deliberately keeps its address-rooted name and
-FULL 0x108-byte extent. It reaches BEYOND the loaded 28-byte block through
-the independent guardian-star selection/defense-position bytes.
-Readers cast &gModel_aSlots[0].metadata plus the slot stride to that
-type. This does not claim ownership of the intervening bytes.
+ModelSlotCF8TailView, the 0x108-byte view that reached beyond the loaded
+28-byte block to the guardian-star selection/defense-position bytes, is
+retired: its last reader (Model_GetSlotCameraPresetYaw) now uses
+`&gModel_aSlots[slot].metadata` and the ModelSlot tail members directly, so
+no code claims the intervening bytes.
 The prefix values.field_08 remains opaque: its word view overlaps two
 dimension thresholds AND the guardian-star option bytes. It is not
 reclassified as a universal flags word. Other raw members stay as they are.
