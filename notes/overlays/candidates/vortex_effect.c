@@ -41,7 +41,7 @@
 #include "../../game/model_state_setters.h"
 #include "../../game/screen_projection.h"
 #include "../../unmatched.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 #include "drawing_helpers.h"
 #include "packet_helpers.h"
 #include "effect_routines.h"

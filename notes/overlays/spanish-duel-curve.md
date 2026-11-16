@@ -33,8 +33,9 @@ resident producers, separate real data owners and region mappings.
 Historical matching evidence below is unchanged in scope.
 
 The final inventoried Spanish duel-bank function, `func_8014FABC`, now selects
-the accepted shared [`bolt_vertices.c`](../../src/overlays/duel_effects/bolt_vertices.c)
-body unchanged. Its 836 bytes at image `0x9ABC..0x9E00` and 80-byte stack
+the accepted shared `bolt_vertices.c` body (now in
+[`effect_geometry.c`](../../src/overlays/duel_effects/effect_geometry.c))
+unchanged. Its 836 bytes at image `0x9ABC..0x9E00` and 80-byte stack
 frame independently match under the named GCC 2.8.1 / MASPSX 2.81
 `gcc_2_8_1_g0_split` profile.
 

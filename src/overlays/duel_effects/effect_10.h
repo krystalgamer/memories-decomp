@@ -8,7 +8,7 @@
 #include "../../game/model_slot_support.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 #include "effect_drawing.h"
 #include "drawing_tail.h"
 #include "color_helpers.h"

@@ -5,7 +5,7 @@
 #include "../../psyq/memory.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_scene_runtime.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 #include "drawing_helpers.h"
 #include "color_helpers.h"
 #include "effect_drawing.h"
