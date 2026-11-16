@@ -241,10 +241,10 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
         work->brightness = 255;
         work->width = 1024;
         work->scale = 0;
-        work->field_2460 = 0;
-        work->field_2462 = 0;
+        work->angle_a = 0;
+        work->angle_b = 0;
         work->field_2464 = 0;
-        work->field_2468 = 0;
+        work->radius = 0;
         work->field_2466 = 0;
         work->field_246A = 0;
         work->factor = 0;

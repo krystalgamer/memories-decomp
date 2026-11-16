@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant373_ribbons.h"
+#include "variant373_entry.h"
 #include "../../game/gpu_packets.h"
 
-void FrenchModelVariant373_DrawRibbons(Family373RibbonView *context)
+void FrenchModelVariant373_DrawRibbons(EntryState373 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,8 +11,8 @@ void FrenchModelVariant373_DrawRibbons(Family373RibbonView *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Family373RibbonView *work;
-    ModelVariantRibbonColors *colors;
+    EntryState373 *work;
+    ModelVariantQuadSheet *colors;
     GsOT *ot;
     s16 i;
     s32 turn;
@@ -29,19 +29,19 @@ void FrenchModelVariant373_DrawRibbons(Family373RibbonView *context)
 
     work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
-    ratan2(work->view_direction[1], work->view_direction[0]);
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 3072;
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
     ribbon = work->ribbons;
-    tilt = ratan2(work->delta[2], work->delta[1]) + 1024;
-    ratan2(work->delta[2], work->delta[0]);
-    colors = &work->colors;
+    tilt = ratan2(work->aim.direction.vz, work->aim.direction.vy) + 1024;
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
+    colors = work->quadrants;
     triangle = &work->triangle;
-    if (work->mode == 1) {
+    if (work->slot == 1) {
         turn = -turn;
     }
     if (work->phase > 0) {
         length = 16;
-        flags = work->flags;
+        flags = work->clock.frame_count;
         for (i = 0, angle = work->angle; i < 8;
              i++, angle = work->angle + i * 512, ribbon++) {
             for (j = 0; j < 2; j++) {
@@ -58,9 +58,9 @@ void FrenchModelVariant373_DrawRibbons(Family373RibbonView *context)
             }
         }
         setVector(&rotation, tilt, 0, 0);
-        matrix.t[0] = work->origin[0] + work->delta[0] * work->factor / 1024;
-        matrix.t[1] = work->origin[1] + work->delta[1] * work->factor / 1024;
-        matrix.t[2] = work->origin[2] + work->delta[2] * work->factor / 1024;
+        matrix.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->factor / 1024;
+        matrix.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->factor / 1024;
+        matrix.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->factor / 1024;
         if (work->scale < 4096) {
             scale.vx = work->scale;
             scale.vy = work->scale;
@@ -113,15 +113,15 @@ void FrenchModelVariant373_DrawRibbons(Family373RibbonView *context)
                 triangle->y1 = ribbon->projected[j + 1] >> 16;
                 triangle->x2 = ribbon->projected[j] - ribbon->x_offset[j];
                 triangle->y2 = (ribbon->projected[j] >> 16) - ribbon->y_offset[j];
-                triangle->r0 = colors->outer;
-                triangle->g0 = colors->outer;
-                triangle->b0 = colors->outer;
-                triangle->r1 = colors->inner;
-                triangle->g1 = colors->inner;
-                triangle->b1 = colors->inner;
-                triangle->r2 = colors->outer;
-                triangle->g2 = colors->outer;
-                triangle->b2 = colors->outer;
+                triangle->r0 = colors->color[0].r;
+                triangle->g0 = colors->color[0].r;
+                triangle->b0 = colors->color[0].r;
+                triangle->r1 = colors->color[1].r;
+                triangle->g1 = colors->color[1].r;
+                triangle->b1 = colors->color[1].r;
+                triangle->r2 = colors->color[0].r;
+                triangle->g2 = colors->color[0].r;
+                triangle->b2 = colors->color[0].r;
                 if (ribbon->depth[j] > 0) {
                     if (ribbon->depth[j] < 2048) {
                         Graphics_SubmitDrawModePacket((u32 *)triangle, ot, (u16)ribbon->depth[j], 1);
@@ -130,7 +130,7 @@ void FrenchModelVariant373_DrawRibbons(Family373RibbonView *context)
             }
         }
     }
-    if (work->index + 1 == work->config->count_0C) {
-        work->angle += work->step * 50;
+    if (work->index + 1 == work->config->count) {
+        work->angle += work->clock.step * 50;
     }
 }

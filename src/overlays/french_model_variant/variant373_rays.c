@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant373_rays.h"
+#include "variant373_entry.h"
 
-void FrenchModelVariant373_DrawRays(Family373RayView *context)
+void FrenchModelVariant373_DrawRays(EntryState373 *context)
 {
-    Family373RayView *work = context;
+    EntryState373 *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -24,9 +24,9 @@ void FrenchModelVariant373_DrawRays(Family373RayView *context)
     s32 dx, dy;
 
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_direction[2], work->view_direction[0]);
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
     ray = work->rays;
-    quad = &work->quad;
+    quad = &work->shared[0];
     turn += 3072;
     radius = work->radius * 768 / 1024;
     width = work->radius / 8;
@@ -71,13 +71,13 @@ void FrenchModelVariant373_DrawRays(Family373RayView *context)
         }
     }
     size = 4608;
-    if (!(work->flags & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 3584;
     }
     setVector(&rotation, 0, 0, 0);
-    matrix.t[0] = work->origin[0] + work->delta[0] * work->factor / 1024;
-    matrix.t[1] = work->origin[1] + work->delta[1] * work->factor / 1024;
-    matrix.t[2] = work->origin[2] + work->delta[2] * work->factor / 1024;
+    matrix.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->factor / 1024;
+    matrix.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->factor / 1024;
+    matrix.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->factor / 1024;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -182,7 +182,7 @@ void FrenchModelVariant373_DrawRays(Family373RayView *context)
     }
     if (work->phase == 1) {
         if (work->radius < 768) {
-            work->radius += work->step * 64;
+            work->radius += work->clock.step * 64;
             if (work->radius >= 768) {
                 work->radius = 768;
                 work->phase = 2;
@@ -192,7 +192,7 @@ void FrenchModelVariant373_DrawRays(Family373RayView *context)
         work->radius = 384;
     } else if (work->phase == 4 || work->phase == 5) {
         if (work->radius < 1024) {
-            work->radius += work->step * 64;
+            work->radius += work->clock.step * 64;
             if (work->radius >= 1024) {
                 work->radius = 1024;
                 work->phase = 6;
