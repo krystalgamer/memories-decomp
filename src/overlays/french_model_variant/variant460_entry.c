@@ -173,8 +173,8 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
         work->width = 1024;
         work->field_2EAC = 1024;
         work->field_2EA4 = 0;
-        work->field_2EA6 = 0;
-        work->field_2EA8 = 0;
+        work->strand_start = 0;
+        work->strand_end = 0;
         work->ribbon_wave = 0;
         work->ribbon_phase = 0;
         work->field_2EB0 = 0;

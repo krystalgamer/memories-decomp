@@ -41,7 +41,7 @@ typedef struct {
     Variant460EntryConfig *config;
     u32 field_2E80;
     GsCOORDUNIT *parts[8];
-    s16 field_2EA4, field_2EA6, field_2EA8, width;
+    s16 field_2EA4, strand_start, strand_end, width;
     s32 field_2EAC, field_2EB0, field_2EB4, field_2EB8;
     s32 ribbon_wave, ribbon_phase;
     ModelVariantEntryTail tail;

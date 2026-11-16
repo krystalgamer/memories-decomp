@@ -31,7 +31,7 @@ typedef struct {
     Variant338EntryConfig *config;
     u32 field_1F40;
     GsCOORDUNIT *part;
-    s16 field_1F48, field_1F4A, field_1F4C, width;
+    s16 field_1F48, strand_start, strand_end, width;
     s32 streamer_length, streamer_rotation_x, streamer_rotation_y, streamer_rotation_z;
     s32 ribbon_wave, ribbon_phase, phase;
     u8 unknown_1F6C[8];

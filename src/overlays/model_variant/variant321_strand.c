@@ -4,7 +4,7 @@
 #include "../french_model_variant/variant338_entry.h"
 
 /* Builds six strands of thirteen points fanned around the variant origin and draws
- * the visible span [0x1F4A, 0x1F4C) of each as GsLINE segments, then advances
+ * the visible span [strand_start, strand_end) of each as GsLINE segments, then advances
  * the span. */
 void ModelVariant321_DrawStrand(Variant338EntryState *context)
 {
@@ -61,7 +61,7 @@ void ModelVariant321_DrawStrand(Variant338EntryState *context)
         } while (i < 6);
         strand = (ModelVariantStrandWide *)work->unknown_1364;
         for (i = 0; i < 6; i++, strand++) {
-            for (j = work->field_1F4A; j < work->field_1F4C; j++) {
+            for (j = work->strand_start; j < work->strand_end; j++) {
                 line->attribute = 0x50000000;
                 otz = RotTransPers4(&strand->point[j], &strand->point[j + 1], &strand->point[j],
                                     &strand->point[j + 1], (long *)&line->x0, (long *)&line->x1,
@@ -74,15 +74,15 @@ void ModelVariant321_DrawStrand(Variant338EntryState *context)
                 }
             }
         }
-        if (work->field_1F4C < 13) {
-            work->field_1F4C += (u32)work->clock.step >> 1;
-            if (work->field_1F4C >= 12) {
-                work->field_1F4C = 12;
-                if (work->field_1F4A < 13) {
-                    work->field_1F4A += (u32)work->clock.step >> 1;
-                    if (work->field_1F4A >= 12) {
-                        work->field_1F4C = 0;
-                        work->field_1F4A = 0;
+        if (work->strand_end < 13) {
+            work->strand_end += (u32)work->clock.step >> 1;
+            if (work->strand_end >= 12) {
+                work->strand_end = 12;
+                if (work->strand_start < 13) {
+                    work->strand_start += (u32)work->clock.step >> 1;
+                    if (work->strand_start >= 12) {
+                        work->strand_end = 0;
+                        work->strand_start = 0;
                     }
                 }
             }

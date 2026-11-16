@@ -178,8 +178,8 @@ s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command)
         work->width = 1024;
         work->streamer_length = 1024;
         work->field_1F48 = 0;
-        work->field_1F4A = 0;
-        work->field_1F4C = 0;
+        work->strand_start = 0;
+        work->strand_end = 0;
         work->ribbon_wave = 0;
         work->ribbon_phase = 0;
         work->streamer_rotation_x = 0;
