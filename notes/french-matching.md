@@ -358,7 +358,8 @@ the resident total becomes **1,127 functions / 352,412 text bytes in 556
 translation units**. No source, header, compiler-profile, data-ownership or
 overlay changes are required.
 
-The four-function Spanish `script_image_objects.c` group occupies
+The four-function Spanish script-image group (then `script_image_objects.c`,
+now the head of `spanish/script_scene.c`) occupies
 `0x8002DFE8..0x8002E3C0` (984 bytes). Its existing localized image-ID mapping
 and public declaration are reused without another wrapper. Complete-object
 comparison identifies one French location, and the reference ELF, object
@@ -374,7 +375,7 @@ definition order and sizes:
 | `0x80028474..0x8002847C` | `func_800283EC.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
 | `0x8002BC30..0x8002BC38` | `european/library.c` | `Library_EnterGridState` | `Library_UpdateScreen` |
 | `0x8002C734..0x8002C744` | `noop_callbacks.c` | `Library_CheckCardOwned` | `Library_CheckCardInChest` |
-| `0x8002F694..0x8002F6A4` | `european/script_scene.c` | `func_8002EF3C` | `Script_OpFadeOut` |
+| `0x8002F694..0x8002F6A4` | `spanish/script_scene.c` | `func_8002EF3C` | `Script_OpFadeOut` |
 
 The library handler also agrees with its previously recovered direct-call
 binding. The independently bound French script table `D_80090C50` at

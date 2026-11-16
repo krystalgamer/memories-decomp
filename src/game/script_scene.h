@@ -5,7 +5,112 @@
 #include "../ygo_types.h"
 #include "file_staging_buffer.h"
 #include "menu_record.h"
-#include "script_image_objects.h"
+
+typedef struct {
+    ScriptImageEntry entries[3];
+    s16 image_id;
+} ScriptImageObjectSet;
+
+typedef char ScriptImageObjectSet_image_id_offset_must_be_0x3C[
+    (u32)&((ScriptImageObjectSet *)0)->image_id == 0x3C ? 1 : -1
+];
+
+/* Three of the scene script's image slots at gSceneScript_Slots, as
+ * ScriptImage_ReleaseObjects
+ * releases them: a display-object pointer and callback-control halfword.
+ * This is not the whole slot table -- the same function writes the mode
+ * halfword in ScriptImageObjectSet after these three entries -- and the
+ * callers hold their own wider views under their own names. The shared
+ * ScriptImageEntry layout is defined in ygo_types.h. */
+/* Transfer callback for one script image. The loader supplies its
+ * FileTransferDescriptor and advances the callback stage through the setup
+ * phases. */
+void ScriptImage_TransferCallback(FileTransferDescriptor *transfer, s32 mode);
+
+/* Starts the async read of one script image. `value` is packed BCD: the low
+ * two nibbles are the index, and the third selects one of three tables with
+ * its own sector stride (0x21, 0x51 or 0x71) -- any other mode returns without
+ * requesting anything. `owner` may be null; when it is not, the id is recorded
+ * in image_id first. Localized builds remap ids 0x10 and 0x11 before recording
+ * the id and use an ordinary store; other builds preserve the volatile store. */
+void ScriptImage_RequestTransfer(
+    volatile ScriptImageObjectSet *owner, s32 value);
+
+/* Releases the three image slots, setting image_id to -1 first.
+ * Each pointer goes to DisplayObject_ReleaseIfPresent before the pointer
+ * and callback-control halfword are zeroed. */
+void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set);
+
+/* Builds one display object for a script image and stores it at `owner`, a
+ * ScriptImageEntry, with `size` the object's request size and `mode`
+ * selecting the blend arms: mode 2 takes GsALON | GsAONE and sets the entry's
+ * `callback_control` halfword to 1; anything else takes 0x01000000 and clears
+ * it. It also sets object_built. Its only caller is
+ * ScriptImage_RebuildObjects. */
+void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode);
+
+#define SCRIPT_IMAGE_OVERLAY_FIRST_PRESENT 1
+#define SCRIPT_IMAGE_OVERLAY_SECOND_PRESENT 2
+#define SCRIPT_IMAGE_OVERLAY_SECOND_SCREEN_SPACE 0x80
+
+/* The two overlay tables ScriptImage_RebuildObjects reads when it rebuilds a
+ * scene-script image record. */
+/* Ids 0x100-0x1FF: which overlays to create, and the callback-index byte
+ * copied into the second overlay slot's control halfword at set +0x2C. */
+typedef struct {
+    u8 mask;
+    u8 callback_index;
+} ScriptImageOverlayPair;
+
+/* Ids from 0x200: the same mask (bit 7 also puts the second overlay in
+ * screen space), an x and y for each overlay, then the same callback index. */
+typedef struct {
+    u8 mask;
+    u8 x1;
+    u8 y1;
+    u8 x2;
+    u8 y2;
+    u8 callback_index;
+} ScriptImageOverlayPlacement;
+
+/* Thirteen placements fill 78 of the table's 80 bytes; the last two are
+ * retail padding before the script command table that follows. */
+typedef struct {
+    ScriptImageOverlayPlacement rows[13];
+    u8 pad_4E[2];
+} ScriptImageOverlayPlacementTable;
+
+extern ScriptImageOverlayPair gScriptImage_OverlayPairs[];
+extern ScriptImageOverlayPlacementTable gScriptImage_OverlayPlacements;
+
+/* Rebuilds the display objects for one scene-script image record. `value` is
+ * the packed image id, or negative to reuse the one already stored at the
+ * record's +0x3C; either way that halfword ends up holding what was built.
+ *
+ * Ids from 0x200 up are the gScriptImage_OverlayPlacements table and get a full-screen object plus
+ * up to two overlays positioned from the table row; below that the object
+ * comes from ScriptImage_CreateObject and, from 0x100 up, gScriptImage_OverlayPairs's flag
+ * byte decides
+ * which of the two overlays exist. Under 0x100 the record's two overlay words
+ * are just cleared.
+ *
+ * Both callers hold a wider scene-script allocation and pass its
+ * ScriptImageObjectSet prefix. */
+void ScriptImage_RebuildObjects(ScriptImageObjectSet *record, s32 image_id);
+
+struct DuelEffectChannel;
+
+/* Sets DUEL_EFFECT_MARK_OBJECT_FLAG in `channel`'s flags_34 if any
+ * gDisplayEffect_aMenuRecords record is still active -- it walks that table
+ * backward and stops at the first non-negative effect_id marker -- and does
+ * nothing when every marker is negative.
+ *
+ * The parameter is the text-box channel its callers have just made: every
+ * caller passes the result of TextBox_Create or TextBox_CreateFlagged, and
+ * Script_OpShowDialog ORs its own flag into the same flags_34 right after.
+ * It used to be typed as a MenuRecord, whose 0x34 is the record's x
+ * position, not a flag word. */
+void DuelEffect_MarkObjectIfActive(struct DuelEffectChannel *channel);
 
 /* The script engine's current command word.
  *

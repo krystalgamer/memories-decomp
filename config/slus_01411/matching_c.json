@@ -1856,39 +1856,39 @@
     },
     {
       "address": "0x8002DDFC",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x130",
-      "source": "src/game/script_image_objects.c"
+      "source": "src/game/script_scene.c"
     },
     {
       "address": "0x8002DF2C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE0",
-      "source": "src/game/script_image_objects.c"
+      "source": "src/game/script_scene.c"
     },
     {
       "address": "0x8002E00C",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/script_image_objects.c"
+      "source": "src/game/script_scene.c"
     },
     {
       "address": "0x8002E060",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC8",
-      "source": "src/game/script_image_objects.c"
+      "source": "src/game/script_scene.c"
     },
     {
       "address": "0x8002E128",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x248",
-      "source": "src/game/script_image_rebuild.c"
+      "source": "src/game/script_scene.c"
     },
     {
       "address": "0x8002E370",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/duel_effect_mark_object_if_active.c"
+      "source": "src/game/script_scene.c"
     },
     {
       "address": "0x8002E3B4",
