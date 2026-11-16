@@ -293,7 +293,7 @@ drift as European tables grow. Its split places seventeen owners:
 - from `file_setup` through `campaign_scene` (`+0x1004`);
 - `debug_menu` through `build_deck`
   (`+0x1020`);
-- `model_subdivided_effect` and `ai_script`
+- `model_effect_handlers` and `ai_script`
   (`+0x100C`).
 
 Two of them take a European arm in the shared source:
@@ -337,7 +337,7 @@ it at `0x800920EC` (Europe) and `0x800924CC` (language builds).
 The four language builds keep Europe's middle range `0x414` higher through
 `model_effect_state`. After it they place the background-record run, then
 `model_image_copy_frames`, then `movie_stream_requests` just before
-`model_subdivided_effect`. Their movie ranges are Europe's, so they now
+`model_effect_handlers`. Their movie ranges are Europe's, so they now
 compile `european/movie_stream_requests` too. They place the same ten owners,
 each with a `data_c.json` for the European command table.
 
