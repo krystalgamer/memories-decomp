@@ -64,9 +64,9 @@ unchanged; the global data member stays opaque.
 ## Battle preview replay IDs
 
 The attacker and defender preview paths in `DuelScene_UpdateBattle`
-read `DuelCardReplayRecordBlock::record.card_id` instead of a raw signed
-halfword at `+0x36C0`. The existing block places the live record at
-`+0x36B4`, and its canonical signed card-ID member is at `+0x0C`.
+read `gDuel_abCardStagingBuffer.deck.field_cards[i].card_id` instead of a
+raw signed halfword at `+0x36C0`: the field records start at staging offset
+`0x48000 + 0x36B4`, and the canonical signed card-ID member is at `+0x0C`.
 
 Each view is applied after the original byte-base, slot-times-`0x1C` and
 `0x48000` high-base calculation. The padded block is an offset view, not
@@ -270,14 +270,18 @@ the base symbol's name:
 | `0x1BC68` | `0x8017808C` | `gDuel_awCombinedDeckCardIds`, the sort source |
 | `0x1BD0C` | `0x80178130` | `gDuel_awUniqueDeckCardIds`, the deduplicated list and transfer callback data |
 
-`DuelCardReplayRecordBlock` retains its padded offset view, now shared by
-card lifecycle, draw resolution, phase entry, AI selection setup, trap
-presentation, and the integrated `DuelScene_UpdateExodiaResult` candidate.
-`DuelStagedDeckRecordBlock` provides the corresponding small-displacement
-deck-record view for `Duel_SetupCardRecord`. These views preserve the
-historical high-base materialization followed by a small field displacement;
-replacing them with a direct interior-symbol reference would change the
-relocation identity.
+Card lifecycle, draw resolution, phase entry, AI selection setup, trap
+presentation, battle preview, the display-transition loops,
+`Duel_SetupCardRecord` and `Duel_SetupFieldCardFromDeck` read the field and
+deck records as `gDuel_abCardStagingBuffer.deck.field_cards[i]` /
+`deck.cards[i]`. GCC splits the large member offset into the retail
+`lui 0x4` / `ori 0x8000` high part plus a small field displacement, so the
+former padded `DuelCardReplayRecordBlock` / `DuelStagedDeckRecordBlock`
+views and their byte-offset arithmetic are gone; a direct interior-symbol
+reference (`gDuel_aCardRecords`) would still change the relocation
+identity. `DuelScene_UpdateExodiaResult` alone keeps an integer
+record-offset-plus-base address, cast to the buffer type, because retail
+adds the operands as `addu offset, base` and indexing swaps them.
 
 The old Exodia-only six-byte record is removed. Its `type` at `+2` was not
 read as a type by either consumer: the producer writes the deck index there.
