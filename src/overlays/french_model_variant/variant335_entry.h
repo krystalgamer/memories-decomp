@@ -56,7 +56,7 @@ typedef struct {
     GsCOORDUNIT *part;
     s32 travel_angle, lift, spin, orbit_diameter;
     s32 rotation[3], extent;
-    s16 count, field_2E8E, field_2E90, width, field_2E94, field_2E96;
+    s16 count, field_2E8E, field_2E90, width, strand_start, strand_end;
     s32 wave0, wave1, phase;
     u8 unknown_2EA4[8];
     s32 brightness;
