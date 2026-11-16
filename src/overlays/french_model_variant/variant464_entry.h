@@ -12,16 +12,19 @@ typedef struct {
     u32 fade_begin, fade_end;
     u32 times[4];
     s32 count;
-    u8 unknown_44[4];
+    s32 group_count;
 } Variant464EntryConfig;
 
+/* One advancing quad pair: six points (three per quad), their projections,
+ * inner and outer colours, the scale, per-quad depth and staggered progress. */
 typedef struct {
-    u8 unknown_00[0x48];
+    SVECTOR points[6];
+    long projected[3][2];
     CVECTOR inner[2], outer[2];
     VECTOR scale;
     s16 field_68, field_6A;
     s32 field_6C;
-    u8 unknown_70[8];
+    s32 depth[2];
     s32 progress[2];
     s32 active;
 } Variant464EntryPrimary;
@@ -37,7 +40,7 @@ typedef struct {
     ModelVariantCurtain curtains[3];
     POLY_G3 triangle;
     POLY_G4 quad;
-    POLY_GT4 textured[2], unknown_1AE8, curtain_poly;
+    POLY_GT4 textured[2], ring_poly, curtain_poly;
     POLY_FT4 flat_textured[2];
     u8 unknown_1BA0[0x10];
     GsGLINE line;
@@ -57,7 +60,7 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant464_aImages[9];
 extern Variant464EntryConfig gFrenchModelVariant464_aConfigs[];
-void FrenchModelVariant464_DrawRings(u8 *context);
-void SpanishModelVariant464_DrawAdvancingQuads(u8 *context);
+void FrenchModelVariant464_DrawRings(Variant464EntryState *context);
+void SpanishModelVariant464_DrawAdvancingQuads(Variant464EntryState *context);
 void SpanishModelVariant464_DrawSheets(u8 *context);
 #endif

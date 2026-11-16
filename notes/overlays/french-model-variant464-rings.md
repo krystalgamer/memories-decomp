@@ -6,11 +6,14 @@ sixteen framebuffer-textured `POLY_GT4` strips and advances them. **No
 release had matching C for this body before.**
 
 It shares its drawing pass with the accepted Spanish MODEL443 rings helper
-(`variant443_rings.c`), over a local view in `variant464_rings.h`:
-- three 0x1E4-byte rings at `+0x114C`, each with `SVECTOR points[3][17]`,
-  the progress at `+0x1DC` and a completion state at `+0x1E0`;
-- the `POLY_GT4` at `+0x1AE8`, the origin at `+0x1BD8`, the direction at
-  `+0x1BEC`, the step at `+0x1C24` and the phase at `+0x1C60`.
+(`variant443_rings.c`). It reads `Variant464EntryState`, the record the
+464 entry passes (a local view in `variant464_rings.h` until it was folded):
+- the three 0x1E4-byte `screen_rings` at `+0x114C`
+  (`ModelVariantScreenRing`): point rows `a`, `b` and `c`, the progress as
+  `scale` at `+0x1DC` and the completion state as `count` at `+0x1E0`;
+- `ring_poly` (`POLY_GT4`) at `+0x1AE8`, `matrix.t` at `+0x1BD8`, the aim's
+  `direction` at `+0x1BEC`, the clock's `step` at `+0x1C24` and
+  `tail.phase` at `+0x1C60`.
 
 Measured shape:
 - above progress 2048 the row is lifted by `(progress - 2048) / 16` with

@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant464_advancing.h"
+#include "../french_model_variant/variant464_entry.h"
 
-void SpanishModelVariant464_DrawAdvancingQuads(u8 *context)
+void SpanishModelVariant464_DrawAdvancingQuads(Variant464EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,8 +11,8 @@ void SpanishModelVariant464_DrawAdvancingQuads(u8 *context)
     long flags[5][2];
     long interpolation;
     GsOT *ot;
-    Advancing464State *state = (Advancing464State *)context;
-    Advancing464 *group;
+    Variant464EntryState *state = context;
+    Variant464EntryPrimary *group;
     POLY_GT4 *quad;
     s16 i, j;
     s32 angle;
@@ -20,15 +20,15 @@ void SpanishModelVariant464_DrawAdvancingQuads(u8 *context)
     s32 progress;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &state->quad;
-    angle = ratan2(state->projected.vy, state->projected.vx) + 2048;
-    if ((state->frame & 1) == 0) {
+    quad = &state->textured[0];
+    angle = ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx) + 2048;
+    if ((state->clock.frame_count & 1) == 0) {
         radius = state->width / 128;
     } else {
         radius = state->width * 40 / 4096;
     }
-    group = state->groups;
-    for (i = 0; i < state->timing->count; i++, group++) {
+    group = state->primary;
+    for (i = 0; i < state->config->group_count; i++, group++) {
         for (j = 0; j < 2; j++) {
             progress = group->progress[j];
             if (progress < 0) {
@@ -46,9 +46,9 @@ void SpanishModelVariant464_DrawAdvancingQuads(u8 *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = angle;
-            matrix.t[0] = state->origin[0] + state->direction[0] * progress / 1024;
-            matrix.t[1] = state->origin[1] + state->direction[1] * progress / 1024;
-            matrix.t[2] = state->origin[2] + state->direction[2] * progress / 1024;
+            matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * progress / 1024;
+            matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * progress / 1024;
+            matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * progress / 1024;
             scale.vx = 4096;
             scale.vy = 4096;
             scale.vz = 4096;
@@ -67,19 +67,19 @@ void SpanishModelVariant464_DrawAdvancingQuads(u8 *context)
                                            &group->projected[1][j], &group->projected[2][j],
                                            &interpolation, &flags[i][j]);
             if (group->progress[j] < 1024) {
-                group->progress[j] += state->step * 64;
+                group->progress[j] += state->clock.step * 64;
                 if (group->progress[j] >= 1024) {
                     group->progress[j] = 1024;
                     group->active = 1;
-                    if (state->phase == 1) {
-                        state->phase = 2;
+                    if (state->tail.phase == 1) {
+                        state->tail.phase = 2;
                     }
                 }
             }
         }
     }
-    group = state->groups;
-    for (i = 0; i < state->timing->count; i++, group++) {
+    group = state->primary;
+    for (i = 0; i < state->config->group_count; i++, group++) {
         for (j = 0; j < 1; j++) {
             quad->x0 = group->projected[0][j];
             quad->y0 = group->projected[0][j] >> 16;
