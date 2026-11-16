@@ -137,8 +137,8 @@ s32 ModelVariant416_HandleRequest(SVECTOR *point, s32 command)
                     band->cb[j].g = work->config->outer.g;
                     band->cb[j].b = work->config->outer.b;
                 }
-                band->offset[j] = -(band_index * 512) - j * 256;
-                band->field_70[j] = 0;
+                band->level[j] = -(band_index * 512) - j * 256;
+                band->done[j] = 0;
             }
             band->field_98 = 0;
             band->field_9A = 0;
