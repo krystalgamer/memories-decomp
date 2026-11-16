@@ -48,7 +48,7 @@ typedef struct {
     s16 field_2164, field_2166, progress, ribbon_width;
     s32 field_216C;
     s32 phase;
-    s32 field_2174;
+    s32 spiral_state;
     u8 unknown_2178[8];
     s32 tint;
     s16 slot, command;
