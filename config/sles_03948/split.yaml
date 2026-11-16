@@ -100,7 +100,7 @@ segments:
     - game/sound_output_state
   - - 3856
     - .rodata
-    - game/european/sound_driver
+    - game/sound_driver
   - - 3936
     - rodata
     - initial_data_f60
@@ -114,7 +114,7 @@ segments:
     - pad
   - - 8068
     - .rodata
-    - game/european/model_primitive_handler
+    - game/model_primitive_handler
   - - 8188
     - .rodata
     - game/european/main_menu_load_package_stage
@@ -123,7 +123,7 @@ segments:
     - initial_data_2020
   - - 8288
     - .rodata
-    - game/european/ai_script
+    - game/ai_script
   - - 8380
     - rodata
     - initial_data_20bc
@@ -204,7 +204,7 @@ segments:
     - game/european/display_effect
   - - 180568
     - c
-    - game/european/text_helpers
+    - game/text_helpers
   - - 180980
     - c
     - game/european/frontend_package_stages
@@ -237,7 +237,7 @@ segments:
     - game/sound_output_state
   - - 226088
     - c
-    - game/european/sound_driver
+    - game/sound_driver
   - - 229648
     - c
     - game/sound_effect
@@ -270,10 +270,10 @@ segments:
     - game/model_word_memory
   - - 254372
     - c
-    - game/european/model_camera_effects
+    - game/model_camera_effects
   - - 263212
     - c
-    - game/european/model_slot_setup
+    - game/model_slot_setup
   - - 267368
     - c
     - game/european/model
@@ -288,7 +288,7 @@ segments:
     - text_5c018
   - - 313384
     - c
-    - game/european/model_slot_support
+    - game/model_slot_support
   - - 315300
     - c
     - game/model_scene_runtime
@@ -300,10 +300,10 @@ segments:
     - game/model_animation_unit
   - - 325244
     - c
-    - game/european/model_primitive_handler
+    - game/model_primitive_handler
   - - 327712
     - c
-    - game/european/polygon_renderers
+    - game/polygon_renderers
   - - 350564
     - c
     - game/shared_polygon_renderers
@@ -330,7 +330,7 @@ segments:
     - game/european/model_effect_handlers
   - - 398264
     - c
-    - game/european/ai_script
+    - game/ai_script
   - - 410700
     - asm
     - text_73c4c
@@ -345,16 +345,16 @@ segments:
   - [0x828CC, .data, game/french/debug_menu]
   - [0x82A14, .data, game/european/build_deck]
   - [0x82A64, .data, game/spanish/duel_effect_text]
-  - [0x82AB8, .data, game/european/duel_effect_command_table]
+  - [0x82AB8, .data, game/duel_effect_command_table]
   - [0x82B94, .data, game/european/display_effect]
   - [0x82BC8, .data, game/french/mem_card]
   - [0x82BDC, .data, game/european/display_object_system]
-  - [0x82C34, .data, game/european/model_camera_effects]
-  - [0x82CCC, .data, game/european/model_background_records]
+  - [0x82C34, .data, game/model_camera_effects]
+  - [0x82CCC, .data, game/model_background_records]
   - [0x831CC, .data, game/model_image_copy_frames]
   - [0x831D4, .data, game/european/movie_pipeline]
   - [0x83208, .data, game/european/model_effect_handlers]
-  - [0x83300, .data, game/european/ai_script]
+  - [0x83300, .data, game/ai_script]
   - [0x83578, data, resident_tail_80092d78]
   - [0x8CA98, .sdata, game/french/main]
   - [0x8CA9D, pad]
@@ -369,7 +369,7 @@ segments:
   - [0x8CB02, pad]
   - [0x8CB04, .sdata, game/sound_sequence_parser]
   - [0x8CB09, pad]
-  - [0x8CB0C, .sdata, game/european/model_camera_effects]
+  - [0x8CB0C, .sdata, game/model_camera_effects]
   - [0x8CB18, .sdata, game/european/model]
   - [0x8CBE6, pad]
   - [0x8CBE8, .sdata, game/european/movie_pipeline]
@@ -417,6 +417,6 @@ segments:
   - [0xE73D8, bss, model_scene_runtime_bss_commons]
   - [0xE7488, .bss, game/model_handler_registry]
   - [0xE7708, bss, movie_pipeline_bss_commons]
-  - [0xE7720, .bss, game/european/ai_script]
+  - [0xE7720, .bss, game/ai_script]
   - {start: 0xE7844, type: bin, name: resident_tail_800f7044, linker_section_order: .bss}
 - - 1902592
