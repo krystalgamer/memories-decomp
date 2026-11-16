@@ -21,7 +21,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     EntryRibbon443 *ribbon = work->ribbons;
     EntryFramebufferRing443 *ring = work->rings;
-    ModelVariantTubeView *mesh = work->meshes;
+    ModelVariantTube *mesh = work->meshes;
     ModelVariantShortStreamer *streamer = work->streamers;
     EntryShortBand443 *band = work->bands;
     ModelVariantShadedRay *spiral = work->spirals;

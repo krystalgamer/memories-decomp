@@ -5,7 +5,7 @@
 #include "../model_variant/model_variant.h"
 
 typedef struct {
-    ModelVariantTubeView tubes[1];
+    ModelVariantTube tubes[1];
     u8 unknown_54C[0xED4];
     POLY_G4 quad;
     u8 unknown_1444[0x1B4];

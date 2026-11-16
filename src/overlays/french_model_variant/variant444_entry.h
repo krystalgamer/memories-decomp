@@ -14,7 +14,7 @@ typedef struct {
 
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
-    ModelVariantTubeView tubes[1];
+    ModelVariantTube tubes[1];
     ModelVariantSheet sheets[2];
     ModelVariantFunnel funnels[2];
     ModelVariantSpokeColorRing spokes[4];

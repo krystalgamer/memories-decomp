@@ -12,7 +12,7 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    ModelVariantTubeView *tube = work->tubes;
+    ModelVariantTube *tube = work->tubes;
     Beam411 *beam = work->beams;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantFunnel *funnel = work->funnels;

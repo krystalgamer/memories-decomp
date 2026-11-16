@@ -20,7 +20,7 @@ typedef struct {
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
-    ModelVariantTubeView tubes[1];
+    ModelVariantTube tubes[1];
     ModelVariantWebNarrow webs[3];
     ModelVariantShortRibbon ribbons[1];
     ModelVariantSheet sheets[2];

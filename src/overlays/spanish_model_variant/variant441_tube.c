@@ -11,7 +11,7 @@ void SpanishModelVariant441_DrawTubularMesh(u8 *context)
     long interpolation;
     long flag;
     Tube441State *state = (Tube441State *)context;
-    ModelVariantTubeView *tube;
+    ModelVariantTube *tube;
     ModelVariantPulse *pulse;
     POLY_G4 *quad = &state->quad;
     GsOT *ot;

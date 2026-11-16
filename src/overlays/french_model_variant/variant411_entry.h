@@ -9,7 +9,7 @@
 #include "../../game/model_slot_getters.h"
 
 typedef struct {
-    ModelVariantTubeView tubes[1];
+    ModelVariantTube tubes[1];
     ModelVariantSheet sheets[2];
     ModelVariantFunnel funnels[2];
     ModelVariantSpokeColorRing rings[4];

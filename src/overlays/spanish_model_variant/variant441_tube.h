@@ -14,7 +14,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_00[0x5AC];
-    ModelVariantTubeView tubes[1];
+    ModelVariantTube tubes[1];
     u8 unknown_AF8[0x5E4];
     ModelVariantPulse pulse;
     u8 unknown_1168[0x13E0];

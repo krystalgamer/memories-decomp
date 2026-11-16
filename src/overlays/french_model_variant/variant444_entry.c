@@ -13,7 +13,7 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    ModelVariantTubeView *tube = work->tubes;
+    ModelVariantTube *tube = work->tubes;
     Variant444EntryColorRecord *record = work->records;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantFunnel *funnel = work->funnels;

@@ -15,7 +15,7 @@ typedef struct {
 
 /* MODEL441's state with every field 0x5AC bytes lower. */
 typedef struct {
-    ModelVariantTubeView tubes[1];
+    ModelVariantTube tubes[1];
     u8 unknown_54C[0x5E4];
     ModelVariantPulse pulse;
     u8 unknown_BBC[0x13E0];

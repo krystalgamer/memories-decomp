@@ -1119,7 +1119,7 @@ typedef struct {
     VECTOR scale;
     s16 field_544, field_546;
     s32 field_548;
-} ModelVariantTubeView;
+} ModelVariantTube;
 
 /* The colours that start a bolt entry's config row (e.g. Model793Config):
  * r, g, b tint the muzzle sprite (setRGB0 on its POLY_FT4), and on launch
