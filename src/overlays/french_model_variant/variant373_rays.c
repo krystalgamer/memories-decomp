@@ -28,19 +28,19 @@ void FrenchModelVariant373_DrawRays(EntryState373 *context)
     ray = work->rays;
     quad = &work->shared[0];
     turn += 3072;
-    radius = work->radius * 768 / 1024;
-    width = work->radius / 8;
+    radius = work->ray_radius * 768 / 1024;
+    width = work->ray_radius / 8;
     /* Both products are present in retail despite their unused results. */
     unused = radius * work->factor / 1024;
     unused = width * work->factor / 1024;
     level = work->scale;
     for (i = 0; i < 16; i++, ray++) {
         if (!(i & 1)) {
-            angle_b = i * 256 + work->angle_b;
-            angle_a = i * 512 + work->angle_a;
+            angle_b = i * 256 + work->ray_azimuth;
+            angle_a = i * 512 + work->ray_polar_angle;
         } else {
-            angle_b = i * 256 - work->angle_b;
-            angle_a = i * 512 - work->angle_a;
+            angle_b = i * 256 - work->ray_azimuth;
+            angle_a = i * 512 - work->ray_polar_angle;
         }
         for (j = 0; j < 2; j++) {
             if (work->phase < 8) {
@@ -174,27 +174,27 @@ void FrenchModelVariant373_DrawRays(EntryState373 *context)
         }
     }
     if (work->phase >= 7) {
-        work->angle_a += 24;
-        work->angle_b += 48;
+        work->ray_polar_angle += 24;
+        work->ray_azimuth += 48;
     } else {
-        work->angle_a += 16;
-        work->angle_b += 32;
+        work->ray_polar_angle += 16;
+        work->ray_azimuth += 32;
     }
     if (work->phase == 1) {
-        if (work->radius < 768) {
-            work->radius += work->clock.step * 64;
-            if (work->radius >= 768) {
-                work->radius = 768;
+        if (work->ray_radius < 768) {
+            work->ray_radius += work->clock.step * 64;
+            if (work->ray_radius >= 768) {
+                work->ray_radius = 768;
                 work->phase = 2;
             }
         }
     } else if (work->phase == 3) {
-        work->radius = 384;
+        work->ray_radius = 384;
     } else if (work->phase == 4 || work->phase == 5) {
-        if (work->radius < 1024) {
-            work->radius += work->clock.step * 64;
-            if (work->radius >= 1024) {
-                work->radius = 1024;
+        if (work->ray_radius < 1024) {
+            work->ray_radius += work->clock.step * 64;
+            if (work->ray_radius >= 1024) {
+                work->ray_radius = 1024;
                 work->phase = 6;
             }
         }
