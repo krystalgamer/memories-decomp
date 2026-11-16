@@ -13,7 +13,6 @@
 #include "gpu_packets.h"
 #include "ordering_tables.h"
 #include "library.h"
-#include "duel_projection_axes.h"
 #include "library_draw_wireframe_globe.h"
 
 /* Regional value: the geometry offset y (0x60 -> 0x68). The European build

@@ -215,7 +215,7 @@ segments:
       - [0xda618, bss, file_transfer_runtime_bss_commons]
       - [0xda6c8, bss, fade_runtime_bss_commons]
       - [0xda6f0, bss, duel_scene_bss_commons]
-      - [0xda9e8, .bss, game/library_create_grid_section_sprites]
+      - [0xda9e8, .bss, game/library_graphics]
       - [0xdb588, bss, duel_effect_object_pool_bss_commons]
       - [0xdb688, bss, main_mode_runners_commons]
       - [0xdb6d8, bss, debug_menu_bss_commons]

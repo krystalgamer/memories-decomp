@@ -1480,19 +1480,19 @@
       "address": "0x80029590",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF4",
-      "source": "src/game/library_create_grid_section_sprites.c"
+      "source": "src/game/library_graphics.c"
     },
     {
       "address": "0x80029684",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x158",
-      "source": "src/game/duel_projection_axes.c"
+      "source": "src/game/library_graphics.c"
     },
     {
       "address": "0x800297DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x158",
-      "source": "src/game/duel_projection_axes.c"
+      "source": "src/game/library_graphics.c"
     },
     {
       "address": "0x80029934",
