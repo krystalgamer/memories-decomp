@@ -59,8 +59,8 @@ void SpanishModelVariant464_DrawCurtains(Variant464EntryState *context)
     for (; i < 2; i++, curtain++) {
         if (curtain->scale > 0) {
             size = curtain->scale;
-            for (j = 0, angle = work->field_1C5C; j < 17;
-                 j++, angle = work->field_1C5C + j * 256) {
+            for (j = 0, angle = work->curtain_angle; j < 17;
+                 j++, angle = work->curtain_angle + j * 256) {
                 setVector(&curtain->a[j], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
                 setVector(&curtain->b[j], rcos(angle) * radius >> 12, rsin(angle) * radius >> 12, lift + 0x80);
             }
@@ -132,5 +132,5 @@ void SpanishModelVariant464_DrawCurtains(Variant464EntryState *context)
             }
         }
     }
-    work->field_1C5C += work->clock.step * 80;
+    work->curtain_angle += work->clock.step * 80;
 }

@@ -118,5 +118,5 @@ void ModelVariant422_DrawCurtains(u8 *ctx)
             }
         }
     }
-    work->field_1978 += work->clock.step * 80;
+    work->curtain_angle += work->clock.step * 80;
 }
