@@ -108,7 +108,7 @@ extern TextBoxStateCallback gTextBox_apfnStateCallbacks[];
  * The parameter is now the record's own type. The five fields this function
  * reads -- rect_x, rect_width, rect_y, rect_height and depth_offset -- are all
  * declared in DuelEffectChannel at those offsets and at these widths, and
- * every caller, duel_effect_dialog_state.c included, holds a DuelEffectChannel *.
+ * every caller, duel_effect_states.c included, holds a DuelEffectChannel *.
  *
  * The returned display object is stored in the channel's prompt_object slot and
  * released through the display-object lifecycle helpers. */

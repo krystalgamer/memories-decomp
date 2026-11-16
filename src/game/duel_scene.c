@@ -10383,7 +10383,6 @@ void DuelEffect_ApplyStatPenalty(void) {
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "duel_effect_dialog_state.h"
 
 /* Initialized data this unit owns at 0x80090A5C: two handlers per effect group, in group
    order. */

@@ -1397,19 +1397,19 @@
       "address": "0x8002822C",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/duel_effect_dialog_state.c"
+      "source": "src/game/european/duel_effect_states.c"
     },
     {
       "address": "0x80028254",
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xDC",
-      "source": "src/game/european/duel_effect_dialog_state.c"
+      "source": "src/game/european/duel_effect_states.c"
     },
     {
       "address": "0x80028330",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/func_800283EC.c"
+      "source": "src/game/european/duel_effect_states.c"
     },
     {
       "address": "0x80028338",

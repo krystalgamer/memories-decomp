@@ -8,7 +8,6 @@
  * use three calls further down. The opening and closing slides are separate
  * variables, which keeps slide_in local to the setup block and in $s0. */
 #include "duel_effect_text.h"
-#include "duel_effect_dialog_state.h"
 #include "main.h"
 #include "input.h"
 #include "fade.h"
@@ -25,21 +24,53 @@
 #include "duel_scene.h"
 #include "card_constants.h"
 #include "main_mode_state.h"
-/* Small globals other units own, declared here as common symbols the
- * way the original read them through $gp. */
-u8 gDuel_bActiveEffectState;
-u8 gDuel_bEffectState;
-u8 gDuel_bEffectHandlerFlags;
-DuelEffectChannel *gDuel_pCardViewerTextBox;
-DisplayObject *gDuel_pCardViewerBackground;
-DisplayObject *gDuel_pCardViewerCard;
-u8 gDuel_bCardViewerYOffset;
+#include "text_helpers.h"
+
+/* Zero-initialized storage this unit owns. Each build's generated
+ * duel_effect_states_commons subsegment places it at the retail
+ * addresses. */
+u16 gDuel_wEffectDialogTextID;
 u16 gDuel_wViewerCardID;
+u8 gDuel_bEffectHandlerFlags;
+u8 gDuel_bActiveEffectState;
+u8 gDuel_bCardViewerYOffset;
+u8 gDuel_bEffectState;
+DisplayObject *gDuel_pCardViewerCard;
+DuelEffectChannel *gDuel_pCardViewerTextBox;
+
+/* duel_scene.c owns this one; it is declared here as a common symbol the
+ * way the original read it through $gp. */
+DisplayObject *gDuel_pCardViewerBackground;
 
 #ifdef VERSION_EUROPE
 #include "text_staging.h"
 #include "text_message_staging.h"
 #endif
+
+#ifndef DUEL_EFFECT_DIALOG_DONE_FLAG
+#define DUEL_EFFECT_DIALOG_DONE_FLAG TEXT_BOX_FLAG_DONE
+#endif
+
+#ifndef DUEL_EFFECT_DIALOG_CHOICE_FLAG
+#define DUEL_EFFECT_DIALOG_CHOICE_FLAG 0x10
+#endif
+
+int DuelEffect_MarkStateInitialized(void)
+{
+    unsigned char value = gDuel_bEffectHandlerFlags;
+
+    if (!(value & DUEL_EFFECT_DIALOG_FLAG_CREATED)) {
+        gDuel_bEffectHandlerFlags = value | DUEL_EFFECT_DIALOG_FLAG_CREATED;
+        return 0;
+    }
+    return 1;
+}
+
+void DuelEffect_UpdateDialogState(void){DuelEffectChannel*o;if(DuelEffect_MarkStateInitialized()==0){TextBox_Create(0,gDuel_wEffectDialogTextID,0x10,0xB0,0x120,0x30);return;}TextBox_UpdateChannels();o=gText_aChannels;if((gDuel_bEffectHandlerFlags&DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN)==0){unsigned short f=o->flags_34;if((f&DUEL_EFFECT_DIALOG_DONE_FLAG)==0)return;if((f&DUEL_EFFECT_DIALOG_CHOICE_FLAG)==0){o->prompt_object=Dialog_OpenChoice(o);gDuel_bEffectHandlerFlags|=DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN;return;}}else{if(Input_IsPad1ConfirmPressed()==0)return;SD_SEPlayFull(11);}TextBox_Destroy(o);gDuel_bEffectState|=DUEL_EFFECT_STATE_FLAG_COMPLETE;}
+
+void func_800283EC(void)
+{
+}
 
 #ifndef DUEL_CARD_VIEWER_SHOWN_X
 #define DUEL_CARD_VIEWER_SHOWN_X 0x94

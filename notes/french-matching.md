@@ -372,7 +372,7 @@ definition order and sizes:
 
 | French range | Shared source | Preceding function | Following function |
 |---|---|---|---|
-| `0x80028474..0x8002847C` | `func_800283EC.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
+| `0x80028474..0x8002847C` | `european/duel_effect_states.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
 | `0x8002BC30..0x8002BC38` | `european/library.c` | `Library_EnterGridState` | `Library_UpdateScreen` |
 | `0x8002C734..0x8002C744` | `european/library.c` | `Library_CheckCardOwned` | `Library_CheckCardInChest` |
 | `0x8002F694..0x8002F6A4` | `spanish/script_scene.c` | `func_8002EF3C` | `Script_OpFadeOut` |
