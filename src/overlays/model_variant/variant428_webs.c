@@ -3,8 +3,8 @@
 #include "model_variant.h"
 #include "variant428_entry.h"
 
-/* Header 428's form of the header-397 phased webs: the records start at
- * (u8 *)work + 0x5D0, the lines are projected with RotTransPers3, and phase 0
+/* Header 428's form of the header-397 phased webs: the records are
+ * webs, the lines are projected with RotTransPers3, and phase 0
  * shrinks each scale by step * 0xE0. */
 void ModelVariant428_DrawWebs(Variant428EntryState *context)
 {

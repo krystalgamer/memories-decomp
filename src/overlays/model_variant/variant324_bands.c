@@ -3,7 +3,7 @@
 #include "../french_model_variant/variant341_entry.h"
 
 /* Draws one band of nine points as pairs of POLY_GT4 quads along the variant's
- * path, its radius set by (u8 *)work + 0xF44 and its colours faded by (u8 *)work + 0xF46
+ * path, its radius set by radius and its colours faded by brightness
  * from phase 3. When the timing record's last entry is reached the band
  * stretches (phase 1), widens (phase 2) and then fades out (phase 3) by
  * frame steps. */

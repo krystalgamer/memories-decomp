@@ -4,7 +4,7 @@
 #include "variant418_entry.h"
 
 /* Builds eight two-point ribbons fanned around the variant path, 0x200 apart
- * from the angle at (u8 *)work + 0x1B98, projects each spine and its sideways copy,
+ * from ribbon_angle, projects each spine and its sideways copy,
  * and draws the first point of each as a POLY_G3 as wide as the projected
  * offset. The fan turns by step * 32 on the last frame of the timing record. */
 void ModelVariant418_DrawRibbons(Variant418EntryState *context)

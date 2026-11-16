@@ -5,7 +5,7 @@
 
 /* Builds a seventeen-point ribbon that bends around the variant's axis and a
  * copy of it moved along the view, projects both, and draws the first
- * `((u8 *)work)[0xD40]` segments as flat POLY_FT4 quads as wide as the projected
+ * ribbon_length segments as flat POLY_FT4 quads as wide as the projected
  * offset. In phase 1 the drawn length follows the timing record's clock up to
  * 16; in phase 3 the copy's offset shrinks with it. The per-ribbon turn and the
  * coil angle of the header-321 form are still computed but unused here. */

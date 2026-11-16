@@ -4,8 +4,8 @@
 #include "variant398_entry.h"
 
 /* Draws one band of nine segments as pairs of POLY_GT4 quads along the variant's
- * path, fading its radius in and out with the two phases of the timing record at
- * (u8 *)work + 0x1A00. */
+ * path, fading its radius in and out with the two phases timed by its
+ * config record. */
 void ModelVariant398_DrawBand(Variant398EntryState *context)
 {
     SVECTOR rot;

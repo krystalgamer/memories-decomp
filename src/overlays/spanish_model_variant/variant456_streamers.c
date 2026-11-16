@@ -16,8 +16,8 @@
 /* Builds two seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each
  * segment as a POLY_G4 as wide as the projected offset. Below the fifth
- * phase, a positive length follows one eighth of the pulse size held in the
- * record at (u8 *)work + 0x1580. */
+ * phase, a positive length follows one eighth of the pulse size held in
+ * sheets[1]. */
 void SpanishModelVariant456_DrawCoiledStreamers(Variant456EntryState *context)
 {
     SVECTOR rot;

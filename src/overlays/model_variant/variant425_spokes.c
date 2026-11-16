@@ -4,7 +4,7 @@
 #include "variant425_entry.h"
 
 /* Draws four rings of eight GsGLINE spokes, each scaled by its angle against
- * the sheet size at (u8 *)work + 0x684 and faded out over the second half turn,
+ * the first sheet's size and faded out over the second half turn,
  * and advances each ring's angle and cycle count. */
 void ModelVariant425_DrawSpokeRings(Variant425EntryState *context)
 {

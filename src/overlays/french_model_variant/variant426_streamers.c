@@ -8,8 +8,8 @@
  * segment as a POLY_G4 as wide as the projected offset (3 once the length
  * passes 0x200). RotTransPers4 writes each point's flag into a local table;
  * a segment is drawn only when its depth and flag are non-negative and the
- * word at (u8 *)work + 0x2128 has reached 0x1000. From the fifth phase on, the
- * streamer length is reset from the word at (u8 *)work + 0x2138. */
+ * record size has reached 0x1000. From the fifth phase on, the
+ * streamer length is reset from intensity. */
 void FrenchModelVariant426_DrawStreamers(u8 *ctx)
 {
     SVECTOR rot;

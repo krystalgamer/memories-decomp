@@ -3,8 +3,8 @@
 #include "variant388_ribbons.h"
 #include "variant388_entry.h"
 
-/* Builds eight two-point ribbons fanned 0x200 apart from the angle at
- * (u8 *)work + 0x1894, projects each spine and its sideways copy, and draws the
+/* Builds eight two-point ribbons fanned 0x200 apart from
+ * ribbon_angle, projects each spine and its sideways copy, and draws the
  * first point of each as a POLY_G3 as wide as the projected offset when
  * both its depth and its projection flag are non-negative. The fan turns
  * by step * 32 on the last frame of the timing record. */
