@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant452_sheets.h"
+#include "variant452_entry.h"
 
-void FrenchModelVariant452_DrawSheets(u8 *ctx)
+void FrenchModelVariant452_DrawSheets(Variant452EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -10,7 +10,7 @@ void FrenchModelVariant452_DrawSheets(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant452SheetView *work = (Variant452SheetView *)ctx;
+    Variant452EntryState *work = context;
     ModelVariantSheet *sheet = work->sheets;
     GsOT *ot;
     POLY_GT4 *poly;
@@ -19,18 +19,18 @@ void FrenchModelVariant452_DrawSheets(u8 *ctx)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    poly = &work->poly;
+    poly = &work->packets.textured[1];
     for (i = 0; i < 1; i++, sheet++) {
         bias = 0;
-        if (work->flags & 1) {
+        if (work->clock.frame_count & 1) {
             bias = sheet->size / 8;
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        matrix.t[0] = work->translation[0];
-        matrix.t[1] = work->translation[1];
-        matrix.t[2] = work->translation[2];
+        matrix.t[0] = work->position.vx;
+        matrix.t[1] = work->position.vy;
+        matrix.t[2] = work->position.vz;
         scale.vx = sheet->size + bias;
         scale.vy = sheet->size + bias;
         scale.vz = sheet->size + bias;
@@ -68,15 +68,15 @@ void FrenchModelVariant452_DrawSheets(u8 *ctx)
             }
         }
         if (sheet->size < 4096 && work->phase == 0) {
-            sheet->size = ((work->elapsed - work->timing->scale_start) << 12)
-                / (work->timing->scale_end - work->timing->scale_start);
+            sheet->size = ((work->clock.frame - work->config->start) << 12)
+                / (work->config->scale_end - work->config->start);
             if (sheet->size >= 4096) {
                 sheet->size = 4096;
                 work->phase = 1;
             }
-        } else if (work->elapsed >= work->timing->fade_start) {
-            sheet->size = 8192 - ((work->elapsed - work->timing->fade_start) << 13)
-                / (work->timing->fade_end - work->timing->fade_start);
+        } else if (work->clock.frame >= work->config->fade_start) {
+            sheet->size = 8192 - ((work->clock.frame - work->config->fade_start) << 13)
+                / (work->config->fade_end - work->config->fade_start);
             if (sheet->size <= 0) {
                 sheet->size = 0;
                 if (work->phase == 3) {
@@ -84,16 +84,16 @@ void FrenchModelVariant452_DrawSheets(u8 *ctx)
                 }
             }
         } else if (sheet->size < 8192 && work->phase == 2) {
-            sheet->size += work->step << 10;
+            sheet->size += work->clock.step << 10;
             if (sheet->size >= 8192) {
                 sheet->size = 8192;
                 work->phase = 3;
             }
         }
-        if (work->phase == 1 && work->field3394 < 2048) {
-            work->field3394 += work->step << 4;
-            if (work->field3394 >= 2048) {
-                work->field3394 = 2048;
+        if (work->phase == 1 && work->progress < 2048) {
+            work->progress += work->clock.step << 4;
+            if (work->progress >= 2048) {
+                work->progress = 2048;
                 work->phase = 2;
             }
         }

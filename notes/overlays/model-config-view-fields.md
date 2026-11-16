@@ -99,9 +99,9 @@ Entry `french_model_variant/variant452_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x18]` bytes → `u32 scale_end` | `Variant452SheetTiming.scale_end` | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452SheetView.timing` at +0x3374) | `/ (work->config->scale_end - work->config->scale_start);` | high |
-| `+0x2C` | `unknown_20[0x18]` bytes → `u32 fade_start` | `Variant452SheetTiming.fade_start` | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452SheetView.timing` at +0x3374) | `} else if (work->elapsed >= work->config->fade_start)` | high |
-| `+0x30` | `unknown_20[0x18]` bytes → `u32 fade_end` | `Variant452SheetTiming.fade_end` | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452SheetView.timing` at +0x3374) | `/ (work->config->fade_end - work->config->fade_start);` | high |
+| `+0x20` | `unknown_20[0x18]` bytes → `u32 scale_end` | `Variant452EntryConfig.scale_end` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452EntryState.config` at +0x3374) | `/ (work->config->scale_end - work->config->start);` | high |
+| `+0x2C` | `unknown_20[0x18]` bytes → `u32 fade_start` | `Variant452EntryConfig.fade_start` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452EntryState.config` at +0x3374) | `} else if (work->clock.frame >= work->config->fade_start)` | high |
+| `+0x30` | `unknown_20[0x18]` bytes → `u32 fade_end` | `Variant452EntryConfig.fade_end` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452EntryState.config` at +0x3374) | `/ (work->config->fade_end - work->config->fade_start);` | high |
 
 ## `Variant438EntryConfig` (`gModelVariant438_aConfigs`)
 
