@@ -306,11 +306,11 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->sheet_start < work->elapsed) {
-            SpanishModelVariant411_DrawFadingSheets((u8 *)point);
+            SpanishModelVariant411_DrawFadingSheets((EntryState411 *)point);
         }
         if (work->config->expansion_start < work->elapsed) {
             FrenchModelVariant411_DrawTube((EntryState411 *)point);
-            SpanishModelVariant411_DrawFunnels((u8 *)point);
+            SpanishModelVariant411_DrawFunnels((EntryState411 *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

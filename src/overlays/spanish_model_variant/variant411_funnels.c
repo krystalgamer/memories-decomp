@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "variant411_funnels.h"
+#include "../french_model_variant/variant411_entry.h"
 
 /* Two funnels of seventeen-point rings: an inner ring of radius 64 and an outer
  * ring of radius 192 plus the flicker, set back by 128 plus the flicker, drawn as
@@ -8,7 +8,7 @@
  * view direction, spin by step * 80 a frame, grow to 0x1000 over the timing
  * record's growth window and shrink after its fade bound. Below phase 2 only
  * the second funnel is handled. */
-void SpanishModelVariant411_DrawFunnels(u8 *context)
+void SpanishModelVariant411_DrawFunnels(EntryState411 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -17,7 +17,7 @@ void SpanishModelVariant411_DrawFunnels(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Funnel411State *state = (Funnel411State *)context;
+    EntryState411 *state = context;
     ModelVariantFunnel *funnel = state->funnels;
     ModelVariantSheet *sheet;
     POLY_GT4 *quad;
@@ -32,18 +32,18 @@ void SpanishModelVariant411_DrawFunnels(u8 *context)
     u8 r, g, b, outer_r, outer_g, outer_b;
 
     ot = Graphics_GetDefaultOrderingTable();
-    sheet = &state->sheet;
-    turn = ratan2(state->direction[2], state->direction[0]);
+    sheet = state->sheets;
+    turn = ratan2(state->aim.direction.vz, state->aim.direction.vx);
     yaw = turn + 0x800;
-    pitch = ratan2(state->direction[1], state->direction[2]);
-    quad = &state->quad;
+    pitch = ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    quad = &state->ring_packet;
     pitch += 0x800;
     if (yaw < 0x800) {
         yaw = -yaw + 0x400;
     } else {
         yaw = turn + 0xC00;
     }
-    bias = ((state->frame & 1) << 6) * sheet->size / 4096;
+    bias = (((s32)state->frame_count & 1) << 6) * sheet->size / 4096;
     if (state->phase < 2) {
         start = 1;
         funnel++;
@@ -63,9 +63,9 @@ void SpanishModelVariant411_DrawFunnels(u8 *context)
             rotation.vx = -pitch;
             rotation.vy = yaw;
             rotation.vz = 0;
-            matrix.t[0] = state->origin[0];
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2];
+            matrix.t[0] = state->matrix.t[0];
+            matrix.t[1] = state->matrix.t[1];
+            matrix.t[2] = state->matrix.t[2];
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -76,12 +76,12 @@ void SpanishModelVariant411_DrawFunnels(u8 *context)
             coordinate.flg = 0;
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
-            r = state->inner_color[0];
-            g = state->inner_color[1];
-            b = state->inner_color[2];
-            outer_r = state->outer_color[0];
-            outer_g = state->outer_color[1];
-            outer_b = state->outer_color[2];
+            r = state->inner.r;
+            g = state->inner.g;
+            b = state->inner.b;
+            outer_r = state->outer.r;
+            outer_g = state->outer.g;
+            outer_b = state->outer.b;
             for (k = 0; k < 16; k++) {
                 depth = RotTransPers4(&funnel->inner[k], &funnel->inner[k + 1],
                                      &funnel->outer[k], &funnel->outer[k + 1],
@@ -99,15 +99,15 @@ void SpanishModelVariant411_DrawFunnels(u8 *context)
         }
         if (state->phase < 3) {
             if (funnel->size < 4096) {
-                funnel->size = (state->time - state->timing->grow_start) * 4096 /
-                               (state->timing->grow_end - state->timing->grow_start);
+                funnel->size = (state->elapsed - state->config->sheet_start) * 4096 /
+                               (state->config->expansion_start - state->config->sheet_start);
                 if (funnel->size >= 4096) {
                     funnel->size = 4096;
                 }
             }
-        } else if (state->timing->fade_start < state->time && funnel->size > 0) {
-            funnel->size = 4096 - (state->time - gSpanishModelVariant411_aConfigs[0].fade_start) * 4096 /
-                                  (state->timing->fade_end - gSpanishModelVariant411_aConfigs[0].fade_start);
+        } else if (state->config->fade_start < state->elapsed && funnel->size > 0) {
+            funnel->size = 4096 - (state->elapsed - gSpanishModelVariant411_aConfigs[0].fade_start) * 4096 /
+                                  (state->config->fade_end - gSpanishModelVariant411_aConfigs[0].fade_start);
             if (funnel->size <= 0) {
                 funnel->size = 0;
             }

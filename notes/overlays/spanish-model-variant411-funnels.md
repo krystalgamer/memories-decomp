@@ -40,10 +40,10 @@ The routine then:
 
 ## Method
 
-The routine was reconstructed from the retail instructions. The sheet, timing
-and state records are declared in `variant411_funnels.h`, along with the
-overlay data label. The accepted MODEL411 sheets header was left untouched, so
-its fingerprints stay valid.
+The routine was reconstructed from the retail instructions. The helper first
+read a private view in `variant411_funnels.h`, which also declared the
+overlay data label. It now reads `EntryState411`, and `EntryConfig411` and the
+label live in `variant411_entry.h`.
 
 The ledger keeps three rejected layouts. Three source details decide the exact
 schedule:

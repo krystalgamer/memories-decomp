@@ -8,7 +8,6 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
-#include "../spanish_model_variant/variant425_mesh.h"
 #include "variant423_funnel.h"
 #include "../model_variant/variant425_streamers.h"
 
@@ -64,10 +63,10 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant425_aImages[9];
 extern EntryConfig425 gFrenchModelVariant425_aConfigs[];
-void SpanishModelVariant425_DrawMesh(u8 *context);
+void SpanishModelVariant425_DrawMesh(EntryState425 *context);
 void SpanishModelVariant425_DrawSpiral(EntryState425 *context);
 void FrenchModelVariant425_DrawRibbon(u8 *context);
-void SpanishModelVariant425_DrawSheets(u8 *context);
+void SpanishModelVariant425_DrawSheets(EntryState425 *context);
 void FrenchModelVariant423_DrawFunnel(u8 *context);
 
 #endif

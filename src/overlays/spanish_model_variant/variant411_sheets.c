@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant411_sheets.h"
+#include "../french_model_variant/variant411_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant411_DrawFadingSheets(u8 *context)
+void SpanishModelVariant411_DrawFadingSheets(EntryState411 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void SpanishModelVariant411_DrawFadingSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheet411State *state = (Sheet411State *)context;
+    EntryState411 *state = context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *quad;
     GsOT *ot;
@@ -21,23 +21,23 @@ void SpanishModelVariant411_DrawFadingSheets(u8 *context)
     s32 r, g, b, outer_r, outer_g, outer_b;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &state->quad;
+    quad = &state->packets.textured[1];
     for (i = 0; i < 2; i++, sheet++) {
         bias = 0;
-        if (state->frame & 1) {
+        if (state->frame_count & 1) {
             bias = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i == 0) {
-            matrix.t[0] = state->origin[0];
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2];
+            matrix.t[0] = state->matrix.t[0];
+            matrix.t[1] = state->matrix.t[1];
+            matrix.t[2] = state->matrix.t[2];
         } else {
-            matrix.t[0] = state->origin[0] + state->path[0] * state->progress / 1024;
-            matrix.t[1] = state->origin[1] + state->path[1] * state->progress / 1024;
-            matrix.t[2] = state->origin[2] + state->path[2] * state->progress / 1024;
+            matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * state->progress / 1024;
+            matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * state->progress / 1024;
+            matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * state->progress / 1024;
         }
         scale.vx = sheet->size + bias;
         scale.vy = sheet->size + bias;
@@ -58,13 +58,13 @@ void SpanishModelVariant411_DrawFadingSheets(u8 *context)
                                  (long *)&quad->x0, (long *)&quad->x1,
                                  (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag);
-            if (state->phase >= 3 && i != 0 && state->fade < 512) {
-                r = sheet->inner[0] * state->fade / 512;
-                g = sheet->inner[1] * state->fade / 512;
-                b = sheet->inner[2] * state->fade / 512;
-                outer_r = sheet->outer[0] * state->fade / 512;
-                outer_g = sheet->outer[1] * state->fade / 512;
-                outer_b = sheet->outer[2] * state->fade / 512;
+            if (state->phase >= 3 && i != 0 && state->width < 512) {
+                r = sheet->inner[0] * state->width / 512;
+                g = sheet->inner[1] * state->width / 512;
+                b = sheet->inner[2] * state->width / 512;
+                outer_r = sheet->outer[0] * state->width / 512;
+                outer_g = sheet->outer[1] * state->width / 512;
+                outer_b = sheet->outer[2] * state->width / 512;
                 quad->r0 = r;
                 quad->g0 = g;
                 quad->b0 = b;
@@ -98,16 +98,16 @@ void SpanishModelVariant411_DrawFadingSheets(u8 *context)
         }
         if (i == 0) {
             if (state->phase == 0 && sheet->size < 4096) {
-                sheet->size = (state->time - state->timing->grow_start) * 4096
-                    / (state->timing->grow_end - state->timing->grow_start);
+                sheet->size = (state->elapsed - state->config->sheet_start) * 4096
+                    / (state->config->expansion_start - state->config->sheet_start);
                 if (sheet->size >= 4096) {
                     sheet->size = 4096;
                     state->phase = 1;
                 }
             }
-            if (state->phase == 3 && state->time >= state->timing->fade_start && sheet->size > 0) {
-                sheet->size = 4096 - (state->time - state->timing->fade_start) * 4096
-                    / (state->timing->fade_end - state->timing->fade_start);
+            if (state->phase == 3 && state->elapsed >= state->config->fade_start && sheet->size > 0) {
+                sheet->size = 4096 - (state->elapsed - state->config->fade_start) * 4096
+                    / (state->config->fade_end - state->config->fade_start);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
@@ -123,9 +123,9 @@ void SpanishModelVariant411_DrawFadingSheets(u8 *context)
                 }
             }
         } else if (state->phase == 3) {
-            if (state->time >= state->timing->fade_start && sheet->size < 16384) {
-                sheet->size = 8192 + (state->time - state->timing->fade_start) * 16384
-                    / (state->timing->fade_end - state->timing->fade_start);
+            if (state->elapsed >= state->config->fade_start && sheet->size < 16384) {
+                sheet->size = 8192 + (state->elapsed - state->config->fade_start) * 16384
+                    / (state->config->fade_end - state->config->fade_start);
                 if (sheet->size >= 24576) {
                     sheet->size = 24576;
                 }

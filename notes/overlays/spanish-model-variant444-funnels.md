@@ -14,8 +14,9 @@ This is the MODEL411 funnels routine (#7180) with smaller rings:
   the flicker.
 - The flicker is a 128th of the first sheet's size on odd frames.
 
-The record offsets match MODEL411 exactly, so the source includes the accepted
-`variant411_funnels.h` through `variant444_funnels.h`. Like MODEL411, it reads
+The record offsets match MODEL411 exactly. The helper reads
+`Variant444EntryState`, the record the entry passes (it formerly shared
+MODEL411's view through `variant444_funnels.h`). Like MODEL411, it reads
 the fade start from the overlay data that follows the code, here
 `gFrenchModelVariant444_aConfigs[0].fade_start` (old block + 0x114).
 
