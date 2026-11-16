@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant433_bands.h"
+#include "../model_variant/variant433_entry.h"
 
 /* Header 433's bands: three bands of nine screen points, each projected with
  * RotTransPers4, then sixteen-wide quads drawn from the projected edges.
@@ -8,9 +8,9 @@
  * rebuilds band * 36 at each of the two projection sites, so both arms assign
  * off (the j == 8 arm with a dead 0, the other with the real band * 9) and
  * only the j == 8 arm names its indices with the constant 8. */
-void ModelVariant433_DrawBands(u8 *context)
+void ModelVariant433_DrawBands(Variant433EntryState *context)
 {
-    Variant433BandView *work = (Variant433BandView *)context;
+    Variant433EntryState *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -21,16 +21,16 @@ void ModelVariant433_DrawBands(u8 *context)
     long flag;
     s32 off;
     GsOT *ot;
-    Variant433Band *band;
+    Variant433EntryBand *band;
     POLY_FT4 *quad;
     s16 i, j, width;
     s32 turn, angle;
     s32 dx, dy;
 
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
-    ratan2(work->view_direction[1], work->view_direction[0]);
-    if (!(work->flags & 1)) {
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
+    if (!(work->clock.frame_count & 1)) {
         width = work->radius / 128;
     } else {
         width = work->radius * 12 / 1024;
@@ -39,9 +39,9 @@ void ModelVariant433_DrawBands(u8 *context)
     for (i = 0; i < 3; i++, band++) {
         for (j = 0, angle = 0; j < 9; j++, angle = j * 512) {
             setVector(&band->points[j],
-                      work->delta[0] * i / 3 + (rcos(angle) * 256 >> 12),
-                      work->delta[1] * i / 3 + (rsin(angle) * 256 >> 12),
-                      work->delta[2] * i / 3);
+                      work->direction.vx * i / 3 + (rcos(angle) * 256 >> 12),
+                      work->direction.vy * i / 3 + (rsin(angle) * 256 >> 12),
+                      work->direction.vz * i / 3);
             setVector(&band->edges[j],
                       band->points[j].vx + (rcos(turn) * width >> 12),
                       band->points[j].vy,
@@ -49,9 +49,9 @@ void ModelVariant433_DrawBands(u8 *context)
         }
     }
     setVector(&rotation, 0, 0, 0);
-    matrix.t[0] = work->origin[0];
-    matrix.t[1] = work->origin[1];
-    matrix.t[2] = work->origin[2];
+    matrix.t[0] = work->matrix.t[0];
+    matrix.t[1] = work->matrix.t[1];
+    matrix.t[2] = work->matrix.t[2];
     setVector(&scale, 4096, 4096, 4096);
     RotMatrix(&rotation, &matrix);
     ScaleMatrix(&matrix, &scale);
@@ -95,9 +95,9 @@ void ModelVariant433_DrawBands(u8 *context)
     }
     band = work->bands;
     for (i = 0; i < 3; i++, band++) {
-        for (j = 0, quad = work->packets; j < 8; j++) {
+        for (j = 0, quad = work->flat_extra; j < 8; j++) {
             /* codegen steering: base + index sum in this order, as in retail */
-            quad->x0 = ((Variant433Screen *)((u8 *)band->screen + j * 4))->point.vx + band->x_offset[j];
+            quad->x0 = ((Variant433RingScreen *)((u8 *)band->screen + j * 4))->point.vx + band->x_offset[j];
             quad->y0 = (band->screen[j].packed >> 16) + band->y_offset[j];
             quad->x1 = (&band->screen[j])[1].point.vx + (&band->x_offset[j])[1];
             quad->y1 = ((&band->screen[j])[1].packed >> 16) + (&band->y_offset[j])[1];

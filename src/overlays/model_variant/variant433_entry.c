@@ -337,7 +337,7 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
                 ModelVariant433_DrawRings((Variant433EntryState *)point);
             }
             if (work->tail.phase > 0) {
-                ModelVariant433_DrawRibbons((u8 *)point);
+                ModelVariant433_DrawRibbons((Variant433EntryState *)point);
             }
         }
         work->clock.frame_count++;

@@ -18,36 +18,45 @@ typedef struct {
     s32 field_4C, field_50, field_54, field_58, field_5C, field_60, field_64;
 } Variant433EntryFan;
 
+/* A screen position as RotTransPers writes it or as its two halves. */
+typedef union {
+    long packed;
+    DVECTOR point;
+} Variant433RingScreen;
+
 /* A 0x218-byte ribbon: nine phases, two colours, a scale and a travelling
  * target with its offset from the view origin. */
 typedef struct {
-    u8 unknown_000[0x120];
+    SVECTOR points[9];
+    Variant433RingScreen screen[9];
+    s32 angle[9];
+    SVECTOR edges[9];
+    Variant433RingScreen edge_screen[9];
+    s32 width[9];
     CVECTOR color, secondary;
     VECTOR scale;
     s16 field_138, field_13A;
     s32 field_13C;
-    u8 unknown_140[0x90];
+    u8 unknown_140[0x48];
+    s32 depth[9];
+    s16 x_offset[9];
+    s16 y_offset[9];
     s32 phase[9];
     s32 completed;
     VECTOR target;
     VECTOR delta;
 } Variant433EntryRibbon;
 
-/* A 0x208-byte band or ring: two colours, a scale, a heading and nine amounts. */
-typedef union {
-    long packed;
-    DVECTOR point;
-} Variant433RingScreen;
 
 /* One 0x208-byte band or ring: nine points, their screen positions and edge
  * copies, the per-point angles and widths, the colours, scale and heading the
  * entry seeds, and per point the depth, screen offsets and growth amount. */
 typedef struct {
-    SVECTOR p[9];
-    Variant433RingScreen s[9];
+    SVECTOR points[9];
+    Variant433RingScreen screen[9];
     s32 angle[9];
-    SVECTOR e[9];
-    Variant433RingScreen es[9];
+    SVECTOR edges[9];
+    Variant433RingScreen edge_screen[9];
     s32 width[9];
     CVECTOR color, secondary;
     VECTOR scale;
@@ -57,8 +66,8 @@ typedef struct {
     s32 heading[3];
     u8 unknown_194[4];
     s32 depth[9];
-    s16 xo[9];
-    s16 yo[9];
+    s16 x_offset[9];
+    s16 y_offset[9];
     s32 amount[9];
     s32 field_204;
 } Variant433EntryBand;
@@ -71,10 +80,17 @@ typedef struct {
 } Variant433EntrySheet;
 
 typedef struct {
-    u8 unknown_000[0x264];
+    SVECTOR points[17];
+    Variant433RingScreen screen[17];
+    s32 angle[17];
+    SVECTOR edges[17];
+    Variant433RingScreen edge_screen[17];
+    s32 width[17];
+    u8 unknown_220[0x44];
     CVECTOR color[17];
     s32 field_2A8;
-    u8 unknown_2AC[0xCC];
+    s32 field_2AC[17];
+    ModelVariantStripOffsets offsets;
 } Variant433EntryStreamer;
 
 /* Minimum observed extent, not an allocation capacity. */
@@ -107,8 +123,10 @@ typedef struct {
 
 extern GsIMAGE gModelVariant433_aImages[9];
 extern Variant433EntryConfig gModelVariant433_aConfigs[];
-void ModelVariant433_DrawRibbons(u8 *context);
+void ModelVariant433_DrawRibbons(Variant433EntryState *context);
 void ModelVariant433_DrawRings(Variant433EntryState *context);
+void ModelVariant433_DrawBands(Variant433EntryState *context);
+void ModelVariant433_DrawCoils(Variant433EntryState *context);
 void SpanishModelVariant450_DrawQuadGroups(u8 *context);
 void SpanishModelVariant450_DrawLines(u8 *context);
 #endif

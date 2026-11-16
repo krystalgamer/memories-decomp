@@ -77,8 +77,8 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
             ((SVECTOR *)(j * 8 + (s32)ring))->vx = (rcos(ang1) * (half_radius = radius / 2) >> 12) + (rcos(pitch + yaw + ang1) * (rsin(wave) << 5 >> 12) >> 12);
             ((SVECTOR *)(j * 8 + (s32)ring))->vy = (rsin(ang1) * half_radius >> 12) + (rsin(pitch + ang1) * (rsin(wave) << 5 >> 12) >> 12);
             ((SVECTOR *)(j * 8 + (s32)ring))->vz = (rsin(ang2) * half_radius >> 12) + (rsin(yaw + ang2) * (rsin(wave) << 5 >> 12) >> 12);
-            pt = &ring->p[j];
-            /* e[j], reached from pt as retail does; &ring->e[j] does not match. */
+            pt = &ring->points[j];
+            /* edges[j], reached from pt as retail does; &ring->edges[j] does not match. */
             edge = (SVECTOR *)((u8 *)pt + 0x90);
             edge->vx = pt->vx + (rcos(yaw) * reach >> 12);
             edge->vy = pt->vy;
@@ -126,48 +126,48 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
              * arrays directly, use the loop index in the j == 8 arm, and
              * have no folded `+ 1` displacements. */
             if (j == 8) {
-                ring->depth[j] = RotTransPers4(&ring->p[7], &ring->p[8], &ring->p[7], &ring->p[8],
-                                               &ring->s[7].packed, &ring->s[8].packed, &ring->s[7].packed, &ring->s[8].packed,
+                ring->depth[j] = RotTransPers4(&ring->points[7], &ring->points[8], &ring->points[7], &ring->points[8],
+                                               &ring->screen[7].packed, &ring->screen[8].packed, &ring->screen[7].packed, &ring->screen[8].packed,
                                                &p, &flags[i][8]);
-                RotTransPers(&ring->e[8], &ring->es[8].packed, &p, &flag);
-                dx = ring->s[j].point.vx - ring->s[7].point.vx;
-                dy = ring->s[j].point.vy - ring->s[7].point.vy;
+                RotTransPers(&ring->edges[8], &ring->edge_screen[8].packed, &p, &flag);
+                dx = ring->screen[j].point.vx - ring->screen[7].point.vx;
+                dy = ring->screen[j].point.vy - ring->screen[7].point.vy;
                 ring->angle[j] = ratan2(dy, dx) - 0x400;
-                ring->width[j] = ring->es[j].point.vx - ring->s[j].point.vx;
-                ring->xo[8] = rcos(ring->angle[j]) * ring->width[j] >> 12;
-                ring->yo[8] = rsin(ring->angle[j]) * ring->width[j] >> 12;
+                ring->width[j] = ring->edge_screen[j].point.vx - ring->screen[j].point.vx;
+                ring->x_offset[8] = rcos(ring->angle[j]) * ring->width[j] >> 12;
+                ring->y_offset[8] = rsin(ring->angle[j]) * ring->width[j] >> 12;
             } else {
-                ring->depth[j] = RotTransPers4(&ring->p[j], &ring->p[j + 1], &ring->p[j], &ring->p[j + 1],
-                                               &ring->s[j].packed, &ring->s[j + 1].packed, &ring->s[j].packed, &ring->s[j + 1].packed,
+                ring->depth[j] = RotTransPers4(&ring->points[j], &ring->points[j + 1], &ring->points[j], &ring->points[j + 1],
+                                               &ring->screen[j].packed, &ring->screen[j + 1].packed, &ring->screen[j].packed, &ring->screen[j + 1].packed,
                                                &p, &flags[i][j]);
-                RotTransPers(&ring->e[j], &ring->es[j].packed, &p, &flag);
-                dx = ring->s[j + 1].point.vx - ring->s[j].point.vx;
-                dy = ring->s[j + 1].point.vy - ring->s[j].point.vy;
+                RotTransPers(&ring->edges[j], &ring->edge_screen[j].packed, &p, &flag);
+                dx = ring->screen[j + 1].point.vx - ring->screen[j].point.vx;
+                dy = ring->screen[j + 1].point.vy - ring->screen[j].point.vy;
 #else
             if (j == 8) {
                 row = 0;
-                ring->depth[8] = RotTransPers4(&ring->p[7], &ring->p[8], &ring->p[7], &ring->p[8],
-                                               &ring->s[7].packed, &ring->s[8].packed, &ring->s[7].packed, &ring->s[8].packed,
+                ring->depth[8] = RotTransPers4(&ring->points[7], &ring->points[8], &ring->points[7], &ring->points[8],
+                                               &ring->screen[7].packed, &ring->screen[8].packed, &ring->screen[7].packed, &ring->screen[8].packed,
                                                &p, &flags[i][8]);
-                RotTransPers(&ring->e[8], &ring->es[8].packed, &p, &flag);
-                dx = ring->s[8].point.vx - ring->s[7].point.vx;
-                dy = ring->s[8].point.vy - ring->s[7].point.vy;
+                RotTransPers(&ring->edges[8], &ring->edge_screen[8].packed, &p, &flag);
+                dx = ring->screen[8].point.vx - ring->screen[7].point.vx;
+                dy = ring->screen[8].point.vy - ring->screen[7].point.vy;
                 ring->angle[8] = ratan2(dy, dx) - 0x400;
-                ring->width[8] = ring->es[8].point.vx - ring->s[8].point.vx;
-                ring->xo[8] = rcos(ring->angle[8]) * ring->width[8] >> 12;
-                ring->yo[8] = rsin(ring->angle[8]) * ring->width[8] >> 12;
+                ring->width[8] = ring->edge_screen[8].point.vx - ring->screen[8].point.vx;
+                ring->x_offset[8] = rcos(ring->angle[8]) * ring->width[8] >> 12;
+                ring->y_offset[8] = rsin(ring->angle[8]) * ring->width[8] >> 12;
             } else {
-                ring->depth[j] = RotTransPers4(&ring->p[j], &ring->p[j + 1], &ring->p[j], &ring->p[j + 1],
-                                               &ring->s[j].packed, &ring->s[j + 1].packed, &ring->s[j].packed, &ring->s[j + 1].packed,
+                ring->depth[j] = RotTransPers4(&ring->points[j], &ring->points[j + 1], &ring->points[j], &ring->points[j + 1],
+                                               &ring->screen[j].packed, &ring->screen[j + 1].packed, &ring->screen[j].packed, &ring->screen[j + 1].packed,
                                                &p, &(&flags[0][(row = i * 9)])[j]);
-                RotTransPers(&ring->e[j], &ring->es[j].packed, &p, &flag);
-                dx = (&ring->s[j])[1].point.vx - ring->s[j].point.vx;
-                dy = (&ring->s[j])[1].point.vy - ring->s[j].point.vy;
+                RotTransPers(&ring->edges[j], &ring->edge_screen[j].packed, &p, &flag);
+                dx = (&ring->screen[j])[1].point.vx - ring->screen[j].point.vx;
+                dy = (&ring->screen[j])[1].point.vy - ring->screen[j].point.vy;
 #endif
                 ring->angle[j] = ratan2(dy, dx) - 0x400;
-                ring->width[j] = ring->es[j].point.vx - ring->s[j].point.vx;
-                ring->xo[j] = rcos(ring->angle[j]) * ring->width[j] >> 12;
-                ring->yo[j] = rsin(ring->angle[j]) * ring->width[j] >> 12;
+                ring->width[j] = ring->edge_screen[j].point.vx - ring->screen[j].point.vx;
+                ring->x_offset[j] = rcos(ring->angle[j]) * ring->width[j] >> 12;
+                ring->y_offset[j] = rsin(ring->angle[j]) * ring->width[j] >> 12;
             }
         }
     }
@@ -180,14 +180,14 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
                 quad = &work->flat_extra[1];
             }
 #ifdef VERSION_FRENCH
-            quad->x0 = ring->s[j].point.vx + ring->xo[j];
-            quad->y0 = (ring->s[j].packed >> 16) + ring->yo[j];
-            quad->x1 = ring->s[j + 1].point.vx + ring->xo[j + 1];
-            quad->y1 = (ring->s[j + 1].packed >> 16) + ring->yo[j + 1];
-            quad->x2 = ring->s[j].point.vx - ring->xo[j];
-            quad->y2 = (ring->s[j].packed >> 16) - ring->yo[j];
-            quad->x3 = ring->s[j + 1].point.vx - ring->xo[j + 1];
-            quad->y3 = (ring->s[j + 1].packed >> 16) - ring->yo[j + 1];
+            quad->x0 = ring->screen[j].point.vx + ring->x_offset[j];
+            quad->y0 = (ring->screen[j].packed >> 16) + ring->y_offset[j];
+            quad->x1 = ring->screen[j + 1].point.vx + ring->x_offset[j + 1];
+            quad->y1 = (ring->screen[j + 1].packed >> 16) + ring->y_offset[j + 1];
+            quad->x2 = ring->screen[j].point.vx - ring->x_offset[j];
+            quad->y2 = (ring->screen[j].packed >> 16) - ring->y_offset[j];
+            quad->x3 = ring->screen[j + 1].point.vx - ring->x_offset[j + 1];
+            quad->y3 = (ring->screen[j + 1].packed >> 16) - ring->y_offset[j + 1];
             quad->r0 = ring->color.r;
             quad->g0 = ring->color.g;
             quad->b0 = ring->color.b;

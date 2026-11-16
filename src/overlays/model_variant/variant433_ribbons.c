@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant433_ribbons.h"
+#include "../model_variant/variant433_entry.h"
 
 /* Header 433's ribbons: six ribbons of nine screen points, each projected with
  * RotTransPers4, then quads drawn from the projected edges. The indices into
@@ -8,7 +8,7 @@
  * ribbon * 36 at each of the two projection sites, so both arms assign off
  * (the j == 8 arm with a dead 0, the other with the real ribbon * 9) and only
  * the j == 8 arm names its indices with the constant 8. */
-void ModelVariant433_DrawRibbons(u8 *context)
+void ModelVariant433_DrawRibbons(Variant433EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -19,7 +19,7 @@ void ModelVariant433_DrawRibbons(u8 *context)
     long interpolation;
     long flag;
     s32 off;
-    Variant433RibbonView *work;
+    Variant433EntryState *work;
     GsOT *ot;
     s16 i;
     s32 wave;
@@ -27,18 +27,18 @@ void ModelVariant433_DrawRibbons(u8 *context)
     s32 yaw;
     s32 pitch;
     s16 length;
-    Variant433Ribbon *ribbon;
+    Variant433EntryRibbon *ribbon;
     POLY_FT4 *quad;
     s16 j;
     s32 bend_angle;
     s32 progress;
     s32 dx, dy;
 
-    work = (Variant433RibbonView *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    yaw = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
-    pitch = ratan2(work->view_direction[1], work->view_direction[0]) + 3072;
-    if (!(work->flags & 1)) {
+    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
+    pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 3072;
+    if (!(work->clock.frame_count & 1)) {
         length = work->radius / 128;
     } else {
         length = work->radius * 12 / 1024;
@@ -62,36 +62,36 @@ void ModelVariant433_DrawRibbons(u8 *context)
             }
             bend_angle = progress * 2;
             setVector(&ribbon->points[j],
-                ribbon->tail.delta.vx * progress / 1024
+                ribbon->delta.vx * progress / 1024
                     - (rcos(angle) * (rsin(bend_angle) * 64 >> 12) >> 12)
                     + (rcos(pitch) * (rsin(wave) * 32 >> 12) >> 12),
-                ribbon->tail.delta.vy * progress / 1024
+                ribbon->delta.vy * progress / 1024
                     - (rsin(angle) * (rsin(bend_angle) * 64 >> 12) >> 12)
                     - (rsin(bend_angle) * 128 >> 12)
                     + (rsin(pitch) * (rsin(wave) * 32 >> 12) >> 12),
-                ribbon->tail.delta.vz * progress / 1024);
+                ribbon->delta.vz * progress / 1024);
             setVector(&ribbon->edges[j],
                 ribbon->points[j].vx + (rcos(yaw) * length >> 12),
                 ribbon->points[j].vy,
                 ribbon->points[j].vz + (rsin(yaw) * length >> 12));
             if (ribbon->phase[j] <= 1024) {
-                ribbon->phase[j] += work->frame_step << 6;
+                ribbon->phase[j] += work->clock.step << 6;
                 if (ribbon->phase[j] >= 1024) {
                     ribbon->phase[j] = 1024;
-                    if (i == 0 && work->state == 1) {
-                        work->state = 2;
+                    if (i == 0 && work->tail.phase == 1) {
+                        work->tail.phase = 2;
                     }
                     if (j == 8) {
-                        ribbon->tail.completed = 1;
+                        ribbon->completed = 1;
                     }
                 }
             }
         }
     }
     setVector(&rotation, 0, 0, 0);
-    matrix.t[0] = work->origin[0];
-    matrix.t[1] = work->origin[1];
-    matrix.t[2] = work->origin[2];
+    matrix.t[0] = work->matrix.t[0];
+    matrix.t[1] = work->matrix.t[1];
+    matrix.t[2] = work->matrix.t[2];
     setVector(&scale, 4096, 4096, 4096);
     RotMatrix(&rotation, &matrix);
     ScaleMatrix(&matrix, &scale);
@@ -134,13 +134,13 @@ void ModelVariant433_DrawRibbons(u8 *context)
     ribbon = work->ribbons;
     for (i = 0; i < 6; i++, ribbon++) {
         for (j = 0; j < 8; j++) {
-            if ((s16)(j % 2) == (work->flags & 1)) {
-                quad = &work->packets[0];
+            if ((s16)(j % 2) == (work->clock.frame_count & 1)) {
+                quad = &work->flat_extra[0];
             } else {
-                quad = &work->packets[1];
+                quad = &work->flat_extra[1];
             }
             /* codegen steering: base + index sum in this order, as in retail */
-            quad->x0 = ((Variant433Screen *)((u8 *)ribbon->screen + j * 4))->point.vx + ribbon->x_offset[j];
+            quad->x0 = ((Variant433RingScreen *)((u8 *)ribbon->screen + j * 4))->point.vx + ribbon->x_offset[j];
             quad->y0 = (ribbon->screen[j].packed >> 16) + ribbon->y_offset[j];
             quad->x1 = (&ribbon->screen[j])[1].point.vx + (&ribbon->x_offset[j])[1];
             quad->y1 = ((&ribbon->screen[j])[1].packed >> 16) + (&ribbon->y_offset[j])[1];
@@ -149,11 +149,11 @@ void ModelVariant433_DrawRibbons(u8 *context)
             quad->x3 = (&ribbon->screen[j])[1].point.vx - (&ribbon->x_offset[j])[1];
             quad->y3 = ((&ribbon->screen[j])[1].packed >> 16) - (&ribbon->y_offset[j])[1];
             setRGB0(quad, ribbon->color.r, ribbon->color.g, ribbon->color.b);
-            if (ribbon->depth[j] > 0 && flags[i][j] >= 0 && !ribbon->tail.completed) {
+            if (ribbon->depth[j] > 0 && flags[i][j] >= 0 && !ribbon->completed) {
                 GsSortPoly(quad, ot, (u16)ribbon->depth[j]);
             }
         }
     }
-    work->ripple += work->frame_step * 850;
-    work->ripple2 += work->frame_step << 7;
+    work->ripple += work->clock.step * 850;
+    work->ripple2 += work->clock.step << 7;
 }

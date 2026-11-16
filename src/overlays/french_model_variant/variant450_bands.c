@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant450_bands.h"
+#include "../model_variant/variant433_entry.h"
 
-void ModelVariant433_DrawBands(u8 *context)
+void ModelVariant433_DrawBands(Variant433EntryState *context)
 {
-    Model450BandView *work = (Model450BandView *)context;
+    Variant433EntryState *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -13,16 +13,16 @@ void ModelVariant433_DrawBands(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Model450Band *band;
+    Variant433EntryBand *band;
     POLY_FT4 *quad;
     s16 i, j, width;
     s32 turn, angle;
     s32 dx, dy;
 
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_direction[2], work->view_direction[0]) + 3072;
-    ratan2(work->view_direction[1], work->view_direction[0]);
-    if (!(work->flags & 1)) {
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
+    if (!(work->clock.frame_count & 1)) {
         width = work->radius / 128;
     } else {
         width = work->radius * 12 / 1024;
@@ -31,9 +31,9 @@ void ModelVariant433_DrawBands(u8 *context)
     for (i = 0; i < 3; i++, band++) {
         for (j = 0, angle = 0; j < 9; j++, angle = j * 512) {
             setVector(&band->points[j],
-                      work->delta[0] * i / 3 + (rcos(angle) * 256 >> 12),
-                      work->delta[1] * i / 3 + (rsin(angle) * 256 >> 12),
-                      work->delta[2] * i / 3);
+                      work->direction.vx * i / 3 + (rcos(angle) * 256 >> 12),
+                      work->direction.vy * i / 3 + (rsin(angle) * 256 >> 12),
+                      work->direction.vz * i / 3);
             setVector(&band->edges[j],
                       band->points[j].vx + (rcos(turn) * width >> 12),
                       band->points[j].vy,
@@ -41,9 +41,9 @@ void ModelVariant433_DrawBands(u8 *context)
         }
     }
     setVector(&rotation, 0, 0, 0);
-    matrix.t[0] = work->origin[0];
-    matrix.t[1] = work->origin[1];
-    matrix.t[2] = work->origin[2];
+    matrix.t[0] = work->matrix.t[0];
+    matrix.t[1] = work->matrix.t[1];
+    matrix.t[2] = work->matrix.t[2];
     setVector(&scale, 4096, 4096, 4096);
     RotMatrix(&rotation, &matrix);
     ScaleMatrix(&matrix, &scale);
@@ -86,7 +86,7 @@ void ModelVariant433_DrawBands(u8 *context)
     }
     band = work->bands;
     for (i = 0; i < 3; i++, band++) {
-        for (j = 0, quad = work->packets; j < 8; j++) {
+        for (j = 0, quad = work->flat_extra; j < 8; j++) {
             quad->x0 = band->screen[j].point.vx + band->x_offset[j];
             quad->y0 = (band->screen[j].packed >> 16) + band->y_offset[j];
             quad->x1 = band->screen[j + 1].point.vx + band->x_offset[j + 1];
