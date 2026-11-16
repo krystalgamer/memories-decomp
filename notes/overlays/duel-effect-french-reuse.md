@@ -35,7 +35,7 @@ Changing only these measured expressions made the complete three-function
 trial exact. No masked comparison was accepted as a match.
 
 Production uses the existing `VERSION_EUROPE` include-wrapper pattern, as in
-`src/overlays/european/free_duel/place_cursor.c`. The shared PAL changes and
+`src/overlays/european/free_duel/screen_runtime.c`. The shared PAL changes and
 wrapper paths align with the independently developed Spanish work in #6564.
 The shared bodies are not copied, and default NTSC constants remain in the
 original sources. The profile stays `gcc_2_8_1_g0_split`: no compiler,

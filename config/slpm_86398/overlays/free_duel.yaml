@@ -60,15 +60,7 @@ segments:
     vram: 0x80168004
     align: 4
     subsegments:
-      - [0x4, c, overlays/japanese/free_duel/update_scrollbar]
-      - [0x90, c, overlays/japanese/free_duel/place_cursor]
-      - [0x1B4, c, overlays/japanese/free_duel/spawn_sparkle]
-      - [0x24C, c, overlays/japanese/free_duel/init]
-      - [0x99C, c, overlays/japanese/free_duel/get_sparkle_slot]
-      - [0x9D4, c, overlays/japanese/free_duel/update_sparkle]
-      - [0xA9C, c, overlays/japanese/free_duel/update_cursor_tween]
-      - [0xC7C, c, overlays/japanese/free_duel/update_screen]
-      - [0xFB4, c, overlays/japanese/free_duel/entry]
+      - [0x4, c, overlays/japanese/free_duel/screen_runtime]
       - [0x1030, data, overlays/japanese_free_duel/module_state]
       - [0x10A8, data, overlays/japanese_free_duel/data]
 

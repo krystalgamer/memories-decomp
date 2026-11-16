@@ -12,15 +12,16 @@ The Free Duel module is the five-sector `WA_MRG.MRG` slice beginning at sector
 | File range | Runtime range | Content |
 |---:|---:|---|
 | `0x0000-0x0004` | `0x80168000-0x80168004` | Module identifier |
-| `0x0004-0x0090` | `0x80168004-0x80168090` | Matching C |
-| `0x0090-0x01BC` | `0x80168090-0x801681BC` | Matching C |
-| `0x01BC-0x0A0C` | `0x801681BC-0x80168A0C` | Matching C |
-| `0x0A0C-0x10A0` | `0x80168A0C-0x801690A0` | Matching C |
+| `0x0004-0x10A0` | `0x80168004-0x801690A0` | Nine matching C functions |
 | `0x10A0-0x2800` | `0x801690A0-0x8016A800` | Module data |
 
-All nine matching functions reuse `src/overlays/free_duel/screen_runtime.c`
-through narrow European wrappers. `FreeDuel_PlaceCursor` selects the European
-flagged results text box without changing the North American or Japanese body.
+All nine matching functions build `src/overlays/free_duel/screen_runtime.c`
+as one object, as in North America, through the single
+`src/overlays/european/free_duel/screen_runtime.c` wrapper that every PAL
+image shares. Its `VERSION_EUROPE` selects the European flagged results text
+box in `FreeDuel_PlaceCursor` and the PAL `FreeDuel_Init` and
+`FreeDuel_UpdateScreen` differences without changing the North American or
+Japanese bodies.
 
 The European main-menu executable is the sixteen-sector `SU.MRG` slice
 beginning at sector `98`. The same payload repeats at sectors `234`, `370`,
