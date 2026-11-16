@@ -483,19 +483,31 @@ void Main_RunPasswordMenu(void)
 #endif
 
 #ifndef MAIN_RUN_OPTIONS_INIT
+#ifdef VERSION_EUROPE
+#define MAIN_RUN_OPTIONS_INIT() Options_Init(0)
+#else
 #define MAIN_RUN_OPTIONS_INIT() \
     do { \
         Options_Init(); \
         Fade_WaitIn(); \
     } while (0)
 #endif
+#endif
 
 #ifndef MAIN_RUN_OPTIONS_IS_DONE
+#ifdef VERSION_EUROPE
+#define MAIN_RUN_OPTIONS_IS_DONE(result) ((result) >= 0)
+#else
 #define MAIN_RUN_OPTIONS_IS_DONE(result) ((result) == 0)
+#endif
 #endif
 
 #ifndef MAIN_RUN_OPTIONS_FINISH
+#ifdef VERSION_EUROPE
+#define MAIN_RUN_OPTIONS_FINISH()
+#else
 #define MAIN_RUN_OPTIONS_FINISH() SD_BGMFadeOut()
+#endif
 #endif
 
 /* The grouped mode runners use common-symbol forms overridden by the tracked

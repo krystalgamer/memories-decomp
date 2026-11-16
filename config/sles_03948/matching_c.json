@@ -1614,45 +1614,192 @@
     },
     {
       "address": "0x80028AA0",
+      "defines": [
+        "VERSION_EUROPE",
+        "CARD_PREVIEW_TRANSFER_PHASE_SIZE=0x4000",
+        "CARD_PREVIEW_PANEL_CLUT_Y=0xE8",
+        "CARD_PREVIEW_PANEL_CLUT_X=0x340",
+        "CARD_PREVIEW_PANEL_FRAME_ATTRIBUTE=0x50000000",
+        "CARD_PREVIEW_PANEL_ATK_X=0x30",
+        "CARD_PREVIEW_PANEL_ATK_Y=0xBD",
+        "CARD_PREVIEW_PANEL_DEF_X=0x63",
+        "CARD_PREVIEW_PANEL_DEF_Y=0xBD",
+        "DUEL_RESOURCE_TRANSFER_SECTORS=8",
+        "DUEL_RESOURCE_DEFAULT_X=0x18",
+        "DUEL_RESOURCE_VARIANT_17_DELTA=0x80",
+        "DUEL_RESOURCE_VARIANT_15_DELTA=0x40",
+        "DUEL_RESOURCE_PATH_Y=0xBE",
+        "DUEL_RESOURCE_PATH_FIELD_5E=0xC0",
+        "DUEL_RESOURCE_PATH_WIDTH=0x1C",
+        "DUEL_RESOURCE_PATH_HEIGHT=9",
+        "DUEL_RESOURCE_SECONDARY_X=0",
+        "DUEL_RESOURCE_SECONDARY_Y=0x6A"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x16C",
-      "source": "src/game/european/card_preview.c"
+      "source": "src/game/card_preview.c"
     },
     {
       "address": "0x80028C0C",
+      "defines": [
+        "VERSION_EUROPE",
+        "CARD_PREVIEW_TRANSFER_PHASE_SIZE=0x4000",
+        "CARD_PREVIEW_PANEL_CLUT_Y=0xE8",
+        "CARD_PREVIEW_PANEL_CLUT_X=0x340",
+        "CARD_PREVIEW_PANEL_FRAME_ATTRIBUTE=0x50000000",
+        "CARD_PREVIEW_PANEL_ATK_X=0x30",
+        "CARD_PREVIEW_PANEL_ATK_Y=0xBD",
+        "CARD_PREVIEW_PANEL_DEF_X=0x63",
+        "CARD_PREVIEW_PANEL_DEF_Y=0xBD",
+        "DUEL_RESOURCE_TRANSFER_SECTORS=8",
+        "DUEL_RESOURCE_DEFAULT_X=0x18",
+        "DUEL_RESOURCE_VARIANT_17_DELTA=0x80",
+        "DUEL_RESOURCE_VARIANT_15_DELTA=0x40",
+        "DUEL_RESOURCE_PATH_Y=0xBE",
+        "DUEL_RESOURCE_PATH_FIELD_5E=0xC0",
+        "DUEL_RESOURCE_PATH_WIDTH=0x1C",
+        "DUEL_RESOURCE_PATH_HEIGHT=9",
+        "DUEL_RESOURCE_SECONDARY_X=0",
+        "DUEL_RESOURCE_SECONDARY_Y=0x6A"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x674",
-      "source": "src/game/european/card_preview.c"
+      "source": "src/game/card_preview.c"
     },
     {
       "address": "0x80029280",
+      "defines": [
+        "VERSION_EUROPE",
+        "CARD_PREVIEW_TRANSFER_PHASE_SIZE=0x4000",
+        "CARD_PREVIEW_PANEL_CLUT_Y=0xE8",
+        "CARD_PREVIEW_PANEL_CLUT_X=0x340",
+        "CARD_PREVIEW_PANEL_FRAME_ATTRIBUTE=0x50000000",
+        "CARD_PREVIEW_PANEL_ATK_X=0x30",
+        "CARD_PREVIEW_PANEL_ATK_Y=0xBD",
+        "CARD_PREVIEW_PANEL_DEF_X=0x63",
+        "CARD_PREVIEW_PANEL_DEF_Y=0xBD",
+        "DUEL_RESOURCE_TRANSFER_SECTORS=8",
+        "DUEL_RESOURCE_DEFAULT_X=0x18",
+        "DUEL_RESOURCE_VARIANT_17_DELTA=0x80",
+        "DUEL_RESOURCE_VARIANT_15_DELTA=0x40",
+        "DUEL_RESOURCE_PATH_Y=0xBE",
+        "DUEL_RESOURCE_PATH_FIELD_5E=0xC0",
+        "DUEL_RESOURCE_PATH_WIDTH=0x1C",
+        "DUEL_RESOURCE_PATH_HEIGHT=9",
+        "DUEL_RESOURCE_SECONDARY_X=0",
+        "DUEL_RESOURCE_SECONDARY_Y=0x6A"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/european/card_preview.c"
+      "source": "src/game/card_preview.c"
     },
     {
       "address": "0x800292DC",
+      "defines": [
+        "VERSION_EUROPE",
+        "CARD_PREVIEW_TRANSFER_PHASE_SIZE=0x4000",
+        "CARD_PREVIEW_PANEL_CLUT_Y=0xE8",
+        "CARD_PREVIEW_PANEL_CLUT_X=0x340",
+        "CARD_PREVIEW_PANEL_FRAME_ATTRIBUTE=0x50000000",
+        "CARD_PREVIEW_PANEL_ATK_X=0x30",
+        "CARD_PREVIEW_PANEL_ATK_Y=0xBD",
+        "CARD_PREVIEW_PANEL_DEF_X=0x63",
+        "CARD_PREVIEW_PANEL_DEF_Y=0xBD",
+        "DUEL_RESOURCE_TRANSFER_SECTORS=8",
+        "DUEL_RESOURCE_DEFAULT_X=0x18",
+        "DUEL_RESOURCE_VARIANT_17_DELTA=0x80",
+        "DUEL_RESOURCE_VARIANT_15_DELTA=0x40",
+        "DUEL_RESOURCE_PATH_Y=0xBE",
+        "DUEL_RESOURCE_PATH_FIELD_5E=0xC0",
+        "DUEL_RESOURCE_PATH_WIDTH=0x1C",
+        "DUEL_RESOURCE_PATH_HEIGHT=9",
+        "DUEL_RESOURCE_SECONDARY_X=0",
+        "DUEL_RESOURCE_SECONDARY_Y=0x6A"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/european/card_preview.c"
+      "source": "src/game/card_preview.c"
     },
     {
       "address": "0x80029354",
+      "defines": [
+        "VERSION_EUROPE",
+        "CARD_PREVIEW_TRANSFER_PHASE_SIZE=0x4000",
+        "CARD_PREVIEW_PANEL_CLUT_Y=0xE8",
+        "CARD_PREVIEW_PANEL_CLUT_X=0x340",
+        "CARD_PREVIEW_PANEL_FRAME_ATTRIBUTE=0x50000000",
+        "CARD_PREVIEW_PANEL_ATK_X=0x30",
+        "CARD_PREVIEW_PANEL_ATK_Y=0xBD",
+        "CARD_PREVIEW_PANEL_DEF_X=0x63",
+        "CARD_PREVIEW_PANEL_DEF_Y=0xBD",
+        "DUEL_RESOURCE_TRANSFER_SECTORS=8",
+        "DUEL_RESOURCE_DEFAULT_X=0x18",
+        "DUEL_RESOURCE_VARIANT_17_DELTA=0x80",
+        "DUEL_RESOURCE_VARIANT_15_DELTA=0x40",
+        "DUEL_RESOURCE_PATH_Y=0xBE",
+        "DUEL_RESOURCE_PATH_FIELD_5E=0xC0",
+        "DUEL_RESOURCE_PATH_WIDTH=0x1C",
+        "DUEL_RESOURCE_PATH_HEIGHT=9",
+        "DUEL_RESOURCE_SECONDARY_X=0",
+        "DUEL_RESOURCE_SECONDARY_Y=0x6A"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x36C",
-      "source": "src/game/european/card_preview.c"
+      "source": "src/game/card_preview.c"
     },
     {
       "address": "0x800296C0",
+      "defines": [
+        "VERSION_EUROPE",
+        "CARD_PREVIEW_TRANSFER_PHASE_SIZE=0x4000",
+        "CARD_PREVIEW_PANEL_CLUT_Y=0xE8",
+        "CARD_PREVIEW_PANEL_CLUT_X=0x340",
+        "CARD_PREVIEW_PANEL_FRAME_ATTRIBUTE=0x50000000",
+        "CARD_PREVIEW_PANEL_ATK_X=0x30",
+        "CARD_PREVIEW_PANEL_ATK_Y=0xBD",
+        "CARD_PREVIEW_PANEL_DEF_X=0x63",
+        "CARD_PREVIEW_PANEL_DEF_Y=0xBD",
+        "DUEL_RESOURCE_TRANSFER_SECTORS=8",
+        "DUEL_RESOURCE_DEFAULT_X=0x18",
+        "DUEL_RESOURCE_VARIANT_17_DELTA=0x80",
+        "DUEL_RESOURCE_VARIANT_15_DELTA=0x40",
+        "DUEL_RESOURCE_PATH_Y=0xBE",
+        "DUEL_RESOURCE_PATH_FIELD_5E=0xC0",
+        "DUEL_RESOURCE_PATH_WIDTH=0x1C",
+        "DUEL_RESOURCE_PATH_HEIGHT=9",
+        "DUEL_RESOURCE_SECONDARY_X=0",
+        "DUEL_RESOURCE_SECONDARY_Y=0x6A"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/european/card_preview.c"
+      "source": "src/game/card_preview.c"
     },
     {
       "address": "0x8002970C",
+      "defines": [
+        "VERSION_EUROPE",
+        "CARD_PREVIEW_TRANSFER_PHASE_SIZE=0x4000",
+        "CARD_PREVIEW_PANEL_CLUT_Y=0xE8",
+        "CARD_PREVIEW_PANEL_CLUT_X=0x340",
+        "CARD_PREVIEW_PANEL_FRAME_ATTRIBUTE=0x50000000",
+        "CARD_PREVIEW_PANEL_ATK_X=0x30",
+        "CARD_PREVIEW_PANEL_ATK_Y=0xBD",
+        "CARD_PREVIEW_PANEL_DEF_X=0x63",
+        "CARD_PREVIEW_PANEL_DEF_Y=0xBD",
+        "DUEL_RESOURCE_TRANSFER_SECTORS=8",
+        "DUEL_RESOURCE_DEFAULT_X=0x18",
+        "DUEL_RESOURCE_VARIANT_17_DELTA=0x80",
+        "DUEL_RESOURCE_VARIANT_15_DELTA=0x40",
+        "DUEL_RESOURCE_PATH_Y=0xBE",
+        "DUEL_RESOURCE_PATH_FIELD_5E=0xC0",
+        "DUEL_RESOURCE_PATH_WIDTH=0x1C",
+        "DUEL_RESOURCE_PATH_HEIGHT=9",
+        "DUEL_RESOURCE_SECONDARY_X=0",
+        "DUEL_RESOURCE_SECONDARY_Y=0x6A"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C",
-      "source": "src/game/european/card_preview.c"
+      "source": "src/game/card_preview.c"
     },
     {
       "address": "0x80029728",
@@ -2367,129 +2514,591 @@
     },
     {
       "address": "0x8002CF60",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002CFBC",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x20",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002CFDC",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D038",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x84",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D0BC",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F8",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D2B4",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D354",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x158",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D4AC",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x98",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D544",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D5CC",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x60",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D62C",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x130",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D75C",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA4",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D800",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D858",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D89C",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D8F4",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x94",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D988",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002D990",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x250",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002DBE0",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x234",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002DE14",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x14C",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002DF60",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11",
+        "ANIMATED_BATTLE_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_TRADE_TEXT_BOX_HEIGHT=0x28",
+        "MAIN_RUN_TRADE_TEXT_BOX_FLAGS=0x40",
+        "MAIN_RUN_TRADE_SCREEN_HEIGHT=0x100",
+        "MAIN_RUN_CREDITS_GEOM_OFFSET_Y=0x80",
+        "MAIN_RUN_CREDITS_GEOM_SCREEN=0x12C",
+        "MAIN_RUN_CREDITS_TEXT_BOX_Y=0x10",
+        "MAIN_RUN_CREDITS_TEXT_BOX_FLAGS=0x12",
+        "MAIN_RUN_CREDITS_COMPLETION_FLAG=0x10",
+        "MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS",
+        "TWO_PLAYER_SETUP_BOX_X=0x20",
+        "TWO_PLAYER_SETUP_BOX_Y=0xC4",
+        "TWO_PLAYER_SETUP_BOX_WIDTH=0x100",
+        "TWO_PLAYER_SETUP_BOX_HEIGHT=0x24",
+        "TWO_PLAYER_SETUP_BOX_FLAGS=0x40",
+        "TWO_PLAYER_SETUP_SECOND_BOX_X=0x18",
+        "TWO_PLAYER_SETUP_SECOND_BOX_FLAGS=2"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/european/main_mode_runners.c"
+      "source": "src/game/main_mode_runners.c"
     },
     {
       "address": "0x8002DFE8",
@@ -4789,117 +5398,231 @@
     },
     {
       "address": "0x8003A2AC",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003A2D4",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003A320",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003A364",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003A388",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003A3AC",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x17C",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003A528",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003A57C",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x254",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003A7D0",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x120",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003A8F0",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C0",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003ACB0",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003ACEC",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x34",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003AD20",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x154",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003AE74",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x164",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003AFD8",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x124",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003B0FC",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2E8",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003B3E4",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x324",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003B708",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x194",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003B89C",
+      "defines": [
+        "DISPLAY_EFFECT_RESOURCE_LOAD_X=0x280",
+        "DISPLAY_EFFECT_CLUT_X=640",
+        "DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR=17249",
+        "DISPLAY_EFFECT_SPRITE_CX=0x280"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xBC",
-      "source": "src/game/european/display_effect.c"
+      "source": "src/game/display_effect.c"
     },
     {
       "address": "0x8003B958",
@@ -4957,93 +5680,513 @@
     },
     {
       "address": "0x8003BAF4",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C0",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003BCB4",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003BD0C",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1E8",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003BEF4",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003BF3C",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C010",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1A8",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C1B8",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C200",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C4",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C3C4",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C424",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1A0",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C5C4",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1A8",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C76C",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1A0",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C90C",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003C96C",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x174",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003CAE0",
+      "defines": [
+        "VERSION_EUROPE",
+        "FREE_DUEL_STAGE0_SECTORS=48",
+        "FREE_DUEL_IMAGE_X=0x280",
+        "FREE_DUEL_IMAGE_Y=0xD0",
+        "FREE_DUEL_PACKAGE_SECTOR_COUNT=0x67",
+        "FREE_DUEL_PACKAGE_START_SECTOR=0x23F6",
+        "VERSION_EUROPE_NAME_ENTRY_PACKAGE_IMAGE",
+        "NAME_ENTRY_PACKAGE_START_SECTOR=0x245D",
+        "NAME_ENTRY_PACKAGE_IMAGE_X=0x280",
+        "NAME_ENTRY_PACKAGE_IMAGE_Y=0xE0",
+        "PASSWORD_PACKAGE_START_SECTOR=0x24AD",
+        "PASSWORD_PACKAGE_IMAGE_X=0x280",
+        "PASSWORD_PACKAGE_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_IMAGE_X=0x280",
+        "CAMPAIGN_MAP_IMAGE_Y=0xE0",
+        "CAMPAIGN_MAP_PACKAGE_START_SECTOR=0x2622",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_X=0x280",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_Y=0xE0",
+        "OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS=2",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_SECTORS=6",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_DESTINATION=gFile_pScreenBankBase",
+        "OPTIONS_PACKAGE_STAGE_MODE_3_COMMON_TAIL=1",
+        "OPTIONS_PACKAGE_SECTOR_COUNT=0x29",
+        "OPTIONS_PACKAGE_LOAD_SECOND_BLOCK=0",
+        "GAME_OVER_PACKAGE_IMAGE_X=0x280",
+        "GAME_OVER_PACKAGE_IMAGE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x64",
-      "source": "src/game/european/frontend_package_stages.c"
+      "source": "src/game/frontend_package_stages.c"
     },
     {
       "address": "0x8003CB44",
@@ -5437,369 +6580,674 @@
     },
     {
       "address": "0x80040350",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x40",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040390",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x40",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800403D0",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x160",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040530",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x94",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800405C4",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0xCC",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040690",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x24",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800406B4",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x60",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040714",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x20",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040734",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x14",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040748",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x28",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040770",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x1C",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x8004078C",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x74",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040800",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x44",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040844",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x78",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800408BC",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x28C",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040B48",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0xBC",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040C04",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x328",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040F2C",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0xB4",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80040FE0",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x68",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80041048",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0xC4",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x8004110C",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x290",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x8004139C",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x2D8",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80041674",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0xDC",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80041750",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0xC",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x8004175C",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0xC",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80041768",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x8",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80041770",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x28",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80041798",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x38",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800417D0",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x98",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80041868",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x58",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800418C0",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x6FC",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80041FBC",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0xD4",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042090",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x11C",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800421AC",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x114",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800422C0",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x1F8",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800424B8",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x654",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042B0C",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x48",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042B54",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x50",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042BA4",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x34",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042BD8",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x44",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042C1C",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x2C",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042C48",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x24",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042C6C",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x24",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042C90",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x48",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042CD8",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x14",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042CEC",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x1C",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042D08",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x28",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042D30",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x28",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042D58",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x28",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042D80",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x28",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042DA8",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x2C",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042DD4",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x34",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042E08",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x30",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042E38",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x38",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042E70",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x58",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042EC8",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x28",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042EF0",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x48",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80042F38",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x570",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800434A8",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0x14",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x800434BC",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0xA4",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80043560",
+      "defines": [
+        "VERSION_EUROPE",
+        "SPRITE_SHEET_SCREEN_HEIGHT=256",
+        "DISPLAY_OBJECT_DIVP_PIV=288"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_stopz_comm",
       "size": "0xF8",
-      "source": "src/game/european/display_object_system.c"
+      "source": "src/game/display_object_system.c"
     },
     {
       "address": "0x80043658",
@@ -7324,243 +8772,683 @@
     },
     {
       "address": "0x80050C68",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x124",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80050D8C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1EC",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80050F78",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x98C",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80051904",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F0",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80051AF4",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x160",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80051C54",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x132C",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80052F80",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x758",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x800536D8",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24C",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80053924",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x754",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80054078",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x148",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x800541C0",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2E4",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x800544A4",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6F8",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80054B9C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xAE0",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005567C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x16C",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x800557E8",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x22C",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80055A14",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x480",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80055E94",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x398",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005622C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x184",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x800563B0",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x190",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80056540",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE0",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80056620",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xBFC",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005721C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1644",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80058860",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2EC",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80058B4C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x748",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80059294",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x134",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x800593C8",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2B4",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005967C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x324",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x800599A0",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x554",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x80059EF4",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x7CC",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005A6C0",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x26C",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005A92C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x34C",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005AC78",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x32C",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005AFA4",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x118",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005B0BC",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x19C",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005B258",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1EC",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005B444",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x188",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005B5CC",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1F0",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005B7BC",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x214",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005B9D0",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x100",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005BAD0",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7",
+        "MODEL_TEXTURE_RESET_ROW_X=0x280",
+        "BACKGROUND_RENDER_CLIP_LIMIT=257",
+        "MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT=1",
+        "MODEL_SPECIAL_BATTLE_FILE_START_SECTOR=0x5D4",
+        "MODEL_AUX_FILE_START_SECTOR=0x2A8",
+        "MODEL_TEXTURE_PALETTE_RECT_X=0x280",
+        "MODEL_TEXTURE_TAIL_ROW_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x144",
-      "source": "src/game/european/model.c"
+      "source": "src/game/model.c"
     },
     {
       "address": "0x8005BC14",
@@ -8824,15 +10712,21 @@
     },
     {
       "address": "0x8006B350",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x210",
-      "source": "src/game/european/main_menu_load_package_stage.c"
+      "source": "src/game/main_menu_load_package_stage.c"
     },
     {
       "address": "0x8006B560",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x54",
-      "source": "src/game/european/main_menu_load_package_stage.c"
+      "source": "src/game/main_menu_load_package_stage.c"
     },
     {
       "address": "0x8006B5B4",

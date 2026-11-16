@@ -279,6 +279,8 @@ void DisplayEffect_SetObjectRowBlend(DisplayObject **objects, u32 attribute, s32
    sectors lower, so a regional build supplies its own. */
 #ifndef DISPLAY_EFFECT_SLOT_ID
 #define DISPLAY_EFFECT_SLOT_ID(i) (gDisplayEffect_CachedResourceIds[i])
+#endif
+#ifndef DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR
 #define DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR 15182
 #endif
 

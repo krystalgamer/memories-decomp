@@ -389,8 +389,13 @@ void CardPreview_UpdateVariant(DisplayObject *source, s32 facing_area)
 #include "duel_card.h"
 
 #ifndef DUEL_RESOURCE_TRANSFER_POSITION
+#ifdef VERSION_EUROPE
+#define DUEL_RESOURCE_TRANSFER_POSITION(value) \
+    ((value) * 8 + CARD_COUNT - 8)
+#else
 #define DUEL_RESOURCE_TRANSFER_POSITION(value) \
     (((value) - 1) * 7 + CARD_COUNT)
+#endif
 #endif
 #ifndef DUEL_RESOURCE_TRANSFER_SECTORS
 #define DUEL_RESOURCE_TRANSFER_SECTORS 7

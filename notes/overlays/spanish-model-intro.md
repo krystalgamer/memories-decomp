@@ -1,7 +1,7 @@
 # Spanish SU intro runtime
 
-The accepted European `src/game/european/model.c` wrapper
-selects SU sector `0x6E7` (1767). The shared controller requests sixteen
+The accepted European build of `src/game/model.c`
+(`MODEL_INTRO_PACKAGE_START_SECTOR=0x6E7` entry define) selects SU sector `0x6E7` (1767). The shared controller requests sixteen
 2048-byte sectors at `0x80180000`, calls reset at `0x80180420`, starts cue zero
 at `0x80180004`, and subsequently polls `0x8018019C`. This is a separate load
 from the main-menu module at the same address.

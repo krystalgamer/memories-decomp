@@ -2923,7 +2923,7 @@ void Model_SetSlotProperties(s32 idx, ...)
 }
 
 /* Regional value: the x of the row Model_ResetSceneState clears, 0x200 in the
-   US build and 0x280 in the European one, whose wrapper defines its own. */
+   US build and 0x280 in the European one, whose entry defines set its own. */
 #ifndef MODEL_TEXTURE_RESET_ROW_X
 #define MODEL_TEXTURE_RESET_ROW_X 0x200
 #endif
@@ -4748,10 +4748,18 @@ void Model_AdvanceSlotLoad(s32 index)
  * staging buffer without extending the cursor's lifetime across the upload.
  */
 #ifndef MODEL_TEXTURE_STAGE3_RECT_X
+#ifdef VERSION_EUROPE
+#define MODEL_TEXTURE_STAGE3_RECT_X(index) 0x280
+#else
 #define MODEL_TEXTURE_STAGE3_RECT_X(index) ((index) << 8)
 #endif
+#endif
 #ifndef MODEL_TEXTURE_STAGE3_RECT_Y
+#ifdef VERSION_EUROPE
+#define MODEL_TEXTURE_STAGE3_RECT_Y(index) (((index) << 4) + 0xD8)
+#else
 #define MODEL_TEXTURE_STAGE3_RECT_Y(index) 0xF8
+#endif
 #endif
 #ifndef MODEL_TEXTURE_TAIL_ROW_Y
 #define MODEL_TEXTURE_TAIL_ROW_Y 0xF0

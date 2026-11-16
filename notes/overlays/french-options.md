@@ -14,12 +14,12 @@ The accepted regional `File_RequestOptionsPackage` requests
 consumes the preceding image/data blocks before copying the final six
 sectors to the pointer stored at `gFile_pScreenBankBase`. The independently
 checksum-verified French executable stores `0x80168000` there.
-See `src/game/european/frontend_package_stages.c` and its shared
-`src/game/frontend_package_stages.c` body. The French resident inventory
+See the `VERSION_EUROPE` values in the shared
+`src/game/frontend_package_stages.c` body and its European entry defines. The French resident inventory
 places these staged/request functions at `0x8003C76C` and `0x8003C90C`.
 
-The accepted menu runner at French `0x8002D89C` uses the shared European
-wrapper in `src/game/european/main_mode_runners.c`: it calls options
+The accepted menu runner at French `0x8002D89C` uses the shared
+`src/game/main_mode_runners.c` built with `VERSION_EUROPE`: it calls options
 initialization at `0x801686AC` and update at `0x80168E1C`.
 The recovered helpers belong to that game's menu code, not Psy-Q or CRT:
 

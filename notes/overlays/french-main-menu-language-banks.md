@@ -13,7 +13,8 @@ introduced.
 
 The actual French `File_RequestMainMenuPackage` at `0x8006B560` and
 `MainMenu_LoadPackageStage` at `0x8006B350` are defined by the selected
-`src/game/european/main_menu_load_package_stage.c` object. The request starts
+`src/game/main_menu_load_package_stage.c` object, built with
+`VERSION_EUROPE`. The request starts
 at `gText_bLanguageIndex * 136` sectors in SU. Stages 0, 1, and 2 consume 64, 32, and
 2 sectors; stage 3 loads 16 sectors through the pointer at `0x8001002C`,
 whose stored value is `0x80180000`. Stage 4 loads the following sector to

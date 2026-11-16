@@ -55,7 +55,7 @@ guards, so the PAL images contain none of them.
 
 `mem_card.c` spells the card file name through `MEM_CARD_SAVE_FILE_NAME`,
 whose default is the North American literal. Each PAL image carries its
-own product code, so each has its own wrapper: `european/mem_card.c`
+own product code: the `VERSION_EUROPE` default in `mem_card.c`
 (`"BESLES-03947-YUGIOH"`), `spanish/mem_card.c` (03951), and the
 `french`, `german` and `italian` wrappers, which include the Spanish one
 with 03948, 03949 and 03950.
