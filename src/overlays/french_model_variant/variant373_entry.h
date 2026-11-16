@@ -4,7 +4,6 @@
 #include "../../types.h"
 #include "variant402_entry.h"
 #include "variant373_layers.h"
-#include "variant373_points.h"
 #include "variant373_strip.h"
 #include "variant373_ribbons.h"
 #include "variant373_quads.h"
@@ -80,6 +79,8 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant373_aImages[4];
 extern EntryConfig373 gFrenchModelVariant373_aConfigs[];
+void FrenchModelVariant373_DrawLayers(EntryState373 *context);
 void FrenchModelVariant373_DrawGrid(EntryState373 *context);
+void FrenchModelVariant373_DrawPoints(EntryState373 *context);
 
 #endif

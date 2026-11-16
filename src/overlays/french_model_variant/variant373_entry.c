@@ -293,7 +293,7 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->layers_start <= work->clock.frame && work->phase < 8) {
-            FrenchModelVariant373_DrawLayers((Family373LayerView *)point);
+            FrenchModelVariant373_DrawLayers((EntryState373 *)point);
         }
         if (work->config->grid_start <= work->clock.frame && work->phase < 8) {
             if (work->phase >= 6) {
@@ -311,7 +311,7 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
             FrenchModelVariant373_DrawGrid((EntryState373 *)point);
         }
         if (work->config->points_start <= work->clock.frame) {
-            FrenchModelVariant373_DrawPoints((Family373PointView *)point);
+            FrenchModelVariant373_DrawPoints((EntryState373 *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
