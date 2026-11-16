@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant373_entry.h"
 
-void FrenchModelVariant373_DrawPoints(EntryState373 *context)
+void FrenchModelVariant373_DrawSparks(EntryState373 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -18,15 +18,15 @@ void FrenchModelVariant373_DrawPoints(EntryState373 *context)
     GsOT *ot;
     s32 i;
     EntryState373 *work;
-    EntryPointGroup373 *group;
+    EntrySparkGroup373 *group;
     POLY_FT4 *quad;
     s32 j;
     s32 fade;
     s32 depth;
 
     work = context;
-    group = work->groups;
-    quad = &work->point_packet;
+    group = work->sparks;
+    quad = &work->spark_packet;
     ot = Graphics_GetDefaultOrderingTable();
     i = 0;
     ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);

@@ -1,8 +1,8 @@
 // MODEL.MRG model 707 (record 607), sector 167722, header 506, loaded at 0x8017B000.
 FrenchModelVariant373_HandleRequest = 0x8017B004; // type:func size:0x10A4 defined:true
-FrenchModelVariant373_DrawLayers = 0x8017C0A8; // type:func size:0x6C8 defined:true
-FrenchModelVariant373_DrawGrid = 0x8017C770; // type:func size:0x774 defined:true
-FrenchModelVariant373_DrawPoints = 0x8017CEE4; // type:func size:0x35C defined:true
+FrenchModelVariant373_DrawRisingRings = 0x8017C0A8; // type:func size:0x6C8 defined:true
+FrenchModelVariant373_DrawSphere = 0x8017C770; // type:func size:0x774 defined:true
+FrenchModelVariant373_DrawSparks = 0x8017CEE4; // type:func size:0x35C defined:true
 FrenchModelVariant373_DrawStrip = 0x8017D240; // type:func size:0x544 defined:true
 FrenchModelVariant373_DrawRibbons = 0x8017D784; // type:func size:0x6CC defined:true
 FrenchModelVariant373_DrawQuads = 0x8017DE50; // type:func size:0x588 defined:true

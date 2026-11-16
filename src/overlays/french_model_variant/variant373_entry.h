@@ -10,7 +10,7 @@ typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];
     u16 count;
     u8 unknown_0E[2];
-    u32 layers_start, grid_start, scale_end, translation_start, translation_end, points_start;
+    u32 rings_start, sphere_start, scale_end, translation_start, translation_end, sparks_start;
 } EntryConfig373;
 
 typedef struct {
@@ -22,7 +22,7 @@ typedef struct {
     SVECTOR points[16], corners[4], rotation;
     s32 scale;
     u8 unknown_AC[8];
-} EntryPointGroup373;
+} EntrySparkGroup373;
 
 typedef struct {
     SVECTOR points[3][2];
@@ -35,7 +35,7 @@ typedef struct {
 } EntryStrip373;
 
 typedef union {
-    POLY_GT4 grid[8];
+    POLY_GT4 sphere[8];
     struct {
         u8 unknown_00[0x34];
         POLY_FT4 pair[2], tiles[8];
@@ -43,9 +43,9 @@ typedef union {
 } EntryPackets373;
 
 typedef struct {
-    ModelVariantDome grid;
-    Family373Layer layers[5];
-    EntryPointGroup373 groups[3];
+    ModelVariantDome sphere;
+    Family373Ring rising_rings[5];
+    EntrySparkGroup373 sparks[3];
     EntryStrip373 strips[1];
     ModelVariantQuadSheet quadrants[1];
     ModelVariantRibbonSpan ribbons[8];
@@ -53,9 +53,9 @@ typedef struct {
     ModelVariantShadedRay rays[16];
     POLY_G3 triangle;
     POLY_G4 quad;
-    POLY_GT4 shared[2], layer_packets[16];
+    POLY_GT4 shared[2], ring_packets[16];
     EntryPackets373 packets;
-    POLY_FT4 point_packet;
+    POLY_FT4 spark_packet;
     u8 unknown_238C[0x24];
     MATRIX matrix;
     ModelVariantAim aim;
@@ -63,7 +63,7 @@ typedef struct {
     EntryConfig373 *config;
     u32 field_241C;
     GsCOORDUNIT *parts[3];
-    s32 index, grid_scale, translation, rotation, oscillation, grid_brightness;
+    s32 index, sphere_scale, translation, rotation, oscillation, sphere_brightness;
     s32 scale, brightness, fields_244C[5];
     s16 ray_polar_angle, ray_azimuth, field_2464, field_2466, ray_radius, field_246A;
     s16 field_246C, field_246E, field_2470, field_2472, factor, width;
@@ -75,9 +75,14 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant373_aImages[4];
 extern EntryConfig373 gFrenchModelVariant373_aConfigs[];
-void FrenchModelVariant373_DrawLayers(EntryState373 *context);
-void FrenchModelVariant373_DrawGrid(EntryState373 *context);
-void FrenchModelVariant373_DrawPoints(EntryState373 *context);
+/* The entry draws the rising rings, the sphere thrown along the aim and the
+ * sparks at the target. In two traced slot-0 Cosmo Queen attacks
+ * (tools/trace/result/model_variant373_helper_reach.txt) these three ran and
+ * the strip, ribbon, quad and ray helpers below never did; slot 1 is
+ * untraced. */
+void FrenchModelVariant373_DrawRisingRings(EntryState373 *context);
+void FrenchModelVariant373_DrawSphere(EntryState373 *context);
+void FrenchModelVariant373_DrawSparks(EntryState373 *context);
 void FrenchModelVariant373_DrawStrip(EntryState373 *context);
 void FrenchModelVariant373_DrawRibbons(EntryState373 *context);
 void FrenchModelVariant373_DrawQuads(EntryState373 *context);
