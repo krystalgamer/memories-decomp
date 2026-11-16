@@ -1337,20 +1337,6 @@ typedef struct {
     s16 oy[17];
 } ModelVariantStreamer;
 
-/* The strip command row: the pass count, the width and the start, expanded,
- * fade and end times. */
-typedef struct {
-    u8 unknown_00[0xC];
-    u16 iterations;
-    u8 unknown_0E[2];
-    s32 width;
-    u8 unknown_14[0x1C];
-    u32 start;
-    u32 expanded;
-    u32 fade;
-    u32 end;
-} ModelVariantStripTiming;
-
 
 /* One 0x20-byte spark of headers 680 and 682: an animated sprite pinned
  * to a model point through its coordinate unit. */
