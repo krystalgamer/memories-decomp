@@ -47,9 +47,9 @@ void ModelVariant425_DrawBand(Variant425EntryState *context)
                 m.t[1] = work->matrix.t[1];
                 m.t[2] = work->matrix.t[2];
             } else {
-                m.t[0] = work->matrix.t[0] + work->direction.vx * work->field_2730 / 1024 * j / 8;
-                m.t[1] = work->matrix.t[1] + work->direction.vy * work->field_2730 / 1024 * j / 8;
-                m.t[2] = work->matrix.t[2] + work->direction.vz * work->field_2730 / 1024 * j / 8;
+                m.t[0] = work->matrix.t[0] + work->direction.vx * work->displacement / 1024 * j / 8;
+                m.t[1] = work->matrix.t[1] + work->direction.vy * work->displacement / 1024 * j / 8;
+                m.t[2] = work->matrix.t[2] + work->direction.vz * work->displacement / 1024 * j / 8;
             }
             scale.vx = 0x1000;
             scale.vy = 0x1000;
@@ -121,11 +121,11 @@ void ModelVariant425_DrawBand(Variant425EntryState *context)
         }
     }
     if (work->phase == 1) {
-        if (work->field_2730 < 0x401) {
-            work->field_2730 = (u32)((work->clock.frame - work->config->field_20) << 10) /
+        if (work->displacement < 0x401) {
+            work->displacement = (u32)((work->clock.frame - work->config->field_20) << 10) /
                              (u32)(work->config->field_24 - work->config->field_20);
-            if (work->field_2730 >= 0x400) {
-                work->field_2730 = 0x400;
+            if (work->displacement >= 0x400) {
+                work->displacement = 0x400;
                 work->phase = 2;
             }
         }

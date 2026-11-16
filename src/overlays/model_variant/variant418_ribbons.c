@@ -61,9 +61,9 @@ void ModelVariant418_DrawRibbons(Variant418EntryState *context)
     rot.vx = tilt;
     rot.vy = 0;
     rot.vz = 0;
-    m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->field_1B90 / 1024;
-    m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->field_1B90 / 1024;
-    m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->field_1B90 / 1024;
+    m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->displacement / 1024;
+    m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->displacement / 1024;
+    m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->displacement / 1024;
     scale.vx = timing->size;
     scale.vy = timing->size;
     scale.vz = timing->size;
