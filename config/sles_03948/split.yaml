@@ -196,9 +196,6 @@ segments:
   - - 119564
     - c
     - game/duel_field_card_objects
-  - - 120100
-    - c
-    - game/display_object_copy_work_slots
   - - 120148
     - c
     - game/duel_card_stat_rules

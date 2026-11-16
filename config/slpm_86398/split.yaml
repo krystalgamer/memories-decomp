@@ -118,7 +118,6 @@ segments:
       - [0x1cb2c, c, game/noop_callbacks]
       - [0x1cb3c, c, game/japanese/duel_effect_object_pool]
       - [0x1cf04, c, game/japanese/duel_field_card_objects]
-      - [0x1d130, c, game/display_object_copy_work_slots]
       - [0x1d160, c, game/duel_card_stat_rules]
       - [0x1d288, c, game/campaign_story_flags]
       - [0x1d36c, c, game/main_reset_frontend_runtime]
