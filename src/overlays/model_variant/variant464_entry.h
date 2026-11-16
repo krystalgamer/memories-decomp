@@ -16,17 +16,30 @@ typedef struct {
     u8 unknown_28[0xC];
 } Variant464EntryConfig;
 
-/* A 0x8EC-byte band of 33 steps with two colours per step. */
+/* A 0x8EC-byte band of 33 steps: a spine and an offset edge per step, their
+ * packed screen words, per-step heading and length, the growth amount and
+ * offset (staggered at -128 * step, growing to 0x800), two colours per step,
+ * the scale, the direction the entry seeds, and per step the projection flag,
+ * depth and the quads' half-width vector. */
 typedef struct {
-    u8 unknown_000[0x420];
+    SVECTOR spine[33];
+    long screen[33];
+    s32 heading[33];
+    SVECTOR edge[33];
+    long edge_screen[33];
+    s32 length[33];
     s32 amount[33], offset[33];
     CVECTOR color[33], secondary[33];
     VECTOR scale;
     s16 field_640, field_642;
     s32 field_644;
     u8 unknown_648[0x108];
-    s32 heading[3];
-    u8 unknown_75C[0x190];
+    s32 direction[3];
+    u8 unknown_75C[4];
+    long flag[33];
+    s32 otz[33];
+    s16 dx[33];
+    s16 dy[33];
 } Variant464EntryBand;
 
 /* Minimum observed context extent, not an allocation capacity. */
@@ -66,7 +79,7 @@ typedef struct {
 
 extern GsIMAGE gModelVariant464_aImages[8];
 extern Variant464EntryConfig gModelVariant464_aConfigs[];
-void FrenchModelVariant481_DrawBand(u8 *context);
-void FrenchModelVariant481_DrawRings(u8 *context);
+void FrenchModelVariant481_DrawBand(Variant464EntryState *context);
+void FrenchModelVariant481_DrawRings(Variant464EntryState *context);
 s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command);
 #endif

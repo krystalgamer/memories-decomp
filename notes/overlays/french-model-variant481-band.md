@@ -17,9 +17,10 @@ band.
 
 ## Behaviour
 
-The band is the entry's 0x8EC-byte record at context `+0x230`. The local
-view in [`variant481_band.h`](../../src/overlays/french_model_variant/variant481_band.h)
-keeps the entry's `amount`/`offset` names for `+0x420`/`+0x4A4`.
+The band is the entry's 0x8EC-byte `Variant464EntryBand` at context
+`+0x230`; the helper reads `Variant464EntryState` directly. The band's
+spine, edge, screen words, heading, length, flag, depth and half-width
+names came from the helper's former local view, `variant481_band.h`.
 
 - **Growth:** each step's `offset` starts at `-128 * step`. It is clamped
   to 0 for the shape and grows by `step * 32` until it caps at 0x800.

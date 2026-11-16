@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant481_band.h"
+#include "../model_variant/variant464_entry.h"
 
-void FrenchModelVariant481_DrawBand(u8 *context)
+void FrenchModelVariant481_DrawBand(Variant464EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,8 +10,8 @@ void FrenchModelVariant481_DrawBand(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Band481State *state = (Band481State *)context;
-    Band481 *band;
+    Variant464EntryState *state = context;
+    Variant464EntryBand *band;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 yaw;
@@ -57,7 +57,7 @@ void FrenchModelVariant481_DrawBand(u8 *context)
             setVector(&band->edge[i], band->spine[i].vx + (rcos(yaw) * width >> 12), band->spine[i].vy,
                       band->spine[i].vz + (rsin(yaw) * width >> 12));
             if (band->offset[i] < 0x800) {
-                band->offset[i] += state->step * 32;
+                band->offset[i] += state->clock.step * 32;
                 if (band->offset[0] >= 0x400 && state->phase < 2) {
                     state->phase = 2;
                 }
@@ -124,7 +124,7 @@ void FrenchModelVariant481_DrawBand(u8 *context)
             quad->r3 = band->color[i + 1].r;
             quad->g3 = band->color[i + 1].g;
             quad->b3 = band->color[i + 1].b;
-            if (state->angles[1] >= -0x400 && state->angles[1] < 0x400) {
+            if (state->clock.angles[1] >= -0x400 && state->clock.angles[1] < 0x400) {
                 if (side == 1) {
                     quad->x0 = (u16)band->screen[i] - band->dx[i];
                     quad->y0 = (band->screen[i] >> 16) - band->dy[i];
