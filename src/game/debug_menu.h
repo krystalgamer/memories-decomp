@@ -69,6 +69,11 @@ extern u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT];
    No prototype takes &gDebugMenu_bCursor. Initial value not read. */
 extern s8 gDebugMenu_bCursor;
 
+/* The Sound and Campaign entries dim the primary display object on entry
+ * and restore its neutral RGB brightness on exit. */
+void DebugMenu_DimPrimaryDisplayObject(void);
+void DebugMenu_RestorePrimaryDisplayObject(void);
+
 /* The primary debug page's value editor (DebugMenu_UpdateValueEditor, declared in
  * frontend_debug_state.h) and its two entries, adjacent in the image at
  * 0x800307B8 and 0x80030998. Both entries drive the digit editor and

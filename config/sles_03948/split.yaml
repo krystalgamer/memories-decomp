@@ -225,9 +225,6 @@ segments:
     - game/european/script_scene
   - - 133860
     - c
-    - game/display_object_brightness
-  - - 133916
-    - c
     - game/french/debug_menu
   - - 138816
     - c

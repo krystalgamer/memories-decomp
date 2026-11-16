@@ -2103,15 +2103,15 @@
     },
     {
       "address": "0x800300F8",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/display_object_brightness.c"
+      "source": "src/game/european/debug_menu.c"
     },
     {
       "address": "0x80030114",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/display_object_brightness.c"
+      "source": "src/game/european/debug_menu.c"
     },
     {
       "address": "0x80030130",
