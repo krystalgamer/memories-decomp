@@ -24,8 +24,8 @@ typedef union {
 typedef char ModelSeqDescriptor_size_must_be_4[
     sizeof(ModelSeqDescriptor) == 4 ? 1 : -1];
 typedef char ModelSeqDescriptor_tframe_offset_must_be_2[
-    (u32)&((ModelSeqDescriptor *)0)->f.tframe == 2 ? 1 : -1];
+    OFFSETOF(ModelSeqDescriptor, f.tframe) == 2 ? 1 : -1];
 typedef char ModelSeqDescriptor_type_offset_must_be_3[
-    (u32)&((ModelSeqDescriptor *)0)->f.type == 3 ? 1 : -1];
+    OFFSETOF(ModelSeqDescriptor, f.type) == 3 ? 1 : -1];
 
 #endif

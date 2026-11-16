@@ -124,7 +124,7 @@ typedef char SpritePrim_size_must_be_0x24[
     sizeof(SpritePrim) == 0x24 ? 1 : -1
 ];
 typedef char SpritePrim_cy_must_be_at_0x12[
-    (u32)&(((SpritePrim *)0)->cxcy.h.cy) == 0x12 ? 1 : -1
+    OFFSETOF(SpritePrim, cxcy.h.cy) == 0x12 ? 1 : -1
 ];
 typedef char ClipState_size_must_be_0x24[
     sizeof(ClipState) == 0x24 ? 1 : -1
@@ -1112,22 +1112,22 @@ typedef char FadeTransitionState_size_must_be_0x28[
     sizeof(FadeTransitionState) == FADE_TRANSITION_STATE_SIZE ? 1 : -1
 ];
 typedef char FadeTransitionState_level_offset_must_be_0x04[
-    (u32)&((FadeTransitionState *)0)->level == 0x04 ? 1 : -1
+    OFFSETOF(FadeTransitionState, level) == 0x04 ? 1 : -1
 ];
 typedef char FadeTransitionState_target_level_offset_must_be_0x05[
-    (u32)&((FadeTransitionState *)0)->target_level == 0x05 ? 1 : -1
+    OFFSETOF(FadeTransitionState, target_level) == 0x05 ? 1 : -1
 ];
 typedef char FadeTransitionState_flags_offset_must_be_0x06[
-    (u32)&((FadeTransitionState *)0)->flags == 0x06 ? 1 : -1
+    OFFSETOF(FadeTransitionState, flags) == 0x06 ? 1 : -1
 ];
 typedef char FadeTransitionState_step_offset_must_be_0x07[
-    (u32)&((FadeTransitionState *)0)->step == 0x07 ? 1 : -1
+    OFFSETOF(FadeTransitionState, step) == 0x07 ? 1 : -1
 ];
 typedef char FadeTransitionState_sweep_head_offset_must_be_0x08[
-    (u32)&((FadeTransitionState *)0)->sweep_head == 0x08 ? 1 : -1
+    OFFSETOF(FadeTransitionState, sweep_head) == 0x08 ? 1 : -1
 ];
 typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
-    (u32)&((FadeTransitionState *)0)->band_levels == 0x0A ? 1 : -1
+    OFFSETOF(FadeTransitionState, band_levels) == 0x0A ? 1 : -1
 ];
 
 /* Command-stream view shared by the seven handlers and ReadNextCommand.
@@ -1158,28 +1158,28 @@ typedef char DisplayObjectStreamState_size_must_be_0x5C[
     sizeof(DisplayObjectStreamState) == 0x5C ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_rotation_z_offset_must_be_0x22[
-    (u32)&((DisplayObjectStreamState *)0)->rotation_z == 0x22 ? 1 : -1
+    OFFSETOF(DisplayObjectStreamState, rotation_z) == 0x22 ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_pivot_x_offset_must_be_0x48[
-    (u32)&((DisplayObjectStreamState *)0)->pivot_x == 0x48 ? 1 : -1
+    OFFSETOF(DisplayObjectStreamState, pivot_x) == 0x48 ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_pivot_y_offset_must_be_0x4A[
-    (u32)&((DisplayObjectStreamState *)0)->pivot_y == 0x4A ? 1 : -1
+    OFFSETOF(DisplayObjectStreamState, pivot_y) == 0x4A ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_frame_data_offset_must_be_0x4C[
-    (u32)&((DisplayObjectStreamState *)0)->frame_data == 0x4C ? 1 : -1
+    OFFSETOF(DisplayObjectStreamState, frame_data) == 0x4C ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_current_offset_must_be_0x50[
-    (u32)&((DisplayObjectStreamState *)0)->current == 0x50 ? 1 : -1
+    OFFSETOF(DisplayObjectStreamState, current) == 0x50 ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_base_offset_must_be_0x54[
-    (u32)&((DisplayObjectStreamState *)0)->base == 0x54 ? 1 : -1
+    OFFSETOF(DisplayObjectStreamState, base) == 0x54 ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_command_offset_offset_must_be_0x58[
-    (u32)&((DisplayObjectStreamState *)0)->command_offset == 0x58 ? 1 : -1
+    OFFSETOF(DisplayObjectStreamState, command_offset) == 0x58 ? 1 : -1
 ];
 typedef char DisplayObjectStreamState_frame_delay_offset_must_be_0x5A[
-    (u32)&((DisplayObjectStreamState *)0)->frame_delay == 0x5A ? 1 : -1
+    OFFSETOF(DisplayObjectStreamState, frame_delay) == 0x5A ? 1 : -1
 ];
 
 /* Two words written together as a pair. free_duel/screen_runtime.c and

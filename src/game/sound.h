@@ -108,10 +108,10 @@ typedef struct {
 } SDMusicPackage;
 
 typedef char SDMusicPackage_spu_address_offset_must_be_0x0C[
-    ((u32)&(((SDMusicPackage *)0)->spu_address)) == 0x0C ? 1 : -1
+    OFFSETOF(SDMusicPackage, spu_address) == 0x0C ? 1 : -1
 ];
 typedef char SDMusicPackage_vab_header_offset_must_be_0x50[
-    ((u32)&(((SDMusicPackage *)0)->vab_header)) == 0x50 ? 1 : -1
+    OFFSETOF(SDMusicPackage, vab_header) == 0x50 ? 1 : -1
 ];
 typedef char SDMusicPackage_vab_header_size_must_be_0x20[
     sizeof(((SDMusicPackage *)0)->vab_header) == 0x20 ? 1 : -1

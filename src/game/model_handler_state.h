@@ -36,7 +36,7 @@ typedef char ModelDebugState_size_must_be_4[
     sizeof(ModelDebugState) == 4 ? 1 : -1
 ];
 typedef char ModelDebugState_height_offset_must_be_2[
-    (u32)&((ModelDebugState *)0)->fields.height == 2 ? 1 : -1
+    OFFSETOF(ModelDebugState, fields.height) == 2 ? 1 : -1
 ];
 
 extern ModelDebugState D_8009B004;

@@ -20,13 +20,13 @@ typedef char ModelViewMetrics_alignment_must_match_halfwords[
     __alignof__(ModelViewMetrics) == __alignof__(u16) ? 1 : -1
 ];
 typedef char ModelViewMetrics_distance_offset_must_be_0x0[
-    (u32)&((ModelViewMetrics *)0)->distance == 0x0 ? 1 : -1
+    OFFSETOF(ModelViewMetrics, distance) == 0x0 ? 1 : -1
 ];
 typedef char ModelViewMetrics_yaw_offset_must_be_0x2[
-    (u32)&((ModelViewMetrics *)0)->yaw == 0x2 ? 1 : -1
+    OFFSETOF(ModelViewMetrics, yaw) == 0x2 ? 1 : -1
 ];
 typedef char ModelViewMetrics_pitch_offset_must_be_0x4[
-    (u32)&((ModelViewMetrics *)0)->pitch == 0x4 ? 1 : -1
+    OFFSETOF(ModelViewMetrics, pitch) == 0x4 ? 1 : -1
 ];
 
 /* Recomputes the cached distance, yaw and pitch between a view's viewpoint

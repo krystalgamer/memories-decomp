@@ -12,7 +12,7 @@ typedef struct {
 } ScriptImageObjectSet;
 
 typedef char ScriptImageObjectSet_image_id_offset_must_be_0x3C[
-    (u32)&((ScriptImageObjectSet *)0)->image_id == 0x3C ? 1 : -1
+    OFFSETOF(ScriptImageObjectSet, image_id) == 0x3C ? 1 : -1
 ];
 
 /* Three of the scene script's image slots at gSceneScript_Slots, as

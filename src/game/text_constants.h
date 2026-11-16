@@ -33,10 +33,10 @@ typedef char TextGlyphLookupEntry_alignment_must_match_words[
     __alignof__(TextGlyphLookupEntry) == __alignof__(u32) ? 1 : -1
 ];
 typedef char TextGlyphLookupEntry_key_offset_must_be_0[
-    (u32)&(((TextGlyphLookupEntry *)0)->halves.key) == 0 ? 1 : -1
+    OFFSETOF(TextGlyphLookupEntry, halves.key) == 0 ? 1 : -1
 ];
 typedef char TextGlyphLookupEntry_upper_offset_must_be_2[
-    (u32)&(((TextGlyphLookupEntry *)0)->halves.upper) == 2 ? 1 : -1
+    OFFSETOF(TextGlyphLookupEntry, halves.upper) == 2 ? 1 : -1
 ];
 
 /* 0x8009B32E, the string id Text_PushStagedString resolves through the regional banks
