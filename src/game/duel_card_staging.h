@@ -6,12 +6,11 @@
 #include "duel_card.h"
 #include "duel_scene.h"
 
-/* gDuel_abCardStagingBuffer is reused for card transfers, GPU readback and duel scratch.
- * These are offset views, not a declaration of one allocation's lifetime. */
-#define DUEL_CARD_STAGING_TRAP_BASE_OFFSET 0x18000
+/* The attack-trap record indices start this many halfword slots after the
+ * trap card IDs; the word view preserves retail's slot bias. */
 #define DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS 0x10
 
-/* The word view preserves retail's +16 slot bias for record indices. */
+/* The byte view is the low-byte (lbu) read of a record-index slot. */
 typedef union {
     struct {
         u16 card_ids[DUEL_ATTACK_TRAP_COUNT];
@@ -22,12 +21,18 @@ typedef union {
         u16 record_indices[DUEL_ATTACK_TRAP_COUNT];
     } entries;
     u16 words[DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS + DUEL_ATTACK_TRAP_COUNT];
+    u8 bytes[
+        (DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS + DUEL_ATTACK_TRAP_COUNT) *
+        sizeof(u16)
+    ];
 } DuelAttackTrapTable;
 
+/* Duel_SelectAttackTrap's candidate table. It reuses the storage of the
+ * sorted combined-deck IDs after deck population has finished with them. */
 typedef struct {
-    u8 pad_0000[0x3C68];
+    u8 pad_00000[0x1BC68];
     DuelAttackTrapTable table;
-} DuelAttackTrapScratchBlock;
+} DuelAttackTrapScratch;
 
 /* The combined-deck ID lists. Duel_PopulateCombinedDeckData reads the IDs
  * and pre-shuffle slots; Duel_RequestCombinedDeckData sorts a copy of the
@@ -65,27 +70,21 @@ typedef union {
     u32 words[sizeof(DuelCardStagingDeckView) / sizeof(u32)];
     DuelCombinedDeckInput deck_lists;
     DuelCardStagingDeckView deck;
+    DuelAttackTrapScratch attack_traps;
 } DuelCardStagingBuffer;
 
 #define DUEL_CARD_STAGING_OFFSET(type, member) ((u32)&(((type *)0)->member))
-typedef char DuelAttackTrapScratchBlock_card_ids_offset_must_be_0x3c68[
-    DUEL_CARD_STAGING_OFFSET(DuelAttackTrapScratchBlock, table.entries.card_ids) ==
-        0x3C68
-        ? 1 : -1
+typedef char DuelAttackTrapScratch_card_ids_offset_must_be_0x1BC68[
+    DUEL_CARD_STAGING_OFFSET(DuelAttackTrapScratch, table.entries.card_ids) ==
+        0x1BC68 ? 1 : -1
 ];
-typedef char DuelAttackTrapScratchBlock_record_indices_offset_must_be_0x3c88[
-    DUEL_CARD_STAGING_OFFSET(DuelAttackTrapScratchBlock, table.entries.record_indices) ==
-        0x3C68 + DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS * sizeof(u16)
+typedef char DuelAttackTrapScratch_record_indices_offset_must_be_0x1BC88[
+    DUEL_CARD_STAGING_OFFSET(DuelAttackTrapScratch, table.entries.record_indices) ==
+        0x1BC68 + DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS * sizeof(u16)
             ? 1 : -1
-];
-typedef char DuelAttackTrapScratchBlock_size_must_be_0x3c94[
-    sizeof(DuelAttackTrapScratchBlock) == 0x3C94 ? 1 : -1
 ];
 typedef char DuelAttackTrapTable_size_must_be_0x2c[
     sizeof(DuelAttackTrapTable) == 0x2C ? 1 : -1
-];
-typedef char DuelAttackTrapScratchBlock_alignment_must_match_halfwords[
-    __alignof__(DuelAttackTrapScratchBlock) == __alignof__(u16) ? 1 : -1
 ];
 typedef char DuelCardStagingDeckView_cards_offset_must_be_0x4B9FC[
     DUEL_CARD_STAGING_OFFSET(DuelCardStagingDeckView, cards) ==
