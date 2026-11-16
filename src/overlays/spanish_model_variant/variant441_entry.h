@@ -55,7 +55,7 @@ typedef struct {
 
 extern GsIMAGE gSpanishModelVariant441_aImages[9];
 extern Variant441EntryConfig gSpanishModelVariant441_aConfigs[];
-void SpanishModelVariant441_DrawTubularMesh(u8 *context);
+void SpanishModelVariant441_DrawTubularMesh(Variant441EntryState *context);
 void SpanishModelVariant441_DrawRainbowSheets(u8 *context);
 void SpanishModelVariant441_DrawFramebufferRings(u8 *context);
 void ModelVariant398_DrawRings(u8 *context);
