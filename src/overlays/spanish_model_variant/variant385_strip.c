@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant385_strip.h"
+#include "variant385_entry.h"
 
-void SpanishModelVariant385_DrawStationStrip(u8 *context)
+void SpanishModelVariant385_DrawStationStrip(Variant385EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -9,8 +9,8 @@ void SpanishModelVariant385_DrawStationStrip(u8 *context)
     MATRIX light;
     GsCOORDINATE2 coordinate;
     long interpolation;
-    Strip385State *state = (Strip385State *)context;
-    Strip385 *strip;
+    Variant385EntryState *state = context;
+    Variant385EntryTube *strip;
     POLY_GT4 *polygon;
     GsOT *ot;
     s16 i, j;
@@ -18,16 +18,16 @@ void SpanishModelVariant385_DrawStationStrip(u8 *context)
     s32 angle;
 
     ot = Graphics_GetDefaultOrderingTable();
-    angle = ratan2(state->projected.vy, state->projected.vx);
-    polygon = &state->polygon;
+    angle = ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
+    polygon = &state->packets.textured[0];
     angle += 2048;
     if (state->phase > 0) {
         if ((state->clock.frame_count & 1) == 0) {
-            extent = state->timing->width * state->radius / 1024;
+            extent = state->config->width * state->radius / 1024;
         } else {
-            extent = state->timing->width * state->radius / 1024 + state->radius / 128;
+            extent = state->config->width * state->radius / 1024 + state->radius / 128;
         }
-        strip = state->strips;
+        strip = state->tubes;
         for (i = 0; i < 1; i++, strip++) {
             for (j = 0; j < 3; j++) {
                 setVector(&strip->upper[j], rcos(1024) * extent >> 12,
@@ -38,12 +38,12 @@ void SpanishModelVariant385_DrawStationStrip(u8 *context)
                 rotation.vx = 0;
                 rotation.vy = 0;
                 rotation.vz = angle;
-                matrix.t[0] = state->origin[0] +
-                    state->direction[0] * (state->progress * j / 2) / 1024;
-                matrix.t[1] = state->origin[1] +
-                    state->direction[1] * (state->progress * j / 2) / 1024;
-                matrix.t[2] = state->origin[2] +
-                    state->direction[2] * (state->progress * j / 2) / 1024;
+                matrix.t[0] = state->matrix.t[0] +
+                    state->aim.direction.vx * (state->progress * j / 2) / 1024;
+                matrix.t[1] = state->matrix.t[1] +
+                    state->aim.direction.vy * (state->progress * j / 2) / 1024;
+                matrix.t[2] = state->matrix.t[2] +
+                    state->aim.direction.vz * (state->progress * j / 2) / 1024;
                 scale.vx = 4096;
                 scale.vy = 4096;
                 scale.vz = 4096;
@@ -63,7 +63,7 @@ void SpanishModelVariant385_DrawStationStrip(u8 *context)
                     &interpolation, &strip->flags[j]);
             }
         }
-        strip = state->strips;
+        strip = state->tubes;
         for (i = 0; i < 1; i++, strip++) {
             for (j = 0; j < 2; j++) {
                 setXY4(polygon,
@@ -100,19 +100,19 @@ void SpanishModelVariant385_DrawStationStrip(u8 *context)
                 }
             }
         }
-        if (state->iteration + 1 == state->timing->iterations) {
+        if (state->index + 1 == state->config->count) {
             if (state->phase == 1) {
                 if (state->progress <= 1024) {
-                    state->progress = (state->clock.frame - state->timing->start) * 1024 /
-                                      (state->timing->expanded - state->timing->start);
+                    state->progress = (state->clock.frame - state->config->grow_end) * 1024 /
+                                      (state->config->expansion_end - state->config->grow_end);
                     if (state->progress >= 1024) {
                         state->progress = 1024;
                         state->phase = 2;
                     }
                 }
-            } else if (state->timing->fade <= state->clock.frame && state->radius > 0) {
-                state->radius = 1024 - (state->clock.frame - state->timing->fade) * 1024 /
-                                      (state->timing->end - state->timing->fade);
+            } else if (state->config->fade_start <= state->clock.frame && state->radius > 0) {
+                state->radius = 1024 - (state->clock.frame - state->config->fade_start) * 1024 /
+                                      (state->config->fade_end - state->config->fade_start);
                 if (state->radius <= 0) {
                     state->radius = 0;
                 }

@@ -26,6 +26,10 @@ map, which has no field kind.
 ## `Variant385EntryConfig` (`gSpanishModelVariant385_aConfigs`)
 
 Entry `spanish_model_variant/variant385_entry.c` sets `work->config = gSpanishModelVariant385_aConfigs + command` (line 45); its work struct `Variant385EntryState` has `config` at `+0x1000`.
+The pulse, strip and lines helpers have since been moved onto
+`Variant385EntryState`, and their views were removed. `+0x30`, which the
+pulses and rings read as an end time and the strip as the start of its
+expansion, is now `u32 grow_end`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
