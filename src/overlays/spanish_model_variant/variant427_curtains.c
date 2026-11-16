@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant427_curtains.h"
+#include "../french_model_variant/variant427_entry.h"
 
-void SpanishModelVariant427_DrawCurtains(u8 *context)
+void SpanishModelVariant427_DrawCurtains(EntryState427 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,10 +10,10 @@ void SpanishModelVariant427_DrawCurtains(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Curtain427State *state = (Curtain427State *)context;
-    Curtain427Primary *primary = state->primary;
+    EntryState427 *state = context;
+    Mesh427 *primary = state->meshes;
     ModelVariantCurtain *curtain = state->curtains;
-    POLY_GT4 *polygon = &state->polygon;
+    POLY_GT4 *polygon = &state->curtain_packet;
     GsOT *ot;
     s32 i, j;
     s32 x, y;
@@ -27,13 +27,13 @@ void SpanishModelVariant427_DrawCurtains(u8 *context)
     for (i = 0; i < 9; i++, curtain++) {
         if (state->size > 0) {
             if (i < 3) {
-                x = y = primary[i % 3].scale;
+                x = y = primary[i % 3].size;
             } else {
                 extra = 0;
                 if (curtain->scale >= 0) {
                     extra = curtain->scale;
                 }
-                y = primary[i % 3].scale;
+                y = primary[i % 3].size;
                 x = y + extra;
             }
             rotation.vx = 0;
@@ -53,19 +53,19 @@ void SpanishModelVariant427_DrawCurtains(u8 *context)
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
             if (state->phase >= 5) {
-                inner_r = state->inner[0] * state->intensity / 1024;
-                inner_g = state->inner[1] * state->intensity / 1024;
-                inner_b = state->inner[2] * state->intensity / 1024;
-                outer_r = state->outer[0] * state->intensity / 1024;
-                outer_g = state->outer[1] * state->intensity / 1024;
-                outer_b = state->outer[2] * state->intensity / 1024;
+                inner_r = state->inner.r * state->intensity / 1024;
+                inner_g = state->inner.g * state->intensity / 1024;
+                inner_b = state->inner.b * state->intensity / 1024;
+                outer_r = state->outer.r * state->intensity / 1024;
+                outer_g = state->outer.g * state->intensity / 1024;
+                outer_b = state->outer.b * state->intensity / 1024;
             } else {
-                inner_r = state->inner[0];
-                inner_g = state->inner[1];
-                inner_b = state->inner[2];
-                outer_r = state->outer[0];
-                outer_g = state->outer[1];
-                outer_b = state->outer[2];
+                inner_r = state->inner.r;
+                inner_g = state->inner.g;
+                inner_b = state->inner.b;
+                outer_r = state->outer.r;
+                outer_g = state->outer.g;
+                outer_b = state->outer.b;
             }
             inner_r -= inner_r * curtain->scale / 8192;
             inner_g -= inner_g * curtain->scale / 8192;
@@ -97,11 +97,11 @@ void SpanishModelVariant427_DrawCurtains(u8 *context)
             }
         }
         if (curtain->scale < 8192) {
-            curtain->scale += state->step * 128;
+            curtain->scale += state->clock.step * 128;
             if (curtain->scale >= 8192) {
                 curtain->scale -= 8192;
             }
         }
     }
-    state->angle += state->step * 80;
+    state->spin += state->clock.step * 80;
 }
