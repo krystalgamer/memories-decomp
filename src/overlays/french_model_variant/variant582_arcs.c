@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant582_arcs.h"
+#include "variant469_entry.h"
 
-void FrenchModelVariant582_DrawArcs(u8 *context)
+void FrenchModelVariant582_DrawArcs(EntryState469 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,8 +10,8 @@ void FrenchModelVariant582_DrawArcs(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Arcs582State *state = (Arcs582State *)context;
-    Arcs582Group *group = state->groups;
+    EntryState469 *state = context;
+    Arcs582Group *group = state->arcs;
     GsGLINE *line = &state->line;
     GsOT *ot;
     s16 i, k, m;
@@ -21,12 +21,12 @@ void FrenchModelVariant582_DrawArcs(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(state->axis[2], state->axis[0]);
-    ratan2(state->axis[1], state->axis[0]);
+    ratan2(state->view_delta.vz, state->view_delta.vx);
+    ratan2(state->view_delta.vy, state->view_delta.vx);
     count = 0;
-    ratan2(state->direction_a[1], state->direction_a[0]);
+    ratan2(state->direction.vz, state->direction.vy);
     i = 0;
-    ratan2(state->projected.vy, state->projected.vx);
+    ratan2(state->screen_delta.vy, state->screen_delta.vx);
     for (base = 0; i < 4; i++, group++, base += 300) {
         for (k = 0; k < 2; k++) {
             near = 0;
@@ -46,19 +46,19 @@ void FrenchModelVariant582_DrawArcs(u8 *context)
             radius = (k + 1) * 192;
             for (m = 0, angle = base; m < 5; m++, angle = base + m * 4096 / 5) {
                 setVector(&group->near_points[k][m],
-                          state->direction[0] * near / 1024 + (rcos(angle) * radius >> 12),
-                          state->direction[1] * near / 1024,
-                          state->direction[2] * near / 1024 + (rsin(angle) * radius >> 12));
+                          state->line_direction.vx * near / 1024 + (rcos(angle) * radius >> 12),
+                          state->line_direction.vy * near / 1024,
+                          state->line_direction.vz * near / 1024 + (rsin(angle) * radius >> 12));
                 setVector(&group->far_points[k][m],
-                          state->direction[0] * far / 1024 + (rcos(angle) * radius >> 12),
-                          state->direction[1] * far / 1024,
-                          state->direction[2] * far / 1024 + (rsin(angle) * radius >> 12));
+                          state->line_direction.vx * far / 1024 + (rcos(angle) * radius >> 12),
+                          state->line_direction.vy * far / 1024,
+                          state->line_direction.vz * far / 1024 + (rsin(angle) * radius >> 12));
             }
             if (group->far_progress[k] < 1024) {
-                group->near_progress[k] += state->step * 48;
-                group->far_progress[k] += state->step * 48;
+                group->near_progress[k] += state->clock.step * 48;
+                group->far_progress[k] += state->clock.step * 48;
                 if (group->far_progress[k] >= 1024) {
-                    if (state->timing->limit <= state->time) {
+                    if (state->config->arc_limit <= state->clock.frame) {
                         group->near_progress[k] = 1024;
                         group->far_progress[k] = 1024;
                         group->done[k] = 1;
@@ -80,15 +80,15 @@ void FrenchModelVariant582_DrawArcs(u8 *context)
     rotation.vx = 0;
     rotation.vy = 0;
     rotation.vz = 0;
-    matrix.t[0] = state->origin[0];
-    matrix.t[1] = state->origin[1];
-    matrix.t[2] = state->origin[2];
+    matrix.t[0] = state->origin.vx;
+    matrix.t[1] = state->origin.vy;
+    matrix.t[2] = state->origin.vz;
     scale.vx = 4096;
     scale.vy = 4096;
     scale.vz = 4096;
     RotMatrix(&rotation, &matrix);
     ScaleMatrix(&matrix, &scale);
-    group = state->groups;
+    group = state->arcs;
     coordinate.coord = matrix;
     coordinate.super = 0;
     coordinate.flg = 0;

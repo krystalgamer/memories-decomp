@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant443_bands.h"
+#include "variant443_entry.h"
 #include "../../game/gpu_packets.h"
 
-void FrenchModelVariant443_DrawBands(u8 *context)
+void FrenchModelVariant443_DrawBands(EntryState443 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,21 +11,21 @@ void FrenchModelVariant443_DrawBands(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag[3][2];
-    Bands443State *state;
+    EntryState443 *state;
     GsOT *ot;
     POLY_GT4 *quad;
-    Band443 *band;
+    EntryShortBand443 *band;
     s16 i;
     s16 j;
     s16 radius;
     s32 angle;
     ModelVariantSheet *sheet;
 
-    state = (Bands443State *)context;
+    state = context;
     sheet = state->sheets;
-    quad = &state->quad;
+    quad = &state->packets.textured[0];
     ot = Graphics_GetDefaultOrderingTable();
-    if (!(state->frame & 1)) {
+    if (!(state->clock.frame_count & 1)) {
         radius = state->size * (sheet->size / 256) / 1024;
     } else {
         radius = state->size * (sheet->size * 24 / 4096) / 1024;
@@ -40,9 +40,9 @@ void FrenchModelVariant443_DrawBands(u8 *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = angle;
-            matrix.t[0] = state->origins[i].vx + state->directions[i].vx * j;
-            matrix.t[1] = state->origins[i].vy + state->directions[i].vy * j;
-            matrix.t[2] = state->origins[i].vz + state->directions[i].vz * j;
+            matrix.t[0] = state->positions[i].vx + state->paths[i].vx * j;
+            matrix.t[1] = state->positions[i].vy + state->paths[i].vy * j;
+            matrix.t[2] = state->positions[i].vz + state->paths[i].vz * j;
             scale.vx = 4096;
             scale.vy = 4096;
             scale.vz = 4096;
@@ -72,18 +72,18 @@ void FrenchModelVariant443_DrawBands(u8 *context)
             quad->y2 = band->sb[j] >> 16;
             quad->x3 = band->sb[j + 1];
             quad->y3 = band->sb[j + 1] >> 16;
-            quad->r0 = band->ca[j][0];
-            quad->g0 = band->ca[j][1];
-            quad->b0 = band->ca[j][2];
-            quad->r1 = band->ca[j + 1][0];
-            quad->g1 = band->ca[j + 1][1];
-            quad->b1 = band->ca[j + 1][2];
-            quad->r2 = band->cb[j][0];
-            quad->g2 = band->cb[j][1];
-            quad->b2 = band->cb[j][2];
-            quad->r3 = band->cb[j + 1][0];
-            quad->g3 = band->cb[j + 1][1];
-            quad->b3 = band->cb[j + 1][2];
+            quad->r0 = band->inner[j].r;
+            quad->g0 = band->inner[j].g;
+            quad->b0 = band->inner[j].b;
+            quad->r1 = band->inner[j + 1].r;
+            quad->g1 = band->inner[j + 1].g;
+            quad->b1 = band->inner[j + 1].b;
+            quad->r2 = band->outer[j].r;
+            quad->g2 = band->outer[j].g;
+            quad->b2 = band->outer[j].b;
+            quad->r3 = band->outer[j + 1].r;
+            quad->g3 = band->outer[j + 1].g;
+            quad->b3 = band->outer[j + 1].b;
             if (band->otz[j] >= 0 && flag[i][j] >= 0) {
                 GsSortPoly(quad, ot, band->otz[j]);
             }
@@ -95,26 +95,26 @@ void FrenchModelVariant443_DrawBands(u8 *context)
             quad->y2 = band->sb[j] >> 16;
             quad->x3 = band->sb[j + 1];
             quad->y3 = band->sb[j + 1] >> 16;
-            quad->r0 = band->ca[j][0];
-            quad->g0 = band->ca[j][1];
-            quad->b0 = band->ca[j][2];
-            quad->r1 = band->ca[j + 1][0];
-            quad->g1 = band->ca[j + 1][1];
-            quad->b1 = band->ca[j + 1][2];
-            quad->r2 = band->cb[j][0];
-            quad->g2 = band->cb[j][1];
-            quad->b2 = band->cb[j][2];
-            quad->r3 = band->cb[j + 1][0];
-            quad->g3 = band->cb[j + 1][1];
-            quad->b3 = band->cb[j + 1][2];
+            quad->r0 = band->inner[j].r;
+            quad->g0 = band->inner[j].g;
+            quad->b0 = band->inner[j].b;
+            quad->r1 = band->inner[j + 1].r;
+            quad->g1 = band->inner[j + 1].g;
+            quad->b1 = band->inner[j + 1].b;
+            quad->r2 = band->outer[j].r;
+            quad->g2 = band->outer[j].g;
+            quad->b2 = band->outer[j].b;
+            quad->r3 = band->outer[j + 1].r;
+            quad->g3 = band->outer[j + 1].g;
+            quad->b3 = band->outer[j + 1].b;
             if (band->otz[j] >= 0 && flag[i][j] >= 0) {
                 GsSortPoly(quad, ot, band->otz[j]);
             }
         }
     }
     if (state->size < 1024 && state->phase == 1) {
-        state->size = ((state->time - state->timing->grow_start) << 10) /
-                      (state->timing->grow_end - state->timing->grow_start);
+        state->size = ((state->clock.frame - state->config->web_end) << 10) /
+                      (state->config->spread_start - state->config->web_end);
         if (state->size >= 1024) {
             state->size = 1024;
             state->phase = 2;

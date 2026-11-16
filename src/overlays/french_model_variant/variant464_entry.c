@@ -371,10 +371,10 @@ s32 FrenchModelVariant464_HandleRequest(SVECTOR *point, s32 command)
         }
         if (work->config->start <= work->clock.frame) {
             SpanishModelVariant464_DrawSheets((u8 *)point);
-            FrenchModelVariant464_DrawRings((u8 *)point);
+            FrenchModelVariant464_DrawRings((Variant464EntryState *)point);
         }
         if (work->config->times[0] <= work->clock.frame) {
-            SpanishModelVariant464_DrawAdvancingQuads((u8 *)point);
+            SpanishModelVariant464_DrawAdvancingQuads((Variant464EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

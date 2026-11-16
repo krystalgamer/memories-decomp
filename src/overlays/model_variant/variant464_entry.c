@@ -154,9 +154,9 @@ s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
             } else {
                 angle = 1024 - i * 512;
             }
-            band->heading[0] = (s32)((u32)rcos(angle) << 8) >> 12;
-            band->heading[1] = (s32)((u32)rsin(angle) << 8) >> 12;
-            band->heading[2] = 0;
+            band->direction[0] = (s32)((u32)rcos(angle) << 8) >> 12;
+            band->direction[1] = (s32)((u32)rsin(angle) << 8) >> 12;
+            band->direction[2] = 0;
         }
         for (k = 0; k < 2; k++, funnel++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {
@@ -305,9 +305,9 @@ s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->draw_start <= work->clock.frame) {
-            FrenchModelVariant481_DrawRings((u8 *)point);
+            FrenchModelVariant481_DrawRings((Variant464EntryState *)point);
             if (work->phase < 6) {
-                FrenchModelVariant481_DrawBand((u8 *)point);
+                FrenchModelVariant481_DrawBand((Variant464EntryState *)point);
             }
         }
         work->clock.frame_count++;
