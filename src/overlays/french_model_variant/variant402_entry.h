@@ -30,7 +30,7 @@ typedef struct {
 
 typedef struct {
     SVECTOR points[16];
-    s32 field_80, field_84, field_88, field_8C;
+    s32 scale, field_84, field_88, field_8C;
 } Variant402EntryRing;
 
 /* One of the eight ribbons the 402 ribbon drawer projects: two spine points

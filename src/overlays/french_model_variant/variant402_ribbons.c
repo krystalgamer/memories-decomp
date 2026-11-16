@@ -60,9 +60,9 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
         m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->displacement / 1024;
         m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->displacement / 1024;
         m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->displacement / 1024;
-        scale.vx = timing->field_80;
-        scale.vy = timing->field_80;
-        scale.vz = timing->field_80;
+        scale.vx = timing->scale;
+        scale.vy = timing->scale;
+        scale.vz = timing->scale;
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         coord.coord = m;
