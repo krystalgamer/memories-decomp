@@ -14,10 +14,25 @@
 #include "../../game/input.h"
 #include "../../game/duel_effect_text.h"
 #include "../../game/trade_screen_widgets.h"
+#include "../../psyq/rand.h"
+#include "card_comparators.h"
+#include "card_tables.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
+#include "../../game/display_object.h"
+#include "ordering_tables.h"
+#include "../../game/gpu_packets.h"
+#include "../../game/card_list_rows.h"
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_INIT_TRADE_SCREEN) || \
-    defined(VERSION_EUROPE_MAIN_MENU_INIT_TRADE_SCREEN)
+/* The Trade screen, 0x80181F68-0x80184558 in one gcc_2_8_1_g0_split object:
+   its lifecycle (init, update, inventory refresh), the four card-stat qsort
+   comparators, the offer display and bookkeeping, the name and count
+   comparators, and the icon, column and row helpers, in executable order.
+   The resident Main_RunTrade enters through the init, the update and the
+   display-handle release; the six comparators are reached only through the
+   refresh's pointer table. */
+
 void MainMenu_InitTradeScreen(void)
 {
     u8 *object;
@@ -109,11 +124,6 @@ void MainMenu_InitTradeScreen(void)
     gGraphics_bSyncVBlankTarget = 1;
 }
 
-#endif
-
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_UPDATE_TRADE_SCREEN) || \
-    defined(VERSION_EUROPE_MAIN_MENU_UPDATE_TRADE_SCREEN)
 #ifdef VERSION_JAPAN
 #define MAIN_MENU_TRADE_CANCEL_BUTTON PAD_BUTTON_CROSS
 #define MAIN_MENU_TRADE_CONFIRM_BUTTON PAD_BUTTON_CIRCLE
@@ -606,11 +616,7 @@ s32 MainMenu_UpdateTradeScreen(void)
 #undef MAIN_MENU_TRADE_MAXIMUM
 #undef MAIN_MENU_TRADE_PAGE_STEP
 #undef MAIN_MENU_TRADE_SCROLL_MAX
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_MAIN_MENU_REFRESH_TRADE_INVENTORY) || \
-    defined(VERSION_EUROPE_MAIN_MENU_REFRESH_TRADE_INVENTORY)
 void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
 {
     MainMenuComparators comparators;
@@ -651,4 +657,728 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
 
     ((MainMenuState *)gFile_StagingBuffer)[slot].object[0x69] = mode;
 }
+
+s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)
+{
+    s32 result;
+    s32 idA;
+    s32 idB;
+    s32 statsA;
+    s32 statsB;
+    s32 atkA;
+    s32 atkB;
+    s32 defA;
+    s32 defB;
+    s32 hiA;
+    s32 hiB;
+    s32 loA;
+    s32 loB;
+    s32 keyA;
+    s32 keyB;
+
+    idA = *a;
+    idB = *b;
+    if (idA == idB) {
+        if (rand() & 1) {
+            result = 1;
+        } else {
+            result = -1;
+        }
+        /* Returning here gives the function a shared return label, which
+           keeps the final copy to v0 ahead of the epilogue's ra restore. */
+        return result;
+    } else {
+        if (idA != 0) {
+            keyA = gCard_asNameSortKey[idA - 1];
+            statsA = gDuel_adwCardStats[idA - 1];
+            if (((statsA >> CARD_STAT_TYPE_SHIFT) &
+                 CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
+                atkA = (statsA & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                defA = ((statsA >> CARD_STAT_DEFENSE_SHIFT) &
+                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                hiA = defA;
+                if (atkA > hiA) {
+                    hiA = atkA;
+                }
+                loA = defA;
+                if (atkA < loA) {
+                    loA = atkA;
+                }
+            } else {
+                loA = 0x80000001;
+                hiA = 0x80000001;
+            }
+        } else {
+            keyA = 0x7FFFFFFF;
+            loA = 0x80000001;
+            hiA = 0x80000001;
+        }
+        if (idB != 0) {
+            keyB = gCard_asNameSortKey[idB - 1];
+            statsB = gDuel_adwCardStats[idB - 1];
+            if (((statsB >> CARD_STAT_TYPE_SHIFT) &
+                 CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
+                atkB = (statsB & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                defB = ((statsB >> CARD_STAT_DEFENSE_SHIFT) &
+                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                hiB = defB;
+                if (atkB > hiB) {
+                    hiB = atkB;
+                }
+                loB = defB;
+                if (atkB < loB) {
+                    loB = atkB;
+                }
+            } else {
+                loB = 0x80000001;
+                hiB = 0x80000001;
+            }
+        } else {
+            keyB = 0x7FFFFFFF;
+            loB = 0x80000001;
+            hiB = 0x80000001;
+        }
+        if (hiB <= hiA) {
+            if (hiA <= hiB) {
+                if (loB <= loA) {
+                    if (loA <= loB) {
+                        if (keyA <= keyB) {
+                            if (keyA < keyB) {
+                                result = -1;
+                            } else {
+                                result = 0;
+                            }
+                        } else {
+                            result = 1;
+                        }
+                    } else {
+                        result = -1;
+                    }
+                } else {
+                    result = 1;
+                }
+            } else {
+                result = -1;
+            }
+        } else {
+            result = 1;
+        }
+    }
+    return result;
+}
+
+s32 MainMenu_CompareCardsByAttack(s16 *a, s16 *b)
+{
+    s32 result;
+    s32 idA;
+    s32 idB;
+    s32 statsA;
+    s32 statsB;
+    s32 atkA;
+    s32 atkB;
+    s32 defA;
+    s32 defB;
+    s32 keyA;
+    s32 keyB;
+
+    idA = *a;
+    idB = *b;
+    if (idA == idB) {
+        if (rand() & 1) {
+            result = 1;
+        } else {
+            result = -1;
+        }
+        return result;
+    } else {
+        if (idA != 0) {
+            keyA = gCard_asNameSortKey[idA - 1];
+            statsA = gDuel_adwCardStats[idA - 1];
+            if (((statsA >> CARD_STAT_TYPE_SHIFT) &
+                 CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
+                atkA = (statsA & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                defA = ((statsA >> CARD_STAT_DEFENSE_SHIFT) &
+                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+            } else {
+                defA = 0x80000001;
+                atkA = 0x80000001;
+            }
+        } else {
+            keyA = 0x7FFFFFFF;
+            defA = 0x80000001;
+            atkA = 0x80000001;
+        }
+        if (idB != 0) {
+            keyB = gCard_asNameSortKey[idB - 1];
+            statsB = gDuel_adwCardStats[idB - 1];
+            if (((statsB >> CARD_STAT_TYPE_SHIFT) &
+                 CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
+                atkB = (statsB & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                defB = ((statsB >> CARD_STAT_DEFENSE_SHIFT) &
+                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+            } else {
+                defB = 0x80000001;
+                atkB = 0x80000001;
+            }
+        } else {
+            keyB = 0x7FFFFFFF;
+            defB = 0x80000001;
+            atkB = 0x80000001;
+        }
+        if (atkB <= atkA) {
+            if (atkA <= atkB) {
+                if (defB <= defA) {
+                    if (defA <= defB) {
+                        if (keyA <= keyB) {
+                            if (keyA < keyB) {
+                                result = -1;
+                            } else {
+                                result = 0;
+                            }
+                        } else {
+                            result = 1;
+                        }
+                    } else {
+                        result = -1;
+                    }
+                } else {
+                    result = 1;
+                }
+            } else {
+                result = -1;
+            }
+        } else {
+            result = 1;
+        }
+    }
+    return result;
+}
+
+s32 MainMenu_CompareCardsByDefense(s16 *a, s16 *b)
+{
+    s32 result;
+    s32 idA;
+    s32 idB;
+    s32 statsA;
+    s32 statsB;
+    s32 atkA;
+    s32 atkB;
+    s32 defA;
+    s32 defB;
+    s32 keyA;
+    s32 keyB;
+
+    idA = *a;
+    idB = *b;
+    if (idA == idB) {
+        if (rand() & 1) {
+            result = 1;
+        } else {
+            result = -1;
+        }
+        return result;
+    } else {
+        if (idA != 0) {
+            keyA = gCard_asNameSortKey[idA - 1];
+            statsA = gDuel_adwCardStats[idA - 1];
+            if (((statsA >> CARD_STAT_TYPE_SHIFT) &
+                 CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
+                atkA = (statsA & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                defA = ((statsA >> CARD_STAT_DEFENSE_SHIFT) &
+                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+            } else {
+                atkA = 0x80000001;
+                defA = 0x80000001;
+            }
+        } else {
+            keyA = 0x7FFFFFFF;
+            atkA = 0x80000001;
+            defA = 0x80000001;
+        }
+        if (idB != 0) {
+            keyB = gCard_asNameSortKey[idB - 1];
+            statsB = gDuel_adwCardStats[idB - 1];
+            if (((statsB >> CARD_STAT_TYPE_SHIFT) &
+                 CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
+                atkB = (statsB & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                defB = ((statsB >> CARD_STAT_DEFENSE_SHIFT) &
+                        CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+            } else {
+                atkB = 0x80000001;
+                defB = 0x80000001;
+            }
+        } else {
+            keyB = 0x7FFFFFFF;
+            atkB = 0x80000001;
+            defB = 0x80000001;
+        }
+        if (defB <= defA) {
+            if (defA <= defB) {
+                if (atkB <= atkA) {
+                    if (atkA <= atkB) {
+                        if (keyA <= keyB) {
+                            if (keyA < keyB) {
+                                result = -1;
+                            } else {
+                                result = 0;
+                            }
+                        } else {
+                            result = 1;
+                        }
+                    } else {
+                        result = -1;
+                    }
+                } else {
+                    result = 1;
+                }
+            } else {
+                result = -1;
+            }
+        } else {
+            result = 1;
+        }
+    }
+    return result;
+}
+
+s32 MainMenu_CompareCardsByType(s16 *a, s16 *b)
+{
+    s32 result;
+    s32 idA;
+    s32 idB;
+    s32 typeA;
+    s32 typeB;
+    s32 keyA;
+    s32 keyB;
+
+    idA = *a;
+    idB = *b;
+    if (idA == idB) {
+        if (rand() & 1) {
+            result = 1;
+        } else {
+            result = -1;
+        }
+        return result;
+    } else {
+        if (idA != 0) {
+            keyA = gCard_asNameSortKey[idA - 1];
+            typeA = (gDuel_adwCardStats[idA - 1] >> CARD_STAT_TYPE_SHIFT) &
+                    CARD_STAT_TYPE_MASK;
+        } else {
+            typeA = 0x7FFFFFFF;
+            keyA = 0x7FFFFFFF;
+        }
+        if (idB != 0) {
+            keyB = gCard_asNameSortKey[idB - 1];
+            typeB = (gDuel_adwCardStats[idB - 1] >> CARD_STAT_TYPE_SHIFT) &
+                    CARD_STAT_TYPE_MASK;
+        } else {
+            typeB = 0x7FFFFFFF;
+            keyB = 0x7FFFFFFF;
+        }
+        if (typeA <= typeB) {
+            if (typeA >= typeB) {
+                if (keyA <= keyB) {
+                    if (keyA < keyB) {
+                        result = -1;
+                    } else {
+                        result = 0;
+                    }
+                } else {
+                    result = 1;
+                }
+            } else {
+                result = -1;
+            }
+        } else {
+            result = 1;
+        }
+    }
+    return result;
+}
+
+/* The Trade screen's offer display and its inventory bookkeeping: the offer
+   and highlight draw (0x80183B2C), the three-digit number it prints
+   (0x80183E8C), the display-handle release (0x80183FE4), the offer inventory
+   delta (0x80184030) and the per-card count it applies (0x801840F8).
+
+   They call each other and share their data. The offer draw calls
+   MainMenu_DrawThreeDigitNumber for every offered card, the offer delta calls
+   MainMenu_AdjustTradeCardCount for every entry it walks, and the offer list
+   gTrade_awOffers is read by the draw and written through by the delta. */
+
+#ifdef VERSION_EUROPE
+#define MAIN_MENU_TRADE_OFFER_Y 0xD2
+#define MAIN_MENU_TRADE_DIGIT_V_TOP 0x40
+#define MAIN_MENU_TRADE_DIGIT_V_BOTTOM 0x48
+#define MAIN_MENU_TRADE_DIGIT_CLUT 0x3168
+#define MAIN_MENU_TRADE_DIGIT_COLOR 0x80
+#define MAIN_MENU_TRADE_DIGIT_TPAGE 10
+#else
+#define MAIN_MENU_TRADE_OFFER_Y 0xBC
+#define MAIN_MENU_TRADE_DIGIT_V_TOP 0x70
+#define MAIN_MENU_TRADE_DIGIT_V_BOTTOM 0x78
+#define MAIN_MENU_TRADE_DIGIT_CLUT 0x3EA9
+#define MAIN_MENU_TRADE_DIGIT_COLOR 0xFF
+#define MAIN_MENU_TRADE_DIGIT_TPAGE 11
 #endif
+
+void MainMenu_DrawTradeOffersAndHighlights(void)
+{
+    DisplayObject *volatile obj[2];
+    s32 i;
+
+    obj[0] = (DisplayObject *)gTrade_aCardSlots[0].object;
+    obj[1] = (DisplayObject *)gTrade_aCardSlots[1].object;
+
+    if (gTrade_abReady[0] != 0) {
+        MainMenu_DrawTradeColumnOverlay(0);
+        ((u8 *)&obj[0]->rgb)[0] = ((u8 *)&obj[0]->rgb)[1] =
+            ((u8 *)&obj[0]->rgb)[2] = 0x40;
+        obj[0]->field_60 = 2;
+    } else {
+        ((u8 *)&obj[0]->rgb)[0] += *(u8 *)&obj[0]->field_60;
+        ((u8 *)&obj[0]->rgb)[1] += *(u8 *)&obj[0]->field_60;
+        ((u8 *)&obj[0]->rgb)[2] += *(u8 *)&obj[0]->field_60;
+        if (((u8 *)&obj[0]->rgb)[0] < 0x41 ||
+            (s8)((u8 *)&obj[0]->rgb)[0] < 0) {
+            obj[0]->field_60 *= -1;
+        }
+    }
+
+    if (gTrade_abReady[1] != 0) {
+        MainMenu_DrawTradeColumnOverlay(1);
+        ((u8 *)&obj[1]->rgb)[0] = ((u8 *)&obj[1]->rgb)[1] =
+            ((u8 *)&obj[1]->rgb)[2] = 0x40;
+        obj[1]->field_60 = 2;
+    } else {
+        ((u8 *)&obj[1]->rgb)[0] += *(u8 *)&obj[1]->field_60;
+        ((u8 *)&obj[1]->rgb)[1] += *(u8 *)&obj[1]->field_60;
+        ((u8 *)&obj[1]->rgb)[2] += *(u8 *)&obj[1]->field_60;
+        if (((u8 *)&obj[1]->rgb)[0] < 0x41 ||
+            (s8)((u8 *)&obj[1]->rgb)[0] < 0) {
+            obj[1]->field_60 *= -1;
+        }
+    }
+
+    i = 0;
+    if (gTrade_awOffers[0][0] != 0) {
+        do {
+            MainMenu_DrawThreeDigitNumber((i % 5) * 28 + 0x10,
+                          (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
+                          gTrade_awOffers[0][i + 1]);
+            MainMenu_DrawCardTypeIcon((i % 5) * 28 + 0x10,
+                          (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
+                          gTrade_awOffers[0][i + 1]);
+            i++;
+        } while (i < gTrade_awOffers[0][0]);
+    }
+
+    i = 0;
+    if (gTrade_awOffers[1][0] != 0) {
+        do {
+            MainMenu_DrawThreeDigitNumber((i % 5) * 28 + 0xB0,
+                          (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
+                          gTrade_awOffers[1][i + 1]);
+            MainMenu_DrawCardTypeIcon((i % 5) * 28 + 0xB0,
+                          (i / 5) * 17 + MAIN_MENU_TRADE_OFFER_Y,
+                          gTrade_awOffers[1][i + 1]);
+            i++;
+        } while (i < gTrade_awOffers[1][0]);
+    }
+}
+
+void MainMenu_DrawThreeDigitNumber(s32 x, s32 y, s32 value)
+{
+    POLY_FT4 sprite;
+    s32 i;
+    s32 quotient;
+    s32 digit;
+    s32 base;
+    s32 left;
+    s32 right;
+    s32 u;
+    s32 top;
+    s32 bottom;
+
+    i = 0;
+    top = y + 4;
+    bottom = y + 12;
+    setPolyFT4(&sprite);
+    sprite.tpage = MAIN_MENU_TRADE_DIGIT_TPAGE;
+    sprite.clut = MAIN_MENU_TRADE_DIGIT_CLUT;
+    sprite.r0 = MAIN_MENU_TRADE_DIGIT_COLOR;
+    sprite.g0 = MAIN_MENU_TRADE_DIGIT_COLOR;
+    sprite.b0 = MAIN_MENU_TRADE_DIGIT_COLOR;
+    for (; i < 3; i++) {
+        base = x + 24 - i * 8;
+        left = base - 12;
+        sprite.x0 = left;
+        right = base - 4;
+        sprite.x1 = right;
+        sprite.x3 = right;
+        quotient = value / 10;
+        sprite.y0 = top;
+        sprite.y1 = top;
+        sprite.x2 = left;
+        sprite.y2 = bottom;
+        sprite.y3 = bottom;
+        sprite.v0 = MAIN_MENU_TRADE_DIGIT_V_TOP;
+        sprite.v1 = MAIN_MENU_TRADE_DIGIT_V_TOP;
+        sprite.v2 = MAIN_MENU_TRADE_DIGIT_V_BOTTOM;
+        sprite.v3 = MAIN_MENU_TRADE_DIGIT_V_BOTTOM;
+        digit = value - quotient * 10;
+        u = digit * 8;
+        sprite.u0 = u - 128;
+        sprite.u1 = u - 120;
+        sprite.u2 = u - 128;
+        sprite.u3 = u - 120;
+        GsSortPoly(&sprite, gGraphics_apOrderingTables[1], 32);
+        value = quotient;
+    }
+}
+
+void MainMenu_ReleaseTradeDisplayHandles(void)
+{
+    DisplayObject_ReleaseIfPresent(gTrade_pBackground);
+    gTrade_pBackground = 0;
+    DisplayObject_ReleaseIfPresent(gTrade_pStatsModeDisplay);
+    gTrade_pStatsModeDisplay = 0;
+    gMain_apFrameServiceCallbacks[1] = 0;
+}
+
+void MainMenu_ApplyTradeOfferInventoryDelta(s32 slot, s32 amount)
+{
+    s32 i;
+
+    i = 0;
+    while (i < gTrade_awOffers[slot][0]) {
+        MainMenu_AdjustTradeCardCount(slot, gTrade_awOffers[slot][i + 1], (u32)amount);
+        i++;
+    }
+}
+
+void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
+{
+    CardCountEntry *p;
+    CardCountEntry *entry;
+    u32 total;
+    s32 offset;
+    s32 i;
+
+    i = 0;
+    offset = slot * 2888;
+    p = gTrade_aWorkingCards[0];
+    while (i < CARD_COUNT) {
+        entry = (CardCountEntry *)(offset + (s32)p);
+        if (entry->id == id) {
+            total = entry->count + amount;
+            if (total < 0xFB) {
+                entry->count = total;
+            }
+            return;
+        }
+        p++;
+        i++;
+    }
+}
+
+s32 MainMenu_CompareCardsByName(s16 *a, s16 *b)
+{
+    s32 result;
+    s32 idA;
+    s32 idB;
+    s32 keyA;
+    s32 keyB;
+
+    idA = *a;
+    idB = *b;
+    if (idA == idB) {
+        if (rand() & 1) {
+            result = 1;
+        } else {
+            result = -1;
+        }
+        /* Returning here gives the function a shared return label, which
+           keeps the final copy to v0 ahead of the epilogue's ra restore. */
+        return result;
+    } else {
+        if (idA != 0) {
+            keyA = gCard_asNameSortKey[idA - 1];
+        } else {
+            keyA = 0x7FFFFFFF;
+            idA = 0x7FFFFFFF;
+        }
+        if (idB != 0) {
+            keyB = gCard_asNameSortKey[idB - 1];
+        } else {
+            keyB = 0x7FFFFFFF;
+            idB = 0x7FFFFFFF;
+        }
+        if (keyA <= keyB) {
+            if (keyA >= keyB) {
+                if (idA <= idB) {
+                    if (idA < idB) {
+                        result = -1;
+                    } else {
+                        result = 0;
+                    }
+                } else {
+                    result = 1;
+                }
+            } else {
+                result = -1;
+            }
+        } else {
+            result = 1;
+        }
+    }
+    return result;
+}
+
+s32 MainMenu_CompareCardsByCount(CardCountEntry *a, CardCountEntry *b)
+{
+    s32 result;
+    s32 idA;
+    s32 idB;
+    s32 keyA;
+    s32 keyB;
+    s32 countKeyA;
+    s32 countKeyB;
+
+    idA = a->id;
+    idB = b->id;
+    if (idA == idB) {
+        if (rand() & 1) {
+            result = 1;
+        } else {
+            result = -1;
+        }
+        return result;
+    } else {
+        if (idA != 0) {
+            keyA = gCard_asNameSortKey[idA - 1];
+            countKeyA = a->count;
+        } else {
+            keyA = 0x7FFFFFFF;
+            countKeyA = 0x80000001;
+        }
+        if (idB != 0) {
+            keyB = gCard_asNameSortKey[idB - 1];
+            countKeyB = b->count;
+        } else {
+            keyB = 0x7FFFFFFF;
+            countKeyB = 0x80000001;
+        }
+        if (countKeyA < countKeyB) {
+            result = 1;
+        } else if (countKeyB < countKeyA) {
+            result = -1;
+        } else if (keyB < keyA) {
+            result = 1;
+        } else if (keyA < keyB) {
+            result = -1;
+        } else {
+            result = 0;
+        }
+    }
+    return result;
+}
+
+/* Three Trade screen helpers: the card-type icon (0x80184344) and the column
+   dimming overlay (0x80184454) that the offer draw calls for each entry, and
+   the inventory row rebuild (0x801844D8).
+
+   Unlike the offer group they do not call each other. What ties them is the
+   screen and its data: all three take their declarations from
+   trade_helpers.h, and the row rebuild walks gTrade_aWorkingCards and gTrade_pStatsModeDisplay, the
+   same trade inventory and display handle the offer group writes. */
+
+#ifdef VERSION_EUROPE
+#define MAIN_MENU_CARD_TYPE_PALETTE_OFFSET 0x80
+#define MAIN_MENU_CARD_TYPE_V_TOP 0xC0
+#define MAIN_MENU_CARD_TYPE_V_BOTTOM 0xD0
+#define MAIN_MENU_TRADE_COLUMN_BOTTOM 0x100
+#else
+#define MAIN_MENU_CARD_TYPE_PALETTE_OFFSET 0
+#define MAIN_MENU_CARD_TYPE_V_TOP 0xC8
+#define MAIN_MENU_CARD_TYPE_V_BOTTOM 0xD8
+#define MAIN_MENU_TRADE_COLUMN_BOTTOM 0xF0
+#endif
+
+void MainMenu_DrawCardTypeIcon(s32 x, s32 y, s32 cardID)
+{
+    POLY_FT4 sprite;
+    u32 palette;
+    s32 cardType;
+
+    cardType = (gDuel_adwCardStats[cardID - 1] >> CARD_STAT_TYPE_SHIFT) &
+                CARD_STAT_TYPE_MASK;
+    if (cardType != CARD_TYPE_MAGIC && cardType != CARD_TYPE_EQUIP) {
+        if (cardType != CARD_TYPE_TRAP) {
+            if (cardType == CARD_TYPE_RITUAL) {
+                palette = 0x290 + MAIN_MENU_CARD_TYPE_PALETTE_OFFSET;
+            } else {
+                palette = 0x260 + MAIN_MENU_CARD_TYPE_PALETTE_OFFSET;
+            }
+        } else {
+            palette = 0x280 + MAIN_MENU_CARD_TYPE_PALETTE_OFFSET;
+        }
+    } else {
+        palette = 0x270 + MAIN_MENU_CARD_TYPE_PALETTE_OFFSET;
+    }
+    setPolyFT4(&sprite);
+    sprite.r0 = 0x80;
+    sprite.g0 = 0x80;
+    sprite.b0 = 0x80;
+    sprite.tpage = 0xB;
+    sprite.clut = (palette >> 4) | 0x3F00;
+    sprite.x0 = x;
+    sprite.y0 = y;
+    sprite.x1 = x + 0x10;
+    sprite.y1 = y;
+    sprite.x2 = x;
+    sprite.y2 = y + 0x10;
+    sprite.x3 = x + 0x10;
+    sprite.y3 = y + 0x10;
+    sprite.u0 = 0;
+    sprite.v0 = MAIN_MENU_CARD_TYPE_V_TOP;
+    sprite.u1 = 0x10;
+    sprite.v1 = MAIN_MENU_CARD_TYPE_V_TOP;
+    sprite.u2 = 0;
+    sprite.v2 = MAIN_MENU_CARD_TYPE_V_BOTTOM;
+    sprite.u3 = 0x10;
+    sprite.v3 = MAIN_MENU_CARD_TYPE_V_BOTTOM;
+    GsSortPoly(&sprite, gGraphics_apOrderingTables[1], 0x20);
+}
+
+void MainMenu_DrawTradeColumnOverlay(s32 column)
+{
+    POLY_F4 quad;
+    s32 left = column * 160;
+    s32 right = left + 0xA0;
+
+    setPolyF4(&quad);
+    quad.r0 = 0x40;
+    quad.g0 = 0x40;
+    quad.b0 = 0x40;
+    quad.x0 = left;
+    quad.y0 = 0;
+    quad.x1 = right;
+    quad.y1 = 0;
+    quad.x2 = left;
+    quad.y2 = MAIN_MENU_TRADE_COLUMN_BOTTOM;
+    quad.x3 = right;
+    quad.y3 = MAIN_MENU_TRADE_COLUMN_BOTTOM;
+    Graphics_SubmitDrawModePacket((u32 *)&quad, gGraphics_apOrderingTables[1], 0x1F, 2);
+}
+
+void MainMenu_RebuildTradeInventoryRows(s32 side)
+{
+    s32 flags;
+
+    flags = gTrade_pStatsModeDisplay->frame - 4;
+    CardList_BuildRowSetTextBoxes((u16 *)(side * 2888 + (s32)gTrade_aWorkingCards + gTrade_aListScroll[side].current * 4), side,
+                  flags & (1 << side), flags);
+}

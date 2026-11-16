@@ -32,10 +32,10 @@
  * the model view and clears it on the way out; no other listing or C unit
  * names it.
  * Slot 1 is stored by the main_menu overlay, by index:
- * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_update.c,
+ * MainMenu_InitTradeScreen (src/overlays/main_menu/trade_screen.c,
  * `gMain_apFrameServiceCallbacks[1] = MainMenu_DrawTradeOffersAndHighlights;`) and
  * MainMenu_ReleaseTradeDisplayHandles
- * (src/overlays/main_menu/trade_offers.c:145, `gMain_apFrameServiceCallbacks[1] = 0;`). Before
+ * (src/overlays/main_menu/trade_screen.c, `gMain_apFrameServiceCallbacks[1] = 0;`). Before
  * that the overlay reached it as D_800E9DB4, with a private declaration in
  * each unit. Every slot is reached as an element of
  * gMain_apFrameServiceCallbacks; no slot has a symbol of its own. */

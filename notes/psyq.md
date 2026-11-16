@@ -1962,7 +1962,7 @@ can change argument setup. Four matching sources call qsort through it:
 `Util_CompareS16` before compacting duplicates; `build_deck.c` builds
 mode-specific keys for sixteen-byte `CardListSortItem` rows and chooses
 `func_80032BD4` or `BuildDeck_CompareCard`; the main-menu overlay's
-`MainMenu_RefreshTradeInventory` (`trade_update.c`) sorts `CARD_COUNT` four-byte id/count entries through one
+`MainMenu_RefreshTradeInventory` (`trade_screen.c`) sorts `CARD_COUNT` four-byte id/count entries through one
 of six `int (*)()` comparators selected by the inventory mode; and
 `sorted_entry_relink.c` defines `SortedEntry_Compare` just above
 `SortedEntry_SortAndRelink`, which hands it to qsort over eight-byte

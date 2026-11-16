@@ -207,23 +207,37 @@ conditional linker imports in `c_symbols.ld` only after the image is loaded.
 The semantic registry records these entrypoint names as `overlay/main_menu/function`,
 without adding them to resident function inventory or primary symbols.
 
-### Trade lifecycle translation unit
+### Trade translation unit
 
-`trade_update.c` keeps `MainMenu_InitTradeScreen` immediately before
-`MainMenu_UpdateTradeScreen`. The initializer creates and resets the two
-inventory panes and calls the refresh for each side. The updater owns input,
-offers, confirmation and save completion for the rest of the screen's
-lifetime, and calls the same refresh after save restore, sort changes, card
-offers and completed exchanges.
+The whole Trade screen is one `gcc_2_8_1_g0_split` object,
+[`trade_screen.c`](trade_screen.c), covering NA/JP
+`0x80181F68..0x80184558` (`0x25F0` bytes) and EU `0x801820C0..0x80184784`.
+It defines its seventeen functions in executable order:
 
-The three functions form one contiguous `gcc_2_8_1_g0_split` run:
-`MainMenu_InitTradeScreen` occupies `0x80181F68..0x801821DC`, followed by
-`MainMenu_UpdateTradeScreen` through `0x8018338C`, then
-`MainMenu_RefreshTradeInventory` through `0x80183514`; the differently
-profiled card-stat comparator unit starts immediately afterward.
-[`trade_update.c`](trade_update.c) supplies one grouped C subsegment for the
-first two functions and the inventory refresh at `0x338C` that follows them
-(formerly its own `trade_inventory.c`).
+| Functions | NA range |
+|---|---|
+| `MainMenu_InitTradeScreen`, `MainMenu_UpdateTradeScreen`, `MainMenu_RefreshTradeInventory` | `0x80181F68..0x80183514` |
+| MaxStat, Attack, Defense and Type comparators | `0x80183514..0x80183B2C` |
+| `MainMenu_DrawTradeOffersAndHighlights`, `MainMenu_DrawThreeDigitNumber`, `MainMenu_ReleaseTradeDisplayHandles`, `MainMenu_ApplyTradeOfferInventoryDelta`, `MainMenu_AdjustTradeCardCount` | `0x80183B2C..0x8018416C` |
+| Name and Count comparators | `0x8018416C..0x80184344` |
+| `MainMenu_DrawCardTypeIcon`, `MainMenu_DrawTradeColumnOverlay`, `MainMenu_RebuildTradeInventoryRows` | `0x80184344..0x80184558` |
+
+The run is bounded by the value-setup unit below and the module's data
+above, and every region places these functions in the same contiguous order.
+It was five sources (`trade_update.c`, `card_stat_comparators.c`,
+`trade_offers.c`, `card_name_count_comparators.c` and
+`trade_screen_helpers.c`) until #39 merged them: the six comparators are
+reached only through the refresh's pointer table, the offers and helpers only
+from the Trade init/update and its drawing callback, and none of the five
+owns data or rodata. The Japanese and every PAL `main_menu*` image build it
+through one wrapper per region, `../japanese/main_menu/trade_screen.c` and
+`../european/main_menu/trade_screen.c`, in place of seventeen per-function
+wrappers.
+
+The initializer creates and resets the two inventory panes and calls the
+refresh for each side. The updater owns input, offers, confirmation and save
+completion for the rest of the screen's lifetime, and calls the same refresh
+after save restore, sort changes, card offers and completed exchanges.
 
 The updater was reclassified in #3859 because its exact source pinned four
 variables to hard registers. Its replacement is pure C: natural restore-copy
@@ -241,16 +255,16 @@ loop, forms `gTrade_abReady + i` as a pointer, and compares
 players have confirmed.
 
 The second byte used to carry a second label, `gTrade_bSide1Ready`
-(`0x80185CC9`), which the trade updater wrote and `trade_offers.c` read.
+(`0x80185CC9`), which the trade updater wrote and the offer draw read.
 Both now spell it `gTrade_abReady[1]`: a constant index addresses
 `%hi`/`%lo(gTrade_abReady + 1)` independently, exactly as the label did, so
 the overlay still matches and the byte has one name.
 
 ### Offer rendering and working inventory
 
-The contiguous `gcc_2_8_1_g0_split` leaf helpers
-`MainMenu_DrawCardTypeIcon` and `MainMenu_DrawTradeColumnOverlay` share
-[`trade_draw_helpers.c`](trade_draw_helpers.c) in executable order. Both are
+The leaf helpers `MainMenu_DrawCardTypeIcon` and
+`MainMenu_DrawTradeColumnOverlay` are adjacent in
+[`trade_screen.c`](trade_screen.c). Both are
 consumed by the installed Trade drawing callback and submit primitives to
 `gGraphics_apOrderingTables[1]`.
 
@@ -382,23 +396,19 @@ no selecting caller was established. That is a reachability caveat, not a
 claim that the function is globally unused or that a sixth UI mode exists.
 No direct resident callers or new resident linker imports are indicated.
 
-The family is grouped along its two contiguous same-profile source ranges:
+The family lives in [`trade_screen.c`](trade_screen.c) as two runs, with the
+offer functions between them:
 
-| Source | Functions in definition order | Complete text range | Object offsets |
-|---|---|---|---|
-| [`card_stat_comparators.c`](card_stat_comparators.c) | MaxStat, Attack, Defense, Type | `0x80183514-0x80183B2C` (`0x618` bytes) | `0`, `0x1E0`, `0x370`, `0x500` |
-| [`card_name_count_comparators.c`](card_name_count_comparators.c) | Name, Count | `0x8018416C-0x80184344` (`0x1D8` bytes) | `0`, `0xE8` |
+| Functions in definition order | Complete text range | Offsets within the run |
+|---|---|---|
+| MaxStat, Attack, Defense, Type | `0x80183514-0x80183B2C` (`0x618` bytes) | `0`, `0x1E0`, `0x370`, `0x500` |
+| Name, Count | `0x8018416C-0x80184344` (`0x1D8` bytes) | `0`, `0xE8` |
 
-Both units build at `gcc_2_8_1_g0_split`: each comparator returns directly
-from its tied-ID branch, which keeps the return copy ahead of the `ra`
-restore. Both keep the original definition order and all six individual
-sizes. Neither contributes data or rodata.
-The intervening Trade helpers remain separate; these six functions are not
-one contiguous object. Grouping reuses the common declarations without
-changing keys, sentinels, RNG effects or table order. Count's signed locals
-are `countKeyA` and `countKeyB`, distinguishing effective comparison keys
-from the stored unsigned count. This is a source-organization choice, not
-proof of the original author's translation-unit boundaries.
+Each comparator returns directly from its tied-ID branch, which keeps the
+return copy ahead of the `ra` restore. The original definition order and all
+six individual sizes are kept, and none contributes data or rodata.
+Count's signed locals are `countKeyA` and `countKeyB`, distinguishing
+effective comparison keys from the stored unsigned count.
 
 ## Value-setup input and write-back
 

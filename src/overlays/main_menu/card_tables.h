@@ -8,8 +8,8 @@
  * minus one. Neither is declared here any more: src/game/duel_card.h is their
  * one home and this header only points at it.
  *
- * gDuel_adwCardStats is the packed card stat word. trade_screen_helpers.c and
- * card_stat_comparators.c take its type field with CARD_STAT_TYPE_SHIFT and
+ * gDuel_adwCardStats is the packed card stat word. The card-type icon and the
+ * stat comparators in trade_screen.c take its type field with CARD_STAT_TYPE_SHIFT and
  * CARD_STAT_TYPE_MASK, which main_menu_functions.csv describes as bits 26..30,
  * 0..19 being monsters and 20..23 Magic, Trap, Ritual and Equip.
  *

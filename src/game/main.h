@@ -50,7 +50,7 @@ extern u8 gMovie_bPlaybackState;
 /* The frame-advance bound. Graphics_SyncFrame spins
  * `while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget)`, so this byte is how many frames the
  * caller lets the sync run: Main_RunAnimatedBattle,
- * src/overlays/main_menu/trade_update.c and src/game/duel_effect_states.c
+ * src/overlays/main_menu/trade_screen.c and src/game/duel_effect_states.c
  * (opening the card viewer) set it to 1, and Main_Init,
  * Main_ResetFrontendRuntime, Main_RunLibraryMenu and
  * src/game/duel_effect_states.c (closing the viewer) set it to 0. Every retail

@@ -1,4 +1,0 @@
-#include "../../../types.h"
-#define VERSION_JAPAN
-#define VERSION_JAPAN_MAIN_MENU_ADJUST_TRADE_CARD_COUNT
-#include "../../main_menu/trade_offers.c"

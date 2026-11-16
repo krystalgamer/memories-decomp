@@ -180,7 +180,7 @@ extern u8 gDuel_bActiveEffectState;
  * handlers raise 0x40 when the effect is finished, and the next tick clears
  * the byte back to 0. Stored 2 by build_deck.c,
  * duel_scene.c and the main_menu overlay's
- * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_update.c), 3 and 4
+ * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_screen.c), 3 and 4
  * by debug_menu.c, and cleared by Main_ResetFrontendRuntime and
  * Main_RunCampaign. One byte, read lbu; the next named byte is
  * gCardGrid_bCursorColumn at 0x8009B258. */
