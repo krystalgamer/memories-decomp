@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant373_grid.h"
+#include "variant373_entry.h"
 
-void FrenchModelVariant373_DrawGrid(Family373GridView *context)
+void FrenchModelVariant373_DrawGrid(EntryState373 *context)
 {
-    Family373GridView *work = context;
+    EntryState373 *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -21,21 +21,21 @@ void FrenchModelVariant373_DrawGrid(Family373GridView *context)
     s32 y;
 
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(work->delta[2], work->delta[0]);
-    ratan2(work->delta[1], work->delta[2]);
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
+    ratan2(work->aim.direction.vy, work->aim.direction.vz);
     grid = &work->grid;
-    if (work->orientation == 0) {
+    if (work->slot == 0) {
         setVector(&rotation, work->rotation, 0, 0);
     } else {
         setVector(&rotation, -work->rotation, 0, 0);
     }
-    matrix.t[0] = work->origin[0] + work->delta[0] * work->translation / 1024;
-    y = work->origin[1] + work->delta[1] * work->translation / 1024 - 256;
+    matrix.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->translation / 1024;
+    y = work->matrix.t[1] + work->aim.direction.vy * work->translation / 1024 - 256;
     matrix.t[1] = y + work->translation / 4;
-    matrix.t[2] = work->origin[2] + work->delta[2] * work->translation / 1024;
-    scale.vx = work->scale;
-    scale.vy = work->scale;
-    scale.vz = work->scale;
+    matrix.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->translation / 1024;
+    scale.vx = work->grid_scale;
+    scale.vy = work->grid_scale;
+    scale.vz = work->grid_scale;
     RotMatrix(&rotation, &matrix);
     ScaleMatrix(&matrix, &scale);
     coordinate.coord = matrix;
@@ -44,20 +44,20 @@ void FrenchModelVariant373_DrawGrid(Family373GridView *context)
     GsGetLs(&coordinate, &light);
     GsSetLsMatrix(&light);
     if (work->phase == 5) {
-        work->brightness = 1024 - (work->scale - 8192) / 8;
+        work->grid_brightness = 1024 - (work->grid_scale - 8192) / 8;
         for (i = 0; i < 9; i++) {
-            grid->colors[i].r = i * 255 / 8 * work->brightness / 1024;
-            grid->colors[i].g = work->brightness / 16;
-            grid->colors[i].b = (255 - i * 255 / 8) * work->brightness / 1024;
+            grid->colors[i].r = i * 255 / 8 * work->grid_brightness / 1024;
+            grid->colors[i].g = work->grid_brightness / 16;
+            grid->colors[i].b = (255 - i * 255 / 8) * work->grid_brightness / 1024;
         }
     } else if (work->phase >= 6) {
         for (i = 0; i < 9; i++) {
-            grid->colors[i].r = work->brightness / 8;
-            grid->colors[i].g = work->brightness / 8;
-            grid->colors[i].b = work->brightness / 8;
+            grid->colors[i].r = work->grid_brightness / 8;
+            grid->colors[i].g = work->grid_brightness / 8;
+            grid->colors[i].b = work->grid_brightness / 8;
         }
     }
-    for (i = 0, quad = work->quads, texture_v = work->texture_offset;
+    for (i = 0, quad = work->packets.grid, texture_v = work->texture_offset;
          i < 8; i++, quad++, texture_v = -i * 16 + work->texture_offset) {
         setUV4(quad, 32, texture_v + 127, 95, texture_v + 127,
                32, texture_v + 111, 95, texture_v + 111);
@@ -83,17 +83,17 @@ void FrenchModelVariant373_DrawGrid(Family373GridView *context)
             work->texture_offset = 0;
         }
     }
-    if (work->elapsed > work->config->scale_start && work->scale < 4096) {
-        work->scale = ((work->elapsed - work->config->scale_start) << 12)
-                      / (work->config->scale_end - work->config->scale_start);
-        if (work->scale >= 4096) {
-            work->scale = 4096;
+    if (work->clock.frame > work->config->grid_start && work->grid_scale < 4096) {
+        work->grid_scale = ((work->clock.frame - work->config->grid_start) << 12)
+                      / (work->config->scale_end - work->config->grid_start);
+        if (work->grid_scale >= 4096) {
+            work->grid_scale = 4096;
             work->phase = 1;
         }
     }
-    if (work->elapsed > work->config->translation_start
+    if (work->clock.frame > work->config->translation_start
         && work->translation < 1024 && work->phase < 3) {
-        work->translation = ((work->elapsed - work->config->translation_start) << 10)
+        work->translation = ((work->clock.frame - work->config->translation_start) << 10)
                             / (work->config->translation_end - work->config->translation_start);
         if (work->translation >= 1024) {
             work->translation = 1024;
@@ -101,36 +101,36 @@ void FrenchModelVariant373_DrawGrid(Family373GridView *context)
         }
     }
     if (work->phase == 3) {
-        if (work->scale < 8192) {
-            work->scale += work->step * 512;
-            if (work->scale >= 8192) {
-                work->scale = 8192;
+        if (work->grid_scale < 8192) {
+            work->grid_scale += work->clock.step * 512;
+            if (work->grid_scale >= 8192) {
+                work->grid_scale = 8192;
                 work->phase = 4;
             }
         }
     } else if (work->phase == 4) {
-        work->scale = (rcos(work->oscillation) * 2048 >> 12) + 6144;
-        work->oscillation += work->step << 6;
-        if (work->config->expansion_start < work->elapsed) {
+        work->grid_scale = (rcos(work->oscillation) * 2048 >> 12) + 6144;
+        work->oscillation += work->clock.step << 6;
+        if (work->config->points_start < work->clock.frame) {
             work->phase = 5;
         }
     } else if (work->phase == 5) {
-        work->scale += work->step * 256;
-        if (work->scale >= 16384) {
+        work->grid_scale += work->clock.step * 256;
+        if (work->grid_scale >= 16384) {
             work->phase = 6;
-            work->brightness = 1024;
+            work->grid_brightness = 1024;
         }
     } else if (work->phase == 6) {
-        work->scale += work->step * 256;
-        if (work->brightness > 0) {
-            work->brightness -= work->step * 32;
-            if (work->brightness <= 0) {
-                work->brightness = 0;
+        work->grid_scale += work->clock.step * 256;
+        if (work->grid_brightness > 0) {
+            work->grid_brightness -= work->clock.step * 32;
+            if (work->grid_brightness <= 0) {
+                work->grid_brightness = 0;
                 work->phase = 7;
             }
         }
     }
-    if (work->elapsed > work->config->translation_start) {
-        work->rotation += work->step * 64;
+    if (work->clock.frame > work->config->translation_start) {
+        work->rotation += work->clock.step * 64;
     }
 }

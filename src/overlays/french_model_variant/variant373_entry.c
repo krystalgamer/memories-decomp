@@ -308,7 +308,7 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
                     SetShadeTex(grid_packet, 0);
                 }
             }
-            FrenchModelVariant373_DrawGrid((Family373GridView *)point);
+            FrenchModelVariant373_DrawGrid((EntryState373 *)point);
         }
         if (work->config->points_start <= work->clock.frame) {
             FrenchModelVariant373_DrawPoints((Family373PointView *)point);
