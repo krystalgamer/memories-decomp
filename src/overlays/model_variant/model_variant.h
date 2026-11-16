@@ -488,18 +488,16 @@ typedef struct {
 } ModelVariantBand;
 
 
-/* Header 397's band record: five points per row in 0x11C bytes, with the
- * flag word RotTransPers3 writes for each point kept after the depths. */
+/* A five-point band record (0x11C bytes): three rows of five points, their
+ * screen coordinates, the two colour rows and scale the entries seed, and
+ * per point the depth and the flag word RotTransPers3 writes. */
 typedef struct {
-    SVECTOR a[5];
-    SVECTOR b[5];
-    SVECTOR c[5];
-    long sa[5];
-    long sb[5];
-    long sc[5];
-    u8 ca[5][4];
-    u8 cb[5][4];
-    u8 padDC[0x18];
+    SVECTOR a[5], b[5], c[5];
+    long sa[5], sb[5], sc[5];
+    CVECTOR ca[5], cb[5];
+    VECTOR scale;
+    s16 field_EC, field_EE;
+    s32 field_F0;
     s32 otz[5];
     long flag[5];
 } ModelVariantBandShort;

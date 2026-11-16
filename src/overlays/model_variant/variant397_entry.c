@@ -19,7 +19,7 @@ s32 ModelVariant397_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant397EntryBand *band;
+    ModelVariantBandShort *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
     ModelVariantRing *spoke;

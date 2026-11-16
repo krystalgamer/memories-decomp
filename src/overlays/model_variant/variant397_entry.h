@@ -16,19 +16,8 @@ typedef struct {
 } Variant397EntryConfig;
 
 typedef struct {
-    SVECTOR a[5], b[5], c[5];
-    long sa[5], sb[5], sc[5];
-    CVECTOR ca[5], cb[5];
-    VECTOR scale;
-    s16 field_EC, field_EE;
-    s32 field_F0;
-    s32 otz[5];
-    long flag[5];
-} Variant397EntryBand;
-
-typedef struct {
     ModelVariantWebNarrow webs[3];
-    Variant397EntryBand bands[1];
+    ModelVariantBandShort bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantRing spokes[4];
