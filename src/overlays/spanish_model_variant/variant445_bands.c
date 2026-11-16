@@ -4,8 +4,8 @@
 #include "../model_variant/variant428_entry.h"
 
 /* Draws one band of nine segments as pairs of POLY_GT4 quads along the variant's
- * path, fading its radius in and out with the two phases of the timing record at
- * (u8 *)work + 0x1590. */
+ * path, fading its radius in and out with the two phases timed by its
+ * config record. */
 void ModelVariant428_DrawBands(u8 *ctx)
 {
     SVECTOR rot;

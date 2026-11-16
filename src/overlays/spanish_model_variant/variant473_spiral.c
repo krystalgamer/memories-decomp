@@ -2,12 +2,12 @@
 
 #include "../french_model_variant/variant473_entry.h"
 
-/* Header 473's phase-guarded spiral: while the phase at (u8 *)work + 0x3C5C is not
- * negative, twelve two-point arms (records from (u8 *)work + 0x23B4) on a spiral of
- * the size at (u8 *)work + 0x3C2C are moved along the view by the spread and drawn
+/* Header 473's phase-guarded spiral: while phase is not
+ * negative, twelve two-point arms (records from spirals) on a spiral of
+ * spiral.size are moved along the view by the spread and drawn
  * as two POLY_GT4 halves where the depth and projection flag are not
  * negative. Reaching size 0x400 moves phase 1 to 2; from phase 2 on the
- * sweep at (u8 *)work + 0x3C28 advances by 48. */
+ * sweep spiral.angle advances by 48. */
 void SpanishModelVariant473_DrawSpiral(u8 *ctx)
 {
     SVECTOR rot;

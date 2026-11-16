@@ -3,8 +3,8 @@
 #include "model_variant.h"
 #include "variant448_entry.h"
 
-/* Header 448's form of the header-397 phased webs: the records start at
- * (u8 *)work + 0x6F8, phase 0 shrinks each scale by step * 0xE0, and a line is
+/* Header 448's form of the header-397 phased webs: the records are
+ * webs, phase 0 shrinks each scale by step * 0xE0, and a line is
  * sorted whenever its depth is positive. */
 void ModelVariant448_DrawWebs(Variant448EntryState *context)
 {

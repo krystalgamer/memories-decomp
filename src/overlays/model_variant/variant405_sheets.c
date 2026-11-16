@@ -40,10 +40,10 @@ void ModelVariant405_DrawSheets(Variant422EntryState *context)
             m.t[0] = work->matrix.t[0];
             m.t[1] = work->matrix.t[1];
             m.t[2] = work->matrix.t[2];
-        } else if (work->field_1E14 < 0x400) {
-            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->field_1E14 / 1024;
-            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->field_1E14 / 1024;
-            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->field_1E14 / 1024;
+        } else if (work->displacement < 0x400) {
+            m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->displacement / 1024;
+            m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->displacement / 1024;
+            m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->displacement / 1024;
         } else {
             m.t[0] = work->aim.target.vx;
             m.t[1] = work->aim.target.vy;
@@ -97,7 +97,7 @@ void ModelVariant405_DrawSheets(Variant422EntryState *context)
             }
         } else if (work->phase == 0) {
             sheet->size = 0;
-        } else if (work->field_1E14 >= 0x400 && work->phase == 2) {
+        } else if (work->displacement >= 0x400 && work->phase == 2) {
             if (sheet->size < 0x2000) {
                 sheet->size += work->clock.step << 10;
                 if (sheet->size >= 0x2000) {

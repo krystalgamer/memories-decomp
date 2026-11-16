@@ -57,7 +57,7 @@ typedef struct {
     SVECTOR target;
     MATRIX origin_a, origin_b;
     VECTOR direction;
-    s32 factor, field_1594, scale, spread;
+    s32 factor, lift, scale, spread;
     VECTOR delta, path;
     DVECTOR screen_delta;
     VECTOR view_delta;

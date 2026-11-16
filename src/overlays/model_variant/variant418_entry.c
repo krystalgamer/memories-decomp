@@ -253,7 +253,7 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
         work->field_1B88 = 0;
         work->band_scale = 4096;
         work->field_1B8E = 1024;
-        work->field_1B90 = 0;
+        work->displacement = 0;
         work->quad_angle = 0;
         work->ribbon_angle = 0;
         work->field_1B8A = 0;

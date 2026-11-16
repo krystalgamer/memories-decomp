@@ -4,7 +4,7 @@
 #include "variant448_entry.h"
 
 /* Header 448's form of the header-418 spiral: twelve arms (records from
- * (u8 *)work + 0x128) on a spiral whose radius is half the size at (u8 *)work + 0x1B28,
+ * spiral) on a spiral whose radius is half of spiral_size,
  * drawn only where the depth is positive; the size grows to 0x400. The two
  * products tested before the arms are template code with dead arms. */
 void ModelVariant448_DrawSpiral(Variant448EntryState *context)
