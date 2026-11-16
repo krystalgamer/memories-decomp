@@ -1,7 +1,8 @@
 
 #include "../types.h"
 
-/* The debug menu, in address order: its setup and primary-page value
+/* The debug menu, in address order: the primary display object's dim and
+   restore setters its editor entries call, its setup and primary-page value
    editor (DebugMenu_UpdateCursorLayout through DebugMenu_UpdateCampaignEntry,
    with the European language entry), the eight frontend scene states
    (DebugMenu_UpdateMapEntry through DebugMenu_EnterDeckEditor), and the
@@ -24,7 +25,6 @@
 #include "debug_menu.h"
 #include "debug_menu.h"
 #include "frontend_step_tables.h"
-#include "display_object_brightness.h"
 #include "file_transfer.h"
 #include "input.h"
 #include "sound.h"
@@ -116,6 +116,24 @@ u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT] = {
     0x06, 0x08, 0x09, 0x0A, 0x00, 0x00, 0x00, 0x00,
     0x0B, 0x0C, 0x0D, 0x00,
 };
+
+#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
+
+/* The Sound and Campaign entries dim the primary display object while their
+ * value editor is open and restore its neutral RGB brightness on exit. */
+void DebugMenu_DimPrimaryDisplayObject(void)
+{
+    DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[0] =
+        DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[1] =
+        DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[2] = 0x40;
+}
+
+void DebugMenu_RestorePrimaryDisplayObject(void)
+{
+    DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[0] =
+        DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[1] =
+        DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[2] = 0x80;
+}
 
 void DebugMenu_UpdateCursorLayout(void)
 {

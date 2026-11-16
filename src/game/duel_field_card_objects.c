@@ -3,6 +3,7 @@
 #include "card_presentation.h"
 #include "duel_scene.h"
 #include "display_object.h"
+#include "display_object_work_slots.h"
 
 void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
 {
@@ -68,4 +69,18 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
         }
     }
     *output = 0;
+}
+
+void DisplayObject_CopyWorkSlots(s32 *destination)
+{
+    s32 i;
+    DisplayObject **source;
+
+    i = 0;
+    source = gDisplayObject_apWorkSlots.slots;
+    while (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {
+        *destination++ = (s32)*source++;
+        i++;
+    }
+    *destination = 0;
 }

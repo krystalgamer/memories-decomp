@@ -1649,7 +1649,7 @@
       "address": "0x8002C930",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x30",
-      "source": "src/game/display_object_copy_work_slots.c"
+      "source": "src/game/japanese/duel_field_card_objects.c"
     },
     {
       "address": "0x8002C9D4",
@@ -2103,15 +2103,15 @@
     },
     {
       "address": "0x8002FE38",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/japanese/display_object_brightness.c"
+      "source": "src/game/japanese/debug_menu.c"
     },
     {
       "address": "0x8002FE54",
-      "profile": "gcc_2_8_1_g8_split",
+      "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/japanese/display_object_brightness.c"
+      "source": "src/game/japanese/debug_menu.c"
     },
     {
       "address": "0x8002FF40",
