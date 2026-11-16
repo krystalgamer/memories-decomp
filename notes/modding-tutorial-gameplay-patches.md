@@ -461,8 +461,7 @@ for (card_id = EXODIA_FIRST_CARD_ID;
             return 0;
         }
         if (buf[i] >= 0 &&
-            ((DuelCardStagingDeckView *)gDuel_abCardStagingBuffer)
-                ->cards[buf[i]].id == card_id) {
+            gDuel_abCardStagingBuffer.deck.cards[buf[i]].id == card_id) {
             buf[i] = -1;
             break;
         }

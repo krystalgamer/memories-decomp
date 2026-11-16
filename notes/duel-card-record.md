@@ -237,9 +237,11 @@ The neighboring permutation outputs still use explicit byte views at
 after the same base. No bound, combined allocation or new alias is
 introduced, and the raw saved/staging buffer declarations stay unchanged.
 
-An input view in `duel_card_staging.h` names those two arrays instead of
-raw offset loads. Its use applies only to this population lifetime; the
-shared buffer stays an unsized byte array. The separate source/image pointers,
+The `deck_lists` member of the staging buffer's `DuelCardStagingBuffer`
+union names those two arrays, plus the sorted copy and the unique-ID list
+`Duel_RequestCombinedDeckData` writes one `DUEL_DECK_ID_BUFFER_STRIDE`
+further on each, instead of raw offset loads. Its use applies only to this
+population lifetime. The separate source/image pointers,
 unbounded unique-ID search, block-copy order and output-record stride
 remain unchanged.
 
@@ -251,8 +253,12 @@ base is not exclusively a card database: `Duel_RequestCombinedDeckData`
 passes it through the file-transfer descriptor's integer `position` field,
 `Duel_PopulateCombinedDeckData` copies card-image blocks from it, trap
 resolution uses scratch slots, and `DuelCard_CaptureRoundedTexture` uses the base for GPU
-readback. The default declaration therefore remains an incomplete byte
-array. No size or single lifetime is asserted for that raw buffer.
+readback. The symbol is therefore declared as the union
+`DuelCardStagingBuffer`: `bytes`/`pixels`/`words` for the raw transfer and
+readback uses, `deck_lists` for the combined-deck ID lists and `deck` for
+the field/deck record tables. The union's `0x4BBDC`-byte size is the
+furthest known view (the deck records end at `0x801A8000`); no single
+lifetime is asserted.
 
 The typed views are established by address arithmetic and producers, not by
 the base symbol's name:
@@ -290,10 +296,10 @@ from 109 names / 205 sites to 106 / 194 on the Tick388 base.
 
 The following boundaries remain deliberate:
 
-- The typed-view consumers cast the byte view `gDuel_abCardStagingBuffer`
-  to `DuelCardStagingDeckView *` at each use; there is no second
-  declaration, assembler label or guard. The cast reproduces the retail
-  addressing at both `gcc_2_8_1_g0_split` and `gcc_2_8_1_g8_split`.
+- The typed-view consumers read `gDuel_abCardStagingBuffer.deck` members
+  directly; there is no second declaration, assembler label or guard. The
+  member access reproduces the retail addressing at both
+  `gcc_2_8_1_g0_split` and `gcc_2_8_1_g8_split`.
 - Deck ID reads in setup remain unsigned, while the draw path still reads
   `index_02` as signed. Typed fields do not normalize load widths or signs.
 - Byte offsets for image blocks, GPU pixels, ID staging lists and trap
