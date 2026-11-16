@@ -318,7 +318,7 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant479_DrawSpiral((Variant479EntryState *)point);
         }
         if (work->config->start <= work->clock.frame && work->phase < 5) {
-            SpanishModelVariant479_DrawSheets((u8 *)point);
+            SpanishModelVariant479_DrawSheets((Variant479EntryState *)point);
         }
         work->clock.frame_count++;
         animation_frame = Model_GetSlotAnimationFrame(work->slot);

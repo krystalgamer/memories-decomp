@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant479_sheets.h"
+#include "variant479_entry.h"
 
-void SpanishModelVariant479_DrawSheets(u8 *context)
+void SpanishModelVariant479_DrawSheets(Variant479EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,8 +11,8 @@ void SpanishModelVariant479_DrawSheets(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Sheets479State *state = (Sheets479State *)context;
-    Sheets479Primary *primary = state->primary;
+    Variant479EntryState *state = context;
+    Variant479Rib *primary = state->ribs;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *polygon;
     SVECTOR *vertex;
@@ -21,23 +21,23 @@ void SpanishModelVariant479_DrawSheets(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    polygon = &state->polygon;
+    polygon = &state->packets.textured[1];
     for (i = 0; i < 8; i++, sheet++) {
         extra = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             extra = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i < 5) {
-            matrix.t[0] = state->positions[i % 3].position.vx + primary->position.vx;
-            matrix.t[1] = state->positions[i % 3].position.vy + primary->position.vy;
-            matrix.t[2] = state->positions[i % 3].position.vz + primary->position.vz;
+            matrix.t[0] = state->matrices[i % 3].t[0] + primary->a[8].vx;
+            matrix.t[1] = state->matrices[i % 3].t[1] + primary->a[8].vy;
+            matrix.t[2] = state->matrices[i % 3].t[2] + primary->a[8].vz;
         } else {
-            matrix.t[0] = state->positions[i - 5].position.vx;
-            matrix.t[1] = state->positions[i - 5].position.vy;
-            matrix.t[2] = state->positions[i - 5].position.vz;
+            matrix.t[0] = state->matrices[i - 5].t[0];
+            matrix.t[1] = state->matrices[i - 5].t[1];
+            matrix.t[2] = state->matrices[i - 5].t[2];
         }
         scale.vx = sheet->size + extra;
         scale.vy = sheet->size + extra;
@@ -72,7 +72,7 @@ void SpanishModelVariant479_DrawSheets(u8 *context)
             polygon->g3 = sheet->outer[1];
             polygon->b3 = sheet->outer[2];
             depth = depth * 8 / 10;
-            if ((i >= 5 || primary->active != 0) && depth >= 0 && flag >= 0) {
+            if ((i >= 5 || primary->state != 0) && depth >= 0 && flag >= 0) {
                 GsSortPoly(polygon, ot, depth);
             }
         }
@@ -80,15 +80,15 @@ void SpanishModelVariant479_DrawSheets(u8 *context)
             if (state->phase == 2) {
                 sheet->size = 4096;
             } else if (state->phase == 3 && sheet->size < 8192) {
-                sheet->size += state->step * 512;
+                sheet->size += state->clock.step * 512;
                 if (sheet->size >= 8192) {
                     sheet->size = 8192;
                     state->phase = 4;
                 }
             }
-            if (state->time >= state->timing->shrink_start && sheet->size > 0) {
-                sheet->size = 8192 - ((state->time - state->timing->shrink_start) << 13) /
-                                    (state->timing->shrink_end - state->timing->shrink_start);
+            if (state->clock.frame >= state->config->fade_start && sheet->size > 0) {
+                sheet->size = 8192 - ((state->clock.frame - state->config->fade_start) << 13) /
+                                    (state->config->fade_end - state->config->fade_start);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
@@ -96,16 +96,16 @@ void SpanishModelVariant479_DrawSheets(u8 *context)
             primary++;
         } else {
             if (state->phase == 0 && sheet->size < 4096) {
-                sheet->size = ((state->time - state->timing->grow_start) << 12) /
-                              (state->timing->grow_end - state->timing->grow_start);
+                sheet->size = ((state->clock.frame - state->config->start) << 12) /
+                              (state->config->grow_end - state->config->start);
                 if (sheet->size >= 4096) {
                     sheet->size = 4096;
                     state->phase = 1;
                 }
             }
-            if (state->time >= state->timing->shrink_start && sheet->size > 0) {
-                sheet->size = 4096 - ((state->time - state->timing->shrink_start) << 12) /
-                                    (state->timing->shrink_end - state->timing->shrink_start);
+            if (state->clock.frame >= state->config->fade_start && sheet->size > 0) {
+                sheet->size = 4096 - ((state->clock.frame - state->config->fade_start) << 12) /
+                                    (state->config->fade_end - state->config->fade_start);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
