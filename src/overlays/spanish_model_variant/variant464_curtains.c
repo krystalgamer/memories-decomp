@@ -4,7 +4,7 @@
 #include "../french_model_variant/variant464_entry.h"
 
 /* Each frame rebuilds the two rows of both shown curtains around the
- * rotating angle at (u8 *)work + 0x1C5C, lifting the outer row by the first
+ * rotating curtain_angle, lifting the outer row by the first
  * sheet's size when flag bit 0 is set, and draws each strip as a POLY_GT4
  * when its depth is positive. A curtain that reaches full size wraps
  * and counts a cycle before phase 4, and stops there from phase 4 on. */
@@ -81,20 +81,20 @@ void SpanishModelVariant464_DrawCurtains(Variant464EntryState *context)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (curtain->scale < 0x800) {
-                r0 = ((u8 *)work)[0x1C54];
-                g0 = ((u8 *)work)[0x1C55];
-                b0 = ((u8 *)work)[0x1C56];
-                r1 = ((u8 *)work)[0x1C58];
-                g1 = ((u8 *)work)[0x1C59];
-                b1 = ((u8 *)work)[0x1C5A];
+                r0 = work->outer.r;
+                g0 = work->outer.g;
+                b0 = work->outer.b;
+                r1 = work->inner.r;
+                g1 = work->inner.g;
+                b1 = work->inner.b;
             } else {
                 fade = 0x1000 - curtain->scale;
-                r0 = ((u8 *)work)[0x1C54] * fade / 2048;
-                g0 = ((u8 *)work)[0x1C55] * fade / 2048;
-                b0 = ((u8 *)work)[0x1C56] * fade / 2048;
-                r1 = ((u8 *)work)[0x1C58] * fade / 2048;
-                g1 = ((u8 *)work)[0x1C59] * fade / 2048;
-                b1 = ((u8 *)work)[0x1C5A] * fade / 2048;
+                r0 = work->outer.r * fade / 2048;
+                g0 = work->outer.g * fade / 2048;
+                b0 = work->outer.b * fade / 2048;
+                r1 = work->inner.r * fade / 2048;
+                g1 = work->inner.g * fade / 2048;
+                b1 = work->inner.b * fade / 2048;
             }
             for (j = 0; j < 16; j++) {
                 otz = RotTransPers4(&curtain->a[j], &curtain->a[j + 1], &curtain->b[j], &curtain->b[j + 1],
