@@ -7,7 +7,7 @@ the same 0x7C4-byte body. **No release had matching C for this body before.**
 No call from the entry was observed.
 
 The body is the accepted MODEL475 streamers helper (`variant475_streamers.c`)
-over the shared `variant458_streamers.h` layout, with three measured
+over the shared header-458 streamer layout (`ModelVariantShortStreamer`), with three measured
 differences:
 - the reach is 192 instead of 160;
 - segments are sorted whenever the depth is positive, without the
