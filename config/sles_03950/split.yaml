@@ -126,7 +126,7 @@ segments:
       - [0x30B50, c, game/european/display_object_system]
       - [0x33E58, c, game/italian/main_boot_frontend]
       - [0x34A04, c, game/mem_card_driver]
-      - [0x359B8, c, game/spanish/mem_card_io_result_callbacks]
+      - [0x359B8, c, game/mem_card_io_result_callbacks]
       - [0x35A04, c, game/sound_output_state]
       - [0x37328, c, game/european/sound_driver]
       - [0x38110, c, game/sound_effect]

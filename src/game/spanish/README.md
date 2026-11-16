@@ -9,7 +9,6 @@ external reference.
 |---|---|---:|---:|---|
 | `duel_scene.c` | `0x8002416C` | 1 | 336 | Card ID at `0x8009C5D8`, Y offset at `0x8009C5DD` |
 | `save_data_payload.c` | `0x8003D040` | 9 | 1,164 | Campaign scene index at `0x8009C638` |
-| `mem_card_io_result_callbacks.c` | `0x800451B8` | 4 | 76 | Result word at `0x800A0000 - 0x3844 = 0x8009C7BC` |
 | `sound_output_state.c` (`SD_ArmBusyCallback`) | `0x80045918` | 1 | 40 | Driver pointer at `0x8009C7E0`, callback at `0x8009C470` |
 | `trade_screen_widgets.c` (`CardList_CreateDeckBoxStatRows`) | `0x8006B080` | 1 | 240 | Viewport X/Y at `0x8009C4C0` / `0x8009C4C2` |
 
@@ -21,8 +20,9 @@ the Spanish addresses are supplied separately.
 
 Each candidate was compiled and independently linked at its Spanish address,
 with every resulting instruction byte compared against the retail executable.
-The grouped save-data and callback units retain their complete contiguous
-definition order. Integration then passed the complete executable hash and
+The grouped save-data unit retains its complete contiguous definition order.
+The batch's four memory-card I/O result callbacks (`0x800451B8`, 76 bytes)
+now compile directly from the shared `mem_card_io_result_callbacks.c`. Integration then passed the complete executable hash and
 exact linked-symbol extent checks.
 
 The same batch directly reuses the European bust-up entry wrapper (now part

@@ -4211,13 +4211,13 @@
       "address": "0x800443E8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10",
-      "source": "src/game/japanese/mem_card_set_io_result_complete.c"
+      "source": "src/game/mem_card_io_result_callbacks.c"
     },
     {
       "address": "0x80044420",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x14",
-      "source": "src/game/japanese/mem_card_set_io_result_new_card.c"
+      "source": "src/game/mem_card_io_result_callbacks.c"
     },
     {
       "address": "0x80042858",
@@ -4229,13 +4229,13 @@
       "address": "0x800443F8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x14",
-      "source": "src/game/japanese/mem_card_set_io_result_timeout.c"
+      "source": "src/game/mem_card_io_result_callbacks.c"
     },
     {
       "address": "0x8004440C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x14",
-      "source": "src/game/japanese/mem_card_set_io_result_error.c"
+      "source": "src/game/mem_card_io_result_callbacks.c"
     },
     {
       "address": "0x80044434",
