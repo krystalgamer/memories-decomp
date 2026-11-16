@@ -17,12 +17,12 @@ void ModelVariant418_DrawQuad(Variant418EntryState *work)
     GsOT *ot;
     s32 i;
     s32 bias;
-    ModelVariantQuad *rec;
+    ModelVariantFan *rec;
     POLY_G4 *poly;
     s32 v;
 
     poly = &work->packets.quad;
-    rec = (ModelVariantQuad *)work->fans;
+    rec = work->fans;
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 1; i++, rec++) {
         bias = 0;
