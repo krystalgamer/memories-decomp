@@ -8,7 +8,6 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
-#include "../french_model_variant/variant385_grid.h"
 #include "../model_variant/model_variant.h"
 
 typedef struct {
@@ -85,7 +84,7 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant473_aImages[9];
 extern EntryConfig473 gFrenchModelVariant473_aConfigs[];
-void FrenchModelVariant385_DrawGrid(u8 *context);
+void FrenchModelVariant385_DrawGrid(EntryState473 *context);
 void SpanishModelVariant473_DrawSpiral(EntryState473 *context);
 void FrenchModelVariant473_DrawRibs(EntryState473 *context);
 void SpanishModelVariant473_DrawSheets(u8 *context);

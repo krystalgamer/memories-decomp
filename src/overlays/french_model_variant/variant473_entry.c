@@ -325,7 +325,7 @@ s32 FrenchModelVariant473_HandleRequest(SVECTOR *point, s32 command)
         work->screen_delta.vy = dy;
         if ((u32)(work->phase - 3) < 3) {
             SpanishModelVariant473_DrawFunnels((EntryState473 *)point);
-            FrenchModelVariant385_DrawGrid((u8 *)point);
+            FrenchModelVariant385_DrawGrid((EntryState473 *)point);
         }
         if ((u32)(work->phase - 2) < 3) {
             FrenchModelVariant473_DrawRibs((EntryState473 *)point);
