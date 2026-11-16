@@ -89,7 +89,7 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
                     curve = k * 128;
                     bend = k * 768 - work->phase_b;
                 }
-                dist = work->field_1594 / 4 * (0x400 - work->factor) / 1024;
+                dist = work->lift / 4 * (0x400 - work->factor) / 1024;
                 amp = (rsin(curve) * 64 >> 12) + (rsin(bend) * ((rsin(wave) * 16 >> 12) + 32) >> 12);
                 setVector(&ribbon->a[k],
                           rcos(phase + work->spin) * amp >> 12,
