@@ -1446,7 +1446,6 @@ void AiScript_FindBestCombo(void)
     s32 search_index;
     s32 candidate_slot;
     s32 candidate_card_id;
-    u8 *state_byte_cursor;
     s32 *script_memory;
 
     script_memory = gAiScript_aMemory;
@@ -1495,16 +1494,16 @@ void AiScript_FindBestCombo(void)
                 gAiScript_State.fusion_depth;
         }
         if (gAiScript_State.fusion_limit >= 2) {
-            /* state_byte_cursor deliberately points at the state base plus search_index, not at
-             * &fusion_used[search_index]: keeping fusion_used's 0xAA in the access
-             * displacement lets the address arithmetic fill the branch delay
-             * slot. Spelling it &fusion_used[search_index] costs two instructions. */
-            state_byte_cursor = (u8 *)&gAiScript_State + search_index;
-            state_byte_cursor[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
+            /* Through a state pointer the index is added to the base and
+             * fusion_used's offset stays in the store displacement, as in
+             * retail; gAiScript_State.fusion_used[] costs two instructions. */
+            AiScriptState *state = &gAiScript_State;
+
+            state->fusion_used[search_index] = 1;
             gAiScript_State.fusion_depth =
                 gAiScript_State.fusion_depth + 1;
             Ai_CompleteFusion(candidate_card_id);
-            state_byte_cursor[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
+            state->fusion_used[search_index] = 0;
             gAiScript_State.fusion_depth =
                 gAiScript_State.fusion_depth - 1;
         }
@@ -1539,16 +1538,16 @@ void AiScript_FindBestCombo(void)
                 gAiScript_State.fusion_depth;
         }
         if (gAiScript_State.fusion_limit >= 3) {
-            /* state_byte_cursor deliberately points at the state base plus search_index, not at
-             * &fusion_used[search_index]: keeping fusion_used's 0xAA in the access
-             * displacement lets the address arithmetic fill the branch delay
-             * slot. Spelling it &fusion_used[search_index] costs two instructions. */
-            state_byte_cursor = (u8 *)&gAiScript_State + search_index;
-            state_byte_cursor[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 1;
+            /* Through a state pointer the index is added to the base and
+             * fusion_used's offset stays in the store displacement, as in
+             * retail; gAiScript_State.fusion_used[] costs two instructions. */
+            AiScriptState *state = &gAiScript_State;
+
+            state->fusion_used[search_index] = 1;
             gAiScript_State.fusion_depth =
                 gAiScript_State.fusion_depth + 1;
             Ai_CompleteFusion(candidate_card_id);
-            state_byte_cursor[AI_SCRIPT_FUSION_USED_BYTE_OFFSET] = 0;
+            state->fusion_used[search_index] = 0;
             gAiScript_State.fusion_depth =
                 gAiScript_State.fusion_depth - 1;
         }
@@ -1815,13 +1814,11 @@ void AiScript_AddCard(void) {
 void AiScript_ClearCards(void)
 {
     s32 i = AI_SCRIPT_CARD_SET_COUNT - 1;
-    u16 *entries = (u16 *)&gAiScript_State;
+    AiScriptState *state = &gAiScript_State;
 
-    entries += AI_SCRIPT_CARD_SET_HALFWORD_OFFSET;
     do {
-        entries[AI_SCRIPT_CARD_SET_COUNT - 1] = AI_SCRIPT_CARD_SET_EMPTY;
+        state->card_set[i] = AI_SCRIPT_CARD_SET_EMPTY;
         i--;
-        entries--;
     } while (i >= 0);
 }
 
@@ -1833,13 +1830,15 @@ void AiScript_AddType(void)
     s32 i;
 
     for (i = 0; i < AI_SCRIPT_TYPE_SET_COUNT; i++) {
-        u8 *entry = (u8 *)&gAiScript_State + i;
+        /* The state pointer keeps type_set's offset in the access
+         * displacement (base + i, then 0x7E(reg)), as retail does. */
+        AiScriptState *state = &gAiScript_State;
 
-        if (entry[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] == type) {
+        if (state->type_set[i] == type) {
             break;
         }
-        if (entry[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] == AI_SCRIPT_TYPE_SET_EMPTY) {
-            entry[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] = type;
+        if (state->type_set[i] == AI_SCRIPT_TYPE_SET_EMPTY) {
+            state->type_set[i] = type;
             break;
         }
     }
@@ -1848,13 +1847,15 @@ void AiScript_AddType(void)
 void AiScript_ClearTypes(void)
 {
     s32 i = AI_SCRIPT_TYPE_SET_COUNT - 1;
-    u8 *entries = (u8 *)&gAiScript_State;
+    /* Retail walks a byte cursor down from the state base and keeps type_set's
+     * offset in the store displacement; type_set[i] is not strength-reduced to
+     * a cursor and &type_set[i] folds the offset into the base address. */
+    u8 *cursor = (u8 *)&gAiScript_State + i;
 
-    entries += i;
     do {
-        entries[AI_SCRIPT_TYPE_SET_BYTE_OFFSET] = AI_SCRIPT_TYPE_SET_EMPTY;
+        ((AiScriptState *)cursor)->type_set[0] = AI_SCRIPT_TYPE_SET_EMPTY;
         i--;
-        entries--;
+        cursor--;
     } while (i >= 0);
 }
 
