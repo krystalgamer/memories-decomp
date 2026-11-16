@@ -4,8 +4,6 @@
 #include "../types.h"
 #include "../ygo_types.h"
 
-#define MODEL_EFFECT_KEY_OFFSET(member) ((u32)&(((Key *)0)->member))
-
 /* Model_RefreshEffectKeySlotValues and Model_CaptureKeyframePose fill a
    resolved record through Model_CopySlotPosition for endpoint kinds 2 and 3:
    the slot's cached X, Y and Z, then the fourth cached_position halfword,
@@ -41,15 +39,13 @@ typedef char ModelEffectResolvedValues_size_must_be_0x8[
     sizeof(ModelEffectResolvedValues) == 0x8 ? 1 : -1
 ];
 typedef char ModelEffectKey_resolved_offset_must_be_0x10[
-    MODEL_EFFECT_KEY_OFFSET(resolved) == 0x10 ? 1 : -1
+    OFFSETOF(Key, resolved) == 0x10 ? 1 : -1
 ];
 typedef char ModelEffectKey_magnitude_offset_must_be_0x20[
-    MODEL_EFFECT_KEY_OFFSET(magnitude) == 0x20 ? 1 : -1
+    OFFSETOF(Key, magnitude) == 0x20 ? 1 : -1
 ];
 typedef char ModelEffectKey_ready_offset_must_be_0x26[
-    MODEL_EFFECT_KEY_OFFSET(ready) == 0x26 ? 1 : -1
+    OFFSETOF(Key, ready) == 0x26 ? 1 : -1
 ];
-
-#undef MODEL_EFFECT_KEY_OFFSET
 
 #endif

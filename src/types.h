@@ -10,6 +10,9 @@ typedef unsigned int u32;
 typedef signed long long s64;
 typedef unsigned long long u64;
 
+/* Byte offset of a struct member, for layout assertions. */
+#define OFFSETOF(type, member) ((u32)&(((type *)0)->member))
+
 /* Storage the retail image reserves but nothing in it names or references.
  * PADDING_VARIABLE(n) declares n bytes as u8 D_PADDING_<line>[n], so fillers
  * read as padding rather than as unidentified variables. Write it as

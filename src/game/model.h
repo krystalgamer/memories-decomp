@@ -52,8 +52,6 @@ extern s16 gModel_sTextureTintRectY;
 extern s16 gModel_sTextureTintRectW;
 extern s16 gModel_sTextureTintRectH;
 
-#define MODEL_OFFSET(type, member) ((u32)&(((type *)0)->member))
-
 #define MODEL_SLOT_COUNT 3
 #define MODEL_SLOT_SIZE 0xE20
 #define MODEL_SLOT_DATA_ENTRY_SIZE 80
@@ -468,40 +466,40 @@ typedef char ModelSlotHeadEntry_size_must_be_0x8[
     sizeof(ModelSlotHeadEntry) == 0x8 ? 1 : -1
 ];
 typedef char ModelSlotHeadEntry_layout_must_match[
-    MODEL_OFFSET(ModelSlotHeadEntry, coord) == 0 &&
+    OFFSETOF(ModelSlotHeadEntry, coord) == 0 &&
     sizeof(((ModelSlotHeadEntry *)0)->coord) == 4 &&
-    MODEL_OFFSET(ModelSlotHeadEntry, primitive_data) == 4 &&
+    OFFSETOF(ModelSlotHeadEntry, primitive_data) == 4 &&
     sizeof(((ModelSlotHeadEntry *)0)->primitive_data) == 4 ? 1 : -1
 ];
 typedef char ModelSlot_hmd_units_extent_must_be_0x1E0[
-    MODEL_OFFSET(ModelSlot, hmd_units) == 0 &&
+    OFFSETOF(ModelSlot, hmd_units) == 0 &&
     sizeof(((ModelSlot *)0)->hmd_units) == 0x1E0 ? 1 : -1
 ];
 typedef char ModelSlotRow_size_must_be_0x76[
     sizeof(ModelSlotRow) == 0x76 ? 1 : -1
 ];
 typedef char ModelSlotRow_max_offset_must_be_0x74[
-    MODEL_OFFSET(ModelSlotRow, max) == 0x74 ? 1 : -1
+    OFFSETOF(ModelSlotRow, max) == 0x74 ? 1 : -1
 ];
 typedef char ModelSlotPart_start_offset_must_be_0x18[
-    MODEL_OFFSET(ModelSlotPart, start) == 0x18 ? 1 : -1
+    OFFSETOF(ModelSlotPart, start) == 0x18 ? 1 : -1
 ];
 typedef char ModelSlot_animation_command_indices_offset_must_be_0x2C8[
-    MODEL_OFFSET(ModelSlot, animation_command_indices) ==
+    OFFSETOF(ModelSlot, animation_command_indices) ==
         MODEL_SLOT_ROW_KEY_TABLE_OFFSET ? 1 : -1
 ];
 typedef char ModelSlot_animation_duration_rows_offset_must_be_0x750[
-    MODEL_OFFSET(ModelSlot, animation_duration_rows) == 0x750 ? 1 : -1
+    OFFSETOF(ModelSlot, animation_duration_rows) == 0x750 ? 1 : -1
 ];
 typedef char ModelSlot_extended_animation_part_mask_offset_must_be_0xBEC[
-    MODEL_OFFSET(ModelSlot, extended_animation_part_mask) == 0xBEC &&
+    OFFSETOF(ModelSlot, extended_animation_part_mask) == 0xBEC &&
     sizeof(((ModelSlot *)0)->extended_animation_part_mask) == 8 ? 1 : -1
 ];
 typedef char ModelSlot_animation_commands_offset_must_be_0xDD8[
-    MODEL_OFFSET(ModelSlot, animation_commands) == 0xDD8 ? 1 : -1
+    OFFSETOF(ModelSlot, animation_commands) == 0xDD8 ? 1 : -1
 ];
 typedef char ModelSlot_animation_control_state_offset_must_be_0xE0E[
-    MODEL_OFFSET(ModelSlot, animation_control_state) == 0xE0E ? 1 : -1
+    OFFSETOF(ModelSlot, animation_control_state) == 0xE0E ? 1 : -1
 ];
 typedef char ModelSlotMetadataBlock_size_must_be_0x1C[
     sizeof(ModelSlotMetadataBlock) == 0x1C ? 1 : -1
@@ -510,27 +508,27 @@ typedef char ModelSlotMetadataBlockWords_size_must_match_block[
     sizeof(ModelSlotMetadataBlockWords) == sizeof(ModelSlotMetadataBlock) ? 1 : -1
 ];
 typedef char ModelTransferMetadata_metadata_offset_must_be_0x100[
-    MODEL_OFFSET(ModelTransferMetadata, metadata) == 0x100 ? 1 : -1
+    OFFSETOF(ModelTransferMetadata, metadata) == 0x100 ? 1 : -1
 ];
 typedef char ModelBytes8_size_must_be_8[
     sizeof(ModelBytes8) == 8 ? 1 : -1
 ];
 typedef char ModelSlotMetadataBlock_guardian_star_options_offset_must_be_0xA[
-    MODEL_OFFSET(ModelSlotMetadataBlock, prefix.bytes.guardian_star_options) == 0xA ? 1 : -1
+    OFFSETOF(ModelSlotMetadataBlock, prefix.bytes.guardian_star_options) == 0xA ? 1 : -1
 ];
 typedef char ModelSlotMetadataBlock_battle_camera_duration_overrides_offset_must_be_0xC[
-    MODEL_OFFSET(ModelSlotMetadataBlock, battle_camera_duration_overrides) == 0xC ? 1 : -1
+    OFFSETOF(ModelSlotMetadataBlock, battle_camera_duration_overrides) == 0xC ? 1 : -1
 ];
 typedef char ModelSlotLightEntry_size_must_be_0x10[
     sizeof(ModelSlotLightEntry) == 0x10 ? 1 : -1
 ];
 typedef char ModelSlotLightEntry_layout_must_match[
-    MODEL_OFFSET(ModelSlotLightEntry, direction_x) == 0 &&
-    MODEL_OFFSET(ModelSlotLightEntry, direction_y) == 4 &&
-    MODEL_OFFSET(ModelSlotLightEntry, direction_z) == 8 &&
-    MODEL_OFFSET(ModelSlotLightEntry, rgb) == 0xC &&
+    OFFSETOF(ModelSlotLightEntry, direction_x) == 0 &&
+    OFFSETOF(ModelSlotLightEntry, direction_y) == 4 &&
+    OFFSETOF(ModelSlotLightEntry, direction_z) == 8 &&
+    OFFSETOF(ModelSlotLightEntry, rgb) == 0xC &&
     sizeof(((ModelSlotLightEntry *)0)->rgb) == 3 &&
-    MODEL_OFFSET(ModelSlotLightEntry, pad_0F) == 0xF ? 1 : -1
+    OFFSETOF(ModelSlotLightEntry, pad_0F) == 0xF ? 1 : -1
 ];
 typedef char ModelSlotS32Quad_size_must_be_0x10[
     sizeof(ModelSlotS32Quad) == 0x10 ? 1 : -1
@@ -542,230 +540,230 @@ typedef char ModelSlot_size_must_be_0xE20[
     sizeof(ModelSlot) == MODEL_SLOT_SIZE ? 1 : -1
 ];
 typedef char ModelSlot_animation_sequences_offset_must_be_0x1E0[
-    MODEL_OFFSET(ModelSlot, animation_sequences) == 0x1E0 ? 1 : -1
+    OFFSETOF(ModelSlot, animation_sequences) == 0x1E0 ? 1 : -1
 ];
 typedef char ModelSlot_animation_duration_rows_max_offset_must_be_0x7C4[
-    MODEL_OFFSET(ModelSlot, animation_duration_rows[0].max) == 0x7C4 ? 1 : -1
+    OFFSETOF(ModelSlot, animation_duration_rows[0].max) == 0x7C4 ? 1 : -1
 ];
 typedef char ModelSlot_current_animation_row_offset_must_be_0xBF5[
-    MODEL_OFFSET(ModelSlot, current_animation_row) == 0xBF5 ? 1 : -1
+    OFFSETOF(ModelSlot, current_animation_row) == 0xBF5 ? 1 : -1
 ];
 typedef char ModelSlot_animation_control_layout_must_match[
-    MODEL_OFFSET(ModelSlot, queued_animation_row) == 0xBF4 &&
+    OFFSETOF(ModelSlot, queued_animation_row) == 0xBF4 &&
     sizeof(((ModelSlot *)0)->queued_animation_row) == 1 &&
     sizeof(((ModelSlot *)0)->current_animation_row) == 1 &&
-    MODEL_OFFSET(ModelSlot, queued_animation_row_latch) == 0xBF6 &&
+    OFFSETOF(ModelSlot, queued_animation_row_latch) == 0xBF6 &&
     sizeof(((ModelSlot *)0)->queued_animation_row_latch) == 1 &&
-    MODEL_OFFSET(ModelSlot, animation_sound_position) == 0xE08 &&
+    OFFSETOF(ModelSlot, animation_sound_position) == 0xE08 &&
     sizeof(((ModelSlot *)0)->animation_sound_position) == 2 &&
     sizeof(((ModelSlot *)0)->playback_speed) == 1 ? 1 : -1
 ];
 typedef char ModelSlotSoundEntry_layout_must_match[
     sizeof(ModelSlotSoundEntry) == 4 &&
-    MODEL_OFFSET(ModelSlotSoundEntry, animation_row) == 0 &&
+    OFFSETOF(ModelSlotSoundEntry, animation_row) == 0 &&
     sizeof(((ModelSlotSoundEntry *)0)->animation_row) == 1 &&
-    MODEL_OFFSET(ModelSlotSoundEntry, sound_id) == 1 &&
+    OFFSETOF(ModelSlotSoundEntry, sound_id) == 1 &&
     sizeof(((ModelSlotSoundEntry *)0)->sound_id) == 1 &&
-    MODEL_OFFSET(ModelSlotSoundEntry, flags) == 2 &&
+    OFFSETOF(ModelSlotSoundEntry, flags) == 2 &&
     sizeof(((ModelSlotSoundEntry *)0)->flags) == 2 ? 1 : -1
 ];
 typedef char ModelSlot_sound_entries_offset_must_be_0xBF8[
-    MODEL_OFFSET(ModelSlot, sound_entries) == 0xBF8 ? 1 : -1
+    OFFSETOF(ModelSlot, sound_entries) == 0xBF8 ? 1 : -1
 ];
 typedef char ModelSlot_metadata_offset_must_be_0xCF8[
-    MODEL_OFFSET(ModelSlot, metadata) == 0xCF8 ? 1 : -1
+    OFFSETOF(ModelSlot, metadata) == 0xCF8 ? 1 : -1
 ];
 typedef char ModelSlot_entries_offset_must_be_0xD14[
-    MODEL_OFFSET(ModelSlot, entries) == 0xD14 ? 1 : -1
+    OFFSETOF(ModelSlot, entries) == 0xD14 ? 1 : -1
 ];
 typedef char ModelSlot_root_coordinate_offset_must_be_0xD18[
-    MODEL_OFFSET(ModelSlot, root_coordinate) == 0xD18 ? 1 : -1
+    OFFSETOF(ModelSlot, root_coordinate) == 0xD18 ? 1 : -1
 ];
 typedef char ModelSlot_render_parent_coordinate_offset_must_be_0xD1C[
-    MODEL_OFFSET(ModelSlot, render_parent_coordinate) == 0xD1C ? 1 : -1
+    OFFSETOF(ModelSlot, render_parent_coordinate) == 0xD1C ? 1 : -1
 ];
 typedef char ModelSlot_coordinate_pointer_layout_must_match[
-    MODEL_OFFSET(ModelSlot, root_coordinate) == 0xD18 &&
+    OFFSETOF(ModelSlot, root_coordinate) == 0xD18 &&
     sizeof(((ModelSlot *)0)->root_coordinate) == 4 &&
-    MODEL_OFFSET(ModelSlot, render_parent_coordinate) == 0xD1C &&
+    OFFSETOF(ModelSlot, render_parent_coordinate) == 0xD1C &&
     sizeof(((ModelSlot *)0)->render_parent_coordinate) == 4 ? 1 : -1
 ];
 typedef char ModelSlot_flat_lights_offset_must_be_0xD70[
-    MODEL_OFFSET(ModelSlot, flat_lights) == 0xD70 &&
+    OFFSETOF(ModelSlot, flat_lights) == 0xD70 &&
     sizeof(((ModelSlot *)0)->flat_lights) == 0x30 ? 1 : -1
 ];
 typedef char ModelSlot_ambient_rgb_scale_offset_must_be_0xDA0[
-    MODEL_OFFSET(ModelSlot, ambient_rgb_scale) == 0xDA0 ? 1 : -1
+    OFFSETOF(ModelSlot, ambient_rgb_scale) == 0xDA0 ? 1 : -1
 ];
 typedef char ModelSlot_render_scale_offset_must_be_0xDB0[
-    MODEL_OFFSET(ModelSlot, render_scale) == 0xDB0 ? 1 : -1
+    OFFSETOF(ModelSlot, render_scale) == 0xDB0 ? 1 : -1
 ];
 typedef char ModelSlot_field_DC0_offset_must_be_0xDC0[
-    MODEL_OFFSET(ModelSlot, tint) == 0xDC0 ? 1 : -1
+    OFFSETOF(ModelSlot, tint) == 0xDC0 ? 1 : -1
 ];
 typedef char ModelSlot_cached_dimensions_offset_must_be_0xDC8[
-    MODEL_OFFSET(ModelSlot, cached_dimensions) == 0xDC8 ? 1 : -1
+    OFFSETOF(ModelSlot, cached_dimensions) == 0xDC8 ? 1 : -1
 ];
 typedef char ModelSlot_scale_dimension_layout_must_match[
-    MODEL_OFFSET(ModelSlot, render_scale) == 0xDB0 &&
+    OFFSETOF(ModelSlot, render_scale) == 0xDB0 &&
     sizeof(((ModelSlot *)0)->render_scale) == 0x10 &&
-    MODEL_OFFSET(ModelSlot, cached_dimensions) == 0xDC8 &&
+    OFFSETOF(ModelSlot, cached_dimensions) == 0xDC8 &&
     sizeof(((ModelSlot *)0)->cached_dimensions) == 8 &&
     sizeof(((ModelSlot *)0)->cached_dimensions[0]) == 2 ? 1 : -1
 ];
 typedef char ModelSlot_cached_position_offset_must_be_0xDD0[
-    MODEL_OFFSET(ModelSlot, cached_position) == 0xDD0 ? 1 : -1
+    OFFSETOF(ModelSlot, cached_position) == 0xDD0 ? 1 : -1
 ];
 typedef char ModelSlot_cached_position_width_must_match[
     sizeof(((ModelSlot *)0)->cached_position) == 8 &&
     sizeof(((ModelSlot *)0)->cached_position[0]) == 2 ? 1 : -1
 ];
 typedef char ModelSlot_animation_snapshot_pointer_layout_must_match[
-    MODEL_OFFSET(ModelSlot, animation_parameter_base) == 0xDDC &&
+    OFFSETOF(ModelSlot, animation_parameter_base) == 0xDDC &&
     sizeof(((ModelSlot *)0)->animation_parameter_base) == 4 &&
-    MODEL_OFFSET(ModelSlot, animation_snapshot_buffer) == 0xDE0 &&
+    OFFSETOF(ModelSlot, animation_snapshot_buffer) == 0xDE0 &&
     sizeof(((ModelSlot *)0)->animation_snapshot_buffer) == 4 ? 1 : -1
 ];
 typedef char ModelSlot_primary_module_data_address_offset_must_be_0xDE8[
-    MODEL_OFFSET(ModelSlot, primary_module_data_address) == 0xDE8 ? 1 : -1
+    OFFSETOF(ModelSlot, primary_module_data_address) == 0xDE8 ? 1 : -1
 ];
 typedef char ModelSlot_variant_module_data_address_offset_must_be_0xDEC[
-    MODEL_OFFSET(ModelSlot, variant_module_data_address) == 0xDEC ? 1 : -1
+    OFFSETOF(ModelSlot, variant_module_data_address) == 0xDEC ? 1 : -1
 ];
 typedef char ModelSlot_module_data_address_layout_must_match[
-    MODEL_OFFSET(ModelSlot, primary_module_data_address) == 0xDE8 &&
+    OFFSETOF(ModelSlot, primary_module_data_address) == 0xDE8 &&
     sizeof(((ModelSlot *)0)->primary_module_data_address) == 4 &&
-    MODEL_OFFSET(ModelSlot, variant_module_data_address) == 0xDEC &&
+    OFFSETOF(ModelSlot, variant_module_data_address) == 0xDEC &&
     sizeof(((ModelSlot *)0)->variant_module_data_address) == 4 ? 1 : -1
 ];
 typedef char ModelSlot_model_id_offset_must_be_0xDF8[
-    MODEL_OFFSET(ModelSlot, model_id) == 0xDF8 ? 1 : -1
+    OFFSETOF(ModelSlot, model_id) == 0xDF8 ? 1 : -1
 ];
 typedef char ModelSlot_attack_compare_override_offset_must_be_0xDFA[
-    MODEL_OFFSET(ModelSlot, attack_compare_override) == 0xDFA ? 1 : -1
+    OFFSETOF(ModelSlot, attack_compare_override) == 0xDFA ? 1 : -1
 ];
 typedef char ModelSlot_defense_compare_override_offset_must_be_0xDFC[
-    MODEL_OFFSET(ModelSlot, defense_compare_override) == 0xDFC ? 1 : -1
+    OFFSETOF(ModelSlot, defense_compare_override) == 0xDFC ? 1 : -1
 ];
 typedef char ModelSlot_guardian_star_selection_offset_must_be_0xDFE[
-    MODEL_OFFSET(ModelSlot, guardian_star_selection) == 0xDFE ? 1 : -1
+    OFFSETOF(ModelSlot, guardian_star_selection) == 0xDFE ? 1 : -1
 ];
 typedef char ModelSlot_defense_position_offset_must_be_0xDFF[
-    MODEL_OFFSET(ModelSlot, defense_position) == 0xDFF ? 1 : -1
+    OFFSETOF(ModelSlot, defense_position) == 0xDFF ? 1 : -1
 ];
 typedef char ModelSlot_battle_property_layout_must_match[
-    MODEL_OFFSET(ModelSlot, model_id) == 0xDF8 &&
+    OFFSETOF(ModelSlot, model_id) == 0xDF8 &&
     sizeof(((ModelSlot *)0)->model_id) == 2 &&
-    MODEL_OFFSET(ModelSlot, guardian_star_selection) == 0xDFE &&
+    OFFSETOF(ModelSlot, guardian_star_selection) == 0xDFE &&
     sizeof(((ModelSlot *)0)->guardian_star_selection) == 1 &&
-    MODEL_OFFSET(ModelSlot, defense_position) == 0xDFF &&
+    OFFSETOF(ModelSlot, defense_position) == 0xDFF &&
     sizeof(((ModelSlot *)0)->defense_position) == 1 ? 1 : -1
 ];
 typedef char ModelSlot_packet_budget_bytes_offset_must_be_0xE00[
-    MODEL_OFFSET(ModelSlot, packet_budget_bytes) == 0xE00 ? 1 : -1
+    OFFSETOF(ModelSlot, packet_budget_bytes) == 0xE00 ? 1 : -1
 ];
 typedef char ModelSlot_prepared_primitive_count_offset_must_be_0xE04[
-    MODEL_OFFSET(ModelSlot, prepared_primitive_count) == 0xE04 ? 1 : -1
+    OFFSETOF(ModelSlot, prepared_primitive_count) == 0xE04 ? 1 : -1
 ];
 typedef char ModelSlot_animation_position_offset_must_be_0xE06[
-    MODEL_OFFSET(ModelSlot, animation_position) == 0xE06 ? 1 : -1
+    OFFSETOF(ModelSlot, animation_position) == 0xE06 ? 1 : -1
 ];
 typedef char ModelSlot_playback_speed_offset_must_be_0xE0D[
-    MODEL_OFFSET(ModelSlot, playback_speed) == 0xE0D ? 1 : -1
+    OFFSETOF(ModelSlot, playback_speed) == 0xE0D ? 1 : -1
 ];
 typedef char ModelSlot_draw_mode_request_offset_must_be_0xE11[
-    MODEL_OFFSET(ModelSlot, draw_mode_request) == 0xE11 ? 1 : -1
+    OFFSETOF(ModelSlot, draw_mode_request) == 0xE11 ? 1 : -1
 ];
 typedef char ModelSlot_shadow_enabled_offset_must_be_0xE12[
-    MODEL_OFFSET(ModelSlot, shadow_enabled) == 0xE12 ? 1 : -1
+    OFFSETOF(ModelSlot, shadow_enabled) == 0xE12 ? 1 : -1
 ];
 typedef char ModelSlot_post_draw_state_layout_must_match[
-    MODEL_OFFSET(ModelSlot, shadow_enabled) == 0xE12 &&
+    OFFSETOF(ModelSlot, shadow_enabled) == 0xE12 &&
     sizeof(((ModelSlot *)0)->shadow_enabled) == 1 &&
-    MODEL_OFFSET(ModelSlot, stone_texture_state) == 0xE13 &&
+    OFFSETOF(ModelSlot, stone_texture_state) == 0xE13 &&
     sizeof(((ModelSlot *)0)->stone_texture_state) == 1 ? 1 : -1
 ];
 typedef char ModelSlot_load_step_offset_must_be_0xE14[
-    MODEL_OFFSET(ModelSlot, load_step) == 0xE14 ? 1 : -1
+    OFFSETOF(ModelSlot, load_step) == 0xE14 ? 1 : -1
 ];
 typedef char ModelSlot_playback_state_offset_must_be_0xE16[
-    MODEL_OFFSET(ModelSlot, playback_state) == 0xE16 ? 1 : -1
+    OFFSETOF(ModelSlot, playback_state) == 0xE16 ? 1 : -1
 ];
 typedef char ModelSlot_animation_control_state_layout_must_match[
-    MODEL_OFFSET(ModelSlot, animation_control_state) == 0xE0E &&
+    OFFSETOF(ModelSlot, animation_control_state) == 0xE0E &&
     sizeof(((ModelSlot *)0)->animation_control_state) == 1 &&
-    MODEL_OFFSET(ModelSlot, active_animation_command_row) == 0xE0F &&
+    OFFSETOF(ModelSlot, active_animation_command_row) == 0xE0F &&
     sizeof(((ModelSlot *)0)->active_animation_command_row) == 1 &&
-    MODEL_OFFSET(ModelSlot, part_command_reset_pending) == 0xE10 &&
+    OFFSETOF(ModelSlot, part_command_reset_pending) == 0xE10 &&
     sizeof(((ModelSlot *)0)->part_command_reset_pending) == 1 &&
     sizeof(((ModelSlot *)0)->playback_state) == 1 ? 1 : -1
 ];
 typedef char ModelSlot_entry_count_offset_must_be_0xE17[
-    MODEL_OFFSET(ModelSlot, entry_count) == 0xE17 ? 1 : -1
+    OFFSETOF(ModelSlot, entry_count) == 0xE17 ? 1 : -1
 ];
 typedef char ModelSlot_root_coordinate_index_offset_must_be_0xE18[
-    MODEL_OFFSET(ModelSlot, root_coordinate_index) == 0xE18 ? 1 : -1
+    OFFSETOF(ModelSlot, root_coordinate_index) == 0xE18 ? 1 : -1
 ];
 typedef char ModelSlot_coordinate_index_layout_must_match[
-    MODEL_OFFSET(ModelSlot, root_coordinate_index) == 0xE18 &&
+    OFFSETOF(ModelSlot, root_coordinate_index) == 0xE18 &&
     sizeof(((ModelSlot *)0)->root_coordinate_index) == 1 &&
-    MODEL_OFFSET(ModelSlot, render_parent_coordinate_index) == 0xE19 &&
+    OFFSETOF(ModelSlot, render_parent_coordinate_index) == 0xE19 &&
     sizeof(((ModelSlot *)0)->render_parent_coordinate_index) == 1 ? 1 : -1
 ];
 typedef char ModelSlot_hmd_unit_count_offset_must_be_0xE1A[
-    MODEL_OFFSET(ModelSlot, hmd_unit_count) == 0xE1A ? 1 : -1
+    OFFSETOF(ModelSlot, hmd_unit_count) == 0xE1A ? 1 : -1
 ];
 typedef char ModelSlot_animation_sequence_count_offset_must_be_0xE1B[
-    MODEL_OFFSET(ModelSlot, animation_sequence_count) == 0xE1B ? 1 : -1
+    OFFSETOF(ModelSlot, animation_sequence_count) == 0xE1B ? 1 : -1
 ];
 typedef char ModelSlot_field_E1C_offset_must_be_0xE1C[
-    MODEL_OFFSET(ModelSlot, field_E1C) == 0xE1C ? 1 : -1
+    OFFSETOF(ModelSlot, field_E1C) == 0xE1C ? 1 : -1
 ];
 typedef char ModelSlot_animation_sound_enabled_offset_must_be_0xE1E[
-    MODEL_OFFSET(ModelSlot, animation_sound_enabled) == 0xE1E ? 1 : -1
+    OFFSETOF(ModelSlot, animation_sound_enabled) == 0xE1E ? 1 : -1
 ];
 typedef char ModelSlot_sound_gate_layout_must_match[
-    MODEL_OFFSET(ModelSlot, skip_sound_setup) == 0xE1D &&
+    OFFSETOF(ModelSlot, skip_sound_setup) == 0xE1D &&
     sizeof(((ModelSlot *)0)->skip_sound_setup) == 1 &&
-    MODEL_OFFSET(ModelSlot, animation_sound_enabled) == 0xE1E &&
+    OFFSETOF(ModelSlot, animation_sound_enabled) == 0xE1E &&
     sizeof(((ModelSlot *)0)->animation_sound_enabled) == 1 ? 1 : -1
 ];
 typedef char ModelSlot_is_active_offset_must_be_0xE1F[
-    MODEL_OFFSET(ModelSlot, is_active) == 0xE1F ? 1 : -1
+    OFFSETOF(ModelSlot, is_active) == 0xE1F ? 1 : -1
 ];
 
 typedef char ModelSlotMetadataPrefix_guardian_star_options_offset_must_be_0xA[
-    MODEL_OFFSET(ModelSlotMetadataPrefix, bytes.guardian_star_options) == 0xA ? 1 : -1
+    OFFSETOF(ModelSlotMetadataPrefix, bytes.guardian_star_options) == 0xA ? 1 : -1
 ];
 typedef char ModelSlotMetadataPrefix_size_must_be_0xC[
     sizeof(ModelSlotMetadataPrefix) == 0xC ? 1 : -1
 ];
 typedef char ModelSlotMetadataPrefix_field_08_offset_must_be_0x8[
-    MODEL_OFFSET(ModelSlotMetadataPrefix, values.field_08) == 0x8 ? 1 : -1
+    OFFSETOF(ModelSlotMetadataPrefix, values.field_08) == 0x8 ? 1 : -1
 ];
 typedef char ModelSlotMetadataPrefix_position_offsets_layout_must_match[
-    MODEL_OFFSET(ModelSlotMetadataPrefix, position_offsets.x) == 4 &&
-    MODEL_OFFSET(ModelSlotMetadataPrefix, position_offsets.y) == 5 &&
-    MODEL_OFFSET(ModelSlotMetadataPrefix, position_offsets.z) == 6 &&
+    OFFSETOF(ModelSlotMetadataPrefix, position_offsets.x) == 4 &&
+    OFFSETOF(ModelSlotMetadataPrefix, position_offsets.y) == 5 &&
+    OFFSETOF(ModelSlotMetadataPrefix, position_offsets.z) == 6 &&
     sizeof(((ModelSlotMetadataPrefix *)0)->position_offsets) == 12 &&
     sizeof(((ModelSlotMetadataPrefix *)0)->position_offsets.x) == 1 &&
     sizeof(((ModelSlotMetadataPrefix *)0)->position_offsets.y) == 1 &&
     sizeof(((ModelSlotMetadataPrefix *)0)->position_offsets.z) == 1 ? 1 : -1
 ];
 typedef char ModelSlotMetadataBlock_first_star_module_command_offset_must_be_0x10[
-    MODEL_OFFSET(ModelSlotMetadataBlock, first_star_module_command) == 0x10 ? 1 : -1
+    OFFSETOF(ModelSlotMetadataBlock, first_star_module_command) == 0x10 ? 1 : -1
 ];
 typedef char ModelSlotMetadataBlock_second_star_module_command_offset_must_be_0x14[
-    MODEL_OFFSET(ModelSlotMetadataBlock, second_star_module_command) == 0x14 ? 1 : -1
+    OFFSETOF(ModelSlotMetadataBlock, second_star_module_command) == 0x14 ? 1 : -1
 ];
 typedef char ModelSlotMetadataBlock_primary_module_command_offset_must_be_0x18[
-    MODEL_OFFSET(ModelSlotMetadataBlock, primary_module_command) == 0x18 ? 1 : -1
+    OFFSETOF(ModelSlotMetadataBlock, primary_module_command) == 0x18 ? 1 : -1
 ];
 typedef char ModelSlotMetadata_guardian_star_metadata_layout_must_match[
     sizeof(((ModelSlotMetadataPrefix *)0)->bytes.guardian_star_options) == 2 &&
-    MODEL_OFFSET(ModelSlotMetadataBlock, battle_camera_duration_overrides) == 0xC &&
+    OFFSETOF(ModelSlotMetadataBlock, battle_camera_duration_overrides) == 0xC &&
     sizeof(((ModelSlotMetadataBlock *)0)->battle_camera_duration_overrides) == 4 &&
-    MODEL_OFFSET(ModelSlot, metadata) == 0xCF8 &&
+    OFFSETOF(ModelSlot, metadata) == 0xCF8 &&
     sizeof(((ModelSlot *)0)->guardian_star_selection) == 1 &&
     sizeof(((ModelSlot *)0)->defense_position) == 1 ? 1 : -1
 ];
@@ -780,34 +778,34 @@ typedef char ModelHandlerRegistryEntry_size_must_be_0x8[
     sizeof(ModelHandlerRegistryEntry) == 0x8 ? 1 : -1
 ];
 typedef char ModelHandlerRegistryEntry_handler_value_offset_must_be_0x0[
-    MODEL_OFFSET(ModelHandlerRegistryEntry, handler_value) == 0x0 ? 1 : -1
+    OFFSETOF(ModelHandlerRegistryEntry, handler_value) == 0x0 ? 1 : -1
 ];
 typedef char ModelHandlerRegistryEntry_key_offset_must_be_0x4[
-    MODEL_OFFSET(ModelHandlerRegistryEntry, key) == 0x4 ? 1 : -1
+    OFFSETOF(ModelHandlerRegistryEntry, key) == 0x4 ? 1 : -1
 ];
 
 typedef char ModelCameraLeg_size_must_be_0x10[
     sizeof(ModelCameraLeg) == 0x10 ? 1 : -1
 ];
 typedef char ModelCameraLeg_pair_slot_offset_must_be_0x6[
-    MODEL_OFFSET(ModelCameraLeg, pair_slot) == 0x6 ? 1 : -1
+    OFFSETOF(ModelCameraLeg, pair_slot) == 0x6 ? 1 : -1
 ];
 typedef char ModelCameraLeg_end_x_offset_must_be_0x8[
-    MODEL_OFFSET(ModelCameraLeg, end_x) == 0x8 ? 1 : -1
+    OFFSETOF(ModelCameraLeg, end_x) == 0x8 ? 1 : -1
 ];
 typedef char ModelCameraLeg_slot_offset_must_be_0xE[
-    MODEL_OFFSET(ModelCameraLeg, slot) == 0xE ? 1 : -1
+    OFFSETOF(ModelCameraLeg, slot) == 0xE ? 1 : -1
 ];
 
 typedef char ModelCameraMove_control_prefix_must_match[
-    MODEL_OFFSET(ModelCameraMove, follow_countdown) == 2 &&
+    OFFSETOF(ModelCameraMove, follow_countdown) == 2 &&
     sizeof(((ModelCameraMove *)0)->follow_countdown) == 2 &&
-    MODEL_OFFSET(ModelCameraMove, orbit_step) == 4 &&
+    OFFSETOF(ModelCameraMove, orbit_step) == 4 &&
     sizeof(((ModelCameraMove *)0)->orbit_step) == 2 ? 1 : -1
 ];
 #ifndef VERSION_JAPAN
 typedef char ModelCameraMove_baseline_word_must_match[
-    MODEL_OFFSET(ModelCameraMove, base_orbit_step) == 6 &&
+    OFFSETOF(ModelCameraMove, base_orbit_step) == 6 &&
     sizeof(((ModelCameraMove *)0)->base_orbit_step) == 2 ? 1 : -1
 ];
 #endif
@@ -817,26 +815,26 @@ typedef char ModelCameraMove_size_must_be_0x2A[
     sizeof(ModelCameraMove) == 0x2A ? 1 : -1
 ];
 typedef char ModelCameraMove_duration_offset_must_be_0x8[
-    MODEL_OFFSET(ModelCameraMove, duration) == 0x8 ? 1 : -1
+    OFFSETOF(ModelCameraMove, duration) == 0x8 ? 1 : -1
 ];
 typedef char ModelCameraMove_eye_offset_must_be_0xA[
-    MODEL_OFFSET(ModelCameraMove, eye) == 0xA ? 1 : -1
+    OFFSETOF(ModelCameraMove, eye) == 0xA ? 1 : -1
 ];
 typedef char ModelCameraMove_target_offset_must_be_0x1A[
-    MODEL_OFFSET(ModelCameraMove, target) == 0x1A ? 1 : -1
+    OFFSETOF(ModelCameraMove, target) == 0x1A ? 1 : -1
 ];
 #else
 typedef char ModelCameraMove_size_must_be_0x2C[
     sizeof(ModelCameraMove) == 0x2C ? 1 : -1
 ];
 typedef char ModelCameraMove_duration_offset_must_be_0xA[
-    MODEL_OFFSET(ModelCameraMove, duration) == 0xA ? 1 : -1
+    OFFSETOF(ModelCameraMove, duration) == 0xA ? 1 : -1
 ];
 typedef char ModelCameraMove_eye_offset_must_be_0xC[
-    MODEL_OFFSET(ModelCameraMove, eye) == 0xC ? 1 : -1
+    OFFSETOF(ModelCameraMove, eye) == 0xC ? 1 : -1
 ];
 typedef char ModelCameraMove_target_offset_must_be_0x1C[
-    MODEL_OFFSET(ModelCameraMove, target) == 0x1C ? 1 : -1
+    OFFSETOF(ModelCameraMove, target) == 0x1C ? 1 : -1
 ];
 #endif
 
@@ -866,51 +864,49 @@ typedef char ModelTintColor_size_must_be_0x4[
     sizeof(ModelTintColor) == 0x4 ? 1 : -1
 ];
 typedef char ModelTintColor_layout_must_match[
-    MODEL_OFFSET(ModelTintColor, r) == 0 &&
+    OFFSETOF(ModelTintColor, r) == 0 &&
     sizeof(((ModelTintColor *)0)->r) == 1 &&
-    MODEL_OFFSET(ModelTintColor, g) == 1 &&
+    OFFSETOF(ModelTintColor, g) == 1 &&
     sizeof(((ModelTintColor *)0)->g) == 1 &&
-    MODEL_OFFSET(ModelTintColor, b) == 2 &&
+    OFFSETOF(ModelTintColor, b) == 2 &&
     sizeof(((ModelTintColor *)0)->b) == 1 &&
-    MODEL_OFFSET(ModelTintColor, blend_mode) == 3 &&
+    OFFSETOF(ModelTintColor, blend_mode) == 3 &&
     sizeof(((ModelTintColor *)0)->blend_mode) == 1 ? 1 : -1
 ];
 typedef char ModelTintRequest_size_must_be_0x18[
     sizeof(ModelTintRequest) == 0x18 ? 1 : -1
 ];
 typedef char ModelTintRequest_animation_position_snapshot_layout_must_match[
-    MODEL_OFFSET(ModelTintRequest, animation_position_snapshot) == 0xA &&
+    OFFSETOF(ModelTintRequest, animation_position_snapshot) == 0xA &&
     sizeof(((ModelTintRequest *)0)->animation_position_snapshot) == 2 ? 1 : -1
 ];
 typedef char ModelTintRequest_elapsed_offset_must_be_0xC[
-    MODEL_OFFSET(ModelTintRequest, elapsed) == 0xC ? 1 : -1
+    OFFSETOF(ModelTintRequest, elapsed) == 0xC ? 1 : -1
 ];
 typedef char ModelTintRequest_start_offset_must_be_0x10[
-    MODEL_OFFSET(ModelTintRequest, start) == 0x10 ? 1 : -1
+    OFFSETOF(ModelTintRequest, start) == 0x10 ? 1 : -1
 ];
 typedef char ModelTintRequest_end_offset_must_be_0x14[
-    MODEL_OFFSET(ModelTintRequest, end) == 0x14 ? 1 : -1
+    OFFSETOF(ModelTintRequest, end) == 0x14 ? 1 : -1
 ];
 
 typedef char ModelCameraOrbitPreset_size_must_be_0x8[
     sizeof(ModelCameraOrbitPreset) == 0x8 ? 1 : -1
 ];
 typedef char ModelCameraOrbitPreset_yaw_offset_must_be_0x2[
-    MODEL_OFFSET(ModelCameraOrbitPreset, yaw) == 0x2 ? 1 : -1
+    OFFSETOF(ModelCameraOrbitPreset, yaw) == 0x2 ? 1 : -1
 ];
 typedef char ModelCameraOrbitPreset_pitch_offset_must_be_0x4[
-    MODEL_OFFSET(ModelCameraOrbitPreset, pitch) == 0x4 ? 1 : -1
+    OFFSETOF(ModelCameraOrbitPreset, pitch) == 0x4 ? 1 : -1
 ];
 typedef char ModelCameraOrbitPreset_halfword_layout_must_match[
-    MODEL_OFFSET(ModelCameraOrbitPreset, distance) == 0 &&
+    OFFSETOF(ModelCameraOrbitPreset, distance) == 0 &&
     sizeof(((ModelCameraOrbitPreset *)0)->distance) == 2 &&
     sizeof(((ModelCameraOrbitPreset *)0)->yaw) == 2 &&
     sizeof(((ModelCameraOrbitPreset *)0)->pitch) == 2 &&
-    MODEL_OFFSET(ModelCameraOrbitPreset, pad_06) == 6 &&
+    OFFSETOF(ModelCameraOrbitPreset, pad_06) == 6 &&
     sizeof(((ModelCameraOrbitPreset *)0)->pad_06) == 2 ? 1 : -1
 ];
-
-#undef MODEL_OFFSET
 
 #ifndef MODEL_EFFECT_COEFFICIENT_CUSTOM_EXTERN
 extern ModelCameraOrbitPreset gModel_aCameraOrbitPresets[];
