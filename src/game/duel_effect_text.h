@@ -309,7 +309,7 @@ typedef union {
 
 typedef union {
     u16 halves[2];
-    u8 rotation[4];
+    u8 axis[4];
 } DuelEffectEntryRotation;
 
 /* The Japanese entry is word-aligned like the US one, so its glyph reveal
@@ -322,8 +322,8 @@ typedef union {
 typedef struct {
     /* Word alignment preserves whole-record copies during compaction. */
     u32 pad_00;
-    JapaneseDuelEffectEntryShade field_04;
-    DuelEffectEntryRotation field_08;
+    JapaneseDuelEffectEntryShade shade;
+    DuelEffectEntryRotation rotation;
     u16 local_x;
     u16 local_y;
     u8 glyph_index;
@@ -370,8 +370,8 @@ typedef struct {
     u16 glyph_code;
     u16 local_x;   /* 0x02 */
     u16 local_y;   /* 0x04 */
-    DuelEffectEntryShade field_04;    /* 0x06 */
-    DuelEffectEntryRotation field_08;    /* 0x0A */
+    DuelEffectEntryShade shade;    /* 0x06 */
+    DuelEffectEntryRotation rotation;    /* 0x0A */
     u8 glyph_index;    /* 0x0E */
     u8 entry_flags;    /* 0x0F */
     u8 owner_channel_tag;    /* 0x10 */

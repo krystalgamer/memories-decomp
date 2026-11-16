@@ -259,12 +259,12 @@ typedef struct {
     union {
         s32 word;
         u8 corner_shade[4];
-    } field_04;
+    } shade;
     /* Mode 1 (rotated quad) rotates by these bytes x16 around X, Y and Z. */
     union {
         s32 word;
-        u8 rotation[4];
-    } field_08;
+        u8 axis[4];
+    } rotation;
     u16 local_x;
     u16 local_y;
     u8 glyph_index;
@@ -292,11 +292,11 @@ typedef char DuelEffectEntry_must_be_four_byte_aligned[
 typedef char DuelEffectEntry_glyph_code_offset_must_be_0[
     YGO_TYPE_OFFSET(DuelEffectEntry, glyph_code) == 0 ? 1 : -1
 ];
-typedef char DuelEffectEntry_field_04_offset_must_be_0x04[
-    YGO_TYPE_OFFSET(DuelEffectEntry, field_04) == 0x04 ? 1 : -1
+typedef char DuelEffectEntry_shade_offset_must_be_0x04[
+    YGO_TYPE_OFFSET(DuelEffectEntry, shade) == 0x04 ? 1 : -1
 ];
-typedef char DuelEffectEntry_field_08_offset_must_be_0x08[
-    YGO_TYPE_OFFSET(DuelEffectEntry, field_08) == 0x08 ? 1 : -1
+typedef char DuelEffectEntry_rotation_offset_must_be_0x08[
+    YGO_TYPE_OFFSET(DuelEffectEntry, rotation) == 0x08 ? 1 : -1
 ];
 typedef char DuelEffectEntry_local_x_offset_must_be_0x0C[
     YGO_TYPE_OFFSET(DuelEffectEntry, local_x) == 0x0C ? 1 : -1
