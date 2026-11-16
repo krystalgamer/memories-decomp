@@ -34,9 +34,9 @@ void SpanishModelVariant446_DrawPulse(EntryState446 *context)
             matrix.t[1] = state->matrix.t[1];
             matrix.t[2] = state->matrix.t[2];
         } else {
-            matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * state->radius / 1024;
-            matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * state->radius / 1024;
-            matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * state->radius / 1024;
+            matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * state->progress / 1024;
+            matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * state->progress / 1024;
+            matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * state->progress / 1024;
         }
         scale.vx = group->scale.vx + pulse;
         scale.vy = group->scale.vx + pulse;

@@ -197,8 +197,8 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
             }
             ring->count = 0;
         }
-        work->width = 1024;
-        work->radius = 0;
+        work->radius = 1024;
+        work->progress = 0;
         work->inner.r = 192;
         work->inner.g = 192;
         work->inner.b = 255;
@@ -211,7 +211,7 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
         work->field_1BC6 = 0;
         work->field_1BC8 = 0;
         work->field_1BCA = 0;
-        work->progress = 0;
+        work->ribbon_angle = 0;
         work->ring_angle = 0;
         work->frame_count = 0;
         work->elapsed = 0;
@@ -271,7 +271,7 @@ s32 FrenchModelVariant446_HandleRequest(SVECTOR *point, s32 command)
                 }
                 if (work->phase > 0) {
                     FrenchModelVariant446_DrawRibbons((EntryState446 *)point);
-                    SpanishModelVariant446_DrawStrip((u8 *)point);
+                    SpanishModelVariant446_DrawStrip((EntryState446 *)point);
                 }
                 work->part_index++;
             } while (work->part_index < work->config->count);

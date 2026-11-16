@@ -366,7 +366,7 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant459_DrawCurtains((Variant459EntryState *)point);
         }
         if (work->phase > 0) {
-            SpanishModelVariant459_DrawLines((u8 *)point);
+            SpanishModelVariant459_DrawLines((Variant459EntryState *)point);
             SpanishModelVariant459_DrawTimedBands((Variant459EntryState *)point);
         }
         if (work->phase >= 2) {

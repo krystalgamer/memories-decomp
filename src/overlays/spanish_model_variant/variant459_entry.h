@@ -33,7 +33,8 @@ typedef struct {
     POLY_GT4 plain;
     POLY_GT4 ray;
     POLY_FT4 flat_textured[2];
-    u8 unknown_2E80[0x4C];
+    u8 unknown_2E80[0x38];
+    GsGLINE line;
     MATRIX matrices[6];
     VECTOR points[6];
     VECTOR directions[6];
@@ -61,7 +62,7 @@ void SpanishModelVariant459_DrawCurtains(Variant459EntryState *context);
 void SpanishModelVariant459_DrawSpiral(Variant459EntryState *context);
 void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context);
 void SpanishModelVariant459_DrawPairedSheets(Variant459EntryState *context);
-void SpanishModelVariant459_DrawLines(u8 *context);
+void SpanishModelVariant459_DrawLines(Variant459EntryState *context);
 typedef char Variant459EntryConfigSize[(sizeof(Variant459EntryConfig) == 0x48) ? 1 : -1];
 typedef char Variant459EntryStateSize[(sizeof(Variant459EntryState) == 0x30F4) ? 1 : -1];
 #endif

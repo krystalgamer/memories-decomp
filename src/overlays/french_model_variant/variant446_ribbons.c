@@ -39,11 +39,11 @@ void FrenchModelVariant446_DrawRibbons(EntryState446 *context)
     if (work->slot == 1) {
         turn = -turn;
     }
-    if (work->phase > 0 && work->radius > 0) {
+    if (work->phase > 0 && work->progress > 0) {
         length = 16;
         flags = work->frame_count;
-        for (i = 0, angle = work->progress; i < 8;
-             i++, angle = work->progress + i * 0x200, ribbon++) {
+        for (i = 0, angle = work->ribbon_angle; i < 8;
+             i++, angle = work->ribbon_angle + i * 0x200, ribbon++) {
             for (k = 0; k < 2; k++) {
                 if (k == 0) {
                     radius = work->config->ribbon_radius;
@@ -58,9 +58,9 @@ void FrenchModelVariant446_DrawRibbons(EntryState446 *context)
         rot.vx = tilt;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->radius / 1024;
-        m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->radius / 1024;
-        m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->radius / 1024;
+        m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->progress / 1024;
+        m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->progress / 1024;
+        m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->progress / 1024;
         scale.vx = timing->scale.vx;
         scale.vy = timing->scale.vx;
         scale.vz = timing->scale.vx;
@@ -118,6 +118,6 @@ void FrenchModelVariant446_DrawRibbons(EntryState446 *context)
         }
     }
     if (work->part_index + 1 == work->config->count) {
-        work->progress += work->step * 55;
+        work->ribbon_angle += work->step * 55;
     }
 }

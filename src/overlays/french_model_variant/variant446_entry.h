@@ -63,7 +63,7 @@ typedef struct {
     s32 part_index;
     CVECTOR inner, outer;
     s16 spin, field_1BC6, field_1BC8, field_1BCA;
-    s16 width, radius, progress, ring_angle;
+    s16 radius, progress, ribbon_angle, ring_angle;
     s32 ray_size, ray_length, phase, field_1BE0;
     s16 slot, command;
 } EntryState446;
@@ -71,7 +71,7 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant446_aImages[9];
 extern EntryConfig446 gFrenchModelVariant446_aConfigs[];
 void SpanishModelVariant446_DrawLines(EntryState446 *context);
-void SpanishModelVariant446_DrawStrip(u8 *context);
+void SpanishModelVariant446_DrawStrip(EntryState446 *context);
 void FrenchModelVariant446_DrawRibbons(EntryState446 *context);
 void SpanishModelVariant446_DrawPulse(EntryState446 *context);
 void SpanishModelVariant446_DrawRings(EntryState446 *context);

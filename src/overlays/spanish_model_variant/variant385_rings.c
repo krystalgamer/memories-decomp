@@ -143,8 +143,8 @@ void SpanishModelVariant385_DrawRings(Variant385EntryState *context)
         }
         if (i == 3) {
             if (ring->scale < 0x1000 && work->phase < 3) {
-                ring->scale = (u32)(work->clock.frame << 12) /
-                             (u32)work->config->field_30;
+                ring->scale = (work->clock.frame << 12) /
+                             work->config->grow_end;
                 if (ring->scale >= 0x1000) {
                     ring->scale = 0x1000;
                     ring->count++;

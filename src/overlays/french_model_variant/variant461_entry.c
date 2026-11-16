@@ -375,7 +375,7 @@ s32 FrenchModelVariant461_HandleRequest(SVECTOR *point, s32 command)
             work->phase = 5;
         }
         if (work->config->draw_start <= work->clock.frame && work->phase < 8) {
-            SpanishModelVariant461_DrawRing((u8 *)point);
+            SpanishModelVariant461_DrawRing((EntryState461 *)point);
             if (work->phase > 0) {
                 SpanishModelVariant461_DrawSheets((u8 *)point);
             }

@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant446_strip.h"
+#include "../french_model_variant/variant446_entry.h"
 
-void SpanishModelVariant446_DrawStrip(u8 *context)
+void SpanishModelVariant446_DrawStrip(EntryState446 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,37 +11,37 @@ void SpanishModelVariant446_DrawStrip(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Strip446State *state = (Strip446State *)context;
-    Strip446 *strip;
+    EntryState446 *state = context;
+    EntryStrip446 *strip;
     POLY_GT4 *polygon;
     s16 i, j;
     s16 radius;
     s32 angle;
 
     ot = Graphics_GetDefaultOrderingTable();
-    angle = ratan2(state->projected.vy, state->projected.vx);
-    polygon = &state->polygon;
+    angle = ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
+    polygon = &state->textured[0];
     angle += 2048;
     if (state->phase > 0) {
-        if ((state->frame & 1) == 0) {
-            radius = state->timing->width * state->radius / 1024;
+        if ((state->frame_count & 1) == 0) {
+            radius = state->config->width * state->radius / 1024;
         } else {
-            radius = state->timing->width * state->radius / 1024 + state->radius / 128;
+            radius = state->config->width * state->radius / 1024 + state->radius / 128;
         }
         strip = state->strips;
         for (i = 0; i < 1; i++, strip++) {
             for (j = 0; j < 5; j++) {
-                setVector(&strip->upper[j], (rcos(1024) * radius) >> 12,
+                setVector(&strip->points[0][j], (rcos(1024) * radius) >> 12,
                           (rsin(1024) * radius) >> 12, 0);
-                setVector(&strip->center[j], 0, 0, 0);
-                setVector(&strip->lower[j], (rcos(3072) * radius) >> 12,
+                setVector(&strip->points[1][j], 0, 0, 0);
+                setVector(&strip->points[2][j], (rcos(3072) * radius) >> 12,
                           (rsin(3072) * radius) >> 12, 0);
                 rotation.vx = 0;
                 rotation.vy = 0;
                 rotation.vz = angle;
-                matrix.t[0] = state->origin[0] + state->direction[0] * (state->progress * j / 4) / 1024;
-                matrix.t[1] = state->origin[1] + state->direction[1] * (state->progress * j / 4) / 1024;
-                matrix.t[2] = state->origin[2] + state->direction[2] * (state->progress * j / 4) / 1024;
+                matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * (state->progress * j / 4) / 1024;
+                matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * (state->progress * j / 4) / 1024;
+                matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * (state->progress * j / 4) / 1024;
                 scale.vx = 4096;
                 scale.vy = 4096;
                 scale.vz = 4096;
@@ -55,8 +55,8 @@ void SpanishModelVariant446_DrawStrip(u8 *context)
                 RotMatrix(&rotation, &light);
                 ScaleMatrix(&light, &scale);
                 SetRotMatrix(&light);
-                strip->depth[j] = RotTransPers3(&strip->upper[j], &strip->center[j],
-                                               &strip->lower[j],
+                strip->depth[j] = RotTransPers3(&strip->points[0][j], &strip->points[1][j],
+                                               &strip->points[2][j],
                                                &strip->projected[0][j],
                                                &strip->projected[1][j],
                                                &strip->projected[2][j],
@@ -114,20 +114,20 @@ void SpanishModelVariant446_DrawStrip(u8 *context)
                 }
             }
         }
-        if (state->iteration + 1 == state->timing->iterations) {
+        if (state->part_index + 1 == state->config->count) {
             if (state->phase == 1) {
                 if (state->progress <= 1024) {
-                    state->progress = ((state->time-state->timing->start)*1024) /
-                                      (state->timing->expanded-state->timing->start);
+                    state->progress = ((state->elapsed-state->config->duration)*1024) /
+                                      (state->config->expanded-state->config->duration);
                     if (state->progress >= 1024) {
                         state->progress = 1024;
                         state->phase = 2;
                     }
                 }
-            } else if (state->timing->fade <= state->time) {
+            } else if (state->config->fade <= state->elapsed) {
                 if (state->radius > 0) {
-                    state->radius = 1024 - ((state->time-state->timing->fade)*1024) /
-                                          (state->timing->end-state->timing->fade);
+                    state->radius = 1024 - ((state->elapsed-state->config->fade)*1024) /
+                                          (state->config->end-state->config->fade);
                     if (state->radius <= 0) {
                         state->radius = 0;
                     }

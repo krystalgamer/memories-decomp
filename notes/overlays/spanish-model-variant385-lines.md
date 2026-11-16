@@ -76,8 +76,10 @@ The 20-byte `GsGLINE` lies at context `+0xF84..+0xF98`. Origin is `+0xFAC`,
 target is `+0xFB8`, the two-component direction view is `+0xFC4`, projected
 coordinates are `+0xFD0`, and the other direction vector is `+0xFD4`.
 Time, step, timing pointer, and phase are at `+0xFF0`, `+0xFF8`, `+0x1000`,
-and `+0x1030`. The private `State385` is a `0x1034`-byte helper view, not a
-claim about the complete allocation.
+and `+0x1030`. The helper now reads `Variant385EntryState` directly: the
+groups are its `webs` (`near`/`far`, `scale`, `done`), the line is its
+`line`, and the duration is the config's `grow_end`. It formerly read a
+private `0x1034`-byte view, `State385`.
 
 The helper retains four `ratan2` calls, constructs an identity rotation with
 uniform scale, and selects origin or target translation by phase. For each

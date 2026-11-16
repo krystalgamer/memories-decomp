@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant385_pulse.h"
+#include "variant385_entry.h"
 
-void SpanishModelVariant385_DrawPulsingQuads(u8 *context)
+void SpanishModelVariant385_DrawPulsingQuads(Variant385EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,8 +10,8 @@ void SpanishModelVariant385_DrawPulsingQuads(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Pulse385State *state = (Pulse385State *)context;
-    ModelVariantPulseGroup *group = state->groups;
+    Variant385EntryState *state = context;
+    Variant385EntrySheet *group = state->sheets;
     POLY_GT4 *quad;
     GsOT *ot;
     s32 i, j;
@@ -19,23 +19,23 @@ void SpanishModelVariant385_DrawPulsingQuads(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &state->quad;
+    quad = &state->packets.textured[1];
     for (i = 0; i < 2; i++, group++) {
         pulse = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             pulse = group->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i == 0) {
-            matrix.t[0] = state->origin[0];
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2];
+            matrix.t[0] = state->matrix.t[0];
+            matrix.t[1] = state->matrix.t[1];
+            matrix.t[2] = state->matrix.t[2];
         } else {
-            matrix.t[0] = state->origin[0] + state->direction[0] * state->progress / 1024;
-            matrix.t[1] = state->origin[1] + state->direction[1] * state->progress / 1024;
-            matrix.t[2] = state->origin[2] + state->direction[2] * state->progress / 1024;
+            matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * state->progress / 1024;
+            matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * state->progress / 1024;
+            matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * state->progress / 1024;
         }
         scale.vx = group->size + pulse;
         scale.vy = group->size + pulse;
@@ -51,8 +51,8 @@ void SpanishModelVariant385_DrawPulsingQuads(u8 *context)
         ScaleMatrix(&light, &scale);
         SetRotMatrix(&light);
         for (j = 0; j < 4; j++) {
-            depth = RotTransPers4(&group->points[0][j], &group->points[1][j],
-                                 &group->points[2][j], &group->points[3][j],
+            depth = RotTransPers4(&group->v0[j], &group->v1[j],
+                                 &group->v2[j], &group->v3[j],
                                  (long *)&quad->x0, (long *)&quad->x1,
                                  (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag) * 8 / 10;
@@ -64,20 +64,20 @@ void SpanishModelVariant385_DrawPulsingQuads(u8 *context)
                 GsSortPoly(quad, ot, (u16)depth);
             }
         }
-        if (state->index + 1 == state->timing->count) {
+        if (state->index + 1 == state->config->count) {
             if (i == 0) {
                 if (state->phase == 0) {
                     if (group->size < 4096) {
-                        group->size = (state->time - state->timing->start) * 4096 /
-                                      (state->timing->end - state->timing->start);
+                        group->size = (state->clock.frame - state->config->start) * 4096 /
+                                      (state->config->grow_end - state->config->start);
                         if (group->size >= 4096) {
                             group->size = 4096;
                             state->phase = 1;
                         }
                     }
-                } else if (state->timing->fade_start <= state->time && group->size > 0) {
-                    group->size = 4096 - (state->time - state->timing->fade_start) * 4096 /
-                                        (state->timing->fade_end - state->timing->fade_start);
+                } else if (state->config->fade_start <= state->clock.frame && group->size > 0) {
+                    group->size = 4096 - (state->clock.frame - state->config->fade_start) * 4096 /
+                                        (state->config->fade_end - state->config->fade_start);
                     if (group->size <= 0) {
                         group->size = 0;
                         if (state->phase == 3) {
@@ -91,7 +91,7 @@ void SpanishModelVariant385_DrawPulsingQuads(u8 *context)
                 group->size = 4096;
             } else if (state->phase == 2) {
                 if (group->size < 8192) {
-                    group->size += state->step * 1024;
+                    group->size += state->clock.step * 1024;
                     if (group->size >= 8192) {
                         group->size = 8192;
                         state->phase = 3;
@@ -99,7 +99,7 @@ void SpanishModelVariant385_DrawPulsingQuads(u8 *context)
                 }
             } else if (state->phase == 4) {
                 if (group->size > 0) {
-                    group->size -= state->step * 64;
+                    group->size -= state->clock.step * 64;
                     if (group->size <= 0) {
                         group->size = 0;
                         state->phase = 5;

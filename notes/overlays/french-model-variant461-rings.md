@@ -6,10 +6,12 @@ MODEL461 family, image offset `0x2498`,
 for this body before.** It is reachable directly from the entry.
 
 It follows the accepted MODEL469 rings helper (`variant469_rings.c`) over a
-MODEL461 layout, `variant461_rings.h`:
-- the ring starts at `+0xB90` and the `POLY_FT4` at `+0x2EB8`;
-- origin, probe and delta are at `+0x2F2C`/`+0x3030`/`+0x303C`;
-- step, angle, scale, wave and phase are at
+MODEL461 layout. It reads `EntryState461`, the record the entry passes (a
+local view in `variant461_rings.h` until it was folded):
+- `ring` starts at `+0xB90` and `ring_packet` (`POLY_FT4`) at `+0x2EB8`;
+- `origin`, `direction` (the probe reads `.vy`/`.vz`) and `screen_delta` are
+  at `+0x2F2C`/`+0x302C`/`+0x303C`;
+- the clock's step, then angle, scale, wave and phase are at
   `+0x3364`/`+0x3380`/`+0x3384`/`+0x3388`/`+0x33AC`.
 
 Two statements differ from MODEL469:

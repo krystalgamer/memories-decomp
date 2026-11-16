@@ -17,16 +17,22 @@ typedef struct {
     u8 unknown_026[0x2];
     s32 size;
     u32 start;
-    s32 field_30;
+    u32 grow_end;
     u32 expansion_end, fade_start, fade_end;
     s32 offset[3];
 } Variant385EntryConfig;
 
+/* One 0x8C-byte station strip: upper, centre and lower rows of three points,
+ * their projections, and per column the projection flag and depth. */
 typedef struct {
-    u8 unknown_00[0x6C];
+    SVECTOR upper[3];
+    SVECTOR center[3];
+    SVECTOR lower[3];
+    long projected[3][3];
     s16 field_6C, field_6E;
     s32 field_70;
-    u8 unknown_74[0x18];
+    long flags[3];
+    s32 depth[3];
 } Variant385EntryTube;
 
 typedef struct {
@@ -62,7 +68,8 @@ typedef struct {
     POLY_GT4 plain;
     POLY_GT4 paged;
     POLY_FT4 flat_textured[2];
-    u8 unknown_F4C[0x4C];
+    u8 unknown_F4C[0x38];
+    GsGLINE line;
     MATRIX matrix;
     ModelVariantAim aim;
     ModelVariantClock clock;
@@ -83,10 +90,10 @@ typedef struct {
 
 extern GsIMAGE gSpanishModelVariant385_aImages[9];
 extern Variant385EntryConfig gSpanishModelVariant385_aConfigs[];
-void SpanishModelVariant385_DrawLines(u8 *context);
-void SpanishModelVariant385_DrawStationStrip(u8 *context);
+void SpanishModelVariant385_DrawLines(Variant385EntryState *context);
+void SpanishModelVariant385_DrawStationStrip(Variant385EntryState *context);
 void FrenchModelVariant385_DrawRibbonFan(Variant385EntryState *context);
-void SpanishModelVariant385_DrawPulsingQuads(u8 *context);
+void SpanishModelVariant385_DrawPulsingQuads(Variant385EntryState *context);
 void SpanishModelVariant385_DrawRings(Variant385EntryState *context);
 typedef char Variant385EntryConfigSize[(sizeof(Variant385EntryConfig) == 0x4C) ? 1 : -1];
 typedef char Variant385EntryStateSize[(sizeof(Variant385EntryState) == 0x1048) ? 1 : -1];

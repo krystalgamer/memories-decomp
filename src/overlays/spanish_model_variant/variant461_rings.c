@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant461_rings.h"
+#include "../french_model_variant/variant461_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant461_DrawRing(u8 *context)
+void SpanishModelVariant461_DrawRing(EntryState461 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -14,7 +14,7 @@ void SpanishModelVariant461_DrawRing(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Rings461State *state = (Rings461State *)context;
+    EntryState461 *state = context;
     ModelVariantQuadRing *ring;
     POLY_FT4 *polygon;
     s16 i;
@@ -31,10 +31,10 @@ void SpanishModelVariant461_DrawRing(u8 *context)
     blue = 128;
     i = 0;
     ripple = 0;
-    ratan2(state->probe[0], state->probe[1]);
+    ratan2(state->direction.vy, state->direction.vz);
     ring = &state->ring;
-    ratan2(state->delta_y, state->delta_x);
-    polygon = &state->polygon;
+    ratan2(state->screen_delta.vy, state->screen_delta.vx);
+    polygon = &state->ring_packet;
     for (angle = state->angle, wave = state->wave; i < 24;
          i++, wave += 1300, ripple += 1700, angle += 512 - i * 128 / 24) {
         if (ring->size[i] > 0) {
@@ -42,9 +42,9 @@ void SpanishModelVariant461_DrawRing(u8 *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->origin[0] + (rcos(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
-            matrix.t[1] = state->origin[1] + (rsin(ripple) * 32 >> 12);
-            matrix.t[2] = state->origin[2] + (rsin(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
+            matrix.t[0] = state->origin.vx + (rcos(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
+            matrix.t[1] = state->origin.vy + (rsin(ripple) * 32 >> 12);
+            matrix.t[2] = state->origin.vz + (rsin(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
             scale.vx = (s16)size;
             scale.vy = (s16)size;
             scale.vz = (s16)size;
@@ -70,7 +70,7 @@ void SpanishModelVariant461_DrawRing(u8 *context)
             }
         }
         if (ring->size[i] < 4096) {
-            ring->size[i] += state->step * 64;
+            ring->size[i] += state->clock.step * 64;
             if (ring->size[i] >= 4096) {
                 ring->size[i] = 4096;
                 if (i + 1 == 24 && state->phase == 0) {
@@ -80,7 +80,7 @@ void SpanishModelVariant461_DrawRing(u8 *context)
         }
     }
     if (state->phase == 6 && state->scale > 0) {
-        state->scale -= state->step * 16;
+        state->scale -= state->clock.step * 16;
         if (state->scale <= 0) {
             state->scale = 0;
             state->phase = 7;
