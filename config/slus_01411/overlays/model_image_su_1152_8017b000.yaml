@@ -56,28 +56,7 @@ segments:
     vram: 0x8017b004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_exodia/us_entry_second]
-  - name: ring
-    type: code
-    start: 0x9b4
-    vram: 0x8017b9b4
-    align: 4
-    subsegments:
-      - [0x9b4, c, overlays/model_exodia/us_ring_second]
-  - name: petals
-    type: code
-    start: 0xdf0
-    vram: 0x8017bdf0
-    align: 4
-    subsegments:
-      - [0xdf0, c, overlays/model_exodia/us_petals]
-  - name: beam
-    type: code
-    start: 0x1738
-    vram: 0x8017c738
-    align: 4
-    subsegments:
-      - [0x1738, c, overlays/model_exodia/us_beam]
+      - [0x4, c, overlays/model_exodia/us_exodia_slot1]
   - name: unclassified_tail
     type: code
     start: 0x1d08

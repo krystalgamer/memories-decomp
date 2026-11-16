@@ -56,21 +56,7 @@ segments:
   vram: 0x8013B004
   align: 4
   subsegments:
-  - [4, c, overlays/model_exodia/entry]
-- name: func_8013B860
-  type: code
-  start: 0x860
-  vram: 0x8013B860
-  align: 4
-  subsegments:
-  - [0x860, c, overlays/model_exodia/ring]
-- name: func_8013BC0C
-  type: code
-  start: 0xC0C
-  vram: 0x8013BC0C
-  align: 4
-  subsegments:
-  - [0xC0C, c, overlays/model_exodia/spokes]
+  - [4, c, overlays/model_exodia/exodia_slot0]
 - name: unclassified_tail
   type: code
   start: 0x17AC
