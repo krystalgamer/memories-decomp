@@ -3,9 +3,6 @@
 
 #include "../../types.h"
 #include "../french_model_variant/variant402_entry.h"
-#include "../french_model_variant/variant478_swarm.h"
-#include "../spanish_model_variant/variant478_quads.h"
-#include "../spanish_model_variant/variant478_rings.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_camera_effects.h"
 
@@ -21,12 +18,6 @@ typedef struct {
     s32 size[32], done[32], reset[32];
 } EntrySwarm478;
 
-typedef struct {
-    SVECTOR a[10], b[10], c[10], d[10], positions[10];
-    u8 color[4];
-    s32 size[10], angle[10], done[10], field_20C[10], reset[10];
-    u8 unknown_25C[0xA0];
-} EntryQuads478;
 
 typedef struct {
     SVECTOR v0[8], v1[8], v2[8], v3[8], positions[8];
@@ -50,7 +41,7 @@ typedef struct {
 } EntrySmall478;
 
 typedef struct {
-    EntryQuads478 quads[1];
+    ModelVariantQuadGroup quads[1];
     EntryPetals478 petals[3];
     EntrySwarm478 swarm;
     EntryExtra478 extras[16];
@@ -78,8 +69,8 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant478_aImages[9];
 extern EntryConfig478 gFrenchModelVariant478_aConfigs[];
-void FrenchModelVariant478_DrawSwarm(u8 *context);
-void SpanishModelVariant478_DrawOrbitingQuads(u8 *context);
-void SpanishModelVariant478_DrawPetalRings(u8 *context);
+void FrenchModelVariant478_DrawSwarm(EntryState478 *context);
+void SpanishModelVariant478_DrawOrbitingQuads(EntryState478 *context);
+void SpanishModelVariant478_DrawPetalRings(EntryState478 *context);
 
 #endif

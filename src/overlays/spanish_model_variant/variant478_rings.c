@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant478_rings.h"
+#include "../french_model_variant/variant478_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant478_DrawPetalRings(u8 *context)
+void SpanishModelVariant478_DrawPetalRings(EntryState478 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -13,9 +13,9 @@ void SpanishModelVariant478_DrawPetalRings(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Rings478State *state = (Rings478State *)context;
-    Ring478 *ring = state->rings;
-    POLY_FT4 *polygon = &state->polygon;
+    EntryState478 *state = context;
+    EntryPetals478 *ring = state->petals;
+    POLY_FT4 *polygon = &state->swarm_packet;
     GsOT *ot;
     s16 i;
     s16 phase;
@@ -31,8 +31,8 @@ void SpanishModelVariant478_DrawPetalRings(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     i = 0;
     phase = 0;
-    ratan2(state->probe_words[0], state->probe_words[1]);
-    ratan2(state->projected_delta.vy, state->projected_delta.vx);
+    ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
     for (tilt = 0; i < 3; i++, ring++, phase += 1400, tilt = i * 1024 / 3) {
         for (j = 0, angle = phase; j < 8; j++, angle = phase + j * 512) {
             if (ring->size[j] >= 0) {
@@ -48,9 +48,9 @@ void SpanishModelVariant478_DrawPetalRings(u8 *context)
                 rotation.vz = 0;
                 radius = rcos(tilt) * (amount * 192 / 4096) >> 12;
                 height = rsin(tilt) * (amount * 128 / 4096) >> 12;
-                matrix.t[0] = state->origin.vx + (rcos(angle) * radius >> 12);
-                matrix.t[1] = state->origin.vy - height + 32;
-                matrix.t[2] = state->origin.vz + (rsin(angle) * radius >> 12);
+                matrix.t[0] = state->matrix.t[0] + (rcos(angle) * radius >> 12);
+                matrix.t[1] = state->matrix.t[1] - height + 32;
+                matrix.t[2] = state->matrix.t[2] + (rsin(angle) * radius >> 12);
                 amount += rsin(state->wave + angle + phase) * 256 >> 12;
                 scale.vx = amount;
                 scale.vy = amount;
@@ -77,15 +77,15 @@ void SpanishModelVariant478_DrawPetalRings(u8 *context)
                     GsSortPoly(polygon, ot, depth);
                 }
             }
-            if (state->time < state->timing->grow_end) {
-                ring->size[j] += state->step * 48;
-            } else if (state->time > state->timing->fade_begin) {
-                ring->size[j] -= state->step * 48;
+            if (state->clock.frame < state->config->ring_end) {
+                ring->size[j] += state->clock.step * 48;
+            } else if (state->clock.frame > state->config->fade_start) {
+                ring->size[j] -= state->clock.step * 48;
                 if (ring->size[j] <= 0) {
                     ring->size[j] = 0;
                 }
             }
         }
     }
-    state->wave += state->step * 32;
+    state->wave += state->clock.step * 32;
 }

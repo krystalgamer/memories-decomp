@@ -54,7 +54,7 @@ member; the layout and types did not change.
 | `+0x14` | `field_14` | `second_pulse_start` | At this frame `pulse_count` becomes 2. |
 | `+0x18` | `field_18` | `all_pulses_start` | At this frame `pulse_count` becomes the record's `count`. |
 | `+0x1C` | `field_1C` | `track_end` | While the frame is below it, the target copies the opposite slot and part 0's matrix is refreshed. Same role as `track_end` in headers 388, 430 and 456. |
-| work `+0x322C` | `field_322C` | `pulse_count` | The pulses (`+0xD00`) read this word as `Pulse405State.count` and draw `count * 2` groups. |
+| work `+0x322C` | `field_322C` | `pulse_count` | The pulses (`+0xD00`) read this word as `pulse_count` and draw `pulse_count * 2` groups. |
 
 The record bytes `+0x00..+0x0B` (part index and padding) and the trailing
 placeholders of the other Spanish config records are never read by matching

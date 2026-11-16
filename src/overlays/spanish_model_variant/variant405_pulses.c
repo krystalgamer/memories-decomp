@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant405_pulses.h"
+#include "variant405_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant405_DrawPulses(u8 *context)
+void SpanishModelVariant405_DrawPulses(Variant405EntryState *context)
 {
     SVECTOR rotation;
     /* Unreferenced; occupies the untouched 16 bytes after the rotation. */
@@ -15,9 +15,9 @@ void SpanishModelVariant405_DrawPulses(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Pulse405State *state = (Pulse405State *)context;
-    ModelVariantSheetSet *group = state->groups;
-    Pulse405Primary *primary = state->primary;
+    Variant405EntryState *state = context;
+    ModelVariantSheetSet *group = state->sheets;
+    Variant405EntryRing *primary = state->rings;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;
@@ -25,20 +25,20 @@ void SpanishModelVariant405_DrawPulses(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &state->quad;
-    for (i = 0; i < state->count * 2; i++, group++) {
+    quad = &state->packets.textured[1];
+    for (i = 0; i < state->pulse_count * 2; i++, group++) {
         if (!group->shown) {
             pulse = 0;
-            if (state->frame & 1) {
+            if (state->clock.frame_count & 1) {
                 pulse = group->size / 8;
             }
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
             if ((i & 1) == 0) {
-                matrix.t[0] = state->origin[0];
-                matrix.t[1] = state->origin[1];
-                matrix.t[2] = state->origin[2];
+                matrix.t[0] = state->matrix.t[0];
+                matrix.t[1] = state->matrix.t[1];
+                matrix.t[2] = state->matrix.t[2];
             } else {
                 matrix.t[0] = state->target.vx;
                 matrix.t[1] = state->target.vy;
@@ -106,7 +106,7 @@ void SpanishModelVariant405_DrawPulses(u8 *context)
         }
         if ((i & 1) == 0) {
             if (group->size < 4096) {
-                group->size += state->step * 512;
+                group->size += state->clock.step * 512;
                 if (group->size >= 2048) {
                     primary->started = 1;
                 }
@@ -117,7 +117,7 @@ void SpanishModelVariant405_DrawPulses(u8 *context)
             }
         } else {
             if (primary->progress >= 1024 && group->size < 8192) {
-                group->size += state->step * 512;
+                group->size += state->clock.step * 512;
                 if (group->size >= 8192) {
                     group->size = 8192;
                     group->shown = 1;

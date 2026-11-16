@@ -10,23 +10,5 @@ typedef struct {
     s32 size;
 } Mesh427;
 
-typedef struct {
-    Mesh427 meshes[3];
-    ModelVariantProgressRecord companions[3];
-    u8 unknown_19C8[0x1A88];
-    POLY_GT4 polygon;
-    u8 unknown_3484[0x20C];
-    VECTOR origins[3];
-    u8 unknown_36C0[0x7C];
-    s32 frame;
-    u8 unknown_3740[8];
-    s32 step;
-    u8 unknown_374C[0x24];
-    s32 size;
-    u8 unknown_3774[0xC];
-    s32 intensity;
-    u8 unknown_3784[0x40];
-    s32 phase;
-} Mesh427State;
 
 #endif

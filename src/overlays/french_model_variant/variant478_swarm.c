@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant478_swarm.h"
+#include "variant478_entry.h"
 
-void FrenchModelVariant478_DrawSwarm(u8 *context)
+void FrenchModelVariant478_DrawSwarm(EntryState478 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -13,9 +13,9 @@ void FrenchModelVariant478_DrawSwarm(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    QuadSwarm478State *state = (QuadSwarm478State *)context;
-    ModelVariantSwarmGroupShort *group = &state->group;
-    POLY_FT4 *polygon = &state->polygon;
+    EntryState478 *state = context;
+    EntrySwarm478 *group = &state->swarm;
+    POLY_FT4 *polygon = &state->swarm_packet;
     s16 j;
     s16 angle;
     s32 complete;
@@ -26,8 +26,8 @@ void FrenchModelVariant478_DrawSwarm(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     angle = 0;
-    ratan2(state->direction.vy, state->direction.vz);
-    ratan2(state->projected.vy, state->projected.vx);
+    ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
     for (j = 0; j < 32; j++, angle += 1300) {
         if (group->size[j] > 0) {
             if (group->size[j] > 512) {
@@ -44,11 +44,11 @@ void FrenchModelVariant478_DrawSwarm(u8 *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->origin[0] + state->direction.vx * group->size[j] / 512 +
+            matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * group->size[j] / 512 +
                           (rcos(angle - 1024) * radius >> 12);
-            matrix.t[1] = state->origin[1] + state->direction.vy * group->size[j] / 512 +
+            matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * group->size[j] / 512 +
                           (rsin(angle - 1024) * radius >> 12);
-            matrix.t[2] = state->origin[2] + state->direction.vz * group->size[j] / 512;
+            matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * group->size[j] / 512;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -74,19 +74,19 @@ void FrenchModelVariant478_DrawSwarm(u8 *context)
             }
         }
         if (group->size[j] < 1024) {
-            group->size[j] += state->step * 8;
+            group->size[j] += state->clock.step * 8;
             if (group->size[0] >= 512 && state->phase == 0) {
                 state->phase = 2;
             }
             if (group->size[j] >= 1024) {
-                if (state->timing->limit <= state->time) {
+                if (state->config->swarm_end <= state->clock.frame) {
                     group->size[j] = 1024;
                     group->done[j] = 1;
                 } else {
                     group->size[j] -= 1024;
                 }
             } else if (group->size[j] <= 0) {
-                if (state->timing->limit <= state->time) {
+                if (state->config->swarm_end <= state->clock.frame) {
                     group->size[j] = 1024;
                     group->done[j] = 1;
                 }

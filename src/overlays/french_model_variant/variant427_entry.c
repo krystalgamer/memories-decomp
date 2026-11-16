@@ -318,8 +318,8 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant427_DrawPanels((u8 *)point);
         }
         if ((u32)(work->phase - 3) < 3) {
-            SpanishModelVariant427_DrawCurtains((u8 *)point);
-            SpanishModelVariant427_DrawMeshes((u8 *)point);
+            SpanishModelVariant427_DrawCurtains((EntryState427 *)point);
+            SpanishModelVariant427_DrawMeshes((EntryState427 *)point);
         }
         if ((u32)(work->phase - 2) < 3) {
             FrenchModelVariant427_DrawRibbons((EntryState427 *)point);

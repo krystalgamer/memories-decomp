@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant478_quads.h"
+#include "../french_model_variant/variant478_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant478_DrawOrbitingQuads(u8 *context)
+void SpanishModelVariant478_DrawOrbitingQuads(EntryState478 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -14,9 +14,9 @@ void SpanishModelVariant478_DrawOrbitingQuads(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Quads478State *state = (Quads478State *)context;
-    ModelVariantQuadGroup *group = state->groups;
-    POLY_FT4 *polygon = &state->polygon;
+    EntryState478 *state = context;
+    ModelVariantQuadGroup *group = state->quads;
+    POLY_FT4 *polygon = &state->swarm_packet;
     s16 i, j;
     s16 angle, ripple;
     s32 complete;
@@ -26,8 +26,8 @@ void SpanishModelVariant478_DrawOrbitingQuads(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     i = 0;
-    ratan2(state->direction.vy, state->direction.vz);
-    ratan2(state->projected.vy, state->projected.vx);
+    ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
     for (; i < 1; i++, group++) {
         j = 0;
         angle = 0;
@@ -46,9 +46,9 @@ void SpanishModelVariant478_DrawOrbitingQuads(u8 *context)
                 rotation.vx = 0;
                 rotation.vy = 0;
                 rotation.vz = 0;
-                matrix.t[0] = state->origin.vx + ((rcos(angle + ripple + group->angle[j]) * 192) >> 12);
-                matrix.t[1] = state->origin.vy + ((rsin(angle + group->angle[j]) * 192) >> 12);
-                matrix.t[2] = state->origin.vz + ((rsin(ripple + group->angle[j]) * 192) >> 12);
+                matrix.t[0] = state->aim.target.vx + ((rcos(angle + ripple + group->angle[j]) * 192) >> 12);
+                matrix.t[1] = state->aim.target.vy + ((rsin(angle + group->angle[j]) * 192) >> 12);
+                matrix.t[2] = state->aim.target.vz + ((rsin(ripple + group->angle[j]) * 192) >> 12);
                 scale.vx = group->size[j];
                 scale.vy = group->size[j];
                 scale.vz = group->size[j];
@@ -74,9 +74,9 @@ void SpanishModelVariant478_DrawOrbitingQuads(u8 *context)
                 }
             }
             if (group->size[j] < 4096) {
-                group->size[j] += state->step * 256;
+                group->size[j] += state->clock.step * 256;
                 if (group->size[j] >= 4096) {
-                    if (state->timing->limit <= state->time && state->phase >= 3) {
+                    if (state->config->swarm_start <= state->clock.frame && state->phase >= 3) {
                         group->size[j] = 4096;
                         group->done[j] = 1;
                     } else {
@@ -85,7 +85,7 @@ void SpanishModelVariant478_DrawOrbitingQuads(u8 *context)
                         group->angle[j] += 600;
                     }
                 } else if (group->size[j] <= 0) {
-                    if (state->phase >= 3 && state->timing->limit <= state->time) {
+                    if (state->phase >= 3 && state->config->swarm_start <= state->clock.frame) {
                         group->size[j] = 4096;
                         group->done[j] = 1;
                     }

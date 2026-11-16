@@ -82,7 +82,7 @@ typedef struct {
 
 extern GsIMAGE gSpanishModelVariant405_aImages[2];
 extern Variant405EntryConfig gSpanishModelVariant405_aConfigs[];
-void SpanishModelVariant405_DrawPulses(u8 *context);
+void SpanishModelVariant405_DrawPulses(Variant405EntryState *context);
 void FrenchModelVariant562_DrawShards(Variant405EntryState *context);
 void SpanishModelVariant405_DrawOuterBands(u8 *context);
 typedef char Variant405EntryConfigSize[(sizeof(Variant405EntryConfig) == 0x20) ? 1 : -1];

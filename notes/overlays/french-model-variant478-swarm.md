@@ -6,13 +6,14 @@ per image) draws and advances a swarm of 32 growing quads. **No release
 had matching C for this body before.** It is a different body from the
 accepted Spanish MODEL478 quads helper (`variant478_quads.c`, 0x508 bytes).
 
-It follows the shape of the Spanish MODEL470 quads helper over a local
-view in `variant478_swarm.h`:
-- one 32-quad group at `+0xA28`, with corners `a`..`d`, the colour at
+It follows the shape of the Spanish MODEL470 quads helper over the
+MODEL478 record, `EntryState478` in `variant478_entry.h`:
+- the 32-quad `swarm` at `+0xA28`, with corners `a`..`d`, the colour at
   `+0x500`, sizes at `+0x514` and done flags at `+0x594`;
-- the `POLY_FT4` at `+0x2948`, the origin at `+0x29A8`, the direction at
-  `+0x29BC`, the time at `+0x29EC`, the step at `+0x29F4`, the timing
-  pointer at `+0x29FC` (limit at `+0x24`) and the phase at `+0x2A24`.
+- `swarm_packet` at `+0x2948`, `matrix.t` at `+0x29A8`, `aim.direction` at
+  `+0x29BC`, `clock.frame` at `+0x29EC`, `clock.step` at `+0x29F4`, `config`
+  at `+0x29FC` (the limit is `swarm_end` at `+0x24`) and `phase` at
+  `+0x2A24`.
 
 Measured shape:
 - visible quads (size above 0) fade by `(1024 - size) / 512` above 512;

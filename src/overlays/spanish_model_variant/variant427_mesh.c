@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant427_mesh.h"
+#include "../french_model_variant/variant427_entry.h"
 
-void SpanishModelVariant427_DrawMeshes(u8 *context)
+void SpanishModelVariant427_DrawMeshes(EntryState427 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,10 +11,10 @@ void SpanishModelVariant427_DrawMeshes(u8 *context)
     u8 red[9], green[9], blue[9];
     long interpolation;
     long flag;
-    Mesh427State *state = (Mesh427State *)context;
-    ModelVariantProgressRecord *companion = state->companions;
+    EntryState427 *state = context;
+    EntryRibbon427 *companion = state->ribbons;
     Mesh427 *mesh = state->meshes;
-    POLY_GT4 *polygon = &state->polygon;
+    POLY_GT4 *polygon = &state->extra;
     GsOT *ot;
     s32 i, row, column;
     s32 size;
@@ -22,7 +22,7 @@ void SpanishModelVariant427_DrawMeshes(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 3; i++, mesh++, companion++) {
-        if (!(state->frame & 1)) {
+        if (!(state->clock.frame_count & 1)) {
             size = mesh->size + state->size / 32;
         } else {
             size = mesh->size;
@@ -83,13 +83,13 @@ void SpanishModelVariant427_DrawMeshes(u8 *context)
         if (companion->progress >= 1024) {
             if (state->phase < 5) {
                 if (mesh->size < 4096) {
-                    mesh->size += state->step * 256;
+                    mesh->size += state->clock.step * 256;
                     if (mesh->size >= 4096) {
                         mesh->size = 4096;
                     }
                 }
             } else if (mesh->size < 16384) {
-                mesh->size += state->step * 64;
+                mesh->size += state->clock.step * 64;
                 if (mesh->size >= 16384) {
                     mesh->size = 16384;
                 }
@@ -97,7 +97,7 @@ void SpanishModelVariant427_DrawMeshes(u8 *context)
         }
     }
     if (state->phase >= 3 && state->size < 4096) {
-        state->size += state->step * 256;
+        state->size += state->clock.step * 256;
         if (state->size >= 4096) {
             state->size = 4096;
         }
