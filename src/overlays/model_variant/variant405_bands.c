@@ -47,9 +47,9 @@ void ModelVariant405_DrawBands(Variant422EntryState *context)
                 m.t[1] = work->matrix.t[1];
                 m.t[2] = work->matrix.t[2];
             } else {
-                m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->field_1E14 / 1024 * j / 8;
-                m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->field_1E14 / 1024 * j / 8;
-                m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->field_1E14 / 1024 * j / 8;
+                m.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->displacement / 1024 * j / 8;
+                m.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->displacement / 1024 * j / 8;
+                m.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->displacement / 1024 * j / 8;
             }
             scale.vx = 0x1000;
             scale.vy = 0x1000;
@@ -121,11 +121,11 @@ void ModelVariant405_DrawBands(Variant422EntryState *context)
         }
     }
     if (work->phase == 1) {
-        if (work->field_1E14 < 0x401) {
-            work->field_1E14 = (u32)((work->clock.frame - work->config->burst_start) << 10) /
+        if (work->displacement < 0x401) {
+            work->displacement = (u32)((work->clock.frame - work->config->burst_start) << 10) /
                              (work->config->field_24 - work->config->burst_start);
-            if (work->field_1E14 >= 0x400) {
-                work->field_1E14 = 0x400;
+            if (work->displacement >= 0x400) {
+                work->displacement = 0x400;
                 work->phase = 2;
             }
         }
