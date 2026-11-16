@@ -22,7 +22,7 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     ModelVariantBandTriple *record = work->records;
     Variant432EntryRibbon *ribbon = work->ribbons;
-    Sheet437 *sheet = work->sheets;
+    ModelVariantQuadSheet *sheet = work->sheets;
     ModelVariantShortStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
@@ -153,58 +153,58 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
             if (k == 0) {
                 for (j = 0; j < 4; j++) {
                     if (j == 0) {
-                        setVector(&sheet->v0[j], -192, -192, 0);
-                        setVector(&sheet->v1[j], 0, -192, 0);
-                        setVector(&sheet->v2[j], -192, 0, 0);
-                        setVector(&sheet->v3[j], 0, 0, 0);
+                        setVector(&sheet->points[0][j], -192, -192, 0);
+                        setVector(&sheet->points[1][j], 0, -192, 0);
+                        setVector(&sheet->points[2][j], -192, 0, 0);
+                        setVector(&sheet->points[3][j], 0, 0, 0);
                     } else if (j == 1) {
-                        setVector(&sheet->v0[j], 192, -192, 0);
-                        setVector(&sheet->v1[j], 192, 0, 0);
-                        setVector(&sheet->v2[j], 0, -192, 0);
-                        setVector(&sheet->v3[j], 0, 0, 0);
+                        setVector(&sheet->points[0][j], 192, -192, 0);
+                        setVector(&sheet->points[1][j], 192, 0, 0);
+                        setVector(&sheet->points[2][j], 0, -192, 0);
+                        setVector(&sheet->points[3][j], 0, 0, 0);
                     } else if (j == 2) {
-                        setVector(&sheet->v0[j], 192, 192, 0);
-                        setVector(&sheet->v1[j], 0, 192, 0);
-                        setVector(&sheet->v2[j], 192, 0, 0);
-                        setVector(&sheet->v3[j], 0, 0, 0);
+                        setVector(&sheet->points[0][j], 192, 192, 0);
+                        setVector(&sheet->points[1][j], 0, 192, 0);
+                        setVector(&sheet->points[2][j], 192, 0, 0);
+                        setVector(&sheet->points[3][j], 0, 0, 0);
                     } else if (j == 3) {
-                        setVector(&sheet->v0[j], -192, 192, 0);
-                        setVector(&sheet->v1[j], -192, 0, 0);
-                        setVector(&sheet->v2[j], 0, 192, 0);
-                        setVector(&sheet->v3[j], 0, 0, 0);
+                        setVector(&sheet->points[0][j], -192, 192, 0);
+                        setVector(&sheet->points[1][j], -192, 0, 0);
+                        setVector(&sheet->points[2][j], 0, 192, 0);
+                        setVector(&sheet->points[3][j], 0, 0, 0);
                     }
                 }
             } else {
                 for (j = 0; j < 4; j++) {
                     if (j == 0) {
-                        setVector(&sheet->v0[j], 0, -192, -192);
-                        setVector(&sheet->v1[j], 0, -192, 0);
-                        setVector(&sheet->v2[j], 0, 0, -192);
-                        setVector(&sheet->v3[j], 0, 0, 0);
+                        setVector(&sheet->points[0][j], 0, -192, -192);
+                        setVector(&sheet->points[1][j], 0, -192, 0);
+                        setVector(&sheet->points[2][j], 0, 0, -192);
+                        setVector(&sheet->points[3][j], 0, 0, 0);
                     } else if (j == 1) {
-                        setVector(&sheet->v0[j], 0, -192, 192);
-                        setVector(&sheet->v1[j], 0, 0, 192);
-                        setVector(&sheet->v2[j], 0, -192, 0);
-                        setVector(&sheet->v3[j], 0, 0, 0);
+                        setVector(&sheet->points[0][j], 0, -192, 192);
+                        setVector(&sheet->points[1][j], 0, 0, 192);
+                        setVector(&sheet->points[2][j], 0, -192, 0);
+                        setVector(&sheet->points[3][j], 0, 0, 0);
                     } else if (j == 2) {
-                        setVector(&sheet->v0[j], 0, 192, 192);
-                        setVector(&sheet->v1[j], 0, 192, 0);
-                        setVector(&sheet->v2[j], 0, 0, 192);
-                        setVector(&sheet->v3[j], 0, 0, 0);
+                        setVector(&sheet->points[0][j], 0, 192, 192);
+                        setVector(&sheet->points[1][j], 0, 192, 0);
+                        setVector(&sheet->points[2][j], 0, 0, 192);
+                        setVector(&sheet->points[3][j], 0, 0, 0);
                     } else if (j == 3) {
-                        setVector(&sheet->v0[j], 0, 192, -192);
-                        setVector(&sheet->v1[j], 0, 0, -192);
-                        setVector(&sheet->v2[j], 0, 192, 0);
-                        setVector(&sheet->v3[j], 0, 0, 0);
+                        setVector(&sheet->points[0][j], 0, 192, -192);
+                        setVector(&sheet->points[1][j], 0, 0, -192);
+                        setVector(&sheet->points[2][j], 0, 192, 0);
+                        setVector(&sheet->points[3][j], 0, 0, 0);
                     }
                 }
             }
-            sheet->outer[0] = 255;
-            sheet->outer[1] = 255;
-            sheet->outer[2] = 255;
-            sheet->inner[0] = 0;
-            sheet->inner[1] = 64;
-            sheet->inner[2] = 255;
+            sheet->color[0].r = 255;
+            sheet->color[0].g = 255;
+            sheet->color[0].b = 255;
+            sheet->color[1].r = 0;
+            sheet->color[1].g = 64;
+            sheet->color[1].b = 255;
         }
         for (i = 0; i < 3; i++, streamer++) {
             for (j = 0; j < 13; j++) {
@@ -284,7 +284,7 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
             FrenchModelVariant449_DrawStreamers((Variant432EntryState *)point);
         }
         if (work->config->scale_start < work->elapsed) {
-            FrenchModelVariant449_DrawSheet((u8 *)point);
+            FrenchModelVariant449_DrawSheet((Variant432EntryState *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

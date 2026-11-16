@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant449_sheet.h"
+#include "../model_variant/variant432_entry.h"
 
-void FrenchModelVariant449_DrawSheet(u8 *context)
+void FrenchModelVariant449_DrawSheet(Variant432EntryState *context)
 {
-    Variant449View *work = (Variant449View *)context;
+    Variant432EntryState *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -22,20 +22,20 @@ void FrenchModelVariant449_DrawSheet(u8 *context)
     SVECTOR *point;
 
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(work->axis_z, work->axis_x);
-    ratan2(work->axis_y, work->axis_x);
+    ratan2(work->view_delta.vz, work->view_delta.vx);
+    ratan2(work->view_delta.vy, work->view_delta.vx);
     sheet = work->sheets;
-    quad = work->quads;
-    if (!(work->flags & 1)) {
+    quad = work->packets.textured;
+    if (!(work->frame_count & 1)) {
         bias = 0;
     } else {
         bias = work->scale / 8;
     }
     quad++;
     for (i = 0; i < 1; i++, sheet++) {
-        matrix.t[0] = work->origin.t[0] + work->delta.vx * work->factor / 1024;
-        matrix.t[1] = work->origin.t[1] + work->delta.vy * work->factor / 1024;
-        matrix.t[2] = work->origin.t[2] + work->delta.vz * work->factor / 1024;
+        matrix.t[0] = work->origin.vx + work->path.vx * work->factor / 1024;
+        matrix.t[1] = work->origin.vy + work->path.vy * work->factor / 1024;
+        matrix.t[2] = work->origin.vz + work->path.vz * work->factor / 1024;
         scale.vx = work->scale + bias;
         scale.vy = work->scale + bias;
         scale.vz = work->scale + bias;
@@ -74,36 +74,36 @@ void FrenchModelVariant449_DrawSheet(u8 *context)
             }
         }
     }
-    if (work->phase == 0 && work->elapsed >= work->timing->scale_start) {
+    if (work->tail.phase == 0 && work->elapsed >= work->config->scale_start) {
         if (work->scale < 4096) {
-        work->scale = ((work->elapsed - work->timing->scale_start) << 12) /
-                      (work->timing->scale_end - work->timing->scale_start);
+        work->scale = ((work->elapsed - work->config->scale_start) << 12) /
+                      (work->config->scale_end - work->config->scale_start);
         if (work->scale >= 4096) {
             work->scale = 4096;
-            work->phase = 1;
+            work->tail.phase = 1;
         }
         }
-    } else if (work->phase == 1 && work->elapsed >= work->timing->move_start) {
-        work->factor = ((work->elapsed - work->timing->move_start) << 10) /
-                   (work->timing->move_end - work->timing->move_start);
+    } else if (work->tail.phase == 1 && work->elapsed >= work->config->move_start) {
+        work->factor = ((work->elapsed - work->config->move_start) << 10) /
+                   (work->config->move_end - work->config->move_start);
         if (work->factor >= 1024) {
         work->factor = 1024;
-        work->phase = 2;
+        work->tail.phase = 2;
         }
-    } else if (work->phase == 2) {
+    } else if (work->tail.phase == 2) {
         if (work->scale < 16384) {
             work->scale += work->step << 11;
             if (work->scale >= 16384) {
                 work->scale = 16384;
-                work->phase = 3;
+                work->tail.phase = 3;
             }
         }
-    } else if (work->phase == 3 && work->timing->fade_start <= work->elapsed) {
+    } else if (work->tail.phase == 3 && work->config->fade_start <= work->elapsed) {
         if (work->scale > 0) {
         work->scale -= work->step << 7;
         if (work->scale <= 0) {
             work->scale = 0;
-            work->phase = 7;
+            work->tail.phase = 7;
         }
         }
     }

@@ -9,7 +9,6 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
-#include "../spanish_model_variant/variant437_sheet.h"
 
 /* One 0x24-byte command row at gModelVariant432_aConfigs. */
 typedef struct {
@@ -41,7 +40,7 @@ typedef struct {
 
 typedef struct {
     Variant432EntryRibbon ribbons[4];
-    Sheet437 sheets[1];
+    ModelVariantQuadSheet sheets[1];
     ModelVariantBandTriple records[1];
     ModelVariantShortStreamer streamers[3];
     u8 unknown_1698[0x318];
@@ -76,7 +75,7 @@ typedef struct {
 
 extern GsIMAGE gModelVariant432_aImages[9];
 extern Variant432EntryConfig gModelVariant432_aConfigs[];
-void FrenchModelVariant449_DrawSheet(u8 *context);
+void FrenchModelVariant449_DrawSheet(Variant432EntryState *context);
 void FrenchModelVariant449_DrawRibbons(Variant432EntryState *context);
 void FrenchModelVariant449_DrawStreamers(Variant432EntryState *context);
 s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command);

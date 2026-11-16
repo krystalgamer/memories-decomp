@@ -63,7 +63,7 @@ Entry `model_variant/variant409_entry.c` sets `work->config = gModelVariant409_a
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `field_1C` → `u32 ribbon_start` | `ModelVariantRibbonGrowTiming.grow_start` | `FrenchModelVariant426_DrawRibbon` (french_model_variant/variant426_ribbon.c; `model_variant/variant409_entry.c:311`, `Ribbon426Work.timing` at +0x2110) | `if (work->amp < 0x400 && work->timing->grow_start <= work->clock)` | high |
+| `+0x1C` | `field_1C` → `u32 ribbon_start` | `ModelVariantRibbonGrowTiming.grow_start` | `FrenchModelVariant426_DrawRibbon` (french_model_variant/variant426_ribbon.c; `model_variant/variant409_entry.c:311`, `Ribbon426Work.timing` at +0x2110) | `if (work->amp < 0x400 && work->config->grow_start <= work->clock)` | high |
 
 The `ModelVariantRibbonGrowTiming` view calls this word `grow_start`. The config uses `ribbon_start`, the name given to the same ribbon-growth start in `EntryConfig425` (#8816), because the ribbon progress rises from it to `travel_start`.
 
@@ -89,9 +89,9 @@ Entry `model_variant/variant432_entry.c` sets `work->config = gModelVariant432_a
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x18` | `unknown_18[0xC]` bytes → `s32 move_start` | `Variant449Timing.move_start` | `FrenchModelVariant449_DrawSheet` (french_model_variant/variant449_sheet.c; `model_variant/variant432_entry.c:287`, `Variant449View.timing` at +0x1BF4) | `} else if (work->phase == 1 && work->elapsed >= work->timing->move_start)` | high |
-| `+0x1C` | `unknown_18[0xC]` bytes → `s32 move_end` | `Variant449Timing.move_end` | `FrenchModelVariant449_DrawSheet` (french_model_variant/variant449_sheet.c; `model_variant/variant432_entry.c:287`, `Variant449View.timing` at +0x1BF4) | `(work->timing->move_end - work->timing->move_start);` | high |
-| `+0x20` | `unknown_18[0xC]` bytes → `s32 fade_start` | `Variant449Timing.fade_start` | `FrenchModelVariant449_DrawSheet` (french_model_variant/variant449_sheet.c; `model_variant/variant432_entry.c:287`, `Variant449View.timing` at +0x1BF4) | `} else if (work->phase == 3 && work->timing->fade_start <= work->elapsed)` | high |
+| `+0x18` | `unknown_18[0xC]` bytes → `s32 move_start` | `Variant432EntryConfig.move_start` (was `Variant449Timing`) | `FrenchModelVariant449_DrawSheet` (french_model_variant/variant449_sheet.c; `model_variant/variant432_entry.c:287`, `Variant432EntryState.config` at +0x1BF4) | `} else if (work->tail.phase == 1 && work->elapsed >= work->config->move_start)` | high |
+| `+0x1C` | `unknown_18[0xC]` bytes → `s32 move_end` | `Variant432EntryConfig.move_end` (was `Variant449Timing`) | `FrenchModelVariant449_DrawSheet` (french_model_variant/variant449_sheet.c; `model_variant/variant432_entry.c:287`, `Variant432EntryState.config` at +0x1BF4) | `(work->config->move_end - work->config->move_start);` | high |
+| `+0x20` | `unknown_18[0xC]` bytes → `s32 fade_start` | `Variant432EntryConfig.fade_start` (was `Variant449Timing`) | `FrenchModelVariant449_DrawSheet` (french_model_variant/variant449_sheet.c; `model_variant/variant432_entry.c:287`, `Variant432EntryState.config` at +0x1BF4) | `} else if (work->tail.phase == 3 && work->config->fade_start <= work->elapsed)` | high |
 
 ## `Variant452EntryConfig` (`gFrenchModelVariant452_aConfigs`)
 
@@ -99,9 +99,9 @@ Entry `french_model_variant/variant452_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x18]` bytes → `u32 scale_end` | `Variant452SheetTiming.scale_end` | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452SheetView.timing` at +0x3374) | `/ (work->timing->scale_end - work->timing->scale_start);` | high |
-| `+0x2C` | `unknown_20[0x18]` bytes → `u32 fade_start` | `Variant452SheetTiming.fade_start` | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452SheetView.timing` at +0x3374) | `} else if (work->elapsed >= work->timing->fade_start)` | high |
-| `+0x30` | `unknown_20[0x18]` bytes → `u32 fade_end` | `Variant452SheetTiming.fade_end` | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452SheetView.timing` at +0x3374) | `/ (work->timing->fade_end - work->timing->fade_start);` | high |
+| `+0x20` | `unknown_20[0x18]` bytes → `u32 scale_end` | `Variant452SheetTiming.scale_end` | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452SheetView.timing` at +0x3374) | `/ (work->config->scale_end - work->config->scale_start);` | high |
+| `+0x2C` | `unknown_20[0x18]` bytes → `u32 fade_start` | `Variant452SheetTiming.fade_start` | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452SheetView.timing` at +0x3374) | `} else if (work->elapsed >= work->config->fade_start)` | high |
+| `+0x30` | `unknown_20[0x18]` bytes → `u32 fade_end` | `Variant452SheetTiming.fade_end` | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452SheetView.timing` at +0x3374) | `/ (work->config->fade_end - work->config->fade_start);` | high |
 
 ## `Variant438EntryConfig` (`gModelVariant438_aConfigs`)
 
