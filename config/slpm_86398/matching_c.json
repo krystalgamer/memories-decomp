@@ -6173,25 +6173,25 @@
       "address": "0x8005D7B4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x228",
-      "source": "src/game/japanese/model_handler_dispatch.c"
+      "source": "src/game/model_handler_registry.c"
     },
     {
       "address": "0x8005D9DC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x32C",
-      "source": "src/game/japanese/model_handler_dispatch.c"
+      "source": "src/game/model_handler_registry.c"
     },
     {
       "address": "0x8005DD08",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/japanese/model_register_handler_key.c"
+      "source": "src/game/model_handler_registry.c"
     },
     {
       "address": "0x8005DD68",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/japanese/model_find_handler_key.c"
+      "source": "src/game/model_handler_registry.c"
     },
     {
       "address": "0x8005DDB8",
@@ -6257,7 +6257,7 @@
       "address": "0x8005F980",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1BC",
-      "source": "src/game/japanese/model_process_type2_unit.c"
+      "source": "src/game/japanese/model_primitive_handlers.c"
     },
     {
       "address": "0x8005FB3C",

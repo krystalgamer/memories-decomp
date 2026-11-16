@@ -454,7 +454,7 @@ model units, in their `.bss` as in their text:
   subsegment places the globals.
 - `movie_frame_pipeline`'s small block follows at `0x8009C818`-`0x8009C838`;
   its generated `movie_pipeline_commons` subsegment places the globals.
-- In `.bss`, `movie_stream_requests` sits between `model_handler_dispatch`
+- In `.bss`, `movie_stream_requests` sits between `model_handler_registry`
   and `ai_script` (`0x800F6F08`), so the model blocks are `0x408` above
   Europe's.
 

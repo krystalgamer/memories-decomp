@@ -6233,7 +6233,7 @@
       "address": "0x80060238",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F0",
-      "source": "src/game/european/model_process_type2_unit.c"
+      "source": "src/game/european/model_primitive_handler.c"
     },
     {
       "address": "0x80060428",
@@ -6581,25 +6581,25 @@
       "address": "0x80069A18",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x228",
-      "source": "src/game/european/model_handler_dispatch.c"
+      "source": "src/game/model_handler_registry.c"
     },
     {
       "address": "0x80069C40",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x32C",
-      "source": "src/game/european/model_handler_dispatch.c"
+      "source": "src/game/model_handler_registry.c"
     },
     {
       "address": "0x80069F6C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x60",
-      "source": "src/game/european/model_register_handler_key.c"
+      "source": "src/game/model_handler_registry.c"
     },
     {
       "address": "0x80069FCC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/european/model_find_handler_key.c"
+      "source": "src/game/model_handler_registry.c"
     },
     {
       "address": "0x8006A01C",
