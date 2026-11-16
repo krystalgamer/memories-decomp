@@ -52,7 +52,7 @@ typedef struct {
     ModelVariantStreamerParams streamer;
     u8 color_a[4];
     u8 color_b[4];
-    s32 curtain_angle, field_41DC, field_41E0, field_41E4, field_41E8;
+    s32 curtain_angle, ribbon_sway, ribbon_wave, field_41E4, field_41E8;
     s32 phase;
     s32 field_41F0, field_41F4;
     u8 unknown_41F8[8];

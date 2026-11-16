@@ -10,7 +10,7 @@
  * projected with it and each segment draws two POLY_GT4 halves offset by the
  * projected width. Size grows by 32 per step; reaching 0x400 sets state 2 and
  * moves phase 2 to 3. From state 2 the rib snaps to fade 0x400 and state 3.
- * The ripples (field_41DC/field_41E0) advance by 850 and 128 per step, and
+ * The ripples (ribbon_sway/ribbon_wave) advance by 850 and 128 per step, and
  * once the clock passes the fade start rib_fade falls linearly from
  * 0x400, moving phase 4 to 5 when it reaches zero. */
 void SpanishModelVariant479_DrawRibs(Variant479EntryState *context)
@@ -200,8 +200,8 @@ void SpanishModelVariant479_DrawRibs(Variant479EntryState *context)
             rec->state = 3;
         }
     }
-    work->field_41DC += work->clock.step * 850;
-    work->field_41E0 += work->clock.step * 128;
+    work->ribbon_sway += work->clock.step * 850;
+    work->ribbon_wave += work->clock.step * 128;
     timing = work->config;
     if (timing->fade_start <= work->clock.frame && work->rib_fade > 0) {
         work->rib_fade = 0x400 - ((work->clock.frame - timing->fade_start) << 10) /
