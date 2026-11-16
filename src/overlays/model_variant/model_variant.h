@@ -936,17 +936,6 @@ typedef struct {
     s32 done;
 } ModelVariantGridSheet;
 
-/* The funnel and sheet command row of headers 411 and 444: the growth window
- * and the fade window. */
-typedef struct {
-    u8 unknown_00[0xC];
-    u32 grow_start;
-    u32 grow_end;
-    u8 unknown_14[4];
-    u32 fade_start;
-    u32 fade_end;
-} ModelVariantGrowFadeTiming;
-
 /* One 0x6C-byte ray: a two-point spine and a copy offset across the view,
  * both projected, the screen angles and widths, the depths and the width's
  * screen offset. */

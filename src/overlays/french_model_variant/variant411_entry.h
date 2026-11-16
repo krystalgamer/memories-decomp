@@ -3,9 +3,20 @@
 
 #include "../../types.h"
 #include "variant402_entry.h"
-#include "../spanish_model_variant/variant411_funnels.h"
 #include "../model_variant/variant411_beams.h"
 #include "../../game/model_slot_getters.h"
+
+/* One command record of the header-411 entry's table. The funnels read
+   the first record's fade start (old blob + 0x114) whatever the command. */
+typedef struct {
+    u8 unknown_00[4], part, unknown_05[7];
+    u32 sheet_start, expansion_start, expansion_end, fade_start, fade_end;
+    u32 field_20;
+    s32 offset[3];
+} EntryConfig411;
+
+extern GsIMAGE gSpanishModelVariant411_aImages[9];
+extern EntryConfig411 gSpanishModelVariant411_aConfigs[];
 
 typedef struct {
     ModelVariantTube tubes[1];
@@ -36,7 +47,7 @@ typedef struct {
 } EntryState411;
 
 void FrenchModelVariant411_DrawTube(EntryState411 *context);
-void SpanishModelVariant411_DrawFadingSheets(u8 *context);
-void SpanishModelVariant411_DrawFunnels(u8 *context);
+void SpanishModelVariant411_DrawFadingSheets(EntryState411 *context);
+void SpanishModelVariant411_DrawFunnels(EntryState411 *context);
 
 #endif

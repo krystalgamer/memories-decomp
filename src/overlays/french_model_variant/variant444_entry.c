@@ -249,7 +249,7 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
         work->outer.r = 0;
         work->outer.g = 0;
         work->outer.b = 128;
-        work->field_1668 = 0;
+        work->spin = 0;
         work->width = 1024;
         work->angle = 0;
         work->field_1674 = 0;
@@ -299,8 +299,8 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->sheet_start < work->clock.frame) {
-            SpanishModelVariant444_DrawSheets((u8 *)point);
-            SpanishModelVariant444_DrawFunnels((u8 *)point);
+            SpanishModelVariant444_DrawSheets((Variant444EntryState *)point);
+            SpanishModelVariant444_DrawFunnels((Variant444EntryState *)point);
         }
         if (work->config->tube_start < work->clock.frame) {
             FrenchModelVariant175_DrawTube((Variant444EntryState *)point);

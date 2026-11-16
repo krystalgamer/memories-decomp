@@ -3,7 +3,17 @@
 
 #include "../../types.h"
 #include "variant337_entry.h"
-#include "../spanish_model_variant/variant444_funnels.h"
+
+/* One command record of the French header-444 entry's table. The funnels read
+   the first record's fade start (old blob + 0x114) whatever the command. */
+typedef struct {
+    u8 unknown_00[4];
+    u8 part, unknown_05[7];
+    u32 sheet_start, tube_start, tube_end, fade_start, fade_end, end;
+} Variant444EntryConfig;
+
+extern GsIMAGE gFrenchModelVariant444_aImages[9];
+extern Variant444EntryConfig gFrenchModelVariant444_aConfigs[];
 
 typedef struct {
     u8 unknown_00[0x40];
@@ -34,12 +44,12 @@ typedef struct {
     s16 field_1658, field_165A;
     s32 progress;
     CVECTOR inner, outer;
-    s32 field_1668, width, angle, field_1674, field_1678;
+    s32 spin, width, angle, field_1674, field_1678;
     ModelVariantEntryTail tail;
 } Variant444EntryState;
 
 void FrenchModelVariant175_DrawTube(Variant444EntryState *context);
-void SpanishModelVariant444_DrawSheets(u8 *context);
-void SpanishModelVariant444_DrawFunnels(u8 *context);
+void SpanishModelVariant444_DrawSheets(Variant444EntryState *context);
+void SpanishModelVariant444_DrawFunnels(Variant444EntryState *context);
 
 #endif
