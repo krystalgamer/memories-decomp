@@ -3,63 +3,113 @@
   "functions": [
     {
       "address": "0x80012A44",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x194",
-      "source": "src/game/german/main.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012BD8",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
-      "source": "src/game/german/main.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012C50",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/german/main.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012C88",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
-      "source": "src/game/german/main.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012CB8",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA8",
-      "source": "src/game/german/main.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012D60",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x210",
-      "source": "src/game/german/main.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80012F70",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE8",
-      "source": "src/game/german/main.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x80013058",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x224",
-      "source": "src/game/german/main.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x8001327C",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x154",
-      "source": "src/game/german/main.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x800133D0",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2C",
-      "source": "src/game/german/main.c"
+      "source": "src/game/main.c"
     },
     {
       "address": "0x800133FC",
@@ -3347,147 +3397,267 @@
     },
     {
       "address": "0x800302E4",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030300",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x8003031C",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD0",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x800303EC",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x8003048C",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x800304D0",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x524",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x800309F4",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE8",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030ADC",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1E0",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030CBC",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x23C",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030EF8",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80030F98",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xAC",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80031044",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD4",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80031118",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80031164",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x800311B0",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80031228",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80031268",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x20",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80031288",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x800312B8",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x800312E8",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80031304",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x78",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x8003137C",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80031388",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2AC",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80031634",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "DEBUG_MENU_CAMPAIGN_TEXT_BOX_HEIGHT=0x40"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/german/debug_menu.c"
+      "source": "src/game/debug_menu.c"
     },
     {
       "address": "0x80031640",
@@ -4797,603 +4967,2403 @@
     },
     {
       "address": "0x80035F64",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80035FB0",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80035FE8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xF0",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800360D8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x70",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036148",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036184",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800361D8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x60",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036238",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036274",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036298",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x9CC",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036C64",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x198",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036DFC",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x34",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036E30",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036E7C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036EF0",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80036F7C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x118",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037094",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x98",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003712C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1B4",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800372E0",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037354",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800373B0",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x90",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037440",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003748C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xB0",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003753C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD8",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037614",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA0",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800376B4",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x90",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037744",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037760",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xB4",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037814",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037870",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800378AC",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800378E8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037924",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003795C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x34",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037990",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x60",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800379F0",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE8",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037AD8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x134",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037C0C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037C78",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037CC4",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037D04",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037D3C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x258",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037F94",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80037FE0",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038004",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038044",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038080",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800380B8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x160",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038218",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD4",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800382EC",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038340",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038368",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038390",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800383C0",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xAC",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003846C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800384B8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038504",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x160",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038664",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003868C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE0",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003876C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x68",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800387D4",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x88",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003885C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038864",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003886C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800388AC",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xEC",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038998",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x14",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800389AC",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038A18",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038A84",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038ADC",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038B1C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038B4C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038BA8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038BF0",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x118",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038D08",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x18",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038D20",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038DAC",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x64",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038E10",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038E84",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x34",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80038EB8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x290",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039148",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xA4",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800391EC",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1CC",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800393B8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3B8",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039770",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1A0",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039910",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE0",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x800399F0",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039A3C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039A88",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039AB0",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x14",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039AC4",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xE4",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039BA8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC4",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039C6C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD0",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039D3C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1E8",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039F24",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x60",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039F84",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x80039FF8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x90",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003A088",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x20",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003A0A8",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003A0CC",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x160",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003A22C",
+      "defines": [
+        "DIALOG_READ_CHOICE_CLEARS_HELD_R1",
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_LAYOUT_ROW_STEP=10",
+        "WIDGET_PULSE_BASE=0x60",
+        "DIALOG_UPDATE_CHOICE_SKIP_FLAG=8",
+        "DUEL_EFFECT_SELECTOR_FLAG=0x100",
+        "DUEL_EFFECT_CLEARED_CHANNEL_FLAG=0x10",
+        "TEXT_BOX_LAYOUT_QUAD_FLAG=0x40",
+        "TEXT_BOX_GLYPH_CLUT_Y=0xC0",
+        "TEXT_BOX_BUILD_KEEP_FLAG=4",
+        "TEXT_BOX_BUILD_OWN_ENTRIES_FLAG=0x80",
+        "TEXT_BOX_ENTRY_TYPE=EuropeanDuelEffectEntry",
+        "TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG=0x10",
+        "DUEL_EFFECT_ENTRY_STORAGE_TYPE=EuropeanDuelEffectEntry",
+        "DUEL_EFFECT_ENTRY_STORAGE_COUNT=EUROPEAN_DUEL_EFFECT_ENTRY_COUNT",
+        "DUEL_EFFECT_PROCESS_ENTRY_TYPE=EuropeanDuelEffectEntry"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x80",
-      "source": "src/game/spanish/duel_effect_text.c"
+      "source": "src/game/duel_effect_text.c"
     },
     {
       "address": "0x8003A2AC",
@@ -7250,51 +9220,99 @@
     },
     {
       "address": "0x80043658",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256",
+        "DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT=0x80"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x27C",
-      "source": "src/game/german/main_boot_frontend.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x800438D4",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256",
+        "DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT=0x80"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1A4",
-      "source": "src/game/german/main_boot_frontend.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x80043A78",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256",
+        "DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT=0x80"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x25C",
-      "source": "src/game/german/main_boot_frontend.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x80043CD4",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256",
+        "DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT=0x80"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/german/main_boot_frontend.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x80043D7C",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256",
+        "DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT=0x80"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
-      "source": "src/game/german/main_boot_frontend.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x80043DC8",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256",
+        "DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT=0x80"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/german/main_boot_frontend.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x80043E3C",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256",
+        "DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT=0x80"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x248",
-      "source": "src/game/german/main_boot_frontend.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x80044084",
+      "defines": [
+        "BUILD_LANGUAGE_INDEX=2",
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256",
+        "DISPLAY_OBJECT_TRANSITION_HALF_HEIGHT=0x80"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x180",
-      "source": "src/game/german/main_boot_frontend.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x80044204",
