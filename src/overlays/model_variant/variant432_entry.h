@@ -10,7 +10,6 @@
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
 #include "../spanish_model_variant/variant437_sheet.h"
-#include "variant437_streamers.h"
 
 /* One 0x24-byte command row at gModelVariant432_aConfigs. */
 typedef struct {
@@ -44,7 +43,7 @@ typedef struct {
     Variant432EntryRibbon ribbons[4];
     Sheet437 sheets[1];
     ModelVariantBandTriple records[1];
-    Variant437Streamer streamers[3];
+    ModelVariantShortStreamer streamers[3];
     u8 unknown_1698[0x318];
     ModelVariantPackets packets;
     POLY_FT4 flat[2], extra[2];
@@ -59,7 +58,7 @@ typedef struct {
     DVECTOR screen_delta;
     VECTOR view_delta;
     s32 angles[2];
-    u32 frame_count;
+    s32 frame_count;
     s32 elapsed;
     u32 animation_frame;
     s32 step;
@@ -79,7 +78,7 @@ extern GsIMAGE gModelVariant432_aImages[9];
 extern Variant432EntryConfig gModelVariant432_aConfigs[];
 void FrenchModelVariant449_DrawSheet(u8 *context);
 void FrenchModelVariant449_DrawRibbons(Variant432EntryState *context);
-void FrenchModelVariant449_DrawStreamers(u8 *context);
+void FrenchModelVariant449_DrawStreamers(Variant432EntryState *context);
 s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command);
 
 #endif
