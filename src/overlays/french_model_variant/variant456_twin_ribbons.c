@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant456_twin_ribbons.h"
 #include "../spanish_model_variant/variant456_entry.h"
 
 /* The North American header-439 build (CDK compiler) names the closing
@@ -42,11 +41,11 @@ void FrenchModelVariant456_DrawTwinRibbons(Variant456EntryState *context)
     s32 dy;
     s32 c;
     s32 a;
-    TwinRibbon456 *ribbon;
+    Variant456EntryTrail *ribbon;
     POLY_FT4 *poly;
 
     work = context;
-    ribbon = (TwinRibbon456 *)work->trails;
+    ribbon = work->trails;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     ratan2(work->view_delta.vy, work->view_delta.vx);
@@ -60,7 +59,7 @@ void FrenchModelVariant456_DrawTwinRibbons(Variant456EntryState *context)
         }
         wave = -work->spray_wave;
         for (j = 0; j < 3; j++, wave += 1300) {
-            a = ribbon->amp[j];
+            a = ribbon->phase[j];
             if (a <= 0) {
                 c = 0;
             } else if (a < 1024) {
@@ -69,18 +68,18 @@ void FrenchModelVariant456_DrawTwinRibbons(Variant456EntryState *context)
             } else {
                 c = 1024;
             }
-            setVector(&ribbon->a[j], ribbon->dir[0] * c / 1024, ribbon->dir[1] * c / 1024, ribbon->dir[2] * c / 1024);
+            setVector(&ribbon->a[j], ribbon->delta.vx * c / 1024, ribbon->delta.vy * c / 1024, ribbon->delta.vz * c / 1024);
             setVector(&ribbon->b[j], ribbon->a[j].vx + (rcos(turn) * length >> 12), ribbon->a[j].vy,
                       ribbon->a[j].vz + (rsin(turn) * length >> 12));
-            if (ribbon->amp[j] <= 1024) {
-                ribbon->amp[j] += work->clock.step * 64;
-                if (ribbon->amp[j] >= 1024) {
-                    ribbon->amp[j] = 1024;
+            if (ribbon->phase[j] <= 1024) {
+                ribbon->phase[j] += work->clock.step * 64;
+                if (ribbon->phase[j] >= 1024) {
+                    ribbon->phase[j] = 1024;
                     if (i == 0 && work->tail.phase == 1) {
                         work->tail.phase = 2;
                     }
                     if (j == 2) {
-                        ribbon->state = 1;
+                        ribbon->completed = 1;
                     }
                 }
             }
@@ -102,7 +101,7 @@ void FrenchModelVariant456_DrawTwinRibbons(Variant456EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (TwinRibbon456 *)work->trails;
+    ribbon = work->trails;
     for (i = 0; i < 2; i++, ribbon++) {
         for (j = 0; j < 3; j++) {
             if (j == 2) {
@@ -122,7 +121,7 @@ void FrenchModelVariant456_DrawTwinRibbons(Variant456EntryState *context)
             }
             ribbon->angle[j] = ratan2(dy, dx) - 0x400;
             ribbon->width[j] = ribbon->sb[j].point.vx - ribbon->sa[j].point.vx;
-            size = ribbon->scale * ribbon->width[j] / 1024;
+            size = ribbon->width_scale * ribbon->width[j] / 1024;
             ribbon->ox[j] = rcos(ribbon->angle[j]) * size >> 12;
             ribbon->oy[j] = rsin(ribbon->angle[j]) * size >> 12;
             if (j == 0 || j == 2) {
@@ -136,7 +135,7 @@ void FrenchModelVariant456_DrawTwinRibbons(Variant456EntryState *context)
             ribbon->sa[j].packed = (u32)ribbon->sa[j].packed + ((u32)(rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * width >> 12)) >> 12) << 16);
         }
     }
-    ribbon = (TwinRibbon456 *)work->trails;
+    ribbon = work->trails;
     for (i = 0; i < 2; i++, ribbon++) {
         poly = work->flat;
         for (j = 0; j < 2; j++) {
@@ -148,10 +147,10 @@ void FrenchModelVariant456_DrawTwinRibbons(Variant456EntryState *context)
             poly->y2 = (TWIN_RIBBONS456_POINT.packed >> 16) - ribbon->oy[j];
             poly->x3 = TWIN_RIBBONS456_NEXT.point.vx - ribbon->ox[j + 1];
             poly->y3 = (TWIN_RIBBONS456_NEXT.packed >> 16) - ribbon->oy[j + 1];
-            poly->r0 = ribbon->color[0];
-            poly->g0 = ribbon->color[1];
-            poly->b0 = ribbon->color[2];
-            if (ribbon->otz[j] > 0 && ribbon->state == 0) {
+            poly->r0 = ribbon->color.r;
+            poly->g0 = ribbon->color.g;
+            poly->b0 = ribbon->color.b;
+            if (ribbon->otz[j] > 0 && ribbon->completed == 0) {
                 GsSortPoly(poly, ot, ribbon->otz[j]);
             }
             if (!(j & 1)) {
