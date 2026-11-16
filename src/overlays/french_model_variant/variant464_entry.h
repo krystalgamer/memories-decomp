@@ -51,7 +51,7 @@ typedef struct {
     s16 field_1C44, field_1C46, width, field_1C4A;
     s32 field_1C4C, field_1C50;
     CVECTOR outer, inner;
-    s32 field_1C5C;
+    s32 curtain_angle;
     ModelVariantEntryTail tail;
 } Variant464EntryState;
 

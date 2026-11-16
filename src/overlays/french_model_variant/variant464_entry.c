@@ -309,7 +309,7 @@ s32 FrenchModelVariant464_HandleRequest(SVECTOR *point, s32 command)
         work->inner.r = work->config->inner.r;
         work->inner.g = work->config->inner.g;
         work->inner.b = work->config->inner.b;
-        work->field_1C5C = 0;
+        work->curtain_angle = 0;
         work->timing_index = 0;
         work->field_1C50 = 0;
         work->field_1C46 = 0;

@@ -28,7 +28,7 @@ typedef struct {
     s16 field_1960, field_1962, scale, field_1966;
     s32 progress, field_196C;
     CVECTOR outer, inner;
-    s32 field_1978;
+    s32 curtain_angle;
     ModelVariantEntryTail tail;
 } Variant439EntryState;
 
