@@ -42,7 +42,7 @@ typedef struct {
     u8 unknown_26E8[4];
     GsCOORDUNIT *parts[3];
     s32 index;
-    s16 field_26FC, field_26FE, field_2700, field_2702;
+    s16 spiral_angle, field_26FE, spiral_size, field_2702;
     s32 width, tube_progress, tube_angle;
     s16 field_2710, field_2712, progress, ribbon_width;
     s32 field_2718;

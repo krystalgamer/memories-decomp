@@ -49,8 +49,8 @@ void ModelVariant428_DrawSpiral(Variant428EntryState *context)
     }
     arm = work->arms;
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + work->field_15A4 * 2;
-        theta = (i << 13) / 12 + work->field_15A4;
+        phi = (i << 12) / 12 + work->spiral_angle * 2;
+        theta = (i << 13) / 12 + work->spiral_angle;
         for (k = 0; k < 2; k++) {
             if (k == 0) {
                 length = work->scale / 512;

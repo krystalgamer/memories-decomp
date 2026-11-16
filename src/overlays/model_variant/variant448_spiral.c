@@ -39,8 +39,8 @@ void ModelVariant448_DrawSpiral(Variant448EntryState *context)
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     arm = work->spiral;
     poly = work->packets.textured;
-    r = work->field_1B28 / 2;
-    eighth = work->field_1B28 / 8;
+    r = work->spiral_size / 2;
+    eighth = work->spiral_size / 8;
     if (r * work->field_1B26 < 0) {
         length = 0;
     }
@@ -48,8 +48,8 @@ void ModelVariant448_DrawSpiral(Variant448EntryState *context)
         length = 0;
     }
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + work->field_1B24 * 2;
-        theta = (i << 13) / 12 + work->field_1B24;
+        phi = (i << 12) / 12 + work->spiral_angle * 2;
+        theta = (i << 13) / 12 + work->spiral_angle;
         for (k = 0; k < 2; k++) {
             if (k == 0) {
                 length = work->field_1B30 / 512;
@@ -177,10 +177,10 @@ void ModelVariant448_DrawSpiral(Variant448EntryState *context)
             }
         }
     }
-    if (work->field_1B28 < 0x400) {
-        work->field_1B28 += work->clock.step * 64;
-        if (work->field_1B28 >= 0x400) {
-            work->field_1B28 = 0x400;
+    if (work->spiral_size < 0x400) {
+        work->spiral_size += work->clock.step * 64;
+        if (work->spiral_size >= 0x400) {
+            work->spiral_size = 0x400;
         }
     }
 }
