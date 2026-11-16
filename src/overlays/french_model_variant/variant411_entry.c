@@ -309,7 +309,7 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant411_DrawFadingSheets((u8 *)point);
         }
         if (work->config->expansion_start < work->elapsed) {
-            FrenchModelVariant411_DrawTube((u8 *)point);
+            FrenchModelVariant411_DrawTube((EntryState411 *)point);
             SpanishModelVariant411_DrawFunnels((u8 *)point);
         }
         work->frame_count++;

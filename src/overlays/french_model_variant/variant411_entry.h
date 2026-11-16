@@ -3,7 +3,6 @@
 
 #include "../../types.h"
 #include "variant402_entry.h"
-#include "variant411_tube.h"
 #include "../spanish_model_variant/variant411_funnels.h"
 #include "../model_variant/variant411_beams.h"
 #include "../../game/model_slot_getters.h"
@@ -36,7 +35,7 @@ typedef struct {
     s16 slot, command;
 } EntryState411;
 
-void FrenchModelVariant411_DrawTube(u8 *context);
+void FrenchModelVariant411_DrawTube(EntryState411 *context);
 void SpanishModelVariant411_DrawFadingSheets(u8 *context);
 void SpanishModelVariant411_DrawFunnels(u8 *context);
 
