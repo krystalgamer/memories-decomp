@@ -324,10 +324,7 @@ segments:
     - game/european/movie_pipeline
   - - 373660
     - c
-    - game/spanish/card_list_deck_box
-  - - 375152
-    - c
-    - game/trade_confirmation_widgets
+    - game/spanish/trade_screen_widgets
   - - 375632
     - c
     - game/european/main_menu_load_package_stage

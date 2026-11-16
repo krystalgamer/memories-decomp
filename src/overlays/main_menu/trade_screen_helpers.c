@@ -7,7 +7,7 @@
 #include "trade_helpers.h"
 #include "../../ygo_types.h"
 #include "../../game/card_list_rows.h"
-#include "../../game/card_list_deck_box.h"
+#include "../../game/trade_screen_widgets.h"
 #include "card_tables.h"
 #include "ordering_tables.h"
 

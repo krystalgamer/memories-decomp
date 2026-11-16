@@ -107,7 +107,7 @@ extern u8 gText_SelectedCardColorIndex;
  * (src/game/library_card_grid.c:232) and then, under `if (n != 0)`, stores
  * 0 when Library_GetCardFlags' result `r` (:238) has `(r & 0x80) == 0`
  * (:240-241);
- * CardList_BuildRowSetTextBoxes stores `id` (card_list_deck_box.c). Text_ExpandSelectedCardInfo reads it,
+ * CardList_BuildRowSetTextBoxes stores `id` (trade_screen_widgets.c). Text_ExpandSelectedCardInfo reads it,
  * plain and as the index in `gDuel_adwCardStats[gDuel_wSelectedCardID - 1]`
  * (in its candidate). Library_UpdateCardView (src/game/library_runtime.c) stores the
  * Library's selected card and reads it straight back as that index. Three

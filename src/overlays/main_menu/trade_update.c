@@ -13,8 +13,7 @@
 #include "../../game/sound.h"
 #include "../../game/input.h"
 #include "../../game/duel_effect_text.h"
-#include "../../game/card_list_deck_box.h"
-#include "../../game/trade_confirmation_widgets.h"
+#include "../../game/trade_screen_widgets.h"
 
 #if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
     defined(VERSION_JAPAN_MAIN_MENU_INIT_TRADE_SCREEN) || \

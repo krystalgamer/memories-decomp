@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-/* SLES-03947 build of src/game/card_list_deck_box.c, with its European bodies. */
+/* SLES-03947 build of src/game/trade_screen_widgets.c, with its European bodies. */
 
 #define VERSION_EUROPE
 
@@ -19,4 +19,4 @@
 #define gGraphics_sViewportY_abs (*(s16 *)0x8009C0A2)
 #define gGraphics_sViewportX_abs (*(s16 *)0x8009C0A0)
 #endif
-#include "../card_list_deck_box.c"
+#include "../trade_screen_widgets.c"

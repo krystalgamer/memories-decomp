@@ -86,7 +86,7 @@ explains why these are not persistent ATK/DEF globals.
 - No build-integrated candidate still references this family. Five consumers
   are now matched:
   `DuelField_CreateCardInfoTextBox` in `src/game/duel_scene.c`, `func_80060E70`
-  in `src/game/card_list_deck_box.c`, `MemCardDialog_UpdateSave` in
+  in `src/game/trade_screen_widgets.c`, `MemCardDialog_UpdateSave` in
   `src/game/mem_card.c` and `Library_RefreshSelectedCardText` in
   `src/game/library.c`, plus `Password_UpdateShopScreen` in
   `src/overlays/password/shop.c`. The indirect text number

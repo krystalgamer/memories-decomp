@@ -1,5 +1,5 @@
-#ifndef MEMORIES_DECOMP_CARD_LIST_DECK_BOX_H
-#define MEMORIES_DECOMP_CARD_LIST_DECK_BOX_H
+#ifndef MEMORIES_DECOMP_TRADE_SCREEN_WIDGETS_H
+#define MEMORIES_DECOMP_TRADE_SCREEN_WIDGETS_H
 #include "../types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
@@ -22,5 +22,10 @@ void CardList_BuildRowSetTextBoxes(u16 *entries, s32 side, s32 flag, s32 ignored
  * zero. The Trade
  * screen calls it once on entry. */
 void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1);
+
+/* The Trade screen's confirmation widgets: each builds a blocking text box
+ * with a cursor sprite as its aux object. */
+void MainMenu_CreateTradeReadyIndicator(s32 side);
+void MainMenu_CreateTradeDecisionMenu(s32 selected);
 
 #endif

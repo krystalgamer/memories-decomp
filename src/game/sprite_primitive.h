@@ -8,7 +8,7 @@
    0x1F800320 before handing it to DisplayObject_SubmitPacket. Four sources build one
    there; the address itself is reused for other things elsewhere
    (duel_scene.c reads it as a VECTOR, Duel_DrawLifePointsAndDeckCounts.c as a digit packet,
-   card_list_deck_box.c as a GsSPRITE), so it is the type that
+   trade_screen_widgets.c as a GsSPRITE), so it is the type that
    identifies the
    object, not the address.
  

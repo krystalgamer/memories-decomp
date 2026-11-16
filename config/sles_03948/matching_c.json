@@ -6647,31 +6647,31 @@
       "address": "0x8006AB9C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x338",
-      "source": "src/game/spanish/card_list_deck_box.c"
+      "source": "src/game/spanish/trade_screen_widgets.c"
     },
     {
       "address": "0x8006AED4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1AC",
-      "source": "src/game/spanish/card_list_deck_box.c"
+      "source": "src/game/spanish/trade_screen_widgets.c"
     },
     {
       "address": "0x8006B080",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/spanish/card_list_deck_box.c"
+      "source": "src/game/spanish/trade_screen_widgets.c"
     },
     {
       "address": "0x8006B170",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/trade_confirmation_widgets.c"
+      "source": "src/game/spanish/trade_screen_widgets.c"
     },
     {
       "address": "0x8006B260",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/trade_confirmation_widgets.c"
+      "source": "src/game/spanish/trade_screen_widgets.c"
     },
     {
       "address": "0x8006B350",
