@@ -204,8 +204,8 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
         work->rotation[0] = 0;
         work->rotation[1] = 0;
         work->rotation[2] = 0;
-        work->field_2E94 = 0;
-        work->field_2E96 = 0;
+        work->strand_start = 0;
+        work->strand_end = 0;
         work->brightness = 2048;
         work->clock.frame_count = 0;
         work->clock.frame = 0;

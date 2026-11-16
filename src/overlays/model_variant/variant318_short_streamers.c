@@ -110,7 +110,7 @@ void ModelVariant318_DrawShortStreamers(Model335EntryState *context)
     }
     streamer = work->short_streamers;
     for (i = 0; i < 6; i++, streamer++) {
-        for (k = work->field_2E94; k < work->field_2E96; k++) {
+        for (k = work->strand_start; k < work->strand_end; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];
             poly->y0 = (streamer->sa[k] >> 16) + streamer->oy[k];
             poly->x1 = streamer->sa[k + 1] + streamer->ox[k + 1];
@@ -129,16 +129,16 @@ void ModelVariant318_DrawShortStreamers(Model335EntryState *context)
             }
         }
     }
-    if (work->field_2E96 < 16) {
-        work->field_2E96 += 2;
-        if (work->field_2E96 >= 16) {
-            work->field_2E96 = 16;
+    if (work->strand_end < 16) {
+        work->strand_end += 2;
+        if (work->strand_end >= 16) {
+            work->strand_end = 16;
         }
-    } else if (work->field_2E94 < 17) {
-        work->field_2E94 += 2;
-        if (work->field_2E94 >= 17) {
-            work->field_2E94 = 0;
-            work->field_2E96 = 0;
+    } else if (work->strand_start < 17) {
+        work->strand_start += 2;
+        if (work->strand_start >= 17) {
+            work->strand_start = 0;
+            work->strand_end = 0;
         }
     }
 }
