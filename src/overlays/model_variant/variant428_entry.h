@@ -34,7 +34,7 @@ typedef struct {
     Variant428EntryConfig *config;
     u32 field_1594;
     GsCOORDUNIT *parts[3];
-    s16 field_15A4, field_15A6, spiral_size, field_15AA, field_15AC, field_15AE;
+    s16 spiral_angle, field_15A6, spiral_size, field_15AA, field_15AC, field_15AE;
     s16 scale, field_15B2;
     s32 progress, quad_angle;
     ModelVariantEntryTail tail;
