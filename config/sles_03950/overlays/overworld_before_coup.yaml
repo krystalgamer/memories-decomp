@@ -60,7 +60,7 @@ segments:
     vram: 0x80168004
     align: 4
     subsegments:
-      - [0x4, c, overlays/european/overworld_before_coup/set_location]
+      - [0x4, c, overlays/european/overworld/set_location]
 
   - name: location_table
     type: code
@@ -85,8 +85,8 @@ segments:
     vram: 0x801697D0
     align: 4
     subsegments:
-      - [0x17D0, c, overlays/european/overworld_before_coup/pick_alternate_exit]
-      - [0x1A9C, c, overlays/european/overworld_before_coup/update_alternate_location]
+      - [0x17D0, c, overlays/european/overworld/pick_alternate_exit]
+      - [0x1A9C, c, overlays/european/overworld/update_alternate_location]
 
   - name: alternate_location_table
     type: code
