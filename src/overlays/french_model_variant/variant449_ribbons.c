@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant449_ribbons.h"
+#include "../model_variant/variant432_entry.h"
 
 /* The North American header-432 copy, built with the CDK compiler, names the
  * closing point's screen fields with the literal index, reads the following
@@ -15,7 +15,7 @@
 #define RIBBONS449_START(n) (ribbon->sa[n])
 #endif
 
-void FrenchModelVariant449_DrawRibbons(u8 *context)
+void FrenchModelVariant449_DrawRibbons(Variant432EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -25,7 +25,7 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
     long flags[4][17];
     long interpolation;
     long flag;
-    Variant449RibbonView *work;
+    Variant432EntryState *work;
     GsOT *ot;
     s16 i;
     s16 k;
@@ -37,31 +37,31 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
     s16 len;
     s32 first;
     s32 last;
-    Variant449Ribbon *ribbon;
+    Variant432EntryRibbon *ribbon;
     POLY_FT4 *poly;
     s32 dx, dy;
 
-    work = (Variant449RibbonView *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     ribbon = work->ribbons;
     i = 0;
     base = 0;
-    turn = ratan2(work->axis_z, work->axis_x) + 3072;
-    ratan2(work->axis_y, work->axis_z);
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
+    ratan2(work->view_delta.vy, work->view_delta.vz);
     len = 16;
     for (; i < 4; i++, ribbon++, base = i * 1024) {
         if (!(i & 1)) {
-            phase = -work->ripple;
+            phase = -work->phase_a;
         } else {
-            phase = work->ripple;
+            phase = work->phase_a;
         }
         for (k = 0; k < 17; k++, phase += 1300) {
             if (k == 0 || k == 16) {
                 sway = 0;
             } else if (!(i & 1)) {
-                sway = base - k * 384 + work->ripple2;
+                sway = base - k * 384 + work->phase_b;
             } else {
-                sway = base - k * 384 - work->ripple2;
+                sway = base - k * 384 - work->phase_b;
             }
             bend = rsin(sway) * ((rsin(phase) * 16 >> 12) + 32) >> 12;
             setVector(&ribbon->a[k],
@@ -75,9 +75,9 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
         }
     }
     setVector(&rot, 0, 0, 0);
-    m.t[0] = work->center[0];
-    m.t[1] = work->center[1];
-    m.t[2] = work->center[2];
+    m.t[0] = work->origin_a.t[0];
+    m.t[1] = work->origin_a.t[1];
+    m.t[2] = work->origin_a.t[2];
     setVector(&scale, 4096, 4096, 4096);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
@@ -133,7 +133,7 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
         } else {
             last = ribbon->end;
         }
-        for (k = first, poly = work->packets; k < last; k++, poly = work->packets) {
+        for (k = first, poly = work->extra; k < last; k++, poly = work->extra) {
             if ((s16)(k % 2) == 1) {
                 poly++;
             }
@@ -145,9 +145,9 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
             poly->y2 = (ribbon->sa[k].packed >> 16) - ribbon->offsets.oy[k];
             poly->x3 = RIBBONS449_NEXT(k).point.vx - ribbon->offsets.ox[k + 1];
             poly->y3 = (RIBBONS449_NEXT(k).packed >> 16) - ribbon->offsets.oy[k + 1];
-            poly->r0 = ribbon->color[0];
-            poly->g0 = ribbon->color[1];
-            poly->b0 = ribbon->color[2];
+            poly->r0 = ribbon->style.inner.r;
+            poly->g0 = ribbon->style.inner.g;
+            poly->b0 = ribbon->style.inner.b;
             if (ribbon->offsets.otz[k] >= 0 && flags[i][k] >= 0) {
                 GsSortPoly(poly, ot, ribbon->offsets.otz[k]);
             }
@@ -162,7 +162,7 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
             } else if (ribbon->state == 1) {
                 ribbon->start += work->step;
                 if (ribbon->start >= 16) {
-                    if (work->timing->scale_end <= work->elapsed) {
+                    if (work->config->scale_end <= work->elapsed) {
                         ribbon->state = 2;
                         ribbon->start = 16;
                         ribbon->end = 16;
@@ -183,7 +183,7 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
         } else if (ribbon->state == 1) {
             ribbon->end -= work->step;
             if (ribbon->end <= 0) {
-                if (work->timing->scale_end <= work->elapsed) {
+                if (work->config->scale_end <= work->elapsed) {
                     ribbon->state = 2;
                     ribbon->start = 0;
                     ribbon->end = 0;
@@ -196,7 +196,7 @@ void FrenchModelVariant449_DrawRibbons(u8 *context)
             }
         }
     }
-    work->ripple += work->step * 192;
-    work->ripple2 += work->step << 7;
+    work->phase_a += work->step * 192;
+    work->phase_b += work->step << 7;
     work->spin += 64;
 }

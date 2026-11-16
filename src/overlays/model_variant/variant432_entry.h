@@ -20,10 +20,23 @@ typedef struct {
 } Variant432EntryConfig;
 
 /* Four 0x380-byte ribbons at the start of the work area. */
+typedef union {
+    DVECTOR point;
+    long packed;
+} Variant432Screen;
+
 typedef struct {
-    u8 unknown_000[0x220];
+    SVECTOR a[17];
+    Variant432Screen sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    Variant432Screen sb[17];
+    s32 width[17];
     ModelVariantStripStyle style;
-    u8 unknown_240[0x130];
+    u8 unknown_240[0x88];
+    VECTOR position;
+    VECTOR delta;
+    ModelVariantStripOffsets offsets;
     s32 start, end, state, count;
 } Variant432EntryRibbon;
 
@@ -65,7 +78,7 @@ typedef struct {
 extern GsIMAGE gModelVariant432_aImages[9];
 extern Variant432EntryConfig gModelVariant432_aConfigs[];
 void FrenchModelVariant449_DrawSheet(u8 *context);
-void FrenchModelVariant449_DrawRibbons(u8 *context);
+void FrenchModelVariant449_DrawRibbons(Variant432EntryState *context);
 void FrenchModelVariant449_DrawStreamers(u8 *context);
 s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command);
 

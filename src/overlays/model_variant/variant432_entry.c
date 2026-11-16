@@ -280,7 +280,7 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->elapsed) {
-            FrenchModelVariant449_DrawRibbons((u8 *)point);
+            FrenchModelVariant449_DrawRibbons((Variant432EntryState *)point);
             FrenchModelVariant449_DrawStreamers((u8 *)point);
         }
         if (work->config->scale_start < work->elapsed) {
