@@ -171,15 +171,15 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
             streamer->field_2A8 = 0;
         }
         work->width = 1024;
-        work->field_2EAC = 1024;
+        work->streamer_length = 1024;
         work->field_2EA4 = 0;
         work->strand_start = 0;
         work->strand_end = 0;
         work->ribbon_wave = 0;
         work->ribbon_phase = 0;
-        work->field_2EB0 = 0;
-        work->field_2EB4 = 0;
-        work->field_2EB8 = 0;
+        work->streamer_rotation_x = 0;
+        work->streamer_rotation_y = 0;
+        work->streamer_rotation_z = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;
         work->clock.animation_frame = 0;

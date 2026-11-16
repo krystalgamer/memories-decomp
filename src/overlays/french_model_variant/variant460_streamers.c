@@ -56,7 +56,7 @@ void FrenchModelVariant460_DrawStreamers(Variant460EntryState *context)
     }
     streamer = work->streamers;
     i = 0;
-    base = work->field_2EB4;
+    base = work->streamer_rotation_y;
     spin = phase;
     radius = reach;
     for (; i < 2; i++, streamer++, base += step) {
@@ -67,7 +67,7 @@ void FrenchModelVariant460_DrawStreamers(Variant460EntryState *context)
              k++, twist = base * 2 + k * 1500 / 16, spin += 1500, wave += 512) {
             bulge = rcos(wave) * 16 >> 12;
             wobble = bulge + (rcos(spin) * 8 >> 12);
-            length = work->field_2EAC / 64;
+            length = work->streamer_length / 64;
             setVector(&streamer->a[k],
                 bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                 bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
@@ -77,13 +77,13 @@ void FrenchModelVariant460_DrawStreamers(Variant460EntryState *context)
                 streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
         }
     }
-    rot.vx = (s16)work->field_2EB0 + rx;
-    rot.vy = (s16)work->field_2EB4 + ry;
-    rot.vz = (s16)work->field_2EB8;
+    rot.vx = (s16)work->streamer_rotation_x + rx;
+    rot.vy = (s16)work->streamer_rotation_y + ry;
+    rot.vz = (s16)work->streamer_rotation_z;
     if (work->clock.frame_count % 10 == 0) {
-        work->field_2EB4 += 1300;
+        work->streamer_rotation_y += 1300;
     }
-    work->field_2EB4 += 32;
+    work->streamer_rotation_y += 32;
     m.t[0] = work->target.vx;
     m.t[1] = work->target.vy;
     m.t[2] = work->target.vz;
@@ -107,7 +107,7 @@ void FrenchModelVariant460_DrawStreamers(Variant460EntryState *context)
                 dx = (s16)streamer->sa[k] - (s16)*previous;
                 dy = (streamer->sa[k] >> 16) - (*previous >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 3072;
-                if (work->field_2EAC > 512) {
+                if (work->streamer_length > 512) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -122,7 +122,7 @@ void FrenchModelVariant460_DrawStreamers(Variant460EntryState *context)
                 dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                 dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                 streamer->angle[k] = ratan2(dy, dx) + 3072;
-                if (work->field_2EAC > 512) {
+                if (work->streamer_length > 512) {
                     streamer->width[k] = 2;
                 } else {
                     streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -153,10 +153,10 @@ void FrenchModelVariant460_DrawStreamers(Variant460EntryState *context)
             }
         }
     }
-    if (work->tail.phase == 4 && work->field_2EAC > 0) {
-        work->field_2EAC -= work->clock.step << 4;
-        if (work->field_2EAC <= 0) {
-            work->field_2EAC = 0;
+    if (work->tail.phase == 4 && work->streamer_length > 0) {
+        work->streamer_length -= work->clock.step << 4;
+        if (work->streamer_length <= 0) {
+            work->streamer_length = 0;
             work->tail.phase = 5;
         }
     }
