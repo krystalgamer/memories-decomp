@@ -191,7 +191,7 @@ segments:
     align: 2
     subsegments:
       - [0x8b950, sbss, duel_scene_commons]
-      - [0x8ba44, sbss, duel_effect_dialog_state_commons]
+      - [0x8ba44, sbss, duel_effect_states_commons]
       - [0x8ba58, .sbss, game/library]
       - [0x8ba60, sbss, duel_effect_object_pool_commons]
       - [0x8ba68, bin, bss_image_8009b268]

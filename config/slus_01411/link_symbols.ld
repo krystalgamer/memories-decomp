@@ -111,7 +111,7 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* Other names for game/build_deck's small data (#2602). */
 
-/* Other names for game/duel_effect_dialog_state's small data (#2602). */
+/* Other names for game/duel_effect_states's small data (#2602). */
 
 /* Other names for game/debug_menu's small data (#2602). */
 

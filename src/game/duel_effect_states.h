@@ -186,6 +186,19 @@ extern u8 gDuel_bActiveEffectState;
  * gCardGrid_bCursorColumn at 0x8009B258. */
 extern u8 gDuel_bEffectState;
 
+/* Marks the active state handler initialized. The first call sets bit 0x80
+ * and returns zero; later calls return one. */
+int DuelEffect_MarkStateInitialized(void);
+
+extern u16 gDuel_wEffectDialogTextID;
+
+/* gDuelEffect_apfnStateHandler entry: runs the effect's dialog box. It opens
+ * the box on the first frame, waits for TEXT_BOX_FLAG_DONE, then either opens
+ * the choice list or waits for a confirm press before completing the state. */
+void DuelEffect_UpdateDialogState(void);
+
+void func_800283EC(void);
+
 s32 DuelEffect_UpdateState(void);
 
 /* gDuelEffect_apfnStateHandler entry: the card-detail effect screen. Builds the

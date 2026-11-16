@@ -87,7 +87,7 @@ object before it.
 | `src/game/file_transfer_runtime.c` | `.sbss` | `0x8009B0E8`-`0x8009B140` |
 | `src/game/fade_runtime.c` | `.sbss` | `0x8009B140`-`0x8009B150` |
 | `src/game/duel_scene.c` | `.sbss` | `0x8009B150`-`0x8009B244` |
-| `src/game/duel_effect_dialog_state.c` | `.sbss` | `0x8009B244`-`0x8009B258` |
+| `src/game/duel_effect_states.c` | `.sbss` | `0x8009B244`-`0x8009B258` |
 | `src/game/library.c` | `.sbss` | `0x8009B258`-`0x8009B260` |
 | `src/game/duel_effect_object_pool.c` | `.sbss` | `0x8009B260`-`0x8009B268` |
 | `src/game/script_scene.c` | `.sbss` | `0x8009B270`-`0x8009B2B0` |
@@ -140,7 +140,7 @@ linker alias into a neighbour.
 
 Alignment fixes a block's start. An object's `.sbss` is aligned to its widest
 member, so a block whose pointers sit at retail offsets only when counted from
-a lower 4-byte boundary started there: `duel_effect_dialog_state.c` owns
+a lower 4-byte boundary started there: `duel_effect_states.c` owns
 `0x8009B244`-`0x8009B258` as one block, and the debug-menu block starts at
 `0x8009B2B0`, not at its first named byte.
 

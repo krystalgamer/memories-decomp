@@ -153,12 +153,6 @@ segments:
     - game/spanish/duel_scene
   - - 101232
     - c
-    - game/european/duel_effect_dialog_state
-  - - 101492
-    - c
-    - game/func_800283EC
-  - - 101500
-    - c
     - game/european/duel_effect_states
   - - 103072
     - c
@@ -416,7 +410,7 @@ segments:
   - [0x8CC60, sbss, file_transfer_runtime_commons]
   - [0x8CCB8, sbss, fade_runtime_commons]
   - [0x8CCCC, sbss, duel_scene_commons]
-  - [0x8CDD8, sbss, duel_effect_dialog_state_commons]
+  - [0x8CDD8, sbss, duel_effect_states_commons]
   - [0x8CDF0, .sbss, game/european/library]
   - [0x8CDF8, sbss, duel_effect_object_pool_commons]
   - {start: 0x8CE08, type: bin, name: resident_tail_8009c608, linker_section_order: .sbss}
