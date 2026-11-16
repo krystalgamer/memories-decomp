@@ -27,8 +27,8 @@ void ModelVariant443_DrawStrand(Variant460EntryState *context)
     s32 otz;
 
     work = context;
-    strand = (ModelVariantStrand *)work->unknown_2100;
-    line = (GsLINE *)work->unknown_2C04;
+    strand = work->strands;
+    line = &work->line;
     if (work->tail.phase >= 2) {
         rot.vx = 0;
         rot.vy = 0;
@@ -59,7 +59,7 @@ void ModelVariant443_DrawStrand(Variant460EntryState *context)
             a = (i << 12) / 6;
             strand++;
         } while (i < 6);
-        strand = (ModelVariantStrand *)work->unknown_2100;
+        strand = work->strands;
         for (i = 0; i < 6; i++, strand++) {
             for (j = work->strand_start; j < work->strand_end; j++) {
                 line->attribute = 0x50000000;

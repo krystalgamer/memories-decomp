@@ -22,7 +22,7 @@ typedef struct {
 typedef struct {
     ModelVariantWebNarrow webs[3];
     ModelVariantShadedRay glows[12];
-    u8 unknown_AB0[0x360];
+    ModelVariantRibbonShort ribbons[8];
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
@@ -41,7 +41,7 @@ typedef struct {
     u32 field_193C;
     GsCOORDUNIT *parts[3];
     s16 field_194C, field_194E, band_scale, field_1952;
-    s32 displacement, quad_angle, ribbon_angle, phase, field_1964;
+    s32 displacement, quad_angle, ribbon_angle, phase, spiral_state;
     u8 unknown_1968[8];
     s32 tint;
     s16 slot, command;

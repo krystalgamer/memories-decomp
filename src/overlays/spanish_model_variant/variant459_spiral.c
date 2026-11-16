@@ -268,11 +268,11 @@ void SpanishModelVariant459_DrawSpiral(Variant459EntryState *context)
     }
     work->spiral_angle += 16;
     if ((u32)work->config->end <= (u32)work->clock.frame &&
-        work->field_30E0 == 0 && work->spiral_size < 0x400) {
+        work->spiral_state == 0 && work->spiral_size < 0x400) {
         work->spiral_size += work->clock.step * 32;
         if (work->spiral_size >= 0x400) {
             work->spiral_size = 0x400;
-            work->field_30E0 = 2;
+            work->spiral_state = 2;
         }
     }
 }

@@ -312,7 +312,7 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
         work->clock.animation_frame = 0;
         work->clock.step = 0;
         work->phase = 0;
-        work->field_22EC = 0;
+        work->spiral_state = 0;
         work->clock.fade = 0;
         work->tint = 2048;
         work->command = command;

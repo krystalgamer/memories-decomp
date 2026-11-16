@@ -49,7 +49,7 @@ typedef struct {
     s16 scale, field_30CE;
     s32 progress, field_30D4, field_30D8;
     s32 phase;
-    s32 field_30E0;
+    s32 spiral_state;
     u8 unknown_30E4[8];
     s32 tint;
     s16 slot, command;

@@ -28,11 +28,12 @@ typedef struct {
     Variant336EntryRecord records[4];
     ModelVariantPointSheet sheets[8];
     ModelVariantFlaggedStreamer streamers[2];
-    u8 unknown_1AB0[0x1DC8 - 0x1AB0];
+    ModelVariantStrandWide strands[6];
     ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
     POLY_FT4 extra_textured[2];
-    u8 unknown_1F10[0x1F34 - 0x1F10];
+    GsLINE line;
+    u8 unknown_1F20[0x1F34 - 0x1F20];
     s32 origin[3];
     MATRIX matrix0, matrix1;
     s32 field_1F80;
