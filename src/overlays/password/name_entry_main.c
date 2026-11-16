@@ -10,8 +10,6 @@
 #include "../../game/campaign_flags.h"
 #include "../../game/util.h"
 
-#if !defined(VERSION_EUROPE) || \
-    defined(VERSION_EUROPE_PASSWORD_BUILD_STARTER_DECK)
 void NameEntry_BuildStarterDeck(void)
 {
     u8 counts[CARD_COUNT];
@@ -61,9 +59,7 @@ void NameEntry_BuildStarterDeck(void)
         entry = (u16 *)*table;
     }
 }
-#endif
 
-#if !defined(VERSION_EUROPE) || defined(VERSION_EUROPE_PASSWORD_MAIN)
 void NameEntry_Main(void)
 {
     SaveDataState *state;
@@ -95,4 +91,3 @@ void NameEntry_Main(void)
         value = rand() << 8;
     }
 }
-#endif

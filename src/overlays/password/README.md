@@ -67,6 +67,15 @@ rodata block at module `+0x7C`. #3859 had returned the updater to a
 build-integrated candidate because its match pinned a register; it is pure C
 again (#5).
 
+The Japanese `password`/`name_entry` images (module offset `0x198C`) and every
+PAL `password_a`/`password_b` image (`0x1A44`) keep these ten functions
+together in NA order under the same profile, so each builds `shop.c` as the
+same single object as NA through one wrapper per directory,
+`../japanese/password/shop.c` and `../european/password_{a,b}/shop.c` (#39).
+That object also owns the updater's jump table, there the only rodata at
+module `+0x4`. These replaced ten Japanese and four per-directory European
+wrappers and their `VERSION_*_PASSWORD_*` guards.
+
 The first three functions rebuild the entered password, publish the starchip
 balance, and create the modal messages used by the lifecycle. All three
 create fixed text slots through `TextBox_Create`, and the refreshers and
@@ -250,6 +259,16 @@ Both functions use `gcc_2_8_1_g0_split`. One C subsegment at module offset
 unmatched module text begins there. The source also retains
 `NameEntry_Main`'s rodata at module `+0x90`.
 
+The Japanese images already built it as one object through
+`../japanese/password/name_entry_main.c`. Every PAL `password_a`/`password_b`
+image keeps both functions together at module offset `0x2714` under the same
+profile, so it now builds the same single object through one
+`../european/password_{a,b}/name_entry_main.c` wrapper (#39), in place of the
+`starter_deck.c`/`main.c` pair and their `VERSION_EUROPE_PASSWORD_*` guards.
+`func_801680B4` keeps its own one-function wrapper
+(`../european/password_{a,b}/display_object_helper.c`), as it stays outside the
+name-entry runtime unit.
+
 ## Name-entry lifecycle translation unit
 
 The name-entry pipeline is fourteen functions in executable order from
@@ -262,6 +281,18 @@ its earlier match depended on register bindings. Its binding-free replacement
 now closes [`name_entry_runtime.c`](name_entry_runtime.c), whose C subsegment
 also covers `0x113C` (formerly the standalone `name_entry_keyboard_update.c`) and the last two
 at `0x1734` (formerly `name_entry_dialog.c`).
+
+The Japanese `password`/`name_entry` images and every PAL `password_a`/
+`password_b` image keep these fourteen functions together at module offset
+`0x9C` (JP `0x8016809C..0x8016998C`, PAL `0x8016809C..0x80169A44`), in NA
+order and under the one profile, so each builds `name_entry_runtime.c` as the
+same single object as NA through one wrapper per directory,
+`../japanese/password/name_entry_runtime.c` and
+`../european/password_{a,b}/name_entry_runtime.c` (#39). These replaced
+thirteen Japanese and eleven per-directory European per-function wrappers and
+their `VERSION_*_PASSWORD_*` guards. The wrappers carry the regional pad and
+dialog-completion masks those per-function wrappers defined: Japan's
+keyboard confirm/cancel masks and Europe's `0x2010` dialog completion mask.
 
 The keyboard's complete `PasswordGlyphCoordinates` initializer keeps both
 coordinate words defined together. Replacing it with separate member stores

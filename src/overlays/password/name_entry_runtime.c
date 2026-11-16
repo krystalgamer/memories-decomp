@@ -43,9 +43,6 @@
    the gNameEntry_bStateFlags state block; the leading display-object helper
    has no proven ownership in this lifecycle. */
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_BUILD_KEYBOARD_TEXT_BOX) || \
-    defined(VERSION_EUROPE_PASSWORD_BUILD_KEYBOARD_TEXT_BOX)
 void NameEntry_BuildKeyboardTextBox(s32 textOffset)
 {
     DuelEffectChannel *object;
@@ -63,11 +60,7 @@ void NameEntry_BuildKeyboardTextBox(s32 textOffset)
     object->line_advance_y = 0x12;
     TextBox_BuildBlocking(object);
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_DRAW_SELECTION_FRAME) || \
-    defined(VERSION_EUROPE_PASSWORD_DRAW_SELECTION_FRAME)
 void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
 {
     LINE_F3 *poly;
@@ -134,11 +127,7 @@ void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
     line->x1 = 320;
     Graphics_SubmitDrawModePacket((u32 *)line, ot, (u16)pri, 1);
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_INIT) || \
-    defined(VERSION_EUROPE_PASSWORD_INIT)
 void NameEntry_Init(void)
 {
     DisplayObject *obj;
@@ -242,11 +231,7 @@ void NameEntry_Init(void)
     gNameEntry_wPendingDialogId = 244;
     Fade_WaitIn();
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_GET_GLYPH_AT) || \
-    defined(VERSION_EUROPE_PASSWORD_GET_GLYPH_AT)
 DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
 {
 #if defined(VERSION_JAPAN)
@@ -290,14 +275,10 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
         node++;
     }
 }
-#endif
 
 /* One frame of the flash a glyph makes when it is picked on the keyboard: the
  * source node is parked off-screen for the twelve frames the sprite scales up
  * and back down, then restored. */
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_PULSE) || \
-    defined(VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_PULSE)
 void NameEntry_UpdateGlyphPulse(DisplayObject *sprite)
 {
     GlyphSprite *obj = (GlyphSprite *)sprite;
@@ -360,13 +341,9 @@ void NameEntry_UpdateGlyphPulse(DisplayObject *sprite)
         }
     }
 }
-#endif
 
 /* One frame of a single shard: seeded once with a random sideways kick and an
  * upward one, then thrown until it falls off the bottom of the screen. */
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_FRAGMENT) || \
-    defined(VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_FRAGMENT)
 void NameEntry_UpdateGlyphFragment(DisplayObject *object)
 {
     u8 flags;
@@ -387,13 +364,9 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
         DisplayObject_ReleaseIfPresent(object);
     }
 }
-#endif
 
 /* Breaks one 16x16 glyph into sixteen 4x4 shards, each on
  * NameEntry_UpdateGlyphFragment, and retires the glyph itself. */
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_SHATTER) || \
-    defined(VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_SHATTER)
 void NameEntry_UpdateGlyphShatter(DisplayObject *object)
 {
     DisplayObject *piece;
@@ -433,13 +406,9 @@ void NameEntry_UpdateGlyphShatter(DisplayObject *object)
         DisplayObject_ReleaseIfPresent(object);
     }
 }
-#endif
 
 /* Slides the caret to +0x44/+0x46 over the +0x60 frames it was given, then
  * snaps to the target and uninstalls itself. */
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_UPDATE_CARET_TWEEN) || \
-    defined(VERSION_EUROPE_PASSWORD_UPDATE_CARET_TWEEN)
 void NameEntry_UpdateCaretTween(DisplayObject *object)
 {
     u8 flags;
@@ -467,11 +436,7 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
         object->xy.word = object->field_44.word;
     }
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_UPDATE_GLYPH_TRANSFER) || \
-    defined(VERSION_EUROPE_PASSWORD_UPDATE_GLYPH_TRANSFER)
 /* Flies an accepted glyph from the keyboard to the name field on the same
  * tween prologue as the caret, dropping a fading copy of itself each frame.
  * On arrival it looks the destination glyph up and shatters it. */
@@ -548,11 +513,7 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
     o->update = NameEntry_UpdateGlyphShatter;
     o->update_state = 5;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_SPAWN_GLYPH_SPRITE) || \
-    defined(VERSION_EUROPE_PASSWORD_SPAWN_GLYPH_SPRITE)
 #ifdef VERSION_JAPAN
 /* The Japanese build has no Shift-JIS lookup: the node's glyph byte picks a
  * 4x16 cell of the font page, MoveImage copies it into one of sixteen VRAM
@@ -724,11 +685,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     return obj;
 }
 #endif
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_ADJUST_LENGTH) || \
-    defined(VERSION_EUROPE_PASSWORD_ADJUST_LENGTH)
 s32 NameEntry_AdjustLength(s32 delta, s32 tween_frames)
 {
     DisplayObject *object;
@@ -752,11 +709,7 @@ s32 NameEntry_AdjustLength(s32 delta, s32 tween_frames)
     SD_SEPlayFull(0xC);
     return 1;
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_UPDATE_KEYBOARD) || \
-    defined(VERSION_EUROPE_PASSWORD_UPDATE_KEYBOARD)
 #ifndef NAME_ENTRY_CONFIRM_MASK
 #define NAME_ENTRY_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
@@ -1126,7 +1079,6 @@ void NameEntry_UpdateKeyboard(void)
 #endif
     return;
 }
-#endif
 
 /* The end of the name-entry screen pipeline: the confirmation dialog and
    completion polling, on the same gNameEntry_bStateFlags state block as the rest. They
@@ -1138,9 +1090,6 @@ void NameEntry_UpdateKeyboard(void)
 #define NAME_ENTRY_DIALOG_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
 #endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_UPDATE_DIALOG) || \
-    defined(VERSION_EUROPE_PASSWORD_UPDATE_DIALOG)
 void NameEntry_UpdateDialog(void)
 {
     DuelEffectChannel *box;
@@ -1343,14 +1292,9 @@ void NameEntry_UpdateDialog(void)
     }
     SD_SEPlayFull(9);
 }
-#endif
 
-#if (!defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)) || \
-    defined(VERSION_JAPAN_PASSWORD_UPDATE_DIALOG) || \
-    defined(VERSION_EUROPE_PASSWORD_POLL_COMPLETION)
 s32 NameEntry_PollCompletion(void)
 {
     NameEntry_UpdateDialog();
     return gNameEntry_bStateFlags & 0x10;
 }
-#endif

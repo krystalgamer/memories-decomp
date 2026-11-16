@@ -1,4 +1,0 @@
-#include "../../../types.h"
-#define VERSION_JAPAN
-#define VERSION_JAPAN_PASSWORD_SET_DIGIT_CURSOR_TARGET
-#include "../../password/shop.c"
