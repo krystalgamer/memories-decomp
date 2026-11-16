@@ -254,16 +254,6 @@ typedef struct {
     s16 fade, unknown_22, lead, start;
 } ModelVariantWaveConfig;
 
-/* One 0x90-byte element of the quad array at work + 0x1B4C: a four-corner
- * quad whose two colours and growing size drive a Gouraud-shaded POLY_G4. */
-typedef struct {
-    u8 pad0[0x58];
-    SVECTOR corner[4];
-    u8 inner[4];
-    u8 outer[4];
-    s32 size;
-    u8 pad84[0x0C];
-} ModelVariantQuad;
 
 /* The 0x10-byte block that starts the effect elements of the header 627-683
  * entries (ModelVariantElement and its relatives below, and entry records
@@ -882,7 +872,9 @@ typedef struct {
 
 /* One 0x90-byte fan record: a centre point and two rings of five points
  * (point[0], point[1..5], point[6..10]), four quad corners, the inner and
- * outer colours, the growing size and a done flag. */
+ * outer colours, the growing size and a done flag. The fan drawers use the
+ * points; the quad drawers draw the four corners as a Gouraud POLY_G4 in the
+ * two colours at the growing size. */
 typedef struct {
     SVECTOR point[11];
     SVECTOR corner[4];
