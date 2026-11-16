@@ -259,6 +259,16 @@ Both functions use `gcc_2_8_1_g0_split`. One C subsegment at module offset
 unmatched module text begins there. The source also retains
 `NameEntry_Main`'s rodata at module `+0x90`.
 
+The Japanese images already built it as one object through
+`../japanese/password/name_entry_main.c`. Every PAL `password_a`/`password_b`
+image keeps both functions together at module offset `0x2714` under the same
+profile, so it now builds the same single object through one
+`../european/password_{a,b}/name_entry_main.c` wrapper (#39), in place of the
+`starter_deck.c`/`main.c` pair and their `VERSION_EUROPE_PASSWORD_*` guards.
+`func_801680B4` keeps its own one-function wrapper
+(`../european/password_{a,b}/display_object_helper.c`), as it stays outside the
+name-entry runtime unit.
+
 ## Name-entry lifecycle translation unit
 
 The name-entry pipeline is fourteen functions in executable order from
