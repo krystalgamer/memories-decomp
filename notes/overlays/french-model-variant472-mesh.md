@@ -6,7 +6,9 @@ draws a 6x16 grid of semi-transparent `POLY_GT4` quads and updates a single
 mesh's progress from the effect timing. **No release had matching C for this
 body before.**
 
-The local view in `variant472_mesh.h` holds:
+The helper reads `EntryState455` (a local view in `variant472_mesh.h` until
+it was folded). Its discs are `EntryDisc455` (`upper`/`lower` rows), and its
+polygon is the record's `disc_packet`. It uses:
 - one 0x954-byte mesh at `+0x15A0` with a front and a back point grid
   (`SVECTOR [7][17]` each, at `+0` and `+0x3B8`) and progress at `+0x94C`;
 - the `POLY_F4` mask at `+0x2BFC` and the `POLY_GT4` quad at `+0x2DB4`;

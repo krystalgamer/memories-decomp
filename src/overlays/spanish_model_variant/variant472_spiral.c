@@ -199,10 +199,10 @@ void SpanishModelVariant472_DrawSpiral(EntryState455 *context)
                 work->spiral_size = 0x400;
             }
         }
-    } else if (work->clock.frame >= (u32)work->config->field_28 &&
+    } else if (work->clock.frame >= work->config->fade_start &&
                work->spiral_size > 0) {
-        work->spiral_size = 0x400 - ((work->clock.frame - work->config->field_28) << 10) /
-                                           (u32)(work->config->field_2C - work->config->field_28);
+        work->spiral_size = 0x400 - ((work->clock.frame - work->config->fade_start) << 10) /
+                                           (work->config->fade_end - work->config->fade_start);
         if (work->spiral_size <= 0) {
             work->spiral_size = 0;
         }

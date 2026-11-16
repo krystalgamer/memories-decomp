@@ -16,9 +16,9 @@ typedef struct {
     u8 parts[3];
     u8 unknown_13[9];
     u32 fan_start, mesh_start, bloom_start;
-    s32 field_28;
-    s32 field_2C;
-    u8 unknown_30[0x4];
+    /* The sheets and spiral fade from fade_start to fade_end, the blooms
+     * stop at fade_end, and the mesh fades from fade_end to mesh_fade_end. */
+    u32 fade_start, fade_end, mesh_fade_end;
 } EntryConfig455;
 
 /* One 0x2B4-byte group of twelve blooming quads (drawn by FrenchModelVariant472_DrawBlooms). */
@@ -72,7 +72,7 @@ typedef struct {
     POLY_F4 mask;
     POLY_GT4 textured[2];
     POLY_GT4 glow[2], beam[2], flare[2];
-    u8 unknown_2DB4[0x34];
+    POLY_GT4 disc_packet;
     POLY_FT4 flat[2], ring_packet;
     u8 unknown_2E60[0x24];
     MATRIX matrix;
@@ -93,9 +93,9 @@ typedef struct {
  * command table; the French image places them at 0x8013DC58/0x8013DD54. */
 extern GsIMAGE gModelVariant455_aImages[9];
 extern EntryConfig455 gModelVariant455_aConfigs[];
-void FrenchModelVariant472_DrawBlooms(u8 *context);
-void FrenchModelVariant472_DrawMesh(u8 *context);
+void FrenchModelVariant472_DrawBlooms(EntryState455 *context);
+void FrenchModelVariant472_DrawMesh(EntryState455 *context);
 void SpanishModelVariant472_DrawSpiral(EntryState455 *context);
-void SpanishModelVariant472_DrawSheets(u8 *context);
+void SpanishModelVariant472_DrawSheets(EntryState455 *context);
 
 #endif

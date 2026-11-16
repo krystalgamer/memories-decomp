@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant472_blooms.h"
+#include "../model_variant/variant455_entry.h"
 
-void FrenchModelVariant472_DrawBlooms(u8 *context)
+void FrenchModelVariant472_DrawBlooms(EntryState455 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -12,9 +12,9 @@ void FrenchModelVariant472_DrawBlooms(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Bloom472State *state = (Bloom472State *)context;
-    Bloom472Group *group = state->groups;
-    POLY_FT4 *polygon = &state->polygon;
+    EntryState455 *state = context;
+    EntryBloom455 *group = state->blooms;
+    POLY_FT4 *polygon = &state->ring_packet;
     GsOT *ot;
     s16 angle;
     s16 i, j;
@@ -27,19 +27,19 @@ void FrenchModelVariant472_DrawBlooms(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
-    ratan2(state->direction.vy, state->direction.vz);
-    ratan2(state->projected.vy, state->projected.vx);
+    ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
     for (i = 0, base = 0; i < 8; i++, group++, base = i * 512) {
         for (j = 0, angle = base; j < 12; j++, angle += 700) {
             if (group->size[j] > 0 && group->size[j] < 3072) {
                 if (group->size[j] > 1536) {
-                    red = group->color[0] * (2048 - group->size[j]) / 512;
-                    green = group->color[1] * (2048 - group->size[j]) / 512;
-                    blue = group->color[2] * (2048 - group->size[j]) / 512;
+                    red = group->color.r * (2048 - group->size[j]) / 512;
+                    green = group->color.g * (2048 - group->size[j]) / 512;
+                    blue = group->color.b * (2048 - group->size[j]) / 512;
                 } else {
-                    red = group->color[0];
-                    green = group->color[1];
-                    blue = group->color[2];
+                    red = group->color.r;
+                    green = group->color.g;
+                    blue = group->color.b;
                 }
                 if (group->size[j] < 1024) {
                     size = (rsin(group->size[j]) * 3596 >> 12) + 500;
@@ -90,12 +90,12 @@ void FrenchModelVariant472_DrawBlooms(u8 *context)
                 }
             }
             if (group->size[j] < 2048) {
-                group->size[j] += state->step * 8;
+                group->size[j] += state->clock.step * 8;
                 if (group->size[j] >= 1024 && state->phase == 2) {
                     state->phase = 3;
                 }
                 if (group->size[j] >= 2048) {
-                    if (state->timing->limit <= state->time) {
+                    if (state->config->fade_end <= state->clock.frame) {
                         group->size[j] = 2048;
                         group->done[j] = 1;
                     } else {
@@ -106,7 +106,7 @@ void FrenchModelVariant472_DrawBlooms(u8 *context)
                     state->phase = 1;
                 }
             }
-            if (state->timing->limit <= state->time && group->size[j] < 0) {
+            if (state->config->fade_end <= state->clock.frame && group->size[j] < 0) {
                 group->done[j] = 1;
             }
             complete *= group->done[j];
