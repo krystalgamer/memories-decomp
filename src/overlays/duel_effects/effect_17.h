@@ -8,7 +8,7 @@
 #include "../../game/duel_card.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 #include "packet_helpers.h"
 #include "drawing_tail.h"
 #include "effect_drawing.h"

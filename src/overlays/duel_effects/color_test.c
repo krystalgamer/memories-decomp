@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "color_semantic_views.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 
 s32 DuelEffect_IsColorBlack(const CVECTOR *color)
 {

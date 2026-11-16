@@ -4,7 +4,7 @@
 #include "textured_quads.h"
 #include "packet_semantic_views.h"
 #include "render_state_semantic_views.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 #include "geometry_semantic_views.h"
 
 void DuelEffect_ProjectSubmitFt4(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)

@@ -11,7 +11,7 @@
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
 #include "../../game/duel_effect_request.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 #include "packet_helpers.h"
 #include "textured_quads.h"
 #include "effect_drawing.h"

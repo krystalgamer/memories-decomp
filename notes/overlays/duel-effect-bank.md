@@ -1162,7 +1162,7 @@ the same addresses and the same `gcc_2_8_1_g0_split` profile.
 
 ## Grouped sources
 
-Four runs of contiguous `gcc_2_8_1_g0_split` units are now one source each,
+Five runs of contiguous `gcc_2_8_1_g0_split` units are now one source each,
 in every duel-effect image (#39):
 
 - `life_point_effects.c`: effects 5, 7 and 9 (life-point recovery, reflected
@@ -1177,5 +1177,17 @@ in every duel-effect image (#39):
 - `projection_helpers.c`: the projected Ft4/Gt4 submit wrappers and the
   matrix setup helpers, formerly `projected_wrappers.c` and
   `matrix_helpers.c`.
+- `effect_geometry.c`: the 21 leaf vertex, random-vector, colour, power and
+  texture-word helpers from `DuelEffect_InitXZRingVertices` through
+  `DuelEffect_SwapVectorRecords` (0x1134 bytes: NA `0x8014F9E4..0x80150B18`,
+  JP `0x8015CEA0..0x8015DFD4`, UK/FR/DE/IT/ES `0x8014EE0C..0x8014FF40`),
+  formerly `radial_random_vectors.c`, `utility_helpers.c`, `texture_words.c`,
+  `vector_init.c`, `bolt_vertices.c` and `quad_helpers.c`. Every image keeps
+  the six objects in the same order between the `polygon_vertices.c` /
+  `height_ring.c` slot and effect 15, with no effect runner or owned data
+  among them. The regional `DuelEffect_InitHalfStepXZRingVertices` slot
+  (`polygon_vertices.c` or `height_ring.c`, see
+  [the geometry notes](duel-effect-geometry.md)) and `ring_vertices.c` before
+  it stay separate. The shared `utility_helpers.h` became `effect_geometry.h`.
 
 The tables above keep the historical per-file names they were measured under.

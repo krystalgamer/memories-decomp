@@ -6,7 +6,7 @@
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_scene_runtime.h"
 #include "../../psyq/string.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 #include "packet_helpers.h"
 #include "effect_drawing.h"
 #include "drawing_helpers.h"

@@ -8,7 +8,7 @@
 #include "../../game/model_scene_runtime.h"
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 #include "display_quads.h"
 #include "color_helpers.h"
 

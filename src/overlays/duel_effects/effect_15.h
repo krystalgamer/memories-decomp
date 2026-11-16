@@ -9,7 +9,7 @@
 #include "../../game/model_scene_runtime.h"
 #include "../../game/model_slot_support.h"
 #include "../../psyq/string.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 #include "packet_helpers.h"
 #include "textured_quads.h"
 #include "color_helpers.h"

@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_DRAWING_HELPERS_H
 
 #include "../../types.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 
 extern RECT gDuelEffect_aNumberGlyphRects[12];
 

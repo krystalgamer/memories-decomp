@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_DUEL_EFFECT_TEXTURED_QUADS_H
 
 #include "../../types.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 
 typedef struct {
     u16 page_at_00;

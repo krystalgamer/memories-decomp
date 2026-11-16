@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "utility_helpers.h"
+#include "effect_geometry.h"
 #include "geometry_semantic_views.h"
 
 void DuelEffect_InitCircle32Vertices(u16 radius, SVECTOR *vertices)
