@@ -9,7 +9,7 @@
  * projected with it and each segment draws two POLY_GT4 halves offset by the
  * projected width. Size grows by 32 per step; reaching 0x400 sets state 2 and
  * moves phase 2 to 3. From state 2 the rib snaps to fade 0x400 and state 3.
- * The ripples (ribbon_sway/field_3C50) advance by 850 and 128 per step, and
+ * The ripples (ribbon_sway/ribbon_wave) advance by 850 and 128 per step, and
  * once the clock passes the fade start width falls linearly from
  * 0x400, moving phase 4 to 5 when it reaches zero.
  *
@@ -212,7 +212,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
         }
     }
     work->ribbon_sway += work->clock.step * 850;
-    work->field_3C50 += work->clock.step * 128;
+    work->ribbon_wave += work->clock.step * 128;
     timing = work->config;
     if (timing->fade_begin <= work->clock.frame && work->width > 0) {
         work->width = 0x400 - ((work->clock.frame - timing->fade_begin) << 10) /

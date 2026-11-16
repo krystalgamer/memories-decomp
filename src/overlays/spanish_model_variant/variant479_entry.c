@@ -253,8 +253,8 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
         work->field_4194 = 1024;
         work->field_418C = 0;
         work->field_418E = 0;
-        work->field_41DC = 0;
-        work->field_41E0 = 0;
+        work->ribbon_sway = 0;
+        work->ribbon_wave = 0;
         work->field_41E4 = 0;
         work->field_41E8 = 0;
         work->streamer.length = 1024;
