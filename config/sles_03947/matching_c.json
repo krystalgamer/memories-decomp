@@ -5495,31 +5495,31 @@
       "address": "0x80050834",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x338",
-      "source": "src/game/european/card_list_deck_box.c"
+      "source": "src/game/european/trade_screen_widgets.c"
     },
     {
       "address": "0x80050B6C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1AC",
-      "source": "src/game/european/card_list_deck_box.c"
+      "source": "src/game/european/trade_screen_widgets.c"
     },
     {
       "address": "0x80050D18",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/european/card_list_deck_box.c"
+      "source": "src/game/european/trade_screen_widgets.c"
     },
     {
       "address": "0x80050E08",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/trade_confirmation_widgets.c"
+      "source": "src/game/european/trade_screen_widgets.c"
     },
     {
       "address": "0x80050EF8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/trade_confirmation_widgets.c"
+      "source": "src/game/european/trade_screen_widgets.c"
     },
     {
       "address": "0x80050FE8",

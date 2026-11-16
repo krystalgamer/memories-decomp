@@ -49,7 +49,7 @@ Box dimensions, callback indices, sprite tiles, ordering tables, depth offsets,
 color writes and attached pointers are unchanged.
 
 All overlay C bodies retain their original bytes. Canonical declarations
-live in `trade_confirmation_widgets.h`, which the Trade updater includes
+live in `trade_screen_widgets.h`, which the Trade updater includes
 directly; the numeric `func_800610E0.h`/`func_800611D0.h` headers and the
 `func_800610E0`/`func_800611D0` linker aliases are gone. Each Main Menu
 import map binds the two constructors at their resident addresses and the
