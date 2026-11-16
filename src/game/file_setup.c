@@ -1,14 +1,33 @@
+/*
+ * The file layer's boot setup, one unit covering US [0x800136D4, 0x80013898),
+ * merged for #39 from three former units in address order: the empty
+ * func_800136D4, which Main_RunFrameServices calls right after
+ * File_ServiceTransfers; File_SetPositionTable, which resets the transfer
+ * state, initializes the D_800E9DF0 sprite and fills gFile_anLba from the
+ * disc paths; and File_WaitForTransfers, the synchronous drain it installs as
+ * gFile_BeforePrimaryRequestCallback. The transfer runtime that follows,
+ * file_transfer_runtime.c, stays a separate object: its jump table sits at
+ * offset 0xC after this unit's printf literal, where one object's .align 3
+ * would put it at 0x10.
+ */
+
 #include "../types.h"
 
 #include "../psyq/stdio.h"
 #include "color_constants.h"
 #include "file_names.h"
+#include "main.h"
 
 #include "file_transfer.h"
 
+void func_800136D4(void)
+{
+    volatile u8 unused[9];
+}
+
 /* Zero-initialized storage this unit owns. Each build's generated
- * file_set_position_table_commons subsegments place it at the retail
- * addresses. */
+ * file_setup_commons and file_setup_bss_commons subsegments place it at the
+ * retail addresses. */
 u8 D_8009B0E0;
 SpritePrim D_800E9DF0;
 
@@ -37,7 +56,7 @@ u8 *gFile_apszName[8] = {
 };
 
 /* Regional value: the table's y position (0xD0 -> 0xE0). The European build
- * (src/game/european/) defines its own. */
+ * (src/game/european/file_setup.c) defines its own. */
 #ifndef FILE_POSITION_TABLE_Y
 #define FILE_POSITION_TABLE_Y 0xD0
 #endif
@@ -69,5 +88,22 @@ void File_SetPositionTable(void)
         }
         File_GetPosition(&gFile_anLba[i], (const char *)current);
         printf("%s --> %x\n", current, gFile_anLba[i]);
+    }
+}
+
+void File_WaitForTransfers(void) {
+    for (;;) {
+        if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
+             gFile_dwCancelRequestState) == 0) {
+            break;
+        }
+        if ((gFile_dwTransferState & FILE_TRANSFER_STATE_SECONDARY_PENDING) == 0) {
+            File_StopActiveRangeTransfer();
+        }
+        Main_AdvanceFrame();
+    }
+
+    while (gFile_dwCancelRequestState != 0) {
+        Main_AdvanceFrame();
     }
 }

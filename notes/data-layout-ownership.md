@@ -83,7 +83,7 @@ object before it.
 | Unit | Section | Range |
 |---|---|---|
 | `src/game/main.c` | `.sbss` | `0x8009B090`-`0x8009B0E0` |
-| `src/game/file_set_position_table.c` | `.sbss` | `0x8009B0E0`-`0x8009B0E8` |
+| `src/game/file_setup.c` | `.sbss` | `0x8009B0E0`-`0x8009B0E8` |
 | `src/game/file_transfer_runtime.c` | `.sbss` | `0x8009B0E8`-`0x8009B140` |
 | `src/game/fade_runtime.c` | `.sbss` | `0x8009B140`-`0x8009B150` |
 | `src/game/duel_scene.c` | `.sbss` | `0x8009B150`-`0x8009B244` |
@@ -105,7 +105,7 @@ object before it.
 | `src/game/model.c` | `.sbss` | `0x8009B468`-`0x8009B498` |
 | `src/game/movie_pipeline.c` | `.sbss` | `0x8009B498`-`0x8009B4A8` |
 | `src/game/main.c` | `.bss` | `0x8009B4A8`-`0x800E9DF0` |
-| `src/game/file_set_position_table.c` | `.bss` | `0x800E9DF0`-`0x800E9E18` |
+| `src/game/file_setup.c` | `.bss` | `0x800E9DF0`-`0x800E9E18` |
 | `src/game/file_transfer_runtime.c` | `.bss` | `0x800E9E18`-`0x800E9EC8` |
 | `src/game/fade_runtime.c` | `.bss` | `0x800E9EC8`-`0x800E9EF0` |
 | `src/game/duel_scene.c` | `.bss` | `0x800E9EF0`-`0x800EA1E8` |
@@ -290,7 +290,7 @@ North American tables but in its own order:
 
 Europe's initialized tables start `0x1004` above the North American ones and
 drift as European tables grow. Its split places seventeen owners:
-- from `file_set_position_table` through `campaign_scene` (`+0x1004`);
+- from `file_setup` through `campaign_scene` (`+0x1004`);
 - `debug_menu` through `build_deck`
   (`+0x1020`);
 - `model_subdivided_effect` and `ai_script`

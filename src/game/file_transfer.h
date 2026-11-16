@@ -70,6 +70,8 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused);
 
 void File_StepActiveTransfer(void);
 void File_ServiceTransfers(s32 arg0);
+/* Empty; Main_RunFrameServices calls it right after File_ServiceTransfers. */
+void func_800136D4(void);
 void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_index);
 /* The sound producer passes FileRequestSlot directly; null polls the pending
    state. The result retains its historical status-or-descriptor integer ABI. */
@@ -178,7 +180,7 @@ extern u32 gFile_dwCancelRequestState;
 
 /* 0x801DC000, gLibrary_aCardArtRecord in config/slus_01411/symbols.txt:372.
  * File_SetPositionTable hands its address to File_InitTransferState
- * (src/game/file_set_position_table.c), which stores it into gFile_TransferBufferBase
+ * (src/game/file_setup.c), which stores it into gFile_TransferBufferBase
  * (File_InitTransferState, file_transfer_runtime.c). The two memory-card dialogs also reach it, always by
  * address: MemCardDialog_UpdateSave and MemCardDialog_UpdateTradeSave
  * (mem_card_dialog.c) pass it to MemCardReadFile as the destination of a

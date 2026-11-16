@@ -132,6 +132,7 @@ symbol identities and disassembly are unchanged.
 Historical external-attempt records and optional generated global-usage
 output keep their original paths rather than being rewritten as new evidence.
 
-The empty func_800136D4 and func_800283EC units retain their address-based
-filenames: no supported subsystem or purpose has been established for them.
+The empty func_800283EC unit retains its address-based filename: no
+supported subsystem or purpose has been established for it. The empty
+func_800136D4 keeps its address-based name inside src/game/file_setup.c.
 No stub name is invented merely to remove the func_ prefix.
