@@ -863,7 +863,7 @@ extern u8 gSaveData_PairSetupState;
  * gSaveData_aTradeWriteStaging, records the second slot in
  * gMemCard_pSecondaryTransferCursor, and starts dialog step 4
  * to write them back. MainMenu_UpdateTradeScreen
- * (src/overlays/main_menu/trade_update.c) calls it once, after moving the
+ * (src/overlays/main_menu/trade_screen.c) calls it once, after moving the
  * traded card counts. */
 s32 SaveData_UpdateDuelLoad(void);
 void SaveData_RequestTradeWrite(void);
