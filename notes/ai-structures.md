@@ -210,13 +210,14 @@ halfword/alias descriptions are historical: the current matching fusion
 definitions already use the existing `AiScriptState` members. The local-name
 pass changes neither their widths nor their load/store conversions.
 
-The raw set helpers now name their offset units explicitly.
-`AI_SCRIPT_CARD_SET_BYTE_OFFSET` is `0x3E`, while
-`AI_SCRIPT_CARD_SET_HALFWORD_OFFSET` is `0x1F` because each card-set entry is
-two bytes. The latter is a base offset, not the coincidentally equal
-`AI_SCRIPT_CARD_SET_COUNT - 1`. Type-set offsets remain byte-based at `0x7E`.
-Compile-time assertions tie these constants to the shared structure without
-replacing the raw views or the reverse-order clear loops.
+The set helpers reach `card_set` (`0x3E`) and `type_set` (`0x7E`) through
+`AiScriptState` members. `AiScript_ClearCards` and `AiScript_AddType` index the
+members through a local `AiScriptState *`, which keeps the member offset in the
+access displacement as retail does. `AiScript_ClearTypes` still walks a byte
+cursor down from the state base (retail's strength-reduced form) and names
+`type_set` by viewing the cursor as the state; indexing the member either
+loses that cursor or folds `0x7E` into the base address. Compile-time
+assertions pin both member offsets.
 
 Type-set entries store the requested type plus
 `AI_SCRIPT_TYPE_SET_ENCODING_BIAS` (`1`), and membership tests subtract that
@@ -367,7 +368,7 @@ count/limit/state reads and the exact limit-minus-one test. No path bound,
 cycle guard, deduplication, alternate search order or stale-state reset.
 
 FindBestCombo distinguishes depth_limit_work, excluded_set, result_register,
-hand_search_count, candidate_slot/card_id, script_memory and state_byte_cursor.
+hand_search_count, candidate_slot/card_id and script_memory.
 ONE search_index still clears marks, walks field seeds, then walks the
 configured hand window. depth_limit_work still holds the operand value
 BEFORE its +1. State stores retain their original narrowing/order; selected
@@ -375,9 +376,10 @@ combo and best-depth storage are not newly cleared. Field seeds precede
 hand seeds and use the original snapshot stats, not newly substituted
 table lookups. The two starting-depth gates remain >=2 and >=3.
 
-state_byte_cursor STILL starts at the state base plus search_index, with
-AI_SCRIPT_FUSION_USED_BYTE_OFFSET applied at each access; it is NOT rewritten
-as &fusion_used[search_index]. Field-start marks retain that same loop
+The used-entry marks are written as state->fusion_used[search_index]
+through a block-local `AiScriptState *`: retail adds search_index to the
+state base and keeps fusion_used's 0xAA in the store displacement, which the
+direct gAiScript_State.fusion_used[] form does not. Field-start marks retain that same loop
 index rather than a hand-slot ID. Eight existing C-comment identifier
 references follow these bindings; no new C commentary or loop split.
 

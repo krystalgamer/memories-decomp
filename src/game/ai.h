@@ -174,16 +174,14 @@ typedef char AiScriptState_size_must_be_0xD4[
     sizeof(AiScriptState) == 0xD4 ? 1 : -1
 ];
 typedef char AiScriptState_card_set_offset_must_be_0x3E[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, card_set) ==
-        AI_SCRIPT_CARD_SET_BYTE_OFFSET ? 1 : -1
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, card_set) == 0x3E ? 1 : -1
 ];
 typedef char AiScriptState_card_set_entry_size_must_be_2[
     sizeof(((AiScriptState *)0)->card_set[0]) ==
         AI_SCRIPT_CARD_SET_ENTRY_SIZE ? 1 : -1
 ];
 typedef char AiScriptState_type_set_offset_must_be_0x7E[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, type_set) ==
-        AI_SCRIPT_TYPE_SET_BYTE_OFFSET ? 1 : -1
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, type_set) == 0x7E ? 1 : -1
 ];
 typedef char AiScriptState_combo_offset_must_be_0x38[
     AI_SCRIPT_STATE_OFFSET(AiScriptState, combo_cards) ==
@@ -230,8 +228,7 @@ typedef char AiScriptState_fusion_path_offset_must_be_0xA4[
         AI_SCRIPT_FUSION_PATH_BYTE_OFFSET ? 1 : -1
 ];
 typedef char AiScriptState_fusion_used_offset_must_be_0xAA[
-    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_used) ==
-        AI_SCRIPT_FUSION_USED_BYTE_OFFSET ? 1 : -1
+    AI_SCRIPT_STATE_OFFSET(AiScriptState, fusion_used) == 0xAA ? 1 : -1
 ];
 typedef char AiSelection_size_must_be_0x0C[
     sizeof(AiSelection) == 0x0C ? 1 : -1
