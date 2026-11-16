@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "../model_variant/variant458_ribbons.h"
 #include "../french_model_variant/variant475_entry.h"
 
 /* Builds one thirteen-point ribbon per entry of the timing record's count,
@@ -29,7 +28,7 @@ void ModelVariant458_DrawRibbons(u8 *ctx)
     s32 turn;
     s32 yaw;
     s16 len;
-    Variant458Ribbon *ribbon;
+    Variant475EntryRibbon *ribbon;
     POLY_FT4 *poly;
     s16 k;
     s32 bend;
@@ -42,7 +41,7 @@ void ModelVariant458_DrawRibbons(u8 *ctx)
     s32 dy;
 
     work = (Variant475EntryState *)ctx;
-    ribbon = (Variant458Ribbon *)work->ribbons;
+    ribbon = work->ribbons;
     ot = Graphics_GetDefaultOrderingTable();
     sum = 0;
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
@@ -139,9 +138,9 @@ void ModelVariant458_DrawRibbons(u8 *ctx)
             poly->y2 = (ribbon->sa[k] >> 16) - ribbon->oy[k];
             poly->x3 = ribbon->sa[k + 1] - ribbon->ox[k + 1];
             poly->y3 = (ribbon->sa[k + 1] >> 16) - ribbon->oy[k + 1];
-            poly->r0 = ribbon->color[0];
-            poly->g0 = ribbon->color[1];
-            poly->b0 = ribbon->color[2];
+            poly->r0 = ribbon->inner.r;
+            poly->g0 = ribbon->inner.g;
+            poly->b0 = ribbon->inner.b;
             if (ribbon->otz[k] >= 0 && ribbon->flag[k] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[k]);
             }
