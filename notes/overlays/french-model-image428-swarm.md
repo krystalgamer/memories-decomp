@@ -15,7 +15,8 @@ differences:
 - quads are drawn only for sizes above zero;
 - growth of `step * 8`.
 
-The local view lives in `variant428_swarm.h`, and the resident calls are
+The helper reads the US header-411 record (`Variant411UsEntryState` in
+`model_variant/variant411us_entry.h`), and the resident calls are
 covered by `model_variant428_linker_symbols.txt`. The
 [attempt ledger](french-model-image428-swarm-attempts.csv) records the probe,
 which matched on the first build.

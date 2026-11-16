@@ -73,7 +73,7 @@ Entry `model_variant/variant411us_entry.c` sets `work->config = gModelVariant411
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant428_DrawQuads` (french_model_variant/variant428_quads.c; `model_variant/variant411us_entry.c:373`, `Quads428State.timing` at +0x2750); `FrenchModelVariant428_DrawSwarm` (french_model_variant/variant428_swarm.c; `model_variant/variant411us_entry.c:370`, `Swarm428State.timing` at +0x2750) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
+| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant428_DrawQuads` (french_model_variant/variant428_quads.c; `model_variant/variant411us_entry.c:373`, `Variant411UsEntryState.config` at +0x2750); `FrenchModelVariant428_DrawSwarm` (french_model_variant/variant428_swarm.c; `model_variant/variant411us_entry.c:370`, `Variant411UsEntryState.config` at +0x2750) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant412EntryConfig` (`gModelVariant412_aConfigs`)
 

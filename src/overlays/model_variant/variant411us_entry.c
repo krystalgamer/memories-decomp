@@ -365,10 +365,10 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant428_DrawSwarm((u8 *)point);
+            FrenchModelVariant428_DrawSwarm((Variant411UsEntryState *)point);
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant428_DrawQuads((u8 *)point);
+            FrenchModelVariant428_DrawQuads((Variant411UsEntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);
