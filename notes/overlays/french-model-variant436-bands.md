@@ -3,13 +3,13 @@
 `FrenchModelVariant436_DrawBands` (formerly `func_8013BD98` / `func_8017BD98`;
 image offset `0xD98`, 0x7A4 bytes) in the
 MODEL707 stage 9 slot 0 and stage 10 slot 1 images is the MODEL449 band body
-(`variant449_bands.c`) on the MODEL437 layout
-(`MODEL_VARIANT437_BANDS`: bands at `+0x888`, every other field 0x600 lower).
+(`variant449_bands.c`) over `EntryState436`, which has the MODEL437 layout
+(the band record at `+0x888`, every other field 0x600 lower than MODEL449).
 The joints, the drift lift, the progress clamp and the two `POLY_GT4` halves
 per segment are unchanged.
 
 The only change is the sort test. Each half is submitted only when
-`band->otz[j] >= 0` and `depth[i][j] >= 0`, where `depth` is a local
+`band->depth[j] >= 0` and `depth[i][j] >= 0`, where `depth` is a local
 `long [1][3]` declared after `coord` (at `sp + 0xC8`). Nothing writes the
 table: `RotTransPers3` still uses the single `p`/`flag` pair. So retail tests
 uninitialised stack, which the matching C reproduces. The table also accounts

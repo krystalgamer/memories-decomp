@@ -1515,16 +1515,18 @@ typedef struct {
     u8 unknown_98[8];
 } ModelVariantBandPair;
 
-/* One 0xB4-byte three-point band record: per point a staggered start offset
- * and inner and outer colours, then a scale vector. */
+/* One 0xB4-byte three-point band record: per point its start, middle and end
+ * joints and their screen positions, a staggered start offset and inner and
+ * outer colours, then a scale vector and the segment depths. */
 typedef struct {
-    u8 unknown_00[0x6C];
+    SVECTOR start[3], middle[3], end[3];
+    long start_screen[3], middle_screen[3], end_screen[3];
     s32 offset[3];
     CVECTOR inner[3], outer[3];
     VECTOR scale;
     s16 field_A0, field_A2;
     s32 field_A4;
-    u8 unknown_A8[0xC];
+    s32 depth[3];
 } ModelVariantBandTriple;
 
 /* One 0x14-byte command row, picked by command % 100: the beam and particle

@@ -34,8 +34,10 @@ records one band; the loop bound and stride follow the target.
 Bindings for `RotTransPers3`, `rcos` and `rsin` are added to the shared
 header-449 linker file; every binding is a French resident function.
 
-The opt-in `MODEL_VARIANT437_BANDS` view changes only the initial padding for
-the [MODEL103 stage 9/10 reuse](french-model-variant437-bands.md). Without the
-flag, the body and all MODEL449 offsets above remain unchanged. The complete
+The helper reads the header-432 record (`Variant432EntryState`), whose
+`records` are `ModelVariantBandTriple`s (the view's `Variant449Band`). The
+[MODEL103 stage 9/10 reuse](french-model-variant437-bands.md) repeats the body
+over `Variant437EntryState`, where the band record sits at `+0x888`. The
+MODEL449 offsets above remain unchanged. The complete
 French production gate replays all four accepted donor images; the attempt
 ledger appends the updated shared-header fingerprint without altering history.

@@ -61,17 +61,17 @@ Material beyond `0x27A8` remains work.
 
 Native instructions establish two `0x90`-byte records at context `0x12C0`,
 with four rows of four `SVECTOR` points and a signed scale at record
-offset `0x80`. These agree with the existing local `Family402Ring`
-layout. The accepted French MODEL402 renderer supplies the same control
+offset `0x80`. These are the record's two `Variant402EntryRing`s (the
+scale is `Variant402EntryRing.scale`). The accepted French MODEL402 renderer supplies the same control
 flow and expression structure; only independently measured context and
 configuration offsets differ. No external reference types or compiler
 claims are used.
 
-The canonical source includes the unchanged MODEL402 body rather than
-duplicating it. It loads shared declarations first, then binds the work-view
-type to `Variant412RingView`. This header-first
-order keeps the original record declarations intact while selecting the
-independently measured context layout. Both slots remain byte-exact.
+The source repeats the MODEL402 body over `Variant412EntryState`, whose
+clock words are separate members (`frame_count`, `elapsed`, `step`) and whose
+config gives the ring duration as `capture_start`. It previously included the
+MODEL402 body through a ring view; once that body read `Variant402EntryState`
+the shared include no longer fit. Both slots remain byte-exact.
 
 The `POLY_GT4` packet is at `0x1978`, transform at `0x1AB0`, and velocity
 at `0x1AD8`. Frame parity at `0x1B04` adds a scale/8 pulse. The second
@@ -150,9 +150,9 @@ bind the shared implementation rather than rewriting old evidence.
 
 The strip reuses `variant402_strip.c` with fifteen compile-time layout
 selectors. Its `0x58`-byte record starts at context `0x1268`, its GT4 packet
-at `0x1944`, width at `0x1B5C`, and phase at `0x1B64`. The accepted
-`Variant412RingView` supplies the measured configuration pointer/count and
-selected-part fields. Unlike MODEL402, native MODEL412 initializes the strip
+at `0x1944`, width at `0x1B5C`, and phase at `0x1B64`. The record's
+`config->part_count` and `part_index` supply the measured configuration
+count and selected-part fields. Unlike MODEL402, native MODEL412 initializes the strip
 cursor before the angle call, passes scalar interpolation/flag outputs to
 `RotTransPers3`, and uses separate signed guards for `0 < depth < 2048`
 without testing the flag. Preserving those source-order and control-flow

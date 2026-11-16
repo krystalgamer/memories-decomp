@@ -8,12 +8,12 @@
  * starts each quad through a pointer to its first point. */
 #ifdef MODEL_VARIANT410_RIBBONS_FOLDED_NEXT
 #define RIBBONS410_CLOSING(array) (ribbon->array[16])
-#define RIBBONS410_NEXT(n) ((ribbon->sa + 1)[n])
-#define RIBBONS410_START(n) (*(ribbon->sa + (n)))
+#define RIBBONS410_NEXT(n) ((ribbon->screen + 1)[n])
+#define RIBBONS410_START(n) (*(ribbon->screen + (n)))
 #else
 #define RIBBONS410_CLOSING(array) (ribbon->array[k])
-#define RIBBONS410_NEXT(n) (ribbon->sa[(n) + 1])
-#define RIBBONS410_START(n) (ribbon->sa[n])
+#define RIBBONS410_NEXT(n) (ribbon->screen[(n) + 1])
+#define RIBBONS410_START(n) (ribbon->screen[n])
 #endif
 
 void FrenchModelVariant410_DrawRibbons(Variant410EntryState *context)
@@ -61,16 +61,16 @@ void FrenchModelVariant410_DrawRibbons(Variant410EntryState *context)
                 if (progress <= 0) {
                     progress = 0;
                 }
-                setVector(&ribbon->a[k],
+                setVector(&ribbon->points[k],
                           -work->aim.direction.vx * progress / 1024
                               + (rcos(angle) * (-(rsin(progress * 2) * 128) >> 12) >> 12),
                           -work->aim.direction.vy * progress / 1024
                               + (rsin(angle) * (-(rsin(progress * 2) * 128) >> 12) >> 12),
                           -work->aim.direction.vz * progress / 1024);
-                setVector(&ribbon->b[k],
-                          ribbon->a[k].vx + (rcos(yaw) * length >> 12),
-                          ribbon->a[k].vy,
-                          ribbon->a[k].vz + (rsin(yaw) * length >> 12));
+                setVector(&ribbon->edges[k],
+                          ribbon->points[k].vx + (rcos(yaw) * length >> 12),
+                          ribbon->points[k].vy,
+                          ribbon->points[k].vz + (rsin(yaw) * length >> 12));
                 if (ribbon->progress[k] < 1024) {
                     ribbon->progress[k] += work->clock.step * 40;
                     if (ribbon->progress[k] >= 1024) {
@@ -97,35 +97,35 @@ void FrenchModelVariant410_DrawRibbons(Variant410EntryState *context)
         for (i = 0; i < 9; i++, ribbon++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
-                    ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k],
-                                                   &ribbon->a[k - 1], &ribbon->a[k],
-                                                   (long *)&ribbon->sa[k - 1], (long *)&ribbon->sa[k],
-                                                   (long *)&ribbon->sa[k - 1], (long *)&ribbon->sa[k],
+                    ribbon->offsets.otz[k] = RotTransPers4(&ribbon->points[k - 1], &ribbon->points[k],
+                                                   &ribbon->points[k - 1], &ribbon->points[k],
+                                                   (long *)&ribbon->screen[k - 1], (long *)&ribbon->screen[k],
+                                                   (long *)&ribbon->screen[k - 1], (long *)&ribbon->screen[k],
                                                    &interpolation, &flags[i][k]);
-                    RotTransPers(&ribbon->b[k], (long *)&ribbon->sb[k], &interpolation, &flag);
-                    dx = RIBBONS410_CLOSING(sa).point.vx - ribbon->sa[k - 1].point.vx;
-                    dy = RIBBONS410_CLOSING(sa).point.vy - ribbon->sa[k - 1].point.vy;
+                    RotTransPers(&ribbon->edges[k], (long *)&ribbon->edge_screen[k], &interpolation, &flag);
+                    dx = RIBBONS410_CLOSING(screen).point.vx - ribbon->screen[k - 1].point.vx;
+                    dy = RIBBONS410_CLOSING(screen).point.vy - ribbon->screen[k - 1].point.vy;
                     ribbon->angle[k] = ratan2(dy, dx) - 3072;
-                    ribbon->width[k] = RIBBONS410_CLOSING(sb).point.vx - RIBBONS410_CLOSING(sa).point.vx;
+                    ribbon->width[k] = RIBBONS410_CLOSING(edge_screen).point.vx - RIBBONS410_CLOSING(screen).point.vx;
                     ribbon->offsets.ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                     ribbon->offsets.oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 } else {
-                    ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1],
-                                                   &ribbon->a[k], &ribbon->a[k + 1],
-                                                   (long *)&ribbon->sa[k], (long *)&ribbon->sa[k + 1],
-                                                   (long *)&ribbon->sa[k], (long *)&ribbon->sa[k + 1],
+                    ribbon->offsets.otz[k] = RotTransPers4(&ribbon->points[k], &ribbon->points[k + 1],
+                                                   &ribbon->points[k], &ribbon->points[k + 1],
+                                                   (long *)&ribbon->screen[k], (long *)&ribbon->screen[k + 1],
+                                                   (long *)&ribbon->screen[k], (long *)&ribbon->screen[k + 1],
                                                    &interpolation, &flags[i][k]);
-                    RotTransPers(&ribbon->b[k], (long *)&ribbon->sb[k], &interpolation, &flag);
+                    RotTransPers(&ribbon->edges[k], (long *)&ribbon->edge_screen[k], &interpolation, &flag);
 #ifdef MODEL_VARIANT410_RIBBONS_FOLDED_NEXT
                     /* Dead store, overwritten below: it only lengthens the CDK
                      * compiler's projection loop, which keeps the flag-row
                      * addresses inside the loop as in the header-393 copy. */
-                    dx = ribbon->sa[k + 1].point.vx;
+                    dx = ribbon->screen[k + 1].point.vx;
 #endif
-                    dx = RIBBONS410_NEXT(k).point.vx - ribbon->sa[k].point.vx;
-                    dy = RIBBONS410_NEXT(k).point.vy - ribbon->sa[k].point.vy;
+                    dx = RIBBONS410_NEXT(k).point.vx - ribbon->screen[k].point.vx;
+                    dy = RIBBONS410_NEXT(k).point.vy - ribbon->screen[k].point.vy;
                     ribbon->angle[k] = ratan2(dy, dx) - 3072;
-                    ribbon->width[k] = ribbon->sb[k].point.vx - ribbon->sa[k].point.vx;
+                    ribbon->width[k] = ribbon->edge_screen[k].point.vx - ribbon->screen[k].point.vx;
                     ribbon->offsets.ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
                     ribbon->offsets.oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
                 }
@@ -135,11 +135,11 @@ void FrenchModelVariant410_DrawRibbons(Variant410EntryState *context)
         for (i = 0; i < 9; i++, ribbon++) {
             for (k = 0; k < 16; k++) {
                 quad->x0 = RIBBONS410_START(k).point.vx + ribbon->offsets.ox[k];
-                quad->y0 = (ribbon->sa[k].packed >> 16) + ribbon->offsets.oy[k];
+                quad->y0 = (ribbon->screen[k].packed >> 16) + ribbon->offsets.oy[k];
                 quad->x1 = RIBBONS410_NEXT(k).point.vx + ribbon->offsets.ox[k + 1];
                 quad->y1 = (RIBBONS410_NEXT(k).packed >> 16) + ribbon->offsets.oy[k + 1];
-                quad->x2 = ribbon->sa[k].point.vx - ribbon->offsets.ox[k];
-                quad->y2 = (ribbon->sa[k].packed >> 16) - ribbon->offsets.oy[k];
+                quad->x2 = ribbon->screen[k].point.vx - ribbon->offsets.ox[k];
+                quad->y2 = (ribbon->screen[k].packed >> 16) - ribbon->offsets.oy[k];
                 quad->x3 = RIBBONS410_NEXT(k).point.vx - ribbon->offsets.ox[k + 1];
                 quad->y3 = (RIBBONS410_NEXT(k).packed >> 16) - ribbon->offsets.oy[k + 1];
                 if (k + 1 == 16) {

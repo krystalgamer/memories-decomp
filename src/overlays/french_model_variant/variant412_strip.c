@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant412_rings.h"
 #include "variant402_strip.h"
 
 #include "variant412_entry.h"
@@ -106,8 +105,7 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
                 }
             }
         }
-        if (work->part_index + 1 ==
-            ((Variant412RingView *)work)->config->part_count) {
+        if (work->part_index + 1 == work->config->part_count) {
             if (work->phase == 1) {
                 if (work->displacement <= 1024) {
                     work->displacement += work->step * 64;

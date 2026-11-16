@@ -157,7 +157,7 @@ s32 FrenchModelVariant412_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&ring->points[ring_point + 12], 0, 0, 0);
                 }
             }
-            ring->field_80 = 0;
+            ring->scale = 0;
             ring->field_84 = 0;
             ring->field_88 = 0;
         }

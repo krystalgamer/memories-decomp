@@ -24,11 +24,10 @@ packet at `0x1424`, origin at `0x1514`, factor at `0x1590`, scale at `0x1598`,
 spread at `0x159C`, delta at `0x15B0`, axis pair at `0x15C0/0x15C2`, flags at
 `0x15DC`, and direction at `0x164C`. The band remains `0xB4` bytes.
 
-`MODEL_VARIANT437_BANDS` changes only the initial opaque padding in
-`variant449_bands.h`, from `0xE88` to `0x888`. Slot wrappers select that
-measured layout and the original function name. The accepted body, record
-definition, all later relative field gaps, and default MODEL449 layout are
-unchanged. This is not a runtime pointer adjustment. It preserves the
+`variant437_bands.c` repeats the MODEL449 body over `Variant437EntryState`,
+whose band record starts at `0x888` instead of `0xE88`, under the original
+function name. The accepted body, the `ModelVariantBandTriple` record, all
+later relative field gaps, and the MODEL449 layout are unchanged. This is not a runtime pointer adjustment. It preserves the
 three-point projection, factor clamp, signed drift, scale bias, mirrored
 two-sided draw sequence, and positive-depth submission gate.
 

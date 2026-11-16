@@ -34,11 +34,11 @@ typedef union {
 } Variant410Screen;
 
 typedef struct {
-    SVECTOR a[17];
-    Variant410Screen sa[17];
+    SVECTOR points[17];
+    Variant410Screen screen[17];
     s32 angle[17];
-    SVECTOR b[17];
-    Variant410Screen sb[17];
+    SVECTOR edges[17];
+    Variant410Screen edge_screen[17];
     s32 width[17];
     ModelVariantStripStyle style;
     VECTOR velocity;
