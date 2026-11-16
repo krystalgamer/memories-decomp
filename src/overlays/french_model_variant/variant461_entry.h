@@ -47,6 +47,6 @@ extern GsIMAGE gFrenchModelVariant461_aImages[9];
 extern ModelVariantGrowConfig gFrenchModelVariant461_aConfigs[];
 void FrenchModelVariant461_DrawRibbons(EntryState461 *context);
 void SpanishModelVariant461_DrawSheets(u8 *context);
-void SpanishModelVariant461_DrawRing(u8 *context);
+void SpanishModelVariant461_DrawRing(EntryState461 *context);
 
 #endif
