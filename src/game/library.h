@@ -125,4 +125,25 @@ void Library_InitializeScreen(void);
  * is read-only; its signed first read and unsigned follow-up reads remain
  * distinct around the viewport store. */
 void Library_UpdateGridScroll(const LibraryMotionState *record);
+
+/* The X and Y of a Library grid cell from its column and row: two
+ * side-by-side ten-by-ten sections, fourteen-pixel columns from origins
+ * 0x0E/0xAE and sixteen-pixel rows on a 178-pixel section pitch; see
+ * notes/card-grid-coordinate-helpers.md. */
+s32 CardGrid_GetColumnX(s32 column);
+s32 CardGrid_GetRowY(s32 row);
+
+/* Two lookups over the player's cards. Duel_FindPlayerDeckCard returns the
+ * deck index of a card id, or -1 when it is not in the deck.
+ * Library_CheckCardOwned answers the weaker question the Library screen asks:
+ * a nonzero SaveDataState.card_quantities (trunk) entry returns 1 at once, and
+ * otherwise the deck index decides -- so its -1 means "neither in the trunk
+ * nor in the deck", the two places Library_MarkOwnedCards also walks. Its
+ * caller supplies IDs 1..722. */
+s32 Duel_FindPlayerDeckCard(s32 card_id);
+s32 Library_CheckCardOwned(s32 card_id);
+
+/* The trunk half of Library_CheckCardOwned alone: 1 for a nonzero
+ * card_quantities byte, -1 for zero, with no deck fallback. */
+s32 Library_CheckCardInChest(s32 card_id);
 #endif

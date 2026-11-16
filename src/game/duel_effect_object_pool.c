@@ -22,15 +22,6 @@ u8 gDuelEffect_bRequestFinished;
 DuelEffectRequest *gDuelEffect_pActiveRequest;
 DuelEffectRequest gDuelEffect_aRequests[8];
 
-int Library_CheckCardInChest(int card_id)
-{
-    if (((SaveDataWorkspace *)gSaveData_Workspace)->state.card_quantities[
-            card_id - CARD_ID_FIRST]) {
-        return 1;
-    }
-    return -1;
-}
-
 void DuelEffect_ResetRequestPool(void)
 {
     DuelEffectRequest *entry;
