@@ -13,7 +13,7 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    ModelVariantTubeView *tube = work->tubes;
+    ModelVariantTube *tube = work->tubes;
     Variant444EntryColorRecord *record = work->records;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantFunnel *funnel = work->funnels;
@@ -303,7 +303,7 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant444_DrawFunnels((u8 *)point);
         }
         if (work->config->tube_start < work->clock.frame) {
-            FrenchModelVariant175_DrawTube((u8 *)point);
+            FrenchModelVariant175_DrawTube((Variant444EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

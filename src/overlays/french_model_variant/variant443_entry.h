@@ -68,7 +68,7 @@ typedef struct {
 typedef struct {
     EntryRibbon443 ribbons[3];
     EntryFramebufferRing443 rings[5];
-    ModelVariantTubeView meshes[1];
+    ModelVariantTube meshes[1];
     ModelVariantShortStreamer streamers[3];
     ModelVariantWebNarrow spheres[3];
     ModelVariantShadedRay spirals[12];

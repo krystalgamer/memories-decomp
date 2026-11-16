@@ -9,17 +9,17 @@
  * copy, both projections, per point the screen angle, projected width and
  * offset, and the RotTransPers4 flag kept for the draw pass. */
 typedef struct {
-    SVECTOR a[2];
-    long sa[2];
+    SVECTOR points[2];
+    long screen[2];
     s32 angle[2];
-    SVECTOR b[2];
-    long sb[2];
+    SVECTOR edges[2];
+    long edge_screen[2];
     s32 width[2];
     u8 unknown_40[0x1C];
     long flag[2];
     s32 otz[2];
-    u16 ox[2];
-    u16 oy[2];
+    u16 x_offset[2];
+    u16 y_offset[2];
 } Ribbon388;
 
 typedef struct {

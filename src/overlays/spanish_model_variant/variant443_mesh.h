@@ -12,7 +12,7 @@ typedef struct {
 
 typedef struct {
     u8 unknown_00[0xC80];
-    ModelVariantTubeView mesh[1];
+    ModelVariantTube mesh[1];
     u8 unknown_11CC[0x189C];
     ModelVariantPulse companion;
     u8 unknown_2AF4[0x8B8];

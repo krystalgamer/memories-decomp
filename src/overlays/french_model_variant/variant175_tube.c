@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant175_tube.h"
+#include "variant444_entry.h"
 
-void FrenchModelVariant175_DrawTube(u8 *context)
+void FrenchModelVariant175_DrawTube(Variant444EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,8 +10,8 @@ void FrenchModelVariant175_DrawTube(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Tube175State *state = (Tube175State *)context;
-    ModelVariantTubeView *tube;
+    Variant444EntryState *state = context;
+    ModelVariantTube *tube;
     POLY_G4 *quad = &state->quad;
     GsOT *ot;
     s16 i, j, k;
@@ -23,18 +23,18 @@ void FrenchModelVariant175_DrawTube(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     GsGetActiveBuff();
-    ratan2(state->direction_b[2], state->direction_b[0]);
-    ratan2(state->direction_b[1], state->direction_b[0]);
-    axis_angle = ratan2(state->direction[2], state->direction[1]) + 3072;
-    ratan2(state->projected.vy, state->projected.vx);
+    ratan2(state->aim.view_delta.vz, state->aim.view_delta.vx);
+    ratan2(state->aim.view_delta.vy, state->aim.view_delta.vx);
+    axis_angle = ratan2(state->aim.direction.vz, state->aim.direction.vy) + 3072;
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
     tube = state->tubes;
     for (i = 0; i < 1; i++, tube++) {
         j = 0;
         angle = state->angle;
         for (; j < 9; j++, angle += 64) {
-            offset_x = state->direction[0] * state->progress / 1024 * j / 8;
-            offset_y = state->direction[1] * state->progress / 1024 * j / 8;
-            offset_z = state->direction[2] * state->progress / 1024 * j / 8;
+            offset_x = state->aim.direction.vx * state->progress / 1024 * j / 8;
+            offset_y = state->aim.direction.vy * state->progress / 1024 * j / 8;
+            offset_z = state->aim.direction.vz * state->progress / 1024 * j / 8;
             ring = state->progress * j / 32 + 32;
             if (ring > 128) {
                 ring = 128;
@@ -50,9 +50,9 @@ void FrenchModelVariant175_DrawTube(u8 *context)
     rotation.vx = 0;
     rotation.vy = 0;
     rotation.vz = 0;
-    matrix.t[0] = state->origin[0];
-    matrix.t[1] = state->origin[1];
-    matrix.t[2] = state->origin[2];
+    matrix.t[0] = state->matrix.t[0];
+    matrix.t[1] = state->matrix.t[1];
+    matrix.t[2] = state->matrix.t[2];
     scale.vx = 4096;
     scale.vy = 4096;
     scale.vz = 4096;
@@ -71,7 +71,7 @@ void FrenchModelVariant175_DrawTube(u8 *context)
                                      (long *)&quad->x0, (long *)&quad->x1,
                                      (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
-                if (state->phase >= 6) {
+                if (state->tail.phase >= 6) {
                     r0 = tube->colors[k].r * state->width / 1024;
                     g0 = tube->colors[k].g * state->width / 1024;
                     b0 = tube->colors[k].b * state->width / 1024;
@@ -94,20 +94,20 @@ void FrenchModelVariant175_DrawTube(u8 *context)
             }
         }
     }
-    if (state->phase < 2 && state->progress <= 1024) {
-        state->progress = (state->clock.frame - state->timing->expansion_start) * 1024 /
-                          (state->timing->expansion_end - state->timing->expansion_start);
+    if (state->tail.phase < 2 && state->progress <= 1024) {
+        state->progress = (state->clock.frame - state->config->tube_start) * 1024 /
+                          (state->config->tube_end - state->config->tube_start);
         if (state->progress >= 1024) {
             state->progress = 1024;
-            state->phase = 2;
+            state->tail.phase = 2;
         }
     }
-    if (state->clock.frame >= state->timing->fade_start && state->width > 0) {
-        state->width = 1024 - (state->clock.frame - state->timing->fade_start) * 1024 /
-                             (state->timing->fade_end - state->timing->fade_start);
+    if (state->clock.frame >= state->config->fade_start && state->width > 0) {
+        state->width = 1024 - (state->clock.frame - state->config->fade_start) * 1024 /
+                             (state->config->fade_end - state->config->fade_start);
         if (state->width <= 0) {
             state->width = 0;
-            state->phase = 4;
+            state->tail.phase = 4;
         }
     }
     state->angle -= state->clock.step * 32;

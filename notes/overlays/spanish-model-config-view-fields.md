@@ -49,9 +49,9 @@ Entry `spanish_model_variant/variant417_entry.c` sets `work->config = gSpanishMo
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x10]` bytes → `s32 expansion_start` | `Tube417Timing.expansion_start` | `SpanishModelVariant417_DrawTube` (spanish_model_variant/variant417_tube.c; `spanish_model_variant/variant417_entry.c:338`, `Tube417State.timing` at +0x2138) | `if (state->time >= state->timing->expansion_start)` | high |
+| `+0x20` | `unknown_20[0x10]` bytes → `s32 expansion_start` | `Tube417Timing.expansion_start` | `SpanishModelVariant417_DrawTube` (spanish_model_variant/variant417_tube.c; `spanish_model_variant/variant417_entry.c:338`, `Tube417State.timing` at +0x2138) | `if (state->frame >= state->config->expansion_start)` | high |
 | `+0x24` | `unknown_20[0x10]` bytes → `s32 expansion_end` | `Tube417Timing.expansion_end` | `SpanishModelVariant417_DrawTube` (spanish_model_variant/variant417_tube.c; `spanish_model_variant/variant417_entry.c:338`, `Tube417State.timing` at +0x2138) | `(state->timing->expansion_end - state->timing->expansion_start);` | high |
-| `+0x28` | `unknown_20[0x10]` bytes → `s32 fade_start` | `Tube417Timing.fade_start` | `SpanishModelVariant417_DrawTube` (spanish_model_variant/variant417_tube.c; `spanish_model_variant/variant417_entry.c:338`, `Tube417State.timing` at +0x2138) | `if (state->time >= state->timing->fade_start)` | high |
+| `+0x28` | `unknown_20[0x10]` bytes → `s32 fade_start` | `Tube417Timing.fade_start` | `SpanishModelVariant417_DrawTube` (spanish_model_variant/variant417_tube.c; `spanish_model_variant/variant417_entry.c:338`, `Tube417State.timing` at +0x2138) | `if (state->frame >= state->config->fade_start)` | high |
 | `+0x2C` | `unknown_20[0x10]` bytes → `s32 fade_end` | `Tube417Timing.fade_end` | `SpanishModelVariant417_DrawTube` (spanish_model_variant/variant417_tube.c; `spanish_model_variant/variant417_entry.c:338`, `Tube417State.timing` at +0x2138) | `(state->timing->fade_end - state->timing->fade_start);` | high |
 
 ## `Variant438EntryConfig` (`gSpanishModelVariant438_aConfigs`)
@@ -60,7 +60,7 @@ Entry `spanish_model_variant/variant438_entry.c` sets `work->config = gSpanishMo
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_start` | `Bands438Timing.fade_start` | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Bands438State.timing` at +0x22B4) | `if (state->time >= state->timing->fade_start)` | high |
+| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_start` | `Bands438Timing.fade_start` | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Bands438State.timing` at +0x22B4) | `if (state->frame >= state->config->fade_start)` | high |
 | `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `Bands438Timing.fade_end` | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Bands438State.timing` at +0x22B4) | `(state->timing->fade_end - state->timing->fade_start);` | high |
 | `+0x40` | `unknown_40[4]` → `s32 radius` | `Bands438Timing.radius` | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Bands438State.timing` at +0x22B4) | `radius = state->size * state->timing->radius / 4096;` | high |
 
@@ -70,9 +70,9 @@ Entry `spanish_model_variant/variant441_entry.c` sets `work->config = gSpanishMo
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0xC]` bytes → `s32 expansion_start` | `Tube441Timing.expansion_start` | `SpanishModelVariant441_DrawTubularMesh` (spanish_model_variant/variant441_tube.c; `spanish_model_variant/variant441_entry.c:353`, `Tube441State.timing` at +0x26E4) | `if (state->time >= state->timing->expansion_start)` | high |
-| `+0x24` | `unknown_20[0xC]` bytes → `s32 expansion_end` | `Tube441Timing.expansion_end` | `SpanishModelVariant441_DrawTubularMesh` (spanish_model_variant/variant441_tube.c; `spanish_model_variant/variant441_entry.c:353`, `Tube441State.timing` at +0x26E4) | `(state->timing->expansion_end - state->timing->expansion_start);` | high |
-| `+0x28` | `unknown_20[0xC]` bytes → `s32 fade_start` | `Tube441Timing.fade_start` | `SpanishModelVariant441_DrawTubularMesh` (spanish_model_variant/variant441_tube.c; `spanish_model_variant/variant441_entry.c:353`, `Tube441State.timing` at +0x26E4) | `if (state->time >= state->timing->fade_start)` | high |
+| `+0x20` | `unknown_20[0xC]` bytes → `s32 expansion_start` | `Variant441EntryConfig.expansion_start` (was `Tube441Timing`) | `SpanishModelVariant441_DrawTubularMesh` (spanish_model_variant/variant441_tube.c; `spanish_model_variant/variant441_entry.c:353`, `Variant441EntryState.config` at +0x26E4) | `if (state->frame >= state->config->expansion_start)` | high |
+| `+0x24` | `unknown_20[0xC]` bytes → `s32 expansion_end` | `Variant441EntryConfig.expansion_end` (was `Tube441Timing`) | `SpanishModelVariant441_DrawTubularMesh` (spanish_model_variant/variant441_tube.c; `spanish_model_variant/variant441_entry.c:353`, `Variant441EntryState.config` at +0x26E4) | `(state->config->expansion_end - state->config->expansion_start);` | high |
+| `+0x28` | `unknown_20[0xC]` bytes → `s32 fade_start` | `Variant441EntryConfig.fade_start` (was `Tube441Timing`) | `SpanishModelVariant441_DrawTubularMesh` (spanish_model_variant/variant441_tube.c; `spanish_model_variant/variant441_entry.c:353`, `Variant441EntryState.config` at +0x26E4) | `if (state->frame >= state->config->fade_start)` | high |
 
 ## `Variant456EntryConfig` (`gSpanishModelVariant456_aConfigs`)
 
@@ -80,7 +80,7 @@ Entry `spanish_model_variant/variant456_entry.c` sets `work->config = gSpanishMo
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_1C[8]` bytes → `u32 fade_start` | `Timing456.fade_start` | `SpanishModelVariant456_DrawSheets` (spanish_model_variant/variant456_sheets.c; `spanish_model_variant/variant456_entry.c:335`, `Sheets456State.timing` at +0x2330) | `if (state->time >= state->timing->fade_start)` | high |
+| `+0x1C` | `unknown_1C[8]` bytes → `u32 fade_start` | `Timing456.fade_start` | `SpanishModelVariant456_DrawSheets` (spanish_model_variant/variant456_sheets.c; `spanish_model_variant/variant456_entry.c:335`, `Sheets456State.timing` at +0x2330) | `if (state->frame >= state->config->fade_start)` | high |
 | `+0x20` | `unknown_1C[8]` bytes → `u32 fade_end` | `Timing456.fade_end` | `SpanishModelVariant456_DrawSheets` (spanish_model_variant/variant456_sheets.c; `spanish_model_variant/variant456_entry.c:335`, `Sheets456State.timing` at +0x2330) | `/ (state->timing->fade_end - state->timing->fade_start);` | high |
 
 ## `Variant459EntryConfig` (`gSpanishModelVariant459_aConfigs`)

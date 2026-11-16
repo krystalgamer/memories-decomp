@@ -14,7 +14,7 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     ModelVariantScreenRing *hoop = work->hoops;
     ModelVariantWebNarrow *web = work->webs;
-    ModelVariantTubeView *tube = work->tubes;
+    ModelVariantTube *tube = work->tubes;
     ModelVariantShortRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantTripleCurtain *curtain = work->curtains;
@@ -350,7 +350,7 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
                     ModelVariant398_DrawRings((u8 *)point);
                 }
                 if (work->phase > 0) {
-                    SpanishModelVariant441_DrawTubularMesh((u8 *)point);
+                    SpanishModelVariant441_DrawTubularMesh((Variant441EntryState *)point);
                 }
             } while (++work->index < work->config->count);
         }

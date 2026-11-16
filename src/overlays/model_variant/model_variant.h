@@ -554,16 +554,6 @@ typedef struct {
     u16 oy[2];
 } ModelVariantRibbon;
 
-/* The ribbon colour bytes of headers 373 and 383: the outer and inner
- * intensities. */
-typedef struct {
-    u8 unknown_00[0x80];
-    u8 outer;
-    u8 unknown_81[3];
-    u8 inner;
-    u8 unknown_85[3];
-} ModelVariantRibbonColors;
-
 /* The ribbon command row: the fade window at + 0x24. */
 typedef struct {
     u8 unknown00[0x24];
@@ -612,14 +602,6 @@ typedef struct {
     s16 x_offset[2];
     s16 y_offset[2];
 } ModelVariantRibbonSpan;
-
-/* The ribbon tail: the completion flag, the target it moves to and the
- * per-step delta. */
-typedef struct {
-    s32 completed;
-    VECTOR target;
-    VECTOR delta;
-} ModelVariantRibbonTail;
 
 /* The 0x20-byte style block that follows the projected spine of the ribbon
  * records (0x220 bytes for the seventeen-point ribbons, 0x120 for the
@@ -1137,7 +1119,7 @@ typedef struct {
     VECTOR scale;
     s16 field_544, field_546;
     s32 field_548;
-} ModelVariantTubeView;
+} ModelVariantTube;
 
 /* The colours that start a bolt entry's config row (e.g. Model793Config):
  * r, g, b tint the muzzle sprite (setRGB0 on its POLY_FT4), and on launch
@@ -1416,15 +1398,6 @@ typedef struct {
     s16 oy[17];
 } ModelVariantStreamer;
 
-/* The strip of headers 373 and 383: three rows of two points, their screen
- * coordinates and two depths. */
-typedef struct {
-    SVECTOR points[3][2];
-    long projected[3][2];
-    u8 unknown_48[0x1C];
-    long depth[2];
-} ModelVariantStrip;
-
 /* The strip command row: the pass count, the width and the start, expanded,
  * fade and end times. */
 typedef struct {
@@ -1482,14 +1455,6 @@ typedef struct {
     s32 angle;
     s32 count;
 } ModelVariantColorRing;
-
-/* The command row of the header 373 and 383 ribbon and strip helpers, read
- * only for the pass count at + 0x0C: the helper finishes when its index
- * reaches it. */
-typedef struct {
-    u8 unknown_00[0xC];
-    u16 count_0C;
-} ModelVariantCountConfig;
 
 /* ModelVariantColorRing with a colour per spoke before the inner and outer
  * colours (0xB0 bytes). */

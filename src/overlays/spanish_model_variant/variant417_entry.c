@@ -13,7 +13,7 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     ModelVariantWebNarrow *web = work->webs;
-    ModelVariantTubeView *tube = work->tubes;
+    ModelVariantTube *tube = work->tubes;
     ModelVariantShortRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantTripleCurtain *curtain = work->curtains;

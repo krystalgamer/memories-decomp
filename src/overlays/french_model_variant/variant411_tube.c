@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant411_tube.h"
+#include "variant411_entry.h"
 
-void FrenchModelVariant411_DrawTube(u8 *context)
+void FrenchModelVariant411_DrawTube(EntryState411 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,9 +10,9 @@ void FrenchModelVariant411_DrawTube(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Tube411State *state = (Tube411State *)context;
-    ModelVariantTubeView *tube;
-    POLY_G4 *quad = &state->quad;
+    EntryState411 *state = context;
+    ModelVariantTube *tube;
+    POLY_G4 *quad = &state->packets.quad;
     GsOT *ot;
     s16 i, j, k;
     s16 angle, theta, radius;
@@ -24,10 +24,10 @@ void FrenchModelVariant411_DrawTube(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     GsGetActiveBuff();
-    ratan2(state->direction_b[2], state->direction_b[0]);
-    ratan2(state->direction_b[1], state->direction_b[0]);
-    axis_angle = ratan2(state->direction[2], state->direction[1]) + 3072;
-    yaw = ratan2(state->projected.vy, state->projected.vx);
+    ratan2(state->aim.view_delta.vz, state->aim.view_delta.vx);
+    ratan2(state->aim.view_delta.vy, state->aim.view_delta.vx);
+    axis_angle = ratan2(state->aim.direction.vz, state->aim.direction.vy) + 3072;
+    yaw = ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
     size = state->width * 80 / 1024;
     if (state->width * 80 > 0) {
         yaw = -yaw + 1024;
@@ -41,18 +41,18 @@ void FrenchModelVariant411_DrawTube(u8 *context)
         angle = state->angle;
         for (; j < 9; j++, angle += 64) {
             for (k = 0, theta = angle; k < 9; k++, theta = angle + k * 512) {
-                (tube->points[j] + k)->vx = state->direction[0] * state->progress / 1024 * j / 8 + (rcos(theta) * radius >> 12);
-                (tube->points[j] + k)->vy = state->direction[1] * state->progress / 1024 * j / 8 + (rsin(theta) * (rcos(axis_angle) * radius >> 12) >> 12);
-                (tube->points[j] + k)->vz = state->direction[2] * state->progress / 1024 * j / 8 + (rsin(theta) * (rsin(axis_angle) * radius >> 12) >> 12);
+                (tube->points[j] + k)->vx = state->aim.direction.vx * state->progress / 1024 * j / 8 + (rcos(theta) * radius >> 12);
+                (tube->points[j] + k)->vy = state->aim.direction.vy * state->progress / 1024 * j / 8 + (rsin(theta) * (rcos(axis_angle) * radius >> 12) >> 12);
+                (tube->points[j] + k)->vz = state->aim.direction.vz * state->progress / 1024 * j / 8 + (rsin(theta) * (rsin(axis_angle) * radius >> 12) >> 12);
             }
         }
     }
     rotation.vx = 0;
     rotation.vy = 0;
     rotation.vz = 0;
-    matrix.t[0] = state->origin[0];
-    matrix.t[1] = state->origin[1];
-    matrix.t[2] = state->origin[2];
+    matrix.t[0] = state->matrix.t[0];
+    matrix.t[1] = state->matrix.t[1];
+    matrix.t[2] = state->matrix.t[2];
     scale.vx = 4096;
     scale.vy = 4096;
     scale.vz = 4096;
@@ -96,16 +96,16 @@ void FrenchModelVariant411_DrawTube(u8 *context)
         }
     }
     if (state->phase < 2 && state->progress <= 1024) {
-        state->progress = (state->time - state->timing->expansion_start) * 1024 /
-                          (state->timing->expansion_end - state->timing->expansion_start);
+        state->progress = (state->elapsed - state->config->expansion_start) * 1024 /
+                          (state->config->expansion_end - state->config->expansion_start);
         if (state->progress >= 1024) {
             state->progress = 1024;
             state->phase = 2;
         }
     }
-    if (state->time >= state->timing->fade_start && state->width > 0) {
-        state->width = 1024 - (state->time - state->timing->fade_start) * 1024 /
-                             (state->timing->fade_end - state->timing->fade_start);
+    if (state->elapsed >= state->config->fade_start && state->width > 0) {
+        state->width = 1024 - (state->elapsed - state->config->fade_start) * 1024 /
+                             (state->config->fade_end - state->config->fade_start);
         if (state->width <= 0) {
             state->width = 0;
             state->phase = 4;
