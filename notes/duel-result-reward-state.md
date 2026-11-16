@@ -117,7 +117,7 @@ Confirmed:
 - save offset `+0x5E0`, unsigned 32-bit balance, and `999999` clamp.
 
 The result-state pointer is assigned to the reused ritual-data buffer by the
-unmatched state machine. The side-indexed save pointers are now named `gDuel_pSide0SaveData` and
-`gDuel_pSide1SaveData`, two scalars. One two-entry array was measured: it makes
+unmatched state machine. The side-indexed save pointers are one two-entry
+array, `gDuel_apSideSaveData`. Two separate clearing statements in
 `Duel_InitScene` fold both stores onto one base register, which retail does
-not, so only the result path uses the pair view.
+not; the chained `[0] = [1] = 0` clear keeps the retail per-offset stores.
