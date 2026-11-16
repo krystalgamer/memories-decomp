@@ -42,15 +42,20 @@ typedef struct {
     DuelDeckCardRecord record;
 } DuelStagedDeckRecordBlock;
 
-/* Valid during combined-deck population; the staging buffer has other views. */
+/* The combined-deck ID lists. Duel_PopulateCombinedDeckData reads the IDs
+ * and pre-shuffle slots; Duel_RequestCombinedDeckData sorts a copy of the
+ * IDs (gDuel_awCombinedDeckCardIds, DUEL_DECK_ID_BUFFER_STRIDE bytes on) and
+ * writes the END-terminated unique list another stride further on
+ * (gDuel_awUniqueDeckCardIds). */
 typedef struct {
-    u8 pad_00000[DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET];
+    u8 pad_00000[0x1BB70];
     u8 pre_shuffle_indices[COMBINED_DECK_SIZE];
-    u8 pad_after_indices[
-        DUEL_COMBINED_DECK_CARD_IDS_OFFSET -
-        DUEL_COMBINED_DECK_CARD_FLAGS_OFFSET - COMBINED_DECK_SIZE
-    ];
+    u8 pad_1BBC0[4];
     u16 card_ids[COMBINED_DECK_SIZE];
+    u8 pad_1BC64[4];
+    u16 sorted_card_ids[COMBINED_DECK_SIZE];
+    u8 pad_1BD08[4];
+    u16 unique_card_ids[COMBINED_DECK_SIZE + 1];
 } DuelCombinedDeckInput;
 
 /* The thirty field records end exactly where the staged deck begins. */
@@ -59,6 +64,21 @@ typedef struct {
     DuelCardRecord field_cards[DUEL_CARD_RECORD_COUNT];
     DuelDeckCardRecord cards[COMBINED_DECK_SIZE];
 } DuelCardStagingDeckView;
+
+/* gDuel_abCardStagingBuffer is reused for card-data transfers, GPU readback
+ * and duel scratch; each member is one use's view of the same storage, not a
+ * declaration of one allocation's lifetime. The deck view reaches the
+ * buffer's last known byte (0x801A8000 exclusive). */
+typedef union {
+    /* Card-data transfer target and the image blocks copied from it. */
+    u8 bytes[sizeof(DuelCardStagingDeckView)];
+    /* BGR555 pixels of a GPU readback. */
+    u16 pixels[sizeof(DuelCardStagingDeckView) / sizeof(u16)];
+    /* The words LoadImage2/StoreImage2 transfer. */
+    u32 words[sizeof(DuelCardStagingDeckView) / sizeof(u32)];
+    DuelCombinedDeckInput deck_lists;
+    DuelCardStagingDeckView deck;
+} DuelCardStagingBuffer;
 
 #define DUEL_CARD_STAGING_OFFSET(type, member) ((u32)&(((type *)0)->member))
 typedef char DuelAttackTrapScratchBlock_card_ids_offset_must_be_0x3c68[
@@ -100,21 +120,33 @@ typedef char DuelCardStagingDeckView_size_must_preserve_deck_extent[
     sizeof(DuelCardStagingDeckView) ==
         0x4B9FC + COMBINED_DECK_SIZE * sizeof(DuelDeckCardRecord) ? 1 : -1
 ];
+typedef char DuelCombinedDeckInput_pre_shuffle_indices_offset_must_be_0x1BB70[
+    DUEL_CARD_STAGING_OFFSET(DuelCombinedDeckInput, pre_shuffle_indices) ==
+        0x1BB70 ? 1 : -1
+];
+typedef char DuelCombinedDeckInput_card_ids_offset_must_be_0x1BBC4[
+    DUEL_CARD_STAGING_OFFSET(DuelCombinedDeckInput, card_ids) == 0x1BBC4
+        ? 1 : -1
+];
+typedef char DuelCombinedDeckInput_sorted_ids_follow_by_one_stride[
+    DUEL_CARD_STAGING_OFFSET(DuelCombinedDeckInput, sorted_card_ids) ==
+        0x1BBC4 + DUEL_DECK_ID_BUFFER_STRIDE ? 1 : -1
+];
+typedef char DuelCombinedDeckInput_unique_ids_offset_must_be_0x1BD0C[
+    DUEL_CARD_STAGING_OFFSET(DuelCombinedDeckInput, unique_card_ids) ==
+        0x1BD0C ? 1 : -1
+];
+typedef char DuelCardStagingBuffer_size_must_end_at_0x801A8000[
+    sizeof(DuelCardStagingBuffer) == 0x801A8000 - 0x8015C424 ? 1 : -1
+];
 #undef DUEL_CARD_STAGING_OFFSET
 
-/* The byte view is what the raw-buffer consumers take -- image blocks, GPU
- * readback, ID staging lists and trap scratch, none of which are fields of a
- * record. The typed consumers cast it to DuelCardStagingDeckView at the use.
- * The addressing needs a struct-member
- * offset from the buffer base: the base address is
- * materialised `lui %hi` / `addiu %lo`, the 0x48000 part of the member
- * offset is built separately as `lui 0x4` / `ori 0x8000` and added to it,
- * and the remaining 0x39FC stays as the load's displacement. Both typed
- * consumers show that shape -- `lh 0x39FC` at 0x8002805C in Ai_ExportSideSnapshot
- * (gcc_2_8_1_g0_split) and at 0x80018D6C in duel_draw_resolution's
- * Duel_HasAllExodiaPieces (gcc_2_8_1_g8_split) -- and a cast of the byte array to the
- * struct pointer reproduces it exactly. */
-extern u8 gDuel_abCardStagingBuffer[];
+/* The deck-view readers index a member at a large constant offset; retail
+ * materialises the base `lui %hi` / `addiu %lo`, adds the 0x48000 part
+ * separately as `lui 0x4` / `ori 0x8000` and keeps the remaining 0x39FC as
+ * the load displacement (`lh 0x39FC` at 0x8002805C in Ai_ExportSideSnapshot
+ * and at 0x80018D6C in Duel_HasAllExodiaPieces). */
+extern DuelCardStagingBuffer gDuel_abCardStagingBuffer;
 
 /* A pointer into the staging buffer read as bytes, as the BGR555 pixels a
  * GPU readback stores, or as the words LoadImage2/StoreImage2 transfer. */
