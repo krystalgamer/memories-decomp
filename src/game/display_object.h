@@ -367,7 +367,7 @@ typedef struct DisplayObject {
 
        The sprite emitters read the same word as a scale instead:
        DisplayObject_RenderSpriteList and DisplayObject_RenderSpriteStrips assign it to sprite_primitive.h's u32
-       `scale`, and main_boot_screen.c animates the two halves from a
+       `scale`, and main_boot_frontend.c animates the two halves from a
        0x1000 base, with that file and display_object_core.c resetting the
        pair to 0x10001000 -- 1.0 in each half of 12-bit fixed point.
 

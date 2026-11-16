@@ -4054,25 +4054,25 @@
       "address": "0x80043328",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1CC",
-      "source": "src/game/main_boot_screen.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x800434F4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x168",
-      "source": "src/game/main_boot_screen.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x8004365C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x25C",
-      "source": "src/game/main_boot_screen.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x800438B8",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/main_boot_screen.c"
+      "source": "src/game/main_boot_frontend.c"
     },
     {
       "address": "0x80043960",
