@@ -60,9 +60,9 @@ Entry `spanish_model_variant/variant438_entry.c` sets `work->config = gSpanishMo
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_start` | `Bands438Timing.fade_start` | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Bands438State.timing` at +0x22B4) | `if (state->frame >= state->config->fade_start)` | high |
-| `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `Bands438Timing.fade_end` | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Bands438State.timing` at +0x22B4) | `(state->timing->fade_end - state->timing->fade_start);` | high |
-| `+0x40` | `unknown_40[4]` → `s32 radius` | `Bands438Timing.radius` | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Bands438State.timing` at +0x22B4) | `radius = state->size * state->timing->radius / 4096;` | high |
+| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_start` | `Variant438EntryConfig.fade_start` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Variant438EntryState.config` at +0x22B4) | `if (state->frame >= state->config->fade_start)` | high |
+| `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `Variant438EntryConfig.fade_end` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Variant438EntryState.config` at +0x22B4) | `(state->config->fade_end - state->config->fade_start);` | high |
+| `+0x40` | `unknown_40[4]` → `s32 radius` | `Variant438EntryConfig.radius` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Variant438EntryState.config` at +0x22B4) | `radius = state->scale * state->config->radius / 4096;` | high |
 
 ## `Variant441EntryConfig` (`gSpanishModelVariant441_aConfigs`)
 

@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant438_bands.h"
+#include "variant438_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant438_DrawAdvancingBand(u8 *context)
+void SpanishModelVariant438_DrawAdvancingBand(Variant438EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,23 +11,23 @@ void SpanishModelVariant438_DrawAdvancingBand(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag[1][9];
-    Bands438State *state;
+    Variant438EntryState *state;
     GsOT *ot;
     s32 angle;
     POLY_GT4 *quad;
-    ModelVariantBand *band;
+    ModelVariantColorBand *band;
     s16 i;
     s16 j;
     s16 radius;
 
-    state = (Bands438State *)context;
+    state = context;
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &state->quad;
-    angle = ratan2(state->projected.vy, state->projected.vx) + 2048;
+    quad = &state->packets.textured[0];
+    angle = ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx) + 2048;
     if (!(state->clock.frame_count & 1)) {
-        radius = state->size * state->timing->radius / 4096;
+        radius = state->scale * state->config->radius / 4096;
     } else {
-        radius = state->size * (state->timing->radius * 18 / 16) / 4096;
+        radius = state->scale * (state->config->radius * 18 / 16) / 4096;
     }
     band = state->bands;
     for (i = 0; i < 1; i++, band++) {
@@ -39,13 +39,13 @@ void SpanishModelVariant438_DrawAdvancingBand(u8 *context)
             rotation.vy = 0;
             rotation.vz = angle;
             if (j == 0) {
-                matrix.t[0] = state->origin[0];
-                matrix.t[1] = state->origin[1];
-                matrix.t[2] = state->origin[2];
+                matrix.t[0] = state->matrix.t[0];
+                matrix.t[1] = state->matrix.t[1];
+                matrix.t[2] = state->matrix.t[2];
             } else {
-                matrix.t[0] = state->origin[0] + state->direction[0] * state->progress / 1024 * j / 8;
-                matrix.t[1] = state->origin[1] + state->direction[1] * state->progress / 1024 * j / 8;
-                matrix.t[2] = state->origin[2] + state->direction[2] * state->progress / 1024 * j / 8;
+                matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * state->progress / 1024 * j / 8;
+                matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * state->progress / 1024 * j / 8;
+                matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * state->progress / 1024 * j / 8;
             }
             scale.vx = 4096;
             scale.vy = 4096;
@@ -76,18 +76,18 @@ void SpanishModelVariant438_DrawAdvancingBand(u8 *context)
             quad->y2 = band->sb[j] >> 16;
             quad->x3 = band->sb[j + 1];
             quad->y3 = band->sb[j + 1] >> 16;
-            quad->r0 = band->ca[j][0];
-            quad->g0 = band->ca[j][1];
-            quad->b0 = band->ca[j][2];
-            quad->r1 = band->ca[j + 1][0];
-            quad->g1 = band->ca[j + 1][1];
-            quad->b1 = band->ca[j + 1][2];
-            quad->r2 = band->cb[j][0];
-            quad->g2 = band->cb[j][1];
-            quad->b2 = band->cb[j][2];
-            quad->r3 = band->cb[j + 1][0];
-            quad->g3 = band->cb[j + 1][1];
-            quad->b3 = band->cb[j + 1][2];
+            quad->r0 = band->inner[j].r;
+            quad->g0 = band->inner[j].g;
+            quad->b0 = band->inner[j].b;
+            quad->r1 = band->inner[j + 1].r;
+            quad->g1 = band->inner[j + 1].g;
+            quad->b1 = band->inner[j + 1].b;
+            quad->r2 = band->outer[j].r;
+            quad->g2 = band->outer[j].g;
+            quad->b2 = band->outer[j].b;
+            quad->r3 = band->outer[j + 1].r;
+            quad->g3 = band->outer[j + 1].g;
+            quad->b3 = band->outer[j + 1].b;
             if (band->otz[j] >= 0 && flag[i][j] >= 0) {
                 GsSortPoly(quad, ot, band->otz[j]);
             }
@@ -99,18 +99,18 @@ void SpanishModelVariant438_DrawAdvancingBand(u8 *context)
             quad->y2 = band->sb[j] >> 16;
             quad->x3 = band->sb[j + 1];
             quad->y3 = band->sb[j + 1] >> 16;
-            quad->r0 = band->ca[j][0];
-            quad->g0 = band->ca[j][1];
-            quad->b0 = band->ca[j][2];
-            quad->r1 = band->ca[j + 1][0];
-            quad->g1 = band->ca[j + 1][1];
-            quad->b1 = band->ca[j + 1][2];
-            quad->r2 = band->cb[j][0];
-            quad->g2 = band->cb[j][1];
-            quad->b2 = band->cb[j][2];
-            quad->r3 = band->cb[j + 1][0];
-            quad->g3 = band->cb[j + 1][1];
-            quad->b3 = band->cb[j + 1][2];
+            quad->r0 = band->inner[j].r;
+            quad->g0 = band->inner[j].g;
+            quad->b0 = band->inner[j].b;
+            quad->r1 = band->inner[j + 1].r;
+            quad->g1 = band->inner[j + 1].g;
+            quad->b1 = band->inner[j + 1].b;
+            quad->r2 = band->outer[j].r;
+            quad->g2 = band->outer[j].g;
+            quad->b2 = band->outer[j].b;
+            quad->r3 = band->outer[j + 1].r;
+            quad->g3 = band->outer[j + 1].g;
+            quad->b3 = band->outer[j + 1].b;
             if (band->otz[j] >= 0 && flag[i][j] >= 0) {
                 GsSortPoly(quad, ot, band->otz[j]);
             }
@@ -118,19 +118,19 @@ void SpanishModelVariant438_DrawAdvancingBand(u8 *context)
     }
     if (state->phase == 1) {
         if (state->progress < 1025) {
-            state->progress = ((state->clock.frame - state->timing->grow_start) << 10) /
-                              (state->timing->grow_end - state->timing->grow_start);
+            state->progress = ((state->clock.frame - state->config->field_20) << 10) /
+                              (state->config->band_grow_end - state->config->field_20);
             if (state->progress >= 1024) {
                 state->progress = 1024;
                 state->phase = 2;
             }
         }
-    } else if (state->phase < 3 && state->size > 0) {
-        if (state->clock.frame >= state->timing->fade_start) {
-            state->size = 4096 - ((state->clock.frame - state->timing->fade_start) << 12) /
-                                 (state->timing->fade_end - state->timing->fade_start);
-            if (state->size <= 0) {
-                state->size = 0;
+    } else if (state->phase < 3 && state->scale > 0) {
+        if (state->clock.frame >= state->config->fade_start) {
+            state->scale = 4096 - ((state->clock.frame - state->config->fade_start) << 12) /
+                                 (state->config->fade_end - state->config->fade_start);
+            if (state->scale <= 0) {
+                state->scale = 0;
                 state->phase = 3;
             }
         }

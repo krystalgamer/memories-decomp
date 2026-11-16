@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant438_sheets.h"
+#include "variant438_entry.h"
 
-void SpanishModelVariant438_DrawTargetClampedSheets(u8 *context)
+void SpanishModelVariant438_DrawTargetClampedSheets(Variant438EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,7 +10,7 @@ void SpanishModelVariant438_DrawTargetClampedSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheet438State *state = (Sheet438State *)context;
+    Variant438EntryState *state = context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *polygon;
     GsOT *ot;
@@ -19,27 +19,27 @@ void SpanishModelVariant438_DrawTargetClampedSheets(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    polygon = &state->polygon;
+    polygon = &state->packets.textured[1];
     for (i = 0; i < 2; i++, sheet++) {
         pulse = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             pulse = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i == 0) {
-            matrix.t[0] = state->origin[0];
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2];
+            matrix.t[0] = state->matrix.t[0];
+            matrix.t[1] = state->matrix.t[1];
+            matrix.t[2] = state->matrix.t[2];
         } else if (state->progress < 1024) {
-            matrix.t[0] = state->origin[0] + state->direction[0] * state->progress / 1024;
-            matrix.t[1] = state->origin[1] + state->direction[1] * state->progress / 1024;
-            matrix.t[2] = state->origin[2] + state->direction[2] * state->progress / 1024;
+            matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * state->progress / 1024;
+            matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * state->progress / 1024;
+            matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * state->progress / 1024;
         } else {
-            matrix.t[0] = state->target.vx;
-            matrix.t[1] = state->target.vy;
-            matrix.t[2] = state->target.vz;
+            matrix.t[0] = state->aim.target.vx;
+            matrix.t[1] = state->aim.target.vy;
+            matrix.t[2] = state->aim.target.vz;
         }
         scale.vx = sheet->size + pulse;
         scale.vy = sheet->size + pulse;
@@ -79,21 +79,21 @@ void SpanishModelVariant438_DrawTargetClampedSheets(u8 *context)
         if (i == 0) {
             if (state->phase == 0) {
                 if (sheet->size < 4096) {
-                    sheet->size = (state->time - state->timing->grow_start) * 4096 /
-                        (state->timing->grow_end - state->timing->grow_start);
+                    sheet->size = (state->clock.frame - state->config->start) * 4096 /
+                        (state->config->field_20 - state->config->start);
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
                         state->phase = 1;
                     }
                 }
             } else {
-                sheet->size = state->fixed_size;
+                sheet->size = state->scale;
             }
         } else if (state->phase == 0) {
             sheet->size = 0;
         } else if (state->progress >= 1024 && state->phase == 2) {
             if (sheet->size < 8192) {
-                sheet->size += state->step * 1024;
+                sheet->size += state->clock.step * 1024;
                 if (sheet->size >= 8192) {
                     sheet->size = 8192;
                 }
@@ -101,7 +101,7 @@ void SpanishModelVariant438_DrawTargetClampedSheets(u8 *context)
         } else if (state->phase < 2) {
             sheet->size = 4096;
         } else if (state->phase == 3 && sheet->size > 0) {
-            sheet->size -= state->step * 64;
+            sheet->size -= state->clock.step * 64;
             if (sheet->size <= 0) {
                 sheet->size = 0;
                 state->phase = 4;

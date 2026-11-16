@@ -360,12 +360,12 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
         work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
         work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant438_DrawTargetClampedSheets((u8 *)point);
+            SpanishModelVariant438_DrawTargetClampedSheets((Variant438EntryState *)point);
         }
         SpanishModelVariant438_DrawRing((Variant438EntryState *)point);
         if (work->phase > 0) {
             SpanishModelVariant438_DrawLines((u8 *)point);
-            SpanishModelVariant438_DrawAdvancingBand((u8 *)point);
+            SpanishModelVariant438_DrawAdvancingBand((Variant438EntryState *)point);
             SpanishModelVariant438_DrawWarpRings((u8 *)point);
         }
         if (work->phase >= 2) {
