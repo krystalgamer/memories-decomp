@@ -11,25 +11,23 @@ typedef char DisplayObjectWorkSlots_span_must_be_0x14[
     sizeof(DisplayObject *) * DISPLAY_OBJECT_WORK_SLOT_COUNT == 0x14 ? 1 : -1
 ];
 
-#define DISPLAY_OBJECT_WORK_OFFSET(member) ((u32)&((DisplayObject *)0)->member)
 typedef char DisplayObjectWorkSlots_attribute_offset_must_be_0x04[
-    DISPLAY_OBJECT_WORK_OFFSET(attribute) == 0x04 ? 1 : -1
+    OFFSETOF(DisplayObject, attribute) == 0x04 ? 1 : -1
 ];
 typedef char DisplayObjectWorkSlots_flags_offset_must_be_0x08[
-    DISPLAY_OBJECT_WORK_OFFSET(flags) == 0x08 ? 1 : -1
+    OFFSETOF(DisplayObject, flags) == 0x08 ? 1 : -1
 ];
 typedef char DisplayObjectWorkSlots_colour_offset_must_be_0x0C[
-    DISPLAY_OBJECT_WORK_OFFSET(rgb) == 0x0C ? 1 : -1
+    OFFSETOF(DisplayObject, rgb) == 0x0C ? 1 : -1
 ];
 typedef char DisplayObjectWorkSlots_position_offsets_must_match[
-    DISPLAY_OBJECT_WORK_OFFSET(xy.h.x) == 0x30 &&
-    DISPLAY_OBJECT_WORK_OFFSET(xy.h.y) == 0x32 ? 1 : -1
+    OFFSETOF(DisplayObject, xy.h.x) == 0x30 &&
+    OFFSETOF(DisplayObject, xy.h.y) == 0x32 ? 1 : -1
 ];
 typedef char DisplayObjectWorkSlots_scale_offsets_must_match[
-    DISPLAY_OBJECT_WORK_OFFSET(field_44.scale.x) == 0x44 &&
-    DISPLAY_OBJECT_WORK_OFFSET(field_44.scale.y) == 0x46 ? 1 : -1
+    OFFSETOF(DisplayObject, field_44.scale.x) == 0x44 &&
+    OFFSETOF(DisplayObject, field_44.scale.y) == 0x46 ? 1 : -1
 ];
-#undef DISPLAY_OBJECT_WORK_OFFSET
 
 /* Shared scratch slots, not an owning object pool. Duel animation uses two,
  * the Exodia presentation uses five, and trade uses the first. The word just
