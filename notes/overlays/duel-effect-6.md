@@ -101,7 +101,7 @@ Neither count closes the exhaustive runtime campaign.
 ## Complete shared geometry groups
 
 The same independent branch additionally reuses the accepted French
-`ring_vertices.c` and `radial_random_vectors.c` unchanged. A fresh full-bank
+`ring_vertices.c` and `radial_random_vectors.c` (now in `effect_geometry.c`) unchanged. A fresh full-bank
 proof adds `8014EB1C` (368 bytes) and `8014EE0C` (288 bytes). Each object
 retains its complete contiguous two-function range and the original profile:
 `8014EA7C..8014EC8C` and `8014EE0C..8014F010`, respectively.

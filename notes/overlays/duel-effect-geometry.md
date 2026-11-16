@@ -163,7 +163,7 @@ with the existing `gcc_2_8_1_g0_split` profile:
 |---|---|---:|---:|
 | `cross_lines.c` | `0x8014E35C..0x8014E3EC` | 1 | 144 |
 | `ring_vertices.c` | `0x8014EA7C..0x8014EC8C` | 2 | 528 |
-| `radial_random_vectors.c` | `0x8014EE0C..0x8014F010` | 2 | 516 |
+| `effect_geometry.c` (formerly `radial_random_vectors.c`) | `0x8014EE0C..0x8014F010` | 2 | 516 |
 | `gradient_strip.c` | `0x80156448..0x801566D4` | 1 | 652 |
 | `gradient_lines.c` | `0x801570B0..0x801573A8` | 1 | 760 |
 | `display_quads.c` | `0x801573A8..0x80157794` | 3 | 1004 |

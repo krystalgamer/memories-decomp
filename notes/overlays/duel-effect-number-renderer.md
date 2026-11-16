@@ -25,8 +25,8 @@ The power helper takes `s16` base and `u16` exponent, multiplies into the
 original `s32` accumulator and returns its final `s16` narrowing through
 the unchanged `s32` ABI. Exponent zero keeps result one. It is not a
 widened standard power routine or a new overflow policy. Its two unrelated
-page/CLUT packing siblings remain in the complete `texture_words.c`
-object with their original definitions, grouping and order.
+page/CLUT packing siblings remain beside it, now in `effect_geometry.c`,
+with their original definitions and order.
 
 Digit counting accepts a signed halfword, repeatedly applies the existing
 absolute-value test and signed division by ten, and returns an unsigned
