@@ -472,7 +472,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 
 #include "dialog_layout.h"
 
-/* Regional values, which the European wrappers define for themselves: the
+/* Regional values, which the European builds define for themselves: the
    spotlight's centre y (120 in the US build, 128 in the European one) and
    the channel flag Dialog_UpdateOpenTransition sets while its text box is up (4 in the US
    build, 8 in the European one). */
@@ -756,7 +756,11 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
  * that order, ahead of the update's jump tables. A region wrapper overrides a
  * default when its image cannot take the literal; each override says why. */
 #ifndef MEM_CARD_SAVE_FILE_NAME
+#ifdef VERSION_EUROPE
+#define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BESLES-03947-YUGIOH")
+#else
 #define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BASLUS-01411-YUGIOH")
+#endif
 #endif
 #ifndef MEM_CARD_FREE_BLOCK_FORMAT
 #define MEM_CARD_FREE_BLOCK_FORMAT "\nFREE %d\n\n"

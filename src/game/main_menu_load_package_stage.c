@@ -5,6 +5,7 @@
 #include "file_package_staging.h"
 #include "model.h"
 #include "display_asset_banks.h"
+#include "card_preview.h"
 
 #include "high_memory_addresses.h"
 
@@ -16,9 +17,14 @@ const u8 gFile_szSuMrgPath[] =
     "M:/mrgSU/SU.mrg";
 
 /* Regional value: the main-menu package's first sector in SU.MRG. The US
- * package starts at 0; the European wrapper computes it from gText_bLanguageIndex. */
+ * package starts at 0; Europe computes it from gText_bLanguageIndex (read
+ * through $at). */
 #ifndef MAIN_MENU_PACKAGE_FIRST_SECTOR
+#ifdef VERSION_EUROPE
+#define MAIN_MENU_PACKAGE_FIRST_SECTOR (gText_bLanguageIndex * 0x88)
+#else
 #define MAIN_MENU_PACKAGE_FIRST_SECTOR 0
+#endif
 #endif
 
 /* The Main Menu package load. File_RequestMainMenuPackage queues the

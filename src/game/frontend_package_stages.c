@@ -20,9 +20,9 @@
  * and Text_SjisToGlyphCodes, which name entry and the password screen use to
  * turn typed Shift-JIS into glyph codes. The European build adds two earlier
  * frontend package callbacks ahead of the Options stage. Each stage's
- * regional values are #ifndef defaults the regional wrappers override. */
+ * regional values are #ifndef defaults the regional builds override. */
 
-/* Regional values, which the European wrapper defines for itself: the
+/* Regional values, which the European builds define as entry defines: the
    sectors mode 0 transfers (32 in the US build, 48 in the European one)
    and where mode 2 uploads its image row, (0, 0xF0) in the US build and
    (0x280, 0xD0) in the European one. */
@@ -340,7 +340,7 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
 void File_RequestPasswordPackage(void){File_RequestAsyncTransfer(0,0,PASSWORD_PACKAGE_START_SECTOR,FILE_WA_PASSWORD_SECTOR_COUNT,Password_LoadPackageStage,0,0);File_WaitForTransfers();}
 
 /* Where case 5 uploads its image row: (0x100, 0xF0) in the US build and
-   (0x280, 0xE0) in the European one, whose wrapper defines its own. */
+   (0x280, 0xE0) in the European one, whose entry defines set its own. */
 #ifndef CAMPAIGN_MAP_IMAGE_X
 #define CAMPAIGN_MAP_IMAGE_X 0x100
 #endif
@@ -619,7 +619,11 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 }
 
 #ifndef OPTIONS_PACKAGE_START_SECTOR
+#ifdef VERSION_EUROPE
+#define OPTIONS_PACKAGE_START_SECTOR (gText_bLanguageIndex * 0x29 + 0x2797)
+#else
 #define OPTIONS_PACKAGE_START_SECTOR 0x2115
+#endif
 #endif
 
 #ifndef OPTIONS_PACKAGE_SECTOR_COUNT
@@ -689,7 +693,12 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef GAME_OVER_PACKAGE_START_SECTOR
+#ifdef VERSION_EUROPE
+#define GAME_OVER_PACKAGE_START_SECTOR \
+    (gText_bLanguageIndex * 0x32 + 0x289D)
+#else
 #define GAME_OVER_PACKAGE_START_SECTOR 0x2157
+#endif
 #endif
 
 void File_RequestGameOverPackage(void){File_RequestAsyncTransfer(0,0,GAME_OVER_PACKAGE_START_SECTOR,0x32,GameOver_LoadPackageStage,0,0);File_WaitForTransfers();}

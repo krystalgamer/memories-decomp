@@ -37,13 +37,12 @@ RETURN = re.compile(rb"\x08\x00\xe0\x03")
 RAM_START, RAM_END = 0x80010000, 0x80200000
 LOADER_SOURCES = (
     "src/game/model.c",
-    "src/game/model.h", "src/game/european/model.c",
+    "src/game/model.h",
     "src/game/main_boot_frontend.c",
     "src/game/duel_scene.c", "src/game/european/duel_scene.c",
     "src/game/japanese/duel_scene.c",
-    "src/game/main_menu_load_package_stage.c", "src/game/european/main_menu_load_package_stage.c",
+    "src/game/main_menu_load_package_stage.c",
     "src/game/frontend_package_stages.c", "src/game/japanese/frontend_package_stages.c",
-    "src/game/european/frontend_package_stages.c",
 )
 
 

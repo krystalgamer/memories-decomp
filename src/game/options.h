@@ -69,7 +69,11 @@ extern DisplayObject *gOptions_pSelectionCursor;
  * the former main_run_frontend_menus.c (now part of main_mode_runners.c),
  * which held it, had the only declaration. */
 #ifndef OPTIONS_INIT_ARGS
+#ifdef VERSION_EUROPE
+#define OPTIONS_INIT_ARGS s32 slot
+#else
 #define OPTIONS_INIT_ARGS void
+#endif
 #endif
 void Options_Init(OPTIONS_INIT_ARGS);
 s32 Options_Update(void);

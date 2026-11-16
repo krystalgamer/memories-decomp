@@ -55,8 +55,8 @@ u8 *gFile_apszName[8] = {
     (u8 *)0,
 };
 
-/* Regional value: the table's y position (0xD0 -> 0xE0). The European build
- * (src/game/european/file_setup.c) defines its own. */
+/* Regional value: the table's y position (0xD0 -> 0xE0). The European builds
+ * set their own with an entry define. */
 #ifndef FILE_POSITION_TABLE_Y
 #define FILE_POSITION_TABLE_Y 0xD0
 #endif

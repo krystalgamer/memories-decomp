@@ -25,10 +25,10 @@ name; this is not just a stat-only renderer or a new allocation API.
 | `sles_03951` | `0x80028C0C` | `0x674` | European wrapper |
 
 All entries retain `gcc_2_8_1_g8_split`. The main owner is
-`src/game/card_preview.c`, with
-`src/game/european/card_preview.c` supplying the original
+`src/game/card_preview.c`, with the European entry defines
+(`VERSION_EUROPE` and value overrides) supplying the original
 European constants and conditional body. The obsolete European function
-alias is removed from this wrapper and its constructor because both now
+alias is removed from the former wrapper and its constructor because both now
 refer to the same canonical logical symbol.
 
 ## Deliberately retained boundaries

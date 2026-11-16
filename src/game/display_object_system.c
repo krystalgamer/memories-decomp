@@ -47,7 +47,16 @@ ViewState gViewState_Current;
 s16 gDisplayObject_awListKeys[DISPLAY_OBJECT_LIST_COUNT];
 
 #ifndef DISPLAY_OBJECT_SPRITE_TEXTURE_U
+#ifdef VERSION_EUROPE
+#define DISPLAY_OBJECT_SPRITE_TEXTURE_U(texture) (((texture) & 0xF0) + 0x280)
+#else
 #define DISPLAY_OBJECT_SPRITE_TEXTURE_U(texture) ((texture) & 0x3F0)
+#endif
+#endif
+
+#if defined(VERSION_EUROPE) && !defined(DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE)
+#define DISPLAY_OBJECT_SPRITE_TEXTURE_V_BASE(texture) \
+    ((((texture) & 0x300) >> 4) + 0xD0)
 #endif
 
 #ifndef DISPLAY_OBJECT_SPRITE_TEXTURE_V
