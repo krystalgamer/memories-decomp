@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant427_ribbons.h"
 #include "variant427_entry.h"
 
 /* The North American header-410 build reads the projected points through
@@ -29,13 +28,13 @@ void FrenchModelVariant427_DrawRibbons(EntryState427 *context)
     s32 yaw;
     s32 pitch;
     s16 len;
-    Ribbon379 *ribbon;
+    EntryRibbon427 *ribbon;
     POLY_GT4 *poly;
     s32 dx;
     s32 dy;
     s32 dz;
     s32 sy;
-    ModelVariantRibbonFadeTiming *timing;
+    EntryConfig427 *timing;
     s32 n;
     s32 kk;
     s32 py, pz;
@@ -50,17 +49,17 @@ void FrenchModelVariant427_DrawRibbons(EntryState427 *context)
     } else {
         len = work->width * 72 / 1024;
     }
-    ribbon = (Ribbon379 *)work->ribbons;
+    ribbon = work->ribbons;
     for (i = 0; i < 3; i++, ribbon++) {
-        if (ribbon->amp > 0) {
+        if (ribbon->progress > 0) {
             if (i < 0) {
                 dy = 0;
             }
             for (k = 0; k < 17; k++) {
-                dy = work->ribbon_directions[i].vy * ribbon->amp / 1024;
-                dz = work->ribbon_directions[i].vz * ribbon->amp / 1024;
+                dy = work->ribbon_directions[i].vy * ribbon->progress / 1024;
+                dz = work->ribbon_directions[i].vz * ribbon->progress / 1024;
                 n = kk = k;
-                setVector(&ribbon->a[n], work->ribbon_directions[i].vx * ribbon->amp / 1024 * k / 16, dy * (kk = n) / 16, dz * k / 16);
+                setVector(&ribbon->a[n], work->ribbon_directions[i].vx * ribbon->progress / 1024 * k / 16, dy * (kk = n) / 16, dz * k / 16);
                 setVector(&ribbon->b[k],
                           ribbon->a[k].vx + (rcos(yaw) * len >> 12),
                           ribbon->a[k].vy,
@@ -68,9 +67,9 @@ void FrenchModelVariant427_DrawRibbons(EntryState427 *context)
             }
         }
         setVector(&rot, 0, 0, 0);
-        m.t[0] = ((Ribbon379Work *)work)->anchor[i % 3].position.vx;
-        m.t[1] = ((Ribbon379Work *)work)->anchor[i % 3].position.vy;
-        m.t[2] = ((Ribbon379Work *)work)->anchor[i % 3].position.vz;
+        m.t[0] = work->matrices[i % 3].t[0];
+        m.t[1] = work->matrices[i % 3].t[1];
+        m.t[2] = work->matrices[i % 3].t[2];
         setVector(&scale, 4096, 4096, 4096);
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
@@ -79,7 +78,7 @@ void FrenchModelVariant427_DrawRibbons(EntryState427 *context)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        if (ribbon->amp > 0) {
+        if (ribbon->progress > 0) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
                     ribbon->offsets.otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k], &ribbon->a[k - 1], &ribbon->a[k],
@@ -107,9 +106,9 @@ void FrenchModelVariant427_DrawRibbons(EntryState427 *context)
             }
         }
     }
-    ribbon = (Ribbon379 *)work->ribbons;
+    ribbon = work->ribbons;
     for (i = 0; i < 3; i++, ribbon++) {
-        if (ribbon->amp > 0) {
+        if (ribbon->progress > 0) {
             for (k = 0; k < 16; k++) {
                 setRGB0(poly, 0, 192, 0);
                 setRGB1(poly, 0, 192, 0);
@@ -139,25 +138,25 @@ void FrenchModelVariant427_DrawRibbons(EntryState427 *context)
                 }
             }
         }
-        if (ribbon->amp < 0x400) {
-            ribbon->amp += work->clock.step * 64;
-            if (ribbon->amp >= 0x400) {
-                ribbon->amp = 0x400;
+        if (ribbon->progress < 0x400) {
+            ribbon->progress += work->clock.step * 64;
+            if (ribbon->progress >= 0x400) {
+                ribbon->progress = 0x400;
                 if (work->phase == 2) {
                     work->phase = 3;
                 }
             }
         }
     }
-    ((Ribbon379Work *)work)->phase += ((Ribbon379Work *)work)->step * 850;
-    ((Ribbon379Work *)work)->wave += ((Ribbon379Work *)work)->step * 128;
-    timing = ((Ribbon379Work *)work)->timing;
-    if (timing->fade_start <= ((Ribbon379Work *)work)->clock && ((Ribbon379Work *)work)->fade > 0) {
-        ((Ribbon379Work *)work)->fade = 0x400 - ((((Ribbon379Work *)work)->clock - timing->fade_start) << 10) / (timing->fade_end - timing->fade_start);
-        if (((Ribbon379Work *)work)->fade <= 0) {
-            ((Ribbon379Work *)work)->fade = 0;
-            if (((Ribbon379Work *)work)->state == 4) {
-                ((Ribbon379Work *)work)->state = 5;
+    work->ribbon_sway += work->clock.step * 850;
+    work->ribbon_wave += work->clock.step * 128;
+    timing = work->config;
+    if (timing->fade_start <= work->clock.frame && work->width > 0) {
+        work->width = 0x400 - ((work->clock.frame - timing->fade_start) << 10) / (timing->fade_end - timing->fade_start);
+        if (work->width <= 0) {
+            work->width = 0;
+            if (work->phase == 4) {
+                work->phase = 5;
             }
         }
     }
