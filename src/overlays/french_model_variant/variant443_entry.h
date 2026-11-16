@@ -47,16 +47,19 @@ typedef struct {
 typedef struct {
     SVECTOR points[3][4];
     CVECTOR inner, outer;
-    s32 initial, hidden;
+    s32 progress, hidden;
 } EntryFramebufferRing443;
 
+/* One short band: three point pairs and their projections, inner and outer
+ * colours, the scale, and per-quad depth. */
 typedef struct {
-    u8 unknown_00[0x48];
+    SVECTOR a[2], b[2], c[2];
+    long sa[2], sb[2], sc[2];
     CVECTOR inner[2], outer[2];
     VECTOR scale;
     s16 field_68, field_6A;
     s32 field_6C;
-    u8 unknown_70[8];
+    s32 otz[2];
 } EntryShortBand443;
 
 typedef struct {
@@ -109,10 +112,10 @@ typedef struct {
 
 extern u8 gFrenchModelVariant443_D45A8[];
 void FrenchModelVariant443_DrawRibbons(EntryState443 *context);
-void SpanishModelVariant443_DrawRings(u8 *context);
+void SpanishModelVariant443_DrawRings(EntryState443 *context);
 void SpanishModelVariant443_DrawMesh(EntryState443 *context);
 void SpanishModelVariant443_DrawSheets(u8 *context);
 void FrenchModelVariant443_DrawStreamers(EntryState443 *context);
-void FrenchModelVariant443_DrawBands(u8 *context);
+void FrenchModelVariant443_DrawBands(EntryState443 *context);
 
 #endif

@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant443_rings.h"
+#include "../french_model_variant/variant443_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant443_DrawRings(u8 *context)
+void SpanishModelVariant443_DrawRings(EntryState443 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,9 +11,9 @@ void SpanishModelVariant443_DrawRings(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    FramebufferRings443State *state = (FramebufferRings443State *)context;
-    FramebufferRings443 *group = state->groups;
-    POLY_GT4 *quad = &state->quad;
+    EntryState443 *state = context;
+    EntryFramebufferRing443 *group = state->rings;
+    POLY_GT4 *quad = &state->extra;
     GsOT *ot;
     s32 i, j;
     s32 complete;
@@ -27,8 +27,8 @@ void SpanishModelVariant443_DrawRings(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     buffer = GsGetActiveBuff();
-    angle_y = ratan2(state->direction[2], state->direction[0]) + 2048;
-    angle_x = ratan2(state->direction[1], state->direction[2]) + 2048;
+    angle_y = ratan2(state->direction.vz, state->direction.vx) + 2048;
+    angle_x = ratan2(state->direction.vy, state->direction.vz) + 2048;
     if (angle_y < 2048) {
         angle_y = -angle_y + 1024;
     } else {
@@ -41,11 +41,11 @@ void SpanishModelVariant443_DrawRings(u8 *context)
             rotation.vy = angle_y;
             rotation.vz = state->spin;
             matrix.t[0] = state->target.vx +
-                          state->direction[0] * (group->progress-1024) / 2048;
+                          state->direction.vx * (group->progress-1024) / 2048;
             matrix.t[1] = state->target.vy +
-                          state->direction[1] * (group->progress-1024) / 2048;
+                          state->direction.vy * (group->progress-1024) / 2048;
             matrix.t[2] = state->target.vz +
-                          state->direction[2] * (group->progress-1024) / 2048;
+                          state->direction.vz * (group->progress-1024) / 2048;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -90,31 +90,31 @@ void SpanishModelVariant443_DrawRings(u8 *context)
                                      &interpolation, &flag);
                 SetSemiTrans(quad, 1);
                 SetShadeTex(quad, 0);
-                if (state->frame % 8 == 0) {
+                if (state->clock.frame_count % 8 == 0) {
                     red = 255;
                     green = 0;
                     blue = 0;
-                } else if (state->frame % 8 == 1) {
+                } else if (state->clock.frame_count % 8 == 1) {
                     red = 255;
                     green = 128;
                     blue = 0;
-                } else if (state->frame % 8 == 2) {
+                } else if (state->clock.frame_count % 8 == 2) {
                     red = 255;
                     green = 255;
                     blue = 0;
-                } else if (state->frame % 8 == 3) {
+                } else if (state->clock.frame_count % 8 == 3) {
                     red = 0;
                     green = 255;
                     blue = 0;
-                } else if (state->frame % 8 == 4) {
+                } else if (state->clock.frame_count % 8 == 4) {
                     red = 0;
                     green = 255;
                     blue = 255;
-                } else if (state->frame % 8 == 5) {
+                } else if (state->clock.frame_count % 8 == 5) {
                     red = 0;
                     green = 0;
                     blue = 255;
-                } else if (state->frame % 8 == 6) {
+                } else if (state->clock.frame_count % 8 == 6) {
                     red = 255;
                     green = 0;
                     blue = 255;
@@ -134,7 +134,7 @@ void SpanishModelVariant443_DrawRings(u8 *context)
         }
         if (group->progress < 2048) {
             complete = 0;
-            group->progress += state->step * 32;
+            group->progress += state->clock.step * 32;
             if (group->progress >= 2048) {
                 if (state->phase >= 6) {
                     group->progress = 2048;
@@ -147,5 +147,5 @@ void SpanishModelVariant443_DrawRings(u8 *context)
             state->phase = 7;
         }
     }
-    state->spin -= state->step * 16;
+    state->spin -= state->clock.step * 16;
 }

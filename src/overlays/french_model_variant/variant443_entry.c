@@ -189,7 +189,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
                 ring->outer.g = 0;
                 ring->outer.b = 255;
             }
-            ring->initial = -(i * 2048 / 5);
+            ring->progress = -(i * 2048 / 5);
             ring->hidden = 0;
         }
         for (j = 0; j < 1; j++, mesh++) {
@@ -511,7 +511,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant443_DrawSheets((u8 *)point);
             FrenchModelVariant443_DrawStreamers((EntryState443 *)point);
             if (work->phase > 0) {
-                FrenchModelVariant443_DrawBands((u8 *)point);
+                FrenchModelVariant443_DrawBands((EntryState443 *)point);
             }
             if (work->phase >= 2) {
                 FrenchModelVariant443_DrawRibbons((EntryState443 *)point);
@@ -521,7 +521,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant443_DrawMesh((EntryState443 *)point);
         }
         if (work->phase >= 5) {
-            SpanishModelVariant443_DrawRings((u8 *)point);
+            SpanishModelVariant443_DrawRings((EntryState443 *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
