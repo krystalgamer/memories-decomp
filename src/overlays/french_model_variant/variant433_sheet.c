@@ -47,10 +47,10 @@ void ModelVariant416_DrawSheets(u8 *ctx)
             s32 amount;
 
             amount = 0;
-            if (record->offset[0] > 0) {
+            if (record->level[0] > 0) {
                 amount = 0x400;
-                if (record->offset[0] < amount) {
-                    amount = record->offset[0];
+                if (record->level[0] < amount) {
+                    amount = record->level[0];
                 }
             }
             m.t[0] = work->matrix.t[0] + work->aim.direction.vx * amount / 0x400;

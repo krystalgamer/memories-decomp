@@ -3,15 +3,21 @@
 #include "../../types.h"
 #include "../french_model_variant/variant337_entry.h"
 
+/* One 0xA8-byte band of two segments: three rows of two points and their
+ * screen coordinates, per segment the growth level (staggered below zero by
+ * the entry, grown to 0x400 by the band drawer) and done flag, the two colour
+ * rows and scale the entry seeds, and the two depths. */
 typedef struct {
-    u8 unknown_00[0x68];
-    s32 offset[2];
-    s32 field_70[2];
+    SVECTOR a[2], b[2], c[2];
+    long sa[2], sb[2], sc[2];
+    u8 unknown_48[0x20];
+    s32 level[2];
+    s32 done[2];
     CVECTOR ca[2], cb[2];
     VECTOR scale;
     s16 field_98, field_9A;
     s32 field_9C;
-    u8 unknown_A0[8];
+    s32 otz[2];
 } Variant416EntryBand;
 
 typedef struct {

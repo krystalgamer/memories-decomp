@@ -46,10 +46,10 @@ void ModelVariant416_DrawSheets(u8 *ctx)
             scale.vz = sheet->size + bias;
         } else {
             level = 0;
-            if (object->offset[0] > 0) {
+            if (object->level[0] > 0) {
                 level = 0x400;
-                if (object->offset[0] < 0x400) {
-                    level = object->offset[0];
+                if (object->level[0] < 0x400) {
+                    level = object->level[0];
                 }
             }
             m.t[0] = work->matrix.t[0] + work->aim.direction.vx * level / 1024;

@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "variant416_bands.h"
 #include "variant416_entry.h"
 
 /* Draws two pairs of POLY_GT4 wings, each a two-point band projected with
@@ -19,7 +18,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     Variant416EntryState *work;
     GsOT *ot;
     POLY_GT4 *poly;
-    Variant416Band *band;
+    Variant416EntryBand *band;
     s16 i;
     s16 j;
     s32 done;
@@ -39,7 +38,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     } else {
         r = work->field_1A78 * 16 / 4096;
     }
-    band = (Variant416Band *)work->bands;
+    band = work->bands;
     for (i = 0; i < 2; i++, band++) {
         for (j = 0; j < 2; j++) {
             if (band->level[j] <= 0) {
@@ -102,7 +101,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
             }
         }
     }
-    band = (Variant416Band *)work->bands;
+    band = work->bands;
     for (i = 0; i < 2; i++, band++) {
         for (j = 0; j < 1; j++) {
             poly->x0 = band->sa[j];
@@ -113,18 +112,18 @@ void ModelVariant416_DrawBands(u8 *ctx)
             poly->y2 = band->sb[j] >> 16;
             poly->x3 = band->sb[j + 1];
             poly->y3 = band->sb[j + 1] >> 16;
-            poly->r0 = band->ca[j][0];
-            poly->g0 = band->ca[j][1];
-            poly->b0 = band->ca[j][2];
-            poly->r1 = band->ca[j + 1][0];
-            poly->g1 = band->ca[j + 1][1];
-            poly->b1 = band->ca[j + 1][2];
-            poly->r2 = band->cb[j][0];
-            poly->g2 = band->cb[j][1];
-            poly->b2 = band->cb[j][2];
-            poly->r3 = band->cb[j + 1][0];
-            poly->g3 = band->cb[j + 1][1];
-            poly->b3 = band->cb[j + 1][2];
+            poly->r0 = band->ca[j].r;
+            poly->g0 = band->ca[j].g;
+            poly->b0 = band->ca[j].b;
+            poly->r1 = band->ca[j + 1].r;
+            poly->g1 = band->ca[j + 1].g;
+            poly->b1 = band->ca[j + 1].b;
+            poly->r2 = band->cb[j].r;
+            poly->g2 = band->cb[j].g;
+            poly->b2 = band->cb[j].b;
+            poly->r3 = band->cb[j + 1].r;
+            poly->g3 = band->cb[j + 1].g;
+            poly->b3 = band->cb[j + 1].b;
             if (band->otz[j] >= 0 && flag[i][j] >= 0) {
                 GsSortPoly(poly, ot, band->otz[j]);
             }
@@ -136,18 +135,18 @@ void ModelVariant416_DrawBands(u8 *ctx)
             poly->y2 = band->sb[j] >> 16;
             poly->x3 = band->sb[j + 1];
             poly->y3 = band->sb[j + 1] >> 16;
-            poly->r0 = band->ca[j][0];
-            poly->g0 = band->ca[j][1];
-            poly->b0 = band->ca[j][2];
-            poly->r1 = band->ca[j + 1][0];
-            poly->g1 = band->ca[j + 1][1];
-            poly->b1 = band->ca[j + 1][2];
-            poly->r2 = band->cb[j][0];
-            poly->g2 = band->cb[j][1];
-            poly->b2 = band->cb[j][2];
-            poly->r3 = band->cb[j + 1][0];
-            poly->g3 = band->cb[j + 1][1];
-            poly->b3 = band->cb[j + 1][2];
+            poly->r0 = band->ca[j].r;
+            poly->g0 = band->ca[j].g;
+            poly->b0 = band->ca[j].b;
+            poly->r1 = band->ca[j + 1].r;
+            poly->g1 = band->ca[j + 1].g;
+            poly->b1 = band->ca[j + 1].b;
+            poly->r2 = band->cb[j].r;
+            poly->g2 = band->cb[j].g;
+            poly->b2 = band->cb[j].b;
+            poly->r3 = band->cb[j + 1].r;
+            poly->g3 = band->cb[j + 1].g;
+            poly->b3 = band->cb[j + 1].b;
             if (band->otz[j] >= 0 && flag[i][j] >= 0) {
                 GsSortPoly(poly, ot, band->otz[j]);
             }
