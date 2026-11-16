@@ -24,7 +24,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
     s32 ang2;
     GsCOORDINATE2 coord;
     POLY_FT4 *quad;
-    Variant433Ring *ring;
+    Variant433EntryBand *ring;
     s32 dx, limit;
     s32 yaw, pitch;
     s16 reach;
@@ -62,7 +62,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
     ang2 = 0;
     reach = (s16)size;
     limit = 0x400;
-    ring = (Variant433Ring *)work->rings;
+    ring = work->rings;
     for (; i < 16; i++, ring++, ang1 += 0x708, ang2 += 0x514) {
         wave = work->ripple;
         for (j = 0; j < 9; j++, wave += 0x514) {
@@ -117,7 +117,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ring = (Variant433Ring *)work->rings;
+    ring = work->rings;
     for (i = 0; i < 16; i++, ring++) {
         for (j = 0; j < 9; j++) {
 #ifdef VERSION_FRENCH
@@ -170,7 +170,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
             }
         }
     }
-    ring = (Variant433Ring *)work->rings;
+    ring = work->rings;
     for (i = 0; i < 16; i++, ring++) {
         for (j = 0; j < 8; j++) {
             if ((s16)(j % 2) == (work->clock.frame_count & 1)) {
@@ -187,9 +187,9 @@ void ModelVariant433_DrawRings(u8 *ctx)
             quad->y2 = (ring->s[j].packed >> 16) - ring->yo[j];
             quad->x3 = ring->s[j + 1].point.vx - ring->xo[j + 1];
             quad->y3 = (ring->s[j + 1].packed >> 16) - ring->yo[j + 1];
-            quad->r0 = ring->color[0];
-            quad->g0 = ring->color[1];
-            quad->b0 = ring->color[2];
+            quad->r0 = ring->color.r;
+            quad->g0 = ring->color.g;
+            quad->b0 = ring->color.b;
             if (ring->depth[j] >= 0 && flags[i][j] >= 0 && ring->amount[j] > 0 && *(s32 *)((u8 *)ring + 0x204) == 0) {
                 GsSortPoly(quad, ot, (u16)ring->depth[j]);
 #else
@@ -203,9 +203,9 @@ void ModelVariant433_DrawRings(u8 *ctx)
             quad->y2 = (*(s32 *)(words + 0x48) >> 16) - *(s16 *)(halves + 0x1CE);
             quad->x3 = *(s16 *)(words + 0x4C) - *(s16 *)(halves + 0x1BE);
             quad->y3 = (*(s32 *)(words + 0x4C) >> 16) - *(s16 *)(halves + 0x1D0);
-            quad->r0 = ring->color[0];
-            quad->g0 = ring->color[1];
-            quad->b0 = ring->color[2];
+            quad->r0 = ring->color.r;
+            quad->g0 = ring->color.g;
+            quad->b0 = ring->color.b;
             if (*(s32 *)(words + 0x198) >= 0 && flags[i][j] >= 0 && *(s32 *)(words + 0x1E0) > 0 && *(s32 *)((u8 *)ring + 0x204) == 0) {
                 GsSortPoly(quad, ot, (u16)*(s32 *)(words + 0x198));
 #endif
