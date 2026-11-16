@@ -5,13 +5,17 @@
 #include "../model_variant/variant405_halo.h"
 #include "../model_variant/variant405_veils.h"
 
+/* One 0x1C8-byte band: three rows of nine points and their screen
+ * coordinates, the two colour rows and scale the entry seeds, and the nine
+ * depths. */
 typedef struct {
-    u8 unknown_00[0x144];
+    SVECTOR a[9], b[9], c[9];
+    long sa[9], sb[9], sc[9];
     CVECTOR ca[9], cb[9];
     VECTOR scale;
     s32 field_19C;
     s16 field_1A0, field_1A2;
-    u8 unknown_1A4[0x24];
+    s32 otz[9];
 } Variant422EntryBand;
 
 /* Minimum observed extent, not an allocation capacity. */
