@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant389_sheets.h"
+#include "../model_variant/variant372_entry.h"
 
-void FrenchModelVariant389_DrawSheets(u8 *context)
+void FrenchModelVariant389_DrawSheets(Model372State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,10 +10,10 @@ void FrenchModelVariant389_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets389State *state = (Sheets389State *)context;
-    Sheets389Primary *primary = state->primary;
-    ModelVariantSheetSet *sheet = state->sheets;
-    POLY_GT4 *quad = state->quads;
+    Model372State *state = context;
+    Model372Ribbon *primary = state->ribbons;
+    Model372Sheet *sheet = state->sheets;
+    POLY_GT4 *quad = state->packets.textured;
     GsOT *ot;
     s32 count, first;
     s32 i, j;
@@ -23,7 +23,7 @@ void FrenchModelVariant389_DrawSheets(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     shown = 0;
-    if (state->timing->paired == 0) {
+    if (state->config->paired == 0) {
         count = 9;
         first = 8;
     } else {
@@ -67,19 +67,19 @@ void FrenchModelVariant389_DrawSheets(u8 *context)
                                      (long *)&quad->x0, (long *)&quad->x1,
                                      (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag) * 8 / 10;
-                quad->r0 = sheet->inner[0];
-                quad->g0 = sheet->inner[1];
-                quad->b0 = sheet->inner[2];
-                quad->r1 = sheet->inner[0];
-                quad->g1 = sheet->inner[1];
-                quad->b1 = sheet->inner[2];
-                quad->r2 = sheet->inner[0];
-                quad->g2 = sheet->inner[1];
-                quad->b2 = sheet->inner[2];
-                quad->r3 = sheet->outer[0];
-                quad->g3 = sheet->outer[1];
-                quad->b3 = sheet->outer[2];
-                if (state->timing->single != 0 && i != 0 && i < first) {
+                quad->r0 = sheet->inner.r;
+                quad->g0 = sheet->inner.g;
+                quad->b0 = sheet->inner.b;
+                quad->r1 = sheet->inner.r;
+                quad->g1 = sheet->inner.g;
+                quad->b1 = sheet->inner.b;
+                quad->r2 = sheet->inner.r;
+                quad->g2 = sheet->inner.g;
+                quad->b2 = sheet->inner.b;
+                quad->r3 = sheet->outer.r;
+                quad->g3 = sheet->outer.g;
+                quad->b3 = sheet->outer.b;
+                if (state->config->single != 0 && i != 0 && i < first) {
                     continue;
                 }
                 if (depth >= 0 && flag >= 0) {
@@ -90,8 +90,8 @@ void FrenchModelVariant389_DrawSheets(u8 *context)
         if (i < first) {
             if (state->phase == 0) {
                 if (sheet->size < 4096) {
-                    sheet->size = ((state->time - state->timing->grow_begin) << 12) /
-                                  (state->timing->grow_end - state->timing->grow_begin);
+                    sheet->size = ((state->time - state->config->sheet_start) << 12) /
+                                  (state->config->ribbon_start - state->config->sheet_start);
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
                         if (i + 1 == 8) {
@@ -99,9 +99,9 @@ void FrenchModelVariant389_DrawSheets(u8 *context)
                         }
                     }
                 }
-            } else if (state->timing->fade_begin < state->time && sheet->size > 0) {
-                sheet->size = 4096 - ((state->time - state->timing->fade_begin) << 12) /
-                                    (state->timing->fade_end - state->timing->fade_begin);
+            } else if (state->config->fade_begin < state->time && sheet->size > 0) {
+                sheet->size = 4096 - ((state->time - state->config->fade_begin) << 12) /
+                                    (state->config->fade_end - state->config->fade_begin);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                     if (state->phase < 3) {
@@ -112,17 +112,17 @@ void FrenchModelVariant389_DrawSheets(u8 *context)
             primary++;
         } else {
             if (i == first) {
-                primary = state->primary;
+                primary = state->ribbons;
             }
-            if (state->timing->paired == 0 && primary[first - 1].level >= 1024 && sheet->size >= 8192) {
+            if (state->config->paired == 0 && primary[first - 1].progress[0] >= 1024 && sheet->size >= 8192) {
                 sheet->shown = 1;
             }
-            if (primary->level >= 1024 && sheet->shown == 0) {
+            if (primary->progress[0] >= 1024 && sheet->shown == 0) {
                 if (sheet->size < 16384) {
                     sheet->size += state->step << 12;
                     if (sheet->size >= 16384) {
                         sheet->size = 16384;
-                        if (state->timing->paired != 0) {
+                        if (state->config->paired != 0) {
                             sheet->shown = 1;
                         }
                     }
