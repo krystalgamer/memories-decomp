@@ -963,14 +963,6 @@ typedef struct {
     s32 frames;
 } ModelVariantGatherState;
 
-/* A 0x4F8-byte record read only for its size at + 0x4EC, which scales the
- * funnels or curtains drawn over it. */
-typedef struct {
-    u8 unknown_000[0x4EC];
-    s32 size;
-    u8 unknown_4F0[8];
-} ModelVariantGridScale;
-
 /* One 0x4F8-byte grid sheet: nine rows of seventeen points, a colour per
  * row, the size and the done flag. */
 typedef struct {
