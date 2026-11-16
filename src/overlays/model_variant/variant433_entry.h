@@ -34,15 +34,31 @@ typedef struct {
 } Variant433EntryRibbon;
 
 /* A 0x208-byte band or ring: two colours, a scale, a heading and nine amounts. */
+typedef union {
+    long packed;
+    DVECTOR point;
+} Variant433RingScreen;
+
+/* One 0x208-byte band or ring: nine points, their screen positions and edge
+ * copies, the per-point angles and widths, the colours, scale and heading the
+ * entry seeds, and per point the depth, screen offsets and growth amount. */
 typedef struct {
-    u8 unknown_000[0x120];
+    SVECTOR p[9];
+    Variant433RingScreen s[9];
+    s32 angle[9];
+    SVECTOR e[9];
+    Variant433RingScreen es[9];
+    s32 width[9];
     CVECTOR color, secondary;
     VECTOR scale;
     s16 field_138, field_13A;
     s32 field_13C;
     u8 unknown_140[0x48];
     s32 heading[3];
-    u8 unknown_194[0x4C];
+    u8 unknown_194[4];
+    s32 depth[9];
+    s16 xo[9];
+    s16 yo[9];
     s32 amount[9];
     s32 field_204;
 } Variant433EntryBand;
