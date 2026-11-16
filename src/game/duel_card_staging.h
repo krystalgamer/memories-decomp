@@ -8,7 +8,6 @@
 
 /* gDuel_abCardStagingBuffer is reused for card transfers, GPU readback and duel scratch.
  * These are offset views, not a declaration of one allocation's lifetime. */
-#define DUEL_CARD_STAGING_REPLAY_BASE_OFFSET 0x48000
 #define DUEL_CARD_STAGING_TRAP_BASE_OFFSET 0x18000
 #define DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS 0x10
 
@@ -29,18 +28,6 @@ typedef struct {
     u8 pad_0000[0x3C68];
     DuelAttackTrapTable table;
 } DuelAttackTrapScratchBlock;
-
-/* Keep the high base separate from the record's small displacement: the
- * matching consumers load object/data/card_id at +0x36B4/+0x36B8/+0x36C0. */
-typedef struct {
-    u8 pad_0000[0x36B4];
-    DuelCardRecord record;
-} DuelCardReplayRecordBlock;
-
-typedef struct {
-    u8 pad_0000[0x39FC];
-    DuelDeckCardRecord record;
-} DuelStagedDeckRecordBlock;
 
 /* The combined-deck ID lists. Duel_PopulateCombinedDeckData reads the IDs
  * and pre-shuffle slots; Duel_RequestCombinedDeckData sorts a copy of the
@@ -100,21 +87,13 @@ typedef char DuelAttackTrapTable_size_must_be_0x2c[
 typedef char DuelAttackTrapScratchBlock_alignment_must_match_halfwords[
     __alignof__(DuelAttackTrapScratchBlock) == __alignof__(u16) ? 1 : -1
 ];
-typedef char DuelCardReplayRecordBlock_record_offset_must_be_0x36B4[
-    DUEL_CARD_STAGING_OFFSET(DuelCardReplayRecordBlock, record) == 0x36B4
-        ? 1 : -1
-];
-typedef char DuelStagedDeckRecordBlock_record_offset_must_be_0x39FC[
-    DUEL_CARD_STAGING_OFFSET(DuelStagedDeckRecordBlock, record) == 0x39FC
-        ? 1 : -1
-];
 typedef char DuelCardStagingDeckView_cards_offset_must_be_0x4B9FC[
     DUEL_CARD_STAGING_OFFSET(DuelCardStagingDeckView, cards) ==
-        DUEL_CARD_STAGING_REPLAY_BASE_OFFSET + 0x39FC ? 1 : -1
+        0x48000 + 0x39FC ? 1 : -1
 ];
 typedef char DuelCardStagingDeckView_field_cards_offset_must_be_0x4B6B4[
     DUEL_CARD_STAGING_OFFSET(DuelCardStagingDeckView, field_cards) ==
-        DUEL_CARD_STAGING_REPLAY_BASE_OFFSET + 0x36B4 ? 1 : -1
+        0x48000 + 0x36B4 ? 1 : -1
 ];
 typedef char DuelCardStagingDeckView_size_must_preserve_deck_extent[
     sizeof(DuelCardStagingDeckView) ==
