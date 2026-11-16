@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant437_sheet.h"
+#include "../french_model_variant/variant437_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant437_DrawSheet(u8 *context)
+void SpanishModelVariant437_DrawSheet(Variant437EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -12,7 +12,7 @@ void SpanishModelVariant437_DrawSheet(u8 *context)
     /* Unused; retains the target's 16-byte stack gap after the coordinate. */
     VECTOR unused;
     long interpolation, flag;
-    Sheet437State *state = (Sheet437State *)context;
+    Variant437EntryState *state = context;
     Sheet437 *sheet;
     POLY_GT4 *polygon;
     GsOT *ot;
@@ -21,24 +21,24 @@ void SpanishModelVariant437_DrawSheet(u8 *context)
     s32 inner_r, inner_g, inner_b;
 
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(state->direction[2], state->direction[0]);
+    ratan2(state->view_delta.vz, state->view_delta.vx);
     sheet = state->sheets;
-    ratan2(state->direction[1], state->direction[0]);
-    polygon = state->polygons;
-    if ((state->frame & 1) == 0) {
+    ratan2(state->view_delta.vy, state->view_delta.vx);
+    polygon = state->packets.textured;
+    if ((state->frame_count & 1) == 0) {
         extra = 0;
     } else {
-        extra = state->size / 8;
+        extra = state->scale / 8;
     }
     polygon++;
     for (i = 0; i < 1; i++, sheet++) {
-        matrix.t[0] = state->origin[0] + state->path[0] * state->progress / 1024;
-        matrix.t[1] = state->origin[1] + state->path[1] * state->progress / 1024;
-        matrix.t[2] = state->origin[2] + state->path[2] * state->progress / 1024;
-        if (state->phase < 6) {
-            scale.vx = state->size + extra;
-            scale.vy = state->size + extra;
-            scale.vz = state->size + extra;
+        matrix.t[0] = state->origin.vx + state->path.vx * state->factor / 1024;
+        matrix.t[1] = state->origin.vy + state->path.vy * state->factor / 1024;
+        matrix.t[2] = state->origin.vz + state->path.vz * state->factor / 1024;
+        if (state->tail.phase < 6) {
+            scale.vx = state->scale + extra;
+            scale.vy = state->scale + extra;
+            scale.vz = state->scale + extra;
             polygon->r0 = sheet->inner[0];
             polygon->g0 = sheet->inner[1];
             polygon->b0 = sheet->inner[2];
@@ -52,15 +52,15 @@ void SpanishModelVariant437_DrawSheet(u8 *context)
             polygon->g3 = sheet->inner[1];
             polygon->b3 = sheet->inner[2];
         } else {
-            outer_r = sheet->outer[0] * (32768 - state->size) / 16384;
-            outer_g = sheet->outer[1] * (32768 - state->size) / 16384;
-            outer_b = sheet->outer[2] * (32768 - state->size) / 16384;
-            inner_r = sheet->inner[0] * (32768 - state->size) / 16384;
-            inner_g = sheet->inner[1] * (32768 - state->size) / 16384;
-            inner_b = sheet->inner[2] * (32768 - state->size) / 16384;
-            scale.vx = state->size;
-            scale.vy = state->size;
-            scale.vz = state->size;
+            outer_r = sheet->outer[0] * (32768 - state->scale) / 16384;
+            outer_g = sheet->outer[1] * (32768 - state->scale) / 16384;
+            outer_b = sheet->outer[2] * (32768 - state->scale) / 16384;
+            inner_r = sheet->inner[0] * (32768 - state->scale) / 16384;
+            inner_g = sheet->inner[1] * (32768 - state->scale) / 16384;
+            inner_b = sheet->inner[2] * (32768 - state->scale) / 16384;
+            scale.vx = state->scale;
+            scale.vy = state->scale;
+            scale.vz = state->scale;
             polygon->r0 = inner_r;
             polygon->g0 = inner_g;
             polygon->b0 = inner_b;
@@ -98,43 +98,43 @@ void SpanishModelVariant437_DrawSheet(u8 *context)
             }
         }
     }
-    if (state->phase < 2) {
-        if (state->size < 4096) {
-            state->size = (state->time - state->timing->grow_start) * 4096 /
-                          (state->timing->grow_end - state->timing->grow_start);
-            if (state->size >= 4096) {
-                state->size = 4096;
-                state->phase = 2;
+    if (state->tail.phase < 2) {
+        if (state->scale < 4096) {
+            state->scale = (state->elapsed - state->config->scale_start) * 4096 /
+                          (state->config->scale_end - state->config->scale_start);
+            if (state->scale >= 4096) {
+                state->scale = 4096;
+                state->tail.phase = 2;
             }
         }
-    } else if (state->phase == 2) {
-        state->size = 4096 + (state->time - state->timing->grow_end) * 1024 /
-                      (state->timing->move_start - state->timing->grow_end);
-        if (state->size >= 5120) {
-            state->size = 5120;
-            state->phase = 4;
+    } else if (state->tail.phase == 2) {
+        state->scale = 4096 + (state->elapsed - state->config->scale_end) * 1024 /
+                      (state->config->move_start - state->config->scale_end);
+        if (state->scale >= 5120) {
+            state->scale = 5120;
+            state->tail.phase = 4;
         }
-    } else if (state->phase == 4) {
-        state->progress = (state->time - state->timing->move_start) * 1024 /
-                          (state->timing->move_end - state->timing->move_start);
-        if (state->progress >= 1024) {
-            state->progress = 1024;
-            state->phase = 5;
+    } else if (state->tail.phase == 4) {
+        state->factor = (state->elapsed - state->config->move_start) * 1024 /
+                          (state->config->move_end - state->config->move_start);
+        if (state->factor >= 1024) {
+            state->factor = 1024;
+            state->tail.phase = 5;
         }
-    } else if (state->phase == 5) {
-        if (state->size < 16384) {
-            state->size += state->step * 128;
-            if (state->size >= 16384) {
-                state->size = 16384;
-                state->phase = 6;
+    } else if (state->tail.phase == 5) {
+        if (state->scale < 16384) {
+            state->scale += state->step * 128;
+            if (state->scale >= 16384) {
+                state->scale = 16384;
+                state->tail.phase = 6;
             }
         }
-    } else if (state->phase == 6) {
-        if (state->size < 32767) {
-            state->size += state->step * 1024;
-            if (state->size >= 32767) {
-                state->size = 32767;
-                state->phase = 7;
+    } else if (state->tail.phase == 6) {
+        if (state->scale < 32767) {
+            state->scale += state->step * 1024;
+            if (state->scale >= 32767) {
+                state->scale = 32767;
+                state->tail.phase = 7;
             }
         }
     }

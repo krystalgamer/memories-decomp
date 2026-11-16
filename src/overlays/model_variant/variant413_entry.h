@@ -5,7 +5,7 @@
 #include "variant412_entry.h"
 
 typedef struct {
-    ModelVariantSwarm groups[3];
+    ModelVariantSwarmGroup groups[3];
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];

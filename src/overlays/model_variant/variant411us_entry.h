@@ -14,8 +14,8 @@ typedef struct {
 } Variant411UsEntryConfig;
 
 typedef struct {
-    ModelVariantSpriteSet trails[1];
-    ModelVariantSwarm swarm;
+    ModelVariantQuadGroup trails[1];
+    ModelVariantSwarmGroup swarm;
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];
@@ -47,6 +47,6 @@ typedef struct {
 
 extern GsIMAGE gModelVariant411_aImages[9];
 extern Variant411UsEntryConfig gModelVariant411_aConfigs[];
-void FrenchModelVariant428_DrawSwarm(u8 *context);
-void FrenchModelVariant428_DrawQuads(u8 *context);
+void FrenchModelVariant428_DrawSwarm(Variant411UsEntryState *context);
+void FrenchModelVariant428_DrawQuads(Variant411UsEntryState *context);
 #endif

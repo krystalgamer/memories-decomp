@@ -28,7 +28,7 @@ s32 ModelVariant412_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantFan *quad_record;
     ModelVariantWebNarrow *web;
     ModelVariantTrail *record;
-    ModelVariantSpriteSet *trail;
+    ModelVariantQuadGroup *trail;
     POLY_GT4 *textured;
     POLY_G3 *triangle;
     POLY_G4 *quad;
@@ -144,21 +144,21 @@ s32 ModelVariant412_HandleRequest(SVECTOR *point, s32 command)
         }
         for (trail = work->trails, n = 0; n < 1; n++, trail++) {
             for (i = 0; i < 10; i++) {
-                setVector(&trail->v0[i], -256, -256, 0);
-                setVector(&trail->v1[i], 256, -256, 0);
-                setVector(&trail->v2[i], -256, 256, 0);
-                setVector(&trail->v3[i], 256, 256, 0);
+                setVector(&trail->a[i], -256, -256, 0);
+                setVector(&trail->b[i], 256, -256, 0);
+                setVector(&trail->c[i], -256, 256, 0);
+                setVector(&trail->d[i], 256, 256, 0);
                 trail->color.r = work->config->outer.r;
                 trail->color.g = work->config->outer.g;
                 trail->color.b = work->config->outer.b;
-                trail->scale[i] = -(i * 4096 / 10);
+                trail->size[i] = -(i * 4096 / 10);
                 trail->angle[i] = 0;
                 trail->done[i] = 0;
                 trail->field_20C[i] = 0;
                 trail->initialized[i] = 0;
-                trail->origin[i].vx = work->matrix.t[0] + work->direction.vx;
-                trail->origin[i].vy = work->matrix.t[1] + work->direction.vy;
-                trail->origin[i].vz = work->matrix.t[2] + work->direction.vz;
+                trail->positions[i].vx = work->matrix.t[0] + work->direction.vx;
+                trail->positions[i].vy = work->matrix.t[1] + work->direction.vy;
+                trail->positions[i].vz = work->matrix.t[2] + work->direction.vz;
             }
         }
         for (n = 0; n < 1; n++, band++) {

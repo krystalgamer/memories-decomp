@@ -73,7 +73,7 @@ Entry `model_variant/variant411us_entry.c` sets `work->config = gModelVariant411
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant428_DrawQuads` (french_model_variant/variant428_quads.c; `model_variant/variant411us_entry.c:373`, `Quads428State.timing` at +0x2750); `FrenchModelVariant428_DrawSwarm` (french_model_variant/variant428_swarm.c; `model_variant/variant411us_entry.c:370`, `Swarm428State.timing` at +0x2750) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
+| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant428_DrawQuads` (french_model_variant/variant428_quads.c; `model_variant/variant411us_entry.c:373`, `Variant411UsEntryState.config` at +0x2750); `FrenchModelVariant428_DrawSwarm` (french_model_variant/variant428_swarm.c; `model_variant/variant411us_entry.c:370`, `Variant411UsEntryState.config` at +0x2750) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant412EntryConfig` (`gModelVariant412_aConfigs`)
 
@@ -137,9 +137,9 @@ Entry `french_model_variant/variant436_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x18` | `unknown_18[0x18]` bytes → `s32 phase2_end` | `Timing436.phase2_end` | `SpanishModelVariant436_DrawSheets` (spanish_model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `Sheet436State.timing` at +0x15F4) | `/ (state->timing->phase2_end - state->timing->grow_end);` | high |
-| `+0x1C` | `unknown_18[0x18]` bytes → `s32 phase3_end` | `Timing436.phase3_end` | `SpanishModelVariant436_DrawSheets` (spanish_model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `Sheet436State.timing` at +0x15F4) | `/ (state->timing->phase3_end - state->timing->phase2_end);` | high |
-| `+0x20` | `unknown_18[0x18]` bytes → `s32 travel_end` | `Timing436.travel_end` | `SpanishModelVariant436_DrawSheets` (spanish_model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `Sheet436State.timing` at +0x15F4) | `/ (state->timing->travel_end - state->timing->phase3_end);` | high |
+| `+0x18` | `unknown_18[0x18]` bytes → `s32 phase2_end` | `EntryConfig436.phase2_end` (was `Timing436`) | `SpanishModelVariant436_DrawSheets` (spanish_model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `EntryState436.config` at +0x15F4) | `/ (state->config->phase2_end - state->config->scale_end);` | high |
+| `+0x1C` | `unknown_18[0x18]` bytes → `s32 phase3_end` | `EntryConfig436.phase3_end` (was `Timing436`) | `SpanishModelVariant436_DrawSheets` (spanish_model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `EntryState436.config` at +0x15F4) | `/ (state->config->phase3_end - state->config->phase2_end);` | high |
+| `+0x20` | `unknown_18[0x18]` bytes → `s32 travel_end` | `EntryConfig436.travel_end` (was `Timing436`) | `SpanishModelVariant436_DrawSheets` (spanish_model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `EntryState436.config` at +0x15F4) | `/ (state->config->travel_end - state->config->phase3_end);` | high |
 
 ## `Variant437EntryConfig` (`gFrenchModelVariant437_aConfigs`)
 
@@ -147,8 +147,8 @@ Entry `french_model_variant/variant437_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_18[0x18]` bytes → `u32 move_start` | `Timing437.move_start` | `SpanishModelVariant437_DrawSheet` (spanish_model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Sheet437State.timing` at +0x15F4) | `(state->timing->move_start - state->timing->grow_end);` | high |
-| `+0x20` | `unknown_18[0x18]` bytes → `u32 move_end` | `Timing437.move_end` | `SpanishModelVariant437_DrawSheet` (spanish_model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Sheet437State.timing` at +0x15F4) | `(state->timing->move_end - state->timing->move_start);` | high |
+| `+0x1C` | `unknown_18[0x18]` bytes → `u32 move_start` | `Variant437EntryConfig.move_start` (was `Timing437`) | `SpanishModelVariant437_DrawSheet` (spanish_model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Variant437EntryState.config` at +0x15F4) | `(state->config->move_start - state->config->scale_end);` | high |
+| `+0x20` | `unknown_18[0x18]` bytes → `u32 move_end` | `Variant437EntryConfig.move_end` (was `Timing437`) | `SpanishModelVariant437_DrawSheet` (spanish_model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Variant437EntryState.config` at +0x15F4) | `(state->config->move_end - state->config->move_start);` | high |
 
 ## `ModelVariantGrowConfig` (`gFrenchModelVariant461_aConfigs`)
 

@@ -22,7 +22,7 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     ModelVariantProjection projection;
     Variant454EntryGroup *group;
-    ModelVariantSpriteSet *cluster;
+    ModelVariantQuadGroup *cluster;
     ModelVariantBandPair *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
@@ -163,21 +163,21 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
         }
         for (cluster = work->clusters, n = 0; n < 1; n++, cluster++) {
             for (i = 0; i < 10; i++) {
-                setVector(&cluster->v0[i], -256, -256, 0);
-                setVector(&cluster->v1[i], 256, -256, 0);
-                setVector(&cluster->v2[i], -256, 256, 0);
-                setVector(&cluster->v3[i], 256, 256, 0);
+                setVector(&cluster->a[i], -256, -256, 0);
+                setVector(&cluster->b[i], 256, -256, 0);
+                setVector(&cluster->c[i], -256, 256, 0);
+                setVector(&cluster->d[i], 256, 256, 0);
                 cluster->color.r = work->config->outer.r;
                 cluster->color.g = work->config->outer.g;
                 cluster->color.b = work->config->outer.b;
-                cluster->scale[i] = -(i * 4096 / 10);
+                cluster->size[i] = -(i * 4096 / 10);
                 cluster->angle[i] = 0;
                 cluster->done[i] = 0;
                 cluster->field_20C[i] = 0;
                 cluster->initialized[i] = 0;
-                cluster->origin[i].vx = work->matrix.t[0] + work->aim.direction.vx;
-                cluster->origin[i].vy = work->matrix.t[1] + work->aim.direction.vy;
-                cluster->origin[i].vz = work->matrix.t[2] + work->aim.direction.vz;
+                cluster->positions[i].vx = work->matrix.t[0] + work->aim.direction.vx;
+                cluster->positions[i].vy = work->matrix.t[1] + work->aim.direction.vy;
+                cluster->positions[i].vz = work->matrix.t[2] + work->aim.direction.vz;
             }
         }
         for (n = 0; n < 1; n++, band++) {

@@ -18,7 +18,7 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    ModelVariantSwarm *swarm;
+    ModelVariantSwarmGroup *swarm;
     ModelVariantBandPair *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
@@ -26,7 +26,7 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantFan *quad_record;
     ModelVariantWebNarrow *web;
     ModelVariantTrail *record;
-    ModelVariantSpriteSet *trail;
+    ModelVariantQuadGroup *trail;
     POLY_GT4 *textured;
     POLY_G3 *triangle;
     POLY_G4 *quad;
@@ -124,38 +124,38 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
         SetSemiTrans(sprite, 1);
         SetShadeTex(sprite, 0);
         for (i = 0; i < 32; i++) {
-            setVector(&swarm->v0[i], -384, -384, 0);
-            setVector(&swarm->v1[i], 384, -384, 0);
-            setVector(&swarm->v2[i], -384, 384, 0);
-            setVector(&swarm->v3[i], 384, 384, 0);
+            setVector(&swarm->a[i], -384, -384, 0);
+            setVector(&swarm->b[i], 384, -384, 0);
+            setVector(&swarm->c[i], -384, 384, 0);
+            setVector(&swarm->d[i], 384, 384, 0);
             swarm->color.r = work->config->outer.r;
             swarm->color.g = work->config->outer.g;
             swarm->color.b = work->config->outer.b;
-            swarm->scale[i] = -(i * 32);
+            swarm->size[i] = -(i * 32);
             swarm->done[i] = 0;
             swarm->field_614[i] = 0;
             swarm->initialized[i] = 0;
-            swarm->origin[i].vx = work->matrix.t[0] + work->direction.vx;
-            swarm->origin[i].vy = work->matrix.t[1] + work->direction.vy;
-            swarm->origin[i].vz = work->matrix.t[2] + work->direction.vz;
+            swarm->positions[i].vx = work->matrix.t[0] + work->direction.vx;
+            swarm->positions[i].vy = work->matrix.t[1] + work->direction.vy;
+            swarm->positions[i].vz = work->matrix.t[2] + work->direction.vz;
         }
         for (trail = work->trails, n = 0; n < 1; n++, trail++) {
             for (i = 0; i < 10; i++) {
-                setVector(&trail->v0[i], -384, -384, 0);
-                setVector(&trail->v1[i], 384, -384, 0);
-                setVector(&trail->v2[i], -384, 384, 0);
-                setVector(&trail->v3[i], 384, 384, 0);
+                setVector(&trail->a[i], -384, -384, 0);
+                setVector(&trail->b[i], 384, -384, 0);
+                setVector(&trail->c[i], -384, 384, 0);
+                setVector(&trail->d[i], 384, 384, 0);
                 trail->color.r = work->config->outer.r;
                 trail->color.g = work->config->outer.g;
                 trail->color.b = work->config->outer.b;
-                trail->scale[i] = -(i * 4096 / 10);
+                trail->size[i] = -(i * 4096 / 10);
                 trail->angle[i] = 0;
                 trail->done[i] = 0;
                 trail->field_20C[i] = 0;
                 trail->initialized[i] = 0;
-                trail->origin[i].vx = work->matrix.t[0] + work->direction.vx;
-                trail->origin[i].vy = work->matrix.t[1] + work->direction.vy;
-                trail->origin[i].vz = work->matrix.t[2] + work->direction.vz;
+                trail->positions[i].vx = work->matrix.t[0] + work->direction.vx;
+                trail->positions[i].vy = work->matrix.t[1] + work->direction.vy;
+                trail->positions[i].vz = work->matrix.t[2] + work->direction.vz;
             }
         }
         for (n = 0; n < 1; n++, band++) {
@@ -338,7 +338,7 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
         }
         swarm = &work->swarm;
         for (i = 0; i < 32; i++) {
-            if (swarm->scale[i] >= 0 && swarm->initialized[i] == 0) {
+            if (swarm->size[i] >= 0 && swarm->initialized[i] == 0) {
                 if (work->tail.slot == 0) {
                     setVector(&work->positions[i], work->target.vx - (rsin(work->sweep) * 512 >> 12),
                               work->target.vy, work->target.vz);
@@ -365,10 +365,10 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant428_DrawSwarm((u8 *)point);
+            FrenchModelVariant428_DrawSwarm((Variant411UsEntryState *)point);
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant428_DrawQuads((u8 *)point);
+            FrenchModelVariant428_DrawQuads((Variant411UsEntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

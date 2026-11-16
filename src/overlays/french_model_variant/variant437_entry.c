@@ -280,7 +280,7 @@ s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command)
         work->screen_delta.vy = dy;
         if (work->config->start <= work->elapsed && work->config->scale_start < work->elapsed) {
             SpanishModelVariant437_DrawStreamers((Variant437EntryState *)point);
-            SpanishModelVariant437_DrawSheet((u8 *)point);
+            SpanishModelVariant437_DrawSheet((Variant437EntryState *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

@@ -14,7 +14,8 @@ The control flow is the header-429 quads helper (#7206), with these differences:
 - the polygon pointer is initialised at its declaration, which gives the loop
   counter `j` the earlier saved register.
 
-The local view lives in `variant428_quads.h`, and `model_variant428_linker_symbols.txt`
+The helper reads the US header-411 record (`Variant411UsEntryState` in
+`model_variant/variant411us_entry.h`), and `model_variant428_linker_symbols.txt`
 covers the resident calls. The
 [attempt ledger](french-model-image428-quads-attempts.csv) records the
 measured probes.

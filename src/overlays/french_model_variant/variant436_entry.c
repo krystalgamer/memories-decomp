@@ -285,7 +285,7 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
             }
             if (work->config->scale_start < work->elapsed) {
                 FrenchModelVariant436_DrawStreamers((EntryState436 *)point);
-                SpanishModelVariant436_DrawSheets((u8 *)point);
+                SpanishModelVariant436_DrawSheets((EntryState436 *)point);
             }
         }
         work->frame_count++;

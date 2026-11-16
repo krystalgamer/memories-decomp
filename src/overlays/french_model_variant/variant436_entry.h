@@ -78,7 +78,7 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant436_aImages[9];
 extern EntryConfig436 gFrenchModelVariant436_aConfigs[];
 void FrenchModelVariant436_DrawRibbons(EntryState436 *context);
-void SpanishModelVariant436_DrawSheets(u8 *context);
+void SpanishModelVariant436_DrawSheets(EntryState436 *context);
 void FrenchModelVariant436_DrawStreamers(EntryState436 *context);
 s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command);
 

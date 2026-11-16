@@ -21,7 +21,7 @@ typedef struct {
 
 typedef struct {
     Variant454EntryGroup groups[1];
-    ModelVariantSpriteSet clusters[1];
+    ModelVariantQuadGroup clusters[1];
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];

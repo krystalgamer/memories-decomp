@@ -32,26 +32,26 @@ void FrenchModelVariant447_DrawSwarm(u8 *context)
         if (group->size[j] > 0) {
             if (state->phase < 2) {
                 if (group->size[j] > 128 && group->size[j] < 384) {
-                    red = group->color[0] * (384 - group->size[j]) / 256;
-                    green = group->color[1] * (384 - group->size[j]) / 256;
-                    blue = group->color[2] * (384 - group->size[j]) / 256;
+                    red = group->color.r * (384 - group->size[j]) / 256;
+                    green = group->color.g * (384 - group->size[j]) / 256;
+                    blue = group->color.b * (384 - group->size[j]) / 256;
                 } else if (group->size[j] >= 384) {
                     blue = green = red = 0;
                 } else {
-                    red = group->color[0];
-                    green = group->color[1];
-                    blue = group->color[2];
+                    red = group->color.r;
+                    green = group->color.g;
+                    blue = group->color.b;
                 }
                 lift = 40;
             } else {
                 if (group->size[j] > 512) {
-                    red = group->color[0] * (1024 - group->size[j]) / 512;
-                    green = group->color[1] * (1024 - group->size[j]) / 512;
-                    blue = group->color[2] * (1024 - group->size[j]) / 512;
+                    red = group->color.r * (1024 - group->size[j]) / 512;
+                    green = group->color.g * (1024 - group->size[j]) / 512;
+                    blue = group->color.b * (1024 - group->size[j]) / 512;
                 } else {
-                    red = group->color[0];
-                    green = group->color[1];
-                    blue = group->color[2];
+                    red = group->color.r;
+                    green = group->color.g;
+                    blue = group->color.b;
                 }
                 lift = 0;
             }

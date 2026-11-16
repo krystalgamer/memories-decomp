@@ -34,14 +34,14 @@ void FrenchModelVariant430_DrawSwarm(u8 *context)
         for (j = 0, angle = 0; j < 32; j++, angle += 1300) {
             if (group->size[j] > 0) {
                 if (group->size[j] > 512) {
-                    red = group->color[0] * (1024 - group->size[j]) / 512;
-                    green = group->color[1] * (1024 - group->size[j]) / 512;
-                    blue = group->color[2] * (1024 - group->size[j]) / 512;
+                    red = group->color.r * (1024 - group->size[j]) / 512;
+                    green = group->color.g * (1024 - group->size[j]) / 512;
+                    blue = group->color.b * (1024 - group->size[j]) / 512;
                 } else {
-                    red = group->color[0];
-                    green = group->color[1];
+                    red = group->color.r;
+                    green = group->color.g;
                     /* The pointer copy fixes the target's group/state register split. */
-                    color = group->color;
+                    color = &group->color.r;
                     blue = color[2];
                 }
                 radius = 512 - (rcos(group->size[j]) * 512 >> 12);
@@ -92,7 +92,7 @@ void FrenchModelVariant430_DrawSwarm(u8 *context)
                         group->done[j] = 1;
                     } else {
                         group->size[j] -= 1024;
-                        group->reset[j] = 0;
+                        group->initialized[j] = 0;
                     }
                 } else if (group->size[j] <= 0) {
                     if (state->timing->limit <= state->clock.frame) {
