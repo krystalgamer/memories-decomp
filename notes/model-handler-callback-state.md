@@ -37,10 +37,10 @@ alignment and section extent. Existing GP-relative and wider snapshot views
 retain their original types and bounds.
 
 The former `D_800F3938` / `gModel_Slot0MetadataView` is
-`gModel_aSlots[0].metadata` (`gModel_aSlots + 0xCF8`). `ModelSlotCF8TailView`
-reaches the loaded metadata and tail flags through `+0xDFE/+0xDFF`. Slot
-control and preset-yaw selection cast `&gModel_aSlots[0].metadata` plus the
-slot stride to that view; it identifies no individual values/flags.
+`gModel_aSlots[0].metadata` (`gModel_aSlots + 0xCF8`). Preset-yaw selection
+reads it as `&gModel_aSlots[slot].metadata` and the slot's
+`guardian_star_selection` (`+0xDFE`) member; the former
+`ModelSlotCF8TailView` cast is retired.
 
 All seven images retain the original native alias addresses and the same
 `+0xCF8` relation. Six obsolete Japanese/European data macros retire once

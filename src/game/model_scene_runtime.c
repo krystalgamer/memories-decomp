@@ -239,42 +239,18 @@ void Model_QueueTintRequestForAllParts(
 #include "model_update_view_metrics.h"
 #include "model_view_coordinate_helpers.h"
 
-#define HMD_COORD_UNIT_OFFSET sizeof(SVECTOR)
-#define HMD_MATRIX_OFFSET \
-    (HMD_COORD_UNIT_OFFSET + sizeof(GsCOORDUNIT))
-#define HMD_SCRATCH_SIZE (HMD_MATRIX_OFFSET + sizeof(MATRIX))
-
 void Model_GetSlot0OffsetWorldPosition(s16 value, s16 *out)
 {
-    /* One block preserves the retail SVECTOR/GsCOORDUNIT/MATRIX stack order. */
-    u8 scratch[HMD_SCRATCH_SIZE];
-    u16 result;
+    ModelWorldPositionScratch scratch;
 
-    memset(scratch, 0, sizeof(SVECTOR));
-    ((SVECTOR *)scratch)->vx = value;
-    Model_BuildViewRelativeCoordinateUnit(
-        0,
-        15,
-        (SVECTOR *)scratch,
-        (GsCOORDUNIT *)(scratch + HMD_COORD_UNIT_OFFSET)
-    );
-    GsGetLwUnit(
-        (GsCOORDUNIT *)(scratch + HMD_COORD_UNIT_OFFSET),
-        (MATRIX *)(scratch + HMD_MATRIX_OFFSET)
-    );
-    result = *(volatile u16 *)&(
-        (MATRIX *)(scratch + HMD_MATRIX_OFFSET)
-    )->t[0];
-    out[0] = result;
-    result = *(volatile u16 *)&(
-        (MATRIX *)(scratch + HMD_MATRIX_OFFSET)
-    )->t[1];
-    out[1] = result;
-    result = *(volatile u16 *)&(
-        (MATRIX *)(scratch + HMD_MATRIX_OFFSET)
-    )->t[2];
+    memset(&scratch.offset, 0, sizeof(SVECTOR));
+    scratch.offset.vx = value;
+    Model_BuildViewRelativeCoordinateUnit(0, 15, &scratch.offset, &scratch.unit);
+    GsGetLwUnit(&scratch.unit, &scratch.world);
+    out[0] = scratch.world.t[0];
+    out[1] = scratch.world.t[1];
+    out[2] = scratch.world.t[2];
     out[3] = 0;
-    out[2] = result;
 }
 
 #include "camera_view.h"
@@ -648,17 +624,16 @@ void Model_RemapPrimitiveHandlers(s32 (*remap_handler)(s32), ModelHandlerRunEntr
 
 s32 Model_GetSlotCameraPresetYaw(s32 slot_index)
 {
-    s32 slot_offset = slot_index * MODEL_SLOT_SIZE;
     ModelCameraOrbitPreset *preset;
     s32 yaw;
-    ModelSlotCF8TailView *slot_metadata;
     s32 biased_yaw;
+    ModelSlotMetadataBlock *metadata = &gModel_aSlots[slot_index].metadata;
 
-    slot_metadata = (ModelSlotCF8TailView *)(slot_offset + (s32)&gModel_aSlots[0].metadata);
-    /* Retail rebuilds the alias base for the selector-byte load. */
+    /* Retail addresses the selector byte from the metadata base as well
+     * (base + 0x106); CSE derives that from the metadata pointer. */
     preset = ModelEffect_GetCoefficient(
-        slot_metadata->prefix.bytes.guardian_star_options[
-            (((u8 *)&gModel_aSlots[0].metadata) + slot_offset)[MODEL_SLOT_CF8_DFE_OFFSET]
+        metadata->prefix.bytes.guardian_star_options[
+            gModel_aSlots[slot_index].guardian_star_selection
         ] & 0x1F
     );
 

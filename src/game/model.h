@@ -64,8 +64,6 @@ extern s16 gModel_sTextureTintRectH;
 #define MODEL_SLOT_UNIT_COUNT 60
 #define MODEL_SLOT_ROW_COUNT 10
 #define MODEL_SLOT_ROW_KEY_TABLE_OFFSET 0x2C8
-#define MODEL_SLOT_CF8_DFE_OFFSET 0x106
-#define MODEL_SLOT_CF8_DFF_OFFSET 0x107
 #define MODEL_DATA_MIN_FREE_BYTES 0x401
 #define MODEL_LIGHT_BASE_INTENSITY 128
 #define MODEL_LIGHT_DIM_INTENSITY (MODEL_LIGHT_BASE_INTENSITY / 2)
@@ -101,7 +99,6 @@ extern s16 gModel_sTextureTintRectH;
 #define MODEL_AUX_FILE_START_SECTOR 0x88
 #endif
 #define MODEL_AUX_LOOKUP_RECORD_SIZE 0xB2
-#define MODEL_AUX_LOOKUP_VALUE_OFFSET 0xA0
 
 /* libhmd's GsUNIT layout: the unit's coordinate and its primitive data. */
 typedef struct {
@@ -223,22 +220,6 @@ typedef struct {
     s32 second_star_module_command;
     s32 primary_module_command;
 } ModelSlotMetadataBlock;
-
-/* View rooted at a slot's metadata (ModelSlot +0xCF8) and extending through the two
- * slot property bytes at DFE/DFF. The first words are compared by
- * Model_UpdateSlotControl; camera-yaw selection uses guardian_star_options
- * through guardian_star_selection. Other CF8 members retain relative
- * names where the payload's semantics are not established. */
-typedef struct {
-    ModelSlotMetadataPrefix prefix;
-    u16 battle_camera_duration_overrides[2];
-    s32 first_star_module_command;
-    s32 second_star_module_command;
-    s32 primary_module_command;
-    u8 pad_1C[0xEA];
-    u8 guardian_star_selection;
-    u8 defense_position;
-} ModelSlotCF8TailView;
 
 /* A ModelSlotMetadataBlock's worth of words, for the one place that copies a whole
    block: file_transfer_steps.c's phase 10 fills metadata straight out of the
@@ -753,11 +734,8 @@ typedef char ModelSlot_is_active_offset_must_be_0xE1F[
     MODEL_OFFSET(ModelSlot, is_active) == 0xE1F ? 1 : -1
 ];
 
-typedef char ModelSlotCF8TailView_size_must_be_0x108[
-    sizeof(ModelSlotCF8TailView) == 0x108 ? 1 : -1
-];
-typedef char ModelSlotCF8TailView_guardian_star_options_offset_must_be_0xA[
-    MODEL_OFFSET(ModelSlotCF8TailView, prefix.bytes.guardian_star_options) == 0xA ? 1 : -1
+typedef char ModelSlotMetadataPrefix_guardian_star_options_offset_must_be_0xA[
+    MODEL_OFFSET(ModelSlotMetadataPrefix, bytes.guardian_star_options) == 0xA ? 1 : -1
 ];
 typedef char ModelSlotMetadataPrefix_size_must_be_0xC[
     sizeof(ModelSlotMetadataPrefix) == 0xC ? 1 : -1
@@ -783,41 +761,19 @@ typedef char ModelSlotMetadataBlock_second_star_module_command_offset_must_be_0x
 typedef char ModelSlotMetadataBlock_primary_module_command_offset_must_be_0x18[
     MODEL_OFFSET(ModelSlotMetadataBlock, primary_module_command) == 0x18 ? 1 : -1
 ];
-typedef char ModelSlotCF8TailView_guardian_star_selection_offset_must_be_0x106[
-    MODEL_OFFSET(ModelSlotCF8TailView, guardian_star_selection) ==
-        MODEL_SLOT_CF8_DFE_OFFSET ? 1 : -1
-];
-typedef char ModelSlotCF8TailView_defense_position_offset_must_be_0x107[
-    MODEL_OFFSET(ModelSlotCF8TailView, defense_position) ==
-        MODEL_SLOT_CF8_DFF_OFFSET ? 1 : -1
-];
-
 typedef char ModelSlotMetadata_guardian_star_metadata_layout_must_match[
     sizeof(((ModelSlotMetadataPrefix *)0)->bytes.guardian_star_options) == 2 &&
     MODEL_OFFSET(ModelSlotMetadataBlock, battle_camera_duration_overrides) == 0xC &&
     sizeof(((ModelSlotMetadataBlock *)0)->battle_camera_duration_overrides) == 4 &&
-    MODEL_OFFSET(ModelSlotCF8TailView, battle_camera_duration_overrides) == 0xC &&
-    sizeof(((ModelSlotCF8TailView *)0)->battle_camera_duration_overrides) == 4 &&
-    sizeof(((ModelSlotCF8TailView *)0)->guardian_star_selection) == 1 &&
-    sizeof(((ModelSlotCF8TailView *)0)->defense_position) == 1 &&
-    MODEL_OFFSET(ModelSlot, metadata) +
-        MODEL_OFFSET(ModelSlotCF8TailView, guardian_star_selection) ==
-        MODEL_OFFSET(ModelSlot, guardian_star_selection) &&
-    MODEL_OFFSET(ModelSlot, metadata) +
-        MODEL_OFFSET(ModelSlotCF8TailView, defense_position) ==
-        MODEL_OFFSET(ModelSlot, defense_position) ? 1 : -1
+    MODEL_OFFSET(ModelSlot, metadata) == 0xCF8 &&
+    sizeof(((ModelSlot *)0)->guardian_star_selection) == 1 &&
+    sizeof(((ModelSlot *)0)->defense_position) == 1 ? 1 : -1
 ];
 
 typedef char ModelSlotMetadata_module_command_widths_must_match[
     sizeof(((ModelSlotMetadataBlock *)0)->first_star_module_command) == 4 &&
     sizeof(((ModelSlotMetadataBlock *)0)->second_star_module_command) == 4 &&
-    sizeof(((ModelSlotMetadataBlock *)0)->primary_module_command) == 4 &&
-    MODEL_OFFSET(ModelSlotCF8TailView, first_star_module_command) == 0x10 &&
-    MODEL_OFFSET(ModelSlotCF8TailView, second_star_module_command) == 0x14 &&
-    MODEL_OFFSET(ModelSlotCF8TailView, primary_module_command) == 0x18 &&
-    sizeof(((ModelSlotCF8TailView *)0)->first_star_module_command) == 4 &&
-    sizeof(((ModelSlotCF8TailView *)0)->second_star_module_command) == 4 &&
-    sizeof(((ModelSlotCF8TailView *)0)->primary_module_command) == 4 ? 1 : -1
+    sizeof(((ModelSlotMetadataBlock *)0)->primary_module_command) == 4 ? 1 : -1
 ];
 
 typedef char ModelHandlerRegistryEntry_size_must_be_0x8[
