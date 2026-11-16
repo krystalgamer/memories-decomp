@@ -52,7 +52,7 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vz) + 0xC00;
     if (work->tail.phase >= 4) {
-        len = work->field_1610 / 32;
+        len = work->width / 32;
     } else {
         len = 32;
     }

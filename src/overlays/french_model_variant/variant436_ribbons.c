@@ -50,7 +50,7 @@ void FrenchModelVariant436_DrawRibbons(u8 *ctx)
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vz) + 0xC00;
     if (work->tail.phase > 0) {
-        len = work->field_1610 * 10 / 1024;
+        len = work->width * 10 / 1024;
     } else {
         len = 10;
     }

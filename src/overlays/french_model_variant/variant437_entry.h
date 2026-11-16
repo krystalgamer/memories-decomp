@@ -69,7 +69,7 @@ typedef struct {
     u32 field_15F8;
     GsCOORDUNIT *parts[3];
     s16 field_1608, field_160A;
-    s32 field_160C, field_1610, field_1614, field_1618, spin;
+    s32 field_160C, width, field_1614, field_1618, spin;
     s16 field_1620, field_1622;
     s32 length, rotation_x, rotation_y, rotation_z;
     s32 phase_a, phase_b;
