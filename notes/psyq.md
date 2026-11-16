@@ -954,7 +954,7 @@ Every row below is now an applied project symbol.
 | `0x8007F5C4` | `GetGraphDebug` | Applied at offset `0x274` of the same unique `SYS.OBJ` signature. |
 | `0x8007F5D4` | `DrawSyncCallback` | Applied at offset `0x284` of the same unique `SYS.OBJ` signature. |
 | `0x8007F634` | `SetDispMask` | Applied at offset `0x2E4` of the same unique `SYS.OBJ` signature. |
-| `0x8007F6CC` | `DrawSync` | Applied Psy-Q 4.6 identity; `model_handler_registry.c` waits for queued GPU drawing after dispatching a model primitive handler. |
+| `0x8007F6CC` | `DrawSync` | Applied Psy-Q 4.6 identity; `model_primitive_handler.c` waits for queued GPU drawing after dispatching a model primitive handler. |
 | `0x8007F734` | `checkRECT` | Private `SYS.OBJ` rectangle validator identified by the exact `0x3E4` object offset and `0x11C` extent shared with the independently recovered Silent Hill Psy-Q map. |
 | `0x8007F850` | `ClearImage` | Applied at offset `0x500` of the unique Psy-Q 4.6 `LIBGPU.LIB/SYS.OBJ` signature; matching movie paths clear their display rectangles with the configured RGB triplet. |
 | `0x8007F8E0` | `ClearImage2` | Applied at offset `0x590` of the same unique `SYS.OBJ` signature. |
@@ -1625,7 +1625,7 @@ Matching game C now uses `libgpu.h` across image transfers, display
 environments, primitive records, and GPU synchronization. Representative
 migrations include `duel_scene.c`, `card_preview.c`,
 `file_cd_helpers.c`, `model_slot_control.c`, and
-`model_handler_registry.c`. The main-menu value-bar renderer
+`model_primitive_handler.c`. The main-menu value-bar renderer
 `MainMenu_DrawValueSetup` in `value_setup.c` (formerly
 `value_setup_visuals.c`, and `starchip_bars.c` before that) uses native `POLY_G4`/`POLY_GT4` stack records and
 their `setPolyG4`/`setPolyGT4` constructors. It renders the two-value editor,
@@ -2332,7 +2332,7 @@ The existing C sources expose several useful starting points:
 | Game-owned TIM metadata buffer | `GsIMAGE` in `libgs.h` | ABI-compatible migration is established in `model_texture_upload.c`: `GsGetTimInfo` fills the 28-byte local texture record, whose image and CLUT rectangles and pointers are then consumed through a native local `RECT` by the upload path; retain `ModelTextureParams` because later mode-specific coordinate edits are game-owned. |
 | Game-owned 2D primitive builders and ordering-table pointers | `GsSPRITE`, `GsBOXF`, and `GsOT` in `libgs.h` | ABI-compatible submission boundaries are established in `checkerboard_background.c`, `build_deck.c` and `fade_runtime.c`: local records and opaque ordering-table pointers are cast only for `GsSortFastSprite` or `GsSortBoxFill`; retain the local builders because their scratchpad word/halfword access shapes and submitted field subsets are exact-code evidence. |
 | Local `MoveImage` / `LoadImage2` / `StoreImage2` / `IsIdleGPU` declarations | `libgpu.h` | Initial migration complete in `Model_ApplyTextureTint`; the four adjacent signed halfwords remain a local rectangle-compatible view. |
-| Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_handler_registry.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
+| Local `DrawSync` declaration | `libgpu.h` | Initial migration complete in `model_primitive_handler.c`; mode `0` waits for queued GPU work after model primitive dispatch. |
 | Local draw/display environment buffers | `DRAWENV` and `DISPENV` | Migrations complete at two proven consumers: `file_cd_helpers.c` uses `DISPENV.disp` with `GetDispEnv` / `MoveImage2`, while `Movie_DecodeAndPresentFrame` in [`movie_frame_pipeline.c`](../src/game/movie_pipeline.c) uses `DRAWENV.clip.x/y` with `GetDrawEnv` to center decoded movie frames; other buffers still require complete size, alignment, and field-use evidence. |
 | Game-owned camera records | `GsRVIEW2` in `libgs.h` | Native migration is established for the embedded record at object offset `+0x10` in `view_state_orbit.c`; the separate 32-byte block at `0x800F56F0` is submitted through layout-compatible casts in `model_scene_controllers.c` and `model_scene_runtime.c`, while other matching users retain eight-word or field-specific views for exact code generation. |
 | Local vector and matrix records | `SVECTOR`, `VECTOR`, `MATRIX` | Partial migration established: `model_slot_support.c` uses native `SVECTOR` and `MATRIX` storage, while projection paths use layout-compatible SDK casts for `RotAverage3`, `ScaleMatrix`, `GsSetLsMatrix`, and `SetRotMatrix`; retain local render records where full layout or exact code generation is not proven. |

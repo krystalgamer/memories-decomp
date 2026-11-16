@@ -303,9 +303,6 @@ segments:
     - game/european/model_animation_unit
   - - 325244
     - c
-    - game/european/model_process_type2_unit
-  - - 325740
-    - c
     - game/european/model_primitive_handler
   - - 327712
     - c

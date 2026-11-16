@@ -6257,7 +6257,7 @@
       "address": "0x8005F980",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1BC",
-      "source": "src/game/japanese/model_process_type2_unit.c"
+      "source": "src/game/japanese/model_primitive_handlers.c"
     },
     {
       "address": "0x8005FB3C",

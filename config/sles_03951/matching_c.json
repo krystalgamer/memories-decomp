@@ -6112,7 +6112,7 @@
       "address": "0x8005EE7C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F0",
-      "source": "src/game/european/model_process_type2_unit.c"
+      "source": "src/game/european/model_primitive_handler.c"
     },
     {
       "address": "0x8005F06C",
