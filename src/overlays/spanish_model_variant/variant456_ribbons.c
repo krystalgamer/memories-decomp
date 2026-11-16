@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "variant456_ribbons.h"
 #include "variant456_entry.h"
 
 /* Two three-point ribbons. Each spine is placed at i / 2 of the offset at
@@ -31,11 +30,11 @@ void SpanishModelVariant456_DrawRibbons(Variant456EntryState *context)
     s32 amp;
     s32 dx;
     s32 dy;
-    Ribbon456 *ribbon;
+    Variant456EntryRibbon *ribbon;
     POLY_FT4 *poly;
 
     work = context;
-    ribbon = (Ribbon456 *)work->ribbons;
+    ribbon = work->ribbons;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     ratan2(work->view_delta.vy, work->view_delta.vx);
@@ -64,7 +63,7 @@ void SpanishModelVariant456_DrawRibbons(Variant456EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (Ribbon456 *)work->ribbons;
+    ribbon = work->ribbons;
     for (i = 0; i < 2; i++, ribbon++) {
         for (j = 0; j < 3; j++) {
             if (j == 2) {
@@ -82,7 +81,7 @@ void SpanishModelVariant456_DrawRibbons(Variant456EntryState *context)
             }
             ribbon->angle[j] = ratan2(dy, dx) - 0x400;
             ribbon->width[j] = (s16)ribbon->sb[j] - (s16)ribbon->sa[j];
-            size = ribbon->scale * ribbon->width[j] / 1024;
+            size = ribbon->width_scale * ribbon->width[j] / 1024;
             ribbon->ox[j] = rcos(ribbon->angle[j]) * size >> 12;
             ribbon->oy[j] = rsin(ribbon->angle[j]) * size >> 12;
             if (j == 0 || j == 2) {
@@ -96,7 +95,7 @@ void SpanishModelVariant456_DrawRibbons(Variant456EntryState *context)
             ribbon->sa[j] += (rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * width >> 12)) >> 12) << 16;
         }
     }
-    ribbon = (Ribbon456 *)work->ribbons;
+    ribbon = work->ribbons;
     for (i = 0; i < 2; i++, ribbon++) {
         poly = work->flat;
         for (j = 0; j < 2; j++) {
@@ -108,9 +107,9 @@ void SpanishModelVariant456_DrawRibbons(Variant456EntryState *context)
             poly->y2 = (ribbon->sa[j] >> 16) - ribbon->oy[j];
             poly->x3 = ribbon->sa[j + 1] - ribbon->ox[j + 1];
             poly->y3 = (ribbon->sa[j + 1] >> 16) - ribbon->oy[j + 1];
-            poly->r0 = ribbon->color[0];
-            poly->g0 = ribbon->color[1];
-            poly->b0 = ribbon->color[2];
+            poly->r0 = ribbon->color.r;
+            poly->g0 = ribbon->color.g;
+            poly->b0 = ribbon->color.b;
             if (ribbon->otz[j] > 0) {
                 GsSortPoly(poly, ot, ribbon->otz[j]);
             }

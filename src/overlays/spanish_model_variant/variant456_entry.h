@@ -37,18 +37,29 @@ typedef struct {
     VECTOR delta;
 } Variant456EntryTrail;
 
-/* A 0xE0-byte ribbon (see Ribbon456): colours, scale, heading and phases. */
+/* A 0xE0-byte ribbon: a three-point spine and a copy of it moved along the
+ * view, both projected, the per-point screen angle and projected width, the
+ * colours, scale and heading the entry seeds, per point the depth and the
+ * width's screen offset, and the phases. The ribbon drawer scales each
+ * projected width by width_scale / 1024. */
 typedef struct {
-    u8 unknown_00[0x60];
+    SVECTOR a[3];
+    long sa[3];
+    s32 angle[3];
+    SVECTOR b[3];
+    long sb[3];
+    s32 width[3];
     CVECTOR color, secondary;
     VECTOR scale;
     s16 field_78, field_7A;
     s32 field_7C;
     u8 unknown_80[0x18];
     s32 heading[3];
-    u8 unknown_A4[0x28];
+    u8 unknown_A4[0x10];
+    s32 otz[3];
+    s16 ox[3];
+    s16 oy[3];
     s32 phase[3];
-    /* Ribbon456 scales each projected width by width_scale / 1024. */
     s32 field_D8, width_scale;
 } Variant456EntryRibbon;
 
