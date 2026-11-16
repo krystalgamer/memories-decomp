@@ -1,16 +1,16 @@
 #ifndef FRENCH_MODEL_VARIANT450_COILS_H
 #define FRENCH_MODEL_VARIANT450_COILS_H
 #include "../../types.h"
-#include "variant450_bands.h"
+#include "../model_variant/variant433_entry.h"
 #include "../model_variant/model_variant.h"
 #include "../spanish_model_variant/variant450_quads.h"
 
 typedef struct {
     SVECTOR points[17];
-    Model450Screen screen[17];
+    Variant433RingScreen screen[17];
     s32 angle[17];
     SVECTOR edges[17];
-    Model450Screen edge_screen[17];
+    Variant433RingScreen edge_screen[17];
     s32 width[17];
     u8 unknown_220[0x44];
     CVECTOR color[17];

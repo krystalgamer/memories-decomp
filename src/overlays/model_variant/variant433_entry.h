@@ -43,11 +43,11 @@ typedef union {
  * copies, the per-point angles and widths, the colours, scale and heading the
  * entry seeds, and per point the depth, screen offsets and growth amount. */
 typedef struct {
-    SVECTOR p[9];
-    Variant433RingScreen s[9];
+    SVECTOR points[9];
+    Variant433RingScreen screen[9];
     s32 angle[9];
-    SVECTOR e[9];
-    Variant433RingScreen es[9];
+    SVECTOR edges[9];
+    Variant433RingScreen edge_screen[9];
     s32 width[9];
     CVECTOR color, secondary;
     VECTOR scale;
@@ -57,8 +57,8 @@ typedef struct {
     s32 heading[3];
     u8 unknown_194[4];
     s32 depth[9];
-    s16 xo[9];
-    s16 yo[9];
+    s16 x_offset[9];
+    s16 y_offset[9];
     s32 amount[9];
     s32 field_204;
 } Variant433EntryBand;
@@ -109,6 +109,7 @@ extern GsIMAGE gModelVariant433_aImages[9];
 extern Variant433EntryConfig gModelVariant433_aConfigs[];
 void ModelVariant433_DrawRibbons(u8 *context);
 void ModelVariant433_DrawRings(Variant433EntryState *context);
+void ModelVariant433_DrawBands(Variant433EntryState *context);
 void SpanishModelVariant450_DrawQuadGroups(u8 *context);
 void SpanishModelVariant450_DrawLines(u8 *context);
 #endif

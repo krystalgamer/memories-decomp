@@ -2,14 +2,14 @@
 #define MODEL_VARIANT433_RIBBONS_H
 #include "../../types.h"
 #include "model_variant.h"
-#include "variant433_bands.h"
+#include "variant433_entry.h"
 
 typedef struct {
     SVECTOR points[9];
-    Variant433Screen screen[9];
+    Variant433RingScreen screen[9];
     s32 angle[9];
     SVECTOR edges[9];
-    Variant433Screen edge_screen[9];
+    Variant433RingScreen edge_screen[9];
     s32 width[9];
     CVECTOR color;
     CVECTOR secondary_color;

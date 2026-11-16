@@ -2,14 +2,14 @@
 #define FRENCH_MODEL_VARIANT450_RIBBONS_H
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
-#include "variant450_bands.h"
+#include "../model_variant/variant433_entry.h"
 
 typedef struct {
     SVECTOR points[9];
-    Model450Screen screen[9];
+    Variant433RingScreen screen[9];
     s32 angle[9];
     SVECTOR edges[9];
-    Model450Screen edge_screen[9];
+    Variant433RingScreen edge_screen[9];
     s32 width[9];
     CVECTOR color;
     CVECTOR secondary_color;

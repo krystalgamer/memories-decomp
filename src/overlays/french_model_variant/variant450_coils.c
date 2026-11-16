@@ -33,7 +33,7 @@ void ModelVariant433_DrawCoils(u8 *context)
     s32 phase;
     s16 reach;
     s32 dx, dy;
-    Model450Screen *previous;
+    Variant433RingScreen *previous;
 
     work = (Model450CoilView *)context;
     ot = Graphics_GetDefaultOrderingTable();
@@ -98,7 +98,7 @@ void ModelVariant433_DrawCoils(u8 *context)
     GsSetLsMatrix(&light);
     coil = work->coils;
     for (i = 0, previous = &coil->screen[15]; i < 2; i++,
-         previous = (Model450Screen *)((u8 *)previous + sizeof(Model450Coil)), coil++) {
+         previous = (Variant433RingScreen *)((u8 *)previous + sizeof(Model450Coil)), coil++) {
         for (j = 0; j < 17; j++) {
             if (j == 16) {
                 coil->offsets.otz[j] = RotTransPers4(
