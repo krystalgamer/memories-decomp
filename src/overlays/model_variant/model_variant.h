@@ -22,30 +22,12 @@ typedef struct {
     u32 limit;
 } ModelVariantQuadTiming;
 
-/* Like ModelVariantQuadTiming, but the frame limit sits one word later, at
- * + 0x24. */
-typedef struct {
-    u8 unknown_00[0x24];
-    u32 limit;
-} ModelVariantQuadTimingLong;
-
 /* The rays command row: the pass count at + 0x18; the helper finishes when
  * its index reaches it. */
 typedef struct {
     u8 unknown_00[0x18];
     u16 count;
 } ModelVariantRayTiming;
-
-/* The swarm command row with the group count, the growth rate and the frame
- * limit a finished quad waits for. */
-typedef struct {
-    u8 unknown_00[0x1C];
-    s32 count;
-    u8 unknown_20[4];
-    u32 rate;
-    u8 unknown_28[4];
-    u32 limit;
-} ModelVariantSwarmRateTiming;
 
 /* A 0x2FC-byte group of ten quads: corner arrays a..d, a position per quad,
  * a colour, and per quad a size, an angle, a done flag and an initialized
@@ -87,20 +69,6 @@ typedef struct {
     u8 unknown_504[0x10];
     s32 size[32], done[32], field_614[32], initialized[32];
 } ModelVariantSwarmGroup;
-
-/* One group of 32 quads: corners, a shared colour, growth and done flags;
- * ModelVariantSwarmGroup without the trailing reset flags. */
-typedef struct {
-    SVECTOR a[32];
-    SVECTOR b[32];
-    SVECTOR c[32];
-    SVECTOR d[32];
-    u8 unknown_400[0x100];
-    u8 color[4];
-    u8 unknown_504[0x10];
-    s32 size[32];
-    s32 done[32];
-} ModelVariantSwarmGroupShort;
 
 
 /* A 0x20-byte anchor whose position becomes the translation of a sheet,

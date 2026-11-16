@@ -19,13 +19,13 @@ typedef struct {
 /* Up to sixty-four swarm quads at the start of the work area; the swarm
  * helper animates them from the part matrices captured at launch. */
 typedef struct {
-    SVECTOR a[64], b[64], c[64], d[64], origin[64];
-    u8 color[4];
+    SVECTOR a[64], b[64], c[64], d[64], positions[64];
+    CVECTOR color;
     u8 unknown_A04[0x10];
     s32 size[64];
-    s32 field_B14[64];
-    s32 field_C14[64];
     s32 done[64];
+    s32 field_C14[64];
+    s32 initialized[64];
     MATRIX origins[64];
 } Variant438EntrySwarm;
 
@@ -62,5 +62,5 @@ typedef struct {
 
 extern GsIMAGE gModelVariant438_aImages[9];
 extern Variant438EntryConfig gModelVariant438_aConfigs[];
-void FrenchModelVariant455_DrawSwarm(u8 *context);
+void FrenchModelVariant455_DrawSwarm(Variant438EntryState *context);
 #endif

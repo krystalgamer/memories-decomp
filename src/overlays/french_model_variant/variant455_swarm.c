@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant455_swarm.h"
+#include "../model_variant/variant438_entry.h"
 
-void FrenchModelVariant455_DrawSwarm(u8 *context)
+void FrenchModelVariant455_DrawSwarm(Variant438EntryState *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -13,9 +13,9 @@ void FrenchModelVariant455_DrawSwarm(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Swarm455State *state = (Swarm455State *)context;
-    Swarm455Group *group = &state->group;
-    POLY_FT4 *polygon = &state->polygon;
+    Variant438EntryState *state = context;
+    Variant438EntrySwarm *group = &state->swarm;
+    POLY_FT4 *polygon = &state->sprite;
     s16 j;
     s16 angle, spread;
     s32 complete;
@@ -29,28 +29,28 @@ void FrenchModelVariant455_DrawSwarm(u8 *context)
     ratan2(state->direction.vy, state->direction.vz);
     spread = 0;
     angle = 0;
-    ratan2(state->projected.vy, state->projected.vx);
-    for (; j < state->timing->count; j++, spread = j * 1024, angle += 64) {
+    ratan2(state->screen_delta.vy, state->screen_delta.vx);
+    for (; j < state->config->count; j++, spread = j * 1024, angle += 64) {
         if (group->size[j] >= 0) {
             if (group->size[j] > 512) {
-                red = group->color[0] * (1024 - group->size[j]) / 512;
-                green = group->color[1] * (1024 - group->size[j]) / 512;
-                blue = group->color[2] * (1024 - group->size[j]) / 512;
+                red = group->color.r * (1024 - group->size[j]) / 512;
+                green = group->color.g * (1024 - group->size[j]) / 512;
+                blue = group->color.b * (1024 - group->size[j]) / 512;
             } else {
-                red = group->color[0];
-                green = group->color[1];
-                blue = group->color[2];
+                red = group->color.r;
+                green = group->color.g;
+                blue = group->color.b;
             }
             radius = 480 - (rcos(group->size[j]) * 480 >> 12);
             size = (rsin(group->size[j]) * 3596 >> 12) + 500;
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = group->origins[j].t[0] + state->directions[j].vx * group->size[j] / 512 +
+            matrix.t[0] = group->origins[j].t[0] + state->offsets[j].vx * group->size[j] / 512 +
                           (rcos(spread - 1024 + angle) * radius >> 12);
-            matrix.t[1] = group->origins[j].t[1] + state->directions[j].vy * group->size[j] / 512 +
+            matrix.t[1] = group->origins[j].t[1] + state->offsets[j].vy * group->size[j] / 512 +
                           (rsin(spread - 1024 + angle) * radius >> 12);
-            matrix.t[2] = group->origins[j].t[2] + state->directions[j].vz * group->size[j] / 512;
+            matrix.t[2] = group->origins[j].t[2] + state->offsets[j].vz * group->size[j] / 512;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -76,28 +76,28 @@ void FrenchModelVariant455_DrawSwarm(u8 *context)
             }
         }
         if (group->size[j] < 1024) {
-            group->size[j] += state->timing->rate * state->step / 2;
-            if (group->size[0] >= 512 && state->phase == 0) {
-                state->phase = 2;
+            group->size[j] += state->config->rate * state->clock.step / 2;
+            if (group->size[0] >= 512 && state->tail.phase == 0) {
+                state->tail.phase = 2;
             }
             if (group->size[j] >= 1024) {
-                if (state->timing->limit <= state->time) {
+                if (state->config->limit <= state->clock.frame) {
                     group->size[j] = 1024;
                     group->done[j] = 1;
                 } else {
                     group->size[j] -= 1024;
-                    group->reset[j] = 0;
+                    group->initialized[j] = 0;
                 }
             } else if (group->size[j] <= 0) {
-                if (state->timing->limit <= state->time) {
+                if (state->config->limit <= state->clock.frame) {
                     group->size[j] = 1024;
                     group->done[j] = 1;
                 }
             }
         }
         complete *= group->done[j];
-        if (j + 1 == state->timing->count && complete == 1 && state->phase == 2) {
-            state->phase = 5;
+        if (j + 1 == state->config->count && complete == 1 && state->tail.phase == 2) {
+            state->tail.phase = 5;
         }
     }
 }

@@ -21,7 +21,9 @@ The control flow follows the French MODEL478 swarm helper
 - the reset flag is cleared when a quad wraps;
 - completion moves phase 2 to phase 4.
 
-The local view lives in `variant429_swarm.h`. The calls are covered by
+The helper reads `Variant412EntryState` (its `flares`, whose `+0x11C`/`+0x14C`
+words are `done`/`initialized`); the former local view `variant429_swarm.h`
+was removed. The calls are covered by
 `model_variant429_linker_symbols.txt`. All French overlay images rebuild
 exactly. The [attempt ledger](french-model-image429-swarm-attempts.csv)
 records the probe, which matched on the first build.

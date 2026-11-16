@@ -31,7 +31,7 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
     POLY_G4 *quad = &work->packets.quad;
     POLY_FT4 *flat = work->flat_textured;
     POLY_FT4 *glow = &work->glow;
-    Variant402EntryQuads *quads;
+    ModelVariantQuadGroup *quads;
     s32 result = 0;
     s32 outer, web_angle, row;
     s32 i, j, k, angle, base_angle;
@@ -114,15 +114,15 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
             setVector(&swarm->b[outer], 256, -256, 0);
             setVector(&swarm->c[outer], -256, 256, 0);
             setVector(&swarm->d[outer], 256, 256, 0);
-            swarm->color[0] = work->config->outer.r;
-            swarm->color[1] = work->config->outer.g;
-            swarm->color[2] = work->config->outer.b;
+            swarm->color.r = work->config->outer.r;
+            swarm->color.g = work->config->outer.g;
+            swarm->color.b = work->config->outer.b;
             swarm->size[outer] = -(outer * 32);
             swarm->done[outer] = 0;
             swarm->reset[outer] = 0;
-            swarm->position[outer].vx = work->matrix.t[0] + work->aim.direction.vx;
-            swarm->position[outer].vy = work->matrix.t[1] + work->aim.direction.vy;
-            swarm->position[outer].vz = work->matrix.t[2] + work->aim.direction.vz;
+            swarm->positions[outer].vx = work->matrix.t[0] + work->aim.direction.vx;
+            swarm->positions[outer].vy = work->matrix.t[1] + work->aim.direction.vy;
+            swarm->positions[outer].vz = work->matrix.t[2] + work->aim.direction.vz;
         }
         for (quads = work->quads, i = 0; i < 1; i++, quads++) {
             for (outer = 0; outer < 10; outer++) {
@@ -130,17 +130,17 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&quads->b[outer], 256, -256, 0);
                 setVector(&quads->c[outer], -256, 256, 0);
                 setVector(&quads->d[outer], 256, 256, 0);
-                quads->color[0] = work->config->outer.r;
-                quads->color[1] = work->config->outer.g;
-                quads->color[2] = work->config->outer.b;
+                quads->color.r = work->config->outer.r;
+                quads->color.g = work->config->outer.g;
+                quads->color.b = work->config->outer.b;
                 quads->angle[outer] = 0;
                 quads->done[outer] = 0;
                 quads->field_20C[outer] = 0;
-                quads->reset[outer] = 0;
+                quads->initialized[outer] = 0;
                 quads->size[outer] = -((outer << 12) / 10);
-                quads->position[outer].vx = work->matrix.t[0] + work->aim.direction.vx;
-                quads->position[outer].vy = work->matrix.t[1] + work->aim.direction.vy;
-                quads->position[outer].vz = work->matrix.t[2] + work->aim.direction.vz;
+                quads->positions[outer].vx = work->matrix.t[0] + work->aim.direction.vx;
+                quads->positions[outer].vy = work->matrix.t[1] + work->aim.direction.vy;
+                quads->positions[outer].vz = work->matrix.t[2] + work->aim.direction.vz;
             }
         }
         for (i = 0; i < 1; i++, band++) {
@@ -329,10 +329,10 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant419_DrawSwarm((u8 *)point);
+            FrenchModelVariant419_DrawSwarm((Variant402EntryState *)point);
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant419_DrawQuads((u8 *)point);
+            FrenchModelVariant419_DrawQuads((Variant402EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

@@ -24,9 +24,9 @@ typedef struct {
     CVECTOR color;
     u8 unknown_284[0x10];
     s32 scale[16];
-    s32 field_2D4[16];
-    s32 field_314[16];
     s32 done[16];
+    s32 field_314[16];
+    s32 initialized[16];
     s32 fade[16];
     MATRIX origins[16];
 } Variant451EntryGroup;
@@ -67,5 +67,5 @@ typedef struct {
 
 extern GsIMAGE gModelVariant451_aImages[9];
 extern Variant451EntryConfig gModelVariant451_aConfigs[];
-void FrenchModelVariant468_DrawSwarm(u8 *context);
+void FrenchModelVariant468_DrawSwarm(Variant451EntryState *context);
 #endif

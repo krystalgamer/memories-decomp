@@ -14,10 +14,11 @@ typedef struct {
 } Variant430EntryConfig;
 
 /* Thirty-two swarm quads at the start of the work area, drawn by
- * FrenchModelVariant447_DrawSwarm. */
+ * FrenchModelVariant447_DrawSwarm: ModelVariantSwarmGroup without the
+ * trailing initialized flags (the trail records follow). */
 typedef struct {
-    SVECTOR a[32], b[32], c[32], d[32], origin[32];
-    u8 color[4];
+    SVECTOR a[32], b[32], c[32], d[32], positions[32];
+    CVECTOR color;
     u8 unknown_504[0x10];
     s32 size[32];
     s32 done[32];
@@ -52,5 +53,5 @@ typedef struct {
 /* Nine texture images followed by the command table. */
 extern GsIMAGE gModelVariant430_aImages[];
 extern Variant430EntryConfig gModelVariant430_aConfigs[];
-void FrenchModelVariant447_DrawSwarm(u8 *context);
+void FrenchModelVariant447_DrawSwarm(Variant430EntryState *context);
 #endif

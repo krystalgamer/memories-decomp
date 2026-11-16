@@ -15,7 +15,8 @@ Each image layout gains a C segment at `0x11DC`, carved out of the
 unclassified head. The bytes before it stay unclassified.
 
 The control flow follows the French MODEL478 swarm helper
-(`variant478_swarm.c`), over a local view in `variant419_swarm.h`:
+(`variant478_swarm.c`), reading `Variant402EntryState` (a local view in `variant419_swarm.h` until it
+was folded):
 - the group at `+0x2FC`;
 - the `POLY_FT4` at `+0x221C`;
 - the origin at `+0x227C` and the direction at `+0x2290`;

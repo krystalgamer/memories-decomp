@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant429_quads.h"
+#include "../model_variant/variant412_entry.h"
 #include "../../game/gpu_packets.h"
 
-void FrenchModelVariant429_DrawQuads(u8 *context)
+void FrenchModelVariant429_DrawQuads(Variant412EntryState *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -14,8 +14,8 @@ void FrenchModelVariant429_DrawQuads(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Quads429State *state = (Quads429State *)context;
-    ModelVariantQuadGroup *group = state->groups;
+    Variant412EntryState *state = context;
+    ModelVariantQuadGroup *group = state->trails;
     POLY_FT4 *polygon;
     s16 i, j;
     s16 angle, ripple;
@@ -27,8 +27,8 @@ void FrenchModelVariant429_DrawQuads(u8 *context)
     complete = 1;
     i = 0;
     ratan2(state->direction.vy, state->direction.vz);
-    polygon = &state->polygon;
-    ratan2(state->projected.vy, state->projected.vx);
+    polygon = &state->sprite;
+    ratan2(state->screen_delta.vy, state->screen_delta.vx);
     for (; i < 1; i++, group++) {
         j = 0;
         angle = 0;
@@ -47,9 +47,9 @@ void FrenchModelVariant429_DrawQuads(u8 *context)
                 rotation.vx = 0;
                 rotation.vy = 0;
                 rotation.vz = 0;
-                matrix.t[0] = state->origin.vx + ((rcos(angle + ripple + group->angle[j]) * 128) >> 12);
-                matrix.t[1] = state->origin.vy + ((rsin(angle + group->angle[j]) * 128) >> 12);
-                matrix.t[2] = state->origin.vz + ((rsin(ripple + group->angle[j]) * 128) >> 12);
+                matrix.t[0] = state->target.vx + ((rcos(angle + ripple + group->angle[j]) * 128) >> 12);
+                matrix.t[1] = state->target.vy + ((rsin(angle + group->angle[j]) * 128) >> 12);
+                matrix.t[2] = state->target.vz + ((rsin(ripple + group->angle[j]) * 128) >> 12);
                 scale.vx = group->size[j];
                 scale.vy = group->size[j];
                 scale.vz = group->size[j];
@@ -77,7 +77,7 @@ void FrenchModelVariant429_DrawQuads(u8 *context)
             if (group->size[j] < 4096) {
                 group->size[j] += state->clock.step * 256;
                 if (group->size[j] >= 4096) {
-                    if (state->timing->limit <= state->clock.frame && state->phase >= 3) {
+                    if (state->config->limit <= state->clock.frame && state->tail.phase >= 3) {
                         group->size[j] = 4096;
                         group->done[j] = 1;
                     } else {
@@ -86,15 +86,15 @@ void FrenchModelVariant429_DrawQuads(u8 *context)
                         group->angle[j] += 600;
                     }
                 } else if (group->size[j] <= 0) {
-                    if (state->timing->limit <= state->clock.frame) {
+                    if (state->config->limit <= state->clock.frame) {
                         group->size[j] = 4096;
                         group->done[j] = 1;
                     }
                 }
             }
             complete *= group->done[j];
-            if (j + 1 == 10 && complete == 1 && state->phase == 4) {
-                state->phase = 5;
+            if (j + 1 == 10 && complete == 1 && state->tail.phase == 4) {
+                state->tail.phase = 5;
             }
         }
     }

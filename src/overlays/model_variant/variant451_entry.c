@@ -137,9 +137,9 @@ s32 ModelVariant451_HandleRequest(SVECTOR *point, s32 command)
             group->color.g = work->config->outer.g;
             group->color.b = work->config->outer.b;
             group->scale[i] = -(i * 256 / work->config->count);
-            group->field_2D4[i] = 0;
-            group->field_314[i] = 0;
             group->done[i] = 0;
+            group->field_314[i] = 0;
+            group->initialized[i] = 0;
             group->fade[i] = i * 2048 / work->config->count + 1024;
             group->origin[i].vx = work->matrix.t[0] + work->direction.vx;
             group->origin[i].vy = work->matrix.t[1] + work->direction.vy;
@@ -334,7 +334,7 @@ s32 ModelVariant451_HandleRequest(SVECTOR *point, s32 command)
                 }
                 if (work->config->sweep_start <= work->clock.frame) {
                     for (group = &work->group, i = 0; i < work->config->count; i++) {
-                        if (group->scale[i] >= 0 && group->done[i] == 0) {
+                        if (group->scale[i] >= 0 && group->initialized[i] == 0) {
                             if (work->tail.slot == 0) {
                                 setVector(&work->positions[i], work->target.vx,
                                           work->target.vy + (rcos(work->sweep) * 256 >> 12),
@@ -345,7 +345,7 @@ s32 ModelVariant451_HandleRequest(SVECTOR *point, s32 command)
                                           work->target.vz);
                             }
                             GsGetLwUnit(work->parts[0], &group->origins[i]);
-                            group->done[i] = 1;
+                            group->initialized[i] = 1;
                         }
                         setVector(&work->offsets[i], work->positions[i].vx - group->origins[i].t[0],
                                   work->positions[i].vy - group->origins[i].t[1],
@@ -355,13 +355,13 @@ s32 ModelVariant451_HandleRequest(SVECTOR *point, s32 command)
             }
         } else if (work->config->start <= work->clock.frame) {
             for (group = &work->group, i = 0, angle = 0, web_angle = 0; i < work->config->count; i++, angle += 1300, web_angle += 1700) {
-                if (group->scale[i] >= 0 && group->done[i] == 0) {
+                if (group->scale[i] >= 0 && group->initialized[i] == 0) {
                     setVector(&work->positions[i],
                               work->center.vx + (rcos(angle + web_angle) * 128 >> 12),
                               work->center.vy + (rsin(angle) * 128 >> 12),
                               work->center.vz + (rsin(web_angle) * 128 >> 12));
                     GsGetLwUnit(work->parts[0], &group->origins[i]);
-                    group->done[i] = 1;
+                    group->initialized[i] = 1;
                 }
                 setVector(&work->offsets[i], work->positions[i].vx - group->origins[i].t[0],
                           work->positions[i].vy - group->origins[i].t[1],
@@ -383,7 +383,7 @@ s32 ModelVariant451_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant468_DrawSwarm((u8 *)point);
+            FrenchModelVariant468_DrawSwarm((Variant451EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

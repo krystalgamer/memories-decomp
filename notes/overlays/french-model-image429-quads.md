@@ -23,7 +23,8 @@ three differences:
 - the timing limit is at `+0x20`;
 - completion is tested against phase 4 instead of 3.
 
-The local view lives in `variant429_quads.h`. The new
+The helper reads `Variant412EntryState` (`trails`, `sprite`, `target`); the
+former local view `variant429_quads.h` was removed. The new
 `model_variant429_linker_symbols.txt` binds the twelve resident calls at
 their French addresses, and each split image names it in the overlay
 manifest. All French overlay images rebuild exactly. The
