@@ -263,6 +263,18 @@ now closes [`name_entry_runtime.c`](name_entry_runtime.c), whose C subsegment
 also covers `0x113C` (formerly the standalone `name_entry_keyboard_update.c`) and the last two
 at `0x1734` (formerly `name_entry_dialog.c`).
 
+The Japanese `password`/`name_entry` images and every PAL `password_a`/
+`password_b` image keep these fourteen functions together at module offset
+`0x9C` (JP `0x8016809C..0x8016998C`, PAL `0x8016809C..0x80169A44`), in NA
+order and under the one profile, so each builds `name_entry_runtime.c` as the
+same single object as NA through one wrapper per directory,
+`../japanese/password/name_entry_runtime.c` and
+`../european/password_{a,b}/name_entry_runtime.c` (#39). These replaced
+thirteen Japanese and eleven per-directory European per-function wrappers and
+their `VERSION_*_PASSWORD_*` guards. The wrappers carry the regional pad and
+dialog-completion masks those per-function wrappers defined: Japan's
+keyboard confirm/cancel masks and Europe's `0x2010` dialog completion mask.
+
 The keyboard's complete `PasswordGlyphCoordinates` initializer keeps both
 coordinate words defined together. Replacing it with separate member stores
 changes old-GCC allocation; explicit zeroing adds unwanted instructions.
