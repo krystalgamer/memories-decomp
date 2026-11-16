@@ -3,13 +3,17 @@
 #include "../../types.h"
 #include "../french_model_variant/variant337_entry.h"
 
+/* One 0x108-byte band: three rows of five points and their screen
+ * coordinates, the two colour rows and scale the entry seeds, and the five
+ * depths. */
 typedef struct {
-    u8 unknown_00[0xB4];
+    SVECTOR a[5], b[5], c[5];
+    long sa[5], sb[5], sc[5];
     CVECTOR ca[5], cb[5];
     VECTOR scale;
     s16 field_EC, field_EE;
     s32 field_F0;
-    u8 unknown_F4[0x14];
+    s32 otz[5];
 } Variant423EntryBand;
 
 typedef struct {

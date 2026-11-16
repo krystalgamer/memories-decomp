@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "../model_variant/variant423_bands.h"
 #include "../model_variant/variant423_entry.h"
 
 /* French MODEL631/262 band helper. Same drawing as the NA variant423 band, but
@@ -20,9 +19,9 @@ void ModelVariant423_DrawBand(u8 *ctx)
     GsOT *ot;
     s32 angle;
     POLY_GT4 *poly;
-    Variant423Band *band;
-    Variant423Band *col;
-    Variant423Band *next;
+    Variant423EntryBand *band;
+    Variant423EntryBand *col;
+    Variant423EntryBand *next;
     s16 i;
     s16 j;
     s16 r;
@@ -39,7 +38,7 @@ void ModelVariant423_DrawBand(u8 *ctx)
             (rsin(work->band_wave) * (work->scale / 256) >> 12);
     }
     work->band_wave += work->clock.step * 256;
-    band = (Variant423Band *)work->bands;
+    band = work->bands;
     for (i = 0; i < 1; i++, band++) {
         for (j = 0; j < 5; j++) {
             setVector(&band->a[j], rcos(0x400) * r >> 12, rsin(0x400) * r >> 12, 0);
@@ -75,7 +74,7 @@ void ModelVariant423_DrawBand(u8 *ctx)
                                          &band->sc[j], &p, &flag[i][j]);
         }
     }
-    band = (Variant423Band *)work->bands;
+    band = work->bands;
     for (i = 0; i < 1; i++, band++) {
         for (j = 0; j < 4; j++) {
             poly->x0 = band->sa[j];
@@ -86,18 +85,18 @@ void ModelVariant423_DrawBand(u8 *ctx)
             poly->y2 = band->sb[j] >> 16;
             poly->x3 = band->sb[j + 1];
             poly->y3 = band->sb[j + 1] >> 16;
-            poly->r0 = band->ca[j][0];
-            poly->g0 = band->ca[j][1];
-            poly->b0 = band->ca[j][2];
-            poly->r1 = band->ca[j + 1][0];
-            poly->g1 = band->ca[j + 1][1];
-            poly->b1 = band->ca[j + 1][2];
-            poly->r2 = band->cb[j][0];
-            poly->g2 = band->cb[j][1];
-            poly->b2 = band->cb[j][2];
-            poly->r3 = band->cb[j + 1][0];
-            poly->g3 = band->cb[j + 1][1];
-            poly->b3 = band->cb[j + 1][2];
+            poly->r0 = band->ca[j].r;
+            poly->g0 = band->ca[j].g;
+            poly->b0 = band->ca[j].b;
+            poly->r1 = band->ca[j + 1].r;
+            poly->g1 = band->ca[j + 1].g;
+            poly->b1 = band->ca[j + 1].b;
+            poly->r2 = band->cb[j].r;
+            poly->g2 = band->cb[j].g;
+            poly->b2 = band->cb[j].b;
+            poly->r3 = band->cb[j + 1].r;
+            poly->g3 = band->cb[j + 1].g;
+            poly->b3 = band->cb[j + 1].b;
             if (band->otz[j] < 0) {
                 band->otz[j] = 0;
             }
@@ -105,8 +104,8 @@ void ModelVariant423_DrawBand(u8 *ctx)
             if (band->otz[j] >= 0) {
                 GsSortPoly(poly, ot, band->otz[j + 1]);
             }
-            col = (Variant423Band *)((s32 *)band + j);
-            next = (Variant423Band *)((u8 *)band + (j + 1) * 4);
+            col = (Variant423EntryBand *)((s32 *)band + j);
+            next = (Variant423EntryBand *)((u8 *)band + (j + 1) * 4);
             poly->x0 = col->sc[0];
             poly->y0 = col->sc[0] >> 16;
             poly->x1 = next->sc[0];
@@ -115,18 +114,18 @@ void ModelVariant423_DrawBand(u8 *ctx)
             poly->y2 = col->sb[0] >> 16;
             poly->x3 = next->sb[0];
             poly->y3 = next->sb[0] >> 16;
-            poly->r0 = col->ca[0][0];
-            poly->g0 = col->ca[0][1];
-            poly->b0 = col->ca[0][2];
-            poly->r1 = next->ca[0][0];
-            poly->g1 = next->ca[0][1];
-            poly->b1 = next->ca[0][2];
-            poly->r2 = col->cb[0][0];
-            poly->g2 = col->cb[0][1];
-            poly->b2 = col->cb[0][2];
-            poly->r3 = next->cb[0][0];
-            poly->g3 = next->cb[0][1];
-            poly->b3 = next->cb[0][2];
+            poly->r0 = col->ca[0].r;
+            poly->g0 = col->ca[0].g;
+            poly->b0 = col->ca[0].b;
+            poly->r1 = next->ca[0].r;
+            poly->g1 = next->ca[0].g;
+            poly->b1 = next->ca[0].b;
+            poly->r2 = col->cb[0].r;
+            poly->g2 = col->cb[0].g;
+            poly->b2 = col->cb[0].b;
+            poly->r3 = next->cb[0].r;
+            poly->g3 = next->cb[0].g;
+            poly->b3 = next->cb[0].b;
             if (col->otz[0] < 0) {
                 next = col;
                 next->otz[0] = 0;
