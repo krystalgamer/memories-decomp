@@ -487,20 +487,6 @@ typedef struct {
     s32 otz[9];
 } ModelVariantBand;
 
-/* Header 418's band record: the same fields in a 0x1EC-byte record. */
-typedef struct {
-    SVECTOR a[9];
-    SVECTOR b[9];
-    SVECTOR c[9];
-    long sa[9];
-    long sb[9];
-    long sc[9];
-    u8 ca[9][4];
-    u8 cb[9][4];
-    u8 pad18C[0x18];
-    s32 otz[9];
-    u8 pad1C8[0x24];
-} ModelVariantBandPadded;
 
 /* Header 397's band record: five points per row in 0x11C bytes, with the
  * flag word RotTransPers3 writes for each point kept after the depths. */
@@ -537,14 +523,21 @@ typedef struct {
     s32 otz[9];
 } ModelVariantColorBand;
 
-/* ModelVariantColorBand in the 0x1EC-byte ModelVariantBandPadded record. */
+/* ModelVariantColorBand followed by the nine projection flags RotTransPers3
+ * writes (0x1EC bytes). */
 typedef struct {
-    u8 unknown_00[0x144];
+    SVECTOR a[9];
+    SVECTOR b[9];
+    SVECTOR c[9];
+    long sa[9];
+    long sb[9];
+    long sc[9];
     CVECTOR inner[9], outer[9];
     VECTOR scale;
     s16 field_19C, field_19E;
     s32 field_1A0;
-    u8 unknown_1A4[0x48];
+    s32 otz[9];
+    long flag[9];
 } ModelVariantColorBandPadded;
 
 /* One 0x74-byte ribbon of header 418: a two-point spine, a copy of it moved
