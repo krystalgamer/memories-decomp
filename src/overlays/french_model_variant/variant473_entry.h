@@ -10,7 +10,6 @@
 #include "../../psyq/libhmd.h"
 #include "../french_model_variant/variant385_grid.h"
 #include "../model_variant/model_variant.h"
-#include "../spanish_model_variant/variant473_funnels.h"
 
 typedef struct {
     CVECTOR outer, inner;
@@ -90,6 +89,6 @@ void FrenchModelVariant385_DrawGrid(u8 *context);
 void SpanishModelVariant473_DrawSpiral(EntryState473 *context);
 void FrenchModelVariant473_DrawRibs(EntryState473 *context);
 void SpanishModelVariant473_DrawSheets(u8 *context);
-void SpanishModelVariant473_DrawFunnels(u8 *context);
+void SpanishModelVariant473_DrawFunnels(EntryState473 *context);
 
 #endif
