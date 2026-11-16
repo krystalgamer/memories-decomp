@@ -228,9 +228,9 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
         if (gMainMenu_nFadeDirection < 0) {
             ent2 = gMainMenu_pStartPrompt;
-            ((u8 *)&ent2->rgb)[2] = 0x80;
-            ((u8 *)&ent2->rgb)[1] = 0x80;
-            ((u8 *)&ent2->rgb)[0] = 0x80;
+            ent2->rgb.c.b = 0x80;
+            ent2->rgb.c.g = 0x80;
+            ent2->rgb.c.r = 0x80;
             ent2->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
             gMainMenu_pStartPrompt->update_state = 0x3C;
             gMainMenu_pStartPrompt->field_34.h.field_36 = 0;
@@ -245,12 +245,12 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if (entry->update_state != 0) {
             entry->update_state = entry->update_state - 1;
         } else {
-            lvl = ((u8 *)&entry->rgb)[2] + (u8)entry->field_60;
-            ((u8 *)&entry->rgb)[2] = lvl;
-            ((u8 *)&entry->rgb)[1] = lvl;
-            ((u8 *)&entry->rgb)[0] = lvl;
+            lvl = entry->rgb.c.b + (u8)entry->field_60;
+            entry->rgb.c.b = lvl;
+            entry->rgb.c.g = lvl;
+            entry->rgb.c.r = lvl;
             entry = gMainMenu_pStartPrompt;
-            chr = ((u8 *)&entry->rgb)[0];
+            chr = entry->rgb.c.r;
             if ((u32)(chr - 0x41) >= 0x3F) {
                 if ((s8)chr < 0) {
                     entry->update_state = 0x3C;
@@ -651,9 +651,9 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
         DisplayObject_SetDepthOffset(object, (s8)(-(u8)entry->field_60));
         object->update =
             MainMenu_UpdateFrontendEntryAfterimage;
-        ((u8 *)&object->rgb)[0] = ((u8 *)&entry->rgb)[0];
-        ((u8 *)&object->rgb)[1] = ((u8 *)&entry->rgb)[1];
-        ((u8 *)&object->rgb)[2] = ((u8 *)&entry->rgb)[2];
+        object->rgb.c.r = entry->rgb.c.r;
+        object->rgb.c.g = entry->rgb.c.g;
+        object->rgb.c.b = entry->rgb.c.b;
     }
 }
 
@@ -663,22 +663,22 @@ void MainMenu_UpdateFrontendEntryAfterimage(DisplayObject *object)
     s32 g;
     s32 b;
 
-    if ((object->rgb & 0xFFFFFF) != 0) {
-        r = ((u8 *)&object->rgb)[0] - 8;
+    if ((object->rgb.word & 0xFFFFFF) != 0) {
+        r = object->rgb.c.r - 8;
         if (r < 0) {
             r = 0;
         }
-        ((u8 *)&object->rgb)[0] = r;
-        g = ((u8 *)&object->rgb)[1] - 8;
+        object->rgb.c.r = r;
+        g = object->rgb.c.g - 8;
         if (g < 0) {
             g = 0;
         }
-        ((u8 *)&object->rgb)[1] = g;
-        b = ((u8 *)&object->rgb)[2] - 8;
+        object->rgb.c.g = g;
+        b = object->rgb.c.b - 8;
         if (b < 0) {
             b = 0;
         }
-        ((u8 *)&object->rgb)[2] = b;
+        object->rgb.c.b = b;
     } else {
         DisplayObject_ReleaseIfPresent(object);
     }

@@ -376,7 +376,7 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     up->vx = 0;
     up->vy = 0x1000;
     up->vz = 0;
-    *color = obj->rgb;
+    *color = obj->rgb.word;
     rot[0].vx = obj->field_20.b.rotation_x << 4;
     y = obj->field_20.b.rotation_y << 4;
     rot[0].vy = y;
@@ -472,9 +472,9 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     prim->tpage = prim->tpage | ((obj->attribute >> 23) & 0x60);
     if ((obj->attribute & GsALON) != 0) {
         SetSemiTrans(prim, 1);
-        sprite->r0 = ((u8 *)&obj->rgb)[0];
-        sprite->g0 = ((u8 *)&obj->rgb)[1];
-        sprite->b0 = ((u8 *)&obj->rgb)[2];
+        sprite->r0 = obj->rgb.c.r;
+        sprite->g0 = obj->rgb.c.g;
+        sprite->b0 = obj->rgb.c.b;
     }
 
     depth[0] = (depth[4] + depth[5]
@@ -594,7 +594,7 @@ void Duel_DrawFieldCards(void) {
                 if ((h & 0x400) != 0) {
                     Duel_DrawProjectedFieldCardFrame(e);
                 } else {
-                    *color_word = a->rgb;
+                    *color_word = a->rgb.word;
                     Duel_RenderFieldCard3D(e, field_gt4, field_ft4, color_word);
                 }
             }
@@ -614,7 +614,7 @@ void Duel_DrawFieldCards(void) {
                 if ((h & 0x400) != 0) {
                     Duel_DrawProjectedFieldCardFrame(e);
                 } else {
-                    *color_word = a->rgb;
+                    *color_word = a->rgb.word;
                     Duel_RenderFieldCard3D(e, field_gt4, field_ft4, color_word);
                 }
             }
@@ -740,7 +740,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                                       &o->origin) < 0) {
                         return;
                     }
-                    g1 = object->rgb;
+                    g1 = object->rgb.word;
                     setlen(y, 9);
                     *(s32 *)&y->r0 = g1;
                     y->code = 0x2C;
@@ -750,7 +750,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                     }
                 }
                 k->tpage = 0x1E;
-                g2 = object->rgb;
+                g2 = object->rgb.word;
                 k->cxcy.word = DUEL_SPRITE_CLUT_CXCY;
                 k->rgb.word = g2;
                 n = object->resource_root_index;
@@ -829,7 +829,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         break;
                     }
                     z->tpage = 0xE;
-                    z->rgb.word = object->rgb;
+                    z->rgb.word = object->rgb.word;
                     z->xy.h.x = o->pos.h.x + 6;
                     z->xy.h.y = o->pos.h.y + 6;
                     i = (s8)card->table_index;
@@ -2103,9 +2103,9 @@ void Duel_UpdateCardDisplayState(DisplayObject *object)
             object->field_20.b.rotation_z = 0xC0;
         }
     }
-    object->rgb = DUEL_DISPLAY_COLOR_NORMAL;
+    object->rgb.word = DUEL_DISPLAY_COLOR_NORMAL;
     if (card->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
-        object->rgb = DUEL_DISPLAY_COLOR_DIMMED;
+        object->rgb.word = DUEL_DISPLAY_COLOR_DIMMED;
     }
 }
 
@@ -2178,9 +2178,9 @@ void Duel_ApplyCardObjectFlags(DisplayObject *object) {
     if (rec->flags & DUEL_CARD_FLAG_DEFENSE_POSITION) {
         object->field_20.b.rotation_y = DUEL_CARD_DISPLAY_DEFENSE_VALUE;
     }
-    object->rgb = DUEL_DISPLAY_COLOR_NORMAL;
+    object->rgb.word = DUEL_DISPLAY_COLOR_NORMAL;
     if (rec->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
-        object->rgb = DUEL_DISPLAY_COLOR_DIMMED;
+        object->rgb.word = DUEL_DISPLAY_COLOR_DIMMED;
     }
     Duel_UpdateCardDisplayMarker(object);
     if (!(rec->flags & DUEL_CARD_FLAG_DISPLAY_MARKER)) {
@@ -3121,14 +3121,14 @@ void DuelScene_UpdateCardUse(void)
         q1->field_44.scale.x = value;
         q0->field_44.scale.y = value;
         q0->field_44.scale.x = value;
-        value = (u8)gDisplayObject_apWorkSlots.slots[0]->rgb;
+        value = gDisplayObject_apWorkSlots.slots[0]->rgb.c.r;
         value -= 4;
         if (value < 0) {
             value = 0;
         }
         value = value | ((value << 16) | (value << 8));
-        gDisplayObject_apWorkSlots.slots[0]->rgb = value;
-        gDisplayObject_apWorkSlots.slots[1]->rgb = value;
+        gDisplayObject_apWorkSlots.slots[0]->rgb.word = value;
+        gDisplayObject_apWorkSlots.slots[1]->rgb.word = value;
         if (value != 0) {
             return;
         }
@@ -4216,10 +4216,10 @@ void DuelHand_RefreshSelectionColors(DuelSelectionRecord *side) {
     s32 i;
     for (i = 0; i < HAND_SIZE; i++)
         if (gDuelHand_aSlots[i].selection_order == 0)
-            gDuelHand_aSlots[i].object->rgb =
+            gDuelHand_aSlots[i].object->rgb.word =
                 DUEL_DISPLAY_COLOR_DIMMED;
     if (side->ordered_pick_count == 0)
-        gDuelHand_aSlots[(s8)side->hand_cursor_slot].object->rgb =
+        gDuelHand_aSlots[(s8)side->hand_cursor_slot].object->rgb.word =
             DUEL_DISPLAY_COLOR_NORMAL;
 }
 
@@ -4679,7 +4679,7 @@ void DuelScene_UpdateHandActions(void)
             if (!(gDuel_bSceneSubStep & 0x80)) {
                 gDuel_bSceneSubStep |= 0x80;
                 for (n = 0; n < 5; n++) {
-                    gDuelHand_aSlots[n].object->rgb = 0x808080;
+                    gDuelHand_aSlots[n].object->rgb.word = 0x808080;
                 }
             }
             if (Duel_CheckQuitInput() != 0) {
@@ -5043,8 +5043,6 @@ void DuelCard_UpdateDefenseRotation(DisplayObject *o)
 #include "display_object.h"
 #include "trig_constants.h"
 
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
-
 void DisplayObject_UpdateColorTransition(DisplayObject *object)
 {
     s32 step = object->field_60;
@@ -5053,7 +5051,7 @@ void DisplayObject_UpdateColorTransition(DisplayObject *object)
     /* The three colour bytes of rgb step against the signed halfwords at
        0x28, 0x2A and 0x2C: position.h's two and then field_2C.h's first, so
        the target walk indexes on from position.h.field_28. */
-    u8 *current = DISPLAY_OBJECT_COLOR_BYTES(object);
+    u8 *current = &object->rgb.c.r;
 
     for (; i < 3; i++) {
         s32 value = *current;
@@ -10703,13 +10701,13 @@ void DuelEffect_ApplyRitual(void)
             second->field_44.scale.x = value;
             first->field_44.scale.y = value;
             first->field_44.scale.x = value;
-            value = (u8)gDisplayObject_apWorkSlots.slots[0]->rgb;
+            value = gDisplayObject_apWorkSlots.slots[0]->rgb.c.r;
             value -= 4;
             if (value < 0)
                 value = 0;
             value = value | ((value << 16) | (value << 8));
-            gDisplayObject_apWorkSlots.slots[0]->rgb = value;
-            gDisplayObject_apWorkSlots.slots[1]->rgb = value;
+            gDisplayObject_apWorkSlots.slots[0]->rgb.word = value;
+            gDisplayObject_apWorkSlots.slots[1]->rgb.word = value;
             if (!value) {
                 DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots.slots[0]);
                 DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots.slots[1]);

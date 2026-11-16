@@ -253,7 +253,7 @@ void DisplayEffect_SetObjectRowBlend(DisplayObject **objects, u32 attribute, s32
                 e->attribute = e->attribute & ~(GsALON | GsATWO | GsAONE);
                 e->attribute = e->attribute | GsALON;
                 DisplayObject_SetDepthOffset(e, c);
-                e->rgb = COLOR_RGB24_NEUTRAL_GREY;
+                e->rgb.word = COLOR_RGB24_NEUTRAL_GREY;
                 e->field_40.clut.y -= 1;
             }
         }
@@ -389,8 +389,6 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
 #define DISPLAY_EFFECT_SPRITE_CX 0x200
 #endif
 
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
-
 void DisplayPositionGroup_SetChildPositions(
     DisplayObject **children,
     s16 x,
@@ -514,10 +512,10 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
         color |= (color << 8) | (color << 16);
         for (i = 2, cell = &p->grid[0][2]; i >= 0; i--, cell--) {
             if (cell[0] != 0) {
-                cell[0]->rgb = color;
+                cell[0]->rgb.word = color;
             }
             if (cell[3] != 0) {
-                cell[3]->rgb = color;
+                cell[3]->rgb.word = color;
             }
         }
     }
@@ -560,11 +558,11 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
         for (i = 2; i >= 0; i--) {
             object = p->grid[0][i];
             if (object != 0) {
-                object->rgb = color;
+                object->rgb.word = color;
             }
             object = p->grid[1][i];
             if (object != 0) {
-                object->rgb = color;
+                object->rgb.word = color;
             }
         }
     }
@@ -628,11 +626,11 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     for (m = 2; m >= 0; m--) {
         object = p->grid[2][m];
         if (object != 0) {
-            object->rgb = color;
+            object->rgb.word = color;
         }
         object = p->grid[3][m];
         if (object != 0) {
-            object->rgb = color;
+            object->rgb.word = color;
         }
     }
     color = 0x80 - p->step_arg.fade_level;
@@ -640,11 +638,11 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
     for (m = 2; m >= 0; m--) {
         object = p->grid[0][m];
         if (object != 0) {
-            object->rgb = color;
+            object->rgb.word = color;
         }
         object = p->grid[1][m];
         if (object != 0) {
-            object->rgb = color;
+            object->rgb.word = color;
         }
     }
     dd[0] = p->step_arg.fade_level / 8;
@@ -695,7 +693,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
             *(u16 *)&o->field_40.clut.y +=
                 idx % CAMPAIGN_DIALOG_PORTRAIT_CLUT_ROWS_PER_COLUMN;
             *(u16 *)&o->field_44.scale.y = 0;
-            o->rgb = 0;
+            o->rgb.word = 0;
             o->attribute |=
                 GsALON | GsAONE | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
             DisplayObject_SelectOrderingTable1(o);
@@ -727,7 +725,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     switch (o->field_60 > 0) {
     case 0:
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
-        o->rgb = COLOR_RGB24_NEUTRAL_GREY;
+        o->rgb.word = COLOR_RGB24_NEUTRAL_GREY;
         *(u16 *)&o->field_44.scale.y = 0x1000;
         DisplayObject_ReleaseIfPresent(o2);
         record->grid[0][1] = 0;
@@ -742,16 +740,16 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
         return;
     }
     shade = -0x80 - o->field_60 * 6;
-    DISPLAY_OBJECT_COLOR_BYTES(o2)[2] = shade;
-    DISPLAY_OBJECT_COLOR_BYTES(o2)[1] = shade;
-    DISPLAY_OBJECT_COLOR_BYTES(o2)[0] = shade;
-    DISPLAY_OBJECT_COLOR_BYTES(o)[2] = shade;
-    DISPLAY_OBJECT_COLOR_BYTES(o)[1] = shade;
-    DISPLAY_OBJECT_COLOR_BYTES(o)[0] = shade;
+    o2->rgb.c.b = shade;
+    o2->rgb.c.g = shade;
+    o2->rgb.c.r = shade;
+    o->rgb.c.b = shade;
+    o->rgb.c.g = shade;
+    o->rgb.c.r = shade;
     idx = o->field_60 * 204 + 0x1000;
     *(u16 *)&o2->field_44.scale.y = idx;
     *(u16 *)&o->field_44.scale.y = idx;
-    scale_x = DISPLAY_OBJECT_COLOR_BYTES(o)[0] << 5;
+    scale_x = o->rgb.c.r << 5;
     *(u16 *)&o2->field_44.scale.x = scale_x;
     *(u16 *)&o->field_44.scale.x = scale_x;
 }

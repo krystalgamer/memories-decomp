@@ -118,7 +118,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->list_key = key;
         slot->pool_index = index;
         slot->field_0B = 0;
-        slot->rgb = 0x00808080;
+        slot->rgb.word = 0x00808080;
         slot->field_20.word = 0;
         slot->back_face_handler.word = 0;
         slot->field_1C = 0;
@@ -340,7 +340,7 @@ void DisplayObject_RenderSpriteList(void) {
                 }
                 p->attribute = object->attribute;
                 idx = object->ot_index;
-                p->rgb.word = object->rgb;
+                p->rgb.word = object->rgb.word;
                 p->xy.word = object->xy.word;
                 p->extent.word = object->field_3C.word;
                 p->cxcy.word = object->field_40.word;
@@ -481,7 +481,6 @@ GsF_LIGHT gDisplayObject_FlatLightUp = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };
 /* Caching this pointer shortens retail; each use must reload field_4C. */
 #define SPRITE_SHEET_HEADER(object) \
     ((SpriteSheetHeader *)(object)->field_4C.frame_data)
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
 #ifndef SPRITE_SHEET_SCREEN_HEIGHT
 #define SPRITE_SHEET_SCREEN_HEIGHT 240
 #endif
@@ -521,7 +520,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
     p->tpage = object->texture_page;
     p->xy.word = object->xy.word;
     p->cxcy.word = object->field_40.word;
-    p->rgb.word = object->rgb;
+    p->rgb.word = object->rgb.word;
     flags = object->flags;
     p->uv.word = object->texture_uv.word;
     if ((flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
@@ -1077,9 +1076,9 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
         sprite->scale.h.y = object->field_44.scale.y;
         sprite->mxmy.h.y = 0;
         sprite->mxmy.h.x = 0;
-        sprite->rgb.c.r = DISPLAY_OBJECT_COLOR_BYTES(object)[0];
-        sprite->rgb.c.g = DISPLAY_OBJECT_COLOR_BYTES(object)[1];
-        blue = DISPLAY_OBJECT_COLOR_BYTES(object)[2];
+        sprite->rgb.c.r = object->rgb.c.r;
+        sprite->rgb.c.g = object->rgb.c.g;
+        blue = object->rgb.c.b;
         part = (SpriteSheetPart *)(sheet + sizeof(SpriteSheetHeader));
         sprite->cxcy.h.cx = work->cx;
         sprite->cxcy.h.cy = work->cy;

@@ -1911,8 +1911,6 @@ u16 gText_awGlyphColorMasks[8] = {
 #define BUILD_DECK_CONFIRM_COMPLETION_MASK TEXT_BOX_COMPLETION_MASK
 #endif
 
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
-
 /* Reports whether the deck has a free slot: the first of DECK_SIZE entries in
  * gBuildDeck_pState->lists[1] whose flags byte is zero. The exit step below
  * is its only caller. It was its own gcc_2_8_1_g8 unit and is byte-identical
@@ -2045,12 +2043,12 @@ s32 BuildDeck_Update(void)
     first = base->lists[0].cursor_box;
     second = base->lists[1].cursor_box;
 
-    DISPLAY_OBJECT_COLOR_BYTES(second)[2] = color;
-    DISPLAY_OBJECT_COLOR_BYTES(second)[1] = color;
-    DISPLAY_OBJECT_COLOR_BYTES(second)[0] = color;
-    DISPLAY_OBJECT_COLOR_BYTES(first)[2] = color;
-    DISPLAY_OBJECT_COLOR_BYTES(first)[1] = color;
-    DISPLAY_OBJECT_COLOR_BYTES(first)[0] = color;
+    second->rgb.c.b = color;
+    second->rgb.c.g = color;
+    second->rgb.c.r = color;
+    first->rgb.c.b = color;
+    first->rgb.c.g = color;
+    first->rgb.c.r = color;
 
     if (DuelEffect_UpdateState() == 0) {
         gBuildDeck_apfnStepHandlers[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState);

@@ -70,7 +70,17 @@ typedef struct DisplayObject {
        the byte DisplayObject_ProjectLinkedGroundPosition indexes the pool by. */
     u8 pool_index;                 /* 0x0A */
     u8 field_0B;                   /* 0x0B */
-    u32 rgb;                  /* 0x0C */
+    /* GsSPRITE-style r/g/b and its padding byte; the renderers copy the
+       word into SpritePrim.rgb. */
+    union {
+        u32 word;
+        struct {
+            u8 r;
+            u8 g;
+            u8 b;
+            u8 pad;
+        } c;
+    } rgb;                         /* 0x0C */
     /* The back-face control DisplayObject_ProjectRotationFacing reads. Zero
        returns a negative facing area unchanged; any nonzero value mirrors the
        X and Z matrix columns and reprojects instead, and a negative one -- a
@@ -711,6 +721,9 @@ typedef char DisplayObject_fraction_z_must_be_at_0x64[
 ];
 typedef char DisplayObject_subdivisions_must_be_at_0x65[
     OFFSETOF(DisplayObject, subdivisions) == 0x65 ? 1 : -1
+];
+typedef char DisplayObject_rgb_must_be_at_0x0C[
+    OFFSETOF(DisplayObject, rgb) == 0x0C && sizeof(((DisplayObject *)0)->rgb) == 4 ? 1 : -1
 ];
 typedef char DisplayObject_back_face_handler_must_be_at_0x10[
     OFFSETOF(DisplayObject, back_face_handler) == 0x10 ? 1 : -1
