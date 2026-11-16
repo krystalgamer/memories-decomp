@@ -11,7 +11,7 @@ void FrenchModelVariant335_DrawSheets(Model335EntryState *context)
     GsCOORDINATE2 coordinate;
     long projection;
     long flag;
-    ModelVariantSheet *sheet;
+    ModelVariantPointSheet *sheet;
     GsOT *ot;
     Model335EntryState *work;
     POLY_GT4 *poly;
@@ -25,7 +25,7 @@ void FrenchModelVariant335_DrawSheets(Model335EntryState *context)
     s32 rotation_bias;
 
     work = context;
-    sheet = (ModelVariantSheet *)work->sheets;
+    sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     poly = &work->textured[1];
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
@@ -62,14 +62,15 @@ void FrenchModelVariant335_DrawSheets(Model335EntryState *context)
         SetRotMatrix(&light);
         for (k = 0; k < 4; k++) {
             depth = RotTransPers4(
-                &sheet->v0[k], &sheet->v1[k], &sheet->v2[k], &sheet->v3[k],
+                &sheet->points[k], &sheet->points[k + 4],
+                &sheet->points[k + 8], &sheet->points[k + 12],
                 (long *)&poly->x0, (long *)&poly->x1,
                 (long *)&poly->x2, (long *)&poly->x3,
                 &projection, &flag);
-            setRGB0(poly, sheet->inner[0], sheet->inner[1], sheet->inner[2]);
-            setRGB1(poly, sheet->inner[0], sheet->inner[1], sheet->inner[2]);
-            setRGB2(poly, sheet->inner[0], sheet->inner[1], sheet->inner[2]);
-            setRGB3(poly, sheet->outer[0], sheet->outer[1], sheet->outer[2]);
+            setRGB0(poly, sheet->inner.r, sheet->inner.g, sheet->inner.b);
+            setRGB1(poly, sheet->inner.r, sheet->inner.g, sheet->inner.b);
+            setRGB2(poly, sheet->inner.r, sheet->inner.g, sheet->inner.b);
+            setRGB3(poly, sheet->outer.r, sheet->outer.g, sheet->outer.b);
             if ((work->phase != 0 || i == 0)
                 && depth >= 0 && flag >= 0) {
                 GsSortPoly(poly, ot, depth);

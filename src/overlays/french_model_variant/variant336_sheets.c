@@ -12,7 +12,7 @@ void FrenchModelVariant336_DrawSheets(Variant336EntryState *context)
     long projection;
     long flag;
     Variant336EntryRecord *node;
-    ModelVariantSheet *sheet;
+    ModelVariantPointSheet *sheet;
     GsOT *ot;
     Variant336EntryState *work;
     POLY_GT4 *poly;
@@ -23,7 +23,7 @@ void FrenchModelVariant336_DrawSheets(Variant336EntryState *context)
 
     work = context;
     node = work->records;
-    sheet = (ModelVariantSheet *)work->sheets;
+    sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
     poly = &work->packets.textured[1];
@@ -55,22 +55,23 @@ void FrenchModelVariant336_DrawSheets(Variant336EntryState *context)
         SetRotMatrix(&light);
         for (k = 0; k < 4; k++) {
             depth = RotTransPers4(
-                &sheet->v0[k], &sheet->v1[k], &sheet->v2[k], &sheet->v3[k],
+                &sheet->points[k], &sheet->points[k + 4],
+                &sheet->points[k + 8], &sheet->points[k + 12],
                 (long *)&poly->x0, (long *)&poly->x1,
                 (long *)&poly->x2, (long *)&poly->x3,
                 &projection, &flag);
-            poly->r0 = sheet->inner[0];
-            poly->g0 = sheet->inner[1];
-            poly->b0 = sheet->inner[2];
-            poly->r1 = sheet->inner[0];
-            poly->g1 = sheet->inner[1];
-            poly->b1 = sheet->inner[2];
-            poly->r2 = sheet->inner[0];
-            poly->g2 = sheet->inner[1];
-            poly->b2 = sheet->inner[2];
-            poly->r3 = sheet->outer[0];
-            poly->g3 = sheet->outer[1];
-            poly->b3 = sheet->outer[2];
+            poly->r0 = sheet->inner.r;
+            poly->g0 = sheet->inner.g;
+            poly->b0 = sheet->inner.b;
+            poly->r1 = sheet->inner.r;
+            poly->g1 = sheet->inner.g;
+            poly->b1 = sheet->inner.b;
+            poly->r2 = sheet->inner.r;
+            poly->g2 = sheet->inner.g;
+            poly->b2 = sheet->inner.b;
+            poly->r3 = sheet->outer.r;
+            poly->g3 = sheet->outer.g;
+            poly->b3 = sheet->outer.b;
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(poly, ot, depth);
             }
