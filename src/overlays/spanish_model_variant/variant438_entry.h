@@ -10,7 +10,7 @@ typedef struct {
     u8 unknown_0C[4];
     u8 parts[3], unknown_13[9];
     u32 start;
-    u32 field_20;
+    u32 grow_end;
     u32 band_grow_end;
     u32 fade_start, fade_end;
     s32 offset[3];
@@ -45,7 +45,8 @@ typedef struct {
     POLY_GT4 ray;
     POLY_GT4 plain;
     POLY_FT4 flat_textured[2];
-    u8 unknown_21F8[0x4C];
+    u8 unknown_21F8[0x38];
+    GsGLINE line;
     MATRIX matrix;
     ModelVariantAim aim;
     ModelVariantClock clock;
@@ -72,7 +73,7 @@ void SpanishModelVariant438_DrawRing(Variant438EntryState *context);
 void SpanishModelVariant438_DrawSpiral(Variant438EntryState *context);
 void SpanishModelVariant438_DrawAdvancingBand(Variant438EntryState *context);
 void SpanishModelVariant438_DrawTargetClampedSheets(Variant438EntryState *context);
-void SpanishModelVariant438_DrawLines(u8 *context);
+void SpanishModelVariant438_DrawLines(Variant438EntryState *context);
 typedef char Variant438EntryConfigSize[(sizeof(Variant438EntryConfig) == 0x48) ? 1 : -1];
 typedef char Variant438EntryStateSize[(sizeof(Variant438EntryState) == 0x2300) ? 1 : -1];
 #endif

@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant438_lines.h"
+#include "variant438_entry.h"
 
-void SpanishModelVariant438_DrawLines(u8 *context)
+void SpanishModelVariant438_DrawLines(Variant438EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,8 +10,8 @@ void SpanishModelVariant438_DrawLines(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Lines438State *state = (Lines438State *)context;
-    ModelVariantLineGroup *group = state->groups;
+    Variant438EntryState *state = context;
+    ModelVariantWebNarrow *group = state->webs;
     GsGLINE *line = &state->line;
     GsOT *ot;
     s16 i, j, k;
@@ -23,14 +23,14 @@ void SpanishModelVariant438_DrawLines(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
-    ratan2(state->direction[2], state->direction[0]);
-    ratan2(state->direction[1], state->direction[0]);
-    ratan2(state->direction_a[1], state->direction_a[0]);
-    ratan2(state->projected.vy, state->projected.vx);
+    ratan2(state->aim.view_delta.vz, state->aim.view_delta.vx);
+    ratan2(state->aim.view_delta.vy, state->aim.view_delta.vx);
+    ratan2(state->aim.direction.vz, state->aim.direction.vy);
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
     for (i = 0; i < 3; i++, group++) {
         if (state->phase == 0) {
-            if (group->size < 4096) {
-                size = group->size;
+            if (group->scale < 4096) {
+                size = group->scale;
                 opacity = size;
             } else {
                 opacity = 4096;
@@ -38,13 +38,13 @@ void SpanishModelVariant438_DrawLines(u8 *context)
             }
             if (opacity > 2048) {
                 fade = 4096 - opacity;
-                red = group->color[0] * fade / 2048;
-                green = group->color[1] * fade / 2048;
-                blue = group->color[2] * fade / 2048;
+                red = group->color.r * fade / 2048;
+                green = group->color.g * fade / 2048;
+                blue = group->color.b * fade / 2048;
             } else {
-                red = group->color[0];
-                green = group->color[1];
-                blue = group->color[2];
+                red = group->color.r;
+                green = group->color.g;
+                blue = group->color.b;
             }
         } else if (state->phase == 1) {
             size = 4096;
@@ -52,8 +52,8 @@ void SpanishModelVariant438_DrawLines(u8 *context)
             green = 0;
             blue = 0;
         } else {
-            if (group->size > 0) {
-                size = group->size;
+            if (group->scale > 0) {
+                size = group->scale;
                 opacity = size;
             } else {
                 opacity = 0;
@@ -61,26 +61,26 @@ void SpanishModelVariant438_DrawLines(u8 *context)
             }
             if (opacity > 6144) {
                 fade = 8192 - opacity;
-                red = group->color[0] * fade / 2048;
-                green = group->color[1] * fade / 2048;
-                blue = group->color[2] * fade / 2048;
+                red = group->color.r * fade / 2048;
+                green = group->color.g * fade / 2048;
+                blue = group->color.b * fade / 2048;
             } else {
-                red = group->color[0];
-                green = group->color[1];
-                blue = group->color[2];
+                red = group->color.r;
+                green = group->color.g;
+                blue = group->color.b;
             }
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (state->phase < 2) {
-            matrix.t[0] = state->origin[0];
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2];
+            matrix.t[0] = state->matrix.t[0];
+            matrix.t[1] = state->matrix.t[1];
+            matrix.t[2] = state->matrix.t[2];
         } else {
-            matrix.t[0] = state->target.vx;
-            matrix.t[1] = state->target.vy;
-            matrix.t[2] = state->target.vz;
+            matrix.t[0] = state->aim.target.vx;
+            matrix.t[1] = state->aim.target.vy;
+            matrix.t[2] = state->aim.target.vz;
         }
         scale.vx = size;
         scale.vy = size;
@@ -95,8 +95,8 @@ void SpanishModelVariant438_DrawLines(u8 *context)
         for (j = 0; j < 4; j++) {
             for (k = 0; k < 6; k++) {
                 line->attribute = 0x50000000;
-                depth = RotTransPers4(&group->points[0][j][k], &group->points[1][j][k],
-                                     &group->points[0][j][k], &group->points[1][j][k],
+                depth = RotTransPers4(&group->near[j][k], &group->far[j][k],
+                                     &group->near[j][k], &group->far[j][k],
                                      (long *)&line->x0, (long *)&line->x1,
                                      (long *)&line->x0, (long *)&line->x1,
                                      &interpolation, &flag);
@@ -121,27 +121,27 @@ void SpanishModelVariant438_DrawLines(u8 *context)
             }
         }
         if (state->phase == 0) {
-            if (group->size > 0) {
-                cycle = ((state->time - state->timing->grow_start) * 3 << 12) /
-                         (state->timing->grow_end - state->timing->grow_start) - 4096;
-                group->size = i * 4096 / 3 - cycle;
-                if (group->size <= 0) {
-                    group->size += 4096;
+            if (group->scale > 0) {
+                cycle = ((state->clock.frame - state->config->start) * 3 << 12) /
+                         (state->config->grow_end - state->config->start) - 4096;
+                group->scale = i * 4096 / 3 - cycle;
+                if (group->scale <= 0) {
+                    group->scale += 4096;
                 }
             }
         } else if (state->phase == 1) {
-            group->size = -(i * 8192 / 3);
+            group->scale = -(i * 8192 / 3);
         } else {
-            if (group->size < 8192) {
-                group->size += state->step * 256;
-                if (group->size >= 8192) {
+            if (group->scale < 8192) {
+                group->scale += state->clock.step * 256;
+                if (group->scale >= 8192) {
                     if (state->phase >= 4) {
-                        group->size = 8192;
+                        group->scale = 8192;
                         if (i + 1 == 3 && complete == 1 && state->phase == 4) {
                             state->phase = 5;
                         }
                     } else {
-                        group->size -= 8192;
+                        group->scale -= 8192;
                         complete = 0;
                     }
                 }

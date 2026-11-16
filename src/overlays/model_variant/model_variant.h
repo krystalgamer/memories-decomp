@@ -947,26 +947,6 @@ typedef struct {
     u32 fade_end;
 } ModelVariantGrowFadeTiming;
 
-/* Header 438's command row, read through one pointer at work + 0x22B4 by both
- * helpers: the sheets grow in the window at + 0x1C, and the lines cycle their
- * colour in the same window. */
-typedef struct {
-    u8 unknown_00[0x1C];
-    u32 grow_start;
-    u32 grow_end;
-} ModelVariantGrowTiming;
-
-/* One 0x1A0-byte group of lines: two sets of four six-point lines, a colour,
- * the size and the finished flag. */
-typedef struct {
-    SVECTOR points[2][4][6];
-    u8 color[4];
-    u8 unknown_184[0x10];
-    s32 size;
-    s32 finished;
-    u8 unknown_19C[4];
-} ModelVariantLineGroup;
-
 /* One 0x6C-byte ray: a two-point spine and a copy offset across the view,
  * both projected, the screen angles and widths, the depths and the width's
  * screen offset. */
