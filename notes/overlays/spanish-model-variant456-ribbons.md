@@ -15,7 +15,7 @@ prologue, and the loader entry does not reach it.
 
 ## Behaviour
 
-The routine handles two ribbons, each a `Ribbon456` record of 0xE0 bytes at
+The routine handles two ribbons, each a `Ribbon456` record (now `Variant456EntryRibbon`) of 0xE0 bytes at
 `+0x280`.
 
 1. **Placement.** Each ribbon's three points sit at `i / 2` of the offset at
