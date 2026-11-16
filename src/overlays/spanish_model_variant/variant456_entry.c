@@ -332,7 +332,7 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
             work->tail.phase = 2;
         }
         if (work->config->sheets_start <= work->clock.frame) {
-            SpanishModelVariant456_DrawSheets((u8 *)point);
+            SpanishModelVariant456_DrawSheets((Variant456EntryState *)point);
         }
         if (work->config->lines_start <= work->clock.frame) {
             SpanishModelVariant456_DrawSprays((Variant456EntryState *)point);

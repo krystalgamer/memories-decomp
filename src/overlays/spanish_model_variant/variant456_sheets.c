@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "variant456_sheets.h"
+#include "variant456_entry.h"
 
 #define SET_SCALE(v, s) \
     do { \
@@ -15,7 +15,7 @@
  * The first sheet grows to 0x800 over the timing record's growth window and
  * shrinks over its fade window. The others spread to 0x2000 from the spread
  * start and then fade their colours out, advancing the phase to 3 and 5. */
-void SpanishModelVariant456_DrawSheets(u8 *context)
+void SpanishModelVariant456_DrawSheets(Variant456EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -24,8 +24,8 @@ void SpanishModelVariant456_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets456State *state = (Sheets456State *)context;
-    Sheet456 *sheet = state->sheets;
+    Variant456EntryState *state = context;
+    Variant456EntrySheet *sheet = state->sheets;
     POLY_GT4 *quad;
     GsOT *ot;
     s32 i, j;
@@ -35,17 +35,17 @@ void SpanishModelVariant456_DrawSheets(u8 *context)
     s32 r, g, b, outer_r, outer_g, outer_b;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &state->quad;
+    quad = &state->packets.textured[1];
     for (i = 0; i < 8; i++, sheet++) {
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i == 0) {
-            matrix.t[0] = state->origin[0];
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2];
+            matrix.t[0] = state->matrix.t[0];
+            matrix.t[1] = state->matrix.t[1];
+            matrix.t[2] = state->matrix.t[2];
             bias = 0;
-            if (state->frame & 1) {
+            if (state->clock.frame_count & 1) {
                 bias = sheet->size / 8;
             }
             SET_SCALE(scale, sheet->size + bias);
@@ -55,12 +55,12 @@ void SpanishModelVariant456_DrawSheets(u8 *context)
             } else {
                 size = sheet->size;
             }
-            if (!(state->frame & 1)) {
+            if (!(state->clock.frame_count & 1)) {
                 size += size / 8;
             }
-            matrix.t[0] = sheet->position[0];
-            matrix.t[1] = sheet->position[1];
-            matrix.t[2] = sheet->position[2];
+            matrix.t[0] = sheet->target.vx;
+            matrix.t[1] = sheet->target.vy;
+            matrix.t[2] = sheet->target.vz;
             SET_SCALE(scale, size);
         }
         RotMatrix(&rotation, &matrix);
@@ -123,36 +123,36 @@ void SpanishModelVariant456_DrawSheets(u8 *context)
             }
         }
         if (i == 0) {
-            if (state->phase == 0 && sheet->size < 2048) {
-                sheet->size = (state->time - state->timing->grow_start) * 2048
-                    / (state->timing->grow_end - state->timing->grow_start);
+            if (state->tail.phase == 0 && sheet->size < 2048) {
+                sheet->size = (state->clock.frame - state->config->sheets_start) * 2048
+                    / (state->config->lines_start - state->config->sheets_start);
                 if (sheet->size >= 2048) {
                     sheet->size = 2048;
-                    state->phase = 1;
+                    state->tail.phase = 1;
                 }
             }
-            if (state->time >= state->timing->fade_start) {
-                sheet->size = 2048 - (state->time - state->timing->fade_start) * 2048
-                    / (state->timing->fade_end - state->timing->fade_start);
+            if (state->clock.frame >= state->config->fade_start) {
+                sheet->size = 2048 - (state->clock.frame - state->config->fade_start) * 2048
+                    / (state->config->fade_end - state->config->fade_start);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
             }
-        } else if (sheet->size < 8192 && state->timing->spread_start <= state->time) {
-            sheet->size += state->step * 2048;
+        } else if (sheet->size < 8192 && state->config->phase_start <= state->clock.frame) {
+            sheet->size += state->clock.step * 2048;
             if (sheet->size >= 8192) {
                 sheet->size = 8192;
                 sheet->faded = 1;
                 if (i + 1 == 8) {
-                    state->phase = 3;
+                    state->tail.phase = 3;
                 }
             }
         } else if (sheet->fade > 0 && sheet->faded == 1) {
-            sheet->fade -= state->step * 32;
+            sheet->fade -= state->clock.step * 32;
             if (sheet->fade <= 0) {
                 sheet->fade = 0;
-                if (i + 1 == 8 && state->phase == 3) {
-                    state->phase = 5;
+                if (i + 1 == 8 && state->tail.phase == 3) {
+                    state->tail.phase = 5;
                 }
             }
         }
