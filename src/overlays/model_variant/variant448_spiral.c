@@ -52,9 +52,9 @@ void ModelVariant448_DrawSpiral(Variant448EntryState *context)
         theta = (i << 13) / 12 + work->spiral_angle;
         for (k = 0; k < 2; k++) {
             if (k == 0) {
-                length = work->field_1B30 / 512;
+                length = work->scale / 512;
             } else {
-                length = work->field_1B30 * 24 / 4096;
+                length = work->scale * 24 / 4096;
             }
             if (k == 0) {
                 setVector(&arm->points[0], 0, 0, 0);
