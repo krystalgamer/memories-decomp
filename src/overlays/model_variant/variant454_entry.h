@@ -11,9 +11,9 @@ typedef struct {
     CVECTOR color;
     u8 unknown_284[0x10];
     s32 scale[16];
-    s32 field_2D4[16];
-    s32 field_314[16];
     s32 done[16];
+    s32 field_314[16];
+    s32 initialized[16];
     MATRIX origins[16];
     VECTOR positions[16];
     VECTOR offsets[16];
@@ -51,6 +51,6 @@ typedef struct {
 
 extern GsIMAGE gModelVariant454_aImages[9];
 extern ModelVariantSweepConfig gModelVariant454_aConfigs[];
-void FrenchModelVariant471_DrawQuadGroup(u8 *context);
-void FrenchModelVariant471_DrawQuads(u8 *context);
+void FrenchModelVariant471_DrawQuadGroup(Variant454EntryState *context);
+void FrenchModelVariant471_DrawQuads(Variant454EntryState *context);
 #endif

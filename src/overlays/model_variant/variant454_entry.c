@@ -153,9 +153,9 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
                 group->color.b = work->config->outer.b;
                 /* The mask keeps the -1024 load inside the loop. */
                 group->scale[i] = (-1024 - i * 128) & ~127;
-                group->field_2D4[i] = 0;
-                group->field_314[i] = 0;
                 group->done[i] = 0;
+                group->field_314[i] = 0;
+                group->initialized[i] = 0;
                 group->origin[i].vx = work->matrix.t[0] + work->aim.direction.vx;
                 group->origin[i].vy = work->matrix.t[1] + work->aim.direction.vy;
                 group->origin[i].vz = work->matrix.t[2] + work->aim.direction.vz;
@@ -363,7 +363,7 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
         if (work->config->start <= work->clock.frame) {
             for (group = work->groups, n = 0; n < 1; n++, group++) {
                 for (i = 0, angle = 0, web_angle = 0; i < 16; i++, angle += 1300, web_angle += 1700) {
-                    if (group->done[i] == 0) {
+                    if (group->initialized[i] == 0) {
                         if (work->slot == 0) {
                             if ((i & 3) == 0) {
                                 setVector(&group->positions[i], work->aim.target.vx, work->aim.target.vy,
@@ -387,7 +387,7 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
                         group->origins[i].t[1] = work->matrix.t[1] + (rsin(angle) * 256 >> 12);
                         group->origins[i].t[2] = work->matrix.t[2] + (rsin(web_angle) * 256 >> 12);
                         if (group->scale[i] >= 0) {
-                            group->done[i] = 1;
+                            group->initialized[i] = 1;
                         }
                     }
                     setVector(&group->offsets[i], group->positions[i].vx - group->origins[i].t[0],
@@ -409,10 +409,10 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant471_DrawQuadGroup((u8 *)point);
+            FrenchModelVariant471_DrawQuadGroup((Variant454EntryState *)point);
         }
         if (work->phase >= 2) {
-            FrenchModelVariant471_DrawQuads((u8 *)point);
+            FrenchModelVariant471_DrawQuads((Variant454EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

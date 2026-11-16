@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant470_quad_pairs.h"
+#include "variant470_entry.h"
 
-void FrenchModelVariant470_DrawQuadPairs(u8 *context)
+void FrenchModelVariant470_DrawQuadPairs(EntryState470 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -13,9 +13,9 @@ void FrenchModelVariant470_DrawQuadPairs(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    QuadPairState470 *state = (QuadPairState470 *)context;
-    QuadPairGroup470 *group = state->groups;
-    POLY_FT4 *polygon = &state->polygon;
+    EntryState470 *state = context;
+    EntryPair470 *group = state->pairs;
+    POLY_FT4 *polygon = &state->pair_packet;
     s16 i, j;
     s32 complete;
     u8 red, green, blue;
@@ -24,27 +24,27 @@ void FrenchModelVariant470_DrawQuadPairs(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     i = 0;
-    ratan2(state->direction.vy, state->direction.vz);
-    ratan2(state->projected.vy, state->projected.vx);
+    ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
     for (; i < 2; i++, group++) {
         for (j = 0; j < 10; j++) {
             if (group->size[j] >= 0) {
                 if (group->size[j] > 512) {
-                    red = group->color[0] * (1024 - group->size[j]) / 512;
-                    green = group->color[1] * (1024 - group->size[j]) / 512;
-                    blue = group->color[2] * (1024 - group->size[j]) / 512;
+                    red = group->color.r * (1024 - group->size[j]) / 512;
+                    green = group->color.g * (1024 - group->size[j]) / 512;
+                    blue = group->color.b * (1024 - group->size[j]) / 512;
                 } else {
-                    red = group->color[0];
-                    green = group->color[1];
-                    blue = group->color[2];
+                    red = group->color.r;
+                    green = group->color.g;
+                    blue = group->color.b;
                 }
                 rcos(group->size[j]);
                 rotation.vx = 0;
                 rotation.vy = 0;
                 rotation.vz = 0;
-                matrix.t[0] = group->anchor[j].position.vx + group->direction[j].vx * group->size[j] / 512;
-                matrix.t[1] = group->anchor[j].position.vy + group->direction[j].vy * group->size[j] / 512;
-                matrix.t[2] = group->anchor[j].position.vz + group->direction[j].vz * group->size[j] / 512;
+                matrix.t[0] = group->matrices[j].t[0] + group->directions[j].vx * group->size[j] / 512;
+                matrix.t[1] = group->matrices[j].t[1] + group->directions[j].vy * group->size[j] / 512;
+                matrix.t[2] = group->matrices[j].t[2] + group->directions[j].vz * group->size[j] / 512;
                 scale.vx = 768;
                 scale.vy = 768;
                 scale.vz = 768;
@@ -70,20 +70,20 @@ void FrenchModelVariant470_DrawQuadPairs(u8 *context)
                 }
             }
             if (group->size[j] < 1024) {
-                group->size[j] += state->step * 24;
+                group->size[j] += state->clock.step * 24;
                 if (group->size[0] >= 512 && state->phase == 0) {
                     state->phase = 2;
                 }
                 if (group->size[j] >= 1024) {
-                    if (state->timing->limit <= state->time) {
+                    if (state->config->limit <= state->clock.frame) {
                         group->size[j] = 1024;
                         group->done[j] = 1;
                     } else {
                         group->size[j] -= 1024;
-                        group->reset[j] = 0;
+                        group->initialized[j] = 0;
                     }
                 } else if (group->size[j] <= 0) {
-                    if (state->timing->limit <= state->time) {
+                    if (state->config->limit <= state->clock.frame) {
                         group->size[j] = 1024;
                         group->done[j] = 1;
                     }
