@@ -51,6 +51,32 @@ four raw owners/8,744 bytes. The entry directly calls offsets`0x10B0`,
 observed among these sixteen closed function spans. The suffix remains
 unclassified; it is neither padding nor excluded game code.
 
+## Runtime reachability
+
+The US Cosmo Queen images build these sources as headers 356 (slot 0,
+stage 7) and 506 (slot 1, stage 8), with the helpers at the same offsets.
+[`model_variant373_helper_reach`](../../tools/trace/result/model_variant373_helper_reach.txt)
+put execution breakpoints on all seven helpers in both images. It recorded
+two complete Cosmo Queen attack episodes with the Venus star, each loading the
+slot-0 image (about 2,900 frames each):
+
+| Helper | Hits per episode | First hit | What was on screen |
+|---|---:|---|---|
+| `DrawLayers` | 278 | about 21.5 s in, phase 0 | purple rings leaving her head and floating up |
+| `DrawGrid` | 247 | 1 s later, phase 0 | the rings grow and a patterned sphere forms inside them |
+| `DrawPoints` | 75 | 7 s later, phase 4 | the sphere is thrown at the opponent; white particles fly off it |
+| `DrawStrip`, `DrawRibbons`, `DrawQuads`, `DrawRays` | 0 | never | - |
+
+All control hits came from the entry (`ra` inside `HandleRequest`) with
+the work area as `a0`. Over the whole run, no breakpoint hit came from a foreign
+image and no first instruction mismatched. So in the slot-0 attack effect the
+strip, ribbon, quad and ray helpers are not reached.
+
+The slot-1 image (header 506), the defending side, was not exercised. The
+game does not play the 3D battle when the CPU attacks, so a two-player duel
+is needed to cover it. Until then, the four helpers are unreached in slot 0
+and untested in slot 1, not proven dead in both.
+
 ## Retained sixteen-ray helper
 
 The ray helper uses sixteen independently measured124-byte records at`0x15F8`
