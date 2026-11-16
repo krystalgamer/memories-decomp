@@ -119,7 +119,7 @@ void ModelVariant404_DrawRibbons(Variant404EntryState *context)
             }
         }
     }
-    if (work->field_194C + 1 == *(u16 *)((u8 *)work->config + 0x18)) {
+    if (work->field_194C + 1 == work->config->count) {
         work->ribbon_angle += work->clock.step << 5;
     }
 }
