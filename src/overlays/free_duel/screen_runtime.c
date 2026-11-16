@@ -89,7 +89,7 @@ void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
     param = trunc;
     if (index != 0) {
         param = 12;
-        base = (SaveDataWorkspace *)gSaveData_Workspace;
+        base = &gSaveData_Workspace;
         gText_StagedValues[0].pair.lo =
             (s16)base->state.duelist_records[index].result.wins;
         gText_StagedValues[0].pair.hi =

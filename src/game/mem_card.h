@@ -700,8 +700,7 @@ typedef char SaveDataState_credits_flags_offset_must_be_0x3DE[
     (u32)&(((SaveDataState *)0)->credits_flags) == 0x3DE ? 1 : -1
 ];
 typedef char SaveDataState_campaign_flags_offset_must_be_0x418[
-    (u32)&(((SaveDataState *)0)->campaign_flags) ==
-        CAMPAIGN_FLAG_BANK_OFFSET - SAVE_DATA_HEADER_SIZE ? 1 : -1
+    (u32)&(((SaveDataState *)0)->campaign_flags) == 0x418 ? 1 : -1
 ];
 typedef char SaveDataState_duelist_records_offset_must_be_0x51C[
     (u32)&(((SaveDataState *)0)->duelist_records) == 0x51C ? 1 : -1
@@ -731,7 +730,8 @@ typedef char SaveDataWorkspace_state_offset_must_be_0x200[
     (u32)&(((SaveDataWorkspace *)0)->state) == SAVE_DATA_HEADER_SIZE ? 1 : -1
 ];
 
-extern u8 gSaveData_Workspace[];
+/* The head of the reusable 0x3000-byte save workspace at 0x801D0000. */
+extern SaveDataWorkspace gSaveData_Workspace;
 extern u8 gLibrary_abCardChest[];
 extern u8 gSaveData_aPlayerNameSjis[];
 extern SaveDataDuelistRecord gFreeDuel_aDuelistRecords[];

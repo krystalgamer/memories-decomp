@@ -9,9 +9,9 @@ exactly; the interpretation is flagged where it goes beyond that.
 
 The function does five things in order:
 
-1. `Util_FillMemory(gSaveData_Workspace, 0, 0x3000)` (`0x80035748`) — clears
+1. `Util_FillMemory(gSaveData_Workspace.prefix, 0, 0x3000)` (`0x80035748`) — clears
    `0x801D0000`–`0x801D3000`.
-2. `printf("SaveLoadBuf add = 0x%x size = 0x%x\n", gSaveData_Workspace, 0x3000)` —
+2. `printf("SaveLoadBuf add = 0x%x size = 0x%x\n", &gSaveData_Workspace, 0x3000)` —
    logs the cleared buffer's address and size. The 36-byte format string is
    emitted at overlay address `0x80168090`; it is not source data for the
    buffer.
@@ -128,10 +128,12 @@ The resident flag accessors mask an encoded ID with `CAMPAIGN_FLAG_ID_MASK`
 (`0x7FF`), select its byte using `CAMPAIGN_FLAG_BYTE_SHIFT` (`3`), and select
 the bit with `CAMPAIGN_FLAG_BYTE_HIGH_BIT` (`0x80`) shifted right by the low
 three ID bits. The bank therefore contains 2048 MSB-first flags in 256 bytes.
-Its `CAMPAIGN_FLAG_BANK_OFFSET` (`0x618`) is relative to `gSaveData_Workspace`, placing
-it at `0x801D0618`; relative to the persisted state at `0x801D0200`, the same
-bank starts at `+0x418`. The existing two-stage address calculation and
-set/clear polarity are preserved.
+The bank is `SaveDataState.campaign_flags`, `0x618` into `gSaveData_Workspace`
+(a `SaveDataWorkspace`), placing it at `0x801D0618`; relative to the persisted
+state at `0x801D0200` it starts at `+0x418`. The update accessor indexes it
+through a `SaveDataWorkspace *` local, which keeps retail's two-stage address
+calculation (base + index, then a `0x618` displacement); set/clear polarity is
+preserved.
 
 The update request is an encoded integer, not a pointer to flag storage.
 `campaign_flags.h` declares `Library_UpdateCardUsedFlag(s32)` once and is

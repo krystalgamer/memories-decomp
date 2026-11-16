@@ -390,16 +390,14 @@ s32 Movie_WaitAndDecodeFrame(s32 resync) {
  * rect at +0x42420 the next strip is queued with DecDCTout; otherwise
  * gMovie_bFrameDecoded marks the frame complete.
  *
- * Writing dst off gMovie_pWorkArea with its own +0x40000, rather than off src, is
- * what keeps retail's two separate additions of that constant; the byte
- * cursor adds the slot before the window offset, which indexing
- * window.slots[] would fold into one 0x42400 constant. The strip
+ * The slot store indexes window.slots[] straight off gMovie_pWorkArea:
+ * as a store address GCC splits the 0x42400 into an addu of 0x40000 and a
+ * 0x2400 displacement, and reading the strip off gMovie_pWorkArea as well
+ * keeps retail's two separate additions of 0x40000. The strip
  * height is accumulated in place (strip.x += strip.w) and compared through the
  * record: that single read-modify-write is what lets GCC's own expansion of
  * the % 4 above it take retail's registers. */
 void Movie_OnDecodeOutput(void) {
-    MovieRectWindow *src;
-    u8 *dst;
     s32 idx;
     MovieRectWindow *out;
 
@@ -409,10 +407,8 @@ void Movie_OnDecodeOutput(void) {
             gLibCd_nDeferredStreamInterrupt = 0;
         }
     }
-    dst = (u8 *)gMovie_pWorkArea + (u32)&((RECT *)0)[gMovie_bOutputSlot] +
-          MOVIE_RECT_WINDOW_OFFSET;
-    src = &gMovie_pWorkArea->out.rects.window;
-    ((MovieRectWindow *)dst)->slots[0] = src->strip;
+    gMovie_pWorkArea->out.rects.window.slots[gMovie_bOutputSlot] =
+        gMovie_pWorkArea->out.rects.window.strip;
     idx = gMovie_bOutputSlot;
     LoadImage(&gMovie_pWorkArea->out.rects.window.slots[idx],
               gMovie_pWorkArea->out.decoded[idx]);
