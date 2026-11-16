@@ -7,10 +7,12 @@
 #include "../../psyq/libgs.h"
 #include "../../psyq/sdk_internal.h"
 
+/* One of the five rings that rise from the model: three rows of seventeen
+ * points (radii 384, 576 and 768 once reset), joined into sixteen quads. */
 typedef struct {
     SVECTOR points[51];
     SVECTOR rotation;
     s32 scale, field_1A4, done;
-} Family373Layer;
+} Family373Ring;
 
 #endif

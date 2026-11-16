@@ -80,7 +80,7 @@ void FrenchModelVariant373_DrawQuads(EntryState373 *context)
         if (work->index + 1 == work->config->count) {
             if (work->phase == 0) {
                 if (work->scale < 4096) {
-                    work->scale = (work->clock.frame << 12) / work->config->grid_start;
+                    work->scale = (work->clock.frame << 12) / work->config->sphere_start;
                     if (work->scale >= 4096) {
                         work->scale = 4096;
                         work->phase = 1;

@@ -1,7 +1,7 @@
 FrenchModelVariant373_HandleRequest = 0x8013B004; // type:func size:0x10AC
-FrenchModelVariant373_DrawLayers = 0x8013C0B0; // type:func size:0x6BC
-FrenchModelVariant373_DrawGrid = 0x8013C76C; // type:func size:0x778
-FrenchModelVariant373_DrawPoints = 0x8013CEE4; // type:func size:0x358
+FrenchModelVariant373_DrawRisingRings = 0x8013C0B0; // type:func size:0x6BC
+FrenchModelVariant373_DrawSphere = 0x8013C76C; // type:func size:0x778
+FrenchModelVariant373_DrawSparks = 0x8013CEE4; // type:func size:0x358
 FrenchModelVariant373_DrawStrip = 0x8013D23C; // type:func size:0x548
 FrenchModelVariant373_DrawRibbons = 0x8013D784; // type:func size:0x6E4
 FrenchModelVariant373_DrawQuads = 0x8013DE68; // type:func size:0x584

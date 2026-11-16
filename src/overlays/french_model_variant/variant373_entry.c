@@ -8,9 +8,9 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantPackedProjection projection;
-    ModelVariantDome *grid = &work->grid;
-    Family373Layer *layer = work->layers;
-    EntryPointGroup373 *group = work->groups;
+    ModelVariantDome *sphere = &work->sphere;
+    Family373Ring *layer = work->rising_rings;
+    EntrySparkGroup373 *group = work->sparks;
     EntryStrip373 *strip = work->strips;
     ModelVariantQuadSheet *quadrant = work->quadrants;
     ModelVariantColorRing *ring = work->rings;
@@ -18,11 +18,11 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *shared = work->shared;
-    POLY_GT4 *layer_packet = work->layer_packets;
-    POLY_GT4 *grid_packet = work->packets.grid;
+    POLY_GT4 *layer_packet = work->ring_packets;
+    POLY_GT4 *sphere_packet = work->packets.sphere;
     POLY_FT4 *flat = work->packets.flat.pair;
     POLY_FT4 *tile = work->packets.flat.tiles;
-    POLY_FT4 *point_packet = &work->point_packet;
+    POLY_FT4 *spark_packet = &work->spark_packet;
     s32 result = 0;
     u16 tpage0, tpage1, tpage2;
     s32 i, j, k, n, q, offset, packed, latitude, angle, radius, height, red, base;
@@ -94,7 +94,7 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
             SetSemiTrans(layer_packet, 1);
             SetShadeTex(layer_packet, 0);
         }
-        for (i = 0, offset = 0; i < 8; i++, offset = -(i * 128) / 8, tile++, grid_packet++) {
+        for (i = 0, offset = 0; i < 8; i++, offset = -(i * 128) / 8, tile++, sphere_packet++) {
             SetPolyFT4(tile);
             tile->tpage = tpage0;
             setUV4(tile, 32, offset + 127, 95, offset + 127,
@@ -102,30 +102,30 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
             tile->clut = texture_stack.clut0;
             SetSemiTrans(tile, 1);
             SetShadeTex(tile, 0);
-            SetPolyGT4(grid_packet);
-            grid_packet->tpage = tpage0;
-            setUV4(grid_packet, 32, offset + 127, 95, offset + 127,
+            SetPolyGT4(sphere_packet);
+            sphere_packet->tpage = tpage0;
+            setUV4(sphere_packet, 32, offset + 127, 95, offset + 127,
                 32, offset + 111, 95, offset + 111);
-            grid_packet->clut = texture_stack.clut0;
-            SetSemiTrans(grid_packet, 1);
-            SetShadeTex(grid_packet, 0);
+            sphere_packet->clut = texture_stack.clut0;
+            SetSemiTrans(sphere_packet, 1);
+            SetShadeTex(sphere_packet, 0);
         }
-        SetPolyFT4(point_packet);
-        point_packet->tpage = tpage2;
-        setUV4(point_packet, 96, 0, 159, 0, 96, 63, 159, 63);
-        point_packet->clut = texture_stack.clut2;
-        SetSemiTrans(point_packet, 1);
-        SetShadeTex(point_packet, 0);
+        SetPolyFT4(spark_packet);
+        spark_packet->tpage = tpage2;
+        setUV4(spark_packet, 96, 0, 159, 0, 96, 63, 159, 63);
+        spark_packet->clut = texture_stack.clut2;
+        SetSemiTrans(spark_packet, 1);
+        SetShadeTex(spark_packet, 0);
         for (i = 0, latitude = 0; i < 9; i++) {
             radius = rsin(latitude) * 128 >> 12;
             height = rcos(latitude) * 128 >> 12;
             for (j = 0, k = 0; j < 17; j++, k = j * 256) {
-                setVector(&grid->points[i][j], rcos(k) * radius >> 12,
+                setVector(&sphere->points[i][j], rcos(k) * radius >> 12,
                     height, rsin(k) * radius >> 12);
             }
-            grid->colors[i].r = (latitude - i) / 8;
-            grid->colors[i].g = 64;
-            grid->colors[i].b = ~((latitude - i) / 8);
+            sphere->colors[i].r = (latitude - i) / 8;
+            sphere->colors[i].g = 64;
+            sphere->colors[i].b = ~((latitude - i) / 8);
             latitude += 256;
         }
         for (q = 0; q < 1; q++, strip++) {
@@ -230,11 +230,11 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
             ring->angle = i * 256;
             ring->count = 0;
         }
-        work->grid_scale = 0;
+        work->sphere_scale = 0;
         work->translation = 0;
         work->rotation = 0;
         work->oscillation = 0;
-        work->grid_brightness = 1024;
+        work->sphere_brightness = 1024;
         for (n = 4; n >= 0; n--) {
             work->fields_244C[n] = 0;
         }
@@ -292,26 +292,26 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
             &projection.interpolation, &projection.flag);
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
-        if (work->config->layers_start <= work->clock.frame && work->phase < 8) {
-            FrenchModelVariant373_DrawLayers((EntryState373 *)point);
+        if (work->config->rings_start <= work->clock.frame && work->phase < 8) {
+            FrenchModelVariant373_DrawRisingRings((EntryState373 *)point);
         }
-        if (work->config->grid_start <= work->clock.frame && work->phase < 8) {
+        if (work->config->sphere_start <= work->clock.frame && work->phase < 8) {
             if (work->phase >= 6) {
                 packed = ModelTexture_PackPageClutCopy(work->slot, 2, &gFrenchModelVariant373_aImages[0]);
                 tpage0 = packed >> 16;
                 texture_stack.clut0 = packed;
-                for (i = 0, grid_packet = work->packets.grid; i < 8; i++, grid_packet++) {
-                    SetPolyGT4(grid_packet);
-                    grid_packet->tpage = tpage0;
-                    grid_packet->clut = texture_stack.clut0;
-                    SetSemiTrans(grid_packet, 1);
-                    SetShadeTex(grid_packet, 0);
+                for (i = 0, sphere_packet = work->packets.sphere; i < 8; i++, sphere_packet++) {
+                    SetPolyGT4(sphere_packet);
+                    sphere_packet->tpage = tpage0;
+                    sphere_packet->clut = texture_stack.clut0;
+                    SetSemiTrans(sphere_packet, 1);
+                    SetShadeTex(sphere_packet, 0);
                 }
             }
-            FrenchModelVariant373_DrawGrid((EntryState373 *)point);
+            FrenchModelVariant373_DrawSphere((EntryState373 *)point);
         }
-        if (work->config->points_start <= work->clock.frame) {
-            FrenchModelVariant373_DrawPoints((EntryState373 *)point);
+        if (work->config->sparks_start <= work->clock.frame) {
+            FrenchModelVariant373_DrawSparks((EntryState373 *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

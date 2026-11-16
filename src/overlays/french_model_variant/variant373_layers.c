@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant373_entry.h"
 
-void FrenchModelVariant373_DrawLayers(EntryState373 *context)
+void FrenchModelVariant373_DrawRisingRings(EntryState373 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -17,7 +17,7 @@ void FrenchModelVariant373_DrawLayers(EntryState373 *context)
     GsOT *ot;
     s32 i;
     EntryState373 *work;
-    Family373Layer *layer;
+    Family373Ring *layer;
     POLY_GT4 *quad;
     s32 j;
     s32 fade;
@@ -31,7 +31,7 @@ void FrenchModelVariant373_DrawLayers(EntryState373 *context)
     all_done = 1;
     GsGetActiveBuff();
     i = 0;
-    layer = work->layers;
+    layer = work->rising_rings;
     ratan2(work->aim.direction.vz, work->aim.direction.vx);
     ratan2(work->aim.direction.vy, work->aim.direction.vz);
     do {
@@ -45,8 +45,8 @@ void FrenchModelVariant373_DrawLayers(EntryState373 *context)
                 if (layer->scale < 1024 || layer->scale > 5120) {
                     amount = 1024;
                 } else {
-                    amount = 1024 - ((rsin(layer->scale) * (work->grid_scale / 2) >> 12)
-                                     - work->grid_scale / 2);
+                    amount = 1024 - ((rsin(layer->scale) * (work->sphere_scale / 2) >> 12)
+                                     - work->sphere_scale / 2);
                 }
                 setVector(&scale, amount, amount, amount);
             } else {
@@ -83,10 +83,12 @@ void FrenchModelVariant373_DrawLayers(EntryState373 *context)
                 dark.g = 128 - fade / 8;
                 dark.b = 64 - fade / 16;
             }
-            for (j = 0, quad = work->layer_packets, texture_v = 0, byte_offset = 0; j < 16;
+            for (j = 0, quad = work->ring_packets, texture_v = 0, byte_offset = 0; j < 16;
                  j++, quad++, byte_offset = j * 8, texture_v = -j * 8) {
                 setUV4(quad, 0, texture_v - 1, 0, texture_v - 16,
                        31, texture_v - 1, 31, texture_v - 16);
+                /* points[j + 1], points[j + 17] and points[j + 18]: retail
+                 * steps a separate byte offset, which typed indexes lose. */
                 depth = RotTransPers4(
                     &layer->points[j],
                     (SVECTOR *)((u8 *)layer + (byte_offset + 8)),
