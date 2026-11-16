@@ -61,7 +61,7 @@ void ModelVariant458_DrawStrand(u8 *ctx)
         } while (i < 6);
         strand = work->strands;
         for (i = 0; i < 6; i++, strand++) {
-            for (j = work->field_2FF6; j < work->field_2FF8; j++) {
+            for (j = work->strand_start; j < work->strand_end; j++) {
                 line->attribute = 0x50000000;
                 otz = Strand458_RotTransPers4(&strand->point[j], &strand->point[j + 1], &strand->point[j],
                                     &strand->point[j + 1], (long *)&line->x0, (long *)&line->x1,
@@ -76,15 +76,15 @@ void ModelVariant458_DrawStrand(u8 *ctx)
                 }
             }
         }
-        if (work->field_2FF8 < 13) {
-            work->field_2FF8 += ((u32)work->clock.step >> 1);
-            if (work->field_2FF8 >= 12) {
-                work->field_2FF8 = 12;
-                if (work->field_2FF6 < 13) {
-                    work->field_2FF6 += ((u32)work->clock.step >> 1);
-                    if (work->field_2FF6 >= 12) {
-                        work->field_2FF8 = 0;
-                        work->field_2FF6 = 0;
+        if (work->strand_end < 13) {
+            work->strand_end += ((u32)work->clock.step >> 1);
+            if (work->strand_end >= 12) {
+                work->strand_end = 12;
+                if (work->strand_start < 13) {
+                    work->strand_start += ((u32)work->clock.step >> 1);
+                    if (work->strand_start >= 12) {
+                        work->strand_end = 0;
+                        work->strand_start = 0;
                     }
                 }
             }

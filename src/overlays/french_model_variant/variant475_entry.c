@@ -212,8 +212,8 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
         work->orbit = 0;
         work->orbit_progress = 0;
         work->field_2FF4 = 0;
-        work->field_2FF6 = 0;
-        work->field_2FF8 = 0;
+        work->strand_start = 0;
+        work->strand_end = 0;
         work->ribbon_wave = 0;
         work->ribbon_phase = 0;
         work->streamer_rotation_x = 0;
