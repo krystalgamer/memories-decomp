@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "helpers.h"
 
-/* Unoptimized duplicate of PalOptions_StepStripScroll (signed_step.c) over its
+/* Unoptimized duplicate of PalOptions_StepStripScroll (options_screen.c) over its
    own suffix storage. No caller or reference to it is known. */
 s32 PalOptions_StepStripScrollCopy(void)
 {
@@ -38,4 +38,11 @@ s32 PalOptions_StepStripScrollCopy(void)
         gPalOptions_wStripScrollCopy = next;
     }
     return gPalOptions_wStripScrollCopy == gPalOptions_wStripScrollTargetCopy;
+}
+
+/* Unoptimized duplicate of PalOptions_GetLanguage (options_screen.c) over
+   its own suffix byte. No caller or reference to it is known. */
+s32 PalOptions_GetLanguageCopy(void)
+{
+    return gPalOptions_bLanguageCopy;
 }

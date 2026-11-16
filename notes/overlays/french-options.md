@@ -141,6 +141,26 @@ The resident-only `integrate_verified_match.py` does not accept regional
 overlay manifests, so this registration follows the existing regional
 overlay layout/inventory/matching-manifest integration path instead.
 
+## Translation units
+
+For #39 the fourteen optimized functions at `[0x80168004, 0x80169040)`
+(0x103C bytes), formerly one source each (`color_slots.c`, `cursor_layout.c`,
+`position_easing.c`, `textured_strips.c`, `grid.c`, `language_hook.c`,
+`initialize.c`, `input.c`, `wave_tables.c`, `language_request.c`,
+`language_image.c`, `update.c`, `signed_step.c` and `language_selection.c`),
+are one `src/overlays/pal_options/options_screen.c` unit in address order at
+`gcc_2_8_1_g0_split`. They are contiguous, share one profile and own no data,
+and every one is `Options_Init`, `Options_Update` or a helper or render
+callback of theirs. The layout is the same in all five PAL images, so it is
+neutral evidence. Each `options.yaml` lists the unit as one `options_screen`
+segment instead of fourteen per-function segments, and `renderers.h` folds
+into `helpers.h`. The two `-O0` suffix copies at `[0x80169D78, 0x80169F74)`
+(0x1FC bytes), formerly `suffix_signed_step.c` and `suffix_byte.c`, are
+likewise one `options_suffix.c` unit at `gcc_2_8_1_o0_g0_split` and one
+`options_suffix` segment. Raw data separates the two units and their
+profiles differ, so they stay two objects. Earlier sections and the attempt ledgers keep the former
+file names as historical records.
+
 ## Unoptimized suffix leaves
 
 The suffix contains a second options-shaped instruction sequence. The two
@@ -159,10 +179,10 @@ the real difference store at `0x80169DB8` to frame offset eight. No subsequent
 instruction reads that slot. The shared source therefore retains the observed
 otherwise-unused local; optimization removes it from the unchanged prefix
 instructions. This is not a forced register, volatile store or fake dependency.
-`suffix_signed_step.c` and `suffix_byte.c` now spell the two bodies out under
-their own names instead of re-including the shared sources behind `#define`
-renames. The bodies are textually identical to `signed_step.c` and
-`language_selection.c` apart from the names, and `helpers.h` declares the
+`options_suffix.c` now spells the two bodies out under their own names
+instead of re-including the shared sources behind `#define` renames. The
+bodies are textually identical to the last two functions of
+`options_screen.c` apart from the names, and `helpers.h` declares the
 suffix storage. No new types, compiler profiles or resident aliases are added.
 
 | Address | Former name | Name |
