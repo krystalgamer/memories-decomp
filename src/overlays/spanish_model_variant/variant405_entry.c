@@ -267,7 +267,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
         work->screen_delta.vy = dy;
         SpanishModelVariant405_DrawOuterBands((u8 *)point);
         FrenchModelVariant562_DrawShards((Variant405EntryState *)point);
-        SpanishModelVariant405_DrawPulses((u8 *)point);
+        SpanishModelVariant405_DrawPulses((Variant405EntryState *)point);
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
         if (frame != work->clock.animation_frame) {
