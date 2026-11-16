@@ -59,7 +59,7 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant423_aImages[9];
 extern EntryConfig423 gFrenchModelVariant423_aConfigs[];
 void SpanishModelVariant423_DrawMesh(u8 *context);
-void SpanishModelVariant423_DrawSpiral(u8 *context);
+void SpanishModelVariant423_DrawSpiral(EntryState423 *context);
 void FrenchModelVariant423_DrawRibbon(u8 *context);
 void SpanishModelVariant423_DrawSheets(u8 *context);
 void FrenchModelVariant423_DrawFunnel(u8 *context);

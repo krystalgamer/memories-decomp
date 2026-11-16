@@ -247,13 +247,13 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
             work->aim.direction.vx = work->aim.target.vx - work->matrix.t[0];
             work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
             work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
-            FrenchModelVariant388_DrawPetals((u8 *)point);
+            FrenchModelVariant388_DrawPetals((Variant388EntryState *)point);
             if (work->config->sheet_start <= work->clock.frame) {
                 SpanishModelVariant388_DrawSheets((Variant388EntryState *)point);
             }
             if (work->phase > 0) {
                 SpanishModelVariant388_DrawRibbonFan((Variant388EntryState *)point);
-                FrenchModelVariant388_DrawStrips((u8 *)point);
+                FrenchModelVariant388_DrawStrips((Variant388EntryState *)point);
             }
         }
         if (work->phase >= 2) {

@@ -337,7 +337,7 @@ s32 ModelVariant404_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant404_DrawBands((Variant404EntryState *)point);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant421_DrawSpiral((u8 *)point);
+            SpanishModelVariant421_DrawSpiral((Variant404EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

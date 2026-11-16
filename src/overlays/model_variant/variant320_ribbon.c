@@ -9,7 +9,7 @@
  * offset. In phase 1 the drawn length follows the timing record's clock up to
  * 16; in phase 3 the copy's offset shrinks with it. The per-ribbon turn and the
  * coil angle of the header-321 form are still computed but unused here. */
-void ModelVariant320_DrawRibbon(u8 *ctx)
+void ModelVariant320_DrawRibbon(Variant337EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -37,7 +37,7 @@ void ModelVariant320_DrawRibbon(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant337EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     pitch = ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx) + 0xC00;

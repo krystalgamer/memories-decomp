@@ -7,7 +7,7 @@
  * projects each spine and a copy of it moved along the view, and draws each
  * segment as a POLY_G4 as wide as the projected offset. Once the fourth phase
  * starts, the streamers shrink by step * 16 until they vanish. */
-void FrenchModelVariant338_DrawStreamers(u8 *ctx)
+void FrenchModelVariant338_DrawStreamers(Variant338EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -42,7 +42,7 @@ void FrenchModelVariant338_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant338EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_G4 *)work->extra_textured;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;

@@ -279,7 +279,7 @@ s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->elapsed && work->config->scale_start < work->elapsed) {
-            SpanishModelVariant437_DrawStreamers((u8 *)point);
+            SpanishModelVariant437_DrawStreamers((Variant437EntryState *)point);
             SpanishModelVariant437_DrawSheet((u8 *)point);
         }
         work->frame_count++;

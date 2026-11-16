@@ -3,11 +3,12 @@
 
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
+#include "variant400_entry.h"
 
 typedef struct {
     s32 scale;
     u8 unknown_04[0x94];
 } Model400Size;
 
-void FrenchModelVariant400_DrawStreamers(u8 *ctx);
+void FrenchModelVariant400_DrawStreamers(Variant400EntryState *context);
 #endif

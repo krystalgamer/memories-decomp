@@ -3,7 +3,7 @@
 #include "variant433_strips.h"
 #include "../model_variant/variant416_entry.h"
 
-void ModelVariant416_DrawBands(u8 *ctx)
+void ModelVariant416_DrawBands(Variant416EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,7 +24,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     s32 raw_radius;
     s32 amount;
 
-    work = (Variant416EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;

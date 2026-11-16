@@ -320,7 +320,7 @@ s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant405_DrawVeils((u8 *)point);
         }
         if (work->phase >= 2) {
-            ModelVariant405_DrawHalo((u8 *)point);
+            ModelVariant405_DrawHalo((Variant422EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

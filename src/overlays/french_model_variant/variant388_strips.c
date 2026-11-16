@@ -16,7 +16,7 @@
  * col->sc[1] and col->sb[1] through the one column pointer instead of a
  * separate next pointer; both address sc[k + 1] and sb[k + 1]. The North
  * American header-371 images built with the CDK compiler use it. */
-void FrenchModelVariant388_DrawStrips(u8 *ctx)
+void FrenchModelVariant388_DrawStrips(Variant388EntryState *context)
 {
     Variant388EntryState *work;
     SVECTOR rot;
@@ -36,7 +36,7 @@ void FrenchModelVariant388_DrawStrips(u8 *ctx)
     s16 width;
     s32 angle;
 
-    work = (Variant388EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;

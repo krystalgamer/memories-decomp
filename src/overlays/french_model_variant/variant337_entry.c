@@ -202,11 +202,11 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            ModelVariant320_DrawRibbon((u8 *)point);
+            ModelVariant320_DrawRibbon((Variant337EntryState *)point);
             SpanishModelVariant337_DrawRings((u8 *)point);
         }
         if (work->tail.phase >= 3) {
-            ModelVariant320_DrawStreamers((u8 *)point);
+            ModelVariant320_DrawStreamers((Variant337EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

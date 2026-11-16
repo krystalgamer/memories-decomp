@@ -326,10 +326,10 @@ s32 ModelVariant416_HandleRequest(SVECTOR *point, s32 command)
         }
         if (work->config->burst_start <= work->clock.frame) {
             if (work->tail.phase < 5) {
-                ModelVariant416_DrawSheets((u8 *)point);
+                ModelVariant416_DrawSheets((Variant416EntryState *)point);
             }
             if (work->tail.phase < 3) {
-                ModelVariant416_DrawBands((u8 *)point);
+                ModelVariant416_DrawBands((Variant416EntryState *)point);
             }
         }
         if (work->tail.phase >= 2) {

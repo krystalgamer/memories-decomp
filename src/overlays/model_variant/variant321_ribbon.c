@@ -9,7 +9,7 @@
  * quads as wide as the projected offset, with straight first and last ends.
  * The drawn length grows by 1.5 steps a frame up to 16; in phase 3 the view
  * offset shrinks with the timing record's clock. */
-void ModelVariant321_DrawRibbon(u8 *ctx)
+void ModelVariant321_DrawRibbon(Variant338EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -37,7 +37,7 @@ void ModelVariant321_DrawRibbon(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant338EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     pitch = ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx) + 0xC00;

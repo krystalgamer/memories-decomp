@@ -218,7 +218,7 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
         if (work->config->start <= work->frame) {
             FrenchModelVariant400_DrawRibbons((Variant400EntryState *)point);
             FrenchModelVariant400_DrawSheets((u8 *)point);
-            FrenchModelVariant400_DrawStreamers((u8 *)point);
+            FrenchModelVariant400_DrawStreamers((Variant400EntryState *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

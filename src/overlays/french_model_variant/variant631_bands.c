@@ -6,7 +6,7 @@
  * the second quad of each segment reads its columns through col/next views of
  * the band. The redundant next/col copies and the trailing NULL stores keep
  * GCC 2.8.1 from merging those views with the first quad's addresses. */
-void ModelVariant423_DrawBand(u8 *ctx)
+void ModelVariant423_DrawBand(Variant423EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -26,7 +26,7 @@ void ModelVariant423_DrawBand(u8 *ctx)
     s16 j;
     s16 r;
 
-    work = (Variant423EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;

@@ -8,7 +8,7 @@
  * ribbon_length segments as flat POLY_FT4 quads as wide as the projected
  * offset. In phase 1 the drawn length grows by the frame step up to 16; later
  * the copy's offset shrinks with the timing record's progress. */
-void ModelVariant376_DrawRibbon(u8 *ctx)
+void ModelVariant376_DrawRibbon(Variant393EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -36,7 +36,7 @@ void ModelVariant376_DrawRibbon(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant393EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;

@@ -281,7 +281,7 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
         work->screen_delta.vy = dy;
         if (work->config->start <= work->elapsed) {
             if (work->tail.phase < 4) {
-                FrenchModelVariant436_DrawRibbons((u8 *)point);
+                FrenchModelVariant436_DrawRibbons((EntryState436 *)point);
             }
             if (work->config->scale_start < work->elapsed) {
                 FrenchModelVariant436_DrawStreamers((u8 *)point);

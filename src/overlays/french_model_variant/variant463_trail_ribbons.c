@@ -12,7 +12,7 @@
 #define TRAIL463_SB(k) (ribbon->sb[k])
 #endif
 
-void FrenchModelVariant463_DrawTrailRibbons(u8 *ctx)
+void FrenchModelVariant463_DrawTrailRibbons(Variant446EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -41,7 +41,7 @@ void FrenchModelVariant463_DrawTrailRibbons(u8 *ctx)
     Ribbon463 *ribbon;
     POLY_FT4 *poly;
 
-    work = (Variant446EntryState *)ctx;
+    work = context;
     ribbon = ((TrailRibbon463Work *)work)->ribbons;
     ot = Graphics_GetDefaultOrderingTable();
     total = 0;

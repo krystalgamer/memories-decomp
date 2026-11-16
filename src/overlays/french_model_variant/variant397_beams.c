@@ -9,7 +9,7 @@
  * done. As in header 376, the length offset is an s16 and each branch of the
  * last-point test computes its own width offset. */
 
-void FrenchModelVariant397_DrawBeams(u8 *ctx)
+void FrenchModelVariant397_DrawBeams(Variant397BeamsState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -37,7 +37,7 @@ void FrenchModelVariant397_DrawBeams(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant397BeamsState *)ctx;
+    work = context;
     sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

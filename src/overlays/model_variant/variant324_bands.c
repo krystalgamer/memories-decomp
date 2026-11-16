@@ -7,7 +7,7 @@
  * from phase 3. When the timing record's last entry is reached the band
  * stretches (phase 1), widens (phase 2) and then fades out (phase 3) by
  * frame steps. */
-void ModelVariant324_DrawBand(u8 *ctx)
+void ModelVariant324_DrawBand(Variant341EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,7 +24,7 @@ void ModelVariant324_DrawBand(u8 *ctx)
     s16 j;
     s16 r;
 
-    work = (Variant341EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     band = work->bands;
     poly = work->packets.textured;

@@ -95,7 +95,7 @@ extern GsIMAGE gModelVariant455_aImages[9];
 extern EntryConfig455 gModelVariant455_aConfigs[];
 void FrenchModelVariant472_DrawBlooms(u8 *context);
 void FrenchModelVariant472_DrawMesh(u8 *context);
-void SpanishModelVariant472_DrawSpiral(u8 *context);
+void SpanishModelVariant472_DrawSpiral(EntryState455 *context);
 void SpanishModelVariant472_DrawSheets(u8 *context);
 
 #endif

@@ -79,7 +79,7 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant437_aImages[9];
 extern Variant437EntryConfig gFrenchModelVariant437_aConfigs[];
 void SpanishModelVariant437_DrawSheet(u8 *context);
-void SpanishModelVariant437_DrawStreamers(u8 *context);
+void SpanishModelVariant437_DrawStreamers(Variant437EntryState *context);
 s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command);
 
 #endif

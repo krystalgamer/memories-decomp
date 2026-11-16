@@ -326,10 +326,10 @@ s32 FrenchModelVariant439_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant422_DrawSheets((Variant439EntryState *)point);
         }
         if (work->tail.phase >= 2) {
-            ModelVariant422_DrawCurtains((u8 *)point);
+            ModelVariant422_DrawCurtains((Variant439EntryState *)point);
         }
         if (work->tail.phase > 0) {
-            ModelVariant422_DrawBands((u8 *)point);
+            ModelVariant422_DrawBands((Variant439EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

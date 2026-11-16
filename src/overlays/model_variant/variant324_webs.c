@@ -5,7 +5,7 @@
 
 /* Header 324 uses the same three 4x6 webs as header 414, at its own
  * work offsets. Its projection depth and flag must both be strictly positive. */
-void ModelVariant324_DrawWebs(u8 *ctx)
+void ModelVariant324_DrawWebs(Variant341EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -30,7 +30,7 @@ void ModelVariant324_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant341EntryState *)ctx;
+    work = context;
     web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

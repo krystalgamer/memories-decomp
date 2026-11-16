@@ -2,7 +2,7 @@
 #include "variant400_streamers.h"
 #include "variant400_entry.h"
 
-void FrenchModelVariant400_DrawStreamers(u8 *ctx)
+void FrenchModelVariant400_DrawStreamers(Variant400EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -41,7 +41,7 @@ void FrenchModelVariant400_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant400EntryState *)ctx;
+    work = context;
     ribbon = work->nodes;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->flat_textured;

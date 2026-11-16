@@ -3,7 +3,8 @@
 
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
+#include "variant473_entry.h"
 
-void FrenchModelVariant473_DrawRibs(u8 *ctx);
+void FrenchModelVariant473_DrawRibs(EntryState473 *context);
 
 #endif

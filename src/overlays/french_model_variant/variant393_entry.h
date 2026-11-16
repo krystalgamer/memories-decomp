@@ -40,9 +40,9 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant393_aImages[9];
 extern Variant393EntryConfig gFrenchModelVariant393_aConfigs[];
-void ModelVariant376_DrawRibbon(u8 *context);
+void ModelVariant376_DrawRibbon(Variant393EntryState *context);
 void ModelVariant376_DrawRings(u8 *context);
-void FrenchModelVariant393_DrawStreamers(u8 *context);
+void FrenchModelVariant393_DrawStreamers(Variant393EntryState *context);
 typedef char Variant393EntryConfigSize[(sizeof(Variant393EntryConfig) == 0x44) ? 1 : -1];
 typedef char Variant393EntryStateSize[(sizeof(Variant393EntryState) == 0xE0C) ? 1 : -1];
 #endif

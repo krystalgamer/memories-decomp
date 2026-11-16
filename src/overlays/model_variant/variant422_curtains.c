@@ -7,7 +7,7 @@
  * points, turned to face the variant's direction and faded once their scale
  * passes 0x800, and grows each scale to 0x1000, wrapping it and counting the
  * wraps until the fourth phase. */
-void ModelVariant422_DrawCurtains(u8 *ctx)
+void ModelVariant422_DrawCurtains(Variant439EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -35,7 +35,7 @@ void ModelVariant422_DrawCurtains(u8 *ctx)
     u8 g1;
     u8 b1;
 
-    work = (Variant439EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     curtain = work->curtains;
     yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx) + 0x800;

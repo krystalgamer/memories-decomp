@@ -3,7 +3,7 @@
 #include "model_variant.h"
 #include "../french_model_variant/variant431_entry.h"
 
-void FrenchModelVariant431_DrawSheets(u8 *ctx)
+void FrenchModelVariant431_DrawSheets(Variant431EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -23,7 +23,7 @@ void FrenchModelVariant431_DrawSheets(u8 *ctx)
     s32 level;
     s32 otz;
 
-    work = (Variant431EntryState *)ctx;
+    work = context;
     object = work->bands;
     sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();

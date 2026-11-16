@@ -6,7 +6,7 @@
  * RotTransPers3, and grows each wing's level by step * 64 until both are
  * full; tail.phase moves to 2 when the first wing is
  * full and to 3 when the last one is done. */
-void ModelVariant416_DrawBands(u8 *ctx)
+void ModelVariant416_DrawBands(Variant416EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -26,7 +26,7 @@ void ModelVariant416_DrawBands(u8 *ctx)
     s16 r;
     s32 size;
 
-    work = (Variant416EntryState *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;

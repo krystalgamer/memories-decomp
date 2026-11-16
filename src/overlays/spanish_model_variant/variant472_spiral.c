@@ -16,7 +16,7 @@
  * colours where the depth and the arm's projection flag are not negative. The
  * sweep advances by 16; the size grows over the timing record and fades out
  * after phase 0. */
-void SpanishModelVariant472_DrawSpiral(u8 *ctx)
+void SpanishModelVariant472_DrawSpiral(EntryState455 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -48,7 +48,7 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (EntryState455 *)ctx;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->textured;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;

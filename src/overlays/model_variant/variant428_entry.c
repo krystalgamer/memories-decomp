@@ -309,7 +309,7 @@ s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant428_DrawSpiral((Variant428EntryState *)point);
         }
         if (work->tail.phase > 0) {
-            ModelVariant428_DrawBands((u8 *)point);
+            ModelVariant428_DrawBands((Variant428EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);
