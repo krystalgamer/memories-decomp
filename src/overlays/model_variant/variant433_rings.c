@@ -77,7 +77,8 @@ void ModelVariant433_DrawRings(u8 *ctx)
             ((SVECTOR *)(j * 8 + (s32)ring))->vx = (rcos(ang1) * (half_radius = radius / 2) >> 12) + (rcos(pitch + yaw + ang1) * (rsin(wave) << 5 >> 12) >> 12);
             ((SVECTOR *)(j * 8 + (s32)ring))->vy = (rsin(ang1) * half_radius >> 12) + (rsin(pitch + ang1) * (rsin(wave) << 5 >> 12) >> 12);
             ((SVECTOR *)(j * 8 + (s32)ring))->vz = (rsin(ang2) * half_radius >> 12) + (rsin(yaw + ang2) * (rsin(wave) << 5 >> 12) >> 12);
-            pt = (SVECTOR *)((u8 *)ring + j * 8);
+            pt = &ring->p[j];
+            /* e[j], reached from pt as retail does; &ring->e[j] does not match. */
             edge = (SVECTOR *)((u8 *)pt + 0x90);
             edge->vx = pt->vx + (rcos(yaw) * reach >> 12);
             edge->vy = pt->vy;
@@ -90,7 +91,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
                     if ((u32)work->config->field_20 < work->clock.frame) {
                         ring->amount[j] = limit;
                         if (j == 8) {
-                            *(s32 *)((u8 *)ring + 0x204) = 1;
+                            ring->field_204 = 1;
                         }
                     } else if (j == 8) {
                         for (j = 0; j < 9; j++) {
@@ -190,7 +191,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
             quad->r0 = ring->color.r;
             quad->g0 = ring->color.g;
             quad->b0 = ring->color.b;
-            if (ring->depth[j] >= 0 && flags[i][j] >= 0 && ring->amount[j] > 0 && *(s32 *)((u8 *)ring + 0x204) == 0) {
+            if (ring->depth[j] >= 0 && flags[i][j] >= 0 && ring->amount[j] > 0 && ring->field_204 == 0) {
                 GsSortPoly(quad, ot, (u16)ring->depth[j]);
 #else
             words = (u8 *)(j * 4 + (s32)ring);
@@ -206,7 +207,7 @@ void ModelVariant433_DrawRings(u8 *ctx)
             quad->r0 = ring->color.r;
             quad->g0 = ring->color.g;
             quad->b0 = ring->color.b;
-            if (*(s32 *)(words + 0x198) >= 0 && flags[i][j] >= 0 && *(s32 *)(words + 0x1E0) > 0 && *(s32 *)((u8 *)ring + 0x204) == 0) {
+            if (*(s32 *)(words + 0x198) >= 0 && flags[i][j] >= 0 && *(s32 *)(words + 0x1E0) > 0 && ring->field_204 == 0) {
                 GsSortPoly(quad, ot, (u16)*(s32 *)(words + 0x198));
 #endif
             }
