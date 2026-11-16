@@ -29,9 +29,9 @@ void ModelVariant425_DrawBand(Variant425EntryState *context)
     poly = work->packets.textured;
     angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
     if (!(work->clock.frame_count & 1)) {
-        r = work->field_272C / 64;
+        r = work->band_scale / 64;
     } else {
-        r = work->field_272C * 70 / 4096;
+        r = work->band_scale * 70 / 4096;
     }
     band = work->bands;
     for (i = 0; i < 1; i++, band++) {
@@ -129,12 +129,12 @@ void ModelVariant425_DrawBand(Variant425EntryState *context)
                 work->phase = 2;
             }
         }
-    } else if (work->phase < 3 && work->field_272C > 0) {
+    } else if (work->phase < 3 && work->band_scale > 0) {
         if ((u32)work->clock.frame >= (u32)work->config->field_28) {
-            work->field_272C = 0x1000 - (((u32)work->clock.frame - work->config->field_28) << 12) /
+            work->band_scale = 0x1000 - (((u32)work->clock.frame - work->config->field_28) << 12) /
                                           (u32)(work->config->field_2C - work->config->field_28);
-            if (work->field_272C <= 0) {
-                work->field_272C = 0;
+            if (work->band_scale <= 0) {
+                work->band_scale = 0;
                 work->phase = 3;
             }
         }

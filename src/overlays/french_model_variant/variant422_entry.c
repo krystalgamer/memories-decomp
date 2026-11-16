@@ -266,7 +266,7 @@ s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
         work->field_1DF0 = 0;
         work->field_1DF4 = 0;
         work->field_1E0C = 0;
-        work->field_1E10 = 4096;
+        work->band_scale = 4096;
         work->field_1E12 = 1024;
         work->field_1E14 = 0;
         work->quad_angle = 0;
