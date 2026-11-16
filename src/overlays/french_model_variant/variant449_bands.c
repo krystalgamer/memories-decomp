@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant449_bands.h"
+#include "../model_variant/variant432_entry.h"
 
-void FrenchModelVariant449_DrawBands(Variant449BandView *context)
+void FrenchModelVariant449_DrawBands(Variant432EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -10,12 +10,12 @@ void FrenchModelVariant449_DrawBands(Variant449BandView *context)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant449BandView *work;
+    Variant432EntryState *work;
     GsOT *ot;
     s16 i;
     s32 angle;
     POLY_GT4 *poly;
-    Variant449Band *band;
+    ModelVariantBandTriple *band;
     s16 j;
     s16 sign;
     s16 bias;
@@ -24,22 +24,22 @@ void FrenchModelVariant449_DrawBands(Variant449BandView *context)
 
     work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    angle = ratan2(work->axis_y, work->axis_x) + 0x800;
-    poly = &work->quads[1];
-    if (!(work->flags & 1)) {
+    angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 0x800;
+    poly = &work->packets.textured[1];
+    if (!(work->frame_count & 1)) {
         bias = 0;
     } else {
         bias = work->scale / 8;
     }
-    if (work->direction == 0) {
+    if (work->tail.slot == 0) {
         sign = -1;
     } else {
         sign = 1;
     }
-    band = work->bands;
+    band = work->records;
     for (i = 0; i < 1; i++, band++) {
         for (j = 0; j < 3; j++) {
-            lift = band->drift[j] * sign * work->scale / 4096;
+            lift = band->offset[j] * sign * work->scale / 4096;
             if (work->factor <= 0) {
                 progress = 0;
             } else if (work->factor < 1024) {
@@ -50,15 +50,15 @@ void FrenchModelVariant449_DrawBands(Variant449BandView *context)
             if (j == 0) {
                 progress += work->scale / 16 * work->spread / 1024;
             }
-            setVector(&band->a[j], rcos(0x400) * 128 >> 12, rsin(0x400) * 128 >> 12, 0);
-            setVector(&band->b[j], 0, 0, 0);
-            setVector(&band->c[j], rcos(0xC00) * 128 >> 12, rsin(0xC00) * 128 >> 12, 0);
+            setVector(&band->start[j], rcos(0x400) * 128 >> 12, rsin(0x400) * 128 >> 12, 0);
+            setVector(&band->middle[j], 0, 0, 0);
+            setVector(&band->end[j], rcos(0xC00) * 128 >> 12, rsin(0xC00) * 128 >> 12, 0);
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = angle;
-            m.t[0] = work->origin.t[0] + work->delta.vx * progress / 1024;
-            m.t[1] = work->origin.t[1] + work->delta.vy * progress / 1024;
-            m.t[2] = work->origin.t[2] + work->delta.vz * progress / 1024 + lift;
+            m.t[0] = work->origin.vx + work->path.vx * progress / 1024;
+            m.t[1] = work->origin.vy + work->path.vy * progress / 1024;
+            m.t[2] = work->origin.vz + work->path.vz * progress / 1024 + lift;
             scale.vx = work->scale + bias;
             scale.vy = work->scale + bias;
             scale.vz = work->scale + bias;
@@ -72,80 +72,80 @@ void FrenchModelVariant449_DrawBands(Variant449BandView *context)
             RotMatrix(&rot, &ls);
             ScaleMatrix(&ls, &scale);
             SetRotMatrix(&ls);
-            band->otz[j] = RotTransPers3(&band->a[j], &band->b[j], &band->c[j],
-                                         &band->sa[j], &band->sb[j], &band->sc[j], &p, &flag);
+            band->depth[j] = RotTransPers3(&band->start[j], &band->middle[j], &band->end[j],
+                                         &band->start_screen[j], &band->middle_screen[j], &band->end_screen[j], &p, &flag);
         }
     }
-    band = work->bands;
+    band = work->records;
     for (i = 0; i < 1; i++, band++) {
         for (j = 0; j < 2; j++) {
             if (j == 0) {
-                poly->x0 = band->sa[j];
-                poly->y0 = band->sa[j] >> 16;
-                poly->x1 = band->sa[j + 1];
-                poly->y1 = band->sa[j + 1] >> 16;
-                poly->x2 = band->sb[j];
-                poly->y2 = band->sb[j] >> 16;
-                poly->x3 = band->sb[j + 1];
-                poly->y3 = band->sb[j + 1] >> 16;
+                poly->x0 = band->start_screen[j];
+                poly->y0 = band->start_screen[j] >> 16;
+                poly->x1 = band->start_screen[j + 1];
+                poly->y1 = band->start_screen[j + 1] >> 16;
+                poly->x2 = band->middle_screen[j];
+                poly->y2 = band->middle_screen[j] >> 16;
+                poly->x3 = band->middle_screen[j + 1];
+                poly->y3 = band->middle_screen[j + 1] >> 16;
             } else {
-                poly->x0 = band->sa[j + 1];
-                poly->y0 = band->sa[j + 1] >> 16;
-                poly->x1 = band->sa[j];
-                poly->y1 = band->sa[j] >> 16;
-                poly->x2 = band->sb[j + 1];
-                poly->y2 = band->sb[j + 1] >> 16;
-                poly->x3 = band->sb[j];
-                poly->y3 = band->sb[j] >> 16;
+                poly->x0 = band->start_screen[j + 1];
+                poly->y0 = band->start_screen[j + 1] >> 16;
+                poly->x1 = band->start_screen[j];
+                poly->y1 = band->start_screen[j] >> 16;
+                poly->x2 = band->middle_screen[j + 1];
+                poly->y2 = band->middle_screen[j + 1] >> 16;
+                poly->x3 = band->middle_screen[j];
+                poly->y3 = band->middle_screen[j] >> 16;
             }
-            poly->r0 = band->ca[j][0];
-            poly->g0 = band->ca[j][1];
-            poly->b0 = band->ca[j][2];
-            poly->r1 = band->ca[j + 1][0];
-            poly->g1 = band->ca[j + 1][1];
-            poly->b1 = band->ca[j + 1][2];
-            poly->r2 = band->ca[j + 1][0];
-            poly->g2 = band->ca[j + 1][1];
-            poly->b2 = band->ca[j + 1][2];
-            poly->r3 = band->cb[j][0];
-            poly->g3 = band->cb[j][1];
-            poly->b3 = band->cb[j][2];
-            if (band->otz[j] > 0) {
-                GsSortPoly(poly, ot, band->otz[j]);
+            poly->r0 = band->inner[j].r;
+            poly->g0 = band->inner[j].g;
+            poly->b0 = band->inner[j].b;
+            poly->r1 = band->inner[j + 1].r;
+            poly->g1 = band->inner[j + 1].g;
+            poly->b1 = band->inner[j + 1].b;
+            poly->r2 = band->inner[j + 1].r;
+            poly->g2 = band->inner[j + 1].g;
+            poly->b2 = band->inner[j + 1].b;
+            poly->r3 = band->outer[j].r;
+            poly->g3 = band->outer[j].g;
+            poly->b3 = band->outer[j].b;
+            if (band->depth[j] > 0) {
+                GsSortPoly(poly, ot, band->depth[j]);
             }
             if (j == 0) {
-                poly->x0 = band->sc[j];
-                poly->y0 = band->sc[j] >> 16;
-                poly->x1 = band->sc[j + 1];
-                poly->y1 = band->sc[j + 1] >> 16;
-                poly->x2 = band->sb[j];
-                poly->y2 = band->sb[j] >> 16;
-                poly->x3 = band->sb[j + 1];
-                poly->y3 = band->sb[j + 1] >> 16;
+                poly->x0 = band->end_screen[j];
+                poly->y0 = band->end_screen[j] >> 16;
+                poly->x1 = band->end_screen[j + 1];
+                poly->y1 = band->end_screen[j + 1] >> 16;
+                poly->x2 = band->middle_screen[j];
+                poly->y2 = band->middle_screen[j] >> 16;
+                poly->x3 = band->middle_screen[j + 1];
+                poly->y3 = band->middle_screen[j + 1] >> 16;
             } else {
-                poly->x0 = band->sc[j + 1];
-                poly->y0 = band->sc[j + 1] >> 16;
-                poly->x1 = band->sc[j];
-                poly->y1 = band->sc[j] >> 16;
-                poly->x2 = band->sb[j + 1];
-                poly->y2 = band->sb[j + 1] >> 16;
-                poly->x3 = band->sb[j];
-                poly->y3 = band->sb[j] >> 16;
+                poly->x0 = band->end_screen[j + 1];
+                poly->y0 = band->end_screen[j + 1] >> 16;
+                poly->x1 = band->end_screen[j];
+                poly->y1 = band->end_screen[j] >> 16;
+                poly->x2 = band->middle_screen[j + 1];
+                poly->y2 = band->middle_screen[j + 1] >> 16;
+                poly->x3 = band->middle_screen[j];
+                poly->y3 = band->middle_screen[j] >> 16;
             }
-            poly->r0 = band->ca[j][0];
-            poly->g0 = band->ca[j][1];
-            poly->b0 = band->ca[j][2];
-            poly->r1 = band->ca[j + 1][0];
-            poly->g1 = band->ca[j + 1][1];
-            poly->b1 = band->ca[j + 1][2];
-            poly->r2 = band->ca[j + 1][0];
-            poly->g2 = band->ca[j + 1][1];
-            poly->b2 = band->ca[j + 1][2];
-            poly->r3 = band->cb[j][0];
-            poly->g3 = band->cb[j][1];
-            poly->b3 = band->cb[j][2];
-            if (band->otz[j] > 0) {
-                GsSortPoly(poly, ot, band->otz[j]);
+            poly->r0 = band->inner[j].r;
+            poly->g0 = band->inner[j].g;
+            poly->b0 = band->inner[j].b;
+            poly->r1 = band->inner[j + 1].r;
+            poly->g1 = band->inner[j + 1].g;
+            poly->b1 = band->inner[j + 1].b;
+            poly->r2 = band->inner[j + 1].r;
+            poly->g2 = band->inner[j + 1].g;
+            poly->b2 = band->inner[j + 1].b;
+            poly->r3 = band->outer[j].r;
+            poly->g3 = band->outer[j].g;
+            poly->b3 = band->outer[j].b;
+            if (band->depth[j] > 0) {
+                GsSortPoly(poly, ot, band->depth[j]);
             }
         }
     }
