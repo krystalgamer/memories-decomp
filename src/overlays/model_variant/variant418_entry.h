@@ -44,7 +44,7 @@ typedef struct {
     Variant418EntryConfig *config;
     u32 field_1B78;
     GsCOORDUNIT *parts[3];
-    s16 field_1B88, field_1B8A, field_1B8C, field_1B8E;
+    s16 field_1B88, field_1B8A, band_scale, field_1B8E;
     s32 field_1B90, quad_angle, field_1B98;
     s32 phase, field_1BA0;
     u8 unknown_1BA4[8];

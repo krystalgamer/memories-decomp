@@ -93,7 +93,7 @@ void ModelVariant405_DrawSheets(Variant422EntryState *context)
                     }
                 }
             } else {
-                sheet->size = work->field_1E10;
+                sheet->size = work->band_scale;
             }
         } else if (work->phase == 0) {
             sheet->size = 0;
