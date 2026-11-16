@@ -4247,25 +4247,25 @@
       "address": "0x80044FB4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10",
-      "source": "src/game/european/mem_card_io_result_callbacks.c"
+      "source": "src/game/mem_card_io_result_callbacks.c"
     },
     {
       "address": "0x80044FC4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x14",
-      "source": "src/game/european/mem_card_io_result_callbacks.c"
+      "source": "src/game/mem_card_io_result_callbacks.c"
     },
     {
       "address": "0x80044FD8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x14",
-      "source": "src/game/european/mem_card_io_result_callbacks.c"
+      "source": "src/game/mem_card_io_result_callbacks.c"
     },
     {
       "address": "0x80044FEC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x14",
-      "source": "src/game/european/mem_card_io_result_callbacks.c"
+      "source": "src/game/mem_card_io_result_callbacks.c"
     },
     {
       "address": "0x80045000",
