@@ -7,6 +7,9 @@
 #include "../../game/card_preview.h"
 #include "../../game/main_boot_frontend.h"
 #include "../../game/text_constants.h"
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#include "../../psyq/libgs.h"
 
 extern u8 gPalOptions_aStripTextures[5][3];
 extern s16 gPalOptions_wStripScroll;
@@ -31,6 +34,8 @@ extern s8 gPalOptions_bLanguageCopy;
 void PalOptions_SetTextColorSlots(s32 selection);
 void PalOptions_PositionCursor(s32 selection);
 s32 PalOptions_EaseStripY(s32 position);
+void PalOptions_DrawScrollingStrips(DisplayObject *object, GsOT *ordering_table);
+void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table);
 void PalOptions_NoOpLanguageHook(s32 language);
 void Options_Init(s32 mode);
 void PalOptions_HandleInput(void);

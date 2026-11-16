@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "helpers.h"
 
-/* Unoptimized duplicate of PalOptions_StepStripScroll (signed_step.c) over its
+/* Unoptimized duplicate of PalOptions_StepStripScroll (options_screen.c) over its
    own suffix storage. No caller or reference to it is known. */
 s32 PalOptions_StepStripScrollCopy(void)
 {

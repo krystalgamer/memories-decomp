@@ -8,8 +8,8 @@ One module and four duplicate offsets are registered, not five modules.
 The original fourteen function control-flow graphs and both subsequently
 recovered suffix leaf bodies were checked against the identical copies.
 
-Sixteen shared local sources in `src/overlays/pal_options/` reproduce all 4,664 inventoried instruction
-bytes. The original fourteen use the named `gcc_2_8_1_g0_split` profile;
+Shared local sources in `src/overlays/pal_options/` reproduce all sixteen functions' 4,664 inventoried instruction
+bytes. The original fourteen, now one `options_screen.c` unit, use the named `gcc_2_8_1_g0_split` profile;
 the two suffix wrappers use `gcc_2_8_1_o0_g0_split`
 (GCC 2.8.1 / MASPSX 2.81). Spanish bindings were independently recovered from
 the Spanish resident inventory and linker metadata. No reference types,
