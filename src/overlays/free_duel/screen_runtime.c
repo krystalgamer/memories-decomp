@@ -375,13 +375,13 @@ void FreeDuel_UpdateSparkle(void)
             if (!(obj->update_state & 0x80)) {
                 obj->update_state |= 0x80;
                 obj->field_60 = 16;
-                obj->rgb = COLOR_RGB24_DIM_GREY;
+                obj->rgb.word = COLOR_RGB24_DIM_GREY;
                 obj->attribute |= (GsALON | GsAONE);
             }
-            level = ((u8 *)&obj->rgb)[0] - 4;
-            ((u8 *)&obj->rgb)[2] = level;
-            ((u8 *)&obj->rgb)[1] = level;
-            ((u8 *)&obj->rgb)[0] = level;
+            level = obj->rgb.c.r - 4;
+            obj->rgb.c.b = level;
+            obj->rgb.c.g = level;
+            obj->rgb.c.r = level;
             timer = obj->field_60 - 1;
             obj->field_60 = timer;
             if (timer == 0) {

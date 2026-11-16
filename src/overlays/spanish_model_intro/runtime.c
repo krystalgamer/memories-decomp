@@ -54,7 +54,7 @@ s32 Credits_UpdateLines(void)
     if (i >= 64) {
         i = 128 - i;
     }
-    *(u8 *)&gCredits_pGridObject->rgb = i;
+    gCredits_pGridObject->rgb.c.r = i;
     for (i = 0; i < 4; i++) {
         if (gCredits_aChannels[i].active) {
             switch (gCredits_aChannels[i].phase) {
@@ -119,7 +119,7 @@ void Credits_InitPresentation(void)
     gCredits_bFinished = 0;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     DisplayObject_SelectOrderingTable3(object);
-    *(u8 *)&object->rgb = 0;
+    object->rgb.c.r = 0;
     object->field_4C.draw = Credits_DrawGrid;
     gCredits_pGridObject = object;
     gCredits_dwFrameCounter = 0;
@@ -137,7 +137,7 @@ void Credits_DrawGrid(DisplayObject *object, GsOT *ot)
     s32 i;
 
     setLineF2(packet);
-    packet->r0 = packet->g0 = packet->b0 = (u8)object->rgb;
+    packet->r0 = packet->g0 = packet->b0 = object->rgb.c.r;
     packet->x0 = 0;
     packet->x1 = 320;
     i = gCredits_dwFrameCounter % 24;

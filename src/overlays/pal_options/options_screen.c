@@ -138,7 +138,7 @@ void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table)
     sprite->xy.h.y = object->xy.h.y;
     sprite->extent.wh.w.word = object->field_3C.size.w;
     sprite->extent.wh.h = object->field_3C.size.h;
-    sprite->rgb.word = object->rgb;
+    sprite->rgb.word = object->rgb.word;
     sprite->cxcy.word = object->field_40.word;
     sprite->uv.word = object->texture_uv.word;
     sprite->tpage = object->texture_page;

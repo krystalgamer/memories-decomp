@@ -494,9 +494,9 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     ft4->tpage = tpage;
     sprites[0]->gs.attribute = sprites[1]->gs.attribute = sprites[2]->gs.attribute =
         obj->attribute | 0x08000000;
-    sprites[0]->words.rgb = obj->rgb;
-    sprites[1]->words.rgb = obj->rgb;
-    sprites[2]->words.rgb = obj->rgb;
+    sprites[0]->words.rgb = obj->rgb.word;
+    sprites[1]->words.rgb = obj->rgb.word;
+    sprites[2]->words.rgb = obj->rgb.word;
 #ifdef VERSION_EUROPE
     sprites[0]->words.wh = 0x100008;
     sprites[0]->words.clut = obj->field_40.word;
@@ -873,9 +873,9 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     ft4->tpage = t | b;
     sprites[0]->gs.attribute = sprites[1]->gs.attribute = sprites[2]->gs.attribute =
         obj->attribute | 0x08000000;
-    sprites[0]->words.rgb = obj->rgb;
-    sprites[1]->words.rgb = obj->rgb;
-    sprites[2]->words.rgb = obj->rgb;
+    sprites[0]->words.rgb = obj->rgb.word;
+    sprites[1]->words.rgb = obj->rgb.word;
+    sprites[2]->words.rgb = obj->rgb.word;
     sprites[0]->words.wh = 0x100010;
     sprites[1]->words.wh = 0x100010;
     sprites[2]->words.wh = 0x80008;
@@ -1673,7 +1673,7 @@ void Dialog_HighlightChoice(DuelEffectChannel *record)
 
     if (((gDialog_bChoiceEnabled >> gDialog_bChoice) & 1) == 0) value = 0xC0;
     else value = 0xC0C0;
-    sub->rgb = value;
+    sub->rgb.word = value;
     record->prompt_object->field_3C.word = value;
     record->prompt_object->field_44.word = value;
     value = value / 4;
@@ -1735,8 +1735,6 @@ s32 Dialog_ReadChoiceInput(DuelEffectChannel *record)
 
 #include "display_object.h"
 
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
-
 #ifndef WIDGET_PULSE_BASE
 #define WIDGET_PULSE_BASE 0x80
 #endif
@@ -1751,11 +1749,11 @@ void Widget_UpdatePulseColour(DisplayObject *object)
     if (level >= 0x40)
         level = 0x7F - level;
     level = level * 2 + WIDGET_PULSE_BASE;
-    if (DISPLAY_OBJECT_COLOR_BYTES(widget)[0] != 0)
+    if (widget->rgb.c.r != 0)
         color = level;
-    if (DISPLAY_OBJECT_COLOR_BYTES(widget)[1] != 0)
+    if (widget->rgb.c.g != 0)
         color |= level << 8;
-    if (DISPLAY_OBJECT_COLOR_BYTES(widget)[2] != 0)
+    if (widget->rgb.c.b != 0)
         color |= level << 16;
     widget->field_3C.word = color;
     widget->field_44.word = color;

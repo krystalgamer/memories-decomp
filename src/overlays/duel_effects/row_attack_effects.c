@@ -322,22 +322,22 @@ void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_x += work->card_rotations[i].vx;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_y += work->card_rotations[i].vx;
                 ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_z += work->card_rotations[i].vx;
-                if (((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[0] > 15) {
-                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[0] -= 15;
+                if (((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb.c.r > 15) {
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb.c.r -= 15;
                 } else {
-                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[0] = 0;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb.c.r = 0;
                 }
-                if (((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[1] > 15) {
-                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[1] -= 15;
+                if (((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb.c.g > 15) {
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb.c.g -= 15;
                 } else {
-                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[1] = 0;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb.c.g = 0;
                 }
-                if (((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[2] > 15) {
-                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[2] -= 15;
+                if (((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb.c.b > 15) {
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb.c.b -= 15;
                 } else {
-                    ((u8 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb)[2] = 0;
+                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb.c.b = 0;
                 }
-                if ((((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb & 0xFFFFFF) == 0) {
+                if ((((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->rgb.word & 0xFFFFFF) == 0) {
                     if (work->hidden < work->active) {
                         ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->flags &= ~0x40;
                         work->hidden++;
@@ -369,7 +369,7 @@ void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
         PopMatrix();
         if (work->count != 0) {
             if ((u16)DuelEffect_IsColorBlack(&work->color) &&
-                (((DisplayObject *)gDuelEffect_CardObjectScratchWords[work->count - 1])->rgb & 0xFFFFFF) == 0) {
+                (((DisplayObject *)gDuelEffect_CardObjectScratchWords[work->count - 1])->rgb.word & 0xFFFFFF) == 0) {
                 gDuelEffect_bRequestFinished = 1;
             }
         } else {

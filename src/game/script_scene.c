@@ -1684,8 +1684,6 @@ void SceneScript_NoOpRecordCallback(void)
 {
 }
 
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
-
 void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
 {
     s32 angle;
@@ -1705,22 +1703,22 @@ void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
     if (intensity == 24)
         intensity = 23;
     component = intensity - 104;
-    DISPLAY_OBJECT_COLOR_BYTES(color)[2] = component;
-    DISPLAY_OBJECT_COLOR_BYTES(color)[1] = component;
-    DISPLAY_OBJECT_COLOR_BYTES(color)[0] = component;
+    color->rgb.c.b = component;
+    color->rgb.c.g = component;
+    color->rgb.c.r = component;
     object = (DisplayObject *)gSceneScript_Slots.slots[0].object_address;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
-        DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
-        DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
-        DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
+        object->rgb.c.b = component;
+        object->rgb.c.g = component;
+        object->rgb.c.r = component;
     }
     object = (DisplayObject *)gSceneScript_Slots.slots[1].object_address;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
-        DISPLAY_OBJECT_COLOR_BYTES(object)[2] = component;
-        DISPLAY_OBJECT_COLOR_BYTES(object)[1] = component;
-        DISPLAY_OBJECT_COLOR_BYTES(object)[0] = component;
+        object->rgb.c.b = component;
+        object->rgb.c.g = component;
+        object->rgb.c.r = component;
     }
 }
 

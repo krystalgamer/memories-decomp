@@ -211,7 +211,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
             return;
         }
         arg = (((s16)win->ot_depth - 1) & 0xFFFF) | 0xF0000;
-        *(u32 *)&packet->r0 = win->rgb;
+        *(u32 *)&packet->r0 = win->rgb.word;
         setlen(packet, 9);
         packet->code = 0x2C;
     }
@@ -221,7 +221,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
     PRM->xy.h.y = win->xy.h.y + 0x32;
     PRM->extent.wh.w.word = 0x66;
     PRM->extent.wh.h = 0x60;
-    PRM->rgb.word = win->rgb;
+    PRM->rgb.word = win->rgb.word;
     PRM->cxcy.word = obj->field_40.word;
     PRM->uv.word = obj->texture_uv.word;
     PRM->tpage = obj->texture_page;
@@ -243,15 +243,15 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
 #ifdef VERSION_EUROPE
     /* The European frame is drawn at three quarters of the object's colour,
        which is then restored. */
-    PRM->rgb.c.r = packet->r0 = ((u8 *)&obj->rgb)[0] * 3u >> 2;
-    PRM->rgb.c.g = packet->g0 = ((u8 *)&obj->rgb)[1] * 3u >> 2;
-    PRM->rgb.c.b = packet->b0 = ((u8 *)&obj->rgb)[2] * 3u >> 2;
+    PRM->rgb.c.r = packet->r0 = obj->rgb.c.r * 3u >> 2;
+    PRM->rgb.c.g = packet->g0 = obj->rgb.c.g * 3u >> 2;
+    PRM->rgb.c.b = packet->b0 = obj->rgb.c.b * 3u >> 2;
     DisplayObject_SubmitPacket(
         PRM, packet, ordering_table, arg, origin);
-    packet->r0 = ((u8 *)&obj->rgb)[0];
-    packet->g0 = ((u8 *)&obj->rgb)[1];
-    packet->b0 = ((u8 *)&obj->rgb)[2];
-    PRM->rgb.word = win->rgb;
+    packet->r0 = obj->rgb.c.r;
+    packet->g0 = obj->rgb.c.g;
+    packet->b0 = obj->rgb.c.b;
+    PRM->rgb.word = win->rgb.word;
     PRM->attribute = (PRM->attribute & 0x8FFFFFFF) | 0x60000000;
 #else
     DisplayObject_SubmitPacket(

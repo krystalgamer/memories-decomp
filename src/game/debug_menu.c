@@ -117,22 +117,20 @@ u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT] = {
     0x0B, 0x0C, 0x0D, 0x00,
 };
 
-#define DISPLAY_OBJECT_COLOR_BYTES(object) ((u8 *)&(object)->rgb)
-
 /* The Sound and Campaign entries dim the primary display object while their
  * value editor is open and restore its neutral RGB brightness on exit. */
 void DebugMenu_DimPrimaryDisplayObject(void)
 {
-    DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[0] =
-        DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[1] =
-        DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[2] = 0x40;
+    TEXT_CHANNEL(1)->render_object->rgb.c.r =
+        TEXT_CHANNEL(1)->render_object->rgb.c.g =
+        TEXT_CHANNEL(1)->render_object->rgb.c.b = 0x40;
 }
 
 void DebugMenu_RestorePrimaryDisplayObject(void)
 {
-    DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[0] =
-        DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[1] =
-        DISPLAY_OBJECT_COLOR_BYTES(TEXT_CHANNEL(1)->render_object)[2] = 0x80;
+    TEXT_CHANNEL(1)->render_object->rgb.c.r =
+        TEXT_CHANNEL(1)->render_object->rgb.c.g =
+        TEXT_CHANNEL(1)->render_object->rgb.c.b = 0x80;
 }
 
 void DebugMenu_UpdateCursorLayout(void)
