@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "variant436_sheets.h"
+#include "../french_model_variant/variant436_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant436_DrawSheets(u8 *context)
+void SpanishModelVariant436_DrawSheets(EntryState436 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -13,30 +13,30 @@ void SpanishModelVariant436_DrawSheets(u8 *context)
     VECTOR unused;
     long interpolation;
     long flag;
-    Sheet436State *state = (Sheet436State *)context;
+    EntryState436 *state = context;
     Sheet436 *sheet = state->sheets;
-    POLY_GT4 *quad = state->packets;
+    POLY_GT4 *quad = state->packets.textured;
     GsOT *ot;
     s32 i, j;
     s32 bias;
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(state->direction[2], state->direction[0]);
-    ratan2(state->direction[1], state->direction[0]);
-    if ((state->frame & 1) == 0) {
+    ratan2(state->view_delta.vz, state->view_delta.vx);
+    ratan2(state->view_delta.vy, state->view_delta.vx);
+    if ((state->frame_count & 1) == 0) {
         bias = 0;
     } else {
-        bias = state->size / 8;
+        bias = state->scale / 8;
     }
     quad++;
     for (i = 0; i < 1; i++, sheet++) {
-        matrix.t[0] = state->origin[0] + state->path[0] * state->progress / 1024;
-        matrix.t[1] = state->origin[1] + state->path[1] * state->progress / 1024;
-        matrix.t[2] = state->origin[2] + state->path[2] * state->progress / 1024;
-        scale.vx = state->size + bias;
-        scale.vy = state->size + bias;
-        scale.vz = state->size + bias;
+        matrix.t[0] = state->origin.vx + state->path.vx * state->factor / 1024;
+        matrix.t[1] = state->origin.vy + state->path.vy * state->factor / 1024;
+        matrix.t[2] = state->origin.vz + state->path.vz * state->factor / 1024;
+        scale.vx = state->scale + bias;
+        scale.vy = state->scale + bias;
+        scale.vz = state->scale + bias;
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
@@ -73,50 +73,50 @@ void SpanishModelVariant436_DrawSheets(u8 *context)
             }
         }
     }
-    if (state->phase == 0) {
-        if (state->size < 4096) {
-            state->size = (state->time - state->timing->grow_start) * 4096
-                / (state->timing->grow_end - state->timing->grow_start);
-            if (state->size >= 4096) {
-                state->size = 4096;
-                state->phase = 1;
+    if (state->tail.phase == 0) {
+        if (state->scale < 4096) {
+            state->scale = (state->elapsed - state->config->scale_start) * 4096
+                / (state->config->scale_end - state->config->scale_start);
+            if (state->scale >= 4096) {
+                state->scale = 4096;
+                state->tail.phase = 1;
             }
         }
-    } else if (state->phase == 2) {
-        state->phase2_progress = (state->time - state->timing->grow_end) * 1024
-            / (state->timing->phase2_end - state->timing->grow_end);
-        if (state->phase2_progress >= 1024) {
-            state->phase2_progress = 1024;
-            state->phase = 3;
+    } else if (state->tail.phase == 2) {
+        state->lift = (state->elapsed - state->config->scale_end) * 1024
+            / (state->config->phase2_end - state->config->scale_end);
+        if (state->lift >= 1024) {
+            state->lift = 1024;
+            state->tail.phase = 3;
         }
-    } else if (state->phase == 3) {
-        state->phase3_progress = (state->time - state->timing->phase2_end) * 1024
-            / (state->timing->phase3_end - state->timing->phase2_end);
-        if (state->phase3_progress >= 1024) {
-            state->phase3_progress = 1024;
-            state->phase = 4;
+    } else if (state->tail.phase == 3) {
+        state->spread = (state->elapsed - state->config->phase2_end) * 1024
+            / (state->config->phase3_end - state->config->phase2_end);
+        if (state->spread >= 1024) {
+            state->spread = 1024;
+            state->tail.phase = 4;
         }
-    } else if (state->phase == 4) {
-        state->progress = (state->time - state->timing->phase3_end) * 1024
-            / (state->timing->travel_end - state->timing->phase3_end);
-        if (state->progress >= 1024) {
-            state->progress = 1024;
-            state->phase = 5;
+    } else if (state->tail.phase == 4) {
+        state->factor = (state->elapsed - state->config->phase3_end) * 1024
+            / (state->config->travel_end - state->config->phase3_end);
+        if (state->factor >= 1024) {
+            state->factor = 1024;
+            state->tail.phase = 5;
         }
-    } else if (state->phase == 5) {
-        if (state->size < 16384) {
-            state->size += state->step * 2048;
-            if (state->size >= 16384) {
-                state->size = 16384;
-                state->phase = 6;
+    } else if (state->tail.phase == 5) {
+        if (state->scale < 16384) {
+            state->scale += state->step * 2048;
+            if (state->scale >= 16384) {
+                state->scale = 16384;
+                state->tail.phase = 6;
             }
         }
-    } else if (state->phase == 6) {
-        if (state->size > 0) {
-            state->size -= state->step * 128;
-            if (state->size <= 0) {
-                state->size = 0;
-                state->phase = 7;
+    } else if (state->tail.phase == 6) {
+        if (state->scale > 0) {
+            state->scale -= state->step * 128;
+            if (state->scale <= 0) {
+                state->scale = 0;
+                state->tail.phase = 7;
             }
         }
     }
