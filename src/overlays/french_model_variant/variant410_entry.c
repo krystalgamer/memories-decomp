@@ -183,8 +183,8 @@ s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command)
         }
         work->width = 1024;
         work->field_21E4 = 0;
-        work->field_21E8 = 0;
-        work->field_21EC = 0;
+        work->ribbon_sway = 0;
+        work->ribbon_wave = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;
         work->clock.animation_frame = 0;
@@ -223,10 +223,10 @@ s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->tail.phase >= 2) {
-            FrenchModelVariant410_DrawRibbons((u8 *)point);
+            FrenchModelVariant410_DrawRibbons((Variant410EntryState *)point);
         }
         if (work->tail.phase > 0) {
-            FrenchModelVariant410_DrawQuads((u8 *)point);
+            FrenchModelVariant410_DrawQuads((Variant410EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);
