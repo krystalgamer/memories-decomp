@@ -36,8 +36,8 @@ void FrenchModelVariant431_DrawWebs(u8 *ctx)
     line = &work->line;
     ratan2(work->view_delta.vz, work->view_delta.vx);
     ratan2(work->view_delta.vy, work->view_delta.vx);
-    ratan2(work->field_1774, work->field_1770);
-    ratan2(work->field_177E, work->field_177C);
+    ratan2(work->direction.vz, work->direction.vy);
+    ratan2(work->screen_delta.vy, work->screen_delta.vx);
     do {
         if (web->scale > 0) {
             level = web->scale;

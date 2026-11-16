@@ -37,12 +37,8 @@ typedef struct {
     u8 unknown_1744[0x14];
     s32 position[3];
     SVECTOR target;
-    u8 unknown_176C[0x4];
-    s32 field_1770;
-    s32 field_1774;
-    u8 unknown_1778[0x4];
-    s16 field_177C;
-    s16 field_177E;
+    VECTOR direction;
+    DVECTOR screen_delta;
     MATRIX matrices[5];
     VECTOR directions[5];
     s16 screen_x[5], screen_y[5];
