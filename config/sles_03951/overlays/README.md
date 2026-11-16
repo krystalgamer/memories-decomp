@@ -82,8 +82,8 @@ have SHA-256
 representative, without multiplying identical inventories. The table's sector
 total counts representative images only.
 
-This bank reuses the accepted shared `duel_effects/utility_helpers.c` and
-`duel_effects/texture_words.c` and `duel_effects/vector_init.c` units with
+This bank reuses the accepted shared `duel_effects/effect_geometry.c` unit
+(formerly `utility_helpers.c`, `texture_words.c` and `vector_init.c`) with
 `gcc_2_8_1_g0_split` unchanged. Two additional complete groups,
 `number_helpers.c` and `primitive_draw.c`, add four functions / 964 bytes
 using that same profile. The `textured_quads.c` pair adds another 536 bytes.
@@ -91,7 +91,7 @@ The complete `layered_drawing.c` group adds three functions / 1,696 bytes.
 The contiguous `packet_helpers.c` group adds four
 functions / 828 bytes: packet translation/submission and matrix initialization.
 Three accepted French groups, `color_test.c`,
-`quad_helpers.c` and `matrix_helpers.c`, add six more functions / 588 bytes
+`quad_helpers.c` (now part of `effect_geometry.c`) and `matrix_helpers.c`, add six more functions / 588 bytes
 without changing shared source. `color_transition.c` and `screen_draw.c`
 add six functions / 860 bytes for color transitions and fullscreen polygons.
 The complete `drawing_tail.c` group adds three functions / 1,204 bytes for

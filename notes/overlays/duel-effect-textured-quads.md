@@ -101,7 +101,8 @@ All five configured bank inventories (NA, JP, UK, FR and ES) use the new C
 names at their measured local addresses. Only the four NA overlay addresses
 are appended to the scoped semantic registry: `0x8015013C`, `0x801501A8`,
 `0x80148E88` and `0x80148F98`, respectively. Native suffixes are not physical
-NA addresses. The complete three-function `texture_words.c` object retains
+NA addresses. The complete three-function `texture_words.c` group (now in
+`effect_geometry.c`) retains
 the already accepted `DuelEffect_PowS16` unchanged. The dispatch real-owner
 regression recognizes the canonical packer call alongside native callee
 names: it still requires exactly 25 distinct callees and checks their actual
