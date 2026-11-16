@@ -195,7 +195,7 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
         }
         for (i = 0; i < 16; i++, line++) {
             for (j = 0; j < 17; j++) {
-                line->phase[j] = -(j << 6) - (i << 9);
+                line->growth[j] = -(j << 6) - (i << 9);
             }
             line->scale.vx = 4096;
             line->scale.vy = 4096;

@@ -81,7 +81,9 @@ typedef struct {
     s32 field_D8, width_scale;
 } Variant456EntryRibbon;
 
-/* A 0x108-byte line: colours, scale, heading and seventeen phases. */
+/* A 0x108-byte line (a spray of seventeen points): colours, scale, heading,
+ * the per-point growth the entry staggers below zero and the spray drawer
+ * grows to 1024, the spin and the hidden flag. */
 typedef struct {
     CVECTOR color, secondary;
     VECTOR scale;
@@ -90,7 +92,7 @@ typedef struct {
     u8 unknown_20[0x88];
     s32 heading[3];
     u8 unknown_B4[4];
-    s32 phase[17];
+    s32 growth[17];
     s32 spin, hidden, field_104;
 } Variant456EntryLine;
 
