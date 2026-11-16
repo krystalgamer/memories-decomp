@@ -34,7 +34,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     s32 turn;
     s16 spread;
     EntryConfig473 *timing;
-    Variant473Rib *rec;
+    EntryRibbon473 *rec;
     s16 prev;
     s16 cur;
     POLY_GT4 *poly;
@@ -53,9 +53,9 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     } else {
         spread = work->width * 72 / 1024;
     }
-    rec = (Variant473Rib *)work->ribbons;
+    rec = work->ribbons;
     for (j = 0; j < 5; j++, rec++, angle0 = (j << 11) / 5 + 0x400) {
-        if (rec->size > 0) {
+        if (rec->progress > 0) {
             if (rec->state == 0) {
                 rec->state = 1;
             }
@@ -79,10 +79,10 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
                     ox = 0;
                     oy = 0;
                     oz = 0;
-                    dx = work->ribbon_directions[j].vx * rec->size / 1024;
-                    dy = work->ribbon_directions[j].vy * rec->size / 1024;
-                    dz = work->ribbon_directions[j].vz * rec->size / 1024;
-                    len = rec->size * (i << 1) / 8;
+                    dx = work->ribbon_directions[j].vx * rec->progress / 1024;
+                    dy = work->ribbon_directions[j].vy * rec->progress / 1024;
+                    dz = work->ribbon_directions[j].vz * rec->progress / 1024;
+                    len = rec->progress * (i << 1) / 8;
                 } else {
                     ox = work->ribbon_directions[j].vx * rec->fade / 1024;
                     oy = work->ribbon_directions[j].vy * rec->fade / 1024;
@@ -118,9 +118,9 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    rec = (Variant473Rib *)work->ribbons;
+    rec = work->ribbons;
     for (j = 0; j < 5; j++, rec++) {
-        if (rec->size > 0) {
+        if (rec->progress > 0) {
             for (i = 0; i < 9; i++) {
                 if (i == 8) {
                     rec->otz[i] = RotTransPers4(&rec->a[i - 1], &rec->a[i], &rec->a[i - 1], &rec->a[i],
@@ -155,22 +155,22 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
             }
         }
     }
-    rec = (Variant473Rib *)work->ribbons;
+    rec = work->ribbons;
     for (j = 0; j < 5; j++, rec++) {
-        if (rec->size > 0) {
+        if (rec->progress > 0) {
             for (i = 0; i < 8; i++) {
-                poly->r0 = rec->cb[i][0];
-                poly->g0 = rec->cb[i][1];
-                poly->b0 = rec->cb[i][2];
-                poly->r1 = rec->cb[i + 1][0];
-                poly->g1 = rec->cb[i + 1][1];
-                poly->b1 = rec->cb[i + 1][2];
-                poly->r2 = rec->ca[i][0];
-                poly->g2 = rec->ca[i][1];
-                poly->b2 = rec->ca[i][2];
-                poly->r3 = rec->ca[i + 1][0];
-                poly->g3 = rec->ca[i + 1][1];
-                poly->b3 = rec->ca[i + 1][2];
+                poly->r0 = rec->outer[i].r;
+                poly->g0 = rec->outer[i].g;
+                poly->b0 = rec->outer[i].b;
+                poly->r1 = rec->outer[i + 1].r;
+                poly->g1 = rec->outer[i + 1].g;
+                poly->b1 = rec->outer[i + 1].b;
+                poly->r2 = rec->inner[i].r;
+                poly->g2 = rec->inner[i].g;
+                poly->b2 = rec->inner[i].b;
+                poly->r3 = rec->inner[i + 1].r;
+                poly->g3 = rec->inner[i + 1].g;
+                poly->b3 = rec->inner[i + 1].b;
                 poly->x0 = rec->sa[i] + rec->ox[i];
                 poly->y0 = (rec->sa[i] >> 16) + rec->oy[i];
                 poly->x1 = rec->sa[i + 1] + rec->ox[i + 1];
@@ -195,10 +195,10 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
                 }
             }
         }
-        if (rec->size < 0x400 && rec->state < 2) {
-            rec->size += work->clock.step * 32;
-            if (rec->size >= 0x400) {
-                rec->size = 0x400;
+        if (rec->progress < 0x400 && rec->state < 2) {
+            rec->progress += work->clock.step * 32;
+            if (rec->progress >= 0x400) {
+                rec->progress = 0x400;
                 rec->state = 2;
                 if (work->phase == 2) {
                     work->phase = 3;
@@ -206,7 +206,7 @@ void FrenchModelVariant473_DrawRibs(u8 *ctx)
             }
         } else if (rec->fade < 0x400 && rec->state == 2) {
             rec->fade += work->clock.step * 32;
-            rec->size = 0x400;
+            rec->progress = 0x400;
             rec->fade = 0x400;
             rec->state = 3;
         }
