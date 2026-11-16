@@ -453,7 +453,7 @@ the helpers above, and reads its config and image descriptors from the data at
   priority, so it spills as in the retail code.
 - `work->frame_count++` comes before `Model_GetSlotAnimationFrame`.
 - The spoke loop ends with `n = 4096;`, and the post-loop store is
-  `work->field_272C = n;`. The retail code sets the constant inside the loop,
+  `work->band_scale = n;`. The retail code sets the constant inside the loop,
   in the back branch's delay slot, and stores it after the loop.
 - The entry header carries its own views of the spiral arm and ray records
   (`Variant425EntryArm`, `Variant425EntryRay`), with the colour rows it fills
