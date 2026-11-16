@@ -14,16 +14,33 @@
 typedef struct {
     u8 unknown_00[0x10], parts[3], unknown_13[5];
     u32 draw_start;
-    u8 unknown_1C[0x10];
+    u8 unknown_1C[8];
+    u32 fade_start, fade_end;
 } EntryConfig427;
 
+typedef union {
+    DVECTOR point;
+    long packed;
+} EntryRibbonScreen427;
+
+/* One 0x3A8-byte ribbon: a seventeen-point spine and a copy of it moved along
+ * the view, both projected, the per-point screen angle and projected width,
+ * the style the entry seeds, the amplitude progress (staggered below zero and
+ * grown to 0x400 by the ribbon drawer), the position, and per point the
+ * projection flag, depth and the width's screen offset. */
 typedef struct {
-    u8 unknown_000[0x220];
+    SVECTOR a[17];
+    EntryRibbonScreen427 sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    EntryRibbonScreen427 sb[17];
+    s32 width[17];
     ModelVariantStripStyle style;
     s32 progress;
     u8 unknown_244[0x88];
     VECTOR position;
-    u8 unknown_2DC[0xCC];
+    long flags[17];
+    ModelVariantStripOffsets offsets;
 } EntryRibbon427;
 
 typedef struct {
@@ -54,7 +71,7 @@ typedef struct {
     ModelVariantSpiralParams spiral;
     ModelVariantStreamerParams streamer;
     CVECTOR inner, outer;
-    s32 spin, ribbon_sway, field_37B8, field_37BC, field_37C0, phase;
+    s32 spin, ribbon_sway, ribbon_wave, field_37BC, field_37C0, phase;
     s32 field_37C8, field_37CC;
     u8 unknown_37D0[8];
     s32 ambient;

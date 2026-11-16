@@ -13,8 +13,10 @@ slot-1 images.
   The draw loop sorts two `POLY_GT4` halves per segment, green on the outer
   edges and grey along the spine. It then grows each amplitude to 0x400 and
   moves stage 2 to 3. The tail fades the width over the timing record's fade
-  window, moving stage 4 to 5. The view lives in
-  `french_model_variant/variant427_ribbons.h`.
+  window, moving stage 4 to 5. It reads the
+  record's own `EntryRibbon427` and `EntryState427` fields; the earlier
+  `Ribbon379`/`Ribbon379Work` views in `variant427_ribbons.h` were folded
+  into them.
 - **Register choice.** The point index is copied through `n = kk = k;`
   before `setVector`, which indexes with `n`; the y term reads `(kk = n)` and
   the z term reads `k`, giving the target's a1-then-copy-to-a0 order. The
