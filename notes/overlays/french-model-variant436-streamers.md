@@ -7,11 +7,14 @@ pass. **No release had matching C for this body before.** It is reachable
 from the entry.
 
 It follows the accepted MODEL458 streamers helper (`variant458_streamers.c`)
-over a MODEL436 view, `variant436_streamers.h`:
-- streamers at `+0x93C`, the quads at `+0x14A8` and one origin `MATRIX` at
-  `+0x1508`;
-- the factor, lift and scale at `+0x1590..+0x1598` and one delta at `+0x15A0`;
-- axis, flags, length and rotation at `+0x15C4..+0x1630`.
+over the MODEL436 record, `EntryState436` in `variant436_entry.h`:
+- `streamers` at `+0x93C`, the `extra` quads at `+0x14A8` and the entry
+  `matrix` at `+0x1508`, used as the one origin;
+- `factor`, `lift` and `scale` at `+0x1590..+0x1598` and one `delta` at
+  `+0x15A0`;
+- `view_delta`, `frame_count`, `length` and the rotations at
+  `+0x15C4..+0x1630`. `frame_count` is signed, as MODEL458's `% 4` and
+  `% 10` tests need.
 
 Instead of seven origin/delta passes, the loop runs once. It moves the one
 origin along the delta by the factor and lowers y by

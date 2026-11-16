@@ -10,7 +10,6 @@
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
 #include "../spanish_model_variant/variant436_sheets.h"
-#include "variant436_streamers.h"
 
 typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];
@@ -61,7 +60,7 @@ typedef struct {
     DVECTOR screen_delta;
     VECTOR view_delta;
     s32 angles[2];
-    u32 frame_count;
+    s32 frame_count;
     s32 elapsed;
     u32 animation_frame;
     s32 step, span, fade;
@@ -80,7 +79,7 @@ extern GsIMAGE gFrenchModelVariant436_aImages[9];
 extern EntryConfig436 gFrenchModelVariant436_aConfigs[];
 void FrenchModelVariant436_DrawRibbons(EntryState436 *context);
 void SpanishModelVariant436_DrawSheets(u8 *context);
-void FrenchModelVariant436_DrawStreamers(u8 *context);
+void FrenchModelVariant436_DrawStreamers(EntryState436 *context);
 s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command);
 
 #endif
