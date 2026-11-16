@@ -5176,31 +5176,31 @@
       "address": "0x8004CB0C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x628",
-      "source": "src/game/model_init_slot.c"
+      "source": "src/game/model_slot_setup.c"
     },
     {
       "address": "0x8004D134",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x458",
-      "source": "src/game/model_slot_row_tables.c"
+      "source": "src/game/model_slot_setup.c"
     },
     {
       "address": "0x8004D58C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1D0",
-      "source": "src/game/model_slot_row_tables.c"
+      "source": "src/game/model_slot_setup.c"
     },
     {
       "address": "0x8004D75C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
-      "source": "src/game/model_slot_row_tables.c"
+      "source": "src/game/model_slot_setup.c"
     },
     {
       "address": "0x8004D914",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x200",
-      "source": "src/game/model_slot_row_tables.c"
+      "source": "src/game/model_slot_setup.c"
     },
     {
       "address": "0x8004DB14",

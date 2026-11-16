@@ -31,9 +31,9 @@ current artifacts.
 | `D_8009B47A` | `%gp_rel` halfword |
 
 `D_800F2C40` is the `0xE20`-stride record array already declared by the
-matching [`func_8004CB0C`](../../src/game/model_init_slot.c) and
+matching [`func_8004CB0C`](../../src/game/model_slot_setup.c) and
 `Model_BuildSlotAnimationTables` in
-[`model_slot_row_tables.c`](../../src/game/model_slot_row_tables.c). The
+[`model_slot_setup.c`](../../src/game/model_slot_setup.c). The
 offsets here confirm the stride and say which records are used: `0xDC8` and
 `0xDCE` are record 0, `0x1BEE` is record 1 because
 `0x1BEE - 0xDCE = 0xE20`. Reuse that declaration rather than inventing a new

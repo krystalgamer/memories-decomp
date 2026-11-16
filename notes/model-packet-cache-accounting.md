@@ -87,8 +87,8 @@ Spanish variant-408 and French variant-393 work structures also have
 members named `field_DF0`/`field_DF4`; those are unrelated records and
 remain unchanged.
 
-Primary evidence is in `model_init_slot.c`, `model_slot_control.c`,
-`model_slot_row_tables.c`, `model_draw_slot.c`,
+Primary evidence is in `model_slot_setup.c`, `model_slot_control.c`,
+`model_draw_slot.c`,
 `model_scene_runtime.c`, and the existing handwritten
 FT3/GT3/FT4/GT4 renderer assembly. The local packet/normal accounting does
 not require importing guessed reference declarations or changing SDK types.

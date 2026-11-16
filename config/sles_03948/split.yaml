@@ -276,13 +276,7 @@ segments:
     - game/european/model_camera_effects
   - - 263212
     - c
-    - game/european/model_init_slot
-  - - 264788
-    - c
-    - game/european/func_80051610
-  - - 265952
-    - c
-    - game/european/model_slot_row_tables
+    - game/european/model_slot_setup
   - - 267368
     - c
     - game/european/model
