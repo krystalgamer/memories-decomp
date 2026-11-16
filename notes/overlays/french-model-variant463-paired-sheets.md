@@ -23,8 +23,10 @@ raw slot-1 images, a new C segment at `0x2318` is followed by an
   paired test. The first-count arm also resets the sheet index. The reset is
   later deleted, but before that it stops jump optimisation from hoisting
   the second constant count store above its branch.
-- **View.** The view lives in `variant463_paired_sheets.h`. The bindings
-  are the ones the sheets helper uses.
+- **Record.** The helper reads `Variant446EntryState` (a view in
+  `variant463_paired_sheets.h` until it was folded): the primaries are its
+  `ribbons`, the sheets its `sheets`, and the positions `bases`/`tips`. The
+  bindings are the ones the sheets helper uses.
 
 All eight images rebuild exactly. The
 [attempt ledger](french-model-variant463-paired-sheets-attempts.csv) records

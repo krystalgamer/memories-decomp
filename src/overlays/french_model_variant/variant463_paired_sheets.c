@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant463_paired_sheets.h"
+#include "../model_variant/variant446_entry.h"
 
-void FrenchModelVariant463_DrawPairedSheets(u8 *context)
+void FrenchModelVariant463_DrawPairedSheets(Variant446EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,11 +10,11 @@ void FrenchModelVariant463_DrawPairedSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    PairedSheets463State *state = (PairedSheets463State *)context;
-    ModelVariantSheetPrimaryWide *primary = state->primary;
+    Variant446EntryState *state = context;
+    Variant446EntryRibbon *primary = state->ribbons;
     ModelVariantSheetSet *sheet = state->sheets;
-    POLY_GT4 *polygon = state->polygons;
-    PairedSheets463Timing *timing;
+    POLY_GT4 *polygon = state->packets.textured;
+    Variant446EntryConfig *timing;
     GsOT *ot;
     s32 count;
     s32 i, j;
@@ -22,7 +22,7 @@ void FrenchModelVariant463_DrawPairedSheets(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    timing = state->timing;
+    timing = state->config;
     if (timing->paired == 0) {
         if (timing->mode == 1) {
             count = 1;
@@ -39,23 +39,23 @@ void FrenchModelVariant463_DrawPairedSheets(u8 *context)
     polygon++;
     for (i = 0; i < count; i++, sheet++) {
         extra = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             extra = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i < count) {
-            matrix.t[0] = state->positions[i].vx;
-            matrix.t[1] = state->positions[i].vy;
-            matrix.t[2] = state->positions[i].vz;
+            matrix.t[0] = state->bases[i].vx;
+            matrix.t[1] = state->bases[i].vy;
+            matrix.t[2] = state->bases[i].vz;
             scale.vx = sheet->size + extra;
             scale.vy = sheet->size + extra;
             scale.vz = sheet->size + extra;
         } else {
-            matrix.t[0] = state->other_positions[i - count].vx;
-            matrix.t[1] = state->other_positions[i - count].vy;
-            matrix.t[2] = state->other_positions[i - count].vz;
+            matrix.t[0] = state->tips[i - count].vx;
+            matrix.t[1] = state->tips[i - count].vy;
+            matrix.t[2] = state->tips[i - count].vz;
             scale.vx = sheet->size + extra;
             scale.vy = sheet->size + extra;
             scale.vz = sheet->size + extra;
@@ -94,8 +94,8 @@ void FrenchModelVariant463_DrawPairedSheets(u8 *context)
         if (i < count) {
             if (state->phase == 0) {
                 if (sheet->size < 4096) {
-                    sheet->size = ((state->time - state->timing->grow_begin) << 12) /
-                                  (state->timing->grow_end - state->timing->grow_begin);
+                    sheet->size = ((state->clock.frame - state->config->start) << 12) /
+                                  (state->config->grow_end - state->config->start);
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
                         if (i + 1 == count) {
@@ -104,9 +104,9 @@ void FrenchModelVariant463_DrawPairedSheets(u8 *context)
                     }
                 }
             } else if (state->phase == 5 && sheet->size > 0) {
-                if (state->time >= state->timing->fade_begin) {
-                    sheet->size = 4096 - ((state->time - state->timing->fade_begin) << 12) /
-                                        (state->timing->fade_end - state->timing->fade_begin);
+                if (state->clock.frame >= state->config->phase5_frame) {
+                    sheet->size = 4096 - ((state->clock.frame - state->config->phase5_frame) << 12) /
+                                        (state->config->part_frame - state->config->phase5_frame);
                 }
                 if (sheet->size <= 0) {
                     sheet->size = 0;
@@ -114,12 +114,12 @@ void FrenchModelVariant463_DrawPairedSheets(u8 *context)
                 }
             }
         } else {
-            if (primary->active == 1) {
+            if (primary->state == 1) {
                 if (sheet->shown == 0) {
                     sheet->size = 16384;
                     sheet->shown = 1;
                 } else {
-                    sheet->size = primary->size * 16;
+                    sheet->size = primary->width_scale * 16;
                     if (sheet->size <= 0) {
                         sheet->size = 0;
                         if (state->phase < 5) {

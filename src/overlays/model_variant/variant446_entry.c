@@ -486,9 +486,9 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
         }
         if (work->config->start <= work->clock.frame && work->phase < 8) {
             if (work->phase < 6) {
-                FrenchModelVariant463_DrawPairedSheets((u8 *)point);
+                FrenchModelVariant463_DrawPairedSheets((Variant446EntryState *)point);
             }
-            FrenchModelVariant463_DrawSheets((u8 *)point);
+            FrenchModelVariant463_DrawSheets((Variant446EntryState *)point);
             if (work->phase > 0) {
                 FrenchModelVariant463_DrawRibbons((Variant446EntryState *)point);
                 FrenchModelVariant463_DrawTrailRibbons((Variant446EntryState *)point);
