@@ -144,3 +144,11 @@ reproduces all 90,112 bytes with 24 C functions / 5,780 bytes. Production
 acceptance also checks every terrain copy and all seven configured Spanish
 module images, preserving all 85 boundaries and 61 assembly functions, with
 exact C object and linked-ELF addresses, sizes, types and sections.
+
+## Later grouping
+
+This object is now part of `src/overlays/duel_effects/effect_drawing.c`,
+merged for #39 with the other former drawing units at the same
+`gcc_2_8_1_g0_split` profile in every region (see the grouping list in
+`duel-effect-bank.md`). `layered_drawing.h` is now `effect_drawing.h`.
+The sections above record the unit as it was accepted.

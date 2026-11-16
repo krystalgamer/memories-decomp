@@ -10,7 +10,7 @@
 #include "utility_helpers.h"
 #include "packet_helpers.h"
 #include "drawing_tail.h"
-#include "layered_drawing.h"
+#include "effect_drawing.h"
 #include "drawing_helpers.h"
 #include "textured_quads.h"
 #include "color_helpers.h"

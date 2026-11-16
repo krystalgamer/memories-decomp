@@ -152,3 +152,12 @@ All 50 accepted Spanish entries remain unchanged. The combined bank contains
 51 C functions / 12,352 bytes and 34 assembly boundaries; configured Spanish
 overlays contain 175/209 matching instances / 68,204 bytes. The new game C
 addition remains exactly one complete 760-byte routine.
+
+## Later grouping
+
+Both objects (through `primitive_draw.c`) are now part of
+`src/overlays/duel_effects/effect_drawing.c`,
+merged for #39 with the other former drawing units at the same
+`gcc_2_8_1_g0_split` profile in every region (see the grouping list in
+`duel-effect-bank.md`). The sections above record the units as they were
+accepted.

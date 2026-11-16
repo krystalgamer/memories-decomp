@@ -14,7 +14,7 @@
 #include "utility_helpers.h"
 #include "packet_helpers.h"
 #include "textured_quads.h"
-#include "layered_drawing.h"
+#include "effect_drawing.h"
 #include "drawing_tail.h"
 
 /* Texture words the dispatcher packs once per bank load from the 21 image

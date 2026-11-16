@@ -1145,6 +1145,17 @@ been merged by meaning (#39), with no change to any image:
 - `rect_vertices.c` (`DuelEffect_InitRectVertices`) now closes
   `utility_helpers.c`, after `DuelEffect_InitXZRectVertices` and the other
   vertex initializers.
+- `layered_drawing.c` (six functions), `number_renderer.c` (three) and
+  `primitive_draw.c` (eight) are now one `effect_drawing.c` unit of 17
+  functions / 0x1BD4 bytes, from `DuelEffect_DrawLayeredTileQuad` through
+  `DuelEffect_DrawGradientConnectionBands`: NA `0x80147E08..0x801499DC`, JP
+  `0x80163C50..0x80165824`, UK/FR/DE/IT/ES `0x80155BC0..0x80157794`. The NA
+  bank places the block between `color_transition.c` and `effect_8.c`, while
+  the Japanese and European banks place it between `contour_quads.c` and
+  `effect_1.c`; the three former objects move as one block while every
+  neighbour changes place, so retail most likely compiled them as one file.
+  `layered_drawing.h` became `effect_drawing.h`. None of the three had a
+  regional wrapper or owned data.
 
 Every region's `duel_effects` layout and manifest names the merged sources at
 the same addresses and the same `gcc_2_8_1_g0_split` profile.

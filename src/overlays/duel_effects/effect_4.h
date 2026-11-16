@@ -7,7 +7,7 @@
 #include "../../game/model_scene_runtime.h"
 #include "../../psyq/string.h"
 #include "utility_helpers.h"
-#include "layered_drawing.h"
+#include "effect_drawing.h"
 #include "drawing_tail.h"
 #include "color_helpers.h"
 

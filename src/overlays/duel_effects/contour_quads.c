@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "../../game/gpu_packets.h"
-#include "layered_drawing.h"
+#include "effect_drawing.h"
 #include "geometry_semantic_views.h"
 #include "packet_semantic_views.h"
 #include "drawing_semantic_views.h"
