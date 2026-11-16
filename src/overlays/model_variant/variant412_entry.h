@@ -25,7 +25,7 @@ typedef struct {
 } Variant412EntryFlares;
 
 typedef struct {
-    ModelVariantSpriteSet trails[1];
+    ModelVariantQuadGroup trails[1];
     Variant412EntryFlares flares;
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];

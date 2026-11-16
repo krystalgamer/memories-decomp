@@ -18,7 +18,7 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    ModelVariantSwarm *group;
+    ModelVariantSwarmGroup *group;
     ModelVariantBandPair *band;
     ModelVariantSheet *sheet;
     ModelVariantRing *ring;
@@ -130,20 +130,20 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
         SetShadeTex(sprite, 0);
         for (n = 0; n < 3; n++, group++) {
             for (i = 0; i < 32; i++) {
-                setVector(&group->v0[i], -256, -256, 0);
-                setVector(&group->v1[i], 256, -256, 0);
-                setVector(&group->v2[i], -256, 256, 0);
-                setVector(&group->v3[i], 256, 256, 0);
+                setVector(&group->a[i], -256, -256, 0);
+                setVector(&group->b[i], 256, -256, 0);
+                setVector(&group->c[i], -256, 256, 0);
+                setVector(&group->d[i], 256, 256, 0);
                 group->color.r = work->config->outer.r;
                 group->color.g = work->config->outer.g;
                 group->color.b = work->config->outer.b;
-                group->scale[i] = -(i * 1024 / 32);
+                group->size[i] = -(i * 1024 / 32);
                 group->done[i] = 0;
                 group->field_614[i] = 0;
                 group->initialized[i] = 0;
-                group->origin[i].vx = work->matrix.t[0] + work->direction.vx;
-                group->origin[i].vy = work->matrix.t[1] + work->direction.vy;
-                group->origin[i].vz = work->matrix.t[2] + work->direction.vz;
+                group->positions[i].vx = work->matrix.t[0] + work->direction.vx;
+                group->positions[i].vy = work->matrix.t[1] + work->direction.vy;
+                group->positions[i].vz = work->matrix.t[2] + work->direction.vz;
             }
         }
         for (n = 0; n < 1; n++, band++) {
@@ -331,7 +331,7 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
                 GsGetLwUnit(work->parts[n], &work->origins[n]);
             }
             for (i = 0; i < 32; i++) {
-                if (group->scale[i] >= 0 && group->initialized[i] == 0) {
+                if (group->size[i] >= 0 && group->initialized[i] == 0) {
                     if (work->tail.slot == 0) {
                         setVector(&work->positions[n][i],
                                   work->target.vx + (rsin(work->sweep) * 768 >> 12),

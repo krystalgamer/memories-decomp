@@ -52,7 +52,9 @@ typedef struct {
  * flag. The French header-470 entry builds one at work + 0x988 and hands the
  * work area to SpanishModelVariant470_DrawQuads, which draws the corners in
  * the colour, grows size, sets done and clears initialized when a quad wraps;
- * the header-419, 428, 429, 471 and 478 quads helpers read it the same way. */
+ * the header-419, 428, 429, 471 and 478 quads helpers read it the same way.
+ * The header-411, 412 and 454 entries keep it as their trails or clusters
+ * and place each quad whose initialized flag is clear. */
 typedef struct {
     SVECTOR a[10], b[10], c[10], d[10], positions[10];
     CVECTOR color;
@@ -73,20 +75,17 @@ typedef struct {
     VECTOR captured[1], directions[1];
 } ModelVariantPanel;
 
-/* One group of 32 swarm quads: corners, a shared colour, and per quad the
- * growth, done flag and reset flag. */
+/* A 0x714-byte swarm of 32 quads: corner arrays a..d, a position per quad,
+ * a colour, and per quad a size, a done flag and an initialized flag. The
+ * swarm helpers (headers 428, 430, 447 and image 132118) do not draw a done
+ * quad and multiply the done flags into their completion test; they clear
+ * initialized when a quad wraps, and the header-411 and 413 entries place
+ * each quad whose initialized flag is clear and set it. */
 typedef struct {
-    SVECTOR a[32];
-    SVECTOR b[32];
-    SVECTOR c[32];
-    SVECTOR d[32];
-    u8 unknown_400[0x100];
-    u8 color[4];
+    SVECTOR a[32], b[32], c[32], d[32], positions[32];
+    CVECTOR color;
     u8 unknown_504[0x10];
-    s32 size[32];
-    s32 done[32];
-    u8 unknown_614[0x80];
-    s32 reset[32];
+    s32 size[32], done[32], field_614[32], initialized[32];
 } ModelVariantSwarmGroup;
 
 /* One group of 32 quads: corners, a shared colour, growth and done flags;
@@ -103,22 +102,6 @@ typedef struct {
     s32 done[32];
 } ModelVariantSwarmGroupShort;
 
-/* A 0x714-byte swarm of 32 sprites: corner arrays v0..v3, an origin per
- * sprite, a colour, and per sprite a scale, a done flag and an initialized
- * flag (drawn, for instance, by FrenchModelVariant430_DrawSwarm, which views
- * it as ModelVariantSwarmGroup). The helper does not draw a done sprite and
- * multiplies the done flags into its completion test; it clears initialized
- * when a sprite wraps, and the entry places each sprite whose initialized
- * flag is clear and sets it. */
-typedef struct {
-    SVECTOR v0[32], v1[32], v2[32], v3[32], origin[32];
-    CVECTOR color;
-    u8 unknown_504[0x10];
-    s32 scale[32];
-    s32 done[32];
-    s32 field_614[32];
-    s32 initialized[32];
-} ModelVariantSwarm;
 
 /* A 0x20-byte anchor whose position becomes the translation of a sheet,
  * ribbon or quad-pair matrix. */
@@ -1412,23 +1395,6 @@ typedef struct {
     u32 end;
 } ModelVariantStripTiming;
 
-/* Ten sprites: corner arrays v0..v3, an origin per sprite, a colour, and per
- * sprite a scale, an angle, a done flag and an initialized flag. The
- * header-411, 412 and 454 entries hand it to the French header-428, 429 and
- * 471 quads helpers, which view it as ModelVariantQuadGroup: they offset each
- * sprite's orbit by its angle, do not draw a done sprite and multiply the
- * done flags into their completion test, and clear initialized when a sprite
- * wraps. */
-typedef struct {
-    SVECTOR v0[10], v1[10], v2[10], v3[10], origin[10];
-    CVECTOR color;
-    s32 scale[10];
-    s32 angle[10];
-    s32 done[10];
-    s32 field_20C[10];
-    s32 initialized[10];
-    u8 unknown_25C[0xA0];
-} ModelVariantSpriteSet;
 
 /* One 0x20-byte spark of headers 680 and 682: an animated sprite pinned
  * to a model point through its coordinate unit. */

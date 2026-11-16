@@ -14,8 +14,8 @@ typedef struct {
 } Variant411UsEntryConfig;
 
 typedef struct {
-    ModelVariantSpriteSet trails[1];
-    ModelVariantSwarm swarm;
+    ModelVariantQuadGroup trails[1];
+    ModelVariantSwarmGroup swarm;
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];
