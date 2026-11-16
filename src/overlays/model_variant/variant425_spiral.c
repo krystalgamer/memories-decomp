@@ -57,7 +57,7 @@ void ModelVariant425_DrawSpiral(Variant425EntryState *context)
 #endif
     poly = work->packets.textured;
     r = 0x200;
-    eighth = work->field_270C / 8;
+    eighth = work->spiral_size / 8;
     if (r * work->field_270A < 0) {
         length = 0;
     }
