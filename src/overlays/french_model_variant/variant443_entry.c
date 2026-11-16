@@ -518,7 +518,7 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
             }
         }
         if (work->phase >= 4) {
-            SpanishModelVariant443_DrawMesh((u8 *)point);
+            SpanishModelVariant443_DrawMesh((EntryState443 *)point);
         }
         if (work->phase >= 5) {
             SpanishModelVariant443_DrawRings((u8 *)point);

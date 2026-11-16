@@ -16,7 +16,8 @@ typedef struct {
     u16 vertices[4];
     u8 unknown_2C[12];
     u32 start, web_end, spread_start, spread_end;
-    u8 unknown_48[0x10];
+    u32 mesh_start, mesh_end;
+    u8 unknown_50[8];
 } EntryConfig443;
 
 typedef union {
@@ -109,7 +110,7 @@ typedef struct {
 extern u8 gFrenchModelVariant443_D45A8[];
 void FrenchModelVariant443_DrawRibbons(EntryState443 *context);
 void SpanishModelVariant443_DrawRings(u8 *context);
-void SpanishModelVariant443_DrawMesh(u8 *context);
+void SpanishModelVariant443_DrawMesh(EntryState443 *context);
 void SpanishModelVariant443_DrawSheets(u8 *context);
 void FrenchModelVariant443_DrawStreamers(EntryState443 *context);
 void FrenchModelVariant443_DrawBands(u8 *context);
