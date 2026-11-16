@@ -22,7 +22,7 @@ typedef struct {
     ModelVariantWebSmall webs[3];
     ModelVariantShadedRay arms[16];
     ModelVariantRay rays[16];
-    u8 unknown_1940[0x1CA0 - 0x1940];
+    ModelVariantRibbonShort ribbons[8];
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[1];
     ModelVariantRing rings[6];

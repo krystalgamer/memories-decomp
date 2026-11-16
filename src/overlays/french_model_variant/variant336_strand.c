@@ -21,8 +21,8 @@ void FrenchModelVariant336_DrawStrand(Variant336EntryState *context)
     s32 r;
 
     work = context;
-    strand = (ModelVariantStrandWide *)work->unknown_1AB0;
-    line = (GsLINE *)work->unknown_1F10;
+    strand = work->strands;
+    line = &work->line;
     if (work->phase >= 2) {
         rot.vx = 0;
         rot.vy = 0;
@@ -53,7 +53,7 @@ void FrenchModelVariant336_DrawStrand(Variant336EntryState *context)
             a = (i << 12) / 6;
             strand++;
         } while (i < 6);
-        strand = (ModelVariantStrandWide *)work->unknown_1AB0;
+        strand = work->strands;
         for (i = 0; i < 6; i++, strand++) {
             for (j = work->segment_start;
                  j < work->segment_end; j++) {

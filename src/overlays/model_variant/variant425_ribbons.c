@@ -34,7 +34,7 @@ void ModelVariant425_DrawRibbons(Variant425EntryState *context)
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     ratan2(work->view_delta.vy, work->view_delta.vx);
-    ribbon = (ModelVariantRibbonShort *)work->unknown_1940;
+    ribbon = work->ribbons;
     tilt = ratan2(work->direction.vz, work->direction.vy) + 0x400;
     ratan2(work->direction.vz, work->direction.vx);
     timing = work->sheets;
@@ -72,7 +72,7 @@ void ModelVariant425_DrawRibbons(Variant425EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (ModelVariantRibbonShort *)work->unknown_1940;
+    ribbon = work->ribbons;
     for (i = 0; i < 8; i++, ribbon++) {
         for (k = 0; k < 2; k++) {
             if (k == 0) {
@@ -99,7 +99,7 @@ void ModelVariant425_DrawRibbons(Variant425EntryState *context)
             ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
         }
     }
-    ribbon = (ModelVariantRibbonShort *)work->unknown_1940;
+    ribbon = work->ribbons;
     for (i = 0; i < 8; i++, ribbon++) {
         for (k = 0; k < 1; k++) {
             prim->x0 = ribbon->sa[k] + ribbon->ox[k];

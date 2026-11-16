@@ -25,7 +25,7 @@ typedef struct {
 typedef struct {
     ModelVariantWeb webs[3];
     ModelVariantFlaggedSpiralArm arms[12];
-    u8 unknown_D50[0x10F0 - 0xD50];
+    ModelVariantRibbon ribbons[8];
     ModelVariantColorBandPadded bands[1];
     ModelVariantSheet sheets[1];
     ModelVariantRing rings[6];

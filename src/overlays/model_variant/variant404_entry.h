@@ -22,7 +22,7 @@ typedef struct {
 typedef struct {
     ModelVariantWebNarrow webs[3];
     ModelVariantShadedRay glows[12];
-    u8 unknown_AB0[0x360];
+    ModelVariantRibbonShort ribbons[8];
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
