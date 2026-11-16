@@ -38,7 +38,7 @@ typedef struct {
     ModelVariantEntryTail tail;
 } Variant444EntryState;
 
-void FrenchModelVariant175_DrawTube(u8 *context);
+void FrenchModelVariant175_DrawTube(Variant444EntryState *context);
 void SpanishModelVariant444_DrawSheets(u8 *context);
 void SpanishModelVariant444_DrawFunnels(u8 *context);
 

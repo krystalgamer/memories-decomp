@@ -6,16 +6,17 @@ MODEL175 family, image offset `0xDB4`,
 **No release had matching C for this body before.**
 
 It follows the pattern of the Spanish MODEL417 tube (`variant417_tube.c`).
-The local view lives in `variant175_tube.h`:
-- one 0x54C-byte tube at `+0`, holding a 9×9 point grid and nine colours at
-  `+0x510`;
-- the `POLY_G4` at `+0x1420`;
-- the origin at `+0x15F8`, the direction at `+0x160C`, the projected
-  vector at `+0x161C` and the second direction at `+0x1620`;
-- the unsigned time at `+0x163C`, the step at `+0x1644` and the timing
-  pointer at `+0x164C`;
-- the progress at `+0x165C`, the width at `+0x166C`, the angle at `+0x1670`
-  and the phase at `+0x167C`.
+It reads the header-444 record its entry passes, `Variant444EntryState` in
+`variant444_entry.h`:
+- one 0x54C-byte `ModelVariantTube` at `+0`, holding a 9×9 point grid and
+  nine colours at `+0x510`;
+- the `POLY_G4` `quad` at `+0x1420`;
+- `matrix.t` at `+0x15F8`, `aim.direction` at `+0x160C`, `aim.screen_delta`
+  at `+0x161C` and `aim.view_delta` at `+0x1620`;
+- the unsigned `clock.frame` at `+0x163C`, `clock.step` at `+0x1644` and
+  `config` at `+0x164C` (`tube_start`/`tube_end`, `fade_start`/`fade_end`);
+- `progress` at `+0x165C`, `width` at `+0x166C`, `angle` at `+0x1670` and
+  `tail.phase` at `+0x167C`.
 
 Measured shape:
 - **Ring offset:** each ring is offset along the direction by
