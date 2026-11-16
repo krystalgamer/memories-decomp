@@ -81,21 +81,30 @@
     },
     {
       "address": "0x800135F0",
+      "defines": [
+        "FILE_POSITION_TABLE_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x10",
-      "source": "src/game/european/file_setup.c"
+      "source": "src/game/file_setup.c"
     },
     {
       "address": "0x80013600",
+      "defines": [
+        "FILE_POSITION_TABLE_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x100",
-      "source": "src/game/european/file_setup.c"
+      "source": "src/game/file_setup.c"
     },
     {
       "address": "0x80013700",
+      "defines": [
+        "FILE_POSITION_TABLE_Y=0xE0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xB4",
-      "source": "src/game/european/file_setup.c"
+      "source": "src/game/file_setup.c"
     },
     {
       "address": "0x800137B4",
@@ -267,201 +276,333 @@
     },
     {
       "address": "0x800150CC",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800150F4",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x138",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x8001522C",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1D4",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015400",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1D4",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800155D4",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800155F8",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x50",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015648",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x8001569C",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800156F8",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015738",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x8001578C",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800157D4",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x4C",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015820",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015860",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x54",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800158B4",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800158F4",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x8001591C",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015944",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x8001596C",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800159B0",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x800159F4",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015A1C",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015A44",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015A6C",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015AB0",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015AF4",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x18",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015B0C",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1C",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015B28",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015B64",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015BA0",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015BDC",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015C18",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x10",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015C28",
+      "defines": [
+        "FADE_BAND_COUNT=32",
+        "FADE_TRANSITION_STATE_SIZE=0x2A"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xC",
-      "source": "src/game/european/fade_runtime.c"
+      "source": "src/game/fade_runtime.c"
     },
     {
       "address": "0x80015C34",
@@ -1395,45 +1536,80 @@
     },
     {
       "address": "0x80028370",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_DIALOG_DONE_FLAG=0x2000",
+        "DUEL_EFFECT_DIALOG_CHOICE_FLAG=0x20"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x28",
-      "source": "src/game/european/duel_effect_states.c"
+      "source": "src/game/duel_effect_states.c"
     },
     {
       "address": "0x80028398",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_DIALOG_DONE_FLAG=0x2000",
+        "DUEL_EFFECT_DIALOG_CHOICE_FLAG=0x20"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xDC",
-      "source": "src/game/european/duel_effect_states.c"
+      "source": "src/game/duel_effect_states.c"
     },
     {
       "address": "0x80028474",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_DIALOG_DONE_FLAG=0x2000",
+        "DUEL_EFFECT_DIALOG_CHOICE_FLAG=0x20"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/european/duel_effect_states.c"
+      "source": "src/game/duel_effect_states.c"
     },
     {
       "address": "0x8002847C",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_DIALOG_DONE_FLAG=0x2000",
+        "DUEL_EFFECT_DIALOG_CHOICE_FLAG=0x20"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x528",
-      "source": "src/game/european/duel_effect_states.c"
+      "source": "src/game/duel_effect_states.c"
     },
     {
       "address": "0x800289A4",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_DIALOG_DONE_FLAG=0x2000",
+        "DUEL_EFFECT_DIALOG_CHOICE_FLAG=0x20"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x80",
-      "source": "src/game/european/duel_effect_states.c"
+      "source": "src/game/duel_effect_states.c"
     },
     {
       "address": "0x80028A24",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_DIALOG_DONE_FLAG=0x2000",
+        "DUEL_EFFECT_DIALOG_CHOICE_FLAG=0x20"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
-      "source": "src/game/european/duel_effect_states.c"
+      "source": "src/game/duel_effect_states.c"
     },
     {
       "address": "0x80028A2C",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_EFFECT_DIALOG_DONE_FLAG=0x2000",
+        "DUEL_EFFECT_DIALOG_CHOICE_FLAG=0x20"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
-      "source": "src/game/european/duel_effect_states.c"
+      "source": "src/game/duel_effect_states.c"
     },
     {
       "address": "0x80028AA0",
@@ -1497,153 +1673,612 @@
     },
     {
       "address": "0x80029ACC",
+      "defines": [
+        "GLOBE_GEOM_OFFSET_Y=0x68"
+      ],
       "profile": "gcc_2_8_1_g8_split_psyq_rtps_no_cse_skip_blocks",
       "size": "0x57C",
-      "source": "src/game/european/library_draw_wireframe_globe.c"
+      "source": "src/game/library_draw_wireframe_globe.c"
     },
     {
       "address": "0x8002A048",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x14",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002A05C",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x428",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002A484",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD8",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002A55C",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDC",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002A638",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B8",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002A7F0",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002A848",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD0",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002A918",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x238",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002AB50",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F4",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002AD44",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002AE34",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xDF0",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002BC24",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002BC30",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002BC38",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x258",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002BE90",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28C",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002C11C",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x90",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002C1AC",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x428",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002C5D4",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x84",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002C658",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002C6B0",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002C6EC",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002C734",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002C73C",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002C744",
+      "defines": [
+        "VERSION_EUROPE",
+        "LIBRARY_GRID_SCREEN_HEIGHT=0x100",
+        "LIBRARY_GRID_SKIP_CY_STORE",
+        "LIBRARY_CARD_TEXT_BOX_Y=0xD5",
+        "LIBRARY_VIEWPORT_FOLLOW_BOTTOM=0xC0",
+        "LIBRARY_CARD_VIEW_X=0x98",
+        "LIBRARY_CARD_VIEW_BOX_WIDTH=0xA0",
+        "LIBRARY_CARD_VIEW_Y=6",
+        "LIBRARY_LOADING_ICON_Y=0xDD",
+        "LIBRARY_CARD_VIEW_BOX_HEIGHT=0xD0",
+        "LIBRARY_CARD_ZOOM_Y=0",
+        "LIBRARY_CARD_ZOOM_MIN_SCALE=0xD7",
+        "LIBRARY_PACKAGE_FIRST_SECTOR=0x233A",
+        "LIBRARY_PACKAGE_SECTOR_COUNT=0x8F",
+        "LIBRARY_RESOURCE_CLUT_X=0x280",
+        "LIBRARY_SELECTOR_SPRITE_Y=0xE8",
+        "LIBRARY_CARD_SELECTOR_BASE=0x2E0"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/european/library.c"
+      "source": "src/game/library.c"
     },
     {
       "address": "0x8002C76C",
@@ -2247,195 +2882,1219 @@
     },
     {
       "address": "0x80031640",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x18C",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800317CC",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x17C",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031948",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x94",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800319DC",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x8C",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031A68",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xF0",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80031B58",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x520",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032078",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x160",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800321D8",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x58",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032230",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800322B8",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x98",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032350",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800323F0",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032490",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC8",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032558",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1FC",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032754",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x48",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x8003279C",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x88",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80032824",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x810",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033034",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x28",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x8003305C",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800330D0",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x74",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033144",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x474",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800335B8",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x448",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033A00",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x3C",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033A3C",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1B4",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033BF0",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1F4",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033DE4",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB4",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033E98",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x38",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80033ED0",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x218",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800340E8",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x80034190",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x18",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800341A8",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1C",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800341C4",
+      "defines": [
+        "VERSION_EUROPE",
+        "DUEL_CARD_TYPE_ICON_FIELD_5D=0xC0",
+        "DUEL_CARD_TYPE_ICON_CX=0x2E0",
+        "DUEL_CARD_STAT_DIGIT_V=0x40",
+        "CARD_LIST_SLOT_BOX_Y=0x2C",
+        "CARD_LIST_SLOT_BOX_HEIGHT=0xE0",
+        "CARD_LIST_SLOT_FOLLOWING_FLAG=0x80",
+        "BUILD_DECK_COUNT_BOX_Y=0x19",
+        "BUILD_DECK_COUNT_BOX_FLAGS=0x1",
+        "CARD_LIST_GRAPHICS_REQUEST_FILE_ID=0x2997",
+        "CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT=0x51",
+        "BUILD_DECK_CURSOR_Y=0x2A",
+        "BUILD_DECK_LIST_Y=0x2B",
+        "CARD_LIST_VISIBLE_ROWS=9",
+        "CARD_LIST_LAST_CURSOR=8",
+        "CARD_LIST_SCROLL_SCALE=175",
+        "CARD_LIST_SCROLL_Y_BASE=0x2A",
+        "CARD_LIST_CURSOR_Y_BASE=0x2B",
+        "BUILD_DECK_DECK_PANE_X=0x235",
+        "BUILD_DECK_DECK_PANE_Y=0x14",
+        "BUILD_DECK_DECK_PANE_TARGET_Y=0xC",
+        "BUILD_DECK_CHEST_PANE_Y=0x14",
+        "BUILD_DECK_CHEST_PANE_TARGET_Y=0xD",
+        "BUILD_DECK_WIDE_BOX_Y=0x84",
+        "BUILD_DECK_WIDE_BOX_FLAGS=0x1050",
+        "BUILD_DECK_NARROW_BOX_Y=0x6C",
+        "BUILD_DECK_NARROW_BOX_FLAGS=0x40",
+        "BUILD_DECK_CONFIRM_FADE_LEVEL=0xC0",
+        "BUILD_DECK_CONFIRM_COMPLETION_MASK=0x2010",
+        "BUILD_DECK_DIVISOR_LADDER_ONLY"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x34",
-      "source": "src/game/european/build_deck.c"
+      "source": "src/game/build_deck.c"
     },
     {
       "address": "0x800341F8",
@@ -3387,51 +5046,99 @@
     },
     {
       "address": "0x8003CB44",
+      "defines": [
+        "VERSION_EUROPE",
+        "GAME_OVER_SCREEN_HEIGHT=0x100",
+        "GAME_OVER_BACKGROUND_TEXTURE_X=0x280",
+        "GAME_OVER_BACKGROUND_TEXTURE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x114",
-      "source": "src/game/european/game_over.c"
+      "source": "src/game/game_over.c"
     },
     {
       "address": "0x8003CC58",
+      "defines": [
+        "VERSION_EUROPE",
+        "GAME_OVER_SCREEN_HEIGHT=0x100",
+        "GAME_OVER_BACKGROUND_TEXTURE_X=0x280",
+        "GAME_OVER_BACKGROUND_TEXTURE_Y=0xD0"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x120",
-      "source": "src/game/european/game_over.c"
+      "source": "src/game/game_over.c"
     },
     {
       "address": "0x8003CD78",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_RAW_PAD_BUFFER_SIZE=0x24",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
-      "source": "src/game/european/input_pads.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003CDE4",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_RAW_PAD_BUFFER_SIZE=0x24",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x50",
-      "source": "src/game/european/input_pads.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003CE34",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_RAW_PAD_BUFFER_SIZE=0x24",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x70",
-      "source": "src/game/european/input_pads.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003CEA4",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_RAW_PAD_BUFFER_SIZE=0x24",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x120",
-      "source": "src/game/european/input_pads.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003CFC4",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_RAW_PAD_BUFFER_SIZE=0x24",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x50",
-      "source": "src/game/european/input_pads.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003D014",
+      "defines": [
+        "VERSION_EUROPE",
+        "INPUT_RAW_PAD_BUFFER_SIZE=0x24",
+        "INPUT_REPEAT_THRESHOLD=0x14",
+        "INPUT_REPEAT_RELOAD_VALUE=0x11"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2C",
-      "source": "src/game/european/input_pads.c"
+      "source": "src/game/input_pads.c"
     },
     {
       "address": "0x8003D040",
@@ -6921,93 +8628,168 @@
     },
     {
       "address": "0x80069D90",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2EC",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006A07C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2D8",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006A354",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x184",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006A4D8",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x22C",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006A704",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x16C",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006A870",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x14",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006A884",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xDC",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006A960",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8C",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006A9EC",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x40",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006AA2C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006AA64",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006AAC0",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x10",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006AAD0",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006AB28",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x64",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006AB8C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MOVIE_FRAME_HEIGHT=0x100",
+        "MOVIE_DECODED_SLOT_SIZE=0x3000"
+      ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x10",
-      "source": "src/game/european/movie_pipeline.c"
+      "source": "src/game/movie_pipeline.c"
     },
     {
       "address": "0x8006AB9C",
@@ -7053,57 +8835,93 @@
     },
     {
       "address": "0x8006B5B4",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_BURST_CLUT=0x3D28"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD1C",
-      "source": "src/game/european/model_effect_handlers.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C2D0",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_BURST_CLUT=0x3D28"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x47C",
       "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C74C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_BURST_CLUT=0x3D28"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x1DC",
       "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C928",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_BURST_CLUT=0x3D28"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x10",
       "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C938",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_BURST_CLUT=0x3D28"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x24",
       "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C95C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_BURST_CLUT=0x3D28"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x4C",
       "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006C9A8",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_BURST_CLUT=0x3D28"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x9FC",
-      "source": "src/game/european/model_effect_handlers.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006D3A4",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_BURST_CLUT=0x3D28"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x243C",
-      "source": "src/game/european/model_effect_handlers.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x8006F7E0",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_BURST_CLUT=0x3D28"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x13D8",
-      "source": "src/game/european/model_effect_handlers.c"
+      "source": "src/game/model_effect_handlers.c"
     },
     {
       "address": "0x80070BB8",

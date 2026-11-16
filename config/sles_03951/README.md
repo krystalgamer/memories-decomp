@@ -151,9 +151,9 @@ order and sizes:
 
 | Spanish range | Shared source | Preceding function | Following function |
 |---|---|---|---|
-| `0x80028474..0x8002847C` | `european/duel_effect_states.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
-| `0x8002BC30..0x8002BC38` | `european/library.c` | `func_8002BAA0` | `Library_UpdateScreen` |
-| `0x8002C734..0x8002C744` | `european/library.c` | `Library_CheckCardOwned` | `Library_CheckCardInChest` |
+| `0x80028474..0x8002847C` | `duel_effect_states.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
+| `0x8002BC30..0x8002BC38` | `library.c` | `func_8002BAA0` | `Library_UpdateScreen` |
+| `0x8002C734..0x8002C744` | `library.c` | `Library_CheckCardOwned` | `Library_CheckCardInChest` |
 | `0x8002F694..0x8002F6A4` | `spanish/script_scene.c` | `func_8002EF3C` | `Script_OpFadeOut` |
 
 The library handler additionally has an existing independently recovered
