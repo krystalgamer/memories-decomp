@@ -2483,31 +2483,31 @@
       "address": "0x800359B4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA8",
-      "source": "src/game/util_memory.c"
+      "source": "src/game/util.c"
     },
     {
       "address": "0x80035A5C",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xA0",
-      "source": "src/game/util_memory.c"
+      "source": "src/game/util.c"
     },
     {
       "address": "0x80035AFC",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xB8",
-      "source": "src/game/text_encode_decimal_digits.c"
+      "source": "src/game/util.c"
     },
     {
       "address": "0x80035BB4",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x5C",
-      "source": "src/game/text_encode_decimal_digits.c"
+      "source": "src/game/util.c"
     },
     {
       "address": "0x80035C10",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x50",
-      "source": "src/game/rand_get_interval.c"
+      "source": "src/game/util.c"
     },
     {
       "address": "0x80035C60",

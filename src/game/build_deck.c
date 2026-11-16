@@ -181,7 +181,7 @@ void CardList_DrawDecimalDigits(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s3
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "display_object.h"
-#include "text_encode_decimal_digits.h"
+#include "util.h"
 #include "color_constants.h"
 #include "main.h"
 
@@ -1230,7 +1230,6 @@ s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
    table; and the two confirm-mode setters. */
 #include "duel_card.h"
 #include "../psyq/qsort.h"
-#include "rand_get_interval.h"
 #include "card_constants.h"
 #include "display_object.h"
 #include "input.h"

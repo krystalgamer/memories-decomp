@@ -657,7 +657,7 @@ void DisplayObject_SetResourceVariantFromSign(
 
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
-#include "text_encode_decimal_digits.h"
+#include "util.h"
 #include "duel_card.h"
 #include "display_object_layout.h"
 #include "display_object.h"
@@ -2559,7 +2559,6 @@ void DuelScene_UpdateDrawPhase(void) {
 #include "duel_card_layout.h"
 #include "sound.h"
 #include "duel_session_controls.h"
-#include "rand_get_interval.h"
 #include "fade.h"
 #include "display_object_work_slots.h"
 #include "duel_effect_states.h"
@@ -7028,7 +7027,6 @@ void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
 #include "display_object_layout.h"
 #include "../psyq/rand.h"
 #include "input.h"
-#include "rand_get_interval.h"
 #include "trig_constants.h"
 #include "file_transfer.h"
 #include "sound.h"
@@ -9083,7 +9081,6 @@ void Duel_UpdateCardPickCursor(DuelSelectionRecord *o) {
 
 #include "input.h"
 #include "sound.h"
-#include "rand_get_interval.h"
 #include "../psyq/rand.h"
 #include "card_constants.h"
 
@@ -9366,7 +9363,6 @@ int Util_CompareS16(const short *left, const short *right)
 #include "card_constants.h"
 #include "duel_card_staging.h"
 #include "file_transfer.h"
-#include "util_memory.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "display_object_layout.h"
@@ -11170,7 +11166,6 @@ s32 Duel_SelectTrapPlay(void) {
 #include "card_constants.h"
 #include "duel_card.h"
 #include "duel_grid.h"
-#include "rand_get_interval.h"
 #include "duel_card_staging.h"
 
 /* The AI's turn-action run: spell and fusion searches feed the action pick

@@ -77,7 +77,7 @@ PAIRS = [
     ("src/game/model.c", "Model_InitSlot", '#include "model_slot_control.h"'),
     ("src/game/model.c", "Model_AdvanceSlotLoad", '#include "model.h"'),
     ("src/game/model_init_slot.c", "Model_FindBranchingChildCoord", '#include "../game/model_scene_runtime.h"'),
-    ("src/game/build_deck.c", "Text_EncodeDecimalNoPadding", '#include "text_encode_decimal_digits.h"'),
+    ("src/game/build_deck.c", "Text_EncodeDecimalNoPadding", '#include "util.h"'),
     ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "build_deck.h"'),
     ("src/game/main_mode_runners.c", "BuildDeck_InitScreen", '#include "../game/build_deck.h"'),
 ]
@@ -262,7 +262,7 @@ class CandidateCallerVisibilityTests(unittest.TestCase):
                     "duel_scene.h",
                     "duel_scene.h",
                     "build_deck.h",
-                    "text_encode_decimal_digits.h",
+                    "util.h",
                 )
             ):
                 continue

@@ -100,7 +100,7 @@ Matching [`Duel_ShuffleDeck`](../src/game/duel_scene.c) first prepares 40
 card IDs and initializes its permutation bytes to `0..39`. A non-null source
 is copied without RNG calls. After preparation, the function performs
 `DUEL_DECK_SHUFFLE_SWAP_COUNT = DECK_SIZE * 4` (`160`) iterations. Each
-iteration calls [`Rand_GetInterval`](../src/game/rand_get_interval.c) twice,
+iteration calls [`Rand_GetInterval`](../src/game/util.c) twice,
 in order, to obtain two indices in the full `0..39` range, then swaps both
 the card IDs and the corresponding permutation bytes. Equal indices do not
 skip either call.

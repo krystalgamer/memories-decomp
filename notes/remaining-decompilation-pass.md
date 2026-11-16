@@ -240,7 +240,7 @@ The second continuous wave promoted three more terminal functions:
 | `0x80035748` | `Util_FillMemory` | The same duplicated-case source distinction yields a strict 160/160-byte match for the repeated-byte fill counterpart. |
 
 The utility pair is contiguous, uses `gcc_2_8_1_g8`, and now shares
-`src/game/util_memory.c`.
+`src/game/util.c`.
 
 Two new evidence-backed scheduler experiments did not match and remain under
 `tmp/candidates/continuous-wave-2/`:

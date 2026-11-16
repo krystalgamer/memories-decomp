@@ -8,7 +8,7 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/stdio.h"
 #include "../../game/campaign_flags.h"
-#include "../../game/util_memory.h"
+#include "../../game/util.h"
 
 #if !defined(VERSION_EUROPE) || \
     defined(VERSION_EUROPE_PASSWORD_BUILD_STARTER_DECK)

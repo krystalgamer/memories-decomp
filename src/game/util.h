@@ -1,6 +1,10 @@
-#ifndef MEMORIES_DECOMP_TEXT_ENCODE_DECIMAL_DIGITS_H
-#define MEMORIES_DECOMP_TEXT_ENCODE_DECIMAL_DIGITS_H
+#ifndef MEMORIES_DECOMP_UTIL_H
+#define MEMORIES_DECOMP_UTIL_H
+
 #include "../types.h"
+
+void Util_CopyWords(u8 *destination, u8 *source, u32 length);
+void Util_FillMemory(u8 *destination, s32 value, u32 length);
 
 /* Text_EncodeDecimalDigits, then every byte after the first that is not a
  * decimal digit -- the blanks that stand for leading zeros -- is cleared to
@@ -11,4 +15,9 @@ void Text_EncodeDecimalNoPadding(s32 value, s32 count_arg, u8 *data_arg);
  * replaces leading zeros with TEXT_DECIMAL_BLANK_DIGIT. The buffer must hold
  * digit_count bytes; callers pass a stack array of eight. */
 void Text_EncodeDecimalDigits(s32 value, s32 digit_count, u8 *digits);
+
+/* rand() reduced modulo `divisor`, so the result is 0..divisor-1. Callers pass
+   a count, not a maximum. */
+s32 Rand_GetInterval(s32 divisor);
+
 #endif

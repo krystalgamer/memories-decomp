@@ -1,6 +1,6 @@
 #include "../types.h"
 #include "scratchpad.h"
-#include "text_encode_decimal_digits.h"
+#include "util.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
