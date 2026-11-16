@@ -204,7 +204,7 @@ the module's text, with all five overlay modules still byte-exact.
 
 ### Owning resident initialized data
 
-`src/game/file_set_position_table.c` is the worked example for the resident
+`src/game/file_setup.c` is the worked example for the resident
 image: the loader's seven disc paths and the null-terminated `gFile_apszName`
 table, 0xA8 bytes at 0x80090704, are defined after its includes by the unit
 that reads them, instead of coming from the extracted blob. `ai_script.c`
@@ -216,7 +216,7 @@ that reads them, instead of coming from the extracted blob. `ai_script.c`
 
    ```yaml
    - [0x80ee0, data, initialized_data_800906e0]
-   - [0x80f04, .data, game/file_set_position_table]
+   - [0x80f04, .data, game/file_setup]
    - [0x80fac, data, initialized_data_800907ac]
    ```
 
