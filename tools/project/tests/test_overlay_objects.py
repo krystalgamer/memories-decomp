@@ -43,7 +43,7 @@ class OverlayObjectStoreTests(unittest.TestCase):
         for target, replacement in (
             ("pipeline_fingerprint", lambda store: "pipeline"),
             ("profile_fingerprint", lambda store, name: name),
-            ("_preprocess", lambda store, source, profile: self.preprocessed[
+            ("_preprocess", lambda store, source, profile, defines=(): self.preprocessed[
                 str(source.relative_to(self.root))
             ] + b"".join(f.encode() for f in profile["compiler_flags"])),
         ):

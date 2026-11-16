@@ -1,5 +1,6 @@
 {
   "schema": 1,
+  "defines": [],
   "functions": [
     {
       "address": "0x80012A44",
@@ -6201,33 +6202,48 @@
     },
     {
       "address": "0x8005EF14",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xD4",
-      "source": "src/game/european/model_animation_unit.c"
+      "source": "src/game/model_animation_unit.c"
     },
     {
       "address": "0x8005EFE8",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x78",
-      "source": "src/game/european/model_animation_unit.c"
+      "source": "src/game/model_animation_unit.c"
     },
     {
       "address": "0x8005F060",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x734",
-      "source": "src/game/european/model_animation_unit.c"
+      "source": "src/game/model_animation_unit.c"
     },
     {
       "address": "0x8005F794",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x488",
-      "source": "src/game/european/model_animation_unit.c"
+      "source": "src/game/model_animation_unit.c"
     },
     {
       "address": "0x8005FC1C",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x61C",
-      "source": "src/game/european/model_animation_unit.c"
+      "source": "src/game/model_animation_unit.c"
     },
     {
       "address": "0x80060238",

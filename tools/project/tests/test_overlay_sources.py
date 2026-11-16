@@ -123,6 +123,41 @@ class OverlaySourceTests(unittest.TestCase):
         with self.assertRaisesRegex(OverlaySourceError, "conflicting profiles"):
             self.collect()
 
+    def test_region_and_entry_defines_are_carried_in_order(self) -> None:
+        self.write_json(
+            "config/slus_01411/matching_c.json",
+            {"schema": 1, "defines": ["REGION_A"], "functions": []},
+        )
+        self.manifest(
+            "matching_c", [{**self.entry(self.text), "defines": ["ENTRY_B=2"]}]
+        )
+        segments = {segment["source"]: segment for segment in self.collect()}
+        self.assertEqual(segments[self.text]["defines"], ["REGION_A", "ENTRY_B=2"])
+        self.assertEqual(segments[self.data]["defines"], ["REGION_A"])
+
+    def test_invalid_or_conflicting_entry_defines_are_rejected(self) -> None:
+        for defines, message in (
+            (["version_europe"], "invalid define"),
+            (["A B"], "invalid define"),
+            ("VERSION_EUROPE", "must be a list"),
+            (["X=1", "X=2"], "duplicate define"),
+        ):
+            with self.subTest(defines=defines):
+                self.manifest(
+                    "matching_c", [{**self.entry(self.text), "defines": defines}]
+                )
+                with self.assertRaisesRegex(OverlaySourceError, message):
+                    self.collect()
+        self.manifest(
+            "matching_c",
+            [
+                {**self.entry(self.text), "defines": ["VERSION_EUROPE"]},
+                self.entry(self.text),
+            ],
+        )
+        with self.assertRaisesRegex(OverlaySourceError, "conflicting define sets"):
+            self.collect()
+
     def test_duplicate_data_entry_is_rejected(self) -> None:
         self.manifest("data_c", [self.entry(self.data), self.entry(self.data)])
         with self.assertRaisesRegex(OverlaySourceError, "duplicate data unit"):

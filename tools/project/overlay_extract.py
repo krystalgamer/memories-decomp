@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 from typing import Any, BinaryIO
 
+from compile_defines import DefineError, combine_defines, validate_defines
 from hashing import sha256_stream
 from overlay_sources import OverlaySourceError, c_segments
 from workspace import WorkspaceError, require_workspace_root, resolve_within
@@ -277,6 +278,57 @@ def verify_manifest_format(root: Path) -> None:
     print(f"matching_c manifests: OK ({len(paths)} canonical)")
 
 
+def verify_manifest_defines(root: Path) -> None:
+    """Check every configured preprocessor define list.
+
+    A region's resident matching_c.json may name defines for every C unit the
+    region compiles; any matching_c.json or data_c.json entry may add its own.
+    Each list must hold valid, distinct macro names, and an entry's list must
+    not repeat a name its region already defines.
+    """
+    config = resolve_within(root, "config", must_exist=True)
+    checked = 0
+    for region in sorted(path for path in config.iterdir() if path.is_dir()):
+        resident = region / "matching_c.json"
+        if not resident.is_file():
+            continue
+        label = resident.relative_to(root).as_posix()
+        try:
+            region_defines = validate_defines(
+                json.loads(resident.read_text(encoding="utf-8")).get("defines"), label
+            )
+        except DefineError as error:
+            raise OverlayError(str(error)) from error
+        manifests = [resident, region / "data_c.json"]
+        overlays = region / "overlays"
+        if overlays.is_dir():
+            manifests += sorted(overlays.glob("*_matching_c.json"))
+            manifests += sorted(overlays.glob("*_data_c.json"))
+        for path in manifests:
+            if not path.is_file():
+                continue
+            label = path.relative_to(root).as_posix()
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+            if path != resident and "defines" in manifest:
+                raise OverlayError(
+                    f"{label}: only a region's matching_c.json takes top-level defines"
+                )
+            for entry in manifest.get("functions", manifest.get("units", [])):
+                if not isinstance(entry, dict) or "defines" not in entry:
+                    continue
+                entry_label = f"{label}: {entry.get('address', entry.get('source'))}"
+                try:
+                    combine_defines(
+                        region_defines,
+                        validate_defines(entry["defines"], entry_label),
+                        entry_label,
+                    )
+                except DefineError as error:
+                    raise OverlayError(str(error)) from error
+            checked += 1
+    print(f"configured defines: OK ({checked} manifests)")
+
+
 METADATA_MARKERS = (".git", "config/slus_01411/target.yaml")
 
 
@@ -311,6 +363,7 @@ def verify_metadata(root: Path) -> None:
     paths the overlay build deliberately ignores.
     """
     verify_manifest_format(root)
+    verify_manifest_defines(root)
     verify_csv_format(root)
     verify_sources_wired(root)
 

@@ -32,6 +32,10 @@ class WorkspaceTests(unittest.TestCase):
         self.root.mkdir()
         self.patches = ExitStack()
         self.addCleanup(self.patches.close)
+        environment = patch.dict(os.environ)
+        environment.start()
+        self.addCleanup(environment.stop)
+        os.environ.pop(build_incremental.CACHE_ENVIRONMENT, None)
         self.compiler = self.write("tools/gcc", b"compiler fixture 1\n")
         self.filter = self.write("tools/filter.py", "# filter fixture 1\n")
         self.assembler = self.write(
@@ -311,6 +315,8 @@ class DependencyFingerprintTests(WorkspaceTests):
         ):
             with self.subTest(kind=component.kind):
                 value = {
+                    "cache_schema": build_incremental.CACHE_SCHEMA,
+                    "region": "slus_01411",
                     "kind": component.kind,
                     "source": component.source,
                     "source_sha256": build_incremental.sha256(self.root / component.source),
@@ -325,8 +331,10 @@ class DependencyFingerprintTests(WorkspaceTests):
                         ),
                         "assembler_sha256": context["assembler_sha256"],
                         "maspsx_sha256": context["maspsx_sha256"],
+                        "compile_defines_sha256": context["compile_defines_sha256"],
                         "profile": "gcc281",
                         "profile_context": context["profiles"]["gcc281"],
+                        "defines": [],
                     })
                 elif component.kind == "asm":
                     value.update({
@@ -343,6 +351,58 @@ class DependencyFingerprintTests(WorkspaceTests):
             context["splat_include_sha256"],
             self.expected_tree_digest(),
         )
+
+    def test_define_sets_have_distinct_signatures_and_cached_objects(self) -> None:
+        self.write("src/example.c", "int Example;\n")
+        context = self.context()
+        plain = build_incremental.Component("c", "src/example.c", "example.o", "gcc281")
+        europe = build_incremental.Component(
+            "c", "src/example.c", "example.o", "gcc281", ("VERSION_EUROPE",)
+        )
+        japan = build_incremental.Component(
+            "c", "src/example.c", "example.o", "gcc281", ("VERSION_JAPAN",)
+        )
+        signatures = {
+            build_incremental.component_signature(self.root, component, context)
+            for component in (plain, europe, japan)
+        }
+        paths = {
+            build_incremental.cached_object_path(self.root, component)
+            for component in (plain, europe, japan)
+        }
+        self.assertEqual(len(signatures), 3)
+        self.assertEqual(len(paths), 3)
+        self.assertEqual(
+            build_incremental.cached_object_path(self.root, plain),
+            self.root / "tmp/incremental/obj/slus_01411/default/src/example.o",
+        )
+
+    def test_cache_directory_can_be_redirected_inside_the_workspace(self) -> None:
+        component = build_incremental.Component("c", "src/example.c", "example.o", "gcc281")
+        os.environ[build_incremental.CACHE_ENVIRONMENT] = "tmp/private-cache"
+        self.assertEqual(build_incremental.cache_path(), "tmp/private-cache/cache.json")
+        self.assertEqual(
+            build_incremental.cached_object_path(self.root, component),
+            self.root / "tmp/private-cache/obj/slus_01411/default/src/example.o",
+        )
+        build_incremental.write_cache(self.root, {"example.o": "signature"})
+        self.assertTrue((self.root / "tmp/private-cache/cache.json").is_file())
+        self.assertFalse((self.root / build_incremental.CACHE_PATH).exists())
+        self.assertEqual(build_incremental.load_cache(self.root), {"example.o": "signature"})
+        for outside in ("/elsewhere", "../elsewhere"):
+            with self.subTest(outside=outside):
+                os.environ[build_incremental.CACHE_ENVIRONMENT] = outside
+                with self.assertRaises(
+                    (build_incremental.IncrementalBuildError, WorkspaceError)
+                ):
+                    build_incremental.cached_object_path(self.root, component)
+
+    def test_previous_cache_schema_is_ignored(self) -> None:
+        path = self.write(
+            build_incremental.CACHE_PATH, '{"schema": 1, "objects": {"a.o": "x"}}\n'
+        )
+        self.assertTrue(path.is_file())
+        self.assertEqual(build_incremental.load_cache(self.root), {})
 
     def expected_tree_digest(self) -> str:
         return build_incremental.digest_value([

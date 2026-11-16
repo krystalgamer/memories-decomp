@@ -1428,6 +1428,36 @@ The build performs these steps:
 6. Emit `tmp/project-build/SLUS_014.11`.
 7. Compare its complete size and SHA-256 with the supplied executable.
 
+### Configured preprocessor defines
+
+A C unit can be compiled with extra `-D` macros that come from configuration
+rather than from a wrapper source. Each region's resident manifest,
+`config/<region>/matching_c.json`, has a top-level `"defines"` list that
+applies to every C unit the region compiles, resident and overlay alike. Any
+entry of a resident or overlay `matching_c.json` or `data_c.json` may carry its
+own `"defines"` list, appended after the region's. Each item is a macro name,
+optionally with a value (`NAME` or `NAME=value`, matching
+`^[A-Z_][A-Z0-9_]*(=[^\s]+)?$`), and a name may appear only once in the
+combined list. `compile_c` passes the list as `-D` flags in that order, right
+after the profile's own `compiler_flags`; an empty list leaves the command
+unchanged. Every function of a grouped translation unit must use the same
+define set, as it must use the same profile. `make check-metadata` validates
+every list.
+
+The region lists are all empty for now. The regional wrapper sources under
+`src/game/<region>/` and `src/overlays/<region>/` still `#define` their own
+`VERSION_*` macros, and a region-wide `-DVERSION_EUROPE` on top of a wrapper's
+`#define VERSION_EUROPE` would be a macro redefinition. A wrapper that only
+defines macros can instead be replaced by pointing its entries at the shared
+source with a per-entry `"defines"` list, as the five European builds now
+compile `src/game/model_animation_unit.c` with `"defines": ["VERSION_EUROPE"]`
+in place of their former European wrapper of that source.
+
+Neither the resident nor the regional builds embed `__FILE__`
+(`src/psyq/assert.h` is the only user, and no source includes it), and no
+profile emits debug information, so a unit's source path does not reach the
+linked bytes.
+
 A successful run prints:
 
 ```text
@@ -1462,6 +1492,16 @@ MAKEFLAGS=-j"$(nproc)" make match-incremental
 MAKEFLAGS=-j"$(nproc)" make match
 ```
 
+The cache lives in `tmp/incremental/` by default. Set
+`MEMORIES_INCREMENTAL_CACHE` to another workspace-relative directory (or pass
+`--cache-dir` to `build_incremental.py`) to keep a private cache, for example
+when several people share one checkout; both the split stamp and the object
+cache follow it. Cached objects are stored under
+`obj/<region>/<define set>/<source>.o` and their signatures include the region
+and the unit's configured defines, so one source compiled with two define sets
+never reuses the other's object. The cache JSON carries a schema number; a
+cache written by an older format is ignored and rebuilt.
+
 Seeding is optional; without it, the first incremental build compiles its
 objects. Seeding trusts the objects from the immediately preceding, unchanged
 matching build. Do not seed after making edits. The first incremental split
@@ -1487,7 +1527,8 @@ regeneration. The scanner prunes `tmp/splat/build` and `tmp/splat/cache`, which
 are not split inputs. Optional generated outputs must remain in the tracked
 split tree; arbitrary Splat extensions and partial-linker layouts are not
 supported by this resident cache. Failed regeneration never publishes a valid
-stamp. The stamp lives at `tmp/incremental/split-cache.json`.
+stamp. The stamp lives at `split-cache.json` in the cache directory
+(`tmp/incremental/split-cache.json` by default).
 
 The object driver memoizes resolved paths, file hashes, and parsed quoted
 includes only for the current invocation. Shared headers and compiler binaries
