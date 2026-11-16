@@ -52,7 +52,7 @@ void SpanishModelVariant421_DrawSpiral(u8 *ctx)
         timing = &work->sheets[1];
         spread = timing->size / 8;
     } else {
-        spread = 0x400 - work->field_1936;
+        spread = 0x400 - work->spiral_shrink;
     }
     arm = work->glows;
     for (i = 0; i < 12; i++, arm++) {

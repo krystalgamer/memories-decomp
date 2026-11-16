@@ -36,7 +36,7 @@ typedef struct {
     MATRIX matrix, matrix0, matrix1;
     ModelVariantAim aim;
     ModelVariantClock clock;
-    s16 spiral_angle, field_1932, spiral_size, field_1936;
+    s16 spiral_angle, field_1932, spiral_size, spiral_shrink;
     Variant404EntryConfig *config;
     u32 field_193C;
     GsCOORDUNIT *parts[3];

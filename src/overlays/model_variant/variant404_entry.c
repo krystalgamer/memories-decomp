@@ -273,7 +273,7 @@ s32 ModelVariant404_HandleRequest(SVECTOR *point, s32 command)
         work->spiral_angle = 0;
         work->field_1932 = 0;
         work->spiral_size = 0;
-        work->field_1936 = 0;
+        work->spiral_shrink = 0;
         work->field_194C = 0;
         work->band_scale = 4096;
         work->field_1952 = 1024;
