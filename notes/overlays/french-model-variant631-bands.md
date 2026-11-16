@@ -4,7 +4,8 @@
 `0x8013BF14` / `0x8017BF14`) in the
 model_variant_262 and model_variant_631 stage 9 slot 0 and stage 10 slot 1
 images draws one band of five columns. It uses the NA
-`Variant423Band` layout from `model_variant/variant423_bands.h`.
+`Variant423Band` layout (now `Variant423EntryBand` in
+`model_variant/variant423_entry.h`).
 
 - **Projection.** The heading is `ratan2(work[0xED2], work[0xED0]) + 0x800`.
   The radius comes from `work[0xF18]` (48 or 54 per 4096, chosen by bit 0 of
