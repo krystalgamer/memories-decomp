@@ -23,6 +23,352 @@ u16 gScript_SavePromptSceneOperand;
 u16 gScript_ViewportTargetX;
 u16 gScript_ViewportTargetY;
 
+#include "display_object_system.h"
+#include "display_object_layout.h"
+#include "display_object.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "file_transfer.h"
+#ifdef SCRIPT_IMAGE_LOCALIZED_IDS
+#include "card_preview.h"
+#endif
+
+/* Regional values: the image row's upload position, (0, 0xF0) in the US build
+   and (0x280, 0xD0) in the European one, whose wrapper defines its own. */
+#ifndef SCRIPT_IMAGE_SCREEN_X
+#define SCRIPT_IMAGE_SCREEN_X 0
+#endif
+#ifndef SCRIPT_IMAGE_SCREEN_Y
+#define SCRIPT_IMAGE_SCREEN_Y 0xF0
+#endif
+
+void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
+{
+    switch (mode) {
+    case 0:
+        obj->field_30.h.field_32 = 0x100;
+        obj->field_30.h.counter = 0;
+        obj->w = 0x40;
+        obj->h = 0x10;
+        gFile_dwTransferState &= 0xFFDDFFFF;
+        gFile_dwTransferState |= 0x10000;
+        obj->transfer_mode = 2;
+        obj->phase_size = (s32)obj->callback_data << FILE_SECTOR_SHIFT;
+        obj->sector_destination = gFile_TransferBufferBase;
+        obj->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
+        break;
+
+    case 1:
+        obj->phase_size = FILE_SECTOR_SIZE;
+        gFile_dwTransferState &= 0xFFDCFFFF;
+        obj->alternate_sector_destination = gFile_TransferBufferBase;
+        obj->sector_destination = gFile_TransferBufferBase;
+        obj->transfer_mode = 1;
+        break;
+
+    case 2:
+        obj->x = SCRIPT_IMAGE_SCREEN_X;
+        obj->y = SCRIPT_IMAGE_SCREEN_Y;
+        obj->w = 0x100;
+        obj->h = 4;
+        LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
+        break;
+    }
+}
+#ifndef SCRIPT_IMAGE_TRANSFER_BASE
+#define SCRIPT_IMAGE_TRANSFER_BASE 0x21D5
+#endif
+
+void ScriptImage_RequestTransfer(
+    volatile ScriptImageObjectSet *owner, s32 value)
+{
+    s32 index;
+    s32 mode;
+    s32 stride;
+    s32 base;
+    FileTransferDescriptor *object;
+
+#ifdef SCRIPT_IMAGE_LOCALIZED_IDS
+    if (value == 0x10) {
+        if (gText_bLanguageIndex == 1) {
+            value = 0x42;
+        } else if (gText_bLanguageIndex == 2) {
+            value = 0x44;
+        } else if (gText_bLanguageIndex == 3) {
+            value = 0x46;
+        } else if (gText_bLanguageIndex == 4) {
+            value = 0x48;
+        }
+    } else if (value == 0x11) {
+        if (gText_bLanguageIndex == 1) {
+            value = 0x43;
+        } else if (gText_bLanguageIndex == 2) {
+            value = 0x45;
+        } else if (gText_bLanguageIndex == 3) {
+            value = 0x47;
+        } else if (gText_bLanguageIndex == 4) {
+            value = 0x49;
+        }
+    }
+#endif
+
+    if (owner) {
+#ifdef SCRIPT_IMAGE_LOCALIZED_IDS
+        /* The localized binaries do not repeat the shift after this store. */
+        ((ScriptImageObjectSet *)owner)->image_id = value;
+#else
+        owner->image_id = value;
+#endif
+    }
+
+    index = ((value >> 4) & 15) * 10 + (value & 15);
+    mode = value >> 8;
+    switch (mode) {
+    case 0:
+        stride = 0x21;
+        base = 0;
+        break;
+    case 1:
+        stride = 0x51;
+        base = 0x672;
+        break;
+    case 2:
+        stride = 0x71;
+        base = 0x13BC;
+        break;
+    default:
+        return;
+    }
+    object = File_TryRequestAsyncTransfer(
+        0, 0, base + index * stride + SCRIPT_IMAGE_TRANSFER_BASE, stride,
+        ScriptImage_TransferCallback, 0, 0
+    );
+    object->callback_data = (void *)(stride - 1);
+    gFile_dwTransferState =
+        object->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
+}
+
+void ScriptImage_ReleaseObjects(ScriptImageObjectSet *set)
+{
+    ScriptImageEntry *entries = set->entries;
+    s32 i;
+
+    set->image_id = -1;
+    for (i = 0; i < 3; i++, entries++) {
+        DisplayObject_ReleaseIfPresent(entries->pointer);
+        entries->pointer = 0;
+        entries->callback_control = 0;
+    }
+}
+
+void ScriptImage_CreateObject(ScriptImageEntry *entry, s32 size, s32 mode)
+{
+    ScriptImageEntry *record = entry;
+    DisplayObject *object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
+
+    DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 2, 0, 0, size, mode);
+    DisplayObject_SetDepthOffset(object, (s8)mode);
+    record->object_built = 1;
+    if (mode == 2) {
+        record->callback_control = 1;
+        object->attribute |= (GsALON | GsAONE);
+    } else {
+        record->callback_control = 0;
+        object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
+    }
+    /* Through the parameter rather than record: with every store on record,
+       GCC keeps a second copy of the pointer and six instructions change. */
+    entry->pointer = object;
+}
+
+/* Initialized data this unit owns at 0x80090BA8 and 0x80090C00, read only by
+   ScriptImage_RebuildObjects
+   when it rebuilds a scene-script image record's display objects. Both were
+   part of a generated blob until now (#2602).
+
+   gScriptImage_OverlayPairs is a ScriptImageOverlayPair per id from 0x100 up: the
+   overlay-present mask, and the value written to the record at +0x2C when
+   bit 1 is set.
+
+   gScriptImage_OverlayPlacements is a ScriptImageOverlayPlacement per id from 0x200 up: the same
+   mask, then an x and y for each of the two overlays, then the +0x2C value.
+   Bit 7 of the mask also puts the second overlay in screen space.
+
+   Eighty is not a multiple of six, so the last two bytes are not a row. They
+   are retail padding before the script command table that follows, and the
+   table record keeps them as pad_4E. */
+ScriptImageOverlayPair gScriptImage_OverlayPairs[] = {
+    { 3, 1 }, { 3, 1 }, { 3, 1 }, { 1, 0 },
+    { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 },
+    { 1, 0 }, { 1, 0 }, { 1, 0 }, { 0, 0 },
+    { 1, 0 }, { 0, 0 }, { 1, 0 }, { 1, 0 },
+    { 1, 0 }, { 1, 0 }, { 1, 0 }, { 1, 0 },
+    { 1, 0 }, { 0, 0 }, { 1, 0 }, { 0, 0 },
+    { 1, 0 }, { 2, 1 }, { 1, 0 }, { 1, 0 },
+    { 0, 0 }, { 0, 0 }, { 0, 0 }, { 0, 0 },
+    { 3, 1 }, { 1, 0 }, { 2, 1 }, { 1, 0 },
+    { 1, 0 }, { 1, 0 }, { 3, 0 }, { 3, 1 },
+    { 1, 0 }, { 1, 0 }, { 0, 0 }, { 0, 0 },
+};
+
+ScriptImageOverlayPlacementTable gScriptImage_OverlayPlacements = {
+    {
+        { 130, 0, 0, 0, 0, 1 },
+        { 1, 0, 0, 0, 0, 0 },
+        { 0, 0, 0, 0, 0, 0 },
+        { 1, 0, 0, 0, 0, 0 },
+        { 1, 0, 0, 0, 0, 0 },
+        { 1, 0, 0, 0, 0, 0 },
+        { 3, 0, 0, 0, 0, 1 },
+        { 3, 0, 96, 192, 0, 0 },
+        { 3, 0, 0, 0, 0, 1 },
+        { 2, 0, 0, 0, 0, 1 },
+        { 3, 0, 0, 0, 0, 1 },
+        { 3, 0, 0, 0, 0, 1 },
+        { 3, 0, 0, 0, 0, 1 },
+    },
+    { 0, 0 },
+};
+
+#define SCRIPT_IMAGE_ENTRY_OBJECT(entry) \
+    ((DisplayObject *)(entry).pointer)
+
+/* MATCH. Real C -- this retires the ASSEMBLY-DEBT transcription (Unchiga's
+ * port, a 24-instruction `__asm__` block with s0/s1 pins) that stood here.
+ * gp=0, at=0, no addressing work; default flags.
+ *
+ * Rebuilt from the m2c draft, 36 differences to 0, five levers, every one a
+ * rule already in WORKFLOW:
+ *   - +0x3C and p+4 (slot 0's value) are HALFWORDS. Stored through `s32`
+ *     the CENSUS read `lw +1, sw +2, sh -2, lh -1`; the difference count
+ *     pointed at neither.
+ *     36 -> 33, empty census.
+ *   - `n` is REUSED for the decoded BCD index -- retail's `addu $s1,$v1,$v0`
+ *     writes the index back into the argument's own register. 33 -> 22.
+ *   - the slot's object_built store (then `p[0x10] = 1;`) goes BELOW the two
+ *     read-modify-writes. 22 -> 14. The
+ *     August park said "above (22 -> 19)", measured before the `n` reuse.
+ *   - the gScriptImage_OverlayPairs base local is assigned AFTER the else arm's index, not
+ *     before (14 -> 9), and that index is `s32 k`, not `s16 k` (9 -> 5).
+ *     The August entry recorded `s16` as 8 and `s32` as 19, both measured
+ *     with the three faults above open -- a spelling rejected on a broken
+ *     base has not been measured.
+ *   - and the last five: the flag byte REUSES `n` as well. Retail reads it
+ *     `lbu $s1,0($s0)` -- into the register `n` has just vacated, which is
+ *     one pseudo, not two. A separate `m` gets $s0/$s1 exchanged at all
+ *     five sites. Same rule as the decode above, one value further on.
+ *
+ * Measured and DEAD on the finished base: `do { } while (0);` round the
+ * element read (5, no change) or round the base assignment (15); the base
+ * written inline with no local (+4/150); `b` assigned before the index (10).
+ * And earlier, on the 9-difference base: dropping the base local (+4/145),
+ * `u8 m` / `s16 m` / the flag read as `*(u8 *)(b + k*2)` (all 9), four
+ * declaration orders, a named entry pointer (all 9), borrowing the other
+ * arm's `t` (+2/145) or `o` (35).
+ *
+ * The record's three 0x14-byte image slots are ScriptImageEntry records,
+ * reached as ((ScriptImageEntry *)p)[0..2], and the object each one holds
+ * is a DisplayObject. ScriptImageObjectSet names the image-id halfword at
+ * +0x3C immediately after those three slots.
+ */
+
+void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 image_id) {
+    s32 n;
+    DisplayObject *o;
+    ScriptImageOverlayPlacement *t;
+    ScriptImageOverlayPair *b;
+    s32 k;
+
+    n = image_id;
+    if (n < 0) {
+        n = p->image_id;
+    }
+    p->image_id = n;
+    if (n >= 0x200) {
+        o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
+        DisplayObject_ConfigureScreenSprite(
+            o, 0, 0, 0x200, 0x100, 0, 0, 0x10,
+            SCRIPT_IMAGE_SCREEN_X, SCRIPT_IMAGE_SCREEN_Y
+        );
+        n = ((n >> 4) & 0xF) * 10 + (n & 0xF);
+        o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
+        o->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+        p->entries[0].object_built = 1;
+        p->entries[0].pointer = (u8 *)o;
+        t = &gScriptImage_OverlayPlacements.rows[n];
+        p->entries[0].callback_control = 0;
+        if (t->mask & SCRIPT_IMAGE_OVERLAY_FIRST_PRESENT) {
+            ScriptImage_CreateObject(&p->entries[1],
+                                     0x14, 1);
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->xy.h.x =
+                t->x1;
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->xy.h.y =
+                t->y1;
+        }
+        if (t->mask & SCRIPT_IMAGE_OVERLAY_SECOND_PRESENT) {
+            ScriptImage_CreateObject(&p->entries[2],
+                                     0x16, 2);
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->xy.h.x =
+                t->x2;
+            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->xy.h.y =
+                t->y2;
+            p->entries[2].callback_control = t->callback_index;
+            if (t->mask & SCRIPT_IMAGE_OVERLAY_SECOND_SCREEN_SPACE) {
+                SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->flags |=
+                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+            }
+        }
+    } else {
+        ScriptImage_CreateObject(&p->entries[0], 0x10, 0);
+        if (n >= 0x100) {
+            k = ((n >> 4) & 0xF) * 10 + (n & 0xF);
+            b = gScriptImage_OverlayPairs;
+            n = b[k].mask;
+            if (n & SCRIPT_IMAGE_OVERLAY_FIRST_PRESENT) {
+                ScriptImage_CreateObject(&p->entries[1],
+                                         0x12, 1);
+            }
+            if (n & SCRIPT_IMAGE_OVERLAY_SECOND_PRESENT) {
+                ScriptImage_CreateObject(&p->entries[2],
+                                         0x14, 2);
+                p->entries[2].callback_control = b[k].callback_index;
+            }
+        } else {
+            p->entries[1].pointer = 0;
+            p->entries[2].pointer = 0;
+        }
+    }
+}
+
+/* Regional value: the flags_34 bit this sets (0x2 -> 0x4). The European
+ * wrapper defines its own. */
+#ifndef DUEL_EFFECT_MARK_OBJECT_FLAG
+#define DUEL_EFFECT_MARK_OBJECT_FLAG 2
+#endif
+
+/* Walks gDisplayEffect_aMenuRecords backward from the last record to the first; on the first
+   record whose effect_id marker is non-negative, sets the flag in the
+   caller's text-box channel's flags_34 and returns. Does nothing if every
+   marker is negative. */
+void DuelEffect_MarkObjectIfActive(DuelEffectChannel *channel) {
+    int count;
+    MenuRecord *p;
+    int effect_id;
+
+    count = MENU_RECORD_COUNT - 1;
+    p = &gDisplayEffect_aMenuRecords[count];
+    do {
+        effect_id = p->effect_id;
+        count -= 1;
+        if (effect_id >= 0) {
+            channel->flags_34 |= DUEL_EFFECT_MARK_OBJECT_FLAG;
+            return;
+        }
+        p -= 1;
+    } while (count >= 0);
+}
+
 s32 ScriptCommand_MarkStarted(void)
 {
     u16 value = gScript_wCommandWord;
@@ -54,8 +400,6 @@ DisplayObject *Campaign_CreatePrimaryDisplayObject(void) {
 #include "fade.h"
 #include "file_transfer.h"
 #include "main.h"
-#include "script_image_objects.h"
-#include "script_image_rebuild.h"
 
 void Script_OpLoadImageScene(void)
 {
@@ -104,7 +448,6 @@ void Script_OpLoadImageScene(void)
 #include "duel_effect_states.h"
 #include "duel_effect_text.h"
 #include "text_helpers.h"
-#include "duel_effect_mark_object_if_active.h"
 
 /* Regional values, which the European wrapper defines for itself: the
    dialog box's height (0x30 in the US build, 0x40 in the European one)
@@ -161,21 +504,10 @@ void Script_OpShowDialog(void)
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "file_transfer.h"
-#include "script_image_objects.h"
-#include "script_image_rebuild.h"
 
 #define VRAM_COPY_WIDTH 0x140
 #define VRAM_COPY_HEIGHT 0xA0
 
-/* Regional values, as in script_image_rebuild.c: the image sits at
-   (0, 0xF0) in the US build and at (0x280, 0xD0) in the European one,
-   whose wrapper defines its own. */
-#ifndef SCRIPT_IMAGE_SCREEN_X
-#define SCRIPT_IMAGE_SCREEN_X 0
-#endif
-#ifndef SCRIPT_IMAGE_SCREEN_Y
-#define SCRIPT_IMAGE_SCREEN_Y 0xF0
-#endif
 void Script_OpStageImage(void){register unsigned char*p=gScript_StreamCursor;register unsigned char*p2=p+2;register unsigned char*p4;unsigned short value;gScript_ViewportTargetY=0;gScript_ViewportTargetX=0;gScript_StreamCursor=p2;value=p[0]|(p[1]<<8);gScript_ImageOperand=value;if(value&SCRIPT_IMAGE_OPERAND_HAS_VIEWPORT){p4=p+4;gScript_StreamCursor=p4;gScript_ViewportTargetX=p[2]|(p2[1]<<8);gScript_StreamCursor=p+6;gScript_ViewportTargetY=p[4]|(p4[1]<<8);}gScript_wCommandWord=5;}
 
 void Script_OpShowImage(void) {
@@ -463,7 +795,6 @@ void Script_OpJump(void)
 #include "sound.h"
 #include "display_object.h"
 #include "main_services.h"
-#include "duel_effect_mark_object_if_active.h"
 #include "main_mode_state.h"
 #include "duel_effect_object_pool.h"
 
@@ -873,7 +1204,6 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 #include "display_object_layout.h"
 #include "fade.h"
 #include "file_transfer.h"
-#include "script_image_objects.h"
 #include "sound_driver.h"
 #include "display_asset_banks.h"
 

@@ -112,8 +112,9 @@ regressions also match. Probe and comparison logs remain local under `tmp/`.
 
 ## Localized script images
 
-`script_image_objects.c` reuses the European group and the existing
-`gcc_2_8_1_g0` profile for four functions / 984 bytes:
+`script_scene.c` compiles the European scene-script unit with
+`SCRIPT_IMAGE_LOCALIZED_IDS` (formerly the `script_image_objects.c`
+wrapper); its four script-image functions cover 984 bytes:
 
 | Function | Spanish entry | Bytes |
 |---|---|---:|

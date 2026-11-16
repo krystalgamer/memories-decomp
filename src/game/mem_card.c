@@ -737,7 +737,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
 #include "text_staging.h"
 #include "text_message_staging.h"
 #include "file_transfer.h"
-#include "duel_effect_mark_object_if_active.h"
+#include "script_scene.h"
 #include "mem_card_dialog_steps.h"
 #include "dialog_layout.h"
 #include "../psyq/libgte.h"
