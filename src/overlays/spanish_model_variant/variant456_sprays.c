@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "variant456_sprays.h"
 #include "variant456_entry.h"
 
 /* Sixteen sprays of seventeen points. Each spray points along its own
@@ -32,7 +31,7 @@ void SpanishModelVariant456_DrawSprays(Variant456EntryState *context)
     long p;
     long flag;
     Variant456EntryState *work;
-    Spray456 *spray;
+    Variant456EntryLine *spray;
     POLY_FT4 *poly;
     GsOT *ot;
     s16 i;
@@ -49,7 +48,7 @@ void SpanishModelVariant456_DrawSprays(Variant456EntryState *context)
     s32 dy;
 
     work = context;
-    spray = (Spray456 *)work->lines;
+    spray = work->lines;
     poly = work->flat;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
@@ -101,7 +100,7 @@ void SpanishModelVariant456_DrawSprays(Variant456EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    spray = (Spray456 *)work->lines;
+    spray = work->lines;
     for (i = 0, pitch = work->spray_phase; i < 16; i++, pitch += 1800, spray++) {
         for (j = 0; j < 17; j++) {
             radius = spray->growth[j]; /* read but never used */
@@ -136,7 +135,7 @@ void SpanishModelVariant456_DrawSprays(Variant456EntryState *context)
                            ((u32)(rsin(angle[i][j]) * ((rsin(phase) * sway >> 12) + (rsin(wave) * swing >> 12)) >> 12) << 16);
         }
     }
-    spray = (Spray456 *)work->lines;
+    spray = work->lines;
     for (i = 0; i < 16; i++, spray++) {
         poly->r0 = spray->color.r;
         poly->g0 = spray->color.g;
