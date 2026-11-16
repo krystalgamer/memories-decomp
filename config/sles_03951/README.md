@@ -26,7 +26,7 @@ no newly found bank function is reclassified to claim completion.
 
 The address-wrapper batch adds 20 functions / 2,332 bytes from nine units,
 bringing that batch to 1,093 resident C functions / 343,460 bytes. Five thin
-[Spanish wrappers](../../src/game/spanish/README.md) specialize measured
+[Spanish wrappers](../../notes/spanish-resident-matching.md) specialize measured
 literal addresses; four more existing units are reused unchanged. All bodies
 and compiler profiles are shared, and all new linked function extents are
 verified by the inventory gate.
@@ -138,7 +138,7 @@ although it was still assembly in the French matching manifest when checked.
 No French metadata is changed here. The North American, Japanese and European
 source/profile objects remain byte-identical; the localized store preserves
 the existing public function signature. See the
-[wrapper evidence](../../src/game/spanish/README.md#localized-script-images)
+[wrapper evidence](../../notes/spanish-resident-matching.md#localized-script-images)
 for the remap table and rejected probes.
 
 ## Anchored empty handlers
@@ -154,7 +154,7 @@ order and sizes:
 | `0x80028474..0x8002847C` | `duel_effect_states.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
 | `0x8002BC30..0x8002BC38` | `library.c` | `func_8002BAA0` | `Library_UpdateScreen` |
 | `0x8002C734..0x8002C744` | `library.c` | `Library_CheckCardOwned` | `Library_CheckCardInChest` |
-| `0x8002F694..0x8002F6A4` | `spanish/script_scene.c` | `func_8002EF3C` | `Script_OpFadeOut` |
+| `0x8002F694..0x8002F6A4` | `script_scene.c` | `func_8002EF3C` | `Script_OpFadeOut` |
 
 The library handler additionally has an existing independently recovered
 direct-call binding. Script command-table slots 14 and 15 at
@@ -170,7 +170,7 @@ other region is changed.
 ## Localized result outro and resident completion
 
 The final four functions at `0x80020CB0..0x80021614` contribute 2,404 bytes
-through the Spanish wrapper (now `spanish/duel_scene.c`), using the existing shared body
+through the Spanish wrapper (now `duel_scene.c` with the Spanish entry defines), using the existing shared body
 and `gcc_2_8_1_g8_split` profile. A private header declares eight measured
 two-by-ten sprite tables and the dynamic active-slot count without changing
 the public seven-element tables used by existing regions.

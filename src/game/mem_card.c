@@ -757,7 +757,19 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
  * default when its image cannot take the literal; each override says why. */
 #ifndef MEM_CARD_SAVE_FILE_NAME
 #ifdef VERSION_EUROPE
+/* Each European build names its own serial: SLES-03947 plus the language
+ * index the French, German, Italian and Spanish builds fix (card_preview.h). */
+#if BUILD_LANGUAGE_INDEX == 1
+#define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BESLES-03948-YUGIOH")
+#elif BUILD_LANGUAGE_INDEX == 2
+#define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BESLES-03949-YUGIOH")
+#elif BUILD_LANGUAGE_INDEX == 3
+#define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BESLES-03950-YUGIOH")
+#elif BUILD_LANGUAGE_INDEX == 4
+#define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BESLES-03951-YUGIOH")
+#else
 #define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BESLES-03947-YUGIOH")
+#endif
 #else
 #define MEM_CARD_SAVE_FILE_NAME ((u8 *)"BASLUS-01411-YUGIOH")
 #endif

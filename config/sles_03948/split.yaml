@@ -64,7 +64,7 @@ segments:
     - initial_data_860
   - - 2224
     - .rodata
-    - game/spanish/duel_scene
+    - game/duel_scene
   - - 2520
     - rodata
     - initial_data_9d8
@@ -85,7 +85,7 @@ segments:
     - game/frontend_package_stages
   - - 2820
     - .rodata
-    - game/french/mem_card
+    - game/mem_card
   - - 3212
     - .rodata
     - game/display_object_system
@@ -150,7 +150,7 @@ segments:
     - game/display_projection
   - - 25880
     - c
-    - game/spanish/duel_scene
+    - game/duel_scene
   - - 101232
     - c
     - game/duel_effect_states
@@ -180,7 +180,7 @@ segments:
     - game/main_mode_runners
   - - 124904
     - c
-    - game/spanish/script_scene
+    - game/script_scene
   - - 133860
     - c
     - game/debug_menu
@@ -216,7 +216,7 @@ segments:
     - game/input_pads
   - - 186432
     - c
-    - game/french/mem_card
+    - game/mem_card
   - - 199076
     - c
     - game/sound_frontend
@@ -321,7 +321,7 @@ segments:
     - game/movie_pipeline
   - - 373660
     - c
-    - game/spanish/trade_screen_widgets
+    - game/trade_screen_widgets
   - - 375632
     - c
     - game/main_menu_load_package_stage
@@ -339,15 +339,15 @@ segments:
     - resident_tail
   - [0x8210C, .data, game/file_setup]
   - [0x821B4, .data, game/duel_field_layout]
-  - [0x822A8, .data, game/spanish/duel_scene]
+  - [0x822A8, .data, game/duel_scene]
   - [0x82768, .data, game/main_mode_runners]
-  - [0x827C0, .data, game/spanish/script_scene]
+  - [0x827C0, .data, game/script_scene]
   - [0x828CC, .data, game/debug_menu]
   - [0x82A14, .data, game/build_deck]
   - [0x82A64, .data, game/duel_effect_text]
   - [0x82AB8, .data, game/duel_effect_command_table]
   - [0x82B94, .data, game/display_effect]
-  - [0x82BC8, .data, game/french/mem_card]
+  - [0x82BC8, .data, game/mem_card]
   - [0x82BDC, .data, game/display_object_system]
   - [0x82C34, .data, game/model_camera_effects]
   - [0x82CCC, .data, game/model_background_records]
@@ -359,10 +359,10 @@ segments:
   - [0x8CA98, .sdata, game/main]
   - [0x8CA9D, pad]
   - [0x8CAA0, .sdata, game/file_transfer_runtime]
-  - [0x8CAB0, .sdata, game/spanish/duel_scene]
+  - [0x8CAB0, .sdata, game/duel_scene]
   - [0x8CAD5, pad]
   - [0x8CAD8, .sdata, game/debug_menu]
-  - [0x8CAEC, .sdata, game/french/mem_card]
+  - [0x8CAEC, .sdata, game/mem_card]
   - [0x8CAF6, pad]
   - [0x8CAF8, .sdata, game/display_object_system]
   - [0x8CB00, .sdata, game/mem_card_driver]

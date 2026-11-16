@@ -1916,9 +1916,15 @@ void Duel_LoadTerrainPackage(void)
    each terrain 0xEF sectors from 0x16B5 (see duel_load_terrain_package.c),
    so a regional build supplies its own. */
 #ifndef DUEL_INIT_TERRAIN_SECTOR
+#ifdef VERSION_EUROPE
+#define DUEL_INIT_TERRAIN_SECTOR(value) ((((value) * 15) * 16) + 0x1B88)
+#else
 #define DUEL_INIT_TERRAIN_SECTOR(value) \
     ((((value) * 15) * 4 - (value)) * 4 - (value)) + \
         DUEL_TERRAIN_PACKAGE_FIRST_SECTOR
+#endif
+#endif
+#ifndef DUEL_INIT_TERRAIN_SECTOR_COUNT
 #define DUEL_INIT_TERRAIN_SECTOR_COUNT DUEL_TERRAIN_PACKAGE_SECTOR_COUNT
 #endif
 /* Likewise the duelist data's first sector (duel_result_runtime.c's
@@ -7089,7 +7095,12 @@ void DuelResult_UpdateDepartingSprite(DisplayObject *object)
 }
 
 #ifndef DUEL_RESULT_OUTRO_START_SECTOR
+#ifdef VERSION_EUROPE
+/* One 0x22-sector outro package per text language, from 0x2290. */
+#define DUEL_RESULT_OUTRO_START_SECTOR (0x2290 + gText_bLanguageIndex * 0x22)
+#else
 #define DUEL_RESULT_OUTRO_START_SECTOR FILE_WA_DUEL_RESULTS_START_SECTOR
+#endif
 #endif
 
 #ifndef DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR
@@ -7725,7 +7736,7 @@ void DuelScene_UpdateResultRewards(void)
    run between func_80021F80 and Duel_UpdateCardToSelectionView. */
 
 /* The default window has axis at 0, coordinates at 2..3, and page at 4.
-   The Spanish wrapper preserves its larger gap before the coordinates. */
+   The four language builds preserve their larger gap before the coordinates. */
 
 /* Regional value: page 1's card object field_32 (0x16 -> 0x0E). The
    European build defines its own. */
@@ -9624,9 +9635,14 @@ void DuelEffect_ClearCardEffect(void)
 /* The first sector of a terrain's effect data. A regional build whose WA.MRG
    lays the terrain packages out differently supplies its own. */
 #ifndef DUEL_TERRAIN_EFFECT_SECTOR
+#ifdef VERSION_EUROPE
+#define DUEL_TERRAIN_EFFECT_SECTOR(terrain) \
+    ((((terrain) * 15) * 16) + 0x1C58)
+#else
 #define DUEL_TERRAIN_EFFECT_SECTOR(terrain) \
     ((terrain) * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT + \
      DUEL_TERRAIN_EFFECT_DATA_FIRST_SECTOR)
+#endif
 #endif
 
 /* The last two differences of the original match were the `n = v & 0xFF`

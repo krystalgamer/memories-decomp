@@ -1213,7 +1213,12 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 
 /* The menu assets' first sector in WA.MRG. A regional build defines its own. */
 #ifndef SCRIPT_DUEL_RESULT_MENU_ASSETS_START_SECTOR
+#ifdef VERSION_EUROPE
+#define SCRIPT_DUEL_RESULT_MENU_ASSETS_START_SECTOR \
+    (0x2528 + gText_bLanguageIndex * 50)
+#else
 #define SCRIPT_DUEL_RESULT_MENU_ASSETS_START_SECTOR FILE_WA_MENU_ASSETS_START_SECTOR
+#endif
 #endif
 
 /* Duel result screen setup. Reads the two-byte result code from the script

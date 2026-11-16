@@ -34,7 +34,11 @@
 #define CARD_LIST_DIGIT_V 0x70
 #endif
 #ifndef CARD_LIST_ICON_CX
+#ifdef VERSION_EUROPE
+#define CARD_LIST_ICON_CX(page) ((page) + 0x280)
+#else
 #define CARD_LIST_ICON_CX(page) ((page) | 0x200)
+#endif
 #endif
 
 /* Draws a deck box's six type-count digits and its seven card stat rows
@@ -231,8 +235,12 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 /* Keep symbolic usage evidence while preserving the literal-address codegen.
    A regional build supplies its own addresses and row bias. */
 #ifndef gGraphics_sViewportY_abs
-#define gGraphics_sViewportY_abs (*(s16 *)0x8009B148)
-#define gGraphics_sViewportX_abs (*(s16 *)0x8009B146)
+#ifndef GRAPHICS_VIEWPORT_X_ADDRESS
+#define GRAPHICS_VIEWPORT_X_ADDRESS 0x8009B146
+#define GRAPHICS_VIEWPORT_Y_ADDRESS 0x8009B148
+#endif
+#define gGraphics_sViewportY_abs (*(s16 *)GRAPHICS_VIEWPORT_Y_ADDRESS)
+#define gGraphics_sViewportX_abs (*(s16 *)GRAPHICS_VIEWPORT_X_ADDRESS)
 #endif
 #ifndef CARD_LIST_ROW_X_BIAS
 #define CARD_LIST_ROW_X_BIAS 2

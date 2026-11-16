@@ -349,9 +349,8 @@ Their `duel_ground_projection` data ends with the localized duel-result
 sprite tables instead of the two North American ones. That is one
 opponent/no-opponent pair per language, each [2][10]
 (`duel_scene.h`): 0x280 bytes from `0x80091B30` up to
-`duel_scene_update`. The four builds compile the unit through
-`spanish/duel_scene.c`, which defines
-`DUEL_RESULT_LANGUAGE_SPRITE_TABLES`, and own its `.data` at `0x80091AA8`.
+`duel_scene_update`. The four builds compile `duel_scene.c` with
+`DUEL_RESULT_LANGUAGE_SPRITE_TABLES` among their entry defines, and own its `.data` at `0x80091AA8`.
 German, Italian and Spanish now split their data image as plain data rather
 than one `.sdata`-ordered bin.
 

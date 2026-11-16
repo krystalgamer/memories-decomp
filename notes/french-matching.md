@@ -359,7 +359,7 @@ translation units**. No source, header, compiler-profile, data-ownership or
 overlay changes are required.
 
 The four-function Spanish script-image group (then `script_image_objects.c`,
-now the head of `spanish/script_scene.c`) occupies
+now the head of `script_scene.c`) occupies
 `0x8002DFE8..0x8002E3C0` (984 bytes). Its existing localized image-ID mapping
 and public declaration are reused without another wrapper. Complete-object
 comparison identifies one French location, and the reference ELF, object
@@ -375,7 +375,7 @@ definition order and sizes:
 | `0x80028474..0x8002847C` | `duel_effect_states.c` | `DuelEffect_UpdateDialogState` | `DuelEffect_UpdateCardViewerState` |
 | `0x8002BC30..0x8002BC38` | `library.c` | `Library_EnterGridState` | `Library_UpdateScreen` |
 | `0x8002C734..0x8002C744` | `library.c` | `Library_CheckCardOwned` | `Library_CheckCardInChest` |
-| `0x8002F694..0x8002F6A4` | `spanish/script_scene.c` | `func_8002EF3C` | `Script_OpFadeOut` |
+| `0x8002F694..0x8002F6A4` | `script_scene.c` | `func_8002EF3C` | `Script_OpFadeOut` |
 
 The library handler also agrees with its previously recovered direct-call
 binding. The independently bound French script table `D_80090C50` at
@@ -456,7 +456,7 @@ including their explicit uninventoried-code caveat, remain unchanged.
 ## Final resident group and complete ownership classification
 
 The unchanged Spanish `duel_result_orbit_sprites.c` group (now part of
-`spanish/duel_scene.c`) completes the
+`duel_scene.c`) completes the
 eligible resident C inventory: **4 functions / 2,404 text bytes** at
 `0x80020CB0..0x80021614`, bringing the total to **1,140 functions / 357,700
 text bytes in 561 translation units**. All 1,136 previous entries remain

@@ -55,10 +55,9 @@ guards, so the PAL images contain none of them.
 
 `mem_card.c` spells the card file name through `MEM_CARD_SAVE_FILE_NAME`,
 whose default is the North American literal. Each PAL image carries its
-own product code: the `VERSION_EUROPE` default in `mem_card.c`
-(`"BESLES-03947-YUGIOH"`), `spanish/mem_card.c` (03951), and the
-`french`, `german` and `italian` wrappers, which include the Spanish one
-with 03948, 03949 and 03950.
+own product code: the `VERSION_EUROPE` default in `mem_card.c` is
+`"BESLES-03947-YUGIOH"`, and the French, German, Italian and Spanish builds,
+whose entry defines add `BUILD_LANGUAGE_INDEX` 1 to 4, select 03948 to 03951.
 
 Japan cannot take the literals. Its image puts the Japanese-only options
 file name (`"BISLPMP86398-YUGIOH"` at `0x8001032C`) after
