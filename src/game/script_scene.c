@@ -1048,13 +1048,13 @@ void Script_OpSavePrompt(void)
         if ((gInput_awPadPressed[0] & SAVE_PROMPT_CONFIRM_MASK) == 0) {
             return;
         }
-        ((SaveDataWorkspace *)gSaveData_Workspace)->state.campaign_scene.word =
+        gSaveData_Workspace.state.campaign_scene.word =
             gScript_SavePromptSceneOperand;
         choice = gDialog_bChoice;
         switch (choice) {
         case 0:
             SD_SEPlayFull(7);
-            ((SaveDataWorkspace *)gSaveData_Workspace)->state.campaign_scene.word =
+            gSaveData_Workspace.state.campaign_scene.word =
                 gScript_SavePromptSceneOperand;
             SaveData_RequestWrite();
             gScript_wCommandWord |= SCRIPT_SAVE_PROMPT_CONTROL_CARD_DIALOG;

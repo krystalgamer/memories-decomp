@@ -516,7 +516,7 @@ void Password_UpdateShopScreen(void)
         if (step == 0) {
             step = 1;
         }
-        pool = (SaveDataWorkspace *)gSaveData_Workspace;
+        pool = &gSaveData_Workspace;
         gPassword_dwPriceRemaining -= step;
         pool->state.starchips -= step;
         if (gPassword_dwPriceRemaining == 0) {

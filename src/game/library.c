@@ -1611,7 +1611,7 @@ int Library_CheckCardOwned(int card_id)
 {
     int flag;
 
-    flag = (((SaveDataWorkspace *)gSaveData_Workspace)->state.card_quantities[
+    flag = (gSaveData_Workspace.state.card_quantities[
         card_id - CARD_ID_FIRST] != 0) ? 1 : -1;
     if (flag < 0) {
         return Duel_FindPlayerDeckCard(card_id);
@@ -1629,7 +1629,7 @@ void func_8002C568(void)
 
 int Library_CheckCardInChest(int card_id)
 {
-    if (((SaveDataWorkspace *)gSaveData_Workspace)->state.card_quantities[
+    if (gSaveData_Workspace.state.card_quantities[
             card_id - CARD_ID_FIRST]) {
         return 1;
     }

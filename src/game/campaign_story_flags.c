@@ -8,7 +8,7 @@ s32 Campaign_TestStoryFlag(s32 flag)
 {
     s32 i = (flag & CAMPAIGN_FLAG_ID_MASK) >> CAMPAIGN_FLAG_BYTE_SHIFT;
     s32 m = CAMPAIGN_FLAG_BYTE_HIGH_BIT >> (flag & CAMPAIGN_FLAG_BIT_INDEX_MASK);
-    s32 v = ((SaveDataWorkspace *)gSaveData_Workspace)->state.campaign_flags[i] & m;
+    s32 v = gSaveData_Workspace.state.campaign_flags[i] & m;
 
     if (flag & CAMPAIGN_FLAG_CLEAR_MODIFIER) {
         return v == 0;
@@ -26,22 +26,22 @@ void Library_UpdateCardUsedFlag(s32 flag)
     if (clear) {
         s32 bit = flag & CAMPAIGN_FLAG_BIT_INDEX_MASK;
         s32 high = CAMPAIGN_FLAG_BYTE_HIGH_BIT;
-        u8 *p;
+        SaveDataWorkspace *workspace;
         u8 value;
 
         flag = high >> bit;
-        p = &gSaveData_Workspace[index];
-        value = p[CAMPAIGN_FLAG_BANK_OFFSET];
-        p[CAMPAIGN_FLAG_BANK_OFFSET] = value & ~flag;
+        workspace = &gSaveData_Workspace;
+        value = workspace->state.campaign_flags[index];
+        workspace->state.campaign_flags[index] = value & ~flag;
     } else {
         s32 bit = flag & CAMPAIGN_FLAG_BIT_INDEX_MASK;
         s32 high = CAMPAIGN_FLAG_BYTE_HIGH_BIT;
-        u8 *p;
+        SaveDataWorkspace *workspace;
         u8 value;
 
-        p = &gSaveData_Workspace[index];
-        value = p[CAMPAIGN_FLAG_BANK_OFFSET];
-        p[CAMPAIGN_FLAG_BANK_OFFSET] = value | (high >> bit);
+        workspace = &gSaveData_Workspace;
+        value = workspace->state.campaign_flags[index];
+        workspace->state.campaign_flags[index] = value | (high >> bit);
     }
 }
 
