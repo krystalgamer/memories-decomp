@@ -134,9 +134,9 @@ belongs to the first of them in text order that references it,
 `duel_scene.c`. Its consumers declare the block through
 `duel_scene.h`. Struct pointers are spelled with their tags
 (`struct DuelSideState *`) so the definitions can precede the headers that
-complete the types. Adjacent words that code reaches by name are separate
-definitions (`gDuel_pSide0SaveData` and `gDuel_pSide1SaveData`), never a
-linker alias into a neighbour.
+complete the types. Adjacent words that code reaches as one object are one
+definition (`gDuel_apSideSaveData[2]`), never a linker alias into a
+neighbour.
 
 Alignment fixes a block's start. An object's `.sbss` is aligned to its widest
 member, so a block whose pointers sit at retail offsets only when counted from

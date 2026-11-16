@@ -215,8 +215,7 @@ u8 gDuelCursor_PickFlags;
 u8 gDuel_bActiveSide;
 s8 gDuelCursor_TargetColumn;
 s8 gDuelCursor_TargetRow;
-struct SaveDataState *gDuel_pSide0SaveData;
-struct SaveDataState *gDuel_pSide1SaveData;
+struct SaveDataState *gDuel_apSideSaveData[2];
 u16 gDuelResult_wBgmId;
 u8 gDuel_bAiSelectionCursor;
 u16 gDuel_wAiSelectionStepDelay;
@@ -2040,12 +2039,13 @@ void Duel_InitScene(void)
     gMain_apFrameServiceCallbacks[3] = Duel_DrawFieldCards;
     if (gDuel_bResumeFromAnimatedBattle != 1) {
         p = 0;
-        gDuel_pSide1SaveData = 0;
-        gDuel_pSide0SaveData = 0;
+        /* Chained so side 1 is cleared first and each store keeps its own
+           GP-relative offset; two statements fold onto one base register. */
+        gDuel_apSideSaveData[0] = gDuel_apSideSaveData[1] = 0;
         if (pid[-1] < 0) {
             if (gDuel_bOpponentID < 0) {
-                gDuel_pSide0SaveData = (SaveDataState *)gSaveData_aPairWorkspace;
-                gDuel_pSide1SaveData =
+                gDuel_apSideSaveData[0] = (SaveDataState *)gSaveData_aPairWorkspace;
+                gDuel_apSideSaveData[1] =
                     (SaveDataState *)(gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE);
                 Duel_ShuffleBothDecks(
                     (const u16 *)gSaveData_aPairWorkspace,
@@ -2054,7 +2054,7 @@ void Duel_InitScene(void)
                 return;
             }
             p = (u8 *)gDuel_awPlayerDeck;
-            gDuel_pSide0SaveData = (SaveDataState *)p;
+            gDuel_apSideSaveData[0] = (SaveDataState *)p;
             if (gDuel_bOpponentID < DUEL_MASTER_K_OPPONENT_ID) {
                 q = 0;
                 Duel_ShuffleBothDecks((const u16 *)p, (const u16 *)q);
@@ -7666,27 +7666,27 @@ void DuelScene_UpdateResultRewards(void)
                 Fade_FillBandLevels(255);
             } else {
                 /* Only the null test goes through `save`; the updates below
-                   index gDuel_pSide0SaveData again each time, as retail reloads the
+                   index gDuel_apSideSaveData again each time, as retail reloads the
                    window pointer (106 differences through `save`). */
-                SaveDataState *save = DUEL_SAVE_WINDOW(gDuel_bWinnerSide);
+                SaveDataState *save = gDuel_apSideSaveData[gDuel_bWinnerSide];
                 gDuel_wOutcomeFlags |= 0x2000;
                 if (save) {
                     if (gDuel_bSide0ControllerSelector[0] < 0 && gDuel_bOpponentID >= 0) {
-                        DUEL_SAVE_WINDOW(0)->starchips +=
+                        gDuel_apSideSaveData[0]->starchips +=
                             gDuel_pResultDisplayState->starchip_prize;
-                        if (DUEL_SAVE_WINDOW(0)->starchips > 999999)
-                            DUEL_SAVE_WINDOW(0)->starchips = 999999;
+                        if (gDuel_apSideSaveData[0]->starchips > 999999)
+                            gDuel_apSideSaveData[0]->starchips = 999999;
                         Duel_AwardCard(gDuel_pResultDisplayState->dropped_card_id);
                     } else {
-                        value = DUEL_SAVE_WINDOW(gDuel_bWinnerSide)->duel_wins + 1;
-                        DUEL_SAVE_WINDOW(gDuel_bWinnerSide)->duel_wins = value;
+                        value = gDuel_apSideSaveData[gDuel_bWinnerSide]->duel_wins + 1;
+                        gDuel_apSideSaveData[gDuel_bWinnerSide]->duel_wins = value;
                         if (value >= 10000)
-                            DUEL_SAVE_WINDOW(gDuel_bWinnerSide)->duel_wins = 9999;
-                        value = DUEL_SAVE_WINDOW(gDuel_bWinnerSide ^ 1)
+                            gDuel_apSideSaveData[gDuel_bWinnerSide]->duel_wins = 9999;
+                        value = gDuel_apSideSaveData[gDuel_bWinnerSide ^ 1]
                                     ->duel_losses + 1;
-                        DUEL_SAVE_WINDOW(gDuel_bWinnerSide ^ 1)->duel_losses = value;
+                        gDuel_apSideSaveData[gDuel_bWinnerSide ^ 1]->duel_losses = value;
                         if (value >= 10000)
-                            DUEL_SAVE_WINDOW(gDuel_bWinnerSide ^ 1)
+                            gDuel_apSideSaveData[gDuel_bWinnerSide ^ 1]
                                 ->duel_losses = 9999;
                     }
                 }

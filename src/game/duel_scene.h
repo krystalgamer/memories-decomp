@@ -1539,25 +1539,11 @@ extern DisplayObject *gDuel_pLifePointsPanel;
 /* Save-data windows selected while the duel scene starts, one per duel side.
  * The no-opponent path points them at the two 0x1000-byte halves of
  * gSaveData_aPairWorkspace; the normal path uses the buffers returned by the
- * duel package transfer. They are two adjacent scalars, each defined once in
- * duel_scene.c: Duel_InitScene stores each through its own
- * GP-relative address, which one two-entry array would fold into a shared
- * base register.
- *
- * DuelResult instead indexes the pair by side, and retail reloads side 0's
- * pointer after each starchip store. GCC 2.8 only reloads a value that a
- * store through a structure field may alias when the read itself is a
- * structure or array reference, so DUEL_SAVE_WINDOW reads the two adjacent
- * pointers as the pair they are. */
-extern SaveDataState *gDuel_pSide0SaveData;
-extern SaveDataState *gDuel_pSide1SaveData;
-
-typedef struct DuelSaveWindows {
-    SaveDataState *side[2];
-} DuelSaveWindows;
-
-#define DUEL_SAVE_WINDOW(side_index) \
-    (((DuelSaveWindows *)&gDuel_pSide0SaveData)->side[side_index])
+ * duel package transfer. Element 0 is side 0's window, element 1 side 1's.
+ * DuelResult indexes the array by side, and retail reloads side 0's pointer
+ * after each starchip store: GCC 2.8 reloads a value that a structure-field
+ * store may alias only when the read is itself an array reference. */
+extern SaveDataState *gDuel_apSideSaveData[2];
 
 /* The staged loader for the duel terrain package. Its two consumers never call
  * it: duel_scene.c and duel_scene.c each pass its

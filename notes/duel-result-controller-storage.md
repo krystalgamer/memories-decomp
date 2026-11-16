@@ -7,12 +7,11 @@ signed 32-bit, and the starchip-object X coordinate is also signed 32-bit.
 
 ## Backing and bounds
 
-- `gDuel_pSide0SaveData` and `gDuel_pSide1SaveData` are adjacent
-  `SaveDataState *` scalars, each defined once in `duel_scene.c`.
-  Every unit declares them that way. DuelResult reads them through
-  `DUEL_SAVE_WINDOW(side)`, a `DuelSaveWindows` structure reference starting
-  at the first, which keeps GP-relative indexed access and the retail reload
-  of side 0's pointer after each starchip store.
+- `gDuel_apSideSaveData` is one `SaveDataState *[2]` array, defined once in
+  `duel_scene.c` and indexed by duel side. DuelResult's array reference keeps
+  GP-relative indexed access and the retail reload of side 0's pointer after
+  each starchip store; `Duel_InitScene` clears it with a chained assignment so
+  side 1 is stored first and each store keeps its own GP-relative offset.
 - `Duel_InitScene` selects the two `0x1000`-byte windows beginning at
   `gSaveData_aPairWorkspace` in the no-opponent path, or the persistent state base in the
   normal path. `SaveDataState` already covers the required `0x5E4`-byte
