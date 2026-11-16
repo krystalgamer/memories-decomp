@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant383_rays.h"
+#include "../model_variant/variant366_entry.h"
 
-void FrenchModelVariant383_DrawRays(u8 *context)
+void FrenchModelVariant383_DrawRays(Variant366State *context)
 {
-    Family383RayView *work = (Family383RayView *)context;
+    Variant366State *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -25,23 +25,23 @@ void FrenchModelVariant383_DrawRays(u8 *context)
     s32 dx, dy;
 
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(work->view_direction[2], work->view_direction[0]);
+    turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
     ray = work->rays;
-    quad = &work->quad;
+    quad = &work->textured[0];
     turn += 3072;
-    radius = work->radius * 768 / 1024;
-    width = work->radius / 8;
+    radius = work->ray_radius * 768 / 1024;
+    width = work->ray_radius / 8;
     /* Both products are present in retail despite their unused results. */
-    unused = radius * work->factor / 1024;
-    unused = width * work->factor / 1024;
+    unused = radius * work->travel / 1024;
+    unused = width * work->travel / 1024;
     level = work->scale;
     for (i = 0; i < 16; i++, ray++) {
         if (!(i & 1)) {
-            angle_b = i * 256 + work->angle_b;
-            angle_a = i * 512 + work->angle_a;
+            angle_b = i * 256 + work->ray_azimuth;
+            angle_a = i * 512 + work->ray_polar_angle;
         } else {
-            angle_b = i * 256 - work->angle_b;
-            angle_a = i * 512 - work->angle_a;
+            angle_b = i * 256 - work->ray_azimuth;
+            angle_a = i * 512 - work->ray_polar_angle;
         }
         for (j = 0; j < 2; j++) {
             if (work->phase < 8) {
@@ -72,13 +72,13 @@ void FrenchModelVariant383_DrawRays(u8 *context)
         }
     }
     size = 4352;
-    if (!(work->flags & 1)) {
+    if (!(work->clock.frame_count & 1)) {
         size = 3840;
     }
     setVector(&rotation, 0, 0, 0);
-    matrix.t[0] = work->origin[0] + work->delta[0] * work->factor / 1024;
-    matrix.t[1] = work->origin[1] + work->delta[1] * work->factor / 1024;
-    matrix.t[2] = work->origin[2] + work->delta[2] * work->factor / 1024;
+    matrix.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->travel / 1024;
+    matrix.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->travel / 1024;
+    matrix.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->travel / 1024;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -171,27 +171,27 @@ void FrenchModelVariant383_DrawRays(u8 *context)
         }
     }
     if (work->phase >= 7) {
-        work->angle_a += work->step * 12;
-        work->angle_b += work->step * 24;
+        work->ray_polar_angle += work->clock.step * 12;
+        work->ray_azimuth += work->clock.step * 24;
     } else {
-        work->angle_a += work->step * 8;
-        work->angle_b += work->step * 16;
+        work->ray_polar_angle += work->clock.step * 8;
+        work->ray_azimuth += work->clock.step * 16;
     }
     if (work->phase == 1) {
-        if (work->radius < 768) {
-            work->radius += work->step * 64;
-            if (work->radius >= 768) {
-                work->radius = 768;
+        if (work->ray_radius < 768) {
+            work->ray_radius += work->clock.step * 64;
+            if (work->ray_radius >= 768) {
+                work->ray_radius = 768;
                 work->phase = 2;
             }
         }
     } else if (work->phase == 3) {
-        work->radius = 384;
+        work->ray_radius = 384;
     } else if (work->phase == 4 || work->phase == 5) {
-        if (work->radius < 1024) {
-            work->radius += work->step * 64;
-            if (work->radius >= 1024) {
-                work->radius = 1024;
+        if (work->ray_radius < 1024) {
+            work->ray_radius += work->clock.step * 64;
+            if (work->ray_radius >= 1024) {
+                work->ray_radius = 1024;
                 work->phase = 6;
             }
         }

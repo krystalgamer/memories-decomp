@@ -19,19 +19,15 @@ typedef struct {
 
 /* The strip drawn by FrenchModelVariant383_DrawStrip. */
 typedef struct {
-    u8 unknown_00[0x48];
+    SVECTOR points[3][2];
+    long projected[3][2];
     CVECTOR color;
     VECTOR scale;
     s16 field_5C, field_5E;
     s32 field_60;
-    u8 unknown_64[8];
+    long depth[2];
 } Variant366Strip;
 
-/* The four-quadrant quad group drawn by FrenchModelVariant383_DrawQuads. */
-typedef struct {
-    SVECTOR v0[4], v1[4], v2[4], v3[4];
-    CVECTOR outer, inner;
-} Variant366Quads;
 
 /* The three 17-point ribbon cones drawn by ModelVariant366_DrawCones. */
 typedef struct {
@@ -41,8 +37,8 @@ typedef struct {
 
 typedef struct {
     Variant366Strip strips[1];
-    Variant366Quads quads[1];
-    u8 unknown_F4[0x360];
+    ModelVariantQuadSheet quads[1];
+    ModelVariantRibbonSpan ribbon_spans[8];
     Variant366Ribbon ribbons[3];
     ModelVariantColorRing rings[4];
     ModelVariantShadedRay rays[16];
@@ -63,7 +59,7 @@ typedef struct {
     s32 cone_opening[3];
     s16 ray_polar_angle, ray_azimuth, field_1568, field_156A, ray_radius, field_156E;
     s16 field_1570, field_1572, field_1574, unknown_1576;
-    s16 travel, field_157A;
+    s16 travel, width;
     s32 spin, phase, field_1584;
     u8 unknown_1588[8];
     s32 tint;
@@ -74,8 +70,9 @@ extern GsIMAGE gModelVariant366_aImages[];
 extern Variant366Config gModelVariant366_aConfigs[];
 
 s32 ModelVariant366_HandleRequest(u8 *context, s32 command);
-void FrenchModelVariant383_DrawRibbons(u8 *context);
-void FrenchModelVariant383_DrawQuads(u8 *context);
+void FrenchModelVariant383_DrawStrip(Variant366State *context);
+void FrenchModelVariant383_DrawRibbons(Variant366State *context);
+void FrenchModelVariant383_DrawQuads(Variant366State *context);
 void ModelVariant366_DrawCones(u8 *context);
-void FrenchModelVariant383_DrawRays(u8 *context);
+void FrenchModelVariant383_DrawRays(Variant366State *context);
 #endif

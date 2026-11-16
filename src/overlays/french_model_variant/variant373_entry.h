@@ -4,12 +4,6 @@
 #include "../../types.h"
 #include "variant402_entry.h"
 #include "variant373_layers.h"
-#include "variant373_grid.h"
-#include "variant373_points.h"
-#include "variant373_strip.h"
-#include "variant373_ribbons.h"
-#include "variant373_quads.h"
-#include "variant373_rays.h"
 #include "../../game/model_slot_getters.h"
 
 typedef struct {
@@ -71,7 +65,7 @@ typedef struct {
     GsCOORDUNIT *parts[3];
     s32 index, grid_scale, translation, rotation, oscillation, grid_brightness;
     s32 scale, brightness, fields_244C[5];
-    s16 field_2460, field_2462, field_2464, field_2466, field_2468, field_246A;
+    s16 ray_polar_angle, ray_azimuth, field_2464, field_2466, ray_radius, field_246A;
     s16 field_246C, field_246E, field_2470, field_2472, factor, width;
     s32 angle, field_247C, texture_offset, phase, field_2488, field_248C;
     u8 unknown_2490[8];
@@ -81,5 +75,12 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant373_aImages[4];
 extern EntryConfig373 gFrenchModelVariant373_aConfigs[];
+void FrenchModelVariant373_DrawLayers(EntryState373 *context);
+void FrenchModelVariant373_DrawGrid(EntryState373 *context);
+void FrenchModelVariant373_DrawPoints(EntryState373 *context);
+void FrenchModelVariant373_DrawStrip(EntryState373 *context);
+void FrenchModelVariant373_DrawRibbons(EntryState373 *context);
+void FrenchModelVariant373_DrawQuads(EntryState373 *context);
+void FrenchModelVariant373_DrawRays(EntryState373 *context);
 
 #endif

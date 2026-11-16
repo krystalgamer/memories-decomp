@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant373_points.h"
+#include "variant373_entry.h"
 
-void FrenchModelVariant373_DrawPoints(Family373PointView *context)
+void FrenchModelVariant373_DrawPoints(EntryState373 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -17,8 +17,8 @@ void FrenchModelVariant373_DrawPoints(Family373PointView *context)
     long flag;
     GsOT *ot;
     s32 i;
-    Family373PointView *work;
-    Family373PointGroup *group;
+    EntryState373 *work;
+    EntryPointGroup373 *group;
     POLY_FT4 *quad;
     s32 j;
     s32 fade;
@@ -26,10 +26,10 @@ void FrenchModelVariant373_DrawPoints(Family373PointView *context)
 
     work = context;
     group = work->groups;
-    quad = &work->quad;
+    quad = &work->point_packet;
     ot = Graphics_GetDefaultOrderingTable();
     i = 0;
-    ratan2(work->view_direction[2], work->view_direction[0]);
+    ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);
     do {
         if (group->scale > 0) {
             rsin(group->scale);
@@ -51,9 +51,9 @@ void FrenchModelVariant373_DrawPoints(Family373PointView *context)
             rotation.vx = group->rotation.vx;
             rotation.vy = group->rotation.vy;
             rotation.vz = group->rotation.vz;
-            matrix.t[0] = work->target.vx;
-            matrix.t[1] = work->target.vy;
-            matrix.t[2] = work->target.vz;
+            matrix.t[0] = work->aim.target.vx;
+            matrix.t[1] = work->aim.target.vy;
+            matrix.t[2] = work->aim.target.vz;
             scale.vx = group->scale;
             scale.vy = group->scale;
             scale.vz = group->scale;
@@ -81,11 +81,11 @@ void FrenchModelVariant373_DrawPoints(Family373PointView *context)
             }
         }
         if (group->scale < 6144) {
-            group->scale += work->step * 192;
+            group->scale += work->clock.step * 192;
             if (group->scale >= 6144) {
                 group->scale -= 6144;
-                group->rotation.vx += work->step * 192;
-                group->rotation.vz += work->step * 400;
+                group->rotation.vx += work->clock.step * 192;
+                group->rotation.vz += work->clock.step * 400;
                 if (work->phase >= 7) {
                     group->scale = 6144;
                 }

@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant373_layers.h"
+#include "variant373_entry.h"
 
-void FrenchModelVariant373_DrawLayers(Family373LayerView *context)
+void FrenchModelVariant373_DrawLayers(EntryState373 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -16,7 +16,7 @@ void FrenchModelVariant373_DrawLayers(Family373LayerView *context)
     long flag;
     GsOT *ot;
     s32 i;
-    Family373LayerView *work;
+    EntryState373 *work;
     Family373Layer *layer;
     POLY_GT4 *quad;
     s32 j;
@@ -32,30 +32,30 @@ void FrenchModelVariant373_DrawLayers(Family373LayerView *context)
     GsGetActiveBuff();
     i = 0;
     layer = work->layers;
-    ratan2(work->delta[2], work->delta[0]);
-    ratan2(work->delta[1], work->delta[2]);
+    ratan2(work->aim.direction.vz, work->aim.direction.vx);
+    ratan2(work->aim.direction.vy, work->aim.direction.vz);
     do {
         if (layer->scale > 0) {
             rsin(layer->scale);
             if (work->phase < 2) {
                 setVector(&rotation, 0, 0, 0);
-                matrix.t[0] = work->origin[0];
-                matrix.t[1] = work->origin[1] - layer->scale / 12;
-                matrix.t[2] = work->origin[2];
+                matrix.t[0] = work->matrix.t[0];
+                matrix.t[1] = work->matrix.t[1] - layer->scale / 12;
+                matrix.t[2] = work->matrix.t[2];
                 if (layer->scale < 1024 || layer->scale > 5120) {
                     amount = 1024;
                 } else {
-                    amount = 1024 - ((rsin(layer->scale) * (work->scale / 2) >> 12)
-                                     - work->scale / 2);
+                    amount = 1024 - ((rsin(layer->scale) * (work->grid_scale / 2) >> 12)
+                                     - work->grid_scale / 2);
                 }
                 setVector(&scale, amount, amount, amount);
             } else {
                 rotation.vx = layer->rotation.vx;
                 rotation.vy = layer->rotation.vy;
                 rotation.vz = layer->rotation.vz;
-                matrix.t[0] = work->target.vx;
-                matrix.t[1] = work->target.vy;
-                matrix.t[2] = work->target.vz;
+                matrix.t[0] = work->aim.target.vx;
+                matrix.t[1] = work->aim.target.vy;
+                matrix.t[2] = work->aim.target.vz;
                 scale.vx = layer->scale;
                 scale.vy = layer->scale;
                 scale.vz = layer->scale;
@@ -83,7 +83,7 @@ void FrenchModelVariant373_DrawLayers(Family373LayerView *context)
                 dark.g = 128 - fade / 8;
                 dark.b = 64 - fade / 16;
             }
-            for (j = 0, quad = work->quads, texture_v = 0, byte_offset = 0; j < 16;
+            for (j = 0, quad = work->layer_packets, texture_v = 0, byte_offset = 0; j < 16;
                  j++, quad++, byte_offset = j * 8, texture_v = -j * 8) {
                 setUV4(quad, 0, texture_v - 1, 0, texture_v - 16,
                        31, texture_v - 1, 31, texture_v - 16);
@@ -106,9 +106,9 @@ void FrenchModelVariant373_DrawLayers(Family373LayerView *context)
         }
         if (work->phase < 2) {
             if (layer->scale < 6144) {
-                layer->scale += work->step * 192;
+                layer->scale += work->clock.step * 192;
                 if (layer->scale >= 6144) {
-                    if (work->config->start < work->elapsed) {
+                    if (work->config->scale_end < work->clock.frame) {
                         layer->scale = 6144;
                         layer->done = 1;
                     } else {
@@ -134,7 +134,7 @@ void FrenchModelVariant373_DrawLayers(Family373LayerView *context)
             }
             layer->scale = -i * 6144 / 5;
         } else if (layer->scale < 6144) {
-            layer->scale += work->step * 128;
+            layer->scale += work->clock.step * 128;
             if (layer->scale >= 6144) {
                 layer->scale -= 6144;
                 layer->rotation.vx += 384;

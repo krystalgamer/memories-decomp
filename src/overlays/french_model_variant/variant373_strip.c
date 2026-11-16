@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant373_strip.h"
+#include "variant373_entry.h"
 
-void FrenchModelVariant373_DrawStrip(Family373StripView *context)
+void FrenchModelVariant373_DrawStrip(EntryState373 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,8 +10,8 @@ void FrenchModelVariant373_DrawStrip(Family373StripView *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Family373StripView *work;
-    ModelVariantStrip *strip;
+    EntryState373 *work;
+    EntryStrip373 *strip;
     POLY_GT4 *quad;
     GsOT *ot;
     s16 i, j;
@@ -21,9 +21,9 @@ void FrenchModelVariant373_DrawStrip(Family373StripView *context)
 
     work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    strip = &work->strip;
-    angle = ratan2(work->angle_delta[1], work->angle_delta[0]);
-    quad = &work->quad;
+    strip = work->strips;
+    angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
+    quad = &work->shared[0];
     angle += 2048;
     if (work->phase > 0) {
         width = work->width;
@@ -42,13 +42,13 @@ void FrenchModelVariant373_DrawStrip(Family373StripView *context)
                           rsin(3072) * size >> 12, 0);
                 setVector(&rotation, 0, 0, angle);
                 if (j == 0) {
-                    matrix.t[0] = work->origin[0];
-                    matrix.t[1] = work->origin[1];
-                    matrix.t[2] = work->origin[2];
+                    matrix.t[0] = work->matrix.t[0];
+                    matrix.t[1] = work->matrix.t[1];
+                    matrix.t[2] = work->matrix.t[2];
                 } else {
-                    matrix.t[0] = work->origin[0] + work->delta[0] * work->factor / 1024;
-                    matrix.t[1] = work->origin[1] + work->delta[1] * work->factor / 1024;
-                    matrix.t[2] = work->origin[2] + work->delta[2] * work->factor / 1024;
+                    matrix.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->factor / 1024;
+                    matrix.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->factor / 1024;
+                    matrix.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->factor / 1024;
                 }
                 scale.vz = scale.vy = scale.vx = 4096;
                 RotMatrix(&rotation, &matrix);
@@ -67,7 +67,7 @@ void FrenchModelVariant373_DrawStrip(Family373StripView *context)
                                                 &interpolation, &flag);
             }
         }
-        strip = &work->strip;
+        strip = work->strips;
         for (i = 0; i < 1; i++, strip++) {
             for (j = 0; j < 1; j++) {
                 setXY4(quad, (u16)strip->projected[0][j], strip->projected[0][j] >> 16,
@@ -93,10 +93,10 @@ void FrenchModelVariant373_DrawStrip(Family373StripView *context)
                 }
             }
         }
-        if (work->index + 1 == work->config->count_0C) {
+        if (work->index + 1 == work->config->count) {
             if (work->phase == 1) {
                 if (work->factor <= 1024) {
-                    work->factor += work->step * 32;
+                    work->factor += work->clock.step * 32;
                     if (work->factor >= 1024) {
                         work->factor = 1024;
                         work->phase = 2;
@@ -104,7 +104,7 @@ void FrenchModelVariant373_DrawStrip(Family373StripView *context)
                 }
             }
             if (work->phase == 5 && work->width > 0) {
-                work->width -= work->step * 8;
+                work->width -= work->clock.step * 8;
                 if (work->width <= 0) {
                     work->width = 0;
                 }

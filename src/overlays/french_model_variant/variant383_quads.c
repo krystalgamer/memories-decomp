@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant383_quads.h"
+#include "../model_variant/variant366_entry.h"
 
-void FrenchModelVariant383_DrawQuads(u8 *context)
+void FrenchModelVariant383_DrawQuads(Variant366State *context)
 {
-    Family383QuadView *work = (Family383QuadView *)context;
+    Variant366State *work = context;
     SVECTOR rotation;
     /* Retail leaves 16 bytes between rotation and scale. */
     u8 unknown_stack[16];
@@ -13,7 +13,7 @@ void FrenchModelVariant383_DrawQuads(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    ModelVariantQuadSheet *group = &work->group;
+    ModelVariantQuadSheet *group = work->quads;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;
@@ -21,7 +21,7 @@ void FrenchModelVariant383_DrawQuads(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &work->quads[1];
+    quad = &work->textured[1];
     for (i = 0; i < 1; i++, group++) {
         if (work->phase >= 8) {
             group->color[0].r = work->brightness;
@@ -32,13 +32,13 @@ void FrenchModelVariant383_DrawQuads(u8 *context)
             group->color[1].b = work->brightness;
         }
         pulse = 0;
-        if (work->flags & 1) {
+        if (work->clock.frame_count & 1) {
             pulse = work->scale / 8;
         }
         setVector(&rotation, 0, 0, 0);
-        matrix.t[0] = work->origin[0] + work->delta[0] * work->factor / 1024;
-        matrix.t[1] = work->origin[1] + work->delta[1] * work->factor / 1024;
-        matrix.t[2] = work->origin[2] + work->delta[2] * work->factor / 1024;
+        matrix.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->travel / 1024;
+        matrix.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->travel / 1024;
+        matrix.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->travel / 1024;
         scale.vx = work->scale + pulse;
         scale.vy = work->scale + pulse;
         scale.vz = work->scale + pulse;
@@ -75,33 +75,33 @@ void FrenchModelVariant383_DrawQuads(u8 *context)
                 GsSortPoly(quad, ot, (u16)depth);
             }
         }
-        if (work->index + 1 == work->config->count_0C) {
+        if (work->index + 1 == work->config->count) {
             if (work->phase == 0) {
                 if (work->scale < 4096) {
-                    work->scale = (work->elapsed << 12) / work->config->duration_10;
+                    work->scale = (work->clock.frame << 12) / work->config->duration;
                     if (work->scale >= 4096) {
                         work->scale = 4096;
                         work->phase = 1;
                     }
                 }
             } else if (work->phase == 3) {
-                if (work->factor <= 1024) {
-                    work->factor += work->step * 48;
-                    if (work->factor >= 1024) {
-                        work->factor = 1024;
+                if (work->travel <= 1024) {
+                    work->travel += work->clock.step * 48;
+                    if (work->travel >= 1024) {
+                        work->travel = 1024;
                         work->phase = 4;
                     }
                 }
             } else if (work->phase == 4 || work->phase == 5) {
                 if (work->scale < 8192) {
-                    work->scale += work->step * 512;
+                    work->scale += work->clock.step * 512;
                     if (work->scale >= 8192) {
                         work->scale = 8192;
                     }
                 }
             } else if (work->phase == 6) {
                 if (work->scale > 0) {
-                    work->scale -= work->step * 32;
+                    work->scale -= work->clock.step * 32;
                     if (work->scale <= 64) {
                         work->scale = 64;
                         work->phase = 7;
@@ -109,14 +109,14 @@ void FrenchModelVariant383_DrawQuads(u8 *context)
                 }
             } else if (work->phase == 7) {
                 if (work->scale < 10240) {
-                    work->scale += work->step * 2560;
+                    work->scale += work->clock.step * 2560;
                     if (work->scale >= 10240) {
                         work->scale = 10240;
                     }
                 }
             } else if (work->phase == 8) {
                 if (work->brightness > 0) {
-                    work->brightness -= work->step * 8;
+                    work->brightness -= work->clock.step * 8;
                     if (work->brightness <= 0) {
                         work->brightness = 0;
                         work->phase = 9;
