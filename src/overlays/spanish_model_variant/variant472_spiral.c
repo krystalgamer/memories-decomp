@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "../model_variant/variant472_spiral.h"
 #include "../model_variant/variant455_entry.h"
 
 /* The North American header-455 build (CDK compiler) indexes the closing
@@ -42,7 +41,7 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
     s32 spread;
     s32 turn;
     s32 eighth;
-    Variant472SpiralArm *arm;
+    EntryFan455 *arm;
     POLY_GT4 *poly;
     s16 k;
     s16 size;
@@ -70,7 +69,7 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
     if (eighth * work->field_2F28 < 0) {
         length = 0;
     }
-    arm = (Variant472SpiralArm *)work->fans;
+    arm = work->fans;
     for (i = 0; i < 12; i++, arm++) {
         phi = (i << 12) / 12 + work->spiral_angle * 2;
         theta = (i << 13) / 12 + work->spiral_angle;
@@ -108,12 +107,12 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    arm = (Variant472SpiralArm *)work->fans;
+    arm = work->fans;
 #ifdef MODEL_VARIANT472_SPIRAL_DIRECT_PREVIOUS
     for (i = 0; i < 12; i++, arm++) {
 #else
     for (i = 0, previous = &arm->sa[2]; i < 12; i++,
-         previous = (long *)((u8 *)previous + sizeof(Variant472SpiralArm)), arm++) {
+         previous = (long *)((u8 *)previous + sizeof(EntryFan455)), arm++) {
 #endif
         for (k = 0; k < 4; k++) {
             if (k == 3) {
@@ -140,7 +139,7 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
             }
         }
     }
-    arm = (Variant472SpiralArm *)work->fans;
+    arm = work->fans;
     for (i = 0; i < 12; i++, arm++) {
         for (k = 0; k < 3; k++) {
             poly->x0 = arm->sa[k] + arm->ox[k];
@@ -151,18 +150,18 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
             poly->y2 = arm->sa[k] >> 16;
             poly->x3 = arm->sa[k + 1];
             poly->y3 = arm->sa[k + 1] >> 16;
-            poly->r0 = arm->ca[k][0];
-            poly->g0 = arm->ca[k][1];
-            poly->b0 = arm->ca[k][2];
-            poly->r1 = arm->ca[k + 1][0];
-            poly->g1 = arm->ca[k + 1][1];
-            poly->b1 = arm->ca[k + 1][2];
-            poly->r2 = arm->cb[k][0];
-            poly->g2 = arm->cb[k][1];
-            poly->b2 = arm->cb[k][2];
-            poly->r3 = arm->cb[k + 1][0];
-            poly->g3 = arm->cb[k + 1][1];
-            poly->b3 = arm->cb[k + 1][2];
+            poly->r0 = arm->inner[k].r;
+            poly->g0 = arm->inner[k].g;
+            poly->b0 = arm->inner[k].b;
+            poly->r1 = arm->inner[k + 1].r;
+            poly->g1 = arm->inner[k + 1].g;
+            poly->b1 = arm->inner[k + 1].b;
+            poly->r2 = arm->outer[k].r;
+            poly->g2 = arm->outer[k].g;
+            poly->b2 = arm->outer[k].b;
+            poly->r3 = arm->outer[k + 1].r;
+            poly->g3 = arm->outer[k + 1].g;
+            poly->b3 = arm->outer[k + 1].b;
             if (arm->otz[k] >= 0 && arm->flag[k] >= 0) {
                 GsSortPoly(poly, ot, arm->otz[k]);
             }
@@ -174,18 +173,18 @@ void SpanishModelVariant472_DrawSpiral(u8 *ctx)
             poly->y2 = arm->sa[k] >> 16;
             poly->x3 = arm->sa[k + 1];
             poly->y3 = arm->sa[k + 1] >> 16;
-            poly->r0 = arm->ca[k][0];
-            poly->g0 = arm->ca[k][1];
-            poly->b0 = arm->ca[k][2];
-            poly->r1 = arm->ca[k + 1][0];
-            poly->g1 = arm->ca[k + 1][1];
-            poly->b1 = arm->ca[k + 1][2];
-            poly->r2 = arm->cb[k][0];
-            poly->g2 = arm->cb[k][1];
-            poly->b2 = arm->cb[k][2];
-            poly->r3 = arm->cb[k + 1][0];
-            poly->g3 = arm->cb[k + 1][1];
-            poly->b3 = arm->cb[k + 1][2];
+            poly->r0 = arm->inner[k].r;
+            poly->g0 = arm->inner[k].g;
+            poly->b0 = arm->inner[k].b;
+            poly->r1 = arm->inner[k + 1].r;
+            poly->g1 = arm->inner[k + 1].g;
+            poly->b1 = arm->inner[k + 1].b;
+            poly->r2 = arm->outer[k].r;
+            poly->g2 = arm->outer[k].g;
+            poly->b2 = arm->outer[k].b;
+            poly->r3 = arm->outer[k + 1].r;
+            poly->g3 = arm->outer[k + 1].g;
+            poly->b3 = arm->outer[k + 1].b;
             if (arm->otz[k] >= 0 && arm->flag[k] >= 0) {
                 GsSortPoly(poly, ot, arm->otz[k]);
             }

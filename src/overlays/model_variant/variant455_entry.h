@@ -40,11 +40,26 @@ typedef struct {
 } EntryDisc455;
 
 /* One 0x104-byte fan with four graded outer and inner colours. */
+/* One 0x104-byte fan arm: a four-point spine and a copy of it moved along the
+ * view, both projected, the per-point screen angle and projected width, the
+ * outer and inner colour rows the entry seeds, and per point the projection
+ * flag, depth and the width's screen offset. */
 typedef struct {
-    u8 unknown_00[0xA0];
+    u8 unknown_00[0x20];
+    SVECTOR a[4];
+    long sa[4];
+    s32 angle[4];
+    SVECTOR b[4];
+    long sb[4];
+    s32 width[4];
     CVECTOR outer[4];
     CVECTOR inner[4];
-    u8 unknown_C0[0x44];
+    u8 unknown_C0[4];
+    long flag[4];
+    s32 otz[4];
+    s16 ox[4];
+    s16 oy[4];
+    u8 unknown_F4[0x10];
 } EntryFan455;
 
 typedef struct {
