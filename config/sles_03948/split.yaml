@@ -159,10 +159,7 @@ segments:
     - game/european/card_preview
   - - 106280
     - c
-    - game/library_create_grid_section_sprites
-  - - 106524
-    - c
-    - game/duel_projection_axes
+    - game/library_graphics
   - - 107212
     - c
     - game/european/library_draw_wireframe_globe
@@ -433,7 +430,7 @@ segments:
   - [0xDB998, bss, file_transfer_runtime_bss_commons]
   - [0xDBA48, bss, fade_runtime_bss_commons]
   - [0xDBA78, bss, duel_scene_bss_commons]
-  - [0xDBD70, .bss, game/library_create_grid_section_sprites]
+  - [0xDBD70, .bss, game/library_graphics]
   - [0xDC910, bss, duel_effect_object_pool_bss_commons]
   - [0xDCA10, bss, main_mode_runners_commons]
   - [0xDCA60, bss, debug_menu_bss_commons]
