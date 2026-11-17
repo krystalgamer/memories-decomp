@@ -62,8 +62,8 @@ typedef struct {
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];
-    ModelVariantRing rings[6];
-    ModelVariantRing spokes[4];
+    ModelVariantColorRing rings[6];
+    ModelVariantColorRing spokes[4];
     ModelVariantFan quads[1];
     ModelVariantPackets packets;
     POLY_GT4 extra;

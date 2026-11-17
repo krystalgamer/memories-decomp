@@ -15,8 +15,8 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
     ModelVariantPanel *panel;
     ModelVariantBandPair *pair = &work->pair;
     ModelVariantSheet *sheet = work->sheets;
-    ModelVariantRing *ring = work->rings;
-    ModelVariantRing *halo = work->halos;
+    ModelVariantColorRing *ring = work->rings;
+    ModelVariantColorRing *halo = work->halos;
     ModelVariantShape *star = &work->star;
     ModelVariantWebNarrow *dome = work->domes;
     POLY_G3 *triangle = &work->packets.triangle;
@@ -264,12 +264,12 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 setVector(&ring->inner[outer], (u32)rcos(ring_angle) >> 4, (u32)rsin(ring_angle) >> 4, 0);
                 setVector(&ring->outer[outer], (u32)(rcos(ring_angle) * 5) >> 6, (u32)(rsin(ring_angle) * 5) >> 6, 0);
             }
-            ring->inner_color[0] = 64;
-            ring->inner_color[1] = 128;
-            ring->inner_color[2] = 255;
-            ring->outer_color[0] = 0;
-            ring->outer_color[1] = 0;
-            ring->outer_color[2] = 0;
+            ring->inner_color.r = 64;
+            ring->inner_color.g = 128;
+            ring->inner_color.b = 255;
+            ring->outer_color.r = 0;
+            ring->outer_color.g = 0;
+            ring->outer_color.b = 0;
             ring->angle = (row << 10) / 6;
             ring->count = 0;
         }
@@ -278,12 +278,12 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 setVector(&halo->inner[j], (u32)(rcos(halo_angle) * 3) >> 5, (u32)(rsin(halo_angle) * 3) >> 5, 0);
                 setVector(&halo->outer[j], (u32)rcos(halo_angle) >> 3, (u32)rsin(halo_angle) >> 3, 0);
             }
-            halo->outer_color[0] = 255;
-            halo->outer_color[1] = 192;
-            halo->inner_color[0] = 0;
-            halo->inner_color[1] = 0;
-            halo->inner_color[2] = 0;
-            halo->outer_color[2] = 64;
+            halo->outer_color.r = 255;
+            halo->outer_color.g = 192;
+            halo->inner_color.r = 0;
+            halo->inner_color.g = 0;
+            halo->inner_color.b = 0;
+            halo->outer_color.b = 64;
             halo->angle = 1024 - (row << 8);
             halo->count = 0;
             inner = 4096;

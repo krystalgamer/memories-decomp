@@ -17,7 +17,7 @@ void ModelVariant414_DrawSpokes(Variant431EntryState *context)
     long p;
     long flag;
     GsGLINE *line;
-    ModelVariantRing *ring;
+    ModelVariantColorRing *ring;
     ModelVariantSheet *obj;
     GsOT *ot;
     s32 i;
@@ -64,13 +64,13 @@ void ModelVariant414_DrawSpokes(Variant431EntryState *context)
                 line->b0 = 0;
                 if (ring->angle >= 0x200) {
                     f = 0x400 - ring->angle;
-                    line->r1 = ring->outer_color[0] * f / 512;
-                    line->g1 = ring->outer_color[1] * f / 512;
-                    line->b1 = ring->outer_color[2] * f / 512;
+                    line->r1 = ring->outer_color.r * f / 512;
+                    line->g1 = ring->outer_color.g * f / 512;
+                    line->b1 = ring->outer_color.b * f / 512;
                 } else {
-                    line->r1 = ring->outer_color[0];
-                    line->g1 = ring->outer_color[1];
-                    line->b1 = ring->outer_color[2];
+                    line->r1 = ring->outer_color.r;
+                    line->g1 = ring->outer_color.g;
+                    line->b1 = ring->outer_color.b;
                 }
                 if (otz > 0) {
                     GsSortGLine(line, ot, otz);

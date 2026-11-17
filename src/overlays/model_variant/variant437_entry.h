@@ -92,8 +92,8 @@ typedef struct {
     Variant437Cone cones[3];
     ModelVariantBandPair beam;
     Variant437Tile tiles[2];
-    ModelVariantRing discs[6];
-    ModelVariantRing rings[4];
+    ModelVariantColorRing discs[6];
+    ModelVariantColorRing rings[4];
     Variant437Star star;
     ModelVariantPackets packets;
     u8 unknown2D28[0x34];

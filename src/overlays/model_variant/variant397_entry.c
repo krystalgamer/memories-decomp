@@ -21,8 +21,8 @@ s32 ModelVariant397_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantProjection projection;
     ModelVariantBandShort *band;
     ModelVariantSheet *sheet;
-    ModelVariantRing *ring;
-    ModelVariantRing *spoke;
+    ModelVariantColorRing *ring;
+    ModelVariantColorRing *spoke;
     ModelVariantFan *quad_record;
     ModelVariantWebNarrow *web;
     POLY_GT4 *textured;
@@ -236,12 +236,12 @@ s32 ModelVariant397_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&ring->outer[outer], (u32)(rcos(ring_angle) * 5) >> 6,
                           (u32)(rsin(ring_angle) * 5) >> 6, 0);
             }
-            ring->inner_color[0] = 64;
-            ring->inner_color[1] = 128;
-            ring->inner_color[2] = 255;
-            ring->outer_color[0] = 0;
-            ring->outer_color[1] = 0;
-            ring->outer_color[2] = 0;
+            ring->inner_color.r = 64;
+            ring->inner_color.g = 128;
+            ring->inner_color.b = 255;
+            ring->outer_color.r = 0;
+            ring->outer_color.g = 0;
+            ring->outer_color.b = 0;
             ring->angle = row * 1024 / 6;
             ring->count = 0;
         }
@@ -252,12 +252,12 @@ s32 ModelVariant397_HandleRequest(SVECTOR *point, s32 command)
                           (u32)(rsin(ring_angle) * 3) >> 5, 0);
                 setVector(&spoke->outer[outer], (u32)rcos(ring_angle) >> 3, (u32)rsin(ring_angle) >> 3, 0);
             }
-            spoke->inner_color[0] = 0;
-            spoke->inner_color[1] = 0;
-            spoke->inner_color[2] = 0;
-            spoke->outer_color[0] = 255;
-            spoke->outer_color[1] = 192;
-            spoke->outer_color[2] = 64;
+            spoke->inner_color.r = 0;
+            spoke->inner_color.g = 0;
+            spoke->inner_color.b = 0;
+            spoke->outer_color.r = 255;
+            spoke->outer_color.g = 192;
+            spoke->outer_color.b = 64;
             spoke->angle = 1024 - row * 256;
             spoke->count = 0;
         }

@@ -18,8 +18,8 @@ typedef struct {
     ModelVariantWebNarrow domes[3];
     ModelVariantBandPair pair;
     ModelVariantSheet sheets[2];
-    ModelVariantRing rings[6];
-    ModelVariantRing halos[4];
+    ModelVariantColorRing rings[6];
+    ModelVariantColorRing halos[4];
     ModelVariantShape star;
     ModelVariantPackets packets;
     POLY_GT4 glow;

@@ -18,7 +18,7 @@ void ModelVariant414_DrawRings(Variant431EntryState *context)
     long flag;
     GsOT *ot;
     GsGLINE *line;
-    ModelVariantRing *ring;
+    ModelVariantColorRing *ring;
     s32 i;
     s32 k;
     SVECTOR *v;
@@ -59,13 +59,13 @@ void ModelVariant414_DrawRings(Variant431EntryState *context)
                                     &ring->outer[k], (long *)&line->x0, (long *)&line->x1,
                                     (long *)&line->x0, (long *)&line->x1, &p, &flag);
                 if (ring->angle < 0x100) {
-                    line->r0 = ring->inner_color[0] * ring->angle / 256;
-                    line->g0 = ring->inner_color[1] * ring->angle / 256;
-                    line->b0 = ring->inner_color[2] * ring->angle / 256;
+                    line->r0 = ring->inner_color.r * ring->angle / 256;
+                    line->g0 = ring->inner_color.g * ring->angle / 256;
+                    line->b0 = ring->inner_color.b * ring->angle / 256;
                 } else {
-                    line->r0 = ring->inner_color[0];
-                    line->g0 = ring->inner_color[1];
-                    line->b0 = ring->inner_color[2];
+                    line->r0 = ring->inner_color.r;
+                    line->g0 = ring->inner_color.g;
+                    line->b0 = ring->inner_color.b;
                 }
                 line->r1 = 0;
                 line->g1 = 0;

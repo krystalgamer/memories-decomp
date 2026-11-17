@@ -16,8 +16,8 @@ typedef struct {
     ModelVariantWebNarrow webs[3];
     ModelVariantColorBandPadded bands[1];
     ModelVariantSheet sheets[1];
-    ModelVariantRing rings[6];
-    ModelVariantRing spokes[4];
+    ModelVariantColorRing rings[6];
+    ModelVariantColorRing spokes[4];
     Variant324Fan fans[1];
     ModelVariantPackets packets;
     POLY_GT4 extra;
