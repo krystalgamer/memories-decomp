@@ -11,7 +11,7 @@
  * frame steps up to 16, then the view offset shrinks by step * 64 and the
  * ribbon restarts or retires. The first loop's `bend` is template code left
  * unused; it still shapes the retail code. */
-void ModelVariant443_DrawRibbons(u8 *ctx)
+void ModelVariant443_DrawRibbons(Variant460EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -42,7 +42,7 @@ void ModelVariant443_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant460EntryState *)ctx;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     sum = 0;
     yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

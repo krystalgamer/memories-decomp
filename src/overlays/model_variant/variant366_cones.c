@@ -7,7 +7,7 @@
  * with a POLY_F4 mask-write packet behind each one. Before phase 7 each cone
  * breathes with its progress; afterwards it opens by cone_opening[k] towards
  * the opponent. Progress then advances and wraps with a count. */
-void ModelVariant366_DrawCones(u8 *context)
+void ModelVariant366_DrawCones(Variant366State *context)
 {
     SVECTOR rotation;
     /* Retail leaves 16-byte gaps after rotation and coordinate. */
@@ -20,7 +20,7 @@ void ModelVariant366_DrawCones(u8 *context)
     CVECTOR inner;
     long interpolation;
     long flag;
-    Variant366State *work = (Variant366State *)context;
+    Variant366State *work = context;
     Variant366Ribbon *ribbon;
     GsOT *ot;
     s32 k;

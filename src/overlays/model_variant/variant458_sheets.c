@@ -5,7 +5,7 @@
 
 /* Draws sixteen four-quad sheets. The first eight follow the timed growth
  * and shrink phases; the remaining eight follow the moving object records. */
-void ModelVariant458_DrawSheets(u8 *ctx)
+void ModelVariant458_DrawSheets(Variant475EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -24,7 +24,7 @@ void ModelVariant458_DrawSheets(u8 *ctx)
     s32 bias;
     s32 otz;
 
-    work = (Variant475EntryState *)ctx;
+    work = ctx;
     obj = work->ribbons;
     sheet = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();

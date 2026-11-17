@@ -73,6 +73,6 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command);
 void FrenchModelVariant383_DrawStrip(Variant366State *context);
 void FrenchModelVariant383_DrawRibbons(Variant366State *context);
 void FrenchModelVariant383_DrawQuads(Variant366State *context);
-void ModelVariant366_DrawCones(u8 *context);
+void ModelVariant366_DrawCones(Variant366State *context);
 void FrenchModelVariant383_DrawRays(Variant366State *context);
 #endif

@@ -273,7 +273,7 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
             } while (++work->index < work->config->count);
         }
         if (work->phase >= 4) {
-            ModelVariant366_DrawCones(context);
+            ModelVariant366_DrawCones((Variant366State *)context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

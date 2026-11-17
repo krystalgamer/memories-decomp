@@ -365,7 +365,7 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
             ModelVariant425_DrawSpiral((Variant425EntryState *)point);
             ModelVariant425_DrawWebs((Variant425EntryState *)point);
             if (work->phase >= 2) {
-                ModelVariant425_DrawRays((u8 *)point);
+                ModelVariant425_DrawRays((Variant425EntryState *)point);
             }
         }
         work->clock.frame_count++;
