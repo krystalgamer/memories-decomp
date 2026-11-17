@@ -30,9 +30,9 @@ functions. The remaining three differ by exactly one language instruction:
 | `0x80030AC0` | `0x24020003` | `0x24020004` |
 | `0x80043FDC` | `0x24040003` | `0x24040004` |
 
-Three [thin wrappers](../../src/game/italian/README.md) select
-`BUILD_LANGUAGE_INDEX 3`; all other Spanish/shared source paths are reused
-unchanged. Their complete grouped objects cover seven functions / 2,464 bytes.
+Three units (`main.c`, `debug_menu.c` and `main_boot_frontend.c`) add
+`BUILD_LANGUAGE_INDEX=3` to the Spanish build's entry defines; all other
+units reuse the Spanish defines unchanged. Their complete grouped objects cover seven functions / 2,464 bytes.
 An initial index-2 calibration was rejected by the main-init comparison at
 text offset `0x60`; all three retail instructions independently establish 3.
 Candidates, rejected probes and exact-link evidence remain local under `tmp/`.

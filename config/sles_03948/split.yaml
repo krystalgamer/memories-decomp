@@ -64,7 +64,7 @@ segments:
     - initial_data_860
   - - 2224
     - .rodata
-    - game/spanish/duel_scene
+    - game/duel_scene
   - - 2520
     - rodata
     - initial_data_9d8
@@ -76,7 +76,7 @@ segments:
     - game/main_mode_runners
   - - 2656
     - .rodata
-    - game/french/debug_menu
+    - game/debug_menu
   - - 2712
     - .rodata
     - game/build_deck
@@ -85,13 +85,13 @@ segments:
     - game/frontend_package_stages
   - - 2820
     - .rodata
-    - game/french/mem_card
+    - game/mem_card
   - - 3212
     - .rodata
     - game/display_object_system
   - - 3236
     - .rodata
-    - game/french/main_boot_frontend
+    - game/main_boot_frontend
   - - 3268
     - .rodata
     - game/mem_card_driver
@@ -132,7 +132,7 @@ segments:
     - text_128cc
   - - 12868
     - c
-    - game/french/main
+    - game/main
   - - 15356
     - c
     - game/view_state_orbit
@@ -150,7 +150,7 @@ segments:
     - game/display_projection
   - - 25880
     - c
-    - game/spanish/duel_scene
+    - game/duel_scene
   - - 101232
     - c
     - game/duel_effect_states
@@ -180,10 +180,10 @@ segments:
     - game/main_mode_runners
   - - 124904
     - c
-    - game/spanish/script_scene
+    - game/script_scene
   - - 133860
     - c
-    - game/french/debug_menu
+    - game/debug_menu
   - - 138816
     - c
     - game/build_deck
@@ -198,7 +198,7 @@ segments:
     - game/movie_playback_control
   - - 157540
     - c
-    - game/spanish/duel_effect_text
+    - game/duel_effect_text
   - - 174764
     - c
     - game/display_effect
@@ -216,7 +216,7 @@ segments:
     - game/input_pads
   - - 186432
     - c
-    - game/french/mem_card
+    - game/mem_card
   - - 199076
     - c
     - game/sound_frontend
@@ -225,7 +225,7 @@ segments:
     - game/display_object_system
   - - 212568
     - c
-    - game/french/main_boot_frontend
+    - game/main_boot_frontend
   - - 215556
     - c
     - game/mem_card_driver
@@ -321,7 +321,7 @@ segments:
     - game/movie_pipeline
   - - 373660
     - c
-    - game/spanish/trade_screen_widgets
+    - game/trade_screen_widgets
   - - 375632
     - c
     - game/main_menu_load_package_stage
@@ -339,15 +339,15 @@ segments:
     - resident_tail
   - [0x8210C, .data, game/file_setup]
   - [0x821B4, .data, game/duel_field_layout]
-  - [0x822A8, .data, game/spanish/duel_scene]
+  - [0x822A8, .data, game/duel_scene]
   - [0x82768, .data, game/main_mode_runners]
-  - [0x827C0, .data, game/spanish/script_scene]
-  - [0x828CC, .data, game/french/debug_menu]
+  - [0x827C0, .data, game/script_scene]
+  - [0x828CC, .data, game/debug_menu]
   - [0x82A14, .data, game/build_deck]
-  - [0x82A64, .data, game/spanish/duel_effect_text]
+  - [0x82A64, .data, game/duel_effect_text]
   - [0x82AB8, .data, game/duel_effect_command_table]
   - [0x82B94, .data, game/display_effect]
-  - [0x82BC8, .data, game/french/mem_card]
+  - [0x82BC8, .data, game/mem_card]
   - [0x82BDC, .data, game/display_object_system]
   - [0x82C34, .data, game/model_camera_effects]
   - [0x82CCC, .data, game/model_background_records]
@@ -356,13 +356,13 @@ segments:
   - [0x83208, .data, game/model_effect_handlers]
   - [0x83300, .data, game/ai_script]
   - [0x83578, data, resident_tail_80092d78]
-  - [0x8CA98, .sdata, game/french/main]
+  - [0x8CA98, .sdata, game/main]
   - [0x8CA9D, pad]
   - [0x8CAA0, .sdata, game/file_transfer_runtime]
-  - [0x8CAB0, .sdata, game/spanish/duel_scene]
+  - [0x8CAB0, .sdata, game/duel_scene]
   - [0x8CAD5, pad]
-  - [0x8CAD8, .sdata, game/french/debug_menu]
-  - [0x8CAEC, .sdata, game/french/mem_card]
+  - [0x8CAD8, .sdata, game/debug_menu]
+  - [0x8CAEC, .sdata, game/mem_card]
   - [0x8CAF6, pad]
   - [0x8CAF8, .sdata, game/display_object_system]
   - [0x8CB00, .sdata, game/mem_card_driver]
@@ -393,7 +393,7 @@ segments:
   - [0x8CF30, sbss, mem_card_commons]
   - [0x8CF80, sbss, sound_frontend_commons]
   - [0x8CF94, sbss, display_object_system_commons]
-  - [0x8CFA8, .sbss, game/french/main_boot_frontend]
+  - [0x8CFA8, .sbss, game/main_boot_frontend]
   - [0x8CFB0, sbss, mem_card_driver_commons]
   - [0x8CFD8, sbss, sound_driver_commons]
   - [0x8CFE8, sbss, model_commons]

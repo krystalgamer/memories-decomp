@@ -24,13 +24,13 @@ So this configuration is `config/sles_03951` with the executable, its region
 hashes and the generated-symbol prefix changed:
 - `symbols.txt`, `link_symbols.ld`, the split boundaries and every matching
   source are the Spanish ones.
-- The three units carrying the language index are
-  `src/game/german/` wrappers that set `BUILD_LANGUAGE_INDEX` to 2 over the
-  European source, the same shape as the Spanish (4) and Italian (3) ones.
-- Every other Spanish wrapper is reused as is, including
-  `src/game/spanish/duel_effect_text.c`, since its bytes are identical here.
+- The three units carrying the language index set `BUILD_LANGUAGE_INDEX` to
+  2 among their entry defines, as the Spanish (4) and Italian (3) builds do.
+- Every other unit uses the Spanish build's defines as is, including
+  `duel_effect_text.c`'s `DIALOG_READ_CHOICE_CLEARS_HELD_R1`, since its bytes
+  are identical here.
 
-Compiled against the Spanish wrappers, each German index unit differs in
+Compiled with the Spanish defines, each German index unit differs in
 exactly one instruction, the `li` above.
 
 As in the Spanish build, all 1,140 eligible resident game C targets match.

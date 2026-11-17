@@ -1,6 +1,14 @@
-# Spanish resident wrappers
+# Spanish resident matching
 
-These wrappers include the existing shared C bodies with independently measured
+This note records how the Spanish (SLES-03951) resident units were matched.
+They were first built through thin wrappers in `src/game/spanish/`; those
+wrappers are gone, and each unit now compiles its shared source directly with
+the wrappers' macros as `defines` on its `config/sles_03951/matching_c.json`
+entries. The French, German and Italian builds reuse the same define sets,
+changing only `BUILD_LANGUAGE_INDEX`. The tables below keep the wrapper names
+used when each batch was measured.
+
+These wrappers included the existing shared C bodies with independently measured
 Spanish addresses and dialog geometry. They retain the European unit's named GCC 2.8.1/MASPSX 2.81
 profile; no source body, guessed type, or compiler option is imported from an
 external reference.
@@ -26,7 +34,7 @@ now compile directly from the shared `mem_card_io_result_callbacks.c`. Integrati
 exact linked-symbol extent checks.
 
 The same batch directly reuses the European bust-up entry wrapper (now part
-of `european/debug_menu.c`), `european/func_8003C224.c` (now part of `frontend_package_stages.c`), `sd_reset_secondary_playback_thunk.c` (now part of `sound_secondary_voice.c`), and `func_8005C690.c` (now part of `movie_pipeline.c`) for another
+of `debug_menu.c`), `european/func_8003C224.c` (now part of `frontend_package_stages.c`), `sd_reset_secondary_playback_thunk.c` (now part of `sound_secondary_voice.c`), and `func_8005C690.c` (now part of `movie_pipeline.c`) for another
 four functions / 476 bytes. These small units were selected from the remaining
 game-function inventory, then independently linked and byte-compared; a
 masked-instruction resemblance alone was not accepted.

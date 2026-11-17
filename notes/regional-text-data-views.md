@@ -30,7 +30,8 @@ Independent readers use it for card-art preview positioning, per-language
 package sectors, script image IDs, result sprites and name-entry/free-duel
 sprite variants. It is therefore the language index, not merely a preview
 vertical-layout selector. The generic European build defaults to zero;
-French, German, Italian and Spanish wrappers select one through four.
+French, German, Italian and Spanish builds select one through four with
+the `BUILD_LANGUAGE_INDEX` entry define.
 Existing dynamic selection remains intact rather than being replaced with
 a compile-time language constant.
 
