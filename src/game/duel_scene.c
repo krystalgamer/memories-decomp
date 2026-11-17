@@ -10668,10 +10668,10 @@ void DuelEffect_ApplyRitual(void)
             gDuel_wTrapPresentationMode |= 0x80;
             object = (DisplayObject *)CardPreview_CreateResourceObjects(1, -1, -1);
             object->xy.h.x = 90;
-            /* Negative constants go into these u16 halves through an s16
-               view here and below; stored as u16, GCC materialises the
+            /* Negative constants go into these halves through the signed
+               xy.s view here and below; stored as u16, GCC materialises the
                zero-extended value (li 0xffde) where retail has li -34. */
-            *(s16 *)&object->xy.h.y = DUEL_RITUAL_CARD_START_Y;
+            object->xy.s.y = DUEL_RITUAL_CARD_START_Y;
             object->field_60 = 24;
             attribute = object->attribute;
             object_flags = object->flags;
@@ -10779,7 +10779,7 @@ void DuelEffect_ApplyRitual(void)
             gDuel_bCardMoveSlot, card->data->deck_index);
         object = card->object;
         gDisplayObject_apWorkSlots.slots[0] = object;
-        *(s16 *)&object->xy.h.y = -DUEL_RITUAL_SCREEN_HEIGHT;
+        object->xy.s.y = -DUEL_RITUAL_SCREEN_HEIGHT;
         if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0) {
             card->flags &= ~0x200;
             if (rand() & 1)
@@ -10855,7 +10855,7 @@ void DuelEffect_ApplyRitual(void)
         phase = (u16)object->field_60 + 42;
         object->field_60 = phase;
         if (phase >= 0) {
-            *(s16 *)&object->xy.h.y = -24;
+            object->xy.s.y = -24;
             gDuel_wCardEffectFlags = 0;
         }
         break;

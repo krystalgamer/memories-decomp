@@ -547,8 +547,8 @@ void Dialog_UpdateCloseTransition(MemCardWorkRoot *root)
             );
             TextBox_SetPos(
                 entry,
-                *(s16 *)&object->xy.h.x,
-                *(s16 *)&object->xy.h.y
+                object->xy.s.x,
+                object->xy.s.y
             );
         }
     }
@@ -602,8 +602,8 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root)
         do {
             TextBox_UpdateChannels();
         } while (r->prompt_object == 0);
-        TextBox_SetPos(r, *(s16 *)&p->xy.h.x,
-                       *(s16 *)&p->xy.h.y);
+        TextBox_SetPos(r, p->xy.s.x,
+                       p->xy.s.y);
     }
     f = gDialog_bCallbackState;
     if ((f & 0x20) != 0) {
@@ -635,8 +635,8 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root)
             Widget_SlideSine(
                 p, DIALOG_BOX_X, 0x50, (s16)v);
         }
-        TextBox_SetPos(r, *(s16 *)&p->xy.h.x,
-                       *(s16 *)&p->xy.h.y);
+        TextBox_SetPos(r, p->xy.s.x,
+                       p->xy.s.y);
     }
     p = root->spotlight_object;
     p->field_48.spotlight.outer = *(u16 *)&p->field_48.spotlight.outer - 8;
@@ -685,8 +685,8 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
             TextBox_UpdateChannels();
         } while (q->prompt_object == 0);
         TextBox_SetPos(q,
-                       *(s16 *)&e->xy.h.x,
-                       *(s16 *)&e->xy.h.y);
+                       e->xy.s.x,
+                       e->xy.s.y);
     }
 
     e = root->box_object;
@@ -702,8 +702,8 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
         v = *(u16 *)&e->field_60 + 0x20;
         e->field_60 = v;
         if ((s16)v >= 0) {
-            *(s16 *)&e->xy.h.x = DIALOG_BOX_X;
-            *(s16 *)&e->xy.h.y = 0x50;
+            e->xy.s.x = DIALOG_BOX_X;
+            e->xy.s.y = 0x50;
             h = q->flags_34;
             gDialog_bCallbackState = g | 0x40;
             q->flags_34 = h & (0xFFFF ^ DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG);
@@ -711,8 +711,8 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
             Widget_SlideSine(e, DIALOG_BOX_X, 0x50, (s16)v);
         }
         TextBox_SetPos(q,
-                       *(s16 *)&e->xy.h.x,
-                       *(s16 *)&e->xy.h.y);
+                       e->xy.s.x,
+                       e->xy.s.y);
     }
 }
 

@@ -605,8 +605,8 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     r = (struct ProjectionOut *)SCRATCH_ADDR(0x398);
     o->rgb.c.b = *(u8 *)&o->field_60;
     DisplayObject_ProjectRotationFacing(o,
-                  *(s16 *)&o->xy.h.x + *(s16 *)&o->field_18.center.x,
-                  *(s16 *)&o->xy.h.y + *(s16 *)&o->field_18.center.y,
+                  o->xy.s.x + *(s16 *)&o->field_18.center.x,
+                  o->xy.s.y + *(s16 *)&o->field_18.center.y,
                   r);
 
     q = (LINE_F4 *)SCRATCH_ADDR(0x2A0);
