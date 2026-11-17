@@ -148,7 +148,7 @@ For #39 the fourteen optimized functions at `[0x80168004, 0x80169040)`
 `position_easing.c`, `textured_strips.c`, `grid.c`, `language_hook.c`,
 `initialize.c`, `input.c`, `wave_tables.c`, `language_request.c`,
 `language_image.c`, `update.c`, `signed_step.c` and `language_selection.c`),
-are one `src/overlays/pal_options/options_screen.c` unit in address order at
+are one `src/overlays/options/options_screen.c` unit in address order at
 `gcc_2_8_1_g0_split`. They are contiguous, share one profile and own no data,
 and every one is `Options_Init`, `Options_Update` or a helper or render
 callback of theirs. The layout is the same in all five PAL images, so it is

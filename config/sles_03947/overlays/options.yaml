@@ -54,7 +54,7 @@ segments:
     vram: 0x80168004
     align: 4
     subsegments:
-      - [0x4, c, overlays/pal_options/options_screen]
+      - [0x4, c, overlays/options/options_screen]
   - name: unclassified_tail
     type: code
     start: 0x1040
@@ -68,7 +68,7 @@ segments:
     vram: 0x80169D78
     align: 4
     subsegments:
-      - [0x1D78, c, overlays/pal_options/options_suffix]
+      - [0x1D78, c, overlays/options/options_suffix]
   - name: unclassified_suffix
     type: code
     start: 0x1F74

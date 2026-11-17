@@ -23,7 +23,7 @@ the 251 differing bytes are almost all resident addresses:
 
 There is no language-count, layout or behaviour difference, so nothing in
 the shared C needs a region define. The module reuses the French layout,
-symbols and all sixteen `src/overlays/pal_options` functions with their French
+symbols and all sixteen `src/overlays/options` functions with their French
 profiles. Only `options_linker_symbols.txt` changes: it binds the same 33
 resident names to their SLES-03947 addresses from `config/sles_03947`.
 Thirty-one of them differ from French; `gText_abColorSlots` and
