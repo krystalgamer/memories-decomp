@@ -70,6 +70,6 @@ typedef struct {
 extern u8 gModelVariant445_D2848[];
 void ModelVariant445_DrawRibbons(EntryState445Us *context);
 void FrenchModelVariant462_DrawSheets(EntryState445Us *context);
-void FrenchModelVariant462_DrawRings(u8 *context);
+void FrenchModelVariant462_DrawRings(EntryState445Us *context);
 
 #endif
