@@ -3,5 +3,6 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
 
-void FrenchModelVariant402_DrawBands(u8 *context);
+/* Built for both the 402 and 412 records; each record's entry header
+ * declares the copy built on it. */
 #endif

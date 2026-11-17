@@ -3,7 +3,7 @@
 
 #include "e578_entry_pal.h"
 
-void FrenchModelVariant402_DrawBands(u8 *context)
+void FrenchModelVariant402_DrawBands(Variant412EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -26,7 +26,7 @@ void FrenchModelVariant402_DrawBands(u8 *context)
     s16 fade;
     u8 r0, g0, b0, r1, g1, b1;
 
-    work = (Variant412EntryState *)context;
+    work = context;
     band = work->bands;
     ot = Graphics_GetDefaultOrderingTable();
     bearing = ratan2(work->aim.direction.vz, work->aim.direction.vx);

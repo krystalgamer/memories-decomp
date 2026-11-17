@@ -3,7 +3,7 @@
 
 #include "e578_entry_pal.h"
 
-void FrenchModelVariant402_DrawStrip(u8 *context)
+void FrenchModelVariant402_DrawStrip(Variant412EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -21,7 +21,7 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
     s32 size;
     s32 width;
 
-    work = (Variant412EntryState *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     strip = work->records;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);

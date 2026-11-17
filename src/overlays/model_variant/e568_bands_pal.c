@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "e568_bands_pal.h"
 
-#include "e568_entry_pal.h"
+#include "e568_helpers.h"
 
-void FrenchModelVariant402_DrawBands(u8 *context)
+void FrenchModelVariant402_DrawBands(Variant402EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -29,7 +29,7 @@ void FrenchModelVariant402_DrawBands(u8 *context)
     s16 fade;
     u8 r0, g0, b0, r1, g1, b1;
 
-    work = (Variant402EntryState *)context;
+    work = context;
     band = work->bands;
     ot = Graphics_GetDefaultOrderingTable();
     direction = -1;

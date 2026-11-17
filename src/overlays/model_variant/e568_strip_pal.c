@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "e568_strip_pal.h"
 
-#include "e568_entry_pal.h"
+#include "e568_helpers.h"
 
-void FrenchModelVariant402_DrawStrip(u8 *context)
+void FrenchModelVariant402_DrawStrip(Variant402EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -21,7 +21,7 @@ void FrenchModelVariant402_DrawStrip(u8 *context)
     s32 size;
     s32 width;
 
-    work = (Variant402EntryState *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx);
     quad = work->packets.textured;
