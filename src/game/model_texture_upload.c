@@ -120,7 +120,7 @@ s32 ModelTexture_LoadTim(GsIMAGE *data, char *path, s32 destination_mode, s32 bl
         while (IsIdleGPU(3) != 0) {
         }
         while (LoadImage2(
-            &bounds, (u32 *)data->clut
+            &bounds, data->clut
         ) != 0) {
         }
         while (IsIdleGPU(3) != 0) {

@@ -1226,7 +1226,7 @@ gDebugMenu_awNibbleMasks = 0x8009AF4C; // defined:True
 gOptions_SelectionRowPositions = 0x8009AF5C; // defined:True
 _ramsize = 0x8009AF10; // defined:True
 _stacksize = 0x8009AF14; // defined:True
-gMainMenu_dwSuModuleBase = 0x8001002C;
+gMainMenu_pSuModuleBase = 0x8001002C;
 gSaveData_dwMaskStateLow = 0x8009AF64; // defined:True
 gSaveData_dwMaskStateHigh = 0x8009AF68; // defined:True
 gModel_pBackgroundRecord = 0x8009AF88; // defined:True
@@ -2106,14 +2106,14 @@ Model_QueueCameraShake = 0x8005F7B0; // type:func
 
 gRuntime_pSharedWorkBase = 0x80010000;
 gModel_pSlot1PayloadBase = 0x80010004;
-gModel_AuxiliaryPayloadAddress = 0x80010008;
+gModel_pAuxiliaryPayload = 0x80010008;
 gModel_pSlot0PrimaryModule = 0x8001000C;
 
 gModel_pSlot1PrimaryModule = 0x80010010;
 
-gModel_Slot0VariantModuleAddress = 0x80010014;
+gModel_pSlot0VariantModule = 0x80010014;
 
-gModel_Slot1VariantModuleAddress = 0x80010018;
+gModel_pSlot1VariantModule = 0x80010018;
 
 gModel_Slot0PrimaryDataAddress = 0x8001001C;
 

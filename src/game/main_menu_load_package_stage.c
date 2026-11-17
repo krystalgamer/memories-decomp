@@ -74,8 +74,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         LoadImage2(&rect, (u32 *)gFile_abPackageStagingBuffer);
         object->phase_size = 16 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        object->alternate_sector_destination = (u8 *)gMainMenu_dwSuModuleBase;
-        object->sector_destination = (u8 *)gMainMenu_dwSuModuleBase;
+        object->alternate_sector_destination = gMainMenu_pSuModuleBase;
+        object->sector_destination = gMainMenu_pSuModuleBase;
         object->transfer_mode = 1;
         break;
 
