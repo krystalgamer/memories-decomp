@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "runtime.h"
+#include "pal_presentation.h"
 
 void Credits_StartLineGroup(s32 index)
 {

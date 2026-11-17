@@ -12,7 +12,7 @@ GCC 2.8.1/MASPSX 2.81 profiles unchanged. No French C copies, inline assembly,
 or source-local external declarations are added for those six modules.
 The additional duel-effect bank uses shared `src/overlays/duel_effects/`
 C utilities and the existing `gcc_2_8_1_g0_split` profile.
-The MODEL/SU intro reuses the accepted `spanish_model_intro/runtime.c`
+The MODEL/SU intro reuses the accepted `credits/pal_presentation.c`
 translation unit unchanged, with independently verified French bindings.
 Twenty MODEL primary images reuse the accepted `spanish_model_primary/`
 copy, effect and particle bodies unchanged.

@@ -15,7 +15,7 @@ input or upload is introduced.
 
 ## Recovered C extent
 
-`src/overlays/spanish_model_intro/runtime.c` is one contiguous translation unit,
+`src/overlays/credits/pal_presentation.c` is one contiguous translation unit,
 compiled with the named `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81).
 
 | Address | Bytes | Observed operation |
@@ -57,7 +57,11 @@ American names by role:
 
 The bodies differ from the North American module; only the interface and
 roles are shared. The resident import declarations in
-`src/game/model_scene_imports.h` keep their address-based spelling.
+`src/game/model_scene_imports.h` keep their address-based spelling. The
+source therefore lives beside the North American `credits.c` as
+`src/overlays/credits/pal_presentation.c` (formerly the `runtime.c` of a
+`spanish_model_intro` source directory); the build module names, such
+as `european_model_intro` and `spanish_model_intro`, are unchanged.
 
 ## Local data and resident contracts
 
