@@ -95,7 +95,7 @@ void ModelVariant459_DrawGlobe(Variant459EntryState *context)
         work->globe_scale = (rcos(work->globe_pulse_angle) * 2048 >> 12) + 6144;
         work->globe_pulse_angle += work->clock.step * 64;
         timing = work->config;
-        if (timing->field_34 < work->clock.frame) {
+        if (timing->phase4_frame < work->clock.frame) {
             work->phase = 4;
         }
     } else if (work->phase == 4) {

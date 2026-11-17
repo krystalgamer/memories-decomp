@@ -9,13 +9,15 @@
 #include "variant448_radial.h"
 #include "variant448_spiral.h"
 
-/* The 0x34-byte effect configuration the entry picks by command. */
+/* The 0x34-byte effect configuration the entry picks by command: the radial,
+ * fan and quad sizes grow from start to grow_end, and from shrink_start the
+ * radial shrinks and the fan arms settle. */
 typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u32 start;
-    s32 field_20;
-    s32 field_24;
+    s32 grow_end;
+    u32 shrink_start;
     u8 unknown_28[0xC];
 } Variant448EntryConfig;
 

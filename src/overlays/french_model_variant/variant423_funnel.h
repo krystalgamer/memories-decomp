@@ -32,7 +32,7 @@ typedef struct {
 #else
     u8 unknown1DCC[0x1DF0 - 0x1DCC];
 #endif
-    u8 inner_color[4], outer_color[4];
+    CVECTOR inner_color, outer_color;
     s32 spin;
     u8 unknown1DFC[16];
     s32 phase;

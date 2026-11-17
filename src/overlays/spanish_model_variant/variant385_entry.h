@@ -10,9 +10,11 @@ typedef struct {
     u8 parts[3], unknown_07[5];
     u16 count, unknown_0E;
     s32 width;
+    /* Ring 3 spans inner_radius..outer_radius, rings 0..2 span
+     * ring_inner_radius..ring_outer_radius. */
     s32 inner_radius, outer_radius;
-    s32 field_1C;
-    s32 field_20;
+    s32 ring_inner_radius;
+    s32 ring_outer_radius;
     u16 ribbon_radius;
     u8 unknown_026[0x2];
     s32 size;

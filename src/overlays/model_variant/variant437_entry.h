@@ -71,7 +71,7 @@ typedef struct {
     SVECTOR c[4];
     SVECTOR d[4];
     CVECTOR color;
-    u8 glow[4];
+    CVECTOR glow;
     s32 unknown88[3];
     u8 unknown94[4];
 } Variant437Tile;
@@ -81,7 +81,7 @@ typedef struct {
     SVECTOR points[11];
     SVECTOR quad[4];
     CVECTOR color;
-    u8 glow[4];
+    CVECTOR glow;
     s32 unknown80[3];
     u8 unknown8C[4];
 } Variant437Star;

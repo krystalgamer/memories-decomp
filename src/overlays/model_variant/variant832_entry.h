@@ -69,9 +69,9 @@ typedef struct {
     u16 tpage;
     u16 clut;
     s32 texture[12];
-    u8 bolt[4][4];
-    u8 glow[4][4];
-    u8 flare[4][4];
+    CVECTOR bolt[4];
+    CVECTOR glow[4];
+    CVECTOR flare[4];
 } Model832State;
 
 extern GsIMAGE gModelVariant832_aImages[12];

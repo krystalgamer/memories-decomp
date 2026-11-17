@@ -68,10 +68,10 @@ void SpanishModelVariant385_DrawRings(Variant385EntryState *context)
                     setVector(&ring->b[j], rcos(a) * (work->config->outer_radius + amp) >> 12,
                               rsin(a) * (work->config->outer_radius + amp) >> 12, -(amp + 64));
                 } else {
-                    setVector(&ring->a[j], rcos(a) * work->config->field_1C >> 12,
-                              rsin(a) * work->config->field_1C >> 12, 0);
-                    setVector(&ring->b[j], rcos(a) * (work->config->field_20 + amp) >> 12,
-                              rsin(a) * (work->config->field_20 + amp) >> 12, amp + 128);
+                    setVector(&ring->a[j], rcos(a) * work->config->ring_inner_radius >> 12,
+                              rsin(a) * work->config->ring_inner_radius >> 12, 0);
+                    setVector(&ring->b[j], rcos(a) * (work->config->ring_outer_radius + amp) >> 12,
+                              rsin(a) * (work->config->ring_outer_radius + amp) >> 12, amp + 128);
                 }
             }
             rot.vx = -pitch;

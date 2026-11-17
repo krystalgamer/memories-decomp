@@ -203,9 +203,9 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
             setVector(&star->quad[1], 128, -128, 0);
             setVector(&star->quad[2], -128, 128, 0);
             setVector(&star->quad[3], 128, 128, 0);
-            star->glow[0] = 64;
-            star->glow[1] = 64;
-            star->glow[2] = 0;
+            star->glow.r = 64;
+            star->glow.g = 64;
+            star->glow.b = 0;
             star->unknown80[0] = 0;
             star->unknown80[1] = 0;
             star->unknown80[2] = 0;
@@ -238,9 +238,9 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
             tile->color.r = work->config->color[1].r;
             tile->color.g = work->config->color[1].g;
             tile->color.b = work->config->color[1].b;
-            tile->glow[0] = work->config->color[0].r;
-            tile->glow[1] = work->config->color[0].g;
-            tile->glow[2] = work->config->color[0].b;
+            tile->glow.r = work->config->color[0].r;
+            tile->glow.g = work->config->color[0].g;
+            tile->glow.b = work->config->color[0].b;
             tile->unknown88[0] = 0;
             tile->unknown88[1] = 0;
             tile->unknown88[2] = 0;

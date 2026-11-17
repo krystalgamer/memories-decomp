@@ -164,20 +164,20 @@ void FrenchModelVariant476_DrawSpiral(Variant459EntryState *context)
         work->spiral_size =
             (u32)((work->clock.frame -
                    work->config->second) << 12) /
-            (work->config->field_24 -
+            (work->config->shrink_start -
                   work->config->second);
         if (work->spiral_size >= 4096) {
             work->spiral_size = 4096;
         }
     }
     if (work->clock.frame >=
-        work->config->field_24 &&
+        work->config->shrink_start &&
         work->spiral_arm_length > 0) {
         work->spiral_arm_length = 1024 -
             (u32)((work->clock.frame -
-                   work->config->field_24) << 10) /
-            (work->config->field_28 -
-                  work->config->field_24);
+                   work->config->shrink_start) << 10) /
+            (work->config->shrink_end -
+                  work->config->shrink_start);
         if (work->spiral_arm_length <= 0) {
             work->spiral_arm_length = 0;
         }

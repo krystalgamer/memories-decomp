@@ -92,19 +92,19 @@ void FrenchModelVariant423_DrawFunnel(u8 *context)
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
             if (state->phase >= 5) {
-                r = state->inner_color[0] * state->fade / 1024;
-                g = state->inner_color[1] * state->fade / 1024;
-                b = state->inner_color[2] * state->fade / 1024;
-                outer_r = state->outer_color[0] * state->fade / 1024;
-                outer_g = state->outer_color[1] * state->fade / 1024;
-                outer_b = state->outer_color[2] * state->fade / 1024;
+                r = state->inner_color.r * state->fade / 1024;
+                g = state->inner_color.g * state->fade / 1024;
+                b = state->inner_color.b * state->fade / 1024;
+                outer_r = state->outer_color.r * state->fade / 1024;
+                outer_g = state->outer_color.g * state->fade / 1024;
+                outer_b = state->outer_color.b * state->fade / 1024;
             } else {
-                r = state->inner_color[0];
-                g = state->inner_color[1];
-                b = state->inner_color[2];
-                outer_r = state->outer_color[0];
-                outer_g = state->outer_color[1];
-                outer_b = state->outer_color[2];
+                r = state->inner_color.r;
+                g = state->inner_color.g;
+                b = state->inner_color.b;
+                outer_r = state->outer_color.r;
+                outer_g = state->outer_color.g;
+                outer_b = state->outer_color.b;
             }
             r -= r * funnel->size / 8192;
             g -= g * funnel->size / 8192;
