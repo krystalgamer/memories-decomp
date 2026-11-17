@@ -17,7 +17,7 @@ typedef struct {
     CVECTOR ca[5], cb[5];
     VECTOR scale;
     s16 field_EC, field_EE;
-    s32 field_F0, progress[5], field_108;
+    s32 field_F0, progress[5], width;
     s32 otz[5];
 } Variant431EntryBand;
 

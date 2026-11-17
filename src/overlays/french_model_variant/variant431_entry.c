@@ -120,7 +120,7 @@ s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command)
             band->field_EC = 0;
             band->field_F0 = 0;
             band->field_EE = 0;
-            band->field_108 = 1024;
+            band->width = 1024;
         }
         near_scale = 256;
         far_scale = 192;

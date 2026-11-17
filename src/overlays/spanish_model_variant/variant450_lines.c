@@ -32,10 +32,10 @@ void SpanishModelVariant450_DrawLines(u8 *ctx)
     group = work->groups;
     line = &work->line;
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(work->field_4298, work->field_4290);
-    ratan2(work->field_4294, work->field_4290);
-    ratan2(work->field_4284, work->field_4280);
-    ratan2(work->field_428E, work->field_428C);
+    ratan2(work->view_delta.vz, work->view_delta.vx);
+    ratan2(work->view_delta.vy, work->view_delta.vx);
+    ratan2(work->direction.vz, work->direction.vy);
+    ratan2(work->screen_y, work->screen_x);
     fade_base = work->fade;
     primary_base = work->primary;
     for (i = 0; i < 6; i++, group++, primary_index++, fade_index++) {

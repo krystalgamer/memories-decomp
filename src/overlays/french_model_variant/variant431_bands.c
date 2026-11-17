@@ -30,7 +30,7 @@ void FrenchModelVariant431_DrawBands(Variant431EntryState *context)
     reset = 0;
     for (i = 0; i < 5; i++, band++) {
         angle = ratan2(work->screen_y[i], work->screen_x[i]) + 2048;
-        radius = band->field_108 / 64;
+        radius = band->width / 64;
         for (j = 0; j < 5; j++) {
             distance = band->progress[j];
             if (distance <= 0) {

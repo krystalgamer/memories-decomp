@@ -225,7 +225,7 @@ void FrenchModelVariant446_DrawRays(EntryState446 *context)
     timing = work->config;
     if (work->elapsed >= timing->rays_end && work->ray_length > 0) {
         work->ray_length = 0x400 - ((work->elapsed - timing->rays_end) << 10) /
-                                   (u32)(timing->field_48 - timing->rays_end);
+                                   (timing->rays_gone - timing->rays_end);
         if (work->ray_length <= 0) {
             work->ray_length = 0;
         }

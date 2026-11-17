@@ -36,10 +36,8 @@ typedef struct {
     u8 unknown_1F20[0x1F34 - 0x1F20];
     s32 origin[3];
     MATRIX matrix0, matrix1;
-    s32 field_1F80;
-    s32 field_1F84;
-    s32 field_1F88;
-    u8 unknown_1F8C[0x4];
+    /* The ribbon helper's span from a ribbon's origin to its end. */
+    VECTOR span;
     ModelVariantAim aim;
     ModelVariantClock clock;
     Variant336EntryConfig *config;

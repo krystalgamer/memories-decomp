@@ -14,7 +14,9 @@ typedef struct {
     u8 unknown_00[4], parts[8], unknown_0C[8];
     s32 ribbon_count;
     u8 unknown_18[8];
-    u32 start, field_24, orbit_start, ribbon_start, phase4, phase5;
+    /* The quad count rises from start to quads_end, then the sheets grow
+     * until orbit_start. */
+    u32 start, quads_end, orbit_start, ribbon_start, phase4, phase5;
 } Variant475EntryConfig;
 
 typedef struct {

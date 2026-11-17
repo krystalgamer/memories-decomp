@@ -122,7 +122,7 @@ void ModelVariant425_DrawRibbons(Variant425EntryState *context)
             }
         }
     }
-    if (work->field_2728 + 1 == work->config->count) {
+    if (work->index + 1 == work->config->count) {
         work->ribbon_angle += work->clock.step << 5;
     }
 }

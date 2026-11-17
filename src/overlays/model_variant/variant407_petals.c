@@ -120,7 +120,7 @@ void ModelVariant407_DrawPetals(Variant407EntryState *context)
                 base->tail.phase = 2;
             }
             if (PETAL_SCALE(work, i) >= 0x400) {
-                if (base->config->field_28 > base->clock.frame) {
+                if (base->config->settle_start > base->clock.frame) {
                     PETAL_SCALE(work, i) -= 0x400;
                     work->petals.done[i] = 0;
                 } else {
@@ -128,7 +128,7 @@ void ModelVariant407_DrawPetals(Variant407EntryState *context)
                     PETAL_DONE(work, i) = 1;
                 }
             } else if (PETAL_SCALE(work, i) <= 0 &&
-                       base->config->field_28 <= base->clock.frame) {
+                       base->config->settle_start <= base->clock.frame) {
                 PETAL_SCALE(work, i) = 0x400;
                 PETAL_DONE(work, i) = 1;
             }

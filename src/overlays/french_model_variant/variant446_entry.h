@@ -15,8 +15,9 @@ typedef struct {
     u16 ribbon_radius;
     u8 unknown_026[0x2];
     s32 extent;
+    /* The rays shrink to zero between rays_end and rays_gone. */
     u32 draw_start, duration, expanded, fade, end, rays_start, rays_end;
-    u32 field_48;
+    u32 rays_gone;
 } EntryConfig446;
 
 typedef struct {

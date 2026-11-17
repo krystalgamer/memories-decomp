@@ -299,7 +299,7 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         work->spiral_size = 0;
         work->field_270E = 0;
         work->field_2710 = 0;
-        work->field_2728 = 0;
+        work->index = 0;
         work->band_scale = n;
         work->field_272E = 1024;
         work->displacement = 0;
