@@ -433,5 +433,5 @@ s32 ModelVariant437_HandleRequest(Variant437State *context, s32 command)
 }
 
 #ifndef VERSION_FRENCH
-#include "../french_model_variant/image22822_blooms.c"
+#include "../model_variant/image22822_blooms.c"
 #endif

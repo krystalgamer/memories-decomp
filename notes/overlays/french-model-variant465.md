@@ -143,7 +143,7 @@ headers and compiler profiles remain unchanged; no unmerged PR is stacked.
 This addition starts independently from accepted master `355c0d797`,
 without pending French431 work. No suitable Spanish or accepted local
 fan body was found. The standalone
-`src/overlays/french_model_variant/variant465_fan.c` reconstructs the
+`src/overlays/model_variant/variant465_fan.c` reconstructs the
 complete local assembly using existing project SDK declarations; both
 slots build it directly. The measured view is the record's leading
 `Variant448Radial radial[1]` from
@@ -257,7 +257,7 @@ the North American header-448 fan
 `Variant448FanUnit` records at `work + 0xBD8` and the unchanged
 `variant448_fan.h`. The NA body is written around GCC 2.7.2 allocation and
 compiles to 985 instructions here, against 960 in the target, so
-`src/overlays/french_model_variant/variant465_arms.c` holds a separate
+`src/overlays/model_variant/variant465_arms.c` holds a separate
 2.8.1 body that both slots build directly.
 It uses the existing `gcc_2_8_1_g0_split` profile.
 
@@ -482,7 +482,7 @@ pass without skips, together with the same repository policy gates.
 
 The entry at `0x4` (`0x1248` bytes) in all four images is now matching C:
 the North American header-448 entry (`model_variant/variant448_entry.c`)
-built through `french_model_variant/variant465_entry.c`, which selects the
+built through `model_variant/variant465_entry.c`, which selects the
 PAL palette x (640). The family's `func_french_<address>` SDK placeholders take
 their canonical names. See [the reuse note](french-model-usa-entry-reuse.md).
 

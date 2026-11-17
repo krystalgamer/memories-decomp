@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant439_entry_pal.h"
+#include "../model_variant/variant439_entry_pal.h"
 
 /* Draws two sheets of four POLY_GT4 quads, the second placed along the
  * variant's path, and grows or shrinks each sheet's size through the

@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant475_entry.h"
+#include "../model_variant/variant475_entry.h"
 
 /* Draws the visible quads, fading past scale 0x600, then advances the
  * timed quad count. The packet is reused for each submitted quad. */

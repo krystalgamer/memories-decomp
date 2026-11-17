@@ -246,7 +246,7 @@ models 116 and 576: `ModelVariant458_DrawRibbons`, `ModelVariant458_DrawSheets`,
 the header-458 bodies; the PAL images build the sheet, quad and strand bodies
 directly and the ribbons and streamers from
 `model_variant/variant475_ribbons.c` and
-`french_model_variant/variant475_streamers.c`, which define the same names.
+`model_variant/variant475_streamers.c`, which define the same names.
 Each image binds them at its own addresses, and the header-552 image of model
 163 binds `ModelVariant458_DrawStrand` at `0x8017F4D0` (see [Per-image symbol
 bindings](model-variants.md#per-image-symbol-bindings)). The strand body calls

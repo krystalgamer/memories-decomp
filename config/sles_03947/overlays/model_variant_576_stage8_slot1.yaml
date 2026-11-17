@@ -56,7 +56,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant475_entry]
+      - [0x4, c, overlays/model_variant/variant475_entry]
   - name: ribbons
     type: code
     start: 0xE98
@@ -91,7 +91,7 @@ segments:
     vram: 0x8017D520
     align: 4
     subsegments:
-      - [0x2520, c, overlays/french_model_variant/variant475_streamers]
+      - [0x2520, c, overlays/model_variant/variant475_streamers]
   - name: unclassified_tail
     type: code
     start: 0x2D38

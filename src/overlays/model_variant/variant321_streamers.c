@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "variant321_streamers.h"
-#include "../french_model_variant/variant338_entry.h"
+#include "../model_variant/variant338_entry.h"
 
 /* Builds two seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each

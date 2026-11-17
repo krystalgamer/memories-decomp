@@ -56,42 +56,42 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant463_entry]
+      - [0x4, c, overlays/model_variant/variant463_entry]
   - name: helper_1984
     type: code
     start: 0x1984
     vram: 0x8017C984
     align: 4
     subsegments:
-      - [0x1984, c, overlays/french_model_variant/variant463_ribbons]
+      - [0x1984, c, overlays/model_variant/variant463_ribbons]
   - name: helper_2318
     type: code
     start: 0x2318
     vram: 0x8017D318
     align: 4
     subsegments:
-      - [0x2318, c, overlays/french_model_variant/variant463_paired_sheets]
+      - [0x2318, c, overlays/model_variant/variant463_paired_sheets]
   - name: helper_2860
     type: code
     start: 0x2860
     vram: 0x8017D860
     align: 4
     subsegments:
-      - [0x2860, c, overlays/french_model_variant/variant463_trail_ribbons]
+      - [0x2860, c, overlays/model_variant/variant463_trail_ribbons]
   - name: helper_32E8
     type: code
     start: 0x32E8
     vram: 0x8017E2E8
     align: 4
     subsegments:
-      - [0x32E8, c, overlays/french_model_variant/variant463_sheets]
+      - [0x32E8, c, overlays/model_variant/variant463_sheets]
   - name: helper_37D4
     type: code
     start: 0x37D4
     vram: 0x8017E7D4
     align: 4
     subsegments:
-      - [0x37D4, c, overlays/french_model_variant/variant463_rings]
+      - [0x37D4, c, overlays/model_variant/variant463_rings]
   - name: unclassified_tail
     type: code
     start: 0x3C08

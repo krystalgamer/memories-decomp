@@ -15,4 +15,4 @@
 #endif
 static const char gModelVariant631Us_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL631US_STRING_PAD;
 
-#include "../french_model_variant/image9840_entry.c"
+#include "../model_variant/image9840_entry.c"

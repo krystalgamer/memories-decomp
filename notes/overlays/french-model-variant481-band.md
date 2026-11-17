@@ -4,7 +4,7 @@
 the third function of the French header-481/631 images (models 248 and 624,
 slot 0 and slot 1). It grows, projects and draws the entry's 33-step band.
 It builds from
-[`variant481_band.c`](../../src/overlays/french_model_variant/variant481_band.c)
+[`variant481_band.c`](../../src/overlays/model_variant/variant481_band.c)
 in both slots under `gcc_2_8_1_g0_split`. All four French images
 rebuild byte-identical to retail.
 

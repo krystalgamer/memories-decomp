@@ -57,7 +57,7 @@ entry-call path or new classification of the suffix is inferred.
 ## Entry reuse and independent Spanish evidence
 
 The accepted [French entry](french-model-variant475.md) and its slot-one wrapper
-are reused unchanged from `src/overlays/french_model_variant/`. No regional
+are reused unchanged from the French sources in `src/overlays/model_variant/`. No regional
 conditionals, copied declarations, compiler flags or patched instructions are
 introduced. Both sources are freshly compiled with `gcc_2_8_1_g0_split`;
 each complete 3,732-byte body is relocated and selected in two Spanish images.

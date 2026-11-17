@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "variant439_screen_rings.h"
-#include "../french_model_variant/variant439_entry_pal.h"
+#include "../model_variant/variant439_entry_pal.h"
 
 /* Draws three rings of sixteen POLY_GT4 strips textured from the half of the
  * frame buffer each strip lands on. The inner row is rebuilt each frame on a

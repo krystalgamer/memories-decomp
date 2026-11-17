@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant477_entry.h"
+#include "../model_variant/variant477_entry.h"
 #include "../../game/gpu_packets.h"
 
 /* Draws up to two textured panels, as many as the time has passed thresholds

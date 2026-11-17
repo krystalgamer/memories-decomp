@@ -4,13 +4,13 @@
       "address": "0x8013B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x12E8",
-      "source": "src/overlays/french_model_variant/variant430_entry_pal.c"
+      "source": "src/overlays/model_variant/variant430_entry_pal.c"
     },
     {
       "address": "0x8013C2EC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5CC",
-      "source": "src/overlays/french_model_variant/image132118_swarm.c"
+      "source": "src/overlays/model_variant/image132118_swarm.c"
     }
   ],
   "schema": 1

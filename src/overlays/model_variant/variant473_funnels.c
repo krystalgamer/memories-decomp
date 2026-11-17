@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant473_entry.h"
+#include "../model_variant/variant473_entry.h"
 
 #define FIRST_OBJECT(object, state) \
     do { \

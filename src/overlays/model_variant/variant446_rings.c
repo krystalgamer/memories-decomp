@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "../model_variant/model_variant.h"
-#include "../french_model_variant/variant446_entry_pal.h"
+#include "../model_variant/variant446_entry_pal.h"
 
 /* The MODEL385 rings with this family's work block: up to four seventeen-point
  * POLY_GT4 rings around the variant's direction, ring 3 timed by the record and

@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant461_entry_pal.h"
+#include "../model_variant/variant461_entry_pal.h"
 
 void SpanishModelVariant461_DrawSheets(EntryState461 *context)
 {

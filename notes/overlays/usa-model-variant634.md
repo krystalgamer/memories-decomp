@@ -48,7 +48,7 @@ is one raw tail that starts at `0x1394`. Inside it, the layout names the two
 texture descriptors `gModelVariant634_aImages` and the command table
 `gModelVariant634_aConfigs`. The `0x8017B000` images use the same offsets. The
 French header-651 images build the file through
-[`french_model_variant/variant651_entry_pal.c`](../../src/overlays/french_model_variant/variant651_entry_pal.c)
+[`model_variant/variant651_entry_pal.c`](../../src/overlays/model_variant/variant651_entry_pal.c)
 with `VERSION_FRENCH`, and their symbols files bind both names 0x28 lower. The
 resident bindings are in
 `config/slus_01411/overlays/variant634_linker_symbols.txt`.

@@ -68,14 +68,14 @@ segments:
     vram: 0x8017C7F8
     align: 4
     subsegments:
-      - [0x17F8, c, overlays/french_model_variant/variant400_sheets_pal]
+      - [0x17F8, c, overlays/model_variant/variant400_sheets_pal]
   - name: streamers
     type: code
     start: 0x1D7C
     vram: 0x8017CD7C
     align: 4
     subsegments:
-      - [0x1D7C, c, overlays/french_model_variant/variant400_streamers]
+      - [0x1D7C, c, overlays/model_variant/variant400_streamers]
   - name: data
     type: code
     start: 0x26E8

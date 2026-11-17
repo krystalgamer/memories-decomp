@@ -10,7 +10,7 @@
       "address": "0x8017BFD0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x528",
-      "source": "src/overlays/french_model_variant/variant379_grid.c"
+      "source": "src/overlays/model_variant/variant379_grid.c"
     },
     {
       "address": "0x8017C4F8",

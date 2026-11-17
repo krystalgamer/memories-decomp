@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant443_entry_pal.h"
+#include "../model_variant/variant443_entry_pal.h"
 
 /* Header 426's copy of the header-405 webs (variant405_webs.c), kept in the
  * header-443 images over their entry state: the webs are its spheres and the

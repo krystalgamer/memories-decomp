@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant427_entry_pal.h"
+#include "../model_variant/variant427_entry_pal.h"
 
 void SpanishModelVariant427_DrawCurtains(EntryState427 *context)
 {

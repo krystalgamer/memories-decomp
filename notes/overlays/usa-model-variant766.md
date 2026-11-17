@@ -3,7 +3,7 @@
 Fifty-six North American MODEL variant images share one entry, at `+0x4` and
 `0x1834` bytes long. No French or Spanish source reproduces it, but its
 closest relative is the French header-770 entry
-([`variant770_entry.c`](../../src/overlays/french_model_variant/variant770_entry_pal.c)),
+([`variant770_entry.c`](../../src/overlays/model_variant/variant770_entry_pal.c)),
 which the new source follows. The entry is new North American C in
 [`variant766_entry.c`](../../src/overlays/model_variant/variant766_entry.c),
 built under `gcc_2_8_1_g0_split` like the French entries.

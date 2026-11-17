@@ -3,4 +3,4 @@
 /* The North American header-406 streamer projects its last point against the
  * one before it directly instead of walking a pointer to the previous point. */
 #define MODEL_VARIANT423_STREAMERS_FIXED_TAIL
-#include "../french_model_variant/variant423_streamers.c"
+#include "../model_variant/variant423_streamers.c"

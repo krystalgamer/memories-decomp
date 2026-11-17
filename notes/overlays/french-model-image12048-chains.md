@@ -21,7 +21,7 @@ bindings](model-variants.md#per-image-symbol-bindings)).
   the last joint, the chain resets its window and swings to a new yaw and
   pitch. From phase 6 onward it also advances its stage, and phase 7 starts
   when the third chain reaches stage 4. The view lives in
-  `french_model_variant/image12048_chains.h`.
+  `model_variant/image12048_chains.h`.
 - **Angle.** The angle comes from `ratan2(target[2], target[0])`. A second
   `ratan2(target[1], target[0])` call follows, and its result is discarded.
   The target computes the angle in the second call's delay slot, so it uses

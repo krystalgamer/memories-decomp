@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_SPANISH_MODEL_VARIANT479_ENTRY_H
 #define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT479_ENTRY_H
 #include "../../types.h"
-#include "../../overlays/french_model_variant/variant337_entry.h"
+#include "../../overlays/model_variant/variant337_entry.h"
 #include "../model_variant/model_variant.h"
 #include "variant479_ribs.h"
 #include "variant479_spiral.h"

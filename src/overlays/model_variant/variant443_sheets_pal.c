@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant443_entry_pal.h"
+#include "../model_variant/variant443_entry_pal.h"
 
 /* Five sheets of four POLY_GT4 quads: three at their positions in their own inner
  * colour, and two at the origin and along the direction (or at the rest position

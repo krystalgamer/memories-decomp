@@ -43,6 +43,6 @@ The entry's `.rodata` is the work-size format string, at `0x136C`. The rest of
 the image is one raw tail that starts at `0x1384` with the command table
 `gModelVariant627_aConfigs`. The `0x8017B000` images use the same offsets. The
 French header-644 images build the file through
-[`french_model_variant/variant644_entry_pal.c`](../../src/overlays/french_model_variant/variant644_entry_pal.c)
+[`model_variant/variant644_entry_pal.c`](../../src/overlays/model_variant/variant644_entry_pal.c)
 with `VERSION_FRENCH`, and their symbols files bind the table 0x28 lower. The
 resident bindings are in `config/slus_01411/overlays/variant627_linker_symbols.txt`.

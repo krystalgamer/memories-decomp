@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant324_fan.h"
-#include "../french_model_variant/variant341_entry.h"
+#include "../model_variant/variant341_entry.h"
 
 /* Draws four Gouraud quads around the shared center point. Its scale
  * changes only for the selected sequence entry; rotation advances each call.

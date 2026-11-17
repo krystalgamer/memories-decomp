@@ -2,4 +2,4 @@
 
 #define VARIANT167_PRINT_WORK_SIZE
 #define GRAPHICS_DEFAULT_HEIGHT 240
-#include "../french_model_variant/variant167_entry.c"
+#include "../model_variant/variant167_entry.c"

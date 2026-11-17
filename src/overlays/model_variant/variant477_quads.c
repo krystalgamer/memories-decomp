@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant477_entry.h"
+#include "../model_variant/variant477_entry.h"
 #include "../../game/gpu_packets.h"
 
 void SpanishModelVariant477_DrawQuadGroups(EntryState477 *context)

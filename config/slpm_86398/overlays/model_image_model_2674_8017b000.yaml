@@ -63,7 +63,7 @@ segments:
     vram: 0x8017C3B4
     align: 4
     subsegments:
-      - [0x13B4, c, overlays/french_model_variant/variant455_swarm]
+      - [0x13B4, c, overlays/model_variant/variant455_swarm]
   - name: unclassified_tail
     type: code
     start: 0x1988

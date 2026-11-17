@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant393_entry_pal.h"
+#include "../model_variant/variant393_entry_pal.h"
 
 /* Draws one ring, or two when the single flag is clear, as four POLY_GT4
  * quads each, and grows or shrinks each ring's scale through the phases. */

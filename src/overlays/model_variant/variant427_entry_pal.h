@@ -9,7 +9,7 @@
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
 #include "../model_variant/variant427_mesh.h"
-#include "../french_model_variant/variant427_streamers.h"
+#include "../model_variant/variant427_streamers.h"
 
 typedef struct {
     u8 unknown_00[0x10], parts[3], unknown_13[5];

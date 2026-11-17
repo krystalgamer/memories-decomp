@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant455_entry_pal]
+      - [0x4, c, overlays/model_variant/variant455_entry_pal]
   - name: helper_13B0
     type: code
     start: 0x13B0
     vram: 0x8017C3B0
     align: 4
     subsegments:
-      - [0x13B0, c, overlays/french_model_variant/variant455_swarm]
+      - [0x13B0, c, overlays/model_variant/variant455_swarm]
   - name: unclassified_tail
     type: code
     start: 0x1978

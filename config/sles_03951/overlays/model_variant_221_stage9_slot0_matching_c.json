@@ -4,13 +4,13 @@
       "address": "0x8013B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xDD8",
-      "source": "src/overlays/french_model_variant/variant393_entry_pal.c"
+      "source": "src/overlays/model_variant/variant393_entry_pal.c"
     },
     {
       "address": "0x8013BDDC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x928",
-      "source": "src/overlays/french_model_variant/variant393_ribbon.c"
+      "source": "src/overlays/model_variant/variant393_ribbon.c"
     },
     {
       "address": "0x8013C704",
@@ -22,7 +22,7 @@
       "address": "0x8013CB8C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x824",
-      "source": "src/overlays/french_model_variant/variant393_streamers.c"
+      "source": "src/overlays/model_variant/variant393_streamers.c"
     }
   ],
   "schema": 1

@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant341_entry.h"
+#include "../model_variant/variant341_entry.h"
 
 /* Draws one band of nine points as pairs of POLY_GT4 quads along the variant's
  * path, its radius set by radius and its colours faded by brightness

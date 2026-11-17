@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant464_entry_pal.h"
+#include "../model_variant/variant464_entry_pal.h"
 
 void SpanishModelVariant464_DrawAdvancingQuads(Variant464EntryState *context)
 {

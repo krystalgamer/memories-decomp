@@ -413,6 +413,6 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
  * gcc 2.7.2; the swarm sits four bytes later in this image. */
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
-#include "../french_model_variant/variant428_swarm.c"
-#include "../french_model_variant/variant428_quads.c"
+#include "../model_variant/variant428_swarm.c"
+#include "../model_variant/variant428_quads.c"
 #endif

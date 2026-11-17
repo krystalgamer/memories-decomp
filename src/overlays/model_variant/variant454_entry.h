@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT454_ENTRY_H
 #define MEMORIES_MODEL_VARIANT454_ENTRY_H
 #include "../../types.h"
-#include "../french_model_variant/variant337_entry.h"
+#include "../model_variant/variant337_entry.h"
 #include "../../game/model_camera_effects.h"
 #include "variant412_entry.h"
 

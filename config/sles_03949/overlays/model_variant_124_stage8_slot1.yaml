@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant435_entry_pal]
+      - [0x4, c, overlays/model_variant/variant435_entry_pal]
   - name: helper_1084
     type: code
     start: 0x1084
     vram: 0x8017C084
     align: 4
     subsegments:
-      - [0x1084, c, overlays/french_model_variant/variant435_spiral]
+      - [0x1084, c, overlays/model_variant/variant435_spiral]
   - name: helper_1AD4
     type: code
     start: 0x1AD4
@@ -84,7 +84,7 @@ segments:
     vram: 0x8017D258
     align: 4
     subsegments:
-      - [0x2258, c, overlays/french_model_variant/variant435_ribbons]
+      - [0x2258, c, overlays/model_variant/variant435_ribbons]
   - name: helper_28A4
     type: code
     start: 0x28A4

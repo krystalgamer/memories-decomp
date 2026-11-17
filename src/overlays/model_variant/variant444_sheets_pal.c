@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant444_entry_pal.h"
+#include "../model_variant/variant444_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
 void SpanishModelVariant444_DrawSheets(Variant444EntryState *context)

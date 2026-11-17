@@ -17,7 +17,7 @@ name at its own address.
 
   The point-index copy shape and the dead `if (i < 0)` branch are the same
   as in that helper. The view lives in
-  `french_model_variant/variant423_ribbon.h`.
+  `model_variant/variant423_ribbon.h`.
 - **Bindings.** All four images reuse their region's
   `model_variant423_linker_symbols.txt`.
 

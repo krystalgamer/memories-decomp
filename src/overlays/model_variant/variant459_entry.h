@@ -1,9 +1,9 @@
 #ifndef MEMORIES_MODEL_VARIANT459_ENTRY_H
 #define MEMORIES_MODEL_VARIANT459_ENTRY_H
 #include "../../types.h"
-#include "../french_model_variant/variant337_entry.h"
+#include "../model_variant/variant337_entry.h"
 #include "../../game/model_camera_effects.h"
-#include "../french_model_variant/variant476_screen_grid.h"
+#include "../model_variant/variant476_screen_grid.h"
 #include "variant459_curtains.h"
 #include "variant459_grid.h"
 

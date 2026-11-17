@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant460_entry_pal]
+      - [0x4, c, overlays/model_variant/variant460_entry_pal]
   - name: helper_CFC
     type: code
     start: 0xCFC
@@ -82,7 +82,7 @@ segments:
     vram: 0x8013D0B4
     align: 4
     subsegments:
-      - [0x20B4, c, overlays/french_model_variant/variant460_streamers]
+      - [0x20B4, c, overlays/model_variant/variant460_streamers]
   - name: unclassified_tail
     type: code
     start: 0x28CC

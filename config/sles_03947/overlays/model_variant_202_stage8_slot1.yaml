@@ -56,28 +56,28 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant458_entry_pal]
+      - [0x4, c, overlays/model_variant/variant458_entry_pal]
   - name: sheets
     type: code
     start: 0xC10
     vram: 0x8017BC10
     align: 4
     subsegments:
-      - [0xC10, c, overlays/french_model_variant/variant458_sheets_pal]
+      - [0xC10, c, overlays/model_variant/variant458_sheets_pal]
   - name: strands
     type: code
     start: 0x1150
     vram: 0x8017C150
     align: 4
     subsegments:
-      - [0x1150, c, overlays/french_model_variant/variant458_strands]
+      - [0x1150, c, overlays/model_variant/variant458_strands]
   - name: streamers
     type: code
     start: 0x19EC
     vram: 0x8017C9EC
     align: 4
     subsegments:
-      - [0x19EC, c, overlays/french_model_variant/variant458_streamers_pal]
+      - [0x19EC, c, overlays/model_variant/variant458_streamers_pal]
   - name: unclassified_tail
     type: code
     start: 0x230C

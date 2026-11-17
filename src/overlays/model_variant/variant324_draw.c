@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant341_entry.h"
+#include "../model_variant/variant341_entry.h"
 
 /* Draws one header-432 ring at a base position moved by velocity * time /
  * 1024, and grows or shrinks its scale through the phases. */

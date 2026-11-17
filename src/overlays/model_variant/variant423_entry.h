@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT423_ENTRY_H
 #define MEMORIES_MODEL_VARIANT423_ENTRY_H
 #include "../../types.h"
-#include "../french_model_variant/variant337_entry.h"
+#include "../model_variant/variant337_entry.h"
 
 /* One 0x108-byte band: three rows of five points and their screen
  * coordinates, the two colour rows and scale the entry seeds, and the five

@@ -63,7 +63,7 @@ segments:
     vram: 0x8013BCD4
     align: 4
     subsegments:
-      - [0xCD4, c, overlays/french_model_variant/variant388_strips]
+      - [0xCD4, c, overlays/model_variant/variant388_strips]
   - name: helper_1344
     type: code
     start: 0x1344
@@ -91,7 +91,7 @@ segments:
     vram: 0x8013D410
     align: 4
     subsegments:
-      - [0x2410, c, overlays/french_model_variant/variant388_petals]
+      - [0x2410, c, overlays/model_variant/variant388_petals]
   - name: unclassified_tail
     type: code
     start: 0x2E7C

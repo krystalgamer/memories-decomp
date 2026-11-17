@@ -2,7 +2,7 @@
 
 MODEL103 stages 9/10 now own the 1,884-byte bands helper at image `+0xD4C`,
 `FrenchModelVariant449_DrawBands` (formerly `func_8013BD4C` / `func_8017BD4C`),
-through `src/overlays/french_model_variant/variant437_bands.c` in both slots;
+through `src/overlays/model_variant/variant437_bands.c` in both slots;
 each image's symbols file binds the name at its own address.
 Both compile with the existing `gcc_2_8_1_g0_split` profile,
 GCC 2.8.1 and MASPSX 2.81.

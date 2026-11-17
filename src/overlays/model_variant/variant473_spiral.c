@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant473_entry.h"
+#include "../model_variant/variant473_entry.h"
 
 /* Header 473's phase-guarded spiral: while phase is not
  * negative, twelve two-point arms (records from spirals) on a spiral of

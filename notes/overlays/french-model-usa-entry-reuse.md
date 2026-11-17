@@ -43,7 +43,7 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
   American source keeps the retail form, and the wrappers select the French
   form with `#define VERSION_FRENCH`.
 - Family 432 later dropped its renames: both slots compile
-  `french_model_variant/variant432_entry_pal.c`, and each image binds the shared
+  `model_variant/variant432_entry_pal.c`, and each image binds the shared
   names (see [Per-image symbol
   bindings](model-variants.md#per-image-symbol-bindings)). Its slot-1 ledger
   row names that file; its fingerprint is that of the removed

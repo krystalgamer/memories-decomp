@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant401_entry.h"
 
-/* Header 401's copy of the header-416 rays (french_model_variant/
+/* Header 401's copy of the header-416 rays (model_variant/
  * variant433_rays.c) over its own entry state; each segment keeps its own
  * projection flag. */
 void FrenchModelVariant433_DrawRays(u8 *ctx)

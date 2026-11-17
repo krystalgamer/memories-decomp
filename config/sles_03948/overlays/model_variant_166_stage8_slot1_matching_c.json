@@ -52,7 +52,7 @@
       "address": "0x8017F14C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x608",
-      "source": "src/overlays/french_model_variant/variant441_rings.c"
+      "source": "src/overlays/model_variant/variant441_rings.c"
     }
   ],
   "schema": 1

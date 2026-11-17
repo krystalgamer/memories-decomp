@@ -98,7 +98,7 @@ segments:
     vram: 0x8017E0E4
     align: 4
     subsegments:
-      - [0x30E4, c, overlays/french_model_variant/variant417_feedback]
+      - [0x30E4, c, overlays/model_variant/variant417_feedback]
   - name: helper_3750
     type: code
     start: 0x3750

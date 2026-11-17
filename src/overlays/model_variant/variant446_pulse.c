@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant446_entry_pal.h"
+#include "../model_variant/variant446_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
 void SpanishModelVariant446_DrawPulse(EntryState446 *context)

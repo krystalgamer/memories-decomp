@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT448_ENTRY_H
 
 #include "../../types.h"
-#include "../french_model_variant/variant337_entry.h"
+#include "../model_variant/variant337_entry.h"
 #include "../../game/model_camera_effects.h"
 #include "variant448_fan.h"
 #include "variant448_orbit.h"

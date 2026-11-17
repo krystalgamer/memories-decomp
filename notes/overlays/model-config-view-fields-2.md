@@ -44,7 +44,7 @@ Entry `model_variant/variant386_entry.c` line 61: `work->config = gModelVariant3
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x2C` | `field_2C` → `s32 divisor` | `Sheets12048Timing.divisor` | `FrenchModelVariant403_DrawSheets` (french_model_variant/image12048_sheets.c; `model_variant/variant386_entry.c:309`, `Sheets12048State.timing` at +0x1368) | `scale.vx = sheet->size / state->timing->divisor + extra;` | high |
+| `+0x2C` | `field_2C` → `s32 divisor` | `Sheets12048Timing.divisor` | `FrenchModelVariant403_DrawSheets` (model_variant/image12048_sheets.c; `model_variant/variant386_entry.c:309`, `Sheets12048State.timing` at +0x1368) | `scale.vx = sheet->size / state->timing->divisor + extra;` | high |
 
 ## `Model372Config`
 
@@ -52,8 +52,8 @@ Entry `model_variant/variant372_entry.c` line 75: `work->config = gModelVariant3
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x34` | `field_34` → `u32 fade_begin` | `Sheets389Timing.fade_begin` | `FrenchModelVariant389_DrawSheets` (french_model_variant/variant389_sheets.c; `model_variant/variant372_entry.c:290`, `Sheets389State.timing` at +0x2C9C) | `} else if (state->timing->fade_begin < state->time && sheet->size > 0)` | high |
-| `+0x38` | `field_38` → `u32 fade_end` | `Sheets389Timing.fade_end` | `FrenchModelVariant389_DrawSheets` (french_model_variant/variant389_sheets.c; `model_variant/variant372_entry.c:290`, `Sheets389State.timing` at +0x2C9C) | `(state->timing->fade_end - state->timing->fade_begin);` | high |
+| `+0x34` | `field_34` → `u32 fade_begin` | `Sheets389Timing.fade_begin` | `FrenchModelVariant389_DrawSheets` (model_variant/variant389_sheets.c; `model_variant/variant372_entry.c:290`, `Sheets389State.timing` at +0x2C9C) | `} else if (state->timing->fade_begin < state->time && sheet->size > 0)` | high |
+| `+0x38` | `field_38` → `u32 fade_end` | `Sheets389Timing.fade_end` | `FrenchModelVariant389_DrawSheets` (model_variant/variant389_sheets.c; `model_variant/variant372_entry.c:290`, `Sheets389State.timing` at +0x2C9C) | `(state->timing->fade_end - state->timing->fade_begin);` | high |
 
 ## `Variant430EntryConfig`
 
@@ -61,17 +61,17 @@ Entry `model_variant/variant430_entry.c` line 76: `work->config = &gModelVariant
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `ModelVariantQuadTimingLong.limit` | `FrenchModelVariant447_DrawSwarm` (french_model_variant/variant447_swarm.c; `model_variant/variant430_entry.c:341`, `Swarm447State.timing` at +0x1FD4); `FrenchModelVariant447_DrawSwarm` (french_model_variant/variant447_swarm.c; `model_variant/variant430_entry.c:343`, `Swarm447State.timing` at +0x1FD4) | `if (state->timing->limit <= state->time)` | high |
+| `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `ModelVariantQuadTimingLong.limit` | `FrenchModelVariant447_DrawSwarm` (model_variant/variant447_swarm.c; `model_variant/variant430_entry.c:341`, `Swarm447State.timing` at +0x1FD4); `FrenchModelVariant447_DrawSwarm` (model_variant/variant447_swarm.c; `model_variant/variant430_entry.c:343`, `Swarm447State.timing` at +0x1FD4) | `if (state->timing->limit <= state->time)` | high |
 
 ## `EntryConfig458`
 
-Entry `french_model_variant/variant458_entry_pal.c` line 36: `work->config = (EntryConfig458 *)(gFrenchModelVariant458_D230C + 0xFC) + command;`. Its work struct `EntryState458` has `config` at `+0x1F24`.
+Entry `model_variant/variant458_entry_pal.c` line 36: `work->config = (EntryConfig458 *)(gFrenchModelVariant458_D230C + 0xFC) + command;`. Its work struct `EntryState458` has `config` at `+0x1F24`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_1C[0xC]` bytes → `s32 move_start` | `EntryConfig458.move_start` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (french_model_variant/variant458_sheets_pal.c; `french_model_variant/variant458_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `} else if (work->phase == 1 && work->elapsed >= work->config->move_start)` | high |
-| `+0x20` | `unknown_1C[0xC]` bytes → `s32 move_end` | `EntryConfig458.move_end` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (french_model_variant/variant458_sheets_pal.c; `french_model_variant/variant458_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `(work->config->move_end - work->config->move_start);` | high |
-| `+0x24` | `unknown_1C[0xC]` bytes → `s32 fade_start` | `EntryConfig458.fade_start` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (french_model_variant/variant458_sheets_pal.c; `french_model_variant/variant458_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `} else if (work->phase == 4 && work->config->fade_start <= work->elapsed)` | high |
+| `+0x1C` | `unknown_1C[0xC]` bytes → `s32 move_start` | `EntryConfig458.move_start` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (model_variant/variant458_sheets_pal.c; `model_variant/variant458_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `} else if (work->phase == 1 && work->elapsed >= work->config->move_start)` | high |
+| `+0x20` | `unknown_1C[0xC]` bytes → `s32 move_end` | `EntryConfig458.move_end` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (model_variant/variant458_sheets_pal.c; `model_variant/variant458_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `(work->config->move_end - work->config->move_start);` | high |
+| `+0x24` | `unknown_1C[0xC]` bytes → `s32 fade_start` | `EntryConfig458.fade_start` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (model_variant/variant458_sheets_pal.c; `model_variant/variant458_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `} else if (work->phase == 4 && work->config->fade_start <= work->elapsed)` | high |
 
 ## `ModelVariantGrowConfig`
 
@@ -79,9 +79,9 @@ Entry `model_variant/variant445us_entry.c` line 51: `work->config = (ModelVarian
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `Sheets462Timing.first_count` | `FrenchModelVariant462_DrawSheets` (french_model_variant/variant462_sheets_pal.c; `model_variant/variant445us_entry.c:381`, `Sheets462State.timing` at +0x354C) | `count = timing->first_count + 1;` | high |
-| `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `Sheets462Timing.paired` | `FrenchModelVariant462_DrawSheets` (french_model_variant/variant462_sheets_pal.c; `model_variant/variant445us_entry.c:381`, `Sheets462State.timing` at +0x354C) | `if (timing->paired == 0)` | high |
-| `+0x28` | `field_28` → `u32 grow_end` | `Sheets462Timing.grow_end` | `FrenchModelVariant462_DrawSheets` (french_model_variant/variant462_sheets_pal.c; `model_variant/variant445us_entry.c:381`, `Sheets462State.timing` at +0x354C) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
+| `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `Sheets462Timing.first_count` | `FrenchModelVariant462_DrawSheets` (model_variant/variant462_sheets_pal.c; `model_variant/variant445us_entry.c:381`, `Sheets462State.timing` at +0x354C) | `count = timing->first_count + 1;` | high |
+| `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `Sheets462Timing.paired` | `FrenchModelVariant462_DrawSheets` (model_variant/variant462_sheets_pal.c; `model_variant/variant445us_entry.c:381`, `Sheets462State.timing` at +0x354C) | `if (timing->paired == 0)` | high |
+| `+0x28` | `field_28` → `u32 grow_end` | `Sheets462Timing.grow_end` | `FrenchModelVariant462_DrawSheets` (model_variant/variant462_sheets_pal.c; `model_variant/variant445us_entry.c:381`, `Sheets462State.timing` at +0x354C) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
 
 ## `Variant366Config`
 
@@ -89,6 +89,6 @@ Entry `model_variant/variant366_entry.c` line 49: `work->config = &gModelVariant
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x10` | `unknown_10[4]` bytes → `u32 duration` | `Variant366Config.duration` (the 383 helpers now read `Variant366State` directly) | `FrenchModelVariant383_DrawQuads` (french_model_variant/variant383_quads.c; `model_variant/variant366_entry.c:272`, `Variant366State.config` at +0x1538) | `work->scale = (work->clock.frame << 12) / work->config->duration;` | high |
+| `+0x10` | `unknown_10[4]` bytes → `u32 duration` | `Variant366Config.duration` (the 383 helpers now read `Variant366State` directly) | `FrenchModelVariant383_DrawQuads` (model_variant/variant383_quads.c; `model_variant/variant366_entry.c:272`, `Variant366State.config` at +0x1538) | `work->scale = (work->clock.frame << 12) / work->config->duration;` | high |
 
 The view's `count_0C` matches the config's existing `count` at `+0x0C`. The view suffix `_10` only marks the offset, so the config member is `duration`. naming3 found this field.

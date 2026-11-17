@@ -54,63 +54,63 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant465_entry]
+      - [0x4, c, overlays/model_variant/variant465_entry]
   - name: helper_124C
     type: code
     start: 0x124C
     vram: 0x8017C24C
     align: 4
     subsegments:
-      - [0x124C, c, overlays/french_model_variant/variant465_fan]
+      - [0x124C, c, overlays/model_variant/variant465_fan]
   - name: unmatched_166C
     type: code
     start: 0x166C
     vram: 0x8017C66C
     align: 4
     subsegments:
-      - [0x166C, c, overlays/french_model_variant/variant465_arms]
+      - [0x166C, c, overlays/model_variant/variant465_arms]
   - name: helper_256C
     type: code
     start: 0x256C
     vram: 0x8017D56C
     align: 4
     subsegments:
-      - [0x256C, c, overlays/french_model_variant/variant465_orbit]
+      - [0x256C, c, overlays/model_variant/variant465_orbit]
   - name: helper_2AB4
     type: code
     start: 0x2AB4
     vram: 0x8017DAB4
     align: 4
     subsegments:
-      - [0x2AB4, c, overlays/french_model_variant/variant465_webs_slot1]
+      - [0x2AB4, c, overlays/model_variant/variant465_webs_slot1]
   - name: helper_3014
     type: code
     start: 0x3014
     vram: 0x8017E014
     align: 4
     subsegments:
-      - [0x3014, c, overlays/french_model_variant/variant465_spokes_slot1]
+      - [0x3014, c, overlays/model_variant/variant465_spokes_slot1]
   - name: helper_331C
     type: code
     start: 0x331C
     vram: 0x8017E31C
     align: 4
     subsegments:
-      - [0x331C, c, overlays/french_model_variant/variant465_rings_slot1]
+      - [0x331C, c, overlays/model_variant/variant465_rings_slot1]
   - name: helper_3698
     type: code
     start: 0x3698
     vram: 0x8017E698
     align: 4
     subsegments:
-      - [0x3698, c, overlays/french_model_variant/variant465_quad_slot1]
+      - [0x3698, c, overlays/model_variant/variant465_quad_slot1]
   - name: helper_39FC
     type: code
     start: 0x39FC
     vram: 0x8017E9FC
     align: 4
     subsegments:
-      - [0x39FC, c, overlays/french_model_variant/variant465_spiral_slot1]
+      - [0x39FC, c, overlays/model_variant/variant465_spiral_slot1]
   - name: unclassified_tail
     type: code
     start: 0x4354

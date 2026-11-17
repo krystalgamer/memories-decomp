@@ -70,7 +70,7 @@ segments:
     vram: 0x8017C718
     align: 4
     subsegments:
-      - [0x1718, c, overlays/french_model_variant/variant474_funnels]
+      - [0x1718, c, overlays/model_variant/variant474_funnels]
   - name: helper_1db0
     type: code
     start: 0x1DB0

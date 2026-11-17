@@ -54,21 +54,21 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant428_entry_pal]
+      - [0x4, c, overlays/model_variant/variant428_entry_pal]
   - name: helper_1308
     type: code
     start: 0x1308
     vram: 0x8017C308
     align: 4
     subsegments:
-      - [0x1308, c, overlays/french_model_variant/variant428_swarm]
+      - [0x1308, c, overlays/model_variant/variant428_swarm]
   - name: helper_188C
     type: code
     start: 0x188C
     vram: 0x8017C88C
     align: 4
     subsegments:
-      - [0x188C, c, overlays/french_model_variant/variant428_quads]
+      - [0x188C, c, overlays/model_variant/variant428_quads]
   - name: unclassified_tail
     type: code
     start: 0x1D94

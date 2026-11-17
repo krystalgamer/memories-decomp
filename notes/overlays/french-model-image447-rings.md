@@ -10,7 +10,7 @@ No loader entry or resident reference to it has been found; its reachability is 
 - **Layout.** The work area matches the header-463 rings layout, except that
   the pad after the polygon at `0x4420` is 0x54 bytes instead of 0x4C. Every
   later field is 8 bytes higher. The view lives in
-  `french_model_variant/variant447_rings_pal.h`.
+  `model_variant/variant447_rings_pal.h`.
 - **Compiler.** Under gcc 2.8.1 the source is two words longer, uses
   different reload registers and fills the epilogue delay slot. Under
   `gcc_2_7_2_cdk_g0` it matches exactly, including the

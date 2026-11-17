@@ -4,7 +4,7 @@
       "address": "0x8013B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xEE0",
-      "source": "src/overlays/french_model_variant/variant425_entry_pal.c"
+      "source": "src/overlays/model_variant/variant425_entry_pal.c"
     },
     {
       "address": "0x8013BEE4",
@@ -22,7 +22,7 @@
       "address": "0x8013CDA4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x938",
-      "source": "src/overlays/french_model_variant/variant425_ribbon.c"
+      "source": "src/overlays/model_variant/variant425_ribbon.c"
     },
     {
       "address": "0x8013D6DC",
@@ -40,7 +40,7 @@
       "address": "0x8013E360",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5A8",
-      "source": "src/overlays/french_model_variant/variant425_funnel.c"
+      "source": "src/overlays/model_variant/variant425_funnel.c"
     }
   ],
   "schema": 1

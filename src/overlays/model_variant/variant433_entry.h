@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT433_ENTRY_H
 #define MEMORIES_MODEL_VARIANT433_ENTRY_H
 #include "../../types.h"
-#include "../french_model_variant/variant337_entry.h"
+#include "../model_variant/variant337_entry.h"
 
 typedef struct {
     u8 unknown_00[4], part, unknown_05[3];

@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant446_entry_pal]
+      - [0x4, c, overlays/model_variant/variant446_entry_pal]
   - name: helper_E00
     type: code
     start: 0xE00
@@ -75,7 +75,7 @@ segments:
     vram: 0x8013C95C
     align: 4
     subsegments:
-      - [0x195C, c, overlays/french_model_variant/variant446_ribbons_pal]
+      - [0x195C, c, overlays/model_variant/variant446_ribbons_pal]
   - name: helper_1FE8
     type: code
     start: 0x1FE8
@@ -96,7 +96,7 @@ segments:
     vram: 0x8013DCAC
     align: 4
     subsegments:
-      - [0x2CAC, c, overlays/french_model_variant/variant446_rays]
+      - [0x2CAC, c, overlays/model_variant/variant446_rays]
   - name: unclassified_tail
     type: code
     start: 0x36D4

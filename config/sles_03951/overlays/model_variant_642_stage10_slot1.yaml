@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant415_entry_pal]
+      - [0x4, c, overlays/model_variant/variant415_entry_pal]
   - name: rings
     type: code
     start: 0x12B4
@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C8A4
     align: 4
     subsegments:
-      - [0x18A4, c, overlays/french_model_variant/variant415_bands]
+      - [0x18A4, c, overlays/model_variant/variant415_bands]
   - name: helper_2024
     type: code
     start: 0x2024

@@ -10,7 +10,7 @@ reach it.
 The Spanish images are identical to the French MODEL379 stage 9/10 images.
 The French release already accepted C for this routine in #7166. Both
 modules are therefore registered against
-`src/overlays/french_model_variant/variant427_streamers.c` and its slot-1
+`src/overlays/model_variant/variant427_streamers.c` and its slot-1
 wrapper, so the two releases share one implementation for the shared
 function. `test_french_model_spanish_reuse` requires them to agree.
 

@@ -70,7 +70,7 @@ segments:
     vram: 0x8013d314
     align: 4
     subsegments:
-      - [0x2314, c, overlays/french_model_variant/variant463_paired_sheets]
+      - [0x2314, c, overlays/model_variant/variant463_paired_sheets]
   - name: trail_ribbons
     type: code
     start: 0x2860
@@ -84,14 +84,14 @@ segments:
     vram: 0x8013e2d8
     align: 4
     subsegments:
-      - [0x32d8, c, overlays/french_model_variant/variant463_sheets]
+      - [0x32d8, c, overlays/model_variant/variant463_sheets]
   - name: rings
     type: code
     start: 0x37c8
     vram: 0x8013e7c8
     align: 4
     subsegments:
-      - [0x37c8, c, overlays/french_model_variant/variant463_rings]
+      - [0x37c8, c, overlays/model_variant/variant463_rings]
   - name: unclassified_tail
     type: code
     start: 0x3bf4

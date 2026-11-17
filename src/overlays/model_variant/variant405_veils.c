@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "variant405_veils.h"
-#include "../french_model_variant/variant422_entry_pal.h"
+#include "../model_variant/variant422_entry_pal.h"
 
 /* Draws five veils of sixteen textured POLY_GT4 strips that open and close
  * with their scale, white at the inner row and blue at the outer one; each

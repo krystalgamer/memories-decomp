@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant452_entry_pal.h"
+#include "../model_variant/variant452_entry_pal.h"
 
 /* Header 452's copy of the header-425 rays (variant425_rays.c) over its own
  * entry state: each ray keeps three status words and the tip segment is

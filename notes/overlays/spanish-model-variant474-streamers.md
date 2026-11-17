@@ -13,7 +13,7 @@ this routine.
 ## Relationship to the accepted MODEL475 streamers
 
 Structurally, this routine is a close sibling of the accepted MODEL475
-streamers in `french_model_variant/variant475_streamers.c`. That source is
+streamers in `model_variant/variant475_streamers.c`. That source is
 configured for both the French and the Spanish MODEL475 modules. The two
 routines share the shared `ModelVariantStreamer` (formerly `Variant458Streamer`) record and the overall coil,
 projection and draw structure.
