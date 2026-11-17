@@ -148,7 +148,7 @@ void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
             }
         }
     } else if (work->phase < 3 && work->scale > 0) {
-        if ((u32)work->clock.frame >= (u32)work->config->fade_start) {
+        if ((u32)work->clock.frame >= work->config->fade_start) {
             work->scale = 0x1000 - (((u32)work->clock.frame - work->config->fade_start) << 12) /
                                           (u32)(work->config->fade_end - work->config->fade_start);
             if (work->scale <= 0) {

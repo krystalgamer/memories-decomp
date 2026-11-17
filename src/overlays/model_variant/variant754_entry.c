@@ -43,7 +43,7 @@ s32 ModelVariant754_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 64; i++) {
             setVector(&work->smoke[i], work->config->smoke_speed * ((rand() - rand()) % 256) / 256,
                 work->config->smoke_speed * ((rand() - rand()) % 256) / 256,
-                ((u16)work->config->smoke_speed >> 2) * ((rand() - rand()) % 256) / 256);
+                (work->config->smoke_speed >> 2) * ((rand() - rand()) % 256) / 256);
             work->frames[i] = 0;
         }
         for (i = 0; i < 16; i++) {
