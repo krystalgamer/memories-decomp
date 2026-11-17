@@ -489,8 +489,9 @@ void SD_StepActiveCommand(void)
             s32 bank_sector_offset;
 
             first_word = 0xFFFFFF;
+            /* Integer sum: indexing a SoundCommandPair * changes four instructions. */
             descriptor = (SoundCommandPair *)(
-                (u32)&((SoundCommandPair *)0)[g_SDValue->s_wSD_ACTIVE_COMMAND_VALUE]
+                g_SDValue->s_wSD_ACTIVE_COMMAND_VALUE * sizeof(SoundCommandPair)
                 + g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG2);
             second_word = descriptor->a;
 
@@ -848,26 +849,22 @@ void SD_UpdateRuntime(void)
 
 #include "sound.h"
 
-#define STATE_BYTES ((u8 *)g_SDValue)
-
 void SD_CancelMusicRequests(void)
 {
     s32 i;
     s32 offset;
-    s32 next_offset;
     s32 command;
     SDValue *base;
 
     base = g_SDValue;
     /* Flattening this initialization changes GCC 2.8.1's loop-register
-     * allocation; the table and both byte offsets must remain independent. */
+     * allocation; the table and the byte offset must remain independent. */
     do {
         i = 0;
     } while (0);
     if (base->s_wSD_NUM_COMMAND > 0) {
         while (1) {
             offset = i * SD_COMMAND_RECORD_SIZE;
-            next_offset = (i + 1) * SD_COMMAND_RECORD_SIZE;
             if (base->s_wSD_NUM_COMMAND == 0) {
                 break;
             }
@@ -878,20 +875,16 @@ void SD_CancelMusicRequests(void)
             case 0x45:
             case 0x46:
             case 0x48:
-                *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
-                    *(SDCommand *)(STATE_BYTES + next_offset + SD_COMMAND_QUEUE_BYTE_OFFSET);
+                g_SDValue->s_uSD_COMMAND_QUEUE.c[i] =
+                    ((SDCommandShiftView *)g_SDValue)->c[i + 1];
                 g_SDValue->s_wSD_NUM_COMMAND = g_SDValue->s_wSD_NUM_COMMAND - 1;
                 break;
             case 0x20:
-                /* Keep the byte-cursor sum: direct member access reschedules
-                   the queue-base add and the following load. */
-                if (*(s32 *)(STATE_BYTES + offset +
-                        SD_COMMAND_QUEUE_BYTE_OFFSET +
-                        (u32)&((SDCommand *)0)->transfer_selector) != 0x20) {
+                if (g_SDValue->s_uSD_COMMAND_QUEUE.c[i].transfer_selector != 0x20) {
                     break;
                 }
-                *(SDCommand *)(STATE_BYTES + offset + SD_COMMAND_QUEUE_BYTE_OFFSET) =
-                    *(SDCommand *)(STATE_BYTES + next_offset + SD_COMMAND_QUEUE_BYTE_OFFSET);
+                g_SDValue->s_uSD_COMMAND_QUEUE.c[i] =
+                    ((SDCommandShiftView *)g_SDValue)->c[i + 1];
                 g_SDValue->s_wSD_NUM_COMMAND = g_SDValue->s_wSD_NUM_COMMAND - 1;
                 break;
             default:

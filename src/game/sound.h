@@ -303,8 +303,8 @@ typedef struct SDValue {
     u8 s_bSD_BGM_FADE_STEP_DEFAULT;
 } SDValue;
 
-/* SD_DropQueuedCdPlayCommands drops a queued command by copying the next 0x30-byte record
-   down over it. With all sixteen entries queued, the copy for the last one
+/* SD_DropQueuedCdPlayCommands and SD_CancelMusicRequests drop a queued command by copying
+   the next 0x30-byte record down over it. With all sixteen entries queued, the copy for the last one
    reads the record-sized span at state+0x380, past `s_uSD_COMMAND_QUEUE` but still
    inside SDValue (pad0380 and the start of voice_attr). This view of the
    same state spans the queue plus that one trailing record, so the read
