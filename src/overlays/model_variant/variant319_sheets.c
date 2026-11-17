@@ -1,4 +1,0 @@
-#include "../../types.h"
-
-#define MODEL_VARIANT336_CLUT_X 512
-#include "../model_variant/variant336_sheets.c"

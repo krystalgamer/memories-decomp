@@ -366,20 +366,20 @@ bind `model_variant428_entry_linker_symbols.txt` and
 `model_variant578_linker_symbols.txt`.
 
 Three images under French header 429 are the North American header-412
-entry (`model_variant/variant412_entry.c`, which the US images build with
+entry (`model_variant/e595_entry.c`, which the US images build with
 the CDK GCC 2.7.2 profile) rebuilt with GCC 2.8.1. The entry is 4 bytes
 shorter, its two helpers keep their French C
-(`variant429_swarm.c` and `variant429_quads.c`) and the data starts at
+(`e595_swarm.c` and `e595_quads.c`) and the data starts at
 0x1D90, and the effect palette loads from PAL x = 640. The
-`src/overlays/model_variant/variant429_entry_pal.c` wrapper selects the
+`src/overlays/model_variant/e595_entry_pal.c` wrapper selects the
 French build and the palette, binding
 `model_variant429_entry_linker_symbols.txt`; each image binds
 `ModelVariant412_HandleRequest`, the helpers and `gModelVariant412_aImages`/`gModelVariant412_aConfigs` at
 its own addresses in its `*_symbols.txt`.
 
 Two images under French headers 430 and 580 build their loader entry from the
-North American header-413 entry (`model_variant/variant413_entry.c`) through
-`src/overlays/model_variant/variant430_entry_pal{,_slot1}.c`, compiled with
+North American header-413 entry (`model_variant/e596_entry.c`) through
+`src/overlays/model_variant/e596_entry_pal{,_slot1}.c`, compiled with
 `gcc_2_8_1_g0_split` where the North American images need
 `gcc_2_7_2_cdk_g0`. `VERSION_FRENCH` moves the CLUT column from 512 to 640,
 leaves out the swarm helper the French images already build from
@@ -625,11 +625,11 @@ the data labels `gModelVariant372_szTest1TimPath`, `_szBeamer1TimPath`,
 own addresses, so the French sheets helper and data labels sit 0x3C later. The French entry compiles under
 `gcc_2_8_1_g0_split`; the North American one needs `gcc_2_7_2_cdk_g0`.
 
-French MODEL headers 403 (stage 9 slot 0) and 553 (stage 10 slot 1) now also build their entry (`ModelVariant386_HandleRequest`, 0xF34 bytes) from the US header-386 source `src/overlays/model_variant/variant386_entry.c` through `src/overlays/model_variant/variant403_entry.c` in both slots. `VERSION_FRENCH` selects the palette at VRAM x 640; the entry, the helper calls and the GsIMAGE/command tables use stable names that each image's symbols file binds at the French addresses (helpers 0x8013BF38/0x8013CBB0/0x8013D22C, tables 0x44 higher). The images link through their own `model_variant403_linker_symbols.txt`, a copy of the shared `model_variant472` map plus the entry's bindings.
+French MODEL headers 403 (stage 9 slot 0) and 553 (stage 10 slot 1) now also build their entry (`ModelVariant386_HandleRequest`, 0xF34 bytes) from the US header-386 source `src/overlays/model_variant/e569_entry.c` through `src/overlays/model_variant/e569_entry_pal.c` in both slots. `VERSION_FRENCH` selects the palette at VRAM x 640; the entry, the helper calls and the GsIMAGE/command tables use stable names that each image's symbols file binds at the French addresses (helpers 0x8013BF38/0x8013CBB0/0x8013D22C, tables 0x44 higher). The images link through their own `model_variant403_linker_symbols.txt`, a copy of the shared `model_variant472` map plus the entry's bindings.
 
 Twelve images under French headers 419 and 569 build their entry from the North
-American header-402 entry (`model_variant/variant402_entry.c`) through
-`model_variant/variant419_entry_pal.c` in both slots under
+American header-402 entry (`model_variant/e585_entry.c`) through
+`model_variant/e585_entry_pal.c` in both slots under
 `gcc_2_8_1_g0_split`. The wrapper sets the PAL palette x (`640` instead of
 `512`); each image's symbols file binds `ModelVariant402_HandleRequest`,
 `FrenchModelVariant419_DrawSwarm`, `FrenchModelVariant419_DrawQuads`,
@@ -695,9 +695,9 @@ goes too, and the
 the data labels 0x28 lower. Each image's symbols file binds `ModelVariant644_HandleRequest` and `gModelVariant644_Image`, `gModelVariant644_aConfigs` at its own addresses.
 
 Four images under French headers 860 and 957 are the North American
-header-843 entry (`model_variant/variant843_entry.c`) with the burst palette
+header-843 entry (`model_variant/e520_entry.c`) with the burst palette
 from the PAL CLUT row 0x3D28 instead of 0x3D20. Both slots build through the
-`src/overlays/model_variant/variant860_entry.c` wrapper, which sets
+`src/overlays/model_variant/e520_entry_pal.c` wrapper, which sets
 `VERSION_FRENCH`, and bind `model_variant860_linker_symbols.txt`; each image's
 symbols file binds `ModelVariant843_HandleRequest`, `gModelVariant843_aImages`
 and `gModelVariant843_aConfigs` at its own addresses.
@@ -997,9 +997,9 @@ printf and with its full-screen flash covering the 256 PAL lines instead of
 labels 0x1C lower. Each image's symbols file binds `ModelVariant147_HandleRequest` and `gModelVariant147_aImages`, `gModelVariant147_aConfigs` at its own addresses.
 
 Twenty-six images under French headers 675 and 742 are the North American
-header-658 entry (`model_variant/variant658_entry.c`) without its `E_DATA`
+header-658 entry (`model_variant/e504_entry.c`) without its `E_DATA`
 work-size printf, built through
-`src/overlays/model_variant/variant675_entry.c` with the data
+`src/overlays/model_variant/e504_entry_pal.c` with the data
 labels 0x28 lower. Each image's symbols file binds `ModelVariant658_HandleRequest` and `gModelVariant658_aImages`, `gModelVariant658_aConfigs` at its own addresses.
 
 Two images under French headers 677 and 744 are the North American
@@ -1266,11 +1266,11 @@ work-size printf, built through
 labels 0x28 lower. Each image's symbols file binds `ModelVariant657_HandleRequest` and `gModelVariant657_aImages`, `gModelVariant657_aConfigs` at its own addresses.
 
 Two images under French header 397 are the North American header-380 entry
-(`model_variant/variant380_entry.c`, which the US images build with the CDK
+(`model_variant/e563_entry.c`, which the US images build with the CDK
 GCC 2.7.2 profile) rebuilt with GCC 2.8.1, 4 bytes shorter. Its helpers start
-at 0xDE4, 0x1A9C (keeping the French `variant397_sheets.c` C) and 0x206C, the
+at 0xDE4, 0x1A9C (keeping the French `e580_sheets.c` C) and 0x206C, the
 data starts at 0x2950 and the effect palette loads from PAL x = 640. The
-`src/overlays/model_variant/variant397_entry_pal.c` wrapper selects those
+`src/overlays/model_variant/e563_entry_pal.c` wrapper selects those
 addresses and the palette, binding
 `model_variant397_entry_linker_symbols.txt`.
 
@@ -1348,7 +1348,7 @@ lower; each image's symbols file binds `gModelVariant173_aImages` and
 
 French MODEL headers 191 (stage 9 slot 0) and 321 (stage 10 slot 1) build the US header-174 entry (`ModelVariant174_HandleRequest`) from `src/overlays/model_variant/variant174_entry.c` through `src/overlays/model_variant/variant191_entry.c` in both slots. `VERSION_FRENCH` drops the work-size `printf` and its string (entry -0x14; the image and command tables sit 0x24 lower, at 0x17A8 and 0x1818), and each image's symbols file binds `gModelVariant174_aImages`/`gModelVariant174_aConfigs` at its own addresses. `GRAPHICS_DEFAULT_HEIGHT` 256 selects the PAL flash height.
 
-French MODEL headers 383 (stage 9 slot 0) and 533 (stage 10 slot 1) now also build their entry (`ModelVariant366_HandleRequest`, 0xCB8 bytes) from the US header-366 source `src/overlays/model_variant/variant366_entry.c` through `src/overlays/model_variant/variant383_entry_pal.c` in both slots. `VERSION_FRENCH` selects the palette at VRAM x 640, and each image binds the helper and GsIMAGE/command table names at its own addresses (helpers 0x8013BCBC/0x8013C91C/0x8013D8FC, tables 0xC higher).
+French MODEL headers 383 (stage 9 slot 0) and 533 (stage 10 slot 1) now also build their entry (`ModelVariant366_HandleRequest`, 0xCB8 bytes) from the US header-366 source `src/overlays/model_variant/e549_entry.c` through `src/overlays/model_variant/e549_entry_pal.c` in both slots. `VERSION_FRENCH` selects the palette at VRAM x 640, and each image binds the helper and GsIMAGE/command table names at its own addresses (helpers 0x8013BCBC/0x8013C91C/0x8013D8FC, tables 0xC higher).
 
 Six images under French headers 452 and 602 build their loader entry
 (`FrenchModelVariant452_HandleRequest`) from French C,

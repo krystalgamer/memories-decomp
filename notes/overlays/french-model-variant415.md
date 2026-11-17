@@ -1,7 +1,7 @@
 # French MODEL headers 415 and 565
 
 Ten distinct images at stages 9/10 for models 102, 282, 288, 642 and 645
-reuse unchanged accepted `variant398_sheets.c` and `variant398_webs.c`
+reuse unchanged accepted `e581_sheets.c` and `e581_webs.c`
 through four canonical renaming wrappers. The named
 `gcc_2_8_1_g0_split` profile uses GCC 2.8.1/MASPSX 2.81; US compiler
 provenance is not a French compiler-selection rule.
@@ -87,7 +87,7 @@ separate.
 
 ## Entry-called bands follow-up
 
-Two canonical wrappers reuse accepted `variant398_bands.c` with measured
+Two canonical wrappers reuse accepted `e581_bands.c` with measured
 `VERSION_FRENCH` guards for four next-column `sc/sb` loads. The original
 US expressions remain unchanged. Both French functions match 1,920 bytes
 with a 296-byte frame; both complete-slot scratch links reproduce all ten
@@ -133,7 +133,7 @@ profile is needed. The authored scope is 38 paths.
 ## Entry-called curtains follow-up
 
 Two three-line wrappers now reuse the unchanged accepted
-`variant398_curtains.c` body for both French slots. Each canonical function
+`e581_curtains.c` body for both French slots. Each canonical function
 matches 1,412 bytes with a 304-byte frame, and independent actual links
 reproduce all ten complete unmasked images before metadata promotion.
 No shared-source guards, new types, compiler flags or binding changes
@@ -218,7 +218,7 @@ The authored scope remains 38 paths.
 ## Rings from North American C
 
 The rings helper at `0x12B4` (`0x5F0` bytes) in all ten images is now
-matching C. It is the accepted North American `model_variant/variant398_rings.c`,
+matching C. It is the accepted North American `model_variant/e581_rings.c`,
 built through the symbol-only wrappers
 `french_model_variant/variant415_rings{,_slot1}.c`, which only rename the
 function to its French address. Under `gcc_2_8_1_g0_split` the body is

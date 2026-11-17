@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 258 (record 258), sector 71418, header 530, loaded at 0x8017B000; the US source variant380_entry.c; built from the US source layout of model_variant_258_stage10_slot1.
+// Japanese MODEL.MRG model 258 (record 258), sector 71418, header 530, loaded at 0x8017B000; the US source e563_entry.c; built from the US source layout of model_variant_258_stage10_slot1.
 ModelVariant380_HandleRequest = 0x8017B004; // type:func size:0xDE4 defined:true
 FrenchModelVariant397_DrawBeams = 0x8017BDE8; // type:func size:0xCD0 defined:true
 FrenchModelVariant397_DrawSheets = 0x8017CAB8; // type:func size:0x5D4 defined:true

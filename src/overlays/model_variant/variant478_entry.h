@@ -2,7 +2,7 @@
 #define FRENCH_MODEL_VARIANT478_ENTRY_H
 
 #include "../../types.h"
-#include "../model_variant/variant402_entry_pal.h"
+#include "../model_variant/e568_entry_pal.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_camera_effects.h"
 

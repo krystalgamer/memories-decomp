@@ -54,35 +54,35 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant402_entry_pal]
+      - [0x4, c, overlays/model_variant/e568_entry_pal]
   - name: strip
     type: code
     start: 0xA5C
     vram: 0x8013BA5C
     align: 4
     subsegments:
-      - [0xA5C, c, overlays/model_variant/variant402_strip]
+      - [0xA5C, c, overlays/model_variant/e568_strip_pal]
   - name: ribbons
     type: code
     start: 0x1048
     vram: 0x8013C048
     align: 4
     subsegments:
-      - [0x1048, c, overlays/model_variant/variant402_ribbons]
+      - [0x1048, c, overlays/model_variant/e568_ribbons_pal]
   - name: rings
     type: code
     start: 0x169C
     vram: 0x8013C69C
     align: 4
     subsegments:
-      - [0x169C, c, overlays/model_variant/variant402_rings]
+      - [0x169C, c, overlays/model_variant/e568_rings_pal]
   - name: unmatched_1B38
     type: code
     start: 0x1B38
     vram: 0x8013CB38
     align: 4
     subsegments:
-      - [0x1B38, c, overlays/model_variant/variant402_bands]
+      - [0x1B38, c, overlays/model_variant/e568_bands_pal]
   - name: unclassified_tail
     type: code
     start: 0x2060

@@ -1,0 +1,192 @@
+#include "../../types.h"
+
+#include "e581_entry.h"
+
+/* French header 441 (North American header 424) keeps the same rings in
+ * Variant398Header441RingsState; its frame count is signed, growth is
+ * step * 80 and the scale keeps wrapping through phase 3. */
+#if defined(VARIANT398_RINGS_LAYOUT_441)
+#define VARIANT398_RINGS_WORK Variant398Header441RingsState
+#define VARIANT398_RINGS_GROWTH 80
+#define VARIANT398_RINGS_WRAP_PHASES 4
+#else
+#define VARIANT398_RINGS_WORK Variant398EntryState
+#define VARIANT398_RINGS_GROWTH 96
+#define VARIANT398_RINGS_WRAP_PHASES 3
+#endif
+
+/* Draws three screen rings of sixteen POLY_GT4 strips textured from the
+ * frame-buffer half each strip lands on, facing the work direction. Past
+ * half scale the inner row is pushed back and widened; each scale grows by
+ * step * 96 and wraps with a count until phase 3, then stays at full size. */
+void ModelVariant398_DrawRings(u8 *context)
+{
+    SVECTOR rot;
+    VECTOR scale;
+    MATRIX m;
+    MATRIX ls;
+    GsCOORDINATE2 coord;
+    long p;
+    long flag;
+    VARIANT398_RINGS_WORK *work = (VARIANT398_RINGS_WORK *)context;
+    ModelVariantScreenRing *ring;
+    POLY_GT4 *poly;
+    GsOT *ot;
+    s32 i, j;
+    s32 angle;
+    s32 r;
+    s32 cosine, radius, rise, slot;
+    s32 size;
+    s32 depth;
+    s32 yaw, heading, pitch;
+    s32 buff;
+    u32 tpage;
+    u8 red, green, blue;
+
+    ring = work->screen_rings;
+    ot = Graphics_GetDefaultOrderingTable();
+    yaw = ratan2(work->aim.direction.vz, work->aim.direction.vx);
+    heading = yaw + 0x800;
+    pitch = ratan2(work->aim.direction.vy, work->aim.direction.vz) + 0x800;
+    buff = GsGetActiveBuff();
+    poly = &work->extra;
+    if (heading < 0x800) {
+        heading = -heading + 0x400;
+    } else {
+        heading = yaw + 0xC00;
+    }
+    for (i = 0; i < 3; i++, ring++) {
+        if (ring->scale > 0x800) {
+            /* j steps the angle and ends the row; slot walks the points. */
+            j = 0;
+            slot = 0;
+            angle = 0;
+            while (j < 17) {
+                r = (ring->scale - 0x800) * 192 / 2048;
+                cosine = rcos(angle);
+                /* Codegen steering: these empty one-pass blocks set the loop
+                 * depth GCC weights each reference by, which keeps retail's
+                 * register choice for the radius, the angle and the slot. */
+                do {
+                    radius = r + 256;
+                    do {
+                        ring->a[slot].vx = cosine * radius >> 12;
+                        rise = rsin(angle) * radius;
+                    } while (0);
+                    j++;
+                    angle = j << 8;
+                    ring->a[slot].vz = -r;
+                } while (0);
+                do {
+                    ring->a[slot].vy = rise >> 12;
+                    slot++;
+                } while (0);
+            }
+        } else {
+            for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {
+                setVector(&ring->a[j], rcos(angle) * 256 >> 12, rsin(angle) * 256 >> 12, 0);
+            }
+        }
+        if (ring->scale > 0) {
+            size = ring->scale;
+            rot.vx = -pitch;
+            rot.vy = heading;
+            rot.vz = 0;
+            m.t[0] = work->matrix.t[0];
+            m.t[1] = work->matrix.t[1];
+            m.t[2] = work->matrix.t[2];
+            scale.vx = size;
+            scale.vy = size;
+            scale.vz = size;
+            RotMatrix(&rot, &m);
+            ScaleMatrix(&m, &scale);
+            coord.coord = m;
+            coord.super = 0;
+            coord.flg = 0;
+            GsGetLs(&coord, &ls);
+            GsSetLsMatrix(&ls);
+            for (j = 0; j < 16; j++) {
+                RotTransPers4(&ring->a[j], &ring->a[j + 1], &ring->c[j], &ring->c[j + 1],
+                              (long *)&poly->x0, (long *)&poly->x1,
+                              (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
+                if (poly->x0 < 160) {
+                    if (buff == 0) {
+                        tpage = GetTPage(2, 1, 320, 0);
+                    } else {
+                        tpage = GetTPage(2, 1, 0, 0);
+                    }
+                    SetPolyGT4(poly);
+                    poly->tpage = tpage;
+                    setUV4(poly, poly->x0, poly->y0, poly->x1, poly->y1,
+                           poly->x2, poly->y2, poly->x3, poly->y3);
+                } else {
+                    if (buff == 0) {
+                        tpage = GetTPage(2, 1, 448, 0);
+                    } else {
+                        tpage = GetTPage(2, 1, 128, 0);
+                    }
+                    SetPolyGT4(poly);
+                    poly->tpage = tpage;
+                    setUV4(poly, poly->x0 - 128, poly->y0, poly->x1 - 128, poly->y1,
+                           poly->x2 - 128, poly->y2, poly->x3 - 128, poly->y3);
+                }
+                depth = RotTransPers4(&ring->a[j], &ring->a[j + 1], &ring->b[j], &ring->b[j + 1],
+                                      (long *)&poly->x0, (long *)&poly->x1,
+                                      (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
+                SetSemiTrans(poly, 0);
+                SetShadeTex(poly, 0);
+                if (work->frame_count % 8 == 0) {
+                    red = 255;
+                    green = 0;
+                    blue = 0;
+                } else if (work->frame_count % 8 == 1) {
+                    red = 255;
+                    green = 128;
+                    blue = 0;
+                } else if (work->frame_count % 8 == 2) {
+                    red = 255;
+                    green = 255;
+                    blue = 0;
+                } else if (work->frame_count % 8 == 3) {
+                    red = 0;
+                    green = 255;
+                    blue = 0;
+                } else if (work->frame_count % 8 == 4) {
+                    red = 0;
+                    green = 255;
+                    blue = 255;
+                } else if (work->frame_count % 8 == 5) {
+                    red = 0;
+                    green = 0;
+                    blue = 255;
+                } else if (work->frame_count % 8 == 6) {
+                    red = 255;
+                    green = 0;
+                    blue = 255;
+                } else {
+                    red = 255;
+                    green = 0;
+                    blue = 128;
+                }
+                setRGB0(poly, 255, 255, 255);
+                setRGB1(poly, 255, 255, 255);
+                setRGB2(poly, red, green, blue);
+                setRGB3(poly, red, green, blue);
+                if (depth >= 0 && flag >= 0) {
+                    GsSortPoly(poly, ot, (u16)depth);
+                }
+            }
+        }
+        if (ring->scale < 0x1000) {
+            ring->scale += work->step * VARIANT398_RINGS_GROWTH;
+            if (ring->scale >= 0x1000) {
+                if (work->phase < VARIANT398_RINGS_WRAP_PHASES) {
+                    ring->scale -= 0x1000;
+                    ring->count++;
+                } else {
+                    ring->scale = 0x1000;
+                }
+            }
+        }
+    }
+}

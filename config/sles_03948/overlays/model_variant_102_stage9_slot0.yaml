@@ -54,42 +54,42 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant415_entry_pal]
+      - [0x4, c, overlays/model_variant/e581_entry_pal]
   - name: rings
     type: code
     start: 0x12B4
     vram: 0x8013C2B4
     align: 4
     subsegments:
-      - [0x12B4, c, overlays/model_variant/variant398_rings]
+      - [0x12B4, c, overlays/model_variant/e581_rings]
   - name: helper_18A4
     type: code
     start: 0x18A4
     vram: 0x8013C8A4
     align: 4
     subsegments:
-      - [0x18A4, c, overlays/model_variant/variant415_bands]
+      - [0x18A4, c, overlays/model_variant/e581_bands_pal]
   - name: helper_2024
     type: code
     start: 0x2024
     vram: 0x8013D024
     align: 4
     subsegments:
-      - [0x2024, c, overlays/model_variant/variant398_sheets]
+      - [0x2024, c, overlays/model_variant/e581_sheets]
   - name: helper_2508
     type: code
     start: 0x2508
     vram: 0x8013D508
     align: 4
     subsegments:
-      - [0x2508, c, overlays/model_variant/variant398_webs]
+      - [0x2508, c, overlays/model_variant/e581_webs]
   - name: helper_2A34
     type: code
     start: 0x2A34
     vram: 0x8013DA34
     align: 4
     subsegments:
-      - [0x2A34, c, overlays/model_variant/variant398_curtains]
+      - [0x2A34, c, overlays/model_variant/e581_curtains]
   - name: unclassified_tail
     type: code
     start: 0x2FB8

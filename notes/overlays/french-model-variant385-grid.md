@@ -18,7 +18,7 @@ The helper reads `EntryState473`, the record the 473 entry passes: the
 sheets are `meshes`, the pulse records are the ribbons (`progress`, `fade`,
 `state`), the polygon is `extra`, the positions are `origins`, the axis is
 `direction`, the flags and step are the clock's `frame_count` and `step`, and
-the pulse value is `size`. The local view `variant385_grid.h` was removed
+the pulse value is `size`. The local view `e593_grid_pal.h` was removed
 when the helper moved onto the record. The helper is registered in
 both French MODEL385 images that carry it (stage 9 slot 0 and stage 10
 slot 1). The existing French MODEL473 binding file already covers every

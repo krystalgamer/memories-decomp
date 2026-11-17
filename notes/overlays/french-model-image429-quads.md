@@ -15,7 +15,7 @@ Each image layout is split into an unclassified head, the C helper at
 `0x18B4` and an unclassified tail, following the raw-image convention of
 #7137 and the header-419 helpers.
 
-The body is the header-419 image quads helper (`variant419_quads.c`) with
+The body is the header-419 image quads helper (`e585_quads.c`) with
 three differences:
 - the state fields sit 0x530 lower: the `POLY_FT4` at `+0x1CEC`, the
   origin at `+0x1D58`, the time at `+0x1E50`, the step at `+0x1E58`, the
@@ -24,7 +24,7 @@ three differences:
 - completion is tested against phase 4 instead of 3.
 
 The helper reads `Variant412EntryState` (`trails`, `sprite`, `target`); the
-former local view `variant429_quads.h` was removed. The new
+former local view `e595_quads.h` was removed. The new
 `model_variant429_linker_symbols.txt` binds the twelve resident calls at
 their French addresses, and each split image names it in the overlay
 manifest. All French overlay images rebuild exactly. The
@@ -33,7 +33,7 @@ probe, which matched on the first build.
 
 ## Names
 
-Both slots compile `variant429_quads.c` directly. Every image binds
+Both slots compile `e595_quads.c` directly. Every image binds
 `FrenchModelVariant429_DrawQuads` at its own address in its `*_symbols.txt`: `0x18B4` past the load
 base in the PAL images and 4 bytes higher in the US header-412 and Japanese
 images, which build the same source. The PAL slot-1 raw images gained a

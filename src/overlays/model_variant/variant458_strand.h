@@ -21,7 +21,7 @@ long Strand458_RotTransPers4(SVECTOR *v0, SVECTOR *v1, SVECTOR *v2, SVECTOR *v3,
 void Strand458_GsSortLine(GsLINE *lp, GsOT *ot, unsigned short pri);
 GsOT *Strand458_func_80058F10(void);
 
-/* The work layout the header-552 leftover copy (variant552_strand.c) was
+/* The work layout the header-552 leftover copy (e585_strand_r163.c) was
  * compiled against: six strands, the line packet, the origin words, the
  * visible span and the phase. The header-402 images that keep that copy
  * have a different entry state; no image's state has this layout. */

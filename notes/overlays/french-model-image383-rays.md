@@ -4,7 +4,7 @@
 builds, projects and draws sixteen rays.
 **No release had matching C for this body before.**
 
-Both slots compile `variant383_rays.c` itself; it defines `FrenchModelVariant383_DrawRays`, which
+Both slots compile `e549_rays.c` itself; it defines `FrenchModelVariant383_DrawRays`, which
 each image binds at its own address, `0x8013D908`/`0x8017D908` in the North American and Japanese header-366 images (see [Per-image symbol
 bindings](model-variants.md#per-image-symbol-bindings)).
 

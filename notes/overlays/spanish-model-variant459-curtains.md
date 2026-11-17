@@ -12,7 +12,7 @@ instruction bytes. The helper is entry-reachable.
 ## Behaviour
 
 The body belongs to the same family as `model_variant/variant422_curtains.c`,
-`variant398_curtains.c` and `model_variant/variant464_curtains.c`,
+`e581_curtains.c` and `model_variant/variant464_curtains.c`,
 but it differs in every part that carries state, so it is an independent
 source rather than a layout of an earlier one.
 

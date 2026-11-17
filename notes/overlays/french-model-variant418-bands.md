@@ -9,7 +9,7 @@ two-strip `POLY_GT4` bands. French header 418 is North American header
 401 + 17, so the differences are a release difference behind
 `VERSION_FRENCH`.
 
-The French `variant418_bands.c`, which both slots compile, defines
+The French `e530_bands.c`, which both slots compile, defines
 `VERSION_FRENCH` and includes the shared source; each image binds
 `ModelVariant401_DrawBand` at its own address.
 

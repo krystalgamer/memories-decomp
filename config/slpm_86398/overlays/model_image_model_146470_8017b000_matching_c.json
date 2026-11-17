@@ -4,55 +4,55 @@
       "address": "0x8017B004",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x1084",
-      "source": "src/overlays/model_variant/variant418_entry.c"
+      "source": "src/overlays/model_variant/e530_entry.c"
     },
     {
       "address": "0x8017C088",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xA1C",
-      "source": "src/overlays/model_variant/variant418_spiral.c"
+      "source": "src/overlays/model_variant/e530_spiral.c"
     },
     {
       "address": "0x8017CAA4",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x3AC",
-      "source": "src/overlays/model_variant/variant418_sheet.c"
+      "source": "src/overlays/model_variant/e530_sheet.c"
     },
     {
       "address": "0x8017CE50",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x3E8",
-      "source": "src/overlays/model_variant/variant418_webs.c"
+      "source": "src/overlays/model_variant/e530_webs.c"
     },
     {
       "address": "0x8017D238",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x634",
-      "source": "src/overlays/model_variant/variant418_ribbons.c"
+      "source": "src/overlays/model_variant/e530_ribbons.c"
     },
     {
       "address": "0x8017D86C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x70C",
-      "source": "src/overlays/model_variant/variant418_bands.c"
+      "source": "src/overlays/model_variant/e530_bands.c"
     },
     {
       "address": "0x8017DF78",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x30C",
-      "source": "src/overlays/model_variant/variant418_spokes.c"
+      "source": "src/overlays/model_variant/e530_spokes.c"
     },
     {
       "address": "0x8017E284",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x380",
-      "source": "src/overlays/model_variant/variant418_rings.c"
+      "source": "src/overlays/model_variant/e530_rings.c"
     },
     {
       "address": "0x8017E604",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x368",
-      "source": "src/overlays/model_variant/variant418_quad.c"
+      "source": "src/overlays/model_variant/e530_quad.c"
     }
   ],
   "schema": 1

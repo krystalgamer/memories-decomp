@@ -143,7 +143,7 @@ suffixes remained explicit at that cutoff; report refreshes are separate.
 ## Independently matched entries
 
 Accepted local French MODEL338 entry work supplies a new source lead, not
-an assumption of portability. The unchanged `variant338_entry.c`
+an assumption of portability. The unchanged `e500_entry_pal.c`
 and private header compile to exactly 2,972 bytes in all sixteen Spanish
 images under `gcc_2_8_1_g0_split`. Two new terminal records add sixteen
 C instances / 47,552 bytes while preserving every prior attempt and all

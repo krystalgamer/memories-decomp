@@ -151,7 +151,7 @@ frames under the default `gcc_2_8_1_g0_split` profile. They first matched
 with `gcc_2_8_1_g0_split_no_cse_follow_jumps`, because the default profile
 exchanged the context and vertex registers in 20 words. Splitting the
 `i == 5 ||` sort condition into an `if`/`else if` pair with one
-`GsSortPoly` call each, the shape the North American `variant414_sheets.c`
+`GsSortPoly` call each, the shape the North American `e575_sheets.c`
 uses, removes that exchange. The eight rejected experiments, the ninth
 calibration and the earlier canonical records remain in the attempt ledger.
 

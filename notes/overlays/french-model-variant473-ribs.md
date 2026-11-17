@@ -4,7 +4,7 @@ The `0xC38` helper `FrenchModelVariant473_DrawRibs` (formerly `func_8013CFB0` /
 `func_8017CFB0`), at offset `0x1FB0` in
 MODEL385 stages 9/10, now uses pure C with the existing `gcc_2_8_1_g0_split`
 profile (GCC 2.8.1 and MASPSX 2.81). It preserves all 3,128 instruction bytes.
-Both slots build `variant473_ribs.c`; each image's symbols file binds the
+Both slots build `e593_ribs.c`; each image's symbols file binds the
 name at its own address. The byte-identical Spanish copies
 of both images use the same sources, and the other header-473 sources are
 unchanged.

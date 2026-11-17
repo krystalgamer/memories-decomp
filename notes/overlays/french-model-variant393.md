@@ -18,14 +18,14 @@ and 11,344-byte unclassified raw suffixes.
 ## Source and ownership
 
 The French images build the unchanged accepted
-`src/overlays/model_variant/variant376_rings.c` body, and each image's
+`src/overlays/model_variant/e559_rings.c` body, and each image's
 symbols file binds `ModelVariant376_DrawRings` (formerly `func_8013C6D8`) at
 `0x8013C704` or `0x8017C704`. The unchanged local headers supply the accessed views.
 The authoritative new-work profile is `gcc_2_8_1_g0_split`, GCC 2.8.1 with
 MASPSX 2.81; the older NA376 registration's historical compiler is not
 used. Both slots reproduce all 1,160 bytes and the 264-byte frame.
 
-The independent French entry uses `variant393_entry.c` and a complete
+The independent French entry uses `e576_entry.c` and a complete
 slot-one wrapper, including all three helper names and the suffix symbol.
 It reuses the accepted French337 record, ring and streamer views after
 independent offset verification, not an assumed descriptor or state layout.
@@ -47,7 +47,7 @@ ribbon produced 2,320 bytes / frame 312 against 2,344 / 320, with 328
 unequal words. Streamers produced 2,024 / 328 against 2,084 / 328, with
 515 unequal words. Those rejected candidates are not promoted.
 
-The ribbon now reuses `variant376_ribbon.c` through two French wrappers.
+The ribbon now reuses `e559_ribbon.c` through two French wrappers.
 One measured `VERSION_FRENCH` branch follows the existing French337 ribbon
 pattern: at the final point, use the current index `k` and previous index
 `k - 1` instead of literal 16 and 15. Both spellings address the same

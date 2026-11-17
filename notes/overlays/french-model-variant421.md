@@ -181,7 +181,7 @@ by this accepted-sheet merge; this does not claim a second US rebuild.
 
 ## Entry-called ribbons follow-up
 
-The unchanged accepted US404 `variant404_ribbons.c` body matches both
+The unchanged accepted US404 `e510_ribbons.c` body matches both
 French slots at `0x8013C1D0/0x8017C1D0`: 1,680 bytes and a 360-byte frame.
 Two three-line wrappers only rename its symbol and include the existing
 body and types. No regional macro, expression change, new declaration,

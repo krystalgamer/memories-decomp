@@ -2,7 +2,7 @@
 #include "variant443_entry_pal.h"
 
 /* Header 426 reads its projected points through pointer arithmetic and
- * packed-word halves (see variant423_ribbon.c). */
+ * packed-word halves (see e589_ribbon_pal.c). */
 #ifdef MODEL_VARIANT443_RIBBONS_PACKED_SCREEN
 #define RIBBONS443_SCREEN(screen, n) (*((screen) + (n)))
 #define RIBBONS443_VX(screen, n) ((s16)RIBBONS443_SCREEN(screen, n).packed)

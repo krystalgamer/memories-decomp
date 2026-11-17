@@ -107,7 +107,7 @@ jump. This was structural evidence, not a masked acceptance comparison:
 both measured candidates and all ten complete affected images match
 without ignoring any bytes.
 
-The implementation reuses `variant402_ribbons.c`. Twenty enum constants
+The implementation reuses `e568_ribbons_pal.c`. Twenty enum constants
 in its existing header select the independently measured MODEL412 layout
 when `MODEL_VARIANT412_RIBBONS` is defined; otherwise they preserve the
 original MODEL402 offsets. Thin include wrappers select the layout; both slots compile them.
@@ -148,7 +148,7 @@ bind the shared implementation rather than rewriting old evidence.
 
 ## Shared retained strip and bands
 
-The strip reuses `variant402_strip.c` with fifteen compile-time layout
+The strip reuses `e568_strip_pal.c` with fifteen compile-time layout
 selectors. Its `0x58`-byte record starts at context `0x1268`, its GT4 packet
 at `0x1944`, width at `0x1B5C`, and phase at `0x1B64`. The record's
 `config->part_count` and `part_index` supply the measured configuration
@@ -160,7 +160,7 @@ differences resolves the original size/frame mismatch and final thirteen
 instruction words. Both earlier nonexact and later exact experiments remain
 in the ledger; a combined range condition is not equivalent code generation.
 
-The bands reuse `variant402_bands.c` with seventeen layout selectors and a
+The bands reuse `e568_bands_pal.c` with seventeen layout selectors and a
 compile-time packet type. Two `0x118`-byte records at `0x16A0` contain inner
 and outer rows of seventeen `SVECTOR`s, scale at `0x110`, and cycles at
 `0x114`. MODEL412 uses an FT4 packet at `0x1A64`, rather than MODEL402's GT4.

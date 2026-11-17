@@ -56,63 +56,63 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant422_entry_pal]
+      - [0x4, c, overlays/model_variant/e588_entry]
   - name: helper_1128
     type: code
     start: 0x1128
     vram: 0x8013C128
     align: 4
     subsegments:
-      - [0x1128, c, overlays/model_variant/variant405_halo]
+      - [0x1128, c, overlays/model_variant/e588_halo]
   - name: helper_1620
     type: code
     start: 0x1620
     vram: 0x8013C620
     align: 4
     subsegments:
-      - [0x1620, c, overlays/model_variant/variant405_veils]
+      - [0x1620, c, overlays/model_variant/e588_veils]
   - name: helper_1CFC
     type: code
     start: 0x1CFC
     vram: 0x8013CCFC
     align: 4
     subsegments:
-      - [0x1CFC, c, overlays/model_variant/variant405_bands]
+      - [0x1CFC, c, overlays/model_variant/e588_bands]
   - name: helper_2408
     type: code
     start: 0x2408
     vram: 0x8013D408
     align: 4
     subsegments:
-      - [0x2408, c, overlays/model_variant/variant405_sheets]
+      - [0x2408, c, overlays/model_variant/e588_sheets]
   - name: helper_28F0
     type: code
     start: 0x28F0
     vram: 0x8013D8F0
     align: 4
     subsegments:
-      - [0x28F0, c, overlays/model_variant/variant405_webs]
+      - [0x28F0, c, overlays/model_variant/e588_webs]
   - name: helper_2E44
     type: code
     start: 0x2E44
     vram: 0x8013DE44
     align: 4
     subsegments:
-      - [0x2E44, c, overlays/model_variant/variant405_spokes]
+      - [0x2E44, c, overlays/model_variant/e588_spokes]
   - name: helper_3154
     type: code
     start: 0x3154
     vram: 0x8013E154
     align: 4
     subsegments:
-      - [0x3154, c, overlays/model_variant/variant405_rings]
+      - [0x3154, c, overlays/model_variant/e588_rings]
   - name: helper_34D0
     type: code
     start: 0x34D0
     vram: 0x8013E4D0
     align: 4
     subsegments:
-      - [0x34D0, c, overlays/model_variant/variant405_quad]
+      - [0x34D0, c, overlays/model_variant/e588_quad]
   - name: unclassified_tail
     type: code
     start: 0x3834

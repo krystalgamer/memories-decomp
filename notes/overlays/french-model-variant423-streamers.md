@@ -14,8 +14,8 @@ differences:
   `< 0x800` cap;
 - the phase-4 shrink tail is absent.
 
-`variant423_streamers.c` reads `EntryState423` members, and
-`variant473_streamers.c` is its own copy over `EntryState473`, whose same
+`e589_streamers_pal.c` reads `EntryState423` members, and
+`e593_streamers_pal.c` is its own copy over `EntryState473`, whose same
 fields sit later (streamers at `0x2D14` instead of `0xF4C`, the packet at
 `0x3A38` instead of `0x1CD8`). Both read their two `POLY_FT4` templates as
 one `POLY_G4` through the state's `flat` union (`ft4` / `g4`).

@@ -1,4 +1,4 @@
-// Italian MODEL.MRG model 258 (record 258), sector 71408, header 397, loaded at 0x8013B000; the US header-380 source variant380_entry.c; built from the French source layout of french_model_variant_258_stage9_slot0.
+// Italian MODEL.MRG model 258 (record 258), sector 71408, header 397, loaded at 0x8013B000; the US header-380 source e563_entry.c; built from the French source layout of french_model_variant_258_stage9_slot0.
 ModelVariant380_HandleRequest = 0x8013B004; // type:func size:0xDE0 defined:true
 FrenchModelVariant397_DrawBeams = 0x8013BDE4; // type:func size:0xCB8 defined:true
 FrenchModelVariant397_DrawSheets = 0x8013CA9C; // type:func size:0x5D0 defined:true

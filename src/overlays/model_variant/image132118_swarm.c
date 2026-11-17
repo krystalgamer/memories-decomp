@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../model_variant/variant413_entry.h"
+#include "../model_variant/e596_entry.h"
 
 void FrenchModelVariant430_DrawSwarm(Variant413EntryState *context)
 {

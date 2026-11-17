@@ -49,7 +49,7 @@ The target frame is 288 bytes. Every non-stack instruction already matched
 with the natural 272-byte frame; the only remaining differences were 40 SP
 displacements of 16 bytes, starting directly after the 80-byte coordinate.
 Following the accepted repository convention for observed stack gaps (see
-[Exodia helpers](exodia-helpers.md) and `variant432_draw.c`), an unused 16-byte
+[Exodia helpers](exodia-helpers.md) and `e570_draw.c`), an unused 16-byte
 `VECTOR` local declared after the coordinate retains that gap. No runtime role
 is asserted for it.
 

@@ -43,14 +43,14 @@ not a whole-context allocation capacity. Unknown regions remain opaque.
 ## Source and evidence
 
 The body and local declarations are
-`src/overlays/model_variant/variant417_feedback.{c,h}`, one source for
+`src/overlays/model_variant/e583_feedback_pal.{c,h}`, one source for
 both slots; each image's symbols file binds
 `FrenchModelVariant417_DrawFramebufferFeedback` at its own address. Declaration order
 and reuse of the same counter for geometry and rendering preserve old-GCC
 stack-slot and register allocation without register forcing or artificial
 memory traffic.
 
-The accepted `variant388_feedback.c` supplied the common framebuffer rendering
+The accepted `e547_feedback_pal.c` supplied the common framebuffer rendering
 sequence. Geometry regeneration, field locations, signed size divisions,
 the wrap/cycle transition, and both slot bodies were independently checked
 against original French instructions. No reference-project types or flags

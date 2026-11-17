@@ -1,0 +1,260 @@
+#include "../../types.h"
+#include "e566_entry_pal.h"
+
+#ifndef MODEL_VARIANT400_CLUT_X
+#define MODEL_VARIANT400_CLUT_X 640
+#endif
+
+s32 FrenchModelVariant400_HandleRequest(Variant400EntryState *context, s32 command)
+{
+    Variant400EntryState *work = context;
+    MATRIX unused_matrix0;
+    MATRIX unused_matrix1;
+    SVECTOR position, target;
+    VECTOR squared;
+    ModelVariantProjection projection;
+    Variant400EntryNode *node = work->nodes;
+    ModelVariantPointSheet *sheet = work->sheets;
+    ModelVariantStreamer *column = work->columns;
+    POLY_GT4 *textured = work->packets.textured;
+    POLY_FT4 *flat = work->flat_textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    s32 result;
+    s32 sheet_index, sheet_point;
+    s32 i, j, angle;
+    u16 tpage, clut;
+    s32 flat_texture, flat_page;
+    s32 packed;
+    GsRVIEW2 *view;
+    s16 screen_x;
+    s32 screen_y;
+    u32 frame;
+    s32 dy;
+
+    if (command >= 0) {
+        work->tail.slot = Model_GetActiveSlotIndex();
+        work->config = gFrenchModelVariant400_aConfigs + command;
+        work->part = Model_GetSlotDataEntry(work->tail.slot, work->config->part);
+        result = 6;
+        if (work->tail.slot == 0) {
+            setVector(&work->target, 0, -300, -450);
+        } else {
+            setVector(&work->target, 0, -300, 450);
+        }
+        GsGetLwUnit(work->part, &work->matrix);
+        work->direction.vx = work->target.vx - work->matrix.t[0];
+        work->direction.vy = work->target.vy - work->matrix.t[1];
+        work->direction.vz = work->target.vz - work->matrix.t[2];
+        tpage = GetTPage(1, 1, 896, 0);
+        clut = GetClut(MODEL_VARIANT400_CLUT_X, 244);
+        GetTPage(1, 1, 896, 0);
+        GetClut(MODEL_VARIANT400_CLUT_X, 244);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant400_aImages[7]);
+        flat_texture = packed;
+        flat_page = packed >> 16;
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant400_aImages[5]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant400_aImages[1]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant400_aImages[2]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gFrenchModelVariant400_aImages[3]);
+        SetPolyG3(triangle);
+        SetSemiTrans(triangle, 1);
+        SetPolyG4(quad);
+        SetSemiTrans(quad, 1);
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        setUV4(textured, 126, 0, 127, 0, 126, 63, 127, 63);
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        textured++;
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        setUV4(textured, 64, 0, 127, 0, 64, 63, 127, 63);
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        SetPolyFT4(flat);
+        flat->tpage = flat_page;
+        setUV4(flat, 0, 128, 0, 175, 48, 128, 48, 175);
+        flat->clut = flat_texture;
+        SetSemiTrans(flat, 1);
+        SetShadeTex(flat, 1);
+        flat++;
+        SetPolyFT4(flat);
+        flat->tpage = flat_page;
+        setUV4(flat, 0, 176, 0, 223, 48, 176, 48, 223);
+        flat->clut = flat_texture;
+        SetSemiTrans(flat, 1);
+        SetShadeTex(flat, 1);
+        for (i = 0; i < 5; i++, node++) {
+            setVector(&node->style.scale, 4096, 4096, 4096);
+            node->style.inner.r = 128;
+            node->style.inner.g = 128;
+            node->style.inner.b = 128;
+            node->style.outer.r = 0;
+            node->style.outer.g = 16;
+            node->style.outer.b = 128;
+            node->style.field_18 = 0;
+            node->style.count = 0;
+            node->style.field_1C = 0;
+            if (i == 0) {
+                angle = 1024;
+            } else if (i % 2 == 1) {
+                angle = 1024 + (i + 1) * 2048 / 6;
+            } else {
+                angle = 1024 - i * 2048 / 6;
+            }
+            node->position.vx = work->matrix.t[0] - ((rcos(angle) * 384) >> 12);
+            node->position.vy = work->matrix.t[1] - ((rsin(angle) * 384) >> 12);
+            node->position.vz = work->matrix.t[2];
+        }
+        for (sheet_index = 0; sheet_index < 7; sheet_index++, sheet++) {
+            for (sheet_point = 0; sheet_point < 4; sheet_point++) {
+                if (sheet_point == 0) {
+                    setVector(&sheet->points[sheet_point], -128, -128, 0);
+                    setVector(&sheet->points[sheet_point + 4], 0, -128, 0);
+                    setVector(&sheet->points[sheet_point + 8], -128, 0, 0);
+                    setVector(&sheet->points[sheet_point + 12], 0, 0, 0);
+                } else if (sheet_point == 1) {
+                    setVector(&sheet->points[sheet_point], 128, -128, 0);
+                    setVector(&sheet->points[sheet_point + 4], 128, 0, 0);
+                    setVector(&sheet->points[sheet_point + 8], 0, -128, 0);
+                    setVector(&sheet->points[sheet_point + 12], 0, 0, 0);
+                } else if (sheet_point == 2) {
+                    setVector(&sheet->points[sheet_point], 128, 128, 0);
+                    setVector(&sheet->points[sheet_point + 4], 0, 128, 0);
+                    setVector(&sheet->points[sheet_point + 8], 128, 0, 0);
+                    setVector(&sheet->points[sheet_point + 12], 0, 0, 0);
+                } else if (sheet_point == 3) {
+                    setVector(&sheet->points[sheet_point], -128, 128, 0);
+                    setVector(&sheet->points[sheet_point + 4], -128, 0, 0);
+                    setVector(&sheet->points[sheet_point + 8], 0, 128, 0);
+                    setVector(&sheet->points[sheet_point + 12], 0, 0, 0);
+                }
+            }
+            sheet->outer.r = 255;
+            sheet->outer.g = 255;
+            sheet->outer.b = 255;
+            sheet->inner.r = 0;
+            sheet->inner.g = 64;
+            sheet->inner.b = 255;
+            sheet->size = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
+        }
+        for (i = 0; i < 2; i++, column++) {
+            for (j = 0; j < 17; j++) {
+                column->color[j].r = 128;
+                column->color[j].g = 128;
+                column->color[j].b = 128;
+            }
+            column->field_2A8 = 0;
+        }
+        work->width = 1024;
+        work->segment_start = 0;
+        work->segment_end = 0;
+        work->field_2074 = 0;
+        work->field_2076 = 0;
+        work->ribbon_wave = 0;
+        work->ribbon_phase = 0;
+        work->streamer_length = 1024;
+        work->streamer_rotation_x = 0;
+        work->streamer_rotation_y = 0;
+        work->streamer_rotation_z = 0;
+        work->frame_count = 0;
+        work->frame = 0;
+        work->animation_frame = 0;
+        work->step = 0;
+        work->duration = work->config->end - work->config->start;
+        work->fade = 0;
+        work->tail.tint = 2048;
+        work->tail.phase = 0;
+        work->tail.command = command;
+    } else {
+        view = Model_GetCameraViewBuffer();
+        work->view_delta.vx = view->vrx - view->vpx;
+        work->view_delta.vy = view->vry - view->vpy;
+        work->view_delta.vz = view->vrz - view->vpz;
+        Square0(&work->view_delta, &squared);
+        work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        if (work->tail.slot == 0) {
+            Model_CopySlotPosition(1, (u16 *)&work->target);
+        } else {
+            Model_CopySlotPosition(0, (u16 *)&work->target);
+        }
+        if (work->frame <= work->config->end) {
+            GsGetLwUnit(work->part, &work->matrix);
+            node = work->nodes;
+            for (i = 0; i < 5; i++, node++) {
+                if (i == 0) {
+                    angle = 1024;
+                } else if (i % 2 == 1) {
+                    angle = 1024 + (i + 1) * 2048 / 6;
+                } else {
+                    angle = 1024 - i * 2048 / 6;
+                }
+                node->position.vx = work->matrix.t[0] - ((rcos(angle) * 384) >> 12);
+                node->position.vy = work->matrix.t[1] - ((rsin(angle) * 384) >> 12);
+                node->position.vz = work->matrix.t[2];
+            }
+        }
+        work->direction.vx = work->target.vx - work->matrix.t[0];
+        work->direction.vy = work->target.vy - work->matrix.t[1];
+        work->direction.vz = work->target.vz - work->matrix.t[2];
+        GsSetLsMatrix(Model_GetLightSourceMatrix());
+        setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
+        RotTransPers(&position, (long *)&projection.projected,
+                     &projection.interpolation, &projection.flag);
+        screen_x = projection.projected.vx;
+        screen_y = projection.projected.vy;
+        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        RotTransPers(&target, (long *)&projection.target,
+                     &projection.interpolation, &projection.flag);
+        work->screen_delta.vx = projection.target.vx - screen_x;
+        dy = projection.target.vy - screen_y;
+        work->screen_delta.vy = dy;
+        if (work->config->start <= work->frame) {
+            FrenchModelVariant400_DrawRibbons(context);
+            FrenchModelVariant400_DrawSheets(context);
+            FrenchModelVariant400_DrawStreamers(context);
+        }
+        work->frame_count++;
+        frame = Model_GetSlotAnimationFrame(work->tail.slot);
+        if (frame != work->animation_frame) {
+            work->frame += Model_GetFrameStep();
+            work->step = Model_GetFrameStep();
+            work->animation_frame = frame;
+        }
+    }
+    Model_SetSlotAmbient(2, work->tail.tint, work->tail.tint, work->tail.tint);
+    if (work->tail.phase < 6) {
+        if (work->tail.tint > 0) {
+            work->tail.tint -= 128;
+            if (work->tail.tint <= 0) {
+                work->tail.tint = 0;
+            }
+        }
+    } else {
+        work->tail.tint = work->fade << 5;
+    }
+    if (work->tail.phase < 5) {
+        result = 0;
+    } else if (work->tail.phase < 9) {
+        result = 4;
+    } else if (work->tail.phase == 9) {
+        result = 1;
+        work->tail.phase = 10;
+    } else if (work->tail.phase == 10) {
+        result = 0;
+        work->fade += work->step;
+        if (work->fade > 64) {
+            work->fade = 64;
+            work->tail.phase = 11;
+        }
+    } else if (work->tail.phase == 11) {
+        result = 2;
+    }
+    return result;
+}

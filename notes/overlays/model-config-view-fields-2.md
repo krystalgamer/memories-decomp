@@ -40,11 +40,11 @@ spread reads `spread_end..mesh_start` (`+0x44..+0x48`), and the mesh reads
 
 ## `Model386Config`
 
-Entry `model_variant/variant386_entry.c` line 61: `work->config = gModelVariant386_aConfigs + command;`. Its work struct `Model386State` has `config` at `+0x1368`.
+Entry `model_variant/e569_entry.c` line 61: `work->config = gModelVariant386_aConfigs + command;`. Its work struct `Model386State` has `config` at `+0x1368`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x2C` | `field_2C` → `s32 divisor` | `Sheets12048Timing.divisor` | `FrenchModelVariant403_DrawSheets` (model_variant/image12048_sheets.c; `model_variant/variant386_entry.c:309`, `Sheets12048State.timing` at +0x1368) | `scale.vx = sheet->size / state->timing->divisor + extra;` | high |
+| `+0x2C` | `field_2C` → `s32 divisor` | `Sheets12048Timing.divisor` | `FrenchModelVariant403_DrawSheets` (model_variant/image12048_sheets.c; `model_variant/e569_entry.c:309`, `Sheets12048State.timing` at +0x1368) | `scale.vx = sheet->size / state->timing->divisor + extra;` | high |
 
 ## `Model372Config`
 
@@ -85,10 +85,10 @@ Entry `model_variant/variant445us_entry.c` line 51: `work->config = (ModelVarian
 
 ## `Variant366Config`
 
-Entry `model_variant/variant366_entry.c` line 49: `work->config = &gModelVariant366_aConfigs[command];`. Its work struct `Variant366State` has `config` at `+0x1538`. The helper's view names its config pointer `config`, not `timing`.
+Entry `model_variant/e549_entry.c` line 49: `work->config = &gModelVariant366_aConfigs[command];`. Its work struct `Variant366State` has `config` at `+0x1538`. The helper's view names its config pointer `config`, not `timing`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x10` | `unknown_10[4]` bytes → `u32 duration` | `Variant366Config.duration` (the 383 helpers now read `Variant366State` directly) | `FrenchModelVariant383_DrawQuads` (model_variant/variant383_quads.c; `model_variant/variant366_entry.c:272`, `Variant366State.config` at +0x1538) | `work->scale = (work->clock.frame << 12) / work->config->duration;` | high |
+| `+0x10` | `unknown_10[4]` bytes → `u32 duration` | `Variant366Config.duration` (the 383 helpers now read `Variant366State` directly) | `FrenchModelVariant383_DrawQuads` (model_variant/e549_quads.c; `model_variant/e549_entry.c:272`, `Variant366State.config` at +0x1538) | `work->scale = (work->clock.frame << 12) / work->config->duration;` | high |
 
 The view's `count_0C` matches the config's existing `count` at `+0x0C`. The view suffix `_10` only marks the offset, so the config member is `duration`. naming3 found this field.

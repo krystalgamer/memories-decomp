@@ -308,10 +308,10 @@ It is the accepted header-416 entry with one 0x27C-byte band of nine columns
 (offsets `-(j * 768) / 8`), two sheets, a fifth texture and no burst
 threshold; the update calls sheet and webs once the config start is reached,
 bands while the phase is positive and rays from phase 2, and the tint fades
-only below phase 5. Two wrappers, `variant418_entry.c` and
+only below phase 5. Two wrappers, `e530_entry.c` and
 `variant418_entry_slot1.c`, selected the PAL palette x = 640 and renamed the
 data table and the bands, sheet, webs and rays callees. Both slots now compile
-`variant418_entry.c`, which only selects the palette (see [Names](#names)). Under `gcc_2_8_1_g0_split`
+`e530_entry.c`, which only selects the palette (see [Names](#names)). Under `gcc_2_8_1_g0_split`
 both slots are exact in both complete images at the first attempt; two
 terminal rows are appended to the attempt ledger. The family binding file
 gains the 12 entry SDK bindings (`GetClut`, `GetTPage`, `GsGetLwUnit`,

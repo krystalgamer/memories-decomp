@@ -10,7 +10,7 @@ and one branch. The first beam half is sorted only for a positive depth
 `model_variant/variant411_beams.c` selects that test with
 `MODEL_VARIANT444_BEAMS`. Its default keeps the header-411 objects unchanged,
 and the Spanish attempt ledger records the replay. The French
-`variant444_beams.c` wrapper and its slot-one form define it.
+`e584_beams_pal.c` wrapper and its slot-one form define it.
 
 The helper is registered in both French images that carry it (model 175,
 stage 9 slot 0 and stage 10 slot 1). `RotTransPers` was added to the French

@@ -47,7 +47,7 @@ The suffix survey additionally establishes a closed 1,744-byte function at
 `0x28EC..0x2FBC`, with a 304-byte frame and 11 resident imports in all four
 images. It uses the six shorter records initialized by the entry. It is
 `ModelVariant318_DrawShortStreamers`, built exactly from
-`model_variant/variant318_short_streamers.c` with `gcc_2_8_1_g0_split`, the
+`model_variant/e501_short_streamers.c` with `gcc_2_8_1_g0_split`, the
 source the North American images build with the CDK profile. Each image binds
 `gFrenchModelVariant335_D28EC` at the data block after it, `0x2FBC`. A bounded
 image-local scan found no earlier direct transfer to its span or literal word

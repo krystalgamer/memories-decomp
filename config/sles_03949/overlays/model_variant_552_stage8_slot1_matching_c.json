@@ -4,43 +4,43 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF34",
-      "source": "src/overlays/model_variant/variant341_entry.c"
+      "source": "src/overlays/model_variant/e507_entry_pal.c"
     },
     {
       "address": "0x8017BF38",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x41C",
-      "source": "src/overlays/model_variant/variant324_webs.c"
+      "source": "src/overlays/model_variant/e507_webs.c"
     },
     {
       "address": "0x8017C354",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x46C",
-      "source": "src/overlays/model_variant/variant324_fan.c"
+      "source": "src/overlays/model_variant/e507_fan.c"
     },
     {
       "address": "0x8017C7C0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB38",
-      "source": "src/overlays/model_variant/variant324_bands.c"
+      "source": "src/overlays/model_variant/e507_bands.c"
     },
     {
       "address": "0x8017D2F8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3CC",
-      "source": "src/overlays/model_variant/variant324_draw.c"
+      "source": "src/overlays/model_variant/e507_draw.c"
     },
     {
       "address": "0x8017D6C4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x314",
-      "source": "src/overlays/model_variant/variant324_spokes.c"
+      "source": "src/overlays/model_variant/e507_spokes.c"
     },
     {
       "address": "0x8017D9D8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x380",
-      "source": "src/overlays/model_variant/variant324_rings.c"
+      "source": "src/overlays/model_variant/e507_rings.c"
     }
   ],
   "schema": 1

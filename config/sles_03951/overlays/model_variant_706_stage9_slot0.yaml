@@ -54,42 +54,42 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant388_entry_pal]
+      - [0x4, c, overlays/model_variant/e547_entry_pal]
   - name: helper_CD4
     type: code
     start: 0xCD4
     vram: 0x8013BCD4
     align: 4
     subsegments:
-      - [0xCD4, c, overlays/model_variant/variant388_strips]
+      - [0xCD4, c, overlays/model_variant/e547_strips_pal]
   - name: helper_1344
     type: code
     start: 0x1344
     vram: 0x8013C344
     align: 4
     subsegments:
-      - [0x1344, c, overlays/model_variant/variant388_ribbons]
+      - [0x1344, c, overlays/model_variant/e547_ribbons_pal]
   - name: helper_19A4
     type: code
     start: 0x19A4
     vram: 0x8013C9A4
     align: 4
     subsegments:
-      - [0x19A4, c, overlays/model_variant/variant388_sheets]
+      - [0x19A4, c, overlays/model_variant/e547_sheets_pal]
   - name: helper_1E9C
     type: code
     start: 0x1E9C
     vram: 0x8013CE9C
     align: 4
     subsegments:
-      - [0x1E9C, c, overlays/model_variant/variant388_feedback]
+      - [0x1E9C, c, overlays/model_variant/e547_feedback_pal]
   - name: helper_2410
     type: code
     start: 0x2410
     vram: 0x8013D410
     align: 4
     subsegments:
-      - [0x2410, c, overlays/model_variant/variant388_petals]
+      - [0x2410, c, overlays/model_variant/e547_petals_pal]
   - name: unclassified_tail
     type: code
     start: 0x2E7C

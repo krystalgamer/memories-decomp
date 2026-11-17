@@ -55,28 +55,28 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant397_entry_pal]
+      - [0x4, c, overlays/model_variant/e563_entry_pal]
   - name: helper_DE4
     type: code
     start: 0xDE4
     vram: 0x8017BDE4
     align: 4
     subsegments:
-      - [0xDE4, c, overlays/model_variant/variant397_beams]
+      - [0xDE4, c, overlays/model_variant/e563_beams]
   - name: helper_1A9C
     type: code
     start: 0x1A9C
     vram: 0x8017CA9C
     align: 4
     subsegments:
-      - [0x1A9C, c, overlays/model_variant/variant397_sheets_pal]
+      - [0x1A9C, c, overlays/model_variant/e563_sheets]
   - name: helper_206C
     type: code
     start: 0x206C
     vram: 0x8017D06C
     align: 4
     subsegments:
-      - [0x206C, c, overlays/model_variant/variant397_streamers]
+      - [0x206C, c, overlays/model_variant/e563_streamers]
   - name: unclassified_2950
     type: code
     start: 0x2950

@@ -207,7 +207,7 @@ French #6460 and exhaustive runtime coverage remain open.
 
 The `0x990` helper after the sheets is first-ever game code: no release had
 matching C for its body. All four images (MODEL189 and MODEL258, stages 7/8)
-now compile it from `variant400_streamers.c`.
+now compile it from `e566_streamers.c`.
 
 Two `0x334`-byte streamer records start at work offset `1558`. Each mirrors
 the MODEL458 streamer layout with 17 points: `a`, projected `sa`, `angle`,
@@ -242,7 +242,7 @@ overlay totals are 3,964 C instances and 5,097,516 C bytes.
 
 ## Entry `4`
 
-`variant400_entry.c` (both slots) is the exact
+`e583_entry.c` (both slots) is the exact
 2,692-byte loader entry with a 200-byte frame. A nonnegative command stores
 the active slot, selects the 32-byte descriptor in `gFrenchModelVariant400_aConfigs`, reads
 its part byte at offset 4, and aims at `(0, -300, -/+450)` by slot. It packs

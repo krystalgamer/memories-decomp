@@ -106,7 +106,7 @@ registrations and all previously accepted French modules are preserved.
 
 ## Entry-reachable one-sheet follow-up
 
-The accepted `variant418_sheet.c` body compiles unchanged to 936 bytes under
+The accepted `e530_sheet.c` body compiles unchanged to 936 bytes under
 the French `gcc_2_8_1_g0_split` profile. Each image's symbols file binds
 `ModelVariant418_DrawSheet` (formerly `func_8013CAA4`) at `0x8013CAD4` or
 `0x8017CAD4`.
@@ -140,7 +140,7 @@ remains unclassified. General report snapshots are separate.
 
 ## Retained padded-band follow-up
 
-The accepted `variant418_bands.c` body compiles unchanged to 1,804 bytes
+The accepted `e530_bands.c` body compiles unchanged to 1,804 bytes
 under the same French profile. Each image's symbols file binds
 `ModelVariant418_DrawBands` (formerly `func_8013D86C`) at `0x8013D8A4` or
 `0x8017D8A4`. Actual links of all 26 complete images
@@ -188,7 +188,7 @@ inventory figures are not exhaustive runtime coverage.
 
 ## Entry-reachable webs follow-up
 
-The accepted `variant418_webs.c` body compiles unchanged to 988 bytes with
+The accepted `e530_webs.c` body compiles unchanged to 988 bytes with
 the French named profile. Each image's symbols file binds
 `ModelVariant418_DrawWebs` (formerly `func_8013CE50`) at `0x8013CE7C` or
 `0x8017CE7C`. Canonical preflight reproduces all 26

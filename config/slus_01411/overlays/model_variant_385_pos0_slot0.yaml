@@ -54,49 +54,49 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant406_entry]
+      - [0x4, c, overlays/model_variant/e589_entry]
   - name: helper_e1c
     type: code
     start: 0xE1C
     vram: 0x8013BE1C
     align: 4
     subsegments:
-      - [0xE1C, c, overlays/model_variant/variant406_mesh]
+      - [0xE1C, c, overlays/model_variant/e589_mesh]
   - name: helper_1284
     type: code
     start: 0x1284
     vram: 0x8013C284
     align: 4
     subsegments:
-      - [0x1284, c, overlays/model_variant/variant406_spiral]
+      - [0x1284, c, overlays/model_variant/e589_spiral]
   - name: helper_1c70
     type: code
     start: 0x1C70
     vram: 0x8013CC70
     align: 4
     subsegments:
-      - [0x1C70, c, overlays/model_variant/variant406_ribbon]
+      - [0x1C70, c, overlays/model_variant/e589_ribbon]
   - name: helper_24f0
     type: code
     start: 0x24F0
     vram: 0x8013D4F0
     align: 4
     subsegments:
-      - [0x24F0, c, overlays/model_variant/variant406_sheets]
+      - [0x24F0, c, overlays/model_variant/e589_sheets]
   - name: helper_29e0
     type: code
     start: 0x29E0
     vram: 0x8013D9E0
     align: 4
     subsegments:
-      - [0x29E0, c, overlays/model_variant/variant406_streamers]
+      - [0x29E0, c, overlays/model_variant/e589_streamers]
   - name: helper_3154
     type: code
     start: 0x3154
     vram: 0x8013E154
     align: 4
     subsegments:
-      - [0x3154, c, overlays/model_variant/variant406_funnel]
+      - [0x3154, c, overlays/model_variant/e589_funnel]
   - name: data
     type: code
     start: 0x3728

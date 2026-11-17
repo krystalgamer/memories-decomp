@@ -17,7 +17,7 @@ shape, so no region has accepted C for this routine.
 ## Relationship to the other ribbons
 
 This routine draws the same kind of ribbons as the shared
-`model_variant/variant418_ribbons.c` routine. That accepted source was used only
+`model_variant/e530_ribbons.c` routine. That accepted source was used only
 as structural evidence. The following changes were recovered from the retail
 displacements and instructions:
 

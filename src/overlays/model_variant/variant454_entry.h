@@ -3,7 +3,7 @@
 #include "../../types.h"
 #include "../model_variant/variant337_entry.h"
 #include "../../game/model_camera_effects.h"
-#include "variant412_entry.h"
+#include "e595_entry.h"
 
 /* One group of 16 sprites at the start of the work area. */
 typedef struct {

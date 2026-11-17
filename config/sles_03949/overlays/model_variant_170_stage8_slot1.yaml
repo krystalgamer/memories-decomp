@@ -56,42 +56,42 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant385_entry_pal]
+      - [0x4, c, overlays/model_variant/e551_entry_pal]
   - name: helper_F5C
     type: code
     start: 0xF5C
     vram: 0x8017BF5C
     align: 4
     subsegments:
-      - [0xF5C, c, overlays/model_variant/variant385_lines]
+      - [0xF5C, c, overlays/model_variant/e551_lines_pal]
   - name: helper_1478
     type: code
     start: 0x1478
     vram: 0x8017C478
     align: 4
     subsegments:
-      - [0x1478, c, overlays/model_variant/variant385_strip_pal]
+      - [0x1478, c, overlays/model_variant/e551_strip_pal]
   - name: helper_1B00
     type: code
     start: 0x1B00
     vram: 0x8017CB00
     align: 4
     subsegments:
-      - [0x1B00, c, overlays/model_variant/variant385_ribbons_pal]
+      - [0x1B00, c, overlays/model_variant/e551_ribbons_pal]
   - name: helper_21B8
     type: code
     start: 0x21B8
     vram: 0x8017D1B8
     align: 4
     subsegments:
-      - [0x21B8, c, overlays/model_variant/variant385_pulse]
+      - [0x21B8, c, overlays/model_variant/e551_pulse_pal]
   - name: helper_26B4
     type: code
     start: 0x26B4
     vram: 0x8017D6B4
     align: 4
     subsegments:
-      - [0x26B4, c, overlays/model_variant/variant385_rings_pal]
+      - [0x26B4, c, overlays/model_variant/e551_rings_pal]
   - name: unclassified_tail
     type: code
     start: 0x2EB4

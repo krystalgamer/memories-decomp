@@ -4,7 +4,7 @@
 offset `0x1ADC`, 0x8D0 bytes) in the
 model_variant_62 stage 9 slot 0 and stage 10 slot 1 images draws three
 seventeen-point ribbons. It reuses the 0x370-byte `Model400FirstRibbon`
-layout from `model_variant/variant400_ribbons.h` and keeps the
+layout from `model_variant/e566_ribbons_pal.h` and keeps the
 header-400 build, projection and strip loops. It differs in these ways:
 
 - **Ribbon count.** Three ribbons, with phase `i * 4096 / 3`.

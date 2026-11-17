@@ -9,7 +9,7 @@ It follows the MODEL402 ribbons helper with the MODEL446 changes (#7164):
 - the radii come from the configuration's halfword at `+0x24`;
 - the outer depth is 140.
 
-The local `variant385_ribbons.h` maps the work fields to their MODEL385
+The local `e568_ribbons.h` maps the work fields to their MODEL385
 offsets. It also declares the 0x60-byte `Ribbon385`, which keeps two
 projection flags between the widths and the depths.
 

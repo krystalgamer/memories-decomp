@@ -2,7 +2,7 @@
 
 MODEL0 stages 9/10 contain the independently measured 1,448-byte helper
 at image `+0x3360`, `FrenchModelVariant423_DrawFunnel` (formerly
-`func_8013E360` / `func_8017E360`, bound per image). `variant425_funnel.c`
+`func_8013E360` / `func_8017E360`, bound per image). `e591_funnel_pal.c`
 selects `MODEL_VARIANT425_FUNNEL` in both slots before including the
 accepted [MODEL423 funnel body](french-model-variant423-funnel.md).
 The existing `gcc_2_8_1_g0_split` profile retains GCC 2.8.1 / MASPSX 2.81.

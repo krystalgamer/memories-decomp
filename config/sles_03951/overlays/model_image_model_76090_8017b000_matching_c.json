@@ -4,19 +4,19 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1338",
-      "source": "src/overlays/model_variant/variant429_entry_pal.c"
+      "source": "src/overlays/model_variant/e595_entry_pal.c"
     },
     {
       "address": "0x8017C33C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x578",
-      "source": "src/overlays/model_variant/variant429_swarm.c"
+      "source": "src/overlays/model_variant/e595_swarm.c"
     },
     {
       "address": "0x8017C8B4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4DC",
-      "source": "src/overlays/model_variant/variant429_quads.c"
+      "source": "src/overlays/model_variant/e595_quads.c"
     }
   ],
   "schema": 1

@@ -56,35 +56,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant432_entry_pal]
+      - [0x4, c, overlays/model_variant/e570_entry_pal]
   - name: ribbons
     type: code
     start: 0xDAC
     vram: 0x8017BDAC
     align: 4
     subsegments:
-      - [0xDAC, c, overlays/model_variant/variant415_ribbons]
+      - [0xDAC, c, overlays/model_variant/e570_ribbons]
   - name: draw
     type: code
     start: 0x134C
     vram: 0x8017C34C
     align: 4
     subsegments:
-      - [0x134C, c, overlays/model_variant/variant432_draw]
+      - [0x134C, c, overlays/model_variant/e570_draw]
   - name: layers
     type: code
     start: 0x169C
     vram: 0x8017C69C
     align: 4
     subsegments:
-      - [0x169C, c, overlays/model_variant/variant432_layers]
+      - [0x169C, c, overlays/model_variant/e570_layers]
   - name: bands
     type: code
     start: 0x1AC4
     vram: 0x8017CAC4
     align: 4
     subsegments:
-      - [0x1AC4, c, overlays/model_variant/variant432_bands]
+      - [0x1AC4, c, overlays/model_variant/e570_bands]
   - name: unclassified_tail
     type: code
     start: 0x1EE0

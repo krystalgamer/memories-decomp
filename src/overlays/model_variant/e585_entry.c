@@ -1,0 +1,373 @@
+#include "../../types.h"
+#include "../../game/model_slot_getters.h"
+#include "e585_entry.h"
+
+/* PAL images load the effect palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT402_CLUT_X
+#define MODEL_VARIANT402_CLUT_X 512
+#endif
+
+/* Header 402's entry: the header-398 skeleton with a quad group and swarm
+ * launched toward the other slot, sixteen streaks, and two per-frame
+ * helpers. */
+
+s32 ModelVariant402_HandleRequest(Variant402EntryState *context, s32 command)
+{
+    Variant402EntryState *work = context;
+    MATRIX unused_matrix0, unused_matrix1;
+    SVECTOR position, target;
+    VECTOR squared;
+    ModelVariantProjection projection;
+    Variant402EntrySwarm *swarm = &work->swarm;
+    ModelVariantBandPair *band = work->bands;
+    ModelVariantSheet *sheet = work->sheets;
+    ModelVariantColorRing *ring = work->rings;
+    ModelVariantColorRing *spoke = work->spokes;
+    ModelVariantFan *fan = work->fans;
+    ModelVariantWebNarrow *web = work->webs;
+    ModelVariantTrail *streak = work->streaks;
+    POLY_GT4 *textured = work->packets.textured;
+    POLY_G3 *triangle = &work->packets.triangle;
+    POLY_G4 *quad = &work->packets.quad;
+    POLY_FT4 *flat = work->flat_textured;
+    POLY_FT4 *glow = &work->glow;
+    ModelVariantQuadGroup *quads;
+    s32 result = 0;
+    s32 outer, web_angle, row;
+    s32 i, j, k, angle, base_angle;
+    u16 tpage, clut;
+    u16 flat_texture;
+    s32 flat_page, packed;
+    s32 near_radius, near_y, far_radius, far_y;
+    s32 near_scale, far_scale;
+    GsRVIEW2 *view;
+    u32 screen_x;
+    s32 screen_y;
+    s32 dx, dy;
+    u32 frame;
+
+    if (command >= 0) {
+        work->tail.slot = Model_GetActiveSlotIndex();
+        work->config = gModelVariant402_aConfigs + command;
+        work->parts[0] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[0]);
+        work->parts[1] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[1]);
+        work->parts[2] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[2]);
+        if (work->tail.slot == 0) {
+            setVector(&work->aim.target, 0, -300, -450);
+        } else {
+            setVector(&work->aim.target, 0, -300, 450);
+        }
+        GsGetLwUnit(work->parts[0], &work->matrix);
+        outer = 0;
+        setVector(&work->aim.direction,
+                  work->aim.target.vx - work->matrix.t[0],
+                  work->aim.target.vy - work->matrix.t[1],
+                  work->aim.target.vz - work->matrix.t[2]);
+        tpage = GetTPage(1, 1, 896, 0);
+        clut = GetClut(MODEL_VARIANT402_CLUT_X, 244);
+        GetTPage(1, 1, 896, 0);
+        GetClut(MODEL_VARIANT402_CLUT_X, 244);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gModelVariant402_aImages[7]);
+        ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gModelVariant402_aImages[5]);
+        ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gModelVariant402_aImages[1]);
+        flat_page = packed >> 16;
+        flat_texture = packed;
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gModelVariant402_aImages[3]);
+        SetPolyG3(triangle);
+        SetSemiTrans(triangle, 1);
+        SetPolyG4(quad);
+        SetSemiTrans(quad, 1);
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        setUV4(textured, 126, 0, 127, 0, 126, 63, 127, 63);
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        textured++;
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        setUV4(textured, 64, 0, 127, 0, 64, 63, 127, 63);
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        SetPolyFT4(flat);
+        flat->tpage = flat_page;
+        setUV4(flat, 0, 128, 0, 175, 48, 128, 48, 175);
+        flat->clut = flat_texture;
+        SetSemiTrans(flat, 1);
+        SetShadeTex(flat, 1);
+        flat++;
+        SetPolyFT4(flat);
+        flat->tpage = flat_page;
+        setUV4(flat, 0, 176, 0, 223, 48, 176, 48, 223);
+        flat->clut = flat_texture;
+        SetSemiTrans(flat, 1);
+        SetShadeTex(flat, 1);
+        SetPolyFT4(glow);
+        glow->tpage = packed >> 16;
+        setUV4(glow, 64, 64, 127, 64, 64, 127, 127, 127);
+        glow->clut = packed;
+        SetSemiTrans(glow, 1);
+        SetShadeTex(glow, 0);
+        for (; outer < 32; outer++) {
+            setVector(&swarm->a[outer], -256, -256, 0);
+            setVector(&swarm->b[outer], 256, -256, 0);
+            setVector(&swarm->c[outer], -256, 256, 0);
+            setVector(&swarm->d[outer], 256, 256, 0);
+            swarm->color.r = work->config->outer.r;
+            swarm->color.g = work->config->outer.g;
+            swarm->color.b = work->config->outer.b;
+            swarm->size[outer] = -(outer * 32);
+            swarm->done[outer] = 0;
+            swarm->reset[outer] = 0;
+            swarm->positions[outer].vx = work->matrix.t[0] + work->aim.direction.vx;
+            swarm->positions[outer].vy = work->matrix.t[1] + work->aim.direction.vy;
+            swarm->positions[outer].vz = work->matrix.t[2] + work->aim.direction.vz;
+        }
+        for (quads = work->quads, i = 0; i < 1; i++, quads++) {
+            for (outer = 0; outer < 10; outer++) {
+                setVector(&quads->a[outer], -256, -256, 0);
+                setVector(&quads->b[outer], 256, -256, 0);
+                setVector(&quads->c[outer], -256, 256, 0);
+                setVector(&quads->d[outer], 256, 256, 0);
+                quads->color.r = work->config->outer.r;
+                quads->color.g = work->config->outer.g;
+                quads->color.b = work->config->outer.b;
+                quads->angle[outer] = 0;
+                quads->done[outer] = 0;
+                quads->field_20C[outer] = 0;
+                quads->initialized[outer] = 0;
+                quads->size[outer] = -((outer << 12) / 10);
+                quads->positions[outer].vx = work->matrix.t[0] + work->aim.direction.vx;
+                quads->positions[outer].vy = work->matrix.t[1] + work->aim.direction.vy;
+                quads->positions[outer].vz = work->matrix.t[2] + work->aim.direction.vz;
+            }
+        }
+        for (i = 0; i < 1; i++, band++) {
+            setVector(&band->scale, 4096, 4096, 4096);
+            for (j = 0; j < 2; j++) {
+                band->ca[j].r = work->config->inner.r;
+                band->ca[j].g = work->config->inner.g;
+                band->ca[j].b = work->config->inner.b;
+                band->cb[j].r = work->config->outer.r;
+                band->cb[j].g = work->config->outer.g;
+                band->cb[j].b = work->config->outer.b;
+                band->offset[j] = -(j * 0x300);
+            }
+            band->field_90 = 0;
+            band->field_92 = 0;
+            band->field_94 = 0;
+        }
+        for (outer = 0; outer < 1; outer++, fan++) {
+            setVector(&fan->point[0], 0, 0, 0);
+            for (j = 0, angle = 0; j < 5; j++, angle = j * 1024) {
+                setVector(&fan->point[j + 1], (u32)rcos(angle) >> 6,
+                          (u32)rsin(angle) >> 8, 0);
+                setVector(&fan->point[j + 6], (u32)(rcos(angle) * 3) >> 10,
+                          (u32)(rsin(angle) * 5) >> 9, 0);
+            }
+            setVector(&fan->corner[0], -128, -128, 0);
+            setVector(&fan->corner[1], 128, -128, 0);
+            setVector(&fan->corner[2], -128, 128, 0);
+            setVector(&fan->corner[3], 128, 128, 0);
+            fan->inner.r = 255;
+            fan->inner.g = 192;
+            fan->inner.b = 192;
+            fan->outer.r = 64;
+            fan->outer.g = 64;
+            fan->outer.b = 0;
+            fan->size = 0;
+            fan->field_84 = 0;
+            fan->done = 0;
+        }
+        for (outer = 0; outer < 2; outer++, sheet++) {
+            for (k = 0; k < 4; k++) {
+                if (k == 0) {
+                    setVector(&sheet->v0[k], -64, -64, 0);
+                    setVector(&sheet->v1[k], 0, -64, 0);
+                    setVector(&sheet->v2[k], -64, 0, 0);
+                    setVector(&sheet->v3[k], 0, 0, 0);
+                } else if (k == 1) {
+                    setVector(&sheet->v0[k], 64, -64, 0);
+                    setVector(&sheet->v1[k], 64, 0, 0);
+                    setVector(&sheet->v2[k], 0, -64, 0);
+                    setVector(&sheet->v3[k], 0, 0, 0);
+                } else if (k == 2) {
+                    setVector(&sheet->v0[k], 64, 64, 0);
+                    setVector(&sheet->v1[k], 0, 64, 0);
+                    setVector(&sheet->v2[k], 64, 0, 0);
+                    setVector(&sheet->v3[k], 0, 0, 0);
+                } else if (k == 3) {
+                    setVector(&sheet->v0[k], -64, 64, 0);
+                    setVector(&sheet->v1[k], -64, 0, 0);
+                    setVector(&sheet->v2[k], 0, 64, 0);
+                    setVector(&sheet->v3[k], 0, 0, 0);
+                }
+            }
+            sheet->outer.r = work->config->outer.r;
+            sheet->outer.g = work->config->outer.g;
+            sheet->outer.b = work->config->outer.b;
+            sheet->inner.r = work->config->inner.r;
+            sheet->inner.g = work->config->inner.g;
+            sheet->inner.b = work->config->inner.b;
+            sheet->size = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
+        }
+        near_scale = 256;
+        far_scale = 192;
+        for (outer = 0, web_angle = 0; outer < 3; outer++, web++, web_angle += 300) {
+            for (row = 0, j = 2048 / 5; row < 4; row++, j = (row + 1) * 2048 / 5) {
+                near_radius = rsin(j) * near_scale >> 12;
+                near_y = rcos(j) * near_scale >> 12;
+                far_radius = rsin(j) * far_scale >> 12;
+                far_y = rcos(j) * far_scale >> 12;
+                for (j = 0, angle = web_angle; j < 6; j++, angle = web_angle, angle += j * 4096 / 6) {
+                    setVector(&web->near[row][j], rcos(angle) * near_radius >> 12,
+                              near_y, rsin(angle) * near_radius >> 12);
+                    setVector(&web->far[row][j], rcos(angle) * far_radius >> 12,
+                              far_y, rsin(angle) * far_radius >> 12);
+                }
+            }
+            web->field_184 = 0;
+            web->field_188 = 0;
+            web->field_18C = 0;
+            web->color.r = work->config->web.r;
+            web->color.g = work->config->web.g;
+            web->color.b = work->config->web.b;
+            web->scale = 4096 + outer * 4096 / 3;
+            web->done = 0;
+            web->field_19C = 0;
+        }
+        for (outer = 0; outer < 16; outer++, streak++) {
+            for (j = 0; j < 9; j++) {
+                streak->color[j].r = -64 - j * 24;
+                streak->color[j].g = -64 - j * 24;
+                streak->color[j].b = 255;
+                streak->offset[j] = -(j * 256);
+            }
+            streak->field_6C = 0;
+            streak->field_70 = 0;
+            streak->field_74 = 0;
+            streak->field_A0 = 0;
+            streak->field_A4 = 0;
+        }
+        for (row = 0, base_angle = 0; row < 6; row++, ring++, base_angle += 256) {
+            for (outer = 0, angle = base_angle; outer < 8; angle += 512, outer++) {
+                setVector(&ring->inner[outer], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
+                setVector(&ring->outer[outer], (u32)(rcos(angle) * 5) >> 6,
+                          (u32)(rsin(angle) * 5) >> 6, 0);
+            }
+            ring->inner_color.r = 64;
+            ring->inner_color.g = 128;
+            ring->inner_color.b = 255;
+            ring->outer_color.r = 0;
+            ring->outer_color.g = 0;
+            ring->outer_color.b = 0;
+            ring->angle = row * 1024 / 6;
+            ring->count = 0;
+        }
+        for (row = 0, base_angle = 0; row < 4; row++, spoke++, base_angle += 200) {
+            for (outer = 0, angle = base_angle; outer < 8; outer++, angle = base_angle + outer * 512) {
+                setVector(&spoke->inner[outer], (u32)(rcos(angle) * 3) >> 5,
+                          (u32)(rsin(angle) * 3) >> 5, 0);
+                setVector(&spoke->outer[outer], (u32)rcos(angle) >> 3, (u32)rsin(angle) >> 3, 0);
+            }
+            spoke->inner_color.r = 0;
+            spoke->inner_color.g = 0;
+            spoke->inner_color.b = 0;
+            spoke->outer_color.r = 255;
+            spoke->outer_color.g = 192;
+            spoke->outer_color.b = 64;
+            spoke->angle = 1024 - row * 256;
+            spoke->count = 0;
+        }
+        work->field_22E4 = 0;
+        work->field_22E8 = 4096;
+        work->field_22EA = 1024;
+        work->field_22EC = 0;
+        work->field_22F0 = 0;
+        work->field_22E6 = 0;
+        work->clock.frame_count = 0;
+        work->clock.frame = 0;
+        work->clock.animation_frame = 0;
+        work->clock.step = 0;
+        work->tail.phase = 0;
+        work->clock.fade = 0;
+        work->tail.tint = 2048;
+        work->tail.command = command;
+    } else {
+        view = Model_GetCameraViewBuffer();
+        setVector(&work->aim.view_delta, view->vrx - view->vpx,
+                  view->vry - view->vpy, view->vrz - view->vpz);
+        Square0(&work->aim.view_delta, &squared);
+        work->clock.angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
+        if (work->tail.slot == 0) {
+            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
+        } else {
+            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
+        }
+        if (work->config->follow_limit >= work->clock.frame) {
+            GsGetLwUnit(work->parts[0], &work->matrix);
+        }
+        setVector(&work->aim.direction,
+                  work->aim.target.vx - work->matrix.t[0],
+                  work->aim.target.vy - work->matrix.t[1],
+                  work->aim.target.vz - work->matrix.t[2]);
+        GsSetLsMatrix(Model_GetLightSourceMatrix());
+        setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
+        RotTransPers(&position, (long *)&projection.projected,
+                     &projection.interpolation, &projection.flag);
+        screen_x = (u16)projection.projected.vx;
+        screen_y = projection.projected.vy;
+        setVector(&target, work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
+        RotTransPers(&target, (long *)&projection.target,
+                     &projection.interpolation, &projection.flag);
+        dx = (u16)projection.target.vx - screen_x;
+        work->aim.screen_delta.vx = dx;
+        dy = projection.target.vy - screen_y;
+        work->aim.screen_delta.vy = dy;
+        if (work->config->start <= work->clock.frame) {
+            FrenchModelVariant419_DrawSwarm(context);
+        }
+        if (work->tail.phase >= 2) {
+            FrenchModelVariant419_DrawQuads(context);
+        }
+        work->clock.frame_count++;
+        frame = Model_GetSlotAnimationFrame(work->tail.slot);
+        if (frame != work->clock.animation_frame) {
+            work->clock.frame += Model_GetFrameStep();
+            work->clock.step = Model_GetFrameStep();
+            work->clock.animation_frame = frame;
+        }
+    }
+    Model_SetSlotAmbient(2, work->tail.tint, work->tail.tint, work->tail.tint);
+    if (work->tail.phase < 5) {
+        if (work->tail.tint > 0) {
+            work->tail.tint -= 128;
+            if (work->tail.tint <= 0) {
+                work->tail.tint = 0;
+            }
+        }
+    } else {
+        work->tail.tint = work->clock.fade << 5;
+    }
+    if (work->tail.phase >= 2 && work->tail.phase <= 4) {
+        result = 4;
+    } else if (work->tail.phase == 5) {
+        result = 1;
+        work->tail.phase = 6;
+    } else if (work->tail.phase == 6) {
+        if (work->clock.fade < 64) {
+            work->clock.fade += work->clock.step;
+            if (work->clock.fade >= 64) {
+                work->clock.fade = 64;
+                work->tail.phase = 7;
+            }
+        }
+    } else if (work->tail.phase == 7) {
+        result = 2;
+    }
+    return result;
+}

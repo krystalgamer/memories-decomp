@@ -10,7 +10,7 @@ at `+0x0` and the `POLY_G4` is at `+0x1FC0`. The one semantic difference is
 the radius base: MODEL441 uses `width / 16`, while MODEL417 uses
 `width * (timing->width_scale / 3) / 1024`, which reads a timing word at
 `+0x30`. Both the pulsed and the plain radius use it. The shared Spanish
-header and body are not modified. `variant417_tube.{c,h}` are full MODEL417
+header and body are not modified. `e583_tube_pal.{c,h}` are full MODEL417
 copies, and one source serves both slots.
 
 The helper is registered in all eight French MODEL417 images (models 134, 232,

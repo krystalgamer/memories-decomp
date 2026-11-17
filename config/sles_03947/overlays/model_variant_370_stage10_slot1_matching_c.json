@@ -4,31 +4,31 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xCF8",
-      "source": "src/overlays/model_variant/variant460_entry_pal.c"
+      "source": "src/overlays/model_variant/e503_entry_pal.c"
     },
     {
       "address": "0x8017BCFC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xAF0",
-      "source": "src/overlays/model_variant/variant443_ribbons.c"
+      "source": "src/overlays/model_variant/e503_ribbons.c"
     },
     {
       "address": "0x8017C7EC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x588",
-      "source": "src/overlays/model_variant/variant443_sheets.c"
+      "source": "src/overlays/model_variant/e503_sheets.c"
     },
     {
       "address": "0x8017CD74",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x340",
-      "source": "src/overlays/model_variant/variant443_strand.c"
+      "source": "src/overlays/model_variant/e503_strand.c"
     },
     {
       "address": "0x8017D0B4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x818",
-      "source": "src/overlays/model_variant/variant460_streamers.c"
+      "source": "src/overlays/model_variant/e503_streamers_pal.c"
     }
   ],
   "schema": 1

@@ -2,7 +2,7 @@
 #define MODEL_EXODIA_SLOT1_H
 #include "../../types.h"
 #include "exodia_slot0.h"
-#include "variant418_spiral.h"
+#include "e530_spiral.h"
 #include "../../game/model_view_coordinate_helpers.h"
 #include "../../game/gpu_packets.h"
 

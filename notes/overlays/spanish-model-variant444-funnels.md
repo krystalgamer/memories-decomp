@@ -16,7 +16,7 @@ This is the MODEL411 funnels routine (#7180) with smaller rings:
 
 The record offsets match MODEL411 exactly. The helper reads
 `Variant444EntryState`, the record the entry passes (it formerly shared
-MODEL411's view through `variant444_funnels.h`). Like MODEL411, it reads
+MODEL411's view through `e584_funnels_pal.h`). Like MODEL411, it reads
 the fade start from the overlay data that follows the code, here
 `gFrenchModelVariant444_aConfigs[0].fade_start` (old block + 0x114).
 

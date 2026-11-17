@@ -56,21 +56,21 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant429_entry_pal]
+      - [0x4, c, overlays/model_variant/e595_entry_pal]
   - name: unmatched_133c
     type: code
     start: 0x133C
     vram: 0x8013C33C
     align: 4
     subsegments:
-      - [0x133C, c, overlays/model_variant/variant429_swarm]
+      - [0x133C, c, overlays/model_variant/e595_swarm]
   - name: unmatched_18b4
     type: code
     start: 0x18B4
     vram: 0x8013C8B4
     align: 4
     subsegments:
-      - [0x18B4, c, overlays/model_variant/variant429_quads]
+      - [0x18B4, c, overlays/model_variant/e595_quads]
   - name: unclassified_tail
     type: code
     start: 0x1D90

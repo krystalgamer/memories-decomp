@@ -2,7 +2,7 @@
 #define FRENCH_MODEL_VARIANT446_ENTRY_H
 
 #include "../../types.h"
-#include "variant402_entry_pal.h"
+#include "e568_entry_pal.h"
 #include "../../game/model_slot_getters.h"
 
 typedef struct {
