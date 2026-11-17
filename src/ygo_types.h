@@ -320,16 +320,6 @@ typedef char DuelEffectEntry_layout_selector_offset_must_be_0x18[
     OFFSETOF(DuelEffectEntry, layout_selector) == 0x18 ? 1 : -1
 ];
 
-/* Display-effect command view. Its depth selector follows twenty stream
- * pointers and the command state bytes at the same measured 0x58 offset. */
-typedef struct {
-    u8 *streams[20];
-    u8 unk50;
-    u8 state;
-    u8 pad52[6];
-    s8 depth;
-} EffectObject;
-
 /* One 0x14-byte scene-script slot at gSceneScript_Slots. */
 typedef struct {
     s32 object_address;
@@ -356,9 +346,6 @@ struct DuelEffectChannel;
 typedef void (*SceneScriptRecordCallback)(void *, s32);
 typedef void (*TextBoxStateCallback)(struct DuelEffectChannel *);
 
-typedef char EffectObject_depth_offset_must_be_0x58[
-    OFFSETOF(EffectObject, depth) == 0x58 ? 1 : -1
-];
 typedef char SceneScriptSlot_size_must_be_0x14[
     sizeof(SceneScriptSlot) == 0x14 ? 1 : -1
 ];

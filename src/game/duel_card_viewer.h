@@ -38,7 +38,7 @@ extern u16 gDuel_wViewerCardID;
  *
  *     adj = gDuel_bCardViewerYOffset;
  *     obj->xy.h.y += adj;
- *     DisplayObject_ConfigureSpriteAtPosition((u8 *)obj, 0x148,
+ *     DisplayObject_ConfigureSpriteAtPosition(obj, 0x148,
  *                  gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
  *
  * so it lands on a display object's y and on the third argument of a draw

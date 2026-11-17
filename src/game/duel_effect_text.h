@@ -693,13 +693,8 @@ void Text_EndStream(DuelEffectChannel *object);
  * the id in gDisplayEffect_aMenuRecords -- ids below 0x41 live in the first two records, others
  * in the third -- and depending on the flags stops it (bit 7), adjusts a
  * running one (bits 5 and 6), or starts it in the slot bit 0 names, putting the
- * object into the matching wait state.
- *
- * The parameter uses the narrow shared EffectObject view in ygo_types.h. The
- * table uses the wider DuelEffectChannel view, so this entry retains an
- * explicit cast. */
-
-void Text_HandleDisplayEffectCommand(EffectObject *object);
+ * object into the matching wait state (its playback_state). */
+void Text_HandleDisplayEffectCommand(DuelEffectChannel *object);
 
 /* gText_SecondaryCommandHandlers entry: arms a campaign duel from the object's script stream. It
  * takes four bytes in order -- opponent id, gDuel_awCampaignSceneByOutcome[0], gDuel_awCampaignSceneByOutcome[1], terrain --

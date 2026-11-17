@@ -125,7 +125,7 @@ void DuelEffect_UpdateCardViewerState(void)
         p[3].clut_y = 0xFF;
 #endif
         CardPreview_RequestResourceTransfer(3, (s16)gDuel_wViewerCardID);
-        obj = (DisplayObject *)CardPreview_CreateResourceObjects(3, -1, -1);
+        obj = CardPreview_CreateResourceObjects(3, -1, -1);
 #ifndef VERSION_EUROPE
         adj = gDuel_bCardViewerYOffset;
 #endif
@@ -142,9 +142,9 @@ void DuelEffect_UpdateCardViewerState(void)
         gDuel_pCardViewerCard = obj;
         obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
 #ifdef VERSION_EUROPE
-        DisplayObject_ConfigureSpriteAtPosition((u8 *)obj, 0x98, 0x108, 0, 2, 4, 0xD, 0x107);
+        DisplayObject_ConfigureSpriteAtPosition(obj, 0x98, 0x108, 0, 2, 4, 0xD, 0x107);
 #else
-        DisplayObject_ConfigureSpriteAtPosition((u8 *)obj, 0x148, gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
+        DisplayObject_ConfigureSpriteAtPosition(obj, 0x148, gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
 #endif
         obj->field_60 = slide_in;
         obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
@@ -158,7 +158,7 @@ void DuelEffect_UpdateCardViewerState(void)
         stats = gDuel_adwCardStats;
 #ifdef VERSION_EUROPE
         for (; i < 3; i++) {
-            chan = (DuelEffectChannel *)((u8 *)gText_aChannels + i * 100);
+            chan = &gText_aChannels[i];
 #else
         chan = gText_aChannels;
         for (; i < 3; i++, chan++) {
@@ -199,6 +199,7 @@ void DuelEffect_UpdateCardViewerState(void)
             }
         }
         Fade_SetTargetLevel(0x40, 2);
+        /* A lbu of the volatile halfword's low byte; (u8) would keep the lhu. */
         gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 0x13;
         SD_SEPlayFull(0x34);
         gDuel_bEffectHandlerFlags |= 0x40;
@@ -240,7 +241,7 @@ void DuelEffect_UpdateCardViewerState(void)
                                  obj->xy.s.y,
                                  speed);
 #endif
-                flags = *(u16 *)&obj->field_60 + 0x55;
+                flags = (u16)obj->field_60 + 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags >= 0) {
 #ifdef VERSION_EUROPE
@@ -389,6 +390,7 @@ void func_800289AC(void)
 void DuelEffect_UpdateIdentitySave(void)
 {
     if (DuelEffect_MarkStateInitialized() == 0) {
+        /* The save image starts at the shared u16 deck array (mem_card.h). */
         ((SaveDataState *)gDuel_awPlayerDeck)->duelist_code = (rand() << 8) + 1;
         gSaveData_AllowIdentityBypass = 1;
         SaveData_RequestWrite();

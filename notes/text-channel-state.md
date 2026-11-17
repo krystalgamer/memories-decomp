@@ -96,7 +96,7 @@ password shop message helper retain their explicit reload-of-one writes,
 including all original regional guards, creation flags and cleanup.
 
 State producers include the raw stream byte, wrap/page/choice transitions,
-sound waits and the existing narrow EffectObject.state view. Consumers
+sound waits and the display-effect command's playback_state stores. Consumers
 retain full-byte activity before masked dispatch, callback-specific latch
 tests, first-call early returns, shared script/media/viewport cells and
 their original completion boundaries. No state enum, validation, renamed

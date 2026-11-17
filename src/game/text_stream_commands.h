@@ -49,7 +49,7 @@ void Text_SetCursorOffset(DuelEffectChannel *object);
 extern void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
 /* Sixteen handlers for stream bytes 0xF0-0xFF, defined directly after the
  * secondary-command table in duel_effect_command_table.c. TextBox_BuildStep
- * passes the channel as a raw byte pointer. */
-extern void (*gText_apfnPrimaryCommands[])(u8 *);
+ * passes each the channel it is building. */
+extern void (*gText_apfnPrimaryCommands[])(DuelEffectChannel *);
 
 #endif

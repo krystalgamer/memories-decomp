@@ -251,9 +251,8 @@ depth limit.
 
 Selected-card expansions, formatted decimal and the PAL-only player-name
 push retain their original index/store order, bank expressions and native
-wrappers. The display-effect command's narrow EffectObject.depth view
-remains unchanged; the byte/U32 readers now take the channel and its
-stream_index. The new names identify existing storage, not a unified parser
+wrappers. The display-effect command, like the byte/U32 readers, now
+takes the channel and its stream_index (the former EffectObject.depth). The new names identify existing storage, not a unified parser
 or new stream-lifetime policy.
 
 The existing campaign-duel fixture changes five identifier words only:
