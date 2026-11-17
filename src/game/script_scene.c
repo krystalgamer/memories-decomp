@@ -1500,7 +1500,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         gFile_dwTransferState = w;
         p->transfer_mode = 2;
         destination = (p->sector_destination = gFile_TransferBufferBase);
-        *(s32 *)&p->phase_size = CAMPAIGN_SCENE_STAGE0_SECTORS * FILE_SECTOR_SIZE;
+        p->phase_size = CAMPAIGN_SCENE_STAGE0_SECTORS * FILE_SECTOR_SIZE;
         p->alternate_sector_destination = destination + FILE_SECTOR_SIZE;
         break;
 

@@ -603,7 +603,7 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     }
 
     r = (struct ProjectionOut *)SCRATCH_ADDR(0x398);
-    o->rgb.c.b = *(u8 *)&o->field_60;
+    o->rgb.c.b = o->field_60;
     DisplayObject_ProjectRotationFacing(o,
                   o->xy.s.x + *(s16 *)&o->field_18.center.x,
                   o->xy.s.y + *(s16 *)&o->field_18.center.y,
@@ -649,10 +649,10 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
         (long *)&depth_cue, (long *)&gte_flag
     );
 
-    Graphics_SubmitDrawModePacket((u32 *)q, ot, *(u16 *)&o->ot_depth, 1);
+    Graphics_SubmitDrawModePacket((u32 *)q, ot, o->ot_depth, 1);
     setlen(q, 3);
     q->code = 0x40;
-    k = *(u16 *)&o->ot_depth;
+    k = o->ot_depth;
     *(s32 *)&q->x1 = *(s32 *)&q->x3;
     Graphics_SubmitDrawModePacket((u32 *)q, ot, (u16)k, 1);
 }

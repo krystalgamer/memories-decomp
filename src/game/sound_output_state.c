@@ -218,7 +218,7 @@ s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
     if (request_state->s_bSD_DATA_SOURCE & 0x80) {
         if ((request_state->s_bSD_DATA_SOURCE & 0x40) || entry_index <= 0x9FFF) {
             if (command_id & 0x8000) {
-                *(s16 *)&request_state->s_wSD_CD_REQUEST_CODE = command_id;
+                request_state->s_wSD_CD_REQUEST_CODE = command_id;
                 switch (command_id & 0xF000) {
                 case 0x8000:
                     entry_index = command_id + 0x8000;
@@ -287,7 +287,7 @@ void SD_EnqueueCdSeek(s32 command_id)
         return;
     }
     class_or_code = command_id & 0xF000;
-    *(s16 *)&request_state->s_wSD_CD_REQUEST_CODE = command_id;
+    request_state->s_wSD_CD_REQUEST_CODE = command_id;
     switch (class_or_code) {
     case 0x8000:
         class_or_code = command_id + class_or_code;

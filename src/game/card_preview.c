@@ -277,7 +277,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
         PRM->uv.b.lo = PRM->uv.b.lo + 32;
         PRM->xy.h.x = PRM->xy.h.x + 51;
 #else
-        PRM->uv.b.hi = PRM->uv.b.hi + *(u8 *)&PRM->extent.wh.h;
+        PRM->uv.b.hi = PRM->uv.b.hi + PRM->extent.wh.h;
         PRM->xy.h.y = PRM->xy.h.y + (PRM->extent.wh.h + wrap);
 #endif
         if (rec->stat_palette_flags & 0x40) {
