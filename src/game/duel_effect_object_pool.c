@@ -238,7 +238,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     return p[DUEL_RITUAL_TRIBUTE_COUNT];
 }
 
-void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
+void Duel_CollectFieldRowCardObjects(DisplayObject **output, s32 back_row)
 {
     s32 base =
         gDuel_bActiveSide ? DUEL_FIELD_ROW_SIZE : DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
@@ -251,13 +251,13 @@ void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row)
     base = 0;
     for (; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
         if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
-            *output++ = (u32)entry->object;
+            *output++ = entry->object;
         }
     }
     *output = 0;
 }
 
-void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
+void Duel_CollectMatchingFieldCardObjects(DisplayObject **output, s32 selector)
 {
     DuelCardRecord *entry;
     s32 base;
@@ -272,9 +272,9 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
             base++, entry++, other++
         ) {
             if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
-                *output++ = (u32)entry->object;
+                *output++ = entry->object;
             if (other->flags & DUEL_CARD_FLAG_OCCUPIED)
-                *output++ = (u32)other->object;
+                *output++ = other->object;
         }
         *output = 0;
         return;
@@ -291,14 +291,14 @@ void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector)
         for (base = 0; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
             if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
                 (u16)Duel_CalcCardStats(entry) >= selector)
-                *output++ = (u32)entry->object;
+                *output++ = entry->object;
         }
     } else {
         for (base = 0; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
             if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
                 (selector < 0 ||
                  entry->object->resource_branch_index == selector))
-                *output++ = (u32)entry->object;
+                *output++ = entry->object;
         }
     }
     *output = 0;

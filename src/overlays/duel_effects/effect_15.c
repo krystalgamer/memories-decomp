@@ -80,9 +80,9 @@ void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
             DuelEffect_InitSquareVertices(quad, 128);
             for (i = 0; i < work->count; i++) {
                 setVector(&translation,
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x,
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y,
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.z);
+                    gDuelEffect_CardObjectScratchWords[i]->xy.h.x,
+                    gDuelEffect_CardObjectScratchWords[i]->xy.h.y,
+                    gDuelEffect_CardObjectScratchWords[i]->field_34.h.z);
                 DuelEffect_SetTransformMatrix(&world, &saved, &translation, &rotation, &scale, 0);
                 DuelEffect_ProjectSubmitFt4(packet, quad, 32, 1);
                 DuelEffect_ProjectSubmitFt4(packet, quad, 32, 1);

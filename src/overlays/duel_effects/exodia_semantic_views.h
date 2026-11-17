@@ -6,6 +6,7 @@
 
 extern void DuelEffect_RunExodiaBurst(void *work, s32 phase);
 extern VECTOR gDuelEffect_ExodiaInitialScale;
-extern u32 gDuelEffect_CardObjectScratchWords[21];
+/* The zero-terminated card-object list the field collectors fill. */
+extern struct DisplayObject *gDuelEffect_CardObjectScratchWords[21];
 
 #endif
