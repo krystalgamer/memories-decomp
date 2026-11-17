@@ -19,7 +19,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSheetSet *sheet = work->sheets;
     Variant405EntryBand *band = work->bands;
     Variant405EntryBand *outer = work->outer_bands;
-    Variant405EntrySpoke *spoke = work->spokes;
+    ModelVariantColorRing *spoke = work->spokes;
     Variant405EntryRibbon *ribbon = work->ribbons;
     Variant405EntryTrail *trail;
     POLY_G3 *triangle = &work->packets.triangle;
@@ -191,14 +191,14 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&spoke->inner[n], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
                 setVector(&spoke->outer[n], (u32)rcos(angle) * 5 >> 6, (u32)rsin(angle) * 5 >> 6, 0);
             }
-            spoke->outer_color[0] = 64;
-            spoke->outer_color[1] = 128;
-            spoke->outer_color[2] = 255;
-            spoke->inner_color[0] = 0;
-            spoke->inner_color[1] = 0;
-            spoke->inner_color[2] = 0;
+            spoke->inner_color.r = 64;
+            spoke->inner_color.g = 128;
+            spoke->inner_color.b = 255;
+            spoke->outer_color.r = 0;
+            spoke->outer_color.g = 0;
+            spoke->outer_color.b = 0;
             spoke->angle = q * 256;
-            spoke->field_8C = 0;
+            spoke->count = 0;
         }
         for (i = 0; i < 2; i++, ribbon++) {
             ribbon->field_50 = 4096;

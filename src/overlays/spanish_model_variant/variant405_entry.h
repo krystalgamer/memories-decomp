@@ -32,12 +32,6 @@ typedef struct {
 } Variant405EntryBand;
 
 typedef struct {
-    SVECTOR inner[8], outer[8];
-    u8 outer_color[4], inner_color[4];
-    s32 angle, field_8C;
-} Variant405EntrySpoke;
-
-typedef struct {
     u8 unknown_00[0x48];
     u8 outer[4], inner[4];
     s32 field_50, field_54, field_58;
@@ -56,7 +50,7 @@ typedef struct {
     ModelVariantSheetSet sheets[6];
     Variant405EntryBand bands[3];
     Variant405EntryBand outer_bands[3];
-    Variant405EntrySpoke spokes[4];
+    ModelVariantColorRing spokes[4];
     Variant405EntryRibbon ribbons[2];
     Variant405EntryTrail trails[3];
     ModelVariantPackets packets;
