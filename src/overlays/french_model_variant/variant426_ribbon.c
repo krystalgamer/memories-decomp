@@ -25,7 +25,7 @@ void FrenchModelVariant426_DrawRibbon(u8 *context)
     s16 i, j;
     Ribbon426Work *work = (Ribbon426Work *)context;
     Ribbon426 *ribbon;
-    Ribbon426Screen screen;
+    ModelVariantScreenPoint screen;
     s16 prev;
     POLY_GT4 *poly;
     s32 angle;

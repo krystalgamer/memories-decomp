@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant405_bands.h"
+#include "variant405_entry.h"
 
-void SpanishModelVariant405_DrawBands(Bands405State *context)
+void SpanishModelVariant405_DrawBands(Variant405EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,8 +11,8 @@ void SpanishModelVariant405_DrawBands(Bands405State *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Bands405State *state = context;
-    Bands405Band *band = state->bands;
+    Variant405EntryState *state = context;
+    Variant405EntryBand *band = state->bands;
     POLY_GT4 *polygon;
     s32 i, j;
     s32 size;
@@ -21,7 +21,7 @@ void SpanishModelVariant405_DrawBands(Bands405State *context)
     u8 outer_r, outer_g, outer_b;
 
     ot = Graphics_GetDefaultOrderingTable();
-    for (i = 0; i < state->descriptor->count; i++, band++) {
+    for (i = 0; i < state->config->count; i++, band++) {
         if (band->size > 0) {
             size = band->size;
             if (size > 3072) {
@@ -42,9 +42,9 @@ void SpanishModelVariant405_DrawBands(Bands405State *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->translation[0];
-            matrix.t[1] = state->translation[1];
-            matrix.t[2] = state->translation[2];
+            matrix.t[0] = state->matrix.t[0];
+            matrix.t[1] = state->matrix.t[1];
+            matrix.t[2] = state->matrix.t[2];
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -58,7 +58,7 @@ void SpanishModelVariant405_DrawBands(Bands405State *context)
             RotMatrix(&rotation, &light);
             ScaleMatrix(&light, &scale);
             SetRotMatrix(&light);
-            polygon = state->polygons;
+            polygon = state->glyphs;
             j = 0;
             for (; j < 16; j++, polygon++) {
                 depth = RotTransPers4(&band->inner[j], &band->inner[j + 1],
@@ -84,7 +84,7 @@ void SpanishModelVariant405_DrawBands(Bands405State *context)
             }
         }
         if (band->size < 4096) {
-            band->size += state->step * 128;
+            band->size += state->clock.step * 128;
             if (band->size >= 4096) {
                 band->size = 4096;
                 band->completed++;

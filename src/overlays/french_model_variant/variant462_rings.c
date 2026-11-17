@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant462_rings.h"
+#include "../model_variant/variant445us_entry.h"
 
 /* The North American header-445 images build this helper, uncalled there,
  * with the GCC 2.7.2 CDK compiler, sixteen bytes lower. */
-void FrenchModelVariant462_DrawRings(u8 *context)
+void FrenchModelVariant462_DrawRings(EntryState445Us *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -15,8 +15,8 @@ void FrenchModelVariant462_DrawRings(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Rings462State *state = (Rings462State *)context;
-    ModelVariantQuadRingView *ring;
+    EntryState445Us *state = context;
+    ModelVariantQuadRing *ring;
     POLY_FT4 *polygon;
     s16 i;
     s16 angle;
@@ -30,10 +30,10 @@ void FrenchModelVariant462_DrawRings(u8 *context)
     green = 128;
     blue = 128;
     i = 0;
-    ratan2(state->probe[0], state->probe[1]);
+    ratan2(state->direction.vy, state->direction.vz);
     ring = &state->ring;
-    ratan2(state->delta_y, state->delta_x);
-    polygon = &state->polygon;
+    ratan2(state->screen_delta.vy, state->screen_delta.vx);
+    polygon = &state->ring_packet;
     for (angle = state->angle, wave = state->wave; i < 24;
          i++, wave += 768, angle += 512 - i * 128 / 24) {
         if (ring->size[i] > 0) {
@@ -41,9 +41,9 @@ void FrenchModelVariant462_DrawRings(u8 *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->origin[0] + (rcos(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2] + (rsin(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
+            matrix.t[0] = state->origin.vx + (rcos(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
+            matrix.t[1] = state->origin.vy;
+            matrix.t[2] = state->origin.vz + (rsin(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
             scale.vx = (s16)size;
             scale.vy = (s16)size;
             scale.vz = (s16)size;

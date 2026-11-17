@@ -36,22 +36,15 @@ typedef struct {
     u32 fade_begin, fade_end, field_3C, field_40;
 } Model372Config;
 
-/* A projected point as RotTransPers writes it: read either as a screen
- * DVECTOR or as the packed word whose halves the ribbons subtract. */
-typedef union {
-    DVECTOR point;
-    long packed;
-} Model372Screen;
-
 /* One 0x3E4-byte ribbon: two seventeen-point spines and their projections,
  * per-point angle, width and colours, the transform, and per point the
  * projection flag, depth, screen offset and growth progress. */
 typedef struct {
     SVECTOR a[17];
-    Model372Screen sa[17];
+    ModelVariantScreenPoint sa[17];
     s32 angle[17];
     SVECTOR b[17];
-    Model372Screen sb[17];
+    ModelVariantScreenPoint sb[17];
     s32 width[17];
     CVECTOR tint[17];
     CVECTOR color[17];

@@ -6,7 +6,7 @@
 #endif
 
 /* Header 405's loader entry: three rings, a trail angle per three trail
- * records, six 512-unit sheets, two sets of three 17-point curtains, four
+ * records, six 512-unit sheets, two sets of three 17-point ring bands, four
  * spokes and two ribbons. The run path re-reads the opponent slot position
  * and part 0 until config word 0x1C, freezing the aim origin after word
  * 0x10, then draws through the outer-band, 0x12CC and pulse helpers. */
@@ -17,8 +17,8 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantClutStack stack;
     Variant405EntryRing *ring = work->rings;
     ModelVariantSheetSet *sheet = work->sheets;
-    Variant405EntryCurtain *outer = work->outer_curtains;
-    Variant405EntryCurtain *inner = work->inner_curtains;
+    Variant405EntryBand *band = work->bands;
+    Variant405EntryBand *outer = work->outer_bands;
     Variant405EntrySpoke *spoke = work->spokes;
     Variant405EntryRibbon *ribbon = work->ribbons;
     Variant405EntryTrail *trail;
@@ -158,33 +158,33 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
             sheet->field_8C = 0;
             sheet->field_90 = 0;
         }
+        for (n = 0; n < 3; n++, band++) {
+            for (j = 0, v = 0; j < 17; j++, v = j * 256) {
+                setVector(&band->inner[j], (u32)rcos(v) >> 4, (u32)rsin(v) >> 4, 0);
+                setVector(&band->outer[j], (u32)rcos(v) * 3 >> 5, (u32)rsin(v) * 3 >> 5, 0);
+                band->inner_color[0] = 255;
+                band->inner_color[1] = 255;
+                band->inner_color[2] = 255;
+                band->outer_color[0] = 128;
+                band->outer_color[1] = 192;
+                band->outer_color[2] = 255;
+            }
+            band->size = n * -12288 / 3;
+            band->completed = 0;
+        }
         for (n = 0; n < 3; n++, outer++) {
             for (j = 0, v = 0; j < 17; j++, v = j * 256) {
-                setVector(&outer->inner[j], (u32)rcos(v) >> 4, (u32)rsin(v) >> 4, 0);
-                setVector(&outer->outer[j], (u32)rcos(v) * 3 >> 5, (u32)rsin(v) * 3 >> 5, 0);
-                outer->outer_color[0] = 255;
-                outer->outer_color[1] = 255;
-                outer->outer_color[2] = 255;
-                outer->inner_color[0] = 128;
-                outer->inner_color[1] = 192;
+                setVector(&outer->inner[j], (u32)rcos(v) >> 3, (u32)rsin(v) >> 3, 0);
+                setVector(&outer->outer[j], (u32)rcos(v) >> 2, (u32)rsin(v) >> 2, 0);
+                outer->inner_color[0] = 255;
+                outer->inner_color[1] = 255;
                 outer->inner_color[2] = 255;
+                outer->outer_color[0] = 128;
+                outer->outer_color[1] = 192;
+                outer->outer_color[2] = 255;
             }
-            outer->angle = n * -12288 / 3;
+            outer->size = 0;
             outer->completed = 0;
-        }
-        for (n = 0; n < 3; n++, inner++) {
-            for (j = 0, v = 0; j < 17; j++, v = j * 256) {
-                setVector(&inner->inner[j], (u32)rcos(v) >> 3, (u32)rsin(v) >> 3, 0);
-                setVector(&inner->outer[j], (u32)rcos(v) >> 2, (u32)rsin(v) >> 2, 0);
-                inner->outer_color[0] = 255;
-                inner->outer_color[1] = 255;
-                inner->outer_color[2] = 255;
-                inner->inner_color[0] = 128;
-                inner->inner_color[1] = 192;
-                inner->inner_color[2] = 255;
-            }
-            inner->angle = 0;
-            inner->completed = 0;
         }
         for (q = 0, base = 0; q < 4; q++, spoke++, base += 256) {
             for (n = 0, angle = base; n < 8; angle += 512, n++) {
@@ -265,7 +265,7 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vx = dx;
         work->screen_delta.vy = dy;
-        SpanishModelVariant405_DrawOuterBands((u8 *)point);
+        SpanishModelVariant405_DrawOuterBands((Variant405EntryState *)point);
         FrenchModelVariant562_DrawShards((Variant405EntryState *)point);
         SpanishModelVariant405_DrawPulses((Variant405EntryState *)point);
         work->clock.frame_count++;

@@ -23,11 +23,13 @@ typedef struct {
     s32 otz[2];
 } Variant405EntryRing;
 
+/* One 17-point ring band shaded from its inner to its outer edge. Its
+ * size grows to 4096; a negative start delays the band. */
 typedef struct {
     SVECTOR inner[17], outer[17];
-    u8 outer_color[4], inner_color[4];
-    s32 angle, completed;
-} Variant405EntryCurtain;
+    u8 inner_color[4], outer_color[4];
+    s32 size, completed;
+} Variant405EntryBand;
 
 typedef struct {
     SVECTOR inner[8], outer[8];
@@ -52,8 +54,8 @@ typedef struct {
 typedef struct {
     Variant405EntryRing rings[3];
     ModelVariantSheetSet sheets[6];
-    Variant405EntryCurtain outer_curtains[3];
-    Variant405EntryCurtain inner_curtains[3];
+    Variant405EntryBand bands[3];
+    Variant405EntryBand outer_bands[3];
     Variant405EntrySpoke spokes[4];
     Variant405EntryRibbon ribbons[2];
     Variant405EntryTrail trails[3];
@@ -84,7 +86,8 @@ extern GsIMAGE gSpanishModelVariant405_aImages[2];
 extern Variant405EntryConfig gSpanishModelVariant405_aConfigs[];
 void SpanishModelVariant405_DrawPulses(Variant405EntryState *context);
 void FrenchModelVariant562_DrawShards(Variant405EntryState *context);
-void SpanishModelVariant405_DrawOuterBands(u8 *context);
+void SpanishModelVariant405_DrawBands(Variant405EntryState *context);
+void SpanishModelVariant405_DrawOuterBands(Variant405EntryState *context);
 typedef char Variant405EntryConfigSize[(sizeof(Variant405EntryConfig) == 0x20) ? 1 : -1];
 typedef char Variant405EntryStateSize[(sizeof(Variant405EntryState) == 0x326C) ? 1 : -1];
 #endif

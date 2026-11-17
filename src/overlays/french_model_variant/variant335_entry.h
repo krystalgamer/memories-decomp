@@ -12,19 +12,14 @@ typedef struct {
     u32 end;
 } Model335EntryConfig;
 
-typedef union {
-    DVECTOR point;
-    long packed;
-} Model335Screen;
-
 /* One 0x394-byte ribbon of seventeen points: the entry seeds style, and the
  * ribbon drawer projects the points and takes its colour from style.inner. */
 typedef struct {
     SVECTOR a[17];
-    Model335Screen sa[17];
+    ModelVariantScreenPoint sa[17];
     s32 angle[17];
     SVECTOR b[17];
-    Model335Screen sb[17];
+    ModelVariantScreenPoint sb[17];
     s32 width[17];
     ModelVariantStripStyle style;
     u8 unknown_240[0x88];

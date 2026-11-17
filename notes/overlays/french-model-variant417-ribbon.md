@@ -9,9 +9,10 @@ The accepted MODEL441 ribbon body (`variant441_ribbon.c`) reproduces it
 exactly. Every MODEL417 state field is 0x5AC bytes lower than in MODEL441: the
 ribbon at `+0xA2C` instead of `+0xFD8`, the `POLY_GT4` at `+0x1FC0`, and
 origin, direction, time, timing, index, progress, width and phase likewise.
-`variant417_ribbon.h` declares that `Ribbon417State`. The two wrappers map
-`Ribbon441State` to it, rename the function and include the MODEL441 body. The
-shared Spanish header is not modified.
+Both bodies take their entry record: MODEL441's `Variant441EntryState` and
+MODEL417's `Variant417EntryState` name these members identically, so the
+MODEL417 wrapper maps one type to the other, skips the MODEL441 entry header and
+includes the MODEL441 body.
 
 The helper is registered in all eight French MODEL417 images (models 134, 232,
 354 and 535, both slots). `RotTransPers3` was added to the French MODEL417

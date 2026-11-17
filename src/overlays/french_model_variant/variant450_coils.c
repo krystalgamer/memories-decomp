@@ -33,7 +33,7 @@ void ModelVariant433_DrawCoils(Variant433EntryState *context)
     s32 phase;
     s16 reach;
     s32 dx, dy;
-    Variant433RingScreen *previous;
+    ModelVariantScreenPoint *previous;
 
     work = context;
     ot = Graphics_GetDefaultOrderingTable();
@@ -98,7 +98,7 @@ void ModelVariant433_DrawCoils(Variant433EntryState *context)
     GsSetLsMatrix(&light);
     coil = work->streamers;
     for (i = 0, previous = &coil->screen[15]; i < 2; i++,
-         previous = (Variant433RingScreen *)((u8 *)previous + sizeof(Variant433EntryStreamer)), coil++) {
+         previous = (ModelVariantScreenPoint *)((u8 *)previous + sizeof(Variant433EntryStreamer)), coil++) {
         for (j = 0; j < 17; j++) {
             if (j == 16) {
                 coil->offsets.otz[j] = RotTransPers4(

@@ -4,17 +4,12 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
 
-typedef union {
-    DVECTOR point;
-    long packed;
-} Ribbon474Screen;
-
 typedef struct {
     SVECTOR a[17];
-    Ribbon474Screen sa[17];
+    ModelVariantScreenPoint sa[17];
     s32 angle[17];
     SVECTOR b[17];
-    Ribbon474Screen sb[17];
+    ModelVariantScreenPoint sb[17];
     s32 width[17];
     s32 phase[17];
     s32 amp[17];

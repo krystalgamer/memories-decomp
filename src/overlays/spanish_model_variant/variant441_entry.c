@@ -307,7 +307,7 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
         Square0(&work->aim.view_delta, &squared);
         work->angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
-        if (work->frame < work->config->end) {
+        if (work->frame < work->config->fade_end) {
             if (work->slot == 0) {
                 Model_CopySlotPosition(1, (u16 *)&work->aim.target);
             } else {
@@ -346,7 +346,7 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
                 work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
                 work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
                 if (work->config->start <= work->frame) {
-                    SpanishModelVariant441_DrawRainbowSheets((u8 *)point);
+                    SpanishModelVariant441_DrawRainbowSheets((Variant441EntryState *)point);
                     ModelVariant398_DrawRings((u8 *)point);
                 }
                 if (work->phase > 0) {

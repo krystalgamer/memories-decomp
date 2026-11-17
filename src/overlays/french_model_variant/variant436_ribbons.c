@@ -34,7 +34,7 @@ void FrenchModelVariant436_DrawRibbons(EntryState436 *context)
     s16 len;
     EntryRibbon436 *ribbon;
     POLY_FT4 *poly;
-    EntryRibbonScreen436 screen;
+    ModelVariantScreenPoint screen;
     s32 bend;
     s32 curve;
     s32 amp;

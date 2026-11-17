@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant441_ribbon.h"
+#include "variant441_entry.h"
 
-void SpanishModelVariant441_DrawRibbon(u8 *context)
+void SpanishModelVariant441_DrawRibbon(Variant441EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,18 +10,18 @@ void SpanishModelVariant441_DrawRibbon(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Ribbon441State *state = (Ribbon441State *)context;
-    Ribbon441 *ribbon = state->ribbons;
-    POLY_GT4 *quad = &state->quad;
+    Variant441EntryState *state = context;
+    ModelVariantShortRibbon *ribbon = state->ribbons;
+    POLY_GT4 *quad = &state->packets.textured[0];
     GsOT *ot;
     s16 i, j;
     s32 angle;
     s16 radius;
 
     ot = Graphics_GetDefaultOrderingTable();
-    angle = ratan2(state->projected.vy, state->projected.vx) + 2048;
+    angle = ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx) + 2048;
     if (state->phase > 0) {
-        radius = state->width / 32;
+        radius = state->ribbon_width / 32;
         for (i = 0; i < 1; i++, ribbon++) {
             for (j = 0; j < 2; j++) {
                 (ribbon->points[0] + j)->vx = rcos(1024) * radius >> 12;
@@ -37,13 +37,13 @@ void SpanishModelVariant441_DrawRibbon(u8 *context)
                 rotation.vy = 0;
                 rotation.vz = angle;
                 if (j == 0) {
-                    matrix.t[0] = state->origin[0];
-                    matrix.t[1] = state->origin[1];
-                    matrix.t[2] = state->origin[2];
+                    matrix.t[0] = state->matrix.t[0];
+                    matrix.t[1] = state->matrix.t[1];
+                    matrix.t[2] = state->matrix.t[2];
                 } else {
-                    matrix.t[0] = state->origin[0] + state->direction[0] * state->progress / 1024;
-                    matrix.t[1] = state->origin[1] + state->direction[1] * state->progress / 1024;
-                    matrix.t[2] = state->origin[2] + state->direction[2] * state->progress / 1024;
+                    matrix.t[0] = state->matrix.t[0] + state->aim.direction.vx * state->progress / 1024;
+                    matrix.t[1] = state->matrix.t[1] + state->aim.direction.vy * state->progress / 1024;
+                    matrix.t[2] = state->matrix.t[2] + state->aim.direction.vz * state->progress / 1024;
                 }
                 scale.vx = 4096;
                 scale.vy = 4096;
@@ -94,24 +94,24 @@ void SpanishModelVariant441_DrawRibbon(u8 *context)
                 }
             }
         }
-        if (state->index + 1 == state->timing->count) {
+        if (state->index + 1 == state->config->count) {
             if (state->phase == 1 && state->progress <= 1024) {
-                if (state->timing->expansion_start <= state->time) {
-                    state->progress = (state->time - state->timing->expansion_start) * 1024 /
-                                      (state->timing->expansion_end - state->timing->expansion_start);
+                if (state->config->expansion_start <= state->frame) {
+                    state->progress = (state->frame - state->config->expansion_start) * 1024 /
+                                      (state->config->expansion_end - state->config->expansion_start);
                 }
                 if (state->progress >= 1024) {
                     state->progress = 1024;
                     state->phase = 2;
                 }
             }
-            if (state->width > 0) {
-                if (state->time >= state->timing->fade_start) {
-                    state->width = 1024 - (state->time - state->timing->fade_start) * 1024 /
-                                         (state->timing->fade_end - state->timing->fade_start);
+            if (state->ribbon_width > 0) {
+                if (state->frame >= state->config->fade_start) {
+                    state->ribbon_width = 1024 - (state->frame - state->config->fade_start) * 1024 /
+                                         (state->config->fade_end - state->config->fade_start);
                 }
-                if (state->width <= 0) {
-                    state->width = 0;
+                if (state->ribbon_width <= 0) {
+                    state->ribbon_width = 0;
                     if (state->phase == 3) {
                         state->phase = 4;
                     }

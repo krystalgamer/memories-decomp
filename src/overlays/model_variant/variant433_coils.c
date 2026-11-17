@@ -143,7 +143,7 @@ void ModelVariant433_DrawCoils(Variant433EntryState *context)
     coil = work->streamers;
     for (i = 0; i < 2; i++, coil++) {
         for (j = 0; j < 16; j++) {
-            quad->x0 = ((Variant433RingScreen *)((u8 *)coil->screen + j * 4))->point.vx + coil->offsets.ox[j];
+            quad->x0 = ((ModelVariantScreenPoint *)((u8 *)coil->screen + j * 4))->point.vx + coil->offsets.ox[j];
             quad->y0 = (coil->screen[j].packed >> 16) + coil->offsets.oy[j];
             quad->x1 = (&coil->screen[j])[1].point.vx + (&coil->offsets.ox[j])[1];
             quad->y1 = ((&coil->screen[j])[1].packed >> 16) + (&coil->offsets.oy[j])[1];
