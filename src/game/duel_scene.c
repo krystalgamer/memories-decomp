@@ -1185,19 +1185,19 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gGraphics_aImageTransferRects[0].w = 0x100;
         gGraphics_aImageTransferRects[0].h = 0x10;
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
-        d->sector_destination = d->alternate_sector_destination = gDuel_awEquipTable;
+        d->sector_destination = d->alternate_sector_destination = (u8 *)gDuel_awEquipTable;
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
         break;
     case 3:
-        d->sector_destination = d->alternate_sector_destination = &gDuel_aFusionTable;
+        d->sector_destination = d->alternate_sector_destination = (u8 *)&gDuel_aFusionTable;
         d->phase_size = 32 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
         break;
     case 4:
-        d->sector_destination = d->alternate_sector_destination = gDuel_awRitualData;
+        d->sector_destination = d->alternate_sector_destination = (u8 *)gDuel_awRitualData;
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
