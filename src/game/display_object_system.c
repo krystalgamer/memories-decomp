@@ -121,7 +121,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->attribute = GsROTOFF;
         slot->flags = DISPLAY_OBJECT_RENDERABLE_MASK;
         slot->ot_index = 2;
-        slot->field_54 = tail_data_start;
+        slot->field_54.resource = tail_data_start;
         slot->update_state = 0;
         slot->update = 0;
         slot->list_key = key;
@@ -191,7 +191,7 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
 void DisplayObject_ReleaseIfPresent(void *object)
 {
     if (object != 0) {
-        DisplayObject_Release((DisplayObject *)object);
+        DisplayObject_Release(object);
     }
 }
 
@@ -318,7 +318,7 @@ DisplayObject *DisplayObject_ConfigureScreenSprite(
    instead. */
 void DisplayObject_RenderSpriteList(void) {
     SpritePrim *p;
-    POLY_FT4 *packet;
+    DisplayObjectFT4Packet *packet;
     ClipState *clip;
     DisplayObject *object;
     GsOT **table;
@@ -330,13 +330,13 @@ void DisplayObject_RenderSpriteList(void) {
 
     i = gDisplayObject_awListHeads[1];
     if (i >= 0) {
-        packet = (POLY_FT4 *)SCRATCH_ADDR(0x344);
+        packet = (DisplayObjectFT4Packet *)SCRATCH_ADDR(0x344);
         p = (SpritePrim *)SCRATCH_ADDR(0x320);
         clip = (ClipState *)SCRATCH_ADDR(0x378);
         table = gGraphics_apOrderingTables;
 
         do {
-            object = (DisplayObject *)((u8 *)gDisplayObject_aPool + i * DISPLAY_OBJECT_RECORD_SIZE);
+            object = &gDisplayObject_aPool[i];
             i = object->next;
             while (1) {
                 callback = object->update;
@@ -368,15 +368,15 @@ void DisplayObject_RenderSpriteList(void) {
                     if (DisplayObject_ProjectRotationFacing(
                             object, (s16)p->xy.h.x + (s16)object->field_18.center.x,
                             (s16)p->xy.h.y + (s16)object->field_18.center.y,
-                                      (struct ProjectionOut *)clip->out) <= 0) {
+                                      &clip->out) <= 0) {
                         break;
                     }
                     if (gDisplayObject_fRenderRetry != 0) {
                         continue;
                     }
                     setlen(packet, 9);
-                    *(s32 *)&packet->r0 = p->rgb.word;
-                    packet->code = 0x2C;
+                    packet->w.rgb0 = p->rgb.word;
+                    packet->prim.code = 0x2C;
                     if ((p->attribute & GsALON) != 0) {
                         SetSemiTrans(packet, 1);
                     }
@@ -389,8 +389,7 @@ void DisplayObject_RenderSpriteList(void) {
                     p->xy.h.y = p->xy.h.y + p->mxmy.h.y;
                     mode = object->ot_depth | 0x30000;
                 }
-                /* ClipState (ygo_types.h) holds the 0x398 origin as bytes. */
-                DisplayObject_SubmitPacket(p, packet, ot, mode, (DisplayObjectPacketOrigin *)clip->out);
+                DisplayObject_SubmitPacket(p, packet, ot, mode, &clip->out);
                 break;
             }
         } while (i >= 0);
@@ -410,6 +409,7 @@ void DisplayObject_RenderSpriteSheetList(void) {
         GsOT **table = gGraphics_apOrderingTables;
 
         do {
+            /* Integer sum: &base[i] swaps the addu operands. */
             DisplayObject *object =
                 (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
@@ -487,9 +487,6 @@ void (*gDisplayObject_ListRenderers[DISPLAY_OBJECT_LIST_COUNT])(void) = {
 GsF_LIGHT gDisplayObject_FlatLightDown = { 0, 0x1000, 0, 0x60, 0x60, 0x60 };
 GsF_LIGHT gDisplayObject_FlatLightUp = { 0, -0x1000, 0, 0x30, 0x30, 0x30 };
 
-/* Caching this pointer shortens retail; each use must reload field_4C. */
-#define SPRITE_SHEET_HEADER(object) \
-    ((SpriteSheetHeader *)(object)->field_4C.frame_data)
 #ifndef SPRITE_SHEET_SCREEN_HEIGHT
 #define SPRITE_SHEET_SCREEN_HEIGHT 240
 #endif
@@ -507,7 +504,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
     u16 mode16 = mode_arg;
     SpritePrim *p;
     ClipState *clip;
-    POLY_FT4 *packet;
+    DisplayObjectFT4Packet *packet;
     s32 step;
     s32 mode;
     s32 remaining;
@@ -516,7 +513,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
 
     clip = (ClipState *)SCRATCH_ADDR(0x378);
     p = (SpritePrim *)SCRATCH_ADDR(0x320);
-    packet = (POLY_FT4 *)SCRATCH_ADDR(0x344);
+    packet = (DisplayObjectFT4Packet *)SCRATCH_ADDR(0x344);
     step = 1;
 
     tag = object->attribute;
@@ -546,12 +543,12 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
         if (DisplayObject_ProjectRotationFacing(
                 object, (s16)p->xy.h.x + (s16)object->field_18.center.x,
                 (s16)p->xy.h.y + (s16)object->field_18.center.y,
-                          (struct ProjectionOut *)clip->out) <= 0) {
+                          &clip->out) <= 0) {
             return;
         }
         setlen(packet, 9);
-        *(s32 *)&packet->r0 = p->rgb.word;
-        packet->code = 0x2C;
+        packet->w.rgb0 = p->rgb.word;
+        packet->prim.code = 0x2C;
         if ((p->attribute & GsALON) != 0) {
             SetSemiTrans(packet, 1);
         }
@@ -574,8 +571,7 @@ void DisplayObject_RenderSpriteStrips(DisplayObject *object, GsOT *ordering_tabl
         if (p->uv.b.lo + p->extent.wh.w.word > 0x100) {
             p->extent.wh.w.word = 0x100 - p->uv.b.lo;
         }
-        /* ClipState (ygo_types.h) holds the 0x398 origin as bytes. */
-        DisplayObject_SubmitPacket(p, packet, ordering_table, mode, (DisplayObjectPacketOrigin *)clip->out);
+        DisplayObject_SubmitPacket(p, packet, ordering_table, mode, &clip->out);
         if (clip->flag != 0) {
             p->xy.h.x = p->xy.h.x + p->extent.wh.w.word;
         } else {
@@ -598,6 +594,7 @@ void DisplayObject_RenderSpriteStripList(void)
         GsOT **table = gGraphics_apOrderingTables;
 
         do {
+            /* Integer sum: &base[i] swaps the addu operands. */
             DisplayObject *object =
                 (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
@@ -642,6 +639,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
         GsOT **table = gGraphics_apOrderingTables;
 
         do {
+            /* Integer sum: &base[i] swaps the addu operands. */
             DisplayObject *object =
                 (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
             DisplayObjectCallback callback = object->update;
@@ -670,17 +668,10 @@ void DisplayObject_RunSecondaryCallbackList(void)
  * and 0x3C in DisplayObject_RenderTexturedGouraudQuadList, which is setPolyGT4. The offsets agree member by
  * member -- each x/y pair lands on xN/yN, each colour word on rN, and in the
  * textured form each halfword on uN -- so the cursor is typed as the
- * primitive. The constants stay in `eight`/`hi` rather than setPolyG4's
- * literals because retail holds them in s8/s7 across the loop.
- *
- * Reads from the object that follow a store into the primitive are spelled
- * *(T *)&object->member, not object->member. A member read is a struct reference, the
- * word stores into the primitive are not, and GCC 2.8.1 lets a load at a
- * varying struct address float above a store to a fixed scalar one; taken
- * through the member's address the read stays scalar and keeps its place,
- * which is what retail does. The loads at the top of each vertex block come
- * before any such store and are ordinary member reads. See display_object.h
- * for the measurement.
+ * primitive paired with its word layout (DisplayObjectG4Packet), and the
+ * colour and vertex words are copied through that layout. The constants
+ * stay in `eight`/`hi` rather than setPolyG4's literals because retail
+ * holds them in s8/s7 across the loop.
  *
  * Walks the display-object list from the head index at gDisplayObject_awListHeads[4], calls
  * each object's callback, and for every visible object copies its four
@@ -690,7 +681,7 @@ void DisplayObject_RunSecondaryCallbackList(void)
  * the +0x5A flag asks for the second texture -- through
  * DisplayObject_SubmitPacket. */
 void DisplayObject_RenderGouraudQuadList(void) {
-    POLY_G4 *packet;
+    DisplayObjectG4Packet *packet;
     DisplayObjectPacketOrigin *projection;
     DisplayObject *object;
     GsOT **table;
@@ -711,7 +702,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
     s32 x1;
     s32 x2;
 
-    packet = (POLY_G4 *)SCRATCH_ADDR(0x344);
+    packet = (DisplayObjectG4Packet *)SCRATCH_ADDR(0x344);
     projection = (DisplayObjectPacketOrigin *)SCRATCH_ADDR(0x398);
     i = gDisplayObject_awListHeads[4];
 
@@ -735,37 +726,37 @@ void DisplayObject_RenderGouraudQuadList(void) {
                 w1 = object->xy.word;
                 w2 = object->field_38.word;
                 w3 = object->field_40.word;
-                *(s32 *)&packet->x0 = w0;
-                *(s32 *)&packet->x1 = w1;
-                *(s32 *)&packet->x2 = w2;
-                *(s32 *)&packet->x3 = w3;
-                *(s32 *)&packet->r0 = *(s32 *)&object->field_2C;
-                *(s32 *)&packet->r1 = *(s32 *)&object->field_34;
-                *(s32 *)&packet->r2 = *(s32 *)&object->field_3C;
-                w4 = *(s32 *)&object->field_44;
+                packet->w.xy0 = w0;
+                packet->w.xy1 = w1;
+                packet->w.xy2 = w2;
+                packet->w.xy3 = w3;
+                packet->w.rgb0 = object->field_2C.word;
+                packet->w.rgb1 = object->field_34.word;
+                packet->w.rgb2 = object->field_3C.word;
+                w4 = object->field_44.word;
                 setlen(packet, eight);
                 setcode(packet, hi);
                 flags = object->flags;
-                *(s32 *)&packet->r3 = w4;
+                packet->w.rgb3 = w4;
 
                 if ((flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
                     dx = gGraphics_sViewportX;
-                    packet->x0 -= dx;
-                    packet->x1 -= dx;
-                    packet->x2 -= dx;
-                    packet->x3 -= dx;
+                    packet->prim.x0 -= dx;
+                    packet->prim.x1 -= dx;
+                    packet->prim.x2 -= dx;
+                    packet->prim.x3 -= dx;
                     dx = gGraphics_sViewportY;
-                    packet->y0 -= dx;
-                    packet->y1 -= dx;
-                    packet->y2 -= dx;
-                    packet->y3 -= dx;
+                    packet->prim.y0 -= dx;
+                    packet->prim.y1 -= dx;
+                    packet->prim.y2 -= dx;
+                    packet->prim.y3 -= dx;
                 }
 
                 if ((object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     if (DisplayObject_ProjectPackedRotationFacing(
                                       object->field_20.word,
-                                      packet->x0 + (s16)object->field_18.center.x,
-                                      packet->y0 + (s16)object->field_18.center.y,
+                                      packet->prim.x0 + (s16)object->field_18.center.x,
+                                      packet->prim.y0 + (s16)object->field_18.center.y,
                                       projection) <= 0) {
                         continue;
                     }
@@ -775,19 +766,16 @@ void DisplayObject_RenderGouraudQuadList(void) {
                 DisplayObject_SubmitPacket((SpritePrim *)attribute, packet, table[object->ot_index],
                                            object->ot_depth | bit, projection);
 
-                if (*(u8 *)&object->field_5A != 0) {
+                if ((u8)object->field_5A != 0) {
                     x0 = object->field_48.word;
                     x1 = object->field_50.word;
-                    *(s32 *)&packet->x0 = x0;
-                    *(s32 *)&packet->x1 = x1;
-                    /* field_4C.word is s32, so *(s32 *)& would fold
-                       back into a member read and float; u32 keeps it
-                       scalar. */
-                    *(s32 *)&packet->r0 = *(u32 *)&object->field_4C.word;
-                    x2 = *(s32 *)&object->field_54;
+                    packet->w.xy0 = x0;
+                    packet->w.xy1 = x1;
+                    packet->w.rgb0 = object->field_4C.word;
+                    x2 = object->field_54.word;
                     setlen(packet, eight);
                     setcode(packet, hi);
-                    *(s32 *)&packet->r1 = x2;
+                    packet->w.rgb1 = x2;
                     DisplayObject_SubmitPacket((SpritePrim *)attribute, packet, table[object->ot_index],
                                                object->ot_depth | bit, projection);
                 }
@@ -801,7 +789,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
  * submission, gated on the byte at 0x72 two bytes past the record, rewrites
  * the first two vertices from 0x58; display_object.h records that reach. */
 void DisplayObject_RenderTexturedGouraudQuadList(void) {
-    POLY_GT4 *packet;
+    DisplayObjectGT4Packet *packet;
     DisplayObjectPacketOrigin *projection;
     DisplayObject *object;
     GsOT **table;
@@ -822,7 +810,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
     s32 x1;
     s32 x2;
 
-    packet = (POLY_GT4 *)SCRATCH_ADDR(0x344);
+    packet = (DisplayObjectGT4Packet *)SCRATCH_ADDR(0x344);
     projection = (DisplayObjectPacketOrigin *)SCRATCH_ADDR(0x398);
     i = gDisplayObject_awListHeads[5];
 
@@ -846,41 +834,41 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                 w1 = object->field_34.word;
                 w2 = object->field_40.word;
                 w3 = object->field_4C.word;
-                *(s32 *)&packet->x0 = w0;
-                *(s32 *)&packet->x1 = w1;
-                *(s32 *)&packet->x2 = w2;
-                *(s32 *)&packet->x3 = w3;
-                *(s32 *)&packet->r0 = *(s32 *)&object->field_2C;
-                *(s32 *)&packet->r1 = *(s32 *)&object->field_38;
-                *(s32 *)&packet->r2 = *(s32 *)&object->field_44;
-                *(s32 *)&packet->r3 = *(s32 *)&object->field_50;
-                *(u16 *)&packet->u0 = *(u16 *)&object->xy;
-                *(u16 *)&packet->u1 = *(u16 *)&object->field_3C;
-                *(u16 *)&packet->u2 = *(u16 *)&object->field_48;
-                w4 = *(u16 *)&object->field_54;
+                packet->w.xy0 = w0;
+                packet->w.xy1 = w1;
+                packet->w.xy2 = w2;
+                packet->w.xy3 = w3;
+                packet->w.rgb0 = object->field_2C.word;
+                packet->w.rgb1 = object->field_38.word;
+                packet->w.rgb2 = object->field_44.word;
+                packet->w.rgb3 = object->field_50.word;
+                packet->w.uv0 = object->xy.h.x;
+                packet->w.uv1 = object->field_3C.size.w;
+                packet->w.uv2 = object->field_48.pivot.x;
+                w4 = object->field_54.uv;
                 setlen(packet, twelve);
                 setcode(packet, hi);
                 flags = object->flags;
-                *(u16 *)&packet->u3 = w4;
+                packet->w.uv3 = w4;
 
                 if ((flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE) == 0) {
                     dx = gGraphics_sViewportX;
-                    packet->x0 -= dx;
-                    packet->x1 -= dx;
-                    packet->x2 -= dx;
-                    packet->x3 -= dx;
+                    packet->prim.x0 -= dx;
+                    packet->prim.x1 -= dx;
+                    packet->prim.x2 -= dx;
+                    packet->prim.x3 -= dx;
                     dx = gGraphics_sViewportY;
-                    packet->y0 -= dx;
-                    packet->y1 -= dx;
-                    packet->y2 -= dx;
-                    packet->y3 -= dx;
+                    packet->prim.y0 -= dx;
+                    packet->prim.y1 -= dx;
+                    packet->prim.y2 -= dx;
+                    packet->prim.y3 -= dx;
                 }
 
                 if ((object->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) != 0) {
                     if (DisplayObject_ProjectPackedRotationFacing(
                                       object->field_20.word,
-                                      packet->x0 + (s16)object->field_18.center.x,
-                                      packet->y0 + (s16)object->field_18.center.y,
+                                      packet->prim.x0 + (s16)object->field_18.center.x,
+                                      packet->prim.y0 + (s16)object->field_18.center.y,
                                       projection) <= 0) {
                         continue;
                     }
@@ -892,17 +880,18 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
 
                 /* Byte 0x72 is the low byte of the next pool entry's `next`. */
                 if ((u8)object[1].next != 0) {
+                    /* These words and halfwords span members no union pairs. */
                     x0 = *(s32 *)&object->field_58;
                     x1 = *(s32 *)&object->fraction_z;
-                    *(s32 *)&packet->x0 = x0;
-                    *(s32 *)&packet->x1 = x1;
-                    *(s32 *)&packet->r0 = *(s32 *)&object->texture_uv;
-                    *(s32 *)&packet->r1 = *(s32 *)&object->resource_branch_index;
-                    *(u16 *)&packet->u0 = *(u16 *)&object->field_60;
+                    packet->w.xy0 = x0;
+                    packet->w.xy1 = x1;
+                    packet->w.rgb0 = *(s32 *)&object->texture_uv;
+                    packet->w.rgb1 = *(s32 *)&object->resource_branch_index;
+                    packet->w.uv0 = object->field_60;
                     x2 = *(u16 *)&object->update_state;
                     setlen(packet, twelve);
                     setcode(packet, hi);
-                    *(u16 *)&packet->u1 = x2;
+                    packet->w.uv1 = x2;
                     DisplayObject_SubmitPacket((SpritePrim *)attribute, packet, table[object->ot_index],
                                                object->ot_depth | bit, projection);
                 }
@@ -928,23 +917,23 @@ void DisplayObject_RenderFrame(void)
 }
 
 /* Entries 0 through 4 of gDisplayObjectStream_apfnCommandHandlers. */
-s32 DisplayObjectStream_Stop(DisplayObjectStreamState *object, const u8 *data)
+s32 DisplayObjectStream_Stop(DisplayObject *object, const u8 *data)
 {
-    object->frame_delay = 0;
+    object->field_5A = 0;
     return -1;
 }
 
 s32 DisplayObjectStream_ResetOffset(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 )
 {
-    object->command_offset = 0;
+    object->field_58 = 0;
     return 1;
 }
 
 s32 DisplayObjectStream_Noop(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 )
 {
@@ -952,28 +941,28 @@ s32 DisplayObjectStream_Noop(
 }
 
 s32 DisplayObjectStream_JumpToOffset(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 )
 {
-    object->command_offset = 0;
-    object->current = object->base + ((data[1] << 8) | data[0]);
+    object->field_58 = 0;
+    object->field_50.current = object->field_54.resource + ((data[1] << 8) | data[0]);
     return 1;
 }
 
 s32 DisplayObjectStream_ToggleFlagAndJumpToOffset(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 )
 {
     object->attribute ^= 0x800000;
-    object->command_offset = 0;
-    object->current = object->base + ((data[1] << 8) | data[0]);
+    object->field_58 = 0;
+    object->field_50.current = object->field_54.resource + ((data[1] << 8) | data[0]);
     return 1;
 }
 
 s32 DisplayObjectStream_JumpToRandomOffset(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 )
 {
@@ -984,26 +973,26 @@ s32 DisplayObjectStream_JumpToRandomOffset(
     data += i * 2 + 1;
     hi = data[1];
     lo = data[0];
-    base = object->base;
-    object->command_offset = 0;
-    object->current = base + ((hi << 8) | lo);
+    base = object->field_54.resource;
+    object->field_58 = 0;
+    object->field_50.current = base + ((hi << 8) | lo);
     return 1;
 }
 
 s32 DisplayObjectStream_ConfigureRotation(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 )
 {
     int high;
     int low;
     object->attribute |= GsROTOFF;
-    object->rotation_z = data[0];
-    object->pivot_y = (signed char)data[1];
+    object->field_20.h.rotation_z = data[0];
+    object->field_48.pivot.y = (signed char)data[1];
     high = data[3] << 8;
     low = data[2];
-    object->current += 4;
-    object->pivot_x = high | low;
+    object->field_50.current += 4;
+    object->field_48.pivot.x = high | low;
     return 1;
 }
 
@@ -1028,8 +1017,8 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
     SpritePrim *sprite;
     SpriteSheetWork *work;
     SpriteSheetState *state;
-    u8 *quad;
-    u8 *sheet;
+    DisplayObjectFT4Packet *quad;
+    SpriteSheet *sheet;
     SpriteSheetPart *part;
     s32 count;
     s32 x;
@@ -1060,24 +1049,25 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
         work->attribute = object->attribute;
         work->u = object->resource_uv.b.u;
         work->v = object->resource_uv.b.v;
-        count = SPRITE_SHEET_HEADER(object)->count;
+        /* Every header read reloads field_4C; caching the sheet shortens retail. */
+        count = object->field_4C.frame_data->header.count;
         if (count == 0) {
             return;
         }
-        state->flags = SPRITE_SHEET_HEADER(object)->flags;
+        state->flags = object->field_4C.frame_data->header.flags;
         if (work->attribute & 0x01000000) {
             work->wide = 1;
-            tpage = object->texture_page + SPRITE_SHEET_HEADER(object)->tpage * 2;
+            tpage = object->texture_page + object->field_4C.frame_data->header.tpage * 2;
         } else {
             work->wide = 0;
-            tpage = object->texture_page + SPRITE_SHEET_HEADER(object)->tpage;
+            tpage = object->texture_page + object->field_4C.frame_data->header.tpage;
         }
         sprite->tpage = work->tpage = tpage;
         work->cx = object->field_40.clut.x;
         work->cy = object->field_40.clut.y;
         if (object->flags & DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET) {
-            work->cx += (SPRITE_SHEET_HEADER(object)->clut & 0xF) << 4;
-            work->cy += SPRITE_SHEET_HEADER(object)->clut >> 4;
+            work->cx += (object->field_4C.frame_data->header.clut & 0xF) << 4;
+            work->cy += object->field_4C.frame_data->header.clut >> 4;
         }
         sheet = object->field_4C.frame_data;
         sprite->rotate = object->field_20.h.rotation_z * 5760;
@@ -1088,7 +1078,7 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
         sprite->rgb.c.r = object->rgb.c.r;
         sprite->rgb.c.g = object->rgb.c.g;
         blue = object->rgb.c.b;
-        part = (SpriteSheetPart *)(sheet + sizeof(SpriteSheetHeader));
+        part = sheet->parts;
         sprite->cxcy.h.cx = work->cx;
         sprite->cxcy.h.cy = work->cy;
         /* Scheduling barrier: the attribute read for the screen bit stays
@@ -1117,8 +1107,8 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
         quad = 0;
         work->mode = 0;
         if (work->clip != 0) {
-            quad = (u8 *)SCRATCH_ADDR(0x344);
-            *(u32 *)&((POLY_FT4 *)quad)->r0 = sprite->rgb.word;
+            quad = (DisplayObjectFT4Packet *)SCRATCH_ADDR(0x344);
+            quad->w.rgb0 = sprite->rgb.word;
             setlen(quad, 9);
             setcode(quad, 0x2C);
             gDisplayObject_fRenderRetry = 0;
@@ -1266,15 +1256,15 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
 
    gDisplayObjectStream_apfnCommandHandlers is the display-object stream handler table.
    DisplayObjectStream_ReadNextCommand dispatches table[op ^ 0xFF] for opcodes
-   from 0xF0 up. All seven callbacks receive the shared DisplayObjectStreamState
-   and operand cursor, including the reset and no-op entries that do not need
+   from 0xF0 up. All seven callbacks receive the display object and the
+   operand cursor, including the reset and no-op entries that do not need
    both arguments. This keeps the interpreter boundary checked instead of
    hiding five prototype differences behind table casts.
 
    The background records and shadow fan steps that follow it in this image
    belong to model_background_records.c: Japan links the movie-stream and
    model-effect data between the two. */
-s32 (*gDisplayObjectStream_apfnCommandHandlers[])(DisplayObjectStreamState *, const u8 *) = {
+s32 (*gDisplayObjectStream_apfnCommandHandlers[])(DisplayObject *, const u8 *) = {
     DisplayObjectStream_Stop,
     DisplayObjectStream_ResetOffset,
     DisplayObjectStream_Noop,
@@ -1285,15 +1275,15 @@ s32 (*gDisplayObjectStream_apfnCommandHandlers[])(DisplayObjectStreamState *, co
 };
 
 void DisplayObjectStream_ReadNextCommand(
-    DisplayObjectStreamState *object, s32 script, s32 attribute, DisplayObject *owner
+    DisplayObject *object, s32 script, s32 attribute, DisplayObject *owner
 )
 {
     u8 *p;
     s32 op;
-    s32 (**table)(DisplayObjectStreamState *, const u8 *);
+    s32 (**table)(DisplayObject *, const u8 *);
     s32 value;
 
-    p = object->current + (u16)object->command_offset;
+    p = object->field_50.current + (u16)object->field_58;
     op = *p;
     p++;
 
@@ -1303,16 +1293,17 @@ void DisplayObjectStream_ReadNextCommand(
             if (table[op ^ 0xFF](object, p) == -1) {
                 return;
             }
-            p = object->current + (u16)object->command_offset;
+            p = object->field_50.current + (u16)object->field_58;
             op = *p;
             p++;
         } while (op >= 0xF0);
     }
 
-    object->frame_delay = op;
+    object->field_5A = op;
     value = (p[1] << 8) | p[0];
-    object->frame_data = object->base + value;
-    object->command_offset += 3;
+    /* The operand is a byte offset into the resource; the sheet starts there. */
+    object->field_4C.frame_data = (SpriteSheet *)(object->field_54.resource + value);
+    object->field_58 += 3;
 }
 
 #include "display_object.h"
@@ -1350,18 +1341,18 @@ void DisplayObject_UpdateCommandStream(DisplayObject *object) {
         s32 off1, off2, off3;
         s32 mask;
 
-        base = (u8 *)object->field_54;
+        base = object->field_54.resource;
         object->flags = object->flags | 0x10;
         object->field_58 = 0;
         object->field_5A = 1;
 
-        p1 = (u8 *)&((u16 *)base)[object->resource_root_index];
+        p1 = base + object->resource_root_index * 2;
         off1 = p1[1] << 8;
         off1 |= p1[0];
-        p2 = (u8 *)&((u16 *)(base + off1))[object->resource_branch_index];
+        p2 = base + off1 + object->resource_branch_index * 2;
         off2 = p2[1] << 8;
         off2 |= p2[0];
-        p3 = (u8 *)&((u16 *)(base + off2))[object->resource_variant];
+        p3 = base + off2 + object->resource_variant * 2;
         off3 = p3[1] << 8;
         off3 |= p3[0];
         p = base + off3;
@@ -1370,11 +1361,11 @@ void DisplayObject_UpdateCommandStream(DisplayObject *object) {
         script = (s32)p;
         attribute = mask;
         object->attribute = mask;
-        object->field_50.word = (s32)p;
+        object->field_50.current = p;
         if (object->flags & 0x100) {
             object->attribute = mask | 0x800000;
         }
-        DisplayObjectStream_ReadNextCommand((DisplayObjectStreamState *)object, script, attribute, object);
+        DisplayObjectStream_ReadNextCommand(object, script, attribute, object);
         return;
     }
 
@@ -1382,7 +1373,7 @@ void DisplayObject_UpdateCommandStream(DisplayObject *object) {
         s16 remain = (u16)object->field_5A - (u16)gGraphics_nBaseFrameStep;
         object->field_5A = remain;
         if (remain <= 0) {
-            DisplayObjectStream_ReadNextCommand((DisplayObjectStreamState *)object, script, attribute, object);
+            DisplayObjectStream_ReadNextCommand(object, script, attribute, object);
         }
     }
 }
@@ -1481,7 +1472,7 @@ s32 DisplayObject_ProjectRotationFacing(
     mtx->t[2] = MODEL_DEFAULT_PROJECTION;
 
     if (!(obj->attribute & GsROTOFF)) {
-        VECTOR *scale = (VECTOR *)v308;
+        VECTOR *scale = (VECTOR *)SCRATCH_ADDR(0x308);
 
         scale->vx = obj->field_44.scale.x;
         scale->vy = obj->field_44.scale.y;
@@ -1514,7 +1505,7 @@ s32 DisplayObject_ProjectRotationFacing(
             s32 cb = obj->back_face_handler.word;
             if (cb != 0) {
                 if (cb < 0) {
-                    ((void (*)(DisplayObject *, s32))cb)(obj, facing_area);
+                    obj->back_face_handler.callback(obj, facing_area);
                 }
                 if (facing_area >= 0) {
                     return facing_area;
@@ -1573,6 +1564,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, void *packet, GsOT *ot, s32 
     long *otz;
     s32 pri = (s16)mode;
 
+    /* SpritePrim is GsSPRITE's layout with word views of its pairs. */
     switch ((u32)mode >> 16) {
     case 1:
         GsSortFastSprite((GsSPRITE *)sprite, ot, pri);
@@ -1584,66 +1576,66 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, void *packet, GsOT *ot, s32 
         GsSortSprite((GsSPRITE *)sprite, ot, pri);
         return;
     case 4: {
-        POLY_G4 *g4 = packet;
+        DisplayObjectG4Packet *g4 = packet;
 
         if ((u32)sprite & 0x04000000) {
             otz = (long *)SCRATCH_ADDR(0x2E0);
             v = (SVECTOR *)SCRATCH_ADDR(0x300);
-            v[0].vx = g4->x0 - origin->x;
-            v[0].vy = g4->y0 - origin->y;
-            v[1].vx = g4->x1 - origin->x;
-            v[1].vy = g4->y1 - origin->y;
-            v[2].vx = g4->x2 - origin->x;
-            v[2].vy = g4->y2 - origin->y;
-            v[3].vx = g4->x3 - origin->x;
-            v[3].vy = g4->y3 - origin->y;
+            v[0].vx = g4->prim.x0 - origin->x;
+            v[0].vy = g4->prim.y0 - origin->y;
+            v[1].vx = g4->prim.x1 - origin->x;
+            v[1].vy = g4->prim.y1 - origin->y;
+            v[2].vx = g4->prim.x2 - origin->x;
+            v[2].vy = g4->prim.y2 - origin->y;
+            v[3].vx = g4->prim.x3 - origin->x;
+            v[3].vy = g4->prim.y3 - origin->y;
+            /* Absolute stores; v[3].vz and friends would store through v. */
             ((SVECTOR *)SCRATCH_ADDR(0x318))->vz = 0;
             ((SVECTOR *)SCRATCH_ADDR(0x310))->vz = 0;
             ((SVECTOR *)SCRATCH_ADDR(0x308))->vz = 0;
             v[0].vz = 0;
-            if (RotAverageNclip4((SVECTOR *)SCRATCH_ADDR(0x300), (SVECTOR *)SCRATCH_ADDR(0x308),
-                                 (SVECTOR *)SCRATCH_ADDR(0x310), (SVECTOR *)SCRATCH_ADDR(0x318),
-                                 (long *)&g4->x0, (long *)&g4->x1,
-                                 (long *)&g4->x2, (long *)&g4->x3,
+            if (RotAverageNclip4(v, &v[1], &v[2], &v[3],
+                                 &g4->w.xy0, &g4->w.xy1,
+                                 &g4->w.xy2, &g4->w.xy3,
                                  otz, otz + 1, otz + 2) <= 0) {
                 return;
             }
         }
         if ((u32)sprite & 0x40000000) {
-            Graphics_SubmitDrawModePacket((u32 *)g4, ot, (u16)pri, ((u32)sprite >> 28) & 3);
+            Graphics_SubmitDrawModePacket(g4, ot, (u16)pri, ((u32)sprite >> 28) & 3);
         } else {
             GsSortPoly(g4, ot, pri);
         }
         return;
     }
     case 5: {
-        POLY_GT4 *gt4 = packet;
+        DisplayObjectGT4Packet *gt4 = packet;
 
         if ((u32)sprite & 0x04000000) {
             otz = (long *)SCRATCH_ADDR(0x2E0);
             v = (SVECTOR *)SCRATCH_ADDR(0x300);
-            v[0].vx = gt4->x0 - origin->x;
-            v[0].vy = gt4->y0 - origin->y;
-            v[1].vx = gt4->x1 - origin->x;
-            v[1].vy = gt4->y1 - origin->y;
-            v[2].vx = gt4->x2 - origin->x;
-            v[2].vy = gt4->y2 - origin->y;
-            v[3].vx = gt4->x3 - origin->x;
-            v[3].vy = gt4->y3 - origin->y;
+            v[0].vx = gt4->prim.x0 - origin->x;
+            v[0].vy = gt4->prim.y0 - origin->y;
+            v[1].vx = gt4->prim.x1 - origin->x;
+            v[1].vy = gt4->prim.y1 - origin->y;
+            v[2].vx = gt4->prim.x2 - origin->x;
+            v[2].vy = gt4->prim.y2 - origin->y;
+            v[3].vx = gt4->prim.x3 - origin->x;
+            v[3].vy = gt4->prim.y3 - origin->y;
+            /* Absolute stores; v[3].vz and friends would store through v. */
             ((SVECTOR *)SCRATCH_ADDR(0x318))->vz = 0;
             ((SVECTOR *)SCRATCH_ADDR(0x310))->vz = 0;
             ((SVECTOR *)SCRATCH_ADDR(0x308))->vz = 0;
             v[0].vz = 0;
-            if (RotAverageNclip4((SVECTOR *)SCRATCH_ADDR(0x300), (SVECTOR *)SCRATCH_ADDR(0x308),
-                                 (SVECTOR *)SCRATCH_ADDR(0x310), (SVECTOR *)SCRATCH_ADDR(0x318),
-                                 (long *)&gt4->x0, (long *)&gt4->x1,
-                                 (long *)&gt4->x2, (long *)&gt4->x3,
+            if (RotAverageNclip4(v, &v[1], &v[2], &v[3],
+                                 &gt4->w.xy0, &gt4->w.xy1,
+                                 &gt4->w.xy2, &gt4->w.xy3,
                                  otz, otz + 1, otz + 2) <= 0) {
                 return;
             }
         }
         if ((u32)sprite & 0x40000000) {
-            Graphics_SubmitDrawModePacket((u32 *)gt4, ot, (u16)pri, ((u32)sprite >> 28) & 3);
+            Graphics_SubmitDrawModePacket(gt4, ot, (u16)pri, ((u32)sprite >> 28) & 3);
         } else {
             GsSortPoly(gt4, ot, pri);
         }
@@ -1657,7 +1649,7 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, void *packet, GsOT *ot, s32 
         SVECTOR *v1;
         u32 attribute;
         POLY_FT4 *ft4 = packet;
-        POLY_FT4 *projected;
+        DisplayObjectFT4Packet *projected;
 
         otz = (long *)SCRATCH_ADDR(0x2E0);
         v = (SVECTOR *)SCRATCH_ADDR(0x300);
@@ -1709,8 +1701,8 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, void *packet, GsOT *ot, s32 
         v1->vz = 0;
         v->vz = 0;
         if (RotAverageNclip4(v, v1, v2, v3,
-                             (long *)&projected->x0, (long *)&projected->x1,
-                             (long *)&projected->x2, (long *)&projected->x3,
+                             &projected->w.xy0, &projected->w.xy1,
+                             &projected->w.xy2, &projected->w.xy3,
                              otz, otz + 1, otz + 2) > 0) {
             if (origin->divisions == 0) {
                 GsSortPoly(packet, ot, pri);
@@ -1724,14 +1716,15 @@ void DisplayObject_SubmitPacket(SpritePrim *sprite, void *packet, GsOT *ot, s32 
                 divp->ndiv = origin->divisions;
                 divp->pih = 320;
                 divp->piv = DISPLAY_OBJECT_DIVP_PIV;
-                *rgbc = *(u32 *)&projected->r0;
-                uv[0] = *(u32 *)&projected->u0;
-                uv[1] = *(u32 *)&projected->u1;
-                uv[2] = *(u32 *)&projected->u2;
-                uv[3] = *(u32 *)&projected->u3;
+                /* Scalar reads: projected->w.* members are scheduled above the
+                   divp stores and reallocate the scratch addresses. */
+                *rgbc = *(u32 *)&projected->prim.r0;
+                uv[0] = *(u32 *)&projected->prim.u0;
+                uv[1] = *(u32 *)&projected->prim.u1;
+                uv[2] = *(u32 *)&projected->prim.u2;
+                uv[3] = *(u32 *)&projected->prim.u3;
                 gGraphics_pPacketWorkCursor = (u32 *)DivideFT4(v, v1, v2, v3,
-                                             uv, (u32 *)SCRATCH_ADDR(0x294), (u32 *)SCRATCH_ADDR(0x298),
-                                             (u32 *)SCRATCH_ADDR(0x29C),
+                                             uv, uv + 1, uv + 2, uv + 3,
                                              (CVECTOR *)rgbc, (POLY_FT4 *)gGraphics_pPacketWorkCursor,
                                              (u32 *)ot->org + pri, divp);
             }
@@ -1748,7 +1741,7 @@ void DisplayObject_InitializeGouraudQuad(
 {
     u16 flags = object->flags;
 
-    object->field_54 = 0;
+    object->field_54.resource = 0;
     object->field_4C.word = 0;
     object->field_44.word = 0;
     object->field_3C.word = 0;
@@ -1761,7 +1754,8 @@ void DisplayObject_InitializeGouraudQuad(
     object->field_1C = 0;
     object->field_18.center.y = 0;
     object->field_18.center.x = 0;
-    /* List 4 reads only this low byte to gate a second POLY_G4 submission. */
+    /* List 4 reads only this low byte to gate a second POLY_G4 submission;
+       retail stores it with an sb, not field_5A's sh. */
     *(u8 *)&object->field_5A = has_secondary_quad;
     object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
@@ -1774,6 +1768,7 @@ void DisplayObject_InitializeTexturedGouraudQuad(
     u32 initial = 0x00808080;
     u16 flags = object->flags;
 
+    /* Colour words for the second GT4 that span the bytes at 0x68 and 0x5C. */
     *(u32 *)&object->resource_branch_index = initial;
     *(u32 *)&object->texture_uv = initial;
     object->field_50.word = initial;
@@ -1801,7 +1796,7 @@ void DisplayObject_ConfigureSpriteWithResource(
     void *resource
 )
 {
-    object->field_54 = resource;
+    object->field_54.resource = resource;
     DisplayObject_ConfigureSpriteResource(object, resource_root_index, resource_branch_index, resource_variant, texture_config, palette_config);
 }
 
@@ -1817,7 +1812,7 @@ void DisplayObject_ConfigureSpriteAtPositionWithResource(
     void *resource
 )
 {
-    object->field_54 = resource;
+    object->field_54.resource = resource;
     DisplayObject_ConfigureSpriteAtPosition(object, x, y, resource_root_index, resource_branch_index, resource_variant, texture_config, palette_config);
 }
 
@@ -1864,11 +1859,11 @@ u32 DisplayObjectStream_ReadU16LE(const u8 *data)
 }
 
 u8 *DisplayObjectStream_ResolveOffset(
-    DisplayObjectStream *object,
+    DisplayObject *object,
     const u8 *data
 )
 {
-    return object->base + ((data[1] << 8) | data[0]);
+    return object->field_54.resource + ((data[1] << 8) | data[0]);
 }
 
 void DisplayObject_ResetVelocity(DisplayObject *object)
@@ -1955,23 +1950,17 @@ s32 DisplayObject_StepTowardZero(s32 value, s32 step)
     return value;
 }
 
-#define DISPLAY_OBJECT_FROM_UPDATE_STATE(field) \
-    ((DisplayObject *)((field) - 0x6C))
-
 void *DisplayObject_FindAllocatedByTag(s32 value)
 {
-    u8 *object = (u8 *)gDisplayObject_aPool;
+    DisplayObject *object = gDisplayObject_aPool;
     s32 count = DISPLAY_OBJECT_POOL_CAPACITY;
-    u8 *field = (&((DisplayObject *)object)->update_state);
 
     do {
-        if ((DISPLAY_OBJECT_FROM_UPDATE_STATE(field)->flags &
-             DISPLAY_OBJECT_FLAG_ALLOCATED) &&
-            ((DISPLAY_OBJECT_FROM_UPDATE_STATE(field)->update_state & 0xF) == value))
+        if ((object->flags & DISPLAY_OBJECT_FLAG_ALLOCATED) &&
+            ((object->update_state & 0xF) == value))
             return object;
-        field += DISPLAY_OBJECT_RECORD_SIZE;
+        object++;
         count--;
-        object += DISPLAY_OBJECT_RECORD_SIZE;
     } while (count != 0);
     return 0;
 }
@@ -1985,14 +1974,14 @@ s32 DisplayObject_MarkInitialized(DisplayObject *object)
     return 1;
 }
 
-void DisplayObject_FadeBrightnessAndRelease(DisplayObjectLifecycle *object)
+void DisplayObject_FadeBrightnessAndRelease(DisplayObject *object)
 {
-    s32 value = object->red - object->fade_step;
+    s32 value = object->rgb.c.r - object->field_60;
 
     if (value > 0) {
-        object->blue = value;
-        object->green = value;
-        object->red = value;
+        object->rgb.c.b = value;
+        object->rgb.c.g = value;
+        object->rgb.c.r = value;
     } else {
         DisplayObject_ReleaseIfPresent(object);
     }
@@ -2019,7 +2008,7 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
     s32 outer;
     s32 *radius = (s32 *)SCRATCH_ADDR(0);
     s32 *scale = (s32 *)SCRATCH_ADDR(0x10);
-    POLY_G4 *poly = (POLY_G4 *)SCRATCH_ADDR(0x20);
+    DisplayObjectG4Packet *poly = (DisplayObjectG4Packet *)SCRATCH_ADDR(0x20);
     s32 i;
     s32 j;
     s32 cx;
@@ -2034,31 +2023,31 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
     outer = object->field_48.spotlight.outer;
 
     for (i = 0; i < 4; i++) {
-        *(u32 *)&poly[i].r0 = 0;
-        *(u32 *)&poly[i].r2 = 0;
+        poly[i].w.rgb0 = 0;
+        poly[i].w.rgb2 = 0;
     }
     for (i = 4; i < 8; i++) {
-        *(u32 *)&poly[i].r0 = 0xFFFFFF;
-        *(u32 *)&poly[i].r2 = 0xFFFFFF;
+        poly[i].w.rgb0 = 0xFFFFFF;
+        poly[i].w.rgb2 = 0xFFFFFF;
     }
     for (i = 0; i < 8; i++) {
-        poly[i].y1 = cy;
-        poly[i].y0 = cy;
-        *(u32 *)&poly[i].r1 = 0xFFFFFF;
-        *(u32 *)&poly[i].r3 = 0xFFFFFF;
-        setPolyG4(&poly[i]);
+        poly[i].prim.y1 = cy;
+        poly[i].prim.y0 = cy;
+        poly[i].w.rgb1 = 0xFFFFFF;
+        poly[i].w.rgb3 = 0xFFFFFF;
+        setPolyG4(&poly[i].prim);
     }
 
     radius[0] = inner * scale[0] / 4096;
     radius[1] = outer * scale[0] / 4096;
     radius[2] = scale[0] * 240 / 4096;
 
-    poly[3].x0 = poly[1].x0 = radius[0] + cx;
-    poly[3].x1 = poly[1].x1 = poly[7].x0 = poly[5].x0 = radius[1] + cx;
-    poly[7].x1 = poly[5].x1 = radius[2] + cx;
-    poly[2].x0 = poly[0].x0 = cx - radius[0];
-    poly[2].x1 = poly[0].x1 = poly[6].x0 = poly[4].x0 = cx - radius[1];
-    poly[6].x1 = poly[4].x1 = cx - radius[2];
+    poly[3].prim.x0 = poly[1].prim.x0 = radius[0] + cx;
+    poly[3].prim.x1 = poly[1].prim.x1 = poly[7].prim.x0 = poly[5].prim.x0 = radius[1] + cx;
+    poly[7].prim.x1 = poly[5].prim.x1 = radius[2] + cx;
+    poly[2].prim.x0 = poly[0].prim.x0 = cx - radius[0];
+    poly[2].prim.x1 = poly[0].prim.x1 = poly[6].prim.x0 = poly[4].prim.x0 = cx - radius[1];
+    poly[6].prim.x1 = poly[4].prim.x1 = cx - radius[2];
 
     for (i = 0x100; i < 0x401; i += 0x100) {
         radius[0] = inner * rcos(i) / 4096;
@@ -2068,12 +2057,12 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
         radius[2] = rcos(i) * 240 / 4096;
         radius[2] = radius[2] * scale[0] / 4096;
 
-        poly[3].x2 = poly[1].x2 = radius[0] + cx;
-        poly[3].x3 = poly[1].x3 = poly[7].x2 = poly[5].x2 = radius[1] + cx;
-        poly[7].x3 = poly[5].x3 = radius[2] + cx;
-        poly[2].x2 = poly[0].x2 = cx - radius[0];
-        poly[2].x3 = poly[0].x3 = poly[6].x2 = poly[4].x2 = cx - radius[1];
-        poly[6].x3 = poly[4].x3 = cx - radius[2];
+        poly[3].prim.x2 = poly[1].prim.x2 = radius[0] + cx;
+        poly[3].prim.x3 = poly[1].prim.x3 = poly[7].prim.x2 = poly[5].prim.x2 = radius[1] + cx;
+        poly[7].prim.x3 = poly[5].prim.x3 = radius[2] + cx;
+        poly[2].prim.x2 = poly[0].prim.x2 = cx - radius[0];
+        poly[2].prim.x3 = poly[0].prim.x3 = poly[6].prim.x2 = poly[4].prim.x2 = cx - radius[1];
+        poly[6].prim.x3 = poly[4].prim.x3 = cx - radius[2];
 
         radius[0] = inner * rsin(i) / 4096;
         radius[0] = radius[0] * scale[1] / 4096;
@@ -2082,17 +2071,17 @@ void DisplayObject_RenderSpotlightMask(DisplayObject *object, GsOT *ot)
         radius[2] = rsin(i) * 240 / 4096;
         radius[2] = radius[2] * scale[1] / 4096;
 
-        poly[2].y2 = poly[3].y2 = radius[0] + cy;
-        poly[2].y3 = poly[3].y3 = poly[6].y2 = poly[7].y2 = radius[1] + cy;
-        poly[6].y3 = poly[7].y3 = radius[2] + cy;
-        poly[0].y2 = poly[1].y2 = cy - radius[0];
-        poly[0].y3 = poly[1].y3 = poly[4].y2 = poly[5].y2 = cy - radius[1];
-        poly[4].y3 = poly[5].y3 = cy - radius[2];
+        poly[2].prim.y2 = poly[3].prim.y2 = radius[0] + cy;
+        poly[2].prim.y3 = poly[3].prim.y3 = poly[6].prim.y2 = poly[7].prim.y2 = radius[1] + cy;
+        poly[6].prim.y3 = poly[7].prim.y3 = radius[2] + cy;
+        poly[0].prim.y2 = poly[1].prim.y2 = cy - radius[0];
+        poly[0].prim.y3 = poly[1].prim.y3 = poly[4].prim.y2 = poly[5].prim.y2 = cy - radius[1];
+        poly[4].prim.y3 = poly[5].prim.y3 = cy - radius[2];
 
         for (j = 0; j < 8; j++) {
-            Graphics_SubmitDrawModePacket((u32 *)&poly[j], ot, (u16)depth, 2);
-            *(s32 *)&poly[j].x0 = *(s32 *)&poly[j].x2;
-            *(s32 *)&poly[j].x1 = *(s32 *)&poly[j].x3;
+            Graphics_SubmitDrawModePacket(&poly[j], ot, (u16)depth, 2);
+            poly[j].w.xy0 = poly[j].w.xy2;
+            poly[j].w.xy1 = poly[j].w.xy3;
         }
     }
 }

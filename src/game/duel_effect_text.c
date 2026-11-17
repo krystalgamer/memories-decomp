@@ -1680,7 +1680,7 @@ void Dialog_HighlightChoice(DuelEffectChannel *record)
     record->prompt_object->field_2C.word = value;
     record->prompt_object->field_34.word = value;
     record->prompt_object->field_4C.word = value;
-    *(s32 *)&record->prompt_object->field_54 = value;
+    record->prompt_object->field_54.word = value;
     DuelEffect_UpdateObjectLayout(record);
 }
 
@@ -1761,7 +1761,7 @@ void Widget_UpdatePulseColour(DisplayObject *object)
     widget->field_2C.word = color;
     widget->field_34.word = color;
     widget->field_4C.color = color;
-    *(s32 *)&widget->field_54 = color;
+    widget->field_54.word = color;
 }
 
 #include "../psyq/libgte.h"
@@ -1806,7 +1806,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         DisplayObject_SetDepthOffset(prompt,
                       (s8)(p->render_object->depth_offset + 1));
         p->prompt_object = prompt;
-        *(s32 *)&prompt->field_54 = 0x2000;
+        prompt->field_54.word = 0x2000;
         prompt->field_4C.color = 0x2000;
         prompt->field_34.word = 0x2000;
         prompt->field_2C.word = 0x2000;
@@ -3654,7 +3654,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
         e->attribute = e->attribute | (GsALON | GsATWO);
         DisplayObject_SelectOrderingTable1(e);
         DisplayObject_SetDepthOffset(e, (s8)(p->depth_offset - 1));
-        *(s32 *)&e->field_54 = 0xA0A0A0;
+        e->field_54.word = 0xA0A0A0;
         e->field_4C.color = 0xA0A0A0;
         e->field_34.word = 0xA0A0A0;
         e->field_2C.word = 0xA0A0A0;

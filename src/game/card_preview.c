@@ -182,7 +182,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
     u32 m;
 
     wrap = 0xFFFF;
-    win = (DisplayObject *)obj->field_54;
+    win = obj->field_54.link;
     if ((obj->attribute & (1<<31) ) != 0) {
         return;
     }
@@ -592,7 +592,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
         primary = object;
 
         entry->primary_object = primary;
-        secondary->field_54 = primary;
+        secondary->field_54.link = primary;
     }
     return object;
 }

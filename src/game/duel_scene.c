@@ -7081,7 +7081,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *object) {
             slot->attribute |= (GsALON | GsAONE);
             DisplayObject_SetDepthOffset(slot, (u8)object->depth_offset - 1);
             slot->field_60 = 8;
-            slot->update = (DisplayObjectCallback)DisplayObject_FadeBrightnessAndRelease;
+            slot->update = DisplayObject_FadeBrightnessAndRelease;
         }
     }
 

@@ -100,13 +100,6 @@ typedef struct {
     s32 rotate;
 } SpritePrim;
 
-/* Scratchpad clip result at 0x1F800378. */
-typedef struct {
-    u32 unk0;
-    u32 flag;
-    u8 pad8[0x18];
-    u8 out[4];
-} ClipState;
 
 typedef char Color_size_must_be_3[
     sizeof(Color) == 3 ? 1 : -1
@@ -125,9 +118,6 @@ typedef char SpritePrim_size_must_be_0x24[
 ];
 typedef char SpritePrim_cy_must_be_at_0x12[
     OFFSETOF(SpritePrim, cxcy.h.cy) == 0x12 ? 1 : -1
-];
-typedef char ClipState_size_must_be_0x24[
-    sizeof(ClipState) == 0x24 ? 1 : -1
 ];
 
 typedef u8 *(*ModelHandler)(u8 **);
@@ -1101,58 +1091,6 @@ typedef char FadeTransitionState_sweep_head_offset_must_be_0x08[
 ];
 typedef char FadeTransitionState_band_levels_offset_must_be_0x0A[
     OFFSETOF(FadeTransitionState, band_levels) == 0x0A ? 1 : -1
-];
-
-/* Command-stream view shared by the seven handlers and ReadNextCommand.
-   current is the selected script origin; base is the resource origin, not
-   a buffer bound. These member meanings apply only to this view. */
-typedef struct {
-    u8 pad_00[4];
-    u32 attribute;
-    u8 pad_08[0x1A];
-    /* DisplayObjectStream_ConfigureRotation loads its angle operand here. */
-    u8 rotation_z;
-    u8 pad_23[0x25];
-    /* DisplayObjectStream_ConfigureRotation stores its little-endian x pivot
-       in pivot_x and its sign-extended y pivot byte in pivot_y. */
-    s16 pivot_x;
-    s16 pivot_y;
-    /* DisplayObjectStream_ReadNextCommand points this at the current opcode's
-       operand target: base plus the little-endian halfword that follows the
-       opcode. */
-    u8 *frame_data;
-    u8 *current;
-    u8 *base;
-    s16 command_offset;
-    s16 frame_delay;
-} DisplayObjectStreamState;
-
-typedef char DisplayObjectStreamState_size_must_be_0x5C[
-    sizeof(DisplayObjectStreamState) == 0x5C ? 1 : -1
-];
-typedef char DisplayObjectStreamState_rotation_z_offset_must_be_0x22[
-    OFFSETOF(DisplayObjectStreamState, rotation_z) == 0x22 ? 1 : -1
-];
-typedef char DisplayObjectStreamState_pivot_x_offset_must_be_0x48[
-    OFFSETOF(DisplayObjectStreamState, pivot_x) == 0x48 ? 1 : -1
-];
-typedef char DisplayObjectStreamState_pivot_y_offset_must_be_0x4A[
-    OFFSETOF(DisplayObjectStreamState, pivot_y) == 0x4A ? 1 : -1
-];
-typedef char DisplayObjectStreamState_frame_data_offset_must_be_0x4C[
-    OFFSETOF(DisplayObjectStreamState, frame_data) == 0x4C ? 1 : -1
-];
-typedef char DisplayObjectStreamState_current_offset_must_be_0x50[
-    OFFSETOF(DisplayObjectStreamState, current) == 0x50 ? 1 : -1
-];
-typedef char DisplayObjectStreamState_base_offset_must_be_0x54[
-    OFFSETOF(DisplayObjectStreamState, base) == 0x54 ? 1 : -1
-];
-typedef char DisplayObjectStreamState_command_offset_offset_must_be_0x58[
-    OFFSETOF(DisplayObjectStreamState, command_offset) == 0x58 ? 1 : -1
-];
-typedef char DisplayObjectStreamState_frame_delay_offset_must_be_0x5A[
-    OFFSETOF(DisplayObjectStreamState, frame_delay) == 0x5A ? 1 : -1
 ];
 
 /* Two words written together as a pair. free_duel/screen_runtime.c and

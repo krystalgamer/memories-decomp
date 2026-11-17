@@ -1278,7 +1278,7 @@ void Script_OpDuelResult(void) {
         fill->field_2C.word = 0xFFFFFF;
         fill->field_34.word = 0xFFFFFF;
         fill->field_4C.color = 0xFFFFFF;
-        fill->field_54 = (void *)0xFFFFFF;
+        fill->field_54.word = 0xFFFFFF;
         gScript_TransitionObject = fill;
         fill->attribute |= (GsALON | GsATWO);
 #else

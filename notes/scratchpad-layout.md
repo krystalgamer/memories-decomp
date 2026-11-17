@@ -90,7 +90,7 @@ builds a primitive for them writes the same offsets.
 | `0x320` | `SpritePrim` / `GsSPRITE` / `DuelStatusDigitPacket` | Sprite primitive slot. `DisplayObject_RenderSpriteList`, `DisplayObject_RenderSpriteStrips`, `DisplayObject_RenderSpriteSheet`, `CardPreview_DrawDetailPanel`, `CardList_RenderDeckBoxStats`, `Library_DrawCardGrid`, `Duel_DrawCardFrame`, `Duel_DrawLifePointsAndDeckCounts`, `PalOptions_DrawWaveSprite`. |
 | `0x344` | `POLY_FT4` / `POLY_G4` / `POLY_GT4` | Packet slot. All `DisplayObject_Render*` renderers, `CardPreview_DrawDetailPanel`, `Duel_DrawCardFrame`, `PalOptions_DrawWaveSprite`, `PalOptions_DrawScrollingStrips`. |
 | `0x378` | `ClipState` / `SpriteSheetWork` | Clip and sprite-sheet work state. `DisplayObject_RenderSpriteList`, `DisplayObject_RenderSpriteStrips`, `DisplayObject_RenderSpriteSheet`. |
-| `0x398` | `DisplayObjectPacketOrigin` / `struct ProjectionOut` | Projection result (screen origin plus subdivision count), which is also the tail of `ClipState`. Gouraud quad renderers, `CardPreview_DrawDetailPanel`, `Library_DrawFadingCardOutline`. |
+| `0x398` | `DisplayObjectPacketOrigin` / `struct ProjectionOut` | Projection result (screen origin plus subdivision count), which is also `ClipState.out` and `SpriteSheetWork.proj`. Gouraud quad renderers, `CardPreview_DrawDetailPanel`, `Library_DrawFadingCardOutline`. |
 | `0x3A4` | `SpriteSheetState` | `DisplayObject_RenderSpriteSheet`. |
 | `0x3E0` | `SVECTOR` / `struct ProjectionOut` / `CardFrameScratch` | Ground-projection record. `DisplayObject_ProjectGroundPosition`, `Duel_InitGroundProjectionReference`, `Duel_ProjectCardSlotScreenX`, `Duel_ProjectCardSlotScreenPositions`, `Duel_DrawProjectedFieldCardFrame`, `Duel_DrawCardFrame`. |
 

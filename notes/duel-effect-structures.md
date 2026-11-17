@@ -212,8 +212,8 @@ The paired u8 fields at +0x5A and +0x5B are glyph_advance_x and
 line_advance_y, formerly field_5A and field_5B. Both the 0x64-byte shared
 channel and 0x60-byte Japanese channel retain the same offsets and widths.
 These are cursor increments, not DisplayObject timers or universal rendered
-glyph dimensions. The unrelated DisplayObject/DisplayObjectStreamState
-field_5A declarations and consumers remain unchanged.
+glyph dimensions. The unrelated DisplayObject field_5A declaration and
+its consumers remain unchanged.
 
 DuelEffect_InitEntry establishes the regional defaults: North America
 8/12, Japan 16/16, and Europe's existing four flag-selected size pairs.

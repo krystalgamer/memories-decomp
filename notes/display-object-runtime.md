@@ -626,7 +626,7 @@ through `.word`.
 | `+0x3C` | `field_3C.h.field_3C/3E` | `field_3C.size.w/h` | GsSPRITE `w`/`h`: copied whole into `SpritePrim.extent`; the strip renderer draws `w` in strips of height `h`; text boxes, Library outlines and the duel layout take `x + w` and `y + h` as the right and bottom edges. No halfword user reads it otherwise. | high | 20 |
 | `+0x40` | `field_40.h.field_40/42` | `field_40.clut.x/y`; `field_40.vertex.x/y` | **clut**: GsSPRITE `cx`/`cy`. The sprite renderers copy it to `SpritePrim.cxcy`, `DisplayObject_ConfigureScreenSprite` stores its `clut_x`/`clut_y` arguments, and the card, portrait, text-box and result code pack it into a primitive's `clut` or step it one palette (x by 16) or row (y by 1) at a time. **vertex**: a Gouraud quad's corner, which `DisplayObject_RenderGouraudQuadList` copies to its fourth vertex and the text-box outline, debug editor and duel effect layout write. | high | 30 / 8 |
 | `+0x44` | `field_44.h.field_44/46` | `field_44.scale.x/y`; `field_44.target.x/y` | **scale**: GsSPRITE `scalex`/`scaley` in 4.12, copied to `SpritePrim.scale`, read as x/y scale by the spotlight mask, projected cards and clip checks, and animated around `0x1000`. `GlyphSprite` already names the pair `scale_x`/`scale_y`. **target**: the password name-entry glyphs' flight destination, which they divide the distance to by their frame count and finally copy into `xy`. | high | 51 / 10 |
-| `+0x48` | `field_48.h.field_48/4A` | `field_48.pivot.x/y`; `field_48.spotlight.inner/outer`; `field_48.vertex.x/y` | **pivot**: GsSPRITE `mx`/`my`, copied to `SpritePrim.mxmy` and set to half the sprite's size by `DisplayObject_ConfigureScreenSprite` and the text-box, card-overlay and boot-screen code. `DisplayObjectStreamState` calls it `pivot_x`/`pivot_y`. **spotlight**: the radii `DisplayObject_RenderSpotlightMask` draws between, shrunk by the dialog transition and set by the overworld reveal. **vertex**: the first corner of a Gouraud quad's second submission. | high | 25 / 24 / 6 |
+| `+0x48` | `field_48.h.field_48/4A` | `field_48.pivot.x/y`; `field_48.spotlight.inner/outer`; `field_48.vertex.x/y` | **pivot**: GsSPRITE `mx`/`my`, copied to `SpritePrim.mxmy` and set to half the sprite's size by `DisplayObject_ConfigureScreenSprite` and the text-box, card-overlay and boot-screen code. The command stream's rotation opcode writes it as its pivot. **spotlight**: the radii `DisplayObject_RenderSpotlightMask` draws between, shrunk by the dialog transition and set by the overworld reveal. **vertex**: the first corner of a Gouraud quad's second submission. | high | 25 / 24 / 6 |
 
 `DisplayObject_ConfigureScreenSprite`'s fourth and fifth parameters were
 named `height` and `width`. That is backwards: the fourth goes to
@@ -669,17 +669,20 @@ names now live in `display_object_layout.h`; slot fields and list globals
 remain address- or offset-based because their complete ownership and original
 type names are not yet established.
 
-## Timed command-stream view
+## Timed command stream
 
-DisplayObjectStreamState names seven existing members only within the
-0x5C-byte script/handler view. It is not a new whole-pool structure.
+The seven stream handlers and ReadNextCommand take the DisplayObject itself.
+The stream reaches these members (the retired DisplayObjectStreamState view
+named them as shown):
 
-| Original member | Stream name | Unchanged storage |
+| DisplayObject member | Stream reading | Storage |
 | --- | --- | --- |
-| flags | attribute | u32 +0x04 |
-| field_22 | rotation_z | u8 +0x22 |
-| field_48 / field_4A | pivot_x / pivot_y | s16 +0x48 / +0x4A |
-| field_4C | frame_data | u8 *G32 +0x4C |
+| attribute | attribute | u32 +0x04 |
+| field_20.h.rotation_z | rotation_z | u8 +0x22 |
+| field_48.pivot.x / .y | pivot_x / pivot_y | s16 +0x48 / +0x4A |
+| field_4C.frame_data | frame_data (the selected SpriteSheet) | pointer +0x4C |
+| field_50.current | current | u8 * +0x50 |
+| field_54.resource | base | u8 * +0x54 |
 | field_58 | command_offset | s16 +0x58 |
 | field_5A | frame_delay | s16 +0x5A |
 
@@ -688,9 +691,9 @@ ReadNextCommand bodies establish the producer/consumer chain. The reader
 fetches at current + (u16)command_offset, dispatches table[op ^ 0xFF] while
 op >= 0xF0, and returns immediately for a handler result of -1. A normal
 opcode becomes frame_delay; its following little-endian halfword resolves
-frame_data = base + value, then command_offset advances by three.
+frame_data = resource + value, then command_offset advances by three.
 All base-relative offsets refer to the original resource origin, not the
-selected script origin. current and base do not delimit a buffer.
+selected script origin. current and resource do not delimit a buffer.
 
 DisplayObject_UpdateCommandStream resolves the same three resource-table
 levels documented in display-resource-banks.md. It initializes the offset
