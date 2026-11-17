@@ -10,13 +10,13 @@ typedef struct {
     u8 unknown_1A[2];
     s32 mode;
     u32 start;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
+    u32 burst_start;
+    u32 burst_end;
+    u32 shrink_start;
+    u32 shrink_end;
     s16 size;
     u8 unknown_36[0x2];
-    s32 field_38;
+    s32 radius;
 } Variant404EntryConfig;
 
 typedef struct {

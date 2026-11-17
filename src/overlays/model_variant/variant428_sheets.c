@@ -88,7 +88,7 @@ void ModelVariant428_DrawSheets(Variant428EntryState *context)
             if (work->tail.phase == 0) {
                 if (sheet->size < 0x1000) {
                     sheet->size = ((work->clock.frame - work->config->start) << 12) /
-                                  (work->config->field_20 - work->config->start);
+                                  (work->config->burst_start - work->config->start);
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
                         work->tail.phase = 1;

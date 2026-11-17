@@ -147,16 +147,16 @@ void ModelVariant422_DrawBands(Variant439EntryState *context)
     if (work->tail.phase == 1) {
         if (work->progress < 0x401) {
             work->progress = ((work->clock.frame - work->config->burst_start) << 10) /
-                             (work->config->field_24 - work->config->burst_start);
+                             (work->config->burst_end - work->config->burst_start);
             if (work->progress >= 0x400) {
                 work->progress = 0x400;
                 work->tail.phase = 2;
             }
         }
     } else if (work->tail.phase < 3 && work->scale > 0) {
-        if (work->clock.frame >= work->config->field_28) {
-            work->scale = 0x1000 - ((work->clock.frame - work->config->field_28) << 12) /
-                                          (work->config->field_2C - work->config->field_28);
+        if (work->clock.frame >= work->config->shrink_start) {
+            work->scale = 0x1000 - ((work->clock.frame - work->config->shrink_start) << 12) /
+                                          (work->config->shrink_end - work->config->shrink_start);
             if (work->scale <= 0) {
                 work->scale = 0;
                 work->tail.phase = 3;

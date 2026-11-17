@@ -8,10 +8,10 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u32 start;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
+    u32 burst_start;
+    u32 burst_end;
+    u32 shrink_start;
+    u32 shrink_end;
     u32 spiral_start;
 } Variant428EntryConfig;
 

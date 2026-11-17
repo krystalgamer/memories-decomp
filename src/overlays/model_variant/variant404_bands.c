@@ -30,9 +30,9 @@ void ModelVariant404_DrawBands(Variant404EntryState *context)
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (!(work->clock.frame_count & 1)) {
-        r = work->band_scale * work->config->field_38 / 4096;
+        r = work->band_scale * work->config->radius / 4096;
     } else {
-        r = work->band_scale * (work->config->field_38 * 18 / 16) / 4096;
+        r = work->band_scale * (work->config->radius * 18 / 16) / 4096;
     }
     band = work->bands;
     for (i = 0; i < 1; i++, band++) {
@@ -146,17 +146,17 @@ void ModelVariant404_DrawBands(Variant404EntryState *context)
     col = NULL;
     if (work->phase == 1) {
         if (work->displacement < 0x401) {
-            work->displacement = ((work->clock.frame - work->config->field_24) << 10) /
-                             (u32)(work->config->field_28 - work->config->field_24);
+            work->displacement = ((work->clock.frame - work->config->burst_start) << 10) /
+                             (work->config->burst_end - work->config->burst_start);
             if (work->displacement >= 0x400) {
                 work->displacement = 0x400;
                 work->phase = 2;
             }
         }
     } else if (work->phase < 3 && work->band_scale > 0) {
-        if (work->clock.frame >= (u32)work->config->field_2C) {
-            work->band_scale = 0x1000 - ((work->clock.frame - work->config->field_2C) << 12) /
-                                          (u32)(work->config->field_30 - work->config->field_2C);
+        if (work->clock.frame >= work->config->shrink_start) {
+            work->band_scale = 0x1000 - ((work->clock.frame - work->config->shrink_start) << 12) /
+                                          (work->config->shrink_end - work->config->shrink_start);
             if (work->band_scale <= 0) {
                 work->band_scale = 0;
                 work->phase = 3;

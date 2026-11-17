@@ -53,5 +53,5 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant422_aImages[2];
 extern ModelVariantWebConfig gFrenchModelVariant422_aConfigs[];
 void ModelVariant405_DrawHalo(Variant422EntryState *context);
-void ModelVariant405_DrawVeils(u8 *context);
+void ModelVariant405_DrawVeils(Variant422EntryState *context);
 #endif

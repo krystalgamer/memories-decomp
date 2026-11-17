@@ -69,7 +69,7 @@ void ModelVariant428_DrawQuad(Variant428EntryState *work)
         }
         if (work->tail.phase == 0) {
             if (rec->size < 0x1000) {
-                rec->size = (u32)(work->clock.frame << 12) / work->config->field_20;
+                rec->size = (u32)(work->clock.frame << 12) / work->config->burst_start;
                 if (rec->size >= 0x1000) {
                     rec->size = 0x1000;
                     work->tail.phase = 1;

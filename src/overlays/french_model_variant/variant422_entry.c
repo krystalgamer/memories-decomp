@@ -317,7 +317,7 @@ s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
-            ModelVariant405_DrawVeils((u8 *)point);
+            ModelVariant405_DrawVeils((Variant422EntryState *)point);
         }
         if (work->phase >= 2) {
             ModelVariant405_DrawHalo((Variant422EntryState *)point);

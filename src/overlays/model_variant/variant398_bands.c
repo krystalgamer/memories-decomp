@@ -147,16 +147,16 @@ void ModelVariant398_DrawBand(Variant398EntryState *context)
     if (work->phase == 1) {
         if (work->displacement < 0x401) {
             work->displacement = ((work->frame - work->config->burst_start) << 10) /
-                             (work->config->field_24 - work->config->burst_start);
+                             (work->config->burst_end - work->config->burst_start);
             if (work->displacement >= 0x400) {
                 work->displacement = 0x400;
                 work->phase = 2;
             }
         }
     } else if (work->phase < 3 && work->band_scale > 0) {
-        if (work->frame >= work->config->field_28) {
-            work->band_scale = 0x1000 - ((work->frame - work->config->field_28) << 12) /
-                                          (work->config->field_2C - work->config->field_28);
+        if (work->frame >= work->config->shrink_start) {
+            work->band_scale = 0x1000 - ((work->frame - work->config->shrink_start) << 12) /
+                                          (work->config->shrink_end - work->config->shrink_start);
             if (work->band_scale <= 0) {
                 work->band_scale = 0;
                 work->phase = 3;
