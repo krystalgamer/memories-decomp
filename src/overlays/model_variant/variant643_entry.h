@@ -57,6 +57,6 @@ extern GsIMAGE gModelVariant643_aImages[2];
  * cone height and two colours (rings and band, then the sprite grid). */
 extern ModelVariantTwoColorCommand gModelVariant643_aConfigs[];
 
-s32 ModelVariant643_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant643_HandleRequest(Model643State *context, s32 command);
 
 #endif

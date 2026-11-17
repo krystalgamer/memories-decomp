@@ -4,7 +4,7 @@
 
 static const VECTOR gFrenchModelVariant116_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant116_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant116_HandleRequest(Model116State *context, s32 command)
 {
     Model116State *work;
     s32 direction;
@@ -26,7 +26,7 @@ s32 FrenchModelVariant116_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gFrenchModelVariant116_UnitScale;
-    work = (Model116State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gFrenchModelVariant116_aConfigs[command];

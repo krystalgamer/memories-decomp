@@ -10,7 +10,7 @@
  * to the active model: a striped dome inside a shaded ring, a flash square
  * and 32 rays fanning out. The setup also prints the work-area size. */
 
-s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant683_HandleRequest(Model683State *context, s32 command)
 {
     Model683State *work;
     MATRIX ls;
@@ -29,7 +29,7 @@ s32 ModelVariant683_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model683State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

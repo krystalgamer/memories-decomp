@@ -71,7 +71,7 @@
         work->flags[0]++;                                                      \
     }
 
-s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant677_HandleRequest(Model677State *context, s32 command)
 {
     Model677State *work;
     MATRIX ls;
@@ -86,7 +86,7 @@ s32 ModelVariant677_HandleRequest(u8 *context, s32 command)
     s32 columns;
     long depth;
 
-    work = (Model677State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

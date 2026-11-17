@@ -8,7 +8,7 @@
 
 static const VECTOR gModelVariant78_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant78_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant78_HandleRequest(Model78State *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -37,7 +37,7 @@ s32 ModelVariant78_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant78_UnitScale;
-    work = (Model78State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gModelVariant78_aConfigs[command];

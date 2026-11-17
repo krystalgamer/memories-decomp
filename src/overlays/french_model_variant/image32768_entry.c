@@ -19,7 +19,7 @@
     if (depth >= 0 && flag >= 0) \
         Graphics_SubmitDrawModePacket((u32 *)&fan, ot, (u16)depth, 1)
 
-s32 FrenchModelVariant804_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant804_HandleRequest(Image32768State *context, s32 command)
 {
     Image32768State *work;
     MATRIX light, matrix;
@@ -37,7 +37,7 @@ s32 FrenchModelVariant804_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gFrenchModelVariant804_UnitScale;
-    work = (Image32768State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {

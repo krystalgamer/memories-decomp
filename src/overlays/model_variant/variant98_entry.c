@@ -9,7 +9,7 @@
 
 static const VECTOR gModelVariant98_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant98_HandleRequest(Model98State *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT3 fan;
@@ -35,7 +35,7 @@ s32 ModelVariant98_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant98_UnitScale;
-    work = (Model98State *)context;
+    work = context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gModelVariant98_aConfigs[command];

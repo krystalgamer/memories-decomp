@@ -102,6 +102,6 @@ extern Model372Config gModelVariant372_aConfigs[];
 
 void FrenchModelVariant389_DrawRibbons(Model372State *context);
 void FrenchModelVariant389_DrawSheets(Model372State *context);
-s32 ModelVariant372_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant372_HandleRequest(Model372State *context, s32 command);
 
 #endif

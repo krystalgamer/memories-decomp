@@ -6,7 +6,7 @@
 #define GRAPHICS_DEFAULT_HEIGHT 256
 #endif
 
-s32 FrenchModelVariant196_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant196_HandleRequest(ModelVariantBeamRingState *context, s32 command)
 {
     MATRIX light;
     MATRIX matrix;
@@ -38,7 +38,7 @@ s32 FrenchModelVariant196_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, sizeof(rotation));
     memset(&translation, 0, sizeof(translation));
     scale = gFrenchModelVariant196_UnitScale;
-    state = (ModelVariantBeamRingState *)context;
+    state = context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = state->config = &gFrenchModelVariant196_aConfigs[command];

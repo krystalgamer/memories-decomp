@@ -6,7 +6,7 @@
  * rings rises around that slot while rising sparks fade out over their life
  * and an optional white screen flash fades in the first frames. */
 
-s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant54_HandleRequest(Model54State *context, s32 command)
 {
     Model54State *work;
     Model54Config *config;
@@ -27,7 +27,7 @@ s32 ModelVariant54_HandleRequest(u8 *context, s32 command)
     u8 red, green, blue;
     u8 tail_red, tail_green, tail_blue;
 
-    work = (Model54State *)context;
+    work = context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
         config = work->config = &gModelVariant54_aConfigs[command];

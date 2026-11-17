@@ -49,6 +49,6 @@ extern const VECTOR gModelVariant168_UnitScale;
 extern GsIMAGE gModelVariant168_aImages[];
 extern Model168Config gModelVariant168_aConfigs[];
 
-s32 ModelVariant168_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant168_HandleRequest(Model168State *context, s32 command);
 
 #endif

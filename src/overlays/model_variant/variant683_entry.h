@@ -75,6 +75,6 @@ extern char gModelVariant683_szWorkSizeFormat[];
 extern GsIMAGE gModelVariant683_aImages[6];
 extern Model683Command gModelVariant683_aConfigs[];
 
-s32 ModelVariant683_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant683_HandleRequest(Model683State *context, s32 command);
 
 #endif

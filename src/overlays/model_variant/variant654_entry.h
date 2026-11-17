@@ -47,6 +47,6 @@ extern GsIMAGE gModelVariant654_Image;
  * colour. */
 extern ModelVariantSphereCommand gModelVariant654_aConfigs[];
 
-s32 ModelVariant654_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant654_HandleRequest(Model654State *context, s32 command);
 
 #endif

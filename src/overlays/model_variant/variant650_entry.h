@@ -46,6 +46,6 @@ extern GsIMAGE gModelVariant650_aImages[2];
  * shells, then the sprite colour and the shell/fan colour. */
 extern ModelVariantTwoColorCommand gModelVariant650_aConfigs[];
 
-s32 ModelVariant650_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant650_HandleRequest(Model650State *context, s32 command);
 
 #endif

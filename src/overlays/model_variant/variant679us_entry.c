@@ -14,7 +14,7 @@
     (e).head.color[1] = gModelVariant679Us_aConfigs[work->head.command].color[(offset) + 1] * (value) / (divisor); \
     (e).head.color[2] = gModelVariant679Us_aConfigs[work->head.command].color[(offset) + 2] * (value) / (divisor)
 
-s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant679Us_HandleRequest(Model679UsState *context, s32 command)
 {
     Model679UsState *work;
     MATRIX ls;
@@ -31,7 +31,7 @@ s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command)
     s32 count;
     long depth;
 
-    work = (Model679UsState *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

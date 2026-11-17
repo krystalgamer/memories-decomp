@@ -10,7 +10,7 @@
 
 static const VECTOR gModelVariant178_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant178_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant178_HandleRequest(Model178State *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -46,7 +46,7 @@ s32 ModelVariant178_HandleRequest(u8 *context, s32 command)
             &vertices[2], &vertices[0], &vertices[6], &vertices[4],
         };
 
-        work = (Model178State *)context;
+        work = context;
         direction = Model_GetActiveSlotIndex() * 2 - 1;
         step = Model_GetFrameStep();
         if (command >= 0) {

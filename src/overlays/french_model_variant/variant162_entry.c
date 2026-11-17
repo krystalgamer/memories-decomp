@@ -27,7 +27,7 @@ const VECTOR gFrenchModelVariant162_UnitScale = {4096, 4096, 4096, 0};
 static const char work_size_format[20] = "%d ( %x ) Byte.\n\0" MODEL162_STRING_PAD;
 #endif
 
-s32 FrenchModelVariant162_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant162_HandleRequest(Model162State *context, s32 command)
 {
     Model162State *work;
     MATRIX base, matrix;
@@ -50,7 +50,7 @@ s32 FrenchModelVariant162_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gFrenchModelVariant162_UnitScale;
-    work = (Model162State *)context;
+    work = context;
     Model_GetActiveSlotIndex();
     {
         s32 step = Model_GetFrameStep();

@@ -33,7 +33,7 @@
         }                                                                      \
     }
 
-s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant669_HandleRequest(Model669State *context, s32 command)
 {
     Model669State *work;
     MATRIX ls;
@@ -54,7 +54,7 @@ s32 ModelVariant669_HandleRequest(u8 *context, s32 command)
     u8 r, g, b;
     long depth;
 
-    work = (Model669State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

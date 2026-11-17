@@ -7,7 +7,7 @@
 #define IMAGE103128_BURST_CLUT 0x3D28
 #endif
 
-s32 FrenchModelVariant857_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant857_HandleRequest(Image103128State *context, s32 command)
 {
     Image103128State *state;
     MATRIX light;
@@ -34,7 +34,7 @@ s32 FrenchModelVariant857_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&translation, 0, 8);
     scale = gFrenchModelVariant857_UnitScale;
-    state = (Image103128State *)context;
+    state = context;
     packet = &quad;
     gradient_packet = &gradient;
     slot = Model_GetActiveSlotIndex();

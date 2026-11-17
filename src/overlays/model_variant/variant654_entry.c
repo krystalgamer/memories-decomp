@@ -17,7 +17,7 @@ static inline s32 Model654_Negate(s32 value)
     return -value;
 }
 
-s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant654_HandleRequest(Model654State *context, s32 command)
 {
     Model654State *work;
     MATRIX ls;
@@ -30,7 +30,7 @@ s32 ModelVariant654_HandleRequest(u8 *context, s32 command)
     long depth;
     s32 d;
 
-    work = (Model654State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

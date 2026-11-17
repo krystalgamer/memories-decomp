@@ -2,7 +2,7 @@
 #include "variant76_entry.h"
 #include "../../game/model_slot_support.h"
 
-s32 FrenchModelVariant76_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant76_HandleRequest(Model76State *context, s32 command)
 {
     POLY_F3 triangle;
     MATRIX base;
@@ -18,7 +18,7 @@ s32 FrenchModelVariant76_HandleRequest(u8 *context, s32 command)
     GsOT *ot;
     u8 red, green, blue;
     u8 step;
-    Model76State *work = (Model76State *)context;
+    Model76State *work = context;
     Model76Config *config;
     SVECTOR *point;
     Model76Face *face;

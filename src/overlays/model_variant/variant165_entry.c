@@ -20,7 +20,7 @@ static const VECTOR gModelVariant165_UnitScale = {4096, 4096, 4096, 0};
         gModelVariant165_aImages[n].px % 64 * 4, gModelVariant165_aImages[n].py % 256 + gModelVariant165_aImages[n].ph, \
         (gModelVariant165_aImages[n].px % 64 + gModelVariant165_aImages[n].pw) * 4, gModelVariant165_aImages[n].py % 256 + gModelVariant165_aImages[n].ph)
 
-s32 ModelVariant165_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant165_HandleRequest(ModelVariantGatherState *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -45,7 +45,7 @@ s32 ModelVariant165_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant165_UnitScale;
-    work = (ModelVariantGatherState *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {

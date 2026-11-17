@@ -55,6 +55,6 @@ extern char gModelVariant144_szWorkSizeFormat[];
 extern GsIMAGE gModelVariant144_aImages[];
 extern Model144Config gModelVariant144_aConfigs[];
 
-s32 ModelVariant144_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant144_HandleRequest(Model144State *context, s32 command);
 
 #endif

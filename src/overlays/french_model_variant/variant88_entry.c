@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant88_entry.h"
 
-s32 FrenchModelVariant88_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant88_HandleRequest(Family88State *context, s32 command)
 {
     Family88State *work;
     MATRIX base;
@@ -22,7 +22,7 @@ s32 FrenchModelVariant88_HandleRequest(u8 *context, s32 command)
     s32 target_y;
 
     memset(&rotation, 0, 8);
-    work = (Family88State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {

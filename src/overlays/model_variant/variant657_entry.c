@@ -9,7 +9,7 @@
  * shard sprites, all built from per-command colours. The setup also
  * prints the work-area size. */
 
-s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant657_HandleRequest(Model657State *context, s32 command)
 {
     Model657State *work;
     MATRIX ls;
@@ -27,7 +27,7 @@ s32 ModelVariant657_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model657State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

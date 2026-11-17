@@ -33,6 +33,6 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant144_aImages[];
 extern Model144Config gFrenchModelVariant144_aConfigs[];
-s32 FrenchModelVariant144_HandleRequest(u8 *context, s32 command);
+s32 FrenchModelVariant144_HandleRequest(Model144State *context, s32 command);
 
 #endif

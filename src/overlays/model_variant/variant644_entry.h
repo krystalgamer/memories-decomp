@@ -54,6 +54,6 @@ extern GsIMAGE gModelVariant644_Image;
  * its colour; the last three bytes are unused by this entry. */
 extern ModelVariantTwoColorCommand gModelVariant644_aConfigs[];
 
-s32 ModelVariant644_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant644_HandleRequest(Model644State *context, s32 command);
 
 #endif

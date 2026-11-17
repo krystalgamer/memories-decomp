@@ -9,7 +9,7 @@ static const VECTOR gModelVariant769_UnitScale = {4096, 4096, 4096, 0};
  * one model slot, launches the orb across the field with flapping wings,
  * bursts it, and grows a ring with a falling spray at a second model slot.
  */
-s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant769_HandleRequest(Model769State *context, s32 command)
 {
     Model769State *work;
     MATRIX view, matrix;
@@ -39,7 +39,7 @@ s32 ModelVariant769_HandleRequest(u8 *context, s32 command)
     scale = gModelVariant769_UnitScale;
     memset(&origin, 0, 8);
     direction = Model_GetActiveSlotIndex() * 2 - 1;
-    work = (Model769State *)context;
+    work = context;
     if (command >= 0) {
         point = work->particles;
         work->command = &gModelVariant769_aConfigs[command];

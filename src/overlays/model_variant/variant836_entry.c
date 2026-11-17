@@ -10,7 +10,7 @@
 
 static const VECTOR gModelVariant836_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant836_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant836_HandleRequest(Model836State *context, s32 command)
 {
     Model836State *work;
     MATRIX light;
@@ -39,7 +39,7 @@ s32 ModelVariant836_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModelVariant836_UnitScale;
-    work = (Model836State *)context;
+    work = context;
     poly = &ft4;
     gouraud = &g4;
     slot = Model_GetActiveSlotIndex();

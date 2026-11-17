@@ -6,9 +6,9 @@
  * ten-quad groups and a set of rings, domes and sheets this image never
  * draws. Each update tracks the target, draws the panels and quad groups
  * through the two helpers below and fades the ambient light. */
-s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant460_HandleRequest(Variant460State *context, s32 command)
 {
-    Variant460State *work = (Variant460State *)context;
+    Variant460State *work = context;
     SVECTOR position, target;
     VECTOR squared;
     long origin, interpolation, flag, projected;
@@ -360,10 +360,10 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
         work->aim.screen_delta.vx = projected - origin_x;
         work->aim.screen_delta.vy = (projected >> 16) - origin_y;
         if (work->config->draw_start <= work->clock.frame) {
-            SpanishModelVariant477_DrawPanels((Variant460State *)context);
+            SpanishModelVariant477_DrawPanels(context);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant477_DrawQuadGroups((Variant460State *)context);
+            SpanishModelVariant477_DrawQuadGroups(context);
         }
         work->clock.frame_count++;
         animation_frame = Model_GetSlotAnimationFrame(work->slot);

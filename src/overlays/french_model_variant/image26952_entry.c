@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image26952_entry.h"
 
-s32 FrenchModelVariant818_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant818_HandleRequest(Image26952State *context, s32 command)
 {
     MATRIX light, matrix;
     POLY_FT4 quad, burst;
@@ -19,7 +19,7 @@ s32 FrenchModelVariant818_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, sizeof(rotation));
     memset(&position, 0, sizeof(position));
     scale = gFrenchModelVariant818_UnitScale;
-    state = (Image26952State *)context;
+    state = context;
     active = Model_GetActiveSlotIndex();
     sign = active * 2 - 1;
     if (command >= 0) {

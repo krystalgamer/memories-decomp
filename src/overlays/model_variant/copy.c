@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "primary.h"
 
-s32 ModelPrimaryCopy_HandleRequest(u8 *context, s32 command)
+s32 ModelPrimaryCopy_HandleRequest(ModelPrimaryCopyState *context, s32 command)
 {
-    ModelPrimaryCopyState *work = (ModelPrimaryCopyState *)context;
+    ModelPrimaryCopyState *work = context;
     s32 frame;
     s32 slot;
 

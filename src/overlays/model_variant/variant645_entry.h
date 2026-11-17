@@ -51,6 +51,6 @@ extern GsIMAGE gModelVariant645_aImages[2];
  * then the tube colour and the halo colour. */
 extern ModelVariantTwoColorCommand gModelVariant645_aConfigs[];
 
-s32 ModelVariant645_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant645_HandleRequest(Model645State *context, s32 command);
 
 #endif

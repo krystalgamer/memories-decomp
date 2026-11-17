@@ -58,6 +58,6 @@ extern GsIMAGE gModelVariant677_aImages[11];
  * height, then the spark colour and the ring/burst colour. */
 extern ModelVariantTwoColorCommand gModelVariant677_aConfigs[];
 
-s32 ModelVariant677_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant677_HandleRequest(Model677State *context, s32 command);
 
 #endif

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant67_entry.h"
 
-s32 ModelVariant67_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant67_HandleRequest(Model67State *context, s32 command)
 {
     Model67State *work;
     Model67Command *cmd;
@@ -24,7 +24,7 @@ s32 ModelVariant67_HandleRequest(u8 *context, s32 command)
     s32 a, b, c, n;
     s32 top, bottom;
 
-    work = (Model67State *)context;
+    work = context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
         cmd = work->command = &gModelVariant67_aConfigs[command];

@@ -13,9 +13,9 @@
  * ribbons, rings and rays. Each update aims the effect from every listed
  * part at the opponent, draws the rays, ribbons and quads, then the ribbon
  * cones once the phase reaches 4, and fades the ambient light. */
-s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant366_HandleRequest(Variant366State *context, s32 command)
 {
-    Variant366State *work = (Variant366State *)context;
+    Variant366State *work = context;
     Variant366Strip *strip = work->strips;
     ModelVariantQuadSheet *quads = work->quads;
     Variant366Ribbon *ribbon = work->ribbons;
@@ -264,16 +264,16 @@ s32 ModelVariant366_HandleRequest(u8 *context, s32 command)
                           work->aim.target.vy - work->matrix.t[1],
                           work->aim.target.vz - work->matrix.t[2]);
                 if (work->phase > 0) {
-                    FrenchModelVariant383_DrawRays((Variant366State *)context);
+                    FrenchModelVariant383_DrawRays(context);
                 }
                 if (work->phase == 3) {
-                    FrenchModelVariant383_DrawRibbons((Variant366State *)context);
+                    FrenchModelVariant383_DrawRibbons(context);
                 }
-                FrenchModelVariant383_DrawQuads((Variant366State *)context);
+                FrenchModelVariant383_DrawQuads(context);
             } while (++work->index < work->config->count);
         }
         if (work->phase >= 4) {
-            ModelVariant366_DrawCones((Variant366State *)context);
+            ModelVariant366_DrawCones(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

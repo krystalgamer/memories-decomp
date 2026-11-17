@@ -6,7 +6,7 @@
 #define GRAPHICS_DEFAULT_HEIGHT 256
 #endif
 
-s32 FrenchModelVariant789_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant789_HandleRequest(Image31368State *context, s32 command)
 {
     Image31368State *work;
     MATRIX view, matrix;
@@ -37,7 +37,7 @@ s32 FrenchModelVariant789_HandleRequest(u8 *context, s32 command)
     scale = gFrenchModelVariant789_UnitScale;
     memset(&origin, 0, 8);
     direction = Model_GetActiveSlotIndex() * 2 - 1;
-    work = (Image31368State *)context;
+    work = context;
     if (command >= 0) {
         point = work->particles;
         work->command = &gFrenchModelVariant789_aConfigs[command];

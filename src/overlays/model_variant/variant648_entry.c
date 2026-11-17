@@ -9,7 +9,7 @@
  * fading sprites outwards from its position, then draws a fan of spoke strips
  * over it, for 32 frames. The setup also prints the work-area size. */
 
-s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant648_HandleRequest(Model648State *context, s32 command)
 {
     Model648State *work;
     MATRIX ls, rotation;
@@ -28,7 +28,7 @@ s32 ModelVariant648_HandleRequest(u8 *context, s32 command)
     u16 duration;
     long depth;
 
-    work = (Model648State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

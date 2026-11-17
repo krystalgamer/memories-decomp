@@ -44,6 +44,6 @@ extern GsIMAGE gModelVariant651_Image;
  * height and the strip colour. */
 extern ModelVariantOneColorCommand gModelVariant651_aConfigs[];
 
-s32 ModelVariant651_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant651_HandleRequest(Model651State *context, s32 command);
 
 #endif

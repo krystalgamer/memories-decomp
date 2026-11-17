@@ -22,7 +22,7 @@ static const VECTOR gModelVariant143Us_UnitScale = {4096, 4096, 4096, 0};
 static const char gModelVariant143Us_szWorkSizeFormat[20] = "%d ( %x ) Byte.\n" MODEL143US_STRING_PAD;
 #endif
 
-s32 ModelVariant143Us_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -56,7 +56,7 @@ s32 ModelVariant143Us_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant143Us_UnitScale;
-    work = (Model143UsState *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {

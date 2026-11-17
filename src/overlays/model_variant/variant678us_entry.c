@@ -24,7 +24,7 @@
     angle = 0xC06;                                                                    \
     RotMatrixY((e).xform.rotation.vy + angle - view.yaw, &unit.matrix)
 
-s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant678Us_HandleRequest(Model678UsState *context, s32 command)
 {
     Model678UsState *work;
     MATRIX ls, m;
@@ -40,7 +40,7 @@ s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command)
     s16 corner_z;
     long depth;
 
-    work = (Model678UsState *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

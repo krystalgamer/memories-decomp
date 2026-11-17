@@ -35,6 +35,6 @@ typedef struct {
 extern const VECTOR gFrenchModelVariant96_UnitScale;
 extern GsIMAGE gFrenchModelVariant96_aImages[];
 extern Model96Config gFrenchModelVariant96_aConfigs[];
-s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command);
+s32 FrenchModelVariant96_HandleRequest(Model96State *context, s32 command);
 
 #endif

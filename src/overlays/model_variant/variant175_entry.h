@@ -33,6 +33,6 @@ typedef struct {
 
 extern Model175Config gModelVariant175_aConfigs[];
 
-s32 ModelVariant175_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant175_HandleRequest(Model175State *context, s32 command);
 
 #endif

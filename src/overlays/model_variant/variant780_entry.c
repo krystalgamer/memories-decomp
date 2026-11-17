@@ -12,7 +12,7 @@ static const VECTOR gModelVariant780_UnitScale = {4096, 4096, 4096, 0};
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 #define SIGNED_BY(s, v) ((s) < 0 ? -(v) : (v))
 
-s32 ModelVariant780_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant780_HandleRequest(Model780State *context, s32 command)
 {
     Model780State *work;
     MATRIX light;
@@ -44,7 +44,7 @@ s32 ModelVariant780_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModelVariant780_UnitScale;
-    work = (Model780State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
         ring = work->ring;

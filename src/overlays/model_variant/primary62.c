@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "primary62.h"
 
-s32 ModelPrimary62_HandleRequest(u8 *context, s32 command)
+s32 ModelPrimary62_HandleRequest(ModelPrimary62State *context, s32 command)
 {
     ModelPrimary62State *work;
     MATRIX base;
@@ -29,7 +29,7 @@ s32 ModelPrimary62_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelPrimary62_Scale;
-    work = (ModelPrimary62State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gModelPrimary62_Configs[command];

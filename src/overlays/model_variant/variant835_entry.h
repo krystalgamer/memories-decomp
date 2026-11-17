@@ -61,6 +61,6 @@ typedef struct {
 extern GsIMAGE gModelVariant835_aImages[];
 extern Model835Config gModelVariant835_aConfigs[];
 
-s32 ModelVariant835_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant835_HandleRequest(Model835State *context, s32 command);
 
 #endif

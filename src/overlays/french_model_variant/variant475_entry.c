@@ -5,7 +5,7 @@
 #define MODEL_VARIANT475_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant475_HandleRequest(Variant475EntryState *context, s32 command)
 {
     /* Retail projection inputs follow 64 bytes of unrecovered locals. */
     u8 unknown_stack[64];
@@ -38,7 +38,7 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
     u16 origin_x;
     s32 origin_y;
 
-    work = (Variant475EntryState *)context;
+    work = context;
     quads = work->quads;
     sheet = work->sheets;
     streamer = work->streamers;
@@ -282,7 +282,7 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
             ModelVariant458_DrawQuads(context);
         }
         if (work->tail.phase >= 1 && work->tail.phase <= 5) {
-            ModelVariant458_DrawSheets((Variant475EntryState *)context);
+            ModelVariant458_DrawSheets(context);
         }
         work->clock.frame_count++;
         animation_frame = Model_GetSlotAnimationFrame(work->tail.slot);

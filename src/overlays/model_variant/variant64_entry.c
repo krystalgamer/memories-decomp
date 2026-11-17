@@ -5,7 +5,7 @@
  * part with a fan of rays, the rings fading out in turn after the fade start;
  * the first frames burst the rays outwards and queue a camera shake. */
 
-s32 ModelVariant64_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant64_HandleRequest(Model64State *context, s32 command)
 {
     Model64State *work;
     Model64Config *config;
@@ -25,7 +25,7 @@ s32 ModelVariant64_HandleRequest(u8 *context, s32 command)
     s32 i, a, r, s, t, z;
     u8 red, green, blue;
 
-    work = (Model64State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gModelVariant64_aConfigs[command];

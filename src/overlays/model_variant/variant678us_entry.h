@@ -54,6 +54,6 @@ extern GsIMAGE gModelVariant678Us_aImages[11];
  * then the bubble colour and the burst/spray colour. */
 extern ModelVariantTwoColorCommand gModelVariant678Us_aConfigs[];
 
-s32 ModelVariant678Us_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant678Us_HandleRequest(Model678UsState *context, s32 command);
 
 #endif

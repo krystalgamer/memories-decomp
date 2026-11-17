@@ -51,6 +51,6 @@ extern GsIMAGE gModelVariant671_aImages[3];
  * cone height and two colours (petal blooms, then rings). */
 extern ModelVariantTwoColorCommand gModelVariant671_aConfigs[];
 
-s32 ModelVariant671_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant671_HandleRequest(Model671State *context, s32 command);
 
 #endif

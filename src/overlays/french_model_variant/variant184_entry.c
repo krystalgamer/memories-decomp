@@ -9,7 +9,7 @@
 
 static const VECTOR gFrenchModelVariant184_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant184_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant184_HandleRequest(Model184State *context, s32 command)
 {
     Model184State *work;
     MATRIX base, matrix;
@@ -33,7 +33,7 @@ s32 FrenchModelVariant184_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gFrenchModelVariant184_UnitScale;
-    work = (Model184State *)context;
+    work = context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {

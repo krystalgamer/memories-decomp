@@ -51,6 +51,6 @@ extern GsIMAGE gModelVariant648_aImages[2];
  * spokes, and the colours of the sprites and of the spoke strips. */
 extern ModelVariantTwoColorCommand gModelVariant648_aConfigs[];
 
-s32 ModelVariant648_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant648_HandleRequest(Model648State *context, s32 command);
 
 #endif

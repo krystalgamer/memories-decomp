@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image104528_entry.h"
 
-s32 FrenchModelVariant826_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant826_HandleRequest(Image104528State *context, s32 command)
 {
     Image104528State *work;
     MATRIX light, matrix;
@@ -21,7 +21,7 @@ s32 FrenchModelVariant826_HandleRequest(u8 *context, s32 command)
     memset(&rotation.vector, 0, 8);
     memset(&position, 0, 8);
     scale = gFrenchModelVariant826_UnitScale;
-    work = (Image104528State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
         work->config = &gFrenchModelVariant826_aConfigs[command];

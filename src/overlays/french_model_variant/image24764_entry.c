@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image24764_entry.h"
 
-s32 FrenchModelVariant197_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant197_HandleRequest(ModelVariantBeamRingState *context, s32 command)
 {
     MATRIX light;
     MATRIX matrix;
@@ -33,7 +33,7 @@ s32 FrenchModelVariant197_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, sizeof(rotation));
     memset(&translation, 0, sizeof(translation));
     scale = gFrenchModelVariant197_UnitScale;
-    state = (ModelVariantBeamRingState *)context;
+    state = context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = state->config = &gFrenchModelVariant197_aConfigs[command];

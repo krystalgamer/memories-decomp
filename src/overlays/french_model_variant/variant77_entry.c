@@ -8,7 +8,7 @@
 
 const VECTOR gFrenchModelVariant77_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant77_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant77_HandleRequest(Model77State *context, s32 command)
 {
     Model77State *work;
     SVECTOR rotation;
@@ -33,7 +33,7 @@ s32 FrenchModelVariant77_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gFrenchModelVariant77_UnitScale;
-    work = (Model77State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gFrenchModelVariant77_aConfigs[command];

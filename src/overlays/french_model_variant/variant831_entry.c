@@ -18,7 +18,7 @@ static const VECTOR gFrenchModelVariant831_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 FrenchModelVariant831_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant831_HandleRequest(Model831State *context, s32 command)
 {
     Model831State *work;
     MATRIX light;
@@ -48,7 +48,7 @@ s32 FrenchModelVariant831_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gFrenchModelVariant831_UnitScale;
-    work = (Model831State *)context;
+    work = context;
     flare_packet = &flare;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;

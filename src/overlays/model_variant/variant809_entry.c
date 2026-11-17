@@ -9,7 +9,7 @@ static const VECTOR gModelVariant809_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 ModelVariant809_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant809_HandleRequest(Model809State *context, s32 command)
 {
     Model809State *work;
     MATRIX base, matrix;
@@ -29,7 +29,7 @@ s32 ModelVariant809_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant809_UnitScale;
-    work = (Model809State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     if (command >= 0) {
         work->config = &gModelVariant809_aConfigs[command];

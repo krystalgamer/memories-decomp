@@ -18,7 +18,7 @@ static const VECTOR gModelVariant113_UnitScale = {4096, 4096, 4096, 0};
         GsSortPoly(&quad, ot, (u16)depth); \
     }
 
-s32 ModelVariant113_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant113_HandleRequest(Model113State *context, s32 command)
 {
     Model113State *work;
     MATRIX base, matrix;
@@ -40,7 +40,7 @@ s32 ModelVariant113_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant113_UnitScale;
-    work = (Model113State *)context;
+    work = context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {

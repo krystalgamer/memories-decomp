@@ -10,7 +10,7 @@
 
 static const VECTOR gModelVariant177_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant177_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant177_HandleRequest(ModelVariantBeamParticleState *context, s32 command)
 {
     ModelVariantBeamParticleState *work;
     ModelVariantBeamParticleConfig *config;
@@ -33,7 +33,7 @@ s32 ModelVariant177_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant177_UnitScale;
-    work = (ModelVariantBeamParticleState *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {

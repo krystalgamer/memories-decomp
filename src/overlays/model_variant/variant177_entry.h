@@ -14,6 +14,6 @@
 extern GsIMAGE gModelVariant177_aImages[];
 extern ModelVariantBeamParticleConfig gModelVariant177_aConfigs[];
 
-s32 ModelVariant177_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant177_HandleRequest(ModelVariantBeamParticleState *context, s32 command);
 
 #endif

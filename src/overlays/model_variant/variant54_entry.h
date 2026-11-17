@@ -47,6 +47,6 @@ extern GsIMAGE gModelVariant54_aImages[4];
 extern GsIMAGE gModelVariant54_SparkImage;
 extern Model54Config gModelVariant54_aConfigs[];
 
-s32 ModelVariant54_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant54_HandleRequest(Model54State *context, s32 command);
 
 #endif

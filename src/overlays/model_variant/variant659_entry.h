@@ -42,6 +42,6 @@ extern GsIMAGE gModelVariant659_aImages[7];
  * the flare colour and the ring/spark colour. */
 extern ModelVariantTwoColorCommand gModelVariant659_aConfigs[];
 
-s32 ModelVariant659_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant659_HandleRequest(Model659State *context, s32 command);
 
 #endif

@@ -11,7 +11,7 @@
 
 static const VECTOR gModelVariant838_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant838_HandleRequest(Model838State *context, s32 command)
 {
     Model838State *work;
     MATRIX base, matrix;
@@ -35,7 +35,7 @@ s32 ModelVariant838_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant838_UnitScale;
-    work = (Model838State *)context;
+    work = context;
     fan = &fan_packet;
     quad = &quad_packet;
     strip = &strip_packet;

@@ -60,6 +60,6 @@ extern GsIMAGE gModelVariant679Us_aImages[11];
  * height and two colours (the shells, then the sparks and bursts). */
 extern ModelVariantTwoColorCommand gModelVariant679Us_aConfigs[];
 
-s32 ModelVariant679Us_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant679Us_HandleRequest(Model679UsState *context, s32 command);
 
 #endif

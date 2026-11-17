@@ -9,7 +9,7 @@
  * passes the middle of the window, the entry moves the camera and restarts
  * both slot animations. */
 
-s32 ModelVariant118_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant118_HandleRequest(Model118State *context, s32 command)
 {
     Model118State *work;
     MATRIX base, matrix;
@@ -38,7 +38,7 @@ s32 ModelVariant118_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant118_UnitScale;
-    work = (Model118State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {

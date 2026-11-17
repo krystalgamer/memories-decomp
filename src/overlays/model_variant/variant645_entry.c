@@ -56,7 +56,7 @@
         }                                                                                        \
     } while (0)
 
-s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant645_HandleRequest(Model645State *context, s32 command)
 {
     Model645State *work;
     MATRIX ls, rot;
@@ -74,7 +74,7 @@ s32 ModelVariant645_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model645State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

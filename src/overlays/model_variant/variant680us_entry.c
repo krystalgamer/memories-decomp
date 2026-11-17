@@ -40,7 +40,7 @@
         GsSortPoly(&work->quad, Graphics_GetDefaultOrderingTable(), (u16)depth);                           \
     }
 
-s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant680Us_HandleRequest(Model680UsState *context, s32 command)
 {
     Model680UsState *work;
     MATRIX ls;
@@ -58,7 +58,7 @@ s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command)
     s16 corner;
     long depth;
 
-    work = (Model680UsState *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

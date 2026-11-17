@@ -48,6 +48,6 @@ extern GsIMAGE gModelVariant139_aImages[2];
 extern GsIMAGE gModelVariant139_aBeamImages[4];
 extern Model139Config gModelVariant139_aConfigs[];
 
-s32 ModelVariant139_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant139_HandleRequest(Model139State *context, s32 command);
 
 #endif

@@ -8,7 +8,7 @@
  * textured cone and dome open at another, singly or one per spawn step. The
  * setup also prints the work-area size. */
 
-s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant656_HandleRequest(Model656State *context, s32 command)
 {
     Model656State *work;
     MATRIX ls, m;
@@ -23,7 +23,7 @@ s32 ModelVariant656_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model656State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

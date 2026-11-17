@@ -59,6 +59,6 @@ extern GsIMAGE gModelVariant649Us_aImages[];
  * the primary and the secondary colour. */
 extern ModelVariantTwoColorCommand gModelVariant649Us_aConfigs[];
 
-s32 ModelVariant649Us_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant649Us_HandleRequest(Model649UsState *context, s32 command);
 
 #endif

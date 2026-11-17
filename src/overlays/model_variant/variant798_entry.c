@@ -13,7 +13,7 @@ static const VECTOR gModelVariant798_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 ModelVariant798_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant798_HandleRequest(Model798State *context, s32 command)
 {
     Model798State *work;
     MATRIX light;
@@ -45,7 +45,7 @@ s32 ModelVariant798_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModelVariant798_UnitScale;
-    work = (Model798State *)context;
+    work = context;
     ft4 = &ft4_poly;
     g3 = &g3_poly;
     g4 = &g4_poly;

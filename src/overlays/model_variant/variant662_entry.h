@@ -47,6 +47,6 @@ extern GsIMAGE gModelVariant662_aImages[3];
  * height, then the tube, the cone/dome and the spark colours. */
 extern ModelVariantThreeColorCommand gModelVariant662_aConfigs[];
 
-s32 ModelVariant662_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant662_HandleRequest(Model662State *context, s32 command);
 
 #endif

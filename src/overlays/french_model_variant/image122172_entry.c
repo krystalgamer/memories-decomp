@@ -6,7 +6,7 @@
 #endif
 #include "../../game/graphics_constants.h"
 
-s32 FrenchModelVariant142_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant142_HandleRequest(Model142State *context, s32 command)
 {
     Model142State *work;
     MATRIX base, matrix;
@@ -33,7 +33,7 @@ s32 FrenchModelVariant142_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gFrenchModelVariant142_UnitScale;
-    work = (Model142State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gFrenchModelVariant142_aConfigs[command];

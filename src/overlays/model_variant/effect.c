@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "primary.h"
 
-s32 ModelPrimaryEffect_HandleRequest(u8 *context, s32 command)
+s32 ModelPrimaryEffect_HandleRequest(ModelPrimaryEffectState *context, s32 command)
 {
-    ModelPrimaryEffectState *work = (ModelPrimaryEffectState *)context;
+    ModelPrimaryEffectState *work = context;
     s32 slot;
 
     if (command >= 0) {

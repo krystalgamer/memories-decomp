@@ -11,9 +11,9 @@
  * update keeps the eight bloom origins around the model, aims them at the
  * opponent, draws the blooms through the helper below and fades the
  * ambient light. */
-s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant437_HandleRequest(Variant437State *context, s32 command)
 {
-    Variant437State *work = (Variant437State *)context;
+    Variant437State *work = context;
     Variant437Group *group = work->groups;
     ModelVariantBandPair *beam = &work->beam;
     Variant437Tile *tile = work->tiles;
@@ -387,7 +387,7 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
         work->projected.vx = ((DVECTOR *)&aim_screen)->vx - origin_x;
         work->projected.vy = (*(&aim_screen) >> 16) - origin_y;
         if (work->config->bloom_start <= work->time) {
-            FrenchModelVariant454_DrawBlooms((Variant437State *)context);
+            FrenchModelVariant454_DrawBlooms(context);
         }
         work->frame++;
         frame = Model_GetSlotAnimationFrame(work->slot);

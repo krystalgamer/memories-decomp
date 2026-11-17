@@ -31,6 +31,6 @@ typedef struct {
 extern const VECTOR gModelVariant111_UnitScale;
 extern GsIMAGE gModelVariant111_aImages[];
 extern Model111Config gModelVariant111_aConfigs[];
-s32 ModelVariant111_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant111_HandleRequest(Model111State *context, s32 command);
 
 #endif

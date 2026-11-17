@@ -65,6 +65,6 @@ extern GsIMAGE gModelVariant633_Image;
  * the trail colour and the spark colour. */
 extern ModelVariantSparkCommand gModelVariant633_aConfigs[];
 
-s32 ModelVariant633_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant633_HandleRequest(Model633State *context, s32 command);
 
 #endif

@@ -13,6 +13,6 @@
 
 extern GsIMAGE gFrenchModelVariant131_aImages[];
 extern ModelVariantBeamParticleConfig gFrenchModelVariant131_aConfigs[];
-s32 FrenchModelVariant131_HandleRequest(u8 *context, s32 command);
+s32 FrenchModelVariant131_HandleRequest(ModelVariantBeamParticleState *context, s32 command);
 
 #endif
