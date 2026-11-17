@@ -14,7 +14,7 @@ The additional duel-effect bank uses shared `src/overlays/duel_effects/`
 C utilities and the existing `gcc_2_8_1_g0_split` profile.
 The MODEL/SU intro reuses the accepted `credits/pal_presentation.c`
 translation unit unchanged, with independently verified French bindings.
-Twenty MODEL primary images reuse the accepted `spanish_model_primary/`
+Twenty MODEL primary images reuse the accepted `model_variant/` primary
 copy, effect and particle bodies unchanged.
 Two model-54 secondary-variant images reuse the accepted
 `spanish_model_variant/` entry, mesh and ring bodies unchanged.
@@ -65,7 +65,7 @@ under `model_exodia/`, with three other functions retained as generated assembly
 All seven Exodia functions are now C, grouped as one translation unit per
 image (`model_exodia/exodia_slot0.c` and `exodia_slot1.c`).
 Two representative return-two primary images reuse the accepted
-`spanish_model_primary/return_two.c` body unchanged.
+`model_variant/return_two.c` body unchanged.
 
 | Module | Archive | First sector | Sectors | Matching functions | C bytes |
 |---|---|---:|---:|---:|---:|

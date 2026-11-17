@@ -198,8 +198,8 @@ The `0x1D38` boundary is the word after the final `jr $ra` and its delay slot.
 
 The MODEL primaries are the per-model modules `MODEL.MRG` loads at `0x8013A000`
 (slot 0, sectors `record * 276 + 220`) and `0x8017A000` (slot 1, `+ 222`), two
-sectors each. Twenty North American images reuse the accepted Spanish C in
-`src/overlays/spanish_model_primary/` unchanged, with the same
+sectors each. Twenty North American images reuse the accepted Spanish primary C, now in
+`src/overlays/model_variant/` unchanged, with the same
 `gcc_2_8_1_g0_split` profile, layouts and descriptor owners:
 
 | Family | Models | Images | Matching functions | C bytes |
@@ -254,7 +254,7 @@ list or image total for them; header-specific evidence lives in
 
 The 1,189 USA return-two primary images (headers 37 and 40) build their
 eight-byte `jr ra; li v0,2` entry from the accepted
-`spanish_model_primary/return_two.c` under
+`model_variant/return_two.c` under
 `gcc_2_8_1_g0_split`, as `model_return_two_<model>_slot<0|1>` modules
 sharing one symbol file per slot. Each keeps its four-byte header and
 4,084-byte tail as unclassified data; see the

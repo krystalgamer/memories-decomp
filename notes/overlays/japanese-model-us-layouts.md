@@ -12,7 +12,7 @@ adding Japanese copies of the C.
 For each wired image, the Japanese `<image>.yaml`, `_functions.csv`,
 `_matching_c.json` and `_symbols.txt` copy the C segments, function sizes and
 named compiler profiles of the US module at the same sector. The sources stay
-under `src/overlays/model_variant/`, `src/overlays/spanish_model_primary/` and
+under `src/overlays/model_variant/` and
 the other existing US directories; no function is duplicated. Each image
 selects the same profile as its US counterpart, including
 `gcc_2_7_2_cdk_g0` where the US manifest selects it (see
@@ -38,7 +38,7 @@ descriptor data move up by `0x74` bytes. Everything else is unchanged apart
 from resident relocations.
 
 Both Japanese slots compile the shared
-`src/overlays/spanish_model_primary/primary64.c` with `VERSION_JAPAN` as an
+`src/overlays/model_variant/primary64.c` with `VERSION_JAPAN` as an
 entry define. That source selects the Japanese corners only under
 `VERSION_JAPAN`. Its default build still produces the US, French and Spanish
 header-141 images. The Japanese symbol files bind the moved data names at the
