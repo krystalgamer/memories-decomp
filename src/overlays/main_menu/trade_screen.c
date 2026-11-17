@@ -35,7 +35,7 @@
 
 void MainMenu_InitTradeScreen(void)
 {
-    u8 *object;
+    DisplayObject *object;
     DisplayObject *entry;
 #ifdef VERSION_EUROPE
     DisplayObject *quad;
@@ -43,7 +43,7 @@ void MainMenu_InitTradeScreen(void)
     s32 i;
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    gTrade_pBackground = (MainMenuWidget *)object;
+    gTrade_pBackground = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
         gTrade_pBackground->flags |=
@@ -81,7 +81,7 @@ void MainMenu_InitTradeScreen(void)
 #endif
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
-    gTrade_pStatsModeDisplay = (MainMenuWidget *)object;
+    gTrade_pStatsModeDisplay = object;
     if (object != 0) {
         DisplayObject_ConfigureSpriteAtPosition(object, 0, -3, 0, 4, 4, 0xC, 0x208);
         gTrade_pStatsModeDisplay->flags |=
@@ -101,7 +101,7 @@ void MainMenu_InitTradeScreen(void)
                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             DisplayObject_SetDepthOffset(entry, 0);
             entry->field_60 = -2;
-            gTrade_aCardSlots[i].object = (u8 *)entry;
+            gTrade_aCardSlots[i].object = entry;
         } else {
             gTrade_aCardSlots[i].object = 0;
         }
@@ -193,7 +193,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     dirty1.dirty = dirty0;
     cursor0 = 1;
     cursor1 = cursor0;
-    value = gTrade_pStatsModeDisplay->frame - 4;
+    value = gTrade_pStatsModeDisplay->resource_variant - 4;
     previousFlags = value;
     flags = value;
     maximum = MAIN_MENU_TRADE_MAXIMUM;
@@ -585,10 +585,10 @@ s32 MainMenu_UpdateTradeScreen(void)
     }
 
     if (cursor0 != 0) {
-        ((MainMenuWidget *)gTrade_aCardSlots[0].object)->y = gTrade_abCursorRow[0] * 22 + 36;
+        gTrade_aCardSlots[0].object->xy.h.y = gTrade_abCursorRow[0] * 22 + 36;
     }
     if (cursor1 != 0) {
-        ((MainMenuWidget *)gTrade_aCardSlots[1].object)->y = gTrade_abCursorRow[1] * 22 + 36;
+        gTrade_aCardSlots[1].object->xy.h.y = gTrade_abCursorRow[1] * 22 + 36;
     }
     if (flags != previousFlags) {
         SD_SEPlay(30, 255, 0);
@@ -655,7 +655,7 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
         );
     }
 
-    ((MainMenuState *)gFile_StagingBuffer)[slot].object[0x69] = mode;
+    ((MainMenuState *)gFile_StagingBuffer)[slot].object->resource_variant = mode;
 }
 
 s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)
@@ -1029,8 +1029,8 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
     DisplayObject *volatile obj[2];
     s32 i;
 
-    obj[0] = (DisplayObject *)gTrade_aCardSlots[0].object;
-    obj[1] = (DisplayObject *)gTrade_aCardSlots[1].object;
+    obj[0] = gTrade_aCardSlots[0].object;
+    obj[1] = gTrade_aCardSlots[1].object;
 
     if (gTrade_abReady[0] != 0) {
         MainMenu_DrawTradeColumnOverlay(0);
@@ -1378,7 +1378,7 @@ void MainMenu_RebuildTradeInventoryRows(s32 side)
 {
     s32 flags;
 
-    flags = gTrade_pStatsModeDisplay->frame - 4;
+    flags = gTrade_pStatsModeDisplay->resource_variant - 4;
     CardList_BuildRowSetTextBoxes((u16 *)(side * 2888 + (s32)gTrade_aWorkingCards + gTrade_aListScroll[side].current * 4), side,
                   flags & (1 << side), flags);
 }

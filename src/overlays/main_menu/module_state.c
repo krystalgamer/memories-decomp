@@ -32,8 +32,8 @@ u8 D_801845BF = 0;
 ValueSetupEntry gTwoPlayerDuel_aSetupEntries[2] = {{0}};
 u8 *gTwoPlayerDuel_pSetupToggle = 0;
 
-MainMenuWidget *gTrade_pBackground = 0;
-MainMenuWidget *gTrade_pStatsModeDisplay = 0;
+DisplayObject *gTrade_pBackground = 0;
+DisplayObject *gTrade_pStatsModeDisplay = 0;
 u8 *D_801845E4 = 0;
 u8 *D_801845E8 = 0;
 MainMenuSlot gTrade_aCardSlots[2] = {{0}};
