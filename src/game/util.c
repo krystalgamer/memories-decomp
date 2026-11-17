@@ -4,34 +4,34 @@
 #include "text_constants.h"
 #include "duel_transition_step_table.h"
 
-void Util_CopyWords(u8 *destination, u8 *source, u32 length) {
+void Util_CopyWords(void *destination, void *source, u32 length) {
+    s32 *dst = destination;
+    s32 *src = source;
     s32 index = (length >> 2) - 1;
 
     for (; index >= 0; index--) {
-        *(s32 *)(destination + (u32)&((s32 *)0)[index]) =
-            *(s32 *)(source + (u32)&((s32 *)0)[index]);
+        dst[index] = src[index];
     }
 
     switch (length & 3) {
     case 0:
         break;
     case 1:
-        *(s32 *)(destination + (u32)&((s32 *)0)[length >> 2]) =
-            *(s32 *)(source + (u32)&((s32 *)0)[length >> 2]);
+        dst[length >> 2] = src[length >> 2];
         break;
     case 2:
-        *(s32 *)(destination + (u32)&((s32 *)0)[length >> 2]) =
-            *(s32 *)(source + (u32)&((s32 *)0)[length >> 2]);
+        dst[length >> 2] = src[length >> 2];
         break;
     case 3:
-        *(s32 *)(destination + (u32)&((s32 *)0)[length >> 2]) =
-            *(s32 *)(source + (u32)&((s32 *)0)[length >> 2]);
-        destination[length - 1] = source[length - 1];
+        dst[length >> 2] = src[length >> 2];
+        /* Separate u8 locals keep extra copies of a0/a1 live; retail reuses them. */
+        ((u8 *)dst)[length - 1] = ((u8 *)src)[length - 1];
         break;
     }
 }
 
-void Util_FillMemory(u8 *destination, s32 value, u32 length) {
+void Util_FillMemory(void *destination, s32 value, u32 length) {
+    s32 *dst = destination;
     s32 index = (length >> 2) - 1;
     s32 fill;
 
@@ -39,21 +39,22 @@ void Util_FillMemory(u8 *destination, s32 value, u32 length) {
     fill = (value << 24) | (value << 16) | (value << 8) | value;
 
     for (; index >= 0; index--) {
-        *(s32 *)(destination + (u32)&((s32 *)0)[index]) = fill;
+        dst[index] = fill;
     }
 
     switch (length & 3) {
     case 0:
         break;
     case 1:
-        *(s32 *)(destination + (u32)&((s32 *)0)[length >> 2]) = fill;
+        dst[length >> 2] = fill;
         break;
     case 2:
-        *(s32 *)(destination + (u32)&((s32 *)0)[length >> 2]) = fill;
+        dst[length >> 2] = fill;
         break;
     case 3:
-        *(s32 *)(destination + (u32)&((s32 *)0)[length >> 2]) = fill;
-        destination[length - 1] = fill;
+        dst[length >> 2] = fill;
+        /* Same as Util_CopyWords: a separate u8 local adds a register copy. */
+        ((u8 *)dst)[length - 1] = fill;
         break;
     }
 }

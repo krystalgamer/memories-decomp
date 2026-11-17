@@ -9439,7 +9439,7 @@ void Duel_PopulateCombinedDeckData(void)
             }
             src += DUEL_CARD_DATA_BLOCK_SIZE;
         }
-        Util_CopyWords((u8 *)dst, src, sizeof(*dst));
+        Util_CopyWords(dst, src, sizeof(*dst));
         dst++;
         rec++;
     }
