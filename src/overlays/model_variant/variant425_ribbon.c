@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant425_ribbon.h"
 
-void FrenchModelVariant425_DrawRibbon(u8 *context)
+void FrenchModelVariant425_DrawRibbon(Ribbon425Work *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -13,7 +13,7 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
     long flag;
     GsOT *ot;
     s16 i, j;
-    Ribbon425Work *work = (Ribbon425Work *)context;
+    Ribbon425Work *work = context;
     Ribbon425 *ribbon;
     POLY_GT4 *poly;
     s32 angle;

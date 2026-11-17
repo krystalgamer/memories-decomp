@@ -17,7 +17,7 @@
 #define RIBBON423_HI(screen, n) ((screen)[n].packed >> 16)
 #endif
 
-void FrenchModelVariant423_DrawRibbon(u8 *context)
+void FrenchModelVariant423_DrawRibbon(Ribbon423Work *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -29,7 +29,7 @@ void FrenchModelVariant423_DrawRibbon(u8 *context)
     long flag;
     GsOT *ot;
     s16 i, j;
-    Ribbon423Work *work = (Ribbon423Work *)context;
+    Ribbon423Work *work = context;
     Ribbon423 *ribbon;
     POLY_GT4 *poly;
     s32 angle;

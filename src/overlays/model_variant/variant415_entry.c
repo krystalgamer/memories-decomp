@@ -13,7 +13,7 @@
  * entry (VERSION_FRENCH) advances the bar index at the end of the bar loop
  * instead of at its top. */
 
-s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant415_HandleRequest(Variant415EntryState *context, s32 command)
 {
     Variant415EntryState *work;
     ModelVariantClutStack stack;
@@ -50,7 +50,7 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
     u16 flat_page, unset_page, unset_clut;
     s32 dy;
 
-    work = (Variant415EntryState *)point;
+    work = context;
     ribbon = work->ribbons;
     sheet = work->sheets;
     strand_a = work->strands_a;
@@ -300,15 +300,15 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
         work->field_2F7E = dy;
         if (work->tail.phase >= 2) {
             if (work->tail.phase < 4) {
-                SpanishModelVariant432_DrawSheets((Variant415EntryState *)point, work->tail.phase);
+                SpanishModelVariant432_DrawSheets(context, work->tail.phase);
             }
-            SpanishModelVariant432_DrawBands((Variant415EntryState *)point);
+            SpanishModelVariant432_DrawBands(context);
         }
         if (work->config->timings[work->start_index] <= work->clock.frame) {
-            ModelVariant415_DrawRibbons((Variant415EntryRibbon *)point);
+            ModelVariant415_DrawRibbons((Variant415EntryRibbon *)context);
         }
         if (work->config->timings[0] <= work->clock.frame) {
-            SpanishModelVariant432_DrawBandLayers((Variant415EntryState *)point);
+            SpanishModelVariant432_DrawBandLayers(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

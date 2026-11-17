@@ -7,7 +7,7 @@
 #define MODEL_VARIANT_FUNNEL_RADIUS_SCALE 384
 #endif
 
-void FrenchModelVariant423_DrawFunnel(u8 *context)
+void FrenchModelVariant423_DrawFunnel(Funnel423State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -16,7 +16,7 @@ void FrenchModelVariant423_DrawFunnel(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Funnel423State *state = (Funnel423State *)context;
+    Funnel423State *state = context;
     ModelVariantSheet *sheet;
     ModelVariantFunnel *funnel;
     POLY_GT4 *quad;

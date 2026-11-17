@@ -11,7 +11,7 @@
 #define RIBBON426_SB(k) (ribbon->sb[k])
 #endif
 
-void FrenchModelVariant426_DrawRibbon(u8 *context)
+void FrenchModelVariant426_DrawRibbon(Ribbon426Work *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -23,7 +23,7 @@ void FrenchModelVariant426_DrawRibbon(u8 *context)
     long flag;
     GsOT *ot;
     s16 i, j;
-    Ribbon426Work *work = (Ribbon426Work *)context;
+    Ribbon426Work *work = context;
     Ribbon426 *ribbon;
     ModelVariantScreenPoint screen;
     s16 prev;

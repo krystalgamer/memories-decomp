@@ -16,9 +16,9 @@
  * 8-byte frame slot after 0x38 unused bytes, the orbit angle is written
  * `angle - -(spin + 2048)` so GCC does not reassociate the constant, and
  * the sheet loop keeps its own counter `n`. */
-s32 ModelVariant386_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant386_HandleRequest(Model386State *context, s32 command)
 {
-    Model386State *work = (Model386State *)context;
+    Model386State *work = context;
     u8 unused[0x38];
     u16 flat_clut[4];
     SVECTOR origin, target;
@@ -304,11 +304,11 @@ s32 ModelVariant386_HandleRequest(u8 *context, s32 command)
             work->phase = 4;
         }
         if (work->phase > 0) {
-            FrenchModelVariant403_DrawStrands(context);
+            FrenchModelVariant403_DrawStrands((Strands12048State *)context);
         }
-        FrenchModelVariant403_DrawSheets(context);
+        FrenchModelVariant403_DrawSheets((Sheets12048State *)context);
         if (work->phase >= 5) {
-            FrenchModelVariant403_DrawChains(context);
+            FrenchModelVariant403_DrawChains((Chains12048State *)context);
         }
         work->frame++;
         frame = Model_GetSlotAnimationFrame(work->slot);

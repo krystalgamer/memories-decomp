@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant426_entry_pal.h"
 
-s32 FrenchModelVariant426_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant426_HandleRequest(EntryState426 *context, s32 command)
 {
-    EntryState426 *work = (EntryState426 *)point;
+    EntryState426 *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -296,17 +296,17 @@ s32 FrenchModelVariant426_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->draw_start <= work->clock.frame) {
-            SpanishModelVariant426_DrawSheets((EntryState426 *)point);
+            SpanishModelVariant426_DrawSheets(context);
         }
         if (work->phase >= 3) {
-            FrenchModelVariant426_DrawStreamers((EntryState426 *)point);
-            SpanishModelVariant426_DrawMesh((EntryState426 *)point);
+            FrenchModelVariant426_DrawStreamers(context);
+            SpanishModelVariant426_DrawMesh(context);
         }
         if (work->phase > 0) {
-            FrenchModelVariant426_DrawRibbon((u8 *)point);
+            FrenchModelVariant426_DrawRibbon((Ribbon426Work *)context);
         }
         if (work->config->spiral_start <= work->clock.frame) {
-            SpanishModelVariant426_DrawSpiral((EntryState426 *)point);
+            SpanishModelVariant426_DrawSpiral(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

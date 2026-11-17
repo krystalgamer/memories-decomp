@@ -11,6 +11,9 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libhmd.h"
+#include "image12048_sheets.h"
+#include "image12048_chains.h"
+#include "image12048_strands.h"
 
 typedef struct {
     u8 unknown_00[8];
@@ -104,9 +107,9 @@ typedef struct {
 extern GsIMAGE gModelVariant386_aImages[];
 extern Model386Config gModelVariant386_aConfigs[];
 
-void FrenchModelVariant403_DrawStrands(u8 *context);
-void FrenchModelVariant403_DrawSheets(u8 *context);
-void FrenchModelVariant403_DrawChains(u8 *context);
-s32 ModelVariant386_HandleRequest(u8 *context, s32 command);
+void FrenchModelVariant403_DrawStrands(Strands12048State *context);
+void FrenchModelVariant403_DrawSheets(Sheets12048State *context);
+void FrenchModelVariant403_DrawChains(Chains12048State *context);
+s32 ModelVariant386_HandleRequest(Model386State *context, s32 command);
 
 #endif

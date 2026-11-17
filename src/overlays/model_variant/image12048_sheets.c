@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image12048_sheets.h"
 
-void FrenchModelVariant403_DrawSheets(u8 *context)
+void FrenchModelVariant403_DrawSheets(Sheets12048State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,7 +10,7 @@ void FrenchModelVariant403_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets12048State *state = (Sheets12048State *)context;
+    Sheets12048State *state = context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *quad = state->quads;
     GsOT *ot;

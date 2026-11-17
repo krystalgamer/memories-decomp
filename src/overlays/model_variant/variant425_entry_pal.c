@@ -5,9 +5,9 @@
 #define MODEL_VARIANT425_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant425_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant425_HandleRequest(EntryState425 *context, s32 command)
 {
-    EntryState425 *work = (EntryState425 *)point;
+    EntryState425 *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -290,17 +290,17 @@ s32 FrenchModelVariant425_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->draw_start <= work->clock.frame) {
-            SpanishModelVariant425_DrawSheets((EntryState425 *)point);
+            SpanishModelVariant425_DrawSheets(context);
         }
         if (work->phase >= 3) {
-            FrenchModelVariant423_DrawFunnel((u8 *)point);
-            SpanishModelVariant425_DrawMesh((EntryState425 *)point);
+            FrenchModelVariant423_DrawFunnel((Funnel423State *)context);
+            SpanishModelVariant425_DrawMesh(context);
         }
         if (work->phase >= 2) {
-            FrenchModelVariant425_DrawRibbon((EntryState425 *)point);
+            FrenchModelVariant425_DrawRibbon(context);
         }
         if (work->phase > 0) {
-            SpanishModelVariant425_DrawSpiral((EntryState425 *)point);
+            SpanishModelVariant425_DrawSpiral(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
