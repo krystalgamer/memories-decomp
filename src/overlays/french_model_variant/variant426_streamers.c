@@ -10,7 +10,7 @@
  * a segment is drawn only when its depth and flag are non-negative and the
  * record size has reached 0x1000. From the fifth phase on, the
  * streamer length is reset from intensity. */
-void FrenchModelVariant426_DrawStreamers(u8 *ctx)
+void FrenchModelVariant426_DrawStreamers(EntryState426 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -44,7 +44,7 @@ void FrenchModelVariant426_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (EntryState426 *)ctx;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = (POLY_G4 *)work->flat2;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;

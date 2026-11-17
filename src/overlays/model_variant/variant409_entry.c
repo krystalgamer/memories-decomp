@@ -9,16 +9,16 @@
  * the opposite slot. */
 s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
 {
-    EntryState409 *work = (EntryState409 *)context;
+    EntryState426 *work = (EntryState426 *)context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantPackedProjection projection;
     ModelVariantMesh *mesh = &work->mesh;
-    ModelVariantCurtain *funnel = work->funnels;
-    ModelVariantLongRibbon *ribbon = work->ribbons;
+    ModelVariantFunnel *funnel = work->funnels;
+    EntryRibbon425 *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
-    EntryStreamer409 *streamer = work->streamers;
+    ModelVariantStreamer *streamer = work->streamers;
     ModelVariantShadedRay *spiral = work->spirals;
     POLY_GT4 *extra = &work->extra;
     POLY_GT4 *funnel_packet = &work->funnel_packet;
@@ -26,7 +26,7 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
     POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
-    POLY_FT4 *band = work->band;
+    POLY_FT4 *band = work->flat2;
     POLY_GT4 *special = &work->special;
     s32 result = 0;
     u16 funnel_clut, extra_clut, flat_clut, other_tpage, other_clut, tpage, clut;
@@ -212,23 +212,23 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
         }
         for (k = 0; k < 2; k++, funnel++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {
-                setVector(&funnel->a[j], (u32)rcos(angle) >> 4, 0,
+                setVector(&funnel->inner[j], (u32)rcos(angle) >> 4, 0,
                     (u32)rsin(angle) >> 4);
-                setVector(&funnel->b[j], (u32)(rcos(angle) * 5) >> 6, -64,
+                setVector(&funnel->outer[j], (u32)(rcos(angle) * 5) >> 6, -64,
                     (u32)(rsin(angle) * 5) >> 6);
             }
             if (k == 1) {
-                funnel->scale = 0;
+                funnel->size = 0;
             } else {
-                funnel->scale = -(k * 4096);
+                funnel->size = -(k * 4096);
             }
-            funnel->count = 0;
+            funnel->field_114 = 0;
         }
         for (i = 0; i < 4; i++, streamer++) {
             for (j = 0; j < 17; j++) {
-                streamer->color[j][0] = 128;
-                streamer->color[j][1] = 128;
-                streamer->color[j][2] = 128;
+                streamer->color[j].r = 128;
+                streamer->color[j].g = 128;
+                streamer->color[j].b = 128;
             }
             streamer->field_2A8 = 0;
         }
@@ -301,17 +301,17 @@ s32 ModelVariant409_HandleRequest(u8 *context, s32 command)
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->draw_start <= work->clock.frame) {
-            SpanishModelVariant426_DrawSheets(context);
+            SpanishModelVariant426_DrawSheets((EntryState426 *)context);
         }
         if (work->phase >= 3) {
-            FrenchModelVariant426_DrawStreamers(context);
-            SpanishModelVariant426_DrawMesh(context);
+            FrenchModelVariant426_DrawStreamers((EntryState426 *)context);
+            SpanishModelVariant426_DrawMesh((EntryState426 *)context);
         }
         if (work->phase > 0) {
             FrenchModelVariant426_DrawRibbon(context);
         }
         if (work->config->spiral_start <= work->clock.frame) {
-            SpanishModelVariant426_DrawSpiral(context);
+            SpanishModelVariant426_DrawSpiral((EntryState426 *)context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

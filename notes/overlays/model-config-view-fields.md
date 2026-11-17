@@ -59,7 +59,7 @@ Entry `model_variant/variant402_entry.c` sets `work->config = gModelVariant402_a
 
 ## `ModelVariantSpiralConfig` (`gModelVariant409_aConfigs`)
 
-Entry `model_variant/variant409_entry.c` sets `work->config = gModelVariant409_aConfigs + command` (line 41); its work struct `EntryState409` has `config` at `+0x2110`.
+Entry `model_variant/variant409_entry.c` sets `work->config = gModelVariant409_aConfigs + command` (line 41); its work struct (now the shared `EntryState426`) has `config` at `+0x2110`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|

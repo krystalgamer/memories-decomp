@@ -8,7 +8,7 @@
  * drawn as two POLY_GT4 halves with negative depths clamped to zero. The size
  * grows to 0x400 before phase 1 and shrinks to zero after it; the sweep advances
  * by 40 a frame. */
-void SpanishModelVariant426_DrawSpiral(u8 *ctx)
+void SpanishModelVariant426_DrawSpiral(EntryState426 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -38,7 +38,7 @@ void SpanishModelVariant426_DrawSpiral(u8 *ctx)
     u8 c1;
     u8 c3;
 
-    work = (EntryState426 *)ctx;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = work->packets.textured;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
