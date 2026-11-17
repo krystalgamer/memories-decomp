@@ -97,27 +97,27 @@ void SpanishModelVariant446_DrawRings(EntryState446 *context)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (i == 3) {
-                ir = ((u8 *)work)[0x1BBC];
-                ig = ((u8 *)work)[0x1BBD];
-                ib = ((u8 *)work)[0x1BBE];
-                or = ((u8 *)work)[0x1BC0];
-                og = ((u8 *)work)[0x1BC1];
-                ob = ((u8 *)work)[0x1BC2];
+                ir = work->inner.r;
+                ig = work->inner.g;
+                ib = work->inner.b;
+                or = work->outer.r;
+                og = work->outer.g;
+                ob = work->outer.b;
             } else if (ring->scale < 0x800) {
-                ir = ((u8 *)work)[0x1BBC];
-                ig = ((u8 *)work)[0x1BBD];
-                ib = ((u8 *)work)[0x1BBE];
-                or = ((u8 *)work)[0x1BC0];
-                og = ((u8 *)work)[0x1BC1];
-                ob = ((u8 *)work)[0x1BC2];
+                ir = work->inner.r;
+                ig = work->inner.g;
+                ib = work->inner.b;
+                or = work->outer.r;
+                og = work->outer.g;
+                ob = work->outer.b;
             } else {
                 fade = 0x1000 - ring->scale;
-                ir = ((u8 *)work)[0x1BBC] * fade / 2048;
-                ig = ((u8 *)work)[0x1BBD] * fade / 2048;
-                ib = ((u8 *)work)[0x1BBE] * fade / 2048;
-                or = ((u8 *)work)[0x1BC0] * fade / 2048;
-                og = ((u8 *)work)[0x1BC1] * fade / 2048;
-                ob = ((u8 *)work)[0x1BC2] * fade / 2048;
+                ir = work->inner.r * fade / 2048;
+                ig = work->inner.g * fade / 2048;
+                ib = work->inner.b * fade / 2048;
+                or = work->outer.r * fade / 2048;
+                og = work->outer.g * fade / 2048;
+                ob = work->outer.b * fade / 2048;
             }
             for (j = 0; j < 16; j++) {
                 depth = RotTransPers4(&ring->a[j], &ring->a[j + 1],
@@ -144,12 +144,12 @@ void SpanishModelVariant446_DrawRings(EntryState446 *context)
         if (i == 3) {
             if (ring->scale < 0x1000 && work->phase < 3) {
                 ring->scale = (u32)(work->elapsed << 12) /
-                             (u32)work->config->duration;
+                             work->config->duration;
                 if (ring->scale >= 0x1000) {
                     ring->scale = 0x1000;
                     ring->count++;
                 }
-            } else if ((u32)work->elapsed >= (u32)work->config->fade) {
+            } else if ((u32)work->elapsed >= work->config->fade) {
                 ring->scale = 0x1000 - (u32)((work->elapsed - work->config->fade) << 12) /
                              (u32)(work->config->end - work->config->fade);
             }

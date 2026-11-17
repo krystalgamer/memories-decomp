@@ -79,8 +79,7 @@ typedef struct {
     u8 unknown_1004[4];
     GsCOORDUNIT *parts[3];
     s32 index;
-    u8 color[3], unknown_101B;
-    u8 outer_r, outer_g, outer_b, unknown_101F;
+    CVECTOR inner, outer;
     s16 field_1020, field_1022, field_1024, field_1026;
     s16 radius, progress, ribbon_angle, ring_angle;
     s32 phase;

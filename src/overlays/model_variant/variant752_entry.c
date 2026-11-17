@@ -39,7 +39,7 @@ s32 ModelVariant752_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 64; i++) {
             setVector(&work->sparkles[i], work->config->sparkle_speed * ((rand() - rand()) % 256) / 256,
                 work->config->sparkle_speed * ((rand() - rand()) % 256) / 256,
-                ((u16)work->config->sparkle_speed >> 2) * ((rand() - rand()) % 256) / 256);
+                (work->config->sparkle_speed >> 2) * ((rand() - rand()) % 256) / 256);
             work->scales[i] = 0;
             work->colors[i].r = 128;
             work->colors[i].g = 128;

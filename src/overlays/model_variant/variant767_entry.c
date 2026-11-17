@@ -51,7 +51,7 @@ s32 ModelVariant767_HandleRequest(u8 *context, s32 command)
             for (i = 0; i < 64; i++) {
                 setVector(&work->smoke[i][k], work->config->smoke_speed * ((rand() - rand()) % 256) / 256,
                     work->config->smoke_speed * ((rand() - rand()) % 256) / 256,
-                    ((u16)work->config->smoke_speed >> 2) * ((rand() - rand()) % 256) / 256);
+                    (work->config->smoke_speed >> 2) * ((rand() - rand()) % 256) / 256);
                 work->frames[i][k] = 0;
             }
             work->color[k].rgb.r = work->config->r;

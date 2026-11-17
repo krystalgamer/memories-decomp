@@ -97,27 +97,27 @@ void SpanishModelVariant385_DrawRings(Variant385EntryState *context)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (i == 3) {
-                ir = ((u8 *)work)[0x1018];
-                ig = ((u8 *)work)[0x1019];
-                ib = ((u8 *)work)[0x101A];
-                or = ((u8 *)work)[0x101C];
-                og = ((u8 *)work)[0x101D];
-                ob = ((u8 *)work)[0x101E];
+                ir = work->inner.r;
+                ig = work->inner.g;
+                ib = work->inner.b;
+                or = work->outer.r;
+                og = work->outer.g;
+                ob = work->outer.b;
             } else if (ring->scale < 0x800) {
-                ir = ((u8 *)work)[0x1018];
-                ig = ((u8 *)work)[0x1019];
-                ib = ((u8 *)work)[0x101A];
-                or = ((u8 *)work)[0x101C];
-                og = ((u8 *)work)[0x101D];
-                ob = ((u8 *)work)[0x101E];
+                ir = work->inner.r;
+                ig = work->inner.g;
+                ib = work->inner.b;
+                or = work->outer.r;
+                og = work->outer.g;
+                ob = work->outer.b;
             } else {
                 fade = 0x1000 - ring->scale;
-                ir = ((u8 *)work)[0x1018] * fade / 2048;
-                ig = ((u8 *)work)[0x1019] * fade / 2048;
-                ib = ((u8 *)work)[0x101A] * fade / 2048;
-                or = ((u8 *)work)[0x101C] * fade / 2048;
-                og = ((u8 *)work)[0x101D] * fade / 2048;
-                ob = ((u8 *)work)[0x101E] * fade / 2048;
+                ir = work->inner.r * fade / 2048;
+                ig = work->inner.g * fade / 2048;
+                ib = work->inner.b * fade / 2048;
+                or = work->outer.r * fade / 2048;
+                og = work->outer.g * fade / 2048;
+                ob = work->outer.b * fade / 2048;
             }
             for (j = 0; j < 16; j++) {
                 depth = RotTransPers4(&ring->a[j], &ring->a[j + 1],
@@ -149,7 +149,7 @@ void SpanishModelVariant385_DrawRings(Variant385EntryState *context)
                     ring->scale = 0x1000;
                     ring->count++;
                 }
-            } else if ((u32)work->clock.frame >= (u32)work->config->fade_start) {
+            } else if ((u32)work->clock.frame >= work->config->fade_start) {
                 ring->scale = 0x1000 - (u32)((work->clock.frame - work->config->fade_start) << 12) /
                              (u32)(work->config->fade_end - work->config->fade_start);
             }
