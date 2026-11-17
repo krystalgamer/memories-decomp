@@ -10,7 +10,8 @@ typedef struct {
     u16 field_20;
     u8 unknown_22[2];
     u32 start;
-    u32 field_28;
+    /* From this frame the petals stop restarting and hold at full size. */
+    u32 settle_start;
     u8 unknown_2C[8];
     u32 track_end, sweep_start, sweep_end, sweep_angle;
 } Variant407EntryConfig;
