@@ -11,7 +11,11 @@
 /* The work-size format string; retail's padding byte after the terminator is 0xAF. */
 #ifndef VERSION_FRENCH
 #ifndef MODEL630_STRING_PAD
+#if defined(VERSION_JAPAN) && defined(MODEL_VARIANT_SLOT1)
+#define MODEL630_STRING_PAD "&"
+#else
 #define MODEL630_STRING_PAD "\xAF"
+#endif
 #endif
 static const char gModelVariant630_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL630_STRING_PAD;
 #endif

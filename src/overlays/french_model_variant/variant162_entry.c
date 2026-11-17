@@ -18,7 +18,11 @@ const VECTOR gFrenchModelVariant162_UnitScale = {4096, 4096, 4096, 0};
 #if defined(VARIANT162_PRINT_WORK_SIZE)
 /* North American retail fills the three bytes after the string with 0x18, 0x20, 0x02. */
 #ifndef MODEL162_STRING_PAD
+#ifdef VERSION_JAPAN
+#define MODEL162_STRING_PAD "\0\260\243"
+#else
 #define MODEL162_STRING_PAD "\030 \002"
+#endif
 #endif
 static const char work_size_format[20] = "%d ( %x ) Byte.\n\0" MODEL162_STRING_PAD;
 #endif

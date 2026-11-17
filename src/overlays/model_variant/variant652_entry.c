@@ -12,7 +12,11 @@
  * is 0x9A. */
 #ifndef VERSION_FRENCH
 #ifndef MODEL652_STRING_PAD
+#ifdef VERSION_JAPAN
+#define MODEL652_STRING_PAD ""
+#else
 #define MODEL652_STRING_PAD "\x9A"
+#endif
 #endif
 static const char gModelVariant652_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL652_STRING_PAD;
 #endif

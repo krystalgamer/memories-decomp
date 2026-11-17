@@ -12,7 +12,13 @@
 /* The work-size format string; the padding byte after the terminator is
  * 0x8C. */
 #ifndef MODEL676US_STRING_PAD
+#if defined(VERSION_JAPAN) && defined(MODEL_VARIANT_SLOT1)
+#define MODEL676US_STRING_PAD "%"
+#elif defined(VERSION_JAPAN)
+#define MODEL676US_STRING_PAD ""
+#else
 #define MODEL676US_STRING_PAD "\x8C"
+#endif
 #endif
 #ifndef VERSION_FRENCH
 static const char gModelVariant676Us_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL676US_STRING_PAD;

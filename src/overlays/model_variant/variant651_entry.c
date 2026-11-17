@@ -10,7 +10,13 @@
 
 #ifndef VERSION_FRENCH
 #ifndef MODEL651_STRING_PAD
+#if defined(VERSION_JAPAN) && defined(MODEL_VARIANT_SLOT1)
+#define MODEL651_STRING_PAD "\x80"
+#elif defined(VERSION_JAPAN)
+#define MODEL651_STRING_PAD "&"
+#else
 #define MODEL651_STRING_PAD "\x8C"
+#endif
 #endif
 static const char gModelVariant651_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL651_STRING_PAD;
 #endif

@@ -56,14 +56,14 @@ segments:
     vram: 0x8017b004
     align: 4
     subsegments:
-      - [0x4, c, overlays/japanese/model_variant/image60348_entry_usa_slot1]
+      - [0x4, c, overlays/model_variant/image60348_entry_usa]
   - name: rodata
     type: code
     start: 0x26d8
     vram: 0x8017d6d8
     align: 4
     subsegments:
-      - [0x26d8, .rodata, overlays/japanese/model_variant/image60348_entry_usa_slot1]
+      - [0x26d8, .rodata, overlays/model_variant/image60348_entry_usa]
   - name: unclassified_tail
     type: code
     start: 0x26f0

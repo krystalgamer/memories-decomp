@@ -45,12 +45,24 @@ header-141 images. The Japanese symbol files bind the moved data names at the
 Japanese addresses.
 `model_primary64_linker_symbols.txt` gives the Japanese resident addresses.
 
+## Rodata padding bytes
+
+Some US sources emit a work-size format string whose stale padding bytes
+differ in the Japanese copy (for example the byte after the header-635
+`E_DATA size` string is `0x0C` instead of `0x24`). The source keeps the
+padding in a `MODEL<N>_STRING_PAD` selector whose `#ifndef` default picks the
+Japanese bytes under `VERSION_JAPAN`, and the slot-1 bytes when they differ
+under `VERSION_JAPAN` plus `MODEL_VARIANT_SLOT1`. The Japanese manifests give
+those images `VERSION_JAPAN` (and `MODEL_VARIANT_SLOT1` in slot 1) as entry
+defines. `VERSION_JAPAN` also selects the Japanese resident struct layouts in
+the shared headers; the entry sources do not use those structs. The header-162
+images compile `french_model_variant/variant162_entry.c` with the US wrapper's
+`VARIANT162_PRINT_WORK_SIZE` and `GRAPHICS_DEFAULT_HEIGHT=240` as well, and
+the header-89 images take their order-table byte as
+`MODEL89_ORDER_PAD=0x06`.
+
 ## Not yet built from C
 
-- Images whose US source emits a rodata padding byte that differs in the
-  Japanese copy (one word, for example the byte after the header-635
-  `E_DATA size` string is `0x0C` instead of `0x24`). They need a Japanese
-  selector for that byte and stay generated assembly.
 - The six images that use `variant668_linker_symbols.txt`, whose aliases to
   US resident addresses inside other functions have not been mapped.
 - US images that are still generated assembly.

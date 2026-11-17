@@ -13,7 +13,11 @@
 /* The work-size format string; the padding byte after the terminator
  * is 0x8F in slot zero. */
 #ifndef MODEL675_STRING_PAD
+#ifdef VERSION_JAPAN
+#define MODEL675_STRING_PAD ""
+#else
 #define MODEL675_STRING_PAD "\x8F"
+#endif
 #endif
 #ifndef VERSION_FRENCH
 static const char gModelVariant675Us_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL675_STRING_PAD;

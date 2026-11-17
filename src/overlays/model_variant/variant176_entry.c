@@ -11,7 +11,11 @@ static const VECTOR gModelVariant176_UnitScale = {4096, 4096, 4096, 0};
 /* The work-size format string; retail's sixteenth byte after the terminator is 0x0C. */
 #ifndef VERSION_FRENCH
 #ifndef MODEL176_STRING_PAD
+#ifdef VERSION_JAPAN
+#define MODEL176_STRING_PAD ""
+#else
 #define MODEL176_STRING_PAD "\f"
+#endif
 #endif
 static const char gModelVariant176_szWorkSizeFormat[16] = "%d (%x) Byte.\n\0" MODEL176_STRING_PAD;
 #endif
