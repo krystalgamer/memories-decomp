@@ -68,7 +68,7 @@ void ModelVariant425_DrawQuad(Variant425EntryState *work)
         }
         if (work->phase == 0) {
             if (rec->size < 0x1000) {
-                rec->size = (work->clock.frame << 12) / work->config->field_20;
+                rec->size = (work->clock.frame << 12) / work->config->burst_start;
                 if (rec->size >= 0x1000) {
                     rec->size = 0x1000;
                     work->phase = 1;

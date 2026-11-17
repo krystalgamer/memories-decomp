@@ -180,17 +180,17 @@ void ModelVariant418_DrawSpiral(Variant418EntryState *context)
     work->spiral_angle += 0x10;
     if (work->phase == 1) {
         if (work->spiral_size < 0x1000) {
-            work->spiral_size = ((work->clock.frame - work->config->field_2C) << 12) /
-                                          (u32)(work->config->field_30 - work->config->field_2C);
+            work->spiral_size = ((work->clock.frame - work->config->burst_start) << 12) /
+                                          (work->config->burst_end - work->config->burst_start);
             if (work->spiral_size >= 0x1000) {
                 work->spiral_size = 0x1000;
                 work->phase = 2;
             }
         }
-    } else if ((u32)work->config->field_34 < work->clock.frame &&
+    } else if (work->config->shrink_start < work->clock.frame &&
                work->phase == 2 && work->spiral_shrink < 0x400) {
-        work->spiral_shrink = ((work->clock.frame - work->config->field_34) << 10) /
-                                      (u32)(work->config->field_38 - work->config->field_34);
+        work->spiral_shrink = ((work->clock.frame - work->config->shrink_start) << 10) /
+                                      (work->config->shrink_end - work->config->shrink_start);
         if (work->spiral_shrink >= 0x400) {
             work->spiral_shrink = 0x400;
             work->phase = 3;

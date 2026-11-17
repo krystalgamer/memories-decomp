@@ -122,17 +122,17 @@ void ModelVariant418_DrawBands(Variant418EntryState *context)
     }
     if (work->phase == 1) {
         if (work->displacement < 0x401) {
-            work->displacement = (u32)((work->clock.frame - work->config->field_2C) << 10) /
-                             (u32)(work->config->field_30 - work->config->field_2C);
+            work->displacement = (u32)((work->clock.frame - work->config->burst_start) << 10) /
+                             (work->config->burst_end - work->config->burst_start);
             if (work->displacement >= 0x400) {
                 work->displacement = 0x400;
                 work->phase = 2;
             }
         }
     } else if (work->phase < 3 && work->band_scale > 0) {
-        if ((u32)work->clock.frame >= (u32)work->config->field_34) {
-            work->band_scale = 0x1000 - (((u32)work->clock.frame - work->config->field_34) << 12) /
-                                          (u32)(work->config->field_38 - work->config->field_34);
+        if (work->clock.frame >= work->config->shrink_start) {
+            work->band_scale = 0x1000 - ((work->clock.frame - work->config->shrink_start) << 12) /
+                                          (work->config->shrink_end - work->config->shrink_start);
             if (work->band_scale <= 0) {
                 work->band_scale = 0;
                 work->phase = 3;

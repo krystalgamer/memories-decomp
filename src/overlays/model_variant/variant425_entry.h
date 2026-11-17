@@ -9,11 +9,11 @@ typedef struct {
     u16 count;
     u8 unknown_1A[2];
     u32 start;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
+    u32 burst_start;
+    u32 burst_end;
+    u32 shrink_start;
+    u32 shrink_end;
+    u32 fade_end;
     u8 unknown_34[0x4];
 } Variant425EntryConfig;
 

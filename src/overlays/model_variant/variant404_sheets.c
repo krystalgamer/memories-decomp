@@ -88,7 +88,7 @@ void ModelVariant404_DrawSheets(Variant404EntryState *context)
             if (work->phase == 0) {
                 if (sheet->size < 0x1000) {
                     sheet->size = ((work->clock.frame - work->config->start) << 12) /
-                                  (work->config->field_24 - work->config->start);
+                                  (work->config->burst_start - work->config->start);
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
                         work->phase = 1;
