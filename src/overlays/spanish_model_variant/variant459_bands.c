@@ -32,11 +32,11 @@ void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
     poly = work->packets.textured;
     angle = ratan2(work->aim.screen_delta.vy, work->aim.screen_delta.vx) + 0x800;
     if (!(work->clock.frame_count & 1)) {
-        r = work->scale * work->config->field_2A / 4096;
+        r = work->scale * work->config->band_radius / 4096;
     } else {
         r = work->scale *
-            (work->config->field_2A +
-             (rsin(0x100) * work->config->field_2A >> 12)) / 4096;
+            (work->config->band_radius +
+             (rsin(0x100) * work->config->band_radius >> 12)) / 4096;
     }
     band = work->bands;
     for (i = 0; i < work->config->count; i++, band++) {
@@ -141,7 +141,7 @@ void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
     if (work->phase == 1) {
         if (work->progress < 0x401) {
             work->progress = (u32)((work->clock.frame - work->config->end) << 10) /
-                             (u32)(work->config->field_3C - work->config->end);
+                             (work->config->band_end - work->config->end);
             if (work->progress >= 0x400) {
                 work->progress = 0x400;
                 work->phase = 2;

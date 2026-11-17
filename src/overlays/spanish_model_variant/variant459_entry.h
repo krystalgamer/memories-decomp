@@ -12,10 +12,10 @@ typedef struct {
     u16 vertices[3], unknown_1E[3];
     u16 count, spiral;
     u16 limit;
-    u16 field_2A;
+    u16 band_radius;
     s32 curtains, mode;
     u32 start, end;
-    s32 field_3C;
+    u32 band_end;
     u32 fade_start;
     u32 fade_end;
 } Variant459EntryConfig;
