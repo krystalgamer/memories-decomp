@@ -61,7 +61,7 @@ typedef struct {
     u32 field_3378;
     GsCOORDUNIT *parts[3];
     s16 field_3388, field_338A, field_338C, field_338E;
-    s32 field_3390, progress, streamer_radius, field_339C, field_33A0, field_33A4;
+    s32 field_3390, progress, streamer_radius, ray_scale, field_33A0, field_33A4;
     s32 phase, field_33AC;
     u8 unknown_33B0[8];
     s32 tint;
