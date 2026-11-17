@@ -115,15 +115,15 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
                 setVector(&work->trail[i][j], 0, 0, 0);
             }
             work->arrived[i] = 0;
-            work->bolt[i][0] = work->config->color.bolt_r;
-            work->bolt[i][1] = work->config->color.bolt_g;
-            work->bolt[i][2] = work->config->color.bolt_b;
-            work->glow[i][0] = work->config->color.glow_r;
-            work->glow[i][1] = work->config->color.glow_g;
-            work->glow[i][2] = work->config->color.glow_b;
-            work->flare[i][0] = work->config->color.glow_r;
-            work->flare[i][1] = work->config->color.glow_g;
-            work->flare[i][2] = work->config->color.glow_b;
+            work->bolt[i].r = work->config->color.bolt_r;
+            work->bolt[i].g = work->config->color.bolt_g;
+            work->bolt[i].b = work->config->color.bolt_b;
+            work->glow[i].r = work->config->color.glow_r;
+            work->glow[i].g = work->config->color.glow_g;
+            work->glow[i].b = work->config->color.glow_b;
+            work->flare[i].r = work->config->color.glow_r;
+            work->flare[i].g = work->config->color.glow_g;
+            work->flare[i].b = work->config->color.glow_b;
             work->tail[i] = 0;
             work->trail_head[i] = 0;
             work->stretch[i] = 0;
@@ -260,12 +260,12 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
             }
         }
 
-        if (work->bolt[i][0] || work->bolt[i][1] || work->bolt[i][2]) {
+        if (work->bolt[i].r || work->bolt[i].g || work->bolt[i].b) {
             for (j = 0; j < work->config->ring.count; j++) {
                 copyVector(&pos, &work->pos[i]);
                 addVector(&pos, &work->ring[i][j]);
-                setRGB0(g3, work->bolt[i][0], work->bolt[i][1], work->bolt[i][2]);
-                setRGB1(g3, work->bolt[i][0], work->bolt[i][1], work->bolt[i][2]);
+                setRGB0(g3, work->bolt[i].r, work->bolt[i].g, work->bolt[i].b);
+                setRGB1(g3, work->bolt[i].r, work->bolt[i].g, work->bolt[i].b);
                 setRGB2(g3, 0, 0, 0);
                 setVector(&quad[0], 0, -work->config->ring.strip_width, 0);
                 setVector(&quad[1], 0, work->config->ring.strip_width, 0);
@@ -330,7 +330,7 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
                 ft4->tpage = work->tpage;
                 ft4->clut = work->clut;
                 setUV4(ft4, 0x40, 0, 0x7F, 0, 0x40, 0x3F, 0x7F, 0x3F);
-                setRGB0(ft4, work->bolt[i][0], work->bolt[i][1], work->bolt[i][2]);
+                setRGB0(ft4, work->bolt[i].r, work->bolt[i].g, work->bolt[i].b);
                 for (k = 0; k < 4; k++) {
                     sign *= -1;
                     quad[0].vx = -sign * work->config->ring.size;
@@ -387,7 +387,7 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
         }
 
         if (work->trail_head[i] > work->tail[i]) {
-            if (work->bolt[i][0] || work->bolt[i][1] || work->bolt[i][2]) {
+            if (work->bolt[i].r || work->bolt[i].g || work->bolt[i].b) {
                 setVector(&pos, 0, 0, 0);
                 setVector(&rot, 0, 0, 0);
                 setVector(&scale, 0x1000, 0x1000, 0x1000);
@@ -400,10 +400,10 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
                 k = 1;
                 /* Writing the bound as "- (tail + 1)" keeps "trail_head - 1" computed first. */
                 for (j = work->trail_head[i] - 1; j >= work->trail_head[i] - (work->tail[i] + 1); j--) {
-                    setRGB0(g4, work->bolt[i][0] / k, work->bolt[i][1] / k, work->bolt[i][2] / k);
-                    setRGB1(g4, work->bolt[i][0] / k, work->bolt[i][1] / k, work->bolt[i][2] / k);
-                    setRGB2(g4, work->bolt[i][0] / (k + 1), work->bolt[i][1] / (k + 1), work->bolt[i][2] / (k + 1));
-                    setRGB3(g4, work->bolt[i][0] / (k + 1), work->bolt[i][1] / (k + 1), work->bolt[i][2] / (k + 1));
+                    setRGB0(g4, work->bolt[i].r / k, work->bolt[i].g / k, work->bolt[i].b / k);
+                    setRGB1(g4, work->bolt[i].r / k, work->bolt[i].g / k, work->bolt[i].b / k);
+                    setRGB2(g4, work->bolt[i].r / (k + 1), work->bolt[i].g / (k + 1), work->bolt[i].b / (k + 1));
+                    setRGB3(g4, work->bolt[i].r / (k + 1), work->bolt[i].g / (k + 1), work->bolt[i].b / (k + 1));
                     setVector(&quad[0], work->trail[i][j].vx, work->trail[i][j].vy - work->config->flight.size / k,
                               work->trail[i][j].vz);
                     setVector(&quad[1], work->trail[i][j].vx, work->trail[i][j].vy + work->config->flight.size / k,
@@ -433,20 +433,20 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
                     k++;
                 }
                 if (work->arrived[i]) {
-                    if (work->bolt[i][0] >= 16) {
-                        work->bolt[i][0] -= work->config->fade;
+                    if (work->bolt[i].r >= 16) {
+                        work->bolt[i].r -= work->config->fade;
                     } else {
-                        work->bolt[i][0] = 0;
+                        work->bolt[i].r = 0;
                     }
-                    if (work->bolt[i][1] >= 16) {
-                        work->bolt[i][1] -= work->config->fade;
+                    if (work->bolt[i].g >= 16) {
+                        work->bolt[i].g -= work->config->fade;
                     } else {
-                        work->bolt[i][1] = 0;
+                        work->bolt[i].g = 0;
                     }
-                    if (work->bolt[i][2] >= 16) {
-                        work->bolt[i][2] -= work->config->fade;
+                    if (work->bolt[i].b >= 16) {
+                        work->bolt[i].b -= work->config->fade;
                     } else {
-                        work->bolt[i][2] = 0;
+                        work->bolt[i].b = 0;
                     }
                 } else {
                     work->tail[i]++;
@@ -486,11 +486,11 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
             }
         }
 
-        if (work->flare[i][0] || work->flare[i][1] || work->flare[i][2]) {
+        if (work->flare[i].r || work->flare[i].g || work->flare[i].b) {
             ft4->tpage = work->tpage;
             ft4->clut = work->clut;
             setUV4(ft4, 0x40, 0, 0x7F, 0, 0x40, 0x3F, 0x7F, 0x3F);
-            setRGB0(ft4, work->flare[i][0], work->flare[i][1], work->flare[i][2]);
+            setRGB0(ft4, work->flare[i].r, work->flare[i].g, work->flare[i].b);
             GsSetLsMatrix(&light);
             RotTrans(&work->origin[i], (VECTOR *)m.t, &flag);
             RotMatrix(&rot, &m);
@@ -519,7 +519,7 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
             }
             ft4->tpage = work->texture[11] >> 16;
             ft4->clut = work->texture[11];
-            setRGB0(ft4, work->flare[i][0], work->flare[i][1], work->flare[i][2]);
+            setRGB0(ft4, work->flare[i].r, work->flare[i].g, work->flare[i].b);
             setUV4(ft4, 0xC0, 0, 0xFF, 0, 0xC0, 0x3F, 0xFF, 0x3F);
             setVector(&quad[0], -0x40, -0x40, 0);
             setVector(&quad[1], 0x40, -0x40, 0);
@@ -540,24 +540,24 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
                 }
                 addVector(&work->embers[i][j], &work->ember_velocity[i][j]);
             }
-            if (work->flare[i][0] >= 16) {
-                work->flare[i][0] -= 15;
+            if (work->flare[i].r >= 16) {
+                work->flare[i].r -= 15;
             } else {
-                work->flare[i][0] = 0;
+                work->flare[i].r = 0;
             }
-            if (work->flare[i][1] >= 16) {
-                work->flare[i][1] -= 15;
+            if (work->flare[i].g >= 16) {
+                work->flare[i].g -= 15;
             } else {
-                work->flare[i][1] = 0;
+                work->flare[i].g = 0;
             }
-            if (work->flare[i][2] >= 16) {
-                work->flare[i][2] -= 15;
+            if (work->flare[i].b >= 16) {
+                work->flare[i].b -= 15;
             } else {
-                work->flare[i][2] = 0;
+                work->flare[i].b = 0;
             }
         }
 
-        if (work->arrived[i] && (work->glow[i][0] || work->glow[i][1] || work->glow[i][2])) {
+        if (work->arrived[i] && (work->glow[i].r || work->glow[i].g || work->glow[i].b)) {
             GsSetLsMatrix(&light);
             RotTrans(&work->target[i], (VECTOR *)m.t, &flag);
             saved = m;
@@ -568,7 +568,7 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
             ft4->tpage = work->tpage;
             ft4->clut = work->clut;
             setUV4(ft4, 0x40, 0, 0x7F, 0, 0x40, 0x3F, 0x7F, 0x3F);
-            setRGB0(ft4, work->glow[i][0], work->glow[i][1], work->glow[i][2]);
+            setRGB0(ft4, work->glow[i].r, work->glow[i].g, work->glow[i].b);
             for (k = 0; k < 4; k++) {
                 sign *= -1;
                 quad[0].vx = -sign * work->config->glow_size;
@@ -596,7 +596,7 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
 
             ft4->tpage = work->texture[10] >> 16;
             ft4->clut = work->texture[10];
-            setRGB0(ft4, work->glow[i][0], work->glow[i][1], work->glow[i][2]);
+            setRGB0(ft4, work->glow[i].r, work->glow[i].g, work->glow[i].b);
             setUV4(ft4, 0xC0, 0, 0xFF, 0, 0xC0, 0x3F, 0xFF, 0x3F);
             for (j = 0; j < 64; j++) {
                 setVector(&quad[0], -0x40, -0x40, 0);
@@ -704,8 +704,8 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
             setVector(&scale, 0x1000, work->stretch[i], 0x1000);
             setRGB0(gt4, 0, 0, 0);
             setRGB1(gt4, 0, 0, 0);
-            setRGB2(gt4, work->glow[i][0], work->glow[i][1], work->glow[i][2]);
-            setRGB3(gt4, work->glow[i][0], work->glow[i][1], work->glow[i][2]);
+            setRGB2(gt4, work->glow[i].r, work->glow[i].g, work->glow[i].b);
+            setRGB3(gt4, work->glow[i].r, work->glow[i].g, work->glow[i].b);
             setVector(&quad[0], -4, -0xC0, 0);
             setVector(&quad[1], 4, -0xC0, 0);
             setVector(&quad[2], -12, 0, 0);
@@ -733,7 +733,7 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
             saved = m;
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
-            setRGB0(ft4, work->glow[i][0] >> 2, work->glow[i][1] >> 2, work->glow[i][2] >> 2);
+            setRGB0(ft4, work->glow[i].r >> 2, work->glow[i].g >> 2, work->glow[i].b >> 2);
             ft4->tpage = work->tpage;
             ft4->clut = work->clut;
             setUV4(ft4, 0, 0x80, 0x1F, 0x80, 0, 0xFF, 0x1F, 0xFF);
@@ -759,28 +759,28 @@ s32 ModelVariant833_HandleRequest(u8 *context, s32 command)
             } else {
                 work->stretch[i] += 0x100;
             }
-            if (work->glow[i][0] >= 16) {
-                work->glow[i][0] -= 15;
+            if (work->glow[i].r >= 16) {
+                work->glow[i].r -= 15;
             } else {
-                work->glow[i][0] = 0;
+                work->glow[i].r = 0;
             }
-            if (work->glow[i][1] >= 16) {
-                work->glow[i][1] -= 15;
+            if (work->glow[i].g >= 16) {
+                work->glow[i].g -= 15;
             } else {
-                work->glow[i][1] = 0;
+                work->glow[i].g = 0;
             }
-            if (work->glow[i][2] >= 16) {
-                work->glow[i][2] -= 15;
+            if (work->glow[i].b >= 16) {
+                work->glow[i].b -= 15;
             } else {
-                work->glow[i][2] = 0;
+                work->glow[i].b = 0;
             }
         }
     }
 
     work->elapsed += step;
     PopMatrix();
-    if (work->phase == 5 && work->glow[work->config->flight.count - 1][0] == 0 &&
-        work->glow[work->config->flight.count - 1][1] == 0 && work->glow[work->config->flight.count - 1][2] == 0) {
+    if (work->phase == 5 && work->glow[work->config->flight.count - 1].r == 0 &&
+        work->glow[work->config->flight.count - 1].g == 0 && work->glow[work->config->flight.count - 1].b == 0) {
         return 2;
     }
     if (work->arrived[work->config->flight.count - 1] == 1 && work->phase == 3) {
