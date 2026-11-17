@@ -445,9 +445,10 @@ includes work with the existing named profiles.
 The typed pointer reaches `MemCard_FindLoadedEntry` through its existing
 header, and the poll now uses the producer's actual `MemCard_FindFiles`
 prototype, including its optional `s32 *out_count` (the poll passes null).
-The high-level dialog's `gMemCardDialog_DirectoryBuffer` remains an incomplete byte array with
-explicit casts at its directory API boundaries; its storage/addressing is
-not normalized. The low-level `"*"` wildcard is a literal of
+The high-level dialog's `gMemCardDialog_DirectoryBuffer` is a
+`struct DIRENTRY` array of `MEM_CARD_DIRECTORY_ENTRY_COUNT` (15) entries,
+declared unsized in `mem_card.h` and passed to the directory APIs
+directly. The low-level `"*"` wildcard is a literal of
 `mem_card_driver.c`, separate from the dialog's own `"*"` in `mem_card.c`.
 
 The matching controller consumes all seventeen formerly bypassed dependencies
@@ -1074,7 +1075,7 @@ validation and the existing card-number text inputs:
 
 | NA identity | Name | Retained declaration |
 |---|---|---|
-| `0x800EFBC0` | `gMemCardDialog_DirectoryBuffer` | unsized `u8 []` |
+| `0x800EFBC0` | `gMemCardDialog_DirectoryBuffer` | unsized `struct DIRENTRY []` |
 | `0x8009B3EC` | `gMemCardDialog_RetryCounter` | `u8` |
 | `0x801D5648` | `gMemCardDialog_CardNumberArg` | unsized `s32 []` |
 
