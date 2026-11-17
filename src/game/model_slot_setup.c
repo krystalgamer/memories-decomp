@@ -195,7 +195,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
                             slot_index, (ModelTypeUnit *)&type_unit, sdk_scratch);
                         break;
                     case 3:
-                        Model_LinkSlotAnimationUnit((s32 *)&type_unit, model_slot);
+                        Model_LinkSlotAnimationUnit(&type_unit, model_slot);
                         break;
                     default:
                         *type_unit.ptr = noop_handler_word;

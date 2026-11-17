@@ -647,15 +647,14 @@ original positive-full-turn adjustment. All labels, empty statements,
 axis-specific comparisons, target narrowing and signed divisions stay.
 adjusted_target_angle and signed_angle_delta add no wider angle policy.
 
-The scaled rotation_halfwords is the existing s16 pointer to node rotation
-passed as SVECTOR, NOT the optional output record. Keep the original SDK
-casts, scale s32[3], rotation-then-scale call order and later flag clear.
-No pad initialization, structure replacement or matrix-layout inference.
-The first output_keyframe remains a separate null-test capture; its six
-stores STILL reload through interpolation_parameters->out. The scaled
-nine stores remain raw u16 pointer loads of translation/rotation/scale
-low halfwords, followed by the same common finished label and return0.
-No publication consolidation, cast rewrite or new output readiness.
+The scaled callback's rotation is an SVECTOR pointer to the node's rot,
+NOT the optional output record, and its scale is a VECTOR whose pad is
+never written (the frame is unchanged). Keep the rotation-then-scale call
+order and later flag clear. The first output_keyframe remains a separate
+null-test capture; its six stores STILL reload through
+interpolation_parameters->out. The scaled nine stores are the u16 low
+halves of translation/rotation/scale (`(u16)node->matrix.t[0]`, the same
+lhu loads), followed by the same common finished label and return0.
 
 Only scoped bare locals in these TWO complete definitions change.
 Arguments, member tokens, comments, types, constants, expressions, scopes,

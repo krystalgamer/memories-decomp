@@ -89,13 +89,14 @@ newly clear old sequence pointers.
 ## Animation-unit binding and dispatch local views
 
 The three complete link/handler-selection/update definitions now distinguish
-their existing local views. scanned_unit_words remains int[2], not a new
-GsTYPEUNIT declaration. primitive_handler preserves BOTH the fallback store
-for any tag other than0x03800000 and the supported update-handler store.
-Linking still precedes scanning. linked_sequence_count is added to the
-slot's byte count ONLY after the successful initial scan, including an
-empty enumeration loop. Preserve both scanner call forms, original casts,
-counter narrowing and European diagnostics; no new success or count bound.
+their local views. The unit and each scanned unit are the SDK's GsTYPEUNIT
+(Model_InitSlot passes its GsScanUnit record), and the handler word each
+ptr names receives BOTH the fallback GsU_00000000 for any tag other than
+0x03800000 and the supported update handler. Linking still precedes
+scanning. linked_sequence_count is added to the slot's byte count ONLY
+after the successful initial scan, including an empty enumeration loop.
+Preserve both scanner call forms, counter narrowing and European
+diagnostics; no new success or count bound.
 
 The selector's interpolation_type is only the existing low-halfword
 extraction AFTER the high-halfword0x03000000 check. Keep both supported
@@ -118,8 +119,9 @@ The static inline scanner is BYTE FOR BYTE unchanged: signed speed step,
 u16 indexing, control tests, conditional sid writes, jumps, end sentinel,
 assertion and exit all remain. No cycle detection or command validation.
 
-handler_words and parameter_words remain u32 pointer views with their
-original word arithmetic. Interpolation type still selects handler[type+1].
+handler_words is the htop table typed as ModelAnimationHandler entries and
+parameter_words keeps ptop's SDK unsigned long * with its word arithmetic.
+Interpolation type still selects handler_words[type+1].
 interpolation_parameters retains the byte-addressed argument-tail base
 derived from header_size. Current/target/output descriptor indices stay
 distinct; the FFFF test guards ONLY the optional output pointer.

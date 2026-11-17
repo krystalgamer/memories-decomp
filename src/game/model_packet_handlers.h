@@ -31,6 +31,9 @@ typedef struct {
     ModelKeyframe *out;
 } ModelAnimParams;
 
+/* The interpolation drivers of GsARGUNIT_ANIM's htop table. */
+typedef s32 (*ModelAnimationHandler)(GsARGUNIT_ANIM *);
+
 /* Four pointers following an interpolation packet's header_size words. */
 typedef struct {
     GsSEQ *track;
@@ -63,7 +66,7 @@ u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx);
  * The model is a ModelSlot: the table it hands GsLinkAnim is that record's
  * animation_sequences indexed by animation_sequence_count, which is also the counter it advances by
  * the number of sequences linked. */
-void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry);
+void Model_LinkSlotAnimationUnit(GsTYPEUNIT *object, ModelSlot *entry);
 void *Model_GetAnimationInterpolationHandler(u32 value);
 
 #endif
