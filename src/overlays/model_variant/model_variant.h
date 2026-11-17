@@ -366,8 +366,8 @@ typedef struct {
     SVECTOR v1[4];
     SVECTOR v2[4];
     SVECTOR v3[4];
-    u8 outer[4];
-    u8 inner[4];
+    CVECTOR outer;
+    CVECTOR inner;
     s32 size;
     s32 field_8C;
     s32 field_90;
@@ -656,8 +656,8 @@ typedef struct {
     SVECTOR v1[4];
     SVECTOR v2[4];
     SVECTOR v3[4];
-    u8 outer[4];
-    u8 inner[4];
+    CVECTOR outer;
+    CVECTOR inner;
     s32 size;
     s32 field_8C;
     s32 field_90;

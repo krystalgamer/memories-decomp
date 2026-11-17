@@ -27,7 +27,7 @@ s32 ModelVariant386_HandleRequest(u8 *context, s32 command)
     long depth, flag;
     long screen1;
     Model386Strand *strand;
-    Model386Sheet *sheet;
+    ModelVariantSheet *sheet;
     Model386Chain *chain;
     POLY_GT4 *textured;
     POLY_G3 *triangle;

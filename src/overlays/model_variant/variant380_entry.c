@@ -177,12 +177,12 @@ s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&sheet->v3[j], 0, 0, 0);
                 }
             }
-            sheet->outer[0] = 192;
-            sheet->outer[1] = 192;
-            sheet->outer[2] = 192;
-            sheet->inner[0] = 0;
-            sheet->inner[1] = 128;
-            sheet->inner[2] = 255;
+            sheet->outer.r = 192;
+            sheet->outer.g = 192;
+            sheet->outer.b = 192;
+            sheet->inner.r = 0;
+            sheet->inner.g = 128;
+            sheet->inner.b = 255;
             sheet->shown = 0;
             sheet->size = 0;
             sheet->field_8C = 0;

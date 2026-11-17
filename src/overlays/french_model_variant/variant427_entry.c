@@ -191,12 +191,12 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&sheet->v3[index], 0, 0, 0);
                 }
             }
-            sheet->outer[0] = 255;
-            sheet->outer[1] = 255;
-            sheet->outer[2] = 255;
-            sheet->inner[0] = 0;
-            sheet->inner[1] = 255;
-            sheet->inner[2] = 64;
+            sheet->outer.r = 255;
+            sheet->outer.g = 255;
+            sheet->outer.b = 255;
+            sheet->inner.r = 0;
+            sheet->inner.g = 255;
+            sheet->inner.b = 64;
             sheet->size = 0;
             sheet->field_8C = 0;
             sheet->field_90 = 0;

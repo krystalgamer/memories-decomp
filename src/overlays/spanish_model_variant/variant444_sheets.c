@@ -59,12 +59,12 @@ void SpanishModelVariant444_DrawSheets(Variant444EntryState *context)
                                  (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag);
             if (state->tail.phase >= 3 && i != 0 && state->width < 512) {
-                r = sheet->inner[0] * state->width / 512;
-                g = sheet->inner[1] * state->width / 512;
-                b = sheet->inner[2] * state->width / 512;
-                outer_r = sheet->outer[0] * state->width / 512;
-                outer_g = sheet->outer[1] * state->width / 512;
-                outer_b = sheet->outer[2] * state->width / 512;
+                r = sheet->inner.r * state->width / 512;
+                g = sheet->inner.g * state->width / 512;
+                b = sheet->inner.b * state->width / 512;
+                outer_r = sheet->outer.r * state->width / 512;
+                outer_g = sheet->outer.g * state->width / 512;
+                outer_b = sheet->outer.b * state->width / 512;
                 quad->r0 = r;
                 quad->g0 = g;
                 quad->b0 = b;
@@ -78,18 +78,18 @@ void SpanishModelVariant444_DrawSheets(Variant444EntryState *context)
                 quad->g3 = outer_g;
                 quad->b3 = outer_b;
             } else {
-                quad->r0 = sheet->inner[0];
-                quad->g0 = sheet->inner[1];
-                quad->b0 = sheet->inner[2];
-                quad->r1 = sheet->inner[0];
-                quad->g1 = sheet->inner[1];
-                quad->b1 = sheet->inner[2];
-                quad->r2 = sheet->inner[0];
-                quad->g2 = sheet->inner[1];
-                quad->b2 = sheet->inner[2];
-                quad->r3 = sheet->outer[0];
-                quad->g3 = sheet->outer[1];
-                quad->b3 = sheet->outer[2];
+                quad->r0 = sheet->inner.r;
+                quad->g0 = sheet->inner.g;
+                quad->b0 = sheet->inner.b;
+                quad->r1 = sheet->inner.r;
+                quad->g1 = sheet->inner.g;
+                quad->b1 = sheet->inner.b;
+                quad->r2 = sheet->inner.r;
+                quad->g2 = sheet->inner.g;
+                quad->b2 = sheet->inner.b;
+                quad->r3 = sheet->outer.r;
+                quad->g3 = sheet->outer.g;
+                quad->b3 = sheet->outer.b;
             }
             depth = depth * 8 / 10;
             if (depth >= 0 && flag >= 0) {

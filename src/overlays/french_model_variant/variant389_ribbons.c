@@ -23,7 +23,7 @@ void FrenchModelVariant389_DrawRibbons(Model372State *context)
     long flag;
     Model372State *state = context;
     Model372Ribbon *ribbon;
-    Model372Sheet *sheet;
+    ModelVariantSheetSet *sheet;
     POLY_GT4 *quad;
     GsOT *ot;
     s16 i, k;

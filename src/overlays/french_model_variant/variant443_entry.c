@@ -312,15 +312,15 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
                 }
             }
             if (i < 3) {
-                sheet->outer[0] = work->config->outer[0][i];
-                sheet->outer[1] = work->config->outer[1][i];
-                sheet->outer[2] = work->config->outer[2][i];
-                sheet->inner[0] = work->config->inner[0][i];
-                sheet->inner[1] = work->config->inner[1][i];
-                sheet->inner[2] = work->config->inner[2][i];
+                sheet->outer.r = work->config->outer[0][i];
+                sheet->outer.g = work->config->outer[1][i];
+                sheet->outer.b = work->config->outer[2][i];
+                sheet->inner.r = work->config->inner[0][i];
+                sheet->inner.g = work->config->inner[1][i];
+                sheet->inner.b = work->config->inner[2][i];
             } else {
-                sheet->outer[0] = 255; sheet->outer[1] = 255; sheet->outer[2] = 255;
-                sheet->inner[0] = 0; sheet->inner[1] = 0; sheet->inner[2] = 255;
+                sheet->outer.r = 255; sheet->outer.g = 255; sheet->outer.b = 255;
+                sheet->inner.r = 0; sheet->inner.g = 0; sheet->inner.b = 255;
             }
             sheet->size = 0;
             sheet->field_8C = 0;

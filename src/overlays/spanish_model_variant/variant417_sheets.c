@@ -111,9 +111,9 @@ void SpanishModelVariant441_DrawRainbowSheets(Variant417EntryState *context)
             poly->r2 = red;
             poly->g2 = green;
             poly->b2 = blue;
-            poly->r3 = quad->outer[0];
-            poly->g3 = quad->outer[1];
-            poly->b3 = quad->outer[2];
+            poly->r3 = quad->outer.r;
+            poly->g3 = quad->outer.g;
+            poly->b3 = quad->outer.b;
             depth = depth * 8 / 10;
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(poly, ot, depth);

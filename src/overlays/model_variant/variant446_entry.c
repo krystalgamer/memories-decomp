@@ -258,12 +258,12 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&sheet->v3[j], 0, 0, 0);
                 }
             }
-            sheet->outer[0] = work->config->outer.r;
-            sheet->outer[1] = work->config->outer.g;
-            sheet->outer[2] = work->config->outer.b;
-            sheet->inner[0] = work->config->inner.r;
-            sheet->inner[1] = work->config->inner.g;
-            sheet->inner[2] = work->config->inner.b;
+            sheet->outer.r = work->config->outer.r;
+            sheet->outer.g = work->config->outer.g;
+            sheet->outer.b = work->config->outer.b;
+            sheet->inner.r = work->config->inner.r;
+            sheet->inner.g = work->config->inner.g;
+            sheet->inner.b = work->config->inner.b;
             sheet->size = 0;
             sheet->field_8C = 0;
             sheet->field_90 = 0;
@@ -293,12 +293,12 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&panel->v3[j], 0, 0, 0);
                 }
             }
-            panel->outer[0] = work->config->outer.r;
-            panel->outer[1] = work->config->outer.g;
-            panel->outer[2] = work->config->outer.b;
-            panel->inner[0] = work->config->inner.r;
-            panel->inner[1] = work->config->inner.g;
-            panel->inner[2] = work->config->inner.b;
+            panel->outer.r = work->config->outer.r;
+            panel->outer.g = work->config->outer.g;
+            panel->outer.b = work->config->outer.b;
+            panel->inner.r = work->config->inner.r;
+            panel->inner.g = work->config->inner.g;
+            panel->inner.b = work->config->inner.b;
             panel->size = 0;
             panel->field_8C = 0;
             panel->field_90 = 0;

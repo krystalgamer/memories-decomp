@@ -151,12 +151,12 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&sheet->v3[ring_point], 0, 0, 0);
                 }
             }
-            sheet->outer[0] = work->config->sheet.r;
-            sheet->outer[1] = work->config->sheet.g;
-            sheet->outer[2] = work->config->sheet.b;
-            sheet->inner[0] = work->config->outer.r;
-            sheet->inner[1] = work->config->outer.g;
-            sheet->inner[2] = work->config->outer.b;
+            sheet->outer.r = work->config->sheet.r;
+            sheet->outer.g = work->config->sheet.g;
+            sheet->outer.b = work->config->sheet.b;
+            sheet->inner.r = work->config->outer.r;
+            sheet->inner.g = work->config->outer.g;
+            sheet->inner.b = work->config->outer.b;
             sheet->size = 0;
             sheet->field_8C = 0;
             sheet->field_90 = 0;

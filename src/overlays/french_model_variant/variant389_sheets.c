@@ -12,7 +12,7 @@ void FrenchModelVariant389_DrawSheets(Model372State *context)
     long flag;
     Model372State *state = context;
     Model372Ribbon *primary = state->ribbons;
-    Model372Sheet *sheet = state->sheets;
+    ModelVariantSheetSet *sheet = state->sheets;
     POLY_GT4 *quad = state->packets.textured;
     GsOT *ot;
     s32 count, first;

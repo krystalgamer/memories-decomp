@@ -61,22 +61,8 @@ typedef struct {
 } Model372Ribbon;
 
 typedef struct {
-    SVECTOR v0[4];
-    SVECTOR v1[4];
-    SVECTOR v2[4];
-    SVECTOR v3[4];
-    CVECTOR outer;
-    CVECTOR inner;
-    s32 size;
-    s32 field_8C;
-    s32 field_90;
-    s32 field_94;
-    s32 shown;
-} Model372Sheet;
-
-typedef struct {
     Model372Ribbon ribbons[8];
-    Model372Sheet sheets[16];
+    ModelVariantSheetSet sheets[16];
     ModelVariantPackets packets;
     POLY_GT4 extra;
     u8 unknown_29BC[0x18];
