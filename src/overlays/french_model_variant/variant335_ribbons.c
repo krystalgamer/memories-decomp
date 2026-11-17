@@ -174,9 +174,9 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
     if (work->phase == 4) {
         if (work->count <= 16) {
             work->count = ((work->clock.frame
-                - work->config->field_1C) << 4)
-                / (work->config->field_20
-                - work->config->field_1C);
+                - work->config->travel_end) << 4)
+                / (work->config->ribbon_end
+                - work->config->travel_end);
             if (work->count >= 16) {
                 work->count = 16;
                 work->phase = 5;

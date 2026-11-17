@@ -4,11 +4,16 @@
 #include "variant337_entry.h"
 #include "variant335_rings.h"
 
+/* A command record. Its frames chain the phases: the sheets grow from start
+ * to grow_end, then the orbit widens, the sheets lift and travel, and the
+ * ribbon segment count rises, each phase ending where the next starts. The
+ * sheets shrink between shrink_start and shrink_end. */
 typedef struct {
     u8 unknown_00[4];
     u8 part, unknown_05[7];
     u32 start;
-    u32 field_10, field_14, field_18, field_1C, field_20, field_24, field_28;
+    u32 grow_end, orbit_end, lift_end, travel_end, ribbon_end;
+    u32 shrink_start, shrink_end;
     u32 end;
 } Model335EntryConfig;
 
