@@ -29,7 +29,7 @@ animated moving puffs, while the ambient level dims and recovers.
 The first projectile's arrival and recovery states control notification and
 completion returns.
 
-The shared regional `variant805_entry.c` and `variant801_entry.c` supplied
+The shared regional `e354_entry.c` and `e350_entry.c` supplied
 related packet, matrix and ribbon structure, not an identical whole body.
 This entry's layouts, model-part selection, camera phases, constructor return
 and complete call sequence were independently recovered. Raw header values

@@ -4,7 +4,7 @@ Thirty North American MODEL variant images share one entry, at `+0x4` and
 `0x197C` bytes long. No French or Spanish source reproduces it. It is a
 sibling of the [header-754 entry](usa-model-variant754.md), and the new North
 American C in
-[`variant752_entry.c`](../../src/overlays/model_variant/variant752_entry.c)
+[`e300_entry.c`](../../src/overlays/model_variant/e300_entry.c)
 follows that source. It is built under `gcc_2_8_1_g0_split` like the French
 entries.
 The images loaded at `0x8017B000` build the same file directly; each image's

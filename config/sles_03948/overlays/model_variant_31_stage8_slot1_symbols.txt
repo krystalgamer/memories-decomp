@@ -1,4 +1,4 @@
-// MODEL.MRG model 31 (record 31), sector 8746, header 866, loaded at 0x8017B000; the US header-849 source variant752_entry.c.
+// MODEL.MRG model 31 (record 31), sector 8746, header 866, loaded at 0x8017B000; the US header-849 source e300_entry.c.
 ModelVariant752_HandleRequest = 0x8017B004; // type:func size:0x197C defined:true
 gModelVariant752_aImages = 0x8017C990; // type:u8 size:0x54 defined:true
 gModelVariant752_aConfigs = 0x8017C9E4; // type:u8 size:0x361C defined:true
