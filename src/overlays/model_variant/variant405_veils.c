@@ -8,7 +8,7 @@
  * strip is textured from the screen half it lands on. Each scale grows to
  * 0x800 and wraps with a count until the timing record's deadline, and the
  * phase moves on once every veil has wrapped. */
-void ModelVariant405_DrawVeils(u8 *ctx)
+void ModelVariant405_DrawVeils(Variant422EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -33,8 +33,8 @@ void ModelVariant405_DrawVeils(u8 *ctx)
     s32 otz;
     s32 tpage;
 
-    veil = (Variant405Veil *)ctx;
-    work = (Variant422EntryState *)ctx;
+    veil = ctx->veils;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     all = 1;
     buff = GsGetActiveBuff();
