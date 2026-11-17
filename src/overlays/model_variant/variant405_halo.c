@@ -87,7 +87,7 @@ void ModelVariant405_DrawHalo(Variant422EntryState *context)
             halo->fall[i] += work->clock.step << 5;
             if (halo->fall[i] >= 0x400) {
                 gap = halo->rise[i] - halo->fall[i];
-                if (work->config->field_28 <= work->clock.frame) {
+                if (work->config->shrink_start <= work->clock.frame) {
                     halo->rise[i] = 0x400;
                     halo->fall[i] = 0x400;
                 } else {

@@ -1100,15 +1100,14 @@ typedef struct {
 } ModelVariantBeam;
 
 /* One 0x30-byte entry config: the inner, outer and web colours, the model
- * parts, the frame the webs start at and the frame the sheet/band burst
- * starts at. */
+ * parts, the frame the webs start at, the sheet/band burst window (the band
+ * displacement grows from burst_start to burst_end) and the window over which
+ * the bands shrink. */
 typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
-    u32 start, burst_start;
-    u32 field_24;
-    u32 field_28;
-    u32 field_2C;
+    u32 start, burst_start, burst_end;
+    u32 shrink_start, shrink_end;
 } ModelVariantWebConfig;
 
 /* One 0xC-byte row of a header 636-682 entry's command table, indexed by

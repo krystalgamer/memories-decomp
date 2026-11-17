@@ -133,7 +133,7 @@ void ModelVariant405_DrawVeils(Variant422EntryState *ctx)
         if (veil->scale < 0x800) {
             veil->scale += work->clock.step * 40;
             if (veil->scale >= 0x800) {
-                if (work->config->field_24 <= work->clock.frame) {
+                if (work->config->burst_end <= work->clock.frame) {
                     veil->scale = 0x800;
                     veil->count = 1;
                 } else {

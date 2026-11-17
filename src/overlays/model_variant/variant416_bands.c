@@ -81,7 +81,7 @@ void ModelVariant416_DrawBands(Variant416EntryState *context)
                             work->tail.phase = 2;
                         }
                         if (band->level[1] >= 0x400) {
-                            if (work->config->field_28 <=
+                            if (work->config->shrink_start <=
                                 work->clock.frame) {
                                 band->level[j] = 0x400;
                                 band->done[j] = 1;
