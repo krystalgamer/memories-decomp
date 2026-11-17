@@ -46,7 +46,7 @@ void FrenchModelVariant397_DrawStreamers(Variant380EntryState *context)
     ot = Graphics_GetDefaultOrderingTable();
     phase = 0x5DC;
     radius = 0x80;
-    poly = (POLY_G4 *)((u8 *)work + 0x18C8);
+    poly = (POLY_G4 *)work->flat;
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     if ((work->frame_count & 3) < 2) {
         phase = 0;
@@ -63,7 +63,7 @@ void FrenchModelVariant397_DrawStreamers(Variant380EntryState *context)
             ry = 0x400;
         }
         j = 0;
-        streamer = (ModelVariantFlaggedStreamer *)((u8 *)work + 0x1130);
+        streamer = work->streamers;
         base = work->streamer_rotation_y[i];
         spin = phase;
         for (; j < 2; j++, streamer++, base += 0x400) {
@@ -100,7 +100,7 @@ void FrenchModelVariant397_DrawStreamers(Variant380EntryState *context)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        streamer = (ModelVariantFlaggedStreamer *)((u8 *)work + 0x1130);
+        streamer = work->streamers;
         for (j = 0; j < 2; j++, streamer++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
@@ -136,7 +136,7 @@ void FrenchModelVariant397_DrawStreamers(Variant380EntryState *context)
                 }
             }
         }
-        streamer = (ModelVariantFlaggedStreamer *)((u8 *)work + 0x1130);
+        streamer = work->streamers;
         for (j = 0; j < 2; j++, streamer++) {
             for (k = 0; k < 16; k++) {
                 poly->x0 = streamer->sa[k] + streamer->ox[k];
