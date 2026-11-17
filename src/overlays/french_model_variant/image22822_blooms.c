@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "image22822_blooms.h"
+#include "../model_variant/variant437_entry.h"
 
-void FrenchModelVariant454_DrawBlooms(u8 *context)
+void FrenchModelVariant454_DrawBlooms(Variant437State *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -13,9 +13,9 @@ void FrenchModelVariant454_DrawBlooms(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Bloom22822State *state = (Bloom22822State *)context;
-    Bloom22822Group *group = state->groups;
-    POLY_FT4 *polygon = &state->polygon;
+    Variant437State *state = context;
+    Variant437Group *group = state->groups;
+    POLY_FT4 *polygon = &state->bloom;
     GsOT *ot;
     s16 i, j;
     s32 complete;
@@ -27,7 +27,7 @@ void FrenchModelVariant454_DrawBlooms(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
-    ratan2(state->direction.vy, state->direction.vz);
+    ratan2(state->delta.vy, state->delta.vz);
     ratan2(state->projected.vy, state->projected.vx);
     for (i = 0; i < 8; i++, group++) {
         for (j = 0; j < 12; j++) {
@@ -80,7 +80,7 @@ void FrenchModelVariant454_DrawBlooms(u8 *context)
                     rotation.vz = 0;
                     matrix.t[0] = group->origin.vx;
                     matrix.t[1] = group->origin.vy + group->direction.vy * grow / 1024;
-                    if (state->mirror == 0) {
+                    if (state->slot == 0) {
                         matrix.t[2] = group->origin.vz + (spread + extra) / 2;
                     } else {
                         matrix.t[2] = group->origin.vz - (spread + extra) / 2;
@@ -113,7 +113,7 @@ void FrenchModelVariant454_DrawBlooms(u8 *context)
             if (group->size[j] < 3072) {
                 group->size[j] += state->step * 16;
                 if (group->size[j] >= 3072) {
-                    if (state->timing->limit <= state->time) {
+                    if (state->config->limit <= state->time) {
                         group->size[j] = 3072;
                         group->done[j] = 1;
                     } else {
@@ -124,7 +124,7 @@ void FrenchModelVariant454_DrawBlooms(u8 *context)
                     state->phase = 1;
                 }
             }
-            if (state->timing->limit <= state->time && group->size[j] < 0) {
+            if (state->config->limit <= state->time && group->size[j] < 0) {
                 group->done[j] = 1;
             }
             complete *= group->done[j];

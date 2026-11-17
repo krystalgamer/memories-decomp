@@ -387,7 +387,7 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
         work->projected.vx = ((DVECTOR *)&aim_screen)->vx - origin_x;
         work->projected.vy = (*(&aim_screen) >> 16) - origin_y;
         if (work->config->bloom_start <= work->time) {
-            FrenchModelVariant454_DrawBlooms(context);
+            FrenchModelVariant454_DrawBlooms((Variant437State *)context);
         }
         work->frame++;
         frame = Model_GetSlotAnimationFrame(work->slot);

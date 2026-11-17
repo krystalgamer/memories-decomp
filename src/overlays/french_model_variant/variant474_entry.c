@@ -336,7 +336,7 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_y = dy;
         if (work->config->trigger <= work->clock.frame) {
-            FrenchModelVariant474_DrawPairedFunnels((u8 *)point);
+            FrenchModelVariant474_DrawPairedFunnels((Variant474EntryState *)point);
             if (work->phase < 6) {
                 FrenchModelVariant474_DrawRibbon((Variant474EntryState *)point);
             }

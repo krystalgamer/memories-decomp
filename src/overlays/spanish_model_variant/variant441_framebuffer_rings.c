@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant441_framebuffer_rings.h"
+#include "variant441_entry.h"
 
-void SpanishModelVariant441_DrawFramebufferRings(u8 *context)
+void SpanishModelVariant441_DrawFramebufferRings(Variant441EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,9 +10,9 @@ void SpanishModelVariant441_DrawFramebufferRings(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    FramebufferRings441State *state = (FramebufferRings441State *)context;
-    FramebufferRings441 *group = state->groups;
-    POLY_GT4 *quad = &state->quad;
+    Variant441EntryState *state = context;
+    ModelVariantTripleCurtain *group = state->curtains;
+    POLY_GT4 *quad = &state->plain;
     GsOT *ot;
     s32 i, j;
     s32 complete;
@@ -26,25 +26,25 @@ void SpanishModelVariant441_DrawFramebufferRings(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     complete = 1;
     buffer = GsGetActiveBuff();
-    angle_y = ratan2(state->direction[2], state->direction[0]) + 2048;
-    angle_x = ratan2(state->direction[1], state->direction[2]) + 2048;
+    angle_y = ratan2(state->aim.direction.vz, state->aim.direction.vx) + 2048;
+    angle_x = ratan2(state->aim.direction.vy, state->aim.direction.vz) + 2048;
     if (angle_y < 2048) {
         angle_y = -angle_y + 1024;
     } else {
         angle_y += 1024;
     }
     for (i = 0; i < 5; i++, group++) {
-        if (group->progress > 0) {
-            size = rsin(group->progress) * 4096 >> 12;
+        if (group->scale > 0) {
+            size = rsin(group->scale) * 4096 >> 12;
             rotation.vx = -angle_x;
             rotation.vy = angle_y;
             rotation.vz = 0;
-            matrix.t[0] = state->target.vx +
-                          state->direction[0] * (group->progress-1024) / 2048;
-            matrix.t[1] = state->target.vy +
-                          state->direction[1] * (group->progress-1024) / 2048;
-            matrix.t[2] = state->target.vz +
-                          state->direction[2] * (group->progress-1024) / 2048;
+            matrix.t[0] = state->aim.target.vx +
+                          state->aim.direction.vx * (group->scale-1024) / 2048;
+            matrix.t[1] = state->aim.target.vy +
+                          state->aim.direction.vy * (group->scale-1024) / 2048;
+            matrix.t[2] = state->aim.target.vz +
+                          state->aim.direction.vz * (group->scale-1024) / 2048;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -56,8 +56,8 @@ void SpanishModelVariant441_DrawFramebufferRings(u8 *context)
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
             for (j = 0; j < 16; j++) {
-                RotTransPers4(&group->points[0][j], &group->points[0][j+1],
-                              &group->points[2][j], &group->points[2][j+1],
+                RotTransPers4(&group->a[j], &group->a[j+1],
+                              &group->c[j], &group->c[j+1],
                               (long *)&quad->x0, (long *)&quad->x1,
                               (long *)&quad->x2, (long *)&quad->x3,
                               &interpolation, &flag);
@@ -82,38 +82,38 @@ void SpanishModelVariant441_DrawFramebufferRings(u8 *context)
                     setUV4(quad, quad->x0-128, quad->y0, quad->x1-128, quad->y1,
                            quad->x2-128, quad->y2, quad->x3-128, quad->y3);
                 }
-                depth = RotTransPers4(&group->points[0][j], &group->points[0][j+1],
-                                     &group->points[1][j], &group->points[1][j+1],
+                depth = RotTransPers4(&group->a[j], &group->a[j+1],
+                                     &group->b[j], &group->b[j+1],
                                      (long *)&quad->x0, (long *)&quad->x1,
                                      (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
                 SetSemiTrans(quad, 0);
                 SetShadeTex(quad, 0);
-                if (state->frame % 8 == 0) {
+                if (state->frame_count % 8 == 0) {
                     red = 255;
                     green = 0;
                     blue = 0;
-                } else if (state->frame % 8 == 1) {
+                } else if (state->frame_count % 8 == 1) {
                     red = 255;
                     green = 128;
                     blue = 0;
-                } else if (state->frame % 8 == 2) {
+                } else if (state->frame_count % 8 == 2) {
                     red = 255;
                     green = 255;
                     blue = 0;
-                } else if (state->frame % 8 == 3) {
+                } else if (state->frame_count % 8 == 3) {
                     red = 0;
                     green = 255;
                     blue = 0;
-                } else if (state->frame % 8 == 4) {
+                } else if (state->frame_count % 8 == 4) {
                     red = 0;
                     green = 255;
                     blue = 255;
-                } else if (state->frame % 8 == 5) {
+                } else if (state->frame_count % 8 == 5) {
                     red = 0;
                     green = 0;
                     blue = 255;
-                } else if (state->frame % 8 == 6) {
+                } else if (state->frame_count % 8 == 6) {
                     red = 255;
                     green = 0;
                     blue = 255;
@@ -131,14 +131,14 @@ void SpanishModelVariant441_DrawFramebufferRings(u8 *context)
                 }
             }
         }
-        if (group->progress < 2048) {
+        if (group->scale < 2048) {
             complete = 0;
-            group->progress += state->step * 32;
-            if (group->progress >= 2048) {
+            group->scale += state->step * 32;
+            if (group->scale >= 2048) {
                 if (state->phase >= 5) {
-                    group->progress = 2048;
+                    group->scale = 2048;
                 } else {
-                    group->progress -= 2048;
+                    group->scale -= 2048;
                 }
             }
         }

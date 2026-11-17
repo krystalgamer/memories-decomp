@@ -17,10 +17,24 @@ typedef struct {
     u8 unknown_44[8];
 } Variant446EntryConfig;
 
-/* One 0x2B0-byte ribbon: two colours, a scale, a growing progress and an
- * offset on a fan of angles around the root part. */
+/* A projected point as RotTransPers writes it: a screen DVECTOR or the
+ * packed word the ribbons split. */
+typedef union {
+    DVECTOR point;
+    long packed;
+} Variant446EntryScreen;
+
+/* One 0x2B0-byte ribbon: a thirteen-point spine and its offset copy, both
+ * projected, with per-point angle and width; two colours, a scale, a growing
+ * progress and an offset on a fan of angles around the root part; and per
+ * point the depth and screen offset. */
 typedef struct {
-    u8 unknown_000[0x1A0];
+    SVECTOR a[13];
+    Variant446EntryScreen sa[13];
+    s32 angle[13];
+    SVECTOR b[13];
+    Variant446EntryScreen sb[13];
+    s32 width[13];
     u8 ca[4], cb[4];
     VECTOR scale;
     s32 field_1B8, field_1BC;
@@ -28,7 +42,9 @@ typedef struct {
     s32 field_1C4, state, width_scale;
     u8 unknown_1D0[0x68];
     VECTOR offset;
-    u8 unknown_248[0x68];
+    s32 otz[13];
+    s16 ox[13];
+    s16 oy[13];
 } Variant446EntryRibbon;
 
 /* Twenty-four sprites at work + 0x2710, each released at a target point. */

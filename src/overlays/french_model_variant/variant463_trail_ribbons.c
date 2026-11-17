@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "variant463_ribbons.h"
 #include "../model_variant/variant446_entry.h"
 
 /* The North American header-446 build reads the projected points through
@@ -38,11 +37,11 @@ void FrenchModelVariant463_DrawTrailRibbons(Variant446EntryState *context)
     s32 dx;
     s32 dy;
     s32 n;
-    Ribbon463 *ribbon;
+    Variant446EntryRibbon *ribbon;
     POLY_FT4 *poly;
 
     work = context;
-    ribbon = ((TrailRibbon463Work *)work)->ribbons;
+    ribbon = work->trails;
     ot = Graphics_GetDefaultOrderingTable();
     total = 0;
     i = 0;
@@ -60,17 +59,17 @@ void FrenchModelVariant463_DrawTrailRibbons(Variant446EntryState *context)
                     dy = 0;
                 }
             }
-            setVector(&ribbon->a[j], ((TrailRibbon463Work *)work)->dirs[i].vx * j / 12,
-                      ((TrailRibbon463Work *)work)->dirs[i].vy * j / 12, ((TrailRibbon463Work *)work)->dirs[i].vz * j / 12);
+            setVector(&ribbon->a[j], work->target_spans[i].vx * j / 12,
+                      work->target_spans[i].vy * j / 12, work->target_spans[i].vz * j / 12);
             setVector(&ribbon->b[j], ribbon->a[j].vx + (rcos(turn) * length >> 12), ribbon->a[j].vy,
                       ribbon->a[j].vz + (rsin(turn) * length >> 12));
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        m.t[0] = ((TrailRibbon463Work *)work)->positions[i].vx;
-        m.t[1] = ((TrailRibbon463Work *)work)->positions[i].vy;
-        m.t[2] = ((TrailRibbon463Work *)work)->positions[i].vz;
+        m.t[0] = work->ground[i].vx;
+        m.t[1] = work->ground[i].vy;
+        m.t[2] = work->ground[i].vz;
         scale.vx = 0x1000;
         scale.vy = 0x1000;
         scale.vz = 0x1000;
@@ -102,7 +101,7 @@ void FrenchModelVariant463_DrawTrailRibbons(Variant446EntryState *context)
             }
             ribbon->angle[j] = ratan2(dy, dx) - 0x400;
             ribbon->width[j] = TRAIL463_SB(j).point.vx - TRAIL463_SA(j).point.vx;
-            size = ribbon->scale * ribbon->width[j] / 1024;
+            size = ribbon->width_scale * ribbon->width[j] / 1024;
             ribbon->ox[j] = rcos(ribbon->angle[j]) * size >> 12;
             ribbon->oy[j] = rsin(ribbon->angle[j]) * size >> 12;
             if (j == 0 || j == 12) {
@@ -115,12 +114,12 @@ void FrenchModelVariant463_DrawTrailRibbons(Variant446EntryState *context)
             TRAIL463_SA(j).packed = (u32)TRAIL463_SA(j).packed + (u32)(rcos(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * sway >> 12)) >> 12);
             TRAIL463_SA(j).packed = (u32)TRAIL463_SA(j).packed + ((u32)(rsin(ribbon->angle[j]) * ((rsin(phase) * amp >> 12) + (rsin(wave) * sway >> 12)) >> 12) << 16);
         }
-        if (ribbon->count < 0) {
+        if (ribbon->progress < 0) {
             n = 0;
         } else {
-            n = ribbon->count;
+            n = ribbon->progress;
         }
-        poly = ((TrailRibbon463Work *)work)->polygons;
+        poly = work->flat_textured;
         for (j = 0; j < n; j++) {
             if (work->clock.frame_count % 2 == 1) {
                 if (!(j & 1)) {
@@ -148,9 +147,9 @@ void FrenchModelVariant463_DrawTrailRibbons(Variant446EntryState *context)
                 poly->x3 = TRAIL463_SA(j + 1).point.vx - ribbon->ox[j + 1];
                 poly->y3 = (TRAIL463_SA(j + 1).packed >> 16) - ribbon->oy[j + 1];
             }
-            poly->r0 = ribbon->color[0];
-            poly->g0 = ribbon->color[1];
-            poly->b0 = ribbon->color[2];
+            poly->r0 = ribbon->ca[0];
+            poly->g0 = ribbon->ca[1];
+            poly->b0 = ribbon->ca[2];
             if (ribbon->otz[j] >= 0 && flags[i][j] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[j]);
             }
@@ -162,25 +161,25 @@ void FrenchModelVariant463_DrawTrailRibbons(Variant446EntryState *context)
                 }
             }
         }
-        if (ribbon->count < 12 && ribbon->state == 0) {
-            ribbon->count += work->clock.step * 2;
-            if (ribbon->count >= 12) {
-                ribbon->count = 12;
+        if (ribbon->progress < 12 && ribbon->state == 0) {
+            ribbon->progress += work->clock.step * 2;
+            if (ribbon->progress >= 12) {
+                ribbon->progress = 12;
                 ribbon->state = 1;
                 if (work->phase == 1) {
                     work->phase = 2;
                 }
             }
-        } else if (ribbon->state == 1 && ribbon->scale > 0) {
-            ribbon->scale -= work->clock.step * 64;
-            if (ribbon->scale <= 0) {
+        } else if (ribbon->state == 1 && ribbon->width_scale > 0) {
+            ribbon->width_scale -= work->clock.step * 64;
+            if (ribbon->width_scale <= 0) {
                 if (work->trail_delay == 0) {
-                    ribbon->scale = 0;
-                    ribbon->count = 0;
+                    ribbon->width_scale = 0;
+                    ribbon->progress = 0;
                     ribbon->state = 2;
                 } else {
-                    ribbon->scale = 1024;
-                    ribbon->count = -50;
+                    ribbon->width_scale = 1024;
+                    ribbon->progress = -50;
                     ribbon->state = 0;
                 }
             }
