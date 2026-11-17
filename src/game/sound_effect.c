@@ -54,8 +54,7 @@ void SD_InitVoiceState(void) {
     voice_state->s_wSD_NEXT_SE_INDEX = 0;
     voice_state->s_wSD_SEGROUP_REQUEST = 0xFFFF;
     voice_state->s_pstSD_SE_TABLE =
-        (SDNote *)(
-            (((u32)&((u16 *)0)[voice_state->s_stGlobalHdrSE.s_wSD_NUM_SE] + 0xF) & 0xFFF0) +
+        (SDNote *)(((voice_state->s_stGlobalHdrSE.s_wSD_NUM_SE * sizeof(u16) + 0xF) & 0xFFF0) +
             0x801E4000);
 
     init_index = 0;
@@ -690,7 +689,7 @@ void SD_SESetPan(s32 sound_id, s32 pan_value)
     s32 near;
     u16 key;
     s16 env[4];
-    u8 *base;
+    SDValue *base;
     s32 v;
     s32 off;
     s16 pan2;
@@ -711,14 +710,16 @@ void SD_SESetPan(s32 sound_id, s32 pan_value)
         flag = sound_id & SD_VOICE_LOOKUP_BANK_FLAG;
         flag = 0 < flag;
         off += flag << SD_VOICE_LOOKUP_BANK_BYTE_SHIFT;
-        base = (u8 *)g_SDValue;
-        /* Keep the state base first in the sum to preserve retail's addu order. */
-        pt = *(u16 *)(base + off + (u32)&((SDValue *)0)->s_aawSD_INDIRECT_SE_ID);
+        base = g_SDValue;
+        /* A byte offset from the state base: indexing s_aawSD_INDIRECT_SE_ID
+           schedules the index shift after the bank test, and offsetting
+           from the array instead of the base reverses the addu operands. */
+        pt = *(u16 *)((u8 *)base + off + OFFSETOF(SDValue, s_aawSD_INDIRECT_SE_ID));
         sound_id = SD_PENDING_ENTRY_NONE;
         if (pt == sound_id) {
             return;
         }
-        key = ((SDValue *)base)->s_pwSD_SE_INDEX[pt];
+        key = base->s_pwSD_SE_INDEX[pt];
         if (key == sound_id) {
             return;
         }
@@ -987,10 +988,8 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
 
                 g_SDValue->s_pwSD_SE_INDEX[key] = n;
                 g_SDValue->s_pstSD_SE_TABLE[n] = cur->data[j];
-                e = (SDNote *)(
-                    (u32)&((SDNote *)0)[n] +
-                    (u32)g_SDValue->s_pstSD_SE_TABLE
-                );
+                /* Integer sum: &table[n] reverses the addu operands. */
+                e = (SDNote *)(n * sizeof(SDNote) + (u32)g_SDValue->s_pstSD_SE_TABLE);
                 v = e->spu_address_div16;
                 e->spu_address_div16 =
                     (i != 0) ? (u16)(v + (addr_side >> 4))
