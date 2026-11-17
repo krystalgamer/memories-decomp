@@ -70,9 +70,9 @@ void FrenchModelVariant400_DrawRibbons(Variant400EntryState *context)
                               ribbon->a[k].vz + (rsin(yaw) * len >> 12));
                 }
             } else {
-                work->field_2018 = work->target.vx - ribbon->position.vx;
-                work->field_201C = work->target.vy - ribbon->position.vy;
-                work->field_2020 = work->target.vz - ribbon->position.vz;
+                work->span.vx = work->target.vx - ribbon->position.vx;
+                work->span.vy = work->target.vy - ribbon->position.vy;
+                work->span.vz = work->target.vz - ribbon->position.vz;
                 for (k = 0, wave = -work->ribbon_wave; k < 17; k++, wave += 1300) {
                     if (k == 0 || k == 16) {
                         bend = 0;
@@ -80,11 +80,11 @@ void FrenchModelVariant400_DrawRibbons(Variant400EntryState *context)
                         bend = phase - k * 256 + work->ribbon_phase;
                     }
                     setVector(&ribbon->a[k],
-                              ribbon->delta.vx + work->field_2018 * k / 16
+                              ribbon->delta.vx + work->span.vx * k / 16
                                   + (rcos(pitch) * (rsin(bend) * ((rsin(wave) * 64 >> 12) + 64) >> 12) >> 12),
-                              ribbon->delta.vy + work->field_201C * k / 16
+                              ribbon->delta.vy + work->span.vy * k / 16
                                   + (rsin(pitch) * (rsin(bend) * ((rsin(wave) * 64 >> 12) + 64) >> 12) >> 12),
-                              ribbon->delta.vz + work->field_2020 * k / 16);
+                              ribbon->delta.vz + work->span.vz * k / 16);
                     setVector(&ribbon->b[k],
                               ribbon->a[k].vx + (rcos(yaw) * len >> 12),
                               ribbon->a[k].vy,

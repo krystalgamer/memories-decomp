@@ -44,10 +44,8 @@ typedef struct {
     MATRIX matrix;
     SVECTOR target;
     VECTOR direction;
-    s32 field_2018;
-    s32 field_201C;
-    s32 field_2020;
-    u8 unknown_2024[0x4];
+    /* The ribbon helper's span from a ribbon's position to the target. */
+    VECTOR span;
     DVECTOR screen_delta;
     VECTOR view_delta;
     s32 angles[2];

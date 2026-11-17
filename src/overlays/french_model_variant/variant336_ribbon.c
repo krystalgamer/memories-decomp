@@ -37,9 +37,9 @@ void FrenchModelVariant336_DrawRibbon(Variant336EntryState *context)
             ribbon->end.vx = ribbon->origin.vx;
             ribbon->end.vy = 0;
             ribbon->end.vz = ribbon->origin.vz;
-            work->field_1F80 = ribbon->end.vx - ribbon->origin.vx;
-            work->field_1F84 = ribbon->end.vy - ribbon->origin.vy;
-            work->field_1F88 = ribbon->end.vz - ribbon->origin.vz;
+            work->span.vx = ribbon->end.vx - ribbon->origin.vx;
+            work->span.vy = ribbon->end.vy - ribbon->origin.vy;
+            work->span.vz = ribbon->end.vz - ribbon->origin.vz;
             for (k = 0, wave = phase - work->wave0; k < 17; k++, wave += 1100) {
                 if (k == 0 || k == 16) {
                     bend = 0;
@@ -47,10 +47,10 @@ void FrenchModelVariant336_DrawRibbon(Variant336EntryState *context)
                     bend = phase - k * 384 + work->wave1;
                 }
                 setVector(&ribbon->spine.a[k],
-                          ribbon->origin.vx + work->field_1F80 * k / 16
+                          ribbon->origin.vx + work->span.vx * k / 16
                               + (rcos(yaw) * ((rsin(bend) * 64 >> 12) + (rsin(wave) * 48 >> 12)) >> 12),
-                          ribbon->origin.vy + work->field_1F84 * k / 16,
-                          ribbon->origin.vz + work->field_1F88 * k / 16
+                          ribbon->origin.vy + work->span.vy * k / 16,
+                          ribbon->origin.vz + work->span.vz * k / 16
                               + (rsin(yaw) * ((rsin(bend) * 64 >> 12) + (rsin(wave) * 48 >> 12)) >> 12));
                 setVector(&ribbon->spine.b[k], ribbon->spine.a[k].vx + (rcos(yaw) * len >> 12), ribbon->spine.a[k].vy,
                           ribbon->spine.a[k].vz + (rsin(yaw) * len >> 12));
