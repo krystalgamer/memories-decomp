@@ -232,7 +232,7 @@ s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command)
         }
         work->field_18CC = 0;
         work->field_18D0 = 1024;
-        work->field_18D2 = 1024;
+        work->band_brightness = 1024;
         work->field_18D4 = 0;
         work->start_index = 0;
         work->spin = 0;
