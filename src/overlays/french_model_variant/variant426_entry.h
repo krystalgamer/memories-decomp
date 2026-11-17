@@ -42,10 +42,10 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant426_aImages[9];
 extern ModelVariantSpiralConfig gFrenchModelVariant426_aConfigs[];
 
-void SpanishModelVariant426_DrawMesh(u8 *context);
-void SpanishModelVariant426_DrawSpiral(u8 *context);
+void SpanishModelVariant426_DrawMesh(EntryState426 *context);
+void SpanishModelVariant426_DrawSpiral(EntryState426 *context);
 void FrenchModelVariant426_DrawRibbon(u8 *context);
-void SpanishModelVariant426_DrawSheets(u8 *context);
-void FrenchModelVariant426_DrawStreamers(u8 *context);
+void SpanishModelVariant426_DrawSheets(EntryState426 *context);
+void FrenchModelVariant426_DrawStreamers(EntryState426 *context);
 
 #endif

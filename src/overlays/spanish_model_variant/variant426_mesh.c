@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant426_mesh.h"
+#include "../french_model_variant/variant426_entry.h"
 
-void SpanishModelVariant426_DrawMesh(u8 *context)
+void SpanishModelVariant426_DrawMesh(EntryState426 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void SpanishModelVariant426_DrawMesh(u8 *context)
     u8 red[9], green[9], blue[9];
     long interpolation;
     long flag;
-    Mesh426State *state = (Mesh426State *)context;
+    EntryState426 *state = context;
     ModelVariantMesh *mesh = &state->mesh;
     POLY_GT4 *polygon;
     GsOT *ot;
@@ -20,10 +20,10 @@ void SpanishModelVariant426_DrawMesh(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(state->direction[2], state->direction[0]);
-    ratan2(state->direction[1], state->direction[2]);
-    polygon = &state->polygon;
-    if (!(state->frame & 1)) {
+    ratan2(state->aim.direction.vz, state->aim.direction.vx);
+    ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    polygon = &state->extra;
+    if (!(state->clock.frame_count & 1)) {
         size = state->size + state->size / 16;
     } else {
         size = state->size;
@@ -31,9 +31,9 @@ void SpanishModelVariant426_DrawMesh(u8 *context)
     rotation.vx = 0;
     rotation.vy = 0;
     rotation.vz = 0;
-    matrix.t[0] = state->origin.vx;
-    matrix.t[1] = state->origin.vy;
-    matrix.t[2] = state->origin.vz;
+    matrix.t[0] = state->aim.target.vx;
+    matrix.t[1] = state->aim.target.vy;
+    matrix.t[2] = state->aim.target.vz;
     scale.vx = size;
     scale.vy = size;
     scale.vz = size;
@@ -82,13 +82,13 @@ void SpanishModelVariant426_DrawMesh(u8 *context)
         }
     }
     if (state->phase >= 3 && state->size < 4096) {
-        state->size += state->step * 512;
+        state->size += state->clock.step * 512;
         if (state->size >= 4096) {
             state->size = 4096;
         }
     }
     if (state->phase == 5 && state->intensity > 0) {
-        state->intensity -= state->step * 32;
+        state->intensity -= state->clock.step * 32;
         if (state->intensity <= 0) {
             state->intensity = 0;
             state->phase = 6;
