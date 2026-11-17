@@ -178,9 +178,9 @@ void FrenchModelVariant388_DrawPetals(Variant388EntryState *context)
             work->field_189C = 2;
         }
     }
-    if ((u32)work->clock.frame >= work->config->track_end
+    if (work->clock.frame >= work->config->track_end
         && work->spiral_shrink < 0x400) {
-        work->spiral_shrink = (((u32)work->clock.frame
+        work->spiral_shrink = ((work->clock.frame
             - work->config->track_end) << 10)
             / (work->config->shrink_end - work->config->track_end);
         if (work->spiral_shrink >= 0x400) {
