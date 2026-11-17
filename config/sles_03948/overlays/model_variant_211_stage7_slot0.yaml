@@ -54,56 +54,56 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant438_entry]
+      - [0x4, c, overlays/model_variant/variant438_entry_pal]
   - name: helper_1614
     type: code
     start: 0x1614
     vram: 0x8013C614
     align: 4
     subsegments:
-      - [0x1614, c, overlays/spanish_model_variant/variant438_warp]
+      - [0x1614, c, overlays/model_variant/variant438_warp]
   - name: helper_1B5C
     type: code
     start: 0x1B5C
     vram: 0x8013CB5C
     align: 4
     subsegments:
-      - [0x1B5C, c, overlays/spanish_model_variant/variant438_rings]
+      - [0x1B5C, c, overlays/model_variant/variant438_rings]
   - name: helper_23E8
     type: code
     start: 0x23E8
     vram: 0x8013D3E8
     align: 4
     subsegments:
-      - [0x23E8, c, overlays/spanish_model_variant/variant438_rays]
+      - [0x23E8, c, overlays/model_variant/variant438_rays]
   - name: helper_2A34
     type: code
     start: 0x2A34
     vram: 0x8013DA34
     align: 4
     subsegments:
-      - [0x2A34, c, overlays/spanish_model_variant/variant438_spiral]
+      - [0x2A34, c, overlays/model_variant/variant438_spiral]
   - name: helper_3638
     type: code
     start: 0x3638
     vram: 0x8013E638
     align: 4
     subsegments:
-      - [0x3638, c, overlays/spanish_model_variant/variant438_bands]
+      - [0x3638, c, overlays/model_variant/variant438_bands]
   - name: helper_3DE8
     type: code
     start: 0x3DE8
     vram: 0x8013EDE8
     align: 4
     subsegments:
-      - [0x3DE8, c, overlays/spanish_model_variant/variant438_sheets]
+      - [0x3DE8, c, overlays/model_variant/variant438_sheets]
   - name: helper_4300
     type: code
     start: 0x4300
     vram: 0x8013F300
     align: 4
     subsegments:
-      - [0x4300, c, overlays/spanish_model_variant/variant438_lines]
+      - [0x4300, c, overlays/model_variant/variant438_lines]
   - name: unclassified_tail
     type: code
     start: 0x4868

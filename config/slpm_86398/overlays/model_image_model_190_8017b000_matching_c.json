@@ -10,13 +10,13 @@
       "address": "0x8017BF28",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x464",
-      "source": "src/overlays/spanish_model_variant/variant426_mesh.c"
+      "source": "src/overlays/model_variant/variant426_mesh.c"
     },
     {
       "address": "0x8017C38C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xA20",
-      "source": "src/overlays/spanish_model_variant/variant426_spiral.c"
+      "source": "src/overlays/model_variant/variant426_spiral.c"
     },
     {
       "address": "0x8017CDAC",
@@ -28,7 +28,7 @@
       "address": "0x8017D65C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4F4",
-      "source": "src/overlays/spanish_model_variant/variant426_sheets.c"
+      "source": "src/overlays/model_variant/variant426_sheets.c"
     },
     {
       "address": "0x8017DB50",
@@ -40,7 +40,7 @@
       "address": "0x8017E370",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x438",
-      "source": "src/overlays/spanish_model_variant/variant426_funnel.c"
+      "source": "src/overlays/model_variant/variant426_funnel.c"
     }
   ],
   "schema": 1

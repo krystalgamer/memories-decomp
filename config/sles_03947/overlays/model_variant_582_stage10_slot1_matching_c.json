@@ -28,13 +28,13 @@
       "address": "0x8017DB30",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x538",
-      "source": "src/overlays/spanish_model_variant/variant469_sheets.c"
+      "source": "src/overlays/model_variant/variant469_sheets.c"
     },
     {
       "address": "0x8017E068",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x454",
-      "source": "src/overlays/spanish_model_variant/variant469_rings.c"
+      "source": "src/overlays/model_variant/variant469_rings.c"
     }
   ],
   "schema": 1

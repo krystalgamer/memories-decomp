@@ -46,7 +46,7 @@ into 123 existing French variant layouts. For each one, the Spanish layout
 already had accepted C at the same address and size, while the French layout
 kept assembly.
 
-- Each French segment now uses the same `src/overlays/spanish_model_variant/`
+- Each French segment now uses the same `src/overlays/model_variant/`
   source and named profile as Spain. The `matching_c.json` entry and the
   function-inventory status and notes are copied from the Spanish donor.
 - French-only C, such as the MODEL459 rays and lines, stays unchanged.

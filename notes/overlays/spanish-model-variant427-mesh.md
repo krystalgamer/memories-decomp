@@ -1,7 +1,7 @@
 # Spanish MODEL427 three-mesh renderer
 
 The game-owned helper at image `+0xFB4..+0x157C` is independently recovered in
-`src/overlays/spanish_model_variant/variant427_mesh.c`. It is 1,480 instruction
+`src/overlays/model_variant/variant427_mesh.c`. It is 1,480 instruction
 bytes at `0x8013BFB4` or `0x8017BFB4`, using the existing
 `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81).
 

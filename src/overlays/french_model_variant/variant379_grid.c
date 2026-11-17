@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../spanish_model_variant/variant479_entry.h"
+#include "../model_variant/variant479_entry.h"
 
 void FrenchModelVariant379_DrawGrid(Variant479EntryState *context)
 {

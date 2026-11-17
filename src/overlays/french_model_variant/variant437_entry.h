@@ -9,7 +9,7 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
-#include "../spanish_model_variant/variant437_sheet.h"
+#include "../model_variant/variant437_sheet.h"
 
 typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];

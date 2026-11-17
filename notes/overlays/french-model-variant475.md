@@ -245,7 +245,7 @@ models 116 and 576: `ModelVariant458_DrawRibbons`, `ModelVariant458_DrawSheets`,
 `ModelVariant458_DrawStreamers`. The North American and Japanese images build
 the header-458 bodies; the PAL images build the sheet, quad and strand bodies
 directly and the ribbons and streamers from
-`spanish_model_variant/variant475_ribbons.c` and
+`model_variant/variant475_ribbons.c` and
 `french_model_variant/variant475_streamers.c`, which define the same names.
 Each image binds them at its own addresses, and the header-552 image of model
 163 binds `ModelVariant458_DrawStrand` at `0x8017F4D0` (see [Per-image symbol

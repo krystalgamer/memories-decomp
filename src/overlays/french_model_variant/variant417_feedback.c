@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../spanish_model_variant/variant417_entry.h"
+#include "../model_variant/variant417_entry.h"
 
 void FrenchModelVariant417_DrawFramebufferFeedback(Variant417EntryState *context)
 {

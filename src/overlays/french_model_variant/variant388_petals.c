@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant388_petals.h"
-#include "../spanish_model_variant/variant388_entry.h"
+#include "../model_variant/variant388_entry_pal.h"
 
 /* Builds and draws twelve two-point petal arms around the origin while the
  * state word at +0x1898 is non-negative, then advances the spin, grows the

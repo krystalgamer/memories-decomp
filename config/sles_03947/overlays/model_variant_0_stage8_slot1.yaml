@@ -63,14 +63,14 @@ segments:
     vram: 0x8017BF24
     align: 4
     subsegments:
-      - [0xF24, c, overlays/spanish_model_variant/variant426_mesh]
+      - [0xF24, c, overlays/model_variant/variant426_mesh]
   - name: helper_13B0
     type: code
     start: 0x13B0
     vram: 0x8017C3B0
     align: 4
     subsegments:
-      - [0x13B0, c, overlays/spanish_model_variant/variant426_spiral]
+      - [0x13B0, c, overlays/model_variant/variant426_spiral]
   - name: helper_1DF0
     type: code
     start: 0x1DF0
@@ -84,7 +84,7 @@ segments:
     vram: 0x8017D6D0
     align: 4
     subsegments:
-      - [0x26D0, c, overlays/spanish_model_variant/variant426_sheets]
+      - [0x26D0, c, overlays/model_variant/variant426_sheets]
   - name: helper_2BC0
     type: code
     start: 0x2BC0
@@ -98,7 +98,7 @@ segments:
     vram: 0x8017E440
     align: 4
     subsegments:
-      - [0x3440, c, overlays/spanish_model_variant/variant426_funnel]
+      - [0x3440, c, overlays/model_variant/variant426_funnel]
   - name: unclassified_tail
     type: code
     start: 0x3874

@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "variant385_ribbons.h"
-#include "../spanish_model_variant/variant385_entry.h"
+#include "../model_variant/variant385_entry_pal.h"
 
 void FrenchModelVariant385_DrawRibbonFan(Variant385EntryState *context)
 {

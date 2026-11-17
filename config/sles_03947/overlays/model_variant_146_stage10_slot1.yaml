@@ -63,14 +63,14 @@ segments:
     vram: 0x8017BE00
     align: 4
     subsegments:
-      - [0xE00, c, overlays/spanish_model_variant/variant446_lines]
+      - [0xE00, c, overlays/model_variant/variant446_lines]
   - name: helper_12F8
     type: code
     start: 0x12F8
     vram: 0x8017C2F8
     align: 4
     subsegments:
-      - [0x12F8, c, overlays/spanish_model_variant/variant446_strip]
+      - [0x12F8, c, overlays/model_variant/variant446_strip]
   - name: helper_195C
     type: code
     start: 0x195C
@@ -84,14 +84,14 @@ segments:
     vram: 0x8017CFE8
     align: 4
     subsegments:
-      - [0x1FE8, c, overlays/spanish_model_variant/variant446_pulse]
+      - [0x1FE8, c, overlays/model_variant/variant446_pulse]
   - name: helper_24BC
     type: code
     start: 0x24BC
     vram: 0x8017D4BC
     align: 4
     subsegments:
-      - [0x24BC, c, overlays/spanish_model_variant/variant446_rings]
+      - [0x24BC, c, overlays/model_variant/variant446_rings]
   - name: helper_2CAC
     type: code
     start: 0x2CAC

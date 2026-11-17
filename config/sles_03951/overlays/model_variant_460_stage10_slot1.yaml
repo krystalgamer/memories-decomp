@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant456_entry]
+      - [0x4, c, overlays/model_variant/variant456_entry_pal]
   - name: helper_101C
     type: code
     start: 0x101C
@@ -68,35 +68,35 @@ segments:
     vram: 0x8017C834
     align: 4
     subsegments:
-      - [0x1834, c, overlays/spanish_model_variant/variant456_ribbons]
+      - [0x1834, c, overlays/model_variant/variant456_ribbons]
   - name: helper_1F58
     type: code
     start: 0x1F58
     vram: 0x8017CF58
     align: 4
     subsegments:
-      - [0x1F58, c, overlays/spanish_model_variant/variant456_sprays]
+      - [0x1F58, c, overlays/model_variant/variant456_sprays]
   - name: helper_2ACC
     type: code
     start: 0x2ACC
     vram: 0x8017DACC
     align: 4
     subsegments:
-      - [0x2ACC, c, overlays/spanish_model_variant/variant456_sheets]
+      - [0x2ACC, c, overlays/model_variant/variant456_sheets_pal]
   - name: helper_315C
     type: code
     start: 0x315C
     vram: 0x8017E15C
     align: 4
     subsegments:
-      - [0x315C, c, overlays/spanish_model_variant/variant456_lines]
+      - [0x315C, c, overlays/model_variant/variant456_lines]
   - name: helper_34D4
     type: code
     start: 0x34D4
     vram: 0x8017E4D4
     align: 4
     subsegments:
-      - [0x34D4, c, overlays/spanish_model_variant/variant456_streamers]
+      - [0x34D4, c, overlays/model_variant/variant456_streamers_pal]
   - name: unclassified_tail
     type: code
     start: 0x3D00

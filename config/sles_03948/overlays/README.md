@@ -17,9 +17,9 @@ translation unit unchanged, with independently verified French bindings.
 Twenty MODEL primary images reuse the accepted `model_variant/` primary
 copy, effect and particle bodies unchanged.
 Two model-54 secondary-variant images reuse the accepted
-`spanish_model_variant/` entry, mesh and ring bodies unchanged.
+Spanish `model_variant/` entry, mesh and ring bodies unchanged.
 Two model-401 secondary-variant images reuse the accepted
-`spanish_model_variant/variant432_{draw,layers,bands}.c` helpers and slot
+`model_variant/variant432_{draw,layers,bands}.c` helpers and slot
 wrappers unchanged; the other four function instances retain generated assembly.
 Twenty-six header-435/585 images reuse the accepted North American
 `model_variant/variant418_{sheet,bands,spokes,rings,quad}.c` bodies through ten French
@@ -35,7 +35,7 @@ Twelve header-421/571 images reuse
 renaming wrappers under the same GCC 2.8.1 profile. Sheets is entry-reachable;
 spokes, rings and quad are retained module-local code.
 Six header-337/487 images directly reuse the accepted
-`spanish_model_variant/variant337_rings.c` body and existing slot-one wrapper,
+`model_variant/variant337_rings.c` body and existing slot-one wrapper,
 without new French source files. The ring helper is entry-reachable and uses
 the existing GCC 2.8.1 profile.
 Twelve header-445/595 images reuse
@@ -1360,14 +1360,14 @@ file binds 0xA30 bytes into the unclassified tail (`D_8013D3E4`).
 
 Six images under French headers 456 and 606 build their loader entry
 (`SpanishModelVariant456_HandleRequest`) from
-`src/overlays/spanish_model_variant/variant456_entry.c` in both slots, next to
+`src/overlays/model_variant/variant456_entry_pal.c` in both slots, next to
 the already-matched ribbons, sheets, lines and streamers helpers. The entry
 follows the North American header-433 entry's shape; its command rows
 (0x2C bytes) and texture images are `gSpanishModelVariant456_aConfigs` and
 `gSpanishModelVariant456_aImages`, which each image's symbols file binds at its
 own addresses. The helper at image offset 0x101C builds from
 `french_model_variant/variant456_twin_ribbons.c` and the sprays helper at
-0x1F58 from `src/overlays/spanish_model_variant/variant456_sprays.c`.
+0x1F58 from `src/overlays/model_variant/variant456_sprays.c`.
 
 Two images under French headers 458 and 608 (model 202, stage 7 slot 0 and stage 8 slot 1) build their loader entry from `src/overlays/french_model_variant/variant458_entry.c` in both slots, next to the already-matched sheets, strands and streamers helpers. The entry has no work-size printf; its command rows and texture images are offsets into the tail label `gFrenchModelVariant458_D230C`, which each image's symbols file binds at its own address. A dead `double` conversion in the strand loop and a `do { } while (0)` around its body reproduce the retail loop scheduling and are commented in the source.
 

@@ -22,19 +22,19 @@
       "address": "0x8017CDB0",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x458",
-      "source": "src/overlays/spanish_model_variant/variant474_mesh.c"
+      "source": "src/overlays/model_variant/variant474_mesh.c"
     },
     {
       "address": "0x8017D208",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x964",
-      "source": "src/overlays/spanish_model_variant/variant474_spiral.c"
+      "source": "src/overlays/model_variant/variant474_spiral.c"
     },
     {
       "address": "0x8017DB6C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x4FC",
-      "source": "src/overlays/spanish_model_variant/variant474_sheets.c"
+      "source": "src/overlays/model_variant/variant474_sheets.c"
     },
     {
       "address": "0x8017E068",

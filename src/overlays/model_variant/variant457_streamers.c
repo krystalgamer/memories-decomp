@@ -3,4 +3,4 @@
 /* The North American header-457 streamers index the closing segment directly
  * (see variant474_streamers.c). */
 #define MODEL_VARIANT474_STREAMERS_DIRECT_PREVIOUS
-#include "../spanish_model_variant/variant474_streamers.c"
+#include "../model_variant/variant474_streamers.c"

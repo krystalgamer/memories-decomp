@@ -68,7 +68,7 @@ segments:
     vram: 0x8013C4A8
     align: 4
     subsegments:
-      - [0x14A8, c, overlays/spanish_model_variant/variant437_sheet]
+      - [0x14A8, c, overlays/model_variant/variant437_sheet]
   - name: helper_1B08
     type: code
     start: 0x1B08
@@ -82,7 +82,7 @@ segments:
     vram: 0x8013D5D4
     align: 4
     subsegments:
-      - [0x25D4, c, overlays/spanish_model_variant/variant437_streamers]
+      - [0x25D4, c, overlays/model_variant/variant437_streamers]
   - name: unclassified_tail
     type: code
     start: 0x2F30

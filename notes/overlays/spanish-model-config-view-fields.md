@@ -25,7 +25,7 @@ map, which has no field kind.
 
 ## `Variant385EntryConfig` (`gSpanishModelVariant385_aConfigs`)
 
-Entry `spanish_model_variant/variant385_entry.c` sets `work->config = gSpanishModelVariant385_aConfigs + command` (line 45); its work struct `Variant385EntryState` has `config` at `+0x1000`.
+Entry `model_variant/variant385_entry_pal.c` sets `work->config = gSpanishModelVariant385_aConfigs + command` (line 45); its work struct `Variant385EntryState` has `config` at `+0x1000`.
 The pulse, strip and lines helpers have since been moved onto
 `Variant385EntryState`, and their views were removed. `+0x30`, which the
 pulses and rings read as an end time and the strip as the start of its
@@ -33,78 +33,78 @@ expansion, is now `u32 grow_end`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x10` | `unknown_10[4]` → `s32 width` | `ModelVariantStripTiming.width` | `SpanishModelVariant385_DrawStationStrip` (spanish_model_variant/variant385_strip.c; `spanish_model_variant/variant385_entry.c:274`, `Strip385State.timing` at +0x1000) | `extent = state->timing->width * state->radius / 1024;` | high |
-| `+0x34` | `unknown_30[0x10]` bytes → `u32 expansion_end` | `ModelVariantStripTiming.expanded` | `SpanishModelVariant385_DrawStationStrip` (spanish_model_variant/variant385_strip.c; `spanish_model_variant/variant385_entry.c:274`, `Strip385State.timing` at +0x1000) | `(state->timing->expanded - state->timing->start);` | high |
-| `+0x38` | `unknown_30[0x10]` bytes → `u32 fade_start` | `ModelVariantPulseTiming.fade_start`; `ModelVariantStripTiming.fade` | `SpanishModelVariant385_DrawPulsingQuads` (spanish_model_variant/variant385_pulse.c; `spanish_model_variant/variant385_entry.c:270`, `Pulse385State.timing` at +0x1000); `SpanishModelVariant385_DrawStationStrip` (spanish_model_variant/variant385_strip.c; `spanish_model_variant/variant385_entry.c:274`, `Strip385State.timing` at +0x1000) | `} else if (state->timing->fade_start <= state->time && group->size > 0)`; `} else if (state->timing->fade <= state->time && state->radius > 0)` | high |
-| `+0x3C` | `unknown_30[0x10]` bytes → `u32 fade_end` | `ModelVariantPulseTiming.fade_end`; `ModelVariantStripTiming.end` | `SpanishModelVariant385_DrawPulsingQuads` (spanish_model_variant/variant385_pulse.c; `spanish_model_variant/variant385_entry.c:270`, `Pulse385State.timing` at +0x1000); `SpanishModelVariant385_DrawStationStrip` (spanish_model_variant/variant385_strip.c; `spanish_model_variant/variant385_entry.c:274`, `Strip385State.timing` at +0x1000) | `(state->timing->fade_end - state->timing->fade_start);`; `(state->timing->end - state->timing->fade);` | high |
+| `+0x10` | `unknown_10[4]` → `s32 width` | `ModelVariantStripTiming.width` | `SpanishModelVariant385_DrawStationStrip` (model_variant/variant385_strip_pal.c; `model_variant/variant385_entry_pal.c:274`, `Strip385State.timing` at +0x1000) | `extent = state->timing->width * state->radius / 1024;` | high |
+| `+0x34` | `unknown_30[0x10]` bytes → `u32 expansion_end` | `ModelVariantStripTiming.expanded` | `SpanishModelVariant385_DrawStationStrip` (model_variant/variant385_strip_pal.c; `model_variant/variant385_entry_pal.c:274`, `Strip385State.timing` at +0x1000) | `(state->timing->expanded - state->timing->start);` | high |
+| `+0x38` | `unknown_30[0x10]` bytes → `u32 fade_start` | `ModelVariantPulseTiming.fade_start`; `ModelVariantStripTiming.fade` | `SpanishModelVariant385_DrawPulsingQuads` (model_variant/variant385_pulse.c; `model_variant/variant385_entry_pal.c:270`, `Pulse385State.timing` at +0x1000); `SpanishModelVariant385_DrawStationStrip` (model_variant/variant385_strip_pal.c; `model_variant/variant385_entry_pal.c:274`, `Strip385State.timing` at +0x1000) | `} else if (state->timing->fade_start <= state->time && group->size > 0)`; `} else if (state->timing->fade <= state->time && state->radius > 0)` | high |
+| `+0x3C` | `unknown_30[0x10]` bytes → `u32 fade_end` | `ModelVariantPulseTiming.fade_end`; `ModelVariantStripTiming.end` | `SpanishModelVariant385_DrawPulsingQuads` (model_variant/variant385_pulse.c; `model_variant/variant385_entry_pal.c:270`, `Pulse385State.timing` at +0x1000); `SpanishModelVariant385_DrawStationStrip` (model_variant/variant385_strip_pal.c; `model_variant/variant385_entry_pal.c:274`, `Strip385State.timing` at +0x1000) | `(state->timing->fade_end - state->timing->fade_start);`; `(state->timing->end - state->timing->fade);` | high |
 
 ## `Variant388EntryConfig` (`gSpanishModelVariant388_aConfigs`)
 
-Entry `spanish_model_variant/variant388_entry.c` sets `work->config = gSpanishModelVariant388_aConfigs + command` (line 47); its work struct `Variant388EntryState` has `config` at `+0x186C`.
+Entry `model_variant/variant388_entry_pal.c` sets `work->config = gSpanishModelVariant388_aConfigs + command` (line 47); its work struct `Variant388EntryState` has `config` at `+0x186C`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x14` | `unknown_14[8]` bytes → `u32 grow_end` | `Sheet388Timing.grow_end` | `SpanishModelVariant388_DrawSheets` (spanish_model_variant/variant388_sheets.c; `spanish_model_variant/variant388_entry.c:252`, `Sheet388State.timing` at +0x186C) | `/ (state->timing->grow_end - state->timing->grow_start);` | high |
-| `+0x20` | `unknown_20[4]` → `u32 shrink_end` | `Sheet388Timing.shrink_end` | `SpanishModelVariant388_DrawSheets` (spanish_model_variant/variant388_sheets.c; `spanish_model_variant/variant388_entry.c:252`, `Sheet388State.timing` at +0x186C) | `/ (state->timing->shrink_end - state->timing->shrink_start);` | high |
+| `+0x14` | `unknown_14[8]` bytes → `u32 grow_end` | `Sheet388Timing.grow_end` | `SpanishModelVariant388_DrawSheets` (model_variant/variant388_sheets.c; `model_variant/variant388_entry_pal.c:252`, `Sheet388State.timing` at +0x186C) | `/ (state->timing->grow_end - state->timing->grow_start);` | high |
+| `+0x20` | `unknown_20[4]` → `u32 shrink_end` | `Sheet388Timing.shrink_end` | `SpanishModelVariant388_DrawSheets` (model_variant/variant388_sheets.c; `model_variant/variant388_entry_pal.c:252`, `Sheet388State.timing` at +0x186C) | `/ (state->timing->shrink_end - state->timing->shrink_start);` | high |
 
 ## `Variant417EntryConfig` (`gSpanishModelVariant417_aConfigs`)
 
-Entry `spanish_model_variant/variant417_entry.c` sets `work->config = gSpanishModelVariant417_aConfigs + command` (line 47); its work struct `Variant417EntryState` has `config` at `+0x2138`.
+Entry `model_variant/variant417_entry.c` sets `work->config = gSpanishModelVariant417_aConfigs + command` (line 47); its work struct `Variant417EntryState` has `config` at `+0x2138`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x10]` bytes → `s32 expansion_start` | `Tube417Timing.expansion_start` | `SpanishModelVariant417_DrawTube` (spanish_model_variant/variant417_tube.c; `spanish_model_variant/variant417_entry.c:338`, `Variant417EntryState.config` at +0x2138, formerly the private `Tube417State.timing` view) | `if (state->frame >= state->config->expansion_start)` | high |
-| `+0x24` | `unknown_20[0x10]` bytes → `s32 expansion_end` | `Tube417Timing.expansion_end` | `SpanishModelVariant417_DrawTube` (spanish_model_variant/variant417_tube.c; `spanish_model_variant/variant417_entry.c:338`, `Variant417EntryState.config` at +0x2138, formerly the private `Tube417State.timing` view) | `(state->timing->expansion_end - state->timing->expansion_start);` | high |
-| `+0x28` | `unknown_20[0x10]` bytes → `s32 fade_start` | `Tube417Timing.fade_start` | `SpanishModelVariant417_DrawTube` (spanish_model_variant/variant417_tube.c; `spanish_model_variant/variant417_entry.c:338`, `Variant417EntryState.config` at +0x2138, formerly the private `Tube417State.timing` view) | `if (state->frame >= state->config->fade_start)` | high |
-| `+0x2C` | `unknown_20[0x10]` bytes → `s32 fade_end` | `Tube417Timing.fade_end` | `SpanishModelVariant417_DrawTube` (spanish_model_variant/variant417_tube.c; `spanish_model_variant/variant417_entry.c:338`, `Variant417EntryState.config` at +0x2138, formerly the private `Tube417State.timing` view) | `(state->timing->fade_end - state->timing->fade_start);` | high |
+| `+0x20` | `unknown_20[0x10]` bytes → `s32 expansion_start` | `Tube417Timing.expansion_start` | `SpanishModelVariant417_DrawTube` (model_variant/variant417_tube.c; `model_variant/variant417_entry.c:338`, `Variant417EntryState.config` at +0x2138, formerly the private `Tube417State.timing` view) | `if (state->frame >= state->config->expansion_start)` | high |
+| `+0x24` | `unknown_20[0x10]` bytes → `s32 expansion_end` | `Tube417Timing.expansion_end` | `SpanishModelVariant417_DrawTube` (model_variant/variant417_tube.c; `model_variant/variant417_entry.c:338`, `Variant417EntryState.config` at +0x2138, formerly the private `Tube417State.timing` view) | `(state->timing->expansion_end - state->timing->expansion_start);` | high |
+| `+0x28` | `unknown_20[0x10]` bytes → `s32 fade_start` | `Tube417Timing.fade_start` | `SpanishModelVariant417_DrawTube` (model_variant/variant417_tube.c; `model_variant/variant417_entry.c:338`, `Variant417EntryState.config` at +0x2138, formerly the private `Tube417State.timing` view) | `if (state->frame >= state->config->fade_start)` | high |
+| `+0x2C` | `unknown_20[0x10]` bytes → `s32 fade_end` | `Tube417Timing.fade_end` | `SpanishModelVariant417_DrawTube` (model_variant/variant417_tube.c; `model_variant/variant417_entry.c:338`, `Variant417EntryState.config` at +0x2138, formerly the private `Tube417State.timing` view) | `(state->timing->fade_end - state->timing->fade_start);` | high |
 
 ## `Variant438EntryConfig` (`gSpanishModelVariant438_aConfigs`)
 
-Entry `spanish_model_variant/variant438_entry.c` sets `work->config = gSpanishModelVariant438_aConfigs + command` (line 51); its work struct `Variant438EntryState` has `config` at `+0x22B4`.
+Entry `model_variant/variant438_entry_pal.c` sets `work->config = gSpanishModelVariant438_aConfigs + command` (line 51); its work struct `Variant438EntryState` has `config` at `+0x22B4`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_start` | `Variant438EntryConfig.fade_start` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Variant438EntryState.config` at +0x22B4) | `if (state->frame >= state->config->fade_start)` | high |
-| `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `Variant438EntryConfig.fade_end` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Variant438EntryState.config` at +0x22B4) | `(state->config->fade_end - state->config->fade_start);` | high |
-| `+0x40` | `unknown_40[4]` → `s32 radius` | `Variant438EntryConfig.radius` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (spanish_model_variant/variant438_bands.c; `spanish_model_variant/variant438_entry.c:368`, `Variant438EntryState.config` at +0x22B4) | `radius = state->scale * state->config->radius / 4096;` | high |
+| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_start` | `Variant438EntryConfig.fade_start` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (model_variant/variant438_bands.c; `model_variant/variant438_entry_pal.c:368`, `Variant438EntryState.config` at +0x22B4) | `if (state->frame >= state->config->fade_start)` | high |
+| `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `Variant438EntryConfig.fade_end` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (model_variant/variant438_bands.c; `model_variant/variant438_entry_pal.c:368`, `Variant438EntryState.config` at +0x22B4) | `(state->config->fade_end - state->config->fade_start);` | high |
+| `+0x40` | `unknown_40[4]` → `s32 radius` | `Variant438EntryConfig.radius` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (model_variant/variant438_bands.c; `model_variant/variant438_entry_pal.c:368`, `Variant438EntryState.config` at +0x22B4) | `radius = state->scale * state->config->radius / 4096;` | high |
 
 ## `Variant441EntryConfig` (`gSpanishModelVariant441_aConfigs`)
 
-Entry `spanish_model_variant/variant441_entry.c` sets `work->config = gSpanishModelVariant441_aConfigs + command` (line 48); its work struct `Variant441EntryState` has `config` at `+0x26E4`.
+Entry `model_variant/variant441_entry_pal.c` sets `work->config = gSpanishModelVariant441_aConfigs + command` (line 48); its work struct `Variant441EntryState` has `config` at `+0x26E4`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0xC]` bytes → `s32 expansion_start` | `Variant441EntryConfig.expansion_start` (was `Tube441Timing`) | `SpanishModelVariant441_DrawTubularMesh` (spanish_model_variant/variant441_tube.c; `spanish_model_variant/variant441_entry.c:353`, `Variant441EntryState.config` at +0x26E4) | `if (state->frame >= state->config->expansion_start)` | high |
-| `+0x24` | `unknown_20[0xC]` bytes → `s32 expansion_end` | `Variant441EntryConfig.expansion_end` (was `Tube441Timing`) | `SpanishModelVariant441_DrawTubularMesh` (spanish_model_variant/variant441_tube.c; `spanish_model_variant/variant441_entry.c:353`, `Variant441EntryState.config` at +0x26E4) | `(state->config->expansion_end - state->config->expansion_start);` | high |
-| `+0x28` | `unknown_20[0xC]` bytes → `s32 fade_start` | `Variant441EntryConfig.fade_start` (was `Tube441Timing`) | `SpanishModelVariant441_DrawTubularMesh` (spanish_model_variant/variant441_tube.c; `spanish_model_variant/variant441_entry.c:353`, `Variant441EntryState.config` at +0x26E4) | `if (state->frame >= state->config->fade_start)` | high |
+| `+0x20` | `unknown_20[0xC]` bytes → `s32 expansion_start` | `Variant441EntryConfig.expansion_start` (was `Tube441Timing`) | `SpanishModelVariant441_DrawTubularMesh` (model_variant/variant441_tube.c; `model_variant/variant441_entry_pal.c:353`, `Variant441EntryState.config` at +0x26E4) | `if (state->frame >= state->config->expansion_start)` | high |
+| `+0x24` | `unknown_20[0xC]` bytes → `s32 expansion_end` | `Variant441EntryConfig.expansion_end` (was `Tube441Timing`) | `SpanishModelVariant441_DrawTubularMesh` (model_variant/variant441_tube.c; `model_variant/variant441_entry_pal.c:353`, `Variant441EntryState.config` at +0x26E4) | `(state->config->expansion_end - state->config->expansion_start);` | high |
+| `+0x28` | `unknown_20[0xC]` bytes → `s32 fade_start` | `Variant441EntryConfig.fade_start` (was `Tube441Timing`) | `SpanishModelVariant441_DrawTubularMesh` (model_variant/variant441_tube.c; `model_variant/variant441_entry_pal.c:353`, `Variant441EntryState.config` at +0x26E4) | `if (state->frame >= state->config->fade_start)` | high |
 
 ## `Variant456EntryConfig` (`gSpanishModelVariant456_aConfigs`)
 
-Entry `spanish_model_variant/variant456_entry.c` sets `work->config = gSpanishModelVariant456_aConfigs + command` (line 47); its work struct `Variant456EntryState` has `config` at `+0x2330`.
+Entry `model_variant/variant456_entry_pal.c` sets `work->config = gSpanishModelVariant456_aConfigs + command` (line 47); its work struct `Variant456EntryState` has `config` at `+0x2330`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_1C[8]` bytes → `u32 fade_start` | `Timing456.fade_start` | `SpanishModelVariant456_DrawSheets` (spanish_model_variant/variant456_sheets.c; `spanish_model_variant/variant456_entry.c:335`, `Sheets456State.timing` at +0x2330) | `if (state->frame >= state->config->fade_start)` | high |
-| `+0x20` | `unknown_1C[8]` bytes → `u32 fade_end` | `Timing456.fade_end` | `SpanishModelVariant456_DrawSheets` (spanish_model_variant/variant456_sheets.c; `spanish_model_variant/variant456_entry.c:335`, `Sheets456State.timing` at +0x2330) | `/ (state->timing->fade_end - state->timing->fade_start);` | high |
+| `+0x1C` | `unknown_1C[8]` bytes → `u32 fade_start` | `Timing456.fade_start` | `SpanishModelVariant456_DrawSheets` (model_variant/variant456_sheets_pal.c; `model_variant/variant456_entry_pal.c:335`, `Sheets456State.timing` at +0x2330) | `if (state->frame >= state->config->fade_start)` | high |
+| `+0x20` | `unknown_1C[8]` bytes → `u32 fade_end` | `Timing456.fade_end` | `SpanishModelVariant456_DrawSheets` (model_variant/variant456_sheets_pal.c; `model_variant/variant456_entry_pal.c:335`, `Sheets456State.timing` at +0x2330) | `/ (state->timing->fade_end - state->timing->fade_start);` | high |
 
 ## `Variant459EntryConfig` (`gSpanishModelVariant459_aConfigs`)
 
-Entry `spanish_model_variant/variant459_entry.c` sets `work->config = gSpanishModelVariant459_aConfigs + command` (line 46); its work struct `Variant459EntryState` has `config` at `+0x309C`.
+Entry `model_variant/variant459_entry_pal.c` sets `work->config = gSpanishModelVariant459_aConfigs + command` (line 46); its work struct `Variant459EntryState` has `config` at `+0x309C`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x28` | `unknown_28[4]` bytes → `u16 limit` | `Variant459EntryConfig.limit` (was `Timing459.limit`) | `SpanishModelVariant459_DrawPairedSheets` (spanish_model_variant/variant459_sheets.c; `spanish_model_variant/variant459_entry.c:363`, `Sheet459State.timing` at +0x309C) | `if (sheet->size < state->timing->limit)` | high |
-| `+0x38` | `unknown_38[0x10]` bytes → `u32 end` | `Variant459EntryConfig.end` (was `Timing459.grow_end`); `Lines459Timing.cycle_end` | `SpanishModelVariant459_DrawPairedSheets` (spanish_model_variant/variant459_sheets.c; `spanish_model_variant/variant459_entry.c:363`, `Sheet459State.timing` at +0x309C); `SpanishModelVariant459_DrawLines` (spanish_model_variant/variant459_lines.c; `spanish_model_variant/variant459_entry.c:369`, `Lines459State.timing` at +0x309C) | `/ (state->timing->grow_end - state->timing->grow_start);`; `(state->timing->cycle_end - state->timing->cycle_start) - 4096;` | high |
+| `+0x28` | `unknown_28[4]` bytes → `u16 limit` | `Variant459EntryConfig.limit` (was `Timing459.limit`) | `SpanishModelVariant459_DrawPairedSheets` (model_variant/variant459_sheets.c; `model_variant/variant459_entry_pal.c:363`, `Sheet459State.timing` at +0x309C) | `if (sheet->size < state->timing->limit)` | high |
+| `+0x38` | `unknown_38[0x10]` bytes → `u32 end` | `Variant459EntryConfig.end` (was `Timing459.grow_end`); `Lines459Timing.cycle_end` | `SpanishModelVariant459_DrawPairedSheets` (model_variant/variant459_sheets.c; `model_variant/variant459_entry_pal.c:363`, `Sheet459State.timing` at +0x309C); `SpanishModelVariant459_DrawLines` (model_variant/variant459_lines.c; `model_variant/variant459_entry_pal.c:369`, `Lines459State.timing` at +0x309C) | `/ (state->timing->grow_end - state->timing->grow_start);`; `(state->timing->cycle_end - state->timing->cycle_start) - 4096;` | high |
 
 ## `Variant479EntryConfig` (`gSpanishModelVariant479_aConfigs`)
 
-Entry `spanish_model_variant/variant479_entry.c` sets `work->config = gSpanishModelVariant479_aConfigs + command` (line 39); its work struct `Variant479EntryState` has `config` at `+0x4178`.
+Entry `model_variant/variant479_entry.c` sets `work->config = gSpanishModelVariant479_aConfigs + command` (line 39); its work struct `Variant479EntryState` has `config` at `+0x4178`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_1C[0x10]` bytes → `u32 grow_end` | `ModelVariantSheetTiming.grow_end` | `SpanishModelVariant479_DrawSheets` (spanish_model_variant/variant479_sheets.c; `spanish_model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `(state->timing->grow_end - state->timing->grow_start);` | high |
-| `+0x24` | `unknown_1C[0x10]` bytes → `u32 fade_start` | `ModelVariantSheetTiming.shrink_start` | `SpanishModelVariant479_DrawSheets` (spanish_model_variant/variant479_sheets.c; `spanish_model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `if (state->time >= state->timing->shrink_start && sheet->size > 0)` | high |
-| `+0x28` | `unknown_1C[0x10]` bytes → `u32 fade_end` | `ModelVariantSheetTiming.shrink_end` | `SpanishModelVariant479_DrawSheets` (spanish_model_variant/variant479_sheets.c; `spanish_model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `(state->timing->shrink_end - state->timing->shrink_start);` | high |
+| `+0x1C` | `unknown_1C[0x10]` bytes → `u32 grow_end` | `ModelVariantSheetTiming.grow_end` | `SpanishModelVariant479_DrawSheets` (model_variant/variant479_sheets.c; `model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `(state->timing->grow_end - state->timing->grow_start);` | high |
+| `+0x24` | `unknown_1C[0x10]` bytes → `u32 fade_start` | `ModelVariantSheetTiming.shrink_start` | `SpanishModelVariant479_DrawSheets` (model_variant/variant479_sheets.c; `model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `if (state->time >= state->timing->shrink_start && sheet->size > 0)` | high |
+| `+0x28` | `unknown_1C[0x10]` bytes → `u32 fade_end` | `ModelVariantSheetTiming.shrink_end` | `SpanishModelVariant479_DrawSheets` (model_variant/variant479_sheets.c; `model_variant/variant479_entry.c:321`, `Sheets479State.timing` at +0x4178) | `(state->timing->shrink_end - state->timing->shrink_start);` | high |
 
 ## Names chosen and skipped
 
