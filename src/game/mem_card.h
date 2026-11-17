@@ -169,7 +169,7 @@ extern volatile s32 gMemCard_nIOResult;
 extern u8 gMemCard_bChannel;
 
 /* Japan's card save file name and MemCardWork_UpdateOperation diagnostics,
- * linker symbols there (see japanese/mem_card.c); the other builds write them
+ * linker symbols there (see its MEM_CARD_* entry defines); the other builds write them
  * as literals in mem_card.c. */
 extern u8 gMemCard_szSaveFileName[];
 extern char gMemCard_szFreeBlockCountFormat[];
