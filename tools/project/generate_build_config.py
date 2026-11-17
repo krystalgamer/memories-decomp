@@ -12,6 +12,7 @@ from typing import Any
 import yaml
 
 from compile_defines import DefineError, combine_defines, validate_defines
+from unit_objects import ObjectNameError, validate_object
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -152,6 +153,14 @@ def load_matching_functions(
             )
         except DefineError as error:
             raise GenerationError(str(error)) from error
+        try:
+            object_override = validate_object(
+                function.get("object"),
+                source_value,
+                f"matching function {address:#010x}",
+            )
+        except ObjectNameError as error:
+            raise GenerationError(str(error)) from error
 
         source = source_cache.get(source_value)
         if source is None:
@@ -194,7 +203,12 @@ def load_matching_functions(
                 "address": address,
                 "size": size,
                 "source": source_value,
-                "segment": source_relative.with_suffix("").as_posix(),
+                "segment": (
+                    object_override
+                    if object_override is not None
+                    else source_relative.with_suffix("").as_posix()
+                ),
+                "object_override": object_override is not None,
                 "profile": profile,
                 "defines": list(defines),
             }
@@ -210,10 +224,17 @@ def load_matching_functions(
             )
         previous_end = function["address"] + function["size"]
 
-    by_source: dict[str, list[dict[str, Any]]] = {}
+    # A unit is one Splat segment, so grouping follows the object name; an
+    # object override lets one source build several units.
+    by_segment: dict[str, list[dict[str, Any]]] = {}
     for function in parsed:
-        by_source.setdefault(function["source"], []).append(function)
-    for source_value, members in by_source.items():
+        by_segment.setdefault(function["segment"], []).append(function)
+    for segment_name, members in by_segment.items():
+        source_value = members[0]["source"]
+        if any(member["source"] != source_value for member in members):
+            raise GenerationError(
+                f"{segment_name}: object is built from multiple sources"
+            )
         if len(members) == 1:
             continue
         profiles_used = {member["profile"] for member in members}
@@ -252,7 +273,7 @@ def group_translation_units(
         index += 1
         while (
             index < len(functions)
-            and functions[index]["source"] == first["source"]
+            and functions[index]["segment"] == first["segment"]
         ):
             members.append(functions[index])
             index += 1
@@ -262,6 +283,7 @@ def group_translation_units(
                 "size": sum(member["size"] for member in members),
                 "source": first["source"],
                 "segment": first["segment"],
+                "object_override": first.get("object_override", False),
                 "profile": first["profile"],
                 "defines": first.get("defines", []),
                 "members": [member["address"] for member in members],
@@ -401,7 +423,11 @@ def collect_data_sources(
 ) -> list[dict[str, Any]]:
     """Assembly blobs and C units the template declares outside the text."""
     text_c_sources = {
-        segment["source"] for segment in text_sources if segment["kind"] == "c"
+        f"src/{segment['splat_segment']}.c"
+        if "splat_segment" in segment
+        else segment["source"]
+        for segment in text_sources
+        if segment["kind"] == "c"
     }
     sources: list[dict[str, Any]] = []
     used_profiles: set[str] = set()
@@ -549,6 +575,11 @@ def generate(root: Path) -> tuple[Path, Path, Path]:
                 "object": f"c_{unit['address']:08x}.o",
                 "profile": unit["profile"],
                 **({"defines": unit["defines"]} if unit.get("defines") else {}),
+                **(
+                    {"splat_segment": unit["segment"]}
+                    if unit.get("object_override")
+                    else {}
+                ),
                 "members": [
                     f"0x{address:08X}" for address in unit["members"]
                 ],

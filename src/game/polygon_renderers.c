@@ -52,7 +52,7 @@ register u32 gHw_Unused30 asm("$30");
  *
  * The Japanese and European executables link the base Gt3/Gt4 drawers well
  * before the rest of this file; they build this file once without those two
- * and once, through their model_draw_gouraud_primitives.c wrappers (with
+ * and once more, as the game/model_draw_gouraud_primitives object (with
  * MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES), with only those two.
  */
 

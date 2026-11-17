@@ -870,8 +870,8 @@ address,size,name,status,module,notes
 0x8004CD58,0x198,SD_ProcessSequenceTracks,matching_c,game,
 0x8004CEF0,0x5C,SD_ResetSequenceTracks,matching_c,game,
 0x8004CF4C,0x50,SD_GetSequenceStatus,matching_c,game,
-0x8004CF9C,0x2C4,Model_DrawGt3Primitives,matching_c,game,"Same name, size and instruction shape as North American 0x8006151C; built from src/game/european/model_draw_gouraud_primitives.c."
-0x8004D260,0x358,Model_DrawGt4Primitives,matching_c,game,"Same name, size and instruction shape as North American 0x80061A84; built from src/game/european/model_draw_gouraud_primitives.c."
+0x8004CF9C,0x2C4,Model_DrawGt3Primitives,matching_c,game,"Same name, size and instruction shape as North American 0x8006151C; built from src/game/polygon_renderers.c as the game/model_draw_gouraud_primitives object, with MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES."
+0x8004D260,0x358,Model_DrawGt4Primitives,matching_c,game,"Same name, size and instruction shape as North American 0x80061A84; built from src/game/polygon_renderers.c as the game/model_draw_gouraud_primitives object, with MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES."
 0x8004D5B8,0x10C,Graphics_SubmitDrawModePacket,matching_c,game,
 0x8004D6C4,0x16C,Graphics_SubmitTextureWindowPacket,matching_c,game,
 0x8004D830,0x124,Graphics_SubmitMaskWritePacket,matching_c,game,

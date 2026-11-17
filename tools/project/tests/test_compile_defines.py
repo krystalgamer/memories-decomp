@@ -167,5 +167,65 @@ class ManifestCheckTests(WorkspaceTests):
             overlay_extract.verify_manifest_defines(self.root)
 
 
+
+class ObjectOverrideCheckTests(WorkspaceTests):
+    def manifest(
+        self,
+        *entries: dict[str, object],
+        split: str = "options:\n  create_c_files: false\n",
+    ) -> None:
+        self.write("src/game/a.c", "void A(void) {}\n")
+        self.write("src/game/b.c", "void B(void) {}\n")
+        self.write("config/sles_03947/split.yaml", split)
+        self.write(
+            "config/sles_03947/matching_c.json",
+            json.dumps({"schema": 1, "functions": [
+                {"address": "0x80010000", "source": "src/game/a.c"}, *entries
+            ]}),
+        )
+
+    def test_valid_override_passes(self) -> None:
+        self.manifest(
+            {"address": "0x80010010", "source": "src/game/a.c", "object": "game/a_second"},
+            {"address": "0x80010020", "source": "src/game/a.c", "object": "game/a_second"},
+        )
+        overlay_extract.verify_object_overrides(self.root)
+
+    def test_invalid_overrides_are_rejected(self) -> None:
+        for entry, split, message in (
+            ({"object": "game/a_second"}, "options: {}\n", "create_c_files"),
+            ({"object": "game/b"}, None, "existing source"),
+            ({"object": "game/a"}, None, "repeats the name"),
+            ({"object": "game/../a"}, None, "invalid object name"),
+            ({"object": "game/a two"}, None, "invalid object name"),
+        ):
+            with self.subTest(entry=entry):
+                self.manifest(
+                    {"address": "0x80010010", "source": "src/game/a.c", **entry},
+                    **({"split": split} if split is not None else {}),
+                )
+                with self.assertRaisesRegex(overlay_extract.OverlayError, message):
+                    overlay_extract.verify_object_overrides(self.root)
+
+    def test_an_object_is_built_from_one_source(self) -> None:
+        self.manifest(
+            {"address": "0x80010010", "source": "src/game/a.c", "object": "game/x"},
+            {"address": "0x80010020", "source": "src/game/b.c", "object": "game/x"},
+        )
+        with self.assertRaisesRegex(overlay_extract.OverlayError, "also built from"):
+            overlay_extract.verify_object_overrides(self.root)
+
+    def test_overrides_belong_to_resident_manifests(self) -> None:
+        self.manifest()
+        self.write(
+            "config/sles_03947/overlays/m_matching_c.json",
+            json.dumps({"schema": 1, "functions": [
+                {"address": "0x80100000", "source": "src/overlays/m/a.c",
+                 "object": "overlays/m/x"}
+            ]}),
+        )
+        with self.assertRaisesRegex(overlay_extract.OverlayError, "resident"):
+            overlay_extract.verify_object_overrides(self.root)
+
 if __name__ == "__main__":
     unittest.main()

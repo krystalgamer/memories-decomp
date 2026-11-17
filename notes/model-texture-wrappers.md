@@ -62,8 +62,11 @@ override.
 
 ### Inline loader bias is not the standalone side contract
 
-The PAL loader's wrapper selects an `extern inline` packing helper with
-`MODEL_TEXTURE_PACK_SIDE_BIAS` equal to three. The shared loader passes its
+The PAL loader's unit, `src/game/model_texture_upload.c` built as the
+`game/model_texture_load_tim` object with `VERSION_EUROPE_MODEL_TEXTURE_LOAD_TIM`,
+selects an `extern inline` packing helper with
+`MODEL_TEXTURE_PACK_SIDE_BIAS=3`; the standalone packer is the same source
+built as `game/model_texture_pack_page_clut`. The shared loader passes its
 original mode to that inline helper for modes at least three, so the
 effective side is `(mode - 3) & 1`. The separate public PAL packer instead
 receives a side directly and retains `side & 1`. Moving the subtraction

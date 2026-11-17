@@ -63,6 +63,7 @@ INPUT_FILES = (
     "tools/project/build_incremental.py",
     "tools/project/build_baseline.py",
     "tools/project/compile_defines.py",
+    "tools/project/unit_objects.py",
     "tools/project/workspace.py",
     "tools/project/clean.py",
     "tools/bootstrap/tools.json",

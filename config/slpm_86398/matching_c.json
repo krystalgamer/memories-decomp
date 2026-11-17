@@ -12198,15 +12198,25 @@
     },
     {
       "address": "0x8004FDEC",
+      "defines": [
+        "VERSION_JAPAN",
+        "MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES"
+      ],
+      "object": "game/model_draw_gouraud_primitives",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x2C4",
-      "source": "src/game/japanese/model_draw_gouraud_primitives.c"
+      "source": "src/game/polygon_renderers.c"
     },
     {
       "address": "0x800500B0",
+      "defines": [
+        "VERSION_JAPAN",
+        "MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES"
+      ],
+      "object": "game/model_draw_gouraud_primitives",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x358",
-      "source": "src/game/japanese/model_draw_gouraud_primitives.c"
+      "source": "src/game/polygon_renderers.c"
     },
     {
       "address": "0x80050408",

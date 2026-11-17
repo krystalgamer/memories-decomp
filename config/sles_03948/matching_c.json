@@ -19890,15 +19890,25 @@
     },
     {
       "address": "0x8004CF9C",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES"
+      ],
+      "object": "game/model_draw_gouraud_primitives",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x2C4",
-      "source": "src/game/european/model_draw_gouraud_primitives.c"
+      "source": "src/game/polygon_renderers.c"
     },
     {
       "address": "0x8004D260",
+      "defines": [
+        "VERSION_EUROPE",
+        "MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES"
+      ],
+      "object": "game/model_draw_gouraud_primitives",
       "profile": "gcc_2_8_1_g0_handwritten_asm",
       "size": "0x358",
-      "source": "src/game/european/model_draw_gouraud_primitives.c"
+      "source": "src/game/polygon_renderers.c"
     },
     {
       "address": "0x8004D5B8",
@@ -20882,9 +20892,16 @@
     },
     {
       "address": "0x8005BC14",
+      "defines": [
+        "VERSION_EUROPE",
+        "VERSION_EUROPE_MODEL_TEXTURE_PACK_PAGE_CLUT",
+        "VERSION_EUROPE_MODEL_TEXTURE_LOAD_TIM",
+        "MODEL_TEXTURE_PACK_SIDE_BIAS=3"
+      ],
+      "object": "game/model_texture_load_tim",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0x2B4",
-      "source": "src/game/european/model_texture_load_tim.c"
+      "source": "src/game/model_texture_upload.c"
     },
     {
       "address": "0x8005BEC8",
@@ -21344,9 +21361,14 @@
     },
     {
       "address": "0x8005DA94",
+      "defines": [
+        "VERSION_EUROPE",
+        "VERSION_EUROPE_MODEL_TEXTURE_PACK_PAGE_CLUT"
+      ],
+      "object": "game/model_texture_pack_page_clut",
       "profile": "gcc_2_8_1_g8_split",
       "size": "0xC4",
-      "source": "src/game/european/model_texture_pack_page_clut.c"
+      "source": "src/game/model_texture_upload.c"
     },
     {
       "address": "0x8005DB58",

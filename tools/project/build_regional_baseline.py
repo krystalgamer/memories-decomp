@@ -11,6 +11,7 @@ from pathlib import Path
 
 from build_baseline import BuildError, compile_c, load_compiler_profiles
 from compile_defines import DefineError, combine_defines, validate_defines
+from unit_objects import ObjectNameError, entry_object
 from workspace import local_environment, resolve_within
 
 TOOLCHAIN = "tools/toolchains/binutils-2.42/bin"
@@ -166,8 +167,9 @@ def compile_matching_sources(
 
     profiles = load_compiler_profiles(root)
     assembler = tool(root, "as")
-    # Grouped functions share one object, so one profile must build it.
-    compiled: dict[str, tuple[object, tuple[str, ...]]] = {}
+    # Grouped functions share one object, so one profile and one define set
+    # must build it. The object is named for the entry's Splat segment.
+    compiled: dict[str, tuple[str, object, tuple[str, ...]]] = {}
     objects: list[str] = []
     owned = owned_data_sections(root, configuration)
     for index, function in enumerate(
@@ -187,10 +189,13 @@ def compile_matching_sources(
                 validate_defines(function.get("defines"), source_value),
                 source_value,
             )
-        except DefineError as error:
+            unit = entry_object(function, source_value)
+        except (DefineError, ObjectNameError) as error:
             raise BuildError(str(error)) from error
-        if source_value in compiled:
-            profile, previous = compiled[source_value]
+        if unit in compiled:
+            previous_source, profile, previous = compiled[unit]
+            if previous_source != source_value:
+                raise BuildError(f"{unit}: object built from multiple sources")
             if profile != function.get("profile"):
                 raise BuildError(
                     f"{source_value}: grouped functions use multiple profiles"
@@ -200,26 +205,24 @@ def compile_matching_sources(
                     f"{source_value}: grouped functions use multiple define sets"
                 )
             continue
-        compiled[source_value] = (function.get("profile"), defines)
+        compiled[unit] = (source_value, function.get("profile"), defines)
+        unit_path = Path(unit)
         compile_c(
             root,
             assembler,
             {
                 **function,
                 "defines": list(defines),
-                "object": f"{source.stem}.o",
+                "object": f"{unit_path.name}.o",
             },
             profiles,
             object_directory=(
-                f"{configuration.splat_directory}/build/"
-                f"{source.parent.as_posix()}"
+                f"{configuration.splat_directory}/build/src/"
+                f"{unit_path.parent.as_posix()}"
             ),
             asm_directory=configuration.asm_directory,
         )
-        object_name = (
-            f"{configuration.splat_directory}/build/"
-            f"{source.parent.as_posix()}/{source.stem}.o"
-        )
+        object_name = f"{configuration.splat_directory}/build/src/{unit}.o"
         weaken_data_definitions(
             root,
             resolve_within(root, object_name, must_exist=True),
@@ -294,9 +297,13 @@ def owned_data_units(
     matching-C manifest. The region's data_c.json names its profile, falling
     back to the North American one.
     """
-    function_sources = {
-        function.get("source") for function in functions if isinstance(function, dict)
-    }
+    function_objects = set()
+    for function in functions:
+        if isinstance(function, dict):
+            try:
+                function_objects.add(entry_object(function, str(function.get("source"))))
+            except ObjectNameError as error:
+                raise BuildError(str(error)) from error
     profiles: dict[str, object] = {}
     defines: dict[str, object] = {}
     for manifest in (
@@ -313,11 +320,15 @@ def owned_data_units(
     for section in sorted(owned_data_sections(root, configuration)):
         match = re.search(r"/build/src/(.+)\.o\(", section)
         source = f"src/{match.group(1)}.c" if match else None
-        if source is None or source in function_sources or source.startswith("src/psyq/"):
+        if (
+            source is None
+            or match.group(1) in function_objects
+            or source.startswith("src/psyq/")
+        ):
             continue
         if source not in profiles:
             raise BuildError(f"{source}: owns data but has no data_c.json profile")
-        function_sources.add(source)
+        function_objects.add(match.group(1))
         unit: dict[str, object] = {"source": source, "profile": profiles[source]}
         if defines.get(source) is not None:
             unit["defines"] = defines[source]

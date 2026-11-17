@@ -8,11 +8,13 @@ import csv
 import hashlib
 import json
 import os
+import re
 import sys
 from pathlib import Path
 from typing import Any, BinaryIO
 
 from compile_defines import DefineError, combine_defines, validate_defines
+from unit_objects import ObjectNameError, entry_object
 from hashing import sha256_stream
 from overlay_sources import OverlaySourceError, c_segments
 from workspace import WorkspaceError, require_workspace_root, resolve_within
@@ -329,6 +331,75 @@ def verify_manifest_defines(root: Path) -> None:
     print(f"configured defines: OK ({checked} manifests)")
 
 
+def verify_object_overrides(root: Path) -> None:
+    """Check every resident object-name override.
+
+    Only a region's resident matching_c.json entries may name their object.
+    Within a region each object is built from one source, an override names
+    no existing source, and a region that uses one tells Splat not to create
+    missing C files.
+    """
+    config = resolve_within(root, "config", must_exist=True)
+    overrides = 0
+    for region in sorted(path for path in config.iterdir() if path.is_dir()):
+        resident = region / "matching_c.json"
+        manifests = [region / "data_c.json"]
+        overlays = region / "overlays"
+        if overlays.is_dir():
+            manifests += sorted(overlays.glob("*_matching_c.json"))
+            manifests += sorted(overlays.glob("*_data_c.json"))
+        for path in manifests:
+            if not path.is_file():
+                continue
+            manifest = json.loads(path.read_text(encoding="utf-8"))
+            for entry in manifest.get("functions", manifest.get("units", [])):
+                if isinstance(entry, dict) and "object" in entry:
+                    raise OverlayError(
+                        f"{path.relative_to(root).as_posix()}: only resident "
+                        "matching_c.json entries take an object name"
+                    )
+        if not resident.is_file():
+            continue
+        label = resident.relative_to(root).as_posix()
+        sources: dict[str, str] = {}
+        used = False
+        for entry in json.loads(resident.read_text(encoding="utf-8")).get(
+            "functions", []
+        ):
+            if not isinstance(entry, dict):
+                continue
+            entry_label = f"{label}: {entry.get('address')}"
+            try:
+                name = entry_object(entry, entry_label)
+            except ObjectNameError as error:
+                raise OverlayError(str(error)) from error
+            source = entry["source"]
+            if sources.setdefault(name, source) != source:
+                raise OverlayError(
+                    f"{entry_label}: object {name} is also built from "
+                    f"{sources[name]}"
+                )
+            if "object" in entry:
+                used = True
+                overrides += 1
+                if resolve_within(root, f"src/{name}.c").exists():
+                    raise OverlayError(
+                        f"{entry_label}: object {name} names an existing source"
+                    )
+        if used:
+            split = region / "split.yaml"
+            if not split.is_file() or not re.search(
+                r"^\s+create_c_files:\s*false\s*$",
+                split.read_text(encoding="utf-8"),
+                re.MULTILINE,
+            ):
+                raise OverlayError(
+                    f"{split.relative_to(root).as_posix()}: a region with object "
+                    "overrides must set create_c_files: false"
+                )
+    print(f"object overrides: OK ({overrides} entries)")
+
+
 METADATA_MARKERS = (".git", "config/slus_01411/target.yaml")
 
 
@@ -364,6 +435,7 @@ def verify_metadata(root: Path) -> None:
     """
     verify_manifest_format(root)
     verify_manifest_defines(root)
+    verify_object_overrides(root)
     verify_csv_format(root)
     verify_sources_wired(root)
 

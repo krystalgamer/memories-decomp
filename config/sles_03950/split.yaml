@@ -37,6 +37,7 @@ options:
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
+  create_c_files: false
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
@@ -135,18 +136,18 @@ segments:
       - [0x3B974, c, game/sound_sequence_events]
       - [0x3C5A0, c, game/sound_sequence_parser]
       - [0x3D1F0, c, game/sound_sequence_tracks]
-      - [0x3D79C, c, game/european/model_draw_gouraud_primitives]
+      - [0x3D79C, c, game/model_draw_gouraud_primitives]
       - [0x3DDB8, c, game/gpu_packets]
       - [0x3E154, c, game/model_word_memory]
       - [0x3E1A4, c, game/model_camera_effects]
       - [0x4042C, c, game/model_slot_setup]
       - [0x41468, c, game/model]
-      - [0x4C414, c, game/european/model_texture_load_tim]
+      - [0x4C414, c, game/model_texture_load_tim]
       - [0x4C6C8, c, game/model_slot_getters]
       - [0x4C818, asm, generated/italian_8005c018]
       - [0x4C828, c, game/model_slot_support]
       - [0x4CFA4, c, game/model_scene_runtime]
-      - [0x4E294, c, game/european/model_texture_pack_page_clut]
+      - [0x4E294, c, game/model_texture_pack_page_clut]
       - [0x4E358, c, game/model_animation_unit]
       - [0x4F67C, c, game/model_primitive_handler]
       - [0x50020, c, game/polygon_renderers]

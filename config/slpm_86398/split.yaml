@@ -35,6 +35,7 @@ options:
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
+  create_c_files: false
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
@@ -145,7 +146,7 @@ segments:
       - [0x3db94, c, game/model_word_memory]
       - [0x3dbe4, c, game/model_camera_effects]
       - [0x3fe6c, c, game/trade_screen_widgets]
-      - [0x405ec, c, game/japanese/model_draw_gouraud_primitives]
+      - [0x405ec, c, game/model_draw_gouraud_primitives]
       - [0x40c08, c, game/model_slot_setup]
       - [0x41c10, c, game/model]
       - [0x4c0ac, c, game/model_texture_upload]
