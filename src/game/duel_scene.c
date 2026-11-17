@@ -275,7 +275,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
 
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     {
-        u16 x = ((DisplayObject *)card->object)->xy.h.x;
+        u16 x = card->object->xy.h.x;
         volatile SVECTOR *scratch = (volatile SVECTOR *)SCRATCH_ADDR(0x3E0);
 
         scratch->vy = 0;
@@ -299,7 +299,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
             card->screen_y = y - 0x1D;
         }
     }
-    Duel_DrawCardFrame((DisplayObject *)card->object, gGraphics_apOrderingTables[2], card->screen_x,
+    Duel_DrawCardFrame(card->object, gGraphics_apOrderingTables[2], card->screen_x,
                   card->screen_y);
     SetGeomOffset(0xA0, 0x6C);
 }
@@ -361,7 +361,7 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     SVECTOR *c2;
     SVECTOR *c3;
 
-    obj = (DisplayObject *)holder->object;
+    obj = holder->object;
     if ((obj->flags & 0x40) == 0) {
         return;
     }
@@ -2082,7 +2082,7 @@ void Duel_UpdateCardDisplayMarker(DisplayObject *object)
         return;
     }
     if (gDuel_pActiveSideState->card_view_mode != 0) {
-        object->resource_root_index = ((DuelDeckCardRecord *)card->data)->pre_shuffle_index + 1;
+        object->resource_root_index = card->data->pre_shuffle_index + 1;
     }
     if (gDuel_pActiveSideState->card_view_mode < 0) {
         object->resource_root_index = 0xFF;
@@ -2152,7 +2152,7 @@ DisplayObject *Duel_CreateHandCardDisplayObject(DuelCardRecord *card)
     if (gDuel_pActiveSideState->card_view_mode != 0) {
         card->flags |= DUEL_CARD_FLAG_DISPLAY_MARKER;
         result->resource_root_index =
-            ((DuelDeckCardRecord *)card->data)->pre_shuffle_index + 1;
+            card->data->pre_shuffle_index + 1;
         if (gDuel_pActiveSideState->card_view_mode < 0) {
             result->resource_root_index = 0xFF;
         }
@@ -2277,7 +2277,7 @@ void DuelScene_UpdateResume(void)
                 keep = flags & 0x7A00;
                 y = rec->stat_modifier;
                 Duel_SetupFieldCardFromDeck(
-                    i, ((DuelDeckCardRecord *)rec->data)->deck_index);
+                    i, rec->data->deck_index);
                 rec->flags |= keep;
                 rec->stat_modifier = y;
                 Duel_ApplyCardObjectFlags(
@@ -2291,7 +2291,7 @@ void DuelScene_UpdateResume(void)
                 keep = flags & 0x7A00;
                 y = rec->stat_modifier;
                 Duel_SetupFieldCardFromDeck(
-                    i, ((DuelDeckCardRecord *)rec->data)->deck_index);
+                    i, rec->data->deck_index);
                 rec->flags |= keep;
                 rec->stat_modifier = y;
                 Duel_ApplyCardObjectFlags(
@@ -2694,8 +2694,8 @@ void DuelScene_UpdateDrawResolution(void) {
         p->field_60 = 0xC;
         p->update = Duel_UpdateDrawCardSlide;
         gDuelHand_aSlots[i].object = p;
-        y = ((DuelDeckCardRecord *)gDuel_abCardStagingBuffer.deck.field_cards[
-            p->kind_index.card_record_index].data)->deck_index;
+        y = gDuel_abCardStagingBuffer.deck.field_cards[
+            p->kind_index.card_record_index].data->deck_index;
         gDuel_pActiveSideState->hand[i] = y;
         n = (u8)gDuel_pActiveSideState->deck_draw_cursor;
         gDuel_pActiveSideState->deck_draw_cursor = n + 1;
@@ -3608,10 +3608,10 @@ void DuelScene_UpdateCardPlacement(void)
                         if (!(gDuel_wTrapPresentationMode & 0x80)) {
                             gDuel_wTrapPresentationMode |= 0x80;
                             if ((s16)gDuel_wPlacementCardId & 0x8000) {
-                                ((DuelDeckCardRecord *)card->data)->id = gDuel_wPlacementCardId & 0xFFF;
+                                card->data->id = gDuel_wPlacementCardId & 0xFFF;
                                 gDuel_wTrapPresentationMode |= 0x40;
                                 card->card_id = gDuel_wPlacementCardId & 0xFFF;
-                                value = ((DuelDeckCardRecord *)card->data)->data_block_index;
+                                value = card->data->data_block_index;
                                 resource->rects[0].x = resource->src_x + 56;
                                 resource->rects[0].y = resource->src_y;
                                 resource->rects[0].w = 8;
@@ -3623,7 +3623,7 @@ void DuelScene_UpdateCardPlacement(void)
                         if (gDuel_wTrapPresentationMode & 0x40) {
                             Duel_SetupCardRecord(
                                 card_index,
-                                ((DuelDeckCardRecord *)card->data)->deck_index
+                                card->data->deck_index
                             );
                             DuelCard_RemoveFromField(card);
                         }
@@ -4264,8 +4264,8 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
 
     if (selection->ordered_pick_count == 0) {
         r = gDuelHand_aSlots[(s8)selection->hand_cursor_slot].object;
-        i = (gDuel_adwCardStats[((DuelDeckCardRecord *)gDuel_abCardStagingBuffer.deck.field_cards[
-                 r->kind_index.card_record_index].data)->id - 1] >>
+        i = (gDuel_adwCardStats[gDuel_abCardStagingBuffer.deck.field_cards[
+                 r->kind_index.card_record_index].data->id - 1] >>
              CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     k = i;
         if (k >= CARD_TYPE_MAGIC) {
@@ -4800,8 +4800,8 @@ void DuelScene_UpdateHandActions(void)
                         gDuel_bSceneSubStep = 1;
                         return;
                     }
-                    card_id = ((DuelDeckCardRecord *)gDuel_abCardStagingBuffer.deck.field_cards[
-                        obj->kind_index.card_record_index].data)->id;
+                    card_id = gDuel_abCardStagingBuffer.deck.field_cards[
+                        obj->kind_index.card_record_index].data->id;
                     value = CARD_KIND(card_id);
                     if ((value < CARD_TYPE_MAGIC || value == CARD_TYPE_TRAP) && obj->field_20.b.rotation_y == 0) {
                         obj->field_60 = 0x10;
@@ -6007,7 +6007,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
                     DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS);
                 ((DuelCardStagingBuffer *)(sx2 * sizeof(u16) + (u32)b2))
                     ->attack_traps.table.words[0] =
-                    ((DisplayObject *)e->object)->kind_index.card_record_index;
+                    e->object->kind_index.card_record_index;
             }
         }
     }
@@ -9520,7 +9520,7 @@ DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
 
     base = gDuel_aCardUploadRects;
     q = &base[idx * 2];
-    block_index = ((DuelDeckCardRecord *)p->data)->data_block_index;
+    block_index = p->data->data_block_index;
     q->w = 0x14;
     q->h = 0x20;
     q->x = (idx % DUEL_FIELD_ROW_SIZE) * 0x14 + 0x380;
@@ -9597,7 +9597,7 @@ void Duel_SetupFieldCardFromDeck(s32 a, s32 b)
         idx = (idx & 0x7F) + DUEL_CARD_SIDE_RECORD_COUNT;
     }
     obj = Duel_CreateFieldCardObject(
-        ((DuelDeckCardRecord *)gDuel_abCardStagingBuffer.deck.field_cards[idx].data)->id,
+        gDuel_abCardStagingBuffer.deck.field_cards[idx].data->id,
         gDuel_aCardSlotGroundPositions[idx].x,
         gDuel_aCardSlotGroundPositions[idx].y);
     slot->object = (DisplayObject *)obj;
@@ -9723,7 +9723,7 @@ void DuelEffect_ApplyTerrain(void) {
     do {
         if ((q->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             q->terrain_modifier =
-                Duel_GetTerrainBoost(((DisplayObject *)q->object)->resource_branch_index);
+                Duel_GetTerrainBoost(q->object->resource_branch_index);
         }
         i++;
         q++;
@@ -9754,7 +9754,7 @@ s32 Duel_SelectTrapByCardId(s32 card_id)
         record = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[i + base]];
         if (record->flags & DUEL_CARD_FLAG_OCCUPIED) {
             if ( record->card_id == card_id) {
-                object = (DisplayObject *)record->object;
+                object = record->object;
                 gDuel_wSelectedTrapCardId = card_id;
                 gDuel_bSelectedTrapSlot = object->kind_index.card_record_index;
                 return card_id;
@@ -10759,7 +10759,7 @@ void DuelEffect_ApplyRitual(void)
             /* The data pointer is reloaded through its address as u8 **, a
                non-struct read; as a plain card->data read the function's
                schedule changes (17 differences). */
-            ((DuelDeckCardRecord *)card->data)->id =
+            card->data->id =
                 (s16)(ritual = gDuel_RitualResultCardId);
             data = *(u8 **)&card->data;
             gDuel_wTrapPresentationMode = state | 0x80;
@@ -10775,7 +10775,7 @@ void DuelEffect_ApplyRitual(void)
             break;
         }
         Duel_SetupFieldCardFromDeck(
-            gDuel_bCardMoveSlot, ((DuelDeckCardRecord *)card->data)->deck_index);
+            gDuel_bCardMoveSlot, card->data->deck_index);
         object = card->object;
         gDisplayObject_apWorkSlots.slots[0] = object;
         *(s16 *)&object->xy.h.y = -DUEL_RITUAL_SCREEN_HEIGHT;

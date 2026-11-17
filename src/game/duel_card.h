@@ -17,7 +17,8 @@
  * those readers keep `*(u32 *)&record->terrain_modifier`. */
 typedef struct {
     struct DisplayObject *object;
-    void *data;
+    /* The card's gDuel_aDeckCardRecords entry. */
+    struct DuelDeckCardRecord *data;
     s16 screen_x;
     s16 screen_y;
     s16 card_id;

@@ -1240,7 +1240,7 @@ typedef char DuelCardThumbnailBlock_clut_offset_must_be_0x500[
     OFFSETOF(DuelCardThumbnailBlock, clut) == 0x500 ? 1 : -1
 ];
 
-typedef struct {
+typedef struct DuelDeckCardRecord {
     s16 id;
     /* Source slot in the combined deck. Draw and placement paths consume it
        with signed byte loads before passing it to Duel_SetupCardRecord. */
