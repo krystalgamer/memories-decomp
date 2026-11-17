@@ -87,5 +87,5 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant474_aImages[8];
 extern Variant474EntryConfig gFrenchModelVariant474_aConfigs[];
 void FrenchModelVariant474_DrawRibbon(Variant474EntryState *context);
-void FrenchModelVariant474_DrawPairedFunnels(u8 *context);
+void FrenchModelVariant474_DrawPairedFunnels(Variant474EntryState *context);
 #endif
