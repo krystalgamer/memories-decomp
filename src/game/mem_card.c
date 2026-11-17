@@ -2165,8 +2165,8 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 target_x, s32 target_y,
     if (saved_index >= 0) {
         TextBox_SetPos(
             &gText_aChannels[saved_index],
-            (s16)object->xy.h.x,
-            (s16)object->xy.h.y);
+            object->xy.s.x,
+            object->xy.s.y);
     }
 
     return object->update_state;

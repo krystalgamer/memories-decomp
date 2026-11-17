@@ -360,7 +360,7 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
     object->field_38.h.field_38 =
         DisplayObject_StepToward(object->field_38.h.field_38, 0x800, 0x40);
     DisplayObject_StepPositionXY(object);
-    if ((s16)object->xy.h.y >= NAME_ENTRY_FRAGMENT_BOTTOM) {
+    if (object->xy.s.y >= NAME_ENTRY_FRAGMENT_BOTTOM) {
         DisplayObject_ReleaseIfPresent(object);
     }
 }
@@ -384,8 +384,8 @@ void NameEntry_UpdateGlyphShatter(DisplayObject *object)
                     DisplayObject *glyph = object;
 
                     DisplayObject_ConfigureScreenSprite(piece,
-                                  (s16)glyph->xy.h.x + dx,
-                                  (s16)glyph->xy.h.y + dy,
+                                  glyph->xy.s.x + dx,
+                                  glyph->xy.s.y + dy,
                                   4, 4,
                                   glyph->texture_uv.b.u + dx,
                                   glyph->texture_uv.b.v + dy,
@@ -420,11 +420,11 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
         DisplayObject_ResetVelocity(object);
         object->field_34.h.field_36 =
             ((object->field_44.target.x -
-              (s16)object->xy.h.x) << 8) /
+              object->xy.s.x) << 8) /
             object->field_60;
         object->field_38.h.field_38 =
             ((object->field_44.target.y -
-              (s16)object->xy.h.y) << 8) /
+              object->xy.s.y) << 8) /
             object->field_60;
     }
     DisplayObject_StepPositionXY(object);
@@ -451,10 +451,10 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
         g->update_state |= 0x80;
         DisplayObject_ResetVelocity(g);
         g->field_34.h.field_36 =
-            ((g->field_44.target.x - (s16)g->xy.h.x) << 8) /
+            ((g->field_44.target.x - g->xy.s.x) << 8) /
             g->field_60;
         g->field_38.h.field_38 =
-            ((g->field_44.target.y - (s16)g->xy.h.y) << 8) /
+            ((g->field_44.target.y - g->xy.s.y) << 8) /
             g->field_60;
     }
     if ((g->update_state & 0x40) != 0) {
@@ -471,7 +471,7 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
     if ((s16)n > 0) {
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o,
-                      (s16)g->xy.h.x, (s16)g->xy.h.y,
+                      g->xy.s.x, g->xy.s.y,
 #ifdef VERSION_EUROPE
                       (u16)g->field_3C.size.w,
                       (u16)g->field_3C.size.h,

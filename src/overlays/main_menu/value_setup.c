@@ -510,8 +510,8 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
     s16 remaining;
 
     widget = gTwoPlayerDuel_apSetupCursors[2];
-    targetX = (s16)widget->xy.h.x;
-    targetY = (s16)widget->xy.h.y;
+    targetX = widget->xy.s.x;
+    targetY = widget->xy.s.y;
     valueA = gTwoPlayerDuel_aSetupEntries[0].shown;
     valueB = gTwoPlayerDuel_aSetupEntries[1].shown;
     if (o->update_state == MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
