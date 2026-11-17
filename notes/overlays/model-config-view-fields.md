@@ -105,12 +105,12 @@ Entry `model_variant/variant452_entry_pal.c` sets `work->config = gFrenchModelVa
 
 ## `Variant438EntryConfig` (`gModelVariant438_aConfigs`)
 
-Entry `model_variant/variant438_entry.c` sets `work->config = gModelVariant438_aConfigs + command` (line 74); its work struct `Variant438EntryState` has `config` at `+0x3754`.
+Entry `model_variant/e008_entry.c` sets `work->config = gModelVariant438_aConfigs + command` (line 74); its work struct `Variant438EntryState` has `config` at `+0x3754`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x24` | `unknown_24[4]` bytes → `u32 rate` | `ModelVariantSwarmRateTiming.rate` | `FrenchModelVariant455_DrawSwarm` (model_variant/variant455_swarm.c; `model_variant/variant438_entry.c:386`, `Swarm455State.timing` at +0x3754) | `group->size[j] += state->timing->rate * state->step / 2;` | high |
-| `+0x2C` | `unknown_2C[0xC]` bytes → `u32 limit` | `ModelVariantSwarmRateTiming.limit` | `FrenchModelVariant455_DrawSwarm` (model_variant/variant455_swarm.c; `model_variant/variant438_entry.c:386`, `Swarm455State.timing` at +0x3754) | `if (state->timing->limit <= state->time)` | high |
+| `+0x24` | `unknown_24[4]` bytes → `u32 rate` | `ModelVariantSwarmRateTiming.rate` | `FrenchModelVariant455_DrawSwarm` (model_variant/e008_swarm.c; `model_variant/e008_entry.c:386`, `Swarm455State.timing` at +0x3754) | `group->size[j] += state->timing->rate * state->step / 2;` | high |
+| `+0x2C` | `unknown_2C[0xC]` bytes → `u32 limit` | `ModelVariantSwarmRateTiming.limit` | `FrenchModelVariant455_DrawSwarm` (model_variant/e008_swarm.c; `model_variant/e008_entry.c:386`, `Swarm455State.timing` at +0x3754) | `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant446EntryConfig` (`gModelVariant446_aConfigs`)
 

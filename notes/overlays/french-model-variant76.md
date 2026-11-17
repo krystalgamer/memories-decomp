@@ -4,7 +4,7 @@ The instance ledger identifies eight distinct 20,480-byte images with headers
 76/206. Models 57, 447 and 562 select stages 7/8; model 489 selects stages
 9/10. Each slot has one closed 2,964-byte entry, with 741 instructions and
 36 direct calls to 21 resident destinations. There are no local or indirect
-calls and no source-owned literals. Both slots build `variant76_entry.c`;
+calls and no source-owned literals. Both slots build `e006_entry.c`;
 each image's symbols file binds `FrenchModelVariant76_HandleRequest` and
 `gFrenchModelVariant76_aConfigs` (the raw descriptor view) at its own addresses.
 

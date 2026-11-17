@@ -1,4 +1,4 @@
-// European MODEL.MRG model 17 (record 17), sector 4892, header 136, loaded at 0x8013B000; the US header-119 source variant119_entry.c; built from the French source layout of french_model_variant_17_stage9_slot0.
+// European MODEL.MRG model 17 (record 17), sector 4892, header 136, loaded at 0x8013B000; the US header-119 source e067_entry.c; built from the French source layout of french_model_variant_17_stage9_slot0.
 ModelVariant119_HandleRequest = 0x8013B004; // type:func size:0xA18 defined:true
 gModelVariant119_UnitScale = 0x8013BA1C; // type:u8 size:0x10 defined:true
 gModelVariant119_aImages = 0x8013BA2C; // type:u8 size:0x1C defined:true

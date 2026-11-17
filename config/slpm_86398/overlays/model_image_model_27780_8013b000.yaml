@@ -56,14 +56,14 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant97_entry_pal]
+      - [0x4, c, overlays/model_variant/e028_entry]
   - name: scale
     type: code
     start: 0x1158
     vram: 0x8013C158
     align: 4
     subsegments:
-      - [0x1158, .rodata, overlays/model_variant/variant97_entry_pal]
+      - [0x1158, .rodata, overlays/model_variant/e028_entry]
   - name: image_view
     type: code
     start: 0x1168

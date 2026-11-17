@@ -2,9 +2,9 @@
 
 Ten North American MODEL variant images share one entry, at `+0x4` and
 `0xCF4` bytes long, that no French or Spanish source reproduces. The closest
-French entry, `variant129_entry`, is 1,017 instructions against 829: it has two
+French entry, `e077_entry`, is 1,017 instructions against 829: it has two
 textures and a different command row. The entry is new North American C in
-[`variant111_entry.c`](../../src/overlays/model_variant/variant111_entry.c),
+[`e059_entry.c`](../../src/overlays/model_variant/e059_entry.c),
 built under `gcc_2_8_1_g0_split` like the French entries. The images loaded at `0x8017B000` build the same file directly; each
 image's `*_symbols.txt` binds the entry and data names at its own addresses.
 

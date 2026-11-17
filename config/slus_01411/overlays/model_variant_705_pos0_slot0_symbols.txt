@@ -1,4 +1,4 @@
-// MODEL.MRG model 705 (record 605), sector 167160, header 119, loaded at 0x8013B000; the US source variant119_entry.c.
+// MODEL.MRG model 705 (record 605), sector 167160, header 119, loaded at 0x8013B000; the US source e067_entry.c.
 ModelVariant119_HandleRequest = 0x8013B004; // type:func size:0xA18 defined:true
 gModelVariant119_UnitScale = 0x8013BA1C; // type:u8 size:0x10 defined:true
 gModelVariant119_aImages = 0x8013BA2C; // type:u8 size:0x1C defined:true

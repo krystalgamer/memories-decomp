@@ -10,7 +10,7 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
 | 414 | 24 | `model_variant/variant397_entry.c` | `0x1224` |
 | 415 | 10 | `model_variant/variant398_entry.c` | `0x12B0` |
 | 421 | 12 | `model_variant/variant404_entry.c` | `0x11CC` |
-| 424 | 30 | `model_variant/variant407_entry.c` | `0x12D4` |
+| 424 | 30 | `model_variant/e036_entry.c` | `0x12D4` |
 | 432 | 2 | `model_variant/variant415_entry.c` | `0x0DA8` |
 | 433 | 4 | `model_variant/variant416_entry.c` | `0x104C` |
 | 435 | 26 | `model_variant/variant418_entry.c` | `0x1080` |

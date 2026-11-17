@@ -21,51 +21,51 @@ before the change, so the French images are unaffected.
 
 | Header | Entry size | French source | Images |
 |---:|---:|---|---|
-| 59 | `0xB94` | `variant76_entry.c` | `447_pos0_slot0`, `489_stage9_slot0`, `562_pos0_slot0`, `57_pos0_slot0` |
-| 60 | `0xC14` | `variant77_entry.c` | `386_pos0_slot0`, `53_stage9_slot0`, `547_stage9_slot0`, `84_stage9_slot0` |
+| 59 | `0xB94` | `e006_entry.c` | `447_pos0_slot0`, `489_stage9_slot0`, `562_pos0_slot0`, `57_pos0_slot0` |
+| 60 | `0xC14` | `e007_entry.c` | `386_pos0_slot0`, `53_stage9_slot0`, `547_stage9_slot0`, `84_stage9_slot0` |
 | 65 | `0xDE0` | `variant82_entry.c` | `66_pos0_slot0` |
 | 70 | `0xA18` | `variant87_entry.c` | `140_stage9_slot0`, `584_stage9_slot0` |
-| 80 | `0x1154` | `variant97_entry.c` | `100_pos0_slot0`, `150_stage9_slot0` |
-| 84 | `0xAE0` | `variant101_entry.c` | `130_pos0_slot0` |
-| 90 | `0x1184` | `variant107_entry.c` | `28_stage9_slot0`, `402_pos0_slot0`, `85_stage9_slot0` |
-| 99 | `0x1158` | `variant116_entry.c` | `127_stage9_slot0`, `22_stage9_slot0`, `422_pos0_slot0`, `454_stage9_slot0`, `484_stage9_slot0`, `504_stage9_slot0`, `556_pos0_slot0`, `581_stage9_slot0`, `701_stage9_slot0`, `73_stage9_slot0` |
-| 100 | `0x1088` | `variant117_entry.c` | `139_pos0_slot0`, `146_pos0_slot0`, `15_stage9_slot0` |
-| 104 | `0x10A4` | `variant121_entry.c` | `227_stage9_slot0`, `281_pos0_slot0`, `39_stage9_slot0`, `477_stage9_slot0`, `502_pos0_slot0`, `509_pos0_slot0`, `514_pos0_slot0`, `514_stage9_slot0`, `557_stage9_slot0`, `641_pos0_slot0`, `708_stage9_slot0` |
-| 112 | `0xFE4` | `variant129_entry.c` | `219_pos0_slot0`, `30_stage9_slot0`, `355_stage9_slot0`, `435_stage9_slot0`, `490_stage9_slot0` |
-| 114 | `0x15B8` | `variant131_entry.c` | `183_pos0_slot0`, `273_pos0_slot0`, `486_pos0_slot0`, `490_pos0_slot0`, `540_pos0_slot0`, `637_pos0_slot0` |
+| 80 | `0x1154` | `e045_entry.c` | `100_pos0_slot0`, `150_stage9_slot0` |
+| 84 | `0xAE0` | `e049_entry.c` | `130_pos0_slot0` |
+| 90 | `0x1184` | `e038_entry.c` | `28_stage9_slot0`, `402_pos0_slot0`, `85_stage9_slot0` |
+| 99 | `0x1158` | `e015_entry.c` | `127_stage9_slot0`, `22_stage9_slot0`, `422_pos0_slot0`, `454_stage9_slot0`, `484_stage9_slot0`, `504_stage9_slot0`, `556_pos0_slot0`, `581_stage9_slot0`, `701_stage9_slot0`, `73_stage9_slot0` |
+| 100 | `0x1088` | `e065_entry.c` | `139_pos0_slot0`, `146_pos0_slot0`, `15_stage9_slot0` |
+| 104 | `0x10A4` | `e069_entry.c` | `227_stage9_slot0`, `281_pos0_slot0`, `39_stage9_slot0`, `477_stage9_slot0`, `502_pos0_slot0`, `509_pos0_slot0`, `514_pos0_slot0`, `514_stage9_slot0`, `557_stage9_slot0`, `641_pos0_slot0`, `708_stage9_slot0` |
+| 112 | `0xFE4` | `e077_entry.c` | `219_pos0_slot0`, `30_stage9_slot0`, `355_stage9_slot0`, `435_stage9_slot0`, `490_stage9_slot0` |
+| 114 | `0x15B8` | `e062_entry.c` | `183_pos0_slot0`, `273_pos0_slot0`, `486_pos0_slot0`, `490_pos0_slot0`, `540_pos0_slot0`, `637_pos0_slot0` |
 | 115 | `0xEB4` | `variant132_entry.c` | `416_stage9_slot0` |
 | 124 | `0xF5C` | `variant141_entry.c` | `20_stage9_slot0`, `428_pos0_slot0`, `445_pos0_slot0` |
-| 126 | `0xFF0` | `variant143_entry.c` | `234_stage9_slot0`, `481_pos0_slot0`, `496_pos0_slot0`, `546_stage9_slot0` |
-| 189 | `0xB94` | `variant76_entry.c` | `447_stage8_slot1`, `489_stage10_slot1`, `562_stage8_slot1`, `57_stage8_slot1` |
+| 126 | `0xFF0` | `e074_entry.c` | `234_stage9_slot0`, `481_pos0_slot0`, `496_pos0_slot0`, `546_stage9_slot0` |
+| 189 | `0xB94` | `e006_entry.c` | `447_stage8_slot1`, `489_stage10_slot1`, `562_stage8_slot1`, `57_stage8_slot1` |
 | 190 | `0xC14` | `variant77_entry_slot1.c` | `386_stage8_slot1`, `53_stage10_slot1`, `547_stage10_slot1`, `84_stage10_slot1` |
 | 189 | `0xB94` | `variant76_entry_slot1.c` | `447_stage8_slot1`, `489_stage10_slot1`, `562_stage8_slot1`, `57_stage8_slot1` |
-| 190 | `0xC14` | `variant77_entry.c` | `386_stage8_slot1`, `53_stage10_slot1`, `547_stage10_slot1`, `84_stage10_slot1` |
+| 190 | `0xC14` | `e007_entry.c` | `386_stage8_slot1`, `53_stage10_slot1`, `547_stage10_slot1`, `84_stage10_slot1` |
 | 195 | `0xDE0` | `variant82_entry_slot1.c` | `66_stage8_slot1` |
 | 195 | `0xDE0` | `variant82_entry.c` | `66_stage8_slot1` |
 | 200 | `0xA18` | `variant87_entry_slot1.c` | `140_stage10_slot1`, `584_stage10_slot1` |
 | 195 | `0xDE0` | `variant82_entry_slot1.c` | `66_stage8_slot1` |
 | 200 | `0xA18` | `variant87_entry.c` | `140_stage10_slot1`, `584_stage10_slot1` |
 | 210 | `0x1154` | `variant97_entry_slot1.c` | `100_stage8_slot1`, `150_stage10_slot1` |
-| 214 | `0xAE0` | `variant101_entry.c` | `130_stage8_slot1` |
-| 210 | `0x1154` | `variant97_entry.c` | `100_stage8_slot1`, `150_stage10_slot1` |
+| 214 | `0xAE0` | `e049_entry.c` | `130_stage8_slot1` |
+| 210 | `0x1154` | `e045_entry.c` | `100_stage8_slot1`, `150_stage10_slot1` |
 | 214 | `0xAE0` | `variant101_entry_slot1.c` | `130_stage8_slot1` |
 | 220 | `0x1184` | `variant107_entry_slot1.c` | `28_stage10_slot1`, `402_stage8_slot1`, `85_stage10_slot1` |
-| 220 | `0x1184` | `variant107_entry.c` | `28_stage10_slot1`, `402_stage8_slot1`, `85_stage10_slot1` |
+| 220 | `0x1184` | `e038_entry.c` | `28_stage10_slot1`, `402_stage8_slot1`, `85_stage10_slot1` |
 | 229 | `0x1158` | `variant116_entry_slot1.c` | `127_stage10_slot1`, `22_stage10_slot1`, `422_stage8_slot1`, `454_stage10_slot1`, `484_stage10_slot1`, `504_stage10_slot1`, `556_stage8_slot1`, `581_stage10_slot1`, `701_stage10_slot1`, `73_stage10_slot1` |
-| 230 | `0x1088` | `variant117_entry.c` | `139_stage8_slot1`, `15_stage10_slot1` |
+| 230 | `0x1088` | `e065_entry.c` | `139_stage8_slot1`, `15_stage10_slot1` |
 | 220 | `0x1184` | `variant107_entry_slot1.c` | `28_stage10_slot1`, `402_stage8_slot1`, `85_stage10_slot1` |
-| 229 | `0x1158` | `variant116_entry.c` | `127_stage10_slot1`, `22_stage10_slot1`, `422_stage8_slot1`, `454_stage10_slot1`, `484_stage10_slot1`, `504_stage10_slot1`, `556_stage8_slot1`, `581_stage10_slot1`, `701_stage10_slot1`, `73_stage10_slot1` |
+| 229 | `0x1158` | `e015_entry.c` | `127_stage10_slot1`, `22_stage10_slot1`, `422_stage8_slot1`, `454_stage10_slot1`, `484_stage10_slot1`, `504_stage10_slot1`, `556_stage8_slot1`, `581_stage10_slot1`, `701_stage10_slot1`, `73_stage10_slot1` |
 | 230 | `0x1088` | `variant117_entry_slot1.c` | `139_stage8_slot1`, `15_stage10_slot1` |
-| 234 | `0x10A4` | `variant121_entry.c` | `227_stage10_slot1`, `281_stage8_slot1`, `39_stage10_slot1`, `477_stage10_slot1`, `502_stage8_slot1`, `509_stage8_slot1`, `514_stage10_slot1`, `514_stage8_slot1`, `557_stage10_slot1`, `641_stage8_slot1`, `708_stage10_slot1` |
+| 234 | `0x10A4` | `e069_entry.c` | `227_stage10_slot1`, `281_stage8_slot1`, `39_stage10_slot1`, `477_stage10_slot1`, `502_stage8_slot1`, `509_stage8_slot1`, `514_stage10_slot1`, `514_stage8_slot1`, `557_stage10_slot1`, `641_stage8_slot1`, `708_stage10_slot1` |
 | 242 | `0xFE4` | `variant129_entry_slot1.c` | `219_stage8_slot1`, `30_stage10_slot1`, `355_stage10_slot1`, `435_stage10_slot1`, `490_stage10_slot1` |
-| 244 | `0x15B8` | `variant131_entry.c` | `183_stage8_slot1`, `273_stage8_slot1`, `486_stage8_slot1`, `490_stage8_slot1`, `540_stage8_slot1`, `637_stage8_slot1` |
-| 242 | `0xFE4` | `variant129_entry.c` | `219_stage8_slot1`, `30_stage10_slot1`, `355_stage10_slot1`, `435_stage10_slot1`, `490_stage10_slot1` |
+| 244 | `0x15B8` | `e062_entry.c` | `183_stage8_slot1`, `273_stage8_slot1`, `486_stage8_slot1`, `490_stage8_slot1`, `540_stage8_slot1`, `637_stage8_slot1` |
+| 242 | `0xFE4` | `e077_entry.c` | `219_stage8_slot1`, `30_stage10_slot1`, `355_stage10_slot1`, `435_stage10_slot1`, `490_stage10_slot1` |
 | 244 | `0x15B8` | `variant131_entry_slot1.c` | `183_stage8_slot1`, `273_stage8_slot1`, `486_stage8_slot1`, `490_stage8_slot1`, `540_stage8_slot1`, `637_stage8_slot1` |
 | 245 | `0xEB4` | `variant132_entry.c` | `416_stage10_slot1` |
 | 254 | `0xF5C` | `variant141_entry.c` | `20_stage10_slot1`, `428_stage8_slot1`, `445_stage8_slot1` |
 | 256 | `0xFF0` | `variant143_entry_slot1.c` | `234_stage10_slot1`, `481_stage8_slot1`, `496_stage8_slot1`, `546_stage10_slot1` |
 | 254 | `0xF5C` | `variant141_entry_slot1.c` | `20_stage10_slot1`, `428_stage8_slot1`, `445_stage8_slot1` |
-| 256 | `0xFF0` | `variant143_entry.c` | `234_stage10_slot1`, `481_stage8_slot1`, `496_stage8_slot1`, `546_stage10_slot1` |
+| 256 | `0xFF0` | `e074_entry.c` | `234_stage10_slot1`, `481_stage8_slot1`, `496_stage8_slot1`, `546_stage10_slot1` |
 | 765 | `0x14AC` | `variant782_entry.c` | `217_pos0_slot0`, `453_pos0_slot0`, `563_pos0_slot0`, `58_pos0_slot0`, `612_pos0_slot0`, `78_stage9_slot0` |
 | 812 | `0xF84` | `variant829_entry.c` | `485_pos0_slot0` |
 | 862 | `0x14AC` | `variant782_entry.c` | `217_stage8_slot1`, `453_stage8_slot1`, `563_stage8_slot1`, `58_stage8_slot1`, `612_stage8_slot1`, `78_stage10_slot1` |
@@ -85,7 +85,7 @@ whose default is the French value, and a North American wrapper in
 
 - `variant770_entry`: the burst CLUT, `VARIANT770_BURST_CLUT` (French `0x3D28`,
   North American `0x3D20`);
-- `variant96_entry`, `variant144_entry`, `variant198_entry` and `variant199_entry`:
+- `e044_entry`, `variant144_entry`, `e011_entry` and `variant199_entry`:
   the screen height of the full-screen flash (and, in `variant144_entry`, of the
   gradient's bottom edge), `GRAPHICS_DEFAULT_HEIGHT` from
   `src/game/graphics_constants.h` (French 256, North American 240).
@@ -96,13 +96,13 @@ both slots, are byte-identical to the objects built before these changes.
 
 | Header | Entry size | North American source | Images |
 |---:|---:|---|---|
-| 79 | `0xC48` | `variant96_entry_usa.c` | `192_stage9_slot0`, `196_stage9_slot0` |
-| 127 | `0xEAC` | `variant144_entry_usa.c` | `492_stage9_slot0` |
-| 181 | `0xD70` | `variant198_entry_usa.c` | `508_stage9_slot0` |
+| 79 | `0xC48` | `e027_entry_usa.c` | `192_stage9_slot0`, `196_stage9_slot0` |
+| 127 | `0xEAC` | `e075_entry_usa.c` | `492_stage9_slot0` |
+| 181 | `0xD70` | `e011_entry_usa.c` | `508_stage9_slot0` |
 | 182 | `0x1590` | `variant199_entry_usa.c` | `243_stage9_slot0`, `622_stage9_slot0` |
-| 209 | `0xC48` | `variant96_entry_usa.c` | `192_stage10_slot1`, `196_stage10_slot1` |
-| 257 | `0xEAC` | `variant144_entry_usa.c` | `492_stage10_slot1` |
-| 311 | `0xD70` | `variant198_entry_usa.c` | `508_stage10_slot1` |
+| 209 | `0xC48` | `e027_entry_usa.c` | `192_stage10_slot1`, `196_stage10_slot1` |
+| 257 | `0xEAC` | `e075_entry_usa.c` | `492_stage10_slot1` |
+| 311 | `0xD70` | `e011_entry_usa.c` | `508_stage10_slot1` |
 | 312 | `0x1590` | `variant199_entry_usa.c` | `243_stage10_slot1`, `622_stage10_slot1` |
 | 753 | `0x16E4` | `variant770_entry_usa.c` | `103_pos0_slot0`, `187_stage9_slot0`, `239_pos0_slot0`, `23_pos0_slot0`, `480_pos0_slot0`, `499_pos0_slot0`, `555_pos0_slot0`, `596_stage9_slot0`, `85_pos0_slot0` |
 | 850 | `0x16E4` | `variant770_entry_usa.c` | `103_stage8_slot1`, `187_stage10_slot1`, `239_stage8_slot1`, `23_stage8_slot1`, `480_stage8_slot1`, `499_stage8_slot1`, `555_stage8_slot1`, `596_stage10_slot1`, `85_stage8_slot1` |
@@ -139,9 +139,9 @@ All nine French objects are byte-identical to the objects built before.
 | Header | Entry size | North American source | Images |
 |---:|---:|---|---|
 | 136 | `0xE14` | `variant153_entry_usa.c` | `271_pos0_slot0`, `356_stage9_slot0`, `38_pos0_slot0`, `635_pos0_slot0` |
-| 156 | `0xEC0` | `variant173_entry_usa.c` | `113_stage9_slot0`, `350_stage9_slot0`, `386_stage9_slot0`, `392_pos0_slot0`, `448_stage9_slot0`, `8_stage9_slot0` |
+| 156 | `0xEC0` | `e023_entry_usa.c` | `113_stage9_slot0`, `350_stage9_slot0`, `386_stage9_slot0`, `392_pos0_slot0`, `448_stage9_slot0`, `8_stage9_slot0` |
 | 266 | `0xE14` | `variant153_entry_usa.c` | `167_stage10_slot1`, `271_stage8_slot1`, `356_stage10_slot1`, `38_stage8_slot1`, `635_stage8_slot1` |
-| 286 | `0xEC0` | `variant173_entry_usa.c` | `113_stage10_slot1`, `350_stage10_slot1`, `386_stage10_slot1`, `392_stage8_slot1`, `448_stage10_slot1`, `8_stage10_slot1` |
+| 286 | `0xEC0` | `e023_entry_usa.c` | `113_stage10_slot1`, `350_stage10_slot1`, `386_stage10_slot1`, `392_stage8_slot1`, `448_stage10_slot1`, `8_stage10_slot1` |
 | 167 | `0xF04` | `variant184_entry_usa.c` | `169_stage9_slot0`, `524_stage9_slot0`, `591_stage9_slot0` |
 | 297 | `0xF04` | `variant184_entry_usa.c` | `169_stage10_slot1`, `524_stage10_slot1`, `591_stage10_slot1` |
 | 140 | `0x1068` | `variant157_entry_usa.c` | `131_stage9_slot0`, `145_stage9_slot0` |
@@ -177,8 +177,8 @@ All framed functions use the gcc 2.8.1 epilogue (`jr ra` with the frame
 release in its delay slot). Three single-function families had a French
 entry as a close template (opcode similarity 0.59 to 0.68): 27 images like
 `model_image_model_113892_8013b000` and 24 like `model_image_model_109220_8013b000`
-against `variant116_entry`, and 10 like `model_image_model_114996_8013b000`
-against `variant129_entry`. The first 27 and the last ten now build from
+against `e015_entry`, and 10 like `model_image_model_114996_8013b000`
+against `e077_entry`. The first 27 and the last ten now build from
 North American C, see [USA MODEL headers 176 and 306](usa-model-variant176.md)
 and [USA MODEL headers 111 and 241](usa-model-variant111.md). The other bodies have no French template. Many of
 them are single-function images repeated across dozens of models (the

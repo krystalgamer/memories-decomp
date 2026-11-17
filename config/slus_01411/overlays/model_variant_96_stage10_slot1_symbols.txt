@@ -1,4 +1,4 @@
-// MODEL.MRG model 96 (record 96), sector 26706, header 249, loaded at 0x8017B000; the US source variant119_entry.c.
+// MODEL.MRG model 96 (record 96), sector 26706, header 249, loaded at 0x8017B000; the US source e067_entry.c.
 ModelVariant119_HandleRequest = 0x8017B004; // type:func size:0xA18 defined:true
 gModelVariant119_UnitScale = 0x8017BA1C; // type:u8 size:0x10 defined:true
 gModelVariant119_aImages = 0x8017BA2C; // type:u8 size:0x1C defined:true

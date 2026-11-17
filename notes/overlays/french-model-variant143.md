@@ -88,8 +88,8 @@ canonical integration. The authoritative GCC2.8.1/MASPSX2.81
 `gcc_2_8_1_g0_split` pipeline is unchanged.
 
 Canonical sources are
-`src/overlays/model_variant/variant143_entry.c`,
-`variant143_entry.h`, built in both slots; each image's symbols file binds
+`src/overlays/model_variant/e074_entry.c`,
+`e074_entry.h`, built in both slots; each image's symbols file binds
 `FrenchModelVariant143_HandleRequest`, `gFrenchModelVariant143_aImages` and
 `gFrenchModelVariant143_aConfigs` at its own addresses.
 Regressions are in [retired `test_french_model_variant143.py`](https://github.com/krystalgamer/memories-decomp/blob/4b5667dae10ffb9c72df1a242ee060e654214ae1/tools/project/tests/test_french_model_variant143.py).
