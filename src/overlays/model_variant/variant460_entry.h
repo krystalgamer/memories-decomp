@@ -10,49 +10,17 @@
 #include "../../game/model_texture_upload.h"
 #include "../../psyq/libhmd.h"
 
-/* A 0xA8-byte column of nine points with a shade per point. */
-typedef struct {
-    SVECTOR points[9];
-    u8 color[9][4];
-    s32 field_6C, field_70, field_74;
-    u8 unknown_78[4];
-    s32 offset[9];
-    s32 field_A0, field_A4;
-} Variant460Column;
-
-/* A 0x1A0-byte dome of two four-by-six point shells. */
-typedef struct {
-    SVECTOR outer[4][6];
-    SVECTOR inner[4][6];
-    u8 color[4];
-    s32 field_184, field_188, field_18C;
-    u8 unknown_190[4];
-    s32 size;
-    s32 field_198, field_19C;
-} Variant460Dome;
-
-/* A 0x90-byte five-spoke star with a square backing. */
-typedef struct {
-    SVECTOR a[6];
-    SVECTOR b[5];
-    SVECTOR square[4];
-    u8 color_a[4];
-    u8 color_b[4];
-    s32 field_80, field_84, field_88;
-    u8 unknown_8C[4];
-} Variant460Star;
-
 /* Header 460's 0x20BC-byte loader work area. */
 typedef struct {
     ModelVariantPanel panels[2];
     ModelVariantQuadGroup groups[2];
-    Variant460Column columns[16];
-    Variant460Dome domes[3];
+    ModelVariantTrail columns[16];
+    ModelVariantWebNarrow domes[3];
     ModelVariantBeamPair pair;
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantRing halos[4];
-    Variant460Star star;
+    ModelVariantShape star;
     ModelVariantPackets packets;
     POLY_GT4 glow;
     POLY_FT4 flat[2];

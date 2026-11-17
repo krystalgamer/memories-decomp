@@ -17,11 +17,11 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;
     ModelVariantRing *halo = work->halos;
-    Variant460Star *star = &work->star;
-    Variant460Dome *dome = work->domes;
+    ModelVariantShape *star = &work->star;
+    ModelVariantWebNarrow *dome = work->domes;
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;
-    Variant460Column *column = work->columns;
+    ModelVariantTrail *column = work->columns;
     POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *glow = &work->glow;
     POLY_FT4 *flat = work->flat;
@@ -168,21 +168,21 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
             pair->field_94 = 0;
         }
         for (outer = 0; outer < 1; outer++, star++) {
-            setVector(&star->a[0], 0, 0, 0);
+            setVector(&star->origin, 0, 0, 0);
             for (k = 0, angle = 0; k < 5; k++, angle = k << 10) {
-                setVector(&star->a[k + 1], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 8, 0);
-                setVector(&star->b[k], (u32)(rcos(angle) * 3) >> 10, (u32)(rsin(angle) * 5) >> 9, 0);
+                setVector(&star->inner[k], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 8, 0);
+                setVector(&star->outer[k], (u32)(rcos(angle) * 3) >> 10, (u32)(rsin(angle) * 5) >> 9, 0);
             }
-            star->color_a[0] = 255;
-            star->color_a[1] = 192;
-            star->color_a[2] = 192;
-            setVector(&star->square[0], -128, -128, 0);
-            setVector(&star->square[1], 128, -128, 0);
-            setVector(&star->square[2], -128, 128, 0);
-            setVector(&star->square[3], 128, 128, 0);
-            star->color_b[0] = 64;
-            star->color_b[1] = 64;
-            star->color_b[2] = 0;
+            star->inner_color.r = 255;
+            star->inner_color.g = 192;
+            star->inner_color.b = 192;
+            setVector(&star->corners[0], -128, -128, 0);
+            setVector(&star->corners[1], 128, -128, 0);
+            setVector(&star->corners[2], -128, 128, 0);
+            setVector(&star->corners[3], 128, 128, 0);
+            star->outer_color.r = 64;
+            star->outer_color.g = 64;
+            star->outer_color.b = 0;
             star->field_80 = 0;
             star->field_84 = 0;
             star->field_88 = 0;
@@ -230,27 +230,27 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 scale = rsin(elevation) * inner_size >> 12;
                 inner_y = rcos(elevation) * inner_size >> 12;
                 for (k = 0, angle = base; k < 6; k++, angle = base + (k << 12) / 6) {
-                    setVector(&dome->outer[row][k], rcos(angle) * radius >> 12, y,
+                    setVector(&dome->near[row][k], rcos(angle) * radius >> 12, y,
                               rsin(angle) * radius >> 12);
-                    setVector(&dome->inner[row][k], rcos(angle) * scale >> 12, inner_y,
+                    setVector(&dome->far[row][k], rcos(angle) * scale >> 12, inner_y,
                               rsin(angle) * scale >> 12);
                 }
             }
             dome->field_184 = 0;
             dome->field_188 = 0;
             dome->field_18C = 0;
-            dome->color[0] = work->config->web_color.r;
-            dome->color[1] = work->config->web_color.g;
-            dome->color[2] = work->config->web_color.b;
-            dome->size = (j << 12) / 3 + 4096;
-            dome->field_198 = 0;
+            dome->color.r = work->config->web_color.r;
+            dome->color.g = work->config->web_color.g;
+            dome->color.b = work->config->web_color.b;
+            dome->scale = (j << 12) / 3 + 4096;
+            dome->done = 0;
             dome->field_19C = 0;
         }
         for (j = 0; j < 16; j++, column++) {
             for (k = 0; k < 9; k++) {
-                column->color[k][0] = shade = -64 - k * 24;
-                column->color[k][1] = shade;
-                column->color[k][2] = 255;
+                column->color[k].r = shade = -64 - k * 24;
+                column->color[k].g = shade;
+                column->color[k].b = 255;
                 column->offset[k] = -(k << 8);
             }
             column->field_6C = 0;
