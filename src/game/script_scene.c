@@ -798,11 +798,6 @@ void Script_OpJump(void)
 #include "main_mode_state.h"
 #include "duel_effect_object_pool.h"
 
-#define DISPLAY_OBJECT_X_HALFWORD_INDEX \
-    ((u32)&((DisplayObject *)0)->xy.h.x / sizeof(s16))
-#define DISPLAY_OBJECT_Y_HALFWORD_INDEX \
-    ((u32)&((DisplayObject *)0)->xy.h.y / sizeof(s16))
-
 int Duel_IsPlayerDeckComplete(void)
 {
     unsigned short *entry = gDuel_awPlayerDeck;
@@ -1004,9 +999,9 @@ void Script_OpSavePrompt(void)
         if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED) == 0) {
             gScript_wCommandWord = flags | SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED;
             DisplayObject_SavePosition(obj);
-            *(s16 *)&box->render_object->field_60 = 0x400;
+            box->render_object->field_60 = 0x400;
         }
-        step = *(u16 *)&obj->field_60 - 0x40;
+        step = (u16)obj->field_60 - 0x40;
         obj->field_60 = step;
         if ((s16)step <= 0) {
             TextBox_Destroy(box);
@@ -1014,30 +1009,25 @@ void Script_OpSavePrompt(void)
             return;
         }
         Widget_SlideSine(obj, -0x90, 0x38, (s16)step);
-        TextBox_SetPos(box, *(s16 *)&obj->xy.h.x,
-                       *(s16 *)&obj->xy.h.y);
+        TextBox_SetPos(box, obj->xy.s.x,
+                       obj->xy.s.y);
         return;
     }
 
     if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SLIDE_IN) != 0) {
-        step = *(u16 *)&obj->field_60 + 0x40;
+        step = (u16)obj->field_60 + 0x40;
         obj->field_60 = step;
         if ((s16)step >= 0) {
-            *(s16 *)&obj->xy.h.x = 0x10;
-            *(s16 *)&obj->xy.h.y = 0x38;
+            obj->xy.s.x = 0x10;
+            obj->xy.s.y = 0x38;
             gScript_wCommandWord = flags & 0xDFFF;
-            /* These reads keep the halfword-array spelling: direct member
-               access costs sixteen bytes, while derived halfword indexes keep
-               the accepted allocation tied to the shared layout. */
-            value = ((s16 *)obj)[DISPLAY_OBJECT_Y_HALFWORD_INDEX];
-            TextBox_SetPos(
-                box, ((s16 *)obj)[DISPLAY_OBJECT_X_HALFWORD_INDEX], value
-            );
+            value = obj->xy.s.y;
+            TextBox_SetPos(box, obj->xy.s.x, value);
             return;
         }
         Widget_SlideSine(obj, 0x10, 0x38, (s16)step);
-        TextBox_SetPos(box, *(s16 *)&obj->xy.h.x,
-                       *(s16 *)&obj->xy.h.y);
+        TextBox_SetPos(box, obj->xy.s.x,
+                       obj->xy.s.y);
         return;
     }
 
