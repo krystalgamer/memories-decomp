@@ -1449,12 +1449,30 @@ set `BUILD_LANGUAGE_INDEX` to 1..4 there, the French, Spanish, Italian and
 German retail language indices. A macro belongs in a region list only if every
 C unit of that region either already defines it or preprocesses identically
 with it. `BUILD_LANGUAGE_INDEX` is read only by `main.c`, `debug_menu.c`,
-`main_boot_frontend.c` and `mem_card.c`, so it qualifies. `VERSION_EUROPE`
-and `VERSION_JAPAN` do not: shared headers such as `src/ygo_types.h` test
-them, and the US-derived overlay and MODEL image units those regions also
-compile are built without them, so those flags stay in the entries' own
-`"defines"` lists. The North American, SLES-03947 and SLPM-86398 lists are
-empty.
+`main_boot_frontend.c` and `mem_card.c`, so it qualifies. The North American,
+SLES-03947 and SLPM-86398 lists are empty.
+
+#### Regional defines are opt-in; the North American source is the base
+
+Every shared source describes the North American (SLUS-01411) code by default.
+`VERSION_JAPAN` and `VERSION_EUROPE` are **opt-in** switches: a unit carries
+one in its own entry `"defines"` only when that region's retail bytes really
+differ from the North American code -- a different body, constant, string,
+padding or data layout. Units another region shipped unchanged are compiled as
+the North American code, without the switch, even though that region's build
+compiles them.
+
+So these two flags deliberately stay in per-entry lists rather than in region
+lists. The entries that carry one are exactly the units with regional
+differences (about 60 per region), which is information, not repetition.
+Do not hoist them into a region list.
+
+The struct layouts that shared headers select with these flags (for example
+`DuelEffectChannel` and `ModelCameraMove` in `src/ygo_types.h` and
+`src/game/model.h`) describe that region's data. They matter only to units that
+read the affected fields, and those units opt in. A unit that matches without
+the flag either does not use the structure or reads only fields whose offsets
+are the same in both layouts.
 
 Regional variants are expressed with per-entry `"defines"` lists on the
 shared source rather than wrapper sources, as the five European builds
