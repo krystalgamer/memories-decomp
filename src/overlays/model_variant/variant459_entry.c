@@ -283,7 +283,7 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
             for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {
                 setVector(&curtain->a[j], (u32)(rcos(angle) * 3) >> 4, 0, (u32)(rsin(angle) * 3) >> 4);
                 setVector(&curtain->b[j], (u32)(rcos(angle) * 9) >> 5, 16, (u32)(rsin(angle) * 9) >> 5);
-                setVector((SVECTOR *)((u8 *)curtain + 0x110) + j, (u32)(rcos(angle) * 3) >> 3, 16,
+                setVector(&curtain->c[j], (u32)(rcos(angle) * 3) >> 3, 16,
                           (u32)(rsin(angle) * 3) >> 3);
             }
             curtain->rotation.vx = (n << 11) / 5;
