@@ -1,7 +1,7 @@
 # Spanish MODEL headers 435 and 585
 
 Twenty-six Spanish images, with 23 distinct complete hashes, reuse the
-unchanged accepted `variant418_{spiral,sheet,webs,ribbons,bands,spokes,rings,quad}.c`
+unchanged accepted `e530_{spiral,sheet,webs,ribbons,bands,spokes,rings,quad}.c`
 bodies through the existing French435 wrappers. The sixteen canonical
 compiler objects independently provide 208 C instances / 273,416 instruction
 bytes under named `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81.

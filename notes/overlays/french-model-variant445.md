@@ -1,7 +1,7 @@
 # French MODEL headers 445 and 595
 
 These twelve secondary-handler images reuse the unchanged accepted
-`src/overlays/model_variant/variant428_{sheets,webs,spokes,rings,quad,spiral}.c` bodies
+`src/overlays/model_variant/h428_{sheets,webs,spokes,rings,quad,spiral}.c` bodies
 and directly select the accepted Spanish445 band sources. Twelve three-line
 French wrappers rename the original shared helpers; the Spanish band body
 and its existing slot-one wrapper already define the measured French

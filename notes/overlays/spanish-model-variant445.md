@@ -1,7 +1,7 @@
 # Spanish MODEL headers 445 and 595
 
 Twelve distinct Spanish images independently match the unchanged accepted
-`variant428_{sheets,webs,spokes,rings,quad,spiral}.c` bodies through twelve French445
+`h428_{sheets,webs,spokes,rings,quad,spiral}.c` bodies through twelve French445
 wrappers. An independently refined Spanish band body and its directly
 selected slot-one wrapper add twelve further instances. Together these
 provide 84 compiler-owned C instances / 114,816 instruction bytes with

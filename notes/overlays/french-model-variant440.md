@@ -1,7 +1,7 @@
 # French MODEL headers 440 and 590
 
 4 distinct secondary images reuse the accepted
-`src/overlays/model_variant/variant423_*.c` sheets, webs, spokes, rings and quad
+`src/overlays/model_variant/{e589_entry_pal,e589_funnel_pal,e589_mesh_pal,e589_ribbon_pal,e589_sheets_pal,e589_spiral_pal,e589_streamers_pal,h423_bands,h423_entry,h423_quad,h423_rings,h423_sheets,h423_spokes,h423_webs}.c` sheets, webs, spokes, rings and quad
 bodies, which both slots now compile directly (see [Names](#names)).
 The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1/MASPSX 2.81.
 The original retained-helper integration preserved shared bodies, headers,

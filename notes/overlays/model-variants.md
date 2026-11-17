@@ -236,7 +236,7 @@ The first word of a variant image is a header id. Every image with a given
 header that has been checked has the same text: the same functions at the same
 addresses, byte for byte. Only the data after the text differs. So the C files
 are named by header, as the Spanish variant files are
-(`src/overlays/model_variant/variant432_*.c`), and each registered image
+(`src/overlays/model_variant/{e570_bands,e570_draw,e570_entry_pal,e570_layers,h432_entry,h432_ribbons}.c`), and each registered image
 of a header reuses them unchanged.
 
 The same helper body also occurs under other headers at other addresses. Those
@@ -341,8 +341,8 @@ stored to the scale first.
 Header 442 (models 47, 238, 411 and 620 at `+ 180`, 231 and 417 at `+ 200`)
 and its slot-1 header 592 are the Spanish header-459 image built under gcc
 2.7.2: all eight functions (entry, warp, curtains, rays, spiral, bands, sheets
-and lines) build from `src/overlays/model_variant/variant459_*.c`
-through `variant442_*.c` wrappers that rename the image-local symbols. The
+and lines) build from `src/overlays/model_variant/{h442_bands,h442_curtains,h442_entry_pal,h442_lines,h442_rays,h442_sheets,h442_spiral,h442_warp_pal,h459_curtains,h459_entry,h459_grid,h459_sheet,h459_webs}.c`
+through `{h425_entry_pal,h425_ribbons_pal,h425_spiral_pal,h442_entry,h442_warp}.c` wrappers that rename the image-local symbols. The
 entry wrapper sets `MODEL_VARIANT459_CLUT_X` to 512 (PAL loads the palette
 from 640). The curtains fade branch re-reads the timing record into a fresh
 `start` local; that one form matches both compilers, where the earlier shared
@@ -809,7 +809,7 @@ episodes loaded the stage-7 image (header 356, slot 0) with
 `391` and `541` are model 54's `+ 200` and `+ 210` images (stages 9 and 10;
 the second loads at `0x8017B000`, see below). They are the North American build
 of the Spanish header-408 variant: the files in `src/overlays/model_variant/`
-named `variant391_*` include the Spanish sources and rename their addresses.
+named `e574_entry` include the Spanish sources and rename their addresses.
 The same C matches the Spanish images under `gcc_2_8_1_g0_split` and the North
 American ones under `gcc_2_7_2_cdk_g0`, so the European build recompiled these
 helpers with the newer compiler. Two other things differ: the entry uploads its
@@ -819,8 +819,8 @@ linker symbols named `0x80082E48` `SetPolyF4`. Its body is `SetPolyG3` (length
 6, code `0x30`), and the 28-byte primitive the entry sets up is a `POLY_G3`.
 
 Headers 320/470 and 415/565 are ported the same way, from the Spanish
-header-337 rings helper (`variant320_*`) and the header-432 draw, layers and
-bands helpers (`variant415_*`). Every North American header is 17 below the
+header-337 rings helper (`h320_{entry,ribbon,streamers}`) and the header-432 draw, layers and
+bands helpers (`{e570_entry,e570_ribbons,e581_bands_pal,e581_entry_pal}`). Every North American header is 17 below the
 Spanish one. Their other functions stay in assembly, except header 415's entry
 and ribbon helper below. The header-415 layers and bands helpers are 20 and 18 words longer than
 their Spanish builds, so the compiler change is more than the epilogue `nop`.
@@ -987,8 +987,8 @@ generated assembly, links its `jal` to the C ribbons helper this way.
 The name is an evidence-backed `<Subsystem>_<Verb><Object>` name, recorded in
 [`semantic-symbol-map.csv`](../semantic-symbol-map.csv). The subsystem is the
 directory and header number of the shared source: `ModelVariant405_` for
-`model_variant/variant405_*.c`, `FrenchModelVariant443_` for
-the French `model_variant/variant443_*.c` sources (French header numbers differ from the
+`model_variant/{e341_bands_pal,e341_entry_pal,e341_outer_bands_pal,e341_pulses_pal,e588_bands,e588_halo,e588_quad,e588_rings,e588_sheets,e588_spokes,e588_veils,e588_webs}.c`, `FrenchModelVariant443_` for
+the French `model_variant/{e503_entry,e503_ribbons,e503_sheets,e503_strand,e503_streamers,h426_bands,h426_entry_pal,h426_mesh,h426_ribbons_pal,h426_rings,h426_sheets,h426_streamers}.c` sources (French header numbers differ from the
 North American ones). An address-based name such as `func_8013D8FC` is not
 used for a binding: the one address cannot be correct in all images, and the
 same address names other functions in other families.

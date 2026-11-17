@@ -19,19 +19,19 @@ copy, effect and particle bodies unchanged.
 Two model-54 secondary-variant images reuse the accepted
 Spanish `model_variant/` entry, mesh and ring bodies unchanged.
 Two model-401 secondary-variant images reuse the accepted
-`model_variant/variant432_{draw,layers,bands}.c` helpers and slot
+`model_variant/e570_{draw,layers,bands}.c` helpers and slot
 wrappers unchanged; the other four function instances retain generated assembly.
 Twenty-six header-435/585 images reuse the accepted North American
-`model_variant/variant418_{sheet,bands,spokes,rings,quad}.c` bodies through ten French
+`model_variant/e530_{sheet,bands,spokes,rings,quad}.c` bodies through ten French
 symbol-renaming wrappers, using the existing GCC 2.8.1 profile. Sheet is
 entry-reachable; the other four are retained module-local helpers, not
 proven direct-entry execution paths.
 Twenty-four header-414/564 images similarly reuse
-`model_variant/variant397_{sheets,spokes,rings,quad}.c` through eight French
+`model_variant/e580_{sheets,spokes,rings,quad}.c` through eight French
 renaming wrappers under GCC 2.8.1. The sheets helper is direct-entry reachable;
 the other three are retained module-local code.
 Twelve header-421/571 images reuse
-`model_variant/variant404_{sheets,spokes,rings,quad}.c` through eight French
+`model_variant/e510_{sheets,spokes,rings,quad}.c` through eight French
 renaming wrappers under the same GCC 2.8.1 profile. Sheets is entry-reachable;
 spokes, rings and quad are retained module-local code.
 Six header-337/487 images directly reuse the accepted
@@ -39,25 +39,25 @@ Six header-337/487 images directly reuse the accepted
 without new French source files. The ring helper is entry-reachable and uses
 the existing GCC 2.8.1 profile.
 Twelve header-445/595 images reuse
-`model_variant/variant428_{sheets,spokes,rings,quad}.c` through eight French
+`model_variant/h428_{sheets,spokes,rings,quad}.c` through eight French
 renaming wrappers under GCC 2.8.1. Sheets is entry-reachable; the other three
 helpers are retained module-local code.
 Twenty-eight header-460/610 images reuse
-`model_variant/variant443_{sheets,strand}.c` through four French renaming
+`model_variant/e503_{sheets,strand}.c` through four French renaming
 wrappers under GCC 2.8.1. Sheets is entry-reachable; strand is retained
 module-local code with no demonstrated entry execution path.
 Four header-422/572 and four header-442/592 images reuse
-`model_variant/variant405_{bands,spokes,rings,quad}.c` and
-`model_variant/variant425_{bands,spokes,rings,quad}.c`, respectively, through
+`model_variant/e588_{bands,spokes,rings,quad}.c` and
+`model_variant/h425_{bands,spokes,rings,quad}.c`, respectively, through
 sixteen French renaming wrappers under GCC 2.8.1. All four helpers in each
 family are retained module-local code, not demonstrated entry execution paths.
 Two header-418/568 and four header-433/583 images compile
-`model_variant/variant401_{spokes,rings,quad}.c` and
-`model_variant/variant416_{spokes,rings,quad}.c` directly. All three C helpers per image are retained, not entry-reachable.
-Two header-431/581 images compile `model_variant/variant414_{spokes,rings}.c`
-directly, four header-440/590 images compile `model_variant/variant423_{spokes,rings,quad}.c`
+`model_variant/h401_{spokes,rings,quad}.c` and
+`model_variant/h416_{spokes,rings,quad}.c` directly. All three C helpers per image are retained, not entry-reachable.
+Two header-431/581 images compile `model_variant/e575_{spokes,rings}.c`
+directly, four header-440/590 images compile `model_variant/h423_{spokes,rings,quad}.c`
 directly, and four header-465/615 images reuse
-`model_variant/variant448_{spokes,rings,quad}.c` through six French
+`model_variant/h448_{spokes,rings,quad}.c` through six French
 renaming wrappers. All helpers are retained, not entry-reachable. Current
 G32/PSXLONG declarations and GCC 2.8.1/MASPSX 2.81 profiles are preserved.
 Two special Exodia/SU images contain four independently recovered helpers
@@ -636,7 +636,7 @@ American header-402 entry (`model_variant/e585_entry.c`) through
 `gModelVariant402_aImages` and `gModelVariant402_aConfigs` at the French addresses:
 the data four bytes higher, the swarm helper four bytes lower and the quad
 helper eight bytes lower than in the North American images.
-The swarm and quad helpers keep their accepted `variant419_{swarm,quads}` C, and
+The swarm and quad helpers keep their accepted `e585_{swarm,quads}` C, and
 `model_variant419_linker_symbols.txt` now also binds the entry's resident calls.
 
 Forty images under French headers 678 and 745 are the North American

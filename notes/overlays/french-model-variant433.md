@@ -1,7 +1,7 @@
 # French MODEL headers 433 and 583
 
 Four distinct images for models180/440 retain the unchanged accepted
-`src/overlays/model_variant/variant416_{webs,spokes,rings,quad}.c` bodies, which
+`src/overlays/model_variant/h416_{webs,spokes,rings,quad}.c` bodies, which
 both slots now compile directly (see [Names](#names)). The authoritative `gcc_2_8_1_g0_split`
 profile uses GCC 2.8.1 and MASPSX 2.81. Shared bodies, headers, G32
 annotations and US compiler profiles remain unchanged.

@@ -1,7 +1,7 @@
 # Spanish MODEL headers 418 and 568
 
 Two independently verified MODEL410 images reuse the unchanged accepted
-`variant401_{spokes,rings,quad}.c` implementations, which both slots now
+`h401_{spokes,rings,quad}.c` implementations, which both slots now
 compile directly. The independently verified `h401_rays_pal.c` selector
 includes the header-401 rays copy (`model_variant/h401_rays.c`), typed
 over `Variant401EntryState` with its per-segment flag grid.

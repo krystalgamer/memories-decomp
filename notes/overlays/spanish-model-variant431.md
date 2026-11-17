@@ -72,7 +72,7 @@ relocations and raw owners are checked against Spanish retail bytes.
 
 Fourteen compiler owners/24,200 bytes and
 four storage owners/16,760 bytes cover all40,960 bytes. Sources remain
-under `src/overlays/model_variant/variant431_*`; both slots compile
+under `src/overlays/model_variant/e575_{bands,entry_pal,fan_pal,sheets_pal,webs_pal}`; both slots compile
 them directly, and each image binds the shared names at its own addresses. The band calls the
 canonical `RotTransPers3` resident at `0x80087898`; the historical opaque alias
 is removed from both image symbol files and the linker bindings. Every role,

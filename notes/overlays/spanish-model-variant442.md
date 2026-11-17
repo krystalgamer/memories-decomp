@@ -1,7 +1,7 @@
 # Spanish MODEL headers 442 and 592
 
 Four distinct Spanish images for models259/630 reuse the unchanged accepted
-`variant425_{sheet,spiral,rays,webs,bands,spokes,rings,quad}.c` bodies through sixteen existing
+`h425_{sheet,spiral,rays,webs,bands,spokes,rings,quad}.c` bodies through sixteen existing
 French442 wrappers. A separately refined ribbon body is selected directly
 for Spanish slot 0 and included by the slot-1 wrapper. Thirty-six
 compiler-owned C instances cover 51,952

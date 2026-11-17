@@ -1,7 +1,7 @@
 # French MODEL headers 442 and 592
 
 Four distinct secondary images reuse the accepted
-`src/overlays/model_variant/variant425_{sheet,spiral,rays,webs,ribbons,bands,spokes,rings,quad}.c` bodies
+`src/overlays/model_variant/h425_{sheet,spiral,rays,webs,ribbons,bands,spokes,rings,quad}.c` bodies
 through eighteen French symbol-renaming wrappers. The ribbon and spiral wrappers
 define `VERSION_FRENCH` for their measured source-order differences. The existing
 `gcc_2_8_1_g0_split` GCC 2.8.1/MASPSX 2.81 pipeline is authoritative.

@@ -1,7 +1,7 @@
 # French MODEL headers 414 and 564
 
 These 24 secondary-handler archive instances reuse the accepted
-`src/overlays/model_variant/variant397_{bands,sheets,webs,spokes,rings,quad}.c` bodies.
+`src/overlays/model_variant/e580_{bands,sheets,webs,spokes,rings,quad}.c` bodies.
 Ten three-line wrappers rename the original helpers; two four-line band
 wrappers also select the measured `VERSION_FRENCH` expressions.
 Every matching entry uses `gcc_2_8_1_g0_split`, GCC 2.8.1 and MASPSX 2.81.

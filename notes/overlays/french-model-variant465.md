@@ -1,7 +1,7 @@
 # French MODEL headers 465 and 615
 
 4 distinct secondary images reuse the accepted
-`src/overlays/model_variant/variant448_*.c` webs, spokes, rings, quad
+`src/overlays/model_variant/h448_{entry,fan,orbit,quad,quad_slot1,radial,rings,rings_slot1,spiral,spiral_slot1,spokes,spokes_slot1,webs,webs_slot1}.c` webs, spokes, rings, quad
 bodies through 8 three-line canonical renaming wrappers.
 An independently reconstructed regional fan body additionally covers the
 entry-called helper at `0x124C`.

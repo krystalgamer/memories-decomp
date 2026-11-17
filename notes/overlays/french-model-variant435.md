@@ -1,7 +1,7 @@
 # French MODEL headers 435 and 585
 
 These 26 secondary-handler archive instances reuse the accepted
-`src/overlays/model_variant/variant418_{spiral,sheet,webs,ribbons,bands,spokes,rings,quad}.c` bodies.
+`src/overlays/model_variant/e530_{spiral,sheet,webs,ribbons,bands,spokes,rings,quad}.c` bodies.
 Sixteen wrappers rename the functions to their measured French addresses.
 The ribbon and spiral wrappers define `VERSION_FRENCH`, selecting their
 measured loop-indexed forms; other shared expressions remain unchanged.

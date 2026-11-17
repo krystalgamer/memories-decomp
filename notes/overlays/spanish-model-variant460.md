@@ -2,7 +2,7 @@
 
 Twenty-eight independently checked Spanish secondary-handler images use the
 unchanged accepted French460 entry and streamer bodies, plus
-`variant443_{ribbons,sheets,strand}.c` through the six local French460 helper
+`e503_{ribbons,sheets,strand}.c` through the six local French460 helper
 wrappers. The named
 `gcc_2_8_1_g0_split` profile uses
 GCC 2.8.1 and MASPSX 2.81. No source, declaration, header or compiler-profile

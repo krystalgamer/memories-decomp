@@ -1,7 +1,7 @@
 # French MODEL headers 460 and 610
 
 These 28 secondary-handler images reuse the unchanged accepted
-`src/overlays/model_variant/variant443_{ribbons,sheets,strand}.c` bodies. Six
+`src/overlays/model_variant/e503_{ribbons,sheets,strand}.c` bodies. Six
 three-line wrappers rename the functions for the two measured French load
 addresses. The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1 and MASPSX
 2.81. Shared bodies, local declarations, G32 annotations and US compiler
