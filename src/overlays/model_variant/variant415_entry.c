@@ -262,7 +262,7 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
         work->clock.fade = 0;
         work->tail.tint = 2048;
         work->tail.phase = 0;
-        work->field_30DC = 0;
+        work->restart = 0;
         work->tail.command = command;
     } else {
         view = Model_GetCameraViewBuffer();

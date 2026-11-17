@@ -10,8 +10,8 @@ typedef struct {
     u16 count;
     u8 unknown_0E[2];
     s32 width, inner_radius, outer_radius;
-    s32 field_1C;
-    s32 field_20;
+    s32 rings_inner_radius;
+    s32 rings_outer_radius;
     u16 ribbon_radius;
     u8 unknown_026[0x2];
     s32 extent;

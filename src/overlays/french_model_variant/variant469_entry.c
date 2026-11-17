@@ -302,7 +302,7 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
         work->field_39D0 = 0;
         work->field_39D4 = 0;
         work->field_39C6 = 0;
-        work->field_39C8 = 0;
+        work->ring_offset_angle = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;
         work->clock.animation_frame = 0;
@@ -353,9 +353,9 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
         for (j = 0, ring = &work->ring; j < 24; j++) {
             if (ring->progress[j] >= 0 && ring->initialized[j] == 0) {
                 if (work->slot == 0) {
-                    setVector(&work->ring_positions[j], rsin(work->field_39C8) * 768 >> 12, -300, -450);
+                    setVector(&work->ring_positions[j], rsin(work->ring_offset_angle) * 768 >> 12, -300, -450);
                 } else {
-                    setVector(&work->ring_positions[j], -(rsin(work->field_39C8) * 768 >> 12), -300, 450);
+                    setVector(&work->ring_positions[j], -(rsin(work->ring_offset_angle) * 768 >> 12), -300, 450);
                 }
                 ring->initialized[j] = 1;
             }

@@ -35,7 +35,7 @@ typedef struct {
     GsCOORDUNIT *parts[3];
     s32 angle, scale, wave, intensity, ribbon_wave, field_3394;
     s16 field_3398, field_339A;
-    s32 field_339C;
+    s32 ring_offset_angle;
     s16 field_33A0, field_33A2;
     s32 field_33A4, field_33A8, phase;
     SVECTOR camera_offset;

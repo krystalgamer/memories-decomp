@@ -88,9 +88,9 @@ void ModelVariant425_DrawRays(u8 *ctx)
         }
     }
     if (!(work->clock.frame_count & 1)) {
-        size = work->field_339C;
+        size = work->ray_scale;
     } else {
-        size = work->field_339C + work->field_339C / 16;
+        size = work->ray_scale + work->ray_scale / 16;
     }
     rot.vx = -pitch;
     rot.vy = yaw;
@@ -227,10 +227,10 @@ void ModelVariant425_DrawRays(u8 *ctx)
             }
         }
     }
-    if (work->field_339C < 0x1000) {
-        work->field_339C += work->clock.step * 256;
-        if (work->field_339C >= 0x1000) {
-            work->field_339C = 0x1000;
+    if (work->ray_scale < 0x1000) {
+        work->ray_scale += work->clock.step * 256;
+        if (work->ray_scale >= 0x1000) {
+            work->ray_scale = 0x1000;
             if (work->phase == 2) {
                 work->phase = 3;
             }

@@ -304,7 +304,7 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
         work->field_3584 = 0;
         work->field_3588 = 0;
         work->field_357A = 0;
-        work->field_357C = 0;
+        work->ring_offset_angle = 0;
         work->frame_count = 0;
         work->elapsed = 0;
         work->animation = 0;
@@ -347,9 +347,9 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
         for (j = 0, ring = &work->ring; j < 24; j++) {
             if (ring->progress[j] >= 0 && ring->initialized[j] == 0) {
                 if (work->slot == 0) {
-                    setVector(&work->ring_positions[j], rsin(work->field_357C) * 768 >> 12, -300, -450);
+                    setVector(&work->ring_positions[j], rsin(work->ring_offset_angle) * 768 >> 12, -300, -450);
                 } else {
-                    setVector(&work->ring_positions[j], -(rsin(work->field_357C) * 768 >> 12), -300, 450);
+                    setVector(&work->ring_positions[j], -(rsin(work->ring_offset_angle) * 768 >> 12), -300, 450);
                 }
                 ring->initialized[j] = 1;
             }

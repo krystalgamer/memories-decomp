@@ -262,7 +262,7 @@ s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
         }
         work->progress = 0;
         work->streamer_radius = 0;
-        work->field_339C = 0;
+        work->ray_scale = 0;
         work->streamer_rotation = 0;
         work->field_336A = 0;
         work->field_336C = 0;

@@ -666,16 +666,6 @@ typedef struct {
     u32 shrink_end;
 } ModelVariantSheetTiming;
 
-/* ModelVariantSheetTiming with the shrink window one word later. */
-typedef struct {
-    u8 unknown_00[0x18];
-    u32 grow_start;
-    u32 grow_end;
-    u8 unknown_20[8];
-    u32 shrink_start;
-    u32 shrink_end;
-} ModelVariantSheetTimingWide;
-
 /* One 0x274-byte streamer: a thirteen-point spine and its copy moved along
  * the view, both projected, with per-point angle, width, colour, depth and
  * screen offset. */
@@ -951,15 +941,6 @@ typedef struct {
     u8 color_a[4], color_b[4];
     s32 scale, growth;
 } ModelVariantTripleCurtain;
-
-/* The tube command row: the expansion and fade windows. */
-typedef struct {
-    u8 unknown_00[0x10];
-    s32 expansion_start;
-    s32 expansion_end;
-    s32 fade_start;
-    s32 fade_end;
-} ModelVariantTubeTiming;
 
 /* One 0x54C-byte tube or mesh: nine rings of nine points swept along the
  * path, one colour per ring, and the scale vector the entry handlers reset
