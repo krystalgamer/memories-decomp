@@ -196,16 +196,16 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
         work->direction.vy = work->target.vy - work->origin.vy;
         work->direction.vz = work->target.vz - work->origin.vz;
         if (work->config->start <= work->frame) {
-            ModelExodia_DrawRings((u8 *)point);
+            ModelExodia_DrawRings((ExodiaSecondEntryState *)point);
         }
         if (work->config->petals_start <= work->frame) {
-            ModelExodia_DrawPetals((u8 *)point);
+            ModelExodia_DrawPetals((ExodiaSecondEntryState *)point);
         }
         if (work->config->pulse0 <= work->frame && work->frame < work->config->pulse1) {
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            ModelExodia_DrawBeam((u8 *)point);
+            ModelExodia_DrawBeam((ExodiaSecondEntryState *)point);
         } else if (work->config->pulse1 <= work->frame && work->frame < work->config->pulse2) {
             if (work->phase == 3) {
                 work->distance = 0;
@@ -215,7 +215,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            ModelExodia_DrawBeam((u8 *)point);
+            ModelExodia_DrawBeam((ExodiaSecondEntryState *)point);
         } else if (work->config->pulse3 <= work->frame && work->frame < work->config->pulse4) {
             if (work->phase == 3) {
                 work->distance = 0;
@@ -225,7 +225,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            ModelExodia_DrawBeam((u8 *)point);
+            ModelExodia_DrawBeam((ExodiaSecondEntryState *)point);
         } else if (work->config->pulse5 <= work->frame && work->frame < work->config->pulse6) {
             if (work->phase == 3) {
                 work->distance = 0;
@@ -235,7 +235,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            ModelExodia_DrawBeam((u8 *)point);
+            ModelExodia_DrawBeam((ExodiaSecondEntryState *)point);
         }
         if (work->config->fade_start <= work->frame) {
             ot = Graphics_GetDefaultOrderingTable();
@@ -267,9 +267,9 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
     return result;
 }
 
-void ModelExodia_DrawRings(u8 *context)
+void ModelExodia_DrawRings(ExodiaSecondEntryState *context)
 {
-    ExodiaSecondRingState *work;
+    ExodiaSecondEntryState *work;
     SVECTOR rotation;
     VECTOR position;
     VECTOR scale;
@@ -281,38 +281,38 @@ void ModelExodia_DrawRings(u8 *context)
     GsOT *ot;
     s32 i, j;
     s32 flicker;
-    ExodiaRing *ring;
+    ModelVariantPointSheet *ring;
     POLY_GT4 *quad;
 
-    work = (ExodiaSecondRingState *)context;
+    work = context;
     ring = work->rings;
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &work->quad;
+    quad = &work->packets.textured[1];
     for (i = 0; i < 2; i++, ring++) {
         flicker = 0;
         if (work->frame_count & 1) {
-            flicker = ring->scale / 8;
+            flicker = ring->size / 8;
         }
         if (i == 0) {
             if (work->phase < 2) {
-                if (ring->scale < 4096) {
-                    ring->scale = ((work->frame - work->timing->start) << 12) /
-                                  (work->timing->ramp_end - work->timing->start);
-                    if (ring->scale >= 4096) {
-                        ring->scale = 4096;
+                if (ring->size < 4096) {
+                    ring->size = ((work->frame - work->config->start) << 12) /
+                                  (work->config->ramp_end - work->config->start);
+                    if (ring->size >= 4096) {
+                        ring->size = 4096;
                         work->phase = 1;
                     }
                 } else {
-                    ring->scale = 4096;
+                    ring->size = 4096;
                 }
-            } else if (work->timing->second_start <= work->frame) {
-                ring->scale = 6144;
+            } else if (work->config->pulse0 <= work->frame) {
+                ring->size = 6144;
             }
         } else {
-            if (work->timing->second_start <= work->frame && work->phase >= 2) {
-                ring->scale = 4096;
+            if (work->config->pulse0 <= work->frame && work->phase >= 2) {
+                ring->size = 4096;
             } else {
-                ring->scale = 0;
+                ring->size = 0;
             }
         }
         setVector(&rotation, 0, 0, 0);
@@ -325,9 +325,9 @@ void ModelExodia_DrawRings(u8 *context)
             local.t[1] = work->origin.vy + work->direction.vy * work->distance / 1024;
             local.t[2] = work->origin.vz + work->direction.vz * work->distance / 1024;
         }
-        scale.vx = ring->scale + flicker;
-        scale.vy = ring->scale + flicker;
-        scale.vz = ring->scale + flicker;
+        scale.vx = ring->size + flicker;
+        scale.vy = ring->size + flicker;
+        scale.vz = ring->size + flicker;
         RotMatrix(&rotation, &local);
         coordinate.coord = local;
         coordinate.super = 0;
@@ -349,17 +349,17 @@ void ModelExodia_DrawRings(u8 *context)
             setXY4(quad, quad->x0, quad->y0, quad->x1, quad->y1,
                    quad->x2, quad->y2, quad->x3, quad->y3);
 #endif
-            setRGB0(quad, ring->outer.r, ring->outer.g, ring->outer.b);
-            setRGB1(quad, ring->outer.r, ring->outer.g, ring->outer.b);
-            setRGB2(quad, ring->outer.r, ring->outer.g, ring->outer.b);
-            setRGB3(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+            setRGB0(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+            setRGB1(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+            setRGB2(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+            setRGB3(quad, ring->outer.r, ring->outer.g, ring->outer.b);
             flag = 0;
             GsSortPoly(quad, ot, 0);
         }
     }
 }
 
-void ModelExodia_DrawPetals(u8 *ctx)
+void ModelExodia_DrawPetals(ExodiaSecondEntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -387,7 +387,7 @@ void ModelExodia_DrawPetals(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (ExodiaSecondEntryState *)ctx;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     arm = work->petals;
@@ -534,9 +534,9 @@ void ModelExodia_DrawPetals(u8 *ctx)
     }
 }
 
-void ModelExodia_DrawBeam(u8 *context)
+void ModelExodia_DrawBeam(ExodiaSecondEntryState *context)
 {
-    ExodiaBeamState *work;
+    ExodiaSecondEntryState *work;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX local;
@@ -547,13 +547,13 @@ void ModelExodia_DrawBeam(u8 *context)
     s32 angle;
     s16 i, j;
     s16 width;
-    ExodiaBeam *beam;
+    ExodiaSecondEntryBeam *beam;
     POLY_GT4 *quad;
 
-    work = (ExodiaBeamState *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &work->quad;
-    angle = ratan2(work->angles.vy, work->angles.vx) + 2048;
+    quad = &work->packets.textured[0];
+    angle = ratan2(work->screen_delta.vy, work->screen_delta.vx) + 2048;
     if (work->phase > 0) {
         if (!(work->frame_count & 1)) {
             width = work->width / 2;

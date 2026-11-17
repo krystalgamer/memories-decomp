@@ -9,7 +9,7 @@
  * moves to 3 at its end) and, from the configured fade start, shrinks the width
  * (phase 4 moves to 5 at zero). The view pitch, the per-ribbon turn and the
  * per-point bend of the related ribbon forms are still computed but unused. */
-void FrenchModelVariant425_DrawRibbon(u8 *context)
+void FrenchModelVariant425_DrawRibbon(EntryState425 *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -37,7 +37,7 @@ void FrenchModelVariant425_DrawRibbon(u8 *context)
     s32 y;
     s32 z;
 
-    work = (EntryState425 *)context;
+    work = context;
     ot = Graphics_GetDefaultOrderingTable();
     yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     pitch = ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx) + 0xC00;

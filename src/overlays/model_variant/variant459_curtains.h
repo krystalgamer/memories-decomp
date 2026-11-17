@@ -3,11 +3,11 @@
 
 #include "model_variant.h"
 
-/* One 0x1AC-byte curtain: two 17-point rows, rotation, and scale. */
+/* One 0x1AC-byte curtain: three 17-point rows, rotation, and scale. */
 typedef struct {
     SVECTOR a[17];
     SVECTOR b[17];
-    u8 unknown110[0x88];
+    SVECTOR c[17];
     SVECTOR rotation;
     s32 scale;
     s32 field_1A4, field_1A8;

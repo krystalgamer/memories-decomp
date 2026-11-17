@@ -282,7 +282,7 @@ s32 FrenchModelVariant475_HandleRequest(u8 *context, s32 command)
             ModelVariant458_DrawQuads(context);
         }
         if (work->tail.phase >= 1 && work->tail.phase <= 5) {
-            ModelVariant458_DrawSheets(context);
+            ModelVariant458_DrawSheets((Variant475EntryState *)context);
         }
         work->clock.frame_count++;
         animation_frame = Model_GetSlotAnimationFrame(work->tail.slot);

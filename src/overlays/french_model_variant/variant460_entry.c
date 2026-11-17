@@ -239,7 +239,7 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
             work->tail.phase = 4;
         }
         if (work->config->ribbon_start <= work->clock.frame) {
-            ModelVariant443_DrawRibbons((u8 *)point);
+            ModelVariant443_DrawRibbons((Variant460EntryState *)point);
         }
         if (work->config->sheet_start <= work->clock.frame && work->tail.phase < 6) {
             ModelVariant443_DrawSheets((Variant460EntryState *)point);

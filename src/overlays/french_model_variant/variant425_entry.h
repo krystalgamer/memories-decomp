@@ -65,7 +65,7 @@ extern GsIMAGE gFrenchModelVariant425_aImages[9];
 extern EntryConfig425 gFrenchModelVariant425_aConfigs[];
 void SpanishModelVariant425_DrawMesh(EntryState425 *context);
 void SpanishModelVariant425_DrawSpiral(EntryState425 *context);
-void FrenchModelVariant425_DrawRibbon(u8 *context);
+void FrenchModelVariant425_DrawRibbon(EntryState425 *context);
 void SpanishModelVariant425_DrawSheets(EntryState425 *context);
 void FrenchModelVariant423_DrawFunnel(u8 *context);
 

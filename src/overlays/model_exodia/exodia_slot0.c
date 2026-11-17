@@ -219,10 +219,10 @@ s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command)
         work->remaining.vy = work->target.vy - work->position.vy;
         work->remaining.vz = work->target.vz - work->position.vz;
         if (work->config->start <= work->frame && work->frame < work->config->end) {
-            ModelExodia_DrawRing((u8 *)point);
+            ModelExodia_DrawRing((ExodiaEntryState *)point);
         }
         if (work->config->ramp_end <= work->frame && work->frame < work->config->end) {
-            ModelExodia_DrawSpokes((u8 *)point);
+            ModelExodia_DrawSpokes((ExodiaEntryState *)point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
@@ -238,9 +238,9 @@ s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command)
     return result;
 }
 
-void ModelExodia_DrawRing(u8 *context)
+void ModelExodia_DrawRing(ExodiaEntryState *context)
 {
-    ExodiaRingState *work;
+    ExodiaEntryState *work;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX local;
@@ -251,25 +251,25 @@ void ModelExodia_DrawRing(u8 *context)
     GsOT *ot;
     s32 i, j;
     s32 flicker;
-    ExodiaRing *ring;
+    ModelVariantPointSheet *ring;
     POLY_GT4 *quad;
 
-    work = (ExodiaRingState *)context;
+    work = context;
     ring = work->rings;
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &work->quad;
+    quad = &work->packets.textured[1];
     for (i = 0; i < 1; i++, ring++) {
         flicker = 0;
         if (work->frame_count & 1) {
-            flicker = ring->scale / 8;
+            flicker = ring->size / 8;
         }
         setVector(&rotation, 0, 0, 0);
-        local.t[0] = work->origin.vx;
-        local.t[1] = work->origin.vy;
-        local.t[2] = work->origin.vz;
-        scale.vx = ring->scale + flicker;
-        scale.vy = ring->scale + flicker;
-        scale.vz = ring->scale + flicker;
+        local.t[0] = work->matrix.t[0];
+        local.t[1] = work->matrix.t[1];
+        local.t[2] = work->matrix.t[2];
+        scale.vx = ring->size + flicker;
+        scale.vy = ring->size + flicker;
+        scale.vz = ring->size + flicker;
         RotMatrix(&rotation, &local);
         coordinate.coord = local;
         coordinate.super = 0;
@@ -280,10 +280,10 @@ void ModelExodia_DrawRing(u8 *context)
         RotMatrix(&rotation, &screen);
         ScaleMatrix(&screen, &scale);
         SetRotMatrix(&screen);
-        setRGB0(quad, ring->outer.r, ring->outer.g, ring->outer.b);
-        setRGB1(quad, ring->outer.r, ring->outer.g, ring->outer.b);
-        setRGB2(quad, ring->outer.r, ring->outer.g, ring->outer.b);
-        setRGB3(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+        setRGB0(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+        setRGB1(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+        setRGB2(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+        setRGB3(quad, ring->outer.r, ring->outer.g, ring->outer.b);
         for (j = 0; j < 4; j++) {
             RotTransPers4(&ring->points[j], &ring->points[j + 4],
                           &ring->points[j + 8], &ring->points[j + 12],
@@ -298,31 +298,31 @@ void ModelExodia_DrawRing(u8 *context)
             flag = 0;
             GsSortPoly(quad, ot, 0);
         }
-        if (ring->scale < 4096 && work->grown == 0) {
-            ring->scale = ((work->frame - work->timing->start) << 12) /
-                          (work->timing->ramp_end - work->timing->start);
-            if (ring->scale >= 4096) {
-                ring->scale = 4096;
+        if (ring->size < 4096 && work->grown == 0) {
+            ring->size = ((work->frame - work->config->start) << 12) /
+                          (work->config->ramp_end - work->config->start);
+            if (ring->size >= 4096) {
+                ring->size = 4096;
                 work->grown = 1;
             }
-        } else if (work->frame < work->timing->growth_end) {
-            ring->scale += work->step << 9;
-            if (ring->scale >= 8192) {
-                ring->scale = 8192;
+        } else if (work->frame < work->config->growth_end) {
+            ring->size += work->step << 9;
+            if (ring->size >= 8192) {
+                ring->size = 8192;
             }
         } else {
-            ring->scale = 8192 - ((work->frame - work->timing->growth_end) << 13) /
-                          (work->timing->shrink_end - work->timing->growth_end);
-            if (ring->scale <= 0) {
-                ring->scale = 0;
+            ring->size = 8192 - ((work->frame - work->config->growth_end) << 13) /
+                          (work->config->shrink_end - work->config->growth_end);
+            if (ring->size <= 0) {
+                ring->size = 0;
             }
         }
     }
 }
 
-void ModelExodia_DrawSpokes(u8 *context)
+void ModelExodia_DrawSpokes(ExodiaEntryState *context)
 {
-    ExodiaSpokeState *work;
+    ExodiaEntryState *work;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX local;
@@ -347,23 +347,23 @@ void ModelExodia_DrawSpokes(u8 *context)
     u8 r0, g0, b0, r1, g1, b1;
     POLY_GT4 *quad;
 
-    work = (ExodiaSpokeState *)context;
-    quad = &work->quad;
+    work = context;
+    quad = &work->packets.textured[0];
     ot = Graphics_GetDefaultOrderingTable();
-    angle = ratan2(work->direction.vz, work->direction.vx) + 3072;
+    angle = ratan2(work->view_delta.vz, work->view_delta.vx) + 3072;
     for (i = 0; i < 16; i++) {
         if (!(i & 1)) {
-            longitude = i * 256 + work->angle;
-            latitude = i * 512 + work->angle;
+            longitude = i * 256 + work->spoke_angle;
+            latitude = i * 512 + work->spoke_angle;
         } else {
-            longitude = i * 256 - work->angle;
-            latitude = i * 512 + work->angle;
+            longitude = i * 256 - work->spoke_angle;
+            latitude = i * 512 + work->spoke_angle;
         }
         for (j = 0; j < 2; j++) {
             if (!(work->frame_count & 1)) {
-                width = (j * 128 + 32) * work->width / 1024;
+                width = (j * 128 + 32) * work->spoke_width / 1024;
             } else {
-                width = (j * 160 + 48) * work->width / 1024;
+                width = (j * 160 + 48) * work->spoke_width / 1024;
             }
             if (j == 0) {
                 setVector(&points[i][j], 0, 0, 0);
@@ -378,15 +378,15 @@ void ModelExodia_DrawSpokes(u8 *context)
         }
     }
     if (!(work->frame_count & 1)) {
-        matrix_scale = work->scale;
+        matrix_scale = work->spoke_scale;
     } else {
-        matrix_scale = work->scale + work->scale / 8;
+        matrix_scale = work->spoke_scale + work->spoke_scale / 8;
     }
     i = 0;
     setVector(&rotation, 0, 0, 0);
-    local.t[0] = work->origin.vx;
-    local.t[1] = work->origin.vy;
-    local.t[2] = work->origin.vz;
+    local.t[0] = work->matrix.t[0];
+    local.t[1] = work->matrix.t[1];
+    local.t[2] = work->matrix.t[2];
     setVector(&scale, matrix_scale, matrix_scale, matrix_scale);
     RotMatrix(&rotation, &local);
     ScaleMatrix(&local, &scale);
@@ -514,19 +514,19 @@ void ModelExodia_DrawSpokes(u8 *context)
             }
         }
     }
-    if (work->timing->ramp_end <= work->frame && work->scale < 4096) {
-        work->scale = ((work->frame - work->timing->ramp_end) << 12) /
-            (work->timing->growth_end - work->timing->ramp_end);
-        if (work->scale >= 4096) {
-            work->scale = 4096;
+    if (work->config->ramp_end <= work->frame && work->spoke_scale < 4096) {
+        work->spoke_scale = ((work->frame - work->config->ramp_end) << 12) /
+            (work->config->growth_end - work->config->ramp_end);
+        if (work->spoke_scale >= 4096) {
+            work->spoke_scale = 4096;
         }
     }
-    if (work->timing->growth_end <= work->frame && work->width > 0) {
-        work->width = 1024 - ((work->frame - work->timing->growth_end) << 10) /
-            (work->timing->shrink_end - work->timing->growth_end);
-        if (work->width <= 0) {
-            work->width = 0;
+    if (work->config->growth_end <= work->frame && work->spoke_width > 0) {
+        work->spoke_width = 1024 - ((work->frame - work->config->growth_end) << 10) /
+            (work->config->shrink_end - work->config->growth_end);
+        if (work->spoke_width <= 0) {
+            work->spoke_width = 0;
         }
     }
-    work->angle += 48;
+    work->spoke_angle += 48;
 }

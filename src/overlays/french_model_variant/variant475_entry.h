@@ -87,7 +87,7 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant475_aImages[9];
 extern Variant475EntryConfig gFrenchModelVariant475_aConfigs[];
 void ModelVariant458_DrawRibbons(Variant475EntryState *context);
-void ModelVariant458_DrawSheets(u8 *context);
+void ModelVariant458_DrawSheets(Variant475EntryState *context);
 void ModelVariant458_DrawQuads(Variant475EntryState *context);
 
 typedef char Variant475EntryConfigSize[(sizeof(Variant475EntryConfig) == 56) ? 1 : -1];
