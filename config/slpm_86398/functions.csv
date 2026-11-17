@@ -915,8 +915,8 @@ address,size,name,status,module,notes
 0x8004FB3C,0xD0,CardList_CreateDeckBoxStatRows,matching_c,game,
 0x8004FC0C,0xF0,MainMenu_CreateTradeReadyIndicator,matching_c,game,
 0x8004FCFC,0xF0,MainMenu_CreateTradeDecisionMenu,matching_c,game,
-0x8004FDEC,0x2C4,Model_DrawGt3Primitives,matching_c,game,"Same name, size and instruction shape as North American 0x8006151C; built from src/game/japanese/model_draw_gouraud_primitives.c."
-0x800500B0,0x358,Model_DrawGt4Primitives,matching_c,game,"Same name, size and instruction shape as North American 0x80061A84; built from src/game/japanese/model_draw_gouraud_primitives.c."
+0x8004FDEC,0x2C4,Model_DrawGt3Primitives,matching_c,game,"Same name, size and instruction shape as North American 0x8006151C; built from src/game/polygon_renderers.c as the game/model_draw_gouraud_primitives object, with MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES."
+0x800500B0,0x358,Model_DrawGt4Primitives,matching_c,game,"Same name, size and instruction shape as North American 0x80061A84; built from src/game/polygon_renderers.c as the game/model_draw_gouraud_primitives object, with MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES."
 0x80050408,0x628,Model_InitSlot,matching_c,game,
 0x80050A30,0x458,tent_Model_RebaseTexturedPrimitives,matching_c,game,
 0x80050E88,0x1D0,Model_ResetSlotAnimationTables,matching_c,game,

@@ -6,9 +6,11 @@ templates, backface handling, command bits and record layouts. All 32 NA
 bodies are matched C (see "Matched C" below), and the Japanese and European
 resident executables build the same `src/game/polygon_renderers.c`. Those six
 images place the base Gt3/Gt4 drawers well before the rest (0x8004FDEC in
-Japan, 0x8004CD98/0x8004CF9C in Europe), so their
-`src/game/<region>/polygon_renderers.c` and `model_draw_gouraud_primitives.c`
-wrappers build the file twice, split by `MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES`.
+Japan, 0x8004CD98/0x8004CF9C in Europe), so those manifests build the file
+twice, split by `MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES`: once as its own
+object without the two drawers, and once, with that define and the
+`"object": "game/model_draw_gouraud_primitives"` name override, as a second
+object holding only them (see "Object-name overrides" in `notes/build.md`).
 
 ## Complete feature matrix
 

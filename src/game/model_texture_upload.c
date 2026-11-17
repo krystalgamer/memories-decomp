@@ -6,7 +6,11 @@
 #include "model_scene_runtime.h"
 
 #ifndef MODEL_TEXTURE_PACK_DECL
+#ifdef VERSION_EUROPE_MODEL_TEXTURE_LOAD_TIM
+#define MODEL_TEXTURE_PACK_DECL extern inline u32
+#else
 #define MODEL_TEXTURE_PACK_DECL u32
+#endif
 #endif
 
 #if !defined(VERSION_EUROPE) || \

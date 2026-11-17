@@ -25,6 +25,7 @@ options:
   find_file_boundaries: false
   check_consecutive_segment_types: false
   o_as_suffix: true
+  create_c_files: false
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
@@ -261,7 +262,7 @@ segments:
     - game/sound_sequence_tracks
   - - 251804
     - c
-    - game/european/model_draw_gouraud_primitives
+    - game/model_draw_gouraud_primitives
   - - 253368
     - c
     - game/gpu_packets
@@ -279,7 +280,7 @@ segments:
     - game/model
   - - 312340
     - c
-    - game/european/model_texture_load_tim
+    - game/model_texture_load_tim
   - - 313032
     - c
     - game/model_slot_getters
@@ -294,7 +295,7 @@ segments:
     - game/model_scene_runtime
   - - 320148
     - c
-    - game/european/model_texture_pack_page_clut
+    - game/model_texture_pack_page_clut
   - - 320344
     - c
     - game/model_animation_unit
