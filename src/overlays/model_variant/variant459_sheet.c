@@ -80,14 +80,14 @@ void ModelVariant459_DrawSheet(Variant459EntryState *context)
                 sheet->size = 0x1000;
                 work->phase = 1;
             }
-        } else if (work->clock.frame < work->config->field_24) {
+        } else if (work->clock.frame < work->config->shrink_start) {
             sheet->size += work->clock.step * 512;
             if (sheet->size >= 0x2000) {
                 sheet->size = 0x2000;
             }
         } else {
-            sheet->size = 0x2000 - (u32)((work->clock.frame - work->config->field_24) << 13) /
-                          (work->config->field_28 - work->config->field_24);
+            sheet->size = 0x2000 - (u32)((work->clock.frame - work->config->shrink_start) << 13) /
+                          (work->config->shrink_end - work->config->shrink_start);
             if (sheet->size <= 0) {
                 sheet->size = 0;
             }

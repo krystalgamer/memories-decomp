@@ -8,15 +8,17 @@
 #include "variant459_grid.h"
 
 /* The config entries are 0x38 bytes: three colours, the parts, the start and
- * second frames and the fade window. */
+ * second frames, the window over which the sheet and spiral arms shrink, the
+ * fade window, and the frame the globe enters phase 4 and the curtains stop
+ * cycling. */
 typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u32 start, second;
-    u32 field_24;
-    u32 field_28;
+    u32 shrink_start;
+    u32 shrink_end;
     u32 fade_start, fade_end;
-    u32 field_34;
+    u32 phase4_frame;
 } Variant459EntryConfig;
 
 typedef struct {
