@@ -39,7 +39,7 @@ test.
 
 Entry establishes both record bases, three-element bounds and strides.
 Outer bands reuse the already verified two-seventeen-point geometry,
-color, size and completion layout from `variant405_bands.h`. Their initial
+color, size and completion layout from `e588_bands.h`. Their initial
 radii are 512 and 1024, with zero size and completion counters.
 The descriptor's signed count is two for MODEL419 and three for the
 other physical models.

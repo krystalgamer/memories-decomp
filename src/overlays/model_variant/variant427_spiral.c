@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../model_variant/variant418_spiral.h"
+#include "../model_variant/e530_spiral.h"
 #include "../model_variant/variant427_entry_pal.h"
 
 /* Phase-guarded three-pass twelve-arm spiral: while the phase is not negative,

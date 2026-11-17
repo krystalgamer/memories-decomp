@@ -4,7 +4,7 @@
 in the French and Spanish `model_variant_385_stage7_slot0` and
 `model_variant_385_stage8_slot1` images
 (offset `0x1CB4`, 0x8B0 bytes) draw a single ribbon.
-Both slots build `variant423_ribbon.c`; each image's symbols file binds the
+Both slots build `e589_ribbon_pal.c`; each image's symbols file binds the
 name at its own address.
 
 - **Shape.** It is the single-ribbon body of the family 426 helper at offset
@@ -17,7 +17,7 @@ name at its own address.
 
   The point-index copy shape and the dead `if (i < 0)` branch are the same
   as in that helper. The view lives in
-  `model_variant/variant423_ribbon.h`.
+  `model_variant/e589_ribbon_pal.h`.
 - **Bindings.** All four images reuse their region's
   `model_variant423_linker_symbols.txt`.
 

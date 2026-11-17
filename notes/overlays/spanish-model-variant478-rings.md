@@ -49,7 +49,7 @@ The target frame is 320 bytes. With scalar RGB lifetimes, every non-stack
 instruction already matched with the natural 304-byte frame; the only remaining
 differences were 83 SP displacements of 16 bytes, starting directly after the
 8-byte rotation. Following the accepted repository convention for observed
-stack gaps (see `variant432_draw.c` and [Exodia helpers](exodia-helpers.md)),
+stack gaps (see `e570_draw.c` and [Exodia helpers](exodia-helpers.md)),
 an unused 16-byte `VECTOR` local declared after the rotation retains that gap.
 No runtime role is asserted for it.
 

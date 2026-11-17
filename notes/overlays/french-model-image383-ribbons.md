@@ -4,7 +4,7 @@
 builds, projects and draws eight ribbons.
 **No release had matching C for this body before.**
 
-Both slots compile `variant383_ribbons.c` itself; it defines `FrenchModelVariant383_DrawRibbons`, which
+Both slots compile `e566_ribbons.c` itself; it defines `FrenchModelVariant383_DrawRibbons`, which
 each image binds at its own address, the same addresses in the North American and Japanese header-366 images (see [Per-image symbol
 bindings](model-variants.md#per-image-symbol-bindings)).
 

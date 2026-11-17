@@ -7,13 +7,13 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
 
 | French family | Images | North American body | Entry size |
 |---|---:|---|---|
-| 414 | 24 | `model_variant/variant397_entry.c` | `0x1224` |
-| 415 | 10 | `model_variant/variant398_entry.c` | `0x12B0` |
-| 421 | 12 | `model_variant/variant404_entry.c` | `0x11CC` |
+| 414 | 24 | `model_variant/e580_entry.c` | `0x1224` |
+| 415 | 10 | `model_variant/e581_entry.c` | `0x12B0` |
+| 421 | 12 | `model_variant/e510_entry.c` | `0x11CC` |
 | 424 | 30 | `model_variant/e036_entry.c` | `0x12D4` |
-| 432 | 2 | `model_variant/variant415_entry.c` | `0x0DA8` |
+| 432 | 2 | `model_variant/e570_entry.c` | `0x0DA8` |
 | 433 | 4 | `model_variant/variant416_entry.c` | `0x104C` |
-| 435 | 26 | `model_variant/variant418_entry.c` | `0x1080` |
+| 435 | 26 | `model_variant/e530_entry.c` | `0x1080` |
 | 442 | 4 | `model_variant/variant425_entry.c` | `0x1170` |
 | 445 | 12 | `model_variant/variant428_entry.c` | `0x1030` |
 | 450 | 2 | `model_variant/variant433_entry.c` | `0x0DD4` |
@@ -43,7 +43,7 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
   American source keeps the retail form, and the wrappers select the French
   form with `#define VERSION_FRENCH`.
 - Family 432 later dropped its renames: both slots compile
-  `model_variant/variant432_entry_pal.c`, and each image binds the shared
+  `model_variant/e570_entry_pal.c`, and each image binds the shared
   names (see [Per-image symbol
   bindings](model-variants.md#per-image-symbol-bindings)). Its slot-1 ledger
   row names that file; its fingerprint is that of the removed

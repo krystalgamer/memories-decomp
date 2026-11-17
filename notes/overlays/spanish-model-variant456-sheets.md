@@ -34,7 +34,7 @@ The helper reads `Variant456EntryState`, the record the entry passes: the
 sheets are its `Variant456EntrySheet`s (the sheet position is `target`), the
 growth, fade and spread times are the config's `sheets_start`,
 `lines_start`, `fade_start`, `fade_end` and `phase_start`, and the phase is
-`tail.phase`. Its private view, `variant456_sheets.h`, was removed when the
+`tail.phase`. Its private view, `e593_sheets.h`, was removed when the
 helper moved onto the record.
 
 The accepted MODEL411 sheets were used only as evidence for the overall

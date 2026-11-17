@@ -1,0 +1,187 @@
+#include "../../types.h"
+
+#include "e503_ribbons.h"
+#include "../model_variant/e503_entry_pal.h"
+
+/* Builds one seventeen-point ribbon per entry of the timing record's count,
+ * each turned by its own angle (0x400, then 0x400 +- i * 1800 / count by
+ * parity) and a copy moved along the view; projects both, bends the projected
+ * spine by two travelling waves scaled by the projected width, and draws the
+ * first `count` segments as flat POLY_FT4 quads. The drawn length grows by two
+ * frame steps up to 16, then the view offset shrinks by step * 64 and the
+ * ribbon restarts or retires. The first loop's `bend` is template code left
+ * unused; it still shapes the retail code. */
+void ModelVariant443_DrawRibbons(Variant460EntryState *ctx)
+{
+    SVECTOR rot;
+    VECTOR scale;
+    MATRIX m;
+    MATRIX ls;
+    GsCOORDINATE2 coord;
+    long flags[8][17];
+    long p;
+    long flag;
+    Variant460EntryState *work;
+    GsOT *ot;
+    s16 i;
+    s32 wave;
+    s32 phase;
+    s32 sum;
+    s32 turn;
+    s32 yaw;
+    s16 len;
+    Variant443Ribbon *ribbon;
+    POLY_FT4 *poly;
+    s16 k;
+    s32 bend;
+    s32 coil;
+    s32 n;
+    s32 w;
+    s32 amp1;
+    s32 amp2;
+    s32 dx;
+    s32 dy;
+
+    work = ctx;
+    ot = Graphics_GetDefaultOrderingTable();
+    sum = 0;
+    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    ratan2(work->view_delta.vy, work->view_delta.vx);
+    ribbon = (Variant443Ribbon *)work;
+    for (i = 0, phase = 0; i < work->config->count; i++, ribbon++, phase = i * 0x300) {
+        len = 0x30;
+        if (i == 0) {
+            turn = 0x400;
+        } else if (i % 2 == 1) {
+            turn = i * 1800 / work->config->count + 0x400;
+        } else {
+            turn = 0x400 - i * 1800 / work->config->count;
+        }
+        for (k = 0; k < 17; k++) {
+            if (k == 0 || k == 16) {
+                bend = 0;
+            } else {
+                bend = phase - k * 384 + work->ribbon_phase;
+            }
+            coil = k * 128;
+            setVector(&ribbon->a[k],
+                      work->directions[i].vx * k / 16 - (rcos(turn) * (rsin(coil) * 384 >> 12) >> 12),
+                      work->directions[i].vy * k / 16 - (rsin(turn) * (rsin(coil) * 384 >> 12) >> 12),
+                      work->directions[i].vz * k / 16);
+            setVector(&ribbon->b[k], ribbon->a[k].vx + (rcos(yaw) * len >> 12), ribbon->a[k].vy,
+                      ribbon->a[k].vz + (rsin(yaw) * len >> 12));
+        }
+        rot.vx = 0;
+        rot.vy = 0;
+        rot.vz = 0;
+        m.t[0] = work->matrices[i].t[0];
+        m.t[1] = work->matrices[i].t[1];
+        m.t[2] = work->matrices[i].t[2];
+        scale.vx = 0x1000;
+        scale.vy = 0x1000;
+        scale.vz = 0x1000;
+        RotMatrix(&rot, &m);
+        ScaleMatrix(&m, &scale);
+        coord.coord = m;
+        coord.super = 0;
+        coord.flg = 0;
+        GsGetLs(&coord, &ls);
+        GsSetLsMatrix(&ls);
+        for (k = 0, wave = -work->ribbon_wave; k < 17; k++, wave += 0x514) {
+            if (k == 16) {
+                ribbon->otz[16] = RotTransPers4(&ribbon->a[15], &ribbon->a[16], &ribbon->a[15], &ribbon->a[16],
+                                                &ribbon->sa[15], &ribbon->sa[16], &ribbon->sa[15], &ribbon->sa[16],
+                                                &p, &flags[i][16]);
+                RotTransPers(&ribbon->b[16], &ribbon->sb[16], &p, &flag);
+                dx = (s16)ribbon->sa[16] - (s16)ribbon->sa[15];
+                dy = (ribbon->sa[16] >> 16) - (ribbon->sa[15] >> 16);
+            } else {
+                ribbon->otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1], &ribbon->a[k], &ribbon->a[k + 1],
+                                               &ribbon->sa[k], &ribbon->sa[k + 1], &ribbon->sa[k], &ribbon->sa[k + 1],
+                                               &p, &flags[i][k]);
+                RotTransPers(&ribbon->b[k], &ribbon->sb[k], &p, &flag);
+                dx = (s16)ribbon->sa[k + 1] - (s16)ribbon->sa[k];
+                dy = (ribbon->sa[k + 1] >> 16) - (ribbon->sa[k] >> 16);
+            }
+            ribbon->angle[k] = ratan2(dy, dx) - 0x400;
+            ribbon->width[k] = (s16)ribbon->sb[k] - (s16)ribbon->sa[k];
+            w = ribbon->len * ribbon->width[k] / 1024;
+            ribbon->ox[k] = rcos(ribbon->angle[k]) * w >> 12;
+            ribbon->oy[k] = rsin(ribbon->angle[k]) * w >> 12;
+            if (k == 0 || k == 16) {
+                bend = 0;
+            } else {
+                bend = phase - k * 384 + work->ribbon_phase;
+            }
+            amp1 = ribbon->width[k] * 64 / 48;
+            amp2 = ribbon->width[k] * 32 / 48;
+            ribbon->sa[k] += rcos(ribbon->angle[k]) * ((rsin(bend) * amp1 >> 12) + (rsin(wave) * amp2 >> 12)) >> 12;
+            ribbon->sa[k] += (rsin(ribbon->angle[k]) * ((rsin(bend) * amp1 >> 12) + (rsin(wave) * amp2 >> 12)) >> 12) << 16;
+        }
+        if (ribbon->count < 0) {
+            n = 0;
+        } else {
+            n = ribbon->count;
+        }
+        poly = work->flat_textured;
+        for (k = 0; k < n; k++) {
+            if ((u32)(work->clock.frame_count & 1) == 1) {
+                if (!(k & 1)) {
+                    poly++;
+                } else {
+                    poly--;
+                }
+            }
+            poly->x0 = ribbon->sa[k] + ribbon->ox[k];
+            poly->y0 = (ribbon->sa[k] >> 16) + ribbon->oy[k];
+            poly->x1 = ribbon->sa[k + 1] + ribbon->ox[k + 1];
+            poly->y1 = (ribbon->sa[k + 1] >> 16) + ribbon->oy[k + 1];
+            poly->x2 = ribbon->sa[k] - ribbon->ox[k];
+            poly->y2 = (ribbon->sa[k] >> 16) - ribbon->oy[k];
+            poly->x3 = ribbon->sa[k + 1] - ribbon->ox[k + 1];
+            poly->y3 = (ribbon->sa[k + 1] >> 16) - ribbon->oy[k + 1];
+            poly->r0 = ribbon->color.r;
+            poly->g0 = ribbon->color.g;
+            poly->b0 = ribbon->color.b;
+            if (ribbon->otz[k] >= 0 && flags[i][k] >= 0) {
+                GsSortPoly(poly, ot, ribbon->otz[k]);
+            }
+            if (!(work->clock.frame_count & 1)) {
+                if (!(k & 1)) {
+                    poly++;
+                } else {
+                    poly--;
+                }
+            }
+        }
+        if (ribbon->count < 16 && ribbon->state == 0) {
+            ribbon->count += work->clock.step * 2;
+            if (ribbon->count >= 16) {
+                ribbon->count = 16;
+                ribbon->state = 1;
+                if (work->tail.phase == 1) {
+                    work->tail.phase = 2;
+                }
+            }
+        } else if (ribbon->state == 1 && ribbon->len > 0) {
+            ribbon->len -= work->clock.step << 6;
+            if (ribbon->len <= 0) {
+                if (work->tail.phase >= 3) {
+                    ribbon->len = 0;
+                    ribbon->count = 0;
+                    ribbon->state = 2;
+                } else {
+                    ribbon->len = 0x400;
+                    ribbon->count = -(work->config->count * 8);
+                    ribbon->state = 0;
+                }
+            }
+        }
+        sum += ribbon->state;
+        if (sum == work->config->count * 2 && work->tail.phase == 4) {
+            work->tail.phase = 5;
+        }
+    }
+    work->ribbon_wave += work->clock.step * 650;
+    work->ribbon_phase += work->clock.step << 7;
+}

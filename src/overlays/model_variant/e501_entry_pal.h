@@ -1,0 +1,72 @@
+#ifndef FRENCH335_ENTRY_VIEW_H
+#define FRENCH335_ENTRY_VIEW_H
+#include "../../types.h"
+#include "variant337_entry.h"
+#include "e501_rings.h"
+
+/* A command record. Its frames chain the phases: the sheets grow from start
+ * to grow_end, then the orbit widens, the sheets lift and travel, and the
+ * ribbon segment count rises, each phase ending where the next starts. The
+ * sheets shrink between shrink_start and shrink_end. */
+typedef struct {
+    u8 unknown_00[4];
+    u8 part, unknown_05[7];
+    u32 start;
+    u32 grow_end, orbit_end, lift_end, travel_end, ribbon_end;
+    u32 shrink_start, shrink_end;
+    u32 end;
+} Model335EntryConfig;
+
+/* One 0x394-byte ribbon of seventeen points: the entry seeds style, and the
+ * ribbon drawer projects the points and takes its colour from style.inner. */
+typedef struct {
+    SVECTOR a[17];
+    ModelVariantScreenPoint sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    ModelVariantScreenPoint sb[17];
+    s32 width[17];
+    ModelVariantStripStyle style;
+    u8 unknown_240[0x88];
+    s32 otz[17];
+    long flag[17];
+    s16 ox[17];
+    s16 oy[17];
+} Model335EntryRecord;
+
+/* Minimum observed context extent, not an allocation capacity. */
+typedef struct {
+    Model335EntryRecord records[3];
+    ModelVariantPointSheet sheets[4];
+    Variant335Ring rings[3];
+    ModelVariantStreamer short_streamers[6];
+    ModelVariantFlaggedStreamer streamers[2];
+    POLY_G3 triangle;
+    POLY_G4 quad;
+    POLY_GT4 textured[3];
+    POLY_FT4 flat_textured[2];
+    POLY_FT4 extra_textured[2];
+    u8 unknown_2DB8[16];
+    MATRIX matrix;
+    VECTOR origin, end, delta;
+    ModelVariantAim aim;
+    ModelVariantClock clock;
+    Model335EntryConfig *config;
+    u8 unknown_2E64[4];
+    GsCOORDUNIT *part;
+    s32 travel_angle, lift, spin, orbit_diameter;
+    s32 rotation[3], extent;
+    s16 count, field_2E8E, field_2E90, width, strand_start, strand_end;
+    s32 wave0, wave1, phase;
+    u8 unknown_2EA4[8];
+    s32 brightness;
+    s16 slot, command;
+} Model335EntryState;
+
+s32 FrenchModelVariant335_HandleRequest(Model335EntryState *context, s32 command);
+extern u8 gFrenchModelVariant335_D28EC[];
+void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx);
+void FrenchModelVariant335_DrawSheets(Model335EntryState *context);
+void FrenchModelVariant335_DrawRings(Model335EntryState *work);
+void FrenchModelVariant335_DrawStreamers(Model335EntryState *ctx);
+#endif

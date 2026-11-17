@@ -22,7 +22,7 @@ The control flow follows the French MODEL478 swarm helper
 - completion moves phase 2 to phase 4.
 
 The helper reads `Variant412EntryState` (its `flares`, whose `+0x11C`/`+0x14C`
-words are `done`/`initialized`); the former local view `variant429_swarm.h`
+words are `done`/`initialized`); the former local view `e595_swarm.h`
 was removed. The calls are covered by
 `model_variant429_linker_symbols.txt`. All French overlay images rebuild
 exactly. The [attempt ledger](french-model-image429-swarm-attempts.csv)
@@ -30,7 +30,7 @@ records the probe, which matched on the first build.
 
 ## Names
 
-Both slots compile `variant429_swarm.c` directly. Every image binds
+Both slots compile `e595_swarm.c` directly. Every image binds
 `FrenchModelVariant429_DrawSwarm` at its own address in its `*_symbols.txt`: `0x133C` past the load
 base in the PAL images and 4 bytes higher in the US header-412 and Japanese
 images, which build the same source. The PAL slot-1 raw images gained a

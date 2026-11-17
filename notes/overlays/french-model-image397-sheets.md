@@ -24,7 +24,7 @@ The structure follows the Spanish header-459 sheets helper
 The quad pointer is assigned after the ot call; assigning it at the
 declaration ties the loop-entry count load to the wrong register. The helper
 reads `Variant380EntryState`, the record the US header-380 entry passes (its
-former local view `variant397_sheets.h` was removed), and
+former local view `e580_sheets.h` was removed), and
 `model_variant397_linker_symbols.txt` covers the resident calls. The
 [attempt ledger](french-model-image397-sheets-attempts.csv) records six
 measured probes.

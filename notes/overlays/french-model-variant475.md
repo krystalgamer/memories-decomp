@@ -254,4 +254,4 @@ its nine resident routines as `Strand458_*` (declared in
 `model_variant/variant458_strand.h`); the linker files bind them at the current
 addresses, and `model_variant552_linker_symbols.txt` binds them at the earlier
 layout's addresses for the header-552 images, which build the body through the
-layout-only `model_variant/variant552_strand.c`.
+layout-only `model_variant/e585_strand_r163.c`.

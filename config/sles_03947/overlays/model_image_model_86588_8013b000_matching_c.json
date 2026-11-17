@@ -4,37 +4,37 @@
       "address": "0x8013B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xCB8",
-      "source": "src/overlays/model_variant/variant383_entry_pal.c"
+      "source": "src/overlays/model_variant/e549_entry_pal.c"
     },
     {
       "address": "0x8013BCBC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x548",
-      "source": "src/overlays/model_variant/variant383_strip.c"
+      "source": "src/overlays/model_variant/e549_strip.c"
     },
     {
       "address": "0x8013C204",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x718",
-      "source": "src/overlays/model_variant/variant383_ribbons_pal.c"
+      "source": "src/overlays/model_variant/e549_ribbons_pal.c"
     },
     {
       "address": "0x8013C91C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5AC",
-      "source": "src/overlays/model_variant/variant383_quads.c"
+      "source": "src/overlays/model_variant/e549_quads.c"
     },
     {
       "address": "0x8013CEC8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA34",
-      "source": "src/overlays/model_variant/variant366_cones.c"
+      "source": "src/overlays/model_variant/e549_cones.c"
     },
     {
       "address": "0x8013D8FC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB6C",
-      "source": "src/overlays/model_variant/variant383_rays.c"
+      "source": "src/overlays/model_variant/e549_rays.c"
     }
   ],
   "schema": 1

@@ -54,49 +54,49 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant341_entry]
+      - [0x4, c, overlays/model_variant/e507_entry_pal]
   - name: webs
     type: code
     start: 0xF38
     vram: 0x8013BF38
     align: 4
     subsegments:
-      - [0xF38, c, overlays/model_variant/variant324_webs]
+      - [0xF38, c, overlays/model_variant/e507_webs]
   - name: fan
     type: code
     start: 0x1354
     vram: 0x8013C354
     align: 4
     subsegments:
-      - [0x1354, c, overlays/model_variant/variant324_fan]
+      - [0x1354, c, overlays/model_variant/e507_fan]
   - name: bands
     type: code
     start: 0x17C0
     vram: 0x8013C7C0
     align: 4
     subsegments:
-      - [0x17C0, c, overlays/model_variant/variant324_bands]
+      - [0x17C0, c, overlays/model_variant/e507_bands]
   - name: draw
     type: code
     start: 0x22F8
     vram: 0x8013D2F8
     align: 4
     subsegments:
-      - [0x22F8, c, overlays/model_variant/variant324_draw]
+      - [0x22F8, c, overlays/model_variant/e507_draw]
   - name: spokes
     type: code
     start: 0x26C4
     vram: 0x8013D6C4
     align: 4
     subsegments:
-      - [0x26C4, c, overlays/model_variant/variant324_spokes]
+      - [0x26C4, c, overlays/model_variant/e507_spokes]
   - name: rings
     type: code
     start: 0x29D8
     vram: 0x8013D9D8
     align: 4
     subsegments:
-      - [0x29D8, c, overlays/model_variant/variant324_rings]
+      - [0x29D8, c, overlays/model_variant/e507_rings]
   - name: unclassified_tail
     type: code
     start: 0x2D58

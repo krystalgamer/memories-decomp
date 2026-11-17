@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0xF24,ModelVariant409_HandleRequest,matching_c,overlay/model_image_model_190_8017b000,Loader entry; C body exact through the shared model_variant/variant409_entry.c with names bound per image in *_symbols.txt; direct-entry reachable.
+0x8017B004,0xF24,ModelVariant409_HandleRequest,matching_c,overlay/model_image_model_190_8017b000,Loader entry; C body exact through the shared model_variant/e592_entry.c with names bound per image in *_symbols.txt; direct-entry reachable.
 0x8017BF28,0x464,SpanishModelVariant426_DrawMesh,matching_c,overlay/model_image_model_190_8017b000,Complete module byte identity and section-defined C ownership verified.
 0x8017C38C,0xA20,SpanishModelVariant426_DrawSpiral,matching_c,overlay/model_image_model_190_8017b000,Complete module byte identity and section-defined C ownership verified.
 0x8017CDAC,0x8B0,FrenchModelVariant426_DrawRibbon,matching_c,overlay/model_image_model_190_8017b000,Complete module byte identity and section-defined C ownership verified.

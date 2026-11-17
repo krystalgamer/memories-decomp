@@ -4,7 +4,7 @@
 bytes) is the last helper before the unclassified tail in all ten French
 MODEL441 images (models 166, 360, 487 and 590 at stages 7/8, model 709 at
 stages 9/10). The entry calls it directly. It is the same routine as the
-accepted North American `variant398_rings.c`: three rings of sixteen
+accepted North American `e581_rings.c`: three rings of sixteen
 `POLY_GT4` strips, textured from the frame-buffer half each strip lands on.
 
 The French wrapper `variant441_rings.c` only defines
@@ -28,7 +28,7 @@ describe (step `+26DC`, phase `+271C`, private view ending at `+2720`):
 | step | `+19F8` | `+26DC` |
 | phase | `+1A30` | `+271C` |
 
-`variant398_entry.h` declares this context as
+`e581_entry.h` declares this context as
 `Variant398Header441RingsState`, and the macro selects it as the work type. It also sets growth to `step * 80` (header 398 uses
 `step * 96`) and keeps wrapping the scale while `phase < 4` (header 398
 stops at `phase < 3`). Without the macro, the work type stays
@@ -38,7 +38,7 @@ The ring pointer is now assigned before the ordering-table fetch. Header 441
 needs this: the context register must stay in `s6` (the ring register),
 with the work copy in `s8` made after `GsGetActiveBuff`. The move does not
 change the header-398 output. The other consumers of the shared
-`variant398_rings.c` / `variant398_entry.h` are the ten North American
+`e581_rings.c` / `e581_entry.h` are the ten North American
 header-398 images (`gcc_2_7_2_cdk_g0`) and the ten French header-415 images
 (`gcc_2_8_1_g0_split`). All of them still rebuild exactly. No Spanish
 source or manifest uses these files.

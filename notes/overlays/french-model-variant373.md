@@ -234,7 +234,7 @@ sets phase two. A separate phase-five check shrinks positive width by
 `step*8`, clamping at zero.
 
 Accepted Spanish MODEL414 bands were inspected first; accepted French
-`variant402_strip.c` supplied closer control-flow/expression/declaration-order
+`e568_strip_pal.c` supplied closer control-flow/expression/declaration-order
 structure. All strip/context/configuration fields above were independently
 recovered rather than copied from donor types.
 
@@ -306,7 +306,7 @@ test. Outside the phase gate, the count/index condition advances the word
 angle by `step*50`.
 
 Accepted Spanish `variant442_ribbons.c` supplied the initial structural
-lead; accepted French `variant402_ribbons.c` supplied the phase/upper-depth
+lead; accepted French `e568_ribbons_pal.c` supplied the phase/upper-depth
 shape. Record, color, configuration, and context declarations were
 independently recovered, not imported from donor types.
 

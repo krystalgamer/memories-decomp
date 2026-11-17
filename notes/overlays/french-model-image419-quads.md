@@ -18,7 +18,7 @@ unclassified, and module names and physical keys are unchanged.
 
 The control flow is that of the Spanish MODEL470 quads helper
 (`variant470_quads.c`). It reads `Variant402EntryState`, whose `quads` are a `ModelVariantQuadGroup`
-(a local view in `variant419_quads.h` until it was folded). It uses:
+(a local view in `e585_quads.h` until it was folded). It uses:
 - the quad group at `+0`;
 - the `POLY_FT4` at `+0x221C`;
 - the origin at `+0x2288`, the direction at `+0x2290` and the projected

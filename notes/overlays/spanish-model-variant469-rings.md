@@ -55,7 +55,7 @@ each keeps its own register at the packet stores, as in the target.
 The target frame is 312 bytes, with the four halfword phases spilled to stack
 slots. The 16 bytes directly after the 8-byte rotation are never accessed.
 Following the accepted repository convention for observed stack gaps (see
-`variant432_draw.c` and [Exodia helpers](exodia-helpers.md)), an unused 16-byte
+`e570_draw.c` and [Exodia helpers](exodia-helpers.md)), an unused 16-byte
 `VECTOR` local declared after the rotation retains that gap. No runtime role
 is asserted for it.
 

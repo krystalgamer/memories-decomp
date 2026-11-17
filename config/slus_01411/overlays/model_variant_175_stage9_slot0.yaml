@@ -54,35 +54,35 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant427_entry]
+      - [0x4, c, overlays/model_variant/e584_entry]
   - name: helper_db8
     type: code
     start: 0xDB8
     vram: 0x8013BDB8
     align: 4
     subsegments:
-      - [0xDB8, c, overlays/model_variant/variant427_tube]
+      - [0xDB8, c, overlays/model_variant/e584_tube]
   - name: helper_14f0
     type: code
     start: 0x14F0
     vram: 0x8013C4F0
     align: 4
     subsegments:
-      - [0x14F0, c, overlays/model_variant/variant427_beams]
+      - [0x14F0, c, overlays/model_variant/e584_beams]
   - name: helper_1d94
     type: code
     start: 0x1D94
     vram: 0x8013CD94
     align: 4
     subsegments:
-      - [0x1D94, c, overlays/model_variant/variant427_sheets]
+      - [0x1D94, c, overlays/model_variant/e584_sheets]
   - name: helper_23e0
     type: code
     start: 0x23E0
     vram: 0x8013D3E0
     align: 4
     subsegments:
-      - [0x23E0, c, overlays/model_variant/variant427_funnels]
+      - [0x23E0, c, overlays/model_variant/e584_funnels]
   - name: data
     type: code
     start: 0x28F8

@@ -48,7 +48,7 @@ equals one, which holds when every completion word is one. Two `ratan2` results 
 
 The target frame is 344 bytes. The 16 bytes directly after the 8-byte rotation
 are never accessed. Following the accepted repository convention for observed
-stack gaps (see `variant432_draw.c` and [Exodia helpers](exodia-helpers.md)),
+stack gaps (see `e570_draw.c` and [Exodia helpers](exodia-helpers.md)),
 an unused 16-byte `VECTOR` local declared after the rotation retains that gap.
 No runtime role is asserted for it.
 

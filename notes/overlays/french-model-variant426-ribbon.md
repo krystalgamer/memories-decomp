@@ -13,7 +13,7 @@ binds the name at its own address.
   blue on the outer edges and grey along the spine. The tail grows the
   amount over the timing record's grow window, raising the stage to 3, and
   fades the width over the fade window, moving stage 4 to 5. The view lives in
-  `model_variant/variant426_ribbon.h`.
+  `model_variant/e592_ribbon_pal.h`.
 - **Register choice.** The outer one-pass loop starts with a dead
   `if (i < 0) dy = 0;`. Jump optimisation deletes it after reload, which
   leaves the target's dead reload of the counter. Fresh temporaries hold the

@@ -13,7 +13,7 @@ does not call the helper; it remains a closed retained helper.
 This is the routine of the accepted MODEL479 streamers, built for a single
 streamer of two points. The records are new 0x64-byte `Variant425Streamer`
 records at `+0xF4C`, which are the two-point form of the shared streamer
-layout. The new header `variant425_streamers.h` declares them.
+layout. The new header `e591_streamers_pal.h` declares them.
 
 The routine:
 

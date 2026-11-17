@@ -99,5 +99,5 @@ The code that ends at `0x45A8` is followed by an eighth closed function,
 `model_variant/variant426_webs.c` with `gcc_2_8_1_g0_split`; the North
 American images build the same source with the CDK profile. Each image now
 binds `gFrenchModelVariant443_D45A8` at the data block that follows the
-helper (`0x4AFC`), so `variant443_entry.c` names the block directly instead of
+helper (`0x4AFC`), so `e503_entry.c` names the block directly instead of
 adding `0x554`.

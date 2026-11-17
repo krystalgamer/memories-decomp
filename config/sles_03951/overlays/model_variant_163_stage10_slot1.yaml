@@ -56,9 +56,9 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant419_entry_pal]
-      - [0x11DC, c, overlays/model_variant/variant419_swarm]
-      - [0x1770, c, overlays/model_variant/variant419_quads]
+      - [0x4, c, overlays/model_variant/e585_entry_pal]
+      - [0x11DC, c, overlays/model_variant/e585_swarm]
+      - [0x1770, c, overlays/model_variant/e585_quads]
       - [0x1C4C, data, overlays/spanish_model_variant_163_stage10_slot1/data]
   - name: helper_44D0
     type: code
@@ -66,7 +66,7 @@ segments:
     vram: 0x8017F4D0
     align: 4
     subsegments:
-      - [0x44D0, c, overlays/model_variant/variant552_strand]
+      - [0x44D0, c, overlays/model_variant/e585_strand_r163]
   - name: unclassified_47FC
     type: code
     start: 0x47FC

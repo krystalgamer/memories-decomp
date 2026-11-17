@@ -98,7 +98,7 @@ semantic map, which has no field kind.
 
 | Offset | Old → new | Evidence | Confidence |
 |---|---|---|---|
-| `+0x1C` | `field_1C` → `ribbon_start` | `FrenchModelVariant425_DrawRibbon` (`model_variant/variant408_ribbon.c`) leaves the ribbon progress at zero until `work->elapsed` reaches this frame, then raises it to `0x400` as `(elapsed - ribbon_start) << 10 / (travel_start - ribbon_start)`; phase 2 moves to 3 when it is full. It is the start frame of the ribbon's growth, the role other families also call `ribbon_start`. | high |
+| `+0x1C` | `field_1C` → `ribbon_start` | `FrenchModelVariant425_DrawRibbon` (`model_variant/e591_ribbon.c`) leaves the ribbon progress at zero until `work->elapsed` reaches this frame, then raises it to `0x400` as `(elapsed - ribbon_start) << 10 / (travel_start - ribbon_start)`; phase 2 moves to 3 when it is full. It is the start frame of the ribbon's growth, the role other families also call `ribbon_start`. | high |
 
 ## Experiments and acceptance
 

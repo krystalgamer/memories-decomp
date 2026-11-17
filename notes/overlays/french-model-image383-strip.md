@@ -4,7 +4,7 @@
 projects and draws the header-383 strip.
 **No release had matching C for this body before.**
 
-Both slots compile `variant383_strip.c` itself; it defines `FrenchModelVariant383_DrawStrip`, which
+Both slots compile `e549_strip.c` itself; it defines `FrenchModelVariant383_DrawStrip`, which
 each image binds at its own address, `0x8013BCC0`/`0x8017BCC0` in the North American and Japanese header-366 images (see [Per-image symbol
 bindings](model-variants.md#per-image-symbol-bindings)).
 
@@ -17,6 +17,6 @@ different layout: the strip at `+0`, the quad at `+0x138C`, the origin at
 `+0x14E4` and the phase at `+0x1580`. Because the strip now starts at the
 context itself, the strip pointer is assigned inside the phase block, which
 reproduces the target's register copy. The helper reads the header-366
-record (`Variant366State` in `model_variant/variant366_entry.h`), and `model_variant383_linker_symbols.txt` covers the
+record (`Variant366State` in `model_variant/e549_entry.h`), and `model_variant383_linker_symbols.txt` covers the
 resident calls. The [attempt ledger](french-model-image383-strip-attempts.csv)
 records five measured probes.

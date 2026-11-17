@@ -5,9 +5,9 @@ Two independently verified MODEL410 images reuse the unchanged accepted
 compile directly. The independently verified `variant418_rays.c` selector
 includes the header-401 rays copy (`model_variant/variant401_rays.c`), typed
 over `Variant401EntryState` with its per-segment flag grid.
-The accepted standalone `variant418_sheet*` sources independently match both
+The accepted standalone `e530_sheet*` sources independently match both
 Spanish sheet helpers, preserving the `G32` guest timing-pointer storage.
-The `variant418_webs.c` selector independently matches both Spanish
+The `e530_webs.c` selector independently matches both Spanish
 web spans through the accepted local `variant416_webs.c` implementation.
 Twelve compiler-owned C instances cover 13,176
 instruction bytes under the named `gcc_2_8_1_g0_split` profile, using GCC

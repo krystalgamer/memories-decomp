@@ -5,7 +5,7 @@
 0x68C bytes) builds and draws the eight-ribbon fan. **No release had matching
 C for this body before.** It is reachable directly from the entry.
 
-It follows the accepted MODEL402 ribbons helper (`variant402_ribbons.c`). The
+It follows the accepted MODEL402 ribbons helper (`e568_ribbons_pal.c`). The
 local `variant446_ribbons.h` maps the MODEL402-named work fields to their
 MODEL446 offsets: ribbons at `+0x1250`, the `POLY_G3` at `+0x1970`, the
 configuration pointer at `+0x1BA4` and so on. The measured differences are:

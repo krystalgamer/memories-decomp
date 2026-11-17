@@ -56,35 +56,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant336_entry]
+      - [0x4, c, overlays/model_variant/e502_entry_pal]
   - name: ribbon
     type: code
     start: 0xA9C
     vram: 0x8017BA9C
     align: 4
     subsegments:
-      - [0xA9C, c, overlays/model_variant/variant336_ribbon]
+      - [0xA9C, c, overlays/model_variant/e502_ribbon_pal]
   - name: sheets
     type: code
     start: 0x13D4
     vram: 0x8017C3D4
     align: 4
     subsegments:
-      - [0x13D4, c, overlays/model_variant/variant336_sheets]
+      - [0x13D4, c, overlays/model_variant/e502_sheets_pal]
   - name: strand
     type: code
     start: 0x1860
     vram: 0x8017C860
     align: 4
     subsegments:
-      - [0x1860, c, overlays/model_variant/variant336_strand]
+      - [0x1860, c, overlays/model_variant/e502_strand_pal]
   - name: streamers
     type: code
     start: 0x1B6C
     vram: 0x8017CB6C
     align: 4
     subsegments:
-      - [0x1B6C, c, overlays/model_variant/variant336_streamers]
+      - [0x1B6C, c, overlays/model_variant/e502_streamers]
   - name: unclassified_tail
     type: code
     start: 0x23B8

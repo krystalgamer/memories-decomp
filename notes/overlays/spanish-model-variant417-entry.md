@@ -3,7 +3,7 @@
 Loader entry `+0x0004..+0x1204` is matching C. It is 4,608 bytes in the
 eight Spanish MODEL417-family images (MODEL134 and 232 stages 9/10, MODEL354
 stages 7/8, MODEL535 stages 9/10) and the eight French images that carry the
-identical body at the same offsets. `variant417_entry.c`
+identical body at the same offsets. `e583_entry_pal.c`
 (`SpanishModelVariant417_HandleRequest`) is compiled once per slot with
 `gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
 and the descriptor tables (`gSpanishModelVariant417_aImages`,

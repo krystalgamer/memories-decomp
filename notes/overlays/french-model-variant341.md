@@ -126,7 +126,7 @@ metadata, basic-type and G32/PSXLONG policy checks.
 
 ## Additive entry-called narrow webs
 
-The unchanged accepted `variant324_webs.c` also matches the French helper
+The unchanged accepted `e507_webs.c` also matches the French helper
 at `+0xF38..+0x1354`. Two three-line wrappers rename its original
 `func_8013BF3C` symbol to `func_8013BF38/func_8017BF38`. Both 1,052-byte
 functions retain the 296-byte frame and reproduce all four complete images
@@ -374,7 +374,7 @@ fixed-cutoff README snapshot are unchanged.
 
 ## Entry-called bands follow-up
 
-The unchanged accepted `variant324_bands.c` and `Variant324Band` view (now `ModelVariantColorBandPadded`)
+The unchanged accepted `e507_bands.c` and `Variant324Band` view (now `ModelVariantColorBandPadded`)
 produce the remaining `+0x17C0..+0x22F8` helper in both French slots:
 2,872 bytes and a 256-byte frame under `gcc_2_8_1_g0_split`, using
 GCC 2.8.1/MASPSX 2.81 rather than the accepted North American profile.

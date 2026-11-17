@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../model_variant/variant418_spiral.h"
+#include "../model_variant/e530_spiral.h"
 #include "../model_variant/variant459_entry.h"
 
 void FrenchModelVariant476_DrawSpiral(Variant459EntryState *context)

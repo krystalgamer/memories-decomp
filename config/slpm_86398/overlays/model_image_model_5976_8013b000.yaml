@@ -56,28 +56,28 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant380_entry]
+      - [0x4, c, overlays/model_variant/e563_entry]
   - name: beams
     type: code
     start: 0xDE8
     vram: 0x8013BDE8
     align: 4
     subsegments:
-      - [0xDE8, c, overlays/model_variant/variant397_beams]
+      - [0xDE8, c, overlays/model_variant/e563_beams]
   - name: sheets
     type: code
     start: 0x1AB8
     vram: 0x8013CAB8
     align: 4
     subsegments:
-      - [0x1AB8, c, overlays/model_variant/variant397_sheets_pal]
+      - [0x1AB8, c, overlays/model_variant/e563_sheets]
   - name: helper_208c
     type: code
     start: 0x208C
     vram: 0x8013D08C
     align: 4
     subsegments:
-      - [0x208C, c, overlays/model_variant/variant397_streamers]
+      - [0x208C, c, overlays/model_variant/e563_streamers]
   - name: unclassified_tail
     type: code
     start: 0x2970

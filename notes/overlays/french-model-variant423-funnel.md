@@ -40,9 +40,9 @@ processes four; its view and original instruction bytes are unchanged.
 
 ## Source, experiments and acceptance
 
-`src/overlays/model_variant/variant423_funnel.{c,h}` uses independently
+`src/overlays/model_variant/e589_funnel_pal.{c,h}` uses independently
 measured declarations and the common rendering sequence of the accepted
-Spanish `variant426_funnel.c`. The slot-one wrapper changes only the function
+Spanish `e592_funnel.c`. The slot-one wrapper changes only the function
 symbol. No shared regional body, header or compiler profile changes.
 
 The accepted template's empty pointer-initialization loop and unused angle

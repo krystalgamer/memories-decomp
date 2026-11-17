@@ -24,11 +24,11 @@ map, which has no field kind.
 
 ## `ModelVariantSweepConfig` (`gModelVariant413_aConfigs`)
 
-Entry `model_variant/variant413_entry.c` sets `work->config = gModelVariant413_aConfigs + command` (line 69); its work struct `Variant413EntryState` has `config` at `+0x3ADC`.
+Entry `model_variant/e596_entry.c` sets `work->config = gModelVariant413_aConfigs + command` (line 69); its work struct `Variant413EntryState` has `config` at `+0x3ADC`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0xC]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant430_DrawSwarm` (model_variant/image132118_swarm.c; `model_variant/variant413_entry.c:366`, `Swarm132118State.timing` at +0x3ADC) | `if (state->timing->limit <= state->time)` | high |
+| `+0x20` | `unknown_20[0xC]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant430_DrawSwarm` (model_variant/image132118_swarm.c; `model_variant/e596_entry.c:366`, `Swarm132118State.timing` at +0x3ADC) | `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant451EntryConfig` (`gModelVariant451_aConfigs`)
 
@@ -41,29 +41,29 @@ Entry `model_variant/variant451_entry.c` sets `work->config = gModelVariant451_a
 
 ## `Variant380EntryConfig` (`gModelVariant380_aConfigs`)
 
-Entry `model_variant/variant380_entry.c` sets `work->config = gModelVariant380_aConfigs + command` (line 51); its work struct `Variant380EntryState` has `config` at `+0x1B54`.
+Entry `model_variant/e563_entry.c` sets `work->config = gModelVariant380_aConfigs + command` (line 51); its work struct `Variant380EntryState` has `config` at `+0x1B54`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x28` | `unknown_28[4]` bytes → `s32 divisor` | `Sheets397Timing.divisor` | `FrenchModelVariant397_DrawSheets` (model_variant/variant397_sheets_pal.c; `model_variant/variant380_entry.c:270`, `Sheets397State.timing` at +0x1B54) | `scale.vx = sheet->size / state->timing->divisor + extra;` | high |
-| `+0x34` | `unknown_34[0x10]` bytes → `u32 fade_at` | `Sheets397Timing.fade_at` | `FrenchModelVariant397_DrawSheets` (model_variant/variant397_sheets_pal.c; `model_variant/variant380_entry.c:270`, `Sheets397State.timing` at +0x1B54) | `} else if (state->phase == 1 && state->timing->fade_at < state->time)` | high |
+| `+0x28` | `unknown_28[4]` bytes → `s32 divisor` | `Sheets397Timing.divisor` | `FrenchModelVariant397_DrawSheets` (model_variant/e563_sheets.c; `model_variant/e563_entry.c:270`, `Sheets397State.timing` at +0x1B54) | `scale.vx = sheet->size / state->timing->divisor + extra;` | high |
+| `+0x34` | `unknown_34[0x10]` bytes → `u32 fade_at` | `Sheets397Timing.fade_at` | `FrenchModelVariant397_DrawSheets` (model_variant/e563_sheets.c; `model_variant/e563_entry.c:270`, `Sheets397State.timing` at +0x1B54) | `} else if (state->phase == 1 && state->timing->fade_at < state->time)` | high |
 
 ## `Variant402EntryConfig` (`gModelVariant402_aConfigs`)
 
-Entry `model_variant/variant402_entry.c` sets `work->config = gModelVariant402_aConfigs + command` (line 51); its work struct `Variant402EntryState` has `config` at `+0x22D0`.
+Entry `model_variant/e585_entry.c` sets `work->config = gModelVariant402_aConfigs + command` (line 51); its work struct `Variant402EntryState` has `config` at `+0x22D0`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_13[0x0D]` bytes → `u16 spin` | `Swarm419Timing.spin` | `FrenchModelVariant419_DrawSwarm` (model_variant/variant419_swarm.c; `model_variant/variant402_entry.c:332`, `Swarm419State.timing` at +0x22D0) | `spin = state->timing->spin << 11;` | high |
-| `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `ModelVariantQuadTimingLong.limit` | `FrenchModelVariant419_DrawQuads` (model_variant/variant419_quads.c; `model_variant/variant402_entry.c:335`, `Quads419State.timing` at +0x22D0); `FrenchModelVariant419_DrawSwarm` (model_variant/variant419_swarm.c; `model_variant/variant402_entry.c:332`, `Swarm419State.timing` at +0x22D0) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
+| `+0x1C` | `unknown_13[0x0D]` bytes → `u16 spin` | `Swarm419Timing.spin` | `FrenchModelVariant419_DrawSwarm` (model_variant/e585_swarm.c; `model_variant/e585_entry.c:332`, `Swarm419State.timing` at +0x22D0) | `spin = state->timing->spin << 11;` | high |
+| `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `ModelVariantQuadTimingLong.limit` | `FrenchModelVariant419_DrawQuads` (model_variant/e585_quads.c; `model_variant/e585_entry.c:335`, `Quads419State.timing` at +0x22D0); `FrenchModelVariant419_DrawSwarm` (model_variant/e585_swarm.c; `model_variant/e585_entry.c:332`, `Swarm419State.timing` at +0x22D0) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
 
 ## `ModelVariantSpiralConfig` (`gModelVariant409_aConfigs`)
 
-Entry `model_variant/variant409_entry.c` sets `work->config = gModelVariant409_aConfigs + command` (line 41); its work struct (now the shared `EntryState426`) has `config` at `+0x2110`.
+Entry `model_variant/e592_entry.c` sets `work->config = gModelVariant409_aConfigs + command` (line 41); its work struct (now the shared `EntryState426`) has `config` at `+0x2110`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `field_1C` → `u32 ribbon_start` | `ModelVariantRibbonGrowTiming.grow_start` | `FrenchModelVariant426_DrawRibbon` (model_variant/variant426_ribbon.c; `model_variant/variant409_entry.c:311`, `Ribbon426Work.timing` at +0x2110) | `if (work->amp < 0x400 && work->config->grow_start <= work->clock)` | high |
+| `+0x1C` | `field_1C` → `u32 ribbon_start` | `ModelVariantRibbonGrowTiming.grow_start` | `FrenchModelVariant426_DrawRibbon` (model_variant/e592_ribbon_pal.c; `model_variant/e592_entry.c:311`, `Ribbon426Work.timing` at +0x2110) | `if (work->amp < 0x400 && work->config->grow_start <= work->clock)` | high |
 
 The `ModelVariantRibbonGrowTiming` view calls this word `grow_start`. The config uses `ribbon_start`, the name given to the same ribbon-growth start in `EntryConfig425` (#8816), because the ribbon progress rises from it to `travel_start`.
 
@@ -77,11 +77,11 @@ Entry `model_variant/variant411us_entry.c` sets `work->config = gModelVariant411
 
 ## `Variant412EntryConfig` (`gModelVariant412_aConfigs`)
 
-Entry `model_variant/variant412_entry.c` sets `work->config = gModelVariant412_aConfigs + command` (line 68); its work struct `Variant412EntryState` has `config` at `+0x1E60`.
+Entry `model_variant/e595_entry.c` sets `work->config = gModelVariant412_aConfigs + command` (line 68); its work struct `Variant412EntryState` has `config` at `+0x1E60`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant429_DrawQuads` (model_variant/variant429_quads.c; `model_variant/variant412_entry.c:375`, `Quads429State.timing` at +0x1E60); `FrenchModelVariant429_DrawSwarm` (model_variant/variant429_swarm.c; `model_variant/variant412_entry.c:372`, `Swarm429State.timing` at +0x1E60) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
+| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant429_DrawQuads` (model_variant/e595_quads.c; `model_variant/e595_entry.c:375`, `Quads429State.timing` at +0x1E60); `FrenchModelVariant429_DrawSwarm` (model_variant/e595_swarm.c; `model_variant/e595_entry.c:372`, `Swarm429State.timing` at +0x1E60) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant432EntryConfig` (`gModelVariant432_aConfigs`)
 
@@ -171,10 +171,10 @@ Entry `model_variant/variant464_entry_pal.c` sets `work->config = gFrenchModelVa
 
 ## `EntryConfig473` (`gFrenchModelVariant473_aConfigs`)
 
-Entry `model_variant/variant473_entry.c` sets `work->config = gFrenchModelVariant473_aConfigs + command` (line 38); its work struct `EntryState473` has `config` at `+0x3BF0`.
+Entry `model_variant/e593_entry_pal.c` sets `work->config = gFrenchModelVariant473_aConfigs + command` (line 38); its work struct `EntryState473` has `config` at `+0x3BF0`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_1C[0x10]` bytes → `u32 grow_end` | `ModelVariantSheetTiming.grow_end` | `SpanishModelVariant473_DrawSheets` (model_variant/variant473_sheets.c; `model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->grow_end - state->timing->grow_start);` | high |
-| `+0x24` | `unknown_1C[0x10]` bytes → `u32 fade_begin` | `ModelVariantSheetTiming.shrink_start` | `SpanishModelVariant473_DrawSheets` (model_variant/variant473_sheets.c; `model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `if (state->time >= state->timing->shrink_start && sheet->size > 0)` | high |
-| `+0x28` | `unknown_1C[0x10]` bytes → `u32 fade_end` | `ModelVariantSheetTiming.shrink_end` | `SpanishModelVariant473_DrawSheets` (model_variant/variant473_sheets.c; `model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->shrink_end - state->timing->shrink_start);` | high |
+| `+0x1C` | `unknown_1C[0x10]` bytes → `u32 grow_end` | `ModelVariantSheetTiming.grow_end` | `SpanishModelVariant473_DrawSheets` (model_variant/e593_sheets_pal.c; `model_variant/e593_entry_pal.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->grow_end - state->timing->grow_start);` | high |
+| `+0x24` | `unknown_1C[0x10]` bytes → `u32 fade_begin` | `ModelVariantSheetTiming.shrink_start` | `SpanishModelVariant473_DrawSheets` (model_variant/e593_sheets_pal.c; `model_variant/e593_entry_pal.c:337`, `Sheets473State.timing` at +0x3BF0) | `if (state->time >= state->timing->shrink_start && sheet->size > 0)` | high |
+| `+0x28` | `unknown_1C[0x10]` bytes → `u32 fade_end` | `ModelVariantSheetTiming.shrink_end` | `SpanishModelVariant473_DrawSheets` (model_variant/e593_sheets_pal.c; `model_variant/e593_entry_pal.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->shrink_end - state->timing->shrink_start);` | high |

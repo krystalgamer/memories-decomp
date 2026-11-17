@@ -56,7 +56,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant403_entry]
+      - [0x4, c, overlays/model_variant/e569_entry_pal]
   - name: unmatched_f38
     type: code
     start: 0xf38

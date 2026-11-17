@@ -3,7 +3,7 @@
 `FrenchModelVariant411_DrawTube` (`0x8013BE60` / `0x8017BE60`, image offset `0xE60`, 0x71C bytes)
 builds and draws a 9x9 point tube as gouraud `POLY_G4` quads. **No release
 had matching C for this body before.** It has the same shape as the matched
-MODEL175 tube helper (`variant175_tube.c`) with a constant radius.
+MODEL175 tube helper (`e584_tube_pal.c`) with a constant radius.
 
 The helper reads the header-411 record, `EntryState411` in
 `variant411_entry.h`, which repeats the MODEL175 layout except that

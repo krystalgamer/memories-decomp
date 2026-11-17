@@ -5,7 +5,7 @@ MODEL175 family, image offset `0xDB4`,
 0x734 bytes) builds and draws a nine-ring tube.
 **No release had matching C for this body before.**
 
-It follows the pattern of the Spanish MODEL417 tube (`variant417_tube.c`).
+It follows the pattern of the Spanish MODEL417 tube (`e583_tube_pal.c`).
 It reads the header-444 record its entry passes, `Variant444EntryState` in
 `variant444_entry.h`:
 - one 0x54C-byte `ModelVariantTube` at `+0`, holding a 9×9 point grid and

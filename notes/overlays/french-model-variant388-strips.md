@@ -5,7 +5,7 @@
 `RotTransPers3`, draws them, and then advances the grow and shrink timing.
 **No release had matching C for this body before.** It is written from
 scratch over a local 0xF8-byte unit, `Strip388Unit` in
-`variant388_strips.h`.
+`e547_strips_pal.h`.
 
 Measured shape:
 - screen coordinates are `long` words (x in the low half, y in `>> 16`).

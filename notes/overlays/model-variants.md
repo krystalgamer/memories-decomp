@@ -101,7 +101,7 @@ renamed addresses. Under gcc 2.8.1 those helpers swap `addu` operands and
 end one word longer, and the entry is one word longer.
 
 The two North American header-413/563 images build their entry and the
-swarm helper from `model_variant/variant413_entry.c` under
+swarm helper from `model_variant/e596_entry.c` under
 `gcc_2_7_2_cdk_g0`; the helper is the French `image132118_swarm.c` included
 at the North American address. The French header-430/580 images compile the
 same entry under `gcc_2_8_1_g0_split` (0x12E8 bytes against the North
@@ -120,7 +120,7 @@ at the North American address. The French header-468/618 images compile the
 same entry under `gcc_2_8_1_g0_split` and keep their 2.8.1 helper.
 
 The two North American header-366/516 images build their entry from
-`model_variant/variant366_entry.c` and four of their five helpers (strip,
+`model_variant/e549_entry.c` and four of their five helpers (strip,
 ribbons, quads and rays) from the French header-383 helper sources, all under
 `gcc_2_7_2_cdk_g0`; the helper at `+0x1EC8` stays generated assembly. The
 French header-383/533 images compile the same entry under
@@ -149,7 +149,7 @@ same entry under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the
 palette to VRAM x 640, and build `variant447_swarm.c` under 2.8.1.
 
 The two North American header-386/536 images build their entry from
-`model_variant/variant386_entry.c` under `gcc_2_7_2_cdk_g0`, beside the
+`model_variant/e569_entry.c` under `gcc_2_7_2_cdk_g0`, beside the
 existing sheets and chains helper C; the helper at `0x8013BF3C` stays generated
 assembly. The French header-403/553 images compile the same entry under
 `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the palette to VRAM
@@ -179,18 +179,18 @@ starts at a helper that the French module still keeps in its unclassified
 tail, and its header-452/602 images keep building it under 2.8.1.
 
 The four North American header-318/468 images (models 44 and 558) build
-their entry from `model_variant/variant318_entry.c` the same way, from the
-French `variant335_entry.c` with `MODEL_VARIANT335_CLUT_X` 512 and
+their entry from `model_variant/e501_entry.c` the same way, from the
+French `e501_entry_pal.c` with `MODEL_VARIANT335_CLUT_X` 512 and
 `MODEL_VARIANT335_DATA`, whose French default is `D_8013D8EC + 0x6D0`. The
-streamers helper at `+ 0x20B4` is the French `variant335_streamers.c` with
+streamers helper at `+ 0x20B4` is the French `e501_streamers_pal.c` with
 `MODEL_VARIANT335_STREAMERS_DIRECT_PREVIOUS`, the header-456 lever: a zero
 step on the word after the advanced rotation, and the closing segment's
 previous point indexed directly instead of through a walking pointer. The
 sheets and rings helpers are C. The ribbons helper at `+ 0xB9C` is the
-French `variant335_ribbons.c` with its `MODEL_VARIANT335_RIBBONS_*`
-selectors, from `variant318_ribbons.c` (`_slot1.c` for slot 1). The six-streamer
+French `e501_ribbons_pal.c` with its `MODEL_VARIANT335_RIBBONS_*`
+selectors, from `e501_ribbons.c` (`_slot1.c` for slot 1). The six-streamer
 helper at `+ 0x28D0` has no French counterpart; it is new C in
-`variant318_short_streamers.c` (`_slot1.c` for slot 1), whose commented dead
+`e501_short_streamers.c` (`_slot1.c` for slot 1), whose commented dead
 `twist` step reproduces the retail register allocation. The French header-335/485 images keep building the entry
 and the streamers under 2.8.1.
 
@@ -202,25 +202,25 @@ under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the palette to
 VRAM x 640, beside their existing 2.8.1 helper C.
 
 The two North American header-409/559 images build their entry from
-`model_variant/variant409_entry.c` under `gcc_2_7_2_cdk_g0`, beside the
+`model_variant/e592_entry.c` under `gcc_2_7_2_cdk_g0`, beside the
 existing mesh, sheets and funnel helper C; the helpers at `0x8013C38C`,
 `0x8013CDAC` and `0x8013DB50` stay generated assembly. The French
 header-426/576 images keep their separately recovered entry.
 
 The two North American header-426/576 images (model 62) build their entry
 from `model_variant/variant426_entry.c` and their streamers helper from
-`model_variant/variant426_streamers.c` (`_slot1.c` for slot 1) under
+`model_variant/e592_streamers.c` (`_slot1.c` for slot 1) under
 `gcc_2_7_2_cdk_g0`, beside the rings, mesh, sheets and bands helper C. The
-ribbons helper at `+ 0x1AC4` is the French `variant443_ribbons.c` with
+ribbons helper at `+ 0x1AC4` is the French `e503_ribbons.c` with
 `MODEL_VARIANT443_RIBBONS_PACKED_SCREEN`, and the webs helper at `+ 0x4594`
-is the North American `variant405_webs.c` with the
+is the North American `e588_webs.c` with the
 `MODEL_VARIANT405_WEBS_*_SHIFT` work-area offsets for this header, both under
 `gcc_2_7_2_cdk_g0` from `variant426_ribbons.c` and `variant426_webs.c` in
 both slots. The two helpers are `FrenchModelVariant443_DrawRibbons` and
 `ModelVariant405_DrawWebs` in every image (see
 [Per-image symbol bindings](#per-image-symbol-bindings)). The entry and streamers wrappers
-include the French header-443 `variant443_entry.c` and
-`variant443_streamers.c`. The entry wrapper sets `MODEL_VARIANT443_CLUT_X` to
+include the French header-443 `e503_entry.c` and
+`e503_streamers.c`. The entry wrapper sets `MODEL_VARIANT443_CLUT_X` to
 512, points `MODEL_VARIANT443_DATA` at the North American data symbol (the
 French default is `D_8013F5A8 + 0x554`, past a helper still in the French
 unclassified tail) and defines `MODEL_VARIANT426_ENTRY_PAIRED_SCREEN`, which
@@ -269,7 +269,7 @@ offsets.
 `sheet` (header 418) is a one-sheet form of sheets: a single `ModelVariantSheet`
 at the variant origin whose size follows the two phases of the timing record at
 `work + 0x1B74` rather than the sheets path. It was written from header 418's copy.
-Header 418's entry at `0x0004` (`variant418_entry`, 1057 instructions) has the
+Header 418's entry at `0x0004` (`e530_entry`, 1057 instructions) has the
 French header-439 entry's shape without screen rings or curtains: three webs
 and twelve spiral arms open the work area, then one band, one sheet, six rings,
 four spokes and a fan. Its 0x44-byte config adds the header-338 matrix setup
@@ -288,14 +288,14 @@ web counter and the done flag on the stack as the target has them.
 Header 425 has a 242-instruction form at `0x28F8` (`variant425_webs`): 5x6
 grids in 0x200-byte `ModelVariantWebSmall` records, projected with
 `RotTransPers3`, faded past `0x800` and grown by `step * 128` to `0x1000`.
-Header 398 has a 332-instruction form at `0x2514` (`variant398_webs`): the
+Header 398 has a 332-instruction form at `0x2514` (`e581_webs`): the
 header-397 phased webs over records at `work`. Its phase 0 places web `i` at
 `(i << 12) / 3` less the progress `(now * 3 << 12) / end` of the timing record
 at `work + 0x1A00`, plus `0x1000`, wrapped by `0x1000` (two statements, as in
 the other staggered forms). In phase 4 each web stores the `done` flag, which
 is set once and never cleared, into its own record at `+ 0x198` before the
 phase moves to 5.
-Header 398's entry at `0x0004` (`variant398_entry`, 1197 instructions) is the
+Header 398's entry at `0x0004` (`e581_entry`, 1197 instructions) is the
 French header-439 entry (US header 422) with four changes: each 0x1E4-byte
 framebuffer ring stores a colour per point, cycling red, orange, yellow, green,
 cyan, azure, blue and magenta by `j % 8`, with rows at radii `>> 4`, `* 7 >> 6`
@@ -305,14 +305,14 @@ cyan, azure, blue and magenta by `j % 8`, with rows at radii `>> 4`, `* 7 >> 6`
 it calls both `0x202C` and `0x12B8`, while the tint fades before phase 5. The
 ring loop matches only with `angle = base_angle + outer * 512` as its step,
 which gives the ring pointer and the angle the target's registers.
-Header 405's form at `0x28FC` (`variant405_webs`, 342 instructions) is the
+Header 405's form at `0x28FC` (`e588_webs`, 342 instructions) is the
 header-397 phased webs over records at `work + 0xDD4`. Its phase 0 places web
 `i` at `(i << 12) / 3` less the progress `((now - start) * 3 << 12) / (end -
 start)` of the timing record at `work + 0x1DC8`, plus `0x1000`, wrapped by
 `0x1000`. That assignment matches only as two statements, the progress less
 `0x1000` stored to the scale first. A line is sorted whenever its depth is
 positive.
-Header 405's veils at `0x8013C620` (`variant405_veils`, 441 instructions)
+Header 405's veils at `0x8013C620` (`e588_veils`, 441 instructions)
 draw five 0x1A0-byte veils at `work`, each three rows of seventeen points with
 radii `rsin(scale)` times 224, 320 and 416 (over 4096). The outer two rows are
 lifted by `(u32)(rsin(scale) * 3) >> 8`. Each strip is a semi-transparent
@@ -321,7 +321,7 @@ veils, and lit white at the inner row and `(0, 0x80, 0xFF)` at the outer. Like
 the header-459 curtains, the frame reserves 24 bytes before the two colour
 locals. The veil pointer is taken from `ctx` before the `work` copy, and both
 deadline tests are written `record[n] <= now`.
-Header 405's halo at `0x8013C12C` (`variant405_halo`, 317 instructions) draws
+Header 405's halo at `0x8013C12C` (`e588_halo`, 317 instructions) draws
 five rings of seventeen points from the block at `work + 0x820`. Each ring has
 a top and a bottom row, hung `-(height * 768 / 1024)` below the ring. The two
 heights grow by `step << 5` up to 0x400, and wrap (keeping their gap) until
@@ -381,7 +381,7 @@ the `4096` of `field_27D8` stored before the halfword `1024` so the constant
 keeps `v1`; and the comparisons written `config->start <= frame`,
 `config->second <= frame` and `fade_end <= frame`. Both images rebuild
 byte-identical to retail; every function of both is now C.
-Header 397 has a 349-instruction form at `0x1E7C` (`variant397_webs`): 4x6
+Header 397 has a 349-instruction form at `0x1E7C` (`e580_webs`): 4x6
 grids in 0x1A0-byte `ModelVariantWebNarrow` records, driven by the phase at
 `work + 0xF78`. In phase 0 each scale shrinks by `step * 0xC0` from `0x1000`
 and the colour fades in on the far end; in phase 1 web `i` waits at
@@ -389,7 +389,7 @@ and the colour fades in on the far end; in phase 1 web `i` waits at
 `work + 0xF0C`, grow by `step << 8` to `0x2000` with the colour on the near
 end, and the phase moves to 5 as in the header-418 form. The timing record at
 `work + 0x5FC` stops the phase-0 wrap once its word at `+ 0x88` passes `0x800`.
-Header 404 carries the same body at `0x318C` (`variant404_webs`) with its own
+Header 404 carries the same body at `0x318C` (`e510_webs`) with its own
 work-area offsets.
 Header 448's form at `0x2B58` (`variant448_webs`) keeps the records at
 `work + 0x6F8`, shrinks by `step * 0xE0` in phase 0, and sorts a line whenever
@@ -527,18 +527,18 @@ in its first loop nest decide the match, all through gcc 2.7.2's loop pass:
 Header 425 has the same body at `0x2CC0` (`variant425_ribbons`) over 0x6C-byte
 `ModelVariantRibbonShort` records, drawn when the depth is positive rather than
 non-negative, with the last frame read from `+ 0x18` of the timing record.
-Header 404's form at `0x11D4` (`variant404_ribbons`, 420 instructions) is the
+Header 404's form at `0x11D4` (`e510_ribbons`, 420 instructions) is the
 header-425 source with its own offsets, the far colour `0x40, 0x60, 0xFF`, and
 the `RotTransPers4` flag of every point kept in a stack array `status[8][2]`;
 a point is drawn only when both its depth and its flag are non-negative.
 Header 404's spiral at `0x1864` (`variant404_spiral`, 0xC94 bytes) is the Spanish
 header-421 spiral built under gcc 2.7.2 at the North American address: a wrapper
 that renames `func_8013C860` to `func_8013C864` (`func_8017C864` in slot 1) and
-includes `model_variant/variant421_spiral_pal.c`. It differs from the
+includes `model_variant/e510_spiral.c`. It differs from the
 retail bytes by one jump word under the maspsx pinned before `e85ecb3` (the
 `j` out of the signed `x / 8` join landed one word late), and builds exactly
 under the current pin.
-Header 404's entry at `0x0004` (`variant404_entry`, 1140 instructions) follows
+Header 404's entry at `0x0004` (`e510_entry`, 1140 instructions) follows
 the French header-422 entry with a 0x3C-byte config (mode at `+ 0x1C`, start at
 `+ 0x20`, an `s16` sheet size at `+ 0x34`), twelve 0x7C-byte glow records at
 `work + 0x4E0` and five image uploads from the data at `0x40FC`. It matches
@@ -547,7 +547,7 @@ upload into the same `packed` local, and the glow pointer is taken before the
 primitive pointers.
 Two more North American helpers are other regions' sources built under
 gcc 2.7.2 at the North American address, with only the function renamed:
-header 414's bands at `0x17DC` (`variant414_bands`, 795 instructions) is the
+header 414's bands at `0x17DC` (`e580_bands_pal`, 795 instructions) is the
 French header-431 bands, and header 422's screen rings at `0x1234`
 (`variant422_screen_rings`, 310 instructions) is the Spanish header-439 screen
 rings. Header 404's spiral at `0x1864` builds from the Spanish header-421
@@ -574,7 +574,7 @@ the pointer initialisations; with the copy only on the field reads, every
 callee-saved register is rotated. The header-418 copy's record is 0x24 bytes
 longer, which shows only in the band stride.
 
-Header 397's entry at `0x0004` (`variant397_entry`, 1162 instructions) runs the
+Header 397's entry at `0x0004` (`e580_entry`, 1162 instructions) runs the
 French header-422 entry's init loops (bands, quads, sheets, webs, rings,
 spokes) in the header-336 frame, with the sheet extent from the `u16` at
 `+ 0x40` of a 0x48-byte config. The config's linked flag picks between part 0
@@ -706,7 +706,7 @@ progress. Two source details:
 - both point rows are written with `setVector`, so `&b[k]` is a pointer of its
   own, and the drawing loop's `k = 0` comes before the packet pointer.
 
-`variant324_bands.c` (header 324, 713 instructions at `0x17D4`) draws one
+`e507_bands.c` (header 324, 713 instructions at `0x17D4`) draws one
 0x1EC-byte `Variant324Band` at `work + 0x4E0`: nine three-point fans, each
 rotated by `ratan2 + 0x800` about its own point on the path from
 `work[0xED8..0xEE0]` along `work[0xEEC..0xEF4]` (stretched by the level at
@@ -746,7 +746,7 @@ retail does.
 
 `spokes*` is a second form of the spokes helper, 197 instructions instead of
 195: it draws four rings like spokes but only sorts lines whose depth is below
-`0x800`, as rings does. `variant405_spokes.c` was written from header 405's
+`0x800`, as rings does. `e588_spokes.c` was written from header 405's
 copy and the other five were derived from it by the same offset substitution.
 
 ## Registered images
@@ -825,7 +825,7 @@ Spanish one. Their other functions stay in assembly, except header 415's entry
 and ribbon helper below. The header-415 layers and bands helpers are 20 and 18 words longer than
 their Spanish builds, so the compiler change is more than the epilogue `nop`.
 
-Header 415's entry at `0x0004` (`variant415_entry`, 875 instructions) is
+Header 415's entry at `0x0004` (`e570_entry`, 875 instructions) is
 written for this build rather than ported, since the Spanish header-432 entry is
 still assembly. It sets up three ribbons, two sheets, two sets of three
 seventeen-point strands, four rings, two lines and three sweeps. It reads its
@@ -844,7 +844,7 @@ The two flat-textured packets take their tpage and clut from locals that are
 never assigned. The retail code also loads them from stack slots it never
 writes.
 
-Header 415's ribbon helper at `0x0DB0` (`variant415_ribbons`, 359 instructions)
+Header 415's ribbon helper at `0x0DB0` (`e570_ribbons`, 359 instructions)
 is also new C. For each of the five anchors it turns the three ribbons by the
 anchor's `ratan2` angle, places their ends along the anchor's direction by the
 sweep amount, and projects them. On the last anchor it grows each amount by
@@ -883,14 +883,14 @@ last point stores its width through a local. The no-op store
 `work[0xD58] = work[0xD58]` and the identical arms of `if (poly)` are both
 needed: without either one the body is a word short and the registers differ.
 
-The header-443 entry (`variant443_entry.c`, 831 instructions) is the French
+The header-443 entry (`e503_entry.c`, 831 instructions) is the French
 and Spanish header-460 entry built with gcc 2.7.2, which makes it one word
 longer. As with header 391, the entry reads its CLUT from column 512 instead of 640
 (`MODEL_VARIANT460_CLUT_X`), and the wrapper renames the helpers and the data
 block, which starts at the end of the text (`D_8013D888`, read at `+ 0x1C` to
 `+ 0xFC`). Model 125's longer images (`443*`, `593*`) use the same wrappers, and
 their streamers at `0x20C8` are the same bytes as the other twelve images', so
-they reuse `variant443_streamers`. Their data block at `0x2888` is 0x77C bytes
+they reuse `e503_streamers`. Their data block at `0x2888` is 0x77C bytes
 (`D_8013D888`/`D_8017D888`, now a data owner). The 0x1D08 bytes from
 `0x3004` to `0x4D0C`, formerly registered as `func_8013E004`/`func_8017E004`,
 are an unclassified tail: the two images disagree in 1835 of their 1858 words,
@@ -913,7 +913,7 @@ registered that tail as a sixth function, `func_8013E004`; it is not one. Model
 168's longer header-443 image is left out because it calls `0x80054A44`, inside
 `Model_DrawSlot`.
 
-`variant321_ribbon.c` (header 321, 705 instructions) draws five ribbons in the
+`e500_ribbon.c` (header 321, 705 instructions) draws five ribbons in the
 style of the header-376 ribbon, over `Variant321Ribbon` records that keep a
 per-ribbon segment count at `+ 0x23A`. Each ribbon is turned by its own angle,
 `0x400` for the first and `0x400 +- i * 360` by parity for the others, and
@@ -1010,7 +1010,7 @@ only.
 
 | Name | Shared C | Bound at |
 |---|---|---|
-| `ModelVariant405_DrawWebs` | `model_variant/variant405_webs.c` | USA models 1 and 550, Japanese images 456/466 and 138180/138190: `0x8013D8FC`/`0x8017D8FC`. USA model 62, Japanese images 17312/17322: `0x8013F594`/`0x8017F594`. European, French, German, Italian and Spanish models 1 and 550: `0x8013D8F0`/`0x8017D8F0` |
+| `ModelVariant405_DrawWebs` | `model_variant/e588_webs.c` | USA models 1 and 550, Japanese images 456/466 and 138180/138190: `0x8013D8FC`/`0x8017D8FC`. USA model 62, Japanese images 17312/17322: `0x8013F594`/`0x8017F594`. European, French, German, Italian and Spanish models 1 and 550: `0x8013D8F0`/`0x8017D8F0` |
 | `FrenchModelVariant443_DrawRibbons` | `model_variant/variant443_ribbons_pal.c` | USA model 62, Japanese images 17312/17322: `0x8013CAC4`/`0x8017CAC4`. European, French, German, Italian and Spanish model 62: `0x8013CADC`/`0x8017CADC` |
 | `ModelVariant159_HandleRequest` | `model_variant/variant159_entry.c` | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: `0x8013B004`/`0x8017B004` |
 | `gModelVariant159_D1D94` | data subsegment (`variant159_entry.h`) | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: USA and Japanese `0x8013CD94`/`0x8017CD94`; European, French, German, Italian and Spanish `0x8013CD70`/`0x8017CD70` |
@@ -1044,10 +1044,10 @@ only.
 | `ModelVariant154_HandleRequest` | `model_variant/variant154_entry.c` | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: `0x8013B004`/`0x8017B004` |
 | `gModelVariant154_D23B4` | data subsegment (`variant154_entry.h`) | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: USA and Japanese `0x8013D3B4`/`0x8017D3B4`; European, French, German, Italian and Spanish `0x8013D390`/`0x8017D390` |
 | `gModelVariant154_D2408` | data subsegment (`variant154_entry.h`) | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: USA and Japanese `0x8013D408`/`0x8017D408`; European, French, German, Italian and Spanish `0x8013D3E4`/`0x8017D3E4` |
-| `FrenchModelVariant410_HandleRequest` | `model_variant/variant410_entry_pal.c` | Model 54 slot 0 and slot 1 in every region, Japanese images 15084/15094: `0x8013B004`/`0x8017B004` |
-| `FrenchModelVariant410_DrawQuads` | `model_variant/variant410_quads.c` | USA model 54, Japanese images 15084/15094: `0x8013BAB0`/`0x8017BAB0`. European, French, German, Italian and Spanish model 54: `0x8013BAAC`/`0x8017BAAC` |
-| `FrenchModelVariant410_DrawRibbons` | `model_variant/variant410_ribbons_pal.c` | USA model 54, Japanese images 15084/15094: `0x8013BF60`/`0x8017BF60`. European, French, German, Italian and Spanish model 54: `0x8013BF58`/`0x8017BF58` |
-| `FrenchModelVariant410_DrawRings` | `model_variant/variant410_rings.c` | USA model 54, Japanese images 15084/15094: `0x8013C898`/`0x8017C898`. European, French, German, Italian and Spanish model 54: `0x8013C8B8`/`0x8017C8B8` |
+| `FrenchModelVariant410_HandleRequest` | `model_variant/e576_entry_pal.c` | Model 54 slot 0 and slot 1 in every region, Japanese images 15084/15094: `0x8013B004`/`0x8017B004` |
+| `FrenchModelVariant410_DrawQuads` | `model_variant/e576_quads.c` | USA model 54, Japanese images 15084/15094: `0x8013BAB0`/`0x8017BAB0`. European, French, German, Italian and Spanish model 54: `0x8013BAAC`/`0x8017BAAC` |
+| `FrenchModelVariant410_DrawRibbons` | `model_variant/e576_ribbons_pal.c` | USA model 54, Japanese images 15084/15094: `0x8013BF60`/`0x8017BF60`. European, French, German, Italian and Spanish model 54: `0x8013BF58`/`0x8017BF58` |
+| `FrenchModelVariant410_DrawRings` | `model_variant/e576_rings.c` | USA model 54, Japanese images 15084/15094: `0x8013C898`/`0x8017C898`. European, French, German, Italian and Spanish model 54: `0x8013C8B8`/`0x8017C8B8` |
 | `gFrenchModelVariant410_D1D04` | data subsegment (`variant410_entry.h`) | USA model 54, Japanese images 15084/15094: `0x8013CCE8`/`0x8017CCE8`. European, French, German, Italian and Spanish model 54: `0x8013CD04`/`0x8017CD04` |
 | `FrenchModelVariant458_HandleRequest` | `model_variant/variant458_entry_pal.c` | Model 202 slot 0 and slot 1 in every region, Japanese images 55932/55942: `0x8013B004`/`0x8017B004` |
 | `FrenchModelVariant458_DrawSheets` | `model_variant/variant458_sheets_pal.c` | USA model 202, Japanese images 55932/55942: `0x8013BC14`/`0x8017BC14`. European, French, German, Italian and Spanish model 202: `0x8013BC10`/`0x8017BC10` |
@@ -1157,7 +1157,7 @@ rows of seventeen points drawn as sixteen `POLY_GT4` strips, turned by two
 `0x1000` and wraps with a count until the fourth phase. It needs the `work`
 copy of `ctx`, and the packet pointer is set before the second angle.
 Header 398 has the same helper at `0x2A44` (359 instructions,
-`variant398_curtains`), which rebuilds the two rows of each shown curtain every
+`e581_curtains`), which rebuilds the two rows of each shown curtain every
 frame around the angle at `work + 0x1A2C`. The inner row is `rcos >> 4`, read as
 `(u32)` so that the shift is `srl`; the outer row is at a radius of `lift +
 0x180`, lifted by `lift + 0x80`, where `lift` is `((flags & 1) << 5)` times the
@@ -1166,8 +1166,8 @@ stored inside the strip loop. The retail register and stack-slot layout needs
 the sheet pointer set before the packet pointer and both before the second
 angle, the declaration order `curtain, ot, i, lift, yaw, pitch, radius`, and
 `i = 0` set between `lift` and `radius`.
-Header 398's rings at `0x12B8` (381 instructions, `variant398_rings`) are the
-three framebuffer rings of `variant398_entry` at `work + 0xE08`, drawn like the
+Header 398's rings at `0x12B8` (381 instructions, `e581_rings`) are the
+three framebuffer rings of `e581_entry` at `work + 0xE08`, drawn like the
 French header-464 rings: turned by the two `ratan2` angles of the direction at
 `work + 0x19C0`, scaled by the ring scale and moved to the translation at
 `work + 0x19AC`. Past `0x800` the inner row is rebuilt at radius `r + 256` and
@@ -1210,7 +1210,7 @@ functions to make them link. The header-372 images now build their entry from
 
 ## Header 412 entry
 
-`variant412_entry.c` (profile `gcc_2_7_2_cdk_g0`, `0x133C` bytes) builds the
+`e595_entry.c` (profile `gcc_2_7_2_cdk_g0`, `0x133C` bytes) builds the
 North American image `model_variant_517_pos0_slot0` (model 517, record 467,
 sector 129072). It is the header-407 entry with the 48 petals replaced by a
 ten-sprite trail at `work + 0` and six flares at `work + 0x2FC`, a `0x3C`-byte

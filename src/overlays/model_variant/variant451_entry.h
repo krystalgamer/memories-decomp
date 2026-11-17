@@ -2,7 +2,7 @@
 #define MEMORIES_MODEL_VARIANT451_ENTRY_H
 #include "../../types.h"
 #include "../model_variant/variant337_entry.h"
-#include "variant412_entry.h"
+#include "e595_entry.h"
 
 typedef struct {
     CVECTOR inner, outer, web;

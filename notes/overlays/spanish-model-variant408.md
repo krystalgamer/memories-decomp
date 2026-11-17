@@ -14,9 +14,9 @@ cover 5,200 instruction bytes per slot:
 
 | Relative interval | Bytes | Source |
 |---|---:|---|
-| `0x4..0x93C` | 2360 | `variant408_entry.c` |
-| `0x93C..0x102C` | 1776 | `variant408_update.c` |
-| `0x102C..0x1454` | 1064 | `variant408_draw.c` |
+| `0x4..0x93C` | 2360 | `e591_entry.c` |
+| `0x93C..0x102C` | 1776 | `e574_update.c` |
+| `0x102C..0x1454` | 1064 | `e574_draw.c` |
 
 Both slots compile the same sources; each image's `*_symbols.txt` binds the
 function and data names at its own addresses. Each

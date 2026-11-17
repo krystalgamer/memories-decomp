@@ -260,7 +260,7 @@ maintainer acceptance.
 
 ## Additive entry-called bands
 
-The unchanged accepted `variant324_bands.c`, its canonical band declaration
+The unchanged accepted `e507_bands.c`, its canonical band declaration
 and the two French wrappers reproduce `+0x17C0..+0x22F8` in every Spanish
 image. Both wrappers use `gcc_2_8_1_g0_split`; no shared source, declaration,
 profile or other regional build input changes. `RotTransPers3` replaces
