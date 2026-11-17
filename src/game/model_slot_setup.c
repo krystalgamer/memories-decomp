@@ -80,14 +80,14 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
     if (render_flags >= 0) {
         model_slot->draw_mode_request = render_flags & 0x7F;
         if (render_flags & 0x80) {
-            model_slot->tint[7] = 5;
+            model_slot->tint.bytes[7] = 5;
         } else {
-            model_slot->tint[7] = 0;
+            model_slot->tint.bytes[7] = 0;
         }
     }
-    model_slot->tint[6] = 0;
-    model_slot->tint[5] = 0;
-    model_slot->tint[4] = 0;
+    model_slot->tint.bytes[6] = 0;
+    model_slot->tint.bytes[5] = 0;
+    model_slot->tint.bytes[4] = 0;
     model_slot->cached_dimensions[0] = 0;
     model_slot->cached_dimensions[1] = 0;
     model_slot->cached_dimensions[2] = 0;
@@ -922,7 +922,7 @@ void Model_BuildSlotAnimationTables(s32 slot_index)
 {
     ModelSlot *slot;
     ModelSlotPart *part_sequence;
-    s32 *command_cursor;
+    ModelAnimationCommand *command_cursor;
     u32 command_word;
     s32 row_index;
     s32 part_index;
@@ -945,7 +945,7 @@ void Model_BuildSlotAnimationTables(s32 slot_index)
             command_cursor = &slot->animation_commands[first_command_index];
             slot->animation_command_indices[row_index][part_index] = first_command_index;
             while (1) {
-                command_word = *command_cursor;
+                command_word = command_cursor->word;
                 if ((s32)command_word < 0) {
                     row_index = command_word >> 16;
                     row_index = row_index & 0x7F;
@@ -955,12 +955,12 @@ void Model_BuildSlotAnimationTables(s32 slot_index)
                     if (slot->animation_command_indices[row_index][part_index] != 0xFFFF) {
                         command_cursor++;
                     } else {
-                        slot->animation_command_indices[row_index][part_index] = *(u16 *)command_cursor;
-                        command_cursor = &slot->animation_commands[*(u16 *)command_cursor];
+                        slot->animation_command_indices[row_index][part_index] = command_cursor->b.value;
+                        command_cursor = &slot->animation_commands[command_cursor->b.value];
                     }
                 } else {
                     slot->animation_duration_rows[row_index].values[part_index] =
-                        slot->animation_duration_rows[row_index].values[part_index] + ((u8 *)command_cursor)[2];
+                        slot->animation_duration_rows[row_index].values[part_index] + command_cursor->b.duration;
                     command_cursor++;
                 }
             }
@@ -991,10 +991,10 @@ void Model_BuildSlotAnimationTables(s32 slot_index)
 void Model_LinkSlotAnimationRows(s32 slot_index)
 {
     ModelSlot *slot;
-    s32 *row_command;
-    s32 *target_command;
-    s32 *pre_row_command;
-    s32 *row_one_command;
+    ModelAnimationCommand *row_command;
+    ModelAnimationCommand *target_command;
+    ModelAnimationCommand *pre_row_command;
+    ModelAnimationCommand *row_one_command;
     s32 part_index;
     s32 row_index;
     s32 part_byte_offset;
@@ -1044,7 +1044,7 @@ void Model_LinkSlotAnimationRows(s32 slot_index)
                     }
                     for (;;) {
             case 0:
-                        command_word = *row_command;
+                        command_word = row_command->word;
                         if (command_word < 0) {
                             target_row = (u32)command_word >> 16;
                             target_row = target_row & 0x7F;
@@ -1056,27 +1056,27 @@ void Model_LinkSlotAnimationRows(s32 slot_index)
                             if (target_row == 0) {
                                 break;
                             }
-                            *row_command = (command_word & 0xC07FFFFF)
+                            row_command->word = (command_word & 0xC07FFFFF)
                                 | ((((u32)command_word >> 16) & 0x7F) << 23);
                             if (target_command_index != missing_command_index) {
                                 if (target_row >= 2) {
-                                    if (target_command != (s32 *)0) {
+                                    if (target_command != 0) {
                                         do {
-                                            target_word = *target_command;
+                                            target_word = target_command->word;
                                             if (target_word < 0) {
                                                 if ((((u32)target_word >> 16) & 0x7F)
                                                     == target_row) {
-                                                    *target_command = (target_word & row_bits_clear_mask) | row_one_bit;
+                                                    target_command->word = (target_word & row_bits_clear_mask) | row_one_bit;
                                                 }
-                                                if ((((u16 *)target_command)[1]
+                                                if ((target_command->h.high
                                                     & 0x7F) == row_one) {
-                                                    *(s16 *)target_command = row_one_command - slot->animation_commands;
-                                                    *(s16 *)row_command = target_command - slot->animation_commands;
+                                                    target_command->h.value = row_one_command - slot->animation_commands;
+                                                    row_command->h.value = target_command - slot->animation_commands;
                                                     break;
                                                 }
                                             }
                                             target_command++;
-                                        } while (target_command != (s32 *)0);
+                                        } while (target_command != 0);
                                     }
                                 }
                             }
@@ -1086,8 +1086,8 @@ void Model_LinkSlotAnimationRows(s32 slot_index)
                 }
                 /* Reloaded rather than reusing the base the links above
                    already hold: retail reads the member again here. */
-                *(s16 *)pre_row_command = (row_command - (s32 *)*(volatile s32 *)&slot->animation_commands) - 1;
-                *(s16 *)row_command = (pre_row_command - slot->animation_commands) + 1;
+                pre_row_command->h.value = (row_command - *(ModelAnimationCommand *volatile *)&slot->animation_commands) - 1;
+                row_command->h.value = (pre_row_command - slot->animation_commands) + 1;
             }
             row_index++;
             entry_byte_offset += sizeof(slot->animation_command_indices[0]);

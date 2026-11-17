@@ -19,31 +19,6 @@ void Model_UpdateSlotAnimation(s32 index);
 /* A loaded module's control entry follows its first word. */
 typedef s32 (*ModelControlHandler)(u8 *context, s32 command);
 
-/* Non-owning view of the signed command words at +0xD08 through +0xD10.
- * Entries 0/1 are the first/second-star module commands; entry 2 is
- * primary_module_command. Preserve unchecked selection and this view. */
-typedef struct {
-    u8 prefix[0xD08];
-    s32 commands[3];
-} ModelControlCommandView;
-
-typedef char ModelControlCommandOffset[
-    OFFSETOF(ModelControlCommandView, commands) ==
-        OFFSETOF(ModelSlot, metadata) + 0x10 ? 1 : -1
-];
-typedef char ModelControlCommandMembersMatchSlot[
-    OFFSETOF(ModelControlCommandView, commands[0]) ==
-        OFFSETOF(ModelSlot, metadata.first_star_module_command) &&
-    OFFSETOF(ModelControlCommandView, commands[1]) ==
-        OFFSETOF(ModelSlot, metadata.second_star_module_command) &&
-    OFFSETOF(ModelControlCommandView, commands[2]) ==
-        OFFSETOF(ModelSlot, metadata.primary_module_command) &&
-    sizeof(((ModelControlCommandView *)0)->commands) == 12 ? 1 : -1
-];
-typedef char ModelControlCommandViewFitsSlot[
-    sizeof(ModelControlCommandView) <= sizeof(ModelSlot) ? 1 : -1
-];
-
 void Model_UpdateSlotControl(s32 index);
 
 void Model_InitSlot(s32 slot, u8 *hmd, s32 size, s32 flags);

@@ -10,16 +10,15 @@
 struct DisplayObject;
 extern s32 (*gDisplayObjectStream_apfnCommandHandlers[])(struct DisplayObject *, const u8 *);
 extern u8 gModel_abBackgroundRecords[];
-extern u16 gModel_aShadowFanSteps[];
 
-/* How Model_DrawSlot reads gModel_aShadowFanSteps: eight x/z direction pairs in Q12, one
-   per 45 degrees, which are the rim points of the ground shadow fan. The
-   definition stays sixteen halfwords; the reader indexes it through this
-   view so loop.c turns the index into retail's walking pointer. */
+/* gModel_aShadowFanSteps: eight x/z direction pairs in Q12, one per 45
+   degrees, which are the rim points of Model_DrawSlot's ground shadow fan. */
 typedef struct {
     s16 x;
     s16 z;
 } ModelShadowFanStep;
+
+extern ModelShadowFanStep gModel_aShadowFanSteps[];
 
 typedef char ModelShadowFanStep_size_must_be_4[
     sizeof(ModelShadowFanStep) == 4 ? 1 : -1

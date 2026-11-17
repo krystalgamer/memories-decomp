@@ -7,6 +7,21 @@
 #include "../psyq/libhmd.h"
 #include "model.h"
 
+/* Model_DrawBackground's backdrop sprite, paired with the CVECTOR
+ * NormalColorCol writes its colour through (the band quads are
+ * ModelBackgroundBand in model.h). */
+typedef union {
+    GsSPRITE prim;
+    struct {
+        u8 pad_00[0x14];
+        CVECTOR rgb;
+    } c;
+} ModelBackgroundSprite;
+
+typedef char ModelBackgroundSprite_rgb_must_be_GsSPRITE_r[
+    OFFSETOF(ModelBackgroundSprite, c.rgb) == OFFSETOF(GsSPRITE, r) ? 1 : -1
+];
+
 /* Model_GetSlot0OffsetWorldPosition's stack block: one object preserves the
  * retail SVECTOR/GsCOORDUNIT/MATRIX stack order. */
 typedef struct {
@@ -123,6 +138,17 @@ typedef struct {
 typedef char ModelHandlerRunEntry_prefix_size_must_be_8[
     sizeof(ModelHandlerRunEntry) == 8 ? 1 : -1
 ];
+
+/* One primitive group of a mapped HMD unit (ModelSlotHeadEntry's
+ * primitive_data): the next group, or -1 after the last; the word both
+ * Model_RemapPrimitiveHandlers callers pass on as its unused arg2; the
+ * descriptor count, zero for an empty group; then the descriptor run. */
+typedef struct ModelPrimitiveGroup {
+    struct ModelPrimitiveGroup *next;
+    s32 field_04;
+    s32 run_count;
+    ModelHandlerRunEntry runs[1];
+} ModelPrimitiveGroup;
 
 /* Walks a run of variable-length descriptors, conditionally replacing their
  * callback words. The low halfword at +4 counts words AFTER the leading
