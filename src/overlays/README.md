@@ -44,14 +44,58 @@ Overlay C must not be inserted into the resident `matching_c.json` or linked as
 part of `SLUS_014.11`. Module-specific build manifests will extend the overlay
 metadata as matching source is accepted.
 
-Initialized module directories:
+Directories are named after the module, never after a region: one directory
+holds every build's source for that module, and region-specific behaviour is
+selected by the per-build `*_matching_c.json` manifests under `config/`.
 
+Module directories:
+
+- [`credits/`](credits/) holds the credits overlay: `credits.c` is the
+  USA/Japanese runtime and `pal_presentation.c` the PAL (European, French,
+  German, Italian and Spanish) presentation.
+- [`duel_effects/`](duel_effects/) holds the duel effect overlay shared by
+  every build: the effect dispatcher, the numbered `effect_<N>` handlers and
+  their drawing and geometry helpers.
 - [`free_duel/`](free_duel/) records the verified WA package, executable
   phase, and runtime range for the Free Duel module.
+- [`main_menu/`](main_menu/) records the verified SU phase and keeps the
+  second, unidentified SU image outside the module scope.
+- [`model_variant/`](model_variant/) holds every MODEL.MRG image source: the
+  per-model variant stages, the `primary<N>` MODEL primaries, the Exodia
+  helpers (`exodia_slot0.c`, `exodia_slot1.c`) and the `image<N>_*` images
+  named by disc sector. See [MODEL variant file names](#model-variant-file-names).
+- [`options/`](options/) holds the PAL options screen built by the five
+  European executables.
+- [`overworld/`](overworld/) records the pre- and post-coup WA variants that
+  reuse the same runtime code range.
 - [`password/`](password/) records the password-screen package and the
   related, non-identical phase in the name-entry package, including the
   name-entry entry points into the shared front-end image.
-- [`overworld/`](overworld/) records the pre- and post-coup WA variants that
-  reuse the same runtime code range.
-- [`main_menu/`](main_menu/) records the verified SU phase and keeps the
-  second, unidentified SU image outside the module scope.
+- [`safecheck2003/`](safecheck2003/) holds the safechk 2.0.0.3 boot
+  protection module built by every region.
+
+## MODEL variant file names
+
+`model_variant/` merged the former `french_model_variant/`,
+`spanish_model_variant/`, `spanish_model_primary/` and `model_exodia/`
+directories (#9498, #9500, #9504, #9506). A file's base name is
+`variant<N>_<role>` (`entry`, or a helper such as `rings` or `sheets`), where
+`<N>` is the MODEL header number of the family it was written for, with these
+suffixes:
+
+- `variant<N>us_*` (for example `variant107us_entry.c`): `<N>` is a USA MODEL
+  header number. These families were decompiled from the North American
+  images; most are also built for Japan, and a few (such as
+  `variant445us_entry.c`) are shared by every region.
+- `*_usa.c` (for example `exodia_slot0_usa.c`, `variant96_entry_usa.c`): the
+  USA build of a shared source. Each is a thin wrapper that sets a
+  configuration macro (`MODEL_EXODIA_USA`, `GRAPHICS_DEFAULT_HEIGHT 240`, a
+  work-size `printf`, ...) and includes the shared `.c`; it has no header of
+  its own. Japan reuses most of these wrappers.
+- `*_pal` (for example `variant101_entry_pal.c`/`.h`): a source moved from
+  `french_model_variant/` or `spanish_model_variant/` whose name clashed with a
+  different file already in `model_variant/`; the `.c`/`.h` pair is renamed
+  together. These are PAL sources, although some are also built for the USA
+  and Japan, directly or through a `*_usa.c` wrapper. The rename did not touch
+  symbols, so many still carry `FrenchModelVariant<N>_` or
+  `SpanishModelVariant<N>_` prefixes.
