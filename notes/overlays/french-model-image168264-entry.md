@@ -29,7 +29,7 @@ The first negative start skips both rendering passes. An index-based sentinel
 guard and first-pass do/while recover that control flow exactly. Halfword RGB
 temporaries and a cached blue grayscale quotient recover native division,
 packet-store and register scheduling. Accepted local
-`src/overlays/model_variant/variant118_entry.c` provided related fan-structure
+`src/overlays/model_variant/e066_entry.c` provided related fan-structure
 evidence; this component's layouts, trigonometry, scaling and timings were
 independently recovered from its own image. No external reference types or
 compiler flags were imported. Header numbers are not cross-region identity:

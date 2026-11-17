@@ -1023,12 +1023,12 @@ only.
 | `FrenchModelVariant462_DrawSheets` | `model_variant/variant462_sheets_pal.c` | USA model 457, Japanese images 112512/112522: `0x8013CEEC`/`0x8017CEEC`. European, French, German, Italian and Spanish model 457: `0x8013CEF8`/`0x8017CEF8` |
 | `FrenchModelVariant462_DrawRings` | `model_variant/variant462_rings.c` | USA model 457, Japanese images 112512/112522: `0x8013D41C`/`0x8017D41C`. European, French, German, Italian and Spanish model 457: `0x8013D42C`/`0x8017D42C` |
 | `gModelVariant445_D2848` | data subsegment (`variant445us_entry.h`) | USA model 457, Japanese images 112512/112522: `0x8013D848`/`0x8017D848`. European, French, German, Italian and Spanish model 457: `0x8013D860`/`0x8017D860` |
-| `ModelVariant105_HandleRequest` | `model_variant/variant105_entry.c` | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013B004`/`0x8017B004` |
-| `gModelVariant105_D1424` | data subsegment (`variant105_entry.h`) | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013C424`/`0x8017C424` |
-| `gModelVariant105_D1440` | data subsegment (`variant105_entry.h`) | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013C440`/`0x8017C440` |
-| `ModelVariant106_HandleRequest` | `model_variant/variant106_entry.c` | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013B004`/`0x8017B004` |
-| `gModelVariant106_D2174` | data subsegment (`variant106_entry.h`) | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013D174`/`0x8017D174` |
-| `gModelVariant106_D21C8` | data subsegment (`variant106_entry.h`) | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013D1C8`/`0x8017D1C8` |
+| `ModelVariant105_HandleRequest` | `model_variant/e053_entry.c` | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013B004`/`0x8017B004` |
+| `gModelVariant105_D1424` | data subsegment (`e053_entry.h`) | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013C424`/`0x8017C424` |
+| `gModelVariant105_D1440` | data subsegment (`e053_entry.h`) | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013C440`/`0x8017C440` |
+| `ModelVariant106_HandleRequest` | `model_variant/e054_entry.c` | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013B004`/`0x8017B004` |
+| `gModelVariant106_D2174` | data subsegment (`e054_entry.h`) | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013D174`/`0x8017D174` |
+| `gModelVariant106_D21C8` | data subsegment (`e054_entry.h`) | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013D1C8`/`0x8017D1C8` |
 | `ModelVariant132_HandleRequest` | `model_variant/variant132_entry.c` | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013B004`/`0x8017B004` |
 | `gModelVariant132_D1388` | data subsegment (`variant132_entry.h`) | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013C388`/`0x8017C388` |
 | `gModelVariant132_D13C0` | data subsegment (`variant132_entry.h`) | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013C3C0`/`0x8017C3C0` |
@@ -1078,7 +1078,7 @@ only.
 
 ### Header 407: petals
 
-`variant407_petals.c` (`func_8013C2DC`, 379 instructions) draws 48 petals, one
+`e036_petals.c` (`func_8013C2DC`, 379 instructions) draws 48 petals, one
 `POLY_G4` each. Each petal grows from the variant centre along its own velocity
 (`scale * velocity / 512`), swings around a circle whose radius shrinks with
 `rcos(scale)`, fades past scale `0x200`, and cycles its scale through the timing
@@ -1099,7 +1099,7 @@ and 595 at `+ 180`; 165, 242, 294, 352, 358, 399, 465, 520 and 621 at
   literal, fold reassociates the constant out of the sum, while a named value
   is only propagated by cse, after fold.
 
-`variant407_entry.c` (`func_8013B004`, 1206 instructions) is the entry of the
+`e036_entry.c` (`func_8013B004`, 1206 instructions) is the entry of the
 same images: the 48 petals open the work area, followed by sixteen 0xA8-byte
 records, bands, sheets, rings, spokes, quads and webs, and the petals drawer is
 its only per-frame helper. The petals pointer is set again before the

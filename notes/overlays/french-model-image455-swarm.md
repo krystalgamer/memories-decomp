@@ -22,7 +22,7 @@ groupings, or a separate `angle - 1024` temporary, reassociate the bias or
 swap the `a0`/`v1` registers of the two sign-extended operands.
 
 The helper reads `Variant438EntryState` (its `swarm`, whose `+0xB14`/`+0xD14`
-words are `done`/`initialized`); the former local view `variant455_swarm.h`
+words are `done`/`initialized`); the former local view `e008_swarm.h`
 was removed. The resident calls are covered
 by `model_variant455_linker_symbols.txt`. All French overlay images rebuild
 exactly. The [attempt ledger](french-model-image455-swarm-attempts.csv)

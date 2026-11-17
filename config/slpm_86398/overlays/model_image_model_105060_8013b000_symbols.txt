@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 430 (record 380), sector 105060, header 102, loaded at 0x8013B000; the US source variant102_entry.c; built from the US source layout of model_variant_430_pos0_slot0.
+// Japanese MODEL.MRG model 430 (record 380), sector 105060, header 102, loaded at 0x8013B000; the US source e050_entry.c; built from the US source layout of model_variant_430_pos0_slot0.
 ModelVariant102_HandleRequest = 0x8013B004; // type:func size:0x24B8 defined:true
 gModelVariant102_aImages = 0x8013D4CC; // type:u8 size:0x8C defined:true
 gModelVariant102_aConfigs = 0x8013D558; // type:u8 size:0x2AA8 defined:true

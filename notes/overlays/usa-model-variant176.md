@@ -3,7 +3,7 @@
 Twenty-seven North American MODEL variant images share one entry, at `+0x4`
 and `0x13A0` bytes long. No French or Spanish source reproduces it. The
 entry is new North American C in
-[`variant176_entry.c`](../../src/overlays/model_variant/variant176_entry.c),
+[`e032_entry.c`](../../src/overlays/model_variant/e032_entry.c),
 built under `gcc_2_8_1_g0_split` like the French entries.
 The images loaded at `0x8017B000` build the same file directly; each image's
 `*_symbols.txt` binds the entry and data names at its own addresses.

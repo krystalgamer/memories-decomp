@@ -8,7 +8,7 @@ selected by different commands: model 96 stage 7 uses 590000, while model
 
 ## Shared C and measured regional differences
 
-Two four-line wrappers reuse `variant407_petals.c`, defining
+Two four-line wrappers reuse `e036_petals.c`, defining
 `VERSION_FRENCH` and renaming the helper to `0x8013C2D8`/`0x8017C2D8`.
 French uses the named GCC 2.8.1/MASPSX 2.81 profile
 `gcc_2_8_1_g0_split`. Existing US profile metadata is not changed or
