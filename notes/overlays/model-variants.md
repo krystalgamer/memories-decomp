@@ -4,7 +4,9 @@
 primary. Each stage is 10 sectors at `record * 276 + 180`, `+ 190`, `+ 200` and
 `+ 210`. Slot 0 loads at `0x8013B000` and slot 1 at `0x8017B000`. This note
 calls these images the model variants. Sixty-two slot-0 images are registered;
-see [Registered images](#registered-images).
+see [Registered images](#registered-images). The developers' `eNNN` effect
+names for the header words, and the residue evidence for them, are in
+[MODEL effect names](../model-effects.md).
 
 The older USA headers 71/201 are registered separately using the shared
 French header-88 C and GCC 2.8.1. See the
