@@ -2,7 +2,7 @@
   "schema": 1,
   "units": [
     {
-      "source": "src/game/japanese/text_glyph_records.c",
+      "source": "src/game/text_glyph_records.c",
       "profile": "gcc_2_8_1_g0"
     }
   ]

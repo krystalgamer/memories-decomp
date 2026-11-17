@@ -310,7 +310,7 @@ segments:
     align: 4
     subsegments:
       - [0x1ac800, bin, tail_data]
-      - [0x1ca3ac, .data, game/japanese/text_glyph_records]
+      - [0x1ca3ac, .data, game/text_glyph_records]
       - [0x1ca710, bin, tail_data_after_glyph_records]
 
   - [0x1d0800]
