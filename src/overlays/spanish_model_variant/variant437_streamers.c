@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "../model_variant/variant437_streamers.h"
 #include "../french_model_variant/variant437_entry.h"
 
 /* The North American header-420 streamers index the closing segment directly
@@ -43,7 +42,7 @@ void SpanishModelVariant437_DrawStreamers(Variant437EntryState *context)
     s32 turn;
     s16 n;
     s32 radius;
-    Variant437Streamer *streamer;
+    ModelVariantShortStreamer *streamer;
     s16 k;
     s32 twist;
     s32 bulge;
@@ -126,11 +125,11 @@ void SpanishModelVariant437_DrawStreamers(Variant437EntryState *context)
     for (i = 0; i < 3; i++, streamer++) {
 #else
     for (i = 0, previous = &streamer->sa[11]; i < 3; i++,
-         previous = (long *)((u8 *)previous + sizeof(Variant437Streamer)), streamer++) {
+         previous = (long *)((u8 *)previous + sizeof(ModelVariantShortStreamer)), streamer++) {
 #endif
         for (k = 0; k < 13; k++) {
             if (k == 12) {
-                streamer->otz[k] = RotTransPers4(&streamer->a[11], &streamer->a[12], &streamer->a[11], &streamer->a[12],
+                streamer->depth[k] = RotTransPers4(&streamer->a[11], &streamer->a[12], &streamer->a[11], &streamer->a[12],
                                                   STREAMERS437_PREVIOUS, &streamer->sa[12],
                                                   STREAMERS437_PREVIOUS, &streamer->sa[12], &p, &status[i][12]);
                 RotTransPers(&streamer->b[12], &streamer->sb[12], &p, &flag);
@@ -145,7 +144,7 @@ void SpanishModelVariant437_DrawStreamers(Variant437EntryState *context)
                 streamer->ox[k] = rcos(streamer->angle[k]) * streamer->width[k] >> 12;
                 streamer->oy[k] = rsin(streamer->angle[k]) * streamer->width[k] >> 12;
             } else {
-                streamer->otz[k] = RotTransPers4(&streamer->a[k], &streamer->a[k + 1], &streamer->a[k], &streamer->a[k + 1],
+                streamer->depth[k] = RotTransPers4(&streamer->a[k], &streamer->a[k + 1], &streamer->a[k], &streamer->a[k + 1],
                                                  &streamer->sa[k], &streamer->sa[k + 1],
                                                  &streamer->sa[k], &streamer->sa[k + 1], &p, &status[i][k]);
                 RotTransPers(&streamer->b[k], &streamer->sb[k], &p, &flag);
@@ -173,12 +172,12 @@ void SpanishModelVariant437_DrawStreamers(Variant437EntryState *context)
             poly->y2 = (streamer->sa[k] >> 16) - streamer->oy[k];
             poly->x3 = streamer->sa[k + 1] - streamer->ox[k + 1];
             poly->y3 = (streamer->sa[k + 1] >> 16) - streamer->oy[k + 1];
-            poly->r0 = streamer->color[k][0];
-            poly->g0 = streamer->color[k][1];
-            poly->b0 = streamer->color[k][2];
-            streamer->otz[k] = streamer->otz[k] * 9 / 10;
-            if (streamer->otz[k] >= 0 && status[i][k] >= 0) {
-                GsSortPoly(poly, ot, streamer->otz[k]);
+            poly->r0 = streamer->color[k].r;
+            poly->g0 = streamer->color[k].g;
+            poly->b0 = streamer->color[k].b;
+            streamer->depth[k] = streamer->depth[k] * 9 / 10;
+            if (streamer->depth[k] >= 0 && status[i][k] >= 0) {
+                GsSortPoly(poly, ot, streamer->depth[k]);
             }
         }
     }

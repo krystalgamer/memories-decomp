@@ -10,7 +10,6 @@
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
 #include "../spanish_model_variant/variant437_sheet.h"
-#include "../model_variant/variant437_streamers.h"
 
 typedef struct {
     u8 unknown_00[4], parts[3], unknown_07[5];
@@ -42,7 +41,7 @@ typedef struct {
     Variant437EntryRibbon ribbons[4];
     Sheet437 sheets[1];
     ModelVariantBandTriple records[1];
-    Variant437Streamer streamers[3];
+    ModelVariantShortStreamer streamers[3];
     u8 unknown_1098[0x318];
     ModelVariantPackets packets;
     POLY_FT4 flat[2], extra[2];
