@@ -19,9 +19,9 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantColorRing *ring = work->rings;
     ModelVariantColorRing *large_ring = work->large_rings;
-    EntrySmall478 *small = work->small;
+    ModelVariantShape *small = work->small;
     ModelVariantWebNarrow *grid = work->grids;
-    EntryExtra478 *extra = work->extras;
+    ModelVariantTrail *extra = work->extras;
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *textured = work->packets.textured;
@@ -169,23 +169,23 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
             pair->field_94 = 0;
         }
         for (i = 0; i < 1; i++, small++) {
-            setVector(&small->center, 0, 0, 0);
+            setVector(&small->origin, 0, 0, 0);
             for (k = 0, angle = 0; k < 5; k++, angle = k * 1024) {
-                setVector(&small->first[k], (u32)rcos(angle) >> 6,
+                setVector(&small->inner[k], (u32)rcos(angle) >> 6,
                     (u32)rsin(angle) >> 8, 0);
-                setVector(&small->second[k], (u32)(rcos(angle) * 3) >> 10,
+                setVector(&small->outer[k], (u32)(rcos(angle) * 3) >> 10,
                     (u32)(rsin(angle) * 5) >> 9, 0);
             }
             setVector(&small->corners[0], -128, -128, 0);
             setVector(&small->corners[1], 128, -128, 0);
             setVector(&small->corners[2], -128, 128, 0);
             setVector(&small->corners[3], 128, 128, 0);
-            small->inner.r = 255;
-            small->inner.g = 192;
-            small->inner.b = 192;
-            small->outer.r = 64;
-            small->outer.g = 64;
-            small->outer.b = 0;
+            small->inner_color.r = 255;
+            small->inner_color.g = 192;
+            small->inner_color.b = 192;
+            small->outer_color.r = 64;
+            small->outer_color.g = 64;
+            small->outer_color.b = 0;
             small->field_80 = 0;
             small->field_84 = 0;
             small->field_88 = 0;
@@ -251,12 +251,12 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
         }
         for (i = 0, palette = -64; i < 16; i++, extra++) {
             for (k = 0, progress = 0, red = palette; k < 9; k++) {
-                extra->progress[k] = progress;
+                extra->offset[k] = progress;
                 progress -= 256;
-                extra->color[k][0] = red;
-                extra->color[k][1] = red;
+                extra->color[k].r = red;
+                extra->color[k].g = red;
                 red -= 24;
-                extra->color[k][2] = 255;
+                extra->color[k].b = 255;
             }
             extra->field_6C = 0;
             extra->field_70 = 0;

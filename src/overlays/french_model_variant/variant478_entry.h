@@ -27,29 +27,15 @@ typedef struct {
 } EntryPetals478;
 
 typedef struct {
-    u8 unknown_00[0x48];
-    u8 color[9][4];
-    s32 field_6C, field_70, field_74;
-    u8 unknown_78[4];
-    s32 progress[9], field_A0, field_A4;
-} EntryExtra478;
-
-typedef struct {
-    SVECTOR center, first[5], second[5], corners[4];
-    CVECTOR inner, outer;
-    s32 field_80, field_84, field_88, field_8C;
-} EntrySmall478;
-
-typedef struct {
     ModelVariantQuadGroup quads[1];
     EntryPetals478 petals[3];
     EntrySwarm478 swarm;
-    EntryExtra478 extras[16];
+    ModelVariantTrail extras[16];
     ModelVariantWebNarrow grids[3];
     ModelVariantBandPair pairs[1];
     ModelVariantSheet sheets[2];
     ModelVariantColorRing rings[6], large_rings[4];
-    EntrySmall478 small[1];
+    ModelVariantShape small[1];
     ModelVariantPackets packets;
     u8 unknown_28C4[0x34];
     POLY_FT4 flat[2], swarm_packet;
