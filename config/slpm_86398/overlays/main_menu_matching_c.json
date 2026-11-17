@@ -2,189 +2,282 @@
   "functions": [
     {
       "address": "0x8018001C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x374",
-      "source": "src/overlays/japanese/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180390",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7BC",
-      "source": "src/overlays/japanese/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180B4C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1E0",
-      "source": "src/overlays/japanese/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180D2C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA4",
-      "source": "src/overlays/japanese/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180DD0",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x9C",
-      "source": "src/overlays/japanese/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180E6C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE4",
-      "source": "src/overlays/japanese/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180F50",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x88",
-      "source": "src/overlays/japanese/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180FD8",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x2DC",
-      "source": "src/overlays/japanese/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x801812B4",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x474",
-      "source": "src/overlays/japanese/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80181728",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x590",
-      "source": "src/overlays/japanese/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80181CB8",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x178",
-      "source": "src/overlays/japanese/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80181E30",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBC",
-      "source": "src/overlays/japanese/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80181EEC",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
-      "source": "src/overlays/japanese/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80181F20",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x48",
-      "source": "src/overlays/japanese/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80181F68",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x274",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x801821DC",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x11B0",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x8018338C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x188",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183514",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1E0",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x801836F4",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x190",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183884",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x190",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183A14",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x118",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183B2C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x360",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183E8C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x158",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183FE4",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184030",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x801840F8",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x8018416C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE8",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184254",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF0",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184344",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x110",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184454",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x84",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x801844D8",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
-      "source": "src/overlays/japanese/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     }
   ],
   "schema": 1

@@ -2,9 +2,12 @@
   "functions": [
     {
       "address": "0x8013A004",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA04",
-      "source": "src/overlays/japanese/model_primary/primary64.c"
+      "source": "src/overlays/spanish_model_primary/primary64.c"
     }
   ],
   "schema": 1
