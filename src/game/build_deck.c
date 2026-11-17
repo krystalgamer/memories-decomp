@@ -1673,7 +1673,11 @@ s32 BuildDeck_GetActiveCardID(CardList *list)
 #define BUILD_DECK_PANE_CANCEL_BUTTON PAD_BUTTON_CANCEL
 #endif
 #ifndef BUILD_DECK_PANE_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define BUILD_DECK_PANE_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define BUILD_DECK_PANE_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
 #endif
 
 void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {

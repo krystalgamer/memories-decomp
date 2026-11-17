@@ -1778,7 +1778,11 @@ u8 gDialog_bInputState;
 /* The confirm buttons. The Japanese release swaps Cross and Circle, so a
  * regional build names its own. */
 #ifndef DIALOG_UPDATE_CHOICE_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define DIALOG_UPDATE_CHOICE_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define DIALOG_UPDATE_CHOICE_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
 #endif
 
 /* Regional value: the channel flag that makes this update return at once,
@@ -2008,7 +2012,11 @@ DisplayObject *Dialog_OpenChoice(DuelEffectChannel *record)
 }
 
 #ifndef DUEL_EFFECT_CHOICE_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define DUEL_EFFECT_CHOICE_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define DUEL_EFFECT_CHOICE_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
 #endif
 
 void Text_WaitForPageAdvance(DuelEffectChannel*o){unsigned char f=o->playback_state;if((f&DUEL_EFFECT_STATE_FLAG_INITIALIZED)==0){o->playback_state=f|DUEL_EFFECT_STATE_FLAG_INITIALIZED;gText_PageAdvanceHoldCountdown=10;o->prompt_object=Dialog_OpenChoice(o);}else{if(gInput_awPadHeld[0]&PAD_BUTTON_SQUARE){gText_PageAdvanceHoldCountdown--;if(gText_PageAdvanceHoldCountdown<0)gText_PageAdvanceHoldCountdown=0;}else gText_PageAdvanceHoldCountdown=10;if(gText_PageAdvanceHoldCountdown!=0&&!(gInput_awPadPressed[0]&DUEL_EFFECT_CHOICE_CONFIRM_MASK))return;SD_SEPlayFull(11);o->playback_state=2;DisplayObject_ReleaseIfPresent(o->prompt_object);o->prompt_object=0;}}
@@ -3702,7 +3710,11 @@ TextBoxStateCallback gTextBox_apfnStateCallbacks[] = {
 #define TEXT_BOX_ENTRY_TYPE DuelEffectEntry
 #endif
 #ifndef TEXT_BOX_ADVANCE_MASK
+#ifdef VERSION_JAPAN
+#define TEXT_BOX_ADVANCE_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define TEXT_BOX_ADVANCE_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
 #endif
 
 /* The flag that keeps the box's previous contents: 2 in the US build, 4 in
@@ -3928,7 +3940,11 @@ u8 gText_PreviousGlyphKind;
 #endif
 
 #ifndef DISPLAY_EFFECT_MENU_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define DISPLAY_EFFECT_MENU_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define DISPLAY_EFFECT_MENU_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
 #endif
 
 /* One record pointer walks the four channels beside a down-counter. Under

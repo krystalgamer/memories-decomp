@@ -48,7 +48,11 @@ static u32 D_8009B42C;
 /* Japan accepts circle or square as confirm on the boot screens and in the
  * front-end loop. */
 #ifndef MAIN_BOOT_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define MAIN_BOOT_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define MAIN_BOOT_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
 #endif
 
 void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {

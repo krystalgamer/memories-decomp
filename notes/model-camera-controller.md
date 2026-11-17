@@ -157,8 +157,8 @@ Distance correction keeps its signed target-slot read, slot-adjusted
 700/1000 range, separation call and both pitch-correction calls, one before
 and one after the distance steps. Japan only clears flag bit zero on
 separation: it does not step `orbit_step` in either direction or access the
-absent `base_orbit_step`. The Japanese wrapper therefore retains its compact-layout
-selector. NA's one-unit and PAL's two-unit field updates remain independent.
+absent `base_orbit_step`. The Japanese build's `VERSION_JAPAN` entry define
+therefore selects its compact layout. NA's one-unit and PAL's two-unit field updates remain independent.
 The existing signed distance reads, 150/300 thresholds, step caps, nonzero
 `s32` argument test and repeated helper/field accesses are not rewritten.
 

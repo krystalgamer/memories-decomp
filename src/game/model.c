@@ -4030,7 +4030,11 @@ void Model_UpdateSlotAnimation(s32 index) {
 /* The state trace printed on the debug font. The Japanese build carries none
    of these prints, so a regional build defines it away. */
 #ifndef MODEL_CONTROL_TRACE
+#ifdef VERSION_JAPAN
+#define MODEL_CONTROL_TRACE(message)
+#else
 #define MODEL_CONTROL_TRACE(message) FntPrint(message)
+#endif
 #endif
 
 void Model_UpdateSlotControl(s32 index)

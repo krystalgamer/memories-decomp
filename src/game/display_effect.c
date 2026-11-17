@@ -278,7 +278,11 @@ void DisplayEffect_SetObjectRowBlend(DisplayObject **objects, u32 attribute, s32
    at +0x7FFF0 (as its DisplayEffect_ResetMenuRecords resets them) and its packages start five
    sectors lower, so a regional build supplies its own. */
 #ifndef DISPLAY_EFFECT_SLOT_ID
+#ifdef VERSION_JAPAN
+#define DISPLAY_EFFECT_SLOT_ID(i) (((s8 *)gRuntime_pSharedWorkBase)[0x7FFF0 + (i)])
+#else
 #define DISPLAY_EFFECT_SLOT_ID(i) (gDisplayEffect_CachedResourceIds[i])
+#endif
 #endif
 #ifndef DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR
 #define DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR 15182
