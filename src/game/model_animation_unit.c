@@ -11,34 +11,29 @@
 #include "model_sequence_descriptor.h"
 #include "../ygo_types.h"
 
-#define MODEL_ANIMATION_SEQUENCE_SLOT(entry) \
-    ((GsSEQ **)&(entry)->animation_sequences[(entry)->animation_sequence_count])
-#define MODEL_ANIMATION_WORDS(object) ((u32 *)(object)[1])
-
-void Model_LinkSlotAnimationUnit(s32 *object, ModelSlot *entry)
+void Model_LinkSlotAnimationUnit(GsTYPEUNIT *object, ModelSlot *entry)
 {
-    int scanned_unit_words[2];
+    GsTYPEUNIT scanned_unit;
     int linked_sequence_count;
-    void *primitive_handler;
 
-    if (object[0] != 0x03800000) {
+    if (object->type != 0x03800000) {
 #ifdef VERSION_EUROPE
-        printf("unsupported ANIMATION primitive 0x%08lx.\n", object[0]);
+        printf("unsupported ANIMATION primitive 0x%08lx.\n", object->type);
 #endif
-        primitive_handler = (void *)GsU_00000000;
-        *(void **)object[1] = primitive_handler;
+        *object->ptr = (unsigned long)GsU_00000000;
         return;
     }
-    primitive_handler = Model_UpdateAnimationUnit;
-    *(void **)object[1] = primitive_handler;
+    *object->ptr = (unsigned long)Model_UpdateAnimationUnit;
+    /* animation_sequences mirrors GsSEQ as ModelSlotPart (model.h), and the
+       SDK's GsTYPEUNIT.ptr is unsigned long * where GsLinkAnim takes u32 *. */
     linked_sequence_count = GsLinkAnim(
-        MODEL_ANIMATION_SEQUENCE_SLOT(entry),
-        MODEL_ANIMATION_WORDS(object)
+        (GsSEQ **)&entry->animation_sequences[entry->animation_sequence_count],
+        (u32 *)object->ptr
     );
-    if (GsScanAnim(MODEL_ANIMATION_WORDS(object), 0)) {
-        while (GsScanAnim(0, (GsTYPEUNIT *)scanned_unit_words)) {
-            *(void **)scanned_unit_words[1] =
-                Model_GetAnimationInterpolationHandler(scanned_unit_words[0]);
+    if (GsScanAnim((u32 *)object->ptr, 0)) {
+        while (GsScanAnim(0, &scanned_unit)) {
+            *scanned_unit.ptr =
+                (unsigned long)Model_GetAnimationInterpolationHandler(scanned_unit.type);
         }
         entry->animation_sequence_count += linked_sequence_count;
     }
@@ -63,7 +58,7 @@ void *Model_GetAnimationInterpolationHandler(u32 value)
 #ifdef VERSION_EUROPE
     printf("unsupported ANIMATION interpolation 0x%08lx.\n", value);
 #endif
-    return (void *)GsU_00000000;
+    return GsU_00000000;
 }
 
 /*
@@ -132,13 +127,13 @@ static inline void Model_UpdateAnimationSequence(
     GsSEQ *const cursor,
     GsSEQ *const track,
     u32 active_frames,
-    u32 *const handler_words,
+    ModelAnimationHandler *const handler_words,
     ModelSeqDescriptor *const commands,
-    u32 *const parameter_words
+    unsigned long *const parameter_words
 )
 {
     ModelAnimParams *interpolation_parameters;
-    s32 (*handler)(GsARGUNIT_ANIM *);
+    ModelAnimationHandler handler;
     s32 direction;
     u32 next_command_index;
     u32 interpolation_type;
@@ -213,14 +208,16 @@ static inline void Model_UpdateAnimationSequence(
                 track->tframe = commands[track->ti].f.tframe << 4;
             }
         }
+        /* &commands[track->ti] swaps the addu operands (commands first). */
         dispatch_record = (ModelSeqDescriptor *)(
             track->ti * sizeof(*commands) + (u32)commands);
         /* The parameters follow the header_size words that start at header_size. */
         interpolation_parameters =
             (ModelAnimParams *)(&ctx->header_size + ctx->header_size);
         interpolation_type = dispatch_record->f.type & MODEL_SEQ_DESCRIPTOR_TYPE_MASK;
-        handler = (s32 (*)(GsARGUNIT_ANIM *))handler_words[interpolation_type + 1];
+        handler = handler_words[interpolation_type + 1];
         interpolation_parameters->seq = cursor;
+        /* param_index counts words; a ModelKeyframe is six halfwords. */
         interpolation_parameters->source =
             (ModelKeyframe *)(parameter_words + commands[track->ci].f.param_index);
         interpolation_parameters->target =
@@ -260,18 +257,19 @@ u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx)
     GsSEQ *cursor;
     GsSEQ *track;
     s32 sequence_count;
-    u32 *handler_words;
+    ModelAnimationHandler *handler_words;
     ModelSeqDescriptor *commands;
-    u32 *parameter_words;
+    unsigned long *parameter_words;
     s32 sequence_index;
     u32 active_frames;
     u32 *unit_words;
 
+    /* The SDK leaves primp/htop/ctop as unsigned long * word blocks. */
     cursor = (GsSEQ *)((GsSEH *)ctx->primp + 1);
-    handler_words = (u32 *)ctx->htop;
+    handler_words = (ModelAnimationHandler *)ctx->htop;
     commands = (ModelSeqDescriptor *)ctx->ctop;
     sequence_count = ((u16 *)ctx->primp)[1];
-    parameter_words = (u32 *)ctx->ptop;
+    parameter_words = ctx->ptop;
     for (sequence_index = 0; sequence_index < sequence_count;
          cursor = (GsSEQ *)((u32 *)cursor + cursor->size)) {
         track = cursor;
@@ -398,7 +396,7 @@ s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx)
 {
     GsSEQ *track;
     GsCOORDUNIT *node;
-    s16 *rotation_halfwords;
+    SVECTOR *rotation;
     ModelAnimationInterpolationSlots *interpolation_slots;
     s32 remaining_duration;
     s32 total_duration;
@@ -411,7 +409,7 @@ s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx)
     s32 target_rz;
     s32 adjusted_target_angle;
     s32 source_rz;
-    s32 scale[3];
+    VECTOR scale;
 
     interpolation_slots = (ModelAnimationInterpolationSlots *)(
         &ctx->header_size + ctx->header_size
@@ -429,7 +427,7 @@ s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx)
         u32 rewrite = track->rewrite_idx;
         u32 table_index = rewrite >> 24;
         u32 word_offset = rewrite & 0xFFFFFF;
-        node = (GsCOORDUNIT *)(((u32 *)ctx)[table_index + 5]
+        node = (GsCOORDUNIT *)((&ctx->header_size)[table_index]
                             + (word_offset << 2));
     }
 
@@ -483,31 +481,31 @@ s32 Model_InterpolateTransRotScale(GsARGUNIT_ANIM *ctx)
     node->rot.vy = ((s16)source_ry * remaining_duration + (s16)target_ry * rotation_scale_elapsed) / total_duration;
     node->rot.vz = ((s16)source_rz * remaining_duration + (s16)target_rz * rotation_scale_elapsed) / total_duration;
 
-    rotation_halfwords = &node->rot.vx;
-    RotMatrixYXZ_gte((SVECTOR *)rotation_halfwords, &node->matrix);
+    rotation = &node->rot;
+    RotMatrixYXZ_gte(rotation, &node->matrix);
 
-    scale[0] =
+    scale.vx =
         (interpolation_slots->sample_1->scale_x * remaining_duration +
          interpolation_slots->sample_2->scale_x * rotation_scale_elapsed) / total_duration;
-    scale[1] =
+    scale.vy =
         (interpolation_slots->sample_1->scale_y * remaining_duration +
          interpolation_slots->sample_2->scale_y * rotation_scale_elapsed) / total_duration;
-    scale[2] =
+    scale.vz =
         (interpolation_slots->sample_1->scale_z * remaining_duration +
          interpolation_slots->sample_2->scale_z * rotation_scale_elapsed) / total_duration;
-    ScaleMatrix(&node->matrix, (VECTOR *)scale);
+    ScaleMatrix(&node->matrix, &scale);
 
     node->flg = 0;
     if (interpolation_slots->output != 0) {
-        interpolation_slots->output[0] = *(u16 *)&node->matrix.t[0];
-        interpolation_slots->output[1] = *(u16 *)&node->matrix.t[1];
-        interpolation_slots->output[2] = *(u16 *)&node->matrix.t[2];
-        interpolation_slots->output[3] = *(u16 *)&node->rot.vx;
-        interpolation_slots->output[4] = *(u16 *)&node->rot.vy;
-        interpolation_slots->output[5] = *(u16 *)&node->rot.vz;
-        interpolation_slots->output[6] = *(u16 *)&scale[0];
-        interpolation_slots->output[7] = *(u16 *)&scale[1];
-        interpolation_slots->output[8] = *(u16 *)&scale[2];
+        interpolation_slots->output[0] = (u16)node->matrix.t[0];
+        interpolation_slots->output[1] = (u16)node->matrix.t[1];
+        interpolation_slots->output[2] = (u16)node->matrix.t[2];
+        interpolation_slots->output[3] = (u16)node->rot.vx;
+        interpolation_slots->output[4] = (u16)node->rot.vy;
+        interpolation_slots->output[5] = (u16)node->rot.vz;
+        interpolation_slots->output[6] = (u16)scale.vx;
+        interpolation_slots->output[7] = (u16)scale.vy;
+        interpolation_slots->output[8] = (u16)scale.vz;
     }
     return 0;
 }
