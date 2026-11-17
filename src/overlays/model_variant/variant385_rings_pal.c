@@ -149,7 +149,7 @@ void SpanishModelVariant385_DrawRings(Variant385EntryState *context)
                     ring->scale = 0x1000;
                     ring->count++;
                 }
-            } else if ((u32)work->clock.frame >= work->config->fade_start) {
+            } else if (work->clock.frame >= work->config->fade_start) {
                 ring->scale = 0x1000 - (u32)((work->clock.frame - work->config->fade_start) << 12) /
                              (u32)(work->config->fade_end - work->config->fade_start);
             }

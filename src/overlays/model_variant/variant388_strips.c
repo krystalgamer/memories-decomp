@@ -155,8 +155,8 @@ void FrenchModelVariant388_DrawStrips(Variant388EntryState *context)
         rec = work->config;
         if (work->index + 1 == rec->count) {
             if (work->phase == 1 && work->progress <= 0x400) {
-                if (rec->grow_end <= (u32)work->clock.frame) {
-                    work->progress = ((u32)work->clock.frame - rec->grow_end << 10) / (rec->strip_end - rec->grow_end);
+                if (rec->grow_end <= work->clock.frame) {
+                    work->progress = (work->clock.frame - rec->grow_end << 10) / (rec->strip_end - rec->grow_end);
                 }
                 if (work->progress >= 0x400) {
                     work->progress = 0x400;
@@ -165,8 +165,8 @@ void FrenchModelVariant388_DrawStrips(Variant388EntryState *context)
             }
             if (work->strip_width > 0) {
                 rec = work->config;
-                if ((u32)work->clock.frame >= rec->track_end) {
-                    work->strip_width = 0x400 - ((u32)work->clock.frame - rec->track_end << 10) / (rec->shrink_end - rec->track_end);
+                if (work->clock.frame >= rec->track_end) {
+                    work->strip_width = 0x400 - (work->clock.frame - rec->track_end << 10) / (rec->shrink_end - rec->track_end);
                 }
                 if (work->strip_width <= 0) {
                     work->strip_width = 0;

@@ -131,7 +131,7 @@ void ModelVariant405_DrawBands(Variant422EntryState *context)
         }
     } else if (work->phase < 3 && work->band_scale > 0) {
         if (work->clock.frame >= work->config->shrink_start) {
-            work->band_scale = 0x1000 - (((u32)work->clock.frame - work->config->shrink_start) << 12) /
+            work->band_scale = 0x1000 - ((work->clock.frame - work->config->shrink_start) << 12) /
                                           (work->config->shrink_end - work->config->shrink_start);
             if (work->band_scale <= 0) {
                 work->band_scale = 0;
