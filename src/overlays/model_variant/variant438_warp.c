@@ -11,7 +11,7 @@
 #define WARP_SORTS(ring) ((ring)->size < 2048)
 #endif
 
-void SpanishModelVariant438_DrawWarpRings(u8 *context)
+void SpanishModelVariant438_DrawWarpRings(WARP_STATE *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -20,7 +20,7 @@ void SpanishModelVariant438_DrawWarpRings(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    WARP_STATE *state = (WARP_STATE *)context;
+    WARP_STATE *state = context;
     s32 depth = 0;
     Warp438Ring *ring = state->rings;
     POLY_GT4 *poly = &state->polygon;

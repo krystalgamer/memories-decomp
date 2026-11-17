@@ -19,7 +19,7 @@
  * frame-buffer half each strip lands on, facing the work direction. Past
  * half scale the inner row is pushed back and widened; each scale grows by
  * step * 96 and wraps with a count until phase 3, then stays at full size. */
-void ModelVariant398_DrawRings(u8 *context)
+void ModelVariant398_DrawRings(VARIANT398_RINGS_WORK *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -28,7 +28,7 @@ void ModelVariant398_DrawRings(u8 *context)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    VARIANT398_RINGS_WORK *work = (VARIANT398_RINGS_WORK *)context;
+    VARIANT398_RINGS_WORK *work = context;
     ModelVariantScreenRing *ring;
     POLY_GT4 *poly;
     GsOT *ot;

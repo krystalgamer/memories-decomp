@@ -5,9 +5,9 @@
 #define MODEL_VARIANT441_CLUT_X 640
 #endif
 
-s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
+s32 SpanishModelVariant441_HandleRequest(Variant441EntryState *context, s32 command)
 {
-    Variant441EntryState *work = (Variant441EntryState *)point;
+    Variant441EntryState *work = context;
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
@@ -346,16 +346,16 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
                 work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
                 work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
                 if (work->config->start <= work->frame) {
-                    SpanishModelVariant441_DrawRainbowSheets((Variant441EntryState *)point);
-                    ModelVariant398_DrawRings((u8 *)point);
+                    SpanishModelVariant441_DrawRainbowSheets(context);
+                    ModelVariant398_DrawRings((Variant398Header441RingsState *)context);
                 }
                 if (work->phase > 0) {
-                    SpanishModelVariant441_DrawTubularMesh((Variant441EntryState *)point);
+                    SpanishModelVariant441_DrawTubularMesh(context);
                 }
             } while (++work->index < work->config->count);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant441_DrawFramebufferRings((Variant441EntryState *)point);
+            SpanishModelVariant441_DrawFramebufferRings(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
