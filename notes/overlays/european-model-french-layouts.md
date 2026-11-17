@@ -32,9 +32,9 @@ files:
 
 One European image differs from its French donor outside relocations:
 in `european_model_variant_485_stage10_slot1` the byte after header 89's
-order table is `0x08` (French slot 1 has zero). Its European wrapper
-`variant106_entry_slot1.c` sets
-`MODEL89_ORDER_PAD` before including the US header-89 source; the slot-1
+order table is `0x08` (French slot 1 has zero). Its manifest compiles the US
+header-89 source `variant89_entry.c` directly with the entry defines
+`MODEL89_ORDER_PAD=0x08` and `GRAPHICS_DEFAULT_HEIGHT=256`; the slot-1
 names come from the image's own symbols file.
 
 ## Coverage
