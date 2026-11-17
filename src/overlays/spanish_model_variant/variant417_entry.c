@@ -188,24 +188,24 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
         for (n = 0; n < 2; n++, sheet++) {
             for (k = 0; k < 4; k++) {
                 if (k == 0) {
-                    setVector(&sheet->v0[k], -work->config->size, -work->config->size, 0);
-                    setVector(&sheet->v1[k], 0, -work->config->size, 0);
-                    setVector(&sheet->v2[k], -work->config->size, 0, 0);
+                    setVector(&sheet->v0[k], -work->config->extent.size, -work->config->extent.size, 0);
+                    setVector(&sheet->v1[k], 0, -work->config->extent.size, 0);
+                    setVector(&sheet->v2[k], -work->config->extent.size, 0, 0);
                     setVector(&sheet->v3[k], 0, 0, 0);
                 } else if (k == 1) {
-                    setVector(&sheet->v0[k], work->config->size, -work->config->size, 0);
-                    setVector(&sheet->v1[k], work->config->size, 0, 0);
-                    setVector(&sheet->v2[k], 0, -work->config->size, 0);
+                    setVector(&sheet->v0[k], work->config->extent.size, -work->config->extent.size, 0);
+                    setVector(&sheet->v1[k], work->config->extent.size, 0, 0);
+                    setVector(&sheet->v2[k], 0, -work->config->extent.size, 0);
                     setVector(&sheet->v3[k], 0, 0, 0);
                 } else if (k == 2) {
-                    setVector(&sheet->v0[k], work->config->size, work->config->size, 0);
-                    setVector(&sheet->v1[k], 0, work->config->size, 0);
-                    setVector(&sheet->v2[k], work->config->size, 0, 0);
+                    setVector(&sheet->v0[k], work->config->extent.size, work->config->extent.size, 0);
+                    setVector(&sheet->v1[k], 0, work->config->extent.size, 0);
+                    setVector(&sheet->v2[k], work->config->extent.size, 0, 0);
                     setVector(&sheet->v3[k], 0, 0, 0);
                 } else if (k == 3) {
-                    setVector(&sheet->v0[k], -work->config->size, work->config->size, 0);
-                    setVector(&sheet->v1[k], -work->config->size, 0, 0);
-                    setVector(&sheet->v2[k], 0, work->config->size, 0);
+                    setVector(&sheet->v0[k], -work->config->extent.size, work->config->extent.size, 0);
+                    setVector(&sheet->v1[k], -work->config->extent.size, 0, 0);
+                    setVector(&sheet->v2[k], 0, work->config->extent.size, 0);
                     setVector(&sheet->v3[k], 0, 0, 0);
                 }
             }
@@ -335,7 +335,7 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
                     SpanishModelVariant441_DrawRainbowSheets((u8 *)point);
                 }
                 if (work->phase > 0) {
-                    SpanishModelVariant417_DrawTube((u8 *)point);
+                    SpanishModelVariant417_DrawTube((Variant417EntryState *)point);
                 }
             } while (++work->index < work->config->count);
         }

@@ -13,7 +13,12 @@ typedef struct {
     u16 count, unknown_1A;
     s32 start;
     s32 expansion_start, expansion_end, fade_start, fade_end;
-    u16 size, unknown_32;
+    /* One word read two ways: the entry sizes its sheets by the low
+     * halfword, and the tube scales its width by the whole word. */
+    union {
+        u16 size;
+        s32 width_scale;
+    } extent;
     u8 unknown_34[4];
     s32 offset[3];
 } Variant417EntryConfig;
@@ -58,7 +63,7 @@ typedef struct {
 extern GsIMAGE gSpanishModelVariant417_aImages[9];
 extern Variant417EntryConfig gSpanishModelVariant417_aConfigs[];
 void SpanishModelVariant417_DrawPhasedLines(Variant417EntryState *context);
-void SpanishModelVariant417_DrawTube(u8 *context);
+void SpanishModelVariant417_DrawTube(Variant417EntryState *context);
 void SpanishModelVariant441_DrawRainbowSheets(u8 *context);
 void SpanishModelVariant417_DrawSpiral(Variant417EntryState *context);
 typedef char Variant417EntryConfigSize[(sizeof(Variant417EntryConfig) == 0x44) ? 1 : -1];
