@@ -6,7 +6,9 @@
 #include "main.h"
 
 struct GraphicsFrameBuffer {
-    u8 ordering_table_tags[0x5110];
+    /* The four tables' tags back to back: 1 << 2, 1 << 6, 1 << 12 and
+     * 1 << 6 entries, from the lengths main.c gives them. */
+    GsOT_TAG ordering_table_tags[0x5110 / sizeof(GsOT_TAG)];
     GsOT ordering_tables[4];
 };
 
