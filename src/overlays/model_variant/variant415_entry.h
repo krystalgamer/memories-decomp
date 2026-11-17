@@ -67,7 +67,7 @@ typedef struct {
     Variant415EntryConfig *config;
     u32 field_30B4;
     GsCOORDUNIT *parts[5];
-    s32 field_30CC, field_30D0, field_30D4, start_index, field_30DC, field_30E0;
+    s32 field_30CC, field_30D0, field_30D4, start_index, restart, field_30E0;
     u8 unknown_30E4[4];
     ModelVariantEntryTail tail;
 } Variant415EntryState;

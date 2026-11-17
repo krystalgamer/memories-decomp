@@ -3,7 +3,7 @@
 
 /* Header 415's ribbon helper: projects the two ends of the three entry
  * ribbons from each of the five anchors, grows the sweep amounts on the last
- * anchor, restarts them once field_30DC is set, and draws one Gouraud quad
+ * anchor, restarts them once restart is set, and draws one Gouraud quad
  * per ribbon. */
 void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon)
 {
@@ -77,7 +77,7 @@ void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon)
                         if (k + 1 == 3 && j == 1) {
                             if (work->start_index < 3) {
                                 work->start_index++;
-                                work->field_30DC = j;
+                                work->restart = j;
                             } else if (work->tail.phase == 2) {
                                 work->tail.phase = k + 1;
                             }
@@ -86,14 +86,14 @@ void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon)
                 }
             }
         }
-        if (work->field_30DC == 1 && i + 1 == 5) {
+        if (work->restart == 1 && i + 1 == 5) {
             ribbon = work->ribbons;
             for (k = 0; k < 3; k++, ribbon++) {
                 for (j = 0; j < 2; j++) {
                     ribbon->amount[j] = -(j << 8) - (k << 9);
                 }
             }
-            work->field_30DC = 0;
+            work->restart = 0;
         }
         ribbon = work->ribbons;
         for (k = 0; k < 3; ribbon++, k++) {
