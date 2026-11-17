@@ -16,8 +16,9 @@ bindings](model-variants.md#per-image-symbol-bindings)).
   instead of 2048. The colour fades above 2560, and growth is
   `step * 16`. The first five groups swirl their depth with
   `rcos(i * 4096 / 5)`, while the rest spread by half the overshoot, and a
-  work flag picks the sign. The view lives in
-  `french_model_variant/image22822_blooms.h`.
+  work flag (the record's `slot`) picks the sign. The helper reads
+  `Variant437State`, the record the US header-437 entry passes; its former
+  view `image22822_blooms.h` was removed.
 - **Swirl angle.** The angle must be an `s16` local assigned inside the
   swirl branch. If the expression is written inline, loop optimisation
   hoists the group index and the halves of the division out of the inner

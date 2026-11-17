@@ -14,14 +14,6 @@
  * helpers receive the module's work area as a byte pointer and type it as
  * their owner's entry state; the shared records inside it are typed below. */
 
-/* The command row the quad, quad-pair, swarm and bloom helpers reach through
- * their timing pointer: the frame limit at + 0x20 is compared with the
- * elapsed time before a finished quad is reset. */
-typedef struct {
-    u8 unknown_00[0x20];
-    u32 limit;
-} ModelVariantQuadTiming;
-
 /* The rays command row: the pass count at + 0x18; the helper finishes when
  * its index reaches it. */
 typedef struct {

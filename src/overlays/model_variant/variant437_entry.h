@@ -19,7 +19,7 @@ typedef struct {
     u8 parts[4];
     u8 unknown14[8];
     u32 bloom_start;
-    u8 unknown20[4];
+    u32 limit;
     u32 follow_end;
     u8 unknown28[8];
 } Variant437Config;
@@ -131,6 +131,6 @@ extern GsIMAGE gModelVariant437_aImages[];
 extern Variant437Config gModelVariant437_aConfigs[];
 
 s32 ModelVariant437_HandleRequest(u8 *context, s32 command);
-void FrenchModelVariant454_DrawBlooms(u8 *context);
+void FrenchModelVariant454_DrawBlooms(Variant437State *context);
 
 #endif
