@@ -3634,7 +3634,7 @@ void DuelScene_UpdateCardPlacement(void)
                         DisplayObject_StartAlphaTransition(gDisplayObject_apWorkSlots.slots[0], 0, 64, 8);
                         if (slots[1]) {
                             s32 second = slots[1]->xy.s.x;
-                            s32 first = (s16)gDisplayObject_apWorkSlots.slots[0]->xy.h.x;
+                            s32 first = gDisplayObject_apWorkSlots.slots[0]->xy.s.x;
                             second += 52;
                             gDuel_pCardPreviewObject->xy.h.x = (first + second) / 2 - 70;
                             DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
@@ -8550,8 +8550,8 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
     }
     box = TextBox_Create(
         source->text_channel, style,
-        (s16)source->info_panel->xy.h.x + 0x10,
-        (s16)source->info_panel->xy.h.y + source->text_y_offset,
+        source->info_panel->xy.s.x + 0x10,
+        source->info_panel->xy.s.y + source->text_y_offset,
         0x120, 0x40
     );
     box->depth_offset = (u8)source->info_panel->depth_offset + 1;

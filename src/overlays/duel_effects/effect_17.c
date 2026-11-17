@@ -52,8 +52,8 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
             work->card_count = 0;
             for (i = 0; gDuelEffect_CardObjectScratchWords[i] != 0; i++) {
                 setVector(&work->card_velocities[i],
-                          (work->center.vx - (s16)gDuelEffect_CardObjectScratchWords[i]->xy.h.x) / 16,
-                          (work->center.vy - (s16)gDuelEffect_CardObjectScratchWords[i]->xy.h.y) / 16,
+                          (work->center.vx - gDuelEffect_CardObjectScratchWords[i]->xy.s.x) / 16,
+                          (work->center.vy - gDuelEffect_CardObjectScratchWords[i]->xy.s.y) / 16,
                           (work->center.vz - gDuelEffect_CardObjectScratchWords[i]->field_34.h.z) / 16);
                 setVector(&work->card_rotations[i],
                           (ratan2(work->card_velocities[i].vz, work->card_velocities[i].vy) % 256) / 16,
