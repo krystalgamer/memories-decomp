@@ -3,8 +3,8 @@
 [`model-effects.csv`](model-effects.csv) maps each MODEL.MRG effect image
 that has a confirmed developer name `eNNN` to its header word in every region.
 It also lists the image's aliases and the records that load it. These names
-will replace the header-number source names (`variant<N>_*`) under
-`src/overlays/model_variant/`.
+replaced the header-number source names (`variant<N>_*`) under
+`src/overlays/model_variant/`; see the source naming rule below.
 
 ## Evidence: build-script residue
 
@@ -32,9 +32,9 @@ used. So are names interpolated from the header formula below.
 ## Header words
 
 Each stage image begins with a header word, an index into a global effect
-table. The current source numbers come from these words. Some families use
-the NA word and others the PAL word. For all 2484 stages per region, the
-region offset is exact: **JP = NA − 1** and **PAL = NA + 17**
+table. The former `variant<N>_*` source numbers came from these words; some
+families used the NA word and others the PAL word. For all 2484 stages per
+region, the region offset is exact: **JP = NA − 1** and **PAL = NA + 17**
 (EU/FR/DE/IT/ES). Each confirmed `eNNN` has exactly one header word per slot.
 Within a group the words are roughly linear, and the slot 1 word is the slot 0
 word plus the group size:
@@ -66,12 +66,12 @@ method).
 
 ## Source naming rule
 
-- `variant<N>_<role>` becomes `e<NNN>_<role>` when the image has a confirmed
-  name. Otherwise it becomes `h<NNN>_<role>`, where `NNN` is the image's
-  **slot 0 NA header word**. Header-only images and formula-inferred names
+- Each former `variant<N>_<role>` source was renamed `e<NNN>_<role>` when the
+  image has a confirmed name. Otherwise it was renamed `h<NNN>_<role>`, where
+  `NNN` is the image's **slot 0 NA header word**. Header-only images and formula-inferred names
   both use `hNNN`.
 - The `us` number tag (`variant<N>us_*`) and the clash-avoiding `_pal`
-  suffix only recorded which region's header numbered the file, so both are
+  suffix only recorded which region's header numbered the file, so both were
   dropped. `_pal` is kept, or added, only where a PAL-only build would
   otherwise share a name with the NA/JP source of the same image and role
   (`e585_entry.c` and `e585_entry_pal.c`). It goes before any `_slot1`.
@@ -79,10 +79,10 @@ method).
   (`_sheets_1b9c`) keep their suffix.
 - Only e585 and e852 (unnamed, `h668`) use more than one source set in a
   region. Each also links a leftover helper from another family at one
-  record. The helper gets a record suffix: `variant552_strand.c` becomes
+  record. The helper got a record suffix: `variant552_strand.c` became
   `e585_strand_r163.c` (record 163, slot 1 only), and
-  `variant447_rings_pal.c` becomes `h668_rings_r397.c` (record 397). The two
-  PAL `sheets` helpers of header 452 become `h452_sheets_1b98.c` and
+  `variant447_rings_pal.c` became `h668_rings_r397.c` (record 397). The two
+  PAL `sheets` helpers of header 452 became `h452_sheets_1b98.c` and
   `h452_sheets_2b30.c`, named by their image offsets like the NA pair.
 - Module and config names (`model_variant_<rec>_…`) and symbols
   (`FrenchModelVariant444_*` …) are unchanged.
