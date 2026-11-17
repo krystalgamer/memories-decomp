@@ -11,7 +11,7 @@
  * animation passes the middle of the window, the entry moves the camera and
  * restarts both slot animations. */
 
-s32 ModelVariant121_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant121_HandleRequest(Model121State *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -37,7 +37,7 @@ s32 ModelVariant121_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant121_UnitScale;
-    work = (Model121State *)context;
+    work = context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {

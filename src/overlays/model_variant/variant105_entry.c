@@ -10,7 +10,7 @@
 
 static const VECTOR gModelVariant105_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant105_HandleRequest(Model105State *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -34,7 +34,7 @@ s32 ModelVariant105_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant105_UnitScale;
-    work = (Model105State *)context;
+    work = context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gModelVariant105_aConfigs[command];

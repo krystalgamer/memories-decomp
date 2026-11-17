@@ -14,7 +14,7 @@ static const VECTOR gModelVariant786_UnitScale = {4096, 4096, 4096, 0};
 #define DIV_VECTOR(v, d) ((v)->vx /= (d), (v)->vy /= (d), (v)->vz /= (d))
 #define SUB_VECTOR(v0, v1) ((v0)->vx -= (v1).vx, (v0)->vy -= (v1).vy, (v0)->vz -= (v1).vz)
 
-s32 ModelVariant786_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant786_HandleRequest(Model786State *context, s32 command)
 {
     Model786State *work;
     MATRIX light;
@@ -38,7 +38,7 @@ s32 ModelVariant786_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModelVariant786_UnitScale;
-    work = (Model786State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         work->config = &gModelVariant786_aConfigs[command];

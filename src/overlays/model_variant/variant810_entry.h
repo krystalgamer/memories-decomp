@@ -90,6 +90,6 @@ typedef struct {
 extern GsIMAGE gModelVariant810_aImages[];
 extern Model810Config gModelVariant810_aConfigs[];
 
-s32 ModelVariant810_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant810_HandleRequest(Model810State *context, s32 command);
 
 #endif

@@ -18,7 +18,7 @@ static inline s32 Model632_Negate(s32 value)
     return -value;
 }
 
-s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant632_HandleRequest(Model632State *context, s32 command)
 {
     Model632State *work;
     MATRIX ls;
@@ -32,7 +32,7 @@ s32 ModelVariant632_HandleRequest(u8 *context, s32 command)
     long depth;
     s32 value;
 
-    work = (Model632State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

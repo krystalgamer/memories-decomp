@@ -28,7 +28,7 @@
         }                                                                                  \
     }
 
-s32 ModelVariant106_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant106_HandleRequest(Model106State *context, s32 command)
 {
     Model106State *work;
     MATRIX base, matrix;
@@ -51,7 +51,7 @@ s32 ModelVariant106_HandleRequest(u8 *context, s32 command)
     u8 red, green, blue;
     long depth;
 
-    work = (Model106State *)context;
+    work = context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
         config = work->config = &gModelVariant106_aConfigs[command];

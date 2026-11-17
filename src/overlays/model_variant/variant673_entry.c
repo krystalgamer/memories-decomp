@@ -9,7 +9,7 @@
  * each falling quad leaves a spinning fan of triangles where it lands. The
  * setup also prints the work-area size. */
 
-s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant673_HandleRequest(Model673State *context, s32 command)
 {
     Model673State *work;
     MATRIX ls, lw;
@@ -22,7 +22,7 @@ s32 ModelVariant673_HandleRequest(u8 *context, s32 command)
     long depth;
     s32 d;
 
-    work = (Model673State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

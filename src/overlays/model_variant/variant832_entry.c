@@ -14,7 +14,7 @@ static const VECTOR gModelVariant832_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 ModelVariant832_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant832_HandleRequest(Model832State *context, s32 command)
 {
     Model832State *work;
     MATRIX light;
@@ -47,7 +47,7 @@ s32 ModelVariant832_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModelVariant832_UnitScale;
-    work = (Model832State *)context;
+    work = context;
     /* The packets are reached through pointers set up front, which keeps
      * their addresses in the registers and spill slots the image uses. */
     ft4 = &sprite;

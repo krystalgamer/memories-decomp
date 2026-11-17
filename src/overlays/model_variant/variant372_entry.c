@@ -21,9 +21,9 @@
 
 #define setCV(p, R, G, B) ((p)->r = (R), (p)->g = (G), (p)->b = (B))
 
-s32 ModelVariant372_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant372_HandleRequest(Model372State *context, s32 command)
 {
-    Model372State *work = (Model372State *)context;
+    Model372State *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     Model372Path23 test;
@@ -284,10 +284,10 @@ s32 ModelVariant372_HandleRequest(u8 *context, s32 command)
         work->screen_delta.vx = (s16)screen1 - x0;
         work->screen_delta.vy = (screen1 >> 16) - y0;
         if (work->config->ribbon_start <= work->time) {
-            FrenchModelVariant389_DrawRibbons((Model372State *)context);
+            FrenchModelVariant389_DrawRibbons(context);
         }
         if (work->config->sheet_start <= work->time) {
-            FrenchModelVariant389_DrawSheets((Model372State *)context);
+            FrenchModelVariant389_DrawSheets(context);
         }
         work->frame++;
         frame = Model_GetSlotAnimationFrame(work->slot);

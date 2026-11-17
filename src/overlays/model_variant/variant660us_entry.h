@@ -57,6 +57,6 @@ extern GsIMAGE gModelVariant660Us_aImages[3];
  * shards, then the glow/shard/orb colour and the band/ray/spark colour. */
 extern ModelVariantTwoColorCommand gModelVariant660Us_aConfigs[];
 
-s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant660Us_HandleRequest(Model660UsState *context, s32 command);
 
 #endif

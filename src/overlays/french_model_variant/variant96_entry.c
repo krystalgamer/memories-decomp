@@ -10,7 +10,7 @@
 
 const VECTOR gFrenchModelVariant96_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant96_HandleRequest(Model96State *context, s32 command)
 {
     Model96State *work;
     MATRIX base;
@@ -31,7 +31,7 @@ s32 FrenchModelVariant96_HandleRequest(u8 *context, s32 command)
     long depth;
 
     scale = gFrenchModelVariant96_UnitScale;
-    work = (Model96State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gFrenchModelVariant96_aConfigs[command];

@@ -16,7 +16,7 @@ static const VECTOR gModelVariant821_UnitScale = {4096, 4096, 4096, 0};
  * lengthen the shared "&p" lifetime enough for loop.c to hoist it out of
  * the draw loop, which changes the register allocation. */
 
-s32 ModelVariant821_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant821_HandleRequest(Model821State *context, s32 command)
 {
     Model821State *work;
     MATRIX light;
@@ -41,7 +41,7 @@ s32 ModelVariant821_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModelVariant821_UnitScale;
-    work = (Model821State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {

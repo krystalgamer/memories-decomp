@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "primary64.h"
 
-s32 ModelPrimary64_HandleRequest(u8 *context, s32 command)
+s32 ModelPrimary64_HandleRequest(ModelPrimary64State *context, s32 command)
 {
     ModelPrimary64State *work;
     MATRIX base;
@@ -27,7 +27,7 @@ s32 ModelPrimary64_HandleRequest(u8 *context, s32 command)
 
     memset(&rotation, 0, 8);
     scale = gModelPrimary64_Scale;
-    work = (ModelPrimary64State *)context;
+    work = context;
     Model_GetActiveSlotIndex();
     if (command >= 0) {
         config = work->config = &gModelPrimary64_Configs[command];

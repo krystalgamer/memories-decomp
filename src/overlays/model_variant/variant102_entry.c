@@ -10,7 +10,7 @@
 
 static const VECTOR gModelVariant102_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant102_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant102_HandleRequest(Model102State *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_GT4 shell;
@@ -33,7 +33,7 @@ s32 ModelVariant102_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant102_UnitScale;
-    work = (Model102State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     /* The spark radius and the dome ring count share this block-scoped
      * variable; declaring it here rather than with the other locals keeps

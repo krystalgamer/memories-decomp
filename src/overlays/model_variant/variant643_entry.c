@@ -12,7 +12,7 @@
     (e).head.color[1] = (e).head.color[1] * (value) / (divisor);       \
     (e).head.color[2] = (e).head.color[2] * (value) / (divisor)
 
-s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant643_HandleRequest(Model643State *context, s32 command)
 {
     Model643State *work;
     MATRIX ls;
@@ -27,7 +27,7 @@ s32 ModelVariant643_HandleRequest(u8 *context, s32 command)
     u8 r, g, b;
     long depth;
 
-    work = (Model643State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

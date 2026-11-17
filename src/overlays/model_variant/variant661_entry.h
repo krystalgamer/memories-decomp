@@ -45,6 +45,6 @@ extern GsIMAGE gModelVariant661_aImages[2];
  * rings, then the streak colour and the burst/spark colour. */
 extern ModelVariantTwoColorCommand gModelVariant661_aConfigs[];
 
-s32 ModelVariant661_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant661_HandleRequest(Model661State *context, s32 command);
 
 #endif

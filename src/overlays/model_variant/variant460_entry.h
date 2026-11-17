@@ -48,7 +48,7 @@ typedef struct {
 
 extern GsIMAGE gModelVariant460_aImages[9];
 extern ModelVariantMoveConfig gModelVariant460_aConfigs[];
-s32 ModelVariant460_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant460_HandleRequest(Variant460State *context, s32 command);
 void SpanishModelVariant477_DrawPanels(Variant460State *context);
 void SpanishModelVariant477_DrawQuadGroups(Variant460State *context);
 #endif

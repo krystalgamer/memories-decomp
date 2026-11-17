@@ -11,7 +11,7 @@
 
 static const VECTOR gModelVariant767_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant767_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant767_HandleRequest(Model767State *context, s32 command)
 {
     Model767State *work;
     MATRIX base, matrix;
@@ -35,7 +35,7 @@ s32 ModelVariant767_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant767_UnitScale;
-    work = (Model767State *)context;
+    work = context;
     flash_packet = &screen;
     packet = &burst;
     direction = Model_GetActiveSlotIndex() * 2 - 1;

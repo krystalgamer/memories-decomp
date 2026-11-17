@@ -10,7 +10,7 @@
 
 static const VECTOR gModelVariant770_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant770_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant770_HandleRequest(Model770State *context, s32 command)
 {
     Model770State *work;
     MATRIX base, matrix;
@@ -35,7 +35,7 @@ s32 ModelVariant770_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant770_UnitScale;
-    work = (Model770State *)context;
+    work = context;
     gouraud_packet = &gouraud;
     burst_packet = &burst;
     flash_packet = &flash;

@@ -62,6 +62,6 @@ extern GsIMAGE gModelVariant635_aImages[2];
  * then the dome, the burst and the ray colours. */
 extern ModelVariantThreeColorCommand gModelVariant635_aConfigs[];
 
-s32 ModelVariant635_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant635_HandleRequest(Model635State *context, s32 command);
 
 #endif

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image5996_entry.h"
 
-s32 FrenchModelVariant102_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
 {
     Image5996State *state;
     Image5996Config *config;
@@ -38,7 +38,7 @@ s32 FrenchModelVariant102_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&translation, 0, 8);
     scale = gFrenchModelVariant102_UnitScale;
-    state = (Image5996State *)context;
+    state = context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = state->config = &gFrenchModelVariant102_aConfigs[command];

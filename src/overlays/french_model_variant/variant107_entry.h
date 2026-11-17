@@ -26,6 +26,6 @@ typedef struct {
 } Model107State;
 
 extern Model107Config gFrenchModelVariant107_aConfigs[];
-s32 FrenchModelVariant107_HandleRequest(u8 *context, s32 command);
+s32 FrenchModelVariant107_HandleRequest(Model107State *context, s32 command);
 
 #endif

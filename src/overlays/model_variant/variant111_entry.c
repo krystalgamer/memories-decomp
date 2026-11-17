@@ -14,7 +14,7 @@
         GsSortPoly(&quad, ot, (u16)depth); \
     }
 
-s32 ModelVariant111_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant111_HandleRequest(Model111State *context, s32 command)
 {
     Model111State *work;
     s32 direction;
@@ -36,7 +36,7 @@ s32 ModelVariant111_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant111_UnitScale;
-    work = (Model111State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gModelVariant111_aConfigs[command];

@@ -55,6 +55,6 @@ extern GsIMAGE gModelVariant652_aImages[3];
  * height, then the ring/spark colour and the dome colour. */
 extern ModelVariantTwoColorCommand gModelVariant652_aConfigs[];
 
-s32 ModelVariant652_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant652_HandleRequest(Model652State *context, s32 command);
 
 #endif

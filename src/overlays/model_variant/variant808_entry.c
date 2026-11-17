@@ -20,7 +20,7 @@ static const Model808Faces gModelVariant808_StarQuads = {{
     {8, 2, 3, 5}, {9, 3, 4, 5}, {2, 7, 5, 1}, {5, 1, 0, 6}, {4, 5, 10, 0},
 }};
 
-s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant808_HandleRequest(Model808State *context, s32 command)
 {
     Model808State *work;
     MATRIX light;
@@ -57,7 +57,7 @@ s32 ModelVariant808_HandleRequest(u8 *context, s32 command)
     scale = gModelVariant808_UnitScale;
     shape = gModelVariant808_StarVertices;
     faces = gModelVariant808_StarQuads;
-    work = (Model808State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {

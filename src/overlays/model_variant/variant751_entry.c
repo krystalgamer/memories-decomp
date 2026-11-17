@@ -10,7 +10,7 @@
 
 static const VECTOR gModelVariant751_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant751_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant751_HandleRequest(Model751State *context, s32 command)
 {
     Model751State *work;
     MATRIX light;
@@ -37,7 +37,7 @@ s32 ModelVariant751_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant751_UnitScale;
-    work = (Model751State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {

@@ -5,7 +5,7 @@
 
 static const VECTOR gFrenchModelVariant829_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant829_HandleRequest(Model829State *context, s32 command)
 {
     Model829State *work;
     s32 slot, direction;
@@ -24,7 +24,7 @@ s32 FrenchModelVariant829_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position.point, 0, 8);
     scale = gFrenchModelVariant829_UnitScale;
-    work = (Model829State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {

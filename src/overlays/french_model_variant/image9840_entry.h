@@ -52,6 +52,6 @@ extern MATRIX GsIDMATRIX;
 extern GsIMAGE gFrenchModelVariant648_Image;
 extern Image9840Command gFrenchModelVariant648_aConfigs[];
 
-s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command);
+s32 FrenchModelVariant648_HandleRequest(Image9840State *context, s32 command);
 
 #endif

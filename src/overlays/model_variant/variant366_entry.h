@@ -69,7 +69,7 @@ typedef struct {
 extern GsIMAGE gModelVariant366_aImages[];
 extern Variant366Config gModelVariant366_aConfigs[];
 
-s32 ModelVariant366_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant366_HandleRequest(Variant366State *context, s32 command);
 void FrenchModelVariant383_DrawStrip(Variant366State *context);
 void FrenchModelVariant383_DrawRibbons(Variant366State *context);
 void FrenchModelVariant383_DrawQuads(Variant366State *context);

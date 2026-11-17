@@ -9,7 +9,7 @@
  * sprites pinned to six model points. Only command 0 has a timetable; the
  * setup also prints the work-area size. */
 
-s32 ModelVariant682Us_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant682Us_HandleRequest(Model682UsState *context, s32 command)
 {
     Model682UsState *work;
     MATRIX ls, m;
@@ -31,7 +31,7 @@ s32 ModelVariant682Us_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model682UsState *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

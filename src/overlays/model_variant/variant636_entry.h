@@ -59,6 +59,6 @@ extern GsIMAGE gModelVariant636_Image;
  * half-size, then the streak and the sprite colours. */
 extern ModelVariantTwoColorCommand gModelVariant636_aConfigs[];
 
-s32 ModelVariant636_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant636_HandleRequest(Model636State *context, s32 command);
 
 #endif

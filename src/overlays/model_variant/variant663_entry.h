@@ -42,6 +42,6 @@ extern GsIMAGE gModelVariant663_aImages[2];
  * rays, then the strip colour and the ray/fan colour. */
 extern ModelVariantTwoColorCommand gModelVariant663_aConfigs[];
 
-s32 ModelVariant663_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant663_HandleRequest(Model663State *context, s32 command);
 
 #endif

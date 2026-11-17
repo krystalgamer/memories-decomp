@@ -8,7 +8,7 @@
 #define FLASH_HEIGHT 240
 #endif
 
-s32 ModelVariant783_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant783_HandleRequest(Model783State *context, s32 command)
 {
     Model783State *work;
     MATRIX view, matrix;
@@ -38,7 +38,7 @@ s32 ModelVariant783_HandleRequest(u8 *context, s32 command)
     scale = gModelVariant783_UnitScale;
     memset(&origin, 0, 8);
     direction = Model_GetActiveSlotIndex() * 2 - 1;
-    work = (Model783State *)context;
+    work = context;
     if (command >= 0) {
         point = work->particles;
         work->command = &gModelVariant783_aConfigs[command];

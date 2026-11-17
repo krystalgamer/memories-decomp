@@ -20,7 +20,7 @@
 static const char gModelVariant653_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL653_STRING_PAD;
 #endif
 
-s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant653_HandleRequest(Model653State *context, s32 command)
 {
     Model653State *work;
     MATRIX ls;
@@ -33,7 +33,7 @@ s32 ModelVariant653_HandleRequest(u8 *context, s32 command)
     u32 tex;
     u8 r, g, b;
 
-    work = (Model653State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

@@ -52,6 +52,6 @@ extern GsIMAGE gModelVariant667_aImages[3];
  * the ribbon colour and the sprite colour. */
 extern ModelVariantTwoColorCommand gModelVariant667_aConfigs[];
 
-s32 ModelVariant667_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant667_HandleRequest(Model667State *context, s32 command);
 
 #endif

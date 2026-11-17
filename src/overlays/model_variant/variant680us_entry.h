@@ -59,6 +59,6 @@ extern GsIMAGE gModelVariant680Us_aImages[11];
  * bursts). */
 extern ModelVariantTwoColorCommand gModelVariant680Us_aConfigs[];
 
-s32 ModelVariant680Us_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant680Us_HandleRequest(Model680UsState *context, s32 command);
 
 #endif

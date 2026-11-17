@@ -40,6 +40,6 @@ extern GsIMAGE gModelVariant647_Image;
  * and the colour of the bursts. */
 extern ModelVariantOneColorCommand gModelVariant647_aConfigs[];
 
-s32 ModelVariant647_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant647_HandleRequest(Model647State *context, s32 command);
 
 #endif

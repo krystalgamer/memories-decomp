@@ -14,7 +14,7 @@ static const VECTOR gModelVariant163_UnitScale = {4096, 4096, 4096, 0};
 
 static const Model163Order gModelVariant163_TileAtlasCells = {{0, 1, 2, 3, 4, 5, 6, 7}};
 
-s32 ModelVariant163_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant163_HandleRequest(Model163State *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -46,7 +46,7 @@ s32 ModelVariant163_HandleRequest(u8 *context, s32 command)
     memset(&position, 0, 8);
     scale = gModelVariant163_UnitScale;
     order = gModelVariant163_TileAtlasCells;
-    work = (Model163State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gModelVariant163_aConfigs[command];

@@ -75,6 +75,6 @@ extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant669_aImages[3];
 extern Model669Command gModelVariant669_aConfigs[];
 
-s32 ModelVariant669_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant669_HandleRequest(Model669State *context, s32 command);
 
 #endif

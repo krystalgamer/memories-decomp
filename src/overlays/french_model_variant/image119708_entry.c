@@ -35,7 +35,7 @@
         } \
     }
 
-s32 FrenchModelVariant819_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
 {
     Image119708State *work;
     MATRIX light, matrix;
@@ -51,7 +51,7 @@ s32 FrenchModelVariant819_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gFrenchModelVariant819_UnitScale;
-    work = (Image119708State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {

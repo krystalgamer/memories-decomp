@@ -40,6 +40,6 @@ extern GsIMAGE gModelVariant634_aImages[2];
  * copies but never reads, the ring colour and the spark colour. */
 extern ModelVariantSparkCommand gModelVariant634_aConfigs[];
 
-s32 ModelVariant634_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant634_HandleRequest(Model634State *context, s32 command);
 
 #endif

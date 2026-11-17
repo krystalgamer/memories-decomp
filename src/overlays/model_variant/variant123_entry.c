@@ -10,7 +10,7 @@
 
 static const VECTOR gModelVariant123_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant123_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant123_HandleRequest(Model123State *context, s32 command)
 {
     Model123State *work;
     MATRIX base, matrix;
@@ -33,7 +33,7 @@ s32 ModelVariant123_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant123_UnitScale;
-    work = (Model123State *)context;
+    work = context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gModelVariant123_aConfigs[command];

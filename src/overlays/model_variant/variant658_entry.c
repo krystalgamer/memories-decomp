@@ -9,7 +9,7 @@
  * ambient light is darkened and later restored. The setup also prints the
  * work-area size. */
 
-s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant658_HandleRequest(Model658State *context, s32 command)
 {
     Model658State *work;
     MATRIX ls;
@@ -28,7 +28,7 @@ s32 ModelVariant658_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model658State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

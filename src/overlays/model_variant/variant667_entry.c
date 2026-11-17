@@ -27,7 +27,7 @@ static const char gModelVariant667_szWorkSizeFormat[24] = "E_DATA size = %x byte
     (point).vy = ls.t[1];                                                      \
     (point).vz = ls.t[2]
 
-s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant667_HandleRequest(Model667State *context, s32 command)
 {
     Model667State *work;
     MATRIX ls;
@@ -55,7 +55,7 @@ s32 ModelVariant667_HandleRequest(u8 *context, s32 command)
     s32 duration;
     long depth;
 
-    work = (Model667State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

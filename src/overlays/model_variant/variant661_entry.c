@@ -16,7 +16,7 @@
     (point).vy = ls.t[1];                                                      \
     (point).vz = ls.t[2]
 
-s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant661_HandleRequest(Model661State *context, s32 command)
 {
     Model661State *work;
     MATRIX ls;
@@ -36,7 +36,7 @@ s32 ModelVariant661_HandleRequest(u8 *context, s32 command)
     s32 duration;
     long depth;
 
-    work = (Model661State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

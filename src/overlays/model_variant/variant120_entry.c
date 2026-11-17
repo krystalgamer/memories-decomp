@@ -12,7 +12,7 @@
 
 static const VECTOR gModelVariant120_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant120_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant120_HandleRequest(Model120State *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -37,7 +37,7 @@ s32 ModelVariant120_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant120_UnitScale;
-    work = (Model120State *)context;
+    work = context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {

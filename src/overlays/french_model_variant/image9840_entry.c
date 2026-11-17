@@ -34,7 +34,7 @@
         work->bursts[i].head.color[k] = 0; \
     }
 
-s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant648_HandleRequest(Image9840State *context, s32 command)
 {
     Image9840State *work;
     MATRIX ls, world;
@@ -48,7 +48,7 @@ s32 FrenchModelVariant648_HandleRequest(u8 *context, s32 command)
     u32 texture;
     long depth;
 
-    work = (Image9840State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

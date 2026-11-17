@@ -58,6 +58,6 @@ typedef union {
 extern GsIMAGE gModelVariant85_aImages[];
 extern Model85Config gModelVariant85_aConfigs[];
 
-s32 ModelVariant85_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant85_HandleRequest(Model85State *context, s32 command);
 
 #endif

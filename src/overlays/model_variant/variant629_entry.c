@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant629_entry.h"
 
-s32 ModelVariant629_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
 {
-    Model629State *work = (Model629State *)context;
+    Model629State *work = context;
     s32 i;
     s32 j;
     s32 result;

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image168264_entry.h"
 
-s32 FrenchModelVariant146_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
 {
     Image168264State *state;
     MATRIX light;
@@ -37,7 +37,7 @@ s32 FrenchModelVariant146_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&translation, 0, 8);
     scale = gFrenchModelVariant146_UnitScale;
-    state = (Image168264State *)context;
+    state = context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {

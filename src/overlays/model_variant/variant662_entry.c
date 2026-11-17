@@ -54,7 +54,7 @@
         (element).head.u + uv[0], (element).head.v + uv[2],                                             \
         (element).head.u + uv[1], (element).head.v + uv[2])
 
-s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant662_HandleRequest(Model662State *context, s32 command)
 {
     Model662State *work;
     MATRIX ls;
@@ -73,7 +73,7 @@ s32 ModelVariant662_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model662State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

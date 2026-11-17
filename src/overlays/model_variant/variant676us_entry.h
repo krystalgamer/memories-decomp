@@ -63,6 +63,6 @@ extern GsIMAGE gModelVariant676Us_aImages[6];
  * colours. */
 extern ModelVariantThreeColorCommand gModelVariant676Us_aConfigs[];
 
-s32 ModelVariant676Us_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant676Us_HandleRequest(Model676UsState *context, s32 command);
 
 #endif

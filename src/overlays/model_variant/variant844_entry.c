@@ -8,7 +8,7 @@
 
 static const VECTOR gModelVariant844_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant844_HandleRequest(Model844State *context, s32 command)
 {
     Model844State *work;
     MATRIX base;
@@ -38,7 +38,7 @@ s32 ModelVariant844_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant844_UnitScale;
-    work = (Model844State *)context;
+    work = context;
     ft = &petal;
     gt = &ray;
     slot = Model_GetActiveSlotIndex();

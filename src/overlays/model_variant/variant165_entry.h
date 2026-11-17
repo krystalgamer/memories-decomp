@@ -17,6 +17,6 @@
 extern GsIMAGE gModelVariant165_aImages[];
 extern ModelVariantGatherConfig gModelVariant165_aConfigs[];
 
-s32 ModelVariant165_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant165_HandleRequest(ModelVariantGatherState *context, s32 command);
 
 #endif

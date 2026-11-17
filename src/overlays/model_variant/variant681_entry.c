@@ -105,7 +105,7 @@ static const char gModelVariant681_szWorkSizeFormat[24] = "E_DATA size = %x byte
     (element).head.color[1] = gModelVariant681_aConfigs[command].color[first + 1];                 \
     (element).head.color[2] = gModelVariant681_aConfigs[command].color[first + 2]
 
-s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant681_HandleRequest(Model681State *context, s32 command)
 {
     Model681State *work;
     MATRIX ls;
@@ -122,7 +122,7 @@ s32 ModelVariant681_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model681State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

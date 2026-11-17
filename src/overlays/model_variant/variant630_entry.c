@@ -32,7 +32,7 @@ static const char gModelVariant630_szWorkSizeFormat[24] = "E_DATA size = %x byte
         work->rings[i].head.color[c] = 0;                                                             \
     }
 
-s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant630_HandleRequest(Model630State *context, s32 command)
 {
     Model630State *work;
     MATRIX ls, m;
@@ -45,7 +45,7 @@ s32 ModelVariant630_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model630State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

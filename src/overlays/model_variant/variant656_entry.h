@@ -60,6 +60,6 @@ extern GsIMAGE gModelVariant656_aImages[2];
  * effect, then the ring/shell colour and the sprite colour. */
 extern ModelVariantTwoColorCommand gModelVariant656_aConfigs[];
 
-s32 ModelVariant656_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant656_HandleRequest(Model656State *context, s32 command);
 
 #endif

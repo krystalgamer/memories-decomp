@@ -58,6 +58,6 @@ extern GsIMAGE gModelVariant666_aImages[3];
  * spark height and two colours (blooms and sparks, then rings). */
 extern ModelVariantTwoColorCommand gModelVariant666_aConfigs[];
 
-s32 ModelVariant666_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant666_HandleRequest(Model666State *context, s32 command);
 
 #endif

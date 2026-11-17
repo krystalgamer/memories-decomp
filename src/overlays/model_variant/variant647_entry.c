@@ -8,7 +8,7 @@
  * row; every burst grows from the camera unit for 64 frames and
  * fades out in its second half. The setup also prints the work-area size. */
 
-s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant647_HandleRequest(Model647State *context, s32 command)
 {
     Model647State *work;
     MATRIX ls;
@@ -23,7 +23,7 @@ s32 ModelVariant647_HandleRequest(u8 *context, s32 command)
     u16 duration;
     long depth;
 
-    work = (Model647State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

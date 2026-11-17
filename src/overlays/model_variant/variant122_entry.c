@@ -8,7 +8,7 @@
 #define FLASH_HEIGHT 240
 #endif
 
-s32 ModelVariant122_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant122_HandleRequest(Model122State *context, s32 command)
 {
     Model122State *work;
     Model122Command *cmd;
@@ -34,7 +34,7 @@ s32 ModelVariant122_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant122_UnitScale;
-    work = (Model122State *)context;
+    work = context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     /* A nested scope gives step the last spill slot, as in the original. */
     {

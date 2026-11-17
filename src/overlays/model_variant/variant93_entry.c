@@ -9,7 +9,7 @@ static const VECTOR gModelVariant93_UnitScale = {4096, 4096, 4096, 0};
  * and a sixteen-ray star bursts from it, then eighty sparks rise in five
  * groups and a textured wave sweeps through twice. The camera is stepped
  * through seven presets as the command timeline passes each step time. */
-s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant93_HandleRequest(Model93State *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -34,7 +34,7 @@ s32 ModelVariant93_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant93_UnitScale;
-    work = (Model93State *)context;
+    work = context;
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gModelVariant93_aConfigs[command];

@@ -12,7 +12,7 @@ const VECTOR gFrenchModelVariant129_UnitScale = {4096, 4096, 4096, 0};
         GsSortPoly(&quad, ot, (u16)depth); \
     }
 
-s32 FrenchModelVariant129_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant129_HandleRequest(Model129State *context, s32 command)
 {
     Model129State *work;
     s32 direction;
@@ -34,7 +34,7 @@ s32 FrenchModelVariant129_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gFrenchModelVariant129_UnitScale;
-    work = (Model129State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     step = Model_GetFrameStep();
     if (command >= 0) {

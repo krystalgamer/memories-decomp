@@ -103,6 +103,6 @@ extern GsIMAGE gModelVariant762_aImages[4];
 extern Model762Config gModelVariant762_aConfigs[];
 extern SVECTOR gModelVariant762_PartPosition;
 
-s32 ModelVariant762_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant762_HandleRequest(Model762State *context, s32 command);
 
 #endif

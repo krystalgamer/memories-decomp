@@ -16,7 +16,7 @@
     (e).head.color[1] = gModelVariant666_aConfigs[work->head.command].color[(offset) + 1] * (value) / (divisor); \
     (e).head.color[2] = gModelVariant666_aConfigs[work->head.command].color[(offset) + 2] * (value) / (divisor)
 
-s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant666_HandleRequest(Model666State *context, s32 command)
 {
     Model666State *work;
     MATRIX ls;
@@ -30,7 +30,7 @@ s32 ModelVariant666_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model666State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

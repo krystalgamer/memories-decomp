@@ -2,7 +2,7 @@
 #include "variant87_entry.h"
 #include "../../game/model_slot_support.h"
 
-s32 FrenchModelVariant87_HandleRequest(u8 *context, s32 command)
+s32 FrenchModelVariant87_HandleRequest(Family87State *context, s32 command)
 {
     Family87State *work;
     MATRIX base;
@@ -30,7 +30,7 @@ s32 FrenchModelVariant87_HandleRequest(u8 *context, s32 command)
     s32 result;
 
     memset(&rotation, 0, 8);
-    work = (Family87State *)context;
+    work = context;
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gFrenchModelVariant87_aConfigs[command];

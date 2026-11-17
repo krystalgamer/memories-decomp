@@ -11,7 +11,7 @@ static const VECTOR gModelVariant792_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 ModelVariant792_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant792_HandleRequest(Model792State *context, s32 command)
 {
     Model792State *work;
     MATRIX light;
@@ -39,7 +39,7 @@ s32 ModelVariant792_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModelVariant792_UnitScale;
-    work = (Model792State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {

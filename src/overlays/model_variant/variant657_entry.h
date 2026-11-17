@@ -44,6 +44,6 @@ extern GsIMAGE gModelVariant657_aImages[3];
  * height, then the ring, the band/cap and the shard colours. */
 extern ModelVariantThreeColorCommand gModelVariant657_aConfigs[];
 
-s32 ModelVariant657_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant657_HandleRequest(Model657State *context, s32 command);
 
 #endif

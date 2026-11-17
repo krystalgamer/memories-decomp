@@ -76,6 +76,6 @@ extern GsIMAGE gModelVariant833_aImages[10];
 extern GsIMAGE gModelVariant833_aGlowImages[2];
 extern ModelVariantBoltVolleyConfig gModelVariant833_aConfigs[];
 
-s32 ModelVariant833_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant833_HandleRequest(Model833State *context, s32 command);
 
 #endif

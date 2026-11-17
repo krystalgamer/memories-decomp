@@ -11,9 +11,9 @@
 /* Header 455's entry: eight bloom groups, a rainbow disc, twelve fans and a
  * four-quad sheet around the active slot's first part, aimed at the
  * opposite slot. */
-s32 ModelVariant455_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant455_HandleRequest(EntryState455 *context, s32 command)
 {
-    EntryState455 *work = (EntryState455 *)context;
+    EntryState455 *work = context;
     EntryBloom455 *bloom = work->blooms;
     EntryDisc455 *disc = work->discs;
     ModelVariantSheet *sheet = work->sheets;

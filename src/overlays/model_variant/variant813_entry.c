@@ -10,7 +10,7 @@
 
 static const VECTOR gModelVariant813_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant813_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant813_HandleRequest(Model813State *context, s32 command)
 {
     Model813State *work;
     MATRIX base;
@@ -30,7 +30,7 @@ s32 ModelVariant813_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant813_UnitScale;
-    work = (Model813State *)context;
+    work = context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {

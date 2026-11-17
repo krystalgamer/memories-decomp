@@ -54,6 +54,6 @@ extern GsIMAGE gModelVariant681_aImages[8];
  * height of the rings, then the flash, ring/spark and dome colours. */
 extern ModelVariantThreeColorCommand gModelVariant681_aConfigs[];
 
-s32 ModelVariant681_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant681_HandleRequest(Model681State *context, s32 command);
 
 #endif

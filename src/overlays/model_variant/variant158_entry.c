@@ -10,7 +10,7 @@
 
 static const VECTOR gModelVariant158_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant158_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant158_HandleRequest(Model158State *context, s32 command)
 {
     Model158State *work;
     MATRIX base, matrix;
@@ -32,7 +32,7 @@ s32 ModelVariant158_HandleRequest(u8 *context, s32 command)
     memset(&rotation, 0, 8);
     memset(&position, 0, 8);
     scale = gModelVariant158_UnitScale;
-    work = (Model158State *)context;
+    work = context;
     Model_GetActiveSlotIndex();
     step = Model_GetFrameStep();
     if (command >= 0) {

@@ -11,7 +11,7 @@ static const VECTOR gModelVariant837_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD() ((rand() - rand()) % 4096)
 
-s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant837_HandleRequest(Model837State *context, s32 command)
 {
     Model837State *work;
     MATRIX light;
@@ -44,7 +44,7 @@ s32 ModelVariant837_HandleRequest(u8 *context, s32 command)
     memset(&rot, 0, 8);
     memset(&pos, 0, 8);
     scale = gModelVariant837_UnitScale;
-    work = (Model837State *)context;
+    work = context;
     g3 = &g3_packet;
     ft4 = &ft4_packet;
     gt4 = &gt4_packet;

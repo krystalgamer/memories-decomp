@@ -53,6 +53,6 @@ extern const VECTOR gFrenchModelVariant820_UnitScale;
 extern GsIMAGE gFrenchModelVariant820_aImages[];
 extern Image135144Config gFrenchModelVariant820_aConfigs[];
 
-s32 FrenchModelVariant820_HandleRequest(u8 *context, s32 command);
+s32 FrenchModelVariant820_HandleRequest(Image135144State *context, s32 command);
 
 #endif

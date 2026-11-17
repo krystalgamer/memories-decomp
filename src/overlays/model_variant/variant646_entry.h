@@ -50,6 +50,6 @@ extern GsIMAGE gModelVariant646_aImages[2];
  * shells, then the glow/shard colour and the band/ray colour. */
 extern ModelVariantTwoColorCommand gModelVariant646_aConfigs[];
 
-s32 ModelVariant646_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant646_HandleRequest(Model646State *context, s32 command);
 
 #endif

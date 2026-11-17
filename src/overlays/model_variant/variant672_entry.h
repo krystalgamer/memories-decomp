@@ -56,6 +56,6 @@ extern GsIMAGE gModelVariant672_aImages[3];
  * flare size and two colours (sparks and rings, then flares). */
 extern ModelVariantTwoColorCommand gModelVariant672_aConfigs[];
 
-s32 ModelVariant672_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant672_HandleRequest(Model672State *context, s32 command);
 
 #endif

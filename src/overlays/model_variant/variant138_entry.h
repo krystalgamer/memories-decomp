@@ -44,6 +44,6 @@ extern char gModelVariant138_szWorkSizeFormat[];
 extern GsIMAGE gModelVariant138_aImages[];
 extern ModelVariantWaveConfig gModelVariant138_aConfigs[];
 
-s32 ModelVariant138_HandleRequest(u8 *context, s32 command);
+s32 ModelVariant138_HandleRequest(Model138State *context, s32 command);
 
 #endif

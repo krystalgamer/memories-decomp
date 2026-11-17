@@ -16,7 +16,7 @@ static inline s32 Model660Us_Negate(s32 value)
     return -value;
 }
 
-s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant660Us_HandleRequest(Model660UsState *context, s32 command)
 {
     Model660UsState *work;
     MATRIX ls, lw[2], spin;
@@ -31,7 +31,7 @@ s32 ModelVariant660Us_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model660UsState *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {

@@ -64,7 +64,7 @@ static const char gModelVariant644_szWorkSizeFormat[24] = "E_DATA size = %x byte
         - work->place.radius * (rise = rcos(i << 8) * scale) / 4096                        \
             * (work->place.radius * (rise2 = rcos(i << 8) * scale) / 4096))
 
-s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
+s32 ModelVariant644_HandleRequest(Model644State *context, s32 command)
 {
     Model644State *work;
     MATRIX ls, world;
@@ -79,7 +79,7 @@ s32 ModelVariant644_HandleRequest(u8 *context, s32 command)
     u32 tex;
     long depth;
 
-    work = (Model644State *)context;
+    work = context;
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {
