@@ -1918,6 +1918,8 @@ void Duel_LoadTerrainPackage(void)
 #ifndef DUEL_INIT_TERRAIN_SECTOR
 #ifdef VERSION_EUROPE
 #define DUEL_INIT_TERRAIN_SECTOR(value) ((((value) * 15) * 16) + 0x1B88)
+#elif defined(VERSION_JAPAN)
+#define DUEL_INIT_TERRAIN_SECTOR(value) ((((value) * 15) * 16 - (value)) + 0x16B5)
 #else
 #define DUEL_INIT_TERRAIN_SECTOR(value) \
     ((((value) * 15) * 4 - (value)) * 4 - (value)) + \
@@ -4012,7 +4014,11 @@ s16 Duel_ProjectCardSlotScreenX(s32 index)
 #include "sound.h"
 
 #ifndef DUEL_CARD_STAGING_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define DUEL_CARD_STAGING_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define DUEL_CARD_STAGING_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
 #endif
 
 void DuelScene_UpdateCardMove(void)
@@ -5145,7 +5151,11 @@ s32 DuelCursor_StepTowardTarget(DuelSelectionRecord *cursor)
 /* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
  * Circle, so a regional build names its own. */
 #ifndef DUEL_FIELD_ACTIONS_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define DUEL_FIELD_ACTIONS_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define DUEL_FIELD_ACTIONS_CONFIRM_MASK 0xC0
+#endif
 #endif
 
 /* The cancel button (Circle), swapped the same way. */
@@ -9638,6 +9648,9 @@ void DuelEffect_ClearCardEffect(void)
 #ifdef VERSION_EUROPE
 #define DUEL_TERRAIN_EFFECT_SECTOR(terrain) \
     ((((terrain) * 15) * 16) + 0x1C58)
+#elif defined(VERSION_JAPAN)
+#define DUEL_TERRAIN_EFFECT_SECTOR(terrain) \
+    ((((terrain) * 15) * 16 - (terrain)) + 0x1784)
 #else
 #define DUEL_TERRAIN_EFFECT_SECTOR(terrain) \
     ((terrain) * DUEL_TERRAIN_PACKAGE_SECTOR_COUNT + \
@@ -10604,7 +10617,11 @@ void DuelEffect_StartRitual(void)
 #endif
 
 #ifndef DUEL_EFFECT_RITUAL_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define DUEL_EFFECT_RITUAL_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define DUEL_EFFECT_RITUAL_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
 #endif
 
 void DuelEffect_ApplyRitual(void)

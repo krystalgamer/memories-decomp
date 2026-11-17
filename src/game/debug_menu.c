@@ -228,7 +228,11 @@ void DebugMenu_OpenValueEditor(
 /* The confirm buttons (Cross|Square). The Japanese release swaps Cross and
  * Circle, so a regional build names its own. */
 #ifndef DEBUG_SCREEN_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define DEBUG_SCREEN_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define DEBUG_SCREEN_CONFIRM_MASK 0xC0
+#endif
 #endif
 
 /* The cancel button (Circle), swapped the same way. */
@@ -891,7 +895,13 @@ void (*gDebugMenu_apfnPrimaryPageSteps[])(void) = {
    Circle, so a regional build supplies its own. */
 #ifndef DEBUG_MENU_CANCEL_BUTTON
 #define DEBUG_MENU_CANCEL_BUTTON PAD_BUTTON_CANCEL
+#endif
+#ifndef DEBUG_MENU_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define DEBUG_MENU_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define DEBUG_MENU_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
+#endif
 #endif
 
 void DebugMenu_Update(void) {

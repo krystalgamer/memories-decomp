@@ -1,4 +1,8 @@
 #include "../types.h"
+#ifdef VERSION_JAPAN
+/* Declares the printf of the Japanese selector trace below. */
+#include "../psyq/stdio.h"
+#endif
 
 #include "duel_effect_object_pool.h"
 #include "../psyq/libgte.h"

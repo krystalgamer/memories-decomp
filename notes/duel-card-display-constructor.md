@@ -36,7 +36,7 @@ display-state group retain order, extent and compiler profile; the European
 group has since joined `Duel_InitScene` in `duel_scene.c`. The
 Japanese build first gave the constructor an isolated wrapper,
 `japanese/duel_create_card_display_object.c`; it now compiles with the
-rest of the scene group through `japanese/duel_scene.c`. Seven resident inventory and
+rest of the scene group in `duel_scene.c`. Seven resident inventory and
 linker bindings follow the name.
 
 The existing ritual witness retains every oracle while its observer
