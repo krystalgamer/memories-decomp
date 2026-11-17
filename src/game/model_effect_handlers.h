@@ -45,7 +45,7 @@ extern VECTOR gModel_SparkEffectInitialScale;
 
 s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode);
 
-s16 *Model_SubdivideTriangle(s16 *a, s16 *b, s16 *c, s16 *out, s32 depth);
+SVECTOR *Model_SubdivideTriangle(SVECTOR *a, SVECTOR *b, SVECTOR *c, SVECTOR *out, s32 depth);
 Triplet *Triplet_SubdivideTriangle(u8 *a, u8 *b, u8 *c, Triplet *out, s32 depth);
 void Triplet_SetComponents(u8 *output, s32 first, s32 second, s32 third);
 void Triplet_CopyComponents(u8 *destination, const u8 *source);
@@ -100,15 +100,16 @@ typedef struct {
     u8 pad;
 } ModelBurstColor;
 
-/* The ring colours `table` points at, gModel_BurstRingPaletteWords in model_effect_handlers.c:
- * one byte per ring for each channel. */
+/* The ring colours `table` points at, gModel_BurstRingPalette in model_effect_handlers.c:
+ * one byte per ring for each channel, then three unread zero bytes. */
 typedef struct {
     u8 r[3];
     u8 g[3];
     u8 b[3];
+    u8 pad[3];
 } ModelBurstPalette;
 
-/* One texture record of gModel_BurstImageData in model_effect_handlers.c: the pixel mode
+/* One texture record of gModel_BurstImages in model_effect_handlers.c: the pixel mode
  * and the frame-buffer rectangles of the image and of its colour table. */
 typedef struct {
     u16 mode;

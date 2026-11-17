@@ -136,7 +136,7 @@ GsCOORDUNIT *Model_GetCameraCoordinateUnit(void)
     return &gModel_CameraCoordinateUnit;
 }
 
-void *Model_GetLightSourceMatrix(void)
+MATRIX *Model_GetLightSourceMatrix(void)
 {
     return &gGraphics_LightSourceMatrix;
 }

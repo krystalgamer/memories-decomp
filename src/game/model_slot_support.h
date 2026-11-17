@@ -61,6 +61,6 @@ extern MATRIX gGraphics_LightSourceMatrix;
 /* Returns &gGraphics_LightSourceMatrix through the definition's existing void * interface.
  * The background renderer converts that object pointer to the SDK's
  * MATRIX * parameter of GsSetLsMatrix; no alternate allocation is involved. */
-void *Model_GetLightSourceMatrix(void);
+MATRIX *Model_GetLightSourceMatrix(void);
 
 #endif

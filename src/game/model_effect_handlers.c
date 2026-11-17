@@ -30,56 +30,50 @@
 /* Initialized data at 0x800915E8 through 0x800916E0, previously a generated
    blob (#2602), in the order of the handlers that read it.
 
-   Model_UpdateSubdividedEffect reads gModel_SubdividedEffectConfigWords as
-   three six-byte colour channels followed by signed height/radius minima and
-   growth/fade durations. The four-byte element view remains the storage
-   owner; the consumer describes the measured 28-byte record locally.
+   Model_UpdateSubdividedEffect reads gModel_SubdividedEffectConfig: three
+   six-byte colour channels (one byte per base vertex), signed height/radius
+   minima and growth/fade durations.
 
-   Model_UpdateDiscEffect reads gModel_DiscEffectConfig as the
-   ModelDiscEffectConfig record it is stored as. Model_UpdateBurstEffect reads
-   gModel_BurstRingPaletteWords as three ring colours stored a channel at a
-   time (ModelBurstPalette), and the head of gModel_BurstImageData as one
-   28-byte image record (ModelBurstImage): a pixel mode and the frame-buffer
-   rectangles of the image and its colour table. Only that first record is
-   ever read, so the storage keeps its flat halfword view.
-
-   The other element widths are the ones the extractor assigned from the
-   labelling and alignment in the image. */
-u32 gModel_SubdividedEffectConfigWords[] = {
-    0x0000A0A0, 0x00A000A0, 0xA0A000A0, 0xA00000A0,
-    0x012CA000, 0x000A012C, 0x0000005A,
+   Model_UpdateDiscEffect reads gModel_DiscEffectConfig. Model_UpdateBurstEffect
+   reads gModel_BurstRingPalette, three ring colours stored a channel at a time
+   (red, green and blue rings), and the first of the seven gModel_BurstImages
+   records: a pixel mode and the frame-buffer rectangles of the image and its
+   colour table. The other six records have the same shape and are unread. */
+ModelSubdividedEffectConfig gModel_SubdividedEffectConfig = {
+    {
+        { 0xA0, 0xA0, 0x00, 0x00, 0xA0, 0x00 },
+        { 0xA0, 0x00, 0xA0, 0x00, 0xA0, 0xA0 },
+        { 0xA0, 0x00, 0x00, 0xA0, 0x00, 0xA0 },
+    },
+    300, 300, 10, 90, 0,
 };
 
 ModelDiscEffectConfig gModel_DiscEffectConfig = {
     0x20, 0x20, 0x20, 0, 300, 20, 10, 0,
 };
 
-/* Regional value: halfword 8 of each 14-halfword burst image record
- * (0x200 -> 0x280 in the European build). */
+/* Regional value: the CLUT x of every burst image (0x200 -> 0x280 in the
+ * European build), matching MODEL_BURST_CLUT below. */
 #ifdef VERSION_EUROPE
-#define MODEL_BURST_IMAGE_FIELD_8 0x0280
+#define MODEL_BURST_CLUT_X 0x0280
 #else
-#define MODEL_BURST_IMAGE_FIELD_8 0x0200
+#define MODEL_BURST_CLUT_X 0x0200
 #endif
 
-u16 gModel_BurstImageData[] = {
-    0x0008, 0x0000, 0x03C0, 0x0000, 0x0008, 0x0040, 0x0000, 0x0000,
-    MODEL_BURST_IMAGE_FIELD_8, 0x00F5, 0x0010, 0x0001, 0x0000, 0x0000, 0x0009, 0x0000,
-    0x0380, 0x0000, 0x0020, 0x0040, 0x0000, 0x0000, MODEL_BURST_IMAGE_FIELD_8, 0x00F4,
-    0x0100, 0x0001, 0x0000, 0x0000, 0x0009, 0x0000, 0x03A0, 0x0000,
-    0x0020, 0x0040, 0x0000, 0x0000, MODEL_BURST_IMAGE_FIELD_8, 0x00F4, 0x0100, 0x0001,
-    0x0000, 0x0000, 0x0009, 0x0000, 0x0380, 0x0040, 0x0020, 0x0040,
-    0x0000, 0x0000, MODEL_BURST_IMAGE_FIELD_8, 0x00F4, 0x0100, 0x0001, 0x0000, 0x0000,
-    0x0009, 0x0000, 0x03A0, 0x0040, 0x0020, 0x0040, 0x0000, 0x0000,
-    MODEL_BURST_IMAGE_FIELD_8, 0x00F4, 0x0100, 0x0001, 0x0000, 0x0000, 0x0009, 0x0000,
-    0x0380, 0x0080, 0x0010, 0x0080, 0x0000, 0x0000, MODEL_BURST_IMAGE_FIELD_8, 0x00F4,
-    0x0100, 0x0001, 0x0000, 0x0000, 0x0009, 0x0000, 0x0390, 0x0080,
-    0x0010, 0x0080, 0x0000, 0x0000, MODEL_BURST_IMAGE_FIELD_8, 0x00F4, 0x0100, 0x0001,
-    0x0000, 0x0000,
+ModelBurstImage gModel_BurstImages[] = {
+    { 8, 0, { 0x03C0, 0x0000, 0x0008, 0x0040 }, 0, { MODEL_BURST_CLUT_X, 0xF5, 0x0010, 1 }, 0 },
+    { 9, 0, { 0x0380, 0x0000, 0x0020, 0x0040 }, 0, { MODEL_BURST_CLUT_X, 0xF4, 0x0100, 1 }, 0 },
+    { 9, 0, { 0x03A0, 0x0000, 0x0020, 0x0040 }, 0, { MODEL_BURST_CLUT_X, 0xF4, 0x0100, 1 }, 0 },
+    { 9, 0, { 0x0380, 0x0040, 0x0020, 0x0040 }, 0, { MODEL_BURST_CLUT_X, 0xF4, 0x0100, 1 }, 0 },
+    { 9, 0, { 0x03A0, 0x0040, 0x0020, 0x0040 }, 0, { MODEL_BURST_CLUT_X, 0xF4, 0x0100, 1 }, 0 },
+    { 9, 0, { 0x0380, 0x0080, 0x0010, 0x0080 }, 0, { MODEL_BURST_CLUT_X, 0xF4, 0x0100, 1 }, 0 },
+    { 9, 0, { 0x0390, 0x0080, 0x0010, 0x0080 }, 0, { MODEL_BURST_CLUT_X, 0xF4, 0x0100, 1 }, 0 },
 };
 
-u32 gModel_BurstRingPaletteWords[] = {
-    0x404040FF, 0x404040FF, 0x000000FF,
+ModelBurstPalette gModel_BurstRingPalette = {
+    { 0xFF, 0x40, 0x40 },
+    { 0x40, 0xFF, 0x40 },
+    { 0x40, 0x40, 0xFF },
 };
 
 #define CLAMP(value, lower, upper) \
@@ -96,9 +90,9 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
     SVECTOR position;
     VECTOR scale;
     ModelEffectAdjustment bounds;
-    s32 flag;
-    s32 interpolation;
-    s32 depth;
+    long flag;
+    long interpolation;
+    long depth;
     GsOT *ot;
     s32 i;
     ModelSubdividedEffect *effect;
@@ -121,7 +115,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
     {
         s32 ticks = Model_GetFrameStep();
         if (mode >= 0) {
-            config = effect->config = (ModelSubdividedEffectConfig *)gModel_SubdividedEffectConfigWords;
+            config = effect->config = &gModel_SubdividedEffectConfig;
             Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex(), &bounds);
             work = height = bounds.max;
             work /= 2;
@@ -194,8 +188,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
             vertices = effect->vertex_links;
             colors = effect->color_links;
             for (i = 0; i < 8; i++) {
-                Model_SubdivideTriangle((s16 *)vertices[0], (s16 *)vertices[1],
-                    (s16 *)vertices[2], (s16 *)vertex, 2);
+                Model_SubdivideTriangle(vertices[0], vertices[1], vertices[2], vertex, 2);
                 vertices += 3;
                 vertex += 48;
                 Triplet_SubdivideTriangle(colors[0], colors[1], colors[2], color, 2);
@@ -216,7 +209,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
         config = effect->config;
         vertex = effect->subdivided_vertices;
         ot = Graphics_GetDefaultOrderingTable();
-        base = *(MATRIX *)Model_GetLightSourceMatrix();
+        base = *Model_GetLightSourceMatrix();
         color = effect->subdivided_colors;
         PushMatrix();
         SetPolyG3(&triangle);
@@ -228,10 +221,11 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
         rotation.vy = (u32)elapsed << 5;
         rotation.vz = 0;
         GsSetLsMatrix(&base);
+        /* Model_CopySlotPosition's shared prototype takes the four halfwords as u16 *. */
         Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&position);
         GsSetLsMatrix(&base);
         /* RotTrans writes three words, exactly the extent of MATRIX.t. */
-        RotTrans(&position, (VECTOR *)matrix.t, (long *)&flag);
+        RotTrans(&position, (VECTOR *)matrix.t, &flag);
         RotMatrix(&rotation, &matrix);
         MulMatrix2(&base, &matrix);
         ScaleMatrix(&matrix, &scale);
@@ -239,9 +233,10 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
         {
             s32 triangle_index;
             for (triangle_index = 0; triangle_index < 128; triangle_index++) {
+                /* The SDK's RotAverage* store each packed x/y pair through a long *. */
                 work = RotAverageNclip3(vertex, vertex + 1, vertex + 2,
                     (long *)&triangle.x0, (long *)&triangle.x1, (long *)&triangle.x2,
-                    (long *)&interpolation, (long *)&depth, (long *)&flag);
+                    &interpolation, &depth, &flag);
                 if (remaining >= 0 && remaining < config->fade_duration) {
                     red = (*color)[0] * remaining / config->fade_duration;
                     green = (*color)[1] * remaining / config->fade_duration;
@@ -297,7 +292,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
                     color++;
                 }
                 if (depth >= 0 && flag >= 0 && work > 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket(&triangle, ot, (u16)depth, 1);
                 }
                 vertex += 3;
             }
@@ -319,7 +314,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
         for (i = 0; i < 8; i++) {
             work = RotAverageNclip3(vertices[0], vertices[1], vertices[2],
                 (long *)&triangle.x0, (long *)&triangle.x1, (long *)&triangle.x2,
-                (long *)&interpolation, (long *)&depth, (long *)&flag);
+                &interpolation, &depth, &flag);
             if (depth >= 0 && flag >= 0 && work > 0) {
                 line.x0 = triangle.x0;
                 line.y0 = triangle.y0;
@@ -344,7 +339,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
     }
 }
 
-/* Recursive triangle subdivision, written twice: once over s16 vertices
+/* Recursive triangle subdivision, written twice: once over SVECTOR vertices
    (Model_SubdivideTriangle) and once over three-byte colour triplets (Triplet_SubdivideTriangle),
    followed by the three primitives the triplet version is built from.
 
@@ -363,100 +358,100 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
 
 /* Recursive triangle subdivision: splits the triangle (a, b, c) at its
  * three edge midpoints and, at the last depth, writes the four resulting
- * triangles (twelve 8-byte vertices) to out and returns the advanced
+ * triangles (twelve SVECTORs) to out and returns the advanced
  * pointer; otherwise recurses into the four sub-triangles. The three sums
  * are written before the three halvings on purpose: per-component pairs
  * let gcc forward the first store and the function comes out short. */
-s16 *Model_SubdivideTriangle(s16 *a, s16 *b, s16 *c, s16 *out, s32 depth) {
-    s16 A[4];
-    s16 B[4];
-    s16 C[4];
-    s16 m0[4];
-    s16 m1[4];
-    s16 m2[4];
+SVECTOR *Model_SubdivideTriangle(SVECTOR *a, SVECTOR *b, SVECTOR *c, SVECTOR *out, s32 depth) {
+    SVECTOR A;
+    SVECTOR B;
+    SVECTOR C;
+    SVECTOR m0;
+    SVECTOR m1;
+    SVECTOR m2;
     s32 t;
 
-    t = *(u16 *)a;
-    A[0] = t;
-    A[1] = a[1];
-    A[2] = a[2];
-    B[0] = b[0];
-    B[1] = b[1];
-    B[2] = b[2];
-    C[0] = c[0];
-    C[1] = c[1];
-    C[2] = c[2];
-    m0[0] = b[0];
-    m0[1] = b[1];
-    m0[2] = b[2];
-    m0[0] = m0[0] + c[0];
-    m0[1] = m0[1] + c[1];
-    m0[2] = m0[2] + c[2];
-    m0[0] = m0[0] / 2;
-    m0[1] = m0[1] / 2;
-    m0[2] = m0[2] / 2;
-    m1[0] = c[0];
-    m1[1] = c[1];
-    m1[2] = c[2];
-    m1[0] = m1[0] + a[0];
-    m1[1] = m1[1] + a[1];
-    m1[2] = m1[2] + a[2];
-    m1[0] = m1[0] / 2;
-    m1[1] = m1[1] / 2;
-    m1[2] = m1[2] / 2;
-    m2[0] = a[0];
-    m2[1] = a[1];
-    m2[2] = a[2];
-    m2[0] = m2[0] + b[0];
-    m2[1] = m2[1] + b[1];
-    m2[2] = m2[2] + b[2];
-    m2[0] = m2[0] / 2;
-    m2[1] = m2[1] / 2;
-    m2[2] = m2[2] / 2;
+    t = (u16)a->vx;
+    A.vx = t;
+    A.vy = a->vy;
+    A.vz = a->vz;
+    B.vx = b->vx;
+    B.vy = b->vy;
+    B.vz = b->vz;
+    C.vx = c->vx;
+    C.vy = c->vy;
+    C.vz = c->vz;
+    m0.vx = b->vx;
+    m0.vy = b->vy;
+    m0.vz = b->vz;
+    m0.vx = m0.vx + c->vx;
+    m0.vy = m0.vy + c->vy;
+    m0.vz = m0.vz + c->vz;
+    m0.vx = m0.vx / 2;
+    m0.vy = m0.vy / 2;
+    m0.vz = m0.vz / 2;
+    m1.vx = c->vx;
+    m1.vy = c->vy;
+    m1.vz = c->vz;
+    m1.vx = m1.vx + a->vx;
+    m1.vy = m1.vy + a->vy;
+    m1.vz = m1.vz + a->vz;
+    m1.vx = m1.vx / 2;
+    m1.vy = m1.vy / 2;
+    m1.vz = m1.vz / 2;
+    m2.vx = a->vx;
+    m2.vy = a->vy;
+    m2.vz = a->vz;
+    m2.vx = m2.vx + b->vx;
+    m2.vy = m2.vy + b->vy;
+    m2.vz = m2.vz + b->vz;
+    m2.vx = m2.vx / 2;
+    m2.vy = m2.vy / 2;
+    m2.vz = m2.vz / 2;
     depth--;
     if (depth == 0) {
-        out[0] = t;
-        out[1] = A[1];
-        out[2] = A[2];
-        out[4] = m2[0];
-        out[5] = m2[1];
-        out[6] = m2[2];
-        out[8] = m1[0];
-        out[9] = m1[1];
-        out[10] = m1[2];
-        out[12] = B[0];
-        out[13] = B[1];
-        out[14] = B[2];
-        out[16] = m0[0];
-        out[17] = m0[1];
-        out[18] = m0[2];
-        out[20] = m2[0];
-        out[21] = m2[1];
-        out[22] = m2[2];
-        out[24] = C[0];
-        out[25] = C[1];
-        out[26] = C[2];
-        out[28] = m1[0];
-        out[29] = m1[1];
-        out[30] = m1[2];
-        out[32] = m0[0];
-        out[33] = m0[1];
-        out[34] = m0[2];
-        out[36] = m0[0];
-        out[37] = m0[1];
-        out[38] = m0[2];
-        out[40] = m1[0];
-        out[41] = m1[1];
-        out[42] = m1[2];
-        out[44] = m2[0];
-        out[45] = m2[1];
-        out[46] = m2[2];
-        return out + 0x30;
+        out[0].vx = t;
+        out[0].vy = A.vy;
+        out[0].vz = A.vz;
+        out[1].vx = m2.vx;
+        out[1].vy = m2.vy;
+        out[1].vz = m2.vz;
+        out[2].vx = m1.vx;
+        out[2].vy = m1.vy;
+        out[2].vz = m1.vz;
+        out[3].vx = B.vx;
+        out[3].vy = B.vy;
+        out[3].vz = B.vz;
+        out[4].vx = m0.vx;
+        out[4].vy = m0.vy;
+        out[4].vz = m0.vz;
+        out[5].vx = m2.vx;
+        out[5].vy = m2.vy;
+        out[5].vz = m2.vz;
+        out[6].vx = C.vx;
+        out[6].vy = C.vy;
+        out[6].vz = C.vz;
+        out[7].vx = m1.vx;
+        out[7].vy = m1.vy;
+        out[7].vz = m1.vz;
+        out[8].vx = m0.vx;
+        out[8].vy = m0.vy;
+        out[8].vz = m0.vz;
+        out[9].vx = m0.vx;
+        out[9].vy = m0.vy;
+        out[9].vz = m0.vz;
+        out[10].vx = m1.vx;
+        out[10].vy = m1.vy;
+        out[10].vz = m1.vz;
+        out[11].vx = m2.vx;
+        out[11].vy = m2.vy;
+        out[11].vz = m2.vz;
+        return out + 12;
     }
-    out = Model_SubdivideTriangle(A, m2, m1, out, depth);
-    out = Model_SubdivideTriangle(B, m0, m2, out, depth);
-    out = Model_SubdivideTriangle(C, m1, m0, out, depth);
-    out = Model_SubdivideTriangle(m0, m1, m2, out, depth);
+    out = Model_SubdivideTriangle(&A, &m2, &m1, out, depth);
+    out = Model_SubdivideTriangle(&B, &m0, &m2, out, depth);
+    out = Model_SubdivideTriangle(&C, &m1, &m0, out, depth);
+    out = Model_SubdivideTriangle(&m0, &m1, &m2, out, depth);
     return out;
 }
 
@@ -532,7 +527,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
     u16 sz[68];
     u16 p[68];
     u16 flags[68];
-    s32 flag;
+    long flag;
     GsOT *ot;
     u8 step;
     ModelDiscEffectConfig *t;
@@ -620,7 +615,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
     SetPolyG3(&g3);
     SetPolyG4(&g4);
     PushMatrix();
-    ls = *(MATRIX *)Model_GetLightSourceMatrix();
+    ls = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&ls);
     rot.vx = 0;
     rot.vy = 0;
@@ -629,9 +624,11 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
     scale.vx = v;
     scale.vy = v;
     scale.vz = v;
+    /* Model_CopySlotPosition's shared prototype takes the four halfwords as u16 *. */
     Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&pos);
     GsSetLsMatrix(&ls);
-    RotTrans(&pos, (VECTOR *)m.t, (long *)&flag);
+    /* MATRIX.t is the SDK's long[3]; RotTrans takes it as the VECTOR it writes. */
+    RotTrans(&pos, (VECTOR *)m.t, &flag);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
@@ -698,17 +695,12 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
  * j, k, l, and the dust seeding keeps its two random offsets in l and j.
  */
 
-#define BURST_IMAGES ((ModelBurstImage *)gModel_BurstImageData)
 /* The larger of the two horizontal extents Model_GetSlotDimensionsWithMinimums reports. */
 #define BURST_EXTENT(v) ((s16)((v).vz < (v).vx ? (v).vx : (v).vz))
 /* Grid vertex coordinates in quarter-radius steps; sign mirrors the columns. */
 #define QUAD_X(n) (sign * -(e->radius >> 2) * (n))
 #define QUAD_Z(n) (-(e->radius >> 2) * (n))
 #define BURST_ABS(x) ((x) >= 0 ? (x) : -(x))
-#define VECTOR_VIEW(value) ((VECTOR *)(value))
-/* The red and green bytes of a colour, read as the high half of the word that
- * starts two bytes before it. */
-#define HI16(p, o) (*(u32 *)((u8 *)(p) + (o)) & 0xFFFF0000)
 
 s32 Model_UpdateBurstEffect(void *data, s32 request)
 {
@@ -719,8 +711,8 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
     SVECTOR pos;
     VECTOR scale;
     SVECTOR q[4];
-    s32 flag;
-    s32 p;
+    long flag;
+    long p;
     s32 slot;
     GsOT *ot;
     s16 sign;
@@ -740,14 +732,17 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
     slot = Model_GetActiveSlotIndex();
 
     if (request >= 0) {
-        e->table = (ModelBurstPalette *)gModel_BurstRingPaletteWords;
+        e->table = &gModel_BurstRingPalette;
         e->tpage = 0xAE;
         e->clut = MODEL_BURST_CLUT;
         for (i = 0; i < 1; i++) {
-            e->spark_texture[i].tpage = getTPage(BURST_IMAGES[i].mode, 1, BURST_IMAGES[i].prect.x,
-                                                 BURST_IMAGES[i].prect.y);
-            e->spark_texture[i].clut = getClut(BURST_IMAGES[i].crect.x, BURST_IMAGES[i].crect.y);
+            e->spark_texture[i].tpage = getTPage(gModel_BurstImages[i].mode, 1,
+                                                 gModel_BurstImages[i].prect.x,
+                                                 gModel_BurstImages[i].prect.y);
+            e->spark_texture[i].clut = getClut(gModel_BurstImages[i].crect.x,
+                                               gModel_BurstImages[i].crect.y);
         }
+        /* Kept in pos's slot: a separate ModelEffectAdjustment grows the frame. */
         Model_GetSlotDimensionsWithMinimums(slot, (ModelEffectAdjustment *)&pos);
         for (i = 0; i < 3; i++) {
             setVector(&e->rings[i], BURST_EXTENT(pos) * (ccos(i * 0x555) << 1) / 4096, 0,
@@ -797,6 +792,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
         e->smoke_r = 0x80;
         e->smoke_g = 0x40;
         e->smoke_b = 0x79;
+        /* Model_CopySlotPosition's shared prototype takes the four halfwords as u16 *. */
         Model_CopySlotPosition(slot, (u16 *)&rot);
         rot.vy = 0;
         copyVector(&e->origin, &rot);
@@ -813,7 +809,8 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
     Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     PushMatrix();
-    ls = *(MATRIX *)Model_GetLightSourceMatrix();
+    ls = *Model_GetLightSourceMatrix();
+    /* Model_CopySlotPosition's shared prototype takes the four halfwords as u16 *. */
     Model_CopySlotPosition(slot, (u16 *)&pos);
     pos.vy = 0;
     copyVector(&e->origin, &pos);
@@ -823,7 +820,8 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
         rot.vz = 0;
     }
     GsSetLsMatrix(&ls);
-    RotTrans(&e->origin, VECTOR_VIEW(m.t), (long *)&flag);
+    /* MATRIX.t is the SDK's long[3]; RotTrans takes it as the VECTOR it writes. */
+    RotTrans(&e->origin, (VECTOR *)m.t, &flag);
     RotMatrix(&rot, &m);
     MulMatrix2(&ls, &m);
     ScaleMatrix(&m, &scale);
@@ -853,9 +851,10 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                             addVector(&q[2], &e->rings[i]);
                             addVector(&q[3], &e->rings[i]);
                             setUVWH(f, (3 - k) * 16, (3 - l) * 16, 0xF, 0xF);
+                            /* The SDK's RotAverage* store each packed x/y pair through a long *. */
                             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0,
                                               (long *)&f->x1, (long *)&f->x2,
-                                              (long *)&f->x3, (long *)&p, (long *)&flag);
+                                              (long *)&f->x3, &p, &flag);
                             if (otz >= 0 && flag >= 0) {
                                 Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
                             }
@@ -903,7 +902,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
     }
 
     if (e->phase != 0) {
-        if (HI16(e, 0xD9C) != 0 || e->flash_b != 0) {
+        if (e->flash_r != 0 || e->flash_g != 0 || e->flash_b != 0) {
             setRGB0(f, e->flash_r, e->flash_g, e->flash_b);
             sign = 1;
             for (j = 0; j < 4; j++) {
@@ -919,7 +918,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                         setUVWH(f, (3 - i) * 16, (3 - l) * 16, 0xF, 0xF);
                         otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0,
                                           (long *)&f->x1, (long *)&f->x2,
-                                          (long *)&f->x3, (long *)&p, (long *)&flag);
+                                          (long *)&f->x3, &p, &flag);
                         if (otz >= 0 && flag >= 0) {
                             Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
                         }
@@ -960,7 +959,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                     e->flash_b = 0xFF;
                 }
                 e->radius += 4;
-                if (HI16(e, 0xD9C) == 0xFFFF0000 && e->flash_b == 0xFF) {
+                if (e->flash_r == 0xFF && e->flash_g == 0xFF && e->flash_b == 0xFF) {
                     e->phase = 2;
                 }
             } else if (e->phase == 2) {
@@ -980,17 +979,17 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                     e->flash_b = e->flash_b - 8;
                 }
                 e->radius -= 2;
-                if (HI16(e, 0xD9C) == 0x80800000 && e->flash_b == 0x80) {
+                if (e->flash_r == 0x80 && e->flash_g == 0x80 && e->flash_b == 0x80) {
                     e->phase = 1;
                 }
             }
         }
 
-        if ((HI16(e, 0xD90) != 0 || e->colors[0].b != 0) &&
-            (HI16(e, 0xD94) != 0 || e->colors[1].b != 0) &&
-            (HI16(e, 0xD98) != 0 || e->colors[2].b != 0)) {
+        if ((e->colors[0].r != 0 || e->colors[0].g != 0 || e->colors[0].b != 0) &&
+            (e->colors[1].r != 0 || e->colors[1].g != 0 || e->colors[1].b != 0) &&
+            (e->colors[2].r != 0 || e->colors[2].g != 0 || e->colors[2].b != 0)) {
             GsSetLsMatrix(&ls);
-            RotTrans(&e->origin, VECTOR_VIEW(m.t), (long *)&flag);
+            RotTrans(&e->origin, (VECTOR *)m.t, &flag);
             RotMatrix(&rot, &m);
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
@@ -1005,7 +1004,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                     addVector(&q[l], &e->dust[i]);
                 }
                 otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                                  (long *)&f->x2, (long *)&f->x3, &p, &flag);
                 if (otz >= 0) {
                     if (flag >= 0) {
                         Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
@@ -1045,14 +1044,14 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                 copyVector(&pos, &e->origin);
                 addVector(&pos, &e->sparks[i]);
                 GsSetLsMatrix(&ls);
-                RotTrans(&pos, VECTOR_VIEW(m.t), (long *)&flag);
+                RotTrans(&pos, (VECTOR *)m.t, &flag);
                 RotMatrix(&rot, &m);
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
                 setUVWH(f, e->spark_frame[i] * 32, 0, 0x1F, 0x3F);
                 setRGB0(f, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
                 otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                                  (long *)&f->x2, (long *)&f->x3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
                 }
@@ -1113,13 +1112,13 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
             }
         }
     }
-    if (e->stage >= 2 && (HI16(e, 0xE20) != 0 || e->smoke_b != 0)) {
+    if (e->stage >= 2 && (e->smoke_r != 0 || e->smoke_g != 0 || e->smoke_b != 0)) {
         f->tpage = e->tpage;
         f->clut = e->clut;
         setVector(&pos, 0, -0x220, 0);
         addVector(&pos, &e->origin);
         GsSetLsMatrix(&ls);
-        RotTrans(&pos, VECTOR_VIEW(m.t), (long *)&flag);
+        RotTrans(&pos, (VECTOR *)m.t, &flag);
         RotMatrix(&rot, &m);
         ScaleMatrix(&m, &scale);
         GsSetLsMatrix(&m);
@@ -1133,7 +1132,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
             setRGB0(f, e->smoke_r, e->smoke_g, e->smoke_b);
             setUVWH(f, 0x40, 0, 0x3F, 0x3F);
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                              (long *)&f->x2, (long *)&f->x3, &p, &flag);
             if (otz >= 0) {
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
@@ -1142,7 +1141,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
             setRGB0(f, e->smoke_r >> 1, e->smoke_g >> 1, e->smoke_b >> 1);
             setUVWH(f, 0x40, 0x40, 0x3F, 0x3F);
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                              (long *)&f->x2, (long *)&f->x3, &p, &flag);
             if (otz >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
             }
@@ -1157,7 +1156,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
             addVector(&q[2], &e->embers[i]);
             addVector(&q[3], &e->embers[i]);
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                              (long *)&f->x2, (long *)&f->x3, &p, &flag);
             if (otz >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
             }
@@ -1174,7 +1173,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                 addVector(&q[l], &e->smoke[i]);
             }
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                              (long *)&f->x2, (long *)&f->x3, &p, &flag);
             if (otz >= 0) {
                 if (flag >= 0) {
                     Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
@@ -1216,8 +1215,9 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
     }
     e->frame++;
     PopMatrix();
-    if (HI16(e, 0xE20) == 0 && e->smoke_b == 0 && HI16(e, 0xDA0) == 0 &&
-        e->spark_colors[0].b == 0 && HI16(e, 0xD9C) == 0 && e->flash_b == 0) {
+    if (e->smoke_r == 0 && e->smoke_g == 0 && e->smoke_b == 0 && e->spark_colors[0].r == 0 &&
+        e->spark_colors[0].g == 0 && e->spark_colors[0].b == 0 && e->flash_r == 0 &&
+        e->flash_g == 0 && e->flash_b == 0) {
         return 2;
     }
     return 0;
@@ -1242,7 +1242,6 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
 
 #define RAND_SPREAD(n) ((rand() - rand()) % 4096 * (n) / 4096)
 #define RAND_DROP(n) (-(rand() % 4096 * (n)) / 4096)
-#define SPARK_U16_AT(p, o) (*(u16 *)((u8 *)(p) + (o)))
 
 s32 Model_UpdateSparkEffect(void *data, s32 request)
 {
@@ -1254,8 +1253,8 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
     SVECTOR pos;
     VECTOR scale;
     SVECTOR q[4];
-    s32 flag;
-    s32 p;
+    long flag;
+    long p;
     s32 slot;
     GsOT *ot;
     s16 sign;
@@ -1310,11 +1309,13 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
     Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
     PushMatrix();
-    ls = *(MATRIX *)Model_GetLightSourceMatrix();
+    ls = *Model_GetLightSourceMatrix();
+    /* Model_CopySlotPosition's shared prototype takes the four halfwords as u16 *. */
     Model_CopySlotPosition(slot, (u16 *)&pos);
     pos.vy = 0;
     GsSetLsMatrix(&ls);
-    RotTrans(&pos, (VECTOR *)m.t, (long *)&flag);
+    /* MATRIX.t is the SDK's long[3]; RotTrans takes it as the VECTOR it writes. */
+    RotTrans(&pos, (VECTOR *)m.t, &flag);
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
@@ -1349,8 +1350,9 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
                 for (k = 0; k < 4; k++) {
                     addVector(&q[k], &e->sparks[i]);
                 }
+                /* The SDK's RotAverage* store each packed x/y pair through a long *. */
                 otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                                  (long *)&f->x2, (long *)&f->x3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
                 }
@@ -1363,7 +1365,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
                 addVector(&q[k], &e->sparks[i]);
             }
             otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&g->x0, (long *)&g->x1,
-                              (long *)&g->x2, (long *)&g->x3, (long *)&p, (long *)&flag);
+                              (long *)&g->x2, (long *)&g->x3, &p, &flag);
             if (otz >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket(g, ot, otz & 0xFFFF, 1);
             }
@@ -1438,7 +1440,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
                     addVector(&q[k], &e->flashes[i]);
                 }
                 otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                                  (long *)&f->x2, (long *)&f->x3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
                 }
@@ -1498,7 +1500,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
         e->mode = 1;
         Model_SetSlotTintTarget(slot, 5, 0, 0, 0);
     }
-    if (SPARK_U16_AT(e, 0x80E) != 0 || e->dust_b != 0) {
+    if (e->dust_r != 0 || e->dust_g != 0 || e->dust_b != 0) {
         if (e->mode == 1) {
             setRGB0(f, e->dust_r, e->dust_g, e->dust_b);
             for (i = 0; i < 64; i++) {
@@ -1512,7 +1514,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
                     addVector(&q[j], &e->dust[i]);
                 }
                 otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, (long *)&p, (long *)&flag);
+                                  (long *)&f->x2, (long *)&f->x3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
                     Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
                 }
@@ -1538,8 +1540,8 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
     }
     e->frame++;
     PopMatrix();
-    if (SPARK_U16_AT(e, 0x78E) == 0 && e->flash_colors[0].b == 0 && SPARK_U16_AT(e, 0x80E) == 0 &&
-        e->dust_b == 0) {
+    if (e->flash_colors[0].r == 0 && e->flash_colors[0].g == 0 && e->flash_colors[0].b == 0 &&
+        e->dust_r == 0 && e->dust_g == 0 && e->dust_b == 0) {
         return 2;
     }
     return 0;
