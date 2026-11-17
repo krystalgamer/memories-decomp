@@ -117,6 +117,8 @@ extern s32 gMemCardWork_nCompletedRequest;
 extern u8 gMemCardWork_bFrameChecksum;
 
 #define MEM_CARD_DIRECTORY_ENTRY_SIZE 40
+/* A card holds fifteen save blocks, one directory entry each. */
+#define MEM_CARD_DIRECTORY_ENTRY_COUNT 15
 #define MEM_CARD_BLOCK_SIZE 8192
 #define MEM_CARD_BLOCK_COUNT 15
 #define MEM_CARD_DIRECTORY_RETRIES 5
@@ -243,8 +245,8 @@ extern long gMemCard_aHwIOEventHandles[];
  *   gMemCardDialog_SyncCommand  The SDK cmds output, separately passed
  *               beside the rslt output and tested against 2 by save work.
  *               NA adjacency does not describe the European layout.
- *   gMemCardDialog_DirectoryBuffer  The directory buffer, cast to (struct DIRENTRY *) at each
- *               use and passed with the file count beside it.
+ *   gMemCardDialog_DirectoryBuffer  The directory buffer, a struct DIRENTRY
+ *               array (mem_card_driver.h) passed with the file count beside it.
  *
  * gMemCardDialog_CardNumberArg keeps its unsized spelling, and it is load-bearing: the note in
  * mem_card_dialog.c records that as a plain s32 extern the -G8 build puts
@@ -345,13 +347,17 @@ extern u8 *gMemCard_pSecondaryTransferCursor;
 extern u8 gMemCardDialog_BlockCount;
 extern u8 gMemCardDialog_StepIndex;
 extern u8 gMemCardDialog_RetryCounter;
-extern s32 gMemCardDialog_SyncCommand;
+extern long gMemCardDialog_SyncCommand;
 /* Internal operation state and SDK sync words remain plain independent
  * globals; the raw command, result and poll return are different values. */
 extern u8 gMemCardDialog_OperationState;
 extern s32 gMemCardDialog_SyncStatus;
-extern s32 gMemCardDialog_SyncResult;
-extern u8 gMemCardDialog_DirectoryBuffer[];
+extern long gMemCardDialog_SyncResult;
+/* The dialog's directory buffer, filled by MemCardGetDirentry; struct
+ * DIRENTRY is the SDK record kernel.h defines (mem_card_driver.h checks its
+ * layout). */
+struct DIRENTRY;
+extern struct DIRENTRY gMemCardDialog_DirectoryBuffer[];
 /* Modal card-number view of shared text staging +0x40, also used through
  * deck-validation/rank views. Keep this separate unsized relocation name. */
 extern s32 gMemCardDialog_CardNumberArg[];

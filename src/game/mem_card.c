@@ -38,8 +38,8 @@ u8 gMemCardDialog_RetryCounter;
 u8 gSaveData_PairSetupState;
 u8 gMemCardDialog_ChannelIndex;
 u8 gMemCardDialog_Outcome;
-s32 gMemCardDialog_SyncCommand;
-s32 gMemCardDialog_SyncResult;
+long gMemCardDialog_SyncCommand;
+long gMemCardDialog_SyncResult;
 u8 gMemCardDialog_Port;
 u16 gMemCard_wDialogFlags;
 
@@ -226,8 +226,6 @@ void SaveData_BuildPayload(SaveDataPayload *data)
     );
 }
 
-#define gCampaignSceneIndex (*(u8 *)SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS)
-
 void SaveData_ApplyRuntimeState(SaveDataState *state) {
     Text_SjisToGlyphCodes(gText_aCurrentPlayerNameGlyphs, state->player_name_sjis, SAVE_DATA_PLAYER_NAME_CHAR_COUNT);
 
@@ -237,7 +235,7 @@ void SaveData_ApplyRuntimeState(SaveDataState *state) {
      */
     gSaveData_dwVBlankCounter = state->vblank_counter;
     gSaveDataSequence = state->save_sequence;
-    gCampaignSceneIndex = state->campaign_scene.bytes.index;
+    *(u8 *)SAVE_DATA_CAMPAIGN_SCENE_INDEX_ADDRESS = state->campaign_scene.bytes.index;
 
     if (gSD_bOutputType < 0) {
         u8 output_type = state->output_type;
@@ -332,8 +330,6 @@ s32 SaveData_MatchesDuelistAndCurrentSequence(
     }
     return result;
 }
-
-#undef gCampaignSceneIndex
 
 #include "duel_effect_states.h"
 
@@ -440,13 +436,12 @@ void Checkerboard_DrawBackground(
 #define DUEL_EFFECT_CHANNEL_HEIGHT 0x40
 #endif
 
-#define gDialog_bChoice (*(s8 *)DIALOG_CHOICE_ADDRESS)
-
 DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
     DuelEffectChannel *channel;
 
-    /* A symbolic store changes the retail assembler-temporary address form. */
-    gDialog_bChoice = -1;
+    /* gDialog_bChoice through its address: a symbolic store changes the
+       retail assembler-temporary address form. */
+    *(s8 *)DIALOG_CHOICE_ADDRESS = -1;
     channel = TextBox_Create(
         gMemCardWork_Area.root.text_index,
         value & 0x7FFF,
@@ -465,8 +460,6 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 
     return channel;
 }
-
-#undef gDialog_bChoice
 
 #include "display_object.h"
 
@@ -505,8 +498,8 @@ void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root)
     if (flags & 64) {
         gDialog_bCallbackState = 0;
     } else {
-        s32 x = *(u16 *)&object->field_48.spotlight.inner - 8;
-        s32 y = *(u16 *)&object->field_48.spotlight.outer - 8;
+        s32 x = (u16)object->field_48.spotlight.inner - 8;
+        s32 y = (u16)object->field_48.spotlight.outer - 8;
 
         object->field_48.spotlight.outer = y;
         object->field_48.spotlight.inner = x;
@@ -623,7 +616,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root)
         return;
     }
     p = root->box_object;
-    t = *(u16 *)&p->field_60;
+    t = (u16)p->field_60;
     if (p->field_60 < 0) {
         v = t + 0x40;
         p->field_60 = v;
@@ -699,7 +692,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
             gDialog_bCallbackState = 0;
         }
     } else {
-        v = *(u16 *)&e->field_60 + 0x20;
+        v = (u16)e->field_60 + 0x20;
         e->field_60 = v;
         if ((s16)v >= 0) {
             e->xy.s.x = DIALOG_BOX_X;
@@ -785,7 +778,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
 #endif
 
 MemCardWorkArea gMemCardWork_Area;
-u8 gMemCardDialog_DirectoryBuffer[600];
+struct DIRENTRY gMemCardDialog_DirectoryBuffer[MEM_CARD_DIRECTORY_ENTRY_COUNT];
 u8 gMemCardDialog_FileNameBuffer[32];
 
 /* Initialized data this unit owns at 0x80090F9C: the memory card dialog step table.
@@ -1145,7 +1138,7 @@ void MemCardDialog_SetMessage(s32 value, s32 bits)
 
 void MemCardDialog_UpdateLoad(void)
 {
-    s32 files;
+    long files;
     s32 message;
 
     switch (gMemCardDialog_OperationState & 0xF) {
@@ -1191,7 +1184,7 @@ void MemCardDialog_UpdateLoad(void)
         break;
     case 2:
         if (MemCardGetDirentry(gMemCardDialog_Port, (char *)gMemCardDialog_FileNameBuffer,
-                               (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (long *)&files, 0,
+                               gMemCardDialog_DirectoryBuffer, &files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             gMemCardDialog_OperationState = 6;
             break;
@@ -1319,7 +1312,7 @@ void MemCardDialog_UpdateSave(void)
     long cmds;
     long result;
     long apl;
-    s32 files;
+    long files;
     s32 needed;
     s32 polled;
     s32 mode;
@@ -1422,12 +1415,12 @@ void MemCardDialog_UpdateSave(void)
         break;
     case 3:
         if (MemCardGetDirentry(0, "*",
-                               (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (long *)&files, 0,
+                               gMemCardDialog_DirectoryBuffer, &files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             gMemCardDialog_OperationState = 0xD;
             break;
         }
-        if (MemCard_FindEntry(gMemCardDialog_FileNameBuffer, (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, files) >= 0) {
+        if (MemCard_FindEntry(gMemCardDialog_FileNameBuffer, gMemCardDialog_DirectoryBuffer, files) >= 0) {
             gMemCardDialog_OperationState = 7;
             break;
         }
@@ -1435,7 +1428,7 @@ void MemCardDialog_UpdateSave(void)
             gMemCardDialog_OperationState = 0xE;
             break;
         }
-        message = MemCard_CalcFreeBlocks((struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, files);
+        message = MemCard_CalcFreeBlocks(gMemCardDialog_DirectoryBuffer, files);
         needed = gMemCardDialog_BlockCount;
         if (message >= needed) {
             gMemCardDialog_OperationState = 6;
@@ -1682,7 +1675,7 @@ void MemCardDialog_UpdateSave(void)
      takes full words, so the count's unknown upper bits need no mask there. */
 void MemCardDialog_UpdateSave(void)
 {
-    s32 files;
+    long files;
     s32 needed;
     s32 result;
     s32 mode;
@@ -1747,12 +1740,12 @@ void MemCardDialog_UpdateSave(void)
         break;
     case 3:
         if (MemCardGetDirentry(0, "*",
-                               (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (long *)&files, 0,
+                               gMemCardDialog_DirectoryBuffer, &files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             gMemCardDialog_OperationState = 0xD;
             break;
         }
-        if (MemCard_FindEntry(gMemCardDialog_FileNameBuffer, (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, files) >= 0) {
+        if (MemCard_FindEntry(gMemCardDialog_FileNameBuffer, gMemCardDialog_DirectoryBuffer, files) >= 0) {
             gMemCardDialog_OperationState = 7;
             break;
         }
@@ -1760,7 +1753,7 @@ void MemCardDialog_UpdateSave(void)
             gMemCardDialog_OperationState = 0xE;
             break;
         }
-        message = MemCard_CalcFreeBlocks((struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, files);
+        message = MemCard_CalcFreeBlocks(gMemCardDialog_DirectoryBuffer, files);
         needed = gMemCardDialog_BlockCount;
         if (message >= needed) {
             gMemCardDialog_OperationState = 6;
@@ -1976,7 +1969,7 @@ void MemCardDialog_StepAlternateSave(void)
 
 void MemCardDialog_UpdateTradeSave(void)
 {
-    s32 files;
+    long files;
     u8 *record;
     s32 state;
 
@@ -2018,7 +2011,7 @@ void MemCardDialog_UpdateTradeSave(void)
     case 1:
         gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;
         if (MemCardGetDirentry(gMemCardDialog_Port, (char *)gMemCardDialog_FileNameBuffer,
-                               (struct DIRENTRY *)gMemCardDialog_DirectoryBuffer, (long *)&files, 0,
+                               gMemCardDialog_DirectoryBuffer, &files, 0,
                                MEM_CARD_BLOCK_COUNT) != 0) {
             MemCardDialog_SetMessage(0xDA, 0x18);
             break;
@@ -2185,9 +2178,7 @@ void MemCardDialog_CreateObject(void)
             gMemCardDialog_ChannelIndex = i;
             break;
         }
-        p = (DuelEffectChannel *)(
-            (u8 *)p + sizeof(DuelEffectChannel)
-        );
+        p++;
     }
 
     o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -2209,7 +2200,7 @@ void MemCardDialog_Update(void)
 
     f = gMemCard_wDialogFlags;
     if ((f & MEM_CARD_DIALOG_FLAG_CLOSING) != 0) {
-        if (gMemCard_pDialogObject == (DisplayObject *)0) {
+        if (gMemCard_pDialogObject == 0) {
             gMemCard_wDialogFlags = 0;
             return;
         }
@@ -2218,7 +2209,7 @@ void MemCardDialog_Update(void)
             ) == 0) {
             TextBox_Destroy(&gText_aChannels[gMemCardDialog_ChannelIndex]);
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
-            gMemCard_pDialogObject = (DisplayObject *)0;
+            gMemCard_pDialogObject = 0;
         }
         return;
     }
@@ -2291,7 +2282,7 @@ void MemCardDialog_Update(void)
         }
         if ((f & MEM_CARD_DIALOG_FLAG_IO_PENDING) != 0) {
             c = MemCardSync(
-                1, (long *)&gMemCardDialog_SyncCommand, (long *)&gMemCardDialog_SyncResult
+                1, &gMemCardDialog_SyncCommand, &gMemCardDialog_SyncResult
             );
             gMemCardDialog_SyncStatus = c;
             if (c != 1) {
@@ -2407,13 +2398,6 @@ void SaveData_RequestOptionsWrite(void)
 }
 #endif
 
-#ifdef VERSION_JAPAN
-#define SAVE_DATA_LOAD_PAIR_CHANNEL(base, index) \
-    ((DuelEffectChannel *)((u8 *)(base) + (index) * 0x60))
-#else
-#define SAVE_DATA_LOAD_PAIR_CHANNEL(base, index) (&(base)[index])
-#endif
-
 /* The two-player load, validation and write-back runtime. The state machine
    first loads both card slots, then the two wrappers add trade or duel setup,
    and the final request writes the paired trade result back. */
@@ -2474,9 +2458,9 @@ s32 SaveData_UpdateLoadPair(void)
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, DIALOG_BOX_X, 0x100, gMemCardDialog_ChannelIndex) == 0) {
             TextBox_Destroy(
-                SAVE_DATA_LOAD_PAIR_CHANNEL(gText_aChannels, gMemCardDialog_ChannelIndex));
+                &gText_aChannels[gMemCardDialog_ChannelIndex]);
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
-            gMemCard_pDialogObject = (DisplayObject *)0;
+            gMemCard_pDialogObject = 0;
             if ((gSaveData_LoadPairState & 0x80) == 0) {
                 gSaveData_LoadPairState = 3;
                 MemCardDialog_Request(
@@ -2537,7 +2521,7 @@ s32 SaveData_UpdateLoadPair(void)
         }
         TextBox_UpdateChannels();
         q = gText_aChannels;
-        if ((SAVE_DATA_LOAD_PAIR_CHANNEL(q, gMemCardDialog_ChannelIndex)->flags_34 & SAVE_DATA_LOAD_CHANNEL_FLAG) == 0) {
+        if ((q[gMemCardDialog_ChannelIndex].flags_34 & SAVE_DATA_LOAD_CHANNEL_FLAG) == 0) {
             gSaveData_LoadPairState = 0xB;
         }
         return 0;
@@ -2549,16 +2533,15 @@ s32 SaveData_UpdateLoadPair(void)
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, DIALOG_BOX_X, 0x100, gMemCardDialog_ChannelIndex) == 0) {
             TextBox_Destroy(
-                SAVE_DATA_LOAD_PAIR_CHANNEL(gText_aChannels, gMemCardDialog_ChannelIndex));
+                &gText_aChannels[gMemCardDialog_ChannelIndex]);
             DisplayObject_ReleaseIfPresent(gMemCard_pDialogObject);
-            gMemCard_pDialogObject = (DisplayObject *)0;
+            gMemCard_pDialogObject = 0;
             return 2;
         }
         return 0;
     }
     return 0;
 }
-#undef SAVE_DATA_LOAD_PAIR_CHANNEL
 
 s32 SaveData_UpdateTradeLoad(void)
 {
