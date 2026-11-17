@@ -63,6 +63,8 @@ void FrenchModelVariant412_DrawTrails(Variant412EntryState *context)
         for (i = 0; i < 6; i++) {
             GsGetLw(work->parts[i], &part);
             if (i == 0) {
+                /* trails[0].original[0][last], reached from the work base as
+                 * retail does; the member path does not match. */
                 ((SVECTOR *)work)[last].vx = part.t[0];
                 ((SVECTOR *)work)[last].vy = part.t[1];
                 ((SVECTOR *)work)[last].vz = part.t[2];
