@@ -88,7 +88,7 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
                 ring->amount[j] += work->clock.step << 7;
                 if (ring->amount[j] >= 0x400) {
                     ring->amount[j] = limit;
-                    if ((u32)work->config->field_20 < work->clock.frame) {
+                    if (work->config->settle_start < work->clock.frame) {
                         ring->amount[j] = limit;
                         if (j == 8) {
                             ring->field_204 = 1;

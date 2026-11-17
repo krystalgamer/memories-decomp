@@ -8,7 +8,8 @@ typedef struct {
     u32 unknown_08;
     u32 trigger;
     u8 unknown_10[0x10];
-    s32 field_20;
+    /* After this frame the ring pulses stop restarting and hold. */
+    u32 settle_start;
 } Variant433EntryConfig;
 
 /* A centre and eight points on a circle, a colour and the sweep words. */
