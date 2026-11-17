@@ -23,7 +23,7 @@ as `func_spanish_80087898`.
 
 ## Behavior
 
-One shared `ModelVariantBand` at context `+0x1770` holds nine segments.
+One shared `ModelVariantColorBand` at context `+0x1770` holds nine segments.
 
 **Radius.** The radius is the halfword size at `+0x22D8` times the radius word
 at `+0x40` of the timing record, divided by 4096. On odd frames, the radius

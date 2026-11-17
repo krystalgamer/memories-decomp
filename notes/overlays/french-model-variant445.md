@@ -150,7 +150,7 @@ The ten previous ledger rows remain byte-identical, followed by two
 canonical matches. This adds twelve C instances / 22,896 bytes.
 
 Thirty-five freshly compiled layout constants and 151 retail instruction
-anchors establish one 456-byte `ModelVariantBand` at context
+anchors establish one 456-byte `ModelVariantColorBand` at context
 `0xAB0..0xC78`. Three nine-point `SVECTOR` rows occupy record
 `0/0x48/0x90`; their screens are at `0xD8/0xFC/0x120`, colors at
 `0x144/0x168`, and depths at `0x1A4`. Entry initializes all nine color

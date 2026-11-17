@@ -44,7 +44,7 @@ explicitly unclassified, not established non-code.
 
 ## Accessed layouts and ownership
 
-Entry captures `a0 -> s3 -> s6`. A single 456-byte `ModelVariantBand` begins
+Entry captures `a0 -> s3 -> s6`. A single 456-byte `ModelVariantColorBand` begins
 at context `+0x1CA0`, followed by one 152-byte sheet at `+0x1E68`, six
 144-byte rings at `+0x1F00`, four 144-byte spoke records at `+0x2260`,
 and one 144-byte quad at `+0x24A0`. Adjacent extents agree exactly. This is

@@ -128,7 +128,7 @@ scratch experiments and two terminal canonical matches.
 
 Independent evidence checks 35 target-compiled constants and 132 instruction
 anchors across every image. The entry initializes one 456-byte
-`ModelVariantBand` at context `0xE10..0xFD8`. Its three nine-point `SVECTOR`
+`ModelVariantColorBand` at context `0xE10..0xFD8`. Its three nine-point `SVECTOR`
 rows begin at `0/0x48/0x90`; packed outputs at `0xD8/0xFC/0x120`,
 colors at `0x144/0x168` and depths at `0x1A4`. The nine `long` flags
 are stack storage at frame `+0xC8`, not a field or inferred extension of
