@@ -211,18 +211,18 @@ void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
                       (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1),
                       (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1),
                       (rand() % 5 + 2) * (gDuelEffect_DrawOffset.vz >= 0 ? -1 : 1));
-            if ((s16)gDuelEffect_CardObjectScratchWords[i]->xy.h.x ==
+            if (gDuelEffect_CardObjectScratchWords[i]->xy.s.x ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? -140 : 140)) {
                 work->states[0] = 1;
-            } else if ((s16)gDuelEffect_CardObjectScratchWords[i]->xy.h.x ==
+            } else if (gDuelEffect_CardObjectScratchWords[i]->xy.s.x ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? -70 : 70)) {
                 work->states[1] = 1;
-            } else if ((s16)gDuelEffect_CardObjectScratchWords[i]->xy.h.x == 0) {
+            } else if (gDuelEffect_CardObjectScratchWords[i]->xy.s.x == 0) {
                 work->states[2] = 1;
-            } else if ((s16)gDuelEffect_CardObjectScratchWords[i]->xy.h.x ==
+            } else if (gDuelEffect_CardObjectScratchWords[i]->xy.s.x ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? 70 : -70)) {
                 work->states[3] = 1;
-            } else if ((s16)gDuelEffect_CardObjectScratchWords[i]->xy.h.x ==
+            } else if (gDuelEffect_CardObjectScratchWords[i]->xy.s.x ==
                 (gDuelEffect_DrawOffset.vz >= 0 ? 140 : -140)) {
                 work->states[4] = 1;
             }
