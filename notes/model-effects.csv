@@ -1,0 +1,167 @@
+e_name,na_slot0,na_slot1,jp_slot0,jp_slot1,pal_slot0,pal_slot1,aliases,records,basis,evidence
+e001,72,202,71,201,89,219,e019,9 30 45 104 137 176 186 233 234 522 542 545 567,residue-aliases,residue+fp:112 fp-propagated:140
+e006,59,189,58,188,76,206,,57 397 439 512,residue,residue+fp:42 fp-propagated:14
+e007,60,190,59,189,77,207,,53 84 336 497,residue,residue+fp:28 fp-propagated:28
+e008,438,588,437,587,455,605,,9 425,residue,residue+fp:14 fp-propagated:14
+e011,181,311,180,310,198,328,,458,residue,residue+fp:14 fp-propagated:0
+e012,172,302,171,301,189,319,,7 56 149 157 179 188 228 312 455 502 538 543 547 565,residue,residue+fp:84 fp-propagated:112
+e013,841,938,840,937,858,955,,64 173,residue,residue+fp:14 fp-propagated:14
+e014,67,197,66,196,84,214,,56 105 143 469,residue,residue+fp:42 fp-propagated:14
+e015,99,229,98,228,116,246,e047,22 27 73 127 372 404 434 454 506 531 601,residue-aliases,residue+fp:98 fp-propagated:112
+e016,173,303,172,302,190,320,,119,residue,residue+fp:14 fp-propagated:0
+e017,662,729,661,728,679,746,,22 222 236 302 303 389 391 424 568,residue,residue+fp:28 fp-propagated:98
+e018,71,201,70,200,88,218,,31 290 295 358 451 468 481,residue,residue+fp:70 fp-propagated:28
+e023,156,286,155,285,173,303,,8 113 300 336 342 398,residue,residue+fp:14 fp-propagated:70
+e026,78,208,77,207,95,225,,72 212 222 246 322 495 515 573,residue,residue+fp:70 fp-propagated:42
+e027,79,209,78,208,96,226,,192 196,residue,residue+fp:28 fp-propagated:0
+e028,80,210,79,209,97,227,,100 150,residue,residue+fp:14 fp-propagated:14
+e029,81,211,80,210,98,228,,39 298 474 507 598,residue,residue+fp:42 fp-propagated:28
+e032,176,306,175,305,193,323,,13 52 127 159 177 208 213 338 412 417 429 456 494 531 558,residue,residue+fp:112 fp-propagated:98
+e033,85,215,84,214,102,232,,21,residue,residue+fp:14 fp-propagated:0
+e036,407,557,406,556,424,574,e590,68 96 165 186 242 294 297 302 308 326 349 415 470 545 571,residue-aliases,residue+fp:70 fp-propagated:280
+e037,89,219,88,218,106,236,,435,residue,residue+fp:14 fp-propagated:0
+e038,90,220,89,219,107,237,,28 85 352,residue,residue+fp:42 fp-propagated:0
+e041,93,223,92,222,110,240,,313,residue,residue+fp:14 fp-propagated:0
+e043,95,225,94,224,112,242,,253,residue,residue+fp:14 fp-propagated:0
+e044,96,226,95,225,113,243,,106,residue,residue+fp:14 fp-propagated:0
+e045,97,227,96,226,114,244,,125,residue,residue+fp:14 fp-propagated:0
+e048,100,230,99,229,117,247,,15 139 146,residue,residue+fp:28 fp-propagated:14
+e049,101,231,100,230,118,248,,27 506,residue,residue+fp:14 fp-propagated:14
+e050,102,232,101,231,119,249,,380,residue,residue+fp:14 fp-propagated:0
+e051,103,233,102,232,120,250,,33 334,residue,residue+fp:28 fp-propagated:0
+e052,104,234,103,233,121,251,,39 128 227 281 427 452 459 464 507 591 608,residue,residue+fp:98 fp-propagated:70
+e053,105,235,104,234,122,252,,33,residue,residue+fp:14 fp-propagated:0
+e054,106,236,105,235,123,253,,379,residue,residue+fp:14 fp-propagated:0
+e055,107,237,106,236,124,254,,379,residue,residue+fp:14 fp-propagated:0
+e056,108,238,107,237,125,255,,266 293,residue,residue+fp:28 fp-propagated:0
+e057,109,239,108,238,126,256,,72 322 391 515,residue,residue+fp:42 fp-propagated:14
+e058,110,240,109,239,127,257,,28 112 191 250 343 395 417 429 483 524 549 575,residue,residue+fp:126 fp-propagated:42
+e059,111,241,110,240,128,258,,247 416 433 436 498,residue,residue+fp:56 fp-propagated:14
+e060,112,242,111,241,129,259,,30 219 305 385 440,residue,residue+fp:42 fp-propagated:28
+e061,113,243,112,242,130,260,,219 283,residue,residue+fp:14 fp-propagated:14
+e062,114,244,113,243,131,261,,183 273 436 440 490 587,residue,residue+fp:42 fp-propagated:42
+e063,115,245,114,244,132,262,,366,residue,residue+fp:14 fp-propagated:0
+e065,117,247,116,246,134,264,,204 248 291 495 499 554 574 596,residue,residue+fp:28 fp-propagated:84
+e066,118,248,117,247,135,265,,16 17 51 59 224 308 328 340 402 434 460 461 514,residue,residue+fp:112 fp-propagated:70
+e067,119,249,118,248,136,266,,3 16 17 25 96 155 319 386 605 617,residue,residue+fp:84 fp-propagated:56
+e068,120,250,119,249,137,267,,18 19,residue,residue+fp:28 fp-propagated:0
+e069,121,251,120,250,138,268,,18 19,residue,residue+fp:28 fp-propagated:0
+e070,122,252,121,251,139,269,,174 228 423 565,residue,residue+fp:42 fp-propagated:14
+e071,669,736,668,735,686,753,e821,14 61 255 266 301 327 348 405,residue-aliases,residue+fp:42 fp-propagated:168
+e072,124,254,123,253,141,271,,20 378 395,residue,residue+fp:28 fp-propagated:14
+e073,125,255,124,254,142,272,,442,residue,residue+fp:14 fp-propagated:0
+e074,126,256,125,255,143,273,,234 431 446 496,residue,residue+fp:42 fp-propagated:14
+e075,127,257,126,256,144,274,,442,residue-one-slot,residue+fp:7 fp-propagated:0
+e076,128,258,127,257,145,275,,181 330 357 610,residue,residue+fp:28 fp-propagated:28
+e077,129,259,128,258,146,276,,609,residue,residue+fp:14 fp-propagated:0
+e078,130,260,129,259,147,277,,60 206 556,residue,residue+fp:14 fp-propagated:28
+e300,752,849,751,848,769,866,e303,5 24 31 46 59 80 99 104 117 211 229 247 309 514 520 522 560 566,residue-aliases,residue+fp:140 fp-propagated:224
+e302,753,850,752,849,770,867,,23 85 103 187 239 430 449 505 546,residue,residue+fp:84 fp-propagated:42
+e304,756,853,755,852,773,870,,11 65 99 128 132 172 179 235 244 245 251 255 256 261 284 285 330 365 490 503 543 576 579 593 594,residue,residue+fp:294 fp-propagated:84
+e305,754,851,753,850,771,868,,10 11 45 46 78 112 158 160 192 193 198 199 201 209 254 281 286 346 431 503 524 539 551 552 553 578 591,residue,residue+fp:238 fp-propagated:140
+e306,757,854,756,853,774,871,,23 505,residue,residue+fp:14 fp-propagated:14
+e307,755,852,754,851,772,869,e349,242 400 401 443 571,residue-aliases,residue+fp:56 fp-propagated:28
+e308,759,856,758,855,776,873,,42,residue,residue+fp:14 fp-propagated:0
+e309,760,857,759,856,777,874,,42,residue,residue+fp:14 fp-propagated:0
+e310,761,858,760,857,778,875,,40,residue,residue+fp:14 fp-propagated:0
+e311,762,859,761,858,779,876,,40,residue,residue+fp:14 fp-propagated:0
+e312,763,860,762,859,780,877,,63 77,residue,residue+fp:42 fp-propagated:0
+e313,764,861,763,860,781,878,,63 403,residue,residue+fp:28 fp-propagated:0
+e314,765,862,764,861,782,879,,58 78 217 403 513 562,residue,residue+fp:56 fp-propagated:28
+e315,766,863,765,862,783,880,e316,65 83 90 94 97 109 110 114 126 160 208 224 226 230 233 245 264 298 331 354 394 400 418 420 428 558 564 567 583 598,residue-aliases,residue+fp:294 fp-propagated:252
+e317,768,865,767,864,785,882,,600,residue,residue+fp:14 fp-propagated:0
+e318,769,866,768,865,786,883,,189,residue,residue+fp:14 fp-propagated:0
+e319,770,867,769,866,787,884,,115 181 240 278 426 525 600,residue,residue+fp:84 fp-propagated:14
+e320,771,868,770,867,788,885,,73,residue,residue+fp:14 fp-propagated:0
+e321,772,869,771,868,789,886,,113,residue,residue+fp:14 fp-propagated:0
+e322,773,870,772,869,790,887,,240,residue,residue+fp:14 fp-propagated:0
+e323,774,871,773,870,791,888,,89 382 479 521,residue,residue+fp:28 fp-propagated:28
+e327,778,875,777,874,795,892,,92 94 126,residue,residue+fp:42 fp-propagated:0
+e328,779,876,778,875,796,893,,5 24 49 53 80 86 92 98 120 124 136 154 157 177 196 210 221 238 265 273 326 337 352 423 424 509 520 527 530 536 538 559 570 584 587,residue,residue+fp:350 fp-propagated:168
+e329,780,877,779,876,797,894,,382,residue,residue+fp:14 fp-propagated:0
+e331,782,879,781,878,799,896,,289,residue,residue+fp:14 fp-propagated:0
+e332,783,880,782,879,800,897,,252 279 350 577 590,residue,residue+fp:42 fp-propagated:28
+e333,785,882,784,881,802,899,,406,residue,residue+fp:14 fp-propagated:0
+e334,784,881,783,880,801,898,,406,residue,residue+fp:14 fp-propagated:0
+e335,786,883,785,882,803,900,,467,residue,residue+fp:14 fp-propagated:0
+e336,787,884,786,883,804,901,,118,residue,residue+fp:14 fp-propagated:0
+e337,788,885,787,884,805,902,,131 133 207 270 314 388 533 557,residue,residue+fp:28 fp-propagated:84
+e338,372,522,371,521,389,539,e505,32 184 269 359,residue-aliases,residue+fp:28 fp-propagated:56
+e339,790,887,789,886,807,904,,441,residue,residue+fp:14 fp-propagated:0
+e340,791,888,790,887,808,905,,6 501,residue,residue+fp:14 fp-propagated:14
+e341,388,538,387,537,405,555,e571,57 149 369 512,residue-aliases,residue+fp:42 fp-propagated:28
+e342,793,890,792,889,810,907,,86 309 420 449,residue,residue+fp:42 fp-propagated:14
+e343,794,891,793,890,811,908,,137,residue,residue+fp:14 fp-propagated:0
+e344,795,892,794,891,812,909,,156 267 537,residue,residue+fp:28 fp-propagated:14
+e345,796,893,795,892,813,910,,199 261 290 358 451 552,residue,residue+fp:42 fp-propagated:42
+e346,842,939,841,938,859,956,,3 209,residue,residue+fp:14 fp-propagated:14
+e347,798,895,797,894,815,912,,216,residue,residue+fp:14 fp-propagated:0
+e348,799,896,798,895,816,913,,376,residue,residue+fp:14 fp-propagated:0
+e350,801,898,800,897,818,915,,97,residue,residue+fp:14 fp-propagated:0
+e351,802,899,801,898,819,916,,433,residue,residue+fp:14 fp-propagated:0
+e352,803,900,802,899,820,917,,489,residue,residue+fp:14 fp-propagated:0
+e353,804,901,803,900,821,918,,489,residue,residue+fp:14 fp-propagated:0
+e354,805,902,804,901,822,919,,153,residue,residue+fp:28 fp-propagated:0
+e355,806,903,805,902,823,920,,152,residue,residue+fp:14 fp-propagated:0
+e356,807,904,806,903,824,921,,178 619,residue,residue+fp:14 fp-propagated:14
+e357,808,905,807,904,825,922,,183,residue,residue+fp:14 fp-propagated:0
+e500,321,471,320,470,338,488,,34 164 165 210 374 393 409 559,residue,residue+fp:14 fp-propagated:98
+e501,318,468,317,467,335,485,,44 508,residue,residue+fp:14 fp-propagated:14
+e502,319,469,318,468,336,486,,422,residue,residue+fp:14 fp-propagated:0
+e503,443,593,442,592,460,610,e513 e539,44 70 98 125 161 168 320 350 408 410 412 419 508 604,residue-aliases,residue+fp:126 fp-propagated:210
+e504,658,725,657,724,675,742,,61 62 317 341 383 393 421 473 602 604 608 614 616,residue,residue+fp:14 fp-propagated:168
+e507,324,474,323,473,341,491,,7 502,residue,residue+fp:14 fp-propagated:14
+e510,404,554,403,553,421,571,e587,84 88 114 162 184 319,residue-aliases,residue+fp:42 fp-propagated:84
+e520,843,940,842,939,860,957,,100 416,residue,residue+fp:14 fp-propagated:14
+e530,418,568,417,567,435,585,,34 71 124 166 182 275 279 311 419 441 530 540 590,residue,residue+fp:14 fp-propagated:168
+e547,371,521,370,520,388,538,e554,8 43 235 269 606,residue-aliases,residue+fp:56 fp-propagated:28
+e549,366,516,365,515,383,533,,313,residue,residue+fp:14 fp-propagated:0
+e551,368,518,367,517,385,535,,170 356 357 463,residue,residue+fp:42 fp-propagated:14
+e559,376,526,375,525,393,543,,190 217 221 296 377 407 408 409 548 562 597,residue,residue+fp:98 fp-propagated:56
+e563,380,530,379,529,397,547,,21 258,residue,residue+fp:28 fp-propagated:0
+e566,383,533,382,532,400,550,,189 258,residue,residue+fp:28 fp-propagated:0
+e568,385,535,384,534,402,552,,6 501,residue,residue+fp:14 fp-propagated:14
+e569,386,536,385,535,403,553,,43,residue,residue+fp:14 fp-propagated:0
+e570,415,565,414,564,432,582,,351,residue,residue+fp:14 fp-propagated:0
+e574,391,541,390,540,408,558,,54,residue,residue+fp:14 fp-propagated:0
+e575,414,564,413,563,431,581,,351,residue,residue+fp:14 fp-propagated:0
+e576,393,543,392,542,410,560,,54,residue,residue+fp:14 fp-propagated:0
+e578,395,545,394,544,412,562,,10,residue,residue+fp:14 fp-propagated:0
+e580,397,547,396,546,414,564,,2 20 87 108 138 152 168 170 193 338 377 523,residue,residue+fp:98 fp-propagated:70
+e581,398,548,397,547,415,565,,102 282 288 592 595,residue,residue+fp:28 fp-propagated:42
+e583,400,550,399,549,417,567,,134 232 304 485,residue,residue+fp:42 fp-propagated:14
+e584,427,577,426,576,444,594,,175,residue,residue+fp:14 fp-propagated:0
+e585,402,552,401,551,419,569,,69 93 95 163 249 375,residue,residue+fp:56 fp-propagated:28
+e588,405,555,404,554,422,572,,1 500,residue,residue+fp:14 fp-propagated:14
+e589,406,556,405,555,423,573,,335,residue,residue+fp:14 fp-propagated:0
+e591,408,558,407,557,425,575,,0,residue,residue+fp:14 fp-propagated:0
+e592,409,559,408,558,426,576,,0,residue,residue+fp:14 fp-propagated:0
+e593,456,606,455,605,473,623,,335,residue,residue+fp:14 fp-propagated:0
+e595,412,562,411,561,429,579,,275 321 467,residue,residue+fp:14 fp-propagated:28
+e596,413,563,412,562,430,580,,478,residue,residue+fp:14 fp-propagated:0
+e807,678,745,677,744,695,762,,491,residue,residue+fp:14 fp-propagated:0
+e808,677,744,676,743,694,761,,370 493,residue,residue+fp:14 fp-propagated:14
+e809,681,748,680,747,698,765,e825,274 369 404 462 588,residue-aliases,residue+fp:56 fp-propagated:28
+e810,627,694,626,693,644,711,,13 286 371 432 439 455 491,residue,residue+fp:84 fp-propagated:14
+e811,628,695,627,694,645,712,,12 504,residue,residue+fp:14 fp-propagated:14
+e812,629,696,628,695,646,713,,29 405 447 472,residue,residue+fp:56 fp-propagated:14
+e813,630,697,629,696,647,714,,12 504,residue,residue+fp:14 fp-propagated:14
+e814,631,698,630,697,648,715,,35,residue,residue+fp:14 fp-propagated:0
+e815,632,699,631,698,649,716,,35 74 363 371 450 516,residue,residue+fp:70 fp-propagated:14
+e816,633,700,632,699,650,717,,48 52 425,residue,residue+fp:28 fp-propagated:14
+e817,634,701,633,700,651,718,,47 48 205 256 359 426 555 579,residue,residue+fp:70 fp-propagated:42
+e818,635,702,634,701,652,719,,55 226 277 511 564 589,residue,residue+fp:28 fp-propagated:56
+e819,636,703,635,702,653,720,,55 277 448 511 589,residue,residue+fp:28 fp-propagated:42
+e820,654,721,653,720,671,738,e838,74 122 151 158 204 220 437 453 459 465 476 482 488 497 516 528 535 539 554 563,residue-aliases,residue+fp:28 fp-propagated:504
+e826,680,747,679,746,697,764,,339,residue,residue+fp:14 fp-propagated:0
+e827,643,710,642,709,660,727,,203 304 334 461,residue,residue+fp:42 fp-propagated:14
+e828,644,711,643,710,661,728,,296 362 457 462 597,residue,residue+fp:14 fp-propagated:56
+e829,645,712,644,711,662,729,,69 70 90 120 123 130 142 176 180 229 307 337 354 355 387 450 527 529 542 566,residue,residue+fp:210 fp-propagated:70
+e830,646,713,645,712,663,730,,188 195 197 201 203 231 274 387 547 550 553 588,residue,residue+fp:98 fp-propagated:70
+e831,647,714,646,713,664,731,,67 115 123 142 195 206 271 289 299 331 332 343 347 365 385 389 427 525 529 556 585 599,residue,residue+fp:140 fp-propagated:168
+e832,648,715,647,714,665,732,,2 4 41 67 87 134 194 205 232 236 251 268 280 282 287 295 299 316 325 333 362 430 432 445 470 472 482 483 499 555 568 576 592 599,residue,residue+fp:154 fp-propagated:322
+e833,649,716,648,715,666,733,,118,residue,residue+fp:14 fp-propagated:0
+e834,650,717,649,716,667,734,,237 366 367 468 569,residue,residue+fp:14 fp-propagated:56
+e835,651,718,650,717,668,735,,237 492 569,residue,residue+fp:14 fp-propagated:28
+e836,652,719,651,718,669,736,,249 284 593,residue,residue+fp:14 fp-propagated:28
+e837,653,720,652,719,670,737,,151 535,residue,residue+fp:14 fp-propagated:14

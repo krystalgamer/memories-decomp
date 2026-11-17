@@ -99,3 +99,7 @@ suffixes:
   and Japan, directly or through a `*_usa.c` wrapper. The rename did not touch
   symbols, so many still carry `FrenchModelVariant<N>_` or
   `SpanishModelVariant<N>_` prefixes.
+
+[MODEL effect names](../../notes/model-effects.md) maps header numbers to the
+developers' `eNNN` effect names and defines the planned
+`e<NNN>_<role>`/`h<NNN>_<role>` source names.
