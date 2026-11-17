@@ -346,7 +346,7 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
                 work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
                 work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
                 if (work->config->start <= work->frame) {
-                    SpanishModelVariant441_DrawRainbowSheets((u8 *)point);
+                    SpanishModelVariant441_DrawRainbowSheets((Variant441EntryState *)point);
                     ModelVariant398_DrawRings((u8 *)point);
                 }
                 if (work->phase > 0) {

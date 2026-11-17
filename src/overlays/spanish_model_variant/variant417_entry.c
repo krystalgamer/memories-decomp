@@ -332,7 +332,7 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
                 work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
                 if (work->config->start <= work->frame) {
                     SpanishModelVariant417_DrawPhasedLines((Variant417EntryState *)point);
-                    SpanishModelVariant441_DrawRainbowSheets((u8 *)point);
+                    SpanishModelVariant441_DrawRainbowSheets((Variant417EntryState *)point);
                 }
                 if (work->phase > 0) {
                     SpanishModelVariant417_DrawTube((Variant417EntryState *)point);

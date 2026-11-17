@@ -56,7 +56,7 @@ extern GsIMAGE gSpanishModelVariant441_aImages[9];
 extern Variant441EntryConfig gSpanishModelVariant441_aConfigs[];
 void SpanishModelVariant441_DrawTubularMesh(Variant441EntryState *context);
 void SpanishModelVariant441_DrawRibbon(Variant441EntryState *context);
-void SpanishModelVariant441_DrawRainbowSheets(u8 *context);
+void SpanishModelVariant441_DrawRainbowSheets(Variant441EntryState *context);
 void SpanishModelVariant441_DrawFramebufferRings(Variant441EntryState *context);
 void ModelVariant398_DrawRings(u8 *context);
 typedef char Variant441EntryConfigSize[(sizeof(Variant441EntryConfig) == 0x30) ? 1 : -1];

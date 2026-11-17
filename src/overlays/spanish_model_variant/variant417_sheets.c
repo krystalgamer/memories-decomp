@@ -7,7 +7,7 @@
  * direction by the progress. On the last index of each timing cycle the
  * first sheet grows over the timing window and shrinks over the fade
  * window, while the second follows the phase. */
-void SpanishModelVariant441_DrawRainbowSheets(u8 *context)
+void SpanishModelVariant441_DrawRainbowSheets(Variant417EntryState *context)
 {
     SVECTOR rot;
     /* The target reserves 16 unused bytes between rot and scale. */
@@ -30,7 +30,7 @@ void SpanishModelVariant441_DrawRainbowSheets(u8 *context)
     s32 depth;
     u8 blue;
 
-    work = (Variant417EntryState *)context;
+    work = context;
     quad = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
     poly = &work->packets.textured[1];
