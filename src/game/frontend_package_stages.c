@@ -153,7 +153,7 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         w = gFile_dwTransferState;
         n = 0x10000;
         do {
-            *(s32 *)&object->phase_size = k;
+            object->phase_size = k;
             gFile_dwTransferState = w | n;
             object->transfer_mode = 2;
             d = gFile_TransferBufferBase;
@@ -174,7 +174,7 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gFile_dwTransferState = w2 | 0x10000;
         object->transfer_mode = 2;
         d2 = gFile_TransferBufferBase;
-        *(s32 *)&object->phase_size = 16 * FILE_SECTOR_SIZE;
+        object->phase_size = 16 * FILE_SECTOR_SIZE;
         object->sector_destination = d2;
         object->alternate_sector_destination = d2 + FILE_SECTOR_SIZE;
         break;
@@ -196,7 +196,7 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
             hun = NAME_ENTRY_PACKAGE_IMAGE_X;
         } while (0);
         object->x = hun;
-        *(u16 *)&object->y = NAME_ENTRY_PACKAGE_IMAGE_Y;
+        object->y = NAME_ENTRY_PACKAGE_IMAGE_Y;
         k = gFile_TransferBufferBase;
         object->w = 0x100;
 #else

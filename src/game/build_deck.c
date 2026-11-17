@@ -171,7 +171,7 @@ void CardList_DrawDecimalDigits(GsSPRITE *sprite, GsOT *ot, const u8 *digits, s3
                 sprite->u = value * 8 - 0x80;
                 GsSortFastSprite(sprite, ot, 0);
             }
-            *(u16 *)&sprite->x += 8;
+            sprite->x += 8;
             i--;
         } while (i >= 0);
     }
@@ -785,14 +785,14 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
         p->transfer_mode = 2;
         v = gFile_TransferBufferBase;
         w = 64 * FILE_SECTOR_SIZE;
-        *(s32 *)&p->phase_size = w;
+        p->phase_size = w;
         p->sector_destination = v;
         v += FILE_SECTOR_SIZE;
         p->alternate_sector_destination = v;
         break;
 
     case 1:
-        *(s32 *)&p->phase_size = 5 * FILE_SECTOR_SIZE;
+        p->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         p->alternate_sector_destination = gFile_TransferBufferBase;
         p->sector_destination = gFile_TransferBufferBase;
@@ -824,14 +824,14 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
         p->transfer_mode = 2;
         v = gFile_TransferBufferBase;
         w = 8 * FILE_SECTOR_SIZE;
-        *(s32 *)&p->phase_size = w;
+        p->phase_size = w;
         p->sector_destination = v;
         v += FILE_SECTOR_SIZE;
         p->alternate_sector_destination = v;
         break;
 
     case 3:
-        *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
+        p->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         p->alternate_sector_destination = gFile_TransferBufferBase;
         p->sector_destination = gFile_TransferBufferBase;
@@ -874,7 +874,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
         p->transfer_mode = 2;
         v = gFile_TransferBufferBase;
         w = 0x20000;
-        *(s32 *)&p->phase_size = w;
+        p->phase_size = w;
         p->sector_destination = v;
         v += 0x800;
         p->alternate_sector_destination = v;
@@ -894,7 +894,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
         p->transfer_mode = 2;
         v = gFile_TransferBufferBase;
         w = 0x4000;
-        *(s32 *)&p->phase_size = w;
+        p->phase_size = w;
         p->sector_destination = v;
         v += 0x800;
         p->alternate_sector_destination = v;
@@ -902,7 +902,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
 
     case 2:
         m2v = 0xFFDCFFFF;
-        *(s32 *)&p->phase_size = 4 * FILE_SECTOR_SIZE;
+        p->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState = gFile_dwTransferState & m2v;
         p->alternate_sector_destination = gFile_TransferBufferBase;
         p->sector_destination = gFile_TransferBufferBase;
@@ -1496,9 +1496,9 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
     case 0:
             if (list->first != list->first_target) {
                 if (list->first_target < list->first) {
-                    *(u16 *)&list->first = *(u16 *)&list->first - 1;
+                    list->first = *(u16 *)&list->first - 1;
                 } else {
-                    *(u16 *)&list->first = *(u16 *)&list->first + 1;
+                    list->first = *(u16 *)&list->first + 1;
                 }
                 CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
                 return 1;

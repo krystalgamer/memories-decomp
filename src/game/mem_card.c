@@ -534,7 +534,7 @@ void Dialog_UpdateCloseTransition(MemCardWorkRoot *root)
     entry = &gText_aChannels[root->text_index];
     object = root->box_object;
     if (object) {
-        *(u16 *)&object->field_60 -= 0x40;
+        object->field_60 -= 0x40;
         if (object->field_60 <= 0) {
             DisplayObject_ReleaseIfPresent(object);
             root->box_object = 0;
@@ -554,8 +554,8 @@ void Dialog_UpdateCloseTransition(MemCardWorkRoot *root)
     }
     object = root->spotlight_object;
     if (object) {
-        *(u16 *)&object->field_48.spotlight.outer += 8;
-        *(u16 *)&object->field_48.spotlight.inner += 8;
+        object->field_48.spotlight.outer += 8;
+        object->field_48.spotlight.inner += 8;
         if (object->field_48.spotlight.inner >= 0xC0) {
             DisplayObject_ReleaseIfPresent(object);
             root->spotlight_object = 0;

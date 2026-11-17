@@ -484,7 +484,7 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
     s32 i;
 
     if (DisplayEffect_MarkInitialized(p) == 0) {
-        *(s16 *)&p->x = 0x68;
+        p->x = 0x68;
         p->variant_update_flags |= 0x10;
         if (p->slot_index != 0) {
             *(s16 *)&p->x = 0xD8;
@@ -696,19 +696,19 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
             o->texture_uv.b.v =
                 (idx / CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
                 CAMPAIGN_DIALOG_PORTRAIT_IMAGE_HEIGHT;
-            *(u16 *)&o->field_40.clut.y +=
+            o->field_40.clut.y +=
                 idx % CAMPAIGN_DIALOG_PORTRAIT_CLUT_ROWS_PER_COLUMN;
-            *(u16 *)&o->field_44.scale.y = 0;
+            o->field_44.scale.y = 0;
             o->rgb.word = 0;
             o->attribute |=
                 GsALON | GsAONE | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
             DisplayObject_SelectOrderingTable1(o);
             DisplayObject_SetDepthOffset(o, -8);
             record->grid[0][0] = o;
-            *(u16 *)&o->field_60 = 0x14;
+            o->field_60 = 0x14;
         }
         o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
-        *(u16 *)&o->field_48.pivot.y = 0;
+        o->field_48.pivot.y = 0;
         o2 = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o2, o->xy.s.x, o->xy.s.y, 0x30, 0x30, o->texture_uv.b.u, o->texture_uv.b.v, 0xE, DISPLAY_EFFECT_SPRITE_CX, 0xFD);
         o2->attribute = (o2->attribute |
@@ -722,9 +722,9 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     o = record->grid[0][0];
     o2 = record->grid[0][1];
     if (record->step_arg.closing != 0) {
-        *(u16 *)&o->field_60 += (u16)gGraphics_nBaseFrameStep;
+        o->field_60 += (u16)gGraphics_nBaseFrameStep;
     } else {
-        *(u16 *)&o->field_60 -= (u16)gGraphics_nBaseFrameStep;
+        o->field_60 -= (u16)gGraphics_nBaseFrameStep;
     }
     /* The faded-out arm sits first and joins the release arm at the step
        clear; the in-range fade continues after the switch. */
@@ -732,7 +732,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     case 0:
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
         o->rgb.word = COLOR_RGB24_NEUTRAL_GREY;
-        *(u16 *)&o->field_44.scale.y = 0x1000;
+        o->field_44.scale.y = 0x1000;
         DisplayObject_ReleaseIfPresent(o2);
         record->grid[0][1] = 0;
         if (0) {
@@ -753,11 +753,11 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     o->rgb.c.g = shade;
     o->rgb.c.r = shade;
     idx = o->field_60 * 204 + 0x1000;
-    *(u16 *)&o2->field_44.scale.y = idx;
-    *(u16 *)&o->field_44.scale.y = idx;
+    o2->field_44.scale.y = idx;
+    o->field_44.scale.y = idx;
     scale_x = o->rgb.c.r << 5;
-    *(u16 *)&o2->field_44.scale.x = scale_x;
-    *(u16 *)&o->field_44.scale.x = scale_x;
+    o2->field_44.scale.x = scale_x;
+    o->field_44.scale.x = scale_x;
 }
 
 /* Initialized data this unit owns at 0x80090F68: the display effect step

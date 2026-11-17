@@ -6877,7 +6877,7 @@ s32 Duel_UpdateCardUseConfirmation(void) {
     q = gDuel_pActionCard;
 
     if ((gDuel_bConfirmFlags & 0x40) != 0) {
-        *(s16 *)&q->flags =
+        q->flags =
             *(s16 *)&q->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
         v = q->field_20.b.rotation_y + (u8)q->field_60;
         q->field_20.b.rotation_y = v;
@@ -6886,7 +6886,7 @@ s32 Duel_UpdateCardUseConfirmation(void) {
             return 0;
         }
         if ((w & 0xFF) == 0) {
-            *(s16 *)&q->flags =
+            q->flags =
                 *(s16 *)&q->flags & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
         do { gDuel_bConfirmFlags = gDuel_bConfirmFlags & 0xBF; } while (0);
@@ -6894,7 +6894,7 @@ s32 Duel_UpdateCardUseConfirmation(void) {
     }
 
     if ((gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
-        *(u16 *)&q->field_60 = 0x10;
+        q->field_60 = 0x10;
         if ((gInput_awPadRepeat[0] & PAD_DIRECTION_RIGHT) != 0) {
             q->field_60 = -0x10;
         }
