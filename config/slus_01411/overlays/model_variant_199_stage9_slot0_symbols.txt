@@ -1,4 +1,4 @@
-// MODEL.MRG model 199 (record 199), sector 55124, header 796, loaded at 0x8013B000; the US source variant796_entry.c.
+// MODEL.MRG model 199 (record 199), sector 55124, header 796, loaded at 0x8013B000; the US source e345_entry.c.
 ModelVariant796_HandleRequest = 0x8013B004; // type:func size:0x3818 defined:true
 gModelVariant796_aImages = 0x8013E82C; // type:u8 size:0x8C defined:true
 gModelVariant796_aConfigs = 0x8013E8B8; // type:u8 size:0x1748 defined:true

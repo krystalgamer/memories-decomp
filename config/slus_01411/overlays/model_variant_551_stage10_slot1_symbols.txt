@@ -1,4 +1,4 @@
-// MODEL.MRG model 551 (record 501), sector 138486, header 888, loaded at 0x8017B000; the US source variant791_entry.c.
+// MODEL.MRG model 551 (record 501), sector 138486, header 888, loaded at 0x8017B000; the US source e340_entry.c.
 ModelVariant791_HandleRequest = 0x8017B004; // type:func size:0x3E9C defined:true
 gModelVariant791_aImages = 0x8017EEB0; // type:u8 size:0x8C defined:true
 gModelVariant791_aConfigs = 0x8017EF3C; // type:u8 size:0x10C4 defined:true

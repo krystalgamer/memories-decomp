@@ -32,7 +32,7 @@ displacements and instructions:
   at `+0xC` of the timing pointer at `+0x186C`. The fan then turns by the step
   at `+0x1864` times 32.
 
-The 0x74-byte record is declared as `Ribbon388` in `variant388_entry.h` (the record's `ribbons[8]`),
+The 0x74-byte record is declared as `Ribbon388` in `e341_entry.h` (the record's `ribbons[8]`),
 because this family's flag words are the only part of the shared record's
 unknown region that it uses.
 

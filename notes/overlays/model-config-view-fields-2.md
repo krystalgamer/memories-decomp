@@ -48,12 +48,12 @@ Entry `model_variant/variant386_entry.c` line 61: `work->config = gModelVariant3
 
 ## `Model372Config`
 
-Entry `model_variant/variant372_entry.c` line 75: `work->config = gModelVariant372_aConfigs + command;`. Its work struct `Model372State` has `config` at `+0x2C9C`.
+Entry `model_variant/e338_entry.c` line 75: `work->config = gModelVariant372_aConfigs + command;`. Its work struct `Model372State` has `config` at `+0x2C9C`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x34` | `field_34` → `u32 fade_begin` | `Sheets389Timing.fade_begin` | `FrenchModelVariant389_DrawSheets` (model_variant/variant389_sheets.c; `model_variant/variant372_entry.c:290`, `Sheets389State.timing` at +0x2C9C) | `} else if (state->timing->fade_begin < state->time && sheet->size > 0)` | high |
-| `+0x38` | `field_38` → `u32 fade_end` | `Sheets389Timing.fade_end` | `FrenchModelVariant389_DrawSheets` (model_variant/variant389_sheets.c; `model_variant/variant372_entry.c:290`, `Sheets389State.timing` at +0x2C9C) | `(state->timing->fade_end - state->timing->fade_begin);` | high |
+| `+0x34` | `field_34` → `u32 fade_begin` | `Sheets389Timing.fade_begin` | `FrenchModelVariant389_DrawSheets` (model_variant/e338_sheets.c; `model_variant/e338_entry.c:290`, `Sheets389State.timing` at +0x2C9C) | `} else if (state->timing->fade_begin < state->time && sheet->size > 0)` | high |
+| `+0x38` | `field_38` → `u32 fade_end` | `Sheets389Timing.fade_end` | `FrenchModelVariant389_DrawSheets` (model_variant/e338_sheets.c; `model_variant/e338_entry.c:290`, `Sheets389State.timing` at +0x2C9C) | `(state->timing->fade_end - state->timing->fade_begin);` | high |
 
 ## `Variant430EntryConfig`
 

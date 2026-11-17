@@ -1,4 +1,4 @@
-// European MODEL.MRG model 3 (record 3), sector 1028, header 859, loaded at 0x8013B000; the US header-842 source variant842_entry.c; built from the French source layout of french_model_variant_3_stage9_slot0.
+// European MODEL.MRG model 3 (record 3), sector 1028, header 859, loaded at 0x8013B000; the US header-842 source e346_entry.c; built from the French source layout of french_model_variant_3_stage9_slot0.
 ModelVariant842_HandleRequest = 0x8013B004; // type:func size:0x3660 defined:true
 gModelVariant842_aImages = 0x8013E674; // type:u8 size:0x8C defined:true
 gModelVariant842_aConfigs = 0x8013E700; // type:u8 size:0x1900 defined:true

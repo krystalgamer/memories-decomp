@@ -54,21 +54,21 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant372_entry]
+      - [0x4, c, overlays/model_variant/e338_entry]
   - name: helper_e68
     type: code
     start: 0xE68
     vram: 0x8013BE68
     align: 4
     subsegments:
-      - [0xE68, c, overlays/model_variant/variant372_ribbons]
+      - [0xE68, c, overlays/model_variant/e338_ribbons]
   - name: sheets
     type: code
     start: 0x1828
     vram: 0x8013C828
     align: 4
     subsegments:
-      - [0x1828, c, overlays/model_variant/variant389_sheets]
+      - [0x1828, c, overlays/model_variant/e338_sheets]
   - name: unclassified_tail
     type: code
     start: 0x1E10

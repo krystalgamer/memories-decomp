@@ -1,4 +1,4 @@
-// German MODEL.MRG model 86 (record 86), sector 23916, header 810, loaded at 0x8013B000; the US header-793 source variant793_entry.c; built from the French source layout of french_model_variant_86_stage7_slot0.
+// German MODEL.MRG model 86 (record 86), sector 23916, header 810, loaded at 0x8013B000; the US header-793 source e342_entry.c; built from the French source layout of french_model_variant_86_stage7_slot0.
 ModelVariant793_HandleRequest = 0x8013B004; // type:func size:0x3934 defined:true
 gModelVariant793_aImages = 0x8013E948; // type:u8 size:0x70 defined:true
 gModelVariant793_aConfigs = 0x8013E9B8; // type:u8 size:0x1648 defined:true

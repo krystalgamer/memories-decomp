@@ -1,4 +1,4 @@
-// MODEL.MRG model 493 (record 493), sector 122478, header 869, loaded at 0x8017B000; the US header-755 source variant755_entry.c.
+// MODEL.MRG model 493 (record 493), sector 122478, header 869, loaded at 0x8017B000; the US header-755 source e307_entry.c.
 ModelVariant755_HandleRequest = 0x8017B004; // type:func size:0x161C defined:true
 gModelVariant755_aImages = 0x8017C630; // type:u8 size:0x54 defined:true
 gModelVariant755_aConfigs = 0x8017C684; // type:u8 size:0x397C defined:true

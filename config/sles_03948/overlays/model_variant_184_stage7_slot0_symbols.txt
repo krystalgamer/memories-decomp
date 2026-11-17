@@ -1,4 +1,4 @@
-// MODEL.MRG model 184 (record 184), sector 50964, header 389, loaded at 0x8013B000; the US header-372 source variant372_entry.c.
+// MODEL.MRG model 184 (record 184), sector 50964, header 389, loaded at 0x8013B000; the US header-372 source e338_entry.c.
 ModelVariant372_HandleRequest = 0x8013B004; // type:func size:0xE64 defined:true
 FrenchModelVariant389_DrawRibbons = 0x8013BE68; // type:func size:0x9FC defined:true
 FrenchModelVariant389_DrawSheets = 0x8013C864; // type:func size:0x5E8 defined:true

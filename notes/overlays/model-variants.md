@@ -86,7 +86,7 @@ Under gcc 2.8.1 the same source is two words longer and 96 words differ,
 including the filled epilogue slot. Under 2.7.2 it matches exactly. See
 [French header-447 image rings](french-model-image447-rings.md).
 
-The header-372 entry (`model_variant/variant372_entry.c`, 921 instructions;
+The header-372 entry (`model_variant/e338_entry.c`, 921 instructions;
 `variant372_entry_slot1.c` builds the header-522 images) is a whole function
 built by the same gcc 2.7.2. It ends in `jr $ra; nop`, and its struct copies
 use `v1`, `a0` and `a1` as scratch registers, as 2.7.2 allocates them. The French header-389 and header-539 images build the
@@ -898,7 +898,7 @@ neither has a function boundary before `0x4D0C`, and their address pairs point
 at `0x8058xxxx` and `0x8054xxxx`, outside this executable. They are kept as raw
 data (`D_8013E004`/`D_8017E004`), like the suffixes of models 174 and 531.
 
-The header-405 entry (`variant405_entry.c`, 1098 instructions) is the French
+The header-405 entry (`e341_entry_pal.c`, 1098 instructions) is the French
 and Spanish header-422 entry built with gcc 2.7.2. Unlike the other entries,
 it needs no CLUT change. The wrapper renames the halo helper
 (`func_8013C128` to `func_8013C12C`) and the data block after the text
@@ -1066,15 +1066,15 @@ only.
 | `ModelVariant158_HandleRequest` | `model_variant/variant158_entry.c` | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013B004`/`0x8017B004` |
 | `gModelVariant158_D113C` | data subsegment (`variant158_entry.h`) | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013C13C`/`0x8017C13C` |
 | `gModelVariant158_D1174` | data subsegment (`variant158_entry.h`) | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013C174`/`0x8017C174` |
-| `ModelVariant787_HandleRequest` | `model_variant/variant787_entry.c` | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013B004`/`0x8017B004` |
-| `gModelVariant787_D12EC` | data subsegment (`variant787_entry.h`) | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013C2EC`/`0x8017C2EC` |
-| `gModelVariant787_D1324` | data subsegment (`variant787_entry.h`) | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013C324`/`0x8017C324` |
-| `ModelVariant801_HandleRequest` | `model_variant/variant801_entry.c` | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013B004`/`0x8017B004` |
-| `gModelVariant801_D1554` | data subsegment (`variant801_entry.h`) | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013C554`/`0x8017C554` |
-| `gModelVariant801_D158C` | data subsegment (`variant801_entry.h`) | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013C58C`/`0x8017C58C` |
-| `ModelVariant802_HandleRequest` | `model_variant/variant802_entry.c` | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013B004`/`0x8017B004` |
-| `gModelVariant802_aImages` | data subsegment (`variant802_entry.h`) | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013C2DC`/`0x8017C2DC` |
-| `gModelVariant802_aConfigs` | data subsegment (`variant802_entry.h`) | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013C2F8`/`0x8017C2F8` |
+| `ModelVariant787_HandleRequest` | `model_variant/e336_entry.c` | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013B004`/`0x8017B004` |
+| `gModelVariant787_D12EC` | data subsegment (`e336_entry.h`) | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013C2EC`/`0x8017C2EC` |
+| `gModelVariant787_D1324` | data subsegment (`e336_entry.h`) | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013C324`/`0x8017C324` |
+| `ModelVariant801_HandleRequest` | `model_variant/e350_entry.c` | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013B004`/`0x8017B004` |
+| `gModelVariant801_D1554` | data subsegment (`e350_entry.h`) | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013C554`/`0x8017C554` |
+| `gModelVariant801_D158C` | data subsegment (`e350_entry.h`) | USA model 97 slot 0 and slot 1, Japanese images 26952/26962: `0x8013C58C`/`0x8017C58C` |
+| `ModelVariant802_HandleRequest` | `model_variant/e351_entry.c` | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013B004`/`0x8017B004` |
+| `gModelVariant802_aImages` | data subsegment (`e351_entry.h`) | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013C2DC`/`0x8017C2DC` |
+| `gModelVariant802_aConfigs` | data subsegment (`e351_entry.h`) | USA model 483 slot 0 and slot 1, Japanese images 119708/119718: `0x8013C2F8`/`0x8017C2F8` |
 
 ### Header 407: petals
 
@@ -1206,7 +1206,7 @@ They are headers 435 (models 1, 360, 550 at `+ 200`), 172 (188, 597 and 149 at
 `+ 200`) and 372 (184 and 269 at `+ 180`). They are left as they are until it is
 known how those images are loaded. No symbols are declared inside resident
 functions to make them link. The header-372 images now build their entry from
-`variant372_entry.c`, but these helpers stay generated assembly there.
+`e338_entry.c`, but these helpers stay generated assembly there.
 
 ## Header 412 entry
 

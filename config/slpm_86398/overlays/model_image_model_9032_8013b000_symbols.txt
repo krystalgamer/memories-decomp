@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 32 (record 32), sector 9032, header 372, loaded at 0x8013B000; the US source variant372_entry.c; built from the US source layout of model_variant_32_stage9_slot0.
+// Japanese MODEL.MRG model 32 (record 32), sector 9032, header 372, loaded at 0x8013B000; the US source e338_entry.c; built from the US source layout of model_variant_32_stage9_slot0.
 ModelVariant372_HandleRequest = 0x8013B004; // type:func size:0xE64 defined:true
 FrenchModelVariant389_DrawRibbons = 0x8013BE68; // type:func size:0x9C0 defined:true
 FrenchModelVariant389_DrawSheets = 0x8013C828; // type:func size:0x5E8 defined:true

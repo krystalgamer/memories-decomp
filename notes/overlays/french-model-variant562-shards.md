@@ -6,7 +6,7 @@ images, and the model_variant_57 and model_variant_562 stage 9 slot 0 and
 stage 10 slot 1 images, is a two-pass shard body. Each `Variant562Shard` is
 0x74 bytes at the start of the work area. The count is at +0xC of the record
 that `work + 0x3230` points to. The layout lives in
-`model_variant/variant562_shards.h`.
+`model_variant/e341_shards_pal.h`.
 
 - **Placement.** The heading is `ratan2(work[0x31FE], work[0x31FC]) + 0x800`.
   Each shard half sits at the s16 origin (`0x31E4`) plus the s32 direction

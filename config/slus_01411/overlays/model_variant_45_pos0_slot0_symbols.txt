@@ -1,4 +1,4 @@
-// MODEL.MRG model 45 (record 45), sector 12600, header 754, loaded at 0x8013B000; the US source variant754_entry.c.
+// MODEL.MRG model 45 (record 45), sector 12600, header 754, loaded at 0x8013B000; the US source e305_entry.c.
 ModelVariant754_HandleRequest = 0x8013B004; // type:func size:0x1958 defined:true
 gModelVariant754_aImages = 0x8013C96C; // type:u8 size:0x54 defined:true
 gModelVariant754_aConfigs = 0x8013C9C0; // type:u8 size:0x3640 defined:true
