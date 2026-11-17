@@ -70,21 +70,21 @@ segments:
     vram: 0x8017D3AC
     align: 4
     subsegments:
-      - [0x23AC, c, overlays/spanish_model_variant/variant443_rings]
+      - [0x23AC, c, overlays/model_variant/variant443_rings]
   - name: helper_298C
     type: code
     start: 0x298C
     vram: 0x8017D98C
     align: 4
     subsegments:
-      - [0x298C, c, overlays/spanish_model_variant/variant443_mesh]
+      - [0x298C, c, overlays/model_variant/variant443_mesh]
   - name: helper_2F2C
     type: code
     start: 0x2F2C
     vram: 0x8017DF2C
     align: 4
     subsegments:
-      - [0x2F2C, c, overlays/spanish_model_variant/variant443_sheets]
+      - [0x2F2C, c, overlays/model_variant/variant443_sheets_pal]
   - name: helper_3668
     type: code
     start: 0x3668

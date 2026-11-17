@@ -140,7 +140,7 @@ policy gates pass. Remaining assembly and unclassified suffixes are not promoted
 
 ## Entry-called bands from the accepted Spanish implementation
 
-The unchanged `src/overlays/spanish_model_variant/variant445_bands.c`
+The unchanged `src/overlays/model_variant/variant445_bands.c`
 and its existing slot-one wrapper independently reproduce both French
 1,908-byte functions with 296-byte frames and all twelve complete
 canonical scratch images. Their symbols already match the French load

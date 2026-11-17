@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../spanish_model_variant/variant388_entry.h"
+#include "../model_variant/variant388_entry_pal.h"
 
 /* Projects five cross sections along the path from the matrix translation
  * along the aim direction, scaled by the progress half, and draws two

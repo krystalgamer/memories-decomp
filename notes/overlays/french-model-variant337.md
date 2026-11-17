@@ -1,7 +1,7 @@
 # French MODEL variant 337/487 entry, ring, ribbon and streamer helpers
 
 Six independently verified French secondary images directly reuse the accepted
-`src/overlays/spanish_model_variant/variant337_rings.c` body in both slots.
+`src/overlays/model_variant/variant337_rings.c` body in both slots.
 The French ribbon wrapper also reuses the accepted North American
 `variant320_ribbon.c` and its existing header, and the streamer wrapper reuses
 `variant320_streamers.c` the same way; both keep only `VERSION_FRENCH`. Each

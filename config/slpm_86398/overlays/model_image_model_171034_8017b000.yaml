@@ -84,7 +84,7 @@ segments:
     vram: 0x8017D888
     align: 4
     subsegments:
-      - [0x2888, c, overlays/spanish_model_variant/variant472_sheets]
+      - [0x2888, c, overlays/model_variant/variant472_sheets]
   - name: data
     type: code
     start: 0x2C34

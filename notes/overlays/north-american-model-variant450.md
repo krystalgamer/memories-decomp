@@ -12,8 +12,8 @@ profile; the manifests select them directly:
 
 | Offset | Bytes | Matching instances | Selected body |
 | --- | ---: | ---: | --- |
-| `0x2754..0x2D20` | 1,484 | 2 | `spanish_model_variant/variant450_quads.c` |
-| `0x2D20..0x30A8` | 904 | 2 | `spanish_model_variant/variant450_lines.c` |
+| `0x2754..0x2D20` | 1,484 | 2 | `model_variant/variant450_quads.c` |
+| `0x2D20..0x30A8` | 904 | 2 | `model_variant/variant450_lines.c` |
 
 The four resulting objects and linked symbol extents match independently.
 Both complete images then reproduce their retail SHA-256 values. This adds

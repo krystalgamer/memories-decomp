@@ -82,14 +82,14 @@ segments:
     vram: 0x8017DB30
     align: 4
     subsegments:
-      - [0x2B30, c, overlays/spanish_model_variant/variant469_sheets]
+      - [0x2B30, c, overlays/model_variant/variant469_sheets]
   - name: helper_3068
     type: code
     start: 0x3068
     vram: 0x8017E068
     align: 4
     subsegments:
-      - [0x3068, c, overlays/spanish_model_variant/variant469_rings]
+      - [0x3068, c, overlays/model_variant/variant469_rings]
   - name: unclassified_tail
     type: code
     start: 0x34BC

@@ -137,9 +137,9 @@ Entry `french_model_variant/variant436_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x18` | `unknown_18[0x18]` bytes → `s32 phase2_end` | `EntryConfig436.phase2_end` (was `Timing436`) | `SpanishModelVariant436_DrawSheets` (spanish_model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `EntryState436.config` at +0x15F4) | `/ (state->config->phase2_end - state->config->scale_end);` | high |
-| `+0x1C` | `unknown_18[0x18]` bytes → `s32 phase3_end` | `EntryConfig436.phase3_end` (was `Timing436`) | `SpanishModelVariant436_DrawSheets` (spanish_model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `EntryState436.config` at +0x15F4) | `/ (state->config->phase3_end - state->config->phase2_end);` | high |
-| `+0x20` | `unknown_18[0x18]` bytes → `s32 travel_end` | `EntryConfig436.travel_end` (was `Timing436`) | `SpanishModelVariant436_DrawSheets` (spanish_model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `EntryState436.config` at +0x15F4) | `/ (state->config->travel_end - state->config->phase3_end);` | high |
+| `+0x18` | `unknown_18[0x18]` bytes → `s32 phase2_end` | `EntryConfig436.phase2_end` (was `Timing436`) | `SpanishModelVariant436_DrawSheets` (model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `EntryState436.config` at +0x15F4) | `/ (state->config->phase2_end - state->config->scale_end);` | high |
+| `+0x1C` | `unknown_18[0x18]` bytes → `s32 phase3_end` | `EntryConfig436.phase3_end` (was `Timing436`) | `SpanishModelVariant436_DrawSheets` (model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `EntryState436.config` at +0x15F4) | `/ (state->config->phase3_end - state->config->phase2_end);` | high |
+| `+0x20` | `unknown_18[0x18]` bytes → `s32 travel_end` | `EntryConfig436.travel_end` (was `Timing436`) | `SpanishModelVariant436_DrawSheets` (model_variant/variant436_sheets.c; `french_model_variant/variant436_entry.c:288`, `EntryState436.config` at +0x15F4) | `/ (state->config->travel_end - state->config->phase3_end);` | high |
 
 ## `Variant437EntryConfig` (`gFrenchModelVariant437_aConfigs`)
 
@@ -147,8 +147,8 @@ Entry `french_model_variant/variant437_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_18[0x18]` bytes → `u32 move_start` | `Variant437EntryConfig.move_start` (was `Timing437`) | `SpanishModelVariant437_DrawSheet` (spanish_model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Variant437EntryState.config` at +0x15F4) | `(state->config->move_start - state->config->scale_end);` | high |
-| `+0x20` | `unknown_18[0x18]` bytes → `u32 move_end` | `Variant437EntryConfig.move_end` (was `Timing437`) | `SpanishModelVariant437_DrawSheet` (spanish_model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Variant437EntryState.config` at +0x15F4) | `(state->config->move_end - state->config->move_start);` | high |
+| `+0x1C` | `unknown_18[0x18]` bytes → `u32 move_start` | `Variant437EntryConfig.move_start` (was `Timing437`) | `SpanishModelVariant437_DrawSheet` (model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Variant437EntryState.config` at +0x15F4) | `(state->config->move_start - state->config->scale_end);` | high |
+| `+0x20` | `unknown_18[0x18]` bytes → `u32 move_end` | `Variant437EntryConfig.move_end` (was `Timing437`) | `SpanishModelVariant437_DrawSheet` (model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Variant437EntryState.config` at +0x15F4) | `(state->config->move_end - state->config->move_start);` | high |
 
 ## `ModelVariantGrowConfig` (`gFrenchModelVariant461_aConfigs`)
 
@@ -156,8 +156,8 @@ Entry `french_model_variant/variant461_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `ModelVariantPairedSheetTiming.first_count` | `SpanishModelVariant461_DrawSheets` (spanish_model_variant/variant461_sheets.c; `french_model_variant/variant461_entry.c:380`, `Sheets461State.timing` at +0x336C) | `count = timing->first_count + 1;` | high |
-| `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `ModelVariantPairedSheetTiming.paired` | `SpanishModelVariant461_DrawSheets` (spanish_model_variant/variant461_sheets.c; `french_model_variant/variant461_entry.c:380`, `Sheets461State.timing` at +0x336C) | `if (timing->paired == 0)` | high |
+| `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `ModelVariantPairedSheetTiming.first_count` | `SpanishModelVariant461_DrawSheets` (model_variant/variant461_sheets.c; `french_model_variant/variant461_entry.c:380`, `Sheets461State.timing` at +0x336C) | `count = timing->first_count + 1;` | high |
+| `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `ModelVariantPairedSheetTiming.paired` | `SpanishModelVariant461_DrawSheets` (model_variant/variant461_sheets.c; `french_model_variant/variant461_entry.c:380`, `Sheets461State.timing` at +0x336C) | `if (timing->paired == 0)` | high |
 
 ## `Variant464EntryConfig` (`gFrenchModelVariant464_aConfigs`)
 
@@ -165,9 +165,9 @@ Entry `french_model_variant/variant464_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x10]` bytes → `u32 grow_end` | `Sheets464Timing.grow_end` | `SpanishModelVariant464_DrawSheets` (spanish_model_variant/variant464_sheets.c; `french_model_variant/variant464_entry.c:373`, `Sheets464State.timing` at +0x1C2C) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
-| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_begin` | `Sheets464Timing.fade_begin` | `SpanishModelVariant464_DrawSheets` (spanish_model_variant/variant464_sheets.c; `french_model_variant/variant464_entry.c:373`, `Sheets464State.timing` at +0x1C2C) | `} else if (state->time > state->timing->fade_begin && sheet->size > 0)` | high |
-| `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `Sheets464Timing.fade_end` | `SpanishModelVariant464_DrawSheets` (spanish_model_variant/variant464_sheets.c; `french_model_variant/variant464_entry.c:373`, `Sheets464State.timing` at +0x1C2C) | `(state->timing->fade_end - state->timing->fade_begin);` | high |
+| `+0x20` | `unknown_20[0x10]` bytes → `u32 grow_end` | `Sheets464Timing.grow_end` | `SpanishModelVariant464_DrawSheets` (model_variant/variant464_sheets.c; `french_model_variant/variant464_entry.c:373`, `Sheets464State.timing` at +0x1C2C) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
+| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_begin` | `Sheets464Timing.fade_begin` | `SpanishModelVariant464_DrawSheets` (model_variant/variant464_sheets.c; `french_model_variant/variant464_entry.c:373`, `Sheets464State.timing` at +0x1C2C) | `} else if (state->time > state->timing->fade_begin && sheet->size > 0)` | high |
+| `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `Sheets464Timing.fade_end` | `SpanishModelVariant464_DrawSheets` (model_variant/variant464_sheets.c; `french_model_variant/variant464_entry.c:373`, `Sheets464State.timing` at +0x1C2C) | `(state->timing->fade_end - state->timing->fade_begin);` | high |
 
 ## `EntryConfig473` (`gFrenchModelVariant473_aConfigs`)
 
@@ -175,6 +175,6 @@ Entry `french_model_variant/variant473_entry.c` sets `work->config = gFrenchMode
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_1C[0x10]` bytes → `u32 grow_end` | `ModelVariantSheetTiming.grow_end` | `SpanishModelVariant473_DrawSheets` (spanish_model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->grow_end - state->timing->grow_start);` | high |
-| `+0x24` | `unknown_1C[0x10]` bytes → `u32 fade_begin` | `ModelVariantSheetTiming.shrink_start` | `SpanishModelVariant473_DrawSheets` (spanish_model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `if (state->time >= state->timing->shrink_start && sheet->size > 0)` | high |
-| `+0x28` | `unknown_1C[0x10]` bytes → `u32 fade_end` | `ModelVariantSheetTiming.shrink_end` | `SpanishModelVariant473_DrawSheets` (spanish_model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->shrink_end - state->timing->shrink_start);` | high |
+| `+0x1C` | `unknown_1C[0x10]` bytes → `u32 grow_end` | `ModelVariantSheetTiming.grow_end` | `SpanishModelVariant473_DrawSheets` (model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->grow_end - state->timing->grow_start);` | high |
+| `+0x24` | `unknown_1C[0x10]` bytes → `u32 fade_begin` | `ModelVariantSheetTiming.shrink_start` | `SpanishModelVariant473_DrawSheets` (model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `if (state->time >= state->timing->shrink_start && sheet->size > 0)` | high |
+| `+0x28` | `unknown_1C[0x10]` bytes → `u32 fade_end` | `ModelVariantSheetTiming.shrink_end` | `SpanishModelVariant473_DrawSheets` (model_variant/variant473_sheets.c; `french_model_variant/variant473_entry.c:337`, `Sheets473State.timing` at +0x3BF0) | `(state->timing->shrink_end - state->timing->shrink_start);` | high |

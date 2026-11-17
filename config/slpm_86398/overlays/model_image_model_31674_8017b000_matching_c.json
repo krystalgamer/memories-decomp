@@ -16,7 +16,7 @@
       "address": "0x8017C864",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xC94",
-      "source": "src/overlays/spanish_model_variant/variant421_spiral.c"
+      "source": "src/overlays/model_variant/variant421_spiral_pal.c"
     },
     {
       "address": "0x8017D4F8",

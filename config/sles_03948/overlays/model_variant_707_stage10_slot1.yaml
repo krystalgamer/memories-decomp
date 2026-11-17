@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C53C
     align: 4
     subsegments:
-      - [0x153C, c, overlays/spanish_model_variant/variant436_sheets]
+      - [0x153C, c, overlays/model_variant/variant436_sheets]
   - name: helper_1AEC
     type: code
     start: 0x1AEC

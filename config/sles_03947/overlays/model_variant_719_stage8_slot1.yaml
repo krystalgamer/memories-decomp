@@ -77,14 +77,14 @@ segments:
     vram: 0x8017CD30
     align: 4
     subsegments:
-      - [0x1D30, c, overlays/spanish_model_variant/variant472_spiral]
+      - [0x1D30, c, overlays/model_variant/variant472_spiral]
   - name: helper_28B0
     type: code
     start: 0x28B0
     vram: 0x8017D8B0
     align: 4
     subsegments:
-      - [0x28B0, c, overlays/spanish_model_variant/variant472_sheets]
+      - [0x28B0, c, overlays/model_variant/variant472_sheets]
   - name: unclassified_tail
     type: code
     start: 0x2C58

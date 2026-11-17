@@ -56,7 +56,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant388_entry]
+      - [0x4, c, overlays/model_variant/variant388_entry_pal]
   - name: helper_CD4
     type: code
     start: 0xCD4
@@ -70,21 +70,21 @@ segments:
     vram: 0x8017C344
     align: 4
     subsegments:
-      - [0x1344, c, overlays/spanish_model_variant/variant388_ribbons]
+      - [0x1344, c, overlays/model_variant/variant388_ribbons]
   - name: helper_19A4
     type: code
     start: 0x19A4
     vram: 0x8017C9A4
     align: 4
     subsegments:
-      - [0x19A4, c, overlays/spanish_model_variant/variant388_sheets]
+      - [0x19A4, c, overlays/model_variant/variant388_sheets]
   - name: helper_1E9C
     type: code
     start: 0x1E9C
     vram: 0x8017CE9C
     align: 4
     subsegments:
-      - [0x1E9C, c, overlays/spanish_model_variant/variant388_feedback]
+      - [0x1E9C, c, overlays/model_variant/variant388_feedback]
   - name: helper_2410
     type: code
     start: 0x2410

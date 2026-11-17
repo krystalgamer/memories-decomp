@@ -27,7 +27,7 @@ images (slot 0 and slot 1). All of them bind their region's
   - **Amplitude clamp.** A dead store in the clamp's copy arm stops jump
     optimisation from hoisting the `1024` store above the clamp test.
 - **View.** The drawer reads the record's `Variant456EntryTrail` array
-  (`spanish_model_variant/variant456_entry.h`); its earlier
+  (`model_variant/variant456_entry_pal.h`); its earlier
   `TwinRibbon456` view has been folded into that type.
 
 All twelve images rebuild exactly. The

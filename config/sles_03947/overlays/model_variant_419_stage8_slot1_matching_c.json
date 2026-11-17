@@ -4,13 +4,13 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xCFC",
-      "source": "src/overlays/spanish_model_variant/variant405_entry.c"
+      "source": "src/overlays/model_variant/variant405_entry.c"
     },
     {
       "address": "0x8017BD00",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5CC",
-      "source": "src/overlays/spanish_model_variant/variant405_pulses.c"
+      "source": "src/overlays/model_variant/variant405_pulses.c"
     },
     {
       "address": "0x8017C2CC",
@@ -22,13 +22,13 @@
       "address": "0x8017C774",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3F0",
-      "source": "src/overlays/spanish_model_variant/variant405_bands.c"
+      "source": "src/overlays/model_variant/variant405_bands_pal.c"
     },
     {
       "address": "0x8017CB64",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x458",
-      "source": "src/overlays/spanish_model_variant/variant405_outer_bands.c"
+      "source": "src/overlays/model_variant/variant405_outer_bands.c"
     }
   ],
   "schema": 1

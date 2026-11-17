@@ -26,7 +26,7 @@ Spanish names. Three of them (`spanish_model_variant_269_stage9_slot0`,
 French module with the same bytes at another sector
 (`french_model_variant_43_*` and `french_model_variant_47_stage8_slot1`).
 The Spanish copies of the header-414, header-415 and header-442 helpers
-(`spanish_model_variant/variant414_bands`, `variant415_bands` and
+(`model_variant/variant414_bands`, `variant415_bands` and
 `variant442_ribbons`) were wired only by those modules' raw layouts and are
 removed; the French layouts compile the French helpers. The two header-447
 images at sectors 109772 and 109782 keep their raw layouts but compile the

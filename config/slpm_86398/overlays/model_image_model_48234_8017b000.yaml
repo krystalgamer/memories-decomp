@@ -84,14 +84,14 @@ segments:
   vram: 2149046100
   align: 4
   subsegments:
-  - [10068, c, overlays/spanish_model_variant/variant450_quads]
+  - [10068, c, overlays/model_variant/variant450_quads]
 - name: lines
   type: code
   start: 11552
   vram: 2149047584
   align: 4
   subsegments:
-  - [11552, c, overlays/spanish_model_variant/variant450_lines]
+  - [11552, c, overlays/model_variant/variant450_lines]
 - name: coils
   type: code
   start: 12456

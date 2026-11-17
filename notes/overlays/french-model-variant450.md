@@ -16,8 +16,8 @@ change is needed. All four French helpers were independently compiled with
 
 | Offset | Bytes | Frame | Selected implementation |
 | --- | ---: | ---: | --- |
-| `0x27C0..0x2D88` | 1,480 | 264 | `spanish_model_variant/variant450_quads.c` |
-| `0x2D88..0x310C` | 900 | 288 | `spanish_model_variant/variant450_lines.c` |
+| `0x27C0..0x2D88` | 1,480 | 264 | `model_variant/variant450_quads.c` |
+| `0x2D88..0x310C` | 900 | 288 | `model_variant/variant450_lines.c` |
 
 This adds four matching C
 instances and 4,760 instruction bytes, not a newly invented algorithm.

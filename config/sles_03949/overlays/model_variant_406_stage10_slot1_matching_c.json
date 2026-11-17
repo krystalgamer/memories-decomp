@@ -4,19 +4,19 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF58",
-      "source": "src/overlays/spanish_model_variant/variant385_entry.c"
+      "source": "src/overlays/model_variant/variant385_entry_pal.c"
     },
     {
       "address": "0x8017BF5C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x51C",
-      "source": "src/overlays/spanish_model_variant/variant385_lines.c"
+      "source": "src/overlays/model_variant/variant385_lines.c"
     },
     {
       "address": "0x8017C478",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x688",
-      "source": "src/overlays/spanish_model_variant/variant385_strip.c"
+      "source": "src/overlays/model_variant/variant385_strip_pal.c"
     },
     {
       "address": "0x8017CB00",
@@ -28,13 +28,13 @@
       "address": "0x8017D1B8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4FC",
-      "source": "src/overlays/spanish_model_variant/variant385_pulse.c"
+      "source": "src/overlays/model_variant/variant385_pulse.c"
     },
     {
       "address": "0x8017D6B4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x800",
-      "source": "src/overlays/spanish_model_variant/variant385_rings.c"
+      "source": "src/overlays/model_variant/variant385_rings_pal.c"
     }
   ],
   "schema": 1

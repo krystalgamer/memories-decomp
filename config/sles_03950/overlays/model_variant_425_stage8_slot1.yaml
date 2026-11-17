@@ -70,7 +70,7 @@ segments:
     vram: 0x8017C9F4
     align: 4
     subsegments:
-      - [0x19F4, c, overlays/spanish_model_variant/variant470_quads]
+      - [0x19F4, c, overlays/model_variant/variant470_quads]
   - name: unclassified_tail
     type: code
     start: 0x1ED0

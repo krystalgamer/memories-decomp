@@ -56,42 +56,42 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant417_entry]
+      - [0x4, c, overlays/model_variant/variant417_entry]
   - name: helper_1204
     type: code
     start: 0x1204
     vram: 0x8017C204
     align: 4
     subsegments:
-      - [0x1204, c, overlays/spanish_model_variant/variant417_lines]
+      - [0x1204, c, overlays/model_variant/variant417_lines]
   - name: helper_1778
     type: code
     start: 0x1778
     vram: 0x8017C778
     align: 4
     subsegments:
-      - [0x1778, c, overlays/spanish_model_variant/variant417_tube]
+      - [0x1778, c, overlays/model_variant/variant417_tube]
   - name: helper_1E60
     type: code
     start: 0x1E60
     vram: 0x8017CE60
     align: 4
     subsegments:
-      - [0x1E60, c, overlays/spanish_model_variant/variant417_ribbon]
+      - [0x1E60, c, overlays/model_variant/variant417_ribbon]
   - name: helper_2480
     type: code
     start: 0x2480
     vram: 0x8017D480
     align: 4
     subsegments:
-      - [0x2480, c, overlays/spanish_model_variant/variant417_rays]
+      - [0x2480, c, overlays/model_variant/variant417_rays]
   - name: helper_2ACC
     type: code
     start: 0x2ACC
     vram: 0x8017DACC
     align: 4
     subsegments:
-      - [0x2ACC, c, overlays/spanish_model_variant/variant417_sheets]
+      - [0x2ACC, c, overlays/model_variant/variant417_sheets]
   - name: helper_30E4
     type: code
     start: 0x30E4
@@ -105,7 +105,7 @@ segments:
     vram: 0x8017E750
     align: 4
     subsegments:
-      - [0x3750, c, overlays/spanish_model_variant/variant417_spiral]
+      - [0x3750, c, overlays/model_variant/variant417_spiral]
   - name: unclassified_tail
     type: code
     start: 0x43A0

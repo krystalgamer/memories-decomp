@@ -8,7 +8,7 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
-#include "../spanish_model_variant/variant427_mesh.h"
+#include "../model_variant/variant427_mesh.h"
 #include "../french_model_variant/variant427_streamers.h"
 
 typedef struct {

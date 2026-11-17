@@ -37,7 +37,7 @@ USA images under headers 72/202, 110/240, 111/241, 118/248, 119/249, 164/294, 17
 
 The helpers registered here were not built with the gcc 2.8.1 that builds the
 rest of the game. (The Spanish variant helpers in
-`src/overlays/spanish_model_variant/` do match under `gcc_2_8_1_g0_split`, so
+`src/overlays/model_variant/` (formerly `spanish_model_variant/`) do match under `gcc_2_8_1_g0_split`, so
 this is a statement about these functions, not about every variant.) They end in `addiu $sp, $sp, N; jr $ra; nop`. gcc 2.7.2 emits
 that epilogue as reorder-mode text, and the assembler fills the delay slot
 with a `nop`. gcc 2.8.1 emits the epilogue as RTL, and reorg moves the stack
@@ -234,7 +234,7 @@ The first word of a variant image is a header id. Every image with a given
 header that has been checked has the same text: the same functions at the same
 addresses, byte for byte. Only the data after the text differs. So the C files
 are named by header, as the Spanish variant files are
-(`src/overlays/spanish_model_variant/variant432_*.c`), and each registered image
+(`src/overlays/model_variant/variant432_*.c`), and each registered image
 of a header reuses them unchanged.
 
 The same helper body also occurs under other headers at other addresses. Those
@@ -339,7 +339,7 @@ stored to the scale first.
 Header 442 (models 47, 238, 411 and 620 at `+ 180`, 231 and 417 at `+ 200`)
 and its slot-1 header 592 are the Spanish header-459 image built under gcc
 2.7.2: all eight functions (entry, warp, curtains, rays, spiral, bands, sheets
-and lines) build from `src/overlays/spanish_model_variant/variant459_*.c`
+and lines) build from `src/overlays/model_variant/variant459_*.c`
 through `variant442_*.c` wrappers that rename the image-local symbols. The
 entry wrapper sets `MODEL_VARIANT459_CLUT_X` to 512 (PAL loads the palette
 from 640). The curtains fade branch re-reads the timing record into a fresh
@@ -532,7 +532,7 @@ a point is drawn only when both its depth and its flag are non-negative.
 Header 404's spiral at `0x1864` (`variant404_spiral`, 0xC94 bytes) is the Spanish
 header-421 spiral built under gcc 2.7.2 at the North American address: a wrapper
 that renames `func_8013C860` to `func_8013C864` (`func_8017C864` in slot 1) and
-includes `spanish_model_variant/variant421_spiral.c`. It differs from the
+includes `model_variant/variant421_spiral_pal.c`. It differs from the
 retail bytes by one jump word under the maspsx pinned before `e85ecb3` (the
 `j` out of the signed `x / 8` join landed one word late), and builds exactly
 under the current pin.

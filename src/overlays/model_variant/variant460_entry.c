@@ -410,5 +410,5 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
  * they read identically; the header-477 entry header is skipped. */
 #define FRENCH_MODEL_VARIANT477_ENTRY_H
 #define EntryState477 Variant460State
-#include "../spanish_model_variant/variant477_panels.c"
-#include "../spanish_model_variant/variant477_quads.c"
+#include "../model_variant/variant477_panels.c"
+#include "../model_variant/variant477_quads.c"

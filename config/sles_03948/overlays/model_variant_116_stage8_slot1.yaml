@@ -61,7 +61,7 @@ segments:
     vram: 0x8017BE98
     align: 4
     subsegments:
-      - [0xE98, c, overlays/spanish_model_variant/variant475_ribbons]
+      - [0xE98, c, overlays/model_variant/variant475_ribbons]
   - name: sheets
     type: code
     start: 0x1978

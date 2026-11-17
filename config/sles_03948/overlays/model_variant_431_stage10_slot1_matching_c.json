@@ -22,25 +22,25 @@
       "address": "0x8017CDC0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x480",
-      "source": "src/overlays/spanish_model_variant/variant474_mesh.c"
+      "source": "src/overlays/model_variant/variant474_mesh.c"
     },
     {
       "address": "0x8017D240",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x998",
-      "source": "src/overlays/spanish_model_variant/variant474_spiral.c"
+      "source": "src/overlays/model_variant/variant474_spiral.c"
     },
     {
       "address": "0x8017DBD8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4F8",
-      "source": "src/overlays/spanish_model_variant/variant474_sheets.c"
+      "source": "src/overlays/model_variant/variant474_sheets.c"
     },
     {
       "address": "0x8017E0D0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7EC",
-      "source": "src/overlays/spanish_model_variant/variant474_streamers.c"
+      "source": "src/overlays/model_variant/variant474_streamers.c"
     }
   ],
   "schema": 1

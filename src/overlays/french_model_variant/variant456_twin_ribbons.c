@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../spanish_model_variant/variant456_entry.h"
+#include "../model_variant/variant456_entry_pal.h"
 
 /* The North American header-439 build (CDK compiler) names the closing
  * segment's points directly and reaches the following point as the next

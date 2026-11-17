@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../spanish_model_variant/variant405_entry.h"
+#include "../model_variant/variant405_entry.h"
 
 /* Places each shard's two halves at origin + direction * scale / 1024 (scale
  * clamped at zero), turned by the ratan2 heading plus a half turn, and

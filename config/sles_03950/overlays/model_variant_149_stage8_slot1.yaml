@@ -56,14 +56,14 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant405_entry]
+      - [0x4, c, overlays/model_variant/variant405_entry]
   - name: helper_D00
     type: code
     start: 0xD00
     vram: 0x8017BD00
     align: 4
     subsegments:
-      - [0xD00, c, overlays/spanish_model_variant/variant405_pulses]
+      - [0xD00, c, overlays/model_variant/variant405_pulses]
   - name: helper_12CC
     type: code
     start: 0x12CC
@@ -77,14 +77,14 @@ segments:
     vram: 0x8017C774
     align: 4
     subsegments:
-      - [0x1774, c, overlays/spanish_model_variant/variant405_bands]
+      - [0x1774, c, overlays/model_variant/variant405_bands_pal]
   - name: helper_1B64
     type: code
     start: 0x1B64
     vram: 0x8017CB64
     align: 4
     subsegments:
-      - [0x1B64, c, overlays/spanish_model_variant/variant405_outer_bands]
+      - [0x1B64, c, overlays/model_variant/variant405_outer_bands]
   - name: unclassified_tail
     type: code
     start: 0x1FBC

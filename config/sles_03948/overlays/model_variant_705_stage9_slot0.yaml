@@ -68,14 +68,14 @@ segments:
     vram: 0x8013CF54
     align: 4
     subsegments:
-      - [0x1F54, c, overlays/spanish_model_variant/variant461_sheets]
+      - [0x1F54, c, overlays/model_variant/variant461_sheets]
   - name: helper_2498
     type: code
     start: 0x2498
     vram: 0x8013D498
     align: 4
     subsegments:
-      - [0x2498, c, overlays/spanish_model_variant/variant461_rings]
+      - [0x2498, c, overlays/model_variant/variant461_rings_pal]
   - name: unclassified_tail
     type: code
     start: 0x28D4

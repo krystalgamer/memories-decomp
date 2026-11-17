@@ -3,4 +3,4 @@
 /* The North American header-462 ribs helper declares dy first (see
  * variant479_ribs.c). */
 #define MODEL_VARIANT462_RIBS_DY_FIRST
-#include "../spanish_model_variant/variant479_ribs.c"
+#include "../model_variant/variant479_ribs.c"

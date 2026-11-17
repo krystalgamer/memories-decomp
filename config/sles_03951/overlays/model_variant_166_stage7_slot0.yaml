@@ -54,56 +54,56 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_variant/variant441_entry]
+      - [0x4, c, overlays/model_variant/variant441_entry_pal]
   - name: helper_11BC
     type: code
     start: 0x11BC
     vram: 0x8013C1BC
     align: 4
     subsegments:
-      - [0x11BC, c, overlays/spanish_model_variant/variant441_lines]
+      - [0x11BC, c, overlays/model_variant/variant441_lines]
   - name: helper_173C
     type: code
     start: 0x173C
     vram: 0x8013C73C
     align: 4
     subsegments:
-      - [0x173C, c, overlays/spanish_model_variant/variant441_tube]
+      - [0x173C, c, overlays/model_variant/variant441_tube]
   - name: helper_1DDC
     type: code
     start: 0x1DDC
     vram: 0x8013CDDC
     align: 4
     subsegments:
-      - [0x1DDC, c, overlays/spanish_model_variant/variant441_ribbon]
+      - [0x1DDC, c, overlays/model_variant/variant441_ribbon]
   - name: helper_23FC
     type: code
     start: 0x23FC
     vram: 0x8013D3FC
     align: 4
     subsegments:
-      - [0x23FC, c, overlays/spanish_model_variant/variant441_rays]
+      - [0x23FC, c, overlays/model_variant/variant441_rays]
   - name: helper_2A48
     type: code
     start: 0x2A48
     vram: 0x8013DA48
     align: 4
     subsegments:
-      - [0x2A48, c, overlays/spanish_model_variant/variant441_sheets]
+      - [0x2A48, c, overlays/model_variant/variant441_sheets]
   - name: helper_3060
     type: code
     start: 0x3060
     vram: 0x8013E060
     align: 4
     subsegments:
-      - [0x3060, c, overlays/spanish_model_variant/variant441_framebuffer_rings]
+      - [0x3060, c, overlays/model_variant/variant441_framebuffer_rings]
   - name: helper_3630
     type: code
     start: 0x3630
     vram: 0x8013E630
     align: 4
     subsegments:
-      - [0x3630, c, overlays/spanish_model_variant/variant441_spiral]
+      - [0x3630, c, overlays/model_variant/variant441_spiral]
   - name: helper_414C
     type: code
     start: 0x414C
