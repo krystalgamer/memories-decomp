@@ -230,8 +230,8 @@ It was five sources (`trade_update.c`, `card_stat_comparators.c`,
 reached only through the refresh's pointer table, the offers and helpers only
 from the Trade init/update and its drawing callback, and none of the five
 owns data or rodata. The Japanese and every PAL `main_menu*` image build it
-through one wrapper per region, `../japanese/main_menu/trade_screen.c` and
-`../european/main_menu/trade_screen.c`, in place of seventeen per-function
+through the `../japanese/main_menu/trade_screen.c` wrapper and a
+`VERSION_EUROPE` entry define respectively, in place of seventeen per-function
 wrappers.
 
 The initializer creates and resets the two inventory panes and calls the
@@ -633,9 +633,8 @@ the run into three C subsegments. It is one again: `frontend.c` at module
 offset `0x1C` holds the initializer, the binding-free updater at `0x390`
 (formerly `frontend_update.c`) and the five functions from `0xB4C` (formerly
 `frontend_background.c`). The Japanese and every PAL `main_menu*` image build
-it as the same single object through one wrapper per region,
-`../japanese/main_menu/frontend.c` and `../european/main_menu/frontend.c`
-(#39), in place of seven per-function wrappers that each selected one
+it as the same single object, through the `../japanese/main_menu/frontend.c`
+wrapper (#39) and a `VERSION_EUROPE` entry define respectively, in place of seven per-function wrappers that each selected one
 function through a `VERSION_*_MAIN_MENU_*` guard; those guards are gone. Every
 region keeps these seven functions together, in NA order, under the one
 profile. Their boundaries and compiler profile are unchanged.
@@ -695,8 +694,8 @@ other reach. It covers `0x80180FD8..0x80181F68` as one contiguous
 The Japanese image (also at `0xFD8`) and every PAL `main_menu*` image (at
 `0x1050`, EU `0x80181050..0x801820C0`) keep these seven functions together
 in the same order under the same profile, so they build it as the same single
-object through one wrapper per region, `../japanese/main_menu/value_setup.c`
-and `../european/main_menu/value_setup.c` (#39). These replaced seven
+object, through the `../japanese/main_menu/value_setup.c` wrapper (#39) and
+a `VERSION_EUROPE` entry define respectively. These replaced seven
 per-function wrappers per region and their `VERSION_*_MAIN_MENU_*` guards.
 
 | Address | Function | Callers |

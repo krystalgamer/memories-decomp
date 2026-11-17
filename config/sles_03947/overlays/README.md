@@ -16,9 +16,8 @@ The Free Duel module is the five-sector `WA_MRG.MRG` slice beginning at sector
 | `0x10A0-0x2800` | `0x801690A0-0x8016A800` | Module data |
 
 All nine matching functions build `src/overlays/free_duel/screen_runtime.c`
-as one object, as in North America, through the single
-`src/overlays/european/free_duel/screen_runtime.c` wrapper that every PAL
-image shares. Its `VERSION_EUROPE` selects the European flagged results text
+as one object, as in North America, with the `VERSION_EUROPE` entry define
+that every PAL image shares. That flag selects the European flagged results text
 box in `FreeDuel_PlaceCursor` and the PAL `FreeDuel_Init` and
 `FreeDuel_UpdateScreen` differences without changing the North American or
 Japanese bodies.
@@ -43,7 +42,7 @@ beginning at sector `98`. The same payload repeats at sectors `234`, `370`,
 | `0x4784-0x8000` | `0x80184784-0x80188000` | Module state and remaining data |
 
 All thirty-one inventoried functions reuse the shared main-menu sources
-through European wrappers.
+with `VERSION_EUROPE` entry defines.
 
 The six-sector pre-coup and post-coup overworld modules begin at `WA_MRG.MRG`
 sectors `9762` and `9920`, respectively. Their executable ranges and initial
@@ -60,7 +59,7 @@ differ. Both use this verified layout:
 | `0x1E54-0x3000` | `0x80169E54-0x8016B000` | Alternate table and module data |
 
 All fifteen inventoried functions in each variant reuse the shared overworld
-sources. European wrappers isolate each function so the relocated resident and
+sources with `VERSION_EUROPE` entry defines, so the relocated resident and
 module symbols do not change the North American or Japanese objects.
 
 The password/name-entry runtime occurs as two 15-sector `WA_MRG.MRG` slices,
@@ -78,7 +77,7 @@ tail differs. Both verified layouts use:
 | `0x7060-0x7800` | `0x8016F060-0x8016F800` | Variant-specific raw tail |
 
 All 27 inventoried game-owned functions in each variant reuse the shared password
-sources through selective European wrappers. The European text-entry records
+sources with `VERSION_EUROPE` entry defines. The European text-entry records
 use the resident 22-byte `EuropeanDuelEffectEntry` layout. Narrow regional
 constants retain the European glyph width and screen bounds, message-box flag,
 preview position, and text-box completion mask without changing the existing

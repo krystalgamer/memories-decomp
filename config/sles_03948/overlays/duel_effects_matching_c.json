@@ -20,9 +20,12 @@
     },
     {
       "address": "0x801481A8",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x9FC",
-      "source": "src/overlays/european/duel_effects/gather_effect.c"
+      "source": "src/overlays/duel_effects/gather_effect.c"
     },
     {
       "address": "0x80148BA4",
@@ -32,9 +35,12 @@
     },
     {
       "address": "0x80149F90",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x954",
-      "source": "src/overlays/european/duel_effects/tile_effect.c"
+      "source": "src/overlays/duel_effects/tile_effect.c"
     },
     {
       "address": "0x8014A8E4",
@@ -68,9 +74,13 @@
     },
     {
       "address": "0x8014E35C",
+      "defines": [
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x90",
-      "source": "src/overlays/european/duel_effects/cross_lines.c"
+      "source": "src/overlays/duel_effects/cross_lines.c"
     },
     {
       "address": "0x8014E3EC",
@@ -338,39 +348,60 @@
     },
     {
       "address": "0x80154084",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x604",
-      "source": "src/overlays/european/duel_effects/contour_burst_effects.c"
+      "source": "src/overlays/duel_effects/contour_burst_effects.c"
     },
     {
       "address": "0x80154688",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4A8",
-      "source": "src/overlays/european/duel_effects/contour_burst_effects.c"
+      "source": "src/overlays/duel_effects/contour_burst_effects.c"
     },
     {
       "address": "0x80154B30",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBC4",
-      "source": "src/overlays/european/duel_effects/effect_6.c"
+      "source": "src/overlays/duel_effects/effect_6.c"
     },
     {
       "address": "0x801556F4",
+      "defines": [
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA4",
-      "source": "src/overlays/european/duel_effects/screen_draw.c"
+      "source": "src/overlays/duel_effects/screen_draw.c"
     },
     {
       "address": "0x80155798",
+      "defines": [
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xCC",
-      "source": "src/overlays/european/duel_effects/screen_draw.c"
+      "source": "src/overlays/duel_effects/screen_draw.c"
     },
     {
       "address": "0x80155864",
+      "defines": [
+        "VERSION_EUROPE",
+        "GRAPHICS_DEFAULT_HEIGHT=256"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x90",
-      "source": "src/overlays/european/duel_effects/screen_draw.c"
+      "source": "src/overlays/duel_effects/screen_draw.c"
     },
     {
       "address": "0x801558F4",
@@ -488,21 +519,30 @@
     },
     {
       "address": "0x80157E10",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x9C8",
-      "source": "src/overlays/european/duel_effects/life_point_effects.c"
+      "source": "src/overlays/duel_effects/life_point_effects.c"
     },
     {
       "address": "0x801587D8",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBD0",
-      "source": "src/overlays/european/duel_effects/life_point_effects.c"
+      "source": "src/overlays/duel_effects/life_point_effects.c"
     },
     {
       "address": "0x801593A8",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x704",
-      "source": "src/overlays/european/duel_effects/life_point_effects.c"
+      "source": "src/overlays/duel_effects/life_point_effects.c"
     },
     {
       "address": "0x80159AAC",

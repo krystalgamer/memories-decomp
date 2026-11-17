@@ -5,8 +5,8 @@ Four complete routines contribute **7,584 bytes** against accepted master
 
 | Routine | French extent | Bytes | Shared source |
 |---|---|---:|---|
-| Gather | `801481A8..80148BA4` | 2,556 | `gather_effect.c` through the PAL wrapper |
-| Tile | `80149F90..8014A8E4` | 2,388 | `tile_effect.c` through the PAL wrapper |
+| Gather | `801481A8..80148BA4` | 2,556 | `gather_effect.c` with `VERSION_EUROPE` |
+| Tile | `80149F90..8014A8E4` | 2,388 | `tile_effect.c` with `VERSION_EUROPE` |
 | Effect 19 | `80153ADC..80153F28` | 1,100 | Unchanged accepted Spanish `effect_19.c` |
 | Effect 18 | `80154084..80154688` | 1,540 | Unchanged accepted Spanish `effect_18.c` |
 
@@ -34,9 +34,9 @@ the private `+136` expression compiles to the same `-120` immediate.
 Changing only these measured expressions made the complete three-function
 trial exact. No masked comparison was accepted as a match.
 
-Production uses the existing `VERSION_EUROPE` include-wrapper pattern, as in
-`src/overlays/european/free_duel/screen_runtime.c`. The shared PAL changes and
-wrapper paths align with the independently developed Spanish work in #6564.
+Production used the then-existing `VERSION_EUROPE` include-wrapper pattern;
+the PAL entries now compile the shared sources with a `VERSION_EUROPE` entry
+define instead. The shared PAL changes align with the independently developed Spanish work in #6564.
 The shared bodies are not copied, and default NTSC constants remain in the
 original sources. The profile stays `gcc_2_8_1_g0_split`: no compiler,
 optimization flag or additional profile is introduced.

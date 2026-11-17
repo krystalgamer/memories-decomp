@@ -979,11 +979,10 @@ PAL value relates to its NTSC one as 256 to 240 lines:
 | `effect_18.c` | ring height 98 | 106 |
 
 These follow the `gather_effect.c` pattern: the shared source takes the NTSC
-value by default, and `src/overlays/european/duel_effects/<unit>.c` defines
-`VERSION_EUROPE` (and `GRAPHICS_DEFAULT_HEIGHT` 256 for the two screen-size
-units) before including it. The French, Spanish and European banks now
-register the wrappers, and the North American and Japanese banks register the
-shared sources. The multiplier changes in effects 6 and 7 and the extra block
+value by default, and the PAL entries compile it with a `VERSION_EUROPE`
+entry define (plus `GRAPHICS_DEFAULT_HEIGHT=256` for the two screen-size
+units); these replaced the former `src/overlays/european/duel_effects/<unit>.c`
+wrappers. Every bank registers the shared sources. The multiplier changes in effects 6 and 7 and the extra block
 in `cross_lines.c` alter the instruction shape, so those three units have no
 relocation-masked occurrence and were registered by hand, with their data
 addresses taken from the aligned instructions.
@@ -1003,7 +1002,7 @@ NA `80147BE0`, JP `8015C3B4` (204 bytes), PAL `8014E35C` (144 bytes).
 It always submits both white diagonal `GsLINE` records, with attribute
 `0x50000000`, priority zero and the current overlay ordering table. Endpoints
 remain `(0,0)..(320,height)` and `(320,0)..(0,height)`, using height 240 in
-NTSC and 256 through the unchanged PAL wrapper.
+NTSC and 256 through the PAL `GRAPHICS_DEFAULT_HEIGHT=256` entry define.
 
 All 19 actual lifecycle callers use the canonical helper: effects
 0/1/2/4/5/6/7/8/9/10/11/13/15/16/17/18/22, the guardian-star gather
@@ -1167,13 +1166,13 @@ in every duel-effect image (#39):
 
 - `life_point_effects.c`: effects 5, 7 and 9 (life-point recovery, reflected
   direct damage and inverted life-point recovery), formerly `effect_5.c`,
-  `effect_7.c` and `effect_9.c`. The PAL images build it through one
-  `src/overlays/european/duel_effects/life_point_effects.c` wrapper.
+  `effect_7.c` and `effect_9.c`. The PAL images build it with a
+  `VERSION_EUROPE` entry define.
 - `row_attack_effects.c`: effects 16 and 23 (row strike and back-row sweep),
   formerly `effect_16.c` and `effect_23.c`.
 - `contour_burst_effects.c`: effects 18 and 0 (particle and plain contour
   bursts), formerly `effect_18.c` and `effect_0.c`, built in the PAL images
-  through `src/overlays/european/duel_effects/contour_burst_effects.c`.
+  with a `VERSION_EUROPE` entry define.
 - `projection_helpers.c`: the projected Ft4/Gt4 submit wrappers and the
   matrix setup helpers, formerly `projected_wrappers.c` and
   `matrix_helpers.c`.
