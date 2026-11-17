@@ -3,7 +3,7 @@
 Thirteen North American MODEL variant images share one entry, at `+0x4`
 and `0x135C` bytes long. No French or Spanish source reproduces it. The entry
 is new North American C in
-[`variant634_entry.c`](../../src/overlays/model_variant/variant634_entry.c),
+[`e817_entry.c`](../../src/overlays/model_variant/e817_entry.c),
 built under `gcc_2_8_1_g0_split` like the French entries, as
 `ModelVariant634_HandleRequest`. The images loaded at `0x8017B000` build the
 same file directly; each image's `*_symbols.txt` binds the entry and data
@@ -48,7 +48,7 @@ is one raw tail that starts at `0x1394`. Inside it, the layout names the two
 texture descriptors `gModelVariant634_aImages` and the command table
 `gModelVariant634_aConfigs`. The `0x8017B000` images use the same offsets. The
 French header-651 images build the file through
-[`model_variant/variant651_entry_pal.c`](../../src/overlays/model_variant/variant651_entry_pal.c)
+[`model_variant/e817_entry_pal.c`](../../src/overlays/model_variant/e817_entry_pal.c)
 with `VERSION_FRENCH`, and their symbols files bind both names 0x28 lower. The
 resident bindings are in
 `config/slus_01411/overlays/variant634_linker_symbols.txt`.
