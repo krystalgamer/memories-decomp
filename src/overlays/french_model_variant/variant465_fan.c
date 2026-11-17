@@ -81,7 +81,7 @@ void ModelVariant448_DrawRadialDisc(Variant448EntryState *context)
             if (fan->size < 0x1000) {
                 fan->size = ((work->clock.frame -
                     work->config->start) << 12) /
-                    (work->config->field_20 -
+                    (work->config->grow_end -
                     work->config->start);
                 if (fan->size >= 0x1000) {
                     fan->size = 0x1000;
@@ -90,7 +90,7 @@ void ModelVariant448_DrawRadialDisc(Variant448EntryState *context)
                     }
                 }
             }
-        } else if ((u32)work->config->field_24 <=
+        } else if (work->config->shrink_start <=
                    work->clock.frame) {
             if (fan->size > 0) {
                 fan->size -= work->clock.step << 7;

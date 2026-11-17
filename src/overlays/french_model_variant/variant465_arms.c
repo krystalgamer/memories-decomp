@@ -108,7 +108,7 @@ void ModelVariant448_DrawFans(Variant448EntryState *context)
                     if (unit->amount[t][1] < 0x400) {
                         unit->amount[t][j] += work->clock.step << 5;
                         if (unit->amount[t][1] >= 0x400) {
-                            if ((u32)work->config->field_24 <= work->clock.frame) {
+                            if (work->config->shrink_start <= work->clock.frame) {
                                 for (j = 0; j < 2; j++) {
                                     unit->amount[t][j] = 0x400;
                                 }
