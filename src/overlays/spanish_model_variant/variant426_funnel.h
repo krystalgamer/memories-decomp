@@ -24,8 +24,8 @@ typedef struct {
     u8 unknown_212C[0xC];
     s32 fade;
     u8 unknown_213C[0x28];
-    u8 inner_color[4];
-    u8 outer_color[4];
+    CVECTOR inner_color;
+    CVECTOR outer_color;
     s32 spin;
     u8 unknown_2170[0x10];
     s32 phase;

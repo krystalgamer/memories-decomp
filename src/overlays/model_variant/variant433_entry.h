@@ -69,7 +69,8 @@ typedef struct {
 /* A 0xA0-byte sheet of four quads like ModelVariantSheet with a larger tail. */
 typedef struct {
     SVECTOR v0[4], v1[4], v2[4], v3[4];
-    u8 outer[4], inner[4];
+    CVECTOR outer;
+    CVECTOR inner;
     s32 size, field_8C, field_90, field_94, fading, brightness;
 } Variant433EntrySheet;
 

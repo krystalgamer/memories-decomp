@@ -51,22 +51,22 @@ void ModelVariant459_DrawGlobe(Variant459EntryState *context)
     if (work->phase < 5) {
         work->globe_brightness = 1024 - (work->globe_scale - 8192) / 8;
         for (i = 0; i < 9; i++) {
-            globe->colors[i][0] = (i * 255 / 8) * work->globe_brightness / 1024;
-            globe->colors[i][1] = work->globe_brightness / 16;
-            globe->colors[i][2] = (255 - i * 255 / 8) * work->globe_brightness / 1024;
+            globe->colors[i].r = (i * 255 / 8) * work->globe_brightness / 1024;
+            globe->colors[i].g = work->globe_brightness / 16;
+            globe->colors[i].b = (255 - i * 255 / 8) * work->globe_brightness / 1024;
         }
     } else {
         for (i = 0; i < 9; i++) {
-            globe->colors[i][0] = work->globe_brightness / 8;
-            globe->colors[i][1] = work->globe_brightness / 8;
-            globe->colors[i][2] = work->globe_brightness / 8;
+            globe->colors[i].r = work->globe_brightness / 8;
+            globe->colors[i].g = work->globe_brightness / 8;
+            globe->colors[i].b = work->globe_brightness / 8;
         }
     }
     for (i = 0; i < 8; i++) {
-        setRGB0(poly, globe->colors[i][0], globe->colors[i][1], globe->colors[i][2]);
-        setRGB1(poly, globe->colors[i][0], globe->colors[i][1], globe->colors[i][2]);
-        setRGB2(poly, globe->colors[i + 1][0], globe->colors[i + 1][1], globe->colors[i + 1][2]);
-        setRGB3(poly, globe->colors[i + 1][0], globe->colors[i + 1][1], globe->colors[i + 1][2]);
+        setRGB0(poly, globe->colors[i].r, globe->colors[i].g, globe->colors[i].b);
+        setRGB1(poly, globe->colors[i].r, globe->colors[i].g, globe->colors[i].b);
+        setRGB2(poly, globe->colors[i + 1].r, globe->colors[i + 1].g, globe->colors[i + 1].b);
+        setRGB3(poly, globe->colors[i + 1].r, globe->colors[i + 1].g, globe->colors[i + 1].b);
         for (j = 0; j < 16; j++) {
             otz = RotTransPers4(&globe->rows[i][j], &globe->rows[i][j + 1],
                                &globe->rows[i + 1][j], &globe->rows[i + 1][j + 1],

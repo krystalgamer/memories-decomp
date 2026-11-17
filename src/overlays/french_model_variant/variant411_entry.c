@@ -158,12 +158,12 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
             } else {
                 red = 128; green = 0; blue = 64; beam->age = 6;
             }
-            beam->outer[0] = red + 127;
-            beam->outer[1] = green + 127;
-            beam->inner[0] = red;
-            beam->inner[1] = green;
-            beam->inner[2] = blue;
-            beam->outer[2] = blue + 127;
+            beam->outer.r = red + 127;
+            beam->outer.g = green + 127;
+            beam->inner.r = red;
+            beam->inner.g = green;
+            beam->inner.b = blue;
+            beam->outer.b = blue + 127;
         }
         for (k = 0; k < 2; k++, sheet++) {
             for (sheet_point = 0; sheet_point < 4; sheet_point++) {

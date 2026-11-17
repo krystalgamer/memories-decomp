@@ -28,7 +28,8 @@ typedef struct {
     SVECTOR b[13];
     ModelVariantScreenPoint sb[13];
     s32 width[13];
-    u8 ca[4], cb[4];
+    CVECTOR ca;
+    CVECTOR cb;
     VECTOR scale;
     s32 field_1B8, field_1BC;
     s32 progress;

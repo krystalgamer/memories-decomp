@@ -162,12 +162,12 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
             for (j = 0, v = 0; j < 17; j++, v = j * 256) {
                 setVector(&band->inner[j], (u32)rcos(v) >> 4, (u32)rsin(v) >> 4, 0);
                 setVector(&band->outer[j], (u32)rcos(v) * 3 >> 5, (u32)rsin(v) * 3 >> 5, 0);
-                band->inner_color[0] = 255;
-                band->inner_color[1] = 255;
-                band->inner_color[2] = 255;
-                band->outer_color[0] = 128;
-                band->outer_color[1] = 192;
-                band->outer_color[2] = 255;
+                band->inner_color.r = 255;
+                band->inner_color.g = 255;
+                band->inner_color.b = 255;
+                band->outer_color.r = 128;
+                band->outer_color.g = 192;
+                band->outer_color.b = 255;
             }
             band->size = n * -12288 / 3;
             band->completed = 0;
@@ -176,12 +176,12 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
             for (j = 0, v = 0; j < 17; j++, v = j * 256) {
                 setVector(&outer->inner[j], (u32)rcos(v) >> 3, (u32)rsin(v) >> 3, 0);
                 setVector(&outer->outer[j], (u32)rcos(v) >> 2, (u32)rsin(v) >> 2, 0);
-                outer->inner_color[0] = 255;
-                outer->inner_color[1] = 255;
-                outer->inner_color[2] = 255;
-                outer->outer_color[0] = 128;
-                outer->outer_color[1] = 192;
-                outer->outer_color[2] = 255;
+                outer->inner_color.r = 255;
+                outer->inner_color.g = 255;
+                outer->inner_color.b = 255;
+                outer->outer_color.r = 128;
+                outer->outer_color.g = 192;
+                outer->outer_color.b = 255;
             }
             outer->size = 0;
             outer->completed = 0;
@@ -204,12 +204,12 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
             ribbon->field_50 = 4096;
             ribbon->field_54 = 4096;
             ribbon->field_58 = 4096;
-            ribbon->outer[0] = 255;
-            ribbon->outer[1] = 255;
-            ribbon->outer[2] = 255;
-            ribbon->inner[0] = 0;
-            ribbon->inner[1] = 16;
-            ribbon->inner[2] = 128;
+            ribbon->outer.r = 255;
+            ribbon->outer.g = 255;
+            ribbon->outer.b = 255;
+            ribbon->inner.r = 0;
+            ribbon->inner.g = 16;
+            ribbon->inner.b = 128;
         }
         work->field_3244 = 1024;
         work->field_323C = 0;

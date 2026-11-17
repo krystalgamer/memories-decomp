@@ -131,12 +131,12 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
         SetShadeTex(flat, 1);
         for (n = 0; n < 5; n++, ribbon++) {
             setVector(&ribbon->scale, 4096, 4096, 4096);
-            ribbon->ca[0] = 128;
-            ribbon->ca[1] = 128;
-            ribbon->ca[2] = 128;
-            ribbon->cb[0] = 0;
-            ribbon->cb[1] = 16;
-            ribbon->cb[2] = 128;
+            ribbon->ca.r = 128;
+            ribbon->ca.g = 128;
+            ribbon->ca.b = 128;
+            ribbon->cb.r = 0;
+            ribbon->cb.g = 16;
+            ribbon->cb.b = 128;
             ribbon->field_1B8 = 0;
             ribbon->field_1BC = 0;
             ribbon->progress = -(n * 16);
@@ -157,12 +157,12 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
         work->trail_delay = 128;
         for (n = 0; n < 5; n++, trail++) {
             setVector(&trail->scale, 4096, 4096, 4096);
-            trail->ca[0] = 128;
-            trail->ca[1] = 128;
-            trail->ca[2] = 128;
-            trail->cb[0] = 0;
-            trail->cb[1] = 16;
-            trail->cb[2] = 128;
+            trail->ca.r = 128;
+            trail->ca.g = 128;
+            trail->ca.b = 128;
+            trail->cb.r = 0;
+            trail->cb.g = 16;
+            trail->cb.b = 128;
             trail->field_1B8 = 0;
             trail->field_1BC = 0;
             trail->progress = -work->trail_delay - n * 16;
@@ -224,12 +224,12 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
             setVector(&quad_record->corner[1], 128, -128, 0);
             setVector(&quad_record->corner[2], -128, 128, 0);
             setVector(&quad_record->corner[3], 128, 128, 0);
-            quad_record->inner[0] = 255;
-            quad_record->inner[1] = 192;
-            quad_record->inner[2] = 192;
-            quad_record->outer[0] = 64;
-            quad_record->outer[1] = 64;
-            quad_record->outer[2] = 0;
+            quad_record->inner.r = 255;
+            quad_record->inner.g = 192;
+            quad_record->inner.b = 192;
+            quad_record->outer.r = 64;
+            quad_record->outer.g = 64;
+            quad_record->outer.b = 0;
             quad_record->size = 0;
             quad_record->field_84 = 0;
             quad_record->done = 0;

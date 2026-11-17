@@ -158,12 +158,12 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
                 fan->stage[j] = 0;
             }
             for (k = 0; k < 2; k++) {
-                fan->cb[k][0] = work->config->outer.r * (one - k);
-                fan->cb[k][1] = work->config->outer.g * (one - k);
-                fan->cb[k][2] = work->config->outer.b * (one - k);
-                fan->ca[k][0] = work->config->inner.r * (one - k);
-                fan->ca[k][1] = work->config->inner.g * (one - k);
-                fan->ca[k][2] = work->config->inner.b * (one - k);
+                fan->cb[k].r = work->config->outer.r * (one - k);
+                fan->cb[k].g = work->config->outer.g * (one - k);
+                fan->cb[k].b = work->config->outer.b * (one - k);
+                fan->ca[k].r = work->config->inner.r * (one - k);
+                fan->ca[k].g = work->config->inner.g * (one - k);
+                fan->ca[k].b = work->config->inner.b * (one - k);
             }
         }
         for (outer = 0; outer < 1; outer++, orbit++) {
@@ -239,12 +239,12 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
             setVector(&quad_record->corner[1], 128, -128, 0);
             setVector(&quad_record->corner[2], -128, 128, 0);
             setVector(&quad_record->corner[3], 128, 128, 0);
-            quad_record->inner[0] = 255;
-            quad_record->inner[1] = 192;
-            quad_record->inner[2] = 192;
-            quad_record->outer[0] = 64;
-            quad_record->outer[1] = 64;
-            quad_record->outer[2] = 0;
+            quad_record->inner.r = 255;
+            quad_record->inner.g = 192;
+            quad_record->inner.b = 192;
+            quad_record->outer.r = 64;
+            quad_record->outer.g = 64;
+            quad_record->outer.b = 0;
             quad_record->size = 0;
             quad_record->field_84 = 0;
             quad_record->done = 0;

@@ -243,12 +243,12 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
             sheet->target.vx = work->target.vx + ((s32)(rcos(angle) << 9) >> 12);
             sheet->target.vy = work->target.vy + ((s32)(rsin(angle) << 9) >> 12);
             sheet->target.vz = work->target.vz + ((s32)(rsin(angle2) << 9) >> 12);
-            sheet->outer[0] = work->config->color.r;
-            sheet->outer[1] = work->config->color.g;
-            sheet->outer[2] = work->config->color.b;
-            sheet->inner[0] = work->config->secondary.r;
-            sheet->inner[1] = work->config->secondary.g;
-            sheet->inner[2] = work->config->secondary.b;
+            sheet->outer.r = work->config->color.r;
+            sheet->outer.g = work->config->color.g;
+            sheet->outer.b = work->config->color.b;
+            sheet->inner.r = work->config->secondary.r;
+            sheet->inner.g = work->config->secondary.g;
+            sheet->inner.b = work->config->secondary.b;
             sheet->faded = 0;
             sheet->fade = 1024;
             if (n == 0) {

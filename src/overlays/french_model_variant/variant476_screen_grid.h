@@ -6,7 +6,7 @@
 typedef struct {
     SVECTOR a[9][9];
     SVECTOR b[9][9];
-    u8 color[9][4];
+    CVECTOR color[9];
 } Variant476ScreenGrid;
 
 #endif

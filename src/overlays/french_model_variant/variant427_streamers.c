@@ -147,9 +147,9 @@ void FrenchModelVariant427_DrawStreamers(EntryState427 *context)
             poly->y2 = (streamer->spine.sa[k] >> 16) - streamer->offsets.oy[k];
             poly->x3 = streamer->spine.sa[k + 1] - streamer->offsets.ox[k + 1];
             poly->y3 = (streamer->spine.sa[k + 1] >> 16) - streamer->offsets.oy[k + 1];
-            poly->r0 = streamer->color[k][0];
-            poly->g0 = streamer->color[k][1];
-            poly->b0 = streamer->color[k][2];
+            poly->r0 = streamer->color[k].r;
+            poly->g0 = streamer->color[k].g;
+            poly->b0 = streamer->color[k].b;
             if (streamer->offsets.otz[k] > 0) {
                 GsSortPoly(poly, ot, streamer->offsets.otz[k]);
             }

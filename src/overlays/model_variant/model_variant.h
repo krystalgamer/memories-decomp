@@ -741,8 +741,8 @@ typedef struct {
 typedef struct {
     SVECTOR point[11];
     SVECTOR corner[4];
-    u8 inner[4];
-    u8 outer[4];
+    CVECTOR inner;
+    CVECTOR outer;
     s32 size;
     s32 field_84;
     s32 done;
@@ -857,7 +857,7 @@ typedef struct {
  * row, the size and the done flag. */
 typedef struct {
     SVECTOR points[9][17];
-    u8 colors[9][4];
+    CVECTOR colors[9];
     s32 size;
     s32 field_4F0;
     s32 done;
@@ -931,7 +931,8 @@ typedef struct {
  * and a growth word. */
 typedef struct {
     SVECTOR a[17], b[17], c[17];
-    u8 color_a[4], color_b[4];
+    CVECTOR color_a;
+    CVECTOR color_b;
     s32 scale, growth;
 } ModelVariantTripleCurtain;
 
@@ -1435,7 +1436,7 @@ typedef struct {
  * drawn as RotTransPers4 quads between neighbouring rows. */
 typedef struct {
     SVECTOR rows[9][17];
-    u8 colors[9][4];
+    CVECTOR colors[9];
 } ModelVariantMesh;
 
 /* The streamer parameters an entry state keeps for its DrawStreamers helper

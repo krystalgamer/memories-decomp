@@ -26,19 +26,19 @@ void SpanishModelVariant405_DrawOuterBands(Variant405EntryState *context)
         if (band->size > 0 && band->size < 4096) {
             size = band->size;
             if (size > 3072) {
-                inner_r = band->inner_color[0] * (4096 - size) / 1024;
-                inner_g = band->inner_color[1] * (4096 - size) / 1024;
-                inner_b = band->inner_color[2] * (4096 - size) / 1024;
-                outer_r = band->outer_color[0] * (4096 - size) / 1024;
-                outer_g = band->outer_color[1] * (4096 - size) / 1024;
-                outer_b = band->outer_color[2] * (4096 - size) / 1024;
+                inner_r = band->inner_color.r * (4096 - size) / 1024;
+                inner_g = band->inner_color.g * (4096 - size) / 1024;
+                inner_b = band->inner_color.b * (4096 - size) / 1024;
+                outer_r = band->outer_color.r * (4096 - size) / 1024;
+                outer_g = band->outer_color.g * (4096 - size) / 1024;
+                outer_b = band->outer_color.b * (4096 - size) / 1024;
             } else {
-                inner_r = band->inner_color[0];
-                inner_g = band->inner_color[1];
-                inner_b = band->inner_color[2];
-                outer_r = band->outer_color[0];
-                outer_g = band->outer_color[1];
-                outer_b = band->outer_color[2];
+                inner_r = band->inner_color.r;
+                inner_g = band->inner_color.g;
+                inner_b = band->inner_color.b;
+                outer_r = band->outer_color.r;
+                outer_g = band->outer_color.g;
+                outer_b = band->outer_color.b;
             }
             rotation.vx = 0;
             rotation.vy = 0;

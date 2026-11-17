@@ -141,9 +141,9 @@ void SpanishModelVariant411_DrawBeams(Beam411State *context)
                     quad->y2 = beam->sa[j] >> 16;
                     quad->x3 = beam->sa[j + 1];
                     quad->y3 = beam->sa[j + 1] >> 16;
-                    setRGB0(quad, beam->inner[0], beam->inner[1], beam->inner[2]);
+                    setRGB0(quad, beam->inner.r, beam->inner.g, beam->inner.b);
                     setRGB1(quad, 0, 0, 0);
-                    setRGB2(quad, beam->outer[0], beam->outer[1], beam->outer[2]);
+                    setRGB2(quad, beam->outer.r, beam->outer.g, beam->outer.b);
                     setRGB3(quad, 0, 0, 0);
 #ifdef MODEL_VARIANT444_BEAMS
                     if (beam->otz[j] > 0) {
@@ -164,9 +164,9 @@ void SpanishModelVariant411_DrawBeams(Beam411State *context)
                     quad->y2 = beam->sa[j] >> 16;
                     quad->x3 = beam->sa[j + 1];
                     quad->y3 = beam->sa[j + 1] >> 16;
-                    setRGB0(quad, beam->inner[0], beam->inner[1], beam->inner[2]);
+                    setRGB0(quad, beam->inner.r, beam->inner.g, beam->inner.b);
                     setRGB1(quad, 0, 0, 0);
-                    setRGB2(quad, beam->outer[0], beam->outer[1], beam->outer[2]);
+                    setRGB2(quad, beam->outer.r, beam->outer.g, beam->outer.b);
                     setRGB3(quad, 0, 0, 0);
                     if (beam->otz[j] > 0) {
                         if (beam->otz[j] < 0x800) {

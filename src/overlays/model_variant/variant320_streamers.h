@@ -15,7 +15,7 @@ typedef struct {
     long sb[17];
     s32 width[17];
     u8 unknown220[0x44];
-    u8 color[17][4];
+    CVECTOR color[17];
     u8 unknown2A8[0x04];
     s32 otz[17];
     long flag[17];

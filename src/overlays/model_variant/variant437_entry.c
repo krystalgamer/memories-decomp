@@ -159,9 +159,9 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
                 setVector(&group->b[j], 256, -256, 0);
                 setVector(&group->c[j], -256, 256, 0);
                 setVector(&group->d[j], 256, 256, 0);
-                group->color[0] = 64;
-                group->color[1] = 64;
-                group->color[2] = 64;
+                group->color.r = 64;
+                group->color.g = 64;
+                group->color.b = 64;
                 group->size[j] = -(j * 2048 / 12) - (64 + (rsin(base) * 64 >> 12));
                 group->done[j] = 0;
                 group->extra[j] = 0;
@@ -176,12 +176,12 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
             beam->scale.vy = 4096;
             beam->scale.vz = 4096;
             for (k = 0; k < 2; k++) {
-                beam->ca[k].r = work->config->color[0][0];
-                beam->ca[k].g = work->config->color[0][1];
-                beam->ca[k].b = work->config->color[0][2];
-                beam->cb[k].r = work->config->color[1][0];
-                beam->cb[k].g = work->config->color[1][1];
-                beam->cb[k].b = work->config->color[1][2];
+                beam->ca[k].r = work->config->color[0].r;
+                beam->ca[k].g = work->config->color[0].g;
+                beam->ca[k].b = work->config->color[0].b;
+                beam->cb[k].r = work->config->color[1].r;
+                beam->cb[k].g = work->config->color[1].g;
+                beam->cb[k].b = work->config->color[1].b;
                 beam->offset[k] = k * -768;
             }
             beam->field_90 = 0;
@@ -196,9 +196,9 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
                 setVector(&star->points[k + 1], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 8, 0);
                 setVector(&star->points[k + 6], (u32)(rcos(angle) * 3) >> 10, (u32)(rsin(angle) * 5) >> 9, 0);
             }
-            star->color[0] = 255;
-            star->color[1] = 192;
-            star->color[2] = 192;
+            star->color.r = 255;
+            star->color.g = 192;
+            star->color.b = 192;
             setVector(&star->quad[0], -128, -128, 0);
             setVector(&star->quad[1], 128, -128, 0);
             setVector(&star->quad[2], -128, 128, 0);
@@ -235,12 +235,12 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
                     setVector(&tile->d[n], 0, 0, 0);
                 }
             }
-            tile->color[0] = work->config->color[1][0];
-            tile->color[1] = work->config->color[1][1];
-            tile->color[2] = work->config->color[1][2];
-            tile->glow[0] = work->config->color[0][0];
-            tile->glow[1] = work->config->color[0][1];
-            tile->glow[2] = work->config->color[0][2];
+            tile->color.r = work->config->color[1].r;
+            tile->color.g = work->config->color[1].g;
+            tile->color.b = work->config->color[1].b;
+            tile->glow[0] = work->config->color[0].r;
+            tile->glow[1] = work->config->color[0].g;
+            tile->glow[2] = work->config->color[0].b;
             tile->unknown88[0] = 0;
             tile->unknown88[1] = 0;
             tile->unknown88[2] = 0;
@@ -264,9 +264,9 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
             cone->unknown184[0] = 0;
             cone->unknown184[1] = 0;
             cone->unknown184[2] = 0;
-            cone->color[0] = work->config->color[2][0];
-            cone->color[1] = work->config->color[2][1];
-            cone->color[2] = work->config->color[2][2];
+            cone->color.r = work->config->color[2].r;
+            cone->color.g = work->config->color[2].g;
+            cone->color.b = work->config->color[2].b;
             cone->angle = j * 4096 / 3 + 4096;
             cone->unknown198 = 0;
             cone->unknown19C = 0;
@@ -274,9 +274,9 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
 
         for (j = 0; j < 16; j++, ribbon++) {
             for (k = 0; k < 9; k++) {
-                ribbon->color[k][0] = -64 - k * 24;
-                ribbon->color[k][1] = -64 - k * 24;
-                ribbon->color[k][2] = 255;
+                ribbon->color[k].r = -64 - k * 24;
+                ribbon->color[k].g = -64 - k * 24;
+                ribbon->color[k].b = 255;
                 ribbon->offset[k] = k * -256;
             }
             ribbon->unknown6C[0] = 0;

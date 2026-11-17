@@ -164,12 +164,12 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&ring->a[j], (u32)rcos(angle) / 8, 0, (u32)rsin(angle) / 8);
                 setVector(&ring->b[j], (u32)rcos(angle) / 4, 0, (u32)rsin(angle) / 4);
                 setVector(&ring->c[j], (u32)rcos(angle) * 9 / 32, 0, (u32)rsin(angle) * 9 / 32);
-                ring->outer[0] = 128;
-                ring->outer[1] = 192;
-                ring->inner[0] = 255;
-                ring->inner[1] = 255;
-                ring->inner[2] = 255;
-                ring->outer[2] = 255;
+                ring->outer.r = 128;
+                ring->outer.g = 192;
+                ring->inner.r = 255;
+                ring->inner.g = 255;
+                ring->inner.b = 255;
+                ring->outer.b = 255;
             }
             ring->scale = 4096 - geometry_index * 4096 / 3;
             ring->cycles = 0;

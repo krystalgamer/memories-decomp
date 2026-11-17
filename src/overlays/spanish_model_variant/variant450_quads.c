@@ -70,17 +70,17 @@ void SpanishModelVariant450_DrawQuadGroups(u8 *ctx)
                                  (long *)&quad->x1, (long *)&quad->x2,
                                  (long *)&quad->x3, &interpolation, &flag);
             if (group->fading == 0) {
-                setRGB0(quad, group->color[0], group->color[1], group->color[2]);
-                setRGB1(quad, group->color[0], group->color[1], group->color[2]);
-                setRGB2(quad, group->color[0], group->color[1], group->color[2]);
-                setRGB3(quad, group->end_color[0], group->end_color[1], group->end_color[2]);
+                setRGB0(quad, group->color.r, group->color.g, group->color.b);
+                setRGB1(quad, group->color.r, group->color.g, group->color.b);
+                setRGB2(quad, group->color.r, group->color.g, group->color.b);
+                setRGB3(quad, group->end_color.r, group->end_color.g, group->end_color.b);
             } else {
-                r = group->color[0] * group->brightness / 1024;
-                g = group->color[1] * group->brightness / 1024;
-                b = group->color[2] * group->brightness / 1024;
-                r1 = group->end_color[0] * group->brightness / 1024;
-                g1 = group->end_color[1] * group->brightness / 1024;
-                b1 = group->end_color[2] * group->brightness / 1024;
+                r = group->color.r * group->brightness / 1024;
+                g = group->color.g * group->brightness / 1024;
+                b = group->color.b * group->brightness / 1024;
+                r1 = group->end_color.r * group->brightness / 1024;
+                g1 = group->end_color.g * group->brightness / 1024;
+                b1 = group->end_color.b * group->brightness / 1024;
                 setRGB0(quad, r, g, b);
                 setRGB1(quad, r, g, b);
                 setRGB2(quad, r, g, b);

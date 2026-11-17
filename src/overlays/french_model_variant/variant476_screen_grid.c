@@ -45,22 +45,22 @@ void FrenchModelVariant476_DrawScreenGrid(Variant459EntryState *context)
     if (work->phase < 5) {
         work->screen_grid_brightness = 1024 - (work->field_2818 - 8192) / 8;
         for (i = 0; i < 9; i++) {
-            grid->color[i][0] = (i * 255 / 8) * work->screen_grid_brightness / 1024;
-            grid->color[i][1] = work->screen_grid_brightness / 16;
-            grid->color[i][2] = (255 - i * 255 / 8) * work->screen_grid_brightness / 1024;
+            grid->color[i].r = (i * 255 / 8) * work->screen_grid_brightness / 1024;
+            grid->color[i].g = work->screen_grid_brightness / 16;
+            grid->color[i].b = (255 - i * 255 / 8) * work->screen_grid_brightness / 1024;
         }
     } else {
         for (i = 0; i < 9; i++) {
-            grid->color[i][0] = work->screen_grid_brightness / 8;
-            grid->color[i][1] = work->screen_grid_brightness / 8;
-            grid->color[i][2] = work->screen_grid_brightness / 8;
+            grid->color[i].r = work->screen_grid_brightness / 8;
+            grid->color[i].g = work->screen_grid_brightness / 8;
+            grid->color[i].b = work->screen_grid_brightness / 8;
         }
     }
     for (i = 0; i < 8; i++) {
-        setRGB0(poly, grid->color[i][0], grid->color[i][1], grid->color[i][2]);
-        setRGB1(poly, grid->color[i][0], grid->color[i][1], grid->color[i][2]);
-        setRGB2(poly, grid->color[i + 1][0], grid->color[i + 1][1], grid->color[i + 1][2]);
-        setRGB3(poly, grid->color[i + 1][0], grid->color[i + 1][1], grid->color[i + 1][2]);
+        setRGB0(poly, grid->color[i].r, grid->color[i].g, grid->color[i].b);
+        setRGB1(poly, grid->color[i].r, grid->color[i].g, grid->color[i].b);
+        setRGB2(poly, grid->color[i + 1].r, grid->color[i + 1].g, grid->color[i + 1].b);
+        setRGB3(poly, grid->color[i + 1].r, grid->color[i + 1].g, grid->color[i + 1].b);
         for (j = 0; j < 8; j++) {
             RotTransPers4(&grid->b[i][j], &grid->b[i][j + 1],
                           &grid->b[i + 1][j], &grid->b[i + 1][j + 1],

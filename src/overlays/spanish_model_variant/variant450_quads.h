@@ -6,8 +6,8 @@
 
 typedef struct {
     SVECTOR points[16];
-    u8 end_color[4];
-    u8 color[4];
+    CVECTOR end_color;
+    CVECTOR color;
     s32 scale;
     u8 unknown_8C[12];
     s32 fading;

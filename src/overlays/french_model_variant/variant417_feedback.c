@@ -100,10 +100,10 @@ void FrenchModelVariant417_DrawFramebufferFeedback(Variant417EntryState *context
                                      &interpolation, &flag);
                 SetSemiTrans(quad, 1);
                 SetShadeTex(quad, 0);
-                setRGB0(quad, group->color_a[0], group->color_a[1], group->color_a[2]);
-                setRGB1(quad, group->color_a[0], group->color_a[1], group->color_a[2]);
-                setRGB2(quad, group->color_b[0], group->color_b[1], group->color_b[2]);
-                setRGB3(quad, group->color_b[0], group->color_b[1], group->color_b[2]);
+                setRGB0(quad, group->color_a.r, group->color_a.g, group->color_a.b);
+                setRGB1(quad, group->color_a.r, group->color_a.g, group->color_a.b);
+                setRGB2(quad, group->color_b.r, group->color_b.g, group->color_b.b);
+                setRGB3(quad, group->color_b.r, group->color_b.g, group->color_b.b);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(quad, ot, (u16)depth);
                 }

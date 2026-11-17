@@ -140,9 +140,9 @@ void ModelVariant443_DrawRibbons(Variant460EntryState *ctx)
             poly->y2 = (ribbon->sa[k] >> 16) - ribbon->oy[k];
             poly->x3 = ribbon->sa[k + 1] - ribbon->ox[k + 1];
             poly->y3 = (ribbon->sa[k + 1] >> 16) - ribbon->oy[k + 1];
-            poly->r0 = ribbon->color[0];
-            poly->g0 = ribbon->color[1];
-            poly->b0 = ribbon->color[2];
+            poly->r0 = ribbon->color.r;
+            poly->g0 = ribbon->color.g;
+            poly->b0 = ribbon->color.b;
             if (ribbon->otz[k] >= 0 && flags[i][k] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[k]);
             }

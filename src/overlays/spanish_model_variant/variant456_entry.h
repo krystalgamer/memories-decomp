@@ -92,7 +92,8 @@ typedef struct {
 /* A 0xC0-byte sheet of four quads with a travelling target. */
 typedef struct {
     SVECTOR v0[4], v1[4], v2[4], v3[4];
-    u8 outer[4], inner[4];
+    CVECTOR outer;
+    CVECTOR inner;
     s32 size, field_8C, field_90;
     u8 unknown_94[4];
     VECTOR target;
