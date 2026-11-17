@@ -265,11 +265,11 @@ s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
         }
         if (work->config->start <= work->frame) {
             if (work->phase > 0) {
-                FrenchModelVariant397_DrawBeams(point);
+                FrenchModelVariant397_DrawBeams((Variant380EntryState *)point);
             }
-            FrenchModelVariant397_DrawSheets(point);
+            FrenchModelVariant397_DrawSheets((Variant380EntryState *)point);
             if (work->phase >= 4) {
-                FrenchModelVariant397_DrawStreamers(point);
+                FrenchModelVariant397_DrawStreamers((Variant380EntryState *)point);
             }
         }
         work->frame_count++;

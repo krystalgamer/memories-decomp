@@ -6,7 +6,8 @@ MODEL472 family, image offset `0x1110`,
 **No release had matching C for this body before.**
 
 It shares the quads drawing pattern of the French MODEL478 swarm helper
-(`variant478_swarm.c`), over a local view in `variant472_blooms.h`:
+(`variant478_swarm.c`), reading `EntryState455` (a local view in `variant472_blooms.h` until it was
+folded):
 - eight 0x2B4-byte groups at `+0`. Each has corners `a`..`d`, the colour at
   `+0x1E0`, sizes at `+0x1F4`, done flags at `+0x224`, an origin at
   `+0x284` and a direction at `+0x2A4`;

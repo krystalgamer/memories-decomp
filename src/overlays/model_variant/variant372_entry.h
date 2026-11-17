@@ -36,12 +36,22 @@ typedef struct {
     u32 fade_begin, fade_end, field_3C, field_40;
 } Model372Config;
 
+/* A projected point as RotTransPers writes it: read either as a screen
+ * DVECTOR or as the packed word whose halves the ribbons subtract. */
+typedef union {
+    DVECTOR point;
+    long packed;
+} Model372Screen;
+
+/* One 0x3E4-byte ribbon: two seventeen-point spines and their projections,
+ * per-point angle, width and colours, the transform, and per point the
+ * projection flag, depth, screen offset and growth progress. */
 typedef struct {
     SVECTOR a[17];
-    s32 sa[17];
+    Model372Screen sa[17];
     s32 angle[17];
     SVECTOR b[17];
-    s32 sb[17];
+    Model372Screen sb[17];
     s32 width[17];
     CVECTOR tint[17];
     CVECTOR color[17];
@@ -49,7 +59,7 @@ typedef struct {
     s16 rotation_x, rotation_y;
     s32 rotation_z;
     VECTOR offset;
-    s32 flag[17];
+    long flag[17];
     s32 depth[17];
     s16 ox[17];
     s16 oy[17];
@@ -111,8 +121,8 @@ extern Model372Path25 gModelVariant372_szBeamer1TimPath;
 extern GsIMAGE gModelVariant372_aImages[];
 extern Model372Config gModelVariant372_aConfigs[];
 
-void FrenchModelVariant389_DrawRibbons(u8 *context);
-void FrenchModelVariant389_DrawSheets(u8 *context);
+void FrenchModelVariant389_DrawRibbons(Model372State *context);
+void FrenchModelVariant389_DrawSheets(Model372State *context);
 s32 ModelVariant372_HandleRequest(u8 *context, s32 command);
 
 #endif

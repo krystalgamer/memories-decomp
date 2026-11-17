@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant397_streamers.h"
+#include "../model_variant/variant380_entry.h"
 
 /* Header 397's streamers: for every configured record, two seventeen-point
  * streamers coil around the record's position with its own rotation, scale
@@ -9,7 +9,7 @@
  * register allocation. After phase 6 a record's length shrinks with the
  * frame step, and the last record finishing moves the phase on to 7. */
 
-void FrenchModelVariant397_DrawStreamers(Variant397StreamerState *context)
+void FrenchModelVariant397_DrawStreamers(Variant380EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -18,7 +18,7 @@ void FrenchModelVariant397_DrawStreamers(Variant397StreamerState *context)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant397StreamerState *work;
+    Variant380EntryState *work;
     POLY_G4 *poly;
     GsOT *ot;
     s16 j;
@@ -47,13 +47,13 @@ void FrenchModelVariant397_DrawStreamers(Variant397StreamerState *context)
     phase = 0x5DC;
     radius = 0x80;
     poly = (POLY_G4 *)((u8 *)work + 0x18C8);
-    turn = ratan2(work->view_z, work->view_x) + 0xC00;
-    if ((work->frame & 3) < 2) {
+    turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    if ((work->frame_count & 3) < 2) {
         phase = 0;
     }
-    for (i = 0; i < work->timing->count; i++) {
-        offset = (i << 12) / work->timing->count;
-        if (!(work->frame & 1)) {
+    for (i = 0; i < work->config->count; i++) {
+        offset = (i << 12) / work->config->count;
+        if (!(work->frame_count & 1)) {
             size = offset + 0x1000;
             rx = offset + 0x200;
             ry = 0;
@@ -64,14 +64,14 @@ void FrenchModelVariant397_DrawStreamers(Variant397StreamerState *context)
         }
         j = 0;
         streamer = (ModelVariantFlaggedStreamer *)((u8 *)work + 0x1130);
-        base = work->ry[i];
+        base = work->streamer_rotation_y[i];
         spin = phase;
         for (; j < 2; j++, streamer++, base += 0x400) {
             for (k = 0, twist = base * 2, wave = 0; k < 17;
                  k++, twist = base * 2 + k * 1500 / 16, spin += 0x5DC, wave += 0x200) {
                 bulge = rcos(wave) * 16 >> 12;
                 wobble = bulge + (rcos(spin) * 8 >> 12);
-                length = work->length[i] / 128;
+                length = work->streamer_length[i] / 128;
                 setVector(&streamer->a[k], bulge + (rcos(twist) * (rcos(base) * (radius + (s16)wobble) >> 12) >> 12),
                           bulge + (rcos(twist) * (rsin(base) * (radius + (s16)wobble) >> 12) >> 12),
                           rsin(twist) * (radius + (s16)wobble) >> 12);
@@ -79,17 +79,17 @@ void FrenchModelVariant397_DrawStreamers(Variant397StreamerState *context)
                           streamer->a[k].vz + (rsin(turn) * (s16)length >> 12));
             }
         }
-        rot.vx = (s16)work->rx[i] + rx;
-        rot.vy = (s16)work->ry[i] + ry;
-        rot.vz = (s16)work->rz[i];
-        if ((work->frame + i) % 8 == 0) {
-            work->ry[i] += 0x514;
+        rot.vx = (s16)work->streamer_rotation_x[i] + rx;
+        rot.vy = (s16)work->streamer_rotation_y[i] + ry;
+        rot.vz = (s16)work->streamer_rotation_z[i];
+        if ((work->frame_count + i) % 8 == 0) {
+            work->streamer_rotation_y[i] += 0x514;
         }
-        work->ry[i] += 0x20;
-        work->rz[i] = work->rz[i];
-        m.t[0] = work->positions[i].vx;
-        m.t[1] = work->positions[i].vy;
-        m.t[2] = work->positions[i].vz;
+        work->streamer_rotation_y[i] += 0x20;
+        work->streamer_rotation_z[i] = work->streamer_rotation_z[i];
+        m.t[0] = work->targets[i].vx;
+        m.t[1] = work->targets[i].vy;
+        m.t[2] = work->targets[i].vz;
         scale.vx = size;
         scale.vy = size;
         scale.vz = size;
@@ -111,7 +111,7 @@ void FrenchModelVariant397_DrawStreamers(Variant397StreamerState *context)
                     dx = (s16)streamer->sa[k] - (s16)streamer->sa[15];
                     dy = (streamer->sa[k] >> 16) - (streamer->sa[15] >> 16);
                     streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                    if (work->length[i] > 0x200) {
+                    if (work->streamer_length[i] > 0x200) {
                         streamer->width[k] = 2;
                     } else {
                         streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -126,7 +126,7 @@ void FrenchModelVariant397_DrawStreamers(Variant397StreamerState *context)
                     dx = (s16)streamer->sa[k + 1] - (s16)streamer->sa[k];
                     dy = (streamer->sa[k + 1] >> 16) - (streamer->sa[k] >> 16);
                     streamer->angle[k] = ratan2(dy, dx) + 0xC00;
-                    if (work->length[i] > 0x200) {
+                    if (work->streamer_length[i] > 0x200) {
                         streamer->width[k] = 3;
                     } else {
                         streamer->width[k] = (s16)streamer->sb[k] - (s16)streamer->sa[k];
@@ -155,11 +155,11 @@ void FrenchModelVariant397_DrawStreamers(Variant397StreamerState *context)
                 }
             }
         }
-        if (work->phase >= 6 && work->length[i] > 0) {
-            work->length[i] -= work->step * 64;
-            if (work->length[i] <= 0) {
-                work->length[i] = 0;
-                if (i + 1 == work->timing->count) {
+        if (work->phase >= 6 && work->streamer_length[i] > 0) {
+            work->streamer_length[i] -= work->step * 64;
+            if (work->streamer_length[i] <= 0) {
+                work->streamer_length[i] = 0;
+                if (i + 1 == work->config->count) {
                     work->phase = 7;
                 }
             }

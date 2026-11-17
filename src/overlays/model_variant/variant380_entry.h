@@ -19,18 +19,29 @@ typedef struct {
     s32 divisor;
     u32 start, end;
     u32 fade_at;
-    u8 unknown_38[0xC];
+    u32 hide_at, release_at;
+    u8 unknown_40[4];
 } Variant380EntryConfig;
 
-/* Up to five 0x2D4-byte beams at the start of the work area. */
+/* Up to five 0x2D4-byte beams at the start of the work area: a thirteen-point
+ * spine and its view-shifted copy, both projected, with per-point angle,
+ * width, projection flag, depth and screen offset. */
 typedef struct {
-    u8 unknown_000[0x1A0];
+    SVECTOR a[13];
+    long sa[13];
+    s32 angle[13];
+    SVECTOR b[13];
+    long sb[13];
+    s32 width[13];
     CVECTOR inner, outer;
     VECTOR scale;
     s16 field_1B8, field_1BA, field_1BC;
     u8 unknown_1BE[0x228 - 0x1BE];
     VECTOR velocity;
-    u8 unknown_238[0x2D4 - 0x238];
+    long flag[13];
+    s32 otz[13];
+    s16 ox[13];
+    s16 oy[13];
 } Variant380EntryBeam;
 
 /* Minimum observed context extent, not an allocation capacity. */
@@ -64,9 +75,9 @@ typedef struct {
 
 extern GsIMAGE gModelVariant380_aImages[2];
 extern Variant380EntryConfig gModelVariant380_aConfigs[];
-void FrenchModelVariant397_DrawBeams(SVECTOR *point);
-void FrenchModelVariant397_DrawSheets(SVECTOR *point);
-void FrenchModelVariant397_DrawStreamers(SVECTOR *point);
+void FrenchModelVariant397_DrawBeams(Variant380EntryState *context);
+void FrenchModelVariant397_DrawSheets(Variant380EntryState *context);
+void FrenchModelVariant397_DrawStreamers(Variant380EntryState *context);
 s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command);
 
 #endif

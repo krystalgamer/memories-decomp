@@ -20,10 +20,12 @@ offset are unchanged, the views are kept, and every image stays
 byte-identical. Struct-member renames are recorded here, not in the
 semantic map, which has no field kind.
 
-`EntryConfig455` is left out because its helpers disagree:
-`FrenchModelVariant472_DrawBlooms` reads `+0x2C` as `limit`,
-`FrenchModelVariant472_DrawMesh` reads it as `fade_start` and
-`SpanishModelVariant472_DrawSheets` reads it as `fade_end`.
+`EntryConfig455`'s `+0x28..+0x30` are a chain of times, which the helpers
+read in adjacent pairs under different names. The sheets and spiral fade over
+`+0x28..+0x2C`, the blooms stop at `+0x2C`, and the mesh fades over
+`+0x2C..+0x30`. When those helpers moved onto `EntryState455`, the words
+became `u32 fade_start`, `fade_end` and `mesh_fade_end`. This also dropped
+the spiral's two `(u32)` casts.
 `EntryConfig443`'s `+0x48`/`+0x4C` placeholder sat under the 443 mesh
 view's `grow_start`/`grow_end`. When `SpanishModelVariant443_DrawMesh` was
 moved onto `EntryState443`, these became `mesh_start`/`mesh_end`, the window

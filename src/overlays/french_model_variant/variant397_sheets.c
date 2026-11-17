@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant397_sheets.h"
+#include "../model_variant/variant380_entry.h"
 
-void FrenchModelVariant397_DrawSheets(u8 *context)
+void FrenchModelVariant397_DrawSheets(Variant380EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,7 +10,7 @@ void FrenchModelVariant397_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets397State *state = (Sheets397State *)context;
+    Variant380EntryState *state = context;
     ModelVariantSheetSet *sheet = state->sheets;
     POLY_GT4 *quad;
     GsOT *ot;
@@ -21,26 +21,26 @@ void FrenchModelVariant397_DrawSheets(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     shown = 0;
-    quad = &state->quad;
-    for (i = 0; i < state->timing->count; i++, sheet++) {
+    quad = &state->packets.textured[1];
+    for (i = 0; i < state->config->count; i++, sheet++) {
         extra = 0;
-        if (state->frame & 1) {
+        if (state->frame_count & 1) {
             extra = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (state->phase < 4) {
-            matrix.t[0] = state->anchors[i].position.vx;
-            matrix.t[1] = state->anchors[i].position.vy;
-            matrix.t[2] = state->anchors[i].position.vz;
-            scale.vx = sheet->size / state->timing->divisor + extra;
-            scale.vy = sheet->size / state->timing->divisor + extra;
-            scale.vz = sheet->size / state->timing->divisor + extra;
+            matrix.t[0] = state->matrices[i].t[0];
+            matrix.t[1] = state->matrices[i].t[1];
+            matrix.t[2] = state->matrices[i].t[2];
+            scale.vx = sheet->size / state->config->divisor + extra;
+            scale.vy = sheet->size / state->config->divisor + extra;
+            scale.vz = sheet->size / state->config->divisor + extra;
         } else {
-            matrix.t[0] = state->positions[i].vx;
-            matrix.t[1] = state->positions[i].vy;
-            matrix.t[2] = state->positions[i].vz;
+            matrix.t[0] = state->targets[i].vx;
+            matrix.t[1] = state->targets[i].vy;
+            matrix.t[2] = state->targets[i].vz;
             scale.vx = sheet->size + extra;
             scale.vy = sheet->size + extra;
             scale.vz = sheet->size + extra;
@@ -78,14 +78,14 @@ void FrenchModelVariant397_DrawSheets(u8 *context)
         }
         if (state->phase == 0) {
             if (sheet->size < 4096) {
-                sheet->size = ((state->time - state->timing->grow_begin) << 12) /
-                              (state->timing->grow_end - state->timing->grow_begin);
+                sheet->size = ((state->frame - state->config->start) << 12) /
+                              (state->config->end - state->config->start);
                 if (sheet->size >= 4096) {
                     sheet->size = 4096;
                     state->phase = 1;
                 }
             }
-        } else if (state->phase == 1 && state->timing->fade_at < state->time) {
+        } else if (state->phase == 1 && state->config->fade_at < state->frame) {
             if (sheet->size > 0) {
                 sheet->size -= state->step << 9;
                 if (sheet->size <= 0) {
@@ -116,7 +116,7 @@ void FrenchModelVariant397_DrawSheets(u8 *context)
             }
         }
         shown += sheet->shown;
-        if (shown == state->timing->count * 2 && state->phase == 5) {
+        if (shown == state->config->count * 2 && state->phase == 5) {
             state->phase = 6;
         }
     }

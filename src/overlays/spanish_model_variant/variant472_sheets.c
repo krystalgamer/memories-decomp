@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant472_sheets.h"
+#include "../model_variant/variant455_entry.h"
 
-void SpanishModelVariant472_DrawSheets(u8 *context)
+void SpanishModelVariant472_DrawSheets(EntryState455 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,7 +10,7 @@ void SpanishModelVariant472_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets472State *state = (Sheets472State *)context;
+    EntryState455 *state = context;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *polygon;
     GsOT *ot;
@@ -20,18 +20,18 @@ void SpanishModelVariant472_DrawSheets(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    polygon = &state->polygon;
+    polygon = &state->textured[1];
     for (i = 0; i < 1; i++, sheet++) {
         extra = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             extra = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
-        matrix.t[0] = state->world_matrix.t[0];
-        matrix.t[1] = state->world_matrix.t[1];
-        matrix.t[2] = state->world_matrix.t[2];
+        matrix.t[0] = state->matrix.t[0];
+        matrix.t[1] = state->matrix.t[1];
+        matrix.t[2] = state->matrix.t[2];
         scale.vx = sheet->size + extra;
         scale.vy = sheet->size + extra;
         scale.vz = sheet->size + extra;
@@ -69,15 +69,15 @@ void SpanishModelVariant472_DrawSheets(u8 *context)
             }
         }
         if (sheet->size < 4096 && state->phase == 0) {
-            sheet->size = ((state->time - state->timing->grow_begin) << 12) /
-                          (state->timing->grow_end - state->timing->grow_begin);
+            sheet->size = ((state->clock.frame - state->config->fan_start) << 12) /
+                          (state->config->mesh_start - state->config->fan_start);
             if (sheet->size >= 4096) {
                 sheet->size = 4096;
                 state->phase = 1;
             }
-        } else if (state->time >= state->timing->fade_begin) {
-            sheet->size = 4096 - ((state->time - state->timing->fade_begin) << 12) /
-                                (state->timing->fade_end - state->timing->fade_begin);
+        } else if (state->clock.frame >= state->config->fade_start) {
+            sheet->size = 4096 - ((state->clock.frame - state->config->fade_start) << 12) /
+                                (state->config->fade_end - state->config->fade_start);
             if (sheet->size <= 0) {
                 sheet->size = 0;
                 if (state->phase == 3) {

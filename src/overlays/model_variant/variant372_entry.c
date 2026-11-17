@@ -284,10 +284,10 @@ s32 ModelVariant372_HandleRequest(u8 *context, s32 command)
         work->screen_delta.vx = (s16)screen1 - x0;
         work->screen_delta.vy = (screen1 >> 16) - y0;
         if (work->config->ribbon_start <= work->time) {
-            FrenchModelVariant389_DrawRibbons(context);
+            FrenchModelVariant389_DrawRibbons((Model372State *)context);
         }
         if (work->config->sheet_start <= work->time) {
-            FrenchModelVariant389_DrawSheets(context);
+            FrenchModelVariant389_DrawSheets((Model372State *)context);
         }
         work->frame++;
         frame = Model_GetSlotAnimationFrame(work->slot);
