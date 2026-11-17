@@ -4788,7 +4788,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         } else {
             payload_destination = gModel_pSlot1PayloadBase;
         }
-        transfer->sector_destination = transfer->alternate_sector_destination = (u32)payload_destination;
+        transfer->sector_destination = transfer->alternate_sector_destination = payload_destination;
         transfer->phase_size = 96 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
@@ -4803,11 +4803,11 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         transfer->phase_size = 48 * FILE_SECTOR_SIZE;
         gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
-        transfer->sector_destination = (u32)gFile_TransferBufferBase;
-        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->sector_destination = gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
     case 2:
-        transfer->sector_destination = transfer->alternate_sector_destination = (u32)gFile_abPackageStagingBuffer;
+        transfer->sector_destination = transfer->alternate_sector_destination = gFile_abPackageStagingBuffer;
         transfer->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
@@ -4825,7 +4825,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         next_sector_source = gFile_abPackageStagingBuffer;
         do { transfer_clear_mask = 0xFFDCFFFF; } while (0);
         next_sector_source += 2 * FILE_SECTOR_SIZE;
-        transfer->sector_destination = transfer->alternate_sector_destination = (u32)next_sector_source;
+        transfer->sector_destination = transfer->alternate_sector_destination = next_sector_source;
         transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= transfer_clear_mask;
         transfer->transfer_mode = 1;
@@ -4852,8 +4852,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             }
             transfer->transfer_mode = 2;
             transfer->phase_size = 16 * FILE_SECTOR_SIZE;
-            transfer->sector_destination = (u32)gFile_TransferBufferBase;
-            transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+            transfer->sector_destination = gFile_TransferBufferBase;
+            transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         } else {
             transfer->phase_size = 16 * FILE_SECTOR_SIZE;
             gFile_dwTransferState &= 0xFFFCFFFF;
@@ -4882,8 +4882,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             }
             transfer->transfer_mode = 2;
             transfer->phase_size = 16 * FILE_SECTOR_SIZE;
-            transfer->sector_destination = (u32)gFile_TransferBufferBase;
-            transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+            transfer->sector_destination = gFile_TransferBufferBase;
+            transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         } else {
             transfer->phase_size = 16 * FILE_SECTOR_SIZE;
             gFile_dwTransferState &= 0xFFFCFFFF;
@@ -4895,7 +4895,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         if (variant_selection == 0 && slot_index == 0) {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState &= 0xFFDCFFFF;
-            transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
+            transfer->sector_destination = transfer->alternate_sector_destination = (u8 *)gModel_Slot0VariantModuleAddress;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -4908,7 +4908,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         if (variant_selection == 0 && slot_index == 1) {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState &= 0xFFDCFFFF;
-            transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
+            transfer->sector_destination = transfer->alternate_sector_destination = (u8 *)gModel_Slot1VariantModuleAddress;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -4921,7 +4921,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         if (variant_selection == 1 && slot_index == 0) {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState &= 0xFFDCFFFF;
-            transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
+            transfer->sector_destination = transfer->alternate_sector_destination = (u8 *)gModel_Slot0VariantModuleAddress;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -4934,7 +4934,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         if (variant_selection == 1 && slot_index == 1) {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
             gFile_dwTransferState &= 0xFFDCFFFF;
-            transfer->sector_destination = transfer->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
+            transfer->sector_destination = transfer->alternate_sector_destination = (u8 *)gModel_Slot1VariantModuleAddress;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 10 * FILE_SECTOR_SIZE;
@@ -4947,7 +4947,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         if (slot_index == 0) {
             transfer->phase_size = 2 * FILE_SECTOR_SIZE;
             gFile_dwTransferState &= 0xFFDCFFFF;
-            transfer->sector_destination = transfer->alternate_sector_destination = (u32)gModel_pSlot0PrimaryModule;
+            transfer->sector_destination = transfer->alternate_sector_destination = gModel_pSlot0PrimaryModule;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 2 * FILE_SECTOR_SIZE;
@@ -4960,7 +4960,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         if (slot_index == 1) {
             transfer->phase_size = 2 * FILE_SECTOR_SIZE;
             gFile_dwTransferState &= 0xFFDCFFFF;
-            transfer->sector_destination = transfer->alternate_sector_destination = (u32)gModel_pSlot1PrimaryModule;
+            transfer->sector_destination = transfer->alternate_sector_destination = gModel_pSlot1PrimaryModule;
             transfer->transfer_mode = 1;
         } else {
             transfer->phase_size = 2 * FILE_SECTOR_SIZE;
@@ -4977,7 +4977,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             transfer->transfer_mode = 1;
         } else {
             transfer->sector_destination = transfer->alternate_sector_destination =
-                (u32)(gFile_StagingBuffer + slot_index * FILE_SECTOR_SIZE);
+                (gFile_StagingBuffer + slot_index * FILE_SECTOR_SIZE);
             transfer->phase_size = FILE_SECTOR_SIZE;
             gFile_dwTransferState &= 0xFFDCFFFF;
             transfer->transfer_mode = 1;
@@ -4995,13 +4995,13 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             transfer->transfer_mode = 3;
             transfer->field_30.word = slot_index * 0x19000 + 0xD810;
             transfer->phase_size = 50 * FILE_SECTOR_SIZE;
-            transfer->sector_destination = (u32)gFile_TransferBufferBase;
-            transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+            transfer->sector_destination = gFile_TransferBufferBase;
+            transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         }
         break;
     case 5:
     case 15:
-        transfer->sector_destination = transfer->alternate_sector_destination = (u32)gFile_abPackageStagingBuffer;
+        transfer->sector_destination = transfer->alternate_sector_destination = gFile_abPackageStagingBuffer;
         transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
@@ -5057,8 +5057,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
     case 0:
         transfer->phase_size = 18 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        transfer->alternate_sector_destination = gModel_AuxiliaryPayloadAddress;
-        transfer->sector_destination = gModel_AuxiliaryPayloadAddress;
+        transfer->alternate_sector_destination = (u8 *)gModel_AuxiliaryPayloadAddress;
+        transfer->sector_destination = (u8 *)gModel_AuxiliaryPayloadAddress;
         transfer->transfer_mode = 1;
         break;
 
@@ -5071,13 +5071,13 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
         transfer->phase_size = 64 * FILE_SECTOR_SIZE;
-        transfer->sector_destination = (u32)gFile_TransferBufferBase;
-        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->sector_destination = gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 2:
-        transfer->alternate_sector_destination = (s32)gModel_abAuxiliaryPaletteSector;
-        transfer->sector_destination = (s32)gModel_abAuxiliaryPaletteSector;
+        transfer->alternate_sector_destination = gModel_abAuxiliaryPaletteSector;
+        transfer->sector_destination = gModel_abAuxiliaryPaletteSector;
         transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
@@ -5089,8 +5089,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         first_palette_rect.w = 0x100;
         first_palette_rect.h = 1;
         LoadImage2(&first_palette_rect, (u32 *)gModel_abAuxiliaryPaletteSector);
-        transfer->alternate_sector_destination = (s32)(gModel_abAuxiliaryPaletteSector - FILE_SECTOR_SIZE);
-        transfer->sector_destination = (s32)(gModel_abAuxiliaryPaletteSector - FILE_SECTOR_SIZE);
+        transfer->alternate_sector_destination = (gModel_abAuxiliaryPaletteSector - FILE_SECTOR_SIZE);
+        transfer->sector_destination = (gModel_abAuxiliaryPaletteSector - FILE_SECTOR_SIZE);
         transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
@@ -5110,8 +5110,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
         transfer->phase_size = 32 * FILE_SECTOR_SIZE;
-        transfer->sector_destination = (u32)gFile_TransferBufferBase;
-        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->sector_destination = gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 5:
@@ -5130,8 +5130,8 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
     case 0:
         transfer->phase_size = 96 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        transfer->alternate_sector_destination = (s32)gRuntime_pSharedWorkBase;
-        transfer->sector_destination = (s32)gRuntime_pSharedWorkBase;
+        transfer->alternate_sector_destination = gRuntime_pSharedWorkBase;
+        transfer->sector_destination = gRuntime_pSharedWorkBase;
         transfer->transfer_mode = 1;
         break;
 
@@ -5144,13 +5144,13 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
         transfer->phase_size = 96 * FILE_SECTOR_SIZE;
-        transfer->sector_destination = (u32)gFile_TransferBufferBase;
-        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->sector_destination = gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 2:
-        transfer->alternate_sector_destination = (s32)gFile_abPackageStagingBuffer;
-        transfer->sector_destination = (s32)gFile_abPackageStagingBuffer;
+        transfer->alternate_sector_destination = gFile_abPackageStagingBuffer;
+        transfer->sector_destination = gFile_abPackageStagingBuffer;
         transfer->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
@@ -5171,16 +5171,16 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         LoadImage2(&texture_row_rect, (u32 *)gFile_abPackageStagingBuffer);
         transfer->phase_size = 10 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        transfer->alternate_sector_destination = gModel_Slot0VariantModuleAddress;
-        transfer->sector_destination = gModel_Slot0VariantModuleAddress;
+        transfer->alternate_sector_destination = (u8 *)gModel_Slot0VariantModuleAddress;
+        transfer->sector_destination = (u8 *)gModel_Slot0VariantModuleAddress;
         transfer->transfer_mode = 1;
         break;
 
     case 4:
         transfer->phase_size = 10 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        transfer->alternate_sector_destination = gModel_Slot1VariantModuleAddress;
-        transfer->sector_destination = gModel_Slot1VariantModuleAddress;
+        transfer->alternate_sector_destination = (u8 *)gModel_Slot1VariantModuleAddress;
+        transfer->sector_destination = (u8 *)gModel_Slot1VariantModuleAddress;
         transfer->transfer_mode = 1;
         break;
 
@@ -5198,13 +5198,13 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
         transfer->phase_size = 8 * FILE_SECTOR_SIZE;
-        transfer->sector_destination = (u32)gFile_TransferBufferBase;
-        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->sector_destination = gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 7:
-        transfer->alternate_sector_destination = (s32)gFile_StagingBuffer;
-        transfer->sector_destination = (s32)gFile_StagingBuffer;
+        transfer->alternate_sector_destination = gFile_StagingBuffer;
+        transfer->sector_destination = gFile_StagingBuffer;
         transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;
@@ -5214,14 +5214,14 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         transfer->transfer_mode = 3;
         transfer->field_30.word = 0xD810;
         transfer->phase_size = 50 * FILE_SECTOR_SIZE;
-        transfer->sector_destination = (u32)gFile_TransferBufferBase;
-        transfer->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        transfer->sector_destination = gFile_TransferBufferBase;
+        transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
 
     case 5:
     case 9:
-        transfer->alternate_sector_destination = (s32)gFile_abPackageStagingBuffer;
-        transfer->sector_destination = (s32)gFile_abPackageStagingBuffer;
+        transfer->alternate_sector_destination = gFile_abPackageStagingBuffer;
+        transfer->sector_destination = gFile_abPackageStagingBuffer;
         transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;

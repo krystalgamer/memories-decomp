@@ -98,8 +98,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
         obj->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->alternate_sector_destination = (s32)gFile_pScreenBankBase;
-        obj->sector_destination = (s32)gFile_pScreenBankBase;
+        obj->alternate_sector_destination = gFile_pScreenBankBase;
+        obj->sector_destination = gFile_pScreenBankBase;
         obj->transfer_mode = 1;
         break;
     }
@@ -201,24 +201,24 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)(gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE));
         obj->phase_size = 30 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->alternate_sector_destination = (s32)gFile_pBootTextStage5Destination;
-        obj->sector_destination = (s32)gFile_pBootTextStage5Destination;
+        obj->alternate_sector_destination = gFile_pBootTextStage5Destination;
+        obj->sector_destination = gFile_pBootTextStage5Destination;
         obj->transfer_mode = 1;
         break;
 
     case 6:
         obj->phase_size = 32 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->alternate_sector_destination = (s32)gFile_pBootTextStage6Destination;
-        obj->sector_destination = (s32)gFile_pBootTextStage6Destination;
+        obj->alternate_sector_destination = gFile_pBootTextStage6Destination;
+        obj->sector_destination = gFile_pBootTextStage6Destination;
         obj->transfer_mode = 1;
         break;
 
     case 7:
         obj->phase_size = 7 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->alternate_sector_destination = (s32)gFile_pBootTextStage7Destination;
-        obj->sector_destination = (s32)gFile_pBootTextStage7Destination;
+        obj->alternate_sector_destination = gFile_pBootTextStage7Destination;
+        obj->sector_destination = gFile_pBootTextStage7Destination;
         obj->transfer_mode = 1;
         break;
     }
@@ -266,8 +266,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         LoadImage2((RECT *)obj, (u32 *)(gFile_TransferBufferBase + 2 * FILE_SECTOR_SIZE));
         obj->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        obj->alternate_sector_destination = (s32)gFile_pScreenBankBase;
-        obj->sector_destination = (s32)gFile_pScreenBankBase;
+        obj->alternate_sector_destination = gFile_pScreenBankBase;
+        obj->sector_destination = gFile_pScreenBankBase;
         obj->transfer_mode = 1;
         break;
     }
@@ -326,8 +326,8 @@ void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
         p->w = 0x100;
         p->h = 4;
         LoadImage2((RECT *)p, (u32 *)gFile_TransferBufferBase);
-        p->alternate_sector_destination = (u32)gDisplay_abResourceBank0;
-        p->sector_destination = (u32)gDisplay_abResourceBank0;
+        p->alternate_sector_destination = gDisplay_abResourceBank0;
+        p->sector_destination = gDisplay_abResourceBank0;
         x = gFile_dwTransferState;
         p->phase_size = 0x800;
         gFile_dwTransferState = x & 0xFFDCFFFF;
@@ -337,8 +337,8 @@ void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
     case 3:
         p->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState = gFile_dwTransferState & 0xFFDCFFFF;
-        p->alternate_sector_destination = (u32)gFile_pScreenBankBase;
-        p->sector_destination = (u32)gFile_pScreenBankBase;
+        p->alternate_sector_destination = gFile_pScreenBankBase;
+        p->sector_destination = gFile_pScreenBankBase;
         p->transfer_mode = one;
         break;
     }
@@ -349,10 +349,10 @@ void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
     s32 one;
     s32 v;
     s32 w;
-    s32 e;
+    u8 *e;
     s32 x;
     s32 m;
-    s32 d;
+    u8 *d;
     s32 f;
     s32 hun;
 
@@ -404,8 +404,8 @@ void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
         *(u16 *)&p->w = hun;
         *(u16 *)&p->h = 4;
         LoadImage2((RECT *)p, (u32 *)e);
-        p->alternate_sector_destination = (u32)gDisplay_abResourceBank0;
-        p->sector_destination = (u32)gDisplay_abResourceBank0;
+        p->alternate_sector_destination = gDisplay_abResourceBank0;
+        p->sector_destination = gDisplay_abResourceBank0;
         x = gFile_dwTransferState;
         p->phase_size = 0x800;
         gFile_dwTransferState = x & 0xFFDCFFFF;

@@ -895,8 +895,8 @@ struct FileTransferDescriptor {
     s16 y;
     s16 w;
     s16 h;
-    u32 sector_destination;
-    u32 alternate_sector_destination;
+    u8 *sector_destination;
+    u8 *alternate_sector_destination;
     /* Not volatile: File_TransferReadyCallback stores it in a branch delay slot, and
        a volatile member keeps that store out of the slot (+0x1C bytes). */
     s32 total_bytes;

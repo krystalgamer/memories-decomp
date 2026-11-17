@@ -89,9 +89,9 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
     s32 v_2;
     s32 w;
     s32 n;
-    s32 b;
-    s32 t;
-    s32 c;
+    u8 *b;
+    u8 *t;
+    u8 *c;
     s32 k;
     s32 m;
     s32 m2;
@@ -143,7 +143,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         phase_size = &p->phase_size;
         *phase_size = FILE_SECTOR_SIZE;
         v_2 = gFile_dwTransferState;
-        t = (s32)p->callback_data;
+        t = p->callback_data;
         v_2 &= m2;
         gFile_dwTransferState = v_2;
         p->alternate_sector_destination = t;

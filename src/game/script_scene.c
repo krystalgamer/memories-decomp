@@ -1118,7 +1118,7 @@ void Script_OpFadeOut(void)
 void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 {
     s32 one;
-    s32 image_buffer;
+    u8 *image_buffer;
     s32 m;
     s32 m2;
     s32 n;
@@ -1126,8 +1126,8 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
     s32 u0;
     s32 t1;
     s32 t2;
-    s32 v0;
-    s32 v1;
+    u8 *v0;
+    u8 *v1;
 
     one = 1;
     switch (mode) {
@@ -1187,8 +1187,8 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
 #endif
         LoadImage2((RECT *)d, (u32 *)image_buffer);
         m2 = 0xFFDCFFFF;
-        d->alternate_sector_destination = (s32)gDisplay_abResourceBank0;
-        d->sector_destination = (s32)gDisplay_abResourceBank0;
+        d->alternate_sector_destination = gDisplay_abResourceBank0;
+        d->sector_destination = gDisplay_abResourceBank0;
         t2 = gFile_dwTransferState;
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState = t2 & m2;
@@ -1491,9 +1491,9 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
     s32 v_2;
     s32 v_3;
     s32 w;
-    s32 destination;
+    u8 *destination;
     s32 m;
-    s32 image_buffer;
+    u8 *image_buffer;
 
     switch (stage) {
     case 0:
@@ -1547,7 +1547,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         *(s32 *)&p->phase_size = CAMPAIGN_DIALOG_PORTRAIT_PHASE_SIZE;
         m = 0xFFDCFFFF;
         v_3 = gFile_dwTransferState;
-        destination = (s32)gRuntime_pSharedWorkBase;
+        destination = gRuntime_pSharedWorkBase;
         v_3 &= m;
         gFile_dwTransferState = v_3;
         p->alternate_sector_destination = destination;

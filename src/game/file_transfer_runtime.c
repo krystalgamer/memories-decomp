@@ -168,8 +168,8 @@ FileTransferDescriptor *File_InitTransferDescriptor(
             transfer->phase_size = transfer->total_bytes;
             if (target < 0) {
                 transfer->transfer_mode = 1;
-                transfer->alternate_sector_destination = target;
-                transfer->sector_destination = target;
+                transfer->alternate_sector_destination = (u8 *)target;
+                transfer->sector_destination = (u8 *)target;
             } else {
                 flags |= 0x10000;
                 transfer->transfer_mode = 2;
@@ -177,8 +177,8 @@ FileTransferDescriptor *File_InitTransferDescriptor(
                 transfer->field_30.h.counter = target;
                 transfer->w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
                 transfer->h = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
-                transfer->sector_destination = (s32)gFile_TransferBufferBase;
-                transfer->alternate_sector_destination = (s32)gFile_TransferBufferBase + FILE_SECTOR_SIZE;
+                transfer->sector_destination = gFile_TransferBufferBase;
+                transfer->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
             }
         }
     }
@@ -273,7 +273,7 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
         if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_SKIP_RAM_WRITE) == 0) {
             if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_MEMORY_SOURCE) == 0) {
                 CdGetSector(
-                    (void *)p->sector_destination,
+                    p->sector_destination,
                     FILE_SECTOR_SIZE / sizeof(u32)
                 );
             } else {
@@ -371,7 +371,7 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
         return;
     case 3:
         n = FILE_SECTOR_SIZE;
-        dst = (u8 *)p->sector_destination;
+        dst = p->sector_destination;
         if (p->phase_remaining < n) {
             n = p->phase_remaining;
         }
@@ -740,7 +740,7 @@ void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_ind
 {
     FileRequestSlot *request;
     s32 phase_size;
-    s32 sector_buffer;
+    u8 *sector_buffer;
     s32 ram_destination;
     void (*complete_callback)(void);
 
@@ -751,7 +751,7 @@ void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_ind
             descriptor->phase_index = 2;
         } else {
             descriptor->transfer_mode = 3;
-            sector_buffer = (s32)gFile_TransferBufferBase;
+            sector_buffer = gFile_TransferBufferBase;
             descriptor->sector_destination = sector_buffer;
             descriptor->alternate_sector_destination = sector_buffer + FILE_SECTOR_SIZE;
             descriptor->field_30.word = request->spu_destination;
@@ -771,8 +771,8 @@ void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_ind
         }
         ram_destination = request->ram_destination;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        descriptor->alternate_sector_destination = ram_destination;
-        descriptor->sector_destination = ram_destination;
+        descriptor->alternate_sector_destination = (u8 *)ram_destination;
+        descriptor->sector_destination = (u8 *)ram_destination;
         descriptor->transfer_mode = 1;
         phase_size = request->ram_transfer_size;
         descriptor->phase_size = phase_size;
