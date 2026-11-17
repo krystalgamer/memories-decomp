@@ -35,7 +35,6 @@ void NameEntry_BuildStarterDeck(void);
  * selection frame name_entry_state.h declares, and the fields are spelled
  * by hex offset here so that the two views cannot be read as if they shared
  * a numbering: this unit's +0x30 is the old Caret's `f48`. */
-/* DialogCaret is defined in ygo_types.h. */
 
 /* One frame of the name field: reads the pad, moves the caret, and commits or
    cancels. */

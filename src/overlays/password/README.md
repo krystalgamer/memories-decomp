@@ -520,7 +520,7 @@ byte-for-byte, which is the proof rather than the argument.
 **The two private object views stay two, and that is the finding.** Unlike
 the glyph-effect merge, where two views turned out to describe one object,
 these describe genuinely different ones: `SelectionFrame` is the keyboard
-cursor in `gNameEntry_pSelectionFrame`, while `DialogCaret` is the panel the dialog reaches
+cursor in `gNameEntry_pSelectionFrame`, while the dialog panel (now typed as a plain `DisplayObject`) is the one the dialog reaches
 through the text box's `field_2C` and by tag from `DisplayObject_FindAllocatedByTag(6)`. They
 are not collapsed.
 
