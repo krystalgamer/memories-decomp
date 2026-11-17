@@ -45,5 +45,5 @@ extern Variant338EntryConfig gFrenchModelVariant338_aConfigs[];
 void ModelVariant321_DrawRibbon(Variant338EntryState *context);
 void ModelVariant321_DrawRings(Variant338EntryState *context);
 void FrenchModelVariant338_DrawStreamers(Variant338EntryState *context);
-s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command);
+s32 FrenchModelVariant338_HandleRequest(Variant338EntryState *context, s32 command);
 #endif

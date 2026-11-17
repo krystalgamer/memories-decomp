@@ -5,9 +5,9 @@
 #define MODEL_VARIANT393_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant393_HandleRequest(Variant393EntryState *context, s32 command)
 {
-    Variant393EntryState *work = (Variant393EntryState *)point;
+    Variant393EntryState *work = context;
     /* Retail projection inputs follow 64 bytes of unrecovered locals. */
     u8 unknown_stack[64];
     SVECTOR position, target;
@@ -281,15 +281,15 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
                 work->direction.vy = work->target.vy - work->matrix.t[1];
                 work->direction.vz = work->target.vz - work->matrix.t[2];
                 if (work->config->start <= work->clock.frame) {
-                    ModelVariant376_DrawRibbon((Variant393EntryState *)point);
-                    ModelVariant376_DrawRings((Variant393EntryState *)point);
+                    ModelVariant376_DrawRibbon(context);
+                    ModelVariant376_DrawRings(context);
                 }
                 work->part_index++;
                 config = work->config;
             } while (work->part_index < config->count);
         }
         if (work->tail.phase >= 3) {
-            FrenchModelVariant393_DrawStreamers((Variant393EntryState *)point);
+            FrenchModelVariant393_DrawStreamers(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

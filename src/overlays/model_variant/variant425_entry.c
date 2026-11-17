@@ -8,11 +8,11 @@
 #endif
 
 /* Header 425's entry: header 418's entry shape with 5x6 webs, sixteen spiral
- * arms and sixteen rays in fixed colours, and an orbit point moved along the
+ * arms and sixteen rays in fixed colours, and an orbit context moved along the
  * direction by the sweep value at + 0x2734 while the sheet, spiral and webs
  * run. */
 
-s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant425_HandleRequest(Variant425EntryState *context, s32 command)
 {
     s32 ring_base;
     Variant425EntryState *work;
@@ -49,7 +49,7 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
     s32 dx, dy;
     u32 frame;
 
-    work = (Variant425EntryState *)point;
+    work = context;
     band = work->bands;
     sheet = work->sheets;
     ring = work->rings;
@@ -361,11 +361,11 @@ s32 ModelVariant425_HandleRequest(SVECTOR *point, s32 command)
                   work->target.vy - work->orbit.vy,
                   work->target.vz - work->orbit.vz);
         if (work->config->start <= work->clock.frame) {
-            ModelVariant425_DrawSheet((Variant425EntryState *)point);
-            ModelVariant425_DrawSpiral((Variant425EntryState *)point);
-            ModelVariant425_DrawWebs((Variant425EntryState *)point);
+            ModelVariant425_DrawSheet(context);
+            ModelVariant425_DrawSpiral(context);
+            ModelVariant425_DrawWebs(context);
             if (work->phase >= 2) {
-                ModelVariant425_DrawRays((Variant425EntryState *)point);
+                ModelVariant425_DrawRays(context);
             }
         }
         work->clock.frame_count++;

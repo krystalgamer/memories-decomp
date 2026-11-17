@@ -62,7 +62,7 @@ typedef struct {
 } ExodiaEntryState;
 
 extern ExodiaEntryConfig gModelExodia_aConfigs[];
-s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command);
+s32 ModelExodia_HandleRequest(ExodiaEntryState *context, s32 command);
 void ModelExodia_DrawRing(ExodiaEntryState *context);
 void ModelExodia_DrawSpokes(ExodiaEntryState *context);
 #endif

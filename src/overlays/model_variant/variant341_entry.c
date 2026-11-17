@@ -5,9 +5,9 @@
 #define MODEL_VARIANT341_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant341_HandleRequest(Variant341EntryState *context, s32 command)
 {
-    Variant341EntryState *work = (Variant341EntryState *)point;
+    Variant341EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -292,18 +292,18 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
                           work->aim.target.vx - work->matrix.t[0],
                           work->aim.target.vy - work->matrix.t[1],
                           work->aim.target.vz - work->matrix.t[2]);
-                ModelVariant324_DrawFan((Variant341EntryState *)point);
+                ModelVariant324_DrawFan(context);
                 if (work->tail.phase > 0) {
                     if (work->tail.phase < 2 || work->substep == 0) {
-                        ModelVariant324_DrawMovingRing((Variant341EntryState *)point);
+                        ModelVariant324_DrawMovingRing(context);
                     }
-                    ModelVariant324_DrawBand((Variant341EntryState *)point);
+                    ModelVariant324_DrawBand(context);
                 }
                 work->substep++;
             } while (work->substep < work->config->substeps);
         }
         if (work->tail.phase >= 2) {
-            ModelVariant324_DrawWebs((Variant341EntryState *)point);
+            ModelVariant324_DrawWebs(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

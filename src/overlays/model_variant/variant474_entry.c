@@ -13,7 +13,7 @@
  * `do { } while (0)`: the loop notes stop the scheduler from hoisting the
  * counter increment above it, which reproduces the retail order. */
 
-s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant474_HandleRequest(Variant474EntryState *context, s32 command)
 {
     u32 screen_x;
     MATRIX unused_matrix0, unused_matrix1;
@@ -47,7 +47,7 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
     s32 dx, dy;
     u32 frame;
 
-    work = (Variant474EntryState *)point;
+    work = context;
     funnel = work->funnels;
     ribbon = &work->ribbon;
     sheet = work->sheets;
@@ -336,9 +336,9 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_y = dy;
         if (work->config->trigger <= work->clock.frame) {
-            FrenchModelVariant474_DrawPairedFunnels((Variant474EntryState *)point);
+            FrenchModelVariant474_DrawPairedFunnels(context);
             if (work->phase < 6) {
-                FrenchModelVariant474_DrawRibbon((Variant474EntryState *)point);
+                FrenchModelVariant474_DrawRibbon(context);
             }
         }
         work->clock.frame_count++;

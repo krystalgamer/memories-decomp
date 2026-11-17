@@ -295,7 +295,7 @@ normalize that cross-side loop: refreshing one side can deduct the other
 side's outstanding offers again. This is a static observation, not a
 runtime reproduction or a proposed behavior change.
 
-The stats-mode display `gTrade_pStatsModeDisplay` (`0x801845E0`): its `frame`
+The stats-mode display `gTrade_pStatsModeDisplay` (`0x801845E0`): its `resource_variant`
 byte is a resource variant encoding four plus the two players' stats bits.
 The row rebuild passes the selected side's raw bit, including 2 for side 1,
 to the resident text/stat renderer boundary. Separately,

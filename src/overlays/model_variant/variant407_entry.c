@@ -11,9 +11,9 @@
  * sixteen 0xA8-byte records, and a single per-frame helper (the petals
  * drawer). */
 
-s32 ModelVariant407_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant407_HandleRequest(Variant407EntryState *context, s32 command)
 {
-    Variant407EntryState *work = (Variant407EntryState *)point;
+    Variant407EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -355,7 +355,7 @@ s32 ModelVariant407_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            ModelVariant407_DrawPetals((Variant407EntryState *)point);
+            ModelVariant407_DrawPetals(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

@@ -1101,7 +1101,8 @@ void NameEntry_UpdateKeyboard(void)
 void NameEntry_UpdateDialog(void)
 {
     DuelEffectChannel *box;
-    DialogCaret *caret;
+    /* The dialog panel; field_60 is the signed distance left on its slide. */
+    DisplayObject *caret;
     u8 flags;
     u8 fb;
     u8 fc;
@@ -1156,7 +1157,7 @@ void NameEntry_UpdateDialog(void)
             caret->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             box->aux_object = caret;
             DisplayObject_SavePosition(caret);
-            caret->slide = -1024;
+            caret->field_60 = -1024;
             gNameEntry_bStateFlags |= 2;
             return;
         }
@@ -1165,34 +1166,34 @@ void NameEntry_UpdateDialog(void)
 #else
         box = TEXT_CHANNEL(2);
 #endif
-        caret = (DialogCaret *)box->aux_object;
+        caret = box->aux_object;
         if ((flags & 2) != 0) {
-            pos = caret->slide;
+            pos = caret->field_60;
             if (pos >= 0) {
-                caret->slide = pos - 85;
+                caret->field_60 = pos - 85;
                 Widget_SlideSine((DisplayObject *)caret, 16, 248,
                               (s16)(pos - 85));
-                if (caret->slide < 0) {
-                    caret->x = 16;
+                if (caret->field_60 < 0) {
+                    caret->xy.s.x = 16;
                     fb = gNameEntry_bStateFlags;
-                    caret->y = 248;
+                    caret->xy.s.y = 248;
                     gNameEntry_bStateFlags = fb & 0xF9;
                     TextBox_Destroy(box);
                     gNameEntry_wPendingDialogId = 0;
                     return;
                 }
             } else {
-                caret->slide = pos + 85;
+                caret->field_60 = pos + 85;
                 Widget_SlideSine((DisplayObject *)caret, 16, 176,
                               (s16)(pos + 85));
-                if (caret->slide >= 0) {
-                    caret->x = 16;
+                if (caret->field_60 >= 0) {
+                    caret->xy.s.x = 16;
                     fc = gNameEntry_bStateFlags;
-                    caret->y = 176;
+                    caret->xy.s.y = 176;
                     gNameEntry_bStateFlags = fc & 0xFD;
                 }
             }
-            TextBox_SetPos(box, caret->x, caret->y);
+            TextBox_SetPos(box, caret->xy.s.x, caret->xy.s.y);
             return;
         }
         if ((gNameEntry_wPendingDialogId & 0x8000) == 0) {
@@ -1216,7 +1217,7 @@ void NameEntry_UpdateDialog(void)
         }
         DisplayObject_SavePosition(caret);
         fe = gNameEntry_bStateFlags;
-        caret->slide = 1024;
+        caret->field_60 = 1024;
         gNameEntry_bStateFlags = fe | 2;
         return;
     }
@@ -1229,11 +1230,11 @@ void NameEntry_UpdateDialog(void)
         return;
     }
     if ((flags & 0x80) != 0) {
-        caret = (DialogCaret *)DisplayObject_FindAllocatedByTag(6);
+        caret = DisplayObject_FindAllocatedByTag(6);
         if (caret == 0) {
             return;
         }
-        if ((caret->status & 0x40) == 0) {
+        if ((caret->update_state & 0x40) == 0) {
             return;
         }
         DisplayObject_ReleaseIfPresent(caret);

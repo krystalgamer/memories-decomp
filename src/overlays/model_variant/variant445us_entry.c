@@ -7,15 +7,15 @@
 #endif
 
 /* The North American header-445 entry: the French header-461 entry body under
- * GCC 2.7.2 with 0x2B0-byte thirteen-point ribbons (every later work field
+ * GCC 2.7.2 with 0x2B0-byte thirteen-context ribbons (every later work field
  * 0x1E0 higher), the CLUT column at 512, all four images uploaded with the
  * same mode, the ribbon origin 640 above the target and the ring starts at
  * fixed offsets. Only the sheets and ribbons helpers are called; the rings
  * helper stays uncalled, and the phases run one lower with no camera orbit.
  * There is no E_DATA work-size printf. */
-s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant445_HandleRequest(EntryState445Us *context, s32 command)
 {
-    EntryState445Us *work = (EntryState445Us *)point;
+    EntryState445Us *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -378,9 +378,9 @@ s32 ModelVariant445_HandleRequest(SVECTOR *point, s32 command)
             work->phase = 5;
         }
         if (work->config->draw_start <= work->elapsed && work->phase < 8) {
-            FrenchModelVariant462_DrawSheets((EntryState445Us *)point);
+            FrenchModelVariant462_DrawSheets(context);
             if (work->phase > 0) {
-                ModelVariant445_DrawRibbons((EntryState445Us *)point);
+                ModelVariant445_DrawRibbons(context);
             }
         }
         work->frame_count++;

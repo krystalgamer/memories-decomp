@@ -81,5 +81,5 @@ extern GsIMAGE gModelVariant464_aImages[8];
 extern Variant464EntryConfig gModelVariant464_aConfigs[];
 void FrenchModelVariant481_DrawBand(Variant464EntryState *context);
 void FrenchModelVariant481_DrawRings(Variant464EntryState *context);
-s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command);
+s32 ModelVariant464_HandleRequest(Variant464EntryState *context, s32 command);
 #endif

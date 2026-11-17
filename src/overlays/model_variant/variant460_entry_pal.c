@@ -6,9 +6,9 @@
 #define MODEL_VARIANT460_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant460_HandleRequest(Variant460EntryState *context, s32 command)
 {
-    Variant460EntryState *work = (Variant460EntryState *)point;
+    Variant460EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -239,10 +239,10 @@ s32 FrenchModelVariant460_HandleRequest(SVECTOR *point, s32 command)
             work->tail.phase = 4;
         }
         if (work->config->ribbon_start <= work->clock.frame) {
-            ModelVariant443_DrawRibbons((Variant460EntryState *)point);
+            ModelVariant443_DrawRibbons(context);
         }
         if (work->config->sheet_start <= work->clock.frame && work->tail.phase < 6) {
-            ModelVariant443_DrawSheets((Variant460EntryState *)point);
+            ModelVariant443_DrawSheets(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

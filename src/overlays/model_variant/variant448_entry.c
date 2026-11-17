@@ -13,9 +13,9 @@
  * allocation shows: i for the three-record loops, m for the call-free inner
  * counter, q and r for the web and ring counters. */
 
-s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant448_HandleRequest(Variant448EntryState *context, s32 command)
 {
-    Variant448EntryState *work = (Variant448EntryState *)point;
+    Variant448EntryState *work = context;
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
@@ -358,13 +358,13 @@ s32 ModelVariant448_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            ModelVariant448_DrawRadialDisc((Variant448EntryState *)point);
+            ModelVariant448_DrawRadialDisc(context);
         }
         if (work->phase >= 5) {
-            ModelVariant448_DrawOrbitSheets((Variant448EntryState *)point);
+            ModelVariant448_DrawOrbitSheets(context);
         }
         if (work->phase > 0) {
-            ModelVariant448_DrawFans((Variant448EntryState *)point);
+            ModelVariant448_DrawFans(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

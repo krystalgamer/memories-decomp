@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant422_entry_pal.h"
 
-s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant422_HandleRequest(Variant422EntryState *context, s32 command)
 {
-    Variant422EntryState *work = (Variant422EntryState *)point;
+    Variant422EntryState *work = context;
     ModelVariantClutStack stack;
     SVECTOR position, target;
     VECTOR squared;
@@ -317,10 +317,10 @@ s32 FrenchModelVariant422_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
-            ModelVariant405_DrawVeils((Variant422EntryState *)point);
+            ModelVariant405_DrawVeils(context);
         }
         if (work->phase >= 2) {
-            ModelVariant405_DrawHalo((Variant422EntryState *)point);
+            ModelVariant405_DrawHalo(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

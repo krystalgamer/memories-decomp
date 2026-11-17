@@ -5,9 +5,9 @@
 #define MODEL_VARIANT417_CLUT_X 640
 #endif
 
-s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
+s32 SpanishModelVariant417_HandleRequest(Variant417EntryState *context, s32 command)
 {
-    Variant417EntryState *work = (Variant417EntryState *)point;
+    Variant417EntryState *work = context;
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
@@ -331,16 +331,16 @@ s32 SpanishModelVariant417_HandleRequest(SVECTOR *point, s32 command)
                 work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
                 work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
                 if (work->config->start <= work->frame) {
-                    SpanishModelVariant417_DrawPhasedLines((Variant417EntryState *)point);
-                    SpanishModelVariant441_DrawRainbowSheets((Variant417EntryState *)point);
+                    SpanishModelVariant417_DrawPhasedLines(context);
+                    SpanishModelVariant441_DrawRainbowSheets(context);
                 }
                 if (work->phase > 0) {
-                    SpanishModelVariant417_DrawTube((Variant417EntryState *)point);
+                    SpanishModelVariant417_DrawTube(context);
                 }
             } while (++work->index < work->config->count);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant417_DrawSpiral((Variant417EntryState *)point);
+            SpanishModelVariant417_DrawSpiral(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

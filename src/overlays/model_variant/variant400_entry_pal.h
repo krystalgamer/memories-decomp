@@ -67,5 +67,5 @@ extern Variant400EntryConfig gFrenchModelVariant400_aConfigs[];
 void FrenchModelVariant400_DrawRibbons(Variant400EntryState *context);
 void FrenchModelVariant400_DrawSheets(Variant400EntryState *context);
 void FrenchModelVariant400_DrawStreamers(Variant400EntryState *context);
-s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command);
+s32 FrenchModelVariant400_HandleRequest(Variant400EntryState *context, s32 command);
 #endif

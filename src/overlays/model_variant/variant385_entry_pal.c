@@ -5,9 +5,9 @@
 #define MODEL_VARIANT385_CLUT_X 640
 #endif
 
-s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
+s32 SpanishModelVariant385_HandleRequest(Variant385EntryState *context, s32 command)
 {
-    Variant385EntryState *work = (Variant385EntryState *)point;
+    Variant385EntryState *work = context;
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
@@ -267,18 +267,18 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
                 work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
                 work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
                 if (work->config->start <= work->clock.frame) {
-                    SpanishModelVariant385_DrawPulsingQuads((Variant385EntryState *)point);
+                    SpanishModelVariant385_DrawPulsingQuads(context);
                 }
                 if (work->phase > 0) {
-                    FrenchModelVariant385_DrawRibbonFan((Variant385EntryState *)point);
-                    SpanishModelVariant385_DrawStationStrip((Variant385EntryState *)point);
+                    FrenchModelVariant385_DrawRibbonFan(context);
+                    SpanishModelVariant385_DrawStationStrip(context);
                 }
             } while (++work->index < work->config->count);
         }
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant385_DrawRings((Variant385EntryState *)point);
+            SpanishModelVariant385_DrawRings(context);
             if (work->phase <= 0) {
-                SpanishModelVariant385_DrawLines((Variant385EntryState *)point);
+                SpanishModelVariant385_DrawLines(context);
             }
         }
         work->clock.frame_count++;

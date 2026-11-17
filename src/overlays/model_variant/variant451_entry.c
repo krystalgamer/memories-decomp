@@ -8,12 +8,12 @@
 
 /* Header 451's entry: the header-412 entry with one swarm of up to 16
  * sprites in place of the trail and flares, released either along a sweep
- * toward the opposite slot or around a point above it, and drawn by the
+ * toward the opposite slot or around a context above it, and drawn by the
  * header-134612 swarm helper. */
 
-s32 ModelVariant451_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant451_HandleRequest(Variant451EntryState *context, s32 command)
 {
-    Variant451EntryState *work = (Variant451EntryState *)point;
+    Variant451EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -383,7 +383,7 @@ s32 ModelVariant451_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant468_DrawSwarm((Variant451EntryState *)point);
+            FrenchModelVariant468_DrawSwarm(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

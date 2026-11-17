@@ -5,9 +5,9 @@
 #define MODEL_VARIANT478_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant478_HandleRequest(EntryState478 *context, s32 command)
 {
-    EntryState478 *work = (EntryState478 *)point;
+    EntryState478 *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -341,13 +341,13 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant478_DrawPetalRings((EntryState478 *)point);
+            SpanishModelVariant478_DrawPetalRings(context);
         }
         if (work->config->swarm_start <= work->clock.frame) {
-            FrenchModelVariant478_DrawSwarm((EntryState478 *)point);
+            FrenchModelVariant478_DrawSwarm(context);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant478_DrawOrbitingQuads((EntryState478 *)point);
+            SpanishModelVariant478_DrawOrbitingQuads(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

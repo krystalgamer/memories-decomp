@@ -42,5 +42,5 @@ void ModelVariant324_DrawWebs(Variant341EntryState *context);
 void ModelVariant324_DrawFan(Variant341EntryState *context);
 void ModelVariant324_DrawBand(Variant341EntryState *context);
 void ModelVariant324_DrawMovingRing(Variant341EntryState *context);
-s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command);
+s32 FrenchModelVariant341_HandleRequest(Variant341EntryState *context, s32 command);
 #endif

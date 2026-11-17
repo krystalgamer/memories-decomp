@@ -66,5 +66,5 @@ void SpanishModelVariant479_DrawSpiral(Variant479EntryState *context);
 void SpanishModelVariant479_DrawRibs(Variant479EntryState *context);
 void SpanishModelVariant479_DrawSheets(Variant479EntryState *context);
 void SpanishModelVariant479_DrawCurtains(Variant479EntryState *context);
-s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command);
+s32 SpanishModelVariant479_HandleRequest(Variant479EntryState *context, s32 command);
 #endif

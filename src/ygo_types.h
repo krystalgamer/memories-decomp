@@ -672,33 +672,6 @@ typedef char GlyphSprite_sequence_offset_must_be_0x6A[
     OFFSETOF(GlyphSprite, sequence) == 0x6A ? 1 : -1
 ];
 
-/* Dialog panel reached through the text box, not the keyboard selection
-   frame. slide is signed distance remaining on the panel's own transition. */
-typedef struct {
-    u8 pad_00[0x8];
-    u16 flags;
-    u8 pad_0A[0x26];
-    s16 x;
-    s16 y;
-    u8 pad_34[0x2C];
-    s16 slide;
-    u8 pad_62[0xA];
-    u8 status;
-} DialogCaret;
-
-typedef char DialogCaret_size_must_be_0x6E[
-    sizeof(DialogCaret) == 0x6E ? 1 : -1
-];
-typedef char DialogCaret_position_offset_must_be_0x30[
-    OFFSETOF(DialogCaret, x) == 0x30 ? 1 : -1
-];
-typedef char DialogCaret_slide_offset_must_be_0x60[
-    OFFSETOF(DialogCaret, slide) == 0x60 ? 1 : -1
-];
-typedef char DialogCaret_status_offset_must_be_0x6C[
-    OFFSETOF(DialogCaret, status) == 0x6C ? 1 : -1
-];
-
 /* The drawing callback and keyboard tween operate on the same allocation.
    Their old prefixes agreed at every common offset; this joins their fields. */
 typedef struct {

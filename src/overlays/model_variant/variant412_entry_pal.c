@@ -6,9 +6,9 @@
 #define MODEL_VARIANT412_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant412_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant412_HandleRequest(Variant412EntryState *context, s32 command)
 {
-    Variant412EntryState *work = (Variant412EntryState *)point;
+    Variant412EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1, unused_matrix2;
     SVECTOR position, target;
     VECTOR squared;
@@ -239,7 +239,7 @@ s32 FrenchModelVariant412_HandleRequest(SVECTOR *point, s32 command)
             } while (work->part_index < work->config->part_count);
         }
         if (work->config->capture_start <= work->elapsed) {
-            FrenchModelVariant412_DrawTrails((Variant412EntryState *)point);
+            FrenchModelVariant412_DrawTrails(context);
         }
         work->frame_count++;
         if (work->current_animation_frame != work->animation_frame) {

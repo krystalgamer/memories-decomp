@@ -10,9 +10,9 @@
 /* Header 423's entry: header 428's entry without the spiral arms, with a
  * 0x108-byte band and a 0x30-byte config. */
 
-s32 ModelVariant423_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant423_HandleRequest(Variant423EntryState *context, s32 command)
 {
-    Variant423EntryState *work = (Variant423EntryState *)point;
+    Variant423EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -278,11 +278,11 @@ s32 ModelVariant423_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
-            ModelVariant423_DrawSheets((Variant423EntryState *)point);
-            ModelVariant423_DrawWebs((Variant423EntryState *)point);
+            ModelVariant423_DrawSheets(context);
+            ModelVariant423_DrawWebs(context);
         }
         if (work->tail.phase > 0) {
-            ModelVariant423_DrawBand((Variant423EntryState *)point);
+            ModelVariant423_DrawBand(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

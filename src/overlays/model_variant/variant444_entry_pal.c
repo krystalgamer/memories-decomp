@@ -6,9 +6,9 @@
 #define MODEL_VARIANT444_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant444_HandleRequest(Variant444EntryState *context, s32 command)
 {
-    Variant444EntryState *work = (Variant444EntryState *)point;
+    Variant444EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -299,11 +299,11 @@ s32 FrenchModelVariant444_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->sheet_start < work->clock.frame) {
-            SpanishModelVariant444_DrawSheets((Variant444EntryState *)point);
-            SpanishModelVariant444_DrawFunnels((Variant444EntryState *)point);
+            SpanishModelVariant444_DrawSheets(context);
+            SpanishModelVariant444_DrawFunnels(context);
         }
         if (work->config->tube_start < work->clock.frame) {
-            FrenchModelVariant175_DrawTube((Variant444EntryState *)point);
+            FrenchModelVariant175_DrawTube(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

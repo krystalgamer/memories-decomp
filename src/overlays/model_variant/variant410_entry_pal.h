@@ -68,5 +68,5 @@ extern u8 gFrenchModelVariant410_D1D04[];
 void FrenchModelVariant410_DrawQuads(Variant410EntryState *context);
 void FrenchModelVariant410_DrawRibbons(Variant410EntryState *context);
 void FrenchModelVariant410_DrawRings(Variant410EntryState *context);
-s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command);
+s32 FrenchModelVariant410_HandleRequest(Variant410EntryState *context, s32 command);
 #endif

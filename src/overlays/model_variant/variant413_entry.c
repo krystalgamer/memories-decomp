@@ -10,9 +10,9 @@
  * in place of the trail and flares, released toward the opposite slot and
  * drawn by the shared swarm helper. */
 
-s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant413_HandleRequest(Variant413EntryState *context, s32 command)
 {
-    Variant413EntryState *work = (Variant413EntryState *)point;
+    Variant413EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -361,7 +361,7 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant430_DrawSwarm((Variant413EntryState *)point);
+            FrenchModelVariant430_DrawSwarm(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant477_entry.h"
 
-s32 FrenchModelVariant477_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant477_HandleRequest(EntryState477 *context, s32 command)
 {
-    EntryState477 *work = (EntryState477 *)point;
+    EntryState477 *work = context;
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
@@ -370,10 +370,10 @@ s32 FrenchModelVariant477_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->draw_start <= work->clock.frame) {
-            SpanishModelVariant477_DrawPanels((EntryState477 *)point);
+            SpanishModelVariant477_DrawPanels(context);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant477_DrawQuadGroups((EntryState477 *)point);
+            SpanishModelVariant477_DrawQuadGroups(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

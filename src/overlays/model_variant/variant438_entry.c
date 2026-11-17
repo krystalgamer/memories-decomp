@@ -17,9 +17,9 @@
  * slot-dependent position stores, which merge into one but leave the origin
  * matrix offset outside its loop induction variable. */
 
-s32 ModelVariant438_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant438_HandleRequest(Variant438EntryState *context, s32 command)
 {
-    Variant438EntryState *work = (Variant438EntryState *)point;
+    Variant438EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -383,7 +383,7 @@ s32 ModelVariant438_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant455_DrawSwarm((Variant438EntryState *)point);
+            FrenchModelVariant455_DrawSwarm(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

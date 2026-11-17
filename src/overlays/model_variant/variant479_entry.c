@@ -5,9 +5,9 @@
 #define MODEL_VARIANT479_CLUT_X 640
 #endif
 
-s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
+s32 SpanishModelVariant479_HandleRequest(Variant479EntryState *context, s32 command)
 {
-    Variant479EntryState *work = (Variant479EntryState *)point;
+    Variant479EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR unused_position, unused_target;
     VECTOR squared;
@@ -308,17 +308,17 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
         }
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         if (work->phase >= 3 && work->phase <= 5) {
-            SpanishModelVariant479_DrawCurtains((Variant479EntryState *)point);
-            FrenchModelVariant379_DrawGrid((Variant479EntryState *)point);
+            SpanishModelVariant479_DrawCurtains(context);
+            FrenchModelVariant379_DrawGrid(context);
         }
         if (work->phase >= 2 && work->phase <= 4) {
-            SpanishModelVariant479_DrawRibs((Variant479EntryState *)point);
+            SpanishModelVariant479_DrawRibs(context);
         }
         if (work->phase >= 1 && work->phase <= 4) {
-            SpanishModelVariant479_DrawSpiral((Variant479EntryState *)point);
+            SpanishModelVariant479_DrawSpiral(context);
         }
         if (work->config->start <= work->clock.frame && work->phase < 5) {
-            SpanishModelVariant479_DrawSheets((Variant479EntryState *)point);
+            SpanishModelVariant479_DrawSheets(context);
         }
         work->clock.frame_count++;
         animation_frame = Model_GetSlotAnimationFrame(work->slot);

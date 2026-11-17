@@ -11,9 +11,9 @@
  * config, twelve glow records at work + 0x4E0, five image uploads and five
  * per-frame helpers. */
 
-s32 ModelVariant404_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant404_HandleRequest(Variant404EntryState *context, s32 command)
 {
-    Variant404EntryState *work = (Variant404EntryState *)point;
+    Variant404EntryState *work = context;
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
@@ -329,15 +329,15 @@ s32 ModelVariant404_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            ModelVariant404_DrawSheets((Variant404EntryState *)point);
-            ModelVariant404_DrawWebs((Variant404EntryState *)point);
+            ModelVariant404_DrawSheets(context);
+            ModelVariant404_DrawWebs(context);
         }
         if (work->phase > 0) {
-            ModelVariant404_DrawRibbons((Variant404EntryState *)point);
-            ModelVariant404_DrawBands((Variant404EntryState *)point);
+            ModelVariant404_DrawRibbons(context);
+            ModelVariant404_DrawBands(context);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant421_DrawSpiral((Variant404EntryState *)point);
+            SpanishModelVariant421_DrawSpiral(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

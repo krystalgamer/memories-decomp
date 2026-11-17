@@ -56,11 +56,12 @@ use those offsets as destination XY. The installed callback selects the
 meaning; the central type does not turn one interpretation into a universal
 display-object field name.
 
-`DialogCaret` is the separate sliding panel created by
+The dialog panel, formerly the private `DialogCaret` view and now a plain
+`DisplayObject`, is the separate sliding panel created by
 `NameEntry_UpdateDialog`, stored in the text-box record's `field_2C`, and
-positioned through the interpolation helpers. Its `slide` at `+0x60` is
+positioned through the interpolation helpers. Its `field_60` (the view's `slide`) is
 signed remaining travel, not the selection frame's eight-update timer.
-The same view's `status` at `+0x6C` is also used when the dialog controller
+Its `update_state` at `+0x6C` (the view's `status`) is also used when the dialog controller
 finds a completed transfer sprite by tag. Its size (`0x6E`) and the glyph
 view's size (`0x6C`) describe their observed prefixes only.
 
