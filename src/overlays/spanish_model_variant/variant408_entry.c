@@ -236,10 +236,10 @@ s32 SpanishModelVariant408_HandleRequest(SVECTOR *point, s32 command)
         work->screen_delta.vx = projection.target_projected - screen_x;
         work->screen_delta.vy = (projection.target_projected >> 16) - screen_y;
         if (work->state > 0) {
-            SpanishModelVariant408_DrawRingLines((u8 *)point);
+            SpanishModelVariant408_DrawRingLines((ModelVariant408EntryState *)point);
         }
         if (work->elapsed > work->config->start) {
-            SpanishModelVariant408_DrawMesh((u8 *)point);
+            SpanishModelVariant408_DrawMesh((ModelVariant408EntryState *)point);
         }
         work->frame++;
         angle = Model_GetSlotAnimationFrame(work->slot);

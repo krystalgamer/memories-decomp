@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant408_update.h"
+#include "variant408_entry.h"
 
-void SpanishModelVariant408_DrawMesh(u8 *context)
+void SpanishModelVariant408_DrawMesh(ModelVariant408EntryState *context)
 {
-    ModelVariant408UpdateState *work = (ModelVariant408UpdateState *)context;
+    ModelVariant408EntryState *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -23,7 +23,7 @@ void SpanishModelVariant408_DrawMesh(u8 *context)
     ot = Graphics_GetDefaultOrderingTable();
     unused = ratan2(work->view_delta.vz, work->view_delta.vx);
     unused = ratan2(work->view_delta.vy, work->view_delta.vx);
-    quad = &work->quad;
+    quad = &work->packets.quad;
     mesh = work->meshes;
     tilt = ratan2(work->delta.vz, work->delta.vy) + 3072;
     unused = ratan2(work->screen_delta.vy, work->screen_delta.vx);
