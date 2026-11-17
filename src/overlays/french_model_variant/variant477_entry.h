@@ -42,7 +42,7 @@ typedef struct {
 
 extern GsIMAGE gFrenchModelVariant477_aImages[9];
 extern ModelVariantMoveConfig gFrenchModelVariant477_aConfigs[];
-void SpanishModelVariant477_DrawPanels(u8 *context);
-void SpanishModelVariant477_DrawQuadGroups(u8 *context);
+void SpanishModelVariant477_DrawPanels(EntryState477 *context);
+void SpanishModelVariant477_DrawQuadGroups(EntryState477 *context);
 
 #endif
