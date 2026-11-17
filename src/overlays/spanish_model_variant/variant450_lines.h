@@ -36,16 +36,12 @@ typedef struct {
     Variant450Fade fade[6];
     u8 unknown_3A80[0x7C0];
     GsGLINE line;
-    u8 unknown_4254[0x2C];
-    s32 field_4280;
-    s32 field_4284;
-    u8 unknown_4288[4];
-    s16 field_428C;
-    s16 field_428E;
-    s32 field_4290;
-    s32 field_4294;
-    s32 field_4298;
-    u8 unknown_429C[12];
+    u8 unknown_4254[0x28];
+    /* Variant433EntryState's direction, screen offset and view delta. */
+    VECTOR direction;
+    s16 screen_x, screen_y;
+    VECTOR view_delta;
+    u8 unknown_42A0[8];
     s32 flags;
     u8 unknown_42AC[8];
     s32 step;
