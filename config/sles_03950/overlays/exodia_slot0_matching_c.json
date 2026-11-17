@@ -4,19 +4,19 @@
       "address": "0x8013B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x85C",
-      "source": "src/overlays/model_exodia/exodia_slot0.c"
+      "source": "src/overlays/model_variant/exodia_slot0.c"
     },
     {
       "address": "0x8013B860",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3AC",
-      "source": "src/overlays/model_exodia/exodia_slot0.c"
+      "source": "src/overlays/model_variant/exodia_slot0.c"
     },
     {
       "address": "0x8013BC0C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBA0",
-      "source": "src/overlays/model_exodia/exodia_slot0.c"
+      "source": "src/overlays/model_variant/exodia_slot0.c"
     }
   ],
   "schema": 1

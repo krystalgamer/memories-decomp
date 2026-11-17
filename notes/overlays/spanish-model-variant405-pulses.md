@@ -44,7 +44,7 @@ GCC 2.8.1 keeps the frame slot of an unreferenced aggregate local. Any used
 local in that position would add stores that retail does not have. An
 unreferenced `VECTOR` declared after the rotation therefore reproduces the
 original frame. The same construct is used in accepted sources:
-`model_exodia/exodia_slot0.c` (the entry and spokes) and `variant432_draw.c`.
+`model_variant/exodia_slot0.c` (the entry and spokes) and `variant432_draw.c`.
 There are no forced registers, inline assembly or profile changes.
 
 ## Acceptance evidence

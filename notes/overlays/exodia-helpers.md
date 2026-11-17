@@ -156,7 +156,7 @@ contains 34 resident bindings, retaining every previously accepted binding.
 ## Exact petals template recovery
 
 The remaining slot-1 helper at `0x8017BDF0` now owns all 2,416 instruction
-bytes through `src/overlays/model_exodia/exodia_slot1.c`, with the observed
+bytes through `src/overlays/model_variant/exodia_slot1.c`, with the observed
 304-byte frame. Its dedicated header reuses the existing
 `ModelVariantFlaggedSpiralArm` access view and canonical SDK declarations; the entry
 imports that header instead of retaining a separate helper prototype.
@@ -239,7 +239,7 @@ sources match the US helpers unchanged. Under `gcc_2_8_1_g0_split` the same
 sources still fill the epilogue delay slot, but these US helpers end in
 `addiu $sp; jr $ra; nop`.
 
-The `src/overlays/model_exodia/us_exodia_slot0.c` and `us_exodia_slot1.c`
+The `src/overlays/model_variant/exodia_slot0_usa.c` and `exodia_slot1_usa.c`
 wrappers define `MODEL_EXODIA_USA` and include the shared source. The helpers and tables keep one name in every
 region; each image's `*_symbols.txt` and `*_functions.csv` bind it at that
 image's address:
@@ -287,12 +287,12 @@ the same order in every region, so each image's text is one translation unit
 
 | Source | Image | Members (address order) |
 |---|---|---|
-| `src/overlays/model_exodia/exodia_slot0.c` | slot 0 | `ModelExodia_HandleRequest`, `ModelExodia_DrawRing`, `ModelExodia_DrawSpokes` |
-| `src/overlays/model_exodia/exodia_slot1.c` | slot 1 | `ModelExodia_HandleSecondRequest`, `ModelExodia_DrawRings`, `ModelExodia_DrawPetals`, `ModelExodia_DrawBeam` |
+| `src/overlays/model_variant/exodia_slot0.c` | slot 0 | `ModelExodia_HandleRequest`, `ModelExodia_DrawRing`, `ModelExodia_DrawSpokes` |
+| `src/overlays/model_variant/exodia_slot1.c` | slot 1 | `ModelExodia_HandleSecondRequest`, `ModelExodia_DrawRings`, `ModelExodia_DrawPetals`, `ModelExodia_DrawBeam` |
 
 The five PAL images build these sources directly under `gcc_2_8_1_g0_split`;
-the US and Japanese SU images build them through the `us_exodia_slot0.c` and
-`us_exodia_slot1.c` wrappers under `gcc_2_7_2_cdk_g0`. Each image keeps its
+the US and Japanese SU images build them through the `exodia_slot0_usa.c` and
+`exodia_slot1_usa.c` wrappers under `gcc_2_7_2_cdk_g0`. Each image keeps its
 one profile, and each unit covers the image's whole text from offset 4 to its
 unclassified tail: slot 0 is `[0x8013B004, 0x8013C7AC)` in PAL and
 `[0x8013B004, 0x8013C784)` in US/Japanese, slot 1 is `[0x8017B004,

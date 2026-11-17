@@ -4,25 +4,25 @@
       "address": "0x8017B004",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x9B0",
-      "source": "src/overlays/model_exodia/us_exodia_slot1.c"
+      "source": "src/overlays/model_variant/exodia_slot1_usa.c"
     },
     {
       "address": "0x8017B9B4",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x43C",
-      "source": "src/overlays/model_exodia/us_exodia_slot1.c"
+      "source": "src/overlays/model_variant/exodia_slot1_usa.c"
     },
     {
       "address": "0x8017BDF0",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x948",
-      "source": "src/overlays/model_exodia/us_exodia_slot1.c"
+      "source": "src/overlays/model_variant/exodia_slot1_usa.c"
     },
     {
       "address": "0x8017C738",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x5D0",
-      "source": "src/overlays/model_exodia/us_exodia_slot1.c"
+      "source": "src/overlays/model_variant/exodia_slot1_usa.c"
     }
   ],
   "schema": 1
