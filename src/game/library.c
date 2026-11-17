@@ -932,7 +932,7 @@ void Library_UpdateCardView(LibraryState *state)
         }
         break;
     case 4:
-        light = (ModelSlotLightEntry *)Model_GetFlatLight(0, 2);
+        light = Model_GetFlatLight(0, 2);
         vs = &gViewState_Current;
         a = -vs->distance;
         b = a * rcos(vs->orbit_angle) / 4096;
@@ -952,7 +952,7 @@ void Library_UpdateCardView(LibraryState *state)
             state->motion.globe_radius = 0;
             if (!(flags & 0x40)) {
                 state->motion.state = flags | 0x40;
-                light = (ModelSlotLightEntry *)Model_GetFlatLight(0, 0);
+                light = Model_GetFlatLight(0, 0);
                 light[0].direction_y = -0x1000;
                 light[0].direction_x = 0;
                 light[0].direction_z = 0;

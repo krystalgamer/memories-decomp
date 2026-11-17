@@ -793,12 +793,10 @@ s32 tent_Model_RebaseTexturedPrimitives(
 void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd)
 {
     ModelSlot *slot;
-    u8 *slot_bytes;
-    u8 *duration_row_cursor;
     u8 *mask_clear_cursor;
     u8 *owner;
-    u8 *kind3_payload;
-    u8 *kind2_payload;
+    void **kind3_payload;
+    void **kind2_payload;
     u8 *part_flags_cursor;
     u8 *part_flags_base;
     u8 *part_mask_cursor;
@@ -821,59 +819,48 @@ void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd)
 
     do {
         do {
-            kind3_payload = (u8 *)0;
+            kind3_payload = 0;
         } while (0);
     } while (0);
-    kind2_payload = (u8 *)0;
+    kind2_payload = 0;
     index = 0;
     missing_command_index = 0xFFFF;
     duration_row_offset = 0;
     entry_row_offset = 0;
     slot = &gModel_aSlots[slot_index];
-    slot_bytes = (u8 *)slot;
-    duration_row_cursor = slot_bytes;
     slot->animation_position = 0;
     slot->animation_sound_position = 0;
     slot->animation_commands = 0;
-    *(s32 *)&slot->animation_parameter_base = 0;
-    *(s32 *)&slot->animation_snapshot_buffer = 0;
-    *(s32 *)&slot->field_DE4 = 0;
+    slot->animation_parameter_base = 0;
+    slot->animation_snapshot_buffer = 0;
+    slot->field_DE4 = 0;
     slot->lit_color_cache_address = 0;
-    /* The reset walks keys and rows with running byte offsets rather than
-       indexing slot->animation_command_indices[index][part_index] / slot->animation_duration_rows[index].values[part_index]. That is not
-       a missed cleanup: the indexed form is larger, and the link fails with
-       .initialized_data overlapping .text. The walkers are load-bearing.
-
-       The margin is one instruction, which is worth knowing before touching
-       anything else here. These three pointer members cost nothing to name:
-       they are stored as zero, so the *(s32 *)& that keeps the store a
-       non-struct reference is free. The four copies out of the command
-       blocks at the end are not -- direct member stores push .text into
-       .initialized_data. Their byte-cursor form remains, with each
-       displacement derived from the corresponding member instead. */
+    /* Keys, row values and the part mask stay slot-relative byte cursors with
+       the member offset applied at the access: indexing those arrays, or
+       typed pointers into them, folds the member offset into the induction
+       variable and changes the loop code. */
     do {
-        ((ModelSlotRow *)(duration_row_cursor + (u32)&((ModelSlot *)0)->animation_duration_rows))->max = 0;
+        slot->animation_duration_rows[index].max = 0;
         part_index = 0;
         duration_value_offset = duration_row_offset;
         entry_key_offset = entry_row_offset;
         do {
-            duration_value_cursor = slot_bytes + duration_value_offset;
+            duration_value_cursor = (u8 *)slot + duration_value_offset;
             duration_value_offset += 2;
-            entry_key_cursor = slot_bytes + entry_key_offset;
+            entry_key_cursor = (u8 *)slot + entry_key_offset;
             entry_key_offset += 2;
             part_index++;
-            *(u16 *)(entry_key_cursor + (u32)&((ModelSlot *)0)->animation_command_indices) = missing_command_index;
-            *(s16 *)(duration_value_cursor + (u32)&((ModelSlot *)0)->animation_duration_rows) = 0;
+            *(u16 *)(entry_key_cursor + OFFSETOF(ModelSlot, animation_command_indices)) = missing_command_index;
+            *(u16 *)(duration_value_cursor + OFFSETOF(ModelSlot, animation_duration_rows)) = 0;
         } while (part_index < 0x3A);
         duration_row_offset += sizeof(ModelSlotRow);
-        entry_row_offset += 0x74;
+        entry_row_offset += sizeof(slot->animation_command_indices[0]);
         index++;
-        duration_row_cursor += sizeof(ModelSlotRow);
     } while (index < 0xA);
     index = 7;
-    mask_clear_cursor = slot_bytes + index;
+    mask_clear_cursor = (u8 *)slot + index;
     do {
-        mask_clear_cursor[(u32)&((ModelSlot *)0)->extended_animation_part_mask] = 0;
+        mask_clear_cursor[OFFSETOF(ModelSlot, extended_animation_part_mask)] = 0;
         index--;
         mask_clear_cursor--;
     } while (index >= 0);
@@ -885,18 +872,18 @@ void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd)
         if (*(s32 *)(owner + 8) != 0) {
             owner_kind = owner[0xF];
             if (owner_kind == 3) {
-                kind3_payload = *(u8 **)(owner + 4);
+                kind3_payload = *(void ***)(owner + 4);
             }
             if (owner_kind == 2) {
-                kind2_payload = *(u8 **)(owner + 4);
+                kind2_payload = *(void ***)(owner + 4);
             }
         }
         owner = *(u8 **)owner;
     } while (owner != (u8 *)-1);
-    if (kind3_payload != (u8 *)0) {
-        kind3_payload += 8;
-        part_flags_base = *(u8 **)kind3_payload;
-        kind3_payload += 4;
+    if (kind3_payload != 0) {
+        kind3_payload += 2;
+        part_flags_base = *kind3_payload;
+        kind3_payload++;
         index = 0;
         if (*(u16 *)part_flags_base != 0) {
             bit_one = 1;
@@ -907,27 +894,27 @@ void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd)
                         mask_byte_index = index / 8;
                     } while (0);
                 } while (0);
-                part_mask_cursor = slot_bytes + mask_byte_index;
+                part_mask_cursor = (u8 *)slot + mask_byte_index;
                 mask_bit_base = mask_byte_index << 3;
-                mask_byte = part_mask_cursor[(u32)&((ModelSlot *)0)->extended_animation_part_mask];
+                mask_byte = part_mask_cursor[OFFSETOF(ModelSlot, extended_animation_part_mask)];
                 extended_flag = *(volatile s32 *)(part_flags_cursor + 4) & 0x100;
                 if (extended_flag != 0) {
                     updated_mask_byte = mask_byte | (bit_one << (index - mask_bit_base));
                 } else {
                     updated_mask_byte = mask_byte;
                 }
-                part_mask_cursor[(u32)&((ModelSlot *)0)->extended_animation_part_mask] = updated_mask_byte;
+                part_mask_cursor[OFFSETOF(ModelSlot, extended_animation_part_mask)] = updated_mask_byte;
                 part_flags_cursor += 4;
                 index++;
             } while ((u32)index < *(u16 *)part_flags_base);
         }
-        *(s32 *)(slot_bytes + (u32)&((ModelSlot *)0)->animation_commands) = *(s32 *)kind3_payload;
-        *(s32 *)(slot_bytes + (u32)&((ModelSlot *)0)->animation_parameter_base) = *(s32 *)(kind3_payload + 4);
+        slot->animation_commands = kind3_payload[0];
+        slot->animation_parameter_base = kind3_payload[1];
     }
-    if (kind2_payload != (u8 *)0) {
-        kind2_payload += 4;
-        *(s32 *)(slot_bytes + (u32)&((ModelSlot *)0)->animation_snapshot_buffer) = *(s32 *)kind2_payload;
-        *(s32 *)(slot_bytes + (u32)&((ModelSlot *)0)->field_DE4) = *(s32 *)(kind2_payload + 4);
+    if (kind2_payload != 0) {
+        kind2_payload++;
+        slot->animation_snapshot_buffer = kind2_payload[0];
+        slot->field_DE4 = kind2_payload[1];
     }
 }
 
