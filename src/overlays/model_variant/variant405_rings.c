@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant422_entry.h"
+#include "../french_model_variant/variant422_entry_pal.h"
 
 /* Draws the six expanding rings of eight GsGLINE spokes each, fading the
  * spoke colour in over the first quarter turn, and advances each ring's

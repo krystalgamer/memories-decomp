@@ -9,7 +9,7 @@
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
 #include "model_variant.h"
-#include "../french_model_variant/variant426_entry.h"
+#include "../french_model_variant/variant426_entry_pal.h"
 
 /* The US header-409 entry builds the same effect as the French header-426
  * entry over the same record. */

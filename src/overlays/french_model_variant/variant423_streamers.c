@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "variant423_entry.h"
+#include "variant423_entry_pal.h"
 
 /* Builds two seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each

@@ -55,7 +55,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant397_entry]
+      - [0x4, c, overlays/french_model_variant/variant397_entry_pal]
   - name: helper_DE4
     type: code
     start: 0xDE4
@@ -69,7 +69,7 @@ segments:
     vram: 0x8017CA9C
     align: 4
     subsegments:
-      - [0x1A9C, c, overlays/french_model_variant/variant397_sheets]
+      - [0x1A9C, c, overlays/french_model_variant/variant397_sheets_pal]
   - name: helper_206C
     type: code
     start: 0x206C

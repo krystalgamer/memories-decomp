@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant444_entry.h"
+#include "variant444_entry_pal.h"
 
 void FrenchModelVariant175_DrawTube(Variant444EntryState *context)
 {

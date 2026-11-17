@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant422_entry.h"
+#include "../french_model_variant/variant422_entry_pal.h"
 
 /* Draws the growing POLY_G4 quad of the variant's single quad record and
  * advances its size and rotation through three phases. */

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant402_bands.h"
 
-#include "variant402_entry.h"
+#include "variant402_entry_pal.h"
 
 void FrenchModelVariant402_DrawBands(u8 *context)
 {

@@ -55,7 +55,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant447_entry]
+      - [0x4, c, overlays/french_model_variant/variant447_entry_pal]
   - name: helper_10F8
     type: code
     start: 0x10F8

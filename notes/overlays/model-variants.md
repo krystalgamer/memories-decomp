@@ -135,7 +135,7 @@ sources included at the North American addresses (the swarm moves from
 `0x8013C308` to `0x8013C30C`); under 2.7.2 both match unchanged.
 The French header-428/578 images compile the same entry under
 `gcc_2_8_1_g0_split` (0x1304 bytes, CLUT column 640, data at `0x8013CD94`)
-through `french_model_variant/variant428_entry.c`, and build the two helpers
+through `french_model_variant/variant428_entry_pal.c`, and build the two helpers
 as their own 2.8.1 segments from `variant428_swarm.c` and `variant428_quads.c`.
 
 The two North American header-430/580 images build their entry from
@@ -1009,7 +1009,7 @@ only.
 | Name | Shared C | Bound at |
 |---|---|---|
 | `ModelVariant405_DrawWebs` | `model_variant/variant405_webs.c` | USA models 1 and 550, Japanese images 456/466 and 138180/138190: `0x8013D8FC`/`0x8017D8FC`. USA model 62, Japanese images 17312/17322: `0x8013F594`/`0x8017F594`. European, French, German, Italian and Spanish models 1 and 550: `0x8013D8F0`/`0x8017D8F0` |
-| `FrenchModelVariant443_DrawRibbons` | `french_model_variant/variant443_ribbons.c` | USA model 62, Japanese images 17312/17322: `0x8013CAC4`/`0x8017CAC4`. European, French, German, Italian and Spanish model 62: `0x8013CADC`/`0x8017CADC` |
+| `FrenchModelVariant443_DrawRibbons` | `french_model_variant/variant443_ribbons_pal.c` | USA model 62, Japanese images 17312/17322: `0x8013CAC4`/`0x8017CAC4`. European, French, German, Italian and Spanish model 62: `0x8013CADC`/`0x8017CADC` |
 | `ModelVariant159_HandleRequest` | `model_variant/variant159_entry.c` | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: `0x8013B004`/`0x8017B004` |
 | `gModelVariant159_D1D94` | data subsegment (`variant159_entry.h`) | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: USA and Japanese `0x8013CD94`/`0x8017CD94`; European, French, German, Italian and Spanish `0x8013CD70`/`0x8017CD70` |
 | `gModelVariant159_D1DB0` | data subsegment (`variant159_entry.h`) | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: USA and Japanese `0x8013CDB0`/`0x8017CDB0`; European, French, German, Italian and Spanish `0x8013CD8C`/`0x8017CD8C` |
@@ -1018,7 +1018,7 @@ only.
 | `gModelVariant137_D1C88` | data subsegment (`variant137_entry.h`) | Model 378 slot 0 and slot 1 in every region, Japanese images 90728/90738: USA and Japanese `0x8013CC88`/`0x8017CC88`; European, French, German, Italian and Spanish `0x8013CC6C`/`0x8017CC6C` |
 | `ModelVariant445_HandleRequest` | `model_variant/variant445us_entry.c` | Model 457 slot 0 and slot 1 in every region, Japanese images 112512/112522: `0x8013B004`/`0x8017B004` |
 | `ModelVariant445_DrawRibbons` | `model_variant/variant445us_ribbons.c` | Model 457 slot 0 and slot 1 in every region, Japanese images 112512/112522: `0x8013C4C4`/`0x8017C4C4` |
-| `FrenchModelVariant462_DrawSheets` | `french_model_variant/variant462_sheets.c` | USA model 457, Japanese images 112512/112522: `0x8013CEEC`/`0x8017CEEC`. European, French, German, Italian and Spanish model 457: `0x8013CEF8`/`0x8017CEF8` |
+| `FrenchModelVariant462_DrawSheets` | `french_model_variant/variant462_sheets_pal.c` | USA model 457, Japanese images 112512/112522: `0x8013CEEC`/`0x8017CEEC`. European, French, German, Italian and Spanish model 457: `0x8013CEF8`/`0x8017CEF8` |
 | `FrenchModelVariant462_DrawRings` | `french_model_variant/variant462_rings.c` | USA model 457, Japanese images 112512/112522: `0x8013D41C`/`0x8017D41C`. European, French, German, Italian and Spanish model 457: `0x8013D42C`/`0x8017D42C` |
 | `gModelVariant445_D2848` | data subsegment (`variant445us_entry.h`) | USA model 457, Japanese images 112512/112522: `0x8013D848`/`0x8017D848`. European, French, German, Italian and Spanish model 457: `0x8013D860`/`0x8017D860` |
 | `ModelVariant105_HandleRequest` | `model_variant/variant105_entry.c` | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013B004`/`0x8017B004` |
@@ -1042,15 +1042,15 @@ only.
 | `ModelVariant154_HandleRequest` | `model_variant/variant154_entry.c` | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: `0x8013B004`/`0x8017B004` |
 | `gModelVariant154_D23B4` | data subsegment (`variant154_entry.h`) | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: USA and Japanese `0x8013D3B4`/`0x8017D3B4`; European, French, German, Italian and Spanish `0x8013D390`/`0x8017D390` |
 | `gModelVariant154_D2408` | data subsegment (`variant154_entry.h`) | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: USA and Japanese `0x8013D408`/`0x8017D408`; European, French, German, Italian and Spanish `0x8013D3E4`/`0x8017D3E4` |
-| `FrenchModelVariant410_HandleRequest` | `french_model_variant/variant410_entry.c` | Model 54 slot 0 and slot 1 in every region, Japanese images 15084/15094: `0x8013B004`/`0x8017B004` |
+| `FrenchModelVariant410_HandleRequest` | `french_model_variant/variant410_entry_pal.c` | Model 54 slot 0 and slot 1 in every region, Japanese images 15084/15094: `0x8013B004`/`0x8017B004` |
 | `FrenchModelVariant410_DrawQuads` | `french_model_variant/variant410_quads.c` | USA model 54, Japanese images 15084/15094: `0x8013BAB0`/`0x8017BAB0`. European, French, German, Italian and Spanish model 54: `0x8013BAAC`/`0x8017BAAC` |
-| `FrenchModelVariant410_DrawRibbons` | `french_model_variant/variant410_ribbons.c` | USA model 54, Japanese images 15084/15094: `0x8013BF60`/`0x8017BF60`. European, French, German, Italian and Spanish model 54: `0x8013BF58`/`0x8017BF58` |
+| `FrenchModelVariant410_DrawRibbons` | `french_model_variant/variant410_ribbons_pal.c` | USA model 54, Japanese images 15084/15094: `0x8013BF60`/`0x8017BF60`. European, French, German, Italian and Spanish model 54: `0x8013BF58`/`0x8017BF58` |
 | `FrenchModelVariant410_DrawRings` | `french_model_variant/variant410_rings.c` | USA model 54, Japanese images 15084/15094: `0x8013C898`/`0x8017C898`. European, French, German, Italian and Spanish model 54: `0x8013C8B8`/`0x8017C8B8` |
 | `gFrenchModelVariant410_D1D04` | data subsegment (`variant410_entry.h`) | USA model 54, Japanese images 15084/15094: `0x8013CCE8`/`0x8017CCE8`. European, French, German, Italian and Spanish model 54: `0x8013CD04`/`0x8017CD04` |
-| `FrenchModelVariant458_HandleRequest` | `french_model_variant/variant458_entry.c` | Model 202 slot 0 and slot 1 in every region, Japanese images 55932/55942: `0x8013B004`/`0x8017B004` |
-| `FrenchModelVariant458_DrawSheets` | `french_model_variant/variant458_sheets.c` | USA model 202, Japanese images 55932/55942: `0x8013BC14`/`0x8017BC14`. European, French, German, Italian and Spanish model 202: `0x8013BC10`/`0x8017BC10` |
+| `FrenchModelVariant458_HandleRequest` | `french_model_variant/variant458_entry_pal.c` | Model 202 slot 0 and slot 1 in every region, Japanese images 55932/55942: `0x8013B004`/`0x8017B004` |
+| `FrenchModelVariant458_DrawSheets` | `french_model_variant/variant458_sheets_pal.c` | USA model 202, Japanese images 55932/55942: `0x8013BC14`/`0x8017BC14`. European, French, German, Italian and Spanish model 202: `0x8013BC10`/`0x8017BC10` |
 | `FrenchModelVariant458_DrawStrands` | `french_model_variant/variant458_strands.c` | USA model 202, Japanese images 55932/55942: `0x8013C158`/`0x8017C158`. European, French, German, Italian and Spanish model 202: `0x8013C150`/`0x8017C150` |
-| `FrenchModelVariant458_DrawStreamers` | `french_model_variant/variant458_streamers.c` | USA model 202, Japanese images 55932/55942: `0x8013C9CC`/`0x8017C9CC`. European, French, German, Italian and Spanish model 202: `0x8013C9EC`/`0x8017C9EC` |
+| `FrenchModelVariant458_DrawStreamers` | `french_model_variant/variant458_streamers_pal.c` | USA model 202, Japanese images 55932/55942: `0x8013C9CC`/`0x8017C9CC`. European, French, German, Italian and Spanish model 202: `0x8013C9EC`/`0x8017C9EC` |
 | `gFrenchModelVariant458_D230C` | data subsegment (`variant458_entry.h`) | USA model 202, Japanese images 55932/55942: `0x8013D288`/`0x8017D288`. European, French, German, Italian and Spanish model 202: `0x8013D30C`/`0x8017D30C` |
 | `ModelVariant152_HandleRequest` | `model_variant/variant152_entry.c` | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: `0x8013B004`/`0x8017B004` |
 | `gModelVariant152_D1158` | data subsegment (`variant152_entry.h`) | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: USA and Japanese `0x8013C158`/`0x8017C158`; European, French, German, Italian and Spanish `0x8013C134`/`0x8017C134` |

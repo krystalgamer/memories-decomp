@@ -56,7 +56,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant383_entry]
+      - [0x4, c, overlays/french_model_variant/variant383_entry_pal]
   - name: helper_CBC
     type: code
     start: 0xCBC
@@ -70,7 +70,7 @@ segments:
     vram: 0x8017C204
     align: 4
     subsegments:
-      - [0x1204, c, overlays/french_model_variant/variant383_ribbons]
+      - [0x1204, c, overlays/french_model_variant/variant383_ribbons_pal]
   - name: helper_191C
     type: code
     start: 0x191C

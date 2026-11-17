@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "variant461_entry.h"
+#include "variant461_entry_pal.h"
 
 /* The North American header-444 build names the closing spine point as the
  * next point, `k + 1`, rather than as `n`. */

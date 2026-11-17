@@ -70,7 +70,7 @@ segments:
     vram: 0x8013CAB8
     align: 4
     subsegments:
-      - [0x1AB8, c, overlays/french_model_variant/variant397_sheets]
+      - [0x1AB8, c, overlays/french_model_variant/variant397_sheets_pal]
   - name: helper_208c
     type: code
     start: 0x208C

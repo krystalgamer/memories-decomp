@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant400_streamers.h"
-#include "variant400_entry.h"
+#include "variant400_entry_pal.h"
 
 void FrenchModelVariant400_DrawStreamers(Variant400EntryState *context)
 {

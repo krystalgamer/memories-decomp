@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant452_entry.h"
+#include "variant452_entry_pal.h"
 
 void FrenchModelVariant452_DrawStreamers(Variant452EntryState *context)
 {

@@ -9,7 +9,7 @@ identical body at the same offsets. Both slots compile the shared
 helper and descriptor-base names at its own addresses in its
 `*_symbols.txt` (see [Names](#names)). This is a new decompilation; no region
 had accepted C for it. The North American header-405 entry is an unrelated
-body with the same header number (`french_model_variant/variant422_entry.c`).
+body with the same header number (`french_model_variant/variant422_entry_pal.c`).
 
 ## Behaviour
 

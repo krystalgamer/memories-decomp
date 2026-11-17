@@ -2,7 +2,7 @@
 #define FRENCH_MODEL_VARIANT411_ENTRY_H
 
 #include "../../types.h"
-#include "variant402_entry.h"
+#include "variant402_entry_pal.h"
 #include "../model_variant/variant411_beams.h"
 #include "../../game/model_slot_getters.h"
 

@@ -56,7 +56,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant400_entry]
+      - [0x4, c, overlays/french_model_variant/variant400_entry_pal]
   - name: ribbons
     type: code
     start: 0xA88
@@ -70,7 +70,7 @@ segments:
     vram: 0x8017C838
     align: 4
     subsegments:
-      - [0x1838, c, overlays/french_model_variant/variant400_sheets]
+      - [0x1838, c, overlays/french_model_variant/variant400_sheets_pal]
   - name: streamers
     type: code
     start: 0x1DB8

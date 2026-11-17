@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "../model_variant/model_variant.h"
-#include "variant426_entry.h"
+#include "variant426_entry_pal.h"
 
 /* Builds four seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each

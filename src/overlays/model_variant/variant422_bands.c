@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant439_entry.h"
+#include "../french_model_variant/variant439_entry_pal.h"
 
 /* Draws one band of nine segments as pairs of POLY_GT4 quads along the variant's
  * path, fading its radius in and out with the two phases timed by its

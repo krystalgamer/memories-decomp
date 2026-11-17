@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant402_strip.h"
 
-#include "variant412_entry.h"
+#include "variant412_entry_pal.h"
 
 void FrenchModelVariant402_DrawStrip(u8 *context)
 {

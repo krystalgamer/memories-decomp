@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant443_entry.h"
+#include "../french_model_variant/variant443_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
 void SpanishModelVariant443_DrawRings(EntryState443 *context)

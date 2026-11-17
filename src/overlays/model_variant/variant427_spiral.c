@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "../model_variant/variant418_spiral.h"
-#include "../french_model_variant/variant427_entry.h"
+#include "../french_model_variant/variant427_entry_pal.h"
 
 /* Phase-guarded three-pass twelve-arm spiral: while the phase is not negative,
  * each pass builds the arms on a spiral of the entry's spiral size turned by

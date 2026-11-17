@@ -56,7 +56,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant421_entry]
+      - [0x4, c, overlays/french_model_variant/variant421_entry_pal]
   - name: helper_11D0
     type: code
     start: 0x11D0
@@ -77,7 +77,7 @@ segments:
     vram: 0x8013D47C
     align: 4
     subsegments:
-      - [0x247C, c, overlays/french_model_variant/variant421_bands]
+      - [0x247C, c, overlays/french_model_variant/variant421_bands_pal]
   - name: helper_2C28
     type: code
     start: 0x2C28

@@ -55,7 +55,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant429_entry]
+      - [0x4, c, overlays/french_model_variant/variant429_entry_pal]
   - name: helper_133C
     type: code
     start: 0x133C

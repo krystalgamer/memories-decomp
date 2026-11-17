@@ -45,8 +45,8 @@ Entry `model_variant/variant380_entry.c` sets `work->config = gModelVariant380_a
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x28` | `unknown_28[4]` bytes → `s32 divisor` | `Sheets397Timing.divisor` | `FrenchModelVariant397_DrawSheets` (french_model_variant/variant397_sheets.c; `model_variant/variant380_entry.c:270`, `Sheets397State.timing` at +0x1B54) | `scale.vx = sheet->size / state->timing->divisor + extra;` | high |
-| `+0x34` | `unknown_34[0x10]` bytes → `u32 fade_at` | `Sheets397Timing.fade_at` | `FrenchModelVariant397_DrawSheets` (french_model_variant/variant397_sheets.c; `model_variant/variant380_entry.c:270`, `Sheets397State.timing` at +0x1B54) | `} else if (state->phase == 1 && state->timing->fade_at < state->time)` | high |
+| `+0x28` | `unknown_28[4]` bytes → `s32 divisor` | `Sheets397Timing.divisor` | `FrenchModelVariant397_DrawSheets` (french_model_variant/variant397_sheets_pal.c; `model_variant/variant380_entry.c:270`, `Sheets397State.timing` at +0x1B54) | `scale.vx = sheet->size / state->timing->divisor + extra;` | high |
+| `+0x34` | `unknown_34[0x10]` bytes → `u32 fade_at` | `Sheets397Timing.fade_at` | `FrenchModelVariant397_DrawSheets` (french_model_variant/variant397_sheets_pal.c; `model_variant/variant380_entry.c:270`, `Sheets397State.timing` at +0x1B54) | `} else if (state->phase == 1 && state->timing->fade_at < state->time)` | high |
 
 ## `Variant402EntryConfig` (`gModelVariant402_aConfigs`)
 
@@ -95,13 +95,13 @@ Entry `model_variant/variant432_entry.c` sets `work->config = gModelVariant432_a
 
 ## `Variant452EntryConfig` (`gFrenchModelVariant452_aConfigs`)
 
-Entry `french_model_variant/variant452_entry.c` sets `work->config = gFrenchModelVariant452_aConfigs + command` (line 55); its work struct `Variant452EntryState` has `config` at `+0x3374`.
+Entry `french_model_variant/variant452_entry_pal.c` sets `work->config = gFrenchModelVariant452_aConfigs + command` (line 55); its work struct `Variant452EntryState` has `config` at `+0x3374`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x18]` bytes → `u32 scale_end` | `Variant452EntryConfig.scale_end` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452EntryState.config` at +0x3374) | `/ (work->config->scale_end - work->config->start);` | high |
-| `+0x2C` | `unknown_20[0x18]` bytes → `u32 fade_start` | `Variant452EntryConfig.fade_start` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452EntryState.config` at +0x3374) | `} else if (work->clock.frame >= work->config->fade_start)` | high |
-| `+0x30` | `unknown_20[0x18]` bytes → `u32 fade_end` | `Variant452EntryConfig.fade_end` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry.c:332`, `Variant452EntryState.config` at +0x3374) | `/ (work->config->fade_end - work->config->fade_start);` | high |
+| `+0x20` | `unknown_20[0x18]` bytes → `u32 scale_end` | `Variant452EntryConfig.scale_end` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry_pal.c:332`, `Variant452EntryState.config` at +0x3374) | `/ (work->config->scale_end - work->config->start);` | high |
+| `+0x2C` | `unknown_20[0x18]` bytes → `u32 fade_start` | `Variant452EntryConfig.fade_start` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry_pal.c:332`, `Variant452EntryState.config` at +0x3374) | `} else if (work->clock.frame >= work->config->fade_start)` | high |
+| `+0x30` | `unknown_20[0x18]` bytes → `u32 fade_end` | `Variant452EntryConfig.fade_end` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (french_model_variant/variant452_sheets.c; `french_model_variant/variant452_entry_pal.c:332`, `Variant452EntryState.config` at +0x3374) | `/ (work->config->fade_end - work->config->fade_start);` | high |
 
 ## `Variant438EntryConfig` (`gModelVariant438_aConfigs`)
 
@@ -143,31 +143,31 @@ Entry `french_model_variant/variant436_entry.c` sets `work->config = gFrenchMode
 
 ## `Variant437EntryConfig` (`gFrenchModelVariant437_aConfigs`)
 
-Entry `french_model_variant/variant437_entry.c` sets `work->config = gFrenchModelVariant437_aConfigs + command` (line 37); its work struct `Variant437EntryState` has `config` at `+0x15F4`.
+Entry `french_model_variant/variant437_entry_pal.c` sets `work->config = gFrenchModelVariant437_aConfigs + command` (line 37); its work struct `Variant437EntryState` has `config` at `+0x15F4`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_18[0x18]` bytes → `u32 move_start` | `Variant437EntryConfig.move_start` (was `Timing437`) | `SpanishModelVariant437_DrawSheet` (model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Variant437EntryState.config` at +0x15F4) | `(state->config->move_start - state->config->scale_end);` | high |
-| `+0x20` | `unknown_18[0x18]` bytes → `u32 move_end` | `Variant437EntryConfig.move_end` (was `Timing437`) | `SpanishModelVariant437_DrawSheet` (model_variant/variant437_sheet.c; `french_model_variant/variant437_entry.c:283`, `Variant437EntryState.config` at +0x15F4) | `(state->config->move_end - state->config->move_start);` | high |
+| `+0x1C` | `unknown_18[0x18]` bytes → `u32 move_start` | `Variant437EntryConfig.move_start` (was `Timing437`) | `SpanishModelVariant437_DrawSheet` (model_variant/variant437_sheet.c; `french_model_variant/variant437_entry_pal.c:283`, `Variant437EntryState.config` at +0x15F4) | `(state->config->move_start - state->config->scale_end);` | high |
+| `+0x20` | `unknown_18[0x18]` bytes → `u32 move_end` | `Variant437EntryConfig.move_end` (was `Timing437`) | `SpanishModelVariant437_DrawSheet` (model_variant/variant437_sheet.c; `french_model_variant/variant437_entry_pal.c:283`, `Variant437EntryState.config` at +0x15F4) | `(state->config->move_end - state->config->move_start);` | high |
 
 ## `ModelVariantGrowConfig` (`gFrenchModelVariant461_aConfigs`)
 
-Entry `french_model_variant/variant461_entry.c` sets `work->config = gFrenchModelVariant461_aConfigs + command` (line 44); its work struct `EntryState461` has `config` at `+0x336C`.
+Entry `french_model_variant/variant461_entry_pal.c` sets `work->config = gFrenchModelVariant461_aConfigs + command` (line 44); its work struct `EntryState461` has `config` at `+0x336C`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `ModelVariantPairedSheetTiming.first_count` | `SpanishModelVariant461_DrawSheets` (model_variant/variant461_sheets.c; `french_model_variant/variant461_entry.c:380`, `Sheets461State.timing` at +0x336C) | `count = timing->first_count + 1;` | high |
-| `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `ModelVariantPairedSheetTiming.paired` | `SpanishModelVariant461_DrawSheets` (model_variant/variant461_sheets.c; `french_model_variant/variant461_entry.c:380`, `Sheets461State.timing` at +0x336C) | `if (timing->paired == 0)` | high |
+| `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `ModelVariantPairedSheetTiming.first_count` | `SpanishModelVariant461_DrawSheets` (model_variant/variant461_sheets.c; `french_model_variant/variant461_entry_pal.c:380`, `Sheets461State.timing` at +0x336C) | `count = timing->first_count + 1;` | high |
+| `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `ModelVariantPairedSheetTiming.paired` | `SpanishModelVariant461_DrawSheets` (model_variant/variant461_sheets.c; `french_model_variant/variant461_entry_pal.c:380`, `Sheets461State.timing` at +0x336C) | `if (timing->paired == 0)` | high |
 
 ## `Variant464EntryConfig` (`gFrenchModelVariant464_aConfigs`)
 
-Entry `french_model_variant/variant464_entry.c` sets `work->config = gFrenchModelVariant464_aConfigs + command` (line 47); its work struct `Variant464EntryState` has `config` at `+0x1C2C`.
+Entry `french_model_variant/variant464_entry_pal.c` sets `work->config = gFrenchModelVariant464_aConfigs + command` (line 47); its work struct `Variant464EntryState` has `config` at `+0x1C2C`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x10]` bytes → `u32 grow_end` | `Sheets464Timing.grow_end` | `SpanishModelVariant464_DrawSheets` (model_variant/variant464_sheets.c; `french_model_variant/variant464_entry.c:373`, `Sheets464State.timing` at +0x1C2C) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
-| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_begin` | `Sheets464Timing.fade_begin` | `SpanishModelVariant464_DrawSheets` (model_variant/variant464_sheets.c; `french_model_variant/variant464_entry.c:373`, `Sheets464State.timing` at +0x1C2C) | `} else if (state->time > state->timing->fade_begin && sheet->size > 0)` | high |
-| `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `Sheets464Timing.fade_end` | `SpanishModelVariant464_DrawSheets` (model_variant/variant464_sheets.c; `french_model_variant/variant464_entry.c:373`, `Sheets464State.timing` at +0x1C2C) | `(state->timing->fade_end - state->timing->fade_begin);` | high |
+| `+0x20` | `unknown_20[0x10]` bytes → `u32 grow_end` | `Sheets464Timing.grow_end` | `SpanishModelVariant464_DrawSheets` (model_variant/variant464_sheets.c; `french_model_variant/variant464_entry_pal.c:373`, `Sheets464State.timing` at +0x1C2C) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
+| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_begin` | `Sheets464Timing.fade_begin` | `SpanishModelVariant464_DrawSheets` (model_variant/variant464_sheets.c; `french_model_variant/variant464_entry_pal.c:373`, `Sheets464State.timing` at +0x1C2C) | `} else if (state->time > state->timing->fade_begin && sheet->size > 0)` | high |
+| `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `Sheets464Timing.fade_end` | `SpanishModelVariant464_DrawSheets` (model_variant/variant464_sheets.c; `french_model_variant/variant464_entry_pal.c:373`, `Sheets464State.timing` at +0x1C2C) | `(state->timing->fade_end - state->timing->fade_begin);` | high |
 
 ## `EntryConfig473` (`gFrenchModelVariant473_aConfigs`)
 

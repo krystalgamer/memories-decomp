@@ -74,7 +74,7 @@ registers, artificial stores or fake dependencies. Both literals and all
 41 ordered calls to20 resident destinations also match.
 
 Canonical sources are
-`src/overlays/french_model_variant/variant829_entry.c` and
+`src/overlays/french_model_variant/variant829_entry_pal.c` and
 `variant829_entry.h`, built in both slots; each image's symbols file binds
 `FrenchModelVariant829_HandleRequest` and `gFrenchModelVariant829_aImages`/`_aConfigs`
 at its own addresses.

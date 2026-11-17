@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant464_entry.h"
+#include "variant464_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
 void FrenchModelVariant464_DrawRings(Variant464EntryState *context)

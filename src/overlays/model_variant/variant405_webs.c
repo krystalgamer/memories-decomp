@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant422_entry.h"
+#include "../french_model_variant/variant422_entry_pal.h"
 
 /* Header 405's form of the header-416 webs: a line is sorted whenever its
  * depth is positive. */

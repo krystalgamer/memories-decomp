@@ -56,14 +56,14 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant647_entry]
+      - [0x4, c, overlays/french_model_variant/variant647_entry_pal]
   - name: rodata
     type: code
     start: 0x17A0
     vram: 0x8013C7A0
     align: 4
     subsegments:
-      - [0x17A0, .rodata, overlays/french_model_variant/variant647_entry]
+      - [0x17A0, .rodata, overlays/french_model_variant/variant647_entry_pal]
   - name: unclassified_tail
     type: code
     start: 0x17A0

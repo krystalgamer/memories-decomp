@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "variant402_ribbons.h"
-#include "variant402_entry.h"
+#include "variant402_entry_pal.h"
 
 void FrenchModelVariant402_DrawRibbons(u8 *ctx)
 {

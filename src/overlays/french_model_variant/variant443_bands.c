@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant443_entry.h"
+#include "variant443_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
 void FrenchModelVariant443_DrawBands(EntryState443 *context)

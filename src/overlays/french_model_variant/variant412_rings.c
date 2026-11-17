@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant412_entry.h"
+#include "variant412_entry_pal.h"
 
 void FrenchModelVariant402_DrawRings(Variant412EntryState *context)
 {

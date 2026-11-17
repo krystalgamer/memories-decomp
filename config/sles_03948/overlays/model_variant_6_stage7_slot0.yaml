@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant402_entry]
+      - [0x4, c, overlays/french_model_variant/variant402_entry_pal]
   - name: strip
     type: code
     start: 0xA5C

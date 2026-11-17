@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant410_entry.h"
+#include "variant410_entry_pal.h"
 
 void FrenchModelVariant410_DrawQuads(Variant410EntryState *context)
 {

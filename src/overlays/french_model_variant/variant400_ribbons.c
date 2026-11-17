@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant400_entry.h"
+#include "variant400_entry_pal.h"
 
 /* The North American header-383 build reads the projected points through
  * pointer arithmetic; the default spelling is the French/Spanish one. */

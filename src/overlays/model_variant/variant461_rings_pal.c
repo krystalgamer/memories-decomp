@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant461_entry.h"
+#include "../french_model_variant/variant461_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
 void SpanishModelVariant461_DrawRing(EntryState461 *context)

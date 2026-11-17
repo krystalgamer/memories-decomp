@@ -56,7 +56,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant423_entry]
+      - [0x4, c, overlays/french_model_variant/variant423_entry_pal]
   - name: helper_E18
     type: code
     start: 0xE18

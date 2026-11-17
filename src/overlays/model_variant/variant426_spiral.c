@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant426_entry.h"
+#include "../french_model_variant/variant426_entry_pal.h"
 
 /* Phase-guarded twelve-arm spiral: while the phase is not negative, the arms
  * are built on a spiral of radius 0x300 (or three quarters of the size before

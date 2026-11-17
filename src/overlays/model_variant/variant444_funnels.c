@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant444_entry.h"
+#include "../french_model_variant/variant444_entry_pal.h"
 
 /* The MODEL411 funnels with smaller rings: an inner ring of radius 64 and an
  * outer ring of radius 128 plus the flicker, set back by 64 plus the flicker, where

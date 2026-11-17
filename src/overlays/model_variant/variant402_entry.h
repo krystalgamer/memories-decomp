@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT402_ENTRY_H
 #define MEMORIES_MODEL_VARIANT402_ENTRY_H
 #include "../../types.h"
-#include "../french_model_variant/variant439_entry.h"
+#include "../french_model_variant/variant439_entry_pal.h"
 
 /* One 0x34-byte row of header 402's command table. */
 typedef struct {

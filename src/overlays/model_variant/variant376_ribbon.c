@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "variant376_ribbon.h"
-#include "../french_model_variant/variant393_entry.h"
+#include "../french_model_variant/variant393_entry_pal.h"
 
 /* Builds a seventeen-point ribbon that twists around the variant's axis and a
  * copy of it moved along the view, projects both, and draws the first

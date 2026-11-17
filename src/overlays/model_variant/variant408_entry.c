@@ -1,4 +1,4 @@
 #include "../../types.h"
 
 #define MODEL_VARIANT425_CLUT_X 512
-#include "../french_model_variant/variant425_entry.c"
+#include "../french_model_variant/variant425_entry_pal.c"

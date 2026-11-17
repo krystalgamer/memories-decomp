@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant427_entry.h"
+#include "variant427_entry_pal.h"
 
 /* The North American header-410 build reads the projected points through
  * pointer arithmetic so CDK GCC folds sa[k + 1] into a fixed offset from

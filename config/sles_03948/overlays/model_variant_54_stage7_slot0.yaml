@@ -54,7 +54,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant410_entry]
+      - [0x4, c, overlays/french_model_variant/variant410_entry_pal]
   - name: quads
     type: code
     start: 0xAAC
@@ -68,7 +68,7 @@ segments:
     vram: 0x8013BF58
     align: 4
     subsegments:
-      - [0xF58, c, overlays/french_model_variant/variant410_ribbons]
+      - [0xF58, c, overlays/french_model_variant/variant410_ribbons_pal]
   - name: rings
     type: code
     start: 0x18B8

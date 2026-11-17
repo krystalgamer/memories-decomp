@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant412_trails.h"
-#include "variant412_entry.h"
+#include "variant412_entry_pal.h"
 
 void FrenchModelVariant412_DrawTrails(Variant412EntryState *context)
 {

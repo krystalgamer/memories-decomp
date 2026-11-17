@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "variant464_entry.h"
+#include "variant464_entry_pal.h"
 
 /* Header 464's copy of the header-422 webs (variant422_webs.c) over its own
  * entry state; the timing divisor is its config's grow_end. */

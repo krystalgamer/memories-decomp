@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
-#include "variant400_entry.h"
+#include "variant400_entry_pal.h"
 
 typedef struct {
     s32 scale;

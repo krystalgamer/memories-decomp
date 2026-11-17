@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant437_entry.h"
+#include "variant437_entry_pal.h"
 
 /* The header-449 band helper over the 437 record (records at +0x888). */
 void FrenchModelVariant449_DrawBands(Variant437EntryState *context)

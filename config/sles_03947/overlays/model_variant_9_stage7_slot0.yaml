@@ -56,7 +56,7 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant455_entry]
+      - [0x4, c, overlays/french_model_variant/variant455_entry_pal]
   - name: swarm
     type: code
     start: 0x13B0

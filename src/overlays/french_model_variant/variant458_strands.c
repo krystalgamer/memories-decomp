@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "variant458_entry.h"
+#include "variant458_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
 /* The North American header-441 build indexes the depth flags by the loop

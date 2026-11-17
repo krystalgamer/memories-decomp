@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "../model_variant/model_variant.h"
-#include "../french_model_variant/variant464_entry.h"
+#include "../french_model_variant/variant464_entry_pal.h"
 
 /* Each frame rebuilds the two rows of both shown curtains around the
  * rotating curtain_angle, lifting the outer row by the first

@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "../../game/graphics_packet_submission.h"
-#include "variant437_entry.h"
+#include "variant437_entry_pal.h"
 
 /* The North American header-420 ribbons address the closing segment's
  * projected points with fixed indices and the following point as an offset

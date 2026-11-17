@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "variant446_entry.h"
+#include "variant446_entry_pal.h"
 
 /* Builds sixteen three-point rays from the work start (even rays reach
  * 0x100, odd ones 0x80, turning against each other with the entry's spin and

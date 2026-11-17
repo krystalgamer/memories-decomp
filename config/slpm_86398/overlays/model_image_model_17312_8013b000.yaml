@@ -91,7 +91,7 @@ segments:
     vram: 0x8013E640
     align: 4
     subsegments:
-      - [0x3640, c, overlays/french_model_variant/variant443_streamers]
+      - [0x3640, c, overlays/french_model_variant/variant443_streamers_pal]
   - name: helper_3ee0
     type: code
     start: 0x3EE0
