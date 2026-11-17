@@ -222,7 +222,7 @@ void DuelEffect_UpdateCardViewerState(void)
                                  obj->xy.s.y,
                                  speed);
 #endif
-                flags = *(u16 *)&obj->field_60 - 0x55;
+                flags = obj->field_60 - 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags <= 0) {
                     obj->xy.s.x = 0x400;
@@ -265,7 +265,7 @@ void DuelEffect_UpdateCardViewerState(void)
                                  -0x8C,
                                  obj->xy.s.y,
                                  speed);
-                flags = *(u16 *)&obj->field_60 - 0x55;
+                flags = obj->field_60 - 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags <= 0) {
                     obj->xy.s.x = 0x400;
@@ -276,7 +276,7 @@ void DuelEffect_UpdateCardViewerState(void)
                                  2,
                                  obj->xy.s.y,
                                  speed);
-                flags = *(u16 *)&obj->field_60 + 0x55;
+                flags = obj->field_60 + 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags >= 0) {
                     obj->xy.s.x = 2;

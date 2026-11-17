@@ -639,8 +639,8 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root)
                        p->xy.s.y);
     }
     p = root->spotlight_object;
-    p->field_48.spotlight.outer = *(u16 *)&p->field_48.spotlight.outer - 8;
-    p->field_48.spotlight.inner = *(u16 *)&p->field_48.spotlight.inner - 8;
+    p->field_48.spotlight.outer = p->field_48.spotlight.outer - 8;
+    p->field_48.spotlight.inner = p->field_48.spotlight.inner - 8;
     if (p->field_48.spotlight.inner <= 0) {
         p->field_48.spotlight.inner = 0;
         p->field_48.spotlight.outer = 0x40;

@@ -6867,7 +6867,7 @@ s32 Duel_UpdateCardUseConfirmation(void) {
         DisplayObject_SelectOrderingTable1(q);
         DisplayObject_SetDepthOffset(q, 0xA);
         *(s16 *)&q->flags =
-            *(s16 *)&q->flags |
+            q->flags |
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         gDuel_pFlipRightMarker = q;
@@ -6878,7 +6878,7 @@ s32 Duel_UpdateCardUseConfirmation(void) {
 
     if ((gDuel_bConfirmFlags & 0x40) != 0) {
         q->flags =
-            *(s16 *)&q->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
+            q->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST;
         v = q->field_20.b.rotation_y + (u8)q->field_60;
         q->field_20.b.rotation_y = v;
         w = v;
@@ -6887,7 +6887,7 @@ s32 Duel_UpdateCardUseConfirmation(void) {
         }
         if ((w & 0xFF) == 0) {
             q->flags =
-                *(s16 *)&q->flags & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
+                q->flags & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
         do { gDuel_bConfirmFlags = gDuel_bConfirmFlags & 0xBF; } while (0);
         return 0;

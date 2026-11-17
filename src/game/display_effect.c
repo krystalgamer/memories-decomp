@@ -443,8 +443,8 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
         if (angle_step >= 0) {
             record->tween_angle = 0;
         }
-        record->tween_arg.tween_delta_x = *(u16 *)&record->step_arg.tween_target_x - record->x;
-        record->tween_delta_y = *(u16 *)&record->tween_target_y - record->y;
+        record->tween_arg.tween_delta_x = record->step_arg.tween_target_x - record->x;
+        record->tween_delta_y = record->tween_target_y - record->y;
     }
 
     angle = *(u16 *)&record->tween_angle + *(u16 *)&record->tween_angle_step;
@@ -467,8 +467,8 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
         }
         DisplayPositionGroup_SetPosition(
             record,
-            (s16)(*(u16 *)&record->step_arg.tween_target_x - dx),
-            (s16)(*(u16 *)&record->tween_target_y - dy)
+            (s16)(record->step_arg.tween_target_x - dx),
+            (s16)(record->tween_target_y - dy)
         );
     }
 }
@@ -618,8 +618,8 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
                       p->grid[0][0]->depth_offset);
         DisplayPositionGroup_SetChildPositions(
             p->grid[0],
-            *(s16 *)&p->x,
-            *(s16 *)&p->y
+            p->x,
+            p->y
         );
         DisplayEffect_ReleaseObjectRow(p->grid[1]);
         DisplayEffect_ReleaseObjectRow(p->grid[2]);

@@ -1496,9 +1496,9 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
     case 0:
             if (list->first != list->first_target) {
                 if (list->first_target < list->first) {
-                    list->first = *(u16 *)&list->first - 1;
+                    list->first = list->first - 1;
                 } else {
-                    list->first = *(u16 *)&list->first + 1;
+                    list->first = list->first + 1;
                 }
                 CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
                 return 1;
