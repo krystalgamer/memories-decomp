@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image12048_strands.h"
 
-void FrenchModelVariant403_DrawStrands(u8 *context)
+void FrenchModelVariant403_DrawStrands(Strands12048State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void FrenchModelVariant403_DrawStrands(u8 *context)
     long flags[5][7];
     long interpolation;
     long flag;
-    Strands12048State *state = (Strands12048State *)context;
+    Strands12048State *state = context;
     Strands12048Strand *strand;
     POLY_FT4 *poly;
     SVECTOR *pos;

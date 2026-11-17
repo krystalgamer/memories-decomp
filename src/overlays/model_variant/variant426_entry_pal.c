@@ -303,7 +303,7 @@ s32 FrenchModelVariant426_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant426_DrawMesh((EntryState426 *)point);
         }
         if (work->phase > 0) {
-            FrenchModelVariant426_DrawRibbon((u8 *)point);
+            FrenchModelVariant426_DrawRibbon((Ribbon426Work *)point);
         }
         if (work->config->spiral_start <= work->clock.frame) {
             SpanishModelVariant426_DrawSpiral((EntryState426 *)point);

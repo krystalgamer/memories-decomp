@@ -67,6 +67,6 @@ void SpanishModelVariant425_DrawMesh(EntryState425 *context);
 void SpanishModelVariant425_DrawSpiral(EntryState425 *context);
 void FrenchModelVariant425_DrawRibbon(EntryState425 *context);
 void SpanishModelVariant425_DrawSheets(EntryState425 *context);
-void FrenchModelVariant423_DrawFunnel(u8 *context);
+void FrenchModelVariant423_DrawFunnel(Funnel423State *context);
 
 #endif

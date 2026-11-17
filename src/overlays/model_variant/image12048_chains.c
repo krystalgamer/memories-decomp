@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "image12048_chains.h"
 
-void FrenchModelVariant403_DrawChains(u8 *context)
+void FrenchModelVariant403_DrawChains(Chains12048State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void FrenchModelVariant403_DrawChains(u8 *context)
     long flags[3][9];
     long interpolation;
     long flag;
-    Chains12048State *state = (Chains12048State *)context;
+    Chains12048State *state = context;
     Chains12048Chain *chain = state->chains;
     POLY_FT4 *poly;
     SVECTOR *pos;

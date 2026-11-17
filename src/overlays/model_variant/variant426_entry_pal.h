@@ -4,6 +4,7 @@
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
 #include "variant425_entry_pal.h"
+#include "variant426_ribbon.h"
 
 typedef struct {
     ModelVariantMesh mesh;
@@ -44,7 +45,7 @@ extern ModelVariantSpiralConfig gFrenchModelVariant426_aConfigs[];
 
 void SpanishModelVariant426_DrawMesh(EntryState426 *context);
 void SpanishModelVariant426_DrawSpiral(EntryState426 *context);
-void FrenchModelVariant426_DrawRibbon(u8 *context);
+void FrenchModelVariant426_DrawRibbon(Ribbon426Work *context);
 void SpanishModelVariant426_DrawSheets(EntryState426 *context);
 void FrenchModelVariant426_DrawStreamers(EntryState426 *context);
 

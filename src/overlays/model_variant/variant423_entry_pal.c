@@ -287,11 +287,11 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
             SpanishModelVariant423_DrawSheets((EntryState423 *)point);
         }
         if (work->phase >= 3) {
-            FrenchModelVariant423_DrawFunnel((u8 *)point);
+            FrenchModelVariant423_DrawFunnel((Funnel423State *)point);
             SpanishModelVariant423_DrawMesh((EntryState423 *)point);
         }
         if (work->phase >= 2) {
-            FrenchModelVariant423_DrawRibbon((u8 *)point);
+            FrenchModelVariant423_DrawRibbon((Ribbon423Work *)point);
         }
         if (work->phase > 0) {
             SpanishModelVariant423_DrawSpiral((EntryState423 *)point);

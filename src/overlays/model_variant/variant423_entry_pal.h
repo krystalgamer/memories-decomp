@@ -10,6 +10,7 @@
 #include "../../psyq/libhmd.h"
 #include "variant423_funnel.h"
 #include "../model_variant/model_variant.h"
+#include "variant423_ribbon.h"
 
 typedef struct {
     CVECTOR outer, inner;
@@ -59,8 +60,8 @@ extern GsIMAGE gFrenchModelVariant423_aImages[9];
 extern EntryConfig423 gFrenchModelVariant423_aConfigs[];
 void SpanishModelVariant423_DrawMesh(EntryState423 *context);
 void SpanishModelVariant423_DrawSpiral(EntryState423 *context);
-void FrenchModelVariant423_DrawRibbon(u8 *context);
+void FrenchModelVariant423_DrawRibbon(Ribbon423Work *context);
 void SpanishModelVariant423_DrawSheets(EntryState423 *context);
-void FrenchModelVariant423_DrawFunnel(u8 *context);
+void FrenchModelVariant423_DrawFunnel(Funnel423State *context);
 
 #endif
