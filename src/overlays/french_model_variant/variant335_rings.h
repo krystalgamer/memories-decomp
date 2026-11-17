@@ -7,8 +7,8 @@ typedef struct {
     SVECTOR a[17];
     SVECTOR b[17];
     SVECTOR c[17];
-    u8 inner[4];
-    u8 outer[4];
+    CVECTOR inner;
+    CVECTOR outer;
     s32 scale;
     s32 cycles;
 } Variant335Ring;

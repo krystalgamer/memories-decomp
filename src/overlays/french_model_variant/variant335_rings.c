@@ -84,10 +84,10 @@ void FrenchModelVariant335_DrawRings(Model335EntryState *work)
                                      (long *)&quad->x0, (long *)&quad->x1,
                                      (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
-                setRGB0(quad, ring->inner[0], ring->inner[1], ring->inner[2]);
-                setRGB1(quad, ring->inner[0], ring->inner[1], ring->inner[2]);
-                setRGB2(quad, ring->outer[0], ring->outer[1], ring->outer[2]);
-                setRGB3(quad, ring->outer[0], ring->outer[1], ring->outer[2]);
+                setRGB0(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+                setRGB1(quad, ring->inner.r, ring->inner.g, ring->inner.b);
+                setRGB2(quad, ring->outer.r, ring->outer.g, ring->outer.b);
+                setRGB3(quad, ring->outer.r, ring->outer.g, ring->outer.b);
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(quad, ot, depth);
                 }

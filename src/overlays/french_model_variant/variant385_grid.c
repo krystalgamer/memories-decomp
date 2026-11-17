@@ -50,13 +50,13 @@ void FrenchModelVariant385_DrawGrid(EntryState473 *context)
         GsSetLsMatrix(&light);
         for (k = 0; k < 9; k++) {
             if (sheet->size < 4096) {
-                red[k] = sheet->colors[k][0];
-                green[k] = sheet->colors[k][1];
-                blue[k] = sheet->colors[k][2];
+                red[k] = sheet->colors[k].r;
+                green[k] = sheet->colors[k].g;
+                blue[k] = sheet->colors[k].b;
             } else {
-                red[k] = sheet->colors[k][0] * (8192 - sheet->size) / 4096;
-                green[k] = sheet->colors[k][1] * (8192 - sheet->size) / 4096;
-                blue[k] = sheet->colors[k][2] * (8192 - sheet->size) / 4096;
+                red[k] = sheet->colors[k].r * (8192 - sheet->size) / 4096;
+                green[k] = sheet->colors[k].g * (8192 - sheet->size) / 4096;
+                blue[k] = sheet->colors[k].b * (8192 - sheet->size) / 4096;
             }
         }
         for (j = 0; j < 8; j++) {

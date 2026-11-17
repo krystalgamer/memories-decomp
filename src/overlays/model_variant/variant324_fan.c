@@ -59,18 +59,18 @@ void ModelVariant324_DrawFan(Variant341EntryState *context)
                                 &rec->point[j + 2], &rec->point[j + 3],
                                 (long *)&poly->x0, (long *)&poly->x1,
                                 (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
-            poly->r0 = rec->outer[0];
-            poly->g0 = rec->outer[1];
-            poly->b0 = rec->outer[2];
-            poly->r1 = rec->inner[0];
-            poly->g1 = rec->inner[1];
-            poly->b1 = rec->inner[2];
-            poly->r2 = rec->outer[0];
-            poly->g2 = rec->outer[1];
-            poly->b2 = rec->outer[2];
-            poly->r3 = rec->outer[0];
-            poly->g3 = rec->outer[1];
-            poly->b3 = rec->outer[2];
+            poly->r0 = rec->outer.r;
+            poly->g0 = rec->outer.g;
+            poly->b0 = rec->outer.b;
+            poly->r1 = rec->inner.r;
+            poly->g1 = rec->inner.g;
+            poly->b1 = rec->inner.b;
+            poly->r2 = rec->outer.r;
+            poly->g2 = rec->outer.g;
+            poly->b2 = rec->outer.b;
+            poly->r3 = rec->outer.r;
+            poly->g3 = rec->outer.g;
+            poly->b3 = rec->outer.b;
             if (otz >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }
@@ -78,18 +78,18 @@ void ModelVariant324_DrawFan(Variant341EntryState *context)
                                 &rec->point[j + 7], &rec->point[j + 8],
                                 (long *)&poly->x0, (long *)&poly->x1,
                                 (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
-            poly->r0 = rec->outer[0];
-            poly->g0 = rec->outer[1];
-            poly->b0 = rec->outer[2];
-            poly->r1 = rec->inner[0];
-            poly->g1 = rec->inner[1];
-            poly->b1 = rec->inner[2];
-            poly->r2 = rec->outer[0];
-            poly->g2 = rec->outer[1];
-            poly->b2 = rec->outer[2];
-            poly->r3 = rec->outer[0];
-            poly->g3 = rec->outer[1];
-            poly->b3 = rec->outer[2];
+            poly->r0 = rec->outer.r;
+            poly->g0 = rec->outer.g;
+            poly->b0 = rec->outer.b;
+            poly->r1 = rec->inner.r;
+            poly->g1 = rec->inner.g;
+            poly->b1 = rec->inner.b;
+            poly->r2 = rec->outer.r;
+            poly->g2 = rec->outer.g;
+            poly->b2 = rec->outer.b;
+            poly->r3 = rec->outer.r;
+            poly->g3 = rec->outer.g;
+            poly->b3 = rec->outer.b;
             if (otz >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }

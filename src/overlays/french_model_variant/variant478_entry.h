@@ -14,14 +14,15 @@ typedef struct {
 
 typedef struct {
     SVECTOR a[32], b[32], c[32], d[32], positions[32];
-    u8 color[4], unknown_504[0x10];
+    CVECTOR color;
+    u8 unknown_504[0x10];
     s32 size[32], done[32], reset[32];
 } EntrySwarm478;
 
 
 typedef struct {
     SVECTOR v0[8], v1[8], v2[8], v3[8], positions[8];
-    u8 color[4];
+    CVECTOR color;
     s32 size[8], field_164[8], hidden[8], field_1A4[8], field_1C4[8];
     u8 unknown_1E4[0x80];
 } EntryPetals478;

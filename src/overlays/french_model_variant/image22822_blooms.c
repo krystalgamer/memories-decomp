@@ -33,13 +33,13 @@ void FrenchModelVariant454_DrawBlooms(Variant437State *context)
         for (j = 0; j < 12; j++) {
             if (group->size[j] > 0 && group->size[j] < 3072) {
                 if (group->size[j] > 2560) {
-                    red = group->color[0] * (3072 - group->size[j]) / 512;
-                    green = group->color[1] * (3072 - group->size[j]) / 512;
-                    blue = group->color[2] * (3072 - group->size[j]) / 512;
+                    red = group->color.r * (3072 - group->size[j]) / 512;
+                    green = group->color.g * (3072 - group->size[j]) / 512;
+                    blue = group->color.b * (3072 - group->size[j]) / 512;
                 } else {
-                    red = group->color[0];
-                    green = group->color[1];
-                    blue = group->color[2];
+                    red = group->color.r;
+                    green = group->color.g;
+                    blue = group->color.b;
                 }
                 if (group->size[j] < 1024) {
                     grow = group->size[j];

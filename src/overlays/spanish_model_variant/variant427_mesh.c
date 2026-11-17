@@ -45,15 +45,15 @@ void SpanishModelVariant427_DrawMeshes(EntryState427 *context)
         GsSetLsMatrix(&light);
         if (state->phase >= 5) {
             for (row = 0; row < 9; row++) {
-                red[row] = mesh->colors[row][0] * state->intensity / 1024;
-                green[row] = mesh->colors[row][1] * state->intensity / 1024;
-                blue[row] = mesh->colors[row][2] * state->intensity / 1024;
+                red[row] = mesh->colors[row].r * state->intensity / 1024;
+                green[row] = mesh->colors[row].g * state->intensity / 1024;
+                blue[row] = mesh->colors[row].b * state->intensity / 1024;
             }
         } else {
             for (row = 0; row < 9; row++) {
-                red[row] = mesh->colors[row][0];
-                green[row] = mesh->colors[row][1];
-                blue[row] = mesh->colors[row][2];
+                red[row] = mesh->colors[row].r;
+                green[row] = mesh->colors[row].g;
+                blue[row] = mesh->colors[row].b;
             }
         }
         for (row = 0; row < 8; row++) {

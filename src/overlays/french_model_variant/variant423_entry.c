@@ -113,10 +113,10 @@ s32 FrenchModelVariant423_HandleRequest(SVECTOR *point, s32 command)
                     -height, rsin(i) * radius >> 12);
             }
             base += 325;
-            mesh->colors[row][0] = red;
-            mesh->colors[row][1] = red;
+            mesh->colors[row].r = red;
+            mesh->colors[row].g = red;
             red += 20;
-            mesh->colors[row][2] = 192;
+            mesh->colors[row].b = 192;
         }
         for (i = 0; i < 12; i++, spiral++) {
             for (j = 0; j < 2; j++) {

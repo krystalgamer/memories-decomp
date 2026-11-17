@@ -14,7 +14,7 @@
  * part indices and the frames at which the blooms start and the bloom
  * origins stop following the model. */
 typedef struct {
-    u8 color[3][4];
+    CVECTOR color[3];
     u8 unknown0C[4];
     u8 parts[4];
     u8 unknown14[8];
@@ -32,7 +32,7 @@ typedef struct {
     SVECTOR c[12];
     SVECTOR d[12];
     u8 unknown180[0x60];
-    u8 color[4];
+    CVECTOR color;
     u8 unknown1E4[0x10];
     s32 size[12];
     s32 done[12];
@@ -44,7 +44,7 @@ typedef struct {
 /* One 0xA8-byte nine-step ribbon (sixteen at work + 0x1520). */
 typedef struct {
     u8 unknown00[0x48];
-    u8 color[9][4];
+    CVECTOR color[9];
     s32 unknown6C[3];
     u8 unknown78[4];
     s32 offset[9];
@@ -56,7 +56,7 @@ typedef struct {
 typedef struct {
     SVECTOR inner[4][6];
     SVECTOR outer[4][6];
-    u8 color[4];
+    CVECTOR color;
     s32 unknown184[3];
     u8 unknown190[4];
     s32 angle;
@@ -70,7 +70,7 @@ typedef struct {
     SVECTOR b[4];
     SVECTOR c[4];
     SVECTOR d[4];
-    u8 color[4];
+    CVECTOR color;
     u8 glow[4];
     s32 unknown88[3];
     u8 unknown94[4];
@@ -80,7 +80,7 @@ typedef struct {
 typedef struct {
     SVECTOR points[11];
     SVECTOR quad[4];
-    u8 color[4];
+    CVECTOR color;
     u8 glow[4];
     s32 unknown80[3];
     u8 unknown8C[4];

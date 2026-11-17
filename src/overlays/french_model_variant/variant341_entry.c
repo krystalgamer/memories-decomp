@@ -143,12 +143,12 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&fan->point[j + 6], (u32)(rcos(angle) * 3) >> 10,
                           (u32)(rsin(angle) * 5) >> 9, 0);
             }
-            fan->inner[0] = 255;
-            fan->inner[1] = 192;
-            fan->inner[2] = 192;
-            fan->outer[0] = 64;
-            fan->outer[1] = 64;
-            fan->outer[2] = 0;
+            fan->inner.r = 255;
+            fan->inner.g = 192;
+            fan->inner.b = 192;
+            fan->outer.r = 64;
+            fan->outer.g = 64;
+            fan->outer.b = 0;
             fan->size = 0;
             fan->field_64 = 0;
             fan->field_68 = 0;

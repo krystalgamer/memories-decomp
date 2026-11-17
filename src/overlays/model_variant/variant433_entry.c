@@ -251,12 +251,12 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
                 }
             }
             n++;
-            sheet->outer[0] = 224;
-            sheet->outer[1] = 240;
-            sheet->outer[2] = 255;
-            sheet->inner[2] = 255;
-            sheet->inner[0] = 0;
-            sheet->inner[1] = 128;
+            sheet->outer.r = 224;
+            sheet->outer.g = 240;
+            sheet->outer.b = 255;
+            sheet->inner.b = 255;
+            sheet->inner.r = 0;
+            sheet->inner.g = 128;
             sheet->fading = 0;
             sheet->brightness = 1024;
             sheet->size = 0;

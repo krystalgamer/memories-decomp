@@ -54,30 +54,30 @@ void ModelVariant459_DrawGlobe(Variant459EntryState *context)
     if (work->phase < 5) {
         work->globe_brightness = 0x400 - (work->globe_scale - 0x2000) / 8;
         for (i = 0; i < 9; i++) {
-            grid->colors[i][0] = i * 255 / 8 * work->globe_brightness / 1024;
-            grid->colors[i][1] = work->globe_brightness / 16;
-            grid->colors[i][2] = (0xFF - i * 255 / 8) * work->globe_brightness / 1024;
+            grid->colors[i].r = i * 255 / 8 * work->globe_brightness / 1024;
+            grid->colors[i].g = work->globe_brightness / 16;
+            grid->colors[i].b = (0xFF - i * 255 / 8) * work->globe_brightness / 1024;
         }
     } else {
         for (i = 0; i < 9; i++) {
-            grid->colors[i][0] = work->globe_brightness / 8;
-            grid->colors[i][1] = work->globe_brightness / 8;
-            grid->colors[i][2] = work->globe_brightness / 8;
+            grid->colors[i].r = work->globe_brightness / 8;
+            grid->colors[i].g = work->globe_brightness / 8;
+            grid->colors[i].b = work->globe_brightness / 8;
         }
     }
     for (i = 0; i < 8; i++) {
-        poly->r0 = grid->colors[i][0];
-        poly->g0 = grid->colors[i][1];
-        poly->b0 = grid->colors[i][2];
-        poly->r1 = grid->colors[i][0];
-        poly->g1 = grid->colors[i][1];
-        poly->b1 = grid->colors[i][2];
-        poly->r2 = grid->colors[i + 1][0];
-        poly->g2 = grid->colors[i + 1][1];
-        poly->b2 = grid->colors[i + 1][2];
-        poly->r3 = grid->colors[i + 1][0];
-        poly->g3 = grid->colors[i + 1][1];
-        poly->b3 = grid->colors[i + 1][2];
+        poly->r0 = grid->colors[i].r;
+        poly->g0 = grid->colors[i].g;
+        poly->b0 = grid->colors[i].b;
+        poly->r1 = grid->colors[i].r;
+        poly->g1 = grid->colors[i].g;
+        poly->b1 = grid->colors[i].b;
+        poly->r2 = grid->colors[i + 1].r;
+        poly->g2 = grid->colors[i + 1].g;
+        poly->b2 = grid->colors[i + 1].b;
+        poly->r3 = grid->colors[i + 1].r;
+        poly->g3 = grid->colors[i + 1].g;
+        poly->b3 = grid->colors[i + 1].b;
         for (j = 0; j < 16; j++) {
             otz = RotTransPers4(&grid->rows[i][j], &grid->rows[i][j + 1], &grid->rows[i + 1][j],
                                 &grid->rows[i + 1][j + 1], (long *)&poly->x0, (long *)&poly->x1,

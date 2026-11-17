@@ -95,27 +95,27 @@ void ModelVariant448_DrawFans(Variant448EntryState *context)
                         s32 x;
                         u8 c;
                         x = i2 + ip0 + j;
-                        c = unit->cb[j][0];
+                        c = unit->cb[j].r;
                         do {
                             *(u8 *)x = c;
                         } while (0);
                     }
                     {
-                        s32 w; u = t * 6 + (s32)&rot + 256; w = i2 + u; u = w + j; *(u8 *)u = unit->cb[j][1];
+                        s32 w; u = t * 6 + (s32)&rot + 256; w = i2 + u; u = w + j; *(u8 *)u = unit->cb[j].g;
                     }
                     {
-                        s32 w; u = t * 6 + (s32)&rot + 272; w = i2 + u; u = w + j; *(u8 *)u = unit->cb[j][2];
+                        s32 w; u = t * 6 + (s32)&rot + 272; w = i2 + u; u = w + j; *(u8 *)u = unit->cb[j].b;
                     }
                     {
-                        s32 w; u = t * 6 + (s32)&rot + 288; w = i2 + u; u = w + j; *(u8 *)u = unit->ca[j][0];
+                        s32 w; u = t * 6 + (s32)&rot + 288; w = i2 + u; u = w + j; *(u8 *)u = unit->ca[j].r;
                     }
                     {
-                        s32 w; u = t * 6 + (s32)&rot + 304; w = i2 + u; u = w + j; *(u8 *)u = unit->ca[j][1];
+                        s32 w; u = t * 6 + (s32)&rot + 304; w = i2 + u; u = w + j; *(u8 *)u = unit->ca[j].g;
                     }
                     {
                         s32 x;
                         x = i2 + ip5 + j;
-                        *(u8 *)x = unit->ca[j][2];
+                        *(u8 *)x = unit->ca[j].b;
                     }
                 } else {
                     s32 ip0, ip5, jj;
@@ -126,23 +126,23 @@ void ModelVariant448_DrawFans(Variant448EntryState *context)
                     jj = j;
                     ip0 = t * 6 + (s32)&rot + 240;
                     {
-                        s32 a; a = i2 + ip0 + jj; *(u8 *)a = unit->cb[j][0] * f / 512;
+                        s32 a; a = i2 + ip0 + jj; *(u8 *)a = unit->cb[j].r * f / 512;
                     }
                     {
-                        s32 a, b, d; a = t * 6 + (s32)&rot + 256; b = i2 + a; d = b + jj; *(u8 *)d = unit->cb[j][1] * f / 512;
+                        s32 a, b, d; a = t * 6 + (s32)&rot + 256; b = i2 + a; d = b + jj; *(u8 *)d = unit->cb[j].g * f / 512;
                     }
                     {
-                        s32 a, b, d; a = t * 6 + (s32)&rot + 272; b = i2 + a; d = b + jj; *(u8 *)d = unit->cb[j][2] * f / 512;
+                        s32 a, b, d; a = t * 6 + (s32)&rot + 272; b = i2 + a; d = b + jj; *(u8 *)d = unit->cb[j].b * f / 512;
                     }
                     {
-                        s32 a, b, d; a = t * 6 + (s32)&rot + 288; b = i2 + a; d = b + jj; *(u8 *)d = unit->ca[j][0] * f / 512;
+                        s32 a, b, d; a = t * 6 + (s32)&rot + 288; b = i2 + a; d = b + jj; *(u8 *)d = unit->ca[j].r * f / 512;
                     }
                     {
-                        s32 a, b, d; a = t * 6 + (s32)&rot + 304; b = i2 + a; d = b + jj; *(u8 *)d = unit->ca[j][1] * f / 512;
+                        s32 a, b, d; a = t * 6 + (s32)&rot + 304; b = i2 + a; d = b + jj; *(u8 *)d = unit->ca[j].g * f / 512;
                     }
                     ip5 = t * 6 + (s32)&rot + 320;
                     {
-                        s32 a; a = i2 + ip5 + j; *(u8 *)a = unit->ca[j][2] * f / 512;
+                        s32 a; a = i2 + ip5 + j; *(u8 *)a = unit->ca[j].b * f / 512;
                     }
                 }
                 if (work->phase < 4) {

@@ -49,8 +49,8 @@ typedef struct {
     s32 field_41A4, field_41A8, field_41AC, field_41B0, field_41B4;
     ModelVariantSpiralParams spiral;
     ModelVariantStreamerParams streamer;
-    u8 inner[4];
-    u8 outer[4];
+    CVECTOR inner;
+    CVECTOR outer;
     s32 curtain_angle, ribbon_sway, ribbon_wave, field_41E4, field_41E8;
     s32 phase;
     s32 field_41F0, field_41F4;

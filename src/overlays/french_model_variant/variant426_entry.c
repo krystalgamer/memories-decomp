@@ -126,10 +126,10 @@ s32 FrenchModelVariant426_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&mesh->rows[row][j], rcos(longitude) * radius >> 12,
                     -height, rsin(longitude) * radius >> 12);
             }
-            mesh->colors[row][2] = red;
+            mesh->colors[row].b = red;
             red += 8;
-            mesh->colors[row][0] = row * 8;
-            mesh->colors[row][1] = row * 8;
+            mesh->colors[row].r = row * 8;
+            mesh->colors[row].g = row * 8;
         }
         for (i = 0; i < 12; i++, spiral++) {
             for (j = 0; j < 2; j++) {

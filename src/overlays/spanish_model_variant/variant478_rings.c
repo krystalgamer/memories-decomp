@@ -37,9 +37,9 @@ void SpanishModelVariant478_DrawPetalRings(EntryState478 *context)
         for (j = 0, angle = phase; j < 8; j++, angle = phase + j * 512) {
             if (ring->size[j] >= 0) {
                 amount = 4096;
-                red = ring->color[0];
-                green = ring->color[1];
-                blue = ring->color[2];
+                red = ring->color.r;
+                green = ring->color.g;
+                blue = ring->color.b;
                 if (ring->size[j] <= 4096) {
                     amount = ring->size[j];
                 }

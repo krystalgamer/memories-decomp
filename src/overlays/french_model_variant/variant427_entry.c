@@ -120,9 +120,9 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
                         -height, rsin(angle) * radius >> 12);
                 }
                 base += 325;
-                mesh->colors[row][0] = 0;
-                mesh->colors[row][1] = 192;
-                mesh->colors[row][2] = 0;
+                mesh->colors[row].r = 0;
+                mesh->colors[row].g = 192;
+                mesh->colors[row].b = 0;
             }
             mesh->size = 0;
         }
@@ -217,9 +217,9 @@ s32 FrenchModelVariant427_HandleRequest(SVECTOR *point, s32 command)
         }
         for (i = 0; i < 2; i++, streamer++) {
             for (j = 0; j < 17; j++) {
-                streamer->color[j][0] = 128;
-                streamer->color[j][1] = 128;
-                streamer->color[j][2] = 128;
+                streamer->color[j].r = 128;
+                streamer->color[j].g = 128;
+                streamer->color[j].b = 128;
             }
             streamer->field_2A8 = 0;
         }

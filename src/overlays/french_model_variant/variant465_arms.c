@@ -86,23 +86,23 @@ void ModelVariant448_DrawFans(Variant448EntryState *context)
             for (j = 0; j < 2; j++) {
                 v = unit->amount[t][j];
                 if (v < 0x200) {
-                    c0[j + i2 + t * 6] = unit->cb[j][0];
-                    c1[j + i2 + t * 6] = unit->cb[j][1];
-                    c2[j + i2 + t * 6] = unit->cb[j][2];
-                    c3[j + i2 + t * 6] = unit->ca[j][0];
-                    c4[j + i2 + t * 6] = unit->ca[j][1];
-                    c5[j + i2 + t * 6] = unit->ca[j][2];
+                    c0[j + i2 + t * 6] = unit->cb[j].r;
+                    c1[j + i2 + t * 6] = unit->cb[j].g;
+                    c2[j + i2 + t * 6] = unit->cb[j].b;
+                    c3[j + i2 + t * 6] = unit->ca[j].r;
+                    c4[j + i2 + t * 6] = unit->ca[j].g;
+                    c5[j + i2 + t * 6] = unit->ca[j].b;
                 } else {
                     f = 0;
                     if (v < 0x400) {
                         f = 0x400 - v;
                     }
-                    c0[j + i2 + t * 6] = unit->cb[j][0] * f / 512;
-                    c1[j + i2 + t * 6] = unit->cb[j][1] * f / 512;
-                    c2[j + i2 + t * 6] = unit->cb[j][2] * f / 512;
-                    c3[j + i2 + t * 6] = unit->ca[j][0] * f / 512;
-                    c4[j + i2 + t * 6] = unit->ca[j][1] * f / 512;
-                    c5[j + i2 + t * 6] = unit->ca[j][2] * f / 512;
+                    c0[j + i2 + t * 6] = unit->cb[j].r * f / 512;
+                    c1[j + i2 + t * 6] = unit->cb[j].g * f / 512;
+                    c2[j + i2 + t * 6] = unit->cb[j].b * f / 512;
+                    c3[j + i2 + t * 6] = unit->ca[j].r * f / 512;
+                    c4[j + i2 + t * 6] = unit->ca[j].g * f / 512;
+                    c5[j + i2 + t * 6] = unit->ca[j].b * f / 512;
                 }
                 if (work->phase < 4) {
                     if (unit->amount[t][1] < 0x400) {

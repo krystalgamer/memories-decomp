@@ -144,9 +144,9 @@ s32 FrenchModelVariant474_HandleRequest(SVECTOR *point, s32 command)
             for (j = 0, angle2 = 0; j < 17; j++, angle2 = j << 8) {
                 setVector(&mesh->rows[n][j], rcos(angle2) * s >> 12, -c, rsin(angle2) * s >> 12);
             }
-            mesh->colors[n][2] = n * 8 + 64;
-            mesh->colors[n][0] = n * 8;
-            mesh->colors[n][1] = n * 8;
+            mesh->colors[n].b = n * 8 + 64;
+            mesh->colors[n].r = n * 8;
+            mesh->colors[n].g = n * 8;
         }
         for (i = 0; i < 1; i++, ribbon++) {
             for (j = 0; j < 17; j++) {

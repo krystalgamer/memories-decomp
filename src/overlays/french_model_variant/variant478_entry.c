@@ -103,9 +103,9 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
             setVector(&swarm->b[i], 256, -256, 0);
             setVector(&swarm->c[i], -256, 256, 0);
             setVector(&swarm->d[i], 256, 256, 0);
-            swarm->color[0] = work->config->outer.r;
-            swarm->color[1] = work->config->outer.g;
-            swarm->color[2] = work->config->outer.b;
+            swarm->color.r = work->config->outer.r;
+            swarm->color.g = work->config->outer.g;
+            swarm->color.b = work->config->outer.b;
             swarm->size[i] = -i * 32;
             swarm->done[i] = 0;
             swarm->reset[i] = 0;
@@ -140,9 +140,9 @@ s32 FrenchModelVariant478_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&petal->v1[i], 128, -128, 0);
                 setVector(&petal->v2[i], -128, 128, 0);
                 setVector(&petal->v3[i], 128, 128, 0);
-                petal->color[0] = work->config->outer.r;
-                petal->color[1] = work->config->outer.g;
-                petal->color[2] = work->config->outer.b;
+                petal->color.r = work->config->outer.r;
+                petal->color.g = work->config->outer.g;
+                petal->color.b = work->config->outer.b;
                 petal->size[i] = -i * 512 - j * 256;
                 petal->field_164[i] = 0;
                 petal->hidden[i] = 0;

@@ -207,12 +207,12 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
             setVector(&quad_record->corner[1], 128, -128, 0);
             setVector(&quad_record->corner[2], -128, 128, 0);
             setVector(&quad_record->corner[3], 128, 128, 0);
-            quad_record->inner[0] = 255;
-            quad_record->inner[1] = 192;
-            quad_record->inner[2] = 192;
-            quad_record->outer[0] = 64;
-            quad_record->outer[1] = 64;
-            quad_record->outer[2] = 0;
+            quad_record->inner.r = 255;
+            quad_record->inner.g = 192;
+            quad_record->inner.b = 192;
+            quad_record->outer.r = 64;
+            quad_record->outer.g = 64;
+            quad_record->outer.b = 0;
             quad_record->size = 0;
             quad_record->field_84 = 0;
             quad_record->done = 0;

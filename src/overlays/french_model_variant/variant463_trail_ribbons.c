@@ -147,9 +147,9 @@ void FrenchModelVariant463_DrawTrailRibbons(Variant446EntryState *context)
                 poly->x3 = TRAIL463_SA(j + 1).point.vx - ribbon->ox[j + 1];
                 poly->y3 = (TRAIL463_SA(j + 1).packed >> 16) - ribbon->oy[j + 1];
             }
-            poly->r0 = ribbon->ca[0];
-            poly->g0 = ribbon->ca[1];
-            poly->b0 = ribbon->ca[2];
+            poly->r0 = ribbon->ca.r;
+            poly->g0 = ribbon->ca.g;
+            poly->b0 = ribbon->ca.b;
             if (ribbon->otz[j] >= 0 && flags[i][j] >= 0) {
                 GsSortPoly(poly, ot, ribbon->otz[j]);
             }

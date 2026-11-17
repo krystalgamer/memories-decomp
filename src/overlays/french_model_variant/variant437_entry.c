@@ -195,12 +195,12 @@ s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command)
                     }
                 }
             }
-            sheet->outer[0] = 255;
-            sheet->outer[1] = 255;
-            sheet->outer[2] = 255;
-            sheet->inner[0] = 8;
-            sheet->inner[1] = 8;
-            sheet->inner[2] = 8;
+            sheet->outer.r = 255;
+            sheet->outer.g = 255;
+            sheet->outer.b = 255;
+            sheet->inner.r = 8;
+            sheet->inner.g = 8;
+            sheet->inner.b = 8;
         }
         for (i = 0; i < 3; i++, streamer++) {
             for (j = 0; j < 13; j++) {

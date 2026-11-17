@@ -59,20 +59,20 @@ void SpanishModelVariant479_DrawCurtains(Variant479EntryState *context)
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
             if (primary->size < 4096) {
-                inner_r = state->inner[0];
-                inner_g = state->inner[1];
-                inner_b = state->inner[2];
-                outer_r = state->outer[0];
-                outer_g = state->outer[1];
-                outer_b = state->outer[2];
+                inner_r = state->inner.r;
+                inner_g = state->inner.g;
+                inner_b = state->inner.b;
+                outer_r = state->outer.r;
+                outer_g = state->outer.g;
+                outer_b = state->outer.b;
             } else {
-                inner_r = state->inner[0] * (8192 - primary->size) / 4096;
+                inner_r = state->inner.r * (8192 - primary->size) / 4096;
                 intensity = 8192 - primary->size;
-                inner_g = state->inner[1] * intensity / 4096;
-                inner_b = state->inner[2] * intensity / 4096;
-                outer_r = state->outer[0] * intensity / 4096;
-                outer_g = state->outer[1] * intensity / 4096;
-                outer_b = state->outer[2] * intensity / 4096;
+                inner_g = state->inner.g * intensity / 4096;
+                inner_b = state->inner.b * intensity / 4096;
+                outer_r = state->outer.r * intensity / 4096;
+                outer_g = state->outer.g * intensity / 4096;
+                outer_b = state->outer.b * intensity / 4096;
             }
             for (j = 0; j < 16; j++) {
                 depth = RotTransPers4(&curtain->a[j], &curtain->a[j + 1],

@@ -27,13 +27,15 @@ typedef struct {
  * size grows to 4096; a negative start delays the band. */
 typedef struct {
     SVECTOR inner[17], outer[17];
-    u8 inner_color[4], outer_color[4];
+    CVECTOR inner_color;
+    CVECTOR outer_color;
     s32 size, completed;
 } Variant405EntryBand;
 
 typedef struct {
     u8 unknown_00[0x48];
-    u8 outer[4], inner[4];
+    CVECTOR outer;
+    CVECTOR inner;
     s32 field_50, field_54, field_58;
     u8 unknown_5C[0x28];
 } Variant405EntryRibbon;

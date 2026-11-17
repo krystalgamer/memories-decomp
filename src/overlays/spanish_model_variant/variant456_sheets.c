@@ -79,25 +79,25 @@ void SpanishModelVariant456_DrawSheets(Variant456EntryState *context)
             setUV4(quad, 64, 64, 127, 64, 64, 127, 127, 127);
         }
         if (sheet->faded == 0) {
-            quad->r0 = sheet->inner[0];
-            quad->g0 = sheet->inner[1];
-            quad->b0 = sheet->inner[2];
-            quad->r1 = sheet->inner[0];
-            quad->g1 = sheet->inner[1];
-            quad->b1 = sheet->inner[2];
-            quad->r2 = sheet->inner[0];
-            quad->g2 = sheet->inner[1];
-            quad->b2 = sheet->inner[2];
-            quad->r3 = sheet->outer[0];
-            quad->g3 = sheet->outer[1];
-            quad->b3 = sheet->outer[2];
+            quad->r0 = sheet->inner.r;
+            quad->g0 = sheet->inner.g;
+            quad->b0 = sheet->inner.b;
+            quad->r1 = sheet->inner.r;
+            quad->g1 = sheet->inner.g;
+            quad->b1 = sheet->inner.b;
+            quad->r2 = sheet->inner.r;
+            quad->g2 = sheet->inner.g;
+            quad->b2 = sheet->inner.b;
+            quad->r3 = sheet->outer.r;
+            quad->g3 = sheet->outer.g;
+            quad->b3 = sheet->outer.b;
         } else {
-            r = sheet->inner[0] * sheet->fade / 1024;
-            g = sheet->inner[1] * sheet->fade / 1024;
-            b = sheet->inner[2] * sheet->fade / 1024;
-            outer_r = sheet->outer[0] * sheet->fade / 1024;
-            outer_g = sheet->outer[1] * sheet->fade / 1024;
-            outer_b = sheet->outer[2] * sheet->fade / 1024;
+            r = sheet->inner.r * sheet->fade / 1024;
+            g = sheet->inner.g * sheet->fade / 1024;
+            b = sheet->inner.b * sheet->fade / 1024;
+            outer_r = sheet->outer.r * sheet->fade / 1024;
+            outer_g = sheet->outer.g * sheet->fade / 1024;
+            outer_b = sheet->outer.b * sheet->fade / 1024;
             quad->r0 = r;
             quad->g0 = g;
             quad->b0 = b;

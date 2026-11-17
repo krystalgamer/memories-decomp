@@ -119,9 +119,9 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&grid->points[row][j], rcos(angle) * radius >> 12, -y,
                               rsin(angle) * radius >> 12);
                 }
-                grid->colors[row][0] = 0;
-                grid->colors[row][1] = 255;
-                grid->colors[row][2] = 0;
+                grid->colors[row].r = 0;
+                grid->colors[row].g = 255;
+                grid->colors[row].b = 0;
             }
             grid->size = 0;
             grid->field_4F0 = 1024;
@@ -130,19 +130,19 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
         for (k = 0; k < 12; k++, arm++) {
             for (j = 0; j < 3; j++) {
                 if (j == 2) {
-                    arm->ca[j][0] = 0;
-                    arm->ca[j][1] = 0;
-                    arm->ca[j][2] = 0;
-                    arm->cb[j][0] = 0;
-                    arm->cb[j][1] = 0;
-                    arm->cb[j][2] = 0;
+                    arm->ca[j].r = 0;
+                    arm->ca[j].g = 0;
+                    arm->ca[j].b = 0;
+                    arm->cb[j].r = 0;
+                    arm->cb[j].g = 0;
+                    arm->cb[j].b = 0;
                 } else {
-                    arm->ca[j][0] = 0;
-                    arm->ca[j][1] = 255;
-                    arm->ca[j][2] = 32;
-                    arm->cb[j][0] = 128;
-                    arm->cb[j][1] = 128;
-                    arm->cb[j][2] = 128;
+                    arm->ca[j].r = 0;
+                    arm->ca[j].g = 255;
+                    arm->ca[j].b = 32;
+                    arm->cb[j].r = 128;
+                    arm->cb[j].g = 128;
+                    arm->cb[j].b = 128;
                 }
             }
         }
@@ -151,12 +151,12 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
             rib->scale[1] = 4096;
             rib->scale[2] = 4096;
             for (j = 0, shade = 0; j < 9; shade += 24, j++) {
-                rib->ca[j][0] = shade;
-                rib->ca[j][1] = shade;
-                rib->ca[j][2] = shade;
-                rib->cb[j][0] = 0;
-                rib->cb[j][1] = shade;
-                rib->cb[j][2] = 0;
+                rib->ca[j].r = shade;
+                rib->ca[j].g = shade;
+                rib->ca[j].b = shade;
+                rib->cb[j].r = 0;
+                rib->cb[j].g = shade;
+                rib->cb[j].b = 0;
             }
             rib->field_178 = 0;
             rib->field_17C = 0;
@@ -230,12 +230,12 @@ s32 SpanishModelVariant479_HandleRequest(SVECTOR *point, s32 command)
             }
             streamer->field_2A8 = 0;
         }
-        work->inner[0] = work->config->color[0];
-        work->inner[1] = work->config->color[1];
-        work->inner[2] = work->config->color[2];
-        work->outer[1] = 255;
-        work->outer[0] = 0;
-        work->outer[2] = 0;
+        work->inner.r = work->config->color[0];
+        work->inner.g = work->config->color[1];
+        work->inner.b = work->config->color[2];
+        work->outer.g = 255;
+        work->outer.r = 0;
+        work->outer.b = 0;
         work->curtain_angle = 0;
         work->size = 0;
         work->field_419C = 0;

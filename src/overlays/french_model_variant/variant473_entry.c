@@ -124,9 +124,9 @@ s32 FrenchModelVariant473_HandleRequest(SVECTOR *point, s32 command)
                         -height, rsin(angle) * radius >> 12);
                 }
                 base += 325;
-                mesh->colors[row][0] = row * 20;
-                mesh->colors[row][1] = row * 20;
-                mesh->colors[row][2] = 192;
+                mesh->colors[row].r = row * 20;
+                mesh->colors[row].g = row * 20;
+                mesh->colors[row].b = 192;
             }
             mesh->size = 0;
             mesh->field_4F0 = 1024;

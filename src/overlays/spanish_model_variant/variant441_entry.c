@@ -255,12 +255,12 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&curtain->a[j], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
                 setVector(&curtain->b[j], (u32)(rcos(angle) * 3) >> 5, (u32)(rsin(angle) * 3) >> 5, -64);
                 setVector(&curtain->c[j], (u32)(rcos(angle) * 7) >> 6, (u32)(rsin(angle) * 7) >> 6, -64);
-                curtain->color_a[0] = 255;
-                curtain->color_a[1] = 255;
-                curtain->color_a[2] = 255;
-                curtain->color_b[0] = 255;
-                curtain->color_b[1] = 0;
-                curtain->color_b[2] = 255;
+                curtain->color_a.r = 255;
+                curtain->color_a.g = 255;
+                curtain->color_a.b = 255;
+                curtain->color_b.r = 255;
+                curtain->color_b.g = 0;
+                curtain->color_b.b = 255;
             }
             curtain->scale = -((n << 11) / 5);
             curtain->growth = 0;

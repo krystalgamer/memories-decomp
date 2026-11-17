@@ -6,7 +6,7 @@
 
 typedef struct {
     SVECTOR rows[9][17];
-    u8 colors[9][4];
+    CVECTOR colors[9];
     s32 size;
 } Mesh427;
 

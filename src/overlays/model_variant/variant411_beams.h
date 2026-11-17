@@ -15,8 +15,8 @@ typedef struct {
     SVECTOR b[2];
     long sb[2];
     s32 width[2];
-    u8 outer[4];
-    u8 inner[4];
+    CVECTOR outer;
+    CVECTOR inner;
     s32 age;
     s32 otz[2];
     s16 ox[2];
