@@ -1360,9 +1360,9 @@ void Duel_InitSideStates(void) {
     for (k = 0; k < DUEL_SIDE_COUNT; k++, e++) {
         j = 4;
         r = (s8 *)e + j;
-        /* Preserve the backward cursor while deriving the hand-array base. */
+        /* e->hand[j] recomputes e + j each pass; retail walks this byte cursor. */
         for (; j >= 0; j--, r--) {
-            r[(u32)&((DuelSideState *)0)->hand] = -1;
+            r[OFFSETOF(DuelSideState, hand)] = -1;
         }
         q = (u8 *)e;
         e->deck_draw_cursor = 0;
@@ -1436,17 +1436,15 @@ void Duel_InitSelectionRecords(void) {
 void Duel_ResetCardRecords(void)
 {
     DuelCardRecord *entry = gDuel_aCardRecords;
+    /* A second cursor: one pointer for all three stores moves the i++. */
+    DuelCardRecord *card = gDuel_aCardRecords;
     int i = 0;
-    DuelCardFlagsCursor *flags = (DuelCardFlagsCursor *)&entry->flags;
 
     do {
         entry->object = 0;
-        /* Keep the flags-relative cursor while deriving the data distance. */
-        *(s32 *)(&flags->flags -
-            ((u32)&((DuelCardRecord *)0)->flags -
-             (u32)&((DuelCardRecord *)0)->data) / sizeof(flags->flags)) = 0;
-        flags->flags = 0;
-        flags++;
+        card->data = 0;
+        card->flags = 0;
+        card++;
         i++;
         entry++;
     } while (i < DUEL_CARD_RECORD_COUNT);
@@ -3712,9 +3710,9 @@ void DuelScene_UpdateCardPlacement(void)
                     if (object->field_60 > 0)
                     return;
                     {
-                        DisplayObject *entry = gDuel_pCardPreviewObject;
-                        /* A plain member store reschedules this function (it shrinks). */
-                        *(u16 *)((u32)entry + (u32)&((DisplayObject *)0)->flags) = entry->flags | 4;
+                        /* Via a local pointer: a plain member store reschedules this function. */
+                        u16 *flags = &gDuel_pCardPreviewObject->flags;
+                        *flags |= 4;
                     }
                     slots = gDisplayObject_apWorkSlots.slots;
                     DisplayObject_ReleaseIfPresent(slots[0]);
@@ -3875,8 +3873,11 @@ void DuelScene_UpdateCardPlacement(void)
                     DuelEffectRequest *request;
                     request = DuelEffect_AllocateRequest(1);
                     request->x = 128;
-                    /* A plain member store reschedules this function (it shrinks). */
-                    (*(s16 *)((u32)request + (u32)&((DuelEffectRequest *)0)->y)) = gDisplayObject_apWorkSlots.slots[0]->xy.h.y + 30;
+                    {
+                        /* Via a local pointer: a plain member store changes register allocation. */
+                        s16 *y = &request->y;
+                        *y = gDisplayObject_apWorkSlots.slots[0]->xy.h.y + 30;
+                    }
                     gDuelEffect_pTrackedRequest = request;
                     slots = gDisplayObject_apWorkSlots.slots;
                     if (slots[0]->resource_branch_index >= 20 || slots[1]->resource_branch_index >= 20)
@@ -8587,7 +8588,7 @@ void Duel_CreateFieldCursorObject(DuelSelectionRecord *source)
     {
         /* Byte offset kept: typed [side][index] adds the array base first; retail adds it last. */
         u8 *base = (u8 *)gDuel_aFieldGridGroundPositions;
-        s32 offset = (u32)&((DuelFieldPosition *)0)[index] +
+        s32 offset = index * sizeof(DuelFieldPosition) +
             gDuel_bActiveSide * sizeof(gDuel_aFieldGridGroundPositions[0]);
 
         position = (DuelFieldPosition *)(base + offset);
@@ -10560,7 +10561,7 @@ void DuelEffect_ApplyCursebreaker(void) {
         position_index = step + DUEL_FIELD_SIDE_ZONE_COUNT;
         object->phase = 3;
         position = (DuelFieldPosition *)(
-            (u32)&((DuelFieldPosition *)0)[position_index] +
+            position_index * sizeof(DuelFieldPosition) +
             DUEL_SIDE_SELECTOR_VOLATILE * sizeof(gDuel_aFieldGridGroundPositions[0]) +
             positions
         );

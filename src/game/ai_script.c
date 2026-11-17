@@ -1322,13 +1322,10 @@ void AiScript_FindFirstType(void)
     s32 type = memory[AiScript_ReadByte()];
     s32 dest = AiScript_ReadByte();
     s32 i = 0;
-    u8 *indices = gAi_Selection.bytes;
-    AiActiveCard *cards = gDuel_aActiveCards;
 
     do {
-        s32 index = *(u8 *)(i + (s32)indices);
-        AiActiveCard *card =
-            (AiActiveCard *)((u32)&((AiActiveCard *)0)[index] + (s32)cards);
+        s32 index = gAi_Selection.bytes[i];
+        AiActiveCard *card = &gDuel_aActiveCards[index];
 
         if (card->card_id != 0 && card->card_type == type) {
             memory[dest] = index;
