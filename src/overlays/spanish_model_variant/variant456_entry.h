@@ -21,13 +21,6 @@ typedef struct {
     s32 field_34, field_38, field_3C, field_40, field_44, field_48, field_4C;
 } Variant456EntryFan;
 
-/* A 0xF0-byte trail: two colours, a scale, three phases and a travelling
- * target with its offset from the part. */
-typedef union {
-    DVECTOR point;
-    long packed;
-} Variant456TrailScreen;
-
 /* A 0xF0-byte trail: a three-point spine and a copy of it moved along the
  * view, both projected, the per-point screen angle and projected width, the
  * colours and scale the entry seeds, per point the depth and the width's
@@ -36,10 +29,10 @@ typedef union {
  * width_scale / 1024. */
 typedef struct {
     SVECTOR a[3];
-    Variant456TrailScreen sa[3];
+    ModelVariantScreenPoint sa[3];
     s32 angle[3];
     SVECTOR b[3];
-    Variant456TrailScreen sb[3];
+    ModelVariantScreenPoint sb[3];
     s32 width[3];
     CVECTOR color, secondary;
     VECTOR scale;

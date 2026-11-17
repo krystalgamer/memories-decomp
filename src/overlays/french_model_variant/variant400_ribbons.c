@@ -31,7 +31,7 @@ void FrenchModelVariant400_DrawRibbons(Variant400EntryState *context)
     s32 pitch;
     s16 len;
     Variant400EntryNode *ribbon;
-    Variant400NodeScreen screen;
+    ModelVariantScreenPoint screen;
     POLY_FT4 *poly;
     s32 bend;
     s32 dx;

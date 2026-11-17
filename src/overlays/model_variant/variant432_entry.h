@@ -18,17 +18,12 @@ typedef struct {
 } Variant432EntryConfig;
 
 /* Four 0x380-byte ribbons at the start of the work area. */
-typedef union {
-    DVECTOR point;
-    long packed;
-} Variant432Screen;
-
 typedef struct {
     SVECTOR points[17];
-    Variant432Screen screen[17];
+    ModelVariantScreenPoint screen[17];
     s32 angle[17];
     SVECTOR edges[17];
-    Variant432Screen edge_screen[17];
+    ModelVariantScreenPoint edge_screen[17];
     s32 width[17];
     ModelVariantStripStyle style;
     u8 unknown_240[0x88];

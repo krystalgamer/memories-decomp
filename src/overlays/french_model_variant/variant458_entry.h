@@ -15,17 +15,12 @@ typedef struct {
     s32 move_start, move_end, fade_start;
 } EntryConfig458;
 
-typedef union {
-    DVECTOR point;
-    long packed;
-} Variant458Screen;
-
 typedef struct {
     SVECTOR points[9];
-    Variant458Screen screen[9];
+    ModelVariantScreenPoint screen[9];
     s32 angle[9];
     SVECTOR edges[9];
-    Variant458Screen edge_screen[9];
+    ModelVariantScreenPoint edge_screen[9];
     s32 width[9];
     CVECTOR inner, outer;
     VECTOR scale;

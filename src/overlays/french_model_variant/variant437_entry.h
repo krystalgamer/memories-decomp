@@ -21,19 +21,14 @@ typedef struct {
     u8 unknown_28[8];
 } Variant437EntryConfig;
 
-typedef union {
-    DVECTOR point;
-    long packed;
-} Variant437RibbonScreen;
-
 /* One 0x200-byte ribbon of nine points: the entry seeds style, and the
  * ribbon drawer projects the points and takes its colour from style.inner. */
 typedef struct {
     SVECTOR a[9];
-    Variant437RibbonScreen sa[9];
+    ModelVariantScreenPoint sa[9];
     s32 angle[9];
     SVECTOR b[9];
-    Variant437RibbonScreen sb[9];
+    ModelVariantScreenPoint sb[9];
     s32 width[9];
     ModelVariantStripStyle style;
     u8 unknown_140[0x68];

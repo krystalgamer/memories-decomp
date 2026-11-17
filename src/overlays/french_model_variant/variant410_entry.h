@@ -28,17 +28,12 @@ typedef struct {
     u8 unknown_25C[0x2FC - 0x25C];
 } Variant410EntryQuads;
 
-typedef union {
-    DVECTOR point;
-    long packed;
-} Variant410Screen;
-
 typedef struct {
     SVECTOR points[17];
-    Variant410Screen screen[17];
+    ModelVariantScreenPoint screen[17];
     s32 angle[17];
     SVECTOR edges[17];
-    Variant410Screen edge_screen[17];
+    ModelVariantScreenPoint edge_screen[17];
     s32 width[17];
     ModelVariantStripStyle style;
     VECTOR velocity;

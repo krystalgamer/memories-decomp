@@ -14,6 +14,13 @@
  * helpers receive the module's work area as a byte pointer and type it as
  * their owner's entry state; the shared records inside it are typed below. */
 
+/* A point as RotTransPers writes it: the screen DVECTOR or the packed word
+ * whose halves the drawers subtract and shift. */
+typedef union {
+    DVECTOR point;
+    long packed;
+} ModelVariantScreenPoint;
+
 /* The rays command row: the pass count at + 0x18; the helper finishes when
  * its index reaches it. */
 typedef struct {

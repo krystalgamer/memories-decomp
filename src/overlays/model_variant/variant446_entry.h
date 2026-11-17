@@ -17,23 +17,16 @@ typedef struct {
     u8 unknown_44[8];
 } Variant446EntryConfig;
 
-/* A projected point as RotTransPers writes it: a screen DVECTOR or the
- * packed word the ribbons split. */
-typedef union {
-    DVECTOR point;
-    long packed;
-} Variant446EntryScreen;
-
 /* One 0x2B0-byte ribbon: a thirteen-point spine and its offset copy, both
  * projected, with per-point angle and width; two colours, a scale, a growing
  * progress and an offset on a fan of angles around the root part; and per
  * point the depth and screen offset. */
 typedef struct {
     SVECTOR a[13];
-    Variant446EntryScreen sa[13];
+    ModelVariantScreenPoint sa[13];
     s32 angle[13];
     SVECTOR b[13];
-    Variant446EntryScreen sb[13];
+    ModelVariantScreenPoint sb[13];
     s32 width[13];
     u8 ca[4], cb[4];
     VECTOR scale;

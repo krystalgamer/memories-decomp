@@ -18,20 +18,14 @@ typedef struct {
     s32 field_4C, field_50, field_54, field_58, field_5C, field_60, field_64;
 } Variant433EntryFan;
 
-/* A screen position as RotTransPers writes it or as its two halves. */
-typedef union {
-    long packed;
-    DVECTOR point;
-} Variant433RingScreen;
-
 /* A 0x218-byte ribbon: nine phases, two colours, a scale and a travelling
  * target with its offset from the view origin. */
 typedef struct {
     SVECTOR points[9];
-    Variant433RingScreen screen[9];
+    ModelVariantScreenPoint screen[9];
     s32 angle[9];
     SVECTOR edges[9];
-    Variant433RingScreen edge_screen[9];
+    ModelVariantScreenPoint edge_screen[9];
     s32 width[9];
     CVECTOR color, secondary;
     VECTOR scale;
@@ -53,10 +47,10 @@ typedef struct {
  * entry seeds, and per point the depth, screen offsets and growth amount. */
 typedef struct {
     SVECTOR points[9];
-    Variant433RingScreen screen[9];
+    ModelVariantScreenPoint screen[9];
     s32 angle[9];
     SVECTOR edges[9];
-    Variant433RingScreen edge_screen[9];
+    ModelVariantScreenPoint edge_screen[9];
     s32 width[9];
     CVECTOR color, secondary;
     VECTOR scale;
@@ -81,10 +75,10 @@ typedef struct {
 
 typedef struct {
     SVECTOR points[17];
-    Variant433RingScreen screen[17];
+    ModelVariantScreenPoint screen[17];
     s32 angle[17];
     SVECTOR edges[17];
-    Variant433RingScreen edge_screen[17];
+    ModelVariantScreenPoint edge_screen[17];
     s32 width[17];
     u8 unknown_220[0x44];
     CVECTOR color[17];
