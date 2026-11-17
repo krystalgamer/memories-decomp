@@ -36,7 +36,10 @@ helper.
   test. The inner point loop opens with nested dead `j < 0` and `j == -1`
   tests. Branch deletion removes these tests after reload, leaving the
   index loads and extensions that the target keeps.
-- **View and bindings.** The view lives in `variant463_ribbons.h`.
+- **Record and bindings.** Both ribbon helpers read `Variant446EntryState`
+  (`ribbons`/`trails`), whose `Variant446EntryRibbon` now carries the
+  former view's spine, projection and depth names; `variant463_ribbons.h`
+  was removed.
   `model_variant463_linker_symbols.txt` gains `RotTransPers` for the French
   raw slot-1 images.
 
