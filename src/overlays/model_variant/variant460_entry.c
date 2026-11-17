@@ -13,7 +13,7 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
     VECTOR squared;
     long origin, interpolation, flag, projected;
     ModelVariantPanel *panel;
-    ModelVariantBeamPair *pair = &work->pair;
+    ModelVariantBandPair *pair = &work->pair;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantRing *ring = work->rings;
     ModelVariantRing *halo = work->halos;
@@ -155,16 +155,16 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
         for (i = 0; i < 1; i++, pair++) {
             setVector(&pair->scale, 4096, 4096, 4096);
             for (k = 0; k < 2; k++) {
-                pair->inner[k][0] = work->config->outer.r;
-                pair->inner[k][1] = work->config->outer.g;
-                pair->inner[k][2] = work->config->outer.b;
-                pair->outer[k][0] = work->config->inner.r;
-                pair->outer[k][1] = work->config->inner.g;
-                pair->outer[k][2] = work->config->inner.b;
+                pair->ca[k].r = work->config->outer.r;
+                pair->ca[k].g = work->config->outer.g;
+                pair->ca[k].b = work->config->outer.b;
+                pair->cb[k].r = work->config->inner.r;
+                pair->cb[k].g = work->config->inner.g;
+                pair->cb[k].b = work->config->inner.b;
                 pair->offset[k] = -(k * 768);
             }
-            pair->rx = 0;
-            pair->ry = 0;
+            pair->field_90 = 0;
+            pair->field_92 = 0;
             pair->field_94 = 0;
         }
         for (outer = 0; outer < 1; outer++, star++) {

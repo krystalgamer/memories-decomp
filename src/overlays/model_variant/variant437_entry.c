@@ -15,7 +15,7 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
 {
     Variant437State *work = (Variant437State *)context;
     Variant437Group *group = work->groups;
-    ModelVariantBeamPair *beam = &work->beam;
+    ModelVariantBandPair *beam = &work->beam;
     Variant437Tile *tile = work->tiles;
     ModelVariantRing *disc = work->discs;
     ModelVariantRing *ring = work->rings;
@@ -176,16 +176,16 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
             beam->scale.vy = 4096;
             beam->scale.vz = 4096;
             for (k = 0; k < 2; k++) {
-                beam->inner[k][0] = work->config->color[0][0];
-                beam->inner[k][1] = work->config->color[0][1];
-                beam->inner[k][2] = work->config->color[0][2];
-                beam->outer[k][0] = work->config->color[1][0];
-                beam->outer[k][1] = work->config->color[1][1];
-                beam->outer[k][2] = work->config->color[1][2];
+                beam->ca[k].r = work->config->color[0][0];
+                beam->ca[k].g = work->config->color[0][1];
+                beam->ca[k].b = work->config->color[0][2];
+                beam->cb[k].r = work->config->color[1][0];
+                beam->cb[k].g = work->config->color[1][1];
+                beam->cb[k].b = work->config->color[1][2];
                 beam->offset[k] = k * -768;
             }
-            beam->rx = 0;
-            beam->ry = 0;
+            beam->field_90 = 0;
+            beam->field_92 = 0;
             beam->field_94 = 0;
         }
 

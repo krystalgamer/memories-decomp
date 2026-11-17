@@ -16,7 +16,7 @@ typedef struct {
     ModelVariantQuadGroup groups[2];
     ModelVariantTrail columns[16];
     ModelVariantWebNarrow domes[3];
-    ModelVariantBeamPair pair;
+    ModelVariantBandPair pair;
     ModelVariantSheet sheets[2];
     ModelVariantRing rings[6];
     ModelVariantRing halos[4];

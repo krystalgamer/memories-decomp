@@ -1279,7 +1279,7 @@ typedef struct {
  * (-(j * 768)) and two colours, then a scale vector. ca takes the first
  * colour of the entry config and cb the second (the header-461 family's
  * config calls these outer and inner, the header-402 and 478 configs inner
- * and outer). */
+ * and outer). Headers 437 and 460 keep it as a pair of shaded sprites. */
 typedef struct {
     u8 unknown_00[0x68];
     s32 offset[2];
@@ -1454,21 +1454,6 @@ typedef struct {
     u16 cue[3];
     u16 unknown_56;
 } ModelVariantBoltVolleyConfig;
-
-/* A 0xA0-byte pair of shaded sprites sharing one scale: per sprite a
- * staggered start offset (-(k * 768)) and the entry config's two colours,
- * then the scale vector and two rotation halfwords. ModelVariantBandPair is
- * the same record with CVECTOR colours. */
-typedef struct {
-    u8 unknown_00[0x68];
-    s32 offset[2];
-    u8 inner[2][4];
-    u8 outer[2][4];
-    VECTOR scale;
-    s16 rx, ry;
-    s32 field_94;
-    u8 unknown_98[8];
-} ModelVariantBeamPair;
 
 /* Nine 17-point rings of a dome, each with its own colour (ModelVariantMesh
  * with CVECTOR colours). */

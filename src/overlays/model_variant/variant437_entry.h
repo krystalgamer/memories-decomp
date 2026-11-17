@@ -90,7 +90,7 @@ typedef struct {
     Variant437Group groups[8];
     Variant437Ribbon ribbons[16];
     Variant437Cone cones[3];
-    ModelVariantBeamPair beam;
+    ModelVariantBandPair beam;
     Variant437Tile tiles[2];
     ModelVariantRing discs[6];
     ModelVariantRing rings[4];
