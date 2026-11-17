@@ -463,8 +463,8 @@ void SD_CloseSequence(s32 unused)
  * The counter scope preserves register allocation; the state/count snapshot
  * keeps the voice cursor increment before the absolute state reload.
  *
- * Keep the object fields relative to the state base. Forming a separate
- * typed object pointer adds an instruction for the 0x180 array offset.
+ * Read the object fields as state->objects[i] off the reloaded state base;
+ * a separate typed object pointer changes the loop code.
  * Only the selected SpuVoiceAttr fields are initialized, as its mask requires.
  */
 void SD_MuteSecondaryVoices(void)
@@ -473,7 +473,6 @@ void SD_MuteSecondaryVoices(void)
     SDSecondaryState *initial = gSD_pSecondaryState;
     SDSecondaryState *state;
     s32 i;
-    s32 offset;
     s32 *voice_bits;
 
     initial->timer_update_inhibit = 1;
@@ -485,17 +484,11 @@ void SD_MuteSecondaryVoices(void)
             i = 0;
         } while (0);
         voice_bits = gSD_adwVoiceMasks;
-        offset = i;
         do {
-            u8 *entry = (u8 *)state + offset;
-            u32 control = entry[
-                (u32)&((SDSecondaryState *)0)->objects[0].channel_index
-            ] >> 4;
+            u32 control = state->objects[i].channel_index >> 4;
 
             if (control == 0) {
-                control = entry[
-                    (u32)&((SDSecondaryState *)0)->objects[0].lifecycle_stage
-                ];
+                control = state->objects[i].lifecycle_stage;
                 if (control != 0) {
                     control = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
                     packet.mask = control;
@@ -511,7 +504,6 @@ void SD_MuteSecondaryVoices(void)
                 count = state->object_count;
             } while (0);
             i++;
-            offset += sizeof(SDSecondaryObject);
         } while (i < count);
     }
     state = gSD_pSecondaryState;
@@ -526,7 +518,7 @@ void SD_MuteSecondaryVoices(void)
  * The counter scope preserves allocation; the state/count snapshot keeps
  * the bound load before the index increment.
  *
- * Object fields stay relative to the state base to preserve retail offsets.
+ * Object fields are read as state->objects[i] off the reloaded state base.
  * The SDK mask selects only the initialized voice and cached volume fields.
  */
 
@@ -536,7 +528,6 @@ void SD_RestoreSecondaryVoiceVolumes(void)
     SDSecondaryState *initial = gSD_pSecondaryState;
     SDSecondaryState *state;
     s32 i;
-    s32 offset;
     s32 *voice_bits;
 
     initial->timer_update_inhibit = 1;
@@ -548,25 +539,17 @@ void SD_RestoreSecondaryVoiceVolumes(void)
             i = 0;
         } while (0);
         voice_bits = gSD_adwVoiceMasks;
-        offset = i;
         do {
-            u8 *entry = (u8 *)state + offset;
-            u32 control = entry[
-                (u32)&((SDSecondaryState *)0)->objects[0].channel_index
-            ] >> 4;
+            u32 control = state->objects[i].channel_index >> 4;
 
             if (control == 0) {
-                control = entry[
-                    (u32)&((SDSecondaryState *)0)->objects[0].lifecycle_stage
-                ];
+                control = state->objects[i].lifecycle_stage;
                 if (control != 0) {
                     control = SPU_VOICE_VOLL | SPU_VOICE_VOLR;
                     packet.mask = control;
                     packet.voice = *voice_bits;
-                    packet.volume.left = *(u16 *)(entry +
-                        (u32)&((SDSecondaryState *)0)->objects[0].level_left);
-                    packet.volume.right = *(u16 *)(entry +
-                        (u32)&((SDSecondaryState *)0)->objects[0].level_right);
+                    packet.volume.left = state->objects[i].level_left;
+                    packet.volume.right = state->objects[i].level_right;
                     SpuSetVoiceAttr(&packet);
                 }
             }
@@ -576,7 +559,6 @@ void SD_RestoreSecondaryVoiceVolumes(void)
                 count = state->object_count;
             } while (0);
             i++;
-            offset += sizeof(SDSecondaryObject);
         } while (i < count);
     }
     state = gSD_pSecondaryState;
