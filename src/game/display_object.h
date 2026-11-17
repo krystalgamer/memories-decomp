@@ -493,11 +493,9 @@ typedef struct DisplayObject {
     /* Reached as halves as well, by the same witness 0x38 describes and
        under the same limit: DuelEffect_UpdateObjectLayout writes 0x50 and
        0x52 as the last of its six x/y pairs. The word view stays for every
-       user the comment above lists, and the two callers that reach the word
-       by name spell it .word: src/game/duel_scene.c, which stores
-       another object's address here, and Duel_DrawLifePointsAndDeckCounts,
-       which loads that address back. Those two are why the word view is s32
-       rather than unsigned. */
+       user the comment above lists; the duel scene's object link, stored by
+       src/game/duel_scene.c and loaded back by
+       Duel_DrawLifePointsAndDeckCounts, is the `linked` arm. */
     union {
         s32 word;
         struct {
@@ -507,6 +505,9 @@ typedef struct DisplayObject {
         /* A timed sprite stream's script cursor; the stream handlers in
            display_object_system.c set it and ReadNextCommand reads through it. */
         u8 *current;
+        /* The panel Duel_DrawLifePointsAndDeckCounts draws its digits beside;
+           Duel_InitScene links the life-points panel here. */
+        struct DisplayObject *linked;
     } field_50;                    /* 0x50 */
     /* resource: the serialized resource the stream resolver and the stream
        jumps offset into (AcquireSlot's tail_data_start, or the bank the

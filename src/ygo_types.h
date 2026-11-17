@@ -187,13 +187,13 @@ typedef char PasswordGlyphCoordinates_size_must_be_8[
     sizeof(PasswordGlyphCoordinates) == 8 ? 1 : -1
 ];
 
-/* Eight bytes copied as one unit. Two retained candidates use this shape as
-   the source and destination of a whole-struct assignment: Duel_RenderFieldCard3D
-   copies four rotation corners and DebugMenu_UpdateValueEditor one mask block out of
-   gDebugMenu_awNibbleMasks. The matching wireframe renderer Library_DrawWireframeGlobe used it for its
-   parameter block out of D_80181000 until that block was typed as the SVECTOR
-   it is. SVECTOR's alignment of 2 is still below a word, so its assignment
-   lowers to the same two unaligned move pairs.
+/* Eight bytes copied as one unit. DebugMenu_UpdateValueEditor uses this shape
+   as the source and destination of a whole-struct assignment, one mask block
+   out of gDebugMenu_awNibbleMasks. Duel_RenderFieldCard3D (its four rotation
+   corners) and the matching wireframe renderer Library_DrawWireframeGlobe (its
+   parameter block out of D_80181000) used it until their data was typed as the
+   SVECTORs it is. SVECTOR's alignment of 2 is still below a word, so its
+   assignment lowers to the same two unaligned move pairs.
 
    The element type is what this type is for, and it is load-bearing for the
    reason model.h:113-124 gives about ModelSlotMetadataBlockWords -- the element
