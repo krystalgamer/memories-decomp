@@ -6,7 +6,7 @@
 #include "../../psyq/libgs.h"
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/libhmd.h"
-#include "../model_variant/model_variant.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_copy_slot_u16_values.h"

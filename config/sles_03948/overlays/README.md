@@ -61,9 +61,9 @@ directly, and four header-465/615 images reuse
 renaming wrappers. All helpers are retained, not entry-reachable. Current
 G32/PSXLONG declarations and GCC 2.8.1/MASPSX 2.81 profiles are preserved.
 Two special Exodia/SU images contain four independently recovered helpers
-under `model_exodia/`, with three other functions retained as generated assembly.
+under `model_variant/`, with three other functions retained as generated assembly.
 All seven Exodia functions are now C, grouped as one translation unit per
-image (`model_exodia/exodia_slot0.c` and `exodia_slot1.c`).
+image (`model_variant/exodia_slot0.c` and `exodia_slot1.c`).
 Two representative return-two primary images reuse the accepted
 `model_variant/return_two.c` body unchanged.
 
