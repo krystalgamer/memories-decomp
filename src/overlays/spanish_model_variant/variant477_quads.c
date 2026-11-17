@@ -2,7 +2,7 @@
 #include "../french_model_variant/variant477_entry.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant477_DrawQuadGroups(u8 *context)
+void SpanishModelVariant477_DrawQuadGroups(EntryState477 *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -14,7 +14,7 @@ void SpanishModelVariant477_DrawQuadGroups(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    EntryState477 *state = (EntryState477 *)context;
+    EntryState477 *state = context;
     ModelVariantQuadGroup *group = state->groups;
     POLY_FT4 *polygon;
     s16 i, j;

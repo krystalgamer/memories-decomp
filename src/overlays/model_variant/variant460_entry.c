@@ -13,20 +13,20 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
     VECTOR squared;
     long origin, interpolation, flag, projected;
     ModelVariantPanel *panel;
-    ModelVariantBeamPair *pair = &work->pair;
+    ModelVariantBandPair *pair = &work->pair;
     ModelVariantSheet *sheet = work->sheets;
-    ModelVariantRing *ring = work->rings;
-    ModelVariantRing *halo = work->halos;
-    Variant460Star *star = &work->star;
-    Variant460Dome *dome = work->domes;
+    ModelVariantColorRing *ring = work->rings;
+    ModelVariantColorRing *halo = work->halos;
+    ModelVariantShape *star = &work->star;
+    ModelVariantWebNarrow *dome = work->domes;
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;
-    Variant460Column *column = work->columns;
+    ModelVariantTrail *column = work->columns;
     POLY_GT4 *textured = work->packets.textured;
     POLY_GT4 *glow = &work->glow;
     POLY_FT4 *flat = work->flat;
-    POLY_FT4 *frame = &work->frame_poly;
-    POLY_FT4 *panel_poly = &work->panel_poly;
+    POLY_FT4 *frame = &work->quads_packet;
+    POLY_FT4 *panel_poly = &work->panels_packet;
     s32 result = 0;
     u16 flat_texture, panel_texture;
     s32 base, i, row, packed, panel_page, y, inner_y;
@@ -48,14 +48,14 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);
         }
         if (work->slot == 0) {
-            setVector(&work->target, 0, -300, -450);
+            setVector(&work->aim.target, 0, -300, -450);
         } else {
-            setVector(&work->target, 0, -300, 450);
+            setVector(&work->aim.target, 0, -300, 450);
         }
         panel = work->panels;
         GsGetLwUnit(work->parts[0], &work->matrix);
-        setVector(&work->delta, work->target.vx - work->matrix.t[0],
-                  work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction, work->aim.target.vx - work->matrix.t[0],
+                  work->aim.target.vy - work->matrix.t[1], work->aim.target.vz - work->matrix.t[2]);
         tpage = GetTPage(1, 1, 896, 0);
         clut = GetClut(512, 244);
         GetTPage(1, 1, 896, 0);
@@ -120,16 +120,16 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 setVector(&panel->b[j], 256, -256, 0);
                 setVector(&panel->c[j], -256, 256, 0);
                 setVector(&panel->d[j], 256, 256, 0);
-                panel->color.r = work->config->color_b[0];
-                panel->color.g = work->config->color_b[1];
-                panel->color.b = work->config->color_b[2];
+                panel->color.r = work->config->inner.r;
+                panel->color.g = work->config->inner.g;
+                panel->color.b = work->config->inner.b;
                 panel->size[j] = -1;
                 panel->done[j] = 0;
                 panel->field_44[j] = 0;
                 panel->initialized[j] = 0;
-                panel->positions[j].vx = work->matrix.t[0] + work->delta.vx;
-                panel->positions[j].vy = work->matrix.t[1] + work->delta.vy;
-                panel->positions[j].vz = work->matrix.t[2] + work->delta.vz;
+                panel->positions[j].vx = work->matrix.t[0] + work->aim.direction.vx;
+                panel->positions[j].vy = work->matrix.t[1] + work->aim.direction.vy;
+                panel->positions[j].vz = work->matrix.t[2] + work->aim.direction.vz;
             }
             work->enabled[i] = 0;
         }
@@ -139,50 +139,50 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 setVector(&group->b[j], 256, -256, 0);
                 setVector(&group->c[j], -256, 256, 0);
                 setVector(&group->d[j], 256, 256, 0);
-                group->color.r = work->config->color_b[0];
-                group->color.g = work->config->color_b[1];
-                group->color.b = work->config->color_b[2];
+                group->color.r = work->config->inner.r;
+                group->color.g = work->config->inner.g;
+                group->color.b = work->config->inner.b;
                 group->angle[j] = 0;
                 group->done[j] = 0;
                 group->field_20C[j] = 0;
                 group->initialized[j] = 0;
                 group->size[j] = -((j << 12) / 10);
-                group->positions[j].vx = work->matrix.t[0] + work->delta.vx;
-                group->positions[j].vy = work->matrix.t[1] + work->delta.vy;
-                group->positions[j].vz = work->matrix.t[2] + work->delta.vz;
+                group->positions[j].vx = work->matrix.t[0] + work->aim.direction.vx;
+                group->positions[j].vy = work->matrix.t[1] + work->aim.direction.vy;
+                group->positions[j].vz = work->matrix.t[2] + work->aim.direction.vz;
             }
         }
         for (i = 0; i < 1; i++, pair++) {
             setVector(&pair->scale, 4096, 4096, 4096);
             for (k = 0; k < 2; k++) {
-                pair->inner[k][0] = work->config->color_a[0];
-                pair->inner[k][1] = work->config->color_a[1];
-                pair->inner[k][2] = work->config->color_a[2];
-                pair->outer[k][0] = work->config->color_b[0];
-                pair->outer[k][1] = work->config->color_b[1];
-                pair->outer[k][2] = work->config->color_b[2];
+                pair->ca[k].r = work->config->outer.r;
+                pair->ca[k].g = work->config->outer.g;
+                pair->ca[k].b = work->config->outer.b;
+                pair->cb[k].r = work->config->inner.r;
+                pair->cb[k].g = work->config->inner.g;
+                pair->cb[k].b = work->config->inner.b;
                 pair->offset[k] = -(k * 768);
             }
-            pair->rx = 0;
-            pair->ry = 0;
+            pair->field_90 = 0;
+            pair->field_92 = 0;
             pair->field_94 = 0;
         }
         for (outer = 0; outer < 1; outer++, star++) {
-            setVector(&star->a[0], 0, 0, 0);
+            setVector(&star->origin, 0, 0, 0);
             for (k = 0, angle = 0; k < 5; k++, angle = k << 10) {
-                setVector(&star->a[k + 1], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 8, 0);
-                setVector(&star->b[k], (u32)(rcos(angle) * 3) >> 10, (u32)(rsin(angle) * 5) >> 9, 0);
+                setVector(&star->inner[k], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 8, 0);
+                setVector(&star->outer[k], (u32)(rcos(angle) * 3) >> 10, (u32)(rsin(angle) * 5) >> 9, 0);
             }
-            star->color_a[0] = 255;
-            star->color_a[1] = 192;
-            star->color_a[2] = 192;
-            setVector(&star->square[0], -128, -128, 0);
-            setVector(&star->square[1], 128, -128, 0);
-            setVector(&star->square[2], -128, 128, 0);
-            setVector(&star->square[3], 128, 128, 0);
-            star->color_b[0] = 64;
-            star->color_b[1] = 64;
-            star->color_b[2] = 0;
+            star->inner_color.r = 255;
+            star->inner_color.g = 192;
+            star->inner_color.b = 192;
+            setVector(&star->corners[0], -128, -128, 0);
+            setVector(&star->corners[1], 128, -128, 0);
+            setVector(&star->corners[2], -128, 128, 0);
+            setVector(&star->corners[3], 128, 128, 0);
+            star->outer_color.r = 64;
+            star->outer_color.g = 64;
+            star->outer_color.b = 0;
             star->field_80 = 0;
             star->field_84 = 0;
             star->field_88 = 0;
@@ -211,12 +211,12 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                     setVector(&sheet->v3[corner], 0, 0, 0);
                 }
             }
-            sheet->outer[0] = work->config->color_b[0];
-            sheet->outer[1] = work->config->color_b[1];
-            sheet->outer[2] = work->config->color_b[2];
-            sheet->inner[0] = work->config->color_a[0];
-            sheet->inner[1] = work->config->color_a[1];
-            sheet->inner[2] = work->config->color_a[2];
+            sheet->outer[0] = work->config->inner.r;
+            sheet->outer[1] = work->config->inner.g;
+            sheet->outer[2] = work->config->inner.b;
+            sheet->inner[0] = work->config->outer.r;
+            sheet->inner[1] = work->config->outer.g;
+            sheet->inner[2] = work->config->outer.b;
             sheet->size = 0;
             sheet->field_8C = 0;
             sheet->field_90 = 0;
@@ -230,27 +230,27 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 scale = rsin(elevation) * inner_size >> 12;
                 inner_y = rcos(elevation) * inner_size >> 12;
                 for (k = 0, angle = base; k < 6; k++, angle = base + (k << 12) / 6) {
-                    setVector(&dome->outer[row][k], rcos(angle) * radius >> 12, y,
+                    setVector(&dome->near[row][k], rcos(angle) * radius >> 12, y,
                               rsin(angle) * radius >> 12);
-                    setVector(&dome->inner[row][k], rcos(angle) * scale >> 12, inner_y,
+                    setVector(&dome->far[row][k], rcos(angle) * scale >> 12, inner_y,
                               rsin(angle) * scale >> 12);
                 }
             }
             dome->field_184 = 0;
             dome->field_188 = 0;
             dome->field_18C = 0;
-            dome->color[0] = work->config->color_c[0];
-            dome->color[1] = work->config->color_c[1];
-            dome->color[2] = work->config->color_c[2];
-            dome->size = (j << 12) / 3 + 4096;
-            dome->field_198 = 0;
+            dome->color.r = work->config->web_color.r;
+            dome->color.g = work->config->web_color.g;
+            dome->color.b = work->config->web_color.b;
+            dome->scale = (j << 12) / 3 + 4096;
+            dome->done = 0;
             dome->field_19C = 0;
         }
         for (j = 0; j < 16; j++, column++) {
             for (k = 0; k < 9; k++) {
-                column->color[k][0] = shade = -64 - k * 24;
-                column->color[k][1] = shade;
-                column->color[k][2] = 255;
+                column->color[k].r = shade = -64 - k * 24;
+                column->color[k].g = shade;
+                column->color[k].b = 255;
                 column->offset[k] = -(k << 8);
             }
             column->field_6C = 0;
@@ -264,12 +264,12 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 setVector(&ring->inner[outer], (u32)rcos(ring_angle) >> 4, (u32)rsin(ring_angle) >> 4, 0);
                 setVector(&ring->outer[outer], (u32)(rcos(ring_angle) * 5) >> 6, (u32)(rsin(ring_angle) * 5) >> 6, 0);
             }
-            ring->inner_color[0] = 64;
-            ring->inner_color[1] = 128;
-            ring->inner_color[2] = 255;
-            ring->outer_color[0] = 0;
-            ring->outer_color[1] = 0;
-            ring->outer_color[2] = 0;
+            ring->inner_color.r = 64;
+            ring->inner_color.g = 128;
+            ring->inner_color.b = 255;
+            ring->outer_color.r = 0;
+            ring->outer_color.g = 0;
+            ring->outer_color.b = 0;
             ring->angle = (row << 10) / 6;
             ring->count = 0;
         }
@@ -278,12 +278,12 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                 setVector(&halo->inner[j], (u32)(rcos(halo_angle) * 3) >> 5, (u32)(rsin(halo_angle) * 3) >> 5, 0);
                 setVector(&halo->outer[j], (u32)rcos(halo_angle) >> 3, (u32)rsin(halo_angle) >> 3, 0);
             }
-            halo->outer_color[0] = 255;
-            halo->outer_color[1] = 192;
-            halo->inner_color[0] = 0;
-            halo->inner_color[1] = 0;
-            halo->inner_color[2] = 0;
-            halo->outer_color[2] = 64;
+            halo->outer_color.r = 255;
+            halo->outer_color.g = 192;
+            halo->inner_color.r = 0;
+            halo->inner_color.g = 0;
+            halo->inner_color.b = 0;
+            halo->outer_color.b = 64;
             halo->angle = 1024 - (row << 8);
             halo->count = 0;
             inner = 4096;
@@ -305,41 +305,41 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
         work->command = command;
     } else {
         view = Model_GetCameraViewBuffer();
-        setVector(&work->view_delta, view->vrx - view->vpx,
+        setVector(&work->aim.view_delta, view->vrx - view->vpx,
                   view->vry - view->vpy, view->vrz - view->vpz);
-        Square0(&work->view_delta, &squared);
-        work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
-        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        Square0(&work->aim.view_delta, &squared);
+        work->clock.angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
         }
-        if (work->clock.frame < work->config->track_end) {
+        if (work->clock.frame < work->config->matrix_end) {
             GsGetLwUnit(work->parts[0], &work->matrix);
         }
         panel = work->panels;
-        setVector(&work->delta, work->target.vx - work->matrix.t[0],
-                  work->target.vy - work->matrix.t[1], work->target.vz - work->matrix.t[2]);
+        setVector(&work->aim.direction, work->aim.target.vx - work->matrix.t[0],
+                  work->aim.target.vy - work->matrix.t[1], work->aim.target.vz - work->matrix.t[2]);
         for (i = 0; i < 2; i++, panel++) {
             for (j = 0, angle = 0; j < 1; j++, angle += 1300) {
                 if (panel->size[j] >= 0 && panel->initialized[j] == 0) {
                     if (work->slot == 0) {
                         if (j % 4 == 0) {
                             setVector(&panel->captured[j],
-                                  work->target.vx, work->target.vy, work->target.vz);
+                                  work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
                         } else {
                             setVector(&panel->captured[j],
-                                  work->target.vx + (rcos(angle) * 192 >> 12),
-                                  work->target.vy + (rsin(angle) * 192 >> 12), work->target.vz);
+                                  work->aim.target.vx + (rcos(angle) * 192 >> 12),
+                                  work->aim.target.vy + (rsin(angle) * 192 >> 12), work->aim.target.vz);
                         }
                     } else if ((j & 3) == 0) {
                         setVector(&panel->captured[j],
-                                  work->target.vx, work->target.vy, work->target.vz);
+                                  work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
                     } else {
                         setVector(&panel->captured[j],
-                                  work->target.vx + (rcos(angle) * 192 >> 12),
-                                  work->target.vy + (rsin(angle) * 192 >> 12), work->target.vz);
+                                  work->aim.target.vx + (rcos(angle) * 192 >> 12),
+                                  work->aim.target.vy + (rsin(angle) * 192 >> 12), work->aim.target.vz);
                     }
                     GsGetLwUnit(work->parts[i], &panel->matrices[j]);
                     panel->initialized[j] = 1;
@@ -355,15 +355,15 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
         RotTransPers(&position, &origin, &interpolation, &flag);
         origin_x = origin;
         origin_y = origin >> 16;
-        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        setVector(&target, work->aim.target.vx, work->aim.target.vy, work->aim.target.vz);
         RotTransPers(&target, &projected, &interpolation, &flag);
-        work->projected.vx = projected - origin_x;
-        work->projected.vy = (projected >> 16) - origin_y;
-        if (work->config->panel_start <= work->clock.frame) {
-            SpanishModelVariant477_DrawPanels(context);
+        work->aim.screen_delta.vx = projected - origin_x;
+        work->aim.screen_delta.vy = (projected >> 16) - origin_y;
+        if (work->config->draw_start <= work->clock.frame) {
+            SpanishModelVariant477_DrawPanels((Variant460State *)context);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant477_DrawQuadGroups(context);
+            SpanishModelVariant477_DrawQuadGroups((Variant460State *)context);
         }
         work->clock.frame_count++;
         animation_frame = Model_GetSlotAnimationFrame(work->slot);
@@ -406,6 +406,9 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
 }
 
 /* The helpers are the Spanish header-477 panels and quads, rebuilt at the
- * North American addresses. */
+ * North American addresses on header 460's record, which names the members
+ * they read identically; the header-477 entry header is skipped. */
+#define FRENCH_MODEL_VARIANT477_ENTRY_H
+#define EntryState477 Variant460State
 #include "../spanish_model_variant/variant477_panels.c"
 #include "../spanish_model_variant/variant477_quads.c"

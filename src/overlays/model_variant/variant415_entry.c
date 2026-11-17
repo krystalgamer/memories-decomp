@@ -30,7 +30,7 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
     s32 value;
     Variant415EntryStrand *strand_a;
     Variant415EntryStrand *strand_b;
-    ModelVariantRing *ring;
+    ModelVariantColorRing *ring;
     s32 index;
     Variant415EntryLine *line;
     s32 offset;
@@ -232,12 +232,12 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
                 setVector(&ring->outer[n], (u32)(rcos(ring_angle) * 5) >> 6,
                           (u32)(rsin(ring_angle) * 5) >> 6, 0);
             }
-            ring->inner_color[0] = 64;
-            ring->inner_color[1] = 128;
-            ring->inner_color[2] = 255;
-            ring->outer_color[0] = 0;
-            ring->outer_color[1] = 0;
-            ring->outer_color[2] = 0;
+            ring->inner_color.r = 64;
+            ring->inner_color.g = 128;
+            ring->inner_color.b = 255;
+            ring->outer_color.r = 0;
+            ring->outer_color.g = 0;
+            ring->outer_color.b = 0;
             ring->angle = ring_index << 8;
             ring->count = 0;
         }

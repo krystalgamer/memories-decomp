@@ -49,7 +49,7 @@ typedef struct {
     ModelVariantSheet sheets[2];
     Variant415EntryStrand strands_a[3];
     Variant415EntryStrand strands_b[3];
-    ModelVariantRing rings[4];
+    ModelVariantColorRing rings[4];
     Variant415EntryLine lines[2];
     Variant415EntrySweep sweeps[3];
     ModelVariantPackets packets;

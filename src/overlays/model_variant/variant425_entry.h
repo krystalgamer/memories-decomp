@@ -25,8 +25,8 @@ typedef struct {
     ModelVariantRibbonShort ribbons[8];
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[1];
-    ModelVariantRing rings[6];
-    ModelVariantRing spokes[4];
+    ModelVariantColorRing rings[6];
+    ModelVariantColorRing spokes[4];
     ModelVariantFan fans[1];
     ModelVariantPackets packets;
     POLY_GT4 extra;

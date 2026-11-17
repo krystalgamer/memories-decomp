@@ -338,20 +338,20 @@ typedef struct {
     VECTOR unknown_40;
 } ModelVariantCountedElement;
 
-/* One 0x90-byte element of the ring array at work + 0x15AC: eight spokes,
- * each drawn as a GsGLINE from inner[k] to outer[k]. The ring drawers light
- * the inner end with inner_color and fade it with angle; the spoke drawers
- * light the outer end with outer_color and scale the spokes instead. angle
- * runs to 0x400 and count is bumped each time it wraps. ModelVariantColorRing
- * is the same record with CVECTOR colours. */
+/* One 0x90-byte ring of eight spokes, each drawn as a GsGLINE from
+ * inner[k] to outer[k]. The ring drawers light the inner end with
+ * inner_color and fade it with angle; the spoke drawers light the outer end
+ * with outer_color and scale the spokes instead. angle runs to 0x400 and
+ * count is bumped each time it wraps. Many entry handlers set the colours to
+ * (64, 128, 255) and black. */
 typedef struct {
     SVECTOR inner[8];
     SVECTOR outer[8];
-    u8 inner_color[4];
-    u8 outer_color[4];
+    CVECTOR inner_color;
+    CVECTOR outer_color;
     s32 angle;
     s32 count;
-} ModelVariantRing;
+} ModelVariantColorRing;
 
 /* One 0x98-byte element of header 397's sheet array: four POLY_GT4 quads
  * given by corner arrays v0..v3, an inner colour on three corners and an
@@ -1253,20 +1253,6 @@ typedef struct {
     VECTOR position;
 } ModelVariantSpark;
 
-/* One 0x90-byte ring of eight spokes with CVECTOR colours: inner and outer
- * spoke ends, the inner and outer colours (the entry handlers set them to
- * (64, 128, 255) and black), the angle the spokes sweep through 0..0x400 and
- * a count. ModelVariantRing is the same record with u8[4] colours; its
- * drawers advance angle and bump count when angle wraps. */
-typedef struct {
-    SVECTOR inner[8];
-    SVECTOR outer[8];
-    CVECTOR inner_color;
-    CVECTOR outer_color;
-    s32 angle;
-    s32 count;
-} ModelVariantColorRing;
-
 /* ModelVariantColorRing with a colour per spoke before the inner and outer
  * colours (0xB0 bytes). */
 typedef struct {
@@ -1279,7 +1265,7 @@ typedef struct {
  * (-(j * 768)) and two colours, then a scale vector. ca takes the first
  * colour of the entry config and cb the second (the header-461 family's
  * config calls these outer and inner, the header-402 and 478 configs inner
- * and outer). */
+ * and outer). Headers 437 and 460 keep it as a pair of shaded sprites. */
 typedef struct {
     u8 unknown_00[0x68];
     s32 offset[2];
@@ -1454,21 +1440,6 @@ typedef struct {
     u16 cue[3];
     u16 unknown_56;
 } ModelVariantBoltVolleyConfig;
-
-/* A 0xA0-byte pair of shaded sprites sharing one scale: per sprite a
- * staggered start offset (-(k * 768)) and the entry config's two colours,
- * then the scale vector and two rotation halfwords. ModelVariantBandPair is
- * the same record with CVECTOR colours. */
-typedef struct {
-    u8 unknown_00[0x68];
-    s32 offset[2];
-    u8 inner[2][4];
-    u8 outer[2][4];
-    VECTOR scale;
-    s16 rx, ry;
-    s32 field_94;
-    u8 unknown_98[8];
-} ModelVariantBeamPair;
 
 /* Nine 17-point rings of a dome, each with its own colour (ModelVariantMesh
  * with CVECTOR colours). */

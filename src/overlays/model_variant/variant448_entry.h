@@ -28,8 +28,8 @@ typedef struct {
     ModelVariantWebNarrow webs[3];
     Variant448FanUnit fans[3];
     Variant448Orbit orbit[1];
-    ModelVariantRing rings[6];
-    ModelVariantRing spokes[4];
+    ModelVariantColorRing rings[6];
+    ModelVariantColorRing spokes[4];
     ModelVariantFan quads[1];
     ModelVariantPackets packets;
     POLY_GT4 extra;

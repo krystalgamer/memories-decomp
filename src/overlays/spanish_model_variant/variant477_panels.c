@@ -6,7 +6,7 @@
  * at descriptor +0x1C and +0x20. Each panel moves along its direction with its
  * size, fades over its second half and grows by step * 48 until it is done;
  * the phase moves to 2 at half size and to 5 once both panels are done. */
-void SpanishModelVariant477_DrawPanels(u8 *context)
+void SpanishModelVariant477_DrawPanels(EntryState477 *context)
 {
     SVECTOR rotation;
     VECTOR unused;
@@ -17,7 +17,7 @@ void SpanishModelVariant477_DrawPanels(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    EntryState477 *state = (EntryState477 *)context;
+    EntryState477 *state = context;
     ModelVariantPanel *panel = state->panels;
     POLY_FT4 *polygon;
     s16 i, j;

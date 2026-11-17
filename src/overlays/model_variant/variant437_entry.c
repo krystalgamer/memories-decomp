@@ -15,10 +15,10 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
 {
     Variant437State *work = (Variant437State *)context;
     Variant437Group *group = work->groups;
-    ModelVariantBeamPair *beam = &work->beam;
+    ModelVariantBandPair *beam = &work->beam;
     Variant437Tile *tile = work->tiles;
-    ModelVariantRing *disc = work->discs;
-    ModelVariantRing *ring = work->rings;
+    ModelVariantColorRing *disc = work->discs;
+    ModelVariantColorRing *ring = work->rings;
     Variant437Star *star = &work->star;
     Variant437Cone *cone = work->cones;
     Variant437Ribbon *ribbon = work->ribbons;
@@ -176,16 +176,16 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
             beam->scale.vy = 4096;
             beam->scale.vz = 4096;
             for (k = 0; k < 2; k++) {
-                beam->inner[k][0] = work->config->color[0][0];
-                beam->inner[k][1] = work->config->color[0][1];
-                beam->inner[k][2] = work->config->color[0][2];
-                beam->outer[k][0] = work->config->color[1][0];
-                beam->outer[k][1] = work->config->color[1][1];
-                beam->outer[k][2] = work->config->color[1][2];
+                beam->ca[k].r = work->config->color[0][0];
+                beam->ca[k].g = work->config->color[0][1];
+                beam->ca[k].b = work->config->color[0][2];
+                beam->cb[k].r = work->config->color[1][0];
+                beam->cb[k].g = work->config->color[1][1];
+                beam->cb[k].b = work->config->color[1][2];
                 beam->offset[k] = k * -768;
             }
-            beam->rx = 0;
-            beam->ry = 0;
+            beam->field_90 = 0;
+            beam->field_92 = 0;
             beam->field_94 = 0;
         }
 
@@ -293,12 +293,12 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
                 setVector(&disc->outer[j], (u32)(rcos(angle) * 5) >> 6,
                           (u32)(rsin(angle) * 5) >> 6, 0);
             }
-            disc->inner_color[0] = 64;
-            disc->inner_color[1] = 128;
-            disc->inner_color[2] = 255;
-            disc->outer_color[0] = 0;
-            disc->outer_color[1] = 0;
-            disc->outer_color[2] = 0;
+            disc->inner_color.r = 64;
+            disc->inner_color.g = 128;
+            disc->inner_color.b = 255;
+            disc->outer_color.r = 0;
+            disc->outer_color.g = 0;
+            disc->outer_color.b = 0;
             disc->angle = m * 1024 / 6;
             disc->count = 0;
         }
@@ -310,12 +310,12 @@ s32 ModelVariant437_HandleRequest(u8 *context, s32 command)
                 setVector(&ring->outer[j], (u32)rcos(angle) >> 3,
                           (u32)rsin(angle) >> 3, 0);
             }
-            ring->outer_color[0] = 255;
-            ring->outer_color[1] = 192;
-            ring->inner_color[0] = 0;
-            ring->inner_color[1] = 0;
-            ring->inner_color[2] = 0;
-            ring->outer_color[2] = 64;
+            ring->outer_color.r = 255;
+            ring->outer_color.g = 192;
+            ring->inner_color.r = 0;
+            ring->inner_color.g = 0;
+            ring->inner_color.b = 0;
+            ring->outer_color.b = 64;
             ring->angle = 1024 - m * 256;
             ring->count = 0;
             unit = 4096;
