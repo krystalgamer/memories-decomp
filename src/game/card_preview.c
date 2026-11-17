@@ -205,8 +205,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
         f4 = f4 | (win->attribute & 0x08000000);
         obj->attribute = f4;
         if (DisplayObject_ProjectRotationFacing(
-                (struct DisplayObject *)obj, (s16)win->xy.h.x + (s16)win->field_18.center.x,
-                (s16)win->xy.h.y + (s16)win->field_18.center.y, origin
+                (struct DisplayObject *)obj, win->xy.s.x + (s16)win->field_18.center.x,
+                win->xy.s.y + (s16)win->field_18.center.y, origin
             ) <= 0) {
             return;
         }

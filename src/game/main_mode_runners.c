@@ -620,11 +620,11 @@ void Main_RunTrade(void)
         );
         TextBox_SetPos(
             box,
-            *(s16 *)&obj->xy.h.x + 0x18,
+            obj->xy.s.x + 0x18,
 #ifdef VERSION_EUROPE
-            *(s16 *)&obj->xy.h.y + 0x28
+            obj->xy.s.y + 0x28
 #else
-            *(s16 *)&obj->xy.h.y + 0x20
+            obj->xy.s.y + 0x20
 #endif
         );
         if (obj->field_60 <= 0) {

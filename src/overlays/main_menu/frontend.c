@@ -641,8 +641,8 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
 
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     if (object != 0) {
-        DisplayObject_ConfigureSpriteAtPositionWithResource(object, (s16)entry->xy.h.x,
-                      (s16)entry->xy.h.y, 0, 0, entry->resource_variant,
+        DisplayObject_ConfigureSpriteAtPositionWithResource(object, entry->xy.s.x,
+                      entry->xy.s.y, 0, 0, entry->resource_variant,
                       0x18, 0, gDisplay_abResourceBank1);
         object->attribute |= 0x51000000;
         object->flags |=

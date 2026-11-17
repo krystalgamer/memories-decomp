@@ -41,16 +41,16 @@
 void FreeDuel_UpdateScrollbar(void)
 {
     DisplayObject *cursor = gFreeDuel_pCursorWidget;
-    s32 relative = (s16)cursor->xy.h.y - gGraphics_sViewportY;
+    s32 relative = cursor->xy.s.y - gGraphics_sViewportY;
 
     if (relative < 0x28) {
-        gGraphics_sViewportY = (s16)cursor->xy.h.y - 0x28;
+        gGraphics_sViewportY = cursor->xy.s.y - 0x28;
     }
     if (relative >= 0x91) {
-        gGraphics_sViewportY = (s16)cursor->xy.h.y - 0x90;
+        gGraphics_sViewportY = cursor->xy.s.y - 0x90;
     }
     gFreeDuel_pThumbWidget->xy.h.y =
-        ((s16)cursor->xy.h.y - 0x28) * 72 / 364 + 7;
+        (cursor->xy.s.y - 0x28) * 72 / 364 + 7;
 }
 
 void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm)
@@ -387,13 +387,13 @@ void FreeDuel_UpdateCursorTween(void)
 
         d = gFreeDuel_bTargetColumn;
         tx = d * 56 + 20;
-        d = (s16)widget->xy.h.x;
+        d = widget->xy.s.x;
         d = tx - d;
         sx = (d << 8) / 8;
         d = gFreeDuel_bTargetRow;
         ty = d * 52 + 40;
         widget->field_34.h.field_36 = sx;
-        d = (s16)widget->xy.h.y;
+        d = widget->xy.s.y;
         d = ty - d;
         widget->field_38.h.field_38 = (d << 8) / 8;
     }

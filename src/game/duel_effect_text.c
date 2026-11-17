@@ -451,8 +451,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
 #endif
 
     SetGeomScreen(0x12C);
-    x = (s16)obj->xy.h.x;
-    y = (s16)obj->xy.h.y;
+    x = obj->xy.s.x;
+    y = obj->xy.s.y;
     pri = (s16)obj->ot_depth;
     if (!(obj->flags & 8)) {
         x = x - gGraphics_sViewportX;
@@ -840,8 +840,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     s32 hw;
 
     SetGeomScreen(0x12C);
-    x = (s16)obj->xy.h.x;
-    y = (s16)obj->xy.h.y;
+    x = obj->xy.s.x;
+    y = obj->xy.s.y;
     pri = (s16)obj->ot_depth;
     if (!(obj->flags & 8)) {
         x = x - gGraphics_sViewportX;

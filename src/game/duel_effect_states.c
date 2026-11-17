@@ -129,7 +129,7 @@ void DuelEffect_UpdateCardViewerState(void)
 #ifndef VERSION_EUROPE
         adj = gDuel_bCardViewerYOffset;
 #endif
-        *(s16 *)&obj->xy.h.x = -0x8C;
+        obj->xy.s.x = -0x8C;
         obj->field_20.b.rotation_y = 0x80;
 #ifndef VERSION_EUROPE
         obj->xy.h.y += adj;
@@ -213,48 +213,48 @@ void DuelEffect_UpdateCardViewerState(void)
             if (state & 0x10) {
 #ifdef VERSION_EUROPE
                 Widget_SlideSine(obj,
-                                 *(s16 *)&obj->xy.h.x,
+                                 obj->xy.s.x,
                                  0x108,
                                  speed);
 #else
                 Widget_SlideSine(obj,
                                  0x148,
-                                 *(s16 *)&obj->xy.h.y,
+                                 obj->xy.s.y,
                                  speed);
 #endif
                 flags = *(u16 *)&obj->field_60 - 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags <= 0) {
-                    *(s16 *)&obj->xy.h.x = 0x400;
+                    obj->xy.s.x = 0x400;
                     obj->field_60 = 0;
                 }
             } else {
 #ifdef VERSION_EUROPE
                 Widget_SlideSine(obj,
-                                 *(s16 *)&obj->xy.h.x,
+                                 obj->xy.s.x,
                                  6,
                                  speed);
 #else
                 Widget_SlideSine(obj,
                                  DUEL_CARD_VIEWER_SHOWN_X,
-                                 *(s16 *)&obj->xy.h.y,
+                                 obj->xy.s.y,
                                  speed);
 #endif
                 flags = *(u16 *)&obj->field_60 + 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags >= 0) {
 #ifdef VERSION_EUROPE
-                    *(s16 *)&obj->xy.h.y = 6;
+                    obj->xy.s.y = 6;
 #else
-                    *(s16 *)&obj->xy.h.x = DUEL_CARD_VIEWER_SHOWN_X;
+                    obj->xy.s.x = DUEL_CARD_VIEWER_SHOWN_X;
 #endif
                     obj->field_60 = 0;
                 }
             }
             pos_box = gDuel_pCardViewerTextBox;
             if (pos_box != 0) {
-                TextBox_SetPos(pos_box, *(s16 *)&obj->xy.h.x,
-                               *(s16 *)&obj->xy.h.y);
+                TextBox_SetPos(pos_box, obj->xy.s.x,
+                               obj->xy.s.y);
             }
         }
         obj = gDuel_pCardViewerCard;
@@ -263,23 +263,23 @@ void DuelEffect_UpdateCardViewerState(void)
             if (gDuel_bEffectHandlerFlags & 0x10) {
                 Widget_SlideSine(obj,
                                  -0x8C,
-                                 *(s16 *)&obj->xy.h.y,
+                                 obj->xy.s.y,
                                  speed);
                 flags = *(u16 *)&obj->field_60 - 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags <= 0) {
-                    *(s16 *)&obj->xy.h.x = 0x400;
+                    obj->xy.s.x = 0x400;
                     obj->field_60 = 0;
                 }
             } else {
                 Widget_SlideSine(obj,
                                  2,
-                                 *(s16 *)&obj->xy.h.y,
+                                 obj->xy.s.y,
                                  speed);
                 flags = *(u16 *)&obj->field_60 + 0x55;
                 obj->field_60 = flags;
                 if ((s16)flags >= 0) {
-                    *(s16 *)&obj->xy.h.x = 2;
+                    obj->xy.s.x = 2;
                     obj->field_60 = 0;
                 }
             }
