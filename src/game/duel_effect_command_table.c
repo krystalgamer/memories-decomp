@@ -16,7 +16,10 @@
  * TextBox_BuildStep dispatches stream bytes 0xF0 through 0xFF through the
  * sixteen primary commands that follow, and DuelEffect_ProcessEntries selects
  * one of the four entry handlers after those. Each table keeps its consumer's
- * calling convention, so the shared handlers are cast to it.
+ * calling convention: the primary handlers all take the channel, while the
+ * no-argument secondary no-ops, Text_PushStagedString's unread return and the
+ * one-argument entry handlers (called with the entry and its channel) are
+ * cast to their table's type.
  *
  * Every entry now comes through its unit's header in the include block
  * above. */
@@ -55,23 +58,23 @@ void (*gText_SecondaryCommandHandlers[])(DuelEffectChannel *) = {
 #endif
 };
 
-void (*gText_apfnPrimaryCommands[])(u8 *) = {
-    (void (*)(u8 *))Text_ExtendGlyphCode,
-    (void (*)(u8 *))Text_ExtendGlyphCode,
-    (void (*)(u8 *))Text_ExtendGlyphCode,
-    (void (*)(u8 *))Text_ExtendGlyphCode,
-    (void (*)(u8 *))Text_ExtendGlyphCode,
-    (void (*)(u8 *))Text_ExtendGlyphCode,
-    (void (*)(u8 *))Text_HandleDisplayEffectCommand,
-    (void (*)(u8 *))Text_SetStateFromStream,
-    (void (*)(u8 *))Text_DispatchSecondaryCommand,
-    (void (*)(u8 *))Text_HandleCampaignFlagCommand,
-    (void (*)(u8 *))Text_StartPageWait,
-    (void (*)(u8 *))Text_HandleChoiceCommand,
-    (void (*)(u8 *))Text_PushStreamOffset,
-    (void (*)(u8 *))Text_SetCursorOffset,
-    (void (*)(u8 *))Text_NewLine,
-    (void (*)(u8 *))Text_EndStream,
+void (*gText_apfnPrimaryCommands[])(DuelEffectChannel *) = {
+    Text_ExtendGlyphCode,
+    Text_ExtendGlyphCode,
+    Text_ExtendGlyphCode,
+    Text_ExtendGlyphCode,
+    Text_ExtendGlyphCode,
+    Text_ExtendGlyphCode,
+    Text_HandleDisplayEffectCommand,
+    Text_SetStateFromStream,
+    Text_DispatchSecondaryCommand,
+    Text_HandleCampaignFlagCommand,
+    Text_StartPageWait,
+    Text_HandleChoiceCommand,
+    Text_PushStreamOffset,
+    Text_SetCursorOffset,
+    Text_NewLine,
+    Text_EndStream,
 };
 
 void (*gDuelEffect_EntryHandlers[])(DuelEffectEntry *, DuelEffectChannel *) = {

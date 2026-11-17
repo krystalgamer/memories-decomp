@@ -3461,7 +3461,7 @@ void Text_EndStream(DuelEffectChannel *record)
    the third), and depending on the flags either stops it (bit 7), adjusts a
    running one (bits 5 and 6) or starts it in the slot given by bit 0, with
    the object's state byte set to the matching wait state. */
-void Text_HandleDisplayEffectCommand(EffectObject *o) {
+void Text_HandleDisplayEffectCommand(DuelEffectChannel *o) {
     MenuRecord *e;
     s32 id;
     s32 flags;
@@ -3470,8 +3470,8 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
     s32 b;
 
     gText_CommandDisposition = 1;
-    a = *o->streams[o->depth]++;
-    b = *o->streams[o->depth]++;
+    a = *o->streams[o->stream_index]++;
+    b = *o->streams[o->stream_index]++;
     id = a;
     flags = b;
 
@@ -3495,7 +3495,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
             return;
         }
         if (flags & 1) {
-            o->state = 0xE;
+            o->playback_state = 0xE;
             return;
         }
         if (e->slot_index != 0) {
@@ -3505,7 +3505,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         }
         e->tween_target_y = 0xB2;
         e->tween_arg.tween_duration = 0x10;
-        o->state = 7;
+        o->playback_state = 7;
         e->display_effect_step = 3;
         if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
             e->display_effect_step = 5;
@@ -3523,7 +3523,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         gText_DisplayEffectRecord = e;
         if (flags & 0x40) {
             e->resource_entry_index = flags & 3;
-            o->state = 9;
+            o->playback_state = 9;
             return;
         } else if (flags & 0x20) {
             e->variant_update_flags &= 0xEF;
@@ -3548,7 +3548,7 @@ void Text_HandleDisplayEffectCommand(EffectObject *o) {
         /* s16 view: retail materialises li -56, not the u16 0xffc8. */
         *(s16 *)&e->x = -0x38;
     }
-    o->state = 6;
+    o->playback_state = 6;
     gText_DisplayEffectRecord = e;
     if (id >= CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID) {
         e->display_effect_step = 5;
@@ -3737,7 +3737,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     u8 *script;
     DuelEffectEntry *entry;
     s32 op;
-    void (**handlers)(u8 *);
+    void (**handlers)(DuelEffectChannel *);
 
     flags = object->flags_34;
     if ((flags & TEXT_BOX_FLAG_BUILD_ACTIVE) == 0) {
@@ -3867,7 +3867,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
             *slot = script + 1;
             if (op >= 0xF0) {
                 gText_CommandDisposition = 0;
-                handlers[(s16)gText_CurrentStreamCode - 0xF0]((u8 *)object);
+                handlers[(s16)gText_CurrentStreamCode - 0xF0](object);
                 if (gText_CommandDisposition >= 0) {
                     if (gText_CommandDisposition == 1) {
                         return;

@@ -125,8 +125,8 @@ BuildStep tests the FULL playback_state for nonzero before masking the
 callback index with 0x1F. The eighteen-entry table remains unsized, raw
 stream state values remain unchecked, and the original 0x80 initialization
 and callback-specific 0x40 latches survive. This is not entry handler_state,
-channel flags, the shared script gate or command disposition. The narrow
-EffectObject.state producer view remains unchanged at the same +0x51.
+channel flags, the shared script gate or command disposition. The
+display-effect command stores the same +0x51 through the channel.
 
 First build arms delay_countdown to one and clears playback_state. Normal
 parsing decrements the countdown before its zero test, then reloads
