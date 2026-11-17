@@ -261,7 +261,7 @@ which is archive range `0xF6F800-0xF97800`. Its matching callback
 The final phase shares the password front-end image but differs inside its
 last data sector, so it remains a distinct verified binary rather than an
 interchangeable copy. Its entry points and both phase hashes are documented
-under [`src/overlays/name_entry/`](../src/overlays/name_entry/).
+in the [password overlay README](../src/overlays/password/README.md#name-entry-package-and-shared-image).
 
 ### Password screen package
 

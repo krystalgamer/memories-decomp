@@ -11,13 +11,14 @@ src/overlays/<module>/
 ```
 
 When a screen has a verified package but its executable phase is shared with
-another module, a documentation-only directory may record the screen-specific
-entry points without duplicating matching source.
+another module, document its screen-specific entry points in that module's
+README rather than creating a second directory or duplicating matching source.
 
 Use the stable module names recorded in
 [`notes/overlays/module-crosswalk.md`](../../notes/overlays/module-crosswalk.md),
-such as `free_duel`, `password`, `overworld`, and `main_menu`; `name_entry`
-is the documented shared-image exception.
+such as `free_duel`, `password`, `overworld`, and `main_menu`; the
+`name_entry` build module is the documented shared-image exception and builds
+from `password/`.
 Do not create a module directory from an address alone: different overlays
 reuse the same VRAM ranges, especially `0x80168xxx`, so an address-based source
 path would merge unrelated code.
@@ -48,11 +49,9 @@ Initialized module directories:
 - [`free_duel/`](free_duel/) records the verified WA package, executable
   phase, and runtime range for the Free Duel module.
 - [`password/`](password/) records the password-screen package and the
-  related, non-identical phase in the name-entry package.
+  related, non-identical phase in the name-entry package, including the
+  name-entry entry points into the shared front-end image.
 - [`overworld/`](overworld/) records the pre- and post-coup WA variants that
   reuse the same runtime code range.
 - [`main_menu/`](main_menu/) records the verified SU phase and keeps the
   second, unidentified SU image outside the module scope.
-- [`name_entry/`](name_entry/) records the verified WA package and entry
-  points into the front-end image shared with `password/`; matching source is
-  not duplicated under both directories.

@@ -11,10 +11,10 @@ Verified boundaries:
 | Executable phase | sectors `8054-8069`, `0x7800` bytes |
 | Runtime image range | `0x80168000-0x8016F800` |
 
-The [name-entry package](../name_entry/README.md) contains a closely related
-`0x7800` phase at sectors `7968-7983`. The two chunks share code but differ in
-their final data sector, so they must not be treated as one interchangeable
-module image.
+The [name-entry package](#name-entry-package-and-shared-image) contains a
+closely related `0x7800` phase at sectors `7968-7983`. The two chunks share
+code but differ in their final data sector, so they must not be treated as one
+interchangeable module image.
 
 Module-scoped symbol evidence is kept in
 [`notes/research/Unchiga_Symbols/modules/password.txt`](../../../notes/research/Unchiga_Symbols/modules/password.txt).
@@ -30,6 +30,59 @@ Its accepted build layout is
 module byte-for-byte. Keep candidate sources, objects, and diffs under `tmp/`
 until a function passes this overlay-specific exact-match process. Do not add
 this module to the resident `config/slus_01411/matching_c.json`.
+
+## Name-entry package and shared image
+
+Name entry has no source directory of its own: its package enters the
+front-end image whose matching source lives here.
+
+| Item | Range |
+|---|---|
+| WA archive package | sectors `7903-7983` (80 sectors) |
+| WA executable phase | sectors `7968-7983`, `0x7800` bytes |
+| Runtime code range | `0x80168000-0x8016F800` |
+| Known module symbols | `0x801680F4-0x8016D4D2` |
+
+The package is recovered from the resident loader trace. `Main_RunNameEntry`
+(`0x8002D62C`) calls `File_RequestNameEntryPackage`, whose request is
+`File_RequestAsyncTransfer(0, 0, 0x1EDF, 0x50, NameEntry_LoadPackageStage, 0, 0)`. The
+third and fourth arguments are the first WA sector and the sector count, which
+the two already-verified screens confirm: Free Duel uses `(0x1E88, 0x57)` for
+`7816-7903` and the password screen uses `(0x1F2F, 0x56)` for `7983-8069`.
+
+The `0x80168000` phase of this package is **not** a distinct module. Its
+`0x7800` bytes are byte-identical to the password package's phase at sectors
+`8054-8069` except inside the final sector, where the first difference is at
+phase offset `0x7326`. Both images carry module identifier `0x00000015`.
+
+| Phase | Sectors | SHA-256 |
+|---|---|---|
+| Name entry package | `7968-7983` | `b751bfdc256a0941d088f5a47bc0db2638edced777071c5b0b7214b044259521` |
+| Password package | `8054-8069` | `6925509db80d4ff8869f41350f0256524f5ff15cb9b3bf2f6dc7351a7caf3d55` |
+
+The resident callers enter the same image at different points, all inside
+`0x80168000-0x8016F800`:
+
+| Screen | Resident mode | Overlay entry points |
+|---|---|---|
+| Name entry | `Main_RunNameEntry` | `NameEntry_Init`, `NameEntry_PollCompletion` |
+| Password | `Main_RunPasswordMenu` | `Password_InitShopScreen`, `Password_UpdateShopScreen` |
+
+Treat name entry as an entry point into the shared front-end screen image
+rather than as an independent code module. Matching source for that image
+belongs to one module scope, not two, so do not create a second copy of the
+same functions elsewhere.
+
+Name-entry symbol evidence is kept in
+[`notes/research/Unchiga_Symbols/modules/name_entry.txt`](../../../notes/research/Unchiga_Symbols/modules/name_entry.txt).
+These symbols are medium-confidence evidence because several modules reuse
+the same `0x80168xxx` addresses.
+
+The name-entry image is registered as its own build module, `name_entry` (USA)
+and `japanese_name_entry` (Japan), so its retail bytes are checked like every
+other phase. Its `name_entry_matching_c.json` points at the sources in this
+directory; no second copy of the C exists. Do not add this screen to the
+resident `config/slus_01411/matching_c.json` either.
 
 ## Name-entry type contracts
 

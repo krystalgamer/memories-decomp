@@ -54,7 +54,7 @@ segments:
     vram: 0x80180004
     align: 4
     subsegments:
-      - [0x4, c, overlays/spanish_model_intro/runtime]
+      - [0x4, c, overlays/credits/pal_presentation]
       - [0x5D0, data, overlays/french_model_intro/data]
   # Unclassified retail tail: preserved storage, not recovered C coverage.
   - name: opaque_tail

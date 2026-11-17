@@ -2488,7 +2488,7 @@ offset `0x7326`, inside the final sector. The complete phase images therefore
 have different hashes. Name entry and Password enter the shared code at
 different functions, and matching source stays in the password module scope
 rather than being duplicated as a sixth configured module. See the
-[name-entry comparison](../../src/overlays/name_entry/README.md).
+[name-entry comparison](../../src/overlays/password/README.md#name-entry-package-and-shared-image).
 
 An address in `0x80168xxx` consequently needs the loaded-image identity
 before it can name a function. The five configured images are not an

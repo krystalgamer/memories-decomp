@@ -294,7 +294,7 @@ The configured images and hashes are pinned in
 startup phase is pinned in the
 [loader evidence](../overlays/runtime-loader.md#startup-phase-and-enable-code-sites);
 the name-entry phase at sectors `[7968, 7983)` is documented in its
-[shared-image note](../../src/overlays/name_entry/README.md).
+[shared-image note](../../src/overlays/password/README.md#name-entry-package-and-shared-image).
 The comparison reads little-endian halfwords at `address - load_address`,
 not at a raw disc offset. As positive controls, the same mapping recovers
 Free Duel word `0x14400002` at `0x801683D4` and password word `0x00701823`
