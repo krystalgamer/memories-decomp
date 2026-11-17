@@ -57,7 +57,7 @@ guards, so the PAL images contain none of them.
 whose default is the North American literal. Each PAL image carries its
 own product code: the `VERSION_EUROPE` default in `mem_card.c` is
 `"BESLES-03947-YUGIOH"`, and the French, German, Italian and Spanish builds,
-whose entry defines add `BUILD_LANGUAGE_INDEX` 1 to 4, select 03948 to 03951.
+whose region define lists set `BUILD_LANGUAGE_INDEX` 1 to 4, select 03948 to 03951.
 
 Japan cannot take the literals. Its image puts the Japanese-only options
 file name (`"BISLPMP86398-YUGIOH"` at `0x8001032C`) after

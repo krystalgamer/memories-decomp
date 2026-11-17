@@ -4,8 +4,8 @@ This note records how the Spanish (SLES-03951) resident units were matched.
 They were first built through thin wrappers in `src/game/spanish/`; those
 wrappers are gone, and each unit now compiles its shared source directly with
 the wrappers' macros as `defines` on its `config/sles_03951/matching_c.json`
-entries. The French, German and Italian builds reuse the same define sets,
-changing only `BUILD_LANGUAGE_INDEX`. The tables below keep the wrapper names
+entries. The French, German and Italian builds reuse the same define sets;
+`BUILD_LANGUAGE_INDEX` is in each build's top-level region `"defines"` list. The tables below keep the wrapper names
 used when each batch was measured.
 
 These wrappers included the existing shared C bodies with independently measured

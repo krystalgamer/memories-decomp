@@ -24,8 +24,9 @@ So this configuration is `config/sles_03951` with the executable, its region
 hashes and the generated-symbol prefix changed:
 - `symbols.txt`, `link_symbols.ld`, the split boundaries and every matching
   source are the Spanish ones.
-- The three units carrying the language index set `BUILD_LANGUAGE_INDEX` to
-  2 among their entry defines, as the Spanish (4) and Italian (3) builds do.
+- The units reading the language index see `BUILD_LANGUAGE_INDEX=2` from the
+  region's top-level `"defines"` list, as the Spanish (4) and Italian (3)
+  builds set theirs.
 - Every other unit uses the Spanish build's defines as is, including
   `duel_effect_text.c`'s `DIALOG_READ_CHOICE_CLEARS_HELD_R1`, since its bytes
   are identical here.

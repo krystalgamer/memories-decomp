@@ -172,9 +172,9 @@ def compile_matching_sources(
     compiled: dict[str, tuple[str, object, tuple[str, ...]]] = {}
     objects: list[str] = []
     owned = owned_data_sections(root, configuration)
-    for index, function in enumerate(
-        config["functions"] + owned_data_units(root, configuration, config["functions"])
-    ):
+    # Data units come back with their effective defines, region list first.
+    data_units = owned_data_units(root, configuration, config["functions"])
+    for index, function in enumerate(config["functions"] + data_units):
         if not isinstance(function, dict):
             raise BuildError(f"matching function {index} must be an object")
         source_value = function.get("source")
@@ -185,7 +185,7 @@ def compile_matching_sources(
             raise BuildError(f"matching function {index} has an invalid source")
         try:
             defines = combine_defines(
-                region_defines,
+                () if index >= len(config["functions"]) else region_defines,
                 validate_defines(function.get("defines"), source_value),
                 source_value,
             )
@@ -295,8 +295,19 @@ def owned_data_units(
 
     A unit with no text (an initialized table, for instance) is not in the
     matching-C manifest. The region's data_c.json names its profile, falling
-    back to the North American one.
+    back to the North American one. Each unit carries its effective defines:
+    the region's top-level list from its matching_c.json, then the entry's.
     """
+    try:
+        region_defines = validate_defines(
+            json.loads(
+                resolve_within(root, configuration.matching_config, must_exist=True)
+                .read_text(encoding="utf-8")
+            ).get("defines"),
+            configuration.matching_config,
+        )
+    except DefineError as error:
+        raise BuildError(str(error)) from error
     function_objects = set()
     for function in functions:
         if isinstance(function, dict):
@@ -330,8 +341,14 @@ def owned_data_units(
             raise BuildError(f"{source}: owns data but has no data_c.json profile")
         function_objects.add(match.group(1))
         unit: dict[str, object] = {"source": source, "profile": profiles[source]}
-        if defines.get(source) is not None:
-            unit["defines"] = defines[source]
+        try:
+            effective = combine_defines(
+                region_defines, validate_defines(defines.get(source), source), source
+            )
+        except DefineError as error:
+            raise BuildError(str(error)) from error
+        if effective:
+            unit["defines"] = list(effective)
         units.append(unit)
     return units
 

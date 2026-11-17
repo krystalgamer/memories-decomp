@@ -31,7 +31,7 @@ package sectors, script image IDs, result sprites and name-entry/free-duel
 sprite variants. It is therefore the language index, not merely a preview
 vertical-layout selector. The generic European build defaults to zero;
 French, German, Italian and Spanish builds select one through four with
-the `BUILD_LANGUAGE_INDEX` entry define.
+`BUILD_LANGUAGE_INDEX` in their region's top-level `"defines"` list.
 Existing dynamic selection remains intact rather than being replaced with
 a compile-time language constant.
 
