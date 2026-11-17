@@ -162,8 +162,8 @@ and module-call consumers. Their existing scalar labels remain distinct:
 |---|---|---|
 | `0x8001000C` | `gModel_pSlot0PrimaryModule` | `u8 *`, `.data` |
 | `0x80010010` | `gModel_pSlot1PrimaryModule` | `u8 *`, `.data` |
-| `0x80010014` | `gModel_Slot0VariantModuleAddress` | `s32`, `.data` |
-| `0x80010018` | `gModel_Slot1VariantModuleAddress` | `s32`, `.data` |
+| `0x80010014` | `gModel_pSlot0VariantModule` | `u8 *`, `.data` |
+| `0x80010018` | `gModel_pSlot1VariantModule` | `u8 *`, `.data` |
 | `0x8001001C` | `gModel_Slot0PrimaryDataAddress` | `s32`, `.data` |
 | `0x80010020` | `gModel_Slot1PrimaryDataAddress` | `s32`, `.data` |
 | `0x80010024` | `gModel_Slot0VariantDataAddress` | `s32`, `.data` |
@@ -186,7 +186,7 @@ Four further direct-word identities have producer/consumer support:
 | Word | Identity | Existing declaration view |
 |---|---|---|
 | `0x80010004` | `gModel_pSlot1PayloadBase` | `u8 *`, `.data` |
-| `0x80010008` | `gModel_AuxiliaryPayloadAddress` | `s32`, `.data` |
+| `0x80010008` | `gModel_pAuxiliaryPayload` | `u8 *`, `.data` |
 | `0x80010030` | `gModel_CreditsModuleAddress` | `s32`, `.data` |
 | `0x80010034` | `gModel_pCreditsMusicTrackBuffer` | `void *`, `.data` |
 
@@ -269,9 +269,10 @@ load of the same word, so these readers now use
 `gRuntime_pSharedWorkBase` and the prefix view and its type are gone. All
 seven executables still match.
 
-The independently named `gModel_AuxiliaryPayloadAddress`, `gModel_Slot0VariantModuleAddress`,
-`gModel_Slot1VariantModuleAddress` and `gMainMenu_dwSuModuleBase` transfer destinations
-retain signed-word `.data` declarations. The initializer's
+The independently named `gModel_pAuxiliaryPayload`, `gModel_pSlot0VariantModule`,
+`gModel_pSlot1VariantModule` and `gMainMenu_pSuModuleBase` transfer destinations
+are `u8 *` `.data` declarations (formerly signed words with casts at every
+transfer store and entry calculation); all seven executables match. The initializer's
 `gModel_Slot0PrimaryDataAddress`, `gModel_Slot1PrimaryDataAddress`,
 `gModel_Slot0VariantDataAddress` and `gModel_Slot1VariantDataAddress`
 arguments are signed-word `.data` declarations too: the

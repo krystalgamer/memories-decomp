@@ -11,9 +11,9 @@
 /* Primary control-module bases; the callable entry is four bytes into each. */
 extern u8 *gModel_pSlot0PrimaryModule;
 extern u8 *gModel_pSlot1PrimaryModule;
-extern s32 gModel_Slot0VariantModuleAddress;
-extern s32 gModel_Slot1VariantModuleAddress;
-extern s32 gMainMenu_dwSuModuleBase;
+extern u8 *gModel_pSlot0VariantModule;
+extern u8 *gModel_pSlot1VariantModule;
+extern u8 *gMainMenu_pSuModuleBase;
 
 /* Staging base selected by duel package stage 7. The retail word holds
  * 0x80146000, the base of the WA_MRG shared duel-bank overlay slot

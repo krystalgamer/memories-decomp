@@ -4,7 +4,7 @@
 #include "../types.h"
 
 extern u8 *gModel_pSlot1PayloadBase;
-extern s32 gModel_AuxiliaryPayloadAddress;
+extern u8 *gModel_pAuxiliaryPayload;
 /* Model_UpdateCreditsPresentation passes these absolute word loads to
  * argument 7 of File_RequestAsyncTransfer (SU.MRG sectors [1223, 1239)) and
  * to SD_SetMusicTrackBuffer(u16 *), respectively; the latter is a data

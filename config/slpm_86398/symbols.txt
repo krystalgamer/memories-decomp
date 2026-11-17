@@ -2155,14 +2155,14 @@ CardList_CreateDeckBoxStatRows = 0x8004FB3C;
 
 gRuntime_pSharedWorkBase = 0x80010000;
 gModel_pSlot1PayloadBase = 0x80010004;
-gModel_AuxiliaryPayloadAddress = 0x80010008;
+gModel_pAuxiliaryPayload = 0x80010008;
 gModel_pSlot0PrimaryModule = 0x8001000C;
 
 gModel_pSlot1PrimaryModule = 0x80010010;
 
-gModel_Slot0VariantModuleAddress = 0x80010014;
+gModel_pSlot0VariantModule = 0x80010014;
 
-gModel_Slot1VariantModuleAddress = 0x80010018;
+gModel_pSlot1VariantModule = 0x80010018;
 
 gModel_Slot0PrimaryDataAddress = 0x8001001C;
 
@@ -2184,7 +2184,7 @@ gDuel_szComSelCardError = 0x80010060;
 Model_MapToBasePrimitiveHandler = 0x8005D9DC; // type:func
 
 DebugEffect_UpdateViewControls = 0x80021F00; // type:func
-gMainMenu_dwSuModuleBase = 0x8001002C;
+gMainMenu_pSuModuleBase = 0x8001002C;
 gMemCard_szFreeBlockCountFormat = 0x800102F4;
 gMemCard_szMakeFileTrace = 0x80010314;
 gMemCard_szFailFileTrace = 0x80010320;
