@@ -67,20 +67,20 @@ void ModelVariant422_DrawCurtains(Variant439EntryState *context)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             if (curtain->scale < 0x800) {
-                r0 = ((u8 *)work)[0x1970];
-                g0 = ((u8 *)work)[0x1971];
-                b0 = ((u8 *)work)[0x1972];
-                r1 = ((u8 *)work)[0x1974];
-                g1 = ((u8 *)work)[0x1975];
-                b1 = ((u8 *)work)[0x1976];
+                r0 = work->outer.r;
+                g0 = work->outer.g;
+                b0 = work->outer.b;
+                r1 = work->inner.r;
+                g1 = work->inner.g;
+                b1 = work->inner.b;
             } else {
                 fade = 0x1000 - curtain->scale;
-                r0 = ((u8 *)work)[0x1970] * fade / 2048;
-                g0 = ((u8 *)work)[0x1971] * fade / 2048;
-                b0 = ((u8 *)work)[0x1972] * fade / 2048;
-                r1 = ((u8 *)work)[0x1974] * fade / 2048;
-                g1 = ((u8 *)work)[0x1975] * fade / 2048;
-                b1 = ((u8 *)work)[0x1976] * fade / 2048;
+                r0 = work->outer.r * fade / 2048;
+                g0 = work->outer.g * fade / 2048;
+                b0 = work->outer.b * fade / 2048;
+                r1 = work->inner.r * fade / 2048;
+                g1 = work->inner.g * fade / 2048;
+                b1 = work->inner.b * fade / 2048;
             }
             poly->r0 = r0;
             poly->g0 = g0;

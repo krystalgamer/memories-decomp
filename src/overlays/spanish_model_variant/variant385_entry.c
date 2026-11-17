@@ -186,13 +186,13 @@ s32 SpanishModelVariant385_HandleRequest(SVECTOR *point, s32 command)
             curtain->count = 0;
         }
         work->radius = 1024;
-        work->color[0] = 192;
-        work->color[1] = 192;
-        work->color[2] = 192;
-        work->outer_b = 255;
+        work->inner.r = 192;
+        work->inner.g = 192;
+        work->inner.b = 192;
+        work->outer.b = 255;
         work->progress = 0;
-        work->outer_r = 0;
-        work->outer_g = 0;
+        work->outer.r = 0;
+        work->outer.g = 0;
         work->field_1020 = 0;
         work->field_1022 = 0;
         work->field_1024 = 0;
