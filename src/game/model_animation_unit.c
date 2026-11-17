@@ -215,11 +215,9 @@ static inline void Model_UpdateAnimationSequence(
         }
         dispatch_record = (ModelSeqDescriptor *)(
             track->ti * sizeof(*commands) + (u32)commands);
-        interpolation_parameters = (ModelAnimParams *)(
-            (u8 *)ctx +
-            (u32)&((GsARGUNIT_ANIM *)0)->header_size +
-            (ctx->header_size << 2)
-        );
+        /* The parameters follow the header_size words that start at header_size. */
+        interpolation_parameters =
+            (ModelAnimParams *)(&ctx->header_size + ctx->header_size);
         interpolation_type = dispatch_record->f.type & MODEL_SEQ_DESCRIPTOR_TYPE_MASK;
         handler = (s32 (*)(GsARGUNIT_ANIM *))handler_words[interpolation_type + 1];
         interpolation_parameters->seq = cursor;

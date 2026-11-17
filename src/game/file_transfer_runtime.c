@@ -314,11 +314,11 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
         /* The image phase alternates between the sector_destination and alternate_sector_destination
            buffers. Retail adds the descriptor base first (`addu v0,a0,v0`);
            `(&p->sector_destination)[i]` puts the scaled index first instead, so the
-           pair is still selected by an integer sum with the member-derived
+           pair is still selected by a byte-pointer sum with the OFFSETOF
            base offset. */
         dst = (u8 *)*(u32 *)(
-            (u32)p + ((p->buffer_index & 1) << 2) +
-            (u32)&((FileTransferDescriptor *)0)->sector_destination
+            (u8 *)p + ((p->buffer_index & 1) << 2) +
+            OFFSETOF(FileTransferDescriptor, sector_destination)
         );
         if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_MEMORY_SOURCE) == 0) {
             CdGetSector(dst, FILE_SECTOR_SIZE / sizeof(u32));
