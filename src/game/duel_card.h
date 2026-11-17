@@ -73,22 +73,22 @@ extern DuelCardRecord gDuel_aCardRecords[];
 /* Writes a zero-terminated list of the occupied cards' object addresses for
  * one whole row, with no filter. The row is the front row of the side
  * gDuel_bActiveSide does not select, or the row behind it when back_row is nonzero.
- * Six u32 words are always enough: five addresses plus the terminator. Both
+ * Six entries are always enough: five addresses plus the terminator. Both
  * traced overlay call sites pass a nonzero back_row, so the front row has no
  * traced caller; notes/duel-card-record.md records them. */
-void Duel_CollectFieldRowCardObjects(u32 *output, s32 back_row);
+void Duel_CollectFieldRowCardObjects(struct DisplayObject **output, s32 back_row);
 /* Writes a zero-terminated list of occupied cards' object addresses.
  * Negative selectors scan both sides. Other selectors scan the front row of
  * the side gDuel_bActiveSide does not select: 0..20 match the object's 0x68 card
  * type byte, and 21+ require at least that attack value from the low half of
  * Duel_CalcCardStats.
- * The caller must provide at least 21 u32 words for a negative selector
- * (20 addresses plus the terminator), or six words otherwise (five plus the
+ * The caller must provide at least 21 entries for a negative selector
+ * (20 addresses plus the terminator), or six otherwise (five plus the
  * terminator). There is no capacity argument. Both traced callers live in the
  * unsplit duel overlay and share one fixed output buffer at 0x8015B838, whose
  * 0x58 zero bytes of room match that 21-word worst case;
  * notes/duel-card-record.md records them. */
-void Duel_CollectMatchingFieldCardObjects(u32 *output, s32 selector);
+void Duel_CollectMatchingFieldCardObjects(struct DisplayObject **output, s32 selector);
 
 /* Packed per-card attribute word, indexed by card id minus one. Callers
  * unpack it with CARD_STAT_TYPE_SHIFT / CARD_STAT_TYPE_MASK for the card

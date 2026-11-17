@@ -80,19 +80,19 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
         }
         Duel_CheckRitual((DuelRitualResult *)gDuelEffect_CardObjectScratchWords, phase);
         setVector(&work->positions[0], 70, -48,
-                  (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[0])->field_34.h.z >= 0 ? 190 : -190);
+                  (s16)gDuelEffect_CardObjectScratchWords[0]->field_34.h.z >= 0 ? 190 : -190);
         setVector(&work->positions[1], -70, -48,
-                  (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[0])->field_34.h.z >= 0 ? 190 : -190);
+                  (s16)gDuelEffect_CardObjectScratchWords[0]->field_34.h.z >= 0 ? 190 : -190);
         work->texture_frames[0] = rand() % 4;
         work->texture_frames[1] = rand() % 4;
         for (i = 0; i < 3; i++) {
             setVector(&work->card_velocities[i],
-                      -(s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x / 32,
-                      (-96 - (s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y) / 32,
-                      -(s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.z / 32);
+                      -(s16)gDuelEffect_CardObjectScratchWords[i]->xy.h.x / 32,
+                      (-96 - (s16)gDuelEffect_CardObjectScratchWords[i]->xy.h.y) / 32,
+                      -(s16)gDuelEffect_CardObjectScratchWords[i]->field_34.h.z / 32);
             setVector(&work->card_rotations[i], 2,
-                      -((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_y / 32,
-                      -((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_z / 32);
+                      -gDuelEffect_CardObjectScratchWords[i]->field_20.b.rotation_y / 32,
+                      -gDuelEffect_CardObjectScratchWords[i]->field_20.b.rotation_z / 32);
             work->card_states[i] = 0;
         }
         for (i = 0; i < 2; i++) {
@@ -229,11 +229,11 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
         if (work->flame_color.r == 128 && work->flame_color.g == 128 && work->flame_color.b == 128 &&
             work->stage == 0) {
             for (i = 0; i < work->active_cards; i++) {
-                if ((s16)((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y <= -96) {
+                if ((s16)gDuelEffect_CardObjectScratchWords[i]->xy.h.y <= -96) {
                     if (work->card_states[i] == 0) {
-                        ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x = 0;
-                        *(s16 *)&((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y = -96;
-                        ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.z = 0;
+                        gDuelEffect_CardObjectScratchWords[i]->xy.h.x = 0;
+                        *(s16 *)&gDuelEffect_CardObjectScratchWords[i]->xy.h.y = -96;
+                        gDuelEffect_CardObjectScratchWords[i]->field_34.h.z = 0;
                         work->card_states[i] = 1;
                         work->active_cards++;
                         if (work->active_cards > 3) {
@@ -241,19 +241,19 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                         }
                     }
                 } else {
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.x += work->card_velocities[i].vx;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->xy.h.y += work->card_velocities[i].vy;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_34.h.z += work->card_velocities[i].vz;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_x += work->card_rotations[i].vx;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_y += work->card_rotations[i].vy;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_20.b.rotation_z += work->card_rotations[i].vz;
+                    gDuelEffect_CardObjectScratchWords[i]->xy.h.x += work->card_velocities[i].vx;
+                    gDuelEffect_CardObjectScratchWords[i]->xy.h.y += work->card_velocities[i].vy;
+                    gDuelEffect_CardObjectScratchWords[i]->field_34.h.z += work->card_velocities[i].vz;
+                    gDuelEffect_CardObjectScratchWords[i]->field_20.b.rotation_x += work->card_rotations[i].vx;
+                    gDuelEffect_CardObjectScratchWords[i]->field_20.b.rotation_y += work->card_rotations[i].vy;
+                    gDuelEffect_CardObjectScratchWords[i]->field_20.b.rotation_z += work->card_rotations[i].vz;
                 }
             }
             if (work->card_states[2] == 1) {
                 for (i = 0; i < 3; i++) {
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.scale.x = 0;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->field_44.scale.y = 0;
-                    ((DisplayObject *)gDuelEffect_CardObjectScratchWords[i])->flags &= ~0x40;
+                    gDuelEffect_CardObjectScratchWords[i]->field_44.scale.x = 0;
+                    gDuelEffect_CardObjectScratchWords[i]->field_44.scale.y = 0;
+                    gDuelEffect_CardObjectScratchWords[i]->flags &= ~0x40;
                     work->stage = 1;
                 }
             }
