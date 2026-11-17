@@ -11,7 +11,11 @@
 
 #ifndef VERSION_FRENCH
 #ifndef MODEL653_STRING_PAD
+#ifdef VERSION_JAPAN
+#define MODEL653_STRING_PAD "\xAF"
+#else
 #define MODEL653_STRING_PAD "\x14"
+#endif
 #endif
 static const char gModelVariant653_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL653_STRING_PAD;
 #endif

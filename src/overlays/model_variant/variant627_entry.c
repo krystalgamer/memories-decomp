@@ -11,7 +11,11 @@
 /* The work-size format string; North American retail pads it with zero bytes. */
 #ifndef VERSION_FRENCH
 #ifndef MODEL627_STRING_PAD
+#if defined(VERSION_JAPAN) && defined(MODEL_VARIANT_SLOT1)
+#define MODEL627_STRING_PAD "\x14"
+#else
 #define MODEL627_STRING_PAD ""
+#endif
 #endif
 static const char gModelVariant627_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL627_STRING_PAD;
 #endif

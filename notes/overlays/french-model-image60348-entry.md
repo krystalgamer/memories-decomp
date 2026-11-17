@@ -131,8 +131,9 @@ the USA wrappers under the same `gcc_2_8_0_g0_split` profile. The one other
 difference is the byte after the format string's terminator: zero in the
 USA, `0x26` at 60348/168560 and `0x92` at 60358/168570 in Japan. The USA
 wrapper takes it from a `MODEL60348_STRING_PAD` selector that defaults to
-nothing, and `japanese/model_variant/image60348_entry_usa.c` and
-`_usa_slot1.c` set it before including the USA wrapper. The Japanese
+nothing; the Japanese images compile the USA wrapper with the `VERSION_JAPAN`
+entry define, plus `MODEL_VARIANT_SLOT1` for 60358/168570, which select the
+Japanese bytes. The Japanese
 `image60348_usa_linker_symbols.txt` binds the resident names at the
 addresses the Japanese entry calls.
 

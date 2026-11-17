@@ -10,7 +10,11 @@
 /* The work-size format string; North American retail pads it with zero bytes. */
 #ifndef VERSION_FRENCH
 #ifndef MODEL650_STRING_PAD
+#ifdef VERSION_JAPAN
+#define MODEL650_STRING_PAD "&"
+#else
 #define MODEL650_STRING_PAD ""
+#endif
 #endif
 static const char gModelVariant650_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL650_STRING_PAD;
 #endif

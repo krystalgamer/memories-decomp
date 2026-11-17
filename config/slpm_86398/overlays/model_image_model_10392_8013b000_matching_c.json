@@ -2,9 +2,14 @@
   "functions": [
     {
       "address": "0x8013B004",
+      "defines": [
+        "VARIANT162_PRINT_WORK_SIZE",
+        "GRAPHICS_DEFAULT_HEIGHT=240",
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xDBC",
-      "source": "src/overlays/japanese/model_variant/variant162_entry_usa.c"
+      "source": "src/overlays/french_model_variant/variant162_entry.c"
     }
   ],
   "schema": 1

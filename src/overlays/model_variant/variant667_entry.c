@@ -11,7 +11,11 @@
 
 #ifndef VERSION_FRENCH
 #ifndef MODEL667_STRING_PAD
+#if defined(VERSION_JAPAN) && !defined(MODEL_VARIANT_SLOT1)
+#define MODEL667_STRING_PAD "\xA4"
+#else
 #define MODEL667_STRING_PAD "\x02"
+#endif
 #endif
 static const char gModelVariant667_szWorkSizeFormat[24] = "E_DATA size = %x byte\n\0" MODEL667_STRING_PAD;
 #endif
