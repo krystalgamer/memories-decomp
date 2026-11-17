@@ -10,7 +10,7 @@ void Model_DrawSlotUnitsOnly(s32 index);
 
 /* Returns flat light `light` of model slot `index`, clamping `light` to 0 at
    three; callers write the light's vectors through the returned pointer. */
-unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light);
+ModelSlotLightEntry *Model_GetFlatLight(unsigned int index, unsigned int light);
 
 /* Retain the separate fourth halfword; it is not vector padding. */
 void Model_CopySlotPosition(s32 idx, u16 *out);

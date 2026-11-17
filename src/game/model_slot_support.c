@@ -112,16 +112,13 @@ void Model_InitLightTriplet(s32 index)
 /* Returns flat light `light` of model slot `index`: Model_DrawSlot and
    Model_DrawBackground hand the three flat_lights records to
    GsSetFlatLight(0..2). */
-unsigned char *Model_GetFlatLight(unsigned int index, unsigned int light)
+ModelSlotLightEntry *Model_GetFlatLight(unsigned int index, unsigned int light)
 {
-    register u8 *entry;
-
     if (light >= 3) {
         light = 0;
     }
-    entry = (u8 *)gModel_aSlots[index].flat_lights;
 
-    return entry + (u32)&((ModelSlotLightEntry *)0)[light];
+    return &gModel_aSlots[index].flat_lights[light];
 }
 
 GsRVIEW2 *Model_GetCameraViewBuffer(void)
