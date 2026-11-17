@@ -1444,14 +1444,21 @@ unchanged. Every function of a grouped translation unit must use the same
 define set, as it must use the same profile. `make check-metadata` validates
 every list.
 
-The region lists are all empty for now. The regional wrapper sources under
-`src/game/<region>/` and `src/overlays/<region>/` still `#define` their own
-`VERSION_*` macros, and a region-wide `-DVERSION_EUROPE` on top of a wrapper's
-`#define VERSION_EUROPE` would be a macro redefinition. A wrapper that only
-defines macros can instead be replaced by pointing its entries at the shared
-source with a per-entry `"defines"` list, as the five European builds now
-compile `src/game/model_animation_unit.c` with `"defines": ["VERSION_EUROPE"]`
-in place of their former European wrapper of that source.
+The four European language builds use their region lists: SLES-03948..03951
+set `BUILD_LANGUAGE_INDEX` to 1..4 there, the French, Spanish, Italian and
+German retail language indices. A macro belongs in a region list only if every
+C unit of that region either already defines it or preprocesses identically
+with it. `BUILD_LANGUAGE_INDEX` is read only by `main.c`, `debug_menu.c`,
+`main_boot_frontend.c` and `mem_card.c`, so it qualifies. `VERSION_EUROPE`
+and `VERSION_JAPAN` do not: shared headers such as `src/ygo_types.h` test
+them, and the US-derived overlay and MODEL image units those regions also
+compile are built without them, so those flags stay in the entries' own
+`"defines"` lists. The North American, SLES-03947 and SLPM-86398 lists are
+empty.
+
+Regional variants are expressed with per-entry `"defines"` lists on the
+shared source rather than wrapper sources, as the five European builds
+compile `src/game/model_animation_unit.c` with `"defines": ["VERSION_EUROPE"]`.
 
 ### Object-name overrides
 
