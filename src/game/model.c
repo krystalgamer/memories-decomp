@@ -3689,7 +3689,7 @@ void Model_DrawSlot(s32 index)
             shadow_triangle.r2 = (s16)B(&gModel_wDrawTintRedGreen, 0) / 16;
             shadow_triangle.g2 = (s16)B(&gModel_wDrawTintRedGreen, 1) / 16;
             shadow_triangle.b2 = (s16)gModel_bDrawTintBlue / 16;
-            GsSetLsMatrix((MATRIX *)Model_GetLightSourceMatrix());
+            GsSetLsMatrix(Model_GetLightSourceMatrix());
             Model_GetSlotDimensionsWithMinimums(index, &shadow_dimensions);
             w = shadow_dimensions.x;
             d = shadow_dimensions.z;
