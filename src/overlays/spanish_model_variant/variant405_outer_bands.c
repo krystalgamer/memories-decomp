@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "variant405_outer_bands.h"
+#include "variant405_entry.h"
 
-void SpanishModelVariant405_DrawOuterBands(u8 *context)
+void SpanishModelVariant405_DrawOuterBands(Variant405EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,9 +10,9 @@ void SpanishModelVariant405_DrawOuterBands(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Outer405State *state = (Outer405State *)context;
-    Bands405Band *band = state->bands;
-    Outer405Primary *primary = state->primary;
+    Variant405EntryState *state = context;
+    Variant405EntryBand *band = state->outer_bands;
+    Variant405EntryRing *primary = state->rings;
     GsOT *ot;
     POLY_GT4 *polygon;
     s32 i, j;
@@ -22,7 +22,7 @@ void SpanishModelVariant405_DrawOuterBands(u8 *context)
     u8 outer_r, outer_g, outer_b;
 
     ot = Graphics_GetDefaultOrderingTable();
-    for (i = 0; i < state->descriptor->count; i++, band++, primary++) {
+    for (i = 0; i < state->config->count; i++, band++, primary++) {
         if (band->size > 0 && band->size < 4096) {
             size = band->size;
             if (size > 3072) {
@@ -43,9 +43,9 @@ void SpanishModelVariant405_DrawOuterBands(u8 *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->origin.vx;
-            matrix.t[1] = state->origin.vy;
-            matrix.t[2] = state->origin.vz;
+            matrix.t[0] = state->target.vx;
+            matrix.t[1] = state->target.vy;
+            matrix.t[2] = state->target.vz;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -60,7 +60,7 @@ void SpanishModelVariant405_DrawOuterBands(u8 *context)
             ScaleMatrix(&light, &scale);
             SetRotMatrix(&light);
             j = 0;
-            polygon = state->polygons;
+            polygon = state->glyphs;
             for (; j < 16; j++, polygon++) {
                 depth = RotTransPers4(&band->inner[j], &band->inner[j + 1],
                                      &band->outer[j], &band->outer[j + 1],
@@ -89,7 +89,7 @@ void SpanishModelVariant405_DrawOuterBands(u8 *context)
             if (band->size >= 4096) {
                 band->size = 4096;
                 band->completed++;
-                if (i + 1 == state->descriptor->count && state->phase == 2) {
+                if (i + 1 == state->config->count && state->phase == 2) {
                     state->phase = 4;
                 }
             }
