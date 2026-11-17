@@ -76,6 +76,8 @@ class Component:
     object_name: str
     profile: str | None = None
     defines: tuple[str, ...] = ()
+    # Splat segment name of a unit with an object-name override.
+    splat_segment: str | None = None
 
 
 def sha256(path: Path) -> str:
@@ -250,6 +252,19 @@ def segment_defines(segment: dict[str, Any], index: int) -> tuple[str, ...]:
     return defines
 
 
+def segment_name(segment: dict[str, Any], index: int) -> str | None:
+    name = segment.get("splat_segment")
+    if name is None:
+        return None
+    if segment.get("kind") != "c":
+        raise IncrementalBuildError(f"segment {index}: only C units take an object name")
+    try:
+        build_baseline.segment_splat_object(segment)
+    except build_baseline.BuildError as error:
+        raise IncrementalBuildError(f"segment {index}: {error}") from error
+    return name
+
+
 def load_components(root: Path) -> list[Component]:
     components = [Component("asm", "tmp/splat/asm/header.s", "header.o")]
     seen = {"header.o"}
@@ -285,7 +300,12 @@ def load_components(root: Path) -> list[Component]:
         seen.add(object_name)
         components.append(
             Component(
-                kind, source, object_name, profile, segment_defines(segment, index)
+                kind,
+                source,
+                object_name,
+                profile,
+                segment_defines(segment, index),
+                segment_name(segment, index),
             )
         )
     trailing_components = []
@@ -484,6 +504,8 @@ def component_signature(
         "build_baseline_sha256": context["build_baseline_sha256"],
         "build_incremental_sha256": context["build_incremental_sha256"],
     }
+    if component.splat_segment is not None:
+        value["splat_segment"] = component.splat_segment
     if component.kind == "asm":
         value.update(
             {
@@ -521,10 +543,17 @@ def object_path(
     file_cache: _FileCache | None = None,
 ) -> Path:
     """Object location Splat's generated linker script names for a source."""
-    relative = build_baseline.splat_object(component.source)
+    relative = build_baseline.segment_splat_object(component_segment(component))
     if file_cache is not None:
         return file_cache.workspace_path(root, relative)
     return resolve_within(root, relative)
+
+
+def component_segment(component: Component) -> dict[str, Any]:
+    segment: dict[str, Any] = {"source": component.source}
+    if component.splat_segment is not None:
+        segment["splat_segment"] = component.splat_segment
+    return segment
 
 
 def cached_object_path(
@@ -538,7 +567,11 @@ def cached_object_path(
     The region and define set are part of the path, so one source compiled
     for two configurations never shares a cached object.
     """
-    trimmed = component.source[: component.source.rindex(".")]
+    trimmed = (
+        f"src/{component.splat_segment}"
+        if component.splat_segment is not None
+        else component.source[: component.source.rindex(".")]
+    )
     relative = (
         f"{cache_directory()}/obj/{REGION}/{define_variant(component.defines)}/"
         f"{trimmed}.o"
@@ -611,7 +644,7 @@ def build_component(
             root,
             assembler,
             {
-                "source": component.source,
+                **component_segment(component),
                 "object": component.object_name,
                 "profile": component.profile,
                 **({"defines": list(component.defines)} if component.defines else {}),

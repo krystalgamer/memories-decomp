@@ -47,6 +47,7 @@ PIPELINE_FILES = (
     "tools/project/build_baseline.py",
     "tools/project/compile_defines.py",
     "tools/project/overlay_objects.py",
+    "tools/project/unit_objects.py",
     "tools/project/workspace.py",
     "tools/vendor/maspsx/maspsx.py",
 )

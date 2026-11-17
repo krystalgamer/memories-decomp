@@ -10,6 +10,7 @@ import sys
 from pathlib import Path
 
 from compile_defines import DefineError, define_flags, validate_defines
+from unit_objects import OBJECT_PATTERN
 from workspace import (
     WorkspaceError,
     local_environment,
@@ -31,6 +32,22 @@ def splat_object(source_path: str) -> str:
     """Object path Splat's generated linker script expects for a source."""
     trimmed = source_path[: source_path.rindex(".")]
     return f"{SPLAT_BUILD_DIRECTORY}/{trimmed}.o"
+
+
+def segment_splat_object(segment: dict[str, object]) -> str:
+    """Object path for a generated text or data segment.
+
+    A unit with an object-name override is placed under its own Splat segment
+    name rather than the one its source path would give.
+    """
+    name = segment.get("splat_segment")
+    if name is None:
+        return splat_object(str(segment["source"]))
+    if not isinstance(name, str) or OBJECT_PATTERN.match(name) is None:
+        raise BuildError(f"invalid Splat segment name {name!r}")
+    return f"{SPLAT_BUILD_DIRECTORY}/src/{name}.o"
+
+
 ASM_DIRECTORY = "tmp/project-build/asm"
 OVERLAY_REGION_KIND = "overlay_load_slot"
 OVERLAY_REGION_PREFIX = "overlay_"
@@ -189,7 +206,7 @@ def compile_c(
     # script finds them; overlays link their own script and pass their own
     # object directory, so they keep the flat name.
     if use_splat_object_paths:
-        output = resolve_within(root, splat_object(str(segment["source"])))
+        output = resolve_within(root, segment_splat_object(segment))
     else:
         output = resolve_within(root, f"{object_directory}/{object_name}")
     raw_assembly = resolve_within(

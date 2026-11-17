@@ -412,7 +412,8 @@ class StageCiInputsTests(unittest.TestCase):
         tools = self.root / "tools/project"
         tools.mkdir(parents=True, exist_ok=True)
         for name in ("ci_bundle.py", "stage_ci_inputs.py", "workspace.py", "hashing.py", "verify_inputs.py",
-                     "overlay_extract.py", "overlay_sources.py", "compile_defines.py"):
+                     "overlay_extract.py", "overlay_sources.py", "compile_defines.py",
+                     "unit_objects.py"):
             shutil.copyfile(REPOSITORY / "tools/project" / name, tools / name)
         for marker in (".git", "Makefile", "config/slus_01411/target.yaml"):
             path = self.root / marker

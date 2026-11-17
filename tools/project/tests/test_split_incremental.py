@@ -296,6 +296,53 @@ class IncrementalSplitTests(unittest.TestCase):
         with self.assertRaisesRegex(generator.GenerationError, "invalid define"):
             generator.load_matching_functions(self.root)
 
+    def test_object_override_builds_one_source_as_two_units(self) -> None:
+        generator = split_incremental.generate_build_config
+        self.write(
+            "config/slus_01411/functions.csv",
+            "address,size,name,status,module,notes\n"
+            "0x80010000,0x10,Example,matching_c,game,\n"
+            "0x80010010,0x10,Example,matching_c,game,\n",
+        )
+
+        def manifest(second: dict[str, object]) -> None:
+            self.write_json(
+                "config/slus_01411/matching_c.json",
+                {"schema": 1, "functions": [
+                    {"address": "0x80010000", "size": "0x10",
+                     "source": "src/game/example.c", "profile": "test"},
+                    {"address": "0x80010010", "size": "0x10",
+                     "source": "src/game/example.c", "profile": "test",
+                     "defines": ["SECOND"], **second},
+                ]},
+            )
+
+        manifest({"object": "game/example_second"})
+        units = generator.group_translation_units(
+            generator.load_matching_functions(self.root)
+        )
+        self.assertEqual(
+            [(unit["segment"], unit["defines"]) for unit in units],
+            [("game/example", []), ("game/example_second", ["SECOND"])],
+        )
+        self.assertEqual(
+            [unit["object_override"] for unit in units], [False, True]
+        )
+        for second, message in (
+            ({}, "multiple define sets"),
+            ({"object": "game/example"}, "repeats the name"),
+            ({"object": "../example"}, "invalid object name"),
+            ({"object": "game/Example-2"}, "invalid object name"),
+        ):
+            with self.subTest(second=second):
+                manifest(second)
+                with self.assertRaisesRegex(generator.GenerationError, message):
+                    generator.load_matching_functions(self.root)
+        self.write("src/game/other.c", "void Example(void) {}\n")
+        manifest({"source": "src/game/other.c", "object": "game/example"})
+        with self.assertRaisesRegex(generator.GenerationError, "multiple sources"):
+            generator.load_matching_functions(self.root)
+
     def test_cached_matching_source_path_must_match_its_key(self) -> None:
         other = self.write("src/game/other.c", "void Other(void) {}\n").resolve()
         with self.assertRaisesRegex(

@@ -377,6 +377,39 @@ class DependencyFingerprintTests(WorkspaceTests):
             self.root / "tmp/incremental/obj/slus_01411/default/src/example.o",
         )
 
+    def test_object_override_gives_one_source_a_second_object(self) -> None:
+        self.write("src/example.c", "int Example;\n")
+        context = self.context()
+        plain = build_incremental.Component(
+            "c", "src/example.c", "c_80010000.o", "gcc281", ("VERSION_EUROPE",)
+        )
+        second = build_incremental.Component(
+            "c", "src/example.c", "c_80010010.o", "gcc281", ("VERSION_EUROPE",),
+            "game/example_second",
+        )
+        self.assertNotEqual(
+            build_incremental.component_signature(self.root, plain, context),
+            build_incremental.component_signature(self.root, second, context),
+        )
+        self.assertEqual(
+            build_incremental.object_path(self.root, second),
+            self.root / "tmp/splat/build/src/game/example_second.o",
+        )
+        self.assertEqual(
+            build_incremental.object_path(self.root, plain),
+            self.root / "tmp/splat/build/src/example.o",
+        )
+        self.assertEqual(
+            build_incremental.cached_object_path(self.root, second).relative_to(
+                self.root / "tmp/incremental/obj/slus_01411"
+            ).parts[1:],
+            ("src", "game", "example_second.o"),
+        )
+        with self.assertRaises(build_baseline.BuildError):
+            build_baseline.segment_splat_object(
+                {"source": "src/example.c", "splat_segment": "../escape"}
+            )
+
     def test_cache_directory_can_be_redirected_inside_the_workspace(self) -> None:
         component = build_incremental.Component("c", "src/example.c", "example.o", "gcc281")
         os.environ[build_incremental.CACHE_ENVIRONMENT] = "tmp/private-cache"

@@ -1453,6 +1453,28 @@ source with a per-entry `"defines"` list, as the five European builds now
 compile `src/game/model_animation_unit.c` with `"defines": ["VERSION_EUROPE"]`
 in place of their former European wrapper of that source.
 
+### Object-name overrides
+
+Splat names a C unit's object after its `split.yaml` segment, and the segment
+name is the source path below `src/` without `.c`, so by default a source
+builds one object per region. A resident `matching_c.json` entry may carry an
+optional `"object"` key naming the segment it is placed and linked under
+instead, for example `"object": "game/model_texture_load_tim"`. Two units of
+one region can then compile the same source, usually with different defines,
+into distinct objects. The region's `split.yaml` (or, for the North American
+build, the generated split configuration) names the unit by that segment, and
+the object is built at `<build>/src/<object>.o`. Grouped functions share one
+object, so they share one `"object"` value as well as one profile and define
+set.
+
+`make check-metadata` requires that an override match
+`^[a-z0-9_]+(/[a-z0-9_]+)*$`, differ from the name the source already gives,
+name no existing `src/<object>.c` (Splat scans that file for the functions it
+defines), and map to one source within its region. A region that uses an
+override must set `create_c_files: false` in its `split.yaml`, so Splat does
+not write a stub C file for the segment. Overlay manifests and `data_c.json`
+units do not take the key.
+
 Neither the resident nor the regional builds embed `__FILE__`
 (`src/psyq/assert.h` is the only user, and no source includes it), and no
 profile emits debug information, so a unit's source path does not reach the
@@ -1497,9 +1519,10 @@ The cache lives in `tmp/incremental/` by default. Set
 `--cache-dir` to `build_incremental.py`) to keep a private cache, for example
 when several people share one checkout; both the split stamp and the object
 cache follow it. Cached objects are stored under
-`obj/<region>/<define set>/<source>.o` and their signatures include the region
-and the unit's configured defines, so one source compiled with two define sets
-never reuses the other's object. The cache JSON carries a schema number; a
+`obj/<region>/<define set>/<source>.o` (or `src/<object>.o` for a unit with an
+object-name override) and their signatures include the region, the unit's
+configured defines and any override, so one source compiled with two define
+sets never reuses the other's object. The cache JSON carries a schema number; a
 cache written by an older format is ignored and rebuilt.
 
 Seeding is optional; without it, the first incremental build compiles its

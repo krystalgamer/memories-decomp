@@ -466,6 +466,7 @@ FINGERPRINT_SCRIPTS = (
     "tools/project/overlay_extract.py",
     "tools/project/overlay_objects.py",
     "tools/project/overlay_sources.py",
+    "tools/project/unit_objects.py",
     "tools/project/workspace.py",
     "tools/vendor/maspsx/maspsx.py",
 )
