@@ -487,7 +487,7 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
 #endif
         o->rgb.word = 0x606060;
         o->field_60 = 6;
-        o->update = (DisplayObjectCallback)DisplayObject_FadeBrightnessAndRelease;
+        o->update = DisplayObject_FadeBrightnessAndRelease;
         o->attribute |= (GsALON | GsAONE);
         return;
     }

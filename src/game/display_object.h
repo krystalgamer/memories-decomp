@@ -460,8 +460,9 @@ typedef struct DisplayObject {
        draw: for other objects, a second callback. The draw pass calls it
        after `update`, with the object and its ordering table.
 
-       frame_data: a timed sprite stream's sheet, whose SpriteSheetHeader
-       and parts the sheet renderer consumes (DisplayObjectStreamState).
+       frame_data: a timed sprite stream's sheet (SpriteSheet in
+       display_object_system.h), whose header and parts the sheet renderer
+       consumes; the stream's ReadNextCommand selects it.
 
        word: the raw value, for code that copies or clears it whatever the
        kind. */
@@ -469,7 +470,7 @@ typedef struct DisplayObject {
         s32 word;
         u32 color;
         DisplayObjectDrawCallback draw;
-        u8 *frame_data;
+        struct SpriteSheet *frame_data;
     } field_4C;                    /* 0x4C */
     /* The last unnamed word of the tail, and read as incompatibly as 0x4C
        just above it, so the offset is again the name.
@@ -482,13 +483,13 @@ typedef struct DisplayObject {
        a different run from the stride-8 one described at 0x4C, and the two
        agree only at 0x2C and 0x44, which is why neither run's reading can be
        pushed onto the whole tail. DisplayObjectStream_ConfigureRotation
-       advances it by 4; display_object_stream_read_next_command.c adds the halfword at 0x58 to form a
-       byte pointer, the reading DisplayObjectStreamState spells as `current`;
+       advances it by 4; DisplayObjectStream_ReadNextCommand adds the halfword at 0x58 to form a
+       byte pointer, the `current` arm;
        and the two DisplayObject_Render*GouraudQuadList functions copy it into
        a primitive word.
 
        s32 serves all of them: a word load and store do not distinguish
-       signedness, and the pointer writers cast, as they already do at 0x4C. */
+       signedness. */
     /* Reached as halves as well, by the same witness 0x38 describes and
        under the same limit: DuelEffect_UpdateObjectLayout writes 0x50 and
        0x52 as the last of its six x/y pairs. The word view stays for every
@@ -503,9 +504,24 @@ typedef struct DisplayObject {
             s16 field_50;
             s16 field_52;
         } h;
+        /* A timed sprite stream's script cursor; the stream handlers in
+           display_object_system.c set it and ReadNextCommand reads through it. */
+        u8 *current;
     } field_50;                    /* 0x50 */
-    void *field_54;                /* 0x54 */
-    /* DisplayObjectStreamState names this pair command_offset/frame_delay.
+    /* resource: the serialized resource the stream resolver and the stream
+       jumps offset into (AcquireSlot's tail_data_start, or the bank the
+       ConfigureSprite*WithResource helpers pass). link: card_preview.c's
+       secondary object keeps its primary here. word: a Gouraud quad's
+       colour or vertex word, which duel_effect_text.c and script_scene.c
+       write and the quad renderers copy; uv: the textured quad's fourth
+       u/v halfword. */
+    union {
+        u8 *resource;
+        struct DisplayObject *link;
+        s32 word;
+        u16 uv;
+    } field_54;                    /* 0x54 */
+    /* The command stream reads this pair as command_offset/frame_delay.
        ReadNextCommand fetches current + (u16)command_offset and advances by
        three; resets and jumps clear the offset. UpdateCommandStream opens
        the script and counts the delay down by gGraphics_nBaseFrameStep.
@@ -670,21 +686,15 @@ typedef struct DisplayObject {
    as (u8)object[1].next, the low byte of the following entry's `next`, which
    compiles to the same lbu; DisplayObject_InitializeTexturedGouraudQuad keeps
    the byte store ((u8 *)object)[0x72], and the second vertex set is reached from the members
-   its words begin at: *(s32 *)&object->field_58, &object->fraction_z and so on.
+   its words begin at: *(s32 *)&object->field_58, &object->fraction_z and so on,
+   since those words span members no union here pairs.
 
-   What the earlier wording here called the real obstacle -- a member read
-   is a struct reference, the scratchpad stores it sits between are not, and
-   GCC 2.8.1 floats the load across them -- is real, but it constrains the
-   spelling of a read and not whether the read can be named. The scratchpad
-   in both renderers is a libgpu primitive, set up with setlen/setcode as
-   POLY_G4 (8, 0x38) and POLY_GT4 (12, 0x3C), and every store into it is a
-   store to one of that primitive's members. A read taken through the
-   member's address, *(s32 *)&object->field_2C, stays a scalar reference as the
-   old (u8 *) offset did, so the target keeps it after the store before it;
-   a read that no scratchpad store precedes can be an ordinary member read.
-   That is the same device duel_scene.c uses for its 0x0C colour word, and
-   it is how the two DisplayObject_Render*GouraudQuadList functions name
-   every offset they touch except 0x72. */
+   The scratchpad in both renderers is typed as its libgpu primitive paired
+   with the primitive's word layout (DisplayObjectG4Packet and
+   DisplayObjectGT4Packet in display_object_system.h). With the packet
+   stores struct references too, GCC 2.8.1 keeps every member read from the
+   object after the store before it, so the reads are ordinary member reads
+   (field_2C.word and so on). */
 
 typedef char DisplayObject_size_must_match_record_size[
     sizeof(DisplayObject) == DISPLAY_OBJECT_RECORD_SIZE ? 1 : -1
@@ -804,7 +814,7 @@ extern u16 gDisplayObject_wAcquireCount;
  * was the whole use -- the declaration has to match for the address to be taken.
  *
  * This names one callback and claims nothing about the others that share the
- * slot; DisplayObject_FadeBrightnessAndRelease in display_object_lifecycle.h is a sibling by role but
- * takes DisplayObjectLifecycle *, not this type. */
+ * slot; DisplayObject_FadeBrightnessAndRelease in display_object_system.h is
+ * another. */
 
 #endif

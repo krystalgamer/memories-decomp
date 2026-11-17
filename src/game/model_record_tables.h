@@ -7,7 +7,8 @@
 /* The display-object stream handler table, the 0xB2-byte model record
    table and the corner table, declared here so the source that defines
    them and the three that read them cannot drift apart. */
-extern s32 (*gDisplayObjectStream_apfnCommandHandlers[])(DisplayObjectStreamState *, const u8 *);
+struct DisplayObject;
+extern s32 (*gDisplayObjectStream_apfnCommandHandlers[])(struct DisplayObject *, const u8 *);
 extern u8 gModel_abBackgroundRecords[];
 extern u16 gModel_aShadowFanSteps[];
 

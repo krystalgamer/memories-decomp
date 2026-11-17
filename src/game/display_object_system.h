@@ -96,10 +96,6 @@ void DisplayObject_ConfigureSpriteAtPosition(
     s32 resource_variant, s32 texture_config, s32 palette_config
 );
 
-typedef struct {
-    u8 pad_00[0x54];
-    u8 *base;
-} DisplayObjectStream;
 
 /* Lives in .sdata. Declared volatile because display_object_helpers.c
    reads it through a volatile pointer; the qualifier is load-bearing
@@ -165,7 +161,7 @@ void DisplayObject_SelectOrderingTable3(DisplayObject *object);
 int DisplayObject_RunUpdateAndCheckRenderable(DisplayObject *object);
 u32 DisplayObjectStream_ReadU16LE(const u8 *data);
 u8 *DisplayObjectStream_ResolveOffset(
-    DisplayObjectStream *object,
+    DisplayObject *object,
     const u8 *data
 );
 void DisplayObject_ResetVelocity(DisplayObject *object);
@@ -195,32 +191,10 @@ void Widget_SlideSine(
     int target_y,
     int phase);
 
-/* Narrow lifecycle view for the initialization marker and uniform RGB fade. */
-typedef struct {
-    u8 pad_00[0x0C];
-    u8 red;
-    u8 green;
-    u8 blue;
-    u8 pad_0F[0x51];
-    s16 fade_step;
-    u8 pad_62[0x0A];
-    u8 flags;
-} DisplayObjectLifecycle;
-
-typedef char DisplayObjectLifecycle_rgb_offsets_must_match[
-    OFFSETOF(DisplayObjectLifecycle, red) == 0x0C &&
-    OFFSETOF(DisplayObjectLifecycle, green) == 0x0D &&
-    OFFSETOF(DisplayObjectLifecycle, blue) == 0x0E ? 1 : -1
-];
-typedef char DisplayObjectLifecycle_fade_step_offset_must_be_0x60[
-    OFFSETOF(DisplayObjectLifecycle, fade_step) == 0x60 ? 1 : -1
-];
-typedef char DisplayObjectLifecycle_flags_offset_must_be_0x6C[
-    OFFSETOF(DisplayObjectLifecycle, flags) == 0x6C ? 1 : -1
-];
-
 s32 DisplayObject_MarkInitialized(DisplayObject *object);
-void DisplayObject_FadeBrightnessAndRelease(DisplayObjectLifecycle *object);
+/* An update callback: steps the colour's red/green/blue down together by
+ * field_60 each frame and releases the object once it reaches black. */
+void DisplayObject_FadeBrightnessAndRelease(DisplayObject *object);
 
 /* The screen origin DisplayObject_SubmitPacket subtracts from every vertex before the
  * perspective transform, followed by the subdivision count for textured
@@ -234,6 +208,83 @@ typedef struct ProjectionOut {
     s16 y;
     s32 divisions;
 } DisplayObjectPacketOrigin;
+
+/* The sprite renderers' clip work area in the scratchpad at 0x1F800378:
+ * `out` is the projection DisplayObject_ProjectRotationFacing fills and
+ * DisplayObject_SubmitPacket takes as its origin (0x1F800398), and
+ * DisplayObject_RenderSpriteStrips keeps its GsROTOFF state in `flag`. */
+typedef struct {
+    u32 unk0;
+    u32 flag;
+    u8 pad8[0x18];
+    struct ProjectionOut out;
+} ClipState;
+
+typedef char ClipState_out_offset_must_be_0x20[
+    OFFSETOF(ClipState, out) == 0x20 ? 1 : -1
+];
+
+/* The scratchpad packets the display-object renderers build at 0x1F800344.
+ * The Gouraud-quad lists copy each colour and vertex in as one word from the
+ * display object (and each GT4 u/v pair as one halfword), and the sprite
+ * renderers' clip-test quad takes the sprite's colour word, so each
+ * primitive is paired with its word layout. The x/y words are `long`, the
+ * type RotAverageNclip4 stores screen coordinates through; each FT4 uvN
+ * word is the u/v pair with the clut or tpage halfword above it, as
+ * DivideFT4 takes them. */
+typedef union {
+    POLY_FT4 prim;
+    struct {
+        u32 tag;
+        u32 rgb0;
+        long xy0;
+        u32 uv0;
+        long xy1;
+        u32 uv1;
+        long xy2;
+        u32 uv2;
+        long xy3;
+        u32 uv3;
+    } w;
+} DisplayObjectFT4Packet;
+
+typedef union {
+    POLY_G4 prim;
+    struct {
+        u32 tag;
+        u32 rgb0;
+        long xy0;
+        u32 rgb1;
+        long xy1;
+        u32 rgb2;
+        long xy2;
+        u32 rgb3;
+        long xy3;
+    } w;
+} DisplayObjectG4Packet;
+
+typedef union {
+    POLY_GT4 prim;
+    struct {
+        u32 tag;
+        u32 rgb0;
+        long xy0;
+        u16 uv0;
+        u16 clut;
+        u32 rgb1;
+        long xy1;
+        u16 uv1;
+        u16 tpage;
+        u32 rgb2;
+        long xy2;
+        u16 uv2;
+        u16 pad2;
+        u32 rgb3;
+        long xy3;
+        u16 uv3;
+        u16 pad3;
+    } w;
+} DisplayObjectGT4Packet;
 
 /* The packet dispatcher receives a sprite pointer in the sprite renderers,
  * while the Gouraud-quad renderers pass the display object's raw attribute
@@ -332,8 +383,8 @@ void DisplayObject_RenderSpriteStripList(void);
 void DisplayObject_RunUpdateCallbackList(void);
 void DisplayObject_RunSecondaryCallbackList(void);
 
-/* A display object's sprite sheet, reached through its +0x4C word: a
- * four-byte header followed by `count` part records. */
+/* The four-byte header of a display object's sprite sheet, reached through
+ * its +0x4C word and followed by `count` part records. */
 typedef struct {
     u8 count;
     u8 flags;      /* 0x10: 10-bit offsets; 0xE0: parts carry their own page */
@@ -352,6 +403,12 @@ typedef struct {
     u16 cell;
     u16 size;
 } SpriteSheetPart;
+
+/* The sheet itself: the header and its `count` parts. */
+typedef struct SpriteSheet {
+    SpriteSheetHeader header;
+    SpriteSheetPart parts[1];
+} SpriteSheet;
 
 /* Per-object working state DisplayObject_RenderSpriteSheet keeps in the
  * scratchpad at 0x1F800378. `proj` is the projection
@@ -393,27 +450,27 @@ void DisplayObject_RenderSpriteSheet(DisplayObject *object, GsOT *ordering_table
  * DisplayObject_UpdateCommandStream, also passes the script and attribute
  * it resolved and the object again. */
 void DisplayObjectStream_ReadNextCommand(
-    DisplayObjectStreamState *object, s32 script, s32 attribute, DisplayObject *owner
+    DisplayObject *object, s32 script, s32 attribute, DisplayObject *owner
 );
 
 s32 DisplayObjectStream_Stop(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 );
 s32 DisplayObjectStream_ResetOffset(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 );
 s32 DisplayObjectStream_Noop(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 );
 s32 DisplayObjectStream_JumpToOffset(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 );
 s32 DisplayObjectStream_ToggleFlagAndJumpToOffset(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 );
 
@@ -423,7 +480,7 @@ s32 DisplayObjectStream_ToggleFlagAndJumpToOffset(
  * cursor at +0x50 is set to the stream base at +0x54 plus that offset, so the
  * opcode is a random jump. Also zeroes the halfword at +0x58. Returns 1. */
 s32 DisplayObjectStream_JumpToRandomOffset(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 );
 
@@ -432,7 +489,7 @@ s32 DisplayObjectStream_JumpToRandomOffset(
  * a little-endian x pivot from four operand bytes. It also raises GsROTOFF in
  * the attribute word `attribute` and advances `current` by 4. Returns 1. */
 s32 DisplayObjectStream_ConfigureRotation(
-    DisplayObjectStreamState *object,
+    DisplayObject *object,
     const u8 *data
 );
 
