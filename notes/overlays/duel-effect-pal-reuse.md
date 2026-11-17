@@ -9,8 +9,9 @@ their bodies or adding compiler flags/profiles:
 | `801481A8..80148BA4` | 2,556 | `gather_effect.c` |
 | `80149F90..8014A8E4` | 2,388 | `tile_effect.c` |
 
-The wrappers live under `src/overlays/european/duel_effects/` and retain
-`gcc_2_8_1_g0_split`. Only Spanish registration is claimed here; another
+The PAL entries now compile the shared sources with a `VERSION_EUROPE` entry
+define in place of the former `src/overlays/european/duel_effects/` wrappers,
+and retain `gcc_2_8_1_g0_split`. Only Spanish registration is claimed here; another
 release must independently pass its own image and ownership gates.
 
 ## Measured regional differences

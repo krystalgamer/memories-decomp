@@ -2,189 +2,282 @@
   "functions": [
     {
       "address": "0x8018001C",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x374",
-      "source": "src/overlays/european/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180390",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7BC",
-      "source": "src/overlays/european/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180B4C",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x258",
-      "source": "src/overlays/european/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180DA4",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA4",
-      "source": "src/overlays/european/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180E48",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x9C",
-      "source": "src/overlays/european/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180EE4",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE4",
-      "source": "src/overlays/european/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80180FC8",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x88",
-      "source": "src/overlays/european/main_menu/frontend.c"
+      "source": "src/overlays/main_menu/frontend.c"
     },
     {
       "address": "0x80181050",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x3B8",
-      "source": "src/overlays/european/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80181408",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x474",
-      "source": "src/overlays/european/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x8018187C",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x594",
-      "source": "src/overlays/european/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80181E10",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x178",
-      "source": "src/overlays/european/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80181F88",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xBC",
-      "source": "src/overlays/european/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80182044",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34",
-      "source": "src/overlays/european/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x80182078",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x48",
-      "source": "src/overlays/european/main_menu/value_setup.c"
+      "source": "src/overlays/main_menu/value_setup.c"
     },
     {
       "address": "0x801820C0",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x348",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80182408",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x11B0",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x801835B8",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x188",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183740",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1E0",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183920",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x190",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183AB0",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x190",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183C40",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x118",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80183D58",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x360",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x801840B8",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x158",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184210",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x8018425C",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184324",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x74",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184398",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE8",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184480",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xF0",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184570",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x110",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184680",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x84",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     },
     {
       "address": "0x80184704",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x80",
-      "source": "src/overlays/european/main_menu/trade_screen.c"
+      "source": "src/overlays/main_menu/trade_screen.c"
     }
   ],
   "schema": 1

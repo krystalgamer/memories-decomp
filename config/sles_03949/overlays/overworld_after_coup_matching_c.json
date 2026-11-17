@@ -2,93 +2,138 @@
   "functions": [
     {
       "address": "0x80168004",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4C",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168050",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x13C",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x8016818C",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5C",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x801681E8",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x70",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168258",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB8",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168310",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x78",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168388",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x200",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168588",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE4",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x8016866C",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x250",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x801688BC",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1EC",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168AA8",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x364",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168E0C",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1C0",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x80168FCC",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1DC",
-      "source": "src/overlays/european/overworld/set_location.c"
+      "source": "src/overlays/overworld/set_location.c"
     },
     {
       "address": "0x801697D0",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_o0_g0_no_split",
       "size": "0x2CC",
-      "source": "src/overlays/european/overworld/pick_alternate_exit.c"
+      "source": "src/overlays/overworld/alternate_pick_exit.c"
     },
     {
       "address": "0x80169A9C",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_o0_g0_split",
       "size": "0x3B8",
-      "source": "src/overlays/european/overworld/update_alternate_location.c"
+      "source": "src/overlays/overworld/alternate_location_tick.c"
     }
   ],
   "schema": 1
