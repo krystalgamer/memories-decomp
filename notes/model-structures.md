@@ -202,20 +202,20 @@ traced through their producer/consumer chain in
 
 ### Loaded-module command words
 
-The signed CF8 words are now named from their complete initialization,
-callback and animation-cue consumers. Both the block and its interior
-tail view preserve the same three SCALAR s32 members:
+The signed CF8 words are named from their complete initialization,
+callback and animation-cue consumers. ModelSlotMetadataBlock holds them as
+one s32 array, module_commands[3], because the cue and control code index
+it by guardian_star_selection:
 
 | Original | Canonical | Unchanged slot/CF8 offsets |
 | --- | --- | --- |
-| field_10 | first_star_module_command | +0xD08 / +0x10 |
-| field_14 | second_star_module_command | +0xD0C / +0x14 |
-| field_18 | primary_module_command | +0xD10 / +0x18 |
+| field_10 | module_commands[0] (first star) | +0xD08 / +0x10 |
+| field_14 | module_commands[1] (second star) | +0xD0C / +0x14 |
+| field_18 | module_commands[2] (primary module) | +0xD10 / +0x18 |
 
-ModelControlCommandView.commands[3] remains the existing non-owning
-indexed view, not a new array allocation or a replacement struct layout.
-Offset/width checks map ALL three entries back to these exact members.
-The shared commands spelling and every indexed load are unchanged.
+The former ModelControlCommandView, a 0xD08-byte prefix view of the slot
+used only to index these words, is retired; model.c indexes
+slot->metadata.module_commands directly.
 
 Model_AdvanceSlotLoad step nine tests entry two for nonnegativity, selects
 the existing slot-zero/nonzero primary module entry at base+4 and calls
@@ -248,7 +248,7 @@ There is no new common reset helper, array rewrite, shortened copy,
 extra clear, command-range clamp or partial-reset/liveness guarantee.
 
 The two pre-existing Spanish variant479 layout fixtures replace ONLY
-field_18 with primary_module_command in their existing offset spellings.
+field_18 with the primary module command in their existing offset spellings.
 Both 0xD10 expectations and every other byte remain; the command-array
 0xD08 checks and all scenarios/mutations/assertions are unchanged.
 No fixture/cloud execution, new harness, runtime capture or profile change.

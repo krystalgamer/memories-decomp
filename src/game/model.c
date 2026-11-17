@@ -81,8 +81,7 @@ u8 gModelDebug_abSlotGfFlags[2];
 #include "camera_view.h"
 #include "ordering_tables.h"
 #include "primitive_handler_modes.h"
-
-#define CVECTOR_VIEW(color) ((CVECTOR *)(color))
+#include "model_scene_runtime.h"
 
 #ifndef BACKGROUND_RENDER_CLIP_LIMIT
 #define BACKGROUND_RENDER_CLIP_LIMIT 241
@@ -120,9 +119,9 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *slot, s32 part_index)
     s32 duration_units;
     s32 animation_row;
     ModelSlotPart *part_sequence;
-    s32 *command_base;
-    s32 *current_command;
-    s32 *row_command;
+    ModelAnimationCommand *command_base;
+    ModelAnimationCommand *current_command;
+    ModelAnimationCommand *row_command;
     s32 first_command_index;
     s32 remaining_frame;
 
@@ -133,7 +132,7 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *slot, s32 part_index)
         return 0;
     }
     current_command = slot->animation_commands + part_sequence->ti;
-    if (*current_command < 0) {
+    if (current_command->word < 0) {
         return 0;
     }
     command_base = slot->animation_commands;
@@ -141,13 +140,13 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *slot, s32 part_index)
         first_command_index = slot->animation_command_indices[animation_row][part_index];
         row_command = command_base + first_command_index;
         if (first_command_index != 0xFFFF && current_command >= row_command - 1 &&
-            command_base + *(u16 *)(row_command - 1) >= current_command) {
+            command_base + row_command[-1].b.value >= current_command) {
             break;
         }
     }
     if (animation_row < 10) {
         while (row_command < current_command) {
-            duration_units += ((u8 *)row_command)[2];
+            duration_units += row_command->b.duration;
             row_command++;
         }
         remaining_frame = part_sequence->rframe;
@@ -171,11 +170,11 @@ s32 tent_Model_GetSlotPartAnimationPosition(ModelSlot *slot, s32 part_index)
  * stop index (ti), the entry before it (ci), the entry length (tframe) and
  * the time left in it (rframe); mode 0x3C clamps that last value to 0x6000. */
 void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_row, u32 scaled_position) {
-    s32 *command_base;
+    ModelAnimationCommand *command_base;
     ModelSlotPart *part_sequence;
-    s32 *command_cursor;
-    s32 *row_header;
-    s32 *stop_cursor;
+    ModelAnimationCommand *command_cursor;
+    ModelAnimationCommand *row_header;
+    ModelAnimationCommand *stop_cursor;
     s32 first_command_index;
     s32 row_frame_duration;
     s32 remaining_position;
@@ -223,29 +222,29 @@ void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_
        and the in-loop length read (which cse2 then turns into the copy
        retail keeps in $a3). A named length local defeats all of that. */
     entry_number = 0;
-    if (entry_number >= *(u16 *)row_header) {
+    if (entry_number >= row_header->b.value) {
         return;
     }
-    for (; entry_number < *(u16 *)row_header; entry_number++) {
+    for (; entry_number < row_header->b.value; entry_number++) {
         if (slot->playback_state != 0x3C) {
-            position_after_entry = remaining_position - (((u8 *)command_cursor)[2] << 4);
+            position_after_entry = remaining_position - (command_cursor->b.duration << 4);
             if (position_after_entry <= 0) {
                 break;
             }
         } else {
-            position_after_entry = remaining_position - (((u8 *)command_cursor)[2] << 4);
+            position_after_entry = remaining_position - (command_cursor->b.duration << 4);
             if (position_after_entry < 0) {
                 break;
             }
         }
-        remaining_position = remaining_position - (((u8 *)command_cursor)[2] << 4);
-        if (command_cursor[1] < 0) {
+        remaining_position = remaining_position - (command_cursor->b.duration << 4);
+        if (command_cursor[1].word < 0) {
             break;
         }
         command_cursor++;
     }
 
-    entry_count = *(u16 *)row_header;
+    entry_count = row_header->b.value;
     if (entry_number >= entry_count) {
         return;
     }
@@ -256,7 +255,7 @@ void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_
        test's delay slot. */
     stop_cursor = command_cursor;
     do {
-        s32 next_command = stop_cursor[1];
+        s32 next_command = stop_cursor[1].word;
 
         if (next_command < 0) {
             break;
@@ -272,7 +271,7 @@ void Model_SeekSlotPartAnimation(ModelSlot *slot, s32 part_index, s32 animation_
         command_index = stop_cursor - slot->animation_commands;
     }
     part_sequence->ci = command_index;
-    entry_frame_duration = ((u8 *)command_cursor)[2] << 4;
+    entry_frame_duration = command_cursor->b.duration << 4;
     remaining_frame = entry_frame_duration - remaining_position;
     part_sequence->tframe = entry_frame_duration;
     part_sequence->rframe = remaining_frame;
@@ -299,8 +298,8 @@ void Model_DrawBackground(void)
     };
     BackgroundNormals normals = initial_normals;
     SVECTOR vertices[8];
-    GsSPRITE sprite;
-    POLY_G4 polygons[3];
+    ModelBackgroundSprite sprite;
+    ModelBackgroundBand polygons[3];
     long projection[4];
     ModelSlot *background_slot = &gModel_aSlots[2];
     u8 texture_v_base;
@@ -326,105 +325,106 @@ void Model_DrawBackground(void)
         background_slot->ambient_rgb_scale[1] == -4096 && background_slot->ambient_rgb_scale[2] == -4096)
         return;
     Model_UpdateBackgroundScroll(0);
-    sprite.attribute = 0;
+    sprite.prim.attribute = 0;
     if (gModel_pBackgroundRecord->texture_height_flags & 0xE000)
-        sprite.attribute = 0x01000000;
+        sprite.prim.attribute = 0x01000000;
+    /* ModelSlotLightEntry is GsF_LIGHT's layout; model.h does not include libgs.h. */
     GsSetFlatLight(0, (GsF_LIGHT *)&background_slot->flat_lights[0]);
     GsSetFlatLight(1, (GsF_LIGHT *)&background_slot->flat_lights[1]);
     GsSetFlatLight(2, (GsF_LIGHT *)&background_slot->flat_lights[2]);
     GsSetAmbient(background_slot->ambient_rgb_scale[0], background_slot->ambient_rgb_scale[1], background_slot->ambient_rgb_scale[2]);
     GsSetLightMatrix(&gModel_CameraCoordinateUnit.matrix);
-    NormalColorCol(&normals.values[0], &colors[0], CVECTOR_VIEW(&sprite.r));
-    sprite.tpage = ((gModel_pBackgroundRecord->texture_height_flags >> 6) & 0x180) |
+    NormalColorCol(&normals.values[0], &colors[0], &sprite.c.rgb);
+    sprite.prim.tpage = ((gModel_pBackgroundRecord->texture_height_flags >> 6) & 0x180) |
         ((gModel_pBackgroundRecord->texture_v_page.packed & 0x100) >> 4) |
         ((gModel_pBackgroundRecord->texture_u_page & 0x3FF) >> 6) |
         ((gModel_pBackgroundRecord->texture_v_page.packed & 0x200) << 2);
-    sprite.cx = gModel_pBackgroundRecord->clut_x;
-    sprite.cy = gModel_pBackgroundRecord->clut_y;
-    sprite.w = 64;
+    sprite.prim.cx = gModel_pBackgroundRecord->clut_x;
+    sprite.prim.cy = gModel_pBackgroundRecord->clut_y;
+    sprite.prim.w = 64;
     background_offset_y = gModel_wBackgroundOffsetY;
     initial_sprite_y = background_offset_y - 48;
-    sprite.u = texture_u_base;
-    sprite.v = texture_v_base;
-    sprite.h = 256;
-    sprite.y = initial_sprite_y;
+    sprite.prim.u = texture_u_base;
+    sprite.prim.v = texture_v_base;
+    sprite.prim.h = 256;
+    sprite.prim.y = initial_sprite_y;
     minimum_y = -(gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
     if (background_offset_y >= minimum_y && initial_sprite_y >= minimum_y) {
         if (initial_sprite_y > 0)
-            sprite.y = 0;
-        if (sprite.y < 0) {
-            sprite.v = __builtin_abs(sprite.y);
-            sprite.y = 0;
+            sprite.prim.y = 0;
+        if (sprite.prim.y < 0) {
+            sprite.prim.v = __builtin_abs(sprite.prim.y);
+            sprite.prim.y = 0;
         }
         {
-            s32 screen_end_y = sprite.y + 256;
+            s32 screen_end_y = sprite.prim.y + 256;
             s32 screen_limit_y = (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + background_offset_y;
             s32 screen_input_height;
             s32 screen_trim_amount;
             if (screen_limit_y < BACKGROUND_RENDER_CLIP_LIMIT
                     ? screen_limit_y < screen_end_y
                     : screen_end_y >= BACKGROUND_RENDER_CLIP_LIMIT) {
-                screen_input_height = sprite.h;
-                screen_trim_amount = sprite.y + screen_input_height -
+                screen_input_height = sprite.prim.h;
+                screen_trim_amount = sprite.prim.y + screen_input_height -
                     ((gModel_pBackgroundRecord->texture_height_flags & 0x1FFF) + gModel_wBackgroundOffsetY);
-                sprite.h = screen_input_height - (screen_trim_amount < screen_input_height ? screen_trim_amount : screen_input_height);
+                sprite.prim.h = screen_input_height - (screen_trim_amount < screen_input_height ? screen_trim_amount : screen_input_height);
             }
         }
         {
-            s32 texture_end_v = sprite.v + sprite.h;
+            s32 texture_end_v = sprite.prim.v + sprite.prim.h;
             s32 texture_limit_v = gModel_pBackgroundRecord->texture_height_flags & 0x1FFF;
             s32 texture_input_height;
             s32 texture_trim_amount;
             if ((u32)texture_limit_v < BACKGROUND_RENDER_CLIP_LIMIT
                     ? texture_limit_v < texture_end_v
                     : texture_end_v >= BACKGROUND_RENDER_CLIP_LIMIT) {
-                texture_input_height = sprite.h;
+                texture_input_height = sprite.prim.h;
                 texture_trim_amount =
-                    sprite.v + texture_input_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
-                sprite.h = texture_input_height - (texture_trim_amount < texture_input_height ? texture_trim_amount : texture_input_height);
+                    sprite.prim.v + texture_input_height - (gModel_pBackgroundRecord->texture_height_flags & 0x1FFF);
+                sprite.prim.h = texture_input_height - (texture_trim_amount < texture_input_height ? texture_trim_amount : texture_input_height);
             }
         }
-        sprite.x = gModel_wBackgroundScrollX / 10 -
+        sprite.prim.x = gModel_wBackgroundScrollX / 10 -
             160 * (u16)(gModel_pBackgroundRecord->texture_width / 0x500u);
-        while (sprite.x < 320) {
-            if (sprite.x + sprite.w > 0)
-                GsSortFastSprite(&sprite, gGraphics_apOrderingTables[3],
+        while (sprite.prim.x < 320) {
+            if (sprite.prim.x + sprite.prim.w > 0)
+                GsSortFastSprite(&sprite.prim, gGraphics_apOrderingTables[3],
                     (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
-            wrapped_u = (sprite.u + sprite.w) %
+            wrapped_u = (sprite.prim.u + sprite.prim.w) %
                 (u16)(gModel_pBackgroundRecord->texture_width / 10u);
-            sprite.x += sprite.w;
-            sprite.u = wrapped_u + texture_u_base;
+            sprite.prim.x += sprite.prim.w;
+            sprite.prim.u = wrapped_u + texture_u_base;
         }
     }
     if (!(gModel_pBackgroundRecord->flags & 1))
         return;
     NormalColorCol(&normals.values[1], &colors[1],
-                   CVECTOR_VIEW(&polygons[0].r0));
+                   &polygons[0].w.c0);
     NormalColorCol(&normals.values[1], &colors[1],
-                   CVECTOR_VIEW(&polygons[0].r1));
+                   &polygons[0].w.c1);
     NormalColorCol(&normals.values[1], &colors[2],
-                   CVECTOR_VIEW(&polygons[0].r2));
+                   &polygons[0].w.c2);
     NormalColorCol(&normals.values[1], &colors[2],
-                   CVECTOR_VIEW(&polygons[0].r3));
+                   &polygons[0].w.c3);
     NormalColorCol(&normals.values[1], &colors[2],
-                   CVECTOR_VIEW(&polygons[1].r0));
+                   &polygons[1].w.c0);
     NormalColorCol(&normals.values[1], &colors[2],
-                   CVECTOR_VIEW(&polygons[1].r1));
+                   &polygons[1].w.c1);
     NormalColorCol(&normals.values[1], &colors[3],
-                   CVECTOR_VIEW(&polygons[1].r2));
+                   &polygons[1].w.c2);
     NormalColorCol(&normals.values[1], &colors[3],
-                   CVECTOR_VIEW(&polygons[1].r3));
+                   &polygons[1].w.c3);
     NormalColorCol(&normals.values[1], &colors[3],
-                   CVECTOR_VIEW(&polygons[2].r0));
+                   &polygons[2].w.c0);
     NormalColorCol(&normals.values[1], &colors[3],
-                   CVECTOR_VIEW(&polygons[2].r1));
+                   &polygons[2].w.c1);
     NormalColorCol(&normals.values[1], &colors[4],
-                   CVECTOR_VIEW(&polygons[2].r2));
+                   &polygons[2].w.c2);
     NormalColorCol(&normals.values[1], &colors[4],
-                   CVECTOR_VIEW(&polygons[2].r3));
-    setPolyG4(&polygons[0]);
-    setPolyG4(&polygons[1]);
-    setPolyG4(&polygons[2]);
+                   &polygons[2].w.c3);
+    setPolyG4(&polygons[0].prim);
+    setPolyG4(&polygons[1].prim);
+    setPolyG4(&polygons[2].prim);
     vertices[0].vx = 1000;
     vertices[2].vx = 1600;
     vertices[4].vx = 2200;
@@ -455,32 +455,32 @@ void Model_DrawBackground(void)
         vertices[7].vx = 2800 * cosine / 4096;
         vertices[7].vz = 2800 * sine / 4096;
         inner_band_depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (long *)&polygons[0].x0, (long *)&polygons[0].x1,
-            (long *)&polygons[0].x2, (long *)&polygons[0].x3,
+            &polygons[0].w.xy0, &polygons[0].w.xy1,
+            &polygons[0].w.xy2, &polygons[0].w.xy3,
             &projection[0], &projection[1]);
         outer_band_depth = RotAverage4(&vertices[4], &vertices[5], &vertices[6], &vertices[7],
-            (long *)&polygons[2].x0, (long *)&polygons[2].x1,
-            (long *)&polygons[2].x2, (long *)&polygons[2].x3,
+            &polygons[2].w.xy0, &polygons[2].w.xy1,
+            &polygons[2].w.xy2, &polygons[2].w.xy3,
             &projection[2], &projection[3]);
-        polygons[1].x0 = (u16)polygons[0].x2;
-        polygons[1].y0 = (u16)polygons[0].y2;
-        polygons[1].x1 = (u16)polygons[0].x3;
-        polygons[1].y1 = (u16)polygons[0].y3;
-        polygons[1].x2 = (u16)polygons[2].x0;
-        polygons[1].y2 = (u16)polygons[2].y0;
-        polygons[1].x3 = (u16)polygons[2].x1;
-        polygons[1].y3 = (u16)polygons[2].y1;
+        polygons[1].prim.x0 = (u16)polygons[0].prim.x2;
+        polygons[1].prim.y0 = (u16)polygons[0].prim.y2;
+        polygons[1].prim.x1 = (u16)polygons[0].prim.x3;
+        polygons[1].prim.y1 = (u16)polygons[0].prim.y3;
+        polygons[1].prim.x2 = (u16)polygons[2].prim.x0;
+        polygons[1].prim.y2 = (u16)polygons[2].prim.y0;
+        polygons[1].prim.x3 = (u16)polygons[2].prim.x1;
+        polygons[1].prim.y3 = (u16)polygons[2].prim.y1;
         do {
             if (inner_band_depth >= 0) {
-                GsSortPoly(&polygons[0], gGraphics_apOrderingTables[3],
+                GsSortPoly(&polygons[0].prim, gGraphics_apOrderingTables[3],
                     (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
             } else if (outer_band_depth < 0) {
                 break;
             }
-            GsSortPoly(&polygons[1], gGraphics_apOrderingTables[3],
+            GsSortPoly(&polygons[1].prim, gGraphics_apOrderingTables[3],
                 (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
             if (outer_band_depth >= 0)
-                GsSortPoly(&polygons[2], gGraphics_apOrderingTables[3],
+                GsSortPoly(&polygons[2].prim, gGraphics_apOrderingTables[3],
                     (u16)((1u << gGraphics_apOrderingTables[3]->length) - 1));
         } while (0);
         ring_angle += 256;
@@ -660,7 +660,7 @@ void Model_StepBackgroundVramAnimation(void) {
             gModel_ImageCopyRectH = 0x40;
             column_frame = column_tick % 3;
             gModel_ImageCopyRectX = column_frame * 16 + 0x2D0;
-            MoveImage(MODEL_IMAGE_COPY_RECT, 0x2C0, 0x1C0);
+            MoveImage((RECT *)&gModel_ImageCopyRectX, 0x2C0, 0x1C0);
             break;
         case 4:
             n = MODEL_IMAGE_COPY_FRAME_COUNT;
@@ -671,7 +671,7 @@ void Model_StepBackgroundVramAnimation(void) {
             gModel_ImageCopyRectW = 0x20;
             gModel_ImageCopyRectH = 0x18;
             gModel_ImageCopyRectY = frame_row * 3 * 8 + 0x180;
-            MoveImage(MODEL_IMAGE_COPY_RECT, 0x220, 0x168);
+            MoveImage((RECT *)&gModel_ImageCopyRectX, 0x220, 0x168);
             break;
         }
     }
@@ -699,6 +699,9 @@ void Model_StepBackgroundVramAnimation(void) {
 
 u8 gModel_bCurrentDrawMode = 0;
 u8 gModel_bBlendRateActive = 0;
+/* Red and green draw-tint bytes, reached bytewise. A union would be an
+   aggregate, which MIPS GCC word-aligns; retail has this at an odd halfword
+   (0x8009AFE6), so it stays a u16. */
 u16 gModel_wDrawTintRedGreen = 0;
 u8 gModel_bDrawTintBlue = 0;
 u8 gModel_bPresentationTimer = 0;
@@ -757,7 +760,7 @@ void Model_UpdateAnimatedBattle(void)
             key_magnitude = 0x96;
             break;
         }
-        Model_ApplyEffectKeyQueueCommand(0, (void *)&camera_endpoint, (void *)0, key_magnitude);
+        Model_ApplyEffectKeyQueueCommand(0, (void *)&camera_endpoint, 0, key_magnitude);
         gModel_bPresentationPhase++;
         break;
     }
@@ -797,10 +800,10 @@ void Model_UpdateAnimatedBattle(void)
             }
             gModel_aSlots[0].field_E15++;
         }
-        if ((s8)gModel_aSlots[0].tint[0] >= 0) {
-            gModel_aSlots[0].tint[0] += 2;
-            gModel_aSlots[0].tint[1] += 2;
-            gModel_aSlots[0].tint[2] += 2;
+        if ((s8)gModel_aSlots[0].tint.bytes[0] >= 0) {
+            gModel_aSlots[0].tint.bytes[0] += 2;
+            gModel_aSlots[0].tint.bytes[1] += 2;
+            gModel_aSlots[0].tint.bytes[2] += 2;
         } else {
             if (gModel_aSlots[0].draw_mode_request != 4) {
                 Model_SetSlotDrawMode(0, 3);
@@ -840,10 +843,10 @@ void Model_UpdateAnimatedBattle(void)
         break;
     }
     case 9:
-        if ((s8)gModel_aSlots[1].tint[0] >= 0) {
-            gModel_aSlots[1].tint[0] += 2;
-            gModel_aSlots[1].tint[1] += 2;
-            gModel_aSlots[1].tint[2] += 2;
+        if ((s8)gModel_aSlots[1].tint.bytes[0] >= 0) {
+            gModel_aSlots[1].tint.bytes[0] += 2;
+            gModel_aSlots[1].tint.bytes[1] += 2;
+            gModel_aSlots[1].tint.bytes[2] += 2;
         } else {
             Model_ControlSlotAnimation(1, 2, 1);
             gModel_bPresentationTimer = 0;
@@ -942,7 +945,7 @@ void Model_UpdateAnimatedBattle(void)
             if (Model_GetCameraHoldState() == 2) {
                 Model_SetCameraHoldState(1);
             }
-            Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
+            Model_ApplyEffectKeyQueueCommand(0, 0, 0, 0);
             move_magnitude = a;
             if (move_magnitude < 0xA) {
                 move_magnitude = 0xA;
@@ -1022,7 +1025,7 @@ void Model_UpdateAnimatedBattle(void)
             if (Model_GetCameraHoldState() == 2) {
                 Model_SetCameraHoldState(1);
             }
-            Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
+            Model_ApplyEffectKeyQueueCommand(0, 0, 0, 0);
             move_magnitude = a;
             if (move_magnitude < 0xA) {
                 move_magnitude = 0xA;
@@ -1063,7 +1066,7 @@ void Model_UpdateAnimatedBattle(void)
                     }
                     Model_ControlSlotAnimation(1, 6, 1);
                 }
-                Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
+                Model_ApplyEffectKeyQueueCommand(0, 0, 0, 0);
                 if (Model_IsCameraMoveComplete(1) != 0) {
                     s32 move_magnitude = Model_GetSlotDistanceFromCameraTarget(selected_slot_index) * 0x1E / 1000;
                     if (move_magnitude < 0xA) {
@@ -1102,10 +1105,10 @@ void Model_UpdateAnimatedBattle(void)
             }
             selected_slot->field_E15++;
         }
-        if (selected_slot->tint[0] != 0) {
-            selected_slot->tint[0] -= 2;
-            selected_slot->tint[1] -= 2;
-            selected_slot->tint[2] -= 2;
+        if (selected_slot->tint.bytes[0] != 0) {
+            selected_slot->tint.bytes[0] -= 2;
+            selected_slot->tint.bytes[1] -= 2;
+            selected_slot->tint.bytes[2] -= 2;
             break;
         }
         current_yaw = gModel_wViewYaw;
@@ -1153,7 +1156,7 @@ void Model_UpdateAnimatedBattle(void)
         s32 selected_slot_index = gModel_aSlots[0].active_animation_command_row == 6;
 
         if (gModel_aSlots[selected_slot_index].active_animation_command_row != 7) {
-            Model_ApplyEffectKeyQueueCommand(0, (void *)0, (void *)0, 0);
+            Model_ApplyEffectKeyQueueCommand(0, 0, 0, 0);
             Model_RequestCameraMoveToSlots(1, -1, selected_slot_index, -0x1E);
             gModel_bPresentationTimer = 0x3C;
             gModel_bPresentationPhase++;
@@ -1187,10 +1190,10 @@ void Model_UpdateAnimatedBattle(void)
         }
         slot_base = gModel_aSlots;
         selected_slot = &slot_base[selected_slot_index];
-        if (selected_slot->tint[0] != 0) {
-            selected_slot->tint[0] -= 2;
-            selected_slot->tint[1] -= 2;
-            selected_slot->tint[2] -= 2;
+        if (selected_slot->tint.bytes[0] != 0) {
+            selected_slot->tint.bytes[0] -= 2;
+            selected_slot->tint.bytes[1] -= 2;
+            selected_slot->tint.bytes[2] -= 2;
         } else {
             gModel_bPresentationPhase++;
         }
@@ -1213,10 +1216,10 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     case 32:
-        if (gModel_aSlots[1].tint[0] != 0) {
-            gModel_aSlots[1].tint[0] -= 2;
-            gModel_aSlots[1].tint[1] -= 2;
-            gModel_aSlots[1].tint[2] -= 2;
+        if (gModel_aSlots[1].tint.bytes[0] != 0) {
+            gModel_aSlots[1].tint.bytes[0] -= 2;
+            gModel_aSlots[1].tint.bytes[1] -= 2;
+            gModel_aSlots[1].tint.bytes[2] -= 2;
         } else {
             s32 biased_yaw = gModel_wViewYaw + 0xC00;
 
@@ -1237,10 +1240,10 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     case 34:
-        if (gModel_aSlots[0].tint[0] != 0) {
-            gModel_aSlots[0].tint[0] -= 2;
-            gModel_aSlots[0].tint[1] -= 2;
-            gModel_aSlots[0].tint[2] -= 2;
+        if (gModel_aSlots[0].tint.bytes[0] != 0) {
+            gModel_aSlots[0].tint.bytes[0] -= 2;
+            gModel_aSlots[0].tint.bytes[1] -= 2;
+            gModel_aSlots[0].tint.bytes[2] -= 2;
         } else {
             gModel_bPresentationPhase = 0x28;
         }
@@ -1330,9 +1333,9 @@ void Model_UpdateExodiaPresentation(void)
         primary_slot->queued_animation_row_latch = 1;
         primary_slot->queued_animation_row = 2;
         SD_BGMPlayDefaultStep(0x7310);
-        load_slots->metadata.first_star_module_command = -1;
-        load_slots->metadata.second_star_module_command = -1;
-        load_slots->metadata.primary_module_command = -1;
+        load_slots->metadata.module_commands[0] = -1;
+        load_slots->metadata.module_commands[1] = -1;
+        load_slots->metadata.module_commands[2] = -1;
         gModel_bActiveSlotIndex = 0;
         slot0_module_handler(gModel_Slot0VariantDataAddress, 0);
         slot1_module_handler(gModel_Slot1VariantDataAddress, 0);
@@ -1351,10 +1354,10 @@ void Model_UpdateExodiaPresentation(void)
         break;
     case 2: {
         ModelSlot *tint_slot = gModel_aSlots;
-        if ((s8)tint_slot->tint[0] >= 0) {
-            tint_slot->tint[0] += 2;
-            tint_slot->tint[1] += 2;
-            tint_slot->tint[2] += 2;
+        if ((s8)tint_slot->tint.bytes[0] >= 0) {
+            tint_slot->tint.bytes[0] += 2;
+            tint_slot->tint.bytes[1] += 2;
+            tint_slot->tint.bytes[2] += 2;
         } else {
             Model_SetSlotTintTarget(0, 0, 0x80, 0x80, 0x80);
             gModel_bPresentationPhase++;
@@ -1511,14 +1514,14 @@ void Model_UpdateCreditsMonsterSlot(s32 slot_index) {
             yaw_work = MODEL_ANGLE_QUARTER_TURN;
             if (peer_slot->is_active != 0) {
                 peer_coordinate = peer_slot->root_coordinate;
-                if (peer_coordinate != (GsCOORDUNIT *)0) {
+                if (peer_coordinate != 0) {
                     t = peer_coordinate->rot.vy + MODEL_ANGLE_QUARTER_TURN;
                     yaw_work = t / MODEL_ANGLE_FULL_TURN;
                     yaw_work = t - yaw_work * MODEL_ANGLE_FULL_TURN;
                 }
             }
             ready_slot = gModel_aSlots + slot_index;
-            if (ready_slot->root_coordinate != (GsCOORDUNIT *)0) {
+            if (ready_slot->root_coordinate != 0) {
                 ready_slot->root_coordinate->rot.vx = 0;
                 ready_slot->root_coordinate->rot.vy = yaw_work;
                 ready_slot->root_coordinate->rot.vz = 0;
@@ -1588,7 +1591,7 @@ void Model_UpdateCreditsPresentation(void)
       Model_SetSlotTintTarget(1, 2, 0, 0, 0);
       func_801807B0();
       func_80181C4C(0);
-      SD_SetMusicTrackBuffer((u16 *)gModel_pCreditsMusicTrackBuffer);
+      SD_SetMusicTrackBuffer(gModel_pCreditsMusicTrackBuffer);
       SD_BGMPlayDefaultStep(29488);
       phase_value = gModel_bPresentationPhase + 1;
       gModel_bPresentationPhase = phase_value;
@@ -1600,7 +1603,7 @@ void Model_UpdateCreditsPresentation(void)
       {
         if ( (gModel_aSlots[active_index].field_E15 & 3) == 0 )
         {
-          active_color = gModel_aSlots[active_index].tint;
+          active_color = gModel_aSlots[active_index].tint.bytes;
           red_sample = rand() >> 8;
           red_sample %= 24;
           red_target = red_sample + 8;
@@ -1700,8 +1703,8 @@ void Model_UpdateCreditsPresentation(void)
       crossfade_index = gModel_bCreditsActiveSlot;
       if ( (crossfade_base[crossfade_index].field_E15 & 3) == 0 )
       {
-        outgoing_color = gModel_aSlots[crossfade_index].tint;
-        incoming_color = gModel_aSlots[gModel_bCreditsActiveSlot ^ 1].tint;
+        outgoing_color = gModel_aSlots[crossfade_index].tint.bytes;
+        incoming_color = gModel_aSlots[gModel_bCreditsActiveSlot ^ 1].tint.bytes;
         if ( outgoing_color[0] )
           --outgoing_color[0];
         if (outgoing_color[1])
@@ -1730,23 +1733,23 @@ void Model_UpdateCreditsPresentation(void)
       fade_slot_base = gModel_aSlots;
       if ( (fade_slot_base[gModel_bCreditsActiveSlot].field_E15 & 3) == 0 )
       {
-        slot0_tint = fade_slot_base[0].tint;
-        slot1_tint = fade_slot_base[1].tint;
-        if ( fade_slot_base[0].tint[0] )
-          --fade_slot_base[0].tint[0];
+        slot0_tint = fade_slot_base[0].tint.bytes;
+        slot1_tint = fade_slot_base[1].tint.bytes;
+        if ( fade_slot_base[0].tint.bytes[0] )
+          --fade_slot_base[0].tint.bytes[0];
         if ( slot0_tint[1] )
           --slot0_tint[1];
         if ( slot0_tint[2] )
           --slot0_tint[2];
-        if ( fade_slot_base[1].tint[0] )
-          fade_slot_base[1].tint[0] = fade_slot_base[1].tint[0] - 1;
+        if ( fade_slot_base[1].tint.bytes[0] )
+          fade_slot_base[1].tint.bytes[0] = fade_slot_base[1].tint.bytes[0] - 1;
         if ( slot1_tint[1] )
           --slot1_tint[1];
         if ( slot1_tint[2] )
           --slot1_tint[2];
-        if ( !fade_slot_base[0].tint[0]
+        if ( !fade_slot_base[0].tint.bytes[0]
           && !slot0_tint[1] && !slot0_tint[2]
-          && !fade_slot_base[1].tint[0]
+          && !fade_slot_base[1].tint.bytes[0]
           && !slot1_tint[1] && !slot1_tint[2] )
         {
           fade_slot_base[1].is_active = 0;
@@ -1854,8 +1857,8 @@ void Model_PlaySlotAnimationSounds(s32 index) {
     if (slot->is_active == 0) {
         return;
     }
-    if (slot->tint[3] >= 2) {
-        if ((*(u32 *)slot->tint & 0xFFFFFF) == 0) {
+    if (slot->tint.bytes[3] >= 2) {
+        if ((slot->tint.word & 0xFFFFFF) == 0) {
             return;
         }
     }
@@ -1873,7 +1876,7 @@ void Model_PlaySlotAnimationSounds(s32 index) {
         cue_position = 0;
     }
     guardian_star = slot->guardian_star_selection;
-    selected_command = ((ModelControlCommandView *)slot)->commands[guardian_star];
+    selected_command = slot->metadata.module_commands[guardian_star];
     use_command_cursor = 0;
     if (selected_command >= 0) {
         if (slot->animation_control_state != 8) {
@@ -1895,7 +1898,7 @@ void Model_PlaySlotAnimationSounds(s32 index) {
             trace_star = slot->guardian_star_selection;
             cue_position = slot->animation_sound_position;
             slot->animation_sound_position = cue_position + sound_position_step;
-            trace_command = ((ModelControlCommandView *)slot)->commands[trace_star];
+            trace_command = slot->metadata.module_commands[trace_star];
             animation_row = slot->guardian_star_selection + 3;
             /* Retail loads animation_sound_position again after the store above; read
                plainly, GCC reuses the value it just stored instead. */
@@ -1944,9 +1947,6 @@ void Model_PlaySlotAnimationSounds(s32 index) {
         } while (cue_index < 0x40);
     }
 }
-
-#define MODEL_TINT_COLOR_VIEW(color) ((ModelTintColor *)(color))
-#define SVECTOR_VIEW(vector) ((SVECTOR *)(vector))
 
 /* The contiguous model camera and scene runtime. Model_SeparateViewFromSlots pushes the
    gModel_RView reference apart from the two model records; Model_UpdateCamera
@@ -2073,19 +2073,19 @@ s32 Model_SeparateViewFromSlots(s32 apply_request, s32 min_extent, s32 recursion
 
     probe_x = gModel_RView.vpx;
     probe_x = probe_x + probe_offset_x;
-    dy.values[0] = probe_x - *(s16 *)&slots[0].cached_position[0];
-    dy.values[1] = probe_x - *(s16 *)&slots[1].cached_position[0];
+    dy.values[0] = probe_x - slots[0].cached_position[0];
+    dy.values[1] = probe_x - slots[1].cached_position[0];
     dx = dy;
     view_work = gModel_RView.vpy;
-    dz.values[0] = view_work - *(s16 *)&slots[0].cached_position[1];
-    slot1_delta_y = view_work - *(s16 *)&slots[1].cached_position[1];
+    dz.values[0] = view_work - slots[0].cached_position[1];
+    slot1_delta_y = view_work - slots[1].cached_position[1];
     do {
         dz.values[1] = slot1_delta_y;
     } while (0);
     dy = dz;
     probe_z = gModel_RView.vpz + probe_offset_z;
-    dist.values[0] = probe_z - *(s16 *)&slots[0].cached_position[2];
-    dist.values[1] = probe_z - *(s16 *)&slots[1].cached_position[2];
+    dist.values[0] = probe_z - slots[0].cached_position[2];
+    dist.values[1] = probe_z - slots[1].cached_position[2];
     dz = dist;
 
     t.values[0] = SquareRoot0(
@@ -2097,8 +2097,8 @@ s32 Model_SeparateViewFromSlots(s32 apply_request, s32 min_extent, s32 recursion
     separation_extent = 0;
     extra_overlap_count = 0;
     if (gModel_aSlots[0].is_active != 0) {
-        if (gModel_aSlots[0].tint[3] >= 2) {
-            if ((*(u32 *)gModel_aSlots[0].tint & 0xFFFFFF) == 0) {
+        if (gModel_aSlots[0].tint.bytes[3] >= 2) {
+            if ((gModel_aSlots[0].tint.word & 0xFFFFFF) == 0) {
                 dist.values[0] = -1;
             }
         }
@@ -2106,8 +2106,8 @@ s32 Model_SeparateViewFromSlots(s32 apply_request, s32 min_extent, s32 recursion
         dist.values[0] = -1;
     }
     if (gModel_aSlots[1].is_active != 0) {
-        if (gModel_aSlots[1].tint[3] >= 2) {
-            if ((*(u32 *)gModel_aSlots[1].tint & 0xFFFFFF) == 0) {
+        if (gModel_aSlots[1].tint.bytes[3] >= 2) {
+            if ((gModel_aSlots[1].tint.word & 0xFFFFFF) == 0) {
                 dist.values[1] = -1;
             }
         }
@@ -2621,10 +2621,11 @@ void Model_UpdateTintRequests(void)
     ModelTintRequest *request;
     ModelTintRequest *requests;
 
-    requests = (ModelTintRequest *)gModel_aTintRequests;
+    requests = gModel_aTintRequests;
     for (request_index = 0, request_offset = 0; request_index < MODEL_TINT_REQUEST_COUNT; request_offset += 0x18, request_index++) {
         request = &requests[request_index];
-        mask_base_address = (s32)((u8 *)requests + 1);
+        mask_base_address = (s32)requests->part_mask;
+        /* lbu of the first byte; the `active` bitfield reads an lhu. */
         if ((*(u8 *)request & 1) == 0) {
             continue;
         }
@@ -2632,6 +2633,8 @@ void Model_UpdateTintRequests(void)
             continue;
         }
         if (!(Model_HasInsufficientBufferSpace(request->slot, request->start.blend_mode))) {
+            /* The bitfield halfword as one value; slot and row are
+               shifted out of it below. */
             flag_work = *(u16 *)request;
             request_animation_position = request->animation_position_snapshot;
             elapsed = request->elapsed;
@@ -2644,12 +2647,12 @@ void Model_UpdateTintRequests(void)
             saved_animation_row = slot_state->current_animation_row;
             saved_shadow_state = Model_SetSlotShadowEnabled(slot_index, 0);
             draw_animation_row = request_animation_row;
-            saved_tint = *MODEL_TINT_COLOR_VIEW(slot_state->tint);
+            saved_tint = slot_state->tint.target;
             draw_tint.blend_mode = request->start.blend_mode;
             draw_tint.r = request->start.r * (duration - elapsed) / duration + request->end.r * elapsed / duration;
             draw_tint.g = request->start.g * (duration - elapsed) / duration + request->end.g * elapsed / duration;
             draw_tint.b = request->start.b * (duration - elapsed) / duration + request->end.b * elapsed / duration;
-            *MODEL_TINT_COLOR_VIEW(slot_state->tint) = draw_tint;
+            slot_state->tint.target = draw_tint;
 
             draw_position = request_animation_position;
             for (draw_part_index = 0; draw_part_index < slot_state->animation_sequence_count; draw_part_index++) {
@@ -2684,7 +2687,7 @@ void Model_UpdateTintRequests(void)
             }
 
             Model_SetSlotShadowEnabled(slot_index, saved_shadow_state);
-            *MODEL_TINT_COLOR_VIEW(slot_state->tint) = saved_tint;
+            slot_state->tint.target = saved_tint;
         }
         request->elapsed += Model_GetFrameStep();
         if (request->elapsed >= request->duration) {
@@ -2781,21 +2784,26 @@ void Model_StartCameraMove(s32 mode_request, s32 eye_transport, s32 target_trans
     }
     {
         ModelCameraMove *camera_move = &gModel_CameraMove;
+        SVECTOR *eye_end;
+        SVECTOR *target_end;
 
         camera_move->eye.start_x = eye_start.vx;
         camera_move->eye.start_y = eye_start.vy;
         camera_move->eye.start_z = eye_start.vz;
-        /* eye_transport/target_transport now hold a slot's cached_position position or &eye_start/&view_work; both
-           are SVECTOR-shaped. */
-        camera_move->eye.end_x = SVECTOR_VIEW(eye_transport)->vx;
-        camera_move->eye.end_y = SVECTOR_VIEW(eye_transport)->vy;
-        camera_move->eye.end_z = SVECTOR_VIEW(eye_transport)->vz;
+        /* eye_transport/target_transport are a slot number or a caller's
+           SVECTOR address, and by here a slot's cached_position or
+           &eye_start/&view_work; all are SVECTOR-shaped. */
+        eye_end = (SVECTOR *)eye_transport;
+        target_end = (SVECTOR *)target_transport;
+        camera_move->eye.end_x = eye_end->vx;
+        camera_move->eye.end_y = eye_end->vy;
+        camera_move->eye.end_z = eye_end->vz;
         camera_move->target.start_x = view_work.vx;
         camera_move->target.start_y = view_work.vy;
         camera_move->target.start_z = view_work.vz;
-        camera_move->target.end_x = SVECTOR_VIEW(target_transport)->vx;
-        camera_move->target.end_y = SVECTOR_VIEW(target_transport)->vy;
-        camera_move->target.end_z = SVECTOR_VIEW(target_transport)->vz;
+        camera_move->target.end_x = target_end->vx;
+        camera_move->target.end_y = target_end->vy;
+        camera_move->target.end_z = target_end->vz;
         timing_work = (timing_work < 0 ? -timing_work : timing_work) * 2;
         if (timing_work > 0xFFFE) {
             camera_move->duration = 0xFFFF;
@@ -3189,10 +3197,6 @@ s32 ModelDebug_UpdateController(void)
 #include "../game/gpu_packets.h"
 #include "../game/model_handler_registry.h"
 
-#define B(p, o) (*((u8 *)(p) + (o)))
-#define S(p, o) (*(s16 *)((u8 *)(p) + (o)))
-#define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
-
 #ifndef MODEL_TEXTURE_PALETTE_RECT_X
 #define MODEL_TEXTURE_PALETTE_RECT_X 0x200
 #endif
@@ -3222,8 +3226,8 @@ u8 gModel_bCurrentDrawMode;
     gModel_dwPolyFt4SemiTemplate = (colour) | 0x2E000000; \
     gModel_dwPolyGt3SemiTemplate = (colour) | 0x36000000; \
     gModel_dwPolyGt4SemiTemplate = (colour) | 0x3E000000; \
-    B(&gModel_wDrawTintRedGreen, 0) = (red); \
-    B(&gModel_wDrawTintRedGreen, 1) = (green); \
+    ((u8 *)&gModel_wDrawTintRedGreen)[0] = (red); \
+    ((u8 *)&gModel_wDrawTintRedGreen)[1] = (green); \
     gModel_bDrawTintBlue = (blue); \
     if ((fl) != 2) { \
         if ((fl) != 3) { \
@@ -3276,8 +3280,8 @@ static inline s32 Model_MirrorOffset(s32 index, s32 value, s32 offset)
 /* Neutral grey tint and the default primitive templates. */
 static inline void Model_ResetDrawTint(void)
 {
-    B(&gModel_wDrawTintRedGreen, 0) = 0x80;
-    B(&gModel_wDrawTintRedGreen, 1) = 0x80;
+    ((u8 *)&gModel_wDrawTintRedGreen)[0] = 0x80;
+    ((u8 *)&gModel_wDrawTintRedGreen)[1] = 0x80;
     gModel_bDrawTintBlue = 0x80;
     gModel_dwPolyFt3Template = 0x24808080;
     gModel_dwPolyFt4Template = 0x2C808080;
@@ -3302,7 +3306,7 @@ void Model_DrawSlot(s32 index)
     long projection_flags;
     GsOT *ordering_table;
     ModelSlot *slot;
-    s8 *metadata_bytes;
+    ModelSlotMetadataPrefix *metadata_prefix;
     ModelSlotHeadEntry *head_unit;
     s32 scan_index;
     s32 x;
@@ -3327,7 +3331,7 @@ void Model_DrawSlot(s32 index)
         ordering_table = gGraphics_apOrderingTables[3];
     }
     slot = &gModel_aSlots[index];
-    metadata_bytes = (s8 *)&slot->metadata;
+    metadata_prefix = &slot->metadata.prefix;
 #if MODEL_RENDER_EUROPEAN_TEXTURE_LAYOUT
     texture_y = (index << 4) + 0xD0;
 #endif
@@ -3338,9 +3342,10 @@ void Model_DrawSlot(s32 index)
         && slot->ambient_rgb_scale[2] == slot->ambient_rgb_scale[1]) {
         return;
     }
-    if (slot->draw_mode_request != 1 && slot->tint[3] >= 2 && !(W(slot->tint, 0) & 0xFFFFFF)) {
+    if (slot->draw_mode_request != 1 && slot->tint.bytes[3] >= 2 && !(slot->tint.word & 0xFFFFFF)) {
         return;
     }
+    /* ModelSlotLightEntry is GsF_LIGHT's layout; model.h does not include libgs.h. */
     GsSetFlatLight(0, (GsF_LIGHT *)&slot->flat_lights[0]);
     GsSetFlatLight(1, (GsF_LIGHT *)&slot->flat_lights[1]);
     GsSetFlatLight(2, (GsF_LIGHT *)&slot->flat_lights[2]);
@@ -3352,7 +3357,7 @@ void Model_DrawSlot(s32 index)
     }
     if (index < 2) {
         ordering_table->length = 0xE;
-        if ((slot->tint[7] % 6) && slot->tint[3] == 0 && gModel_bCurrentDrawMode == 0) {
+        if ((slot->tint.bytes[7] % 6) && slot->tint.bytes[3] == 0 && gModel_bCurrentDrawMode == 0) {
             s32 fade_step;
             s32 packed_template_color;
             s32 fade_red;
@@ -3363,49 +3368,49 @@ void Model_DrawSlot(s32 index)
             s32 next_blue;
 
             fade_step = Model_GetFrameStep() * 2;
-            h = slot->tint[6];
-            w = slot->tint[5];
-            fade_red = slot->tint[4];
+            h = slot->tint.bytes[6];
+            w = slot->tint.bytes[5];
+            fade_red = slot->tint.bytes[4];
             packed_template_color = (h << 16) | (w << 8) | fade_red;
-            blend_mode = slot->tint[7];
+            blend_mode = slot->tint.bytes[7];
             MODEL_STAMP_TEMPLATES(packed_template_color, fade_red, w, h, blend_mode, blend_mode_index);
             gModel_bCurrentDrawMode = 3;
-            next_red = slot->tint[0];
-            if (slot->tint[4] + fade_step < next_red) {
-                next_red = slot->tint[4] + fade_step;
+            next_red = slot->tint.bytes[0];
+            if (slot->tint.bytes[4] + fade_step < next_red) {
+                next_red = slot->tint.bytes[4] + fade_step;
             }
-            slot->tint[4] = next_red;
-            next_green = slot->tint[1];
-            if (slot->tint[5] + fade_step < next_green) {
-                next_green = slot->tint[5] + fade_step;
+            slot->tint.bytes[4] = next_red;
+            next_green = slot->tint.bytes[1];
+            if (slot->tint.bytes[5] + fade_step < next_green) {
+                next_green = slot->tint.bytes[5] + fade_step;
             }
-            slot->tint[5] = next_green;
-            next_blue = slot->tint[2];
-            if (slot->tint[6] + fade_step < next_blue) {
-                next_blue = slot->tint[6] + fade_step;
+            slot->tint.bytes[5] = next_green;
+            next_blue = slot->tint.bytes[2];
+            if (slot->tint.bytes[6] + fade_step < next_blue) {
+                next_blue = slot->tint.bytes[6] + fade_step;
             }
-            slot->tint[6] = next_blue;
-            if (slot->tint[4] >= slot->tint[0] && slot->tint[5] >= slot->tint[1]
-                && (u32)(next_blue & 0xFF) >= slot->tint[2]) {
-                slot->tint[7] = 0;
+            slot->tint.bytes[6] = next_blue;
+            if (slot->tint.bytes[4] >= slot->tint.bytes[0] && slot->tint.bytes[5] >= slot->tint.bytes[1]
+                && (u32)(next_blue & 0xFF) >= slot->tint.bytes[2]) {
+                slot->tint.bytes[7] = 0;
             }
         } else if (gModel_bCurrentDrawMode != 1) {
             s32 packed_template_color;
             s32 blend_mode;
             s32 blend_mode_index;
 
-            h = slot->tint[2];
-            w = slot->tint[1];
-            y = slot->tint[0];
-            blend_mode = slot->tint[3];
+            h = slot->tint.bytes[2];
+            w = slot->tint.bytes[1];
+            y = slot->tint.bytes[0];
+            blend_mode = slot->tint.bytes[3];
             packed_template_color = h << 16;
             packed_template_color |= w << 8;
             packed_template_color |= y;
             MODEL_STAMP_TEMPLATES(packed_template_color, y, w, h, blend_mode, blend_mode_index);
-            if (W(slot->tint, 0) != 0x808080) {
+            if (slot->tint.word != 0x808080) {
                 gModel_bCurrentDrawMode = 3;
             }
-            slot->tint[7] = 0;
+            slot->tint.bytes[7] = 0;
         } else {
             Model_ResetDrawTint();
         }
@@ -3421,6 +3426,7 @@ void Model_DrawSlot(s32 index)
         MATRIX local_to_screen;
         MATRIX local_to_world;
         GsCOORDUNIT *coordinate_unit;
+        ModelPrimitiveGroup *group;
 
         a = 0;
         if (gModel_bDrawMaskedPartsOnly != 0 && slot->entry_count < scan_index) {
@@ -3468,7 +3474,8 @@ void Model_DrawSlot(s32 index)
                     &slot->render_scale);
             }
         }
-        if (W(head_unit->primitive_data, 0) != -1 || W(head_unit->primitive_data, 8) != 0) {
+        group = head_unit->primitive_data;
+        if (group->next != (ModelPrimitiveGroup *)-1 || group->run_count != 0) {
             if (a) {
                 memset(&hidden_matrix, 0, 0x20);
                 GsSetLsMatrix(&hidden_matrix);
@@ -3530,7 +3537,7 @@ void Model_DrawSlot(s32 index)
         s16 max_origin_y;
         s16 max_origin_z;
         GsCOORDUNIT *coordinate_unit;
-        u8 *group_bytes;
+        ModelPrimitiveGroup *group;
 
         min_origin_z = min_origin_y = min_origin_x = 0x7FFF;
         max_origin_z = max_origin_y = max_origin_x = -0x8000;
@@ -3538,8 +3545,11 @@ void Model_DrawSlot(s32 index)
         head_unit = slot->hmd_units;
         for (scan_index = 0; scan_index < slot->hmd_unit_count; scan_index++, head_unit++) {
             coordinate_unit = head_unit->coord;
+            /* Retail reloads primitive_data for each test; a typed local
+               keeps it in a register and reallocates the loop. */
             if (coordinate_unit != 0 && head_unit->primitive_data != 0
-                && (W(head_unit->primitive_data, 0) != -1 || W(head_unit->primitive_data, 8) != 0)) {
+                && (((ModelPrimitiveGroup *)head_unit->primitive_data)->next != (ModelPrimitiveGroup *)-1
+                    || ((ModelPrimitiveGroup *)head_unit->primitive_data)->run_count != 0)) {
                 origin_count++;
                 x += coordinate_unit->workm.t[0];
                 y += coordinate_unit->workm.t[1];
@@ -3555,24 +3565,24 @@ void Model_DrawSlot(s32 index)
             y = slot->render_parent_coordinate->workm.t[1];
             z = slot->render_parent_coordinate->workm.t[2];
         }
-        x = Model_MirrorOffset(index, x, ((ModelSlotMetadataPrefix *)metadata_bytes)->position_offsets.x * 0x10);
+        x = Model_MirrorOffset(index, x, metadata_prefix->position_offsets.x * 0x10);
         slot->cached_position[0] = x;
-        y += ((ModelSlotMetadataPrefix *)metadata_bytes)->position_offsets.y * 0x10;
+        y += metadata_prefix->position_offsets.y * 0x10;
         slot->cached_position[1] = y;
-        z = Model_MirrorOffset(index, z, ((ModelSlotMetadataPrefix *)metadata_bytes)->position_offsets.z * 0x10);
+        z = Model_MirrorOffset(index, z, metadata_prefix->position_offsets.z * 0x10);
         origin_count = y = 0;
         slot->cached_position[2] = z;
         head_unit = slot->hmd_units;
         for (scan_index = 0; scan_index < slot->hmd_unit_count; scan_index++, head_unit++) {
             coordinate_unit = head_unit->coord;
-            if (coordinate_unit != slot->render_parent_coordinate && coordinate_unit != slot->root_coordinate && coordinate_unit != 0 && (group_bytes = head_unit->primitive_data) != 0) {
+            if (coordinate_unit != slot->render_parent_coordinate && coordinate_unit != slot->root_coordinate && coordinate_unit != 0 && (group = head_unit->primitive_data) != 0) {
                 s32 unit_origin_y;
 
                 if (coordinate_unit->super == slot->render_parent_coordinate) {
                     origin_count++;
                     y += coordinate_unit->workm.t[1];
                 }
-                if (W(group_bytes, 0) != -1 || W(group_bytes, 8) != 0) {
+                if (group->next != (ModelPrimitiveGroup *)-1 || group->run_count != 0) {
                     a = coordinate_unit->workm.t[0];
                     b = coordinate_unit->workm.t[2];
                     unit_origin_y = coordinate_unit->workm.t[1];
@@ -3602,7 +3612,7 @@ void Model_DrawSlot(s32 index)
         } else {
             y = slot->render_parent_coordinate->workm.t[1];
         }
-        slot->cached_position[3] = (y - 700) / 3 + ((ModelSlotMetadataPrefix *)metadata_bytes)->position_offsets.y * 0x10;
+        slot->cached_position[3] = (y - 700) / 3 + metadata_prefix->position_offsets.y * 0x10;
         w = max_origin_x - min_origin_x;
         h = max_origin_y - min_origin_y;
         d = max_origin_z - min_origin_z;
@@ -3680,14 +3690,14 @@ void Model_DrawSlot(s32 index)
 
             setlen(&shadow_triangle, 6);
             setcode(&shadow_triangle, 0x30);
-            shadow_triangle.r0 = B(&gModel_wDrawTintRedGreen, 0);
-            shadow_triangle.g0 = B(&gModel_wDrawTintRedGreen, 1);
+            shadow_triangle.r0 = ((u8 *)&gModel_wDrawTintRedGreen)[0];
+            shadow_triangle.g0 = ((u8 *)&gModel_wDrawTintRedGreen)[1];
             shadow_triangle.b0 = gModel_bDrawTintBlue;
-            shadow_triangle.r1 = (s16)B(&gModel_wDrawTintRedGreen, 0) / 16;
-            shadow_triangle.g1 = (s16)B(&gModel_wDrawTintRedGreen, 1) / 16;
+            shadow_triangle.r1 = (s16)((u8 *)&gModel_wDrawTintRedGreen)[0] / 16;
+            shadow_triangle.g1 = (s16)((u8 *)&gModel_wDrawTintRedGreen)[1] / 16;
             shadow_triangle.b1 = (s16)gModel_bDrawTintBlue / 16;
-            shadow_triangle.r2 = (s16)B(&gModel_wDrawTintRedGreen, 0) / 16;
-            shadow_triangle.g2 = (s16)B(&gModel_wDrawTintRedGreen, 1) / 16;
+            shadow_triangle.r2 = (s16)((u8 *)&gModel_wDrawTintRedGreen)[0] / 16;
+            shadow_triangle.g2 = (s16)((u8 *)&gModel_wDrawTintRedGreen)[1] / 16;
             shadow_triangle.b2 = (s16)gModel_bDrawTintBlue / 16;
             GsSetLsMatrix(Model_GetLightSourceMatrix());
             Model_GetSlotDimensionsWithMinimums(index, &shadow_dimensions);
@@ -3728,8 +3738,8 @@ void Model_DrawSlot(s32 index)
             for (scan_index = 0; scan_index < 8; scan_index++) {
                 shadow_center.vx = x;
                 shadow_center.vz = z;
-                next_shadow_edge.vx = x + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[scan_index].x * a / 4096;
-                next_shadow_edge.vz = z + ((ModelShadowFanStep *)gModel_aShadowFanSteps)[scan_index].z * b / 4096;
+                next_shadow_edge.vx = x + gModel_aShadowFanSteps[scan_index].x * a / 4096;
+                next_shadow_edge.vz = z + gModel_aShadowFanSteps[scan_index].z * b / 4096;
                 switch (gModel_pBackgroundRecord->flags & 1) {
                 default:
                     shadow_center.vx = CLAMP_FIELD(shadow_center.vx);
@@ -3857,8 +3867,8 @@ void Model_DrawSlot(s32 index)
             if (slot->stone_texture_state == 0) {
                 ModelSlot *remap_slot;
                 ModelSlotHeadEntry *remap_unit;
-                u8 *group_bytes;
-                u8 *next_group_bytes;
+                ModelPrimitiveGroup *group;
+                ModelPrimitiveGroup *next_group;
                 s32 (*remap_handler)(s32);
 
                 remap_slot = &gModel_aSlots[index];
@@ -3866,18 +3876,18 @@ void Model_DrawSlot(s32 index)
                 remap_handler = Model_MapToBasePrimitiveHandler;
                 if (remap_slot->is_active != 0) {
                     for (scan_index = 0; scan_index < remap_slot->hmd_unit_count; scan_index++, remap_unit++) {
-                        group_bytes = remap_unit->primitive_data;
-                        if (group_bytes != 0) {
+                        group = remap_unit->primitive_data;
+                        if (group != 0) {
                             for (;;) {
-                                if (W(group_bytes, 8) != 0) {
-                                    Model_RemapPrimitiveHandlers(remap_handler, (ModelHandlerRunEntry *)(group_bytes + 0xC),
-                                                  W(group_bytes, 4), W(group_bytes, 8));
+                                if (group->run_count != 0) {
+                                    Model_RemapPrimitiveHandlers(remap_handler, group->runs,
+                                                  group->field_04, group->run_count);
                                 }
-                                next_group_bytes = (u8 *)W(group_bytes, 0);
-                                if (next_group_bytes == (u8 *)-1) {
+                                next_group = group->next;
+                                if (next_group == (ModelPrimitiveGroup *)-1) {
                                     break;
                                 }
-                                group_bytes = next_group_bytes;
+                                group = next_group;
                             }
                         }
                     }
@@ -3890,9 +3900,6 @@ void Model_DrawSlot(s32 index)
         ordering_table->length = 0xC;
     }
 }
-
-#define TEXTURE_TINT_RECT ((RECT *)&gModel_sTextureTintRectX)
-#define TEXTURE_TINT_WORDS(buffer) ((u32 *)(buffer))
 
 #include "color_constants.h"
 #include "color.h"
@@ -3979,7 +3986,7 @@ void Model_UpdateSlotAnimation(s32 index) {
         }
         if (slot->part_command_reset_pending == 0) {
             if (slot->playback_state == 0x3E ? slot->animation_position >= row_end_position : slot->animation_position == 0) {
-                if (slot->tint[7] == 6) {
+                if (slot->tint.bytes[7] == 6) {
                     slot->queued_animation_row = 2;
                 }
                 if (slot->queued_animation_row != slot->queued_animation_row_latch) {
@@ -3988,9 +3995,9 @@ void Model_UpdateSlotAnimation(s32 index) {
                     if (slot->active_animation_command_row != 0) {
                         Model_ControlSlotAnimation(index, 0, 0);
                     }
-                    if (slot->tint[7] == 6) {
+                    if (slot->tint.bytes[7] == 6) {
                         Model_QueueEffectEndpointPair(-1, index + 2, slot->animation_duration_rows[2].max);
-                        slot->tint[7] = 0;
+                        slot->tint.bytes[7] = 0;
                         slot->queued_animation_row = 1;
                     }
                 }
@@ -4060,7 +4067,7 @@ void Model_UpdateSlotControl(s32 index)
     if (slot->is_active == 0) {
         return;
     }
-    primary_state = ((ModelControlCommandView *)slot)->commands[2];
+    primary_state = slot->metadata.module_commands[2];
     gModel_bActiveSlotIndex = index;
     if (primary_state >= 0) {
         if (index != 0) {
@@ -4084,7 +4091,7 @@ void Model_UpdateSlotControl(s32 index)
     if (state == 2) {
         return;
     }
-    if (((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection] >= 0) {
+    if (slot->metadata.module_commands[slot->guardian_star_selection] >= 0) {
         if (index != 0) {
             handler = (ModelControlHandler)(gModel_pSlot1VariantModule + 4);
         } else {
@@ -4093,7 +4100,7 @@ void Model_UpdateSlotControl(s32 index)
         if (slot->animation_control_state == 7) {
             Model_SetHandlerCallbackState(1);
             {
-                s32 request = ((ModelControlCommandView *)slot)->commands[slot->guardian_star_selection];
+                s32 request = slot->metadata.module_commands[slot->guardian_star_selection];
                 handler(secondary, request % 1000);
             }
             Model_SetHandlerCallbackState(0);
@@ -4315,14 +4322,14 @@ void Model_ResetSlot(s32 slot_index)
     slot_state->render_scale.vz = MODEL_FIXED_ONE;
     slot_state->render_scale.vy = MODEL_FIXED_ONE;
     slot_state->render_scale.vx = MODEL_FIXED_ONE;
-    slot_state->tint[2] = 0x80;
-    slot_state->tint[1] = 0x80;
-    slot_state->tint[0] = 0x80;
+    slot_state->tint.bytes[2] = 0x80;
+    slot_state->tint.bytes[1] = 0x80;
+    slot_state->tint.bytes[0] = 0x80;
     slot_state->texture_tint_control = 7;
     slot_state->playback_speed = 8;
     slot_state->load_step = 0xFF;
-    slot_state->tint[3] = 0;
-    *(s16 *)&slot_state->texture_tint_scale = COLOR_FIXED_ONE;
+    slot_state->tint.bytes[3] = 0;
+    slot_state->texture_tint_scale = COLOR_FIXED_ONE;
     slot_state->skip_sound_setup = 0;
     slot_state->guardian_star_selection = slot_index;
     slot_state->defense_position = 0;
@@ -4337,14 +4344,16 @@ void Model_ResetSlot(s32 slot_index)
     }
 
     for (reset_index = 0; reset_index < 0x40; reset_index++) {
+        /* Retail masks the whole entry word (keeping the CD bit); a
+           halfword op on flags compiles differently. */
         *(s32 *)&slot_state->sound_entries[reset_index] &= 0x8000FFFF;
         slot_state->sound_entries[reset_index].sound_id = 0;
         slot_state->sound_entries[reset_index].animation_row = 0;
     }
 
-    slot_state->metadata.first_star_module_command = -1;
-    slot_state->metadata.second_star_module_command = -1;
-    slot_state->metadata.primary_module_command = -1;
+    slot_state->metadata.module_commands[0] = -1;
+    slot_state->metadata.module_commands[1] = -1;
+    slot_state->metadata.module_commands[2] = -1;
     slot_state->playback_state = 0x3E;
     slot_state->is_active = 0;
     Model_InitLightTriplet(slot_index);
@@ -4373,7 +4382,7 @@ void Model_LoadSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags) {
     s32 part_speed;
 
     Model_InitSlot(slot_index, hmd, hmd_size, render_flags);
-    if (hmd == (u8 *)0) {
+    if (hmd == 0) {
         return;
     }
     Model_BuildSlotAnimationTables(slot_index);
@@ -4414,6 +4423,8 @@ void Model_LoadSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags) {
         part_sequence++;
     }
 
+    /* The pool base is loaded here, ahead of the multiply; indexing
+       gModel_aSlots schedules it after. */
     slot_bytes = (u8 *)gModel_aSlots;
     draw_slot = (ModelSlot *)(slot_index * MODEL_SLOT_SIZE + slot_bytes);
     draw_slot->is_active = 1;
@@ -4435,6 +4446,7 @@ void Model_LoadSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags) {
         break;
     }
     if (slot_index < 2) {
+        /* As above: an early pool-base load. */
         tint_slot_bytes = (u8 *)gModel_aSlots;
         tint_slot = (ModelSlot *)(slot_index * MODEL_SLOT_SIZE + tint_slot_bytes);
         Model_ApplyTextureTint(slot_index, tint_slot->texture_tint_control, tint_slot->texture_tint_scale);
@@ -4682,7 +4694,7 @@ void Model_AdvanceSlotLoad(s32 index)
         s32 selected_row;
         s32 frame_position;
         s32 part_index;
-        phase_work = ((ModelControlCommandView *)phase_slot)->commands[2];
+        phase_work = phase_slot->metadata.module_commands[2];
         handler_context = (u8 *)phase_slot->primary_module_data_address;
         gModel_bActiveSlotIndex = index;
         if (phase_work >= 0) {
@@ -4692,7 +4704,7 @@ void Model_AdvanceSlotLoad(s32 index)
                 module_handler = (ModelControlHandler)(gModel_pSlot0PrimaryModule + 4);
             }
             Model_SetHandlerCallbackState(1);
-            module_handler(handler_context, ((ModelControlCommandView *)phase_slot)->commands[2] % 1000);
+            module_handler(handler_context, phase_slot->metadata.module_commands[2] % 1000);
             Model_SetHandlerCallbackState(0);
         }
         selected_row = phase_slot->current_animation_row;
@@ -5026,9 +5038,9 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             loaded_slot->metadata.prefix.values.defense_compare_value = loaded_slot->defense_compare_override;
         }
         if (loaded_slot->skip_sound_setup != 0) {
-            loaded_slot->metadata.first_star_module_command = -1;
-            loaded_slot->metadata.second_star_module_command = -1;
-            loaded_slot->metadata.primary_module_command = -1;
+            loaded_slot->metadata.module_commands[0] = -1;
+            loaded_slot->metadata.module_commands[1] = -1;
+            loaded_slot->metadata.module_commands[2] = -1;
         }
         loaded_slot->load_step = 1;
         break;
@@ -5237,9 +5249,9 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         );
         *(ModelSlotMetadataBlockWords *)&slot_zero->metadata =
             ((ModelTransferMetadata *)metadata_source)->metadata;
-        slot_zero->metadata.first_star_module_command = -1;
-        slot_zero->metadata.second_star_module_command = -1;
-        slot_zero->metadata.primary_module_command = -1;
+        slot_zero->metadata.module_commands[0] = -1;
+        slot_zero->metadata.module_commands[1] = -1;
+        slot_zero->metadata.module_commands[2] = -1;
         slot_zero->metadata.prefix.values.attack_compare_value = 0;
         slot_zero->metadata.prefix.values.defense_compare_value = 0;
         slot_zero->load_step = 1;
@@ -5264,7 +5276,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
     ModelSlotPart **part_sequences;
     u8 *snapshot_cursor;
     u8 *parameter_base;
-    u16 *command_halfwords;
+    ModelAnimationCommand *command;
     s32 part_index;
     s32 previous_row;
     s32 restore_word_count;
@@ -5294,7 +5306,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
         }
         for (part_index = 0; part_index < slot->animation_sequence_count; part_index++) {
             restore_command_index = slot->animation_command_indices[slot->active_animation_command_row][part_index];
-            command_halfwords = (u16 *)&slot->animation_commands[restore_command_index];
+            command = &slot->animation_commands[restore_command_index];
             if (restore_command_index != 0xFFFF) {
                 restore_rounded_part = part_index;
                 if (part_index < 0) {
@@ -5306,7 +5318,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
                     1) {
                     restore_word_count = 5;
                 }
-                Model_CopyWords((s32 *)(parameter_base + command_halfwords[0] * 4), (const s32 *)snapshot_cursor,
+                Model_CopyWords((s32 *)(parameter_base + command->b.value * 4), (const s32 *)snapshot_cursor,
                                 restore_word_count);
                 snapshot_cursor += restore_word_count * 4;
             }
@@ -5340,7 +5352,7 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
         slot->part_command_reset_pending = 1;
         for (part_index = 0; part_index < slot->animation_sequence_count; part_sequences++, part_index++) {
             save_command_index = slot->animation_command_indices[slot->active_animation_command_row][part_index];
-            command_halfwords = (u16 *)&slot->animation_commands[save_command_index];
+            command = &slot->animation_commands[save_command_index];
             if (save_command_index != 0xFFFF) {
                 save_rounded_part = part_index;
                 if (part_index < 0) {
@@ -5352,9 +5364,9 @@ void Model_ControlSlotAnimation(s32 index, s32 anim, s32 flag) {
                     1) {
                     save_word_count = 5;
                 }
-                (*part_sequences)->ii = ((u8 *)command_halfwords - (u8 *)slot->animation_commands) >> 2;
+                (*part_sequences)->ii = command - slot->animation_commands;
                 Model_CopyWords((s32 *)snapshot_cursor,
-                                (const s32 *)(parameter_base + command_halfwords[0] * 4), save_word_count);
+                                (const s32 *)(parameter_base + command->b.value * 4), save_word_count);
                 snapshot_cursor += save_word_count * 4;
             }
         }
@@ -5491,7 +5503,7 @@ void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 entry_index, SVECTOR *
     SVECTOR view_rotation_copy;
     SVECTOR view_rotation;
     MATRIX view_work_matrix;
-    u8 transform_flags[8];
+    long transform_flags[2];
     ModelSlot *slot;
 
     slot = &gModel_aSlots[index];
@@ -5505,7 +5517,7 @@ void Model_BuildViewRelativeCoordinateUnit(s32 index, s32 entry_index, SVECTOR *
     );
     GsSetLsMatrix(&entry_world_matrix);
 
-    RotTransSV(local_position, &world_position, (long *)transform_flags);
+    RotTransSV(local_position, &world_position, transform_flags);
 
     translation_parent.rot.vz = 0;
     translation_parent.rot.vy = 0;
@@ -5537,7 +5549,9 @@ void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_sca
     /* The European build keeps each side's two rows at x 0x280, y
        (side_index << 4) + 0xD0 and 0xD8, where the US build has x side_index << 8 and
        y 0xF0 and 0xF8. */
-    u16 pixel_buffer[0x400];
+    /* The four halfword rect globals stand in for one RECT; they stay
+       separate so each store keeps its gp-relative relocation (model.h). */
+    ModelTexturePixelBuffer pixel_buffer;
     u16 *pixel_cursor;
     s32 band_offset;
     s32 pixel_index;
@@ -5562,12 +5576,12 @@ void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_sca
                 }
                 while (IsIdleGPU(3) != 0) {
                 }
-                while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
+                while (StoreImage2((RECT *)&gModel_sTextureTintRectX, pixel_buffer.words) != 0) {
                 }
                 while (IsIdleGPU(3) != 0) {
                 }
 
-                pixel_cursor = pixel_buffer;
+                pixel_cursor = pixel_buffer.pixels;
                 for (pixel_index = 0; pixel_index < 0x400; pixel_index++, pixel_cursor++) {
                     *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, (u8)tint_control, (u16)saturation_scale);
                 }
@@ -5575,7 +5589,7 @@ void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_sca
                 gModel_sTextureTintRectY = destination_base_y + band_offset;
                 while (IsIdleGPU(3) != 0) {
                 }
-                while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
+                while (LoadImage2((RECT *)&gModel_sTextureTintRectX, pixel_buffer.words) != 0) {
                 }
                 while (IsIdleGPU(3) != 0) {
                 }
@@ -5586,14 +5600,16 @@ void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_sca
             gModel_sTextureTintRectY = destination_base_y + 8;
             gModel_sTextureTintRectW = 0x100;
             gModel_sTextureTintRectH = 8;
-            MoveImage(TEXTURE_TINT_RECT, 0x280, destination_base_y);
+            MoveImage((RECT *)&gModel_sTextureTintRectX, 0x280, destination_base_y);
         }
     }
 }
 #else
 void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_scale)
 {
-    u16 pixel_buffer[0x400];
+    /* The four halfword rect globals stand in for one RECT; they stay
+       separate so each store keeps its gp-relative relocation (model.h). */
+    ModelTexturePixelBuffer pixel_buffer;
     u16 *pixel_cursor;
     s32 band_offset;
     s32 pixel_index;
@@ -5612,12 +5628,12 @@ void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_sca
                 gModel_sTextureTintRectY = band_offset + 0xF8;
                 while (IsIdleGPU(3) != 0) {
                 }
-                while (StoreImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
+                while (StoreImage2((RECT *)&gModel_sTextureTintRectX, pixel_buffer.words) != 0) {
                 }
                 while (IsIdleGPU(3) != 0) {
                 }
 
-                pixel_cursor = pixel_buffer;
+                pixel_cursor = pixel_buffer.pixels;
                 for (pixel_index = 0; pixel_index < 0x400; pixel_index++, pixel_cursor++) {
                     *pixel_cursor = Color_TintBgr555Pixel(*pixel_cursor, (u8)tint_control, (u16)saturation_scale);
                 }
@@ -5625,7 +5641,7 @@ void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_sca
                 gModel_sTextureTintRectY = band_offset + 0xF0;
                 while (IsIdleGPU(3) != 0) {
                 }
-                while (LoadImage2(TEXTURE_TINT_RECT, TEXTURE_TINT_WORDS(pixel_buffer)) != 0) {
+                while (LoadImage2((RECT *)&gModel_sTextureTintRectX, pixel_buffer.words) != 0) {
                 }
                 while (IsIdleGPU(3) != 0) {
                 }
@@ -5636,7 +5652,7 @@ void Model_ApplyTextureTint(s32 side_index, s32 tint_control, s32 saturation_sca
             gModel_sTextureTintRectW = 0x100;
             gModel_sTextureTintRectX = side_index << 8;
             gModel_sTextureTintRectH = 8;
-            MoveImage(TEXTURE_TINT_RECT, side_index << 8, 0xF0);
+            MoveImage((RECT *)&gModel_sTextureTintRectX, side_index << 8, 0xF0);
         }
     }
 }
@@ -5699,12 +5715,10 @@ void Model_StepViewOrbit(s32 direction_scale, s32 yaw_delta, s32 pitch_delta, s3
     }
 }
 
-#define POSITIONAL_SOUND_PAN_PTR(buffer) ((s8 *)&(buffer)[1])
-
 void SD_ApplyPositionalSound(
     s32 sound_id, s32 play, s32 world_x, s32 world_z)
 {
-    u8 st[2];
+    SDPositionalLevels st;
     s8 *pp;
     s32 dx;
     s32 dz;
@@ -5722,9 +5736,9 @@ void SD_ApplyPositionalSound(
 
     dx = gModel_RView.vpx - world_x;
     dz = gModel_RView.vpz - world_z;
-    pp = POSITIONAL_SOUND_PAN_PTR(st);
-    st[0] = 0;
-    st[1] = 0;
+    pp = &st.pan;
+    st.volume = 0;
+    st.pan = 0;
     r = SquareRoot0(dx * dx + dz * dz);
     b = gModel_RView.vpz;
     c = gModel_RView.vrx;
@@ -5736,14 +5750,14 @@ void SD_ApplyPositionalSound(
     dd = SquareRoot0(ez * ez + ex * ex);
     r -= 0x2BC;
 
-    st[0] = 0xFF;
+    st.volume = 0xFF;
     *pp = 0;
     if (r > 0) {
         v = 0xFF - r / 12;
         if (v < 0x10) {
             v = 0x10;
         }
-        st[0] = v;
+        st.volume = v;
     }
 
     if (dd != 0) {
@@ -5762,10 +5776,10 @@ void SD_ApplyPositionalSound(
     }
 
     if (play != 0) {
-        SD_SEPlay(sound_id & 0xFFFF, st[0], *POSITIONAL_SOUND_PAN_PTR(st));
+        SD_SEPlay(sound_id & 0xFFFF, st.volume, st.pan);
     } else {
-        SD_SESetVolumePan(sound_id & 0xFFFF, st[0],
-                     *POSITIONAL_SOUND_PAN_PTR(st));
+        SD_SESetVolumePan(sound_id & 0xFFFF, st.volume,
+                     st.pan);
     }
 }
 
@@ -5773,7 +5787,7 @@ void Model_QueueTintRequestForParts(
     s32 slot, s32 mode, ModelTintColor start, ModelTintColor end, s32 duration, ...)
 {
     u8 part_mask[8];
-    u8 *argument_cursor;
+    s32 *argument_cursor;
     s32 part_index;
     s32 mask_byte_index;
     s32 clear_index;
@@ -5783,10 +5797,10 @@ void Model_QueueTintRequestForParts(
     clear_cursor = part_mask + 7;
     for (; clear_index >= 0; clear_index--)
         *clear_cursor-- = 0;
-    argument_cursor = (u8 *)&duration + 4;
+    argument_cursor = &duration + 1;
     while (1) {
-        argument_cursor += 4;
-        part_index = *(s32 *)(argument_cursor - 4);
+        argument_cursor++;
+        part_index = argument_cursor[-1];
         if (part_index < 0)
             break;
         mask_byte_index = part_index >> 3;

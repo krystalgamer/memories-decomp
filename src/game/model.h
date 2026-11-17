@@ -214,9 +214,9 @@ typedef union {
 typedef struct {
     ModelSlotMetadataPrefix prefix;
     u16 battle_camera_duration_overrides[2];
-    s32 first_star_module_command;
-    s32 second_star_module_command;
-    s32 primary_module_command;
+    /* Signed module commands: [0]/[1] the first/second guardian star's,
+       indexed by guardian_star_selection, and [2] the primary module's. */
+    s32 module_commands[3];
 } ModelSlotMetadataBlock;
 
 /* A ModelSlotMetadataBlock's worth of words, for the one place that copies a whole
@@ -254,6 +254,34 @@ typedef struct {
 typedef struct {
     u8 bytes[8];
 } ModelBytes8;
+
+/* Four-byte tint descriptor, passed and copied whole. Only RGB is
+ * interpolated; the start blend mode reaches the renderer unchanged.
+ * The end blend mode is still copied but never read, not padding. */
+typedef struct {
+    u8 r;
+    u8 g;
+    u8 b;
+    u8 blend_mode;
+} ModelTintColor;
+
+/* One 4-byte record of a slot's animation command list. A non-negative
+ * word is a timed command: `value` its parameter index (the record before a
+ * row's first command holds the row length there) and byte 2 its duration.
+ * A negative word is a row jump whose high halfword carries the target row
+ * in its low seven bits and whose `value` links to the target command. */
+typedef union {
+    s32 word;
+    struct {
+        u16 value;
+        u8 duration;
+        u8 op;
+    } b;
+    struct {
+        u16 value;
+        u16 high;
+    } h;
+} ModelAnimationCommand;
 
 typedef struct {
     ModelSlotHeadEntry hmd_units[MODEL_SLOT_UNIT_COUNT];
@@ -298,8 +326,14 @@ typedef struct {
      * observed mode-5 fades, see Model_DrawSlot's zero-RGB skip), [3] blend
      * mode (0 opaque; 5 additive, the 3-D battle fade-in/out), [4..6] the
      * current RGB that Model_DrawSlot ramps toward [0..2] while [7] % 6 is
-     * non-zero, [7] fade flag. [4..7] are static readings only. */
-    u8 tint[8];
+     * non-zero, [7] fade flag. [4..7] are static readings only. The
+     * tint-request pass saves and replaces [0..3] whole as a ModelTintColor
+     * (`target`), and the draw and cue gates test its RGB through `word`. */
+    union {
+        u8 bytes[8];
+        u32 word;
+        ModelTintColor target;
+    } tint;
     /* Padded/smoothed origin spans; [3] is separate horizontal history. */
     u16 cached_dimensions[4];
     /* Cached XYZ and a separately derived Y value; copy all four. */
@@ -309,7 +343,7 @@ typedef struct {
      * chain. Model_ControlSlotAnimation reads animation_commands as the base of
      * 4-byte command records and animation_parameter_base / animation_snapshot_buffer as its live-parameter base
      * and saved-word buffer. */
-    s32 *animation_commands;
+    ModelAnimationCommand *animation_commands;
     u8 *animation_parameter_base;
     u8 *animation_snapshot_buffer;
     u8 *field_DE4;
@@ -424,15 +458,6 @@ typedef struct {
     ModelCameraLeg target;
 } ModelCameraMove;
 
-/* Four-byte tint descriptor, passed and copied whole. Only RGB is
- * interpolated; the start blend mode reaches the renderer unchanged.
- * The end blend mode is still copied but never read, not padding. */
-typedef struct {
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 blend_mode;
-} ModelTintColor;
 
 /* One of the MODEL_TINT_REQUEST_COUNT tint requests at gModel_aTintRequests.
  * Model_QueueTintRequest fills a free entry in; Model_UpdateTintRequests walks the table once a
@@ -750,14 +775,8 @@ typedef char ModelSlotMetadataPrefix_position_offsets_layout_must_match[
     sizeof(((ModelSlotMetadataPrefix *)0)->position_offsets.y) == 1 &&
     sizeof(((ModelSlotMetadataPrefix *)0)->position_offsets.z) == 1 ? 1 : -1
 ];
-typedef char ModelSlotMetadataBlock_first_star_module_command_offset_must_be_0x10[
-    OFFSETOF(ModelSlotMetadataBlock, first_star_module_command) == 0x10 ? 1 : -1
-];
-typedef char ModelSlotMetadataBlock_second_star_module_command_offset_must_be_0x14[
-    OFFSETOF(ModelSlotMetadataBlock, second_star_module_command) == 0x14 ? 1 : -1
-];
-typedef char ModelSlotMetadataBlock_primary_module_command_offset_must_be_0x18[
-    OFFSETOF(ModelSlotMetadataBlock, primary_module_command) == 0x18 ? 1 : -1
+typedef char ModelSlotMetadataBlock_module_commands_offset_must_be_0x10[
+    OFFSETOF(ModelSlotMetadataBlock, module_commands) == 0x10 ? 1 : -1
 ];
 typedef char ModelSlotMetadata_guardian_star_metadata_layout_must_match[
     sizeof(((ModelSlotMetadataPrefix *)0)->bytes.guardian_star_options) == 2 &&
@@ -766,12 +785,6 @@ typedef char ModelSlotMetadata_guardian_star_metadata_layout_must_match[
     OFFSETOF(ModelSlot, metadata) == 0xCF8 &&
     sizeof(((ModelSlot *)0)->guardian_star_selection) == 1 &&
     sizeof(((ModelSlot *)0)->defense_position) == 1 ? 1 : -1
-];
-
-typedef char ModelSlotMetadata_module_command_widths_must_match[
-    sizeof(((ModelSlotMetadataBlock *)0)->first_star_module_command) == 4 &&
-    sizeof(((ModelSlotMetadataBlock *)0)->second_star_module_command) == 4 &&
-    sizeof(((ModelSlotMetadataBlock *)0)->primary_module_command) == 4 ? 1 : -1
 ];
 
 typedef char ModelHandlerRegistryEntry_size_must_be_0x8[
@@ -1042,6 +1055,38 @@ typedef struct {
     SVECTOR values[2];
 } BackgroundNormals;
 
+/* Model_DrawBackground's three ring-band quads, each paired with the CVECTOR
+ * NormalColorCol writes a vertex colour through and the `long` x/y words
+ * RotAverage4 stores. */
+typedef union {
+    POLY_G4 prim;
+    struct {
+        u32 tag;
+        CVECTOR c0;
+        long xy0;
+        CVECTOR c1;
+        long xy1;
+        CVECTOR c2;
+        long xy2;
+        CVECTOR c3;
+        long xy3;
+    } w;
+} ModelBackgroundBand;
+
+/* Model_ApplyTextureTint's CLUT band: the halfword pixels it tints, moved
+ * to and from VRAM as the words StoreImage2/LoadImage2 take. */
+typedef union {
+    u32 words[0x200];
+    u16 pixels[0x400];
+} ModelTexturePixelBuffer;
+
+/* SD_ApplyPositionalSound's volume and signed pan, built on the stack and
+ * passed to SD_SEPlay / SD_SESetVolumePan. */
+typedef struct {
+    u8 volume;
+    s8 pan;
+} SDPositionalLevels;
+
 /* Draws the model-scene backdrop. Unless slot 2 is inactive (is_active) or
  * its three ambient words are all -4096, it calls
  * Model_UpdateBackgroundScroll(0) to update the scroll, lights a colour from
@@ -1106,12 +1151,12 @@ void Model_AdvanceSlotLoad(s32 index);
 void Model_StepBackgroundVramAnimation(void);
 /* Four separate halfword globals, like gModel_sTextureTintRectX..H: each
  * store keeps its own gp-relative relocation, which a single RECT would lose
- * because GCC reuses the struct base for the y/w/h members. */
+ * because GCC reuses the struct base for the y/w/h members. MoveImage takes
+ * them as the RECT they spell, from &gModel_ImageCopyRectX. */
 extern s16 gModel_ImageCopyRectX;
 extern s16 gModel_ImageCopyRectY;
 extern s16 gModel_ImageCopyRectW;
 extern s16 gModel_ImageCopyRectH;
-#define MODEL_IMAGE_COPY_RECT ((RECT *)&gModel_ImageCopyRectX)
 
 extern const u8 gModel_szAnimationSoundTraceFormat[];
 

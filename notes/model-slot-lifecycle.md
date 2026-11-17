@@ -147,8 +147,8 @@ The whole five-function source/profile group and both macro adapters remain.
 ## Loaded-module command words
 
 The three signed CF8 reset words now have their recovered module roles:
-first_star_module_command, second_star_module_command and
-primary_module_command. The existing indexed command view, sign gates,
+metadata.module_commands[0] and [1], the first and second star's, and [2],
+the primary module's. The guardian-star indexing, sign gates,
 modulo-1000 requests, primary/variant callback order and cue selection
 are preserved. They are not new sound IDs or Boolean enable bytes.
 See [the complete command protocol](model-structures.md#loaded-module-command-words),
