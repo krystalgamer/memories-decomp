@@ -1038,9 +1038,9 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
             obj[0]->rgb.c.b = 0x40;
         obj[0]->field_60 = 2;
     } else {
-        obj[0]->rgb.c.r += *(u8 *)&obj[0]->field_60;
-        obj[0]->rgb.c.g += *(u8 *)&obj[0]->field_60;
-        obj[0]->rgb.c.b += *(u8 *)&obj[0]->field_60;
+        obj[0]->rgb.c.r += obj[0]->field_60;
+        obj[0]->rgb.c.g += obj[0]->field_60;
+        obj[0]->rgb.c.b += obj[0]->field_60;
         if (obj[0]->rgb.c.r < 0x41 ||
             (s8)obj[0]->rgb.c.r < 0) {
             obj[0]->field_60 *= -1;
@@ -1053,9 +1053,9 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
             obj[1]->rgb.c.b = 0x40;
         obj[1]->field_60 = 2;
     } else {
-        obj[1]->rgb.c.r += *(u8 *)&obj[1]->field_60;
-        obj[1]->rgb.c.g += *(u8 *)&obj[1]->field_60;
-        obj[1]->rgb.c.b += *(u8 *)&obj[1]->field_60;
+        obj[1]->rgb.c.r += obj[1]->field_60;
+        obj[1]->rgb.c.g += obj[1]->field_60;
+        obj[1]->rgb.c.b += obj[1]->field_60;
         if (obj[1]->rgb.c.r < 0x41 ||
             (s8)obj[1]->rgb.c.r < 0) {
             obj[1]->field_60 *= -1;

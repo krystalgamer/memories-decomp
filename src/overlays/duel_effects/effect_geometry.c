@@ -133,20 +133,20 @@ s32 DuelEffect_PowS16(s16 base, u16 exponent)
 
 void DuelEffect_PackTexturePageClut(u16 *output, GsIMAGE *image, s32 mode)
 {
-    output[0] = ((*(u16 *)&image->pmode & 3) << 7) |
+    output[0] = ((image->pmode & 3) << 7) |
                 ((mode & 3) << 5) |
                 (((s32)(*(u16 *)&image->py & 0x100) << 16) >> 20) |
-                ((*(u16 *)&image->px & 0x3FF) >> 6) |
-                ((*(u16 *)&image->py & 0x200) << 2);
-    output[1] = (*(u16 *)&image->cy << 6) |
-                ((*(u16 *)&image->cx >> 4) & 0x3F);
+                ((image->px & 0x3FF) >> 6) |
+                ((image->py & 0x200) << 2);
+    output[1] = (image->cy << 6) |
+                ((image->cx >> 4) & 0x3F);
 }
 
 void DuelEffect_PackFixedPageClut(u16 *output, GsIMAGE *image)
 {
-    output[0] = ((*(u16 *)&image->pmode & 3) << 7) | 0x3E;
-    output[1] = (*(u16 *)&image->cy << 6) |
-                ((*(u16 *)&image->cx >> 4) & 0x3F);
+    output[0] = ((image->pmode & 3) << 7) | 0x3E;
+    output[1] = (image->cy << 6) |
+                ((image->cx >> 4) & 0x3F);
 }
 
 void DuelEffect_InitRandomVectorsXYZ(SVECTOR *vectors, u16 x_scale, u16 y_scale, u16 z_scale, u16 count)
