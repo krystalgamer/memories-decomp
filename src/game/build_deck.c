@@ -851,7 +851,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
 #else
 void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
     s32 w;
-    s32 v;
+    u8 *v;
     s32 t0;
     s32 t1;
     s32 c;

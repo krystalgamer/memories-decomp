@@ -1133,8 +1133,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gFile_dwTransferState |= 0x10000;
         d->transfer_mode = 2;
         d->phase_index = 0x10;
-        d->sector_destination = (u32)gFile_TransferBufferBase;
-        d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        d->sector_destination = gFile_TransferBufferBase;
+        d->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
 #else
         d->field_30.h.counter = 0x300;
         d->field_30.h.field_32 = 0x100;
@@ -1144,15 +1144,15 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gFile_dwTransferState |= 0x10000;
         d->transfer_mode = 2;
         d->phase_size = 64 * FILE_SECTOR_SIZE;
-        d->sector_destination = (u32)gFile_TransferBufferBase;
-        d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        d->sector_destination = gFile_TransferBufferBase;
+        d->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
 #endif
         break;
 #ifdef VERSION_EUROPE
     case 16:
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        d->sector_destination = d->alternate_sector_destination = (u32)gFile_TransferBufferBase;
+        d->sector_destination = d->alternate_sector_destination = gFile_TransferBufferBase;
         d->transfer_mode = 1;
         /* Written last: an earlier store of 1 would be reused for
            transfer_mode and stop this tail merging with case 11's. */
@@ -1171,7 +1171,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 #endif
         d->phase_size = 4 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        d->sector_destination = d->alternate_sector_destination = (u32)gFile_TransferBufferBase;
+        d->sector_destination = d->alternate_sector_destination = gFile_TransferBufferBase;
         d->transfer_mode = 1;
         break;
     case 2:
@@ -1185,19 +1185,19 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gGraphics_aImageTransferRects[0].w = 0x100;
         gGraphics_aImageTransferRects[0].h = 0x10;
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
-        d->sector_destination = d->alternate_sector_destination = (u32)gDuel_awEquipTable;
+        d->sector_destination = d->alternate_sector_destination = gDuel_awEquipTable;
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
         break;
     case 3:
-        d->sector_destination = d->alternate_sector_destination = (u32)&gDuel_aFusionTable;
+        d->sector_destination = d->alternate_sector_destination = &gDuel_aFusionTable;
         d->phase_size = 32 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
         break;
     case 4:
-        d->sector_destination = d->alternate_sector_destination = (u32)gDuel_awRitualData;
+        d->sector_destination = d->alternate_sector_destination = gDuel_awRitualData;
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
@@ -1205,7 +1205,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
     case 5:
         d->phase_size = 2 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        d->sector_destination = d->alternate_sector_destination = (u32)gFile_TransferBufferBase;
+        d->sector_destination = d->alternate_sector_destination = gFile_TransferBufferBase;
         d->transfer_mode = 1;
         break;
     case 6: {
@@ -1236,8 +1236,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
             d->transfer_mode = 2;
             d->h = 0x10;
             image_ptr = gFile_TransferBufferBase;
-            d->sector_destination = (u32)image_ptr;
-            d->alternate_sector_destination = (u32)(image_ptr + FILE_SECTOR_SIZE);
+            d->sector_destination = image_ptr;
+            d->alternate_sector_destination = (image_ptr + FILE_SECTOR_SIZE);
             break;
         }
     }
@@ -1245,17 +1245,17 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         mask = 0xFFDCFFFF;
         d->phase_size = DUEL_PACKAGE_STAGE7_SECTORS * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= mask;
-        d->sector_destination = d->alternate_sector_destination = (u32)gFile_pDuelBankBase;
+        d->sector_destination = d->alternate_sector_destination = gFile_pDuelBankBase;
         d->transfer_mode = 1;
         break;
     case 8:
-        d->sector_destination = d->alternate_sector_destination = (u32)gFile_StagingBuffer;
+        d->sector_destination = d->alternate_sector_destination = gFile_StagingBuffer;
         d->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
         break;
     case 9:
-        d->sector_destination = d->alternate_sector_destination = (u32)gAiScript_abFieldScript;
+        d->sector_destination = d->alternate_sector_destination = gAiScript_abFieldScript;
         d->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
@@ -1275,14 +1275,14 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gFile_dwTransferState = loaded | enabled;
         d->transfer_mode = 2;
         d->phase_size = 8 * FILE_SECTOR_SIZE;
-        d->sector_destination = (u32)gFile_TransferBufferBase;
-        d->alternate_sector_destination = (u32)(gFile_TransferBufferBase + FILE_SECTOR_SIZE);
+        d->sector_destination = gFile_TransferBufferBase;
+        d->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
         break;
     }
     case 11:
         d->phase_size = 5 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        d->sector_destination = d->alternate_sector_destination = (u32)gRuntime_pSharedWorkBase;
+        d->sector_destination = d->alternate_sector_destination = gRuntime_pSharedWorkBase;
         d->transfer_mode = 1;
         break;
     case 12: {
@@ -1303,8 +1303,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
             d->transfer_mode = 2;
             d->h = 0x10;
             image_ptr = gFile_TransferBufferBase;
-            d->sector_destination = (u32)image_ptr;
-            d->alternate_sector_destination = (u32)(image_ptr + FILE_SECTOR_SIZE);
+            d->sector_destination = image_ptr;
+            d->alternate_sector_destination = (image_ptr + FILE_SECTOR_SIZE);
             break;
         }
     }
@@ -6927,10 +6927,10 @@ void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
     s32 one;
     s32 v;
     s32 w;
-    s32 e;
+    u8 *e;
     s32 x;
     s32 m;
-    s32 d;
+    u8 *d;
     s32 f;
 
     one = 1;
@@ -6982,8 +6982,8 @@ void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
 #endif
         p->h = 4;
         LoadImage2((RECT *)p, (u32 *)e);
-        p->alternate_sector_destination = (s32)gDisplay_abResourceBank0;
-        p->sector_destination = (s32)gDisplay_abResourceBank0;
+        p->alternate_sector_destination = gDisplay_abResourceBank0;
+        p->sector_destination = gDisplay_abResourceBank0;
         x = gFile_dwTransferState;
         p->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState = x & 0xFFDCFFFF;
@@ -9292,7 +9292,7 @@ void Duel_StepCardDataTransfer(FileTransferDescriptor *o, int mode) {
         o->field_30.h.counter = *p;
         o->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= ~0x230000;
-        o->sector_destination = o->alternate_sector_destination = o->position;
+        o->sector_destination = o->alternate_sector_destination = (u8 *)o->position;
         o->transfer_mode = 1;
         return;
     }
@@ -9306,7 +9306,7 @@ void Duel_StepCardDataTransfer(FileTransferDescriptor *o, int mode) {
         o->phase_size = FILE_SECTOR_SIZE;
         o->phase_index = 1;
         gFile_dwTransferState &= ~0x230000;
-        o->sector_destination = o->alternate_sector_destination = o->position;
+        o->sector_destination = o->alternate_sector_destination = (u8 *)o->position;
         o->transfer_mode = 1;
     } else {
         o->phase_size = FILE_SECTOR_SIZE;
