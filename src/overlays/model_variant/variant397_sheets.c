@@ -67,18 +67,18 @@ void ModelVariant397_DrawSheets(Variant397EntryState *context)
             otz = RotTransPers4(v, &sheet->v1[k], &sheet->v2[k], &sheet->v3[k],
                                 (long *)&poly->x0, (long *)&poly->x1,
                                 (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
-            poly->r0 = sheet->inner[0];
-            poly->g0 = sheet->inner[1];
-            poly->b0 = sheet->inner[2];
-            poly->r1 = sheet->inner[0];
-            poly->g1 = sheet->inner[1];
-            poly->b1 = sheet->inner[2];
-            poly->r2 = sheet->inner[0];
-            poly->g2 = sheet->inner[1];
-            poly->b2 = sheet->inner[2];
-            poly->r3 = sheet->outer[0];
-            poly->g3 = sheet->outer[1];
-            poly->b3 = sheet->outer[2];
+            poly->r0 = sheet->inner.r;
+            poly->g0 = sheet->inner.g;
+            poly->b0 = sheet->inner.b;
+            poly->r1 = sheet->inner.r;
+            poly->g1 = sheet->inner.g;
+            poly->b1 = sheet->inner.b;
+            poly->r2 = sheet->inner.r;
+            poly->g2 = sheet->inner.g;
+            poly->b2 = sheet->inner.b;
+            poly->r3 = sheet->outer.r;
+            poly->g3 = sheet->outer.g;
+            poly->b3 = sheet->outer.b;
             otz = otz * 8 / 10;
             if (otz >= 0 && flag >= 0) {
                 GsSortPoly(poly, ot, otz);

@@ -233,12 +233,12 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
                     setVector(&quad_sheet->v3[j], 0, 0, 0);
                 }
             }
-            quad_sheet->outer[0] = 255;
-            quad_sheet->outer[1] = 255;
-            quad_sheet->outer[2] = 255;
-            quad_sheet->inner[0] = 0;
-            quad_sheet->inner[1] = 64;
-            quad_sheet->inner[2] = 255;
+            quad_sheet->outer.r = 255;
+            quad_sheet->outer.g = 255;
+            quad_sheet->outer.b = 255;
+            quad_sheet->inner.r = 0;
+            quad_sheet->inner.g = 64;
+            quad_sheet->inner.b = 255;
             quad_sheet->size = 0;
             quad_sheet->field_8C = 0;
             quad_sheet->field_90 = 0;

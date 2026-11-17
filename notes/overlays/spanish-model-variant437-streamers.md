@@ -11,10 +11,9 @@ the helper directly.
 ## Behaviour and method
 
 This is the coiling-streamer routine of the accepted MODEL474 streamers, built
-for three streamers of thirteen points. The records are new 0x274-byte
-`Variant437Streamer` records at `+0x93C`, which are the thirteen-point form of
-the shared streamer layout. The new header `variant437_streamers.h` declares
-them.
+for three streamers of thirteen points. The records are 0x274-byte
+`ModelVariantShortStreamer` records at `+0x93C`, the thirteen-point form of
+the shared streamer layout.
 
 The routine:
 

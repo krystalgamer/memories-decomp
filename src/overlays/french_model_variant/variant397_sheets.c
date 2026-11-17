@@ -60,18 +60,18 @@ void FrenchModelVariant397_DrawSheets(Variant380EntryState *context)
                                  (long *)&quad->x0, (long *)&quad->x1,
                                  (long *)&quad->x2, (long *)&quad->x3,
                                  &interpolation, &flag) * 8 / 10;
-            quad->r0 = sheet->inner[0];
-            quad->g0 = sheet->inner[1];
-            quad->b0 = sheet->inner[2];
-            quad->r1 = sheet->inner[0];
-            quad->g1 = sheet->inner[1];
-            quad->b1 = sheet->inner[2];
-            quad->r2 = sheet->inner[0];
-            quad->g2 = sheet->inner[1];
-            quad->b2 = sheet->inner[2];
-            quad->r3 = sheet->outer[0];
-            quad->g3 = sheet->outer[1];
-            quad->b3 = sheet->outer[2];
+            quad->r0 = sheet->inner.r;
+            quad->g0 = sheet->inner.g;
+            quad->b0 = sheet->inner.b;
+            quad->r1 = sheet->inner.r;
+            quad->g1 = sheet->inner.g;
+            quad->b1 = sheet->inner.b;
+            quad->r2 = sheet->inner.r;
+            quad->g2 = sheet->inner.g;
+            quad->b2 = sheet->inner.b;
+            quad->r3 = sheet->outer.r;
+            quad->g3 = sheet->outer.g;
+            quad->b3 = sheet->outer.b;
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(quad, ot, (u16)depth);
             }

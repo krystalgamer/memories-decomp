@@ -20,7 +20,7 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
     VECTOR squared;
     long projected, interpolation, flag, target_sxy;
     Variant388EntryTube *tube = work->tubes;
-    Variant388EntrySheet *sheet = work->sheets;
+    ModelVariantSheet *sheet = work->sheets;
     Variant388EntryFeedback *feedback = work->feedback;
     ModelVariantColorRing *spoke = work->spokes;
     ModelVariantFlaggedSpiralArm *arm = work->arms;

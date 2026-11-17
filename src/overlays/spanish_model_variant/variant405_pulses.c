@@ -59,35 +59,35 @@ void SpanishModelVariant405_DrawPulses(Variant405EntryState *context)
             SetRotMatrix(&light);
             if ((i & 1) == 0) {
                 if (group->size >= 2048) {
-                    outer_r = group->outer[0] - group->outer[0] * (group->size - 2048) / 2048;
-                    outer_g = group->outer[1] - group->outer[1] * (group->size - 2048) / 2048;
-                    outer_b = group->outer[2] - group->outer[2] * (group->size - 2048) / 2048;
-                    inner_r = group->inner[0] - group->inner[0] * (group->size - 2048) / 2048;
-                    inner_g = group->inner[1] - group->inner[1] * (group->size - 2048) / 2048;
-                    inner_b = group->inner[2] - group->inner[2] * (group->size - 2048) / 2048;
+                    outer_r = group->outer.r - group->outer.r * (group->size - 2048) / 2048;
+                    outer_g = group->outer.g - group->outer.g * (group->size - 2048) / 2048;
+                    outer_b = group->outer.b - group->outer.b * (group->size - 2048) / 2048;
+                    inner_r = group->inner.r - group->inner.r * (group->size - 2048) / 2048;
+                    inner_g = group->inner.g - group->inner.g * (group->size - 2048) / 2048;
+                    inner_b = group->inner.b - group->inner.b * (group->size - 2048) / 2048;
                 } else {
-                    outer_r = group->outer[0];
-                    outer_g = group->outer[1];
-                    outer_b = group->outer[2];
-                    inner_r = group->inner[0];
-                    inner_g = group->inner[1];
-                    inner_b = group->inner[2];
+                    outer_r = group->outer.r;
+                    outer_g = group->outer.g;
+                    outer_b = group->outer.b;
+                    inner_r = group->inner.r;
+                    inner_g = group->inner.g;
+                    inner_b = group->inner.b;
                 }
             } else {
                 if (group->size < 4096) {
-                    outer_r = group->outer[0];
-                    outer_g = group->outer[1];
-                    outer_b = group->outer[2];
-                    inner_r = group->inner[0];
-                    inner_g = group->inner[1];
-                    inner_b = group->inner[2];
+                    outer_r = group->outer.r;
+                    outer_g = group->outer.g;
+                    outer_b = group->outer.b;
+                    inner_r = group->inner.r;
+                    inner_g = group->inner.g;
+                    inner_b = group->inner.b;
                 } else {
-                    outer_r = group->outer[0] - group->outer[0] * (group->size - 4096) / 4096;
-                    outer_g = group->outer[1] - group->outer[1] * (group->size - 4096) / 4096;
-                    outer_b = group->outer[2] - group->outer[2] * (group->size - 4096) / 4096;
-                    inner_r = group->inner[0] - group->inner[0] * (group->size - 4096) / 4096;
-                    inner_g = group->inner[1] - group->inner[1] * (group->size - 4096) / 4096;
-                    inner_b = group->inner[2] - group->inner[2] * (group->size - 4096) / 4096;
+                    outer_r = group->outer.r - group->outer.r * (group->size - 4096) / 4096;
+                    outer_g = group->outer.g - group->outer.g * (group->size - 4096) / 4096;
+                    outer_b = group->outer.b - group->outer.b * (group->size - 4096) / 4096;
+                    inner_r = group->inner.r - group->inner.r * (group->size - 4096) / 4096;
+                    inner_g = group->inner.g - group->inner.g * (group->size - 4096) / 4096;
+                    inner_b = group->inner.b - group->inner.b * (group->size - 4096) / 4096;
                 }
             }
             setRGB0(quad, inner_r, inner_g, inner_b);

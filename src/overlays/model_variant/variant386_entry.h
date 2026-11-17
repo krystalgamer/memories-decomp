@@ -43,19 +43,6 @@ typedef struct {
 } Model386Strand;
 
 typedef struct {
-    SVECTOR v0[4];
-    SVECTOR v1[4];
-    SVECTOR v2[4];
-    SVECTOR v3[4];
-    CVECTOR outer;
-    CVECTOR inner;
-    s32 size;
-    s32 field_8C;
-    s32 field_90;
-    s32 field_94;
-} Model386Sheet;
-
-typedef struct {
     u8 unknown_000[0x144];
     CVECTOR color[9];
     s32 stage;
@@ -72,7 +59,7 @@ typedef struct {
 
 typedef struct {
     Model386Strand strands[5];
-    Model386Sheet sheets[5];
+    ModelVariantSheet sheets[5];
     Model386Chain chains[3];
     ModelVariantPackets packets;
     POLY_FT4 flat[6];

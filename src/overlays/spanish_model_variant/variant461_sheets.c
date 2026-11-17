@@ -69,18 +69,18 @@ void SpanishModelVariant461_DrawSheets(EntryState461 *context)
                                  (long *)&polygon->x0, (long *)&polygon->x1,
                                  (long *)&polygon->x2, (long *)&polygon->x3,
                                  &interpolation, &flag);
-            polygon->r0 = sheet->inner[0];
-            polygon->g0 = sheet->inner[1];
-            polygon->b0 = sheet->inner[2];
-            polygon->r1 = sheet->inner[0];
-            polygon->g1 = sheet->inner[1];
-            polygon->b1 = sheet->inner[2];
-            polygon->r2 = sheet->inner[0];
-            polygon->g2 = sheet->inner[1];
-            polygon->b2 = sheet->inner[2];
-            polygon->r3 = sheet->outer[0];
-            polygon->g3 = sheet->outer[1];
-            polygon->b3 = sheet->outer[2];
+            polygon->r0 = sheet->inner.r;
+            polygon->g0 = sheet->inner.g;
+            polygon->b0 = sheet->inner.b;
+            polygon->r1 = sheet->inner.r;
+            polygon->g1 = sheet->inner.g;
+            polygon->b1 = sheet->inner.b;
+            polygon->r2 = sheet->inner.r;
+            polygon->g2 = sheet->inner.g;
+            polygon->b2 = sheet->inner.b;
+            polygon->r3 = sheet->outer.r;
+            polygon->g3 = sheet->outer.g;
+            polygon->b3 = sheet->outer.b;
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(polygon, ot, depth);
             }

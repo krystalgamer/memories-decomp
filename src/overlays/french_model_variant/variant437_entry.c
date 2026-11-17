@@ -17,7 +17,7 @@ s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command)
     ModelVariantBandTriple *record = work->records;
     Variant437EntryRibbon *ribbon = work->ribbons;
     Sheet437 *sheet = work->sheets;
-    Variant437Streamer *streamer = work->streamers;
+    ModelVariantShortStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;
     POLY_FT4 *extra = work->extra;
@@ -204,9 +204,9 @@ s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command)
         }
         for (i = 0; i < 3; i++, streamer++) {
             for (j = 0; j < 13; j++) {
-                streamer->color[j][0] = 128;
-                streamer->color[j][1] = 128;
-                streamer->color[j][2] = 128;
+                streamer->color[j].r = 128;
+                streamer->color[j].g = 128;
+                streamer->color[j].b = 128;
             }
             streamer->field_208 = 0;
         }

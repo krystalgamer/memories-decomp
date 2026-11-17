@@ -211,12 +211,12 @@ s32 ModelVariant460_HandleRequest(u8 *context, s32 command)
                     setVector(&sheet->v3[corner], 0, 0, 0);
                 }
             }
-            sheet->outer[0] = work->config->inner.r;
-            sheet->outer[1] = work->config->inner.g;
-            sheet->outer[2] = work->config->inner.b;
-            sheet->inner[0] = work->config->outer.r;
-            sheet->inner[1] = work->config->outer.g;
-            sheet->inner[2] = work->config->outer.b;
+            sheet->outer.r = work->config->inner.r;
+            sheet->outer.g = work->config->inner.g;
+            sheet->outer.b = work->config->inner.b;
+            sheet->inner.r = work->config->outer.r;
+            sheet->inner.g = work->config->outer.g;
+            sheet->inner.b = work->config->outer.b;
             sheet->size = 0;
             sheet->field_8C = 0;
             sheet->field_90 = 0;

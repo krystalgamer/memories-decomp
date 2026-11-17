@@ -34,7 +34,7 @@ The tail has two stages:
 
 This is a multi-band form of the accepted Spanish
 `spanish_model_variant/variant415_bands.c`, which was used only as structural
-evidence; the accepted `ModelVariantBand` record is reused. The following were
+evidence; the accepted `ModelVariantColorBand` record is reused. The following were
 recovered from the retail body:
 
 - the timing-record radius and band count

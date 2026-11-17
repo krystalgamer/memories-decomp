@@ -17,7 +17,7 @@ void SpanishModelVariant388_DrawSheets(Variant388EntryState *context)
     long interpolation;
     long flag;
     Variant388EntryState *state = context;
-    Variant388EntrySheet *sheet = state->sheets;
+    ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *polygon;
     GsOT *ot;
     s32 i, j;

@@ -53,18 +53,18 @@ void ModelVariant324_DrawMovingRing(Variant341EntryState *context)
                 (long *)&quad->x0, (long *)&quad->x1,
                 (long *)&quad->x2, (long *)&quad->x3,
                 (long *)&interpolation, (long *)&flag);
-            quad->r0 = ring->inner[0];
-            quad->g0 = ring->inner[1];
-            quad->b0 = ring->inner[2];
-            quad->r1 = ring->inner[0];
-            quad->g1 = ring->inner[1];
-            quad->b1 = ring->inner[2];
-            quad->r2 = ring->inner[0];
-            quad->g2 = ring->inner[1];
-            quad->b2 = ring->inner[2];
-            quad->r3 = ring->outer[0];
-            quad->g3 = ring->outer[1];
-            quad->b3 = ring->outer[2];
+            quad->r0 = ring->inner.r;
+            quad->g0 = ring->inner.g;
+            quad->b0 = ring->inner.b;
+            quad->r1 = ring->inner.r;
+            quad->g1 = ring->inner.g;
+            quad->b1 = ring->inner.b;
+            quad->r2 = ring->inner.r;
+            quad->g2 = ring->inner.g;
+            quad->b2 = ring->inner.b;
+            quad->r3 = ring->outer.r;
+            quad->g3 = ring->outer.g;
+            quad->b3 = ring->outer.b;
             depth = depth * 8 / 10;
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(quad, ot, depth);

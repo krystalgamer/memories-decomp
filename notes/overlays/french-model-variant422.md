@@ -118,7 +118,7 @@ unclassified; declaring raw storage does not prove it contains no code.
 ## Accessed layouts and ownership
 
 Entry captures `a0 -> s3 -> s6`. Its saved pointers describe one 456-byte
-`ModelVariantBand` at context `+0x12B4`, two 152-byte sheets at `+0x147C`,
+`ModelVariantColorBand` at context `+0x12B4`, two 152-byte sheets at `+0x147C`,
 six 144-byte rings at `+0x15AC`, four 144-byte spoke records at `+0x190C`,
 and one 144-byte quad at `+0x1B4C`. Adjacent extents agree exactly. The
 band is not header435's 492-byte padded record.

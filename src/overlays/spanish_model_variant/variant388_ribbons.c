@@ -17,7 +17,7 @@ void SpanishModelVariant388_DrawRibbonFan(Variant388EntryState *context)
     long p;
     long flag;
     Variant388EntryState *work;
-    Variant388EntrySheet *timing;
+    ModelVariantSheet *timing;
     GsOT *ot;
     s16 i;
     s32 turn;

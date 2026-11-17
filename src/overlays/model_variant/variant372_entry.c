@@ -34,7 +34,7 @@ s32 ModelVariant372_HandleRequest(u8 *context, s32 command)
     long depth, flag;
     long screen1;
     Model372Ribbon *ribbon;
-    Model372Sheet *sheet;
+    ModelVariantSheetSet *sheet;
     POLY_GT4 *textured;
     POLY_G3 *triangle;
     POLY_G4 *quad;

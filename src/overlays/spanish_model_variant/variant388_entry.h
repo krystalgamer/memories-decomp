@@ -50,13 +50,6 @@ typedef struct {
 } Variant388EntryTube;
 
 typedef struct {
-    SVECTOR v0[4], v1[4], v2[4], v3[4];
-    CVECTOR outer, inner;
-    s32 size, field_8C, field_90;
-    u8 unknown_94[4];
-} Variant388EntrySheet;
-
-typedef struct {
     SVECTOR points[3][17];
     CVECTOR inner, outer;
     s32 progress, field_1A4;
@@ -65,7 +58,7 @@ typedef struct {
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     Variant388EntryTube tubes[1];
-    Variant388EntrySheet sheets[2];
+    ModelVariantSheet sheets[2];
     Ribbon388 ribbons[8];
     Variant388EntryFeedback feedback[5];
     ModelVariantColorRing spokes[4];

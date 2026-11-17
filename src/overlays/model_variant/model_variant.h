@@ -366,8 +366,8 @@ typedef struct {
     SVECTOR v1[4];
     SVECTOR v2[4];
     SVECTOR v3[4];
-    u8 outer[4];
-    u8 inner[4];
+    CVECTOR outer;
+    CVECTOR inner;
     s32 size;
     s32 field_8C;
     s32 field_90;
@@ -405,22 +405,6 @@ typedef struct {
     VECTOR scale;
 } ModelVariantScaledSheet;
 
-/* One 0x1C8-byte band of the bands helper: three rows of nine points, the
- * screen coordinates RotTransPers3 writes for them, two colour rows and the
- * nine depths. */
-typedef struct {
-    SVECTOR a[9];
-    SVECTOR b[9];
-    SVECTOR c[9];
-    long sa[9];
-    long sb[9];
-    long sc[9];
-    u8 ca[9][4];
-    u8 cb[9][4];
-    u8 pad18C[0x18];
-    s32 otz[9];
-} ModelVariantBand;
-
 
 /* A five-point band record (0x11C bytes): three rows of five points, their
  * screen coordinates, the two colour rows and scale the entries seed, and
@@ -439,8 +423,7 @@ typedef struct {
 /* One 0x1C8-byte colour band: three rows of nine points and the screen
  * coordinates RotTransPers3 writes for them, the inner and outer colour rows
  * the entries set from their config, a scale vector and words, and the nine
- * depths. ModelVariantBand is the same layout with the colour rows as byte
- * arrays (ca = inner, cb = outer). */
+ * depths. */
 typedef struct {
     SVECTOR a[9];
     SVECTOR b[9];
@@ -656,8 +639,8 @@ typedef struct {
     SVECTOR v1[4];
     SVECTOR v2[4];
     SVECTOR v3[4];
-    u8 outer[4];
-    u8 inner[4];
+    CVECTOR outer;
+    CVECTOR inner;
     s32 size;
     s32 field_8C;
     s32 field_90;
