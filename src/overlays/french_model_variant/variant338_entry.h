@@ -10,7 +10,8 @@ typedef struct {
     u8 unknown_14[8];
     s32 mode;
     u32 start;
-    u8 unknown_24[8];
+    u32 end;
+    u8 unknown_28[4];
     u32 fade_start, fade_end;
 } Variant338EntryConfig;
 
@@ -42,7 +43,7 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant338_aImages[9];
 extern Variant338EntryConfig gFrenchModelVariant338_aConfigs[];
 void ModelVariant321_DrawRibbon(Variant338EntryState *context);
-void ModelVariant321_DrawRings(u8 *context);
+void ModelVariant321_DrawRings(Variant338EntryState *context);
 void FrenchModelVariant338_DrawStreamers(Variant338EntryState *context);
 s32 FrenchModelVariant338_HandleRequest(SVECTOR *point, s32 command);
 #endif

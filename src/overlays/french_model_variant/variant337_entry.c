@@ -203,7 +203,7 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
             ModelVariant320_DrawRibbon((Variant337EntryState *)point);
-            SpanishModelVariant337_DrawRings((u8 *)point);
+            SpanishModelVariant337_DrawRings((Variant337EntryState *)point);
         }
         if (work->tail.phase >= 3) {
             ModelVariant320_DrawStreamers((Variant337EntryState *)point);
