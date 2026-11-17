@@ -260,7 +260,7 @@ available. The regression suite exercises change selection through
 Name entry's executable phase is the same image as the password screen,
 entered at different functions; its module builds from the password sources.
 The boot protection module, Sony's safechk 2.0.0.3, is described in [`safecheck2003.md`](safecheck2003.md). See
-[`../../src/overlays/name_entry/README.md`](../../src/overlays/name_entry/README.md).
+[`../../src/overlays/password/README.md`](../../src/overlays/password/README.md#name-entry-package-and-shared-image).
 
 Per-module decompilation counts are generated into the README progress
 section by `tools/project/progress.py`; they are deliberately not duplicated

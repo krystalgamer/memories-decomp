@@ -27,7 +27,7 @@ NameEntry_LoadPackageStage, 0, 0)` in `File_RequestNameEntryPackage`, which
 password phase at `8054-8069` apart from the final sector, so name entry and
 the password screen share one image and are separate entry points rather than
 separate modules. See
-[`../../src/overlays/name_entry/README.md`](../../src/overlays/name_entry/README.md).
+[`../../src/overlays/password/README.md`](../../src/overlays/password/README.md#name-entry-package-and-shared-image).
 
 ## Resident load requests
 
