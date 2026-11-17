@@ -2395,7 +2395,7 @@ s32 SaveData_PollLoad(void) {
     return 0;
 }
 
-void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,(u8 *)gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);SaveData_BuildPayload((SaveDataPayload *)(gSaveData_aTransferBuffer-SAVE_DATA_HEADER_SIZE));MemCardDialog_Request(gSaveData_aTransferBuffer,SAVE_DATA_REPLICATED_STATE_SIZE,MEM_CARD_SAVE_FILE_NAME,2);}
+void SaveData_RequestWrite(void){Util_CopyWords(gSaveData_aTransferBuffer,gDuel_awPlayerDeck,SAVE_DATA_STATE_SIZE);SaveData_BuildPayload((SaveDataPayload *)(gSaveData_aTransferBuffer-SAVE_DATA_HEADER_SIZE));MemCardDialog_Request(gSaveData_aTransferBuffer,SAVE_DATA_REPLICATED_STATE_SIZE,MEM_CARD_SAVE_FILE_NAME,2);}
 
 #ifdef VERSION_JAPAN
 /* Japanese only, with no US counterpart: opens the memory-card dialog at
