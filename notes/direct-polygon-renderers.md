@@ -93,6 +93,12 @@ Points that the C has to reproduce:
 - Semi variants put that nop in the delay slot of `beqz s2`: it sits after a
   label kept alive by `HW_KEEP_LABEL`, so CSE cannot fold the shift away, and
   reorg's backward fill moves it into the slot.
+- Each drawer reads its records through a pointer to the volatile
+  `ModelDraw*Record` unions of `src/game/model_slot_setup.h` (the
+  `ModelPrim*` record layout plus its word array), so the word loads
+  keep their original order around the GTE operations. The halfword CLUT and
+  Ft4 normal reads drop the volatile qualifier: a volatile halfword load goes
+  through `$2` and a move instead of straight into its register.
 - Gt3 places `sll t0,t0,16` in the `beqz s2` slot by shifting before the test
   and shifting back on the fall-through path.
 
