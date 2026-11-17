@@ -135,7 +135,7 @@ void SpanishModelVariant441_DrawRainbowSheets(u8 *context)
                     && quad->size > 0) {
                     quad->size = 4096 - ((work->frame
                         - work->config->fade_start) << 12)
-                        / (work->config->end
+                        / (work->config->fade_end
                         - work->config->fade_start);
                     if (quad->size <= 0) {
                         quad->size = 0;

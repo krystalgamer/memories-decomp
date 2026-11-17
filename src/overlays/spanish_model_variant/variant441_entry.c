@@ -307,7 +307,7 @@ s32 SpanishModelVariant441_HandleRequest(SVECTOR *point, s32 command)
         Square0(&work->aim.view_delta, &squared);
         work->angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
-        if (work->frame < work->config->end) {
+        if (work->frame < work->config->fade_end) {
             if (work->slot == 0) {
                 Model_CopySlotPosition(1, (u16 *)&work->aim.target);
             } else {

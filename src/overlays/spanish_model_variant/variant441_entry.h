@@ -12,8 +12,7 @@ typedef struct {
     u8 parts[3], unknown_13[5];
     u16 count, unknown_1A;
     s32 start;
-    s32 expansion_start, expansion_end, fade_start;
-    s32 end;
+    s32 expansion_start, expansion_end, fade_start, fade_end;
 } Variant441EntryConfig;
 
 /* Minimum observed extent, not an allocation capacity. */
@@ -56,6 +55,7 @@ typedef struct {
 extern GsIMAGE gSpanishModelVariant441_aImages[9];
 extern Variant441EntryConfig gSpanishModelVariant441_aConfigs[];
 void SpanishModelVariant441_DrawTubularMesh(Variant441EntryState *context);
+void SpanishModelVariant441_DrawRibbon(Variant441EntryState *context);
 void SpanishModelVariant441_DrawRainbowSheets(u8 *context);
 void SpanishModelVariant441_DrawFramebufferRings(Variant441EntryState *context);
 void ModelVariant398_DrawRings(u8 *context);

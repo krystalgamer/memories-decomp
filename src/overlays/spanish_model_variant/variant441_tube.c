@@ -93,7 +93,7 @@ void SpanishModelVariant441_DrawTubularMesh(Variant441EntryState *context)
     if (state->width > 0) {
         if (state->frame >= state->config->fade_start) {
             state->width = 1024 - (state->frame - state->config->fade_start) * 1024 /
-                                 (state->config->end - state->config->fade_start);
+                                 (state->config->fade_end - state->config->fade_start);
         }
         if (state->width <= 0) {
             state->width = 0;

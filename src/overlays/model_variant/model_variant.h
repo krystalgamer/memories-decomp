@@ -581,15 +581,18 @@ typedef struct {
     s16 oy[11];
 } ModelVariantCountedRibbon;
 
-/* A 0x6C-byte ribbon record: a colour and three scale words. */
+/* A 0x6C-byte ribbon record: two three-point fans and their packed
+ * RotTransPers3 projections, a colour, three scale words and the depth of
+ * each fan. */
 typedef struct {
-    u8 unknown_00[0x48];
+    SVECTOR points[3][2];
+    long projected[3][2];
     CVECTOR color;
     s32 scale[3];
     u8 unknown_58[4];
     s16 field_5C, field_5E;
     s32 field_60;
-    u8 unknown_64[8];
+    s32 depth[2];
 } ModelVariantShortRibbon;
 
 /* One 0x7C-byte strand of header 443: thirteen points fanned from the origin. */
