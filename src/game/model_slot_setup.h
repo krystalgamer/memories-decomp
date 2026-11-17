@@ -110,6 +110,52 @@ typedef char ModelPrimGT4_norms_must_be_0xA_0x10_0x14_0x18[
 ];
 typedef char ModelPrimGT4C_norm3_must_be_0x1C[OFFSETOF(ModelPrimGT4C, prim.norm3) == 0x1C ? 1 : -1];
 
+/*
+ * The polygon drawers read each record a word at a time and copy its
+ * u/v/CLUT/tpage words straight into the GPU packet, so to them a record is
+ * also its word array. Their window-record kinds are the 0x200 kinds: the
+ * four-byte prefix is the texture-window (E2) command word.
+ */
+typedef union {
+    u32 words[5];
+    ModelPrimFT3 prim;
+} ModelDrawFt3Record;
+
+typedef union {
+    u32 words[6];
+    ModelPrimGT3 prim;
+} ModelDrawGt3Record;
+
+typedef union {
+    u32 words[6];
+    ModelPrimFT4 prim;
+} ModelDrawFt4Record;
+
+typedef union {
+    u32 words[7];
+    ModelPrimGT4 prim;
+} ModelDrawGt4Record;
+
+typedef union {
+    u32 words[6];
+    ModelPrimFT3C prim;
+} ModelDrawFt3WindowRecord;
+
+typedef union {
+    u32 words[7];
+    ModelPrimGT3C prim;
+} ModelDrawGt3WindowRecord;
+
+typedef union {
+    u32 words[7];
+    ModelPrimFT4C prim;
+} ModelDrawFt4WindowRecord;
+
+typedef union {
+    u32 words[8];
+    ModelPrimGT4C prim;
+} ModelDrawGt4WindowRecord;
+
 s32 tent_Model_RebaseTexturedPrimitives(
     s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx,
     s32 *max_lit_color_index, s32 *packet_bytes

@@ -17,6 +17,7 @@
 #include "model.h"
 #include "primitive_handler_modes.h"
 #include "gpu_packets.h"
+#include "model_slot_setup.h"
 #include "direct_polygon_renderers.h"
 
 register u32 gHw_PolyTemplate asm("$16");
@@ -42,6 +43,18 @@ register u32 gHw_Word3 asm("$11");
 register u32 gHw_Unused30 asm("$30");
 
 /*
+ * Each drawer converts its SDK pointers once on entry: the primitive block
+ * to its ModelPrimitiveBlockHeader, primtop plus the word offset to its
+ * record type, and the vertex, normal and OT bases to the u32 addresses the
+ * GTE loads and slot arithmetic work on. The record cursor points to
+ * volatile data because the original reads its words in a fixed order around
+ * the GTE operations. Kept per-use conversions: the OT slot address and the
+ * lit-colour cache address held in $3 are integers that are then
+ * dereferenced, the packet's code byte is written through a byte view of the
+ * u32 packet words, and the packet tag stores the packet address.
+ */
+
+/*
  * Base Ft3/Gt3/Ft4/Gt4 polygon drawers (0x800612C0-0x80061DDC).
  *
  * Hand-written in the original: no stack frame, borrowed s-registers parked
@@ -59,29 +72,30 @@ register u32 gHw_Unused30 asm("$30");
 #if !defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
 u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt3Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt3Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -89,32 +103,33 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
         gHw_ColorCache = gModel_dwLitColorCacheBase;
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
-            w1 = ((volatile u32 *)rec)[4];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[3];
+            w1 = rec->words[4];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -129,7 +144,7 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -149,16 +164,17 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[1] = gHw_Word0;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
         emit:
@@ -193,7 +209,7 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 8;
         next:
             count--;
-            rec += 20;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -214,29 +230,30 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
 #if !(defined(VERSION_JAPAN) || defined(VERSION_EUROPE)) || defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
 u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt3Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt3Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -244,33 +261,34 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
         gHw_ColorCache = gModel_dwLitColorCacheBase;
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
-            w1 = ((volatile u32 *)rec)[4];
-            w2 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[3];
+            w1 = rec->words[4];
+            w2 = rec->words[5];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -290,11 +308,11 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
             }
             HW_GTE_AVSZ3();
             if (gHw_DrawMode != 0) {
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
@@ -329,16 +347,17 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[7] = w2;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
         emit:
@@ -378,7 +397,7 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -399,29 +418,30 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
 #if !defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
 u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt4Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt4Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -429,37 +449,38 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
         gHw_ColorCache = gModel_dwLitColorCacheBase;
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            v = gHw_Word0 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
-            v = (u8 *)(gHw_Word3 + (u32)verts);
+            v = gHw_Word3 + verts;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
@@ -472,7 +493,8 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_LOAD_V0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
             HW_GTE_RTPS();
-            gHw_Word0 = *(u16 *)(rec + 14);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_Word0 = ((ModelDrawFt4Record *)rec)->prim.norm0;
             gHw_Word0 <<= 3;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
@@ -481,7 +503,7 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ4();
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -501,17 +523,18 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[1] = gHw_Word0;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            gHw_Word3 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            gHw_Word3 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE(14, 32, pkt);
         emit:
@@ -549,7 +572,7 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -570,29 +593,30 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
 #if !(defined(VERSION_JAPAN) || defined(VERSION_EUROPE)) || defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
 u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt4Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt4Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -600,43 +624,44 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
         gHw_ColorCache = gModel_dwLitColorCacheBase;
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
+            gHw_Word0 = rec->words[3];
             HW_LWR(gHw_Word0, 10, rec);
-            w1 = ((volatile u32 *)rec)[4];
-            w2 = ((volatile u32 *)rec)[5];
-            gHw_Word3 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            w1 = rec->words[4];
+            w2 = rec->words[5];
+            gHw_Word3 = rec->words[6];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
-            v = (u8 *)(gHw_Word3 >> 16);
-            v = (u8 *)((u32)v << 3);
+            v = gHw_Word3 >> 16;
+            v <<= 3;
             HW_GTE_RTPT();
             gHw_Word3 <<= 16;
             gHw_Word3 >>= 13;
             gHw_At = 1;
-            v += (u32)verts;
+            v += verts;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag < 0)
@@ -662,15 +687,15 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_STORE(14, 44, pkt);
             w2 <<= 16;
             w2 >>= 13;
-            v = (u8 *)(gHw_Word3 + (u32)normals);
+            v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -715,17 +740,18 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[10] = gHw_Word3;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            gHw_Word3 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            gHw_Word3 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
         emit:
             pkt[3] = gHw_Word0;
@@ -768,7 +794,7 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 13;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -800,17 +826,18 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt3WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -818,12 +845,12 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt3WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -832,32 +859,33 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -872,8 +900,8 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -893,16 +921,17 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[2] = gHw_Word0;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
         emit:
@@ -939,7 +968,7 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -959,17 +988,18 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -977,12 +1007,12 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt3WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -991,33 +1021,34 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            w2 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            w2 = rec->words[6];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -1036,13 +1067,13 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
+            gHw_WindowWord = rec->words[0];
             if (gHw_DrawMode != 0) {
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
@@ -1077,16 +1108,17 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[8] = w2;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
         emit:
@@ -1128,7 +1160,7 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 12;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -1148,17 +1180,18 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt4WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -1166,12 +1199,12 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt4WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -1180,37 +1213,38 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[5];
-            w1 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[5];
+            w1 = rec->words[6];
+            v = gHw_Word0 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
-            v = (u8 *)(gHw_Word3 + (u32)verts);
+            v = gHw_Word3 + verts;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
@@ -1223,7 +1257,8 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_LOAD_V0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
             HW_GTE_RTPS();
-            gHw_Word0 = *(u16 *)(rec + 18);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_Word0 = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.norm0;
             gHw_Word0 <<= 3;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
@@ -1232,8 +1267,8 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ4();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -1253,17 +1288,18 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[2] = gHw_Word0;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            gHw_Word3 = ((volatile u32 *)rec)[4];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            gHw_Word3 = rec->words[4];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE(14, 36, pkt);
         emit:
@@ -1303,7 +1339,7 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 12;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -1323,17 +1359,18 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -1341,12 +1378,12 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt4WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -1355,43 +1392,44 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
+            gHw_Word0 = rec->words[4];
             HW_LWR(gHw_Word0, 14, rec);
-            w1 = ((volatile u32 *)rec)[5];
-            w2 = ((volatile u32 *)rec)[6];
-            gHw_Word3 = ((volatile u32 *)rec)[7];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            w1 = rec->words[5];
+            w2 = rec->words[6];
+            gHw_Word3 = rec->words[7];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
-            v = (u8 *)(gHw_Word3 >> 16);
-            v = (u8 *)((u32)v << 3);
+            v = gHw_Word3 >> 16;
+            v <<= 3;
             HW_GTE_RTPT();
             gHw_Word3 <<= 16;
             gHw_Word3 >>= 13;
             gHw_At = 1;
-            v += (u32)verts;
+            v += verts;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag < 0)
@@ -1417,16 +1455,16 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_STORE(14, 48, pkt);
             w2 <<= 16;
             w2 >>= 13;
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word3 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -1471,17 +1509,18 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[11] = gHw_Word3;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            gHw_Word3 = ((volatile u32 *)rec)[4];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            gHw_Word3 = rec->words[4];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
         emit:
             pkt[4] = gHw_Word0;
@@ -1526,7 +1565,7 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 15;
         next:
             count--;
-            rec += 32;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -1556,29 +1595,30 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt3Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt3Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -1586,32 +1626,33 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
         gHw_ColorCache = gModel_dwLitColorCacheBase;
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
-            w1 = ((volatile u32 *)rec)[4];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[3];
+            w1 = rec->words[4];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -1623,7 +1664,7 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -1643,16 +1684,17 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[1] = gHw_Word0;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
         emit:
@@ -1687,7 +1729,7 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 8;
         next:
             count--;
-            rec += 20;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -1706,29 +1748,30 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt3Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt3Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -1736,33 +1779,34 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
         gHw_ColorCache = gModel_dwLitColorCacheBase;
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
-            w1 = ((volatile u32 *)rec)[4];
-            w2 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[3];
+            w1 = rec->words[4];
+            w2 = rec->words[5];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -1779,11 +1823,11 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
             }
             HW_GTE_AVSZ3();
             if (gHw_DrawMode != 0) {
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
@@ -1818,16 +1862,17 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[7] = w2;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
         emit:
@@ -1867,7 +1912,7 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -1886,29 +1931,30 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt4Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt4Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -1916,37 +1962,38 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
         gHw_ColorCache = gModel_dwLitColorCacheBase;
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            v = gHw_Word0 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
-            v = (u8 *)(gHw_Word3 + (u32)verts);
+            v = gHw_Word3 + verts;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
@@ -1956,7 +2003,8 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_LOAD_V0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
             HW_GTE_RTPS();
-            gHw_Word0 = *(u16 *)(rec + 14);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_Word0 = ((ModelDrawFt4Record *)rec)->prim.norm0;
             gHw_Word0 <<= 3;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
@@ -1965,7 +2013,7 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ4();
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -1985,17 +2033,18 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[1] = gHw_Word0;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            gHw_Word3 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            gHw_Word3 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE(14, 32, pkt);
         emit:
@@ -2033,7 +2082,7 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -2052,29 +2101,30 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt4Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt4Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -2082,43 +2132,44 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
         gHw_ColorCache = gModel_dwLitColorCacheBase;
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
+            gHw_Word0 = rec->words[3];
             HW_LWR(gHw_Word0, 10, rec);
-            w1 = ((volatile u32 *)rec)[4];
-            w2 = ((volatile u32 *)rec)[5];
-            gHw_Word3 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            w1 = rec->words[4];
+            w2 = rec->words[5];
+            gHw_Word3 = rec->words[6];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
-            v = (u8 *)(gHw_Word3 >> 16);
-            v = (u8 *)((u32)v << 3);
+            v = gHw_Word3 >> 16;
+            v <<= 3;
             HW_GTE_RTPT();
             gHw_Word3 <<= 16;
             gHw_Word3 >>= 13;
             gHw_At = 1;
-            v += (u32)verts;
+            v += verts;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag < 0)
@@ -2141,15 +2192,15 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_STORE(14, 44, pkt);
             w2 <<= 16;
             w2 >>= 13;
-            v = (u8 *)(gHw_Word3 + (u32)normals);
+            v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -2194,17 +2245,18 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[10] = gHw_Word3;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            gHw_Word3 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            gHw_Word3 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
         emit:
             pkt[3] = gHw_Word0;
@@ -2247,7 +2299,7 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 13;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -2276,17 +2328,18 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt3WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -2294,12 +2347,12 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt3WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -2308,32 +2361,33 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -2345,8 +2399,8 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -2366,16 +2420,17 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[2] = gHw_Word0;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
         emit:
@@ -2412,7 +2467,7 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -2432,17 +2487,18 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -2450,12 +2506,12 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt3WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -2464,33 +2520,34 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            w2 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            w2 = rec->words[6];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -2506,13 +2563,13 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
+            gHw_WindowWord = rec->words[0];
             if (gHw_DrawMode != 0) {
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
@@ -2547,16 +2604,17 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[8] = w2;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
         emit:
@@ -2598,7 +2656,7 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 12;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -2618,17 +2676,18 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt4WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -2636,12 +2695,12 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt4WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -2650,37 +2709,38 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[5];
-            w1 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[5];
+            w1 = rec->words[6];
+            v = gHw_Word0 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
-            v = (u8 *)(gHw_Word3 + (u32)verts);
+            v = gHw_Word3 + verts;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
@@ -2690,7 +2750,8 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_LOAD_V0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
             HW_GTE_RTPS();
-            gHw_Word0 = *(u16 *)(rec + 18);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_Word0 = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.norm0;
             gHw_Word0 <<= 3;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
@@ -2699,8 +2760,8 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ4();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -2720,17 +2781,18 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[2] = gHw_Word0;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            gHw_Word3 = ((volatile u32 *)rec)[4];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            gHw_Word3 = rec->words[4];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE(14, 36, pkt);
         emit:
@@ -2770,7 +2832,7 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 12;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -2790,17 +2852,18 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -2808,12 +2871,12 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt4WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -2822,43 +2885,44 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
         gHw_Color = gHw_PolyTemplate;
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
+            gHw_Word0 = rec->words[4];
             HW_LWR(gHw_Word0, 14, rec);
-            w1 = ((volatile u32 *)rec)[5];
-            w2 = ((volatile u32 *)rec)[6];
-            gHw_Word3 = ((volatile u32 *)rec)[7];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            w1 = rec->words[5];
+            w2 = rec->words[6];
+            gHw_Word3 = rec->words[7];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
-            v = (u8 *)(gHw_Word3 >> 16);
-            v = (u8 *)((u32)v << 3);
+            v = gHw_Word3 >> 16;
+            v <<= 3;
             HW_GTE_RTPT();
             gHw_Word3 <<= 16;
             gHw_Word3 >>= 13;
             gHw_At = 1;
-            v += (u32)verts;
+            v += verts;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag < 0)
@@ -2881,16 +2945,16 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_STORE(14, 48, pkt);
             w2 <<= 16;
             w2 >>= 13;
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word3 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -2935,17 +2999,18 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[11] = gHw_Word3;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            gHw_Word3 = ((volatile u32 *)rec)[4];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            gHw_Word3 = rec->words[4];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
         emit:
             pkt[4] = gHw_Word0;
@@ -2990,7 +3055,7 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 15;
         next:
             count--;
-            rec += 32;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -3020,29 +3085,30 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt3Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt3Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -3058,7 +3124,7 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[1];
+            gHw_BlendBits = rec->words[1];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -3067,7 +3133,8 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 2);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawFt3Record *)rec)->prim.cba;
             gHw_Color = gModel_dwPolyFt3SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -3077,32 +3144,33 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
         }
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
-            w1 = ((volatile u32 *)rec)[4];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[3];
+            w1 = rec->words[4];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -3117,7 +3185,7 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -3137,18 +3205,19 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[1] = gHw_Word0;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
         emit:
@@ -3183,7 +3252,7 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 8;
         next:
             count--;
-            rec += 20;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -3202,29 +3271,30 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt3Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt3Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -3240,7 +3310,7 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[1];
+            gHw_BlendBits = rec->words[1];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -3249,7 +3319,8 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 2);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawGt3Record *)rec)->prim.cba;
             gHw_Color = gModel_dwPolyGt3SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -3259,33 +3330,34 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
         }
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
-            w1 = ((volatile u32 *)rec)[4];
-            w2 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[3];
+            w1 = rec->words[4];
+            w2 = rec->words[5];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -3305,11 +3377,11 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             }
             HW_GTE_AVSZ3();
             if (gHw_DrawMode != 0) {
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
@@ -3344,18 +3416,19 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[7] = w2;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
         emit:
@@ -3395,7 +3468,7 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -3414,29 +3487,30 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt4Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt4Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -3452,7 +3526,7 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[1];
+            gHw_BlendBits = rec->words[1];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -3461,7 +3535,8 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 2);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawFt4Record *)rec)->prim.cba;
             gHw_Color = gModel_dwPolyFt4SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -3471,37 +3546,38 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
         }
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            v = gHw_Word0 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
-            v = (u8 *)(gHw_Word3 + (u32)verts);
+            v = gHw_Word3 + verts;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
@@ -3514,7 +3590,8 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_LOAD_V0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
             HW_GTE_RTPS();
-            gHw_Word0 = *(u16 *)(rec + 14);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_Word0 = ((ModelDrawFt4Record *)rec)->prim.norm0;
             gHw_Word0 <<= 3;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
@@ -3523,7 +3600,7 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ4();
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -3543,19 +3620,20 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[1] = gHw_Word0;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            gHw_Word3 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            gHw_Word3 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE(14, 32, pkt);
         emit:
@@ -3593,7 +3671,7 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -3612,29 +3690,30 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt4Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt4Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -3650,7 +3729,7 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[1];
+            gHw_BlendBits = rec->words[1];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -3659,7 +3738,8 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 2);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawGt4Record *)rec)->prim.cba;
             gHw_Color = gModel_dwPolyGt4SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -3669,43 +3749,44 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
         }
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
+            gHw_Word0 = rec->words[3];
             HW_LWR(gHw_Word0, 10, rec);
-            w1 = ((volatile u32 *)rec)[4];
-            w2 = ((volatile u32 *)rec)[5];
-            gHw_Word3 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            w1 = rec->words[4];
+            w2 = rec->words[5];
+            gHw_Word3 = rec->words[6];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
-            v = (u8 *)(gHw_Word3 >> 16);
-            v = (u8 *)((u32)v << 3);
+            v = gHw_Word3 >> 16;
+            v <<= 3;
             HW_GTE_RTPT();
             gHw_Word3 <<= 16;
             gHw_Word3 >>= 13;
             gHw_At = 1;
-            v += (u32)verts;
+            v += verts;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag < 0)
@@ -3731,15 +3812,15 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_STORE(14, 44, pkt);
             w2 <<= 16;
             w2 >>= 13;
-            v = (u8 *)(gHw_Word3 + (u32)normals);
+            v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -3784,19 +3865,20 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[10] = gHw_Word3;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            gHw_Word3 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            gHw_Word3 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
         emit:
             pkt[3] = gHw_Word0;
@@ -3839,7 +3921,7 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 13;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -3868,17 +3950,18 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt3WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -3886,12 +3969,12 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt3WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -3907,7 +3990,7 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[2];
+            gHw_BlendBits = rec->words[2];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -3916,7 +3999,8 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 6);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawFt3WindowRecord *)rec)->prim.prim.cba;
             gHw_Color = gModel_dwPolyFt3SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -3927,32 +4011,33 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -3967,8 +4052,8 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -3988,18 +4073,19 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[2] = gHw_Word0;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
         emit:
@@ -4036,7 +4122,7 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -4056,17 +4142,18 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -4074,12 +4161,12 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt3WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -4095,7 +4182,7 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[2];
+            gHw_BlendBits = rec->words[2];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -4104,7 +4191,8 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 6);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawGt3WindowRecord *)rec)->prim.prim.cba;
             gHw_Color = gModel_dwPolyGt3SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -4115,33 +4203,34 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            w2 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            w2 = rec->words[6];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -4160,13 +4249,13 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
+            gHw_WindowWord = rec->words[0];
             if (gHw_DrawMode != 0) {
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
@@ -4201,18 +4290,19 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[8] = w2;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
         emit:
@@ -4254,7 +4344,7 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 12;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -4274,17 +4364,18 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt4WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -4292,12 +4383,12 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt4WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -4313,7 +4404,7 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[2];
+            gHw_BlendBits = rec->words[2];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -4322,7 +4413,8 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 6);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.cba;
             gHw_Color = gModel_dwPolyFt4SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -4333,37 +4425,38 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[5];
-            w1 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[5];
+            w1 = rec->words[6];
+            v = gHw_Word0 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
-            v = (u8 *)(gHw_Word3 + (u32)verts);
+            v = gHw_Word3 + verts;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
@@ -4376,7 +4469,8 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_LOAD_V0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
             HW_GTE_RTPS();
-            gHw_Word0 = *(u16 *)(rec + 18);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_Word0 = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.norm0;
             gHw_Word0 <<= 3;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
@@ -4385,8 +4479,8 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ4();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -4406,19 +4500,20 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[2] = gHw_Word0;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            gHw_Word3 = ((volatile u32 *)rec)[4];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            gHw_Word3 = rec->words[4];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE(14, 36, pkt);
         emit:
@@ -4458,7 +4553,7 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 12;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -4478,17 +4573,18 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -4496,12 +4592,12 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt4WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -4517,7 +4613,7 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[2];
+            gHw_BlendBits = rec->words[2];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -4526,7 +4622,8 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 6);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawGt4WindowRecord *)rec)->prim.prim.cba;
             gHw_Color = gModel_dwPolyGt4SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -4537,43 +4634,44 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
+            gHw_Word0 = rec->words[4];
             HW_LWR(gHw_Word0, 14, rec);
-            w1 = ((volatile u32 *)rec)[5];
-            w2 = ((volatile u32 *)rec)[6];
-            gHw_Word3 = ((volatile u32 *)rec)[7];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            w1 = rec->words[5];
+            w2 = rec->words[6];
+            gHw_Word3 = rec->words[7];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
-            v = (u8 *)(gHw_Word3 >> 16);
-            v = (u8 *)((u32)v << 3);
+            v = gHw_Word3 >> 16;
+            v <<= 3;
             HW_GTE_RTPT();
             gHw_Word3 <<= 16;
             gHw_Word3 >>= 13;
             gHw_At = 1;
-            v += (u32)verts;
+            v += verts;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag < 0)
@@ -4599,16 +4697,16 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_STORE(14, 48, pkt);
             w2 <<= 16;
             w2 >>= 13;
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word3 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -4653,19 +4751,20 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[11] = gHw_Word3;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            gHw_Word3 = ((volatile u32 *)rec)[4];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            gHw_Word3 = rec->words[4];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
         emit:
             pkt[4] = gHw_Word0;
@@ -4710,7 +4809,7 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 15;
         next:
             count--;
-            rec += 32;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -4740,29 +4839,30 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt3Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt3Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -4778,7 +4878,7 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[1];
+            gHw_BlendBits = rec->words[1];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -4787,7 +4887,8 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 2);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawFt3Record *)rec)->prim.cba;
             gHw_Color = gModel_dwPolyFt3SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -4797,32 +4898,33 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
         }
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
-            w1 = ((volatile u32 *)rec)[4];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[3];
+            w1 = rec->words[4];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -4834,7 +4936,7 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -4854,18 +4956,19 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[1] = gHw_Word0;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
         emit:
@@ -4900,7 +5003,7 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 8;
         next:
             count--;
-            rec += 20;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -4919,29 +5022,30 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt3Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt3Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -4957,7 +5061,7 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[1];
+            gHw_BlendBits = rec->words[1];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -4966,7 +5070,8 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 2);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawGt3Record *)rec)->prim.cba;
             gHw_Color = gModel_dwPolyGt3SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -4976,33 +5081,34 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
         }
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
-            w1 = ((volatile u32 *)rec)[4];
-            w2 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[3];
+            w1 = rec->words[4];
+            w2 = rec->words[5];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -5019,11 +5125,11 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             }
             HW_GTE_AVSZ3();
             if (gHw_DrawMode != 0) {
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
@@ -5058,18 +5164,19 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[7] = w2;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
         emit:
@@ -5109,7 +5216,7 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -5128,29 +5235,30 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt4Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt4Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -5166,7 +5274,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[1];
+            gHw_BlendBits = rec->words[1];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -5175,7 +5283,8 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 2);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawFt4Record *)rec)->prim.cba;
             gHw_Color = gModel_dwPolyFt4SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -5185,37 +5294,38 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
         }
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            v = gHw_Word0 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
-            v = (u8 *)(gHw_Word3 + (u32)verts);
+            v = gHw_Word3 + verts;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
@@ -5225,7 +5335,8 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_LOAD_V0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
             HW_GTE_RTPS();
-            gHw_Word0 = *(u16 *)(rec + 14);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_Word0 = ((ModelDrawFt4Record *)rec)->prim.norm0;
             gHw_Word0 <<= 3;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
@@ -5234,7 +5345,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ4();
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -5254,19 +5365,20 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[1] = gHw_Word0;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            gHw_Word3 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            gHw_Word3 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE(14, 32, pkt);
         emit:
@@ -5304,7 +5416,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -5323,29 +5435,30 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt4Record *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
     HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
     HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt4Record *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -5361,7 +5474,7 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[1];
+            gHw_BlendBits = rec->words[1];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -5370,7 +5483,8 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 2);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawGt4Record *)rec)->prim.cba;
             gHw_Color = gModel_dwPolyGt4SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -5380,43 +5494,44 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
         }
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[3];
+            gHw_Word0 = rec->words[3];
             HW_LWR(gHw_Word0, 10, rec);
-            w1 = ((volatile u32 *)rec)[4];
-            w2 = ((volatile u32 *)rec)[5];
-            gHw_Word3 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            w1 = rec->words[4];
+            w2 = rec->words[5];
+            gHw_Word3 = rec->words[6];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
-            v = (u8 *)(gHw_Word3 >> 16);
-            v = (u8 *)((u32)v << 3);
+            v = gHw_Word3 >> 16;
+            v <<= 3;
             HW_GTE_RTPT();
             gHw_Word3 <<= 16;
             gHw_Word3 >>= 13;
             gHw_At = 1;
-            v += (u32)verts;
+            v += verts;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag < 0)
@@ -5439,15 +5554,15 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_STORE(14, 44, pkt);
             w2 <<= 16;
             w2 >>= 13;
-            v = (u8 *)(gHw_Word3 + (u32)normals);
+            v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -5492,19 +5607,20 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 pkt[10] = gHw_Word3;
                 ((u8 *)pkt)[7] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[0];
-            w1 = ((volatile u32 *)rec)[1];
-            w2 = ((volatile u32 *)rec)[2];
-            gHw_Word3 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[0];
+            w1 = rec->words[1];
+            w2 = rec->words[2];
+            gHw_Word3 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
         emit:
             pkt[3] = gHw_Word0;
@@ -5547,7 +5663,7 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             pkt += 13;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -5576,17 +5692,18 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt3WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -5594,12 +5711,12 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt3WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -5615,7 +5732,7 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[2];
+            gHw_BlendBits = rec->words[2];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -5624,7 +5741,8 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 6);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawFt3WindowRecord *)rec)->prim.prim.cba;
             gHw_Color = gModel_dwPolyFt3SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -5635,32 +5753,33 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -5672,8 +5791,8 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -5693,18 +5812,19 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[2] = gHw_Word0;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
         emit:
@@ -5741,7 +5861,7 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 10;
         next:
             count--;
-            rec += 24;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -5761,17 +5881,18 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -5779,12 +5900,12 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt3WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt3Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -5800,7 +5921,7 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[2];
+            gHw_BlendBits = rec->words[2];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -5809,7 +5930,8 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 6);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawGt3WindowRecord *)rec)->prim.prim.cba;
             gHw_Color = gModel_dwPolyGt3SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -5820,33 +5942,34 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
-            w1 = ((volatile u32 *)rec)[5];
-            w2 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[4];
+            w1 = rec->words[5];
+            w2 = rec->words[6];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -5862,13 +5985,13 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ3();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
+            gHw_WindowWord = rec->words[0];
             if (gHw_DrawMode != 0) {
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
@@ -5903,18 +6026,19 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[8] = w2;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
         emit:
@@ -5956,7 +6080,7 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 12;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -5976,17 +6100,18 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawFt4WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -5994,12 +6119,12 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawFt4WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyFt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -6015,7 +6140,7 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[2];
+            gHw_BlendBits = rec->words[2];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -6024,7 +6149,8 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 6);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.cba;
             gHw_Color = gModel_dwPolyFt4SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -6035,37 +6161,38 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[5];
-            w1 = ((volatile u32 *)rec)[6];
-            v = (u8 *)(gHw_Word0 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            gHw_Word0 = rec->words[5];
+            w1 = rec->words[6];
+            v = gHw_Word0 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w1 << 16);
-            v = (u8 *)((u32)v >> 13);
-            v += (u32)verts;
+            v = w1 << 16;
+            v >>= 13;
+            v += verts;
             HW_GTE_LOAD_V2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
-            v = (u8 *)(gHw_Word3 + (u32)verts);
+            v = gHw_Word3 + verts;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
@@ -6075,7 +6202,8 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_LOAD_V0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
             HW_GTE_RTPS();
-            gHw_Word0 = *(u16 *)(rec + 18);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_Word0 = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.norm0;
             gHw_Word0 <<= 3;
             gHw_At = 1;
             if (gHw_DrawMode != gHw_At) {
@@ -6084,8 +6212,8 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     goto next;
             }
             HW_GTE_AVSZ4();
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word0 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
@@ -6105,19 +6233,20 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[2] = gHw_Word0;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            gHw_Word3 = ((volatile u32 *)rec)[4];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            gHw_Word3 = rec->words[4];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
             HW_GTE_STORE(14, 36, pkt);
         emit:
@@ -6157,7 +6286,7 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 12;
         next:
             count--;
-            rec += 28;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
@@ -6177,17 +6306,18 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
 u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register u8 *rec asm("$7");
+    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
+    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
     register u32 *pkt asm("$25");
     register u32 count asm("$24");
     register u32 off asm("$6");
     register u8 *base asm("$5");
     u32 zero;
 
-    rec = (u8 *)arg->primp;
+    blk = (ModelPrimitiveBlockHeader *)arg->primp;
     pkt = (u32 *)arg->out_packetp;
-    count = *(volatile u16 *)(rec + 2);
-    off = ((volatile u32 *)rec)[1];
+    count = blk->record_count;
+    off = blk->word_offset;
     zero = 0;
     base = *(u8 *volatile *)&arg->primtop;
     off <<= 2;
@@ -6195,12 +6325,12 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
     HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u8 *verts asm("$5");
-        register u8 *normals asm("$6");
+        register u32 verts asm("$5");
+        register u32 normals asm("$6");
         register GsOT *otp asm("$13");
         register u32 shift asm("$14");
-        register u32 *ot asm("$15");
-        rec = base + off;
+        register u32 ot asm("$15");
+        rec = (ModelDrawGt4WindowRecord *)(base + off);
         gHw_PolyTemplate = gModel_dwPolyGt4Template;
         gHw_BlendBits = gModel_dwTpageBlendRateBits;
         gHw_SecondClut = gModel_dwSecondPassClutBits;
@@ -6216,7 +6346,7 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Color = gHw_PolyTemplate;
             if (active != 0)
                 goto no_second;
-            gHw_BlendBits = ((volatile u32 *)rec)[2];
+            gHw_BlendBits = rec->words[2];
             gHw_At = 0x00600000;
             gHw_BlendBits &= gHw_At;
             if (gHw_BlendBits != 0)
@@ -6225,7 +6355,8 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_Zero <<= zero;
             if (gHw_SecondClut == 0)
                 goto setup;
-            gHw_SecondClut = *(u16 *)(rec + 6);
+            /* Plain halfword load: through volatile it goes via $2 plus a move. */
+            gHw_SecondClut = ((ModelDrawGt4WindowRecord *)rec)->prim.prim.cba;
             gHw_Color = gModel_dwPolyGt4SemiTemplate;
             gHw_SecondClut <<= 16;
             gHw_BlendBits = 0x00200000;
@@ -6236,43 +6367,44 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
     setup:
         gHw_PolyCode = gHw_PolyTemplate >> 24;
         gHw_WindowCode = 0xE2000000;
-        verts = (u8 *)arg->vertop;
-        normals = *(u8 *volatile *)&arg->nortop;
+        verts = (u32)arg->vertop;
+        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
         HW_GTE_WRITE(6, gHw_PolyTemplate);
         otp = arg->tagp;
         shift = arg->shift;
-        ot = (u32 *)otp->org;
+        ot = (u32)otp->org;
         do {
             register u32 w1 asm("$9");
             register u32 w2 asm("$10");
-            register u8 *v asm("$13");
+            register u32 v asm("$13");
             register s32 flag asm("$2");
             register u32 *slot asm("$2");
+            register u32 z asm("$2");
             register u32 tag asm("$13");
-            gHw_Word0 = ((volatile u32 *)rec)[4];
+            gHw_Word0 = rec->words[4];
             HW_LWR(gHw_Word0, 14, rec);
-            w1 = ((volatile u32 *)rec)[5];
-            w2 = ((volatile u32 *)rec)[6];
-            gHw_Word3 = ((volatile u32 *)rec)[7];
-            v = (u8 *)(gHw_Word0 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            w1 = rec->words[5];
+            w2 = rec->words[6];
+            gHw_Word3 = rec->words[7];
+            v = gHw_Word0 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V0(v);
-            v = (u8 *)(w1 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w1 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V1(v);
-            v = (u8 *)(w2 >> 16);
-            v = (u8 *)((u32)v << 3);
-            v += (u32)verts;
+            v = w2 >> 16;
+            v <<= 3;
+            v += verts;
             HW_GTE_LOAD_V2(v);
-            v = (u8 *)(gHw_Word3 >> 16);
-            v = (u8 *)((u32)v << 3);
+            v = gHw_Word3 >> 16;
+            v <<= 3;
             HW_GTE_RTPT();
             gHw_Word3 <<= 16;
             gHw_Word3 >>= 13;
             gHw_At = 1;
-            v += (u32)verts;
+            v += verts;
             if (gHw_DrawMode != gHw_At) {
                 HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag < 0)
@@ -6295,16 +6427,16 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_STORE(14, 48, pkt);
             w2 <<= 16;
             w2 >>= 13;
-            gHw_WindowWord = ((volatile u32 *)rec)[0];
-            v = (u8 *)(gHw_Word3 + (u32)normals);
+            gHw_WindowWord = rec->words[0];
+            v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
                 HW_GTE_LOAD_V0(v);
                 HW_GTE_NCCS();
-                v = (u8 *)(gHw_Word0 + (u32)normals);
+                v = gHw_Word0 + normals;
                 HW_GTE_LOAD_V0(v);
-                v = (u8 *)(w1 + (u32)normals);
+                v = w1 + normals;
                 HW_GTE_LOAD_V1(v);
-                v = (u8 *)(w2 + (u32)normals);
+                v = w2 + normals;
                 HW_GTE_LOAD_V2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -6349,19 +6481,20 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 pkt[11] = gHw_Word3;
                 ((u8 *)pkt)[11] = gHw_PolyCode;
             }
-            gHw_Word0 = ((volatile u32 *)rec)[1];
-            w1 = ((volatile u32 *)rec)[2];
-            w2 = ((volatile u32 *)rec)[3];
-            gHw_Word3 = ((volatile u32 *)rec)[4];
-            HW_GTE_OTZ(slot);
+            gHw_Word0 = rec->words[1];
+            w1 = rec->words[2];
+            w2 = rec->words[3];
+            gHw_Word3 = rec->words[4];
+            HW_GTE_OTZ(z);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
             w1 &= gHw_At;
             w1 |= gHw_BlendBits;
-            slot = (u32 *)((u32)slot >> shift);
-            slot = (u32 *)((u32)slot << 2);
-            slot = (u32 *)((u32)slot + (u32)ot);
+            z >>= shift;
+            z <<= 2;
+            z += ot;
+            slot = (u32 *)z;
             tag = *slot;
         emit:
             pkt[4] = gHw_Word0;
@@ -6406,7 +6539,7 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             pkt += 15;
         next:
             count--;
-            rec += 32;
+            rec++;
         } while (count != 0);
     }
     HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
