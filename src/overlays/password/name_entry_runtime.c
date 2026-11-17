@@ -711,10 +711,18 @@ s32 NameEntry_AdjustLength(s32 delta, s32 tween_frames)
 }
 
 #ifndef NAME_ENTRY_CONFIRM_MASK
+#ifdef VERSION_JAPAN
+#define NAME_ENTRY_CONFIRM_MASK (PAD_BUTTON_CIRCLE | PAD_BUTTON_SQUARE)
+#else
 #define NAME_ENTRY_CONFIRM_MASK PAD_BUTTON_CONFIRM_MASK
 #endif
+#endif
 #ifndef NAME_ENTRY_CANCEL_MASK
+#ifdef VERSION_JAPAN
+#define NAME_ENTRY_CANCEL_MASK PAD_BUTTON_CROSS
+#else
 #define NAME_ENTRY_CANCEL_MASK PAD_BUTTON_CANCEL
+#endif
 #endif
 
 static __inline__ s32 NameEntry_GetKeyboardCellCode(s8 *table, s32 row, s32 column)

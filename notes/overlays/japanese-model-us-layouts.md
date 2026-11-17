@@ -37,13 +37,12 @@ function grows from `0x990` to `0xA04` bytes, and the scale, image and
 descriptor data move up by `0x74` bytes. Everything else is unchanged apart
 from resident relocations.
 
-The wrapper `src/overlays/japanese/model_primary/primary64.c` defines
-`VERSION_JAPAN` and includes the shared
-`src/overlays/spanish_model_primary/primary64.c`. That source selects the
-Japanese corners only under `VERSION_JAPAN`. Its default build still produces
-the US, French and Spanish header-141 images. Both Japanese slots build the
-one wrapper; their symbol files bind the moved data names at the Japanese
-addresses.
+Both Japanese slots compile the shared
+`src/overlays/spanish_model_primary/primary64.c` with `VERSION_JAPAN` as an
+entry define. That source selects the Japanese corners only under
+`VERSION_JAPAN`. Its default build still produces the US, French and Spanish
+header-141 images. The Japanese symbol files bind the moved data names at the
+Japanese addresses.
 `model_primary64_linker_symbols.txt` gives the Japanese resident addresses.
 
 ## Not yet built from C

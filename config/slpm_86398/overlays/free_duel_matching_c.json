@@ -2,57 +2,84 @@
   "functions": [
     {
       "address": "0x80168004",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x8C",
-      "source": "src/overlays/japanese/free_duel/screen_runtime.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x80168090",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x124",
-      "source": "src/overlays/japanese/free_duel/screen_runtime.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x801681B4",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x98",
-      "source": "src/overlays/japanese/free_duel/screen_runtime.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x8016824C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x750",
-      "source": "src/overlays/japanese/free_duel/screen_runtime.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x8016899C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x38",
-      "source": "src/overlays/japanese/free_duel/screen_runtime.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x801689D4",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xC8",
-      "source": "src/overlays/japanese/free_duel/screen_runtime.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x80168A9C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x1E0",
-      "source": "src/overlays/japanese/free_duel/screen_runtime.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x80168C7C",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x338",
-      "source": "src/overlays/japanese/free_duel/screen_runtime.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x80168FB4",
+      "defines": [
+        "VERSION_JAPAN"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7C",
-      "source": "src/overlays/japanese/free_duel/screen_runtime.c"
+      "source": "src/overlays/free_duel/screen_runtime.c"
     }
   ],
   "schema": 1

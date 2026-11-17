@@ -52,7 +52,7 @@ segments:
     align: 4
     subsegments:
       - [0x0, rodata, overlays/japanese_password/module_header]
-      - [0x4, .rodata, overlays/japanese/password/shop]
+      - [0x4, .rodata, overlays/password/shop]
 
   - name: module
     type: code
@@ -61,9 +61,9 @@ segments:
     align: 4
     subsegments:
       - [0x18, c, overlays/password/func_801680B4]
-      - [0x9C, c, overlays/japanese/password/name_entry_runtime]
-      - [0x198C, c, overlays/japanese/password/shop]
-      - [0x2650, c, overlays/japanese/password/name_entry_main]
+      - [0x9C, c, overlays/password/name_entry_runtime]
+      - [0x198C, c, overlays/password/shop]
+      - [0x2650, c, overlays/password/name_entry_main]
       - [0x2840, data, overlays/japanese_password/data]
 
   - [0x7800]
