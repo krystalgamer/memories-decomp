@@ -82,8 +82,8 @@ void ModelVariant458_DrawSheets(Variant475EntryState *ctx)
         if (i < 8) {
             if (work->tail.phase == 1) {
                 if (sheet->size < 0x1000) {
-                    sheet->size = ((work->clock.frame - work->config->field_24) << 12) /
-                                  (work->config->orbit_start - work->config->field_24);
+                    sheet->size = ((work->clock.frame - work->config->quads_end) << 12) /
+                                  (work->config->orbit_start - work->config->quads_end);
                     if (sheet->size >= 0x1000) {
                         sheet->size = 0x1000;
                         work->tail.phase = 2;

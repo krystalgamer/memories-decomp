@@ -89,7 +89,7 @@ void ModelVariant458_DrawQuads(Variant475EntryState *context)
     if (work->quad_count < 8) {
         work->quad_count =
             ((work->clock.frame - work->config->start) << 3) /
-            (work->config->field_24 - work->config->start);
+            (work->config->quads_end - work->config->start);
         if (work->quad_count >= 8 && work->tail.phase == 0) {
             work->tail.phase = 1;
         }
