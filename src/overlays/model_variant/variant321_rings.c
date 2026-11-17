@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant338_entry.h"
+#include "../model_variant/variant338_entry.h"
 
 /* Draws two rings of four POLY_GT4 quads each, and grows each ring's scale
  * and fades it out through the phases. */

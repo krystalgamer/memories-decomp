@@ -88,7 +88,7 @@ canonical integration. The authoritative GCC2.8.1/MASPSX2.81
 `gcc_2_8_1_g0_split` pipeline is unchanged.
 
 Canonical sources are
-`src/overlays/french_model_variant/variant143_entry.c`,
+`src/overlays/model_variant/variant143_entry.c`,
 `variant143_entry.h`, built in both slots; each image's symbols file binds
 `FrenchModelVariant143_HandleRequest`, `gFrenchModelVariant143_aImages` and
 `gFrenchModelVariant143_aConfigs` at its own addresses.

@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_SPANISH_MODEL_VARIANT459_ENTRY_H
 #define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT459_ENTRY_H
 #include "../../types.h"
-#include "../../overlays/french_model_variant/variant337_entry.h"
+#include "../../overlays/model_variant/variant337_entry.h"
 #include "../../game/model_slot_getters.h"
 
 /* One 0x48-byte command record of the table at gSpanishModelVariant459_aConfigs. */

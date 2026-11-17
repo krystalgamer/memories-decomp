@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant431_entry.h"
+#include "../model_variant/variant431_entry.h"
 
 /* Draws three 4x6 webs, swapping the lit endpoint with the phase. Scale
  * fades past 0x1800 and wraps at 0x2000 until phase 5 marks each web done. */

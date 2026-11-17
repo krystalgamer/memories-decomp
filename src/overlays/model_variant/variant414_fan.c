@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "variant414_fan.h"
-#include "../french_model_variant/variant431_entry.h"
+#include "../model_variant/variant431_entry.h"
 
 /* Draws five four-quad fans. The selected timing deadline starts their
  * growth, and each fan shrinks after its own done flag is set. */

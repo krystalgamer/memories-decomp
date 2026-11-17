@@ -1,0 +1,84 @@
+#ifndef FRENCH_MODEL_VARIANT427_ENTRY_H
+#define FRENCH_MODEL_VARIANT427_ENTRY_H
+
+#include "../../types.h"
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
+#include "../../game/model_copy_slot_u16_values.h"
+#include "../../game/model_texture_upload.h"
+#include "../../game/camera_view.h"
+#include "../../psyq/libhmd.h"
+#include "../model_variant/variant427_mesh.h"
+#include "../model_variant/variant427_streamers.h"
+
+typedef struct {
+    u8 unknown_00[0x10], parts[3], unknown_13[5];
+    u32 draw_start;
+    u8 unknown_1C[8];
+    u32 fade_start, fade_end;
+} EntryConfig427;
+
+/* One 0x3A8-byte ribbon: a seventeen-point spine and a copy of it moved along
+ * the view, both projected, the per-point screen angle and projected width,
+ * the style the entry seeds, the amplitude progress (staggered below zero and
+ * grown to 0x400 by the ribbon drawer), the position, and per point the
+ * projection flag, depth and the width's screen offset. */
+typedef struct {
+    SVECTOR a[17];
+    ModelVariantScreenPoint sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    ModelVariantScreenPoint sb[17];
+    s32 width[17];
+    ModelVariantStripStyle style;
+    s32 progress;
+    u8 unknown_244[0x88];
+    VECTOR position;
+    long flags[17];
+    ModelVariantStripOffsets offsets;
+} EntryRibbon427;
+
+typedef struct {
+    Mesh427 meshes[3];
+    EntryRibbon427 ribbons[3];
+    ModelVariantFlaggedSpiralArm spirals[12];
+    ModelVariantSheet sheets[6];
+    Streamer427 streamers[2];
+    ModelVariantCurtain curtains[9];
+    POLY_GT4 extra, curtain_packet;
+    u8 unknown_34B8[0x34];
+    POLY_GT4 special;
+    ModelVariantPackets packets;
+    POLY_FT4 flat[2];
+    u8 unknown_3618[0x10];
+    MATRIX matrices[3];
+    SVECTOR target;
+    VECTOR origins[3], directions[3], ribbon_directions[3];
+    DVECTOR screen_delta;
+    VECTOR view_delta;
+    ModelVariantClock clock;
+    EntryConfig427 *config;
+    u32 field_3754;
+    GsCOORDUNIT *parts[3];
+    s16 field_3764, field_3766;
+    s32 width, field_376C, size, field_3774, field_3778, field_377C;
+    s32 intensity, field_3784, field_3788, progress;
+    ModelVariantSpiralParams spiral;
+    ModelVariantStreamerParams streamer;
+    CVECTOR inner, outer;
+    s32 spin, ribbon_sway, ribbon_wave, field_37BC, field_37C0, phase;
+    s32 field_37C8, field_37CC;
+    u8 unknown_37D0[8];
+    s32 ambient;
+    s16 slot, command;
+} EntryState427;
+
+extern GsIMAGE gFrenchModelVariant427_aImages[9];
+extern EntryConfig427 gFrenchModelVariant427_aConfigs[];
+void SpanishModelVariant427_DrawMeshes(EntryState427 *context);
+void SpanishModelVariant427_DrawSpiral(EntryState427 *context);
+void FrenchModelVariant427_DrawRibbons(EntryState427 *context);
+void SpanishModelVariant427_DrawPanels(u8 *context);
+void SpanishModelVariant427_DrawCurtains(EntryState427 *context);
+
+#endif

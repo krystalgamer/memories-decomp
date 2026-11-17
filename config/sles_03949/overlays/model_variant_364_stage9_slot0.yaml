@@ -56,14 +56,14 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant411_entry]
+      - [0x4, c, overlays/model_variant/variant411_entry]
   - name: helper_E60
     type: code
     start: 0xE60
     vram: 0x8013BE60
     align: 4
     subsegments:
-      - [0xE60, c, overlays/french_model_variant/variant411_tube]
+      - [0xE60, c, overlays/model_variant/variant411_tube]
   - name: helper_157C
     type: code
     start: 0x157C

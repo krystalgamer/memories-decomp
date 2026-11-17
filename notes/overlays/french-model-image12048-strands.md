@@ -23,7 +23,7 @@ bindings](model-variants.md#per-image-symbol-bindings)).
   parity. Phase 1 grows a strand's length to six, raises its fade to 0x400
   and steps its mode. Phases 2-3 hand over after the last strand, and phase
   4 onward regrows the length. Phase 5 also shrinks the edge width over the
-  timing span. The view lives in `french_model_variant/image12048_strands.h`.
+  timing span. The view lives in `model_variant/image12048_strands.h`.
 - **Register choice.** The loop-1 and loop-2 forms follow the chains helper.
   The four spilled locals are declared in stack order (sway, offset, tilt,
   angle). The fade step is written as `step * 128`: with `step << 7`, GCC

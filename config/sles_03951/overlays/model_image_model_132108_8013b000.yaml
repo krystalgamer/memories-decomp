@@ -56,14 +56,14 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant430_entry]
+      - [0x4, c, overlays/model_variant/variant430_entry_pal]
   - name: unmatched_12ec
     type: code
     start: 0x12ec
     vram: 0x8013c2ec
     align: 4
     subsegments:
-      - [0x12ec, c, overlays/french_model_variant/image132118_swarm]
+      - [0x12ec, c, overlays/model_variant/image132118_swarm]
   - name: unclassified_tail
     type: code
     start: 0x18b8

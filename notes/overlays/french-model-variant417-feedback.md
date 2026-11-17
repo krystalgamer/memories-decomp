@@ -43,7 +43,7 @@ not a whole-context allocation capacity. Unknown regions remain opaque.
 ## Source and evidence
 
 The body and local declarations are
-`src/overlays/french_model_variant/variant417_feedback.{c,h}`, one source for
+`src/overlays/model_variant/variant417_feedback.{c,h}`, one source for
 both slots; each image's symbols file binds
 `FrenchModelVariant417_DrawFramebufferFeedback` at its own address. Declaration order
 and reuse of the same counter for geometry and rendering preserve old-GCC

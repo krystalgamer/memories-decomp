@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant475_entry.h"
+#include "../model_variant/variant475_entry.h"
 
 /* Draws sixteen four-quad sheets. The first eight follow the timed growth
  * and shrink phases; the remaining eight follow the moving object records. */

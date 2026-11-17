@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant460_entry.h"
+#include "../model_variant/variant460_entry_pal.h"
 
 /* Draws a variable set of sheets: the count and how many follow the variant's
  * own slots come from the entry config's count, mode and kind. The first sheets

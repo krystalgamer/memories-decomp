@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "variant321_ribbon.h"
-#include "../french_model_variant/variant338_entry.h"
+#include "../model_variant/variant338_entry.h"
 
 /* Builds five seventeen-point ribbons, each turned by its own angle and bent
  * around the variant's axis, plus a copy of each moved along the view; projects

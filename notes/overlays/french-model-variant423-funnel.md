@@ -40,7 +40,7 @@ processes four; its view and original instruction bytes are unchanged.
 
 ## Source, experiments and acceptance
 
-`src/overlays/french_model_variant/variant423_funnel.{c,h}` uses independently
+`src/overlays/model_variant/variant423_funnel.{c,h}` uses independently
 measured declarations and the common rendering sequence of the accepted
 Spanish `variant426_funnel.c`. The slot-one wrapper changes only the function
 symbol. No shared regional body, header or compiler profile changes.

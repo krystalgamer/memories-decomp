@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant422_entry.h"
+#include "../model_variant/variant422_entry_pal.h"
 
 /* Draws four rings of eight GsGLINE spokes, each scaled by its angle against
  * the first sheet's size and faded out over the second half turn,

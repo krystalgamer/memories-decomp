@@ -56,28 +56,28 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant397_entry]
+      - [0x4, c, overlays/model_variant/variant397_entry_pal]
   - name: unmatched_de4
     type: code
     start: 0xDE4
     vram: 0x8013BDE4
     align: 4
     subsegments:
-      - [0xDE4, c, overlays/french_model_variant/variant397_beams]
+      - [0xDE4, c, overlays/model_variant/variant397_beams]
   - name: sheets
     type: code
     start: 0x1A9C
     vram: 0x8013CA9C
     align: 4
     subsegments:
-      - [0x1A9C, c, overlays/french_model_variant/variant397_sheets]
+      - [0x1A9C, c, overlays/model_variant/variant397_sheets_pal]
   - name: unmatched_206c
     type: code
     start: 0x206C
     vram: 0x8013D06C
     align: 4
     subsegments:
-      - [0x206C, c, overlays/french_model_variant/variant397_streamers]
+      - [0x206C, c, overlays/model_variant/variant397_streamers]
   - name: unclassified_tail
     type: code
     start: 0x2950

@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant341_entry.h"
+#include "../model_variant/variant341_entry.h"
 
 /* Draws four rings of eight GsGLINE spokes, each scaled by its angle against
  * the sheet size at context + 0x754 (0x6CC + 0x88) and faded out over the

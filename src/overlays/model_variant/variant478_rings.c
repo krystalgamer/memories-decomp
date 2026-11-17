@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant478_entry.h"
+#include "../model_variant/variant478_entry.h"
 #include "../../game/gpu_packets.h"
 
 void SpanishModelVariant478_DrawPetalRings(EntryState478 *context)

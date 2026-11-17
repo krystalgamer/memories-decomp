@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant437_entry.h"
+#include "../model_variant/variant437_entry_pal.h"
 
 /* The North American header-420 streamers index the closing segment directly
  * and reload the work word after the spin angle; the default spelling matches

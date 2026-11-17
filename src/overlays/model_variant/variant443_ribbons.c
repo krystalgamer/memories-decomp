@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "variant443_ribbons.h"
-#include "../french_model_variant/variant460_entry.h"
+#include "../model_variant/variant460_entry_pal.h"
 
 /* Builds one seventeen-point ribbon per entry of the timing record's count,
  * each turned by its own angle (0x400, then 0x400 +- i * 1800 / count by

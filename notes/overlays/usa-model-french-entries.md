@@ -2,7 +2,7 @@
 
 These North American MODEL variant images contain a single framed function, the
 entry at `+0x4`, and that entry is the same code as a French entry already matched
-in `src/overlays/french_model_variant/`: compiled under the French profile
+in `src/overlays/model_variant/` (formerly `src/overlays/french_model_variant/`): compiled under the French profile
 (`gcc_2_8_1_g0_split`), the French object's `.text` equals the North American
 bytes once `jal` targets and the `%hi`/`%lo` pairs are masked. Each image keeps
 the French layout after the entry (the entry's `.rodata` and the image's data

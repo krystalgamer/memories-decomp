@@ -5,7 +5,7 @@ model_variant_129 and model_variant_582 stage 9 slot 0 and stage 10 slot 1
 images is a five-ribbon form of the header-475 ribbon body
 (`model_variant/variant475_ribbons.c`). Each `Variant469Ribbon` is
 0x250 bytes at `work + 0xA84`. It holds eleven spine points with no per-point
-projection flag. The layout lives in `french_model_variant/variant469_ribbons.h`.
+projection flag. The layout lives in `model_variant/variant469_ribbons.h`.
 
 Changes from the 475 body:
 

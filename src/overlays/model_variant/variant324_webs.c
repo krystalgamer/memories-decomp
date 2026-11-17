@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant341_entry.h"
+#include "../model_variant/variant341_entry.h"
 
 /* Header 324 uses the same three 4x6 webs as header 414, at its own
  * work offsets. Its projection depth and flag must both be strictly positive. */

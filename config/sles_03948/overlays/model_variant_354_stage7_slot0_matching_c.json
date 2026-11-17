@@ -40,7 +40,7 @@
       "address": "0x8013E0E4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x66C",
-      "source": "src/overlays/french_model_variant/variant417_feedback.c"
+      "source": "src/overlays/model_variant/variant417_feedback.c"
     },
     {
       "address": "0x8013E750",

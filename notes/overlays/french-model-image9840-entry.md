@@ -1,7 +1,7 @@
 # French MODEL9840/9850 entry
 
 The two game-owned entries are matching C through
-`src/overlays/french_model_variant/image9840_entry.c`
+`src/overlays/model_variant/image9840_entry.c`
 (`FrenchModelVariant648_HandleRequest`), one source for both slots. Each
 image's symbols file binds the entry and its two raw-tail data names
 (`gFrenchModelVariant648_Image`, `gFrenchModelVariant648_aConfigs`) at its own

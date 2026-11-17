@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT411US_ENTRY_H
 #define MEMORIES_MODEL_VARIANT411US_ENTRY_H
 #include "../../types.h"
-#include "../french_model_variant/variant337_entry.h"
+#include "../model_variant/variant337_entry.h"
 
 /* The 0x38-byte config: the header-412 config without its height word. */
 typedef struct {

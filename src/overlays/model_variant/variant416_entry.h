@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT416_ENTRY_H
 #define MEMORIES_MODEL_VARIANT416_ENTRY_H
 #include "../../types.h"
-#include "../french_model_variant/variant337_entry.h"
+#include "../model_variant/variant337_entry.h"
 
 /* One 0xA8-byte band of two segments: three rows of two points and their
  * screen coordinates, per segment the growth level (staggered below zero by

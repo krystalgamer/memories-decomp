@@ -54,14 +54,14 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant478_entry]
+      - [0x4, c, overlays/model_variant/variant478_entry]
   - name: helper_134C
     type: code
     start: 0x134C
     vram: 0x8013C34C
     align: 4
     subsegments:
-      - [0x134C, c, overlays/french_model_variant/variant478_swarm]
+      - [0x134C, c, overlays/model_variant/variant478_swarm]
   - name: helper_1898
     type: code
     start: 0x1898

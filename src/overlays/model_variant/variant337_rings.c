@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant337_entry.h"
+#include "../model_variant/variant337_entry.h"
 
 void SpanishModelVariant337_DrawRings(Variant337EntryState *context)
 {

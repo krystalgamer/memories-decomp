@@ -3,4 +3,4 @@
 /* The North American header-456 copy of the header-473 streamers projects its
  * last point against the one before it directly (see variant423_streamers.c). */
 #define MODEL_VARIANT423_STREAMERS_FIXED_TAIL
-#include "../french_model_variant/variant473_streamers.c"
+#include "../model_variant/variant473_streamers.c"

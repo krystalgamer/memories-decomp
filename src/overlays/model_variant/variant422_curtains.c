@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant439_entry.h"
+#include "../model_variant/variant439_entry_pal.h"
 
 /* Draws three curtains of sixteen POLY_GT4 strips between their two rows of
  * points, turned to face the variant's direction and faded once their scale

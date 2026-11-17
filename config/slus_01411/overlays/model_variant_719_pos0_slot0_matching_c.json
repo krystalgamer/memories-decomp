@@ -10,13 +10,13 @@
       "address": "0x8013C110",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x628",
-      "source": "src/overlays/french_model_variant/variant472_blooms.c"
+      "source": "src/overlays/model_variant/variant472_blooms.c"
     },
     {
       "address": "0x8013C738",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x604",
-      "source": "src/overlays/french_model_variant/variant472_mesh.c"
+      "source": "src/overlays/model_variant/variant472_mesh.c"
     },
     {
       "address": "0x8013CD3C",

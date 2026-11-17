@@ -41,7 +41,7 @@ later recoveries of the other five functions.
 
 The `DDC..1770` ribbons and `1770..1E7C` bands helpers are written for the
 North American instruction streams. They are the French header-450 ribbons and
-bands (`french_model_variant/variant450_ribbons.c` and `variant450_bands.c`)
+bands (`model_variant/variant450_ribbons.c` and `variant450_bands.c`)
 with the retail register allocation put back, so they are separate sources
 that read `Variant433EntryState` (`variant433_entry.h`) directly rather
 than wrappers. `gcc_2_7_2_cdk_g0` compiles the
@@ -64,7 +64,7 @@ instruction bytes.
 ## Rings
 
 The `1E7C..2754` rings helper (`variant433_rings.c`) also builds the French
-header-450 rings (`french_model_variant/variant450_rings.c`) with
+header-450 rings (`model_variant/variant450_rings.c`) with
 `VERSION_FRENCH` defined. That block drops the retail forms below that fold
 the `+ 1` neighbour displacements, so the French body is 2,292 bytes with an
 880-byte frame. The French explanation sits inside that block, so removing
@@ -90,7 +90,7 @@ bytes.
 ## Coils
 
 The `30A8..38DC` coils helper (`variant433_coils.c`) is the French header-450
-coils (`french_model_variant/variant450_coils.c`) with the retail allocation
+coils (`model_variant/variant450_coils.c`) with the retail allocation
 put back. Both copies read `Variant433EntryState` directly.
 `gcc_2_7_2_cdk_g0` compiles the French body 14 instructions too large. What
 the retail code needs:
@@ -111,7 +111,7 @@ bytes. The raw data is unchanged.
 The `4..DDC` entry (`variant433_entry.c`, 886 instructions) is written for the
 North American stream. Built with `gcc_2_8_1_g0_split` and the PAL palette
 x = 640, it is also the French header-450 entry
-(`french_model_variant/variant450_entry.c`). On the
+(`model_variant/variant450_entry.c`). On the
 setup command it fills six fans, six ribbons, three bands, sixteen rings, seven
 sheets and two streamers from the state at the work pointer, whose block arrays
 are contiguous (`fans[6]` at `0x0`, `ribbons[6]` at `0x270`, `bands[3]` at

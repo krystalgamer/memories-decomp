@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT397_ENTRY_H
 #define MEMORIES_MODEL_VARIANT397_ENTRY_H
 #include "../../types.h"
-#include "../french_model_variant/variant337_entry.h"
+#include "../model_variant/variant337_entry.h"
 #include "../../game/model_slot_getters.h"
 
 typedef struct {

@@ -16,7 +16,7 @@
       "address": "0x8013C718",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x698",
-      "source": "src/overlays/french_model_variant/variant474_funnels.c"
+      "source": "src/overlays/model_variant/variant474_funnels.c"
     },
     {
       "address": "0x8013CDB0",

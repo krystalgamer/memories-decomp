@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "variant458_strand.h"
-#include "../french_model_variant/variant475_entry.h"
+#include "../model_variant/variant475_entry.h"
 
 /* Builds six strands of thirteen points fanned around the variant origin and draws
  * the visible span of each as GsLINE segments, then advances

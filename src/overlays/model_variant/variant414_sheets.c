@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant431_entry.h"
+#include "../model_variant/variant431_entry.h"
 
 void FrenchModelVariant431_DrawSheets(Variant431EntryState *context)
 {

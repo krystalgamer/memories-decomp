@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "variant405_halo.h"
-#include "../french_model_variant/variant422_entry.h"
+#include "../model_variant/variant422_entry_pal.h"
 
 /* Draws five rings of sixteen textured POLY_GT4 strips between a top and a
  * bottom row of seventeen points; each row hangs below the ring by its own

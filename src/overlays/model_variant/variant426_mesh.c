@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../french_model_variant/variant426_entry.h"
+#include "../model_variant/variant426_entry_pal.h"
 
 void SpanishModelVariant426_DrawMesh(EntryState426 *context)
 {

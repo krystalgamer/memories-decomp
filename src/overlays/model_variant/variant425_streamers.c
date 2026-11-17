@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "../model_variant/variant425_streamers.h"
-#include "../french_model_variant/variant425_entry.h"
+#include "../model_variant/variant425_entry_pal.h"
 
 /* Builds one two-point streamer that coils around the variant's axis, projects
  * the spine and a copy of it moved along the view, and draws the segment as a

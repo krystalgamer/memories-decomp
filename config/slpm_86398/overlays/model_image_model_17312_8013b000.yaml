@@ -91,14 +91,14 @@ segments:
     vram: 0x8013E640
     align: 4
     subsegments:
-      - [0x3640, c, overlays/french_model_variant/variant443_streamers]
+      - [0x3640, c, overlays/model_variant/variant443_streamers_pal]
   - name: helper_3ee0
     type: code
     start: 0x3EE0
     vram: 0x8013EEE0
     align: 4
     subsegments:
-      - [0x3EE0, c, overlays/french_model_variant/variant443_bands]
+      - [0x3EE0, c, overlays/model_variant/variant443_bands]
   - name: helper_4594
     type: code
     start: 0x4594

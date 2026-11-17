@@ -89,7 +89,7 @@ segments:
     vram: 0x8017DB50
     align: 4
     subsegments:
-      - [0x2B50, c, overlays/french_model_variant/variant426_streamers]
+      - [0x2B50, c, overlays/model_variant/variant426_streamers]
   - name: helper_3370
     type: code
     start: 0x3370

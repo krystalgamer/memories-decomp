@@ -3,4 +3,4 @@
 /* The North American header-432 ribbons fold the following screen point into
  * the current one (see variant449_ribbons.c). */
 #define MODEL_VARIANT449_RIBBONS_FOLDED_NEXT
-#include "../french_model_variant/variant449_ribbons.c"
+#include "../model_variant/variant449_ribbons.c"

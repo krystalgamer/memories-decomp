@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT438_ENTRY_H
 #define MEMORIES_MODEL_VARIANT438_ENTRY_H
 #include "../../types.h"
-#include "../french_model_variant/variant337_entry.h"
+#include "../model_variant/variant337_entry.h"
 
 /* One 0x44-byte row of header 438's command table. */
 typedef struct {

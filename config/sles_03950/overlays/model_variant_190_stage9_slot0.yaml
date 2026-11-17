@@ -56,14 +56,14 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant393_entry]
+      - [0x4, c, overlays/model_variant/variant393_entry_pal]
   - name: ribbon
     type: code
     start: 0xDDC
     vram: 0x8013BDDC
     align: 4
     subsegments:
-      - [0xDDC, c, overlays/french_model_variant/variant393_ribbon]
+      - [0xDDC, c, overlays/model_variant/variant393_ribbon]
   - name: helper_1704
     type: code
     start: 0x1704
@@ -77,7 +77,7 @@ segments:
     vram: 0x8013CB8C
     align: 4
     subsegments:
-      - [0x1B8C, c, overlays/french_model_variant/variant393_streamers]
+      - [0x1B8C, c, overlays/model_variant/variant393_streamers]
   - name: unclassified_tail
     type: code
     start: 0x23B0

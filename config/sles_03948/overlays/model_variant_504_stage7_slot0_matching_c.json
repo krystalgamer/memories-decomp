@@ -4,7 +4,7 @@
       "address": "0x8013B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x122C",
-      "source": "src/overlays/french_model_variant/variant439_entry.c"
+      "source": "src/overlays/model_variant/variant439_entry_pal.c"
     },
     {
       "address": "0x8013C230",
@@ -16,7 +16,7 @@
       "address": "0x8013C704",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x778",
-      "source": "src/overlays/french_model_variant/variant439_bands.c"
+      "source": "src/overlays/model_variant/variant439_bands.c"
     },
     {
       "address": "0x8013CE7C",

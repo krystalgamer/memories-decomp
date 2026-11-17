@@ -75,7 +75,7 @@ segments:
     vram: 0x8017CB00
     align: 4
     subsegments:
-      - [0x1B00, c, overlays/french_model_variant/variant385_ribbons]
+      - [0x1B00, c, overlays/model_variant/variant385_ribbons_pal]
   - name: helper_21B8
     type: code
     start: 0x21B8

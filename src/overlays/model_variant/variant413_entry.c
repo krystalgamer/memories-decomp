@@ -405,5 +405,5 @@ s32 ModelVariant413_HandleRequest(SVECTOR *point, s32 command)
 /* The swarm body is the header-430 French helper, compiled here with GCC 2.7.2. */
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
-#include "../french_model_variant/image132118_swarm.c"
+#include "../model_variant/image132118_swarm.c"
 #endif

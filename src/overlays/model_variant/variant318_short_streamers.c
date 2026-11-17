@@ -1,7 +1,7 @@
 #include "../../types.h"
 
 #include "model_variant.h"
-#include "../french_model_variant/variant335_entry.h"
+#include "../model_variant/variant335_entry.h"
 
 /* Builds six seventeen-point streamers that fan out around the variant's
  * axis, projects each spine and a copy of it moved along the view, and draws

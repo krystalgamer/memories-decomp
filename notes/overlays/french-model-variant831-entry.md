@@ -3,7 +3,7 @@
 `FrenchModelVariant831_HandleRequest` (image offset `0x4`, 0x3804 bytes) is the loader entry of
 the raw image `model_image_model_168816_8013b000`. The French and Spanish
 copies are byte-identical; both now build
-`french_model_variant/variant831_entry.c`. Their slot-1 twins
+`model_variant/variant831_entry_pal.c`. Their slot-1 twins
 `model_image_model_168826_8017b000` (header 928) build the same C; each
 image's symbols file binds the entry and the `gFrenchModelVariant831_aImages`
 and `gFrenchModelVariant831_aConfigs` labels at its own addresses (the scale

@@ -54,7 +54,7 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant439_entry]
+      - [0x4, c, overlays/model_variant/variant439_entry_pal]
   - name: unmatched_1230
     type: code
     start: 0x1230
@@ -68,7 +68,7 @@ segments:
     vram: 0x8017C704
     align: 4
     subsegments:
-      - [0x1704, c, overlays/french_model_variant/variant439_bands]
+      - [0x1704, c, overlays/model_variant/variant439_bands]
   - name: helper_1E7C
     type: code
     start: 0x1E7C

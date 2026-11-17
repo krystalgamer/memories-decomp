@@ -9,7 +9,7 @@
       ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xDBC",
-      "source": "src/overlays/french_model_variant/variant162_entry.c"
+      "source": "src/overlays/model_variant/variant162_entry.c"
     }
   ],
   "schema": 1

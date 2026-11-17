@@ -17,7 +17,7 @@ bindings](model-variants.md#per-image-symbol-bindings)).
   first sits on an `s32` origin and the second on an `SVECTOR` offset. Phase 0
   grows the sheets with time, and phases 1-3 fade them. Phase 4 swells the
   sheets to 8192 and 16384, and phase 5 shrinks them until the timing end.
-  The view lives in `french_model_variant/image12048_sheets.h`.
+  The view lives in `model_variant/image12048_sheets.h`.
 - **Register choice.** The three scale stores have to be written in both
   arms of the `i == 0` branch. GCC merges the copies again, but the extra
   arm moves the quad pointer from `s2` to `s3`, as in the target.

@@ -56,8 +56,8 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/french_model_variant/variant419_entry]
-      - [0x11DC, c, overlays/french_model_variant/variant419_swarm]
-      - [0x1770, c, overlays/french_model_variant/variant419_quads]
+      - [0x4, c, overlays/model_variant/variant419_entry_pal]
+      - [0x11DC, c, overlays/model_variant/variant419_swarm]
+      - [0x1770, c, overlays/model_variant/variant419_quads]
       - [0x1C4C, data, overlays/european_model_variant_95_stage9_slot0/data]
   - [0x5000]

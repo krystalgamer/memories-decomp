@@ -15,7 +15,7 @@ images loaded at `0x8017B000` build the same file directly; each image's
 
 The French headers 690 and 757 carry the same entry without the `E_DATA`
 work-size printf (`0x1B1C` bytes). Their
-[`french_model_variant/variant690_entry.c`](../../src/overlays/french_model_variant/variant690_entry.c)
+[`model_variant/variant690_entry.c`](../../src/overlays/model_variant/variant690_entry.c)
 wrapper, built in both slots, defines `VERSION_FRENCH`; the French symbols
 files bind `gModelVariant673_aImages` and `gModelVariant673_aConfigs` `0x28` lower.
 All twenty images rebuild byte-identical to retail.

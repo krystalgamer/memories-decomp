@@ -30,7 +30,7 @@ The Spanish copies of the header-414, header-415 and header-442 helpers
 `variant442_ribbons`) were wired only by those modules' raw layouts and are
 removed; the French layouts compile the French helpers. The two header-447
 images at sectors 109772 and 109782 keep their raw layouts but compile the
-French header-685 entry (`french_model_variant/variant685_entry.c`) at `0x4`
+French header-685 entry (`model_variant/variant685_entry.c`) at `0x4`
 beside `variant447_rings.c`; the rings body's five stale resident calls use
 the `Rings447_*` names, so `model_image447_rings_linker_symbols.txt` carries
 the French header-685 bindings unchanged.

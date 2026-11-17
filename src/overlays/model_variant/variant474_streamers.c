@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../french_model_variant/variant474_entry.h"
+#include "../model_variant/variant474_entry.h"
 
 /* The North American header-457 copy, built with the CDK compiler, reloads
  * the word after the advanced rotation into itself like header 458 and indexes
