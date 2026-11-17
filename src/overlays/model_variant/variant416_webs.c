@@ -6,7 +6,7 @@
  * placed a third of a turn behind the previous one along the progress of the
  * entry config's start..burst_start window. Header 401 keeps its own copy over
  * Variant401EntryState (variant401_webs.c). */
-void ModelVariant416_DrawWebs(u8 *ctx)
+void ModelVariant416_DrawWebs(Variant416EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -32,7 +32,7 @@ void ModelVariant416_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant416EntryState *)ctx;
+    work = ctx;
     web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

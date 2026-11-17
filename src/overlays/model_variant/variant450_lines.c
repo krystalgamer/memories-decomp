@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant450_lines.h"
 
-void SpanishModelVariant450_DrawLines(u8 *ctx)
+void SpanishModelVariant450_DrawLines(Variant450View *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -26,7 +26,7 @@ void SpanishModelVariant450_DrawLines(u8 *ctx)
     s32 primary_index;
     s32 fade_index;
 
-    work = (Variant450View *)ctx;
+    work = ctx;
     primary_index = 0;
     fade_index = 0;
     group = work->groups;

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "../model_variant/variant416_entry.h"
 
-void FrenchModelVariant433_DrawRays(u8 *ctx)
+void FrenchModelVariant433_DrawRays(Variant416EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -27,7 +27,7 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
     s32 spread;
     s32 fade;
 
-    work = (Variant416EntryState *)ctx;
+    work = ctx;
     ray = work->records;
     ot = Graphics_GetDefaultOrderingTable();
     line = &work->line;

@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant416_entry.h"
 
-void FrenchModelVariant433_DrawRays(u8 *ctx)
+void FrenchModelVariant433_DrawRays(Variant416EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -26,7 +26,7 @@ void FrenchModelVariant433_DrawRays(u8 *ctx)
     s32 otz;
     s32 size;
 
-    work = (Variant416EntryState *)ctx;
+    work = ctx;
     ray = work->records;
     ot = Graphics_GetDefaultOrderingTable();
     ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx);

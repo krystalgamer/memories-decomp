@@ -10,9 +10,9 @@
 /* Header 401's entry: header 416's entry with one 0x27C-byte band of nine
  * columns, two sheets, a fifth texture and no burst threshold. */
 
-s32 ModelVariant401_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant401_HandleRequest(Variant401EntryState *context, s32 command)
 {
-    Variant401EntryState *work = (Variant401EntryState *)point;
+    Variant401EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -309,14 +309,14 @@ s32 ModelVariant401_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant418_DrawSheets((Variant401EntryState *)point);
-            ModelVariant416_DrawWebs((u8 *)point);
+            FrenchModelVariant418_DrawSheets(context);
+            ModelVariant416_DrawWebs(context);
         }
         if (work->tail.phase > 0) {
-            ModelVariant401_DrawBand((Variant401EntryState *)point);
+            ModelVariant401_DrawBand(context);
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant433_DrawRays((u8 *)point);
+            FrenchModelVariant433_DrawRays(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

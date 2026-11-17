@@ -2,7 +2,7 @@
 
 #include "variant401_entry.h"
 
-void ModelVariant416_DrawWebs(u8 *ctx)
+void ModelVariant416_DrawWebs(Variant401EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -28,7 +28,7 @@ void ModelVariant416_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant401EntryState *)ctx;
+    work = ctx;
     web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
