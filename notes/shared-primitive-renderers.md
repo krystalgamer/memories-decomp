@@ -85,6 +85,11 @@ an extra four-byte word and submit the existing E2 texture-window/reset
 state. These are not the similarly named wireframe callbacks, which merely
 skip that extra input word without emitting E2.
 
+The C walks these records through a pointer to the volatile
+`ModelDrawGt3/Gt4[Window]Record` unions of `src/game/model_slot_setup.h`,
+as the direct drivers do (see `notes/direct-polygon-renderers.md`), so the
+word loads keep their original order.
+
 Base triangle drivers execute one NCLIP and base quad drivers two. The
 two-sided forms omit these area tests, not sentinel or depth checks; no
 normal reversal is inferred. Semi forms force command bit `0x02000000`.

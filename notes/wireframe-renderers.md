@@ -27,6 +27,8 @@ executables compile the same source at their own addresses.
 FT/GT describes the input primitive record, independently identified through
 the corresponding filled renderer and its `gModel_dwPolyFt3/Ft4/Gt3/Gt4Template`
 reference. It does not claim textured or Gouraud-shaded line output.
+The C reads those records through the same volatile `ModelDraw*Record`
+unions of `src/game/model_slot_setup.h` as the filled renderers.
 All twelve wireframe targets use the existing flat line templates.
 For example, the ordinary triangle path writes
 `SXY0/SXY1/SXY2/SXY0` into a closed line packet.
