@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant337_rings.h"
+#include "../french_model_variant/variant337_entry.h"
 
-void SpanishModelVariant337_DrawRings(u8 *context)
+void SpanishModelVariant337_DrawRings(Variant337EntryState *context)
 {
-    ModelVariant337State *work = (ModelVariant337State *)context;
+    Variant337EntryState *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -11,7 +11,7 @@ void SpanishModelVariant337_DrawRings(u8 *context)
     GsCOORDINATE2 coordinate;
     s32 interpolation;
     s32 flag;
-    ModelVariantSheet *ring = work->rings;
+    ModelVariantPointSheet *ring = work->rings;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;
@@ -19,30 +19,30 @@ void SpanishModelVariant337_DrawRings(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &work->quad;
+    quad = &work->packets.textured[1];
     for (i = 0; i < 2; i++, ring++) {
         pulse = 0;
-        if (work->frame & 1) {
+        if (work->clock.frame_count & 1) {
             pulse = ring->size / 8;
         }
         if (i + 1 == 2) {
             rotation.vx = 0;
             rotation.vy = 2048;
-            rotation.vz = -work->angle;
+            rotation.vz = -work->spin;
         } else {
             rotation.vx = 0;
             rotation.vy = 0;
-            rotation.vz = work->angle;
+            rotation.vz = work->spin;
         }
-        work->angle += work->step * 64;
+        work->spin += work->clock.step * 64;
         if (i == 0) {
-            matrix.t[0] = work->transform.t[0];
-            matrix.t[1] = work->transform.t[1];
-            matrix.t[2] = work->transform.t[2];
+            matrix.t[0] = work->matrix.t[0];
+            matrix.t[1] = work->matrix.t[1];
+            matrix.t[2] = work->matrix.t[2];
         } else {
-            matrix.t[0] = work->target.vx;
-            matrix.t[1] = work->target.vy;
-            matrix.t[2] = work->target.vz;
+            matrix.t[0] = work->aim.target.vx;
+            matrix.t[1] = work->aim.target.vy;
+            matrix.t[2] = work->aim.target.vz;
         }
         scale.vx = ring->size + pulse;
         scale.vy = ring->size + pulse;
@@ -59,69 +59,69 @@ void SpanishModelVariant337_DrawRings(u8 *context)
         SetRotMatrix(&light);
         for (j = 0; j < 4; j++) {
             depth = RotTransPers4(
-                &ring->v0[j], &ring->v1[j],
-                &ring->v2[j], &ring->v3[j],
+                &ring->points[j], &ring->points[j + 4],
+                &ring->points[j + 8], &ring->points[j + 12],
                 (long *)&quad->x0, (long *)&quad->x1,
                 (long *)&quad->x2, (long *)&quad->x3,
                 (long *)&interpolation, (long *)&flag);
-            quad->r0 = ring->inner[0];
-            quad->g0 = ring->inner[1];
-            quad->b0 = ring->inner[2];
-            quad->r1 = ring->inner[0];
-            quad->g1 = ring->inner[1];
-            quad->b1 = ring->inner[2];
-            quad->r2 = ring->inner[0];
-            quad->g2 = ring->inner[1];
-            quad->b2 = ring->inner[2];
-            quad->r3 = ring->outer[0];
-            quad->g3 = ring->outer[1];
-            quad->b3 = ring->outer[2];
+            quad->r0 = ring->inner.r;
+            quad->g0 = ring->inner.g;
+            quad->b0 = ring->inner.b;
+            quad->r1 = ring->inner.r;
+            quad->g1 = ring->inner.g;
+            quad->b1 = ring->inner.b;
+            quad->r2 = ring->inner.r;
+            quad->g2 = ring->inner.g;
+            quad->b2 = ring->inner.b;
+            quad->r3 = ring->outer.r;
+            quad->g3 = ring->outer.g;
+            quad->b3 = ring->outer.b;
             depth = depth * 8 / 10;
             if (depth >= 0 && flag >= 0) {
                 GsSortPoly(quad, ot, depth);
             }
         }
         if (i == 0) {
-            if (work->state == 0) {
+            if (work->tail.phase == 0) {
                 if (ring->size < 4096) {
-                    ring->size = (work->elapsed - work->config->start) * 4096 /
+                    ring->size = (work->clock.frame - work->config->start) * 4096 /
                         (work->config->end - work->config->start);
                     if (ring->size >= 4096) {
                         ring->size = 4096;
-                        work->state = 1;
+                        work->tail.phase = 1;
                     }
                 }
-            } else if (work->state == 3) {
+            } else if (work->tail.phase == 3) {
                 if (ring->size > 0) {
-                    if (work->elapsed >= work->config->fade_start) {
+                    if (work->clock.frame >= work->config->fade_start) {
                         ring->size = 4096 -
-                            (work->elapsed - work->config->fade_start) * 4096 /
+                            (work->clock.frame - work->config->fade_start) * 4096 /
                             (work->config->fade_end - work->config->fade_start);
                     }
                     if (ring->size <= 0) {
                         ring->size = 0;
-                        work->state = 4;
+                        work->tail.phase = 4;
                     }
                 }
             }
         } else {
-            if (work->state == 2) {
+            if (work->tail.phase == 2) {
                 if (ring->size < 8192) {
-                    ring->size += work->step * 1024;
+                    ring->size += work->clock.step * 1024;
                     if (ring->size >= 8192) {
                         ring->size = 8192;
                         if (i + 1 == 2) {
-                            work->state = 3;
+                            work->tail.phase = 3;
                         }
                     }
                 }
-            } else if (work->state == 4) {
+            } else if (work->tail.phase == 4) {
                 if (ring->size > 0) {
-                    ring->size -= work->step * 64;
+                    ring->size -= work->clock.step * 64;
                     if (ring->size <= 0) {
                         ring->size = 0;
                         if (i + 1 == 2) {
-                            work->state = 5;
+                            work->tail.phase = 5;
                         }
                     }
                 }

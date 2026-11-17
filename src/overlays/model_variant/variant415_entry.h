@@ -75,7 +75,7 @@ typedef struct {
 extern GsIMAGE gModelVariant415_aImages[2];
 extern Variant415EntryConfig gModelVariant415_aConfigs[];
 void ModelVariant415_DrawRibbons(Variant415EntryRibbon *ribbon);
-void SpanishModelVariant432_DrawSheets(u8 *context, s32 phase);
-void SpanishModelVariant432_DrawBandLayers(u8 *context);
-void SpanishModelVariant432_DrawBands(u8 *context);
+void SpanishModelVariant432_DrawSheets(Variant415EntryState *context, s32 phase);
+void SpanishModelVariant432_DrawBandLayers(Variant415EntryState *context);
+void SpanishModelVariant432_DrawBands(Variant415EntryState *context);
 #endif

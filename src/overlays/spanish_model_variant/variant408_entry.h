@@ -3,13 +3,33 @@
 
 #include "../../types.h"
 #include "../model_variant/model_variant.h"
-#include "variant408_update.h"
+#include "../../game/gpu_packets.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model_copy_slot_u16_values.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
+
+typedef struct {
+    SVECTOR points[2][4][6];
+    CVECTOR color;
+    VECTOR position;
+    s32 phase;
+    s32 repeats;
+} ModelVariant408Ring;
+
+typedef struct {
+    SVECTOR points[9];
+} ModelVariant408MeshRow;
+
+typedef struct {
+    ModelVariant408MeshRow rows[17];
+    CVECTOR colors[9];
+    VECTOR scale;
+    s32 phases[17];
+    s32 repeats[17];
+} ModelVariant408Mesh;
 
 typedef struct {
     s32 projected;
@@ -67,7 +87,7 @@ typedef struct {
 
 extern GsIMAGE gSpanishModelVariant408_aImages[];
 extern ModelVariant408EntryConfig gSpanishModelVariant408_aConfigs[];
-void SpanishModelVariant408_DrawMesh(u8 *context);
-void SpanishModelVariant408_DrawRingLines(u8 *context);
+void SpanishModelVariant408_DrawMesh(ModelVariant408EntryState *context);
+void SpanishModelVariant408_DrawRingLines(ModelVariant408EntryState *context);
 
 #endif

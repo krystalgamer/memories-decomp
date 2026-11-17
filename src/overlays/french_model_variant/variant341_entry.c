@@ -295,7 +295,7 @@ s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command)
                 ModelVariant324_DrawFan((Variant341EntryState *)point);
                 if (work->tail.phase > 0) {
                     if (work->tail.phase < 2 || work->substep == 0) {
-                        ModelVariant324_DrawMovingRing((u8 *)point);
+                        ModelVariant324_DrawMovingRing((Variant341EntryState *)point);
                     }
                     ModelVariant324_DrawBand((Variant341EntryState *)point);
                 }

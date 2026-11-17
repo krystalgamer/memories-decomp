@@ -1,11 +1,11 @@
 #include "../../types.h"
-#include "variant324_draw.h"
+#include "../french_model_variant/variant341_entry.h"
 
 /* Draws one header-432 ring at a base position moved by velocity * time /
  * 1024, and grows or shrinks its scale through the phases. */
-void ModelVariant324_DrawMovingRing(u8 *context)
+void ModelVariant324_DrawMovingRing(Variant341EntryState *context)
 {
-    ModelVariant324State *work = (ModelVariant324State *)context;
+    Variant341EntryState *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -13,7 +13,7 @@ void ModelVariant324_DrawMovingRing(u8 *context)
     GsCOORDINATE2 coordinate;
     s32 interpolation;
     s32 flag;
-    ModelVariantSheet *ring = work->rings;
+    ModelVariantSheet *ring = work->sheets;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;
@@ -21,18 +21,18 @@ void ModelVariant324_DrawMovingRing(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &work->quad;
+    quad = &work->packets.textured[1];
     for (i = 0; i < 1; i++, ring++) {
         pulse = 0;
-        if (work->frame & 1) {
+        if (work->frame_count & 1) {
             pulse = ring->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
-        matrix.t[0] = work->base.vx + work->velocity.vx * work->time / 1024;
-        matrix.t[1] = work->base.vy + work->velocity.vy * work->time / 1024;
-        matrix.t[2] = work->base.vz + work->velocity.vz * work->time / 1024;
+        matrix.t[0] = work->matrix.t[0] + work->aim.direction.vx * work->progress / 1024;
+        matrix.t[1] = work->matrix.t[1] + work->aim.direction.vy * work->progress / 1024;
+        matrix.t[2] = work->matrix.t[2] + work->aim.direction.vz * work->progress / 1024;
         scale.vx = ring->size + pulse;
         scale.vy = ring->size + pulse;
         scale.vz = ring->size + pulse;
@@ -70,21 +70,21 @@ void ModelVariant324_DrawMovingRing(u8 *context)
                 GsSortPoly(quad, ot, depth);
             }
         }
-        if (work->state == 1) {
+        if (work->tail.phase == 1) {
             ring->size = 512;
-        } else if (work->state < 4) {
+        } else if (work->tail.phase < 4) {
             if (ring->size < 4096) {
                 ring->size += work->step * 512;
                 if (ring->size >= 4096) {
                     ring->size = 4096;
                 }
             }
-        } else if (work->state == 4) {
+        } else if (work->tail.phase == 4) {
             if (ring->size > 0) {
                 ring->size -= work->step * 32;
                 if (ring->size <= 0) {
                     ring->size = 0;
-                    work->state = 5;
+                    work->tail.phase = 5;
                 }
             }
         }

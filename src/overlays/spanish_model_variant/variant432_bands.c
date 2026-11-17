@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant432_bands.h"
+#include "../model_variant/variant415_entry.h"
 
-void SpanishModelVariant432_DrawBands(u8 *context)
+void SpanishModelVariant432_DrawBands(Variant415EntryState *context)
 {
-    ModelVariant432BandsState *work = (ModelVariant432BandsState *)context;
+    Variant415EntryState *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -11,7 +11,7 @@ void SpanishModelVariant432_DrawBands(u8 *context)
     GsCOORDINATE2 coordinate;
     s32 interpolation;
     s32 flag;
-    ModelVariant432Band *band = work->bands;
+    Variant415EntryStrand *band = work->strands_b;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;
@@ -21,8 +21,8 @@ void SpanishModelVariant432_DrawBands(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 3; i++, band++) {
-        if (band->phase > 0) {
-            size = band->phase;
+        if (band->scale > 0) {
+            size = band->scale;
             if (size > 3072) {
                 red0 = band->color[0].r * (4096 - size) / 1024;
                 green0 = band->color[0].g * (4096 - size) / 1024;
@@ -41,9 +41,9 @@ void SpanishModelVariant432_DrawBands(u8 *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = work->position.vx;
-            matrix.t[1] = work->position.vy;
-            matrix.t[2] = work->position.vz;
+            matrix.t[0] = work->target.vx;
+            matrix.t[1] = work->target.vy;
+            matrix.t[2] = work->target.vz;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -57,10 +57,10 @@ void SpanishModelVariant432_DrawBands(u8 *context)
             RotMatrix(&rotation, &light);
             ScaleMatrix(&light, &scale);
             SetRotMatrix(&light);
-            for (j = 0, quad = work->quads; j < 16; j++, quad++) {
+            for (j = 0, quad = work->bars; j < 16; j++, quad++) {
                 depth = RotTransPers4(
-                    &band->points[0][j], &band->points[0][j + 1],
-                    &band->points[1][j], &band->points[1][j + 1],
+                    &band->inner[j], &band->inner[j + 1],
+                    &band->outer[j], &band->outer[j + 1],
                     (long *)&quad->x0, (long *)&quad->x1,
                     (long *)&quad->x2, (long *)&quad->x3,
                     (long *)&interpolation, (long *)&flag);
@@ -81,15 +81,15 @@ void SpanishModelVariant432_DrawBands(u8 *context)
                 }
             }
         }
-        if (band->phase < 4096) {
-            band->phase += work->clock.step * 160;
-            if (band->phase >= 4096) {
-                if (work->state < 4) {
-                    band->phase -= 4096;
+        if (band->scale < 4096) {
+            band->scale += work->clock.step * 160;
+            if (band->scale >= 4096) {
+                if (work->tail.phase < 4) {
+                    band->scale -= 4096;
                 } else {
-                    band->phase = 4096;
-                    if (i + 1 == 3 && work->state == 4) {
-                        work->state = 6;
+                    band->scale = 4096;
+                    if (i + 1 == 3 && work->tail.phase == 4) {
+                        work->tail.phase = 6;
                     }
                 }
             }

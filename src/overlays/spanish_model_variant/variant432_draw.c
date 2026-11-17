@@ -1,9 +1,10 @@
 #include "../../types.h"
-#include "variant432_draw.h"
+#include "../model_variant/variant415_entry.h"
 
-void SpanishModelVariant432_DrawSheets(u8 *context)
+/* The entry also passes its phase; the helper reads tail.phase instead. */
+void SpanishModelVariant432_DrawSheets(Variant415EntryState *context, s32 phase)
 {
-    ModelVariant432State *work = (ModelVariant432State *)context;
+    Variant415EntryState *work = context;
     SVECTOR rotation;
     /* The target reserves 16 unused bytes between rotation and scale. */
     u8 unknown_stack[16];
@@ -13,7 +14,7 @@ void SpanishModelVariant432_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     s32 interpolation;
     s32 flag;
-    ModelVariantSheet *ring = work->rings;
+    ModelVariantSheet *ring = work->sheets;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;
@@ -21,18 +22,18 @@ void SpanishModelVariant432_DrawSheets(u8 *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &work->quad;
+    quad = &work->packets.textured[1];
     for (i = 0; i < 2; i++, ring++) {
         pulse = 0;
-        if (work->frame & 1) {
+        if (work->clock.frame_count & 1) {
             pulse = ring->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
-        matrix.t[0] = work->position.vx;
-        matrix.t[1] = work->position.vy;
-        matrix.t[2] = work->position.vz;
+        matrix.t[0] = work->target.vx;
+        matrix.t[1] = work->target.vy;
+        matrix.t[2] = work->target.vz;
         scale.vx = ring->size + pulse;
         scale.vy = ring->size + pulse;
         scale.vz = ring->size + pulse;
@@ -70,19 +71,19 @@ void SpanishModelVariant432_DrawSheets(u8 *context)
                 GsSortPoly(quad, ot, depth);
             }
         }
-        if (work->state < 3) {
+        if (work->tail.phase < 3) {
             if (ring->size < 8192) {
-                ring->size += work->step * 512;
+                ring->size += work->clock.step * 512;
                 if (ring->size >= 8192) {
                     ring->size = 8192;
                 }
             }
-        } else if (work->state == 3) {
+        } else if (work->tail.phase == 3) {
             if (ring->size > 0) {
-                ring->size -= work->step * 128;
+                ring->size -= work->clock.step * 128;
                 if (ring->size <= 0) {
                     ring->size = 0;
-                    work->state = 4;
+                    work->tail.phase = 4;
                 }
             }
         }

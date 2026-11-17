@@ -282,7 +282,7 @@ s32 FrenchModelVariant393_HandleRequest(SVECTOR *point, s32 command)
                 work->direction.vz = work->target.vz - work->matrix.t[2];
                 if (work->config->start <= work->clock.frame) {
                     ModelVariant376_DrawRibbon((Variant393EntryState *)point);
-                    ModelVariant376_DrawRings((u8 *)point);
+                    ModelVariant376_DrawRings((Variant393EntryState *)point);
                 }
                 work->part_index++;
                 config = work->config;

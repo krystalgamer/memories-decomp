@@ -300,15 +300,15 @@ s32 ModelVariant415_HandleRequest(SVECTOR *point, s32 command)
         work->field_2F7E = dy;
         if (work->tail.phase >= 2) {
             if (work->tail.phase < 4) {
-                SpanishModelVariant432_DrawSheets((u8 *)point, work->tail.phase);
+                SpanishModelVariant432_DrawSheets((Variant415EntryState *)point, work->tail.phase);
             }
-            SpanishModelVariant432_DrawBands((u8 *)point);
+            SpanishModelVariant432_DrawBands((Variant415EntryState *)point);
         }
         if (work->config->timings[work->start_index] <= work->clock.frame) {
             ModelVariant415_DrawRibbons((Variant415EntryRibbon *)point);
         }
         if (work->config->timings[0] <= work->clock.frame) {
-            SpanishModelVariant432_DrawBandLayers((u8 *)point);
+            SpanishModelVariant432_DrawBandLayers((Variant415EntryState *)point);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

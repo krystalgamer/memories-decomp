@@ -109,10 +109,11 @@ or the unclassified suffix.
 ## Repeated-layer helper
 
 The helper at `0x169C` draws three bands at five positions. Its band array
-starts at `0x28C` and reuses the independently established 288-byte record
-layout from `variant432_bands.h`. The sixteen quads still start at `0x2B90`.
-Five 32-byte position records start at `0x2F94`; each exposes only its leading
-canonical `VECTOR`, leaving the other 16 bytes unknown.
+starts at `0x28C` and uses the same 288-byte record as the bands helper. Both
+helpers now read `Variant415EntryState`, where those records are the
+`Variant415EntryStrand`s (`strands_a` here, `strands_b` for the bands). The
+sixteen quads (`bars`) start at `0x2B90`. The five 32-byte position records at
+`0x2F94` are the translations of the record's `matrices`.
 
 Positive phases draw, with color fading above 2048 using the target's
 multiply-before-divide expression and divisor 2048. Submission additionally

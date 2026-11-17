@@ -1,10 +1,10 @@
 #include "../../types.h"
-#include "variant432_layers.h"
+#include "../model_variant/variant415_entry.h"
 
-void SpanishModelVariant432_DrawBandLayers(u8 *context)
+void SpanishModelVariant432_DrawBandLayers(Variant415EntryState *context)
 {
-    ModelVariant432LayersState *work = (ModelVariant432LayersState *)context;
-    ModelVariant432Source *source = (ModelVariant432Source *)context;
+    Variant415EntryState *work = context;
+    Variant415EntryRibbon *source = context->ribbons;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -12,7 +12,7 @@ void SpanishModelVariant432_DrawBandLayers(u8 *context)
     GsCOORDINATE2 coordinate;
     s32 interpolation;
     s32 flag;
-    ModelVariant432Band *band;
+    Variant415EntryStrand *band;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 j, i, k;
@@ -22,10 +22,10 @@ void SpanishModelVariant432_DrawBandLayers(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 5; i++) {
-        band = work->bands;
-        for (j = 0, source = work->sources; j < 3; j++, band++, source++) {
-            if (band->phase > 0) {
-                size = band->phase;
+        band = work->strands_a;
+        for (j = 0, source = work->ribbons; j < 3; j++, band++, source++) {
+            if (band->scale > 0) {
+                size = band->scale;
                 if (size > 2048) {
                     red0 = band->color[0].r * (4096 - size) / 2048;
                     green0 = band->color[0].g * (4096 - size) / 2048;
@@ -44,9 +44,9 @@ void SpanishModelVariant432_DrawBandLayers(u8 *context)
                 rotation.vx = 0;
                 rotation.vy = 0;
                 rotation.vz = 0;
-                matrix.t[0] = work->positions[i].position.vx;
-                matrix.t[1] = work->positions[i].position.vy;
-                matrix.t[2] = work->positions[i].position.vz;
+                matrix.t[0] = work->matrices[i].t[0];
+                matrix.t[1] = work->matrices[i].t[1];
+                matrix.t[2] = work->matrices[i].t[2];
                 scale.vx = size;
                 scale.vy = size;
                 scale.vz = size;
@@ -60,10 +60,10 @@ void SpanishModelVariant432_DrawBandLayers(u8 *context)
                 RotMatrix(&rotation, &light);
                 ScaleMatrix(&light, &scale);
                 SetRotMatrix(&light);
-                for (k = 0, quad = work->quads; k < 16; k++, quad++) {
+                for (k = 0, quad = work->bars; k < 16; k++, quad++) {
                     depth = RotTransPers4(
-                        &band->points[0][k], &band->points[0][k + 1],
-                        &band->points[1][k], &band->points[1][k + 1],
+                        &band->inner[k], &band->inner[k + 1],
+                        &band->outer[k], &band->outer[k + 1],
                         (long *)&quad->x0, (long *)&quad->x1,
                         (long *)&quad->x2, (long *)&quad->x3,
                         (long *)&interpolation, (long *)&flag);
@@ -79,17 +79,17 @@ void SpanishModelVariant432_DrawBandLayers(u8 *context)
                     quad->r3 = red1;
                     quad->g3 = green1;
                     quad->b3 = blue1;
-                    if (band->phase < 4096 && depth >= 0 && flag >= 0) {
+                    if (band->scale < 4096 && depth >= 0 && flag >= 0) {
                         GsSortPoly(quad, ot, depth);
                     }
                 }
             }
             if (i + 1 == 5) {
                 s32 phase = 0;
-                if (source->value >= 0) {
-                    phase = source->value;
+                if (source->amount[0] >= 0) {
+                    phase = source->amount[0];
                 }
-                band->phase = phase * 4;
+                band->scale = phase * 4;
             }
         }
     }

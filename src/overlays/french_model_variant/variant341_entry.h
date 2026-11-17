@@ -41,6 +41,6 @@ extern Variant341EntryConfig gFrenchModelVariant341_aConfigs[];
 void ModelVariant324_DrawWebs(Variant341EntryState *context);
 void ModelVariant324_DrawFan(Variant341EntryState *context);
 void ModelVariant324_DrawBand(Variant341EntryState *context);
-void ModelVariant324_DrawMovingRing(u8 *context);
+void ModelVariant324_DrawMovingRing(Variant341EntryState *context);
 s32 FrenchModelVariant341_HandleRequest(SVECTOR *point, s32 command);
 #endif

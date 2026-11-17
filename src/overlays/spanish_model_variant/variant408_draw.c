@@ -1,9 +1,9 @@
 #include "../../types.h"
-#include "variant408_draw.h"
+#include "variant408_entry.h"
 
-void SpanishModelVariant408_DrawRingLines(u8 *context)
+void SpanishModelVariant408_DrawRingLines(ModelVariant408EntryState *context)
 {
-    ModelVariant408State *work = (ModelVariant408State *)context;
+    ModelVariant408EntryState *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
