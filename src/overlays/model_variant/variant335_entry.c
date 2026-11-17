@@ -11,9 +11,9 @@
 #define MODEL_VARIANT335_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant335_HandleRequest(Model335EntryState *context, s32 command)
 {
-    Model335EntryState *work = (Model335EntryState *)point;
+    Model335EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -250,12 +250,12 @@ s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command)
         }
         if (work->config->start <= work->clock.frame) {
             if (work->phase < 7) {
-                FrenchModelVariant335_DrawRibbons((Model335EntryState *)point);
-                FrenchModelVariant335_DrawSheets((Model335EntryState *)point);
+                FrenchModelVariant335_DrawRibbons(context);
+                FrenchModelVariant335_DrawSheets(context);
             }
             if (work->phase >= 5) {
-                FrenchModelVariant335_DrawStreamers((Model335EntryState *)point);
-                FrenchModelVariant335_DrawRings((Model335EntryState *)point);
+                FrenchModelVariant335_DrawStreamers(context);
+                FrenchModelVariant335_DrawRings(context);
             }
         }
         work->clock.frame_count++;

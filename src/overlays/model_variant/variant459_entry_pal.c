@@ -6,9 +6,9 @@
 #define MODEL_VARIANT459_CLUT_X 640
 #endif
 
-s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
+s32 SpanishModelVariant459_HandleRequest(Variant459EntryState *context, s32 command)
 {
-    Variant459EntryState *work = (Variant459EntryState *)point;
+    Variant459EntryState *work = context;
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
@@ -360,17 +360,17 @@ s32 SpanishModelVariant459_HandleRequest(SVECTOR *point, s32 command)
         work->aim.direction.vy = work->aim.target.vy - work->matrices[0].t[1];
         work->aim.direction.vz = work->aim.target.vz - work->matrices[0].t[2];
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant459_DrawPairedSheets((Variant459EntryState *)point);
+            SpanishModelVariant459_DrawPairedSheets(context);
         }
         if (work->config->curtains == 1) {
-            SpanishModelVariant459_DrawCurtains((Variant459EntryState *)point);
+            SpanishModelVariant459_DrawCurtains(context);
         }
         if (work->phase > 0) {
-            SpanishModelVariant459_DrawLines((Variant459EntryState *)point);
-            SpanishModelVariant459_DrawTimedBands((Variant459EntryState *)point);
+            SpanishModelVariant459_DrawLines(context);
+            SpanishModelVariant459_DrawTimedBands(context);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant459_DrawSpiral((Variant459EntryState *)point);
+            SpanishModelVariant459_DrawSpiral(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

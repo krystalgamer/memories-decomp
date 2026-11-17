@@ -11,9 +11,9 @@
  * launched toward the other slot, sixteen streaks, and two per-frame
  * helpers. */
 
-s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant402_HandleRequest(Variant402EntryState *context, s32 command)
 {
-    Variant402EntryState *work = (Variant402EntryState *)point;
+    Variant402EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -329,10 +329,10 @@ s32 ModelVariant402_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant419_DrawSwarm((Variant402EntryState *)point);
+            FrenchModelVariant419_DrawSwarm(context);
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant419_DrawQuads((Variant402EntryState *)point);
+            FrenchModelVariant419_DrawQuads(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

@@ -5,9 +5,9 @@
 #define MODEL_VARIANT411_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant411_HandleRequest(EntryState411 *context, s32 command)
 {
-    EntryState411 *work = (EntryState411 *)point;
+    EntryState411 *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -306,11 +306,11 @@ s32 FrenchModelVariant411_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->sheet_start < work->elapsed) {
-            SpanishModelVariant411_DrawFadingSheets((EntryState411 *)point);
+            SpanishModelVariant411_DrawFadingSheets(context);
         }
         if (work->config->expansion_start < work->elapsed) {
-            FrenchModelVariant411_DrawTube((EntryState411 *)point);
-            SpanishModelVariant411_DrawFunnels((EntryState411 *)point);
+            FrenchModelVariant411_DrawTube(context);
+            SpanishModelVariant411_DrawFunnels(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

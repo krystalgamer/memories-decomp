@@ -6,9 +6,9 @@
 #define MODEL_VARIANT469_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant469_HandleRequest(EntryState469 *context, s32 command)
 {
-    EntryState469 *work = (EntryState469 *)point;
+    EntryState469 *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -378,12 +378,12 @@ s32 FrenchModelVariant469_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->draw_start <= work->clock.frame && work->phase < 8) {
-            SpanishModelVariant469_DrawQuadRing((EntryState469 *)point);
+            SpanishModelVariant469_DrawQuadRing(context);
             if (work->phase > 0) {
-                FrenchModelVariant582_DrawArcs((EntryState469 *)point);
+                FrenchModelVariant582_DrawArcs(context);
             }
             if (work->phase >= 2) {
-                FrenchModelVariant582_DrawSheets((EntryState469 *)point);
+                FrenchModelVariant582_DrawSheets(context);
             }
         }
         work->clock.frame_count++;

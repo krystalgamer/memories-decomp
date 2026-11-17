@@ -17,9 +17,9 @@
  * builds this source under gcc 2.8.1 with VERSION_FRENCH and a CLUT x of
  * 640; the North American one is gcc 2.7.2. */
 
-s32 ModelVariant430_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant430_HandleRequest(Variant430EntryState *context, s32 command)
 {
-    Variant430EntryState *work = (Variant430EntryState *)point;
+    Variant430EntryState *work = context;
     /* Unused; they keep the target's stack frame layout. */
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
@@ -338,9 +338,9 @@ s32 ModelVariant430_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame && work->tail.phase == 0) {
-            FrenchModelVariant447_DrawSwarm((Variant430EntryState *)point);
+            FrenchModelVariant447_DrawSwarm(context);
         } else if (work->config->end <= work->clock.frame) {
-            FrenchModelVariant447_DrawSwarm((Variant430EntryState *)point);
+            FrenchModelVariant447_DrawSwarm(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

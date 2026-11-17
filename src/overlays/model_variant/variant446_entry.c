@@ -16,9 +16,9 @@
  * test is n % 2 == 1, which keeps the ribbon progress unreduced; and the
  * spoke angles are recomputed from the base while the ring angles step. */
 
-s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant446_HandleRequest(Variant446EntryState *context, s32 command)
 {
-    Variant446EntryState *work = (Variant446EntryState *)point;
+    Variant446EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -486,12 +486,12 @@ s32 ModelVariant446_HandleRequest(SVECTOR *point, s32 command)
         }
         if (work->config->start <= work->clock.frame && work->phase < 8) {
             if (work->phase < 6) {
-                FrenchModelVariant463_DrawPairedSheets((Variant446EntryState *)point);
+                FrenchModelVariant463_DrawPairedSheets(context);
             }
-            FrenchModelVariant463_DrawSheets((Variant446EntryState *)point);
+            FrenchModelVariant463_DrawSheets(context);
             if (work->phase > 0) {
-                FrenchModelVariant463_DrawRibbons((Variant446EntryState *)point);
-                FrenchModelVariant463_DrawTrailRibbons((Variant446EntryState *)point);
+                FrenchModelVariant463_DrawRibbons(context);
+                FrenchModelVariant463_DrawTrailRibbons(context);
             }
         }
         work->clock.frame_count++;

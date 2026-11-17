@@ -12,9 +12,9 @@
  * The ribbon progress rows start from a separate `base` that drops by 512
  * per ribbon, and the ring loop reuses the quad loop's inner counter. */
 
-s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant410_HandleRequest(Variant410EntryState *context, s32 command)
 {
-    Variant410EntryState *work = (Variant410EntryState *)point;
+    Variant410EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -223,10 +223,10 @@ s32 FrenchModelVariant410_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->tail.phase >= 2) {
-            FrenchModelVariant410_DrawRibbons((Variant410EntryState *)point);
+            FrenchModelVariant410_DrawRibbons(context);
         }
         if (work->tail.phase > 0) {
-            FrenchModelVariant410_DrawQuads((Variant410EntryState *)point);
+            FrenchModelVariant410_DrawQuads(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

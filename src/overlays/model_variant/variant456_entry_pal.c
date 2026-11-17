@@ -11,13 +11,13 @@
  * Both sheet arms clear +0x8C/+0x90 so cross-jumping leaves the loop
  * increments in their own block, as in retail. */
 
-s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
+s32 SpanishModelVariant456_HandleRequest(Variant456EntryState *context, s32 command)
 {
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant456EntryState *work = (Variant456EntryState *)point;
+    Variant456EntryState *work = context;
     Variant456EntryFan *fan = work->fans;
     Variant456EntryTrail *trail = work->trails;
     Variant456EntryRibbon *ribbon = work->ribbons;
@@ -332,10 +332,10 @@ s32 SpanishModelVariant456_HandleRequest(SVECTOR *point, s32 command)
             work->tail.phase = 2;
         }
         if (work->config->sheets_start <= work->clock.frame) {
-            SpanishModelVariant456_DrawSheets((Variant456EntryState *)point);
+            SpanishModelVariant456_DrawSheets(context);
         }
         if (work->config->lines_start <= work->clock.frame) {
-            SpanishModelVariant456_DrawSprays((Variant456EntryState *)point);
+            SpanishModelVariant456_DrawSprays(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

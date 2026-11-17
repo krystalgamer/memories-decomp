@@ -6,9 +6,9 @@
 #define MODEL_VARIANT436_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant436_HandleRequest(EntryState436 *context, s32 command)
 {
-    EntryState436 *work = (EntryState436 *)point;
+    EntryState436 *work = context;
     /* Preserve the native 224-byte frame, including two unused matrices. */
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
@@ -281,11 +281,11 @@ s32 FrenchModelVariant436_HandleRequest(SVECTOR *point, s32 command)
         work->screen_delta.vy = dy;
         if (work->config->start <= work->elapsed) {
             if (work->tail.phase < 4) {
-                FrenchModelVariant436_DrawRibbons((EntryState436 *)point);
+                FrenchModelVariant436_DrawRibbons(context);
             }
             if (work->config->scale_start < work->elapsed) {
-                FrenchModelVariant436_DrawStreamers((EntryState436 *)point);
-                SpanishModelVariant436_DrawSheets((EntryState436 *)point);
+                FrenchModelVariant436_DrawStreamers(context);
+                SpanishModelVariant436_DrawSheets(context);
             }
         }
         work->frame_count++;

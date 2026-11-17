@@ -5,9 +5,9 @@
 #define MODEL_VARIANT458_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant458_HandleRequest(EntryState458 *context, s32 command)
 {
-    EntryState458 *work = (EntryState458 *)point;
+    EntryState458 *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -252,11 +252,11 @@ s32 FrenchModelVariant458_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->draw_start <= work->elapsed) {
-            FrenchModelVariant458_DrawStrands((EntryState458 *)point);
-            FrenchModelVariant458_DrawStreamers((EntryState458 *)point);
+            FrenchModelVariant458_DrawStrands(context);
+            FrenchModelVariant458_DrawStreamers(context);
         }
         if (work->elapsed > work->config->sheet_start) {
-            FrenchModelVariant458_DrawSheets((EntryState458 *)point);
+            FrenchModelVariant458_DrawSheets(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

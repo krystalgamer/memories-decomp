@@ -10,9 +10,9 @@
  * of the six flares, 384-unit trail sprites and no configured height offset
  * on the root part. */
 
-s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant411_HandleRequest(Variant411UsEntryState *context, s32 command)
 {
-    Variant411UsEntryState *work = (Variant411UsEntryState *)point;
+    Variant411UsEntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -365,10 +365,10 @@ s32 ModelVariant411_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant428_DrawSwarm((Variant411UsEntryState *)point);
+            FrenchModelVariant428_DrawSwarm(context);
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant428_DrawQuads((Variant411UsEntryState *)point);
+            FrenchModelVariant428_DrawQuads(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

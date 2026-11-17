@@ -63,7 +63,7 @@ typedef struct {
     s16 slot, command;
 } Model335EntryState;
 
-s32 FrenchModelVariant335_HandleRequest(SVECTOR *point, s32 command);
+s32 FrenchModelVariant335_HandleRequest(Model335EntryState *context, s32 command);
 extern u8 gFrenchModelVariant335_D28EC[];
 void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx);
 void FrenchModelVariant335_DrawSheets(Model335EntryState *context);

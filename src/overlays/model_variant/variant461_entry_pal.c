@@ -6,9 +6,9 @@
 #define MODEL_VARIANT461_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant461_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant461_HandleRequest(EntryState461 *context, s32 command)
 {
-    EntryState461 *work = (EntryState461 *)point;
+    EntryState461 *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -375,12 +375,12 @@ s32 FrenchModelVariant461_HandleRequest(SVECTOR *point, s32 command)
             work->phase = 5;
         }
         if (work->config->draw_start <= work->clock.frame && work->phase < 8) {
-            SpanishModelVariant461_DrawRing((EntryState461 *)point);
+            SpanishModelVariant461_DrawRing(context);
             if (work->phase > 0) {
-                SpanishModelVariant461_DrawSheets((EntryState461 *)point);
+                SpanishModelVariant461_DrawSheets(context);
             }
             if (work->phase >= 2) {
-                FrenchModelVariant461_DrawRibbons((EntryState461 *)point);
+                FrenchModelVariant461_DrawRibbons(context);
             }
         }
         work->clock.frame_count++;

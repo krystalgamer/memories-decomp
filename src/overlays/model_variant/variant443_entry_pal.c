@@ -11,9 +11,9 @@
 #define MODEL_VARIANT443_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant443_HandleRequest(EntryState443 *context, s32 command)
 {
-    EntryState443 *work = (EntryState443 *)point;
+    EntryState443 *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     s16 screen_x[3], screen_y[3];
@@ -508,20 +508,20 @@ s32 FrenchModelVariant443_HandleRequest(SVECTOR *point, s32 command)
             }
         }
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant443_DrawSheets((EntryState443 *)point);
-            FrenchModelVariant443_DrawStreamers((EntryState443 *)point);
+            SpanishModelVariant443_DrawSheets(context);
+            FrenchModelVariant443_DrawStreamers(context);
             if (work->phase > 0) {
-                FrenchModelVariant443_DrawBands((EntryState443 *)point);
+                FrenchModelVariant443_DrawBands(context);
             }
             if (work->phase >= 2) {
-                FrenchModelVariant443_DrawRibbons((EntryState443 *)point);
+                FrenchModelVariant443_DrawRibbons(context);
             }
         }
         if (work->phase >= 4) {
-            SpanishModelVariant443_DrawMesh((EntryState443 *)point);
+            SpanishModelVariant443_DrawMesh(context);
         }
         if (work->phase >= 5) {
-            SpanishModelVariant443_DrawRings((EntryState443 *)point);
+            SpanishModelVariant443_DrawRings(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

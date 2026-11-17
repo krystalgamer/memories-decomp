@@ -6,9 +6,9 @@
 #define MODEL_VARIANT337_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant337_HandleRequest(Variant337EntryState *context, s32 command)
 {
-    Variant337EntryState *work = (Variant337EntryState *)point;
+    Variant337EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -202,11 +202,11 @@ s32 FrenchModelVariant337_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            ModelVariant320_DrawRibbon((Variant337EntryState *)point);
-            SpanishModelVariant337_DrawRings((Variant337EntryState *)point);
+            ModelVariant320_DrawRibbon(context);
+            SpanishModelVariant337_DrawRings(context);
         }
         if (work->tail.phase >= 3) {
-            ModelVariant320_DrawStreamers((Variant337EntryState *)point);
+            ModelVariant320_DrawStreamers(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

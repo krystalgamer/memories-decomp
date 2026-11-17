@@ -12,9 +12,9 @@
  * from the French header-449 sources; the ribbon and streamer helpers stay
  * generated assembly. */
 
-s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant432_HandleRequest(Variant432EntryState *context, s32 command)
 {
-    Variant432EntryState *work = (Variant432EntryState *)point;
+    Variant432EntryState *work = context;
     /* Preserve the native 224-byte frame, including two unused matrices. */
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
@@ -280,11 +280,11 @@ s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->elapsed) {
-            FrenchModelVariant449_DrawRibbons((Variant432EntryState *)point);
-            FrenchModelVariant449_DrawStreamers((Variant432EntryState *)point);
+            FrenchModelVariant449_DrawRibbons(context);
+            FrenchModelVariant449_DrawStreamers(context);
         }
         if (work->config->scale_start < work->elapsed) {
-            FrenchModelVariant449_DrawSheet((Variant432EntryState *)point);
+            FrenchModelVariant449_DrawSheet(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

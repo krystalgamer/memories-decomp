@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "variant373_entry.h"
 
-s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant373_HandleRequest(EntryState373 *context, s32 command)
 {
-    EntryState373 *work = (EntryState373 *)point;
+    EntryState373 *work = context;
     EntryTextureStack373 texture_stack;
     SVECTOR position, target;
     VECTOR squared;
@@ -293,7 +293,7 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->rings_start <= work->clock.frame && work->phase < 8) {
-            FrenchModelVariant373_DrawRisingRings((EntryState373 *)point);
+            FrenchModelVariant373_DrawRisingRings(context);
         }
         if (work->config->sphere_start <= work->clock.frame && work->phase < 8) {
             if (work->phase >= 6) {
@@ -308,10 +308,10 @@ s32 FrenchModelVariant373_HandleRequest(SVECTOR *point, s32 command)
                     SetShadeTex(sphere_packet, 0);
                 }
             }
-            FrenchModelVariant373_DrawSphere((EntryState373 *)point);
+            FrenchModelVariant373_DrawSphere(context);
         }
         if (work->config->sparks_start <= work->clock.frame) {
-            FrenchModelVariant373_DrawSparks((EntryState373 *)point);
+            FrenchModelVariant373_DrawSparks(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

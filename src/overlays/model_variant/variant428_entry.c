@@ -11,9 +11,9 @@
  * or curtains, with twelve spiral arms at the start of the work area and a
  * 0x34-byte config whose word at + 0x30 starts the spiral. */
 
-s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant428_HandleRequest(Variant428EntryState *context, s32 command)
 {
-    Variant428EntryState *work = (Variant428EntryState *)point;
+    Variant428EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -302,14 +302,14 @@ s32 ModelVariant428_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
-            ModelVariant428_DrawSheets((Variant428EntryState *)point);
-            ModelVariant428_DrawWebs((Variant428EntryState *)point);
+            ModelVariant428_DrawSheets(context);
+            ModelVariant428_DrawWebs(context);
         }
         if (work->config->spiral_start <= work->clock.frame) {
-            ModelVariant428_DrawSpiral((Variant428EntryState *)point);
+            ModelVariant428_DrawSpiral(context);
         }
         if (work->tail.phase > 0) {
-            ModelVariant428_DrawBands((Variant428EntryState *)point);
+            ModelVariant428_DrawBands(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

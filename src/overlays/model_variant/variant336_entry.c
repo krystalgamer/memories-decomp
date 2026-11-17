@@ -5,9 +5,9 @@
 #define MODEL_VARIANT336_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant336_HandleRequest(Variant336EntryState *context, s32 command)
 {
-    Variant336EntryState *work = (Variant336EntryState *)point;
+    Variant336EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -223,11 +223,11 @@ s32 FrenchModelVariant336_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start < work->clock.frame) {
-            FrenchModelVariant336_DrawStreamers((Variant336EntryState *)point);
+            FrenchModelVariant336_DrawStreamers(context);
         }
         if (work->phase > 0) {
-            FrenchModelVariant336_DrawRibbon((Variant336EntryState *)point);
-            FrenchModelVariant336_DrawSheets((Variant336EntryState *)point);
+            FrenchModelVariant336_DrawRibbon(context);
+            FrenchModelVariant336_DrawSheets(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

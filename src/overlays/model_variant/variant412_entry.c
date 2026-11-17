@@ -12,9 +12,9 @@
  * flares in place of the petals, a configured height offset on the root
  * part and two per-frame helpers. */
 
-s32 ModelVariant412_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant412_HandleRequest(Variant412EntryState *context, s32 command)
 {
-    Variant412EntryState *work = (Variant412EntryState *)point;
+    Variant412EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -369,10 +369,10 @@ s32 ModelVariant412_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant429_DrawSwarm((Variant412EntryState *)point);
+            FrenchModelVariant429_DrawSwarm(context);
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant429_DrawQuads((Variant412EntryState *)point);
+            FrenchModelVariant429_DrawQuads(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

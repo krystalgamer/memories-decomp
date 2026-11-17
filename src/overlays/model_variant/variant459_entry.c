@@ -15,9 +15,9 @@
  * halfword of the 64-byte stack pad, and some locals (`ang`, `frame`) hold
  * values that only live a few instructions. */
 
-s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant459_HandleRequest(Variant459EntryState *context, s32 command)
 {
-    Variant459EntryState *work = (Variant459EntryState *)point;
+    Variant459EntryState *work = context;
     u16 unknown_stack[32];
     SVECTOR position, target;
     VECTOR squared;
@@ -449,24 +449,24 @@ s32 ModelVariant459_HandleRequest(SVECTOR *point, s32 command)
         work->offset.vy = work->target.vy - work->position.vy;
         work->offset.vz = work->target.vz - work->position.vz;
         if (work->config->start <= work->clock.frame && work->clock.frame < work->config->fade_start) {
-            ModelVariant459_DrawSheet((Variant459EntryState *)point);
+            ModelVariant459_DrawSheet(context);
         }
         if (work->config->second <= work->clock.frame && work->clock.frame < work->config->fade_start) {
-            FrenchModelVariant476_DrawSpiral((Variant459EntryState *)point);
+            FrenchModelVariant476_DrawSpiral(context);
         }
         if (work->config->fade_start <= work->clock.frame && work->clock.frame <= work->config->fade_end + 4) {
             if (work->clock.frame <= work->config->fade_end - 10) {
                 work->facing = ratan2(work->direction.vy, work->direction.vz) + 2048;
             }
-            FrenchModelVariant476_DrawScreenGrid((Variant459EntryState *)point);
+            FrenchModelVariant476_DrawScreenGrid(context);
         }
         if (work->config->fade_end <= work->clock.frame) {
             if (work->phase < 2) {
                 work->phase = 2;
             }
-            ModelVariant459_DrawCurtains((Variant459EntryState *)point);
+            ModelVariant459_DrawCurtains(context);
             if (work->phase < 6) {
-                ModelVariant459_DrawGlobe((Variant459EntryState *)point);
+                ModelVariant459_DrawGlobe(context);
                 if (work->phase >= 5) {
                     packed2 = ModelTexture_PackPageClutCopy(work->slot, 2, &gModelVariant459_aImages[0]);
                     unknown_stack[31] = packed2;

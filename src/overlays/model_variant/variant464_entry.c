@@ -8,9 +8,9 @@
 #define MODEL_VARIANT464_CLUT_X 512
 #endif
 
-s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant464_HandleRequest(Variant464EntryState *context, s32 command)
 {
-    Variant464EntryState *work = (Variant464EntryState *)point;
+    Variant464EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -305,9 +305,9 @@ s32 ModelVariant464_HandleRequest(SVECTOR *point, s32 command)
         work->aim.screen_delta.vx = (u16)projection.target - screen_x;
         work->aim.screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->draw_start <= work->clock.frame) {
-            FrenchModelVariant481_DrawRings((Variant464EntryState *)point);
+            FrenchModelVariant481_DrawRings(context);
             if (work->phase < 6) {
-                FrenchModelVariant481_DrawBand((Variant464EntryState *)point);
+                FrenchModelVariant481_DrawBand(context);
             }
         }
         work->clock.frame_count++;

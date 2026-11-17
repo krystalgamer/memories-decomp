@@ -20,9 +20,9 @@
  * counter, the screen delta Y is computed before X, and the span store sits
  * before the fade reset. */
 
-s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant380_HandleRequest(Variant380EntryState *context, s32 command)
 {
-    Variant380EntryState *work = (Variant380EntryState *)point;
+    Variant380EntryState *work = context;
     ModelVariantClutStack stack;
     SVECTOR position, target;
     VECTOR squared;
@@ -265,11 +265,11 @@ s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command)
         }
         if (work->config->start <= work->frame) {
             if (work->phase > 0) {
-                FrenchModelVariant397_DrawBeams((Variant380EntryState *)point);
+                FrenchModelVariant397_DrawBeams(context);
             }
-            FrenchModelVariant397_DrawSheets((Variant380EntryState *)point);
+            FrenchModelVariant397_DrawSheets(context);
             if (work->phase >= 4) {
-                FrenchModelVariant397_DrawStreamers((Variant380EntryState *)point);
+                FrenchModelVariant397_DrawStreamers(context);
             }
         }
         work->frame_count++;

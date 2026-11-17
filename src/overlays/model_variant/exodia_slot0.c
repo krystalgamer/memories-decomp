@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "exodia_slot0.h"
 
-s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelExodia_HandleRequest(ExodiaEntryState *point, s32 command)
 {
-    ExodiaEntryState *work = (ExodiaEntryState *)point;
+    ExodiaEntryState *work = point;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -219,10 +219,10 @@ s32 ModelExodia_HandleRequest(SVECTOR *point, s32 command)
         work->remaining.vy = work->target.vy - work->position.vy;
         work->remaining.vz = work->target.vz - work->position.vz;
         if (work->config->start <= work->frame && work->frame < work->config->end) {
-            ModelExodia_DrawRing((ExodiaEntryState *)point);
+            ModelExodia_DrawRing(point);
         }
         if (work->config->ramp_end <= work->frame && work->frame < work->config->end) {
-            ModelExodia_DrawSpokes((ExodiaEntryState *)point);
+            ModelExodia_DrawSpokes(point);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

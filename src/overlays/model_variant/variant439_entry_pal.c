@@ -5,9 +5,9 @@
 #define MODEL_VARIANT439_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant439_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant439_HandleRequest(Variant439EntryState *context, s32 command)
 {
-    Variant439EntryState *work = (Variant439EntryState *)point;
+    Variant439EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -323,13 +323,13 @@ s32 FrenchModelVariant439_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
-            ModelVariant422_DrawSheets((Variant439EntryState *)point);
+            ModelVariant422_DrawSheets(context);
         }
         if (work->tail.phase >= 2) {
-            ModelVariant422_DrawCurtains((Variant439EntryState *)point);
+            ModelVariant422_DrawCurtains(context);
         }
         if (work->tail.phase > 0) {
-            ModelVariant422_DrawBands((Variant439EntryState *)point);
+            ModelVariant422_DrawBands(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

@@ -5,9 +5,9 @@
 #define MODEL_VARIANT400_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant400_HandleRequest(Variant400EntryState *context, s32 command)
 {
-    Variant400EntryState *work = (Variant400EntryState *)point;
+    Variant400EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -216,9 +216,9 @@ s32 FrenchModelVariant400_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->frame) {
-            FrenchModelVariant400_DrawRibbons((Variant400EntryState *)point);
-            FrenchModelVariant400_DrawSheets((Variant400EntryState *)point);
-            FrenchModelVariant400_DrawStreamers((Variant400EntryState *)point);
+            FrenchModelVariant400_DrawRibbons(context);
+            FrenchModelVariant400_DrawSheets(context);
+            FrenchModelVariant400_DrawStreamers(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

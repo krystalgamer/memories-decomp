@@ -61,5 +61,5 @@ void FrenchModelVariant431_DrawWebs(Variant431EntryState *context);
 void FrenchModelVariant431_DrawFans(Variant431EntryState *context);
 void FrenchModelVariant431_DrawBands(Variant431EntryState *context);
 void FrenchModelVariant431_DrawSheets(Variant431EntryState *context);
-s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command);
+s32 FrenchModelVariant431_HandleRequest(Variant431EntryState *context, s32 command);
 #endif

@@ -78,6 +78,6 @@ extern Variant380EntryConfig gModelVariant380_aConfigs[];
 void FrenchModelVariant397_DrawBeams(Variant380EntryState *context);
 void FrenchModelVariant397_DrawSheets(Variant380EntryState *context);
 void FrenchModelVariant397_DrawStreamers(Variant380EntryState *context);
-s32 ModelVariant380_HandleRequest(SVECTOR *point, s32 command);
+s32 ModelVariant380_HandleRequest(Variant380EntryState *context, s32 command);
 
 #endif

@@ -6,9 +6,9 @@
 #define MODEL_VARIANT437_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant437_HandleRequest(Variant437EntryState *context, s32 command)
 {
-    Variant437EntryState *work = (Variant437EntryState *)point;
+    Variant437EntryState *work = context;
     /* Preserve the native 224-byte frame, including two unused matrices. */
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
@@ -279,8 +279,8 @@ s32 FrenchModelVariant437_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if (work->config->start <= work->elapsed && work->config->scale_start < work->elapsed) {
-            SpanishModelVariant437_DrawStreamers((Variant437EntryState *)point);
-            SpanishModelVariant437_DrawSheet((Variant437EntryState *)point);
+            SpanishModelVariant437_DrawStreamers(context);
+            SpanishModelVariant437_DrawSheet(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

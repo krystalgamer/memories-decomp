@@ -12,9 +12,9 @@
  * parts and runs the strips, ribbons, sheets, petals and feedback helpers.
  * The screen words are read as scalar longs so the index store can be
  * scheduled ahead of their loads. */
-s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
+s32 SpanishModelVariant388_HandleRequest(Variant388EntryState *context, s32 command)
 {
-    Variant388EntryState *work = (Variant388EntryState *)point;
+    Variant388EntryState *work = context;
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
@@ -247,17 +247,17 @@ s32 SpanishModelVariant388_HandleRequest(SVECTOR *point, s32 command)
             work->aim.direction.vx = work->aim.target.vx - work->matrix.t[0];
             work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
             work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
-            FrenchModelVariant388_DrawPetals((Variant388EntryState *)point);
+            FrenchModelVariant388_DrawPetals(context);
             if (work->config->sheet_start <= work->clock.frame) {
-                SpanishModelVariant388_DrawSheets((Variant388EntryState *)point);
+                SpanishModelVariant388_DrawSheets(context);
             }
             if (work->phase > 0) {
-                SpanishModelVariant388_DrawRibbonFan((Variant388EntryState *)point);
-                FrenchModelVariant388_DrawStrips((Variant388EntryState *)point);
+                SpanishModelVariant388_DrawRibbonFan(context);
+                FrenchModelVariant388_DrawStrips(context);
             }
         }
         if (work->phase >= 2) {
-            SpanishModelVariant388_DrawFeedbackStrips((Variant388EntryState *)point);
+            SpanishModelVariant388_DrawFeedbackStrips(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

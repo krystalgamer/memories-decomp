@@ -11,9 +11,9 @@
  * frame, a 0x48-byte config whose linked flag picks between part 0 plus a
  * signed offset and the average of two parts. */
 
-s32 ModelVariant397_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant397_HandleRequest(Variant397EntryState *context, s32 command)
 {
-    Variant397EntryState *work = (Variant397EntryState *)point;
+    Variant397EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -322,11 +322,11 @@ s32 ModelVariant397_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            ModelVariant397_DrawSheets((Variant397EntryState *)point);
-            ModelVariant397_DrawWebs((Variant397EntryState *)point);
+            ModelVariant397_DrawSheets(context);
+            ModelVariant397_DrawWebs(context);
         }
         if (work->tail.phase > 0) {
-            ModelVariant397_DrawBands((Variant397EntryState *)point);
+            ModelVariant397_DrawBands(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

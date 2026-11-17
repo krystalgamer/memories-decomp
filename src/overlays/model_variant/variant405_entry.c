@@ -6,14 +6,14 @@
 #endif
 
 /* Header 405's loader entry: three rings, a trail angle per three trail
- * records, six 512-unit sheets, two sets of three 17-point ring bands, four
+ * records, six 512-unit sheets, two sets of three 17-context ring bands, four
  * spokes and two ribbons. The run path re-reads the opponent slot position
  * and part 0 until config word 0x1C, freezing the aim origin after word
  * 0x10, then draws through the outer-band, 0x12CC and pulse helpers. */
 
-s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
+s32 SpanishModelVariant405_HandleRequest(Variant405EntryState *context, s32 command)
 {
-    Variant405EntryState *work = (Variant405EntryState *)point;
+    Variant405EntryState *work = context;
     ModelVariantClutStack stack;
     Variant405EntryRing *ring = work->rings;
     ModelVariantSheetSet *sheet = work->sheets;
@@ -265,9 +265,9 @@ s32 SpanishModelVariant405_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vx = dx;
         work->screen_delta.vy = dy;
-        SpanishModelVariant405_DrawOuterBands((Variant405EntryState *)point);
-        FrenchModelVariant562_DrawShards((Variant405EntryState *)point);
-        SpanishModelVariant405_DrawPulses((Variant405EntryState *)point);
+        SpanishModelVariant405_DrawOuterBands(context);
+        FrenchModelVariant562_DrawShards(context);
+        SpanishModelVariant405_DrawPulses(context);
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);
         if (frame != work->clock.animation_frame) {

@@ -11,9 +11,9 @@
  * arms, 6x6 webs, one sheet, the header-338 matrix setup when the config
  * mode is 1, and no screen rings or curtains. */
 
-s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant418_HandleRequest(Variant418EntryState *context, s32 command)
 {
-    Variant418EntryState *work = (Variant418EntryState *)point;
+    Variant418EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -307,10 +307,10 @@ s32 ModelVariant418_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            ModelVariant418_DrawSheet((Variant418EntryState *)point);
+            ModelVariant418_DrawSheet(context);
             if (work->phase > 0) {
-                ModelVariant418_DrawWebs((Variant418EntryState *)point);
-                ModelVariant418_DrawSpiral((Variant418EntryState *)point);
+                ModelVariant418_DrawWebs(context);
+                ModelVariant418_DrawSpiral(context);
             }
         }
         work->clock.frame_count++;

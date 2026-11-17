@@ -15,9 +15,9 @@
  * around the opposite slot and drawn by FrenchModelVariant471_DrawQuadGroup;
  * FrenchModelVariant471_DrawQuads runs once the phase reaches 2. */
 
-s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant454_HandleRequest(Variant454EntryState *context, s32 command)
 {
-    Variant454EntryState *work = (Variant454EntryState *)point;
+    Variant454EntryState *work = context;
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
@@ -409,10 +409,10 @@ s32 ModelVariant454_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant471_DrawQuadGroup((Variant454EntryState *)point);
+            FrenchModelVariant471_DrawQuadGroup(context);
         }
         if (work->phase >= 2) {
-            FrenchModelVariant471_DrawQuads((Variant454EntryState *)point);
+            FrenchModelVariant471_DrawQuads(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

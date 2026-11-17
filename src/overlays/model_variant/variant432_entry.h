@@ -73,6 +73,6 @@ extern Variant432EntryConfig gModelVariant432_aConfigs[];
 void FrenchModelVariant449_DrawSheet(Variant432EntryState *context);
 void FrenchModelVariant449_DrawRibbons(Variant432EntryState *context);
 void FrenchModelVariant449_DrawStreamers(Variant432EntryState *context);
-s32 ModelVariant432_HandleRequest(SVECTOR *point, s32 command);
+s32 ModelVariant432_HandleRequest(Variant432EntryState *context, s32 command);
 
 #endif

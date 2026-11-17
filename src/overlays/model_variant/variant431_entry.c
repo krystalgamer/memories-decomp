@@ -5,9 +5,9 @@
 #define MODEL_VARIANT431_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant431_HandleRequest(Variant431EntryState *context, s32 command)
 {
-    Variant431EntryState *work = (Variant431EntryState *)point;
+    Variant431EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -278,16 +278,16 @@ s32 FrenchModelVariant431_HandleRequest(SVECTOR *point, s32 command)
             work->screen_y[i] = dy;
         }
         if (work->config->first_start <= work->frame) {
-            FrenchModelVariant431_DrawFans((Variant431EntryState *)point);
+            FrenchModelVariant431_DrawFans(context);
         }
         if (work->config->timings[0] <= work->frame) {
-            FrenchModelVariant431_DrawSheets((Variant431EntryState *)point);
+            FrenchModelVariant431_DrawSheets(context);
         }
         if (work->config->timings[work->start_index] <= work->frame) {
-            FrenchModelVariant431_DrawBands((Variant431EntryState *)point);
+            FrenchModelVariant431_DrawBands(context);
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant431_DrawWebs((Variant431EntryState *)point);
+            FrenchModelVariant431_DrawWebs(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);
