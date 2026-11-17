@@ -3,6 +3,7 @@
 #include "../types.h"
 #include "card_constants.h"
 #include "mem_card.h"
+#include "../psyq/libgs.h"
 
 struct DuelEffectRequest;
 
@@ -47,8 +48,8 @@ typedef struct DuelEffectRequest {
     s16 y;          /* 0x02 */
     s16 z;          /* 0x04 */
     u8 pad_06[2];   /* 0x06 */
-    s32 ordering_table_2;   /* 0x08 */
-    s32 ordering_table_1;   /* 0x0C */
+    GsOT *ordering_table_2;   /* 0x08 */
+    GsOT *ordering_table_1;   /* 0x0C */
     s16 base_priority;   /* 0x10 */
     /* The signed number the effect draws. The dispatcher hands it only to
      * DuelEffect_RunAttackSlash (id 2: the battle damage) and

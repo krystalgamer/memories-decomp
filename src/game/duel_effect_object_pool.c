@@ -73,7 +73,7 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
     if (p != 0) {
         u8 *q;
         GsOT **t;
-        s32 b;
+        GsOT *b;
 
         q = gRuntime_pSharedWorkBase;
         p->flags = DUEL_EFFECT_REQUEST_FLAG_ACTIVE;
@@ -82,8 +82,8 @@ DuelEffectRequest *DuelEffect_AllocateRequest(s32 id)
         p->phase = 0;
         p->progress = 0;
         p->buffer = q + 0x3800;
-        p->ordering_table_2 = (s32)t[2];
-        b = (s32)t[1];
+        p->ordering_table_2 = t[2];
+        b = t[1];
         p->base_priority = 8;
         p->x = 0;
         p->y = 0;
@@ -149,9 +149,9 @@ s32 DuelEffect_UpdateRequests(void) {
                     flags2 | DUEL_EFFECT_REQUEST_FLAG_INITIALIZED;
                 rec->phase = -1;
             }
-            rec->ordering_table_1 = (s32)gGraphics_apOrderingTables[1];
+            rec->ordering_table_1 = gGraphics_apOrderingTables[1];
             gDuelEffect_pActiveRequest = rec;
-            rec->ordering_table_2 = (s32)gGraphics_apOrderingTables[2];
+            rec->ordering_table_2 = gGraphics_apOrderingTables[2];
             DuelEffect_DispatchRequest(rec->id, savedF1A, rec->buffer, rec);
             SetGeomOffset(0, 0);
             SetGeomScreen(gViewState_Current.projection);
