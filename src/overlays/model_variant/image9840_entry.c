@@ -3,7 +3,7 @@
 #include "../../psyq/memory.h"
 #ifdef MODEL_IMAGE9840_WORK_SIZE_PRINTF
 #include "../../psyq/stdio.h"
-/* variant631us_entry.c defines gModelVariant631Us_szWorkSizeFormat
+/* e814_entry.c defines gModelVariant631Us_szWorkSizeFormat
    before including this source. */
 #endif
 
