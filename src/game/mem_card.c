@@ -1068,7 +1068,7 @@ void MemCardWork_UpdateOperation(void)
             D_8021007B = 255;
             D_8021007A = 255;
             do {
-                checksum ^= MEM_CARD_WORK_FRAME_BYTES[i];
+                checksum ^= MEM_CARD_WORK_FRAME_ADDRESS[i];
                 i++;
             } while (i < 0x7F);
             sector = gMemCard_pDirEntries[index].head;
