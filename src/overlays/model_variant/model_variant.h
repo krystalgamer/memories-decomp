@@ -1104,7 +1104,8 @@ typedef struct {
  * and per quad a size, a progress word and an initialized flag. The French
  * header-461 and 469 entries build it at work + 0xB90 and + 0x1614 and pass
  * the work area to SpanishModelVariant461_DrawRing and
- * SpanishModelVariant469_DrawQuadRing, which draw v0..v3 and grow size. */
+ * SpanishModelVariant469_DrawQuadRing, which draw v0..v3 and grow size.
+ * Header 446 builds and draws the same ring. */
 typedef struct {
     SVECTOR v0[24], v1[24], v2[24], v3[24], positions[24];
     CVECTOR color;

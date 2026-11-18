@@ -27,7 +27,7 @@ s32 ModelVariant446_HandleRequest(Variant446EntryState *context, s32 command)
     ModelVariantSheetSet *sheet;
     Variant446EntryRibbon *trail;
     ModelVariantSheetSet *panel;
-    Variant446EntrySprites *sprites;
+    ModelVariantQuadRing *sprites;
     ModelVariantBandPair *band;
     ModelVariantColorRing *ring;
     ModelVariantColorRing *spoke;
@@ -188,14 +188,14 @@ s32 ModelVariant446_HandleRequest(Variant446EntryState *context, s32 command)
             sprites->color.r = work->config->outer.r;
             sprites->color.g = work->config->outer.g;
             sprites->color.b = work->config->outer.b;
-            sprites->scale[i] = -(i * 1024 / 24);
+            sprites->progress[i] = -(i * 1024 / 24);
             sprites->size[i] = i * -8192 / 24;
             sprites->field_494[i] = 0;
             sprites->field_4F4[i] = 0;
-            sprites->done[i] = 0;
-            sprites->origin[i].vx = work->matrix.t[0] + work->direction.vx;
-            sprites->origin[i].vy = work->matrix.t[1] + work->direction.vy;
-            sprites->origin[i].vz = work->matrix.t[2] + work->direction.vz;
+            sprites->initialized[i] = 0;
+            sprites->positions[i].vx = work->matrix.t[0] + work->direction.vx;
+            sprites->positions[i].vy = work->matrix.t[1] + work->direction.vy;
+            sprites->positions[i].vz = work->matrix.t[2] + work->direction.vz;
         }
         for (n = 0; n < 1; n++, band++) {
             setVector(&band->scale, 4096, 4096, 4096);
@@ -454,13 +454,13 @@ s32 ModelVariant446_HandleRequest(Variant446EntryState *context, s32 command)
         }
         sprites = &work->sprites;
         for (i = 0; i < 24; i++) {
-            if (sprites->scale[i] >= 0 && sprites->done[i] == 0) {
+            if (sprites->progress[i] >= 0 && sprites->initialized[i] == 0) {
                 if (work->slot == 0) {
                     setVector(&work->positions[i], rsin(work->sweep) * 768 >> 12, -300, -450);
                 } else {
                     setVector(&work->positions[i], -(rsin(work->sweep) * 768 >> 12), -300, 450);
                 }
-                sprites->done[i] = 1;
+                sprites->initialized[i] = 1;
             }
             setVector(&work->offsets[i], work->positions[i].vx - work->matrix.t[0],
                       work->positions[i].vy - work->matrix.t[1],

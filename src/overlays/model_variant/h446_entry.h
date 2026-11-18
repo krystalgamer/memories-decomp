@@ -41,27 +41,14 @@ typedef struct {
     s16 oy[13];
 } Variant446EntryRibbon;
 
-/* Twenty-four sprites at work + 0x2710, each released at a target point. */
-typedef struct {
-    SVECTOR v0[24], v1[24], v2[24], v3[24], origin[24];
-    CVECTOR color;
-    u8 unknown_3C4[0x10];
-    /* Staggered below zero by the entry; the 463 ring helper grows each
-     * to 4096 and scales its quad by it. */
-    s32 size[24];
-    s32 scale[24];
-    s32 field_494[24];
-    s32 field_4F4[24];
-    s32 done[24];
-} Variant446EntrySprites;
-
 /* Header 446's 0x4AC4-byte work area. */
 typedef struct {
     Variant446EntryRibbon ribbons[5];
     Variant446EntryRibbon trails[5];
     ModelVariantSheetSet sheets[10];
     ModelVariantSheetSet panels[10];
-    Variant446EntrySprites sprites;
+    /* Twenty-four quads at work + 0x2710, each released at a target point. */
+    ModelVariantQuadRing sprites;
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];
