@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "h447_sheets_pal.h"
+#include "h447_entry_pal.h"
 
-void SpanishModelVariant464_DrawSheets(Sheets464State *context)
+void SpanishModelVariant464_DrawSheets(Variant464EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,9 +10,9 @@ void SpanishModelVariant464_DrawSheets(Sheets464State *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets464State *state = context;
+    Variant464EntryState *state = context;
     /* Steps past the five primaries on the final sheet, which has none. */
-    Sheets464Primary *primary = state->primary;
+    Variant464EntryPrimary *primary = state->primary;
     GsOT *ot;
     ModelVariantSheetSet *sheet = state->sheets;
     POLY_GT4 *polygon;
@@ -24,24 +24,24 @@ void SpanishModelVariant464_DrawSheets(Sheets464State *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     i = 0;
-    count = state->timing->count;
-    polygon = &state->polygon;
+    count = state->config->group_count;
+    polygon = &state->textured[1];
     for (; i <= count; i++, sheet++, primary++) {
         extra = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             extra = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i == count) {
-            matrix.t[0] = state->origin[0];
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2];
+            matrix.t[0] = state->matrix.t[0];
+            matrix.t[1] = state->matrix.t[1];
+            matrix.t[2] = state->matrix.t[2];
         } else {
-            matrix.t[0] = state->anchor.vx;
-            matrix.t[1] = state->anchor.vy;
-            matrix.t[2] = state->anchor.vz;
+            matrix.t[0] = state->aim.target.vx;
+            matrix.t[1] = state->aim.target.vy;
+            matrix.t[2] = state->aim.target.vz;
         }
         scale.vx = sheet->size + extra;
         scale.vy = sheet->size + extra;
@@ -81,32 +81,32 @@ void SpanishModelVariant464_DrawSheets(Sheets464State *context)
             }
         }
         if (i == count) {
-            if (state->phase == 0) {
+            if (state->tail.phase == 0) {
                 if (sheet->size < 4096) {
-                    sheet->size = ((state->time - state->timing->grow_begin) << 12) /
-                                  (state->timing->grow_end - state->timing->grow_begin);
+                    sheet->size = ((state->clock.frame - state->config->start) << 12) /
+                                  (state->config->grow_end - state->config->start);
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
-                        state->phase = 1;
+                        state->tail.phase = 1;
                     }
                 }
-            } else if (state->time > state->timing->fade_begin && sheet->size > 0) {
-                sheet->size = 4096 - ((state->time - state->timing->fade_begin) << 12) /
-                                    (state->timing->fade_end - state->timing->fade_begin);
+            } else if (state->clock.frame > state->config->fade_begin && sheet->size > 0) {
+                sheet->size = 4096 - ((state->clock.frame - state->config->fade_begin) << 12) /
+                                    (state->config->fade_end - state->config->fade_begin);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
-                    state->phase = 3;
+                    state->tail.phase = 3;
                 }
             }
         } else if (primary->active == 1) {
             if (sheet->size < 16384 && sheet->shown == 0) {
-                sheet->size += state->step * 4096;
+                sheet->size += state->clock.step * 4096;
                 if (sheet->size >= 16384) {
                     sheet->size = 16384;
                     sheet->shown = 1;
                 }
             } else if (sheet->size > 0) {
-                sheet->size -= state->step * 512;
+                sheet->size -= state->clock.step * 512;
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
