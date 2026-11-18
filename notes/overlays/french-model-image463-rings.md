@@ -16,7 +16,12 @@ The control flow follows the Spanish header-461 rings helper
 - quads are sorted for any depth above zero, without the flag test;
 - a different state layout (ring at `+0x2710`, polygon at `+0x4420`).
 
-The local view lives in `h446_rings.h`. The resident calls are covered
+The helper was first matched through a local view in `h446_rings.h`; it
+now takes `Variant446EntryState` directly. The ring at `+0x2710` is the
+entry's `sprites` (its per-ring size is `sprites.size`, staggered below zero
+by the entry), the polygon is `sprite`, the origin is `position`, and the
+angle/scale/wave words are `ring_angle`/`ring_scale`/`ring_wave`. The
+resident calls are covered
 by `model_variant463_linker_symbols.txt`. All French overlay images rebuild
 exactly. The [attempt ledger](french-model-image463-rings-attempts.csv)
 records the probe, which matched on the first build.

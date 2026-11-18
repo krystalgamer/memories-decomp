@@ -189,7 +189,7 @@ s32 ModelVariant446_HandleRequest(Variant446EntryState *context, s32 command)
             sprites->color.g = work->config->outer.g;
             sprites->color.b = work->config->outer.b;
             sprites->scale[i] = -(i * 1024 / 24);
-            sprites->delay[i] = i * -8192 / 24;
+            sprites->size[i] = i * -8192 / 24;
             sprites->field_494[i] = 0;
             sprites->field_4F4[i] = 0;
             sprites->done[i] = 0;
@@ -375,9 +375,9 @@ s32 ModelVariant446_HandleRequest(Variant446EntryState *context, s32 command)
             spoke->count = 0;
         }
         work->field_4A90 = 1024;
-        work->field_4A80 = 0;
-        work->field_4A88 = 0;
-        work->field_4A84 = 1024;
+        work->ring_angle = 0;
+        work->ring_wave = 0;
+        work->ring_scale = 1024;
         work->ribbon_wave = 0;
         work->ribbon_phase = 0;
         work->field_4A9C = 0;

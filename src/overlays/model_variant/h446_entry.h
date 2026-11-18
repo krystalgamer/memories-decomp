@@ -46,7 +46,9 @@ typedef struct {
     SVECTOR v0[24], v1[24], v2[24], v3[24], origin[24];
     CVECTOR color;
     u8 unknown_3C4[0x10];
-    s32 delay[24];
+    /* Staggered below zero by the entry; the 463 ring helper grows each
+     * to 4096 and scales its quad by it. */
+    s32 size[24];
     s32 scale[24];
     s32 field_494[24];
     s32 field_4F4[24];
@@ -89,7 +91,7 @@ typedef struct {
     Variant446EntryConfig *config;
     u32 field_4A68;
     GsCOORDUNIT *parts[5];
-    s32 field_4A80, field_4A84, field_4A88, trail_delay, field_4A90, ribbon_wave, ribbon_phase;
+    s32 ring_angle, ring_scale, ring_wave, trail_delay, field_4A90, ribbon_wave, ribbon_phase;
     s16 field_4A9C, field_4A9E;
     s32 sweep;
     s16 field_4AA4, field_4AA6;

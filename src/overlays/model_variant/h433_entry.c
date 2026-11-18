@@ -331,8 +331,8 @@ s32 ModelVariant433_HandleRequest(Variant433EntryState *context, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_y = dy;
         if (work->config->trigger <= work->clock.frame) {
-            SpanishModelVariant450_DrawLines((Variant450View *)context);
-            SpanishModelVariant450_DrawQuadGroups((Variant450QuadView *)context);
+            SpanishModelVariant450_DrawLines(context);
+            SpanishModelVariant450_DrawQuadGroups(context);
             if (work->tail.phase < 2) {
                 ModelVariant433_DrawRings(context);
             }

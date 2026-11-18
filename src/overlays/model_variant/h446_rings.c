@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "h446_rings.h"
+#include "h446_entry.h"
 
-void FrenchModelVariant463_DrawRings(Rings463State *context)
+void FrenchModelVariant463_DrawRings(Variant446EntryState *context)
 {
     SVECTOR rotation;
     /* Unused; retains the target's 16-byte stack gap after the rotation. */
@@ -13,8 +13,8 @@ void FrenchModelVariant463_DrawRings(Rings463State *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Rings463State *state = context;
-    ModelVariantQuadRingView *ring;
+    Variant446EntryState *state = context;
+    Variant446EntrySprites *ring;
     POLY_FT4 *polygon;
     s16 i;
     s16 angle;
@@ -28,20 +28,20 @@ void FrenchModelVariant463_DrawRings(Rings463State *context)
     green = 128;
     blue = 128;
     i = 0;
-    ratan2(state->probe[0], state->probe[1]);
-    ring = &state->ring;
-    ratan2(state->delta_y, state->delta_x);
-    polygon = &state->polygon;
-    for (angle = state->angle, wave = state->wave; i < 24;
+    ratan2(state->direction.vy, state->direction.vz);
+    ring = &state->sprites;
+    ratan2(state->screen_delta.vy, state->screen_delta.vx);
+    polygon = &state->sprite;
+    for (angle = state->ring_angle, wave = state->ring_wave; i < 24;
          i++, wave += 768, angle += 512 - i * 128 / 24) {
         if (ring->size[i] > 0) {
-            size = (ring->size[i] + (rsin(wave) * 256 >> 12)) * state->scale / 1024;
+            size = (ring->size[i] + (rsin(wave) * 256 >> 12)) * state->ring_scale / 1024;
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->origin[0] + (rcos(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
-            matrix.t[1] = state->origin[1];
-            matrix.t[2] = state->origin[2] + (rsin(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
+            matrix.t[0] = state->position.vx + (rcos(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
+            matrix.t[1] = state->position.vy;
+            matrix.t[2] = state->position.vz + (rsin(angle) * (rsin(i * 1024 / 24) * 512 >> 12) >> 12);
             scale.vx = (s16)size;
             scale.vy = (s16)size;
             scale.vz = (s16)size;
@@ -75,7 +75,7 @@ void FrenchModelVariant463_DrawRings(Rings463State *context)
             }
         }
         if (ring->size[i] < 4096) {
-            ring->size[i] += state->step * 64;
+            ring->size[i] += state->clock.step * 64;
             if (ring->size[i] >= 4096) {
                 ring->size[i] = 4096;
                 if (i + 1 == 24 && state->phase == 0) {
@@ -84,13 +84,13 @@ void FrenchModelVariant463_DrawRings(Rings463State *context)
             }
         }
     }
-    if (state->phase == 6 && state->scale > 0) {
-        state->scale -= state->step * 16;
-        if (state->scale <= 0) {
-            state->scale = 0;
+    if (state->phase == 6 && state->ring_scale > 0) {
+        state->ring_scale -= state->clock.step * 16;
+        if (state->ring_scale <= 0) {
+            state->ring_scale = 0;
             state->phase = 7;
         }
     }
-    state->angle += 32;
-    state->wave += 128;
+    state->ring_angle += 32;
+    state->ring_wave += 128;
 }

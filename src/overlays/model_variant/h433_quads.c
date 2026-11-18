@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "h433_quads.h"
+#include "h433_entry.h"
 
-void SpanishModelVariant450_DrawQuadGroups(Variant450QuadView *ctx)
+void SpanishModelVariant450_DrawQuadGroups(Variant433EntryState *ctx)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,8 +10,8 @@ void SpanishModelVariant450_DrawQuadGroups(Variant450QuadView *ctx)
     GsCOORDINATE2 coord;
     long interpolation;
     long flag;
-    Variant450QuadView *work;
-    Variant450QuadGroup *group;
+    Variant433EntryState *work;
+    Variant433EntrySheet *group;
     Variant450Primary *primary;
     Variant450Primary *primary_base;
     POLY_GT4 *quad;
@@ -24,10 +24,12 @@ void SpanishModelVariant450_DrawQuadGroups(Variant450QuadView *ctx)
     u8 r, g, b, r1, g1, b1;
 
     work = ctx;
-    group = work->groups;
+    group = work->sheets;
     ot = Graphics_GetDefaultOrderingTable();
-    quad = &work->quad;
-    primary_base = work->primary;
+    quad = &work->packets.textured[1];
+    /* Retail addresses each ribbon from its phase words (+0x1D0), so the
+     * primary records start there and keep their own view. */
+    primary_base = (Variant450Primary *)work->ribbons[0].phase;
     primary_index = 0;
     for (i = 0; i < 7; i++, group++) {
         primary = primary_base + primary_index;
@@ -35,25 +37,25 @@ void SpanishModelVariant450_DrawQuadGroups(Variant450QuadView *ctx)
         rotation.vy = 0;
         rotation.vz = 0;
         if (i == 0) {
-            matrix.t[0] = work->translation.vx;
-            matrix.t[1] = work->translation.vy;
-            matrix.t[2] = work->translation.vz;
+            matrix.t[0] = work->matrix.t[0];
+            matrix.t[1] = work->matrix.t[1];
+            matrix.t[2] = work->matrix.t[2];
             extra = 0;
-            if (work->flags & 1) {
-                extra = group->scale / 8;
+            if (work->clock.frame_count & 1) {
+                extra = group->size / 8;
             }
         } else {
             matrix.t[0] = primary->translation.vx;
             matrix.t[1] = primary->translation.vy;
             matrix.t[2] = primary->translation.vz;
             extra = 0;
-            if (work->flags & 1) {
-                extra = group->scale / 4;
+            if (work->clock.frame_count & 1) {
+                extra = group->size / 4;
             }
         }
-        scale.vx = group->scale + extra;
-        scale.vy = group->scale + extra;
-        scale.vz = group->scale + extra;
+        scale.vx = group->size + extra;
+        scale.vy = group->size + extra;
+        scale.vz = group->size + extra;
         RotMatrix(&rotation, &matrix);
         coord.coord = matrix;
         coord.super = 0;
@@ -64,23 +66,23 @@ void SpanishModelVariant450_DrawQuadGroups(Variant450QuadView *ctx)
         RotMatrix(&rotation, &ls);
         ScaleMatrix(&ls, &scale);
         SetRotMatrix(&ls);
-        for (j = 0, point = group->points; j < 4; j++, point++) {
-            depth = RotTransPers4(point, &group->points[j+4], &group->points[j+8],
-                                 &group->points[j+12], (long *)&quad->x0,
+        for (j = 0, point = group->v0; j < 4; j++, point++) {
+            depth = RotTransPers4(point, &group->v1[j], &group->v2[j],
+                                 &group->v3[j], (long *)&quad->x0,
                                  (long *)&quad->x1, (long *)&quad->x2,
                                  (long *)&quad->x3, &interpolation, &flag);
             if (group->fading == 0) {
-                setRGB0(quad, group->color.r, group->color.g, group->color.b);
-                setRGB1(quad, group->color.r, group->color.g, group->color.b);
-                setRGB2(quad, group->color.r, group->color.g, group->color.b);
-                setRGB3(quad, group->end_color.r, group->end_color.g, group->end_color.b);
+                setRGB0(quad, group->inner.r, group->inner.g, group->inner.b);
+                setRGB1(quad, group->inner.r, group->inner.g, group->inner.b);
+                setRGB2(quad, group->inner.r, group->inner.g, group->inner.b);
+                setRGB3(quad, group->outer.r, group->outer.g, group->outer.b);
             } else {
-                r = group->color.r * group->brightness / 1024;
-                g = group->color.g * group->brightness / 1024;
-                b = group->color.b * group->brightness / 1024;
-                r1 = group->end_color.r * group->brightness / 1024;
-                g1 = group->end_color.g * group->brightness / 1024;
-                b1 = group->end_color.b * group->brightness / 1024;
+                r = group->inner.r * group->brightness / 1024;
+                g = group->inner.g * group->brightness / 1024;
+                b = group->inner.b * group->brightness / 1024;
+                r1 = group->outer.r * group->brightness / 1024;
+                g1 = group->outer.g * group->brightness / 1024;
+                b1 = group->outer.b * group->brightness / 1024;
                 setRGB0(quad, r, g, b);
                 setRGB1(quad, r, g, b);
                 setRGB2(quad, r, g, b);
@@ -92,37 +94,37 @@ void SpanishModelVariant450_DrawQuadGroups(Variant450QuadView *ctx)
             }
         }
         if (i == 0) {
-            if (work->phase == 0 && group->scale < 4096) {
-                group->scale = (work->elapsed-work->config->grow_start) * 4096 /
-                               (work->config->grow_end-work->config->grow_start);
-                if (group->scale >= 4096) {
-                    group->scale = 4096;
-                    work->phase = 1;
+            if (work->tail.phase == 0 && group->size < 4096) {
+                group->size = (work->clock.frame-work->config->trigger) * 4096 /
+                               (work->config->grow_end-work->config->trigger);
+                if (group->size >= 4096) {
+                    group->size = 4096;
+                    work->tail.phase = 1;
                 }
             }
-            if (work->elapsed >= work->config->fade_start) {
-                group->scale = 4096 - (work->elapsed-work->config->fade_start) * 4096 /
+            if (work->clock.frame >= work->config->fade_start) {
+                group->size = 4096 - (work->clock.frame-work->config->fade_start) * 4096 /
                                      (work->config->fade_end-work->config->fade_start);
-                if (group->scale <= 0) {
-                    group->scale = 0;
+                if (group->size <= 0) {
+                    group->size = 0;
                 }
             }
         } else {
-            if (group->scale < 16384 && primary->threshold >= 1024) {
-                group->scale += work->step * 4096;
-                if (group->scale >= 16384) {
-                    group->scale = 16384;
+            if (group->size < 16384 && primary->threshold >= 1024) {
+                group->size += work->clock.step * 4096;
+                if (group->size >= 16384) {
+                    group->size = 16384;
                     group->fading = 1;
                     if (i+1 == 7) {
-                        work->phase = 3;
+                        work->tail.phase = 3;
                     }
                 }
             } else if (group->brightness > 0 && group->fading == 1) {
-                group->brightness -= work->step * 64;
+                group->brightness -= work->clock.step * 64;
                 if (group->brightness <= 0) {
                     group->brightness = 0;
-                    if (i+1 == 7 && work->phase == 3) {
-                        work->phase = 5;
+                    if (i+1 == 7 && work->tail.phase == 3) {
+                        work->tail.phase = 5;
                     }
                 }
             }
