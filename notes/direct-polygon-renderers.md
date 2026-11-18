@@ -78,7 +78,9 @@ once and keeps each variant's functions in image order. They
 use the `gcc_2_8_1_g0_handwritten_asm` policy described in
 `notes/decompilation-workflow.md`: hard-register declarations, with inline
 assembly only for the s-register save/restore, GTE operations and the few
-load/branch shapes listed below, all in `src/game/handwritten_asm.h`.
+load/branch shapes listed below, all in `src/game/handwritten_asm.h` except
+the vertex loads, which use the Psy-Q `inline_c.h` macros
+`gte_ldv0`/`gte_ldv1`/`gte_ldv2`.
 
 Points that the C has to reproduce:
 

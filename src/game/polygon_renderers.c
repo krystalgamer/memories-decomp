@@ -9,6 +9,7 @@
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/inline_c.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
@@ -122,15 +123,15 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -146,7 +147,7 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ3();
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -281,15 +282,15 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -309,11 +310,11 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ3();
             if (gHw_DrawMode != 0) {
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -468,15 +469,15 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
@@ -490,7 +491,7 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
                 if (flag <= 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
             HW_GTE_RTPS();
             /* Plain halfword load: through volatile it goes via $2 plus a move. */
@@ -505,7 +506,7 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ4();
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -646,15 +647,15 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             v = gHw_Word3 >> 16;
             v <<= 3;
             HW_GTE_RTPT();
@@ -670,7 +671,7 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
                 if (flag <= 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -689,14 +690,14 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
             w2 >>= 13;
             v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
@@ -878,15 +879,15 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -903,7 +904,7 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -1041,15 +1042,15 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -1070,11 +1071,11 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             if (gHw_DrawMode != 0) {
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -1232,15 +1233,15 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
@@ -1254,7 +1255,7 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 if (flag <= 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
             HW_GTE_RTPS();
             /* Plain halfword load: through volatile it goes via $2 plus a move. */
@@ -1270,7 +1271,7 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -1414,15 +1415,15 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             v = gHw_Word3 >> 16;
             v <<= 3;
             HW_GTE_RTPT();
@@ -1438,7 +1439,7 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 if (flag <= 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -1458,14 +1459,14 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
@@ -1645,15 +1646,15 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -1666,7 +1667,7 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ3();
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -1799,15 +1800,15 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -1824,11 +1825,11 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ3();
             if (gHw_DrawMode != 0) {
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -1981,15 +1982,15 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
@@ -2000,7 +2001,7 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
                 if (flag < 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
             HW_GTE_RTPS();
             /* Plain halfword load: through volatile it goes via $2 plus a move. */
@@ -2015,7 +2016,7 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ4();
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -2154,15 +2155,15 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             v = gHw_Word3 >> 16;
             v <<= 3;
             HW_GTE_RTPT();
@@ -2175,7 +2176,7 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
                 if (flag < 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -2194,14 +2195,14 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
             w2 >>= 13;
             v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
@@ -2380,15 +2381,15 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -2402,7 +2403,7 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -2540,15 +2541,15 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -2566,11 +2567,11 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             if (gHw_DrawMode != 0) {
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -2728,15 +2729,15 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
@@ -2747,7 +2748,7 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 if (flag < 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
             HW_GTE_RTPS();
             /* Plain halfword load: through volatile it goes via $2 plus a move. */
@@ -2763,7 +2764,7 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -2907,15 +2908,15 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             v = gHw_Word3 >> 16;
             v <<= 3;
             HW_GTE_RTPT();
@@ -2928,7 +2929,7 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 if (flag < 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -2948,14 +2949,14 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
@@ -3163,15 +3164,15 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -3187,7 +3188,7 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ3();
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -3350,15 +3351,15 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -3378,11 +3379,11 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ3();
             if (gHw_DrawMode != 0) {
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -3565,15 +3566,15 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
@@ -3587,7 +3588,7 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 if (flag <= 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
             HW_GTE_RTPS();
             /* Plain halfword load: through volatile it goes via $2 plus a move. */
@@ -3602,7 +3603,7 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ4();
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -3771,15 +3772,15 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             v = gHw_Word3 >> 16;
             v <<= 3;
             HW_GTE_RTPT();
@@ -3795,7 +3796,7 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 if (flag <= 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -3814,14 +3815,14 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             w2 >>= 13;
             v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
@@ -4030,15 +4031,15 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -4055,7 +4056,7 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -4223,15 +4224,15 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -4252,11 +4253,11 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             if (gHw_DrawMode != 0) {
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -4444,15 +4445,15 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
@@ -4466,7 +4467,7 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 if (flag <= 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
             HW_GTE_RTPS();
             /* Plain halfword load: through volatile it goes via $2 plus a move. */
@@ -4482,7 +4483,7 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -4656,15 +4657,15 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             v = gHw_Word3 >> 16;
             v <<= 3;
             HW_GTE_RTPT();
@@ -4680,7 +4681,7 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 if (flag <= 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -4700,14 +4701,14 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
@@ -4917,15 +4918,15 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -4938,7 +4939,7 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ3();
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -5101,15 +5102,15 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -5126,11 +5127,11 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ3();
             if (gHw_DrawMode != 0) {
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -5313,15 +5314,15 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
@@ -5332,7 +5333,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 if (flag < 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
             HW_GTE_RTPS();
             /* Plain halfword load: through volatile it goes via $2 plus a move. */
@@ -5347,7 +5348,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
             HW_GTE_AVSZ4();
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -5516,15 +5517,15 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             v = gHw_Word3 >> 16;
             v <<= 3;
             HW_GTE_RTPT();
@@ -5537,7 +5538,7 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 if (flag < 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -5556,14 +5557,14 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
             w2 >>= 13;
             v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
@@ -5772,15 +5773,15 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -5794,7 +5795,7 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -5962,15 +5963,15 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
             HW_GTE_RTPT();
@@ -5988,11 +5989,11 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             if (gHw_DrawMode != 0) {
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 HW_GTE_NCCT();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -6180,15 +6181,15 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w1 << 16;
             v >>= 13;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             gHw_Word3 = w1 >> 16;
             gHw_Word3 <<= 3;
             HW_GTE_RTPT();
@@ -6199,7 +6200,7 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 if (flag < 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
             HW_GTE_RTPS();
             /* Plain halfword load: through volatile it goes via $2 plus a move. */
@@ -6215,7 +6216,7 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word0 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
@@ -6389,15 +6390,15 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             v = gHw_Word0 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             v = w1 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V1(v);
+            gte_ldv1(v);
             v = w2 >> 16;
             v <<= 3;
             v += verts;
-            HW_GTE_LOAD_V2(v);
+            gte_ldv2(v);
             v = gHw_Word3 >> 16;
             v <<= 3;
             HW_GTE_RTPT();
@@ -6410,7 +6411,7 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 if (flag < 0)
                     goto next;
             }
-            HW_GTE_LOAD_V0(v);
+            gte_ldv0(v);
             HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -6430,14 +6431,14 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
             gHw_WindowWord = rec->words[0];
             v = gHw_Word3 + normals;
             if (gHw_DrawMode != 0) {
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 HW_GTE_NCCS();
                 v = gHw_Word0 + normals;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 + normals;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 + normals;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;

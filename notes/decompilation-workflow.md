@@ -267,7 +267,8 @@ true` (currently `gcc_2_8_1_g0_handwritten_asm`) may be used only for those
 addresses in `config/slus_01411/matching_c.json`. Such a source may declare
 hard registers, and its inline assembly is limited to the register
 save/restore, GTE, lone-`lwr` and fixed branch-plus-delay-slot macros in
-`src/game/handwritten_asm.h`. After
+`src/game/handwritten_asm.h`, plus the Psy-Q `inline_c.h` vertex loads
+`gte_ldv0`/`gte_ldv1`/`gte_ldv2`. After
 preprocessing, `tools/project/handwritten_asm_contract.py` checks each asm
 statement against an instruction, GTE command-word, constraint and clobber
 allowlist; empty templates and anything else are rejected. The profile cannot

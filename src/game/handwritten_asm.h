@@ -14,7 +14,9 @@
  * fixed registers ($at, $v0, temporaries) are plain register declarations.
  *
  * GTE commands are emitted without the Psy-Q inline_c.h nop padding because
- * the originals interleave independent work into those cycles.
+ * the originals interleave independent work into those cycles. Vertex loads
+ * need no such change, so the renderers take gte_ldv0/1/2 from
+ * src/psyq/inline_c.h directly; their lwc2 pairs pass the same contract.
  *
  * Inline assembly is limited to that save/restore, to GTE operations and to
  * three shapes GCC 2.8.1 cannot emit: a lone lwr merged into a C-loaded word
@@ -61,13 +63,6 @@
     __asm__ volatile("lwr %0, " #offset "(%1)" : "=r"(val) : "r"(p), "0"(val))
 
 /* GTE data registers: VXY/VZ pairs 0-5, SXY0-2 12-14, OTZ 7, flag $31. */
-#define HW_GTE_LOAD_V0(p)                                                  \
-    __asm__ volatile("lwc2 $0, 0(%0);" "lwc2 $1, 4(%0)" : : "r"(p))
-#define HW_GTE_LOAD_V1(p)                                                  \
-    __asm__ volatile("lwc2 $2, 0(%0);" "lwc2 $3, 4(%0)" : : "r"(p))
-#define HW_GTE_LOAD_V2(p)                                                  \
-    __asm__ volatile("lwc2 $4, 0(%0);" "lwc2 $5, 4(%0)" : : "r"(p))
-
 #define HW_GTE_RTPT() __asm__ volatile(".word 0x4A280030")
 #define HW_GTE_READ_FLAG(out) __asm__ volatile("cfc2 %0, $31" : "=r"(out))
 #define HW_GTE_WRITE(reg, value)                                           \
