@@ -21,12 +21,6 @@ typedef union {
     long packed;
 } ModelVariantScreenPoint;
 
-/* The rays command row: the pass count at + 0x18; the helper finishes when
- * its index reaches it. */
-typedef struct {
-    u8 unknown_00[0x18];
-    u16 count;
-} ModelVariantRayTiming;
 
 /* A 0x2FC-byte group of ten quads: corner arrays a..d, a position per quad,
  * a colour, and per quad a size, an angle, a done flag and an initialized
@@ -462,12 +456,6 @@ typedef struct {
     u16 oy[2];
 } ModelVariantRibbon;
 
-/* The ribbon command row: the fade window at + 0x24. */
-typedef struct {
-    u8 unknown00[0x24];
-    u32 fade_start;
-    u32 fade_end;
-} ModelVariantRibbonFadeTiming;
 
 /* The ribbon command row of headers 425 and 426: the growth and fade
  * windows. */
@@ -630,16 +618,6 @@ typedef struct {
     s32 shown;
 } ModelVariantSheetSet;
 
-/* The sheet command row: the window in which the sheets grow and the later
- * window in which they shrink again. */
-typedef struct {
-    u8 unknown_00[0x18];
-    u32 grow_start;
-    u32 grow_end;
-    u8 unknown_20[4];
-    u32 shrink_start;
-    u32 shrink_end;
-} ModelVariantSheetTiming;
 
 /* One 0x274-byte streamer: a thirteen-point spine and its copy moved along
  * the view, both projected, with per-point angle, width, colour, depth and
