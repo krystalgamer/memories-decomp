@@ -17,7 +17,10 @@ typedef struct {
     u32 grow_end;
     u32 fade_begin;
     u32 fade_end;
-    u8 unknown_28[12];
+    /* The sheet helper grows its sheets from trigger to grow_end and fades
+     * them from sheet_fade_begin to sheet_fade_end. */
+    u32 sheet_fade_begin, sheet_fade_end;
+    u8 unknown_30[4];
 } Variant474EntryConfig;
 
 /* The ribbon view the header-474 ribbons helper draws: phases, amplitudes,
