@@ -28,8 +28,8 @@ remain unchanged. No phase is declared unreachable.
 | `gDuelEffect_CardBreakupInitialScale` | `80146004` | `80154004` | `D_80146004` | 16 |
 
 The extern-only semantic view retains the original private configuration/work
-types and native compatibility declarations. The configuration keeps its
-generated owner; the SDK VECTOR is now `effect_11.c`'s `const` `.rodata`,
+types and native compatibility declarations. The configuration is now
+`effect_11.c`'s `.data` (#2602); the SDK VECTOR is now `effect_11.c`'s `const` `.rodata`,
 the first object after the module word (#2602). The two complete
 handlers and dispatcher change only six names and their semantic include;
 all five inventories change only two function-name cells each.

@@ -45,8 +45,9 @@ Diagnostic diffs and receipts remain in `tmp/shared-effects-full/`.
 
 The 16-byte initial vector `D_80146024`, 20-byte gather descriptor
 `D_8015A5F8`, 28-byte SDK image `D_8015A62C` and two eight-byte tile descriptors
-`D_8015A648` retain their real generated header/data owners. Explicit extents
-do not create C storage or absolute aliases. The texture-pair table keeps
+`D_8015A648` keep their original storage; since #2602 the vector is
+`gather_effect.c`'s `.rodata` and the descriptor, image and tile descriptors
+are `.data` of `gather_effect.c` and `tile_effect.c`. No absolute aliases. The texture-pair table keeps
 the accepted canonical union and its existing data owner.
 
 Target-GCC probes verify the accepted descriptor, work and frame layouts.

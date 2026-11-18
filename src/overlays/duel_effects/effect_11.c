@@ -15,6 +15,11 @@
 
 const VECTOR gDuelEffect_CardBreakupInitialScale = { ONE, ONE, ONE, 0 };
 
+DuelEffect11Config gDuelEffect_CardBreakupConfig = {
+    8, 4, 16, 8, 16, 360, { 128, 96, 32, 0 }, 4, 32, 64, 32, 4, 32,
+    64, 8, 12, 16, 16, 128, { 8, 16, 32 }, 8,
+};
+
 void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
 {
     MATRIX world;

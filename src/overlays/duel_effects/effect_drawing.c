@@ -14,6 +14,21 @@
 #include "primitive_semantic_views.h"
 #include "display_semantic_views.h"
 
+RECT gDuelEffect_aNumberGlyphRects[12] = {
+    { 240, 0, 15, 15 },
+    { 224, 32, 15, 15 },
+    { 240, 32, 15, 15 },
+    { 224, 224, 15, 15 },
+    { 240, 224, 15, 15 },
+    { 240, 16, 15, 15 },
+    { 224, 48, 15, 15 },
+    { 240, 48, 15, 15 },
+    { 224, 240, 15, 15 },
+    { 240, 240, 15, 15 },
+    { 224, 0, 15, 15 },
+    { 224, 16, 15, 15 },
+};
+
 void DuelEffect_DrawLayeredTileQuad(CVECTOR *color, u16 size, s16 depth, SVECTOR *offset)
 {
     DuelEffectTexturedQuad drawing;

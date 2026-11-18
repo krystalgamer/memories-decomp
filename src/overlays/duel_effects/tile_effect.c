@@ -23,11 +23,20 @@
 #define TILE_ROW_STEP 30
 #define TILE_Y_ORIGIN 106
 #define TILE_V_BOTTOM -120
+#define TILE_IMAGE_HEIGHT 212
 #else
 #define TILE_ROW_STEP 28
 #define TILE_Y_ORIGIN 98
 #define TILE_V_BOTTOM 126
+#define TILE_IMAGE_HEIGHT 196
 #endif
+
+GsIMAGE gDuelEffect_DestroyFlamesTextureImage = { 2, 320, 256, 140, TILE_IMAGE_HEIGHT, NULL, 0, 0, 0, 0, NULL };
+
+TileEffectDescriptor gDuelEffect_DestroyFlamesConfigs[2] = {
+    { 14, 4, 55, 4 },
+    { 14, 4, 55, 16 },
+};
 
 void DuelEffect_RunDestroyFlames(void *buffer, s32 phase)
 {

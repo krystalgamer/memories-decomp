@@ -17,6 +17,11 @@
 
 const VECTOR gDuelEffect_BoardDestructionInitialScale = { ONE, ONE, ONE, 0 };
 
+DuelEffect17Config gDuelEffect_BoardDestructionConfigs[2] = {
+    { { 96, 128, 96 }, { 192, 255, 192 }, 160, 64, 64, 8, 0 },
+    { { 128, 64, 64 }, { 255, 160, 160 }, 80, 96, 96, 16, 1 },
+};
+
 void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
 {
     MATRIX world;
