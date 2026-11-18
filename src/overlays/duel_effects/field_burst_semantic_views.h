@@ -9,6 +9,6 @@ extern void DuelEffect_RunStopDefenseBurst(void *work, s32 phase);
 extern DuelEffect8Config gDuelEffect_FieldColumnBurstConfigs[6];
 extern const VECTOR gDuelEffect_FieldColumnBurstInitialScale;
 extern DuelEffect12Config gDuelEffect_StopDefenseBurstConfig;
-extern VECTOR gDuelEffect_StopDefenseBurstInitialScale;
+extern const VECTOR gDuelEffect_StopDefenseBurstInitialScale;
 
 #endif

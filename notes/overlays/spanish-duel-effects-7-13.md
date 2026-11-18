@@ -30,9 +30,10 @@ the name does not assert that any lower phase is unused or exclusive.
 | `gDuelEffect_StatPenaltyInitialScale` | `801461C0` | `801541D0` | `D_80146178` | 16 |
 | `gDuelEffect_StatPenaltyTextureImages` | `8015AD14` | `80168CD4` | `D_8015AC48` | 588 |
 
-The extern-only semantic header retains the private four-record config,
-SDK VECTOR and all 21 GsIMAGE descriptors in separate real generated
-owners: 684 bytes, not new storage or an absolute data alias. The code
+The extern-only semantic header retains the private four-record config
+and all 21 GsIMAGE descriptors in separate real generated owners, not new
+storage or an absolute data alias; the SDK VECTOR is now `effect_13.c`'s
+`const` `.rodata` (#2602). The code
 reads descriptor zero; naming the complete table does not claim all
 descriptors are used. Byte equality with the primary image table is not
 permission to merge them or make either immutable.

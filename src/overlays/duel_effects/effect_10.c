@@ -11,6 +11,8 @@
 #include "live_handler_data_semantic_views.h"
 #include "../../game/duel_effect_object_pool.h"
 
+const VECTOR gDuelEffect_TerrainChangeInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
 {
     MATRIX world;

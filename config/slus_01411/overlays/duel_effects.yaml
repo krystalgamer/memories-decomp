@@ -52,7 +52,14 @@ segments:
       - [0x6C, .rodata, overlays/duel_effects/effect_8]
       - [0x7C, .rodata, overlays/duel_effects/gather_effect]
       - [0x8C, .rodata, overlays/duel_effects/effect_22]
-      - [0x180, rodata, overlays/duel_effects/header_after_effect_22]
+      - [0x180, .rodata, overlays/duel_effects/effect_10]
+      - [0x190, .rodata, overlays/duel_effects/effect_24]
+      - [0x1A0, .rodata, overlays/duel_effects/effect_21]
+      - [0x1B0, .rodata, overlays/duel_effects/effect_15]
+      - [0x1C0, .rodata, overlays/duel_effects/effect_13]
+      - [0x1D0, .rodata, overlays/duel_effects/effect_12]
+      - [0x1E0, .rodata, overlays/duel_effects/row_attack_effects]
+      - [0x200, rodata, overlays/duel_effects/header_after_row_attack_effects]
       - [0x2A0, .rodata, overlays/duel_effects/effect_17]
 
   - name: module

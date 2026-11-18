@@ -7,6 +7,8 @@
 #include "swords_field_semantic_views.h"
 #include "../../game/duel_effect_object_pool.h"
 
+const VECTOR gDuelEffect_SwordsFieldInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunSwordsField(void *buffer, s32 phase)
 {
     DuelEffect21Work *slots[2];

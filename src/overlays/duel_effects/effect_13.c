@@ -12,6 +12,8 @@
 #include "fallback_semantic_views.h"
 #include "../../game/duel_effect_object_pool.h"
 
+const VECTOR gDuelEffect_StatPenaltyInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
 {
     MATRIX world;

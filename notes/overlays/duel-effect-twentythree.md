@@ -12,7 +12,9 @@ owns gameplay removal; the name describes the mechanism rather than
 claiming exclusive artwork or a new #418 observation.
 
 `gDuelEffect_BackRowSweepInitialScale` binds the separate 16-byte SDK
-VECTOR at native `D_801461A8`, NA `801461F0`, JP `80154200`.
+VECTOR at native `D_801461A8`, NA `801461F0`, JP `80154200`, now
+`row_attack_effects.c`'s `const` `.rodata` after the row-strike scale
+(#2602).
 `selected_cards_semantic_views.h` provides extern-only canonical/native
 bindings without altering the private layout, generated storage, collector
 ABI, source profile or native maps. The paired selected-card overlay's

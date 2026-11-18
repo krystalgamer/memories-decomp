@@ -8,6 +8,8 @@
 #include "field_burst_semantic_views.h"
 #include "../../game/duel_effect_object_pool.h"
 
+const VECTOR gDuelEffect_StopDefenseBurstInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunStopDefenseBurst(void *buffer, s32 phase)
 {
     MATRIX world;
