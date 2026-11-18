@@ -68,6 +68,10 @@ segments:
       # Linker fill between objects, not data.
       - [0x28DA, bin, overlays/japanese_password/data_28da]
       - [0x28DC, .data, overlays/password/name_entry_main]
-      - [0x5104, data, overlays/japanese_password/data]
+      # Linker fill between objects, not data.
+      - [0x5104, bin, overlays/japanese_password/data_5104]
+      - [0x5108, .data, overlays/password/module_state]
+      - [0x51E6, pad]
+      - [0x51E8, data, overlays/japanese_password/data]
 
   - [0x7800]

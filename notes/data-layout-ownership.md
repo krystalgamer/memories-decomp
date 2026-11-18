@@ -522,6 +522,12 @@ North American and PAL ones: the word is the whole `module_header` segment and
 the module segment starts at `0x4` with `shop.c`'s `.rodata`, which needs
 `.rodata` ahead of `.text` in `section_order` (Japan had listed `.text`
 first and kept that `.rodata` in the header segment instead).
+They also build `module_state.c` (with `VERSION_JAPAN`) at `0x5108`: the
+North American order 0x2F8 lower, with `gNameEntry_aGlyphVramRects` in place
+of the 0x80-byte padding array and without the trailing 0xB0 one (Japan's
+sector leftovers start right after `gPassword_wCardId`; the two zero bytes
+before the raw tail at `0x51E8` are a `pad`). The 4-byte fill at `0x5104` is
+a `bin`, and the linker symbols drop the state's assignments.
 
 The credits module (USA and Japan) starts with its 4-byte module word; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette

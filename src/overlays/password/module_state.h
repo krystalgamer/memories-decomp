@@ -3,6 +3,10 @@
 
 #include "../../types.h"
 #include "../../ygo_types.h"
+#ifdef VERSION_JAPAN
+#include "../../psyq/libgte.h"
+#include "../../psyq/libgpu.h"
+#endif
 
 extern struct DisplayObject *gNameEntry_apKeySprites[3];
 extern u8 gNameEntry_bStateFlags;
@@ -25,6 +29,9 @@ extern s16 gNameEntry_wCursorTargetY;
 extern u32 gPassword_dwPriceRemaining;
 extern struct DisplayObject *gNameEntry_pCaret;
 extern struct DisplayObject *gPassword_apDigitCursorDecorations[];
+#ifdef VERSION_JAPAN
+extern RECT gNameEntry_aGlyphVramRects[16];
+#endif
 extern u8 gNameEntry_bCharacterSet;
 extern u16 gNameEntry_wPendingDialogId;
 extern u16 gNameEntry_wSelectionFrameFlags;
