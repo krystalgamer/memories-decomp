@@ -13,11 +13,6 @@
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 
-/* One grid vertex colour. */
-typedef struct {
-    u8 red, green, blue, unknown_03;
-} Model78Colour;
-
 /* The 0xB48-byte work area: the command row, the 13x13 wave grid and its
  * colours, the ring's lower and upper edges, 34 orbiting sprites, 32 rising
  * sprites, the orbiting sprites' frames, the spin angle, three texture words,
@@ -25,7 +20,7 @@ typedef struct {
 typedef struct {
     ModelVariantWaveConfig *config;
     SVECTOR grid[169];
-    Model78Colour colours[169];
+    CVECTOR colours[169];
     SVECTOR lower[17];
     SVECTOR upper[17];
     SVECTOR orbit[34];

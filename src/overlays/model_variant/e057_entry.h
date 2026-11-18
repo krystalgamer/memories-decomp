@@ -29,11 +29,6 @@ typedef struct {
     s16 lead, delay, duration;
 } Model109Config;
 
-/* One grid vertex colour. */
-typedef struct {
-    u8 red, green, blue, unknown_03;
-} Model109Colour;
-
 /* The 0x8E0-byte work area: the command row, eight sprite directions, the
  * nine-point beam ring, two four-vertex squares, the 13x13 wave grid and its
  * colours, the per-sprite timers, five texture words and the elapsed time. */
@@ -43,7 +38,7 @@ typedef struct {
     SVECTOR ring[9];
     SVECTOR squares[8];
     SVECTOR grid[169];
-    Model109Colour colours[169];
+    CVECTOR colours[169];
     s16 timers[8];
     u32 texture[5];
     s32 elapsed;

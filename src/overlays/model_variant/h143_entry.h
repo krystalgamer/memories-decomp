@@ -29,11 +29,6 @@ typedef struct {
     s16 wave_start, fade_start, ring_start, spark_start;
 } Model143UsConfig;
 
-/* One vertex colour. */
-typedef struct {
-    u8 red, green, blue, unknown_03;
-} Model143UsColour;
-
 /* The 0x17FC-byte work area: the command row, the 13x13 wave grid and its
  * colours, the 32 ring offsets, 96 spark positions and their targets, the
  * 55-vertex dome and its colours, 48 bursts of four sparks, the 48 dome
@@ -41,12 +36,12 @@ typedef struct {
 typedef struct {
     Model143UsConfig *config;
     SVECTOR grid[169];
-    Model143UsColour colours[169];
+    CVECTOR colours[169];
     SVECTOR ring[32];
     SVECTOR sparks[96];
     SVECTOR targets[96];
     SVECTOR dome[55];
-    Model143UsColour dome_colours[55];
+    CVECTOR dome_colours[55];
     SVECTOR burst[192];
     s16 spin[48];
     s32 texture[4];

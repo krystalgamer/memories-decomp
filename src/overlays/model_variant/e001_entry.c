@@ -31,7 +31,7 @@ s32 ModelVariant72_HandleRequest(Model72State *context, s32 command)
     SVECTOR *point;
     s32 i, j, half, t, elevation, swing, right, grey, below_right, pick, fan_blue;
     s32 value, size, u, v, sprite_blue, spark_blue;
-    Model72Colour *colour;
+    CVECTOR *colour;
     long depth;
 
     memset(&rotation, 0, 8);
@@ -48,9 +48,9 @@ s32 ModelVariant72_HandleRequest(Model72State *context, s32 command)
         }
         colour = work->colours;
         for (i = 0; i < config->rows; colour++, i++) {
-            colour->red = config->start_red + (config->end_red - config->start_red) * i / (config->rows - 1);
-            colour->green = config->start_green + (config->end_green - config->start_green) * i / (config->rows - 1);
-            colour->blue = config->start_blue + (config->end_blue - config->start_blue) * i / (config->rows - 1);
+            colour->r = config->start_red + (config->end_red - config->start_red) * i / (config->rows - 1);
+            colour->g = config->start_green + (config->end_green - config->start_green) * i / (config->rows - 1);
+            colour->b = config->start_blue + (config->end_blue - config->start_blue) * i / (config->rows - 1);
         }
         work->row = 0;
         point = work->ring;
@@ -127,19 +127,19 @@ s32 ModelVariant72_HandleRequest(Model72State *context, s32 command)
             setXY4(&ribbon, screen[value].vx, screen[value].vy, screen[right].vx, screen[right].vy, screen[elevation].vx,
                 screen[elevation].vy, screen[below_right].vx, screen[below_right].vy);
             colour = &work->colours[i];
-            ribbon.r0 = colour->red - j * colour->red / config->columns;
-            ribbon.g0 = colour->green - j * colour->green / config->columns;
-            ribbon.b0 = colour->blue - j * colour->blue / config->columns;
-            ribbon.r1 = colour->red - (j + 1) * colour->red / config->columns;
-            ribbon.g1 = colour->green - (j + 1) * colour->green / config->columns;
-            ribbon.b1 = colour->blue - (j + 1) * colour->blue / config->columns;
+            ribbon.r0 = colour->r - j * colour->r / config->columns;
+            ribbon.g0 = colour->g - j * colour->g / config->columns;
+            ribbon.b0 = colour->b - j * colour->b / config->columns;
+            ribbon.r1 = colour->r - (j + 1) * colour->r / config->columns;
+            ribbon.g1 = colour->g - (j + 1) * colour->g / config->columns;
+            ribbon.b1 = colour->b - (j + 1) * colour->b / config->columns;
             colour++;
-            ribbon.r2 = colour->red - j * colour->red / config->columns;
-            ribbon.g2 = colour->green - j * colour->green / config->columns;
-            ribbon.b2 = colour->blue - j * colour->blue / config->columns;
-            ribbon.r3 = colour->red - (j + 1) * colour->red / config->columns;
-            ribbon.g3 = colour->green - (j + 1) * colour->green / config->columns;
-            ribbon.b3 = colour->blue - (j + 1) * colour->blue / config->columns;
+            ribbon.r2 = colour->r - j * colour->r / config->columns;
+            ribbon.g2 = colour->g - j * colour->g / config->columns;
+            ribbon.b2 = colour->b - j * colour->b / config->columns;
+            ribbon.r3 = colour->r - (j + 1) * colour->r / config->columns;
+            ribbon.g3 = colour->g - (j + 1) * colour->g / config->columns;
+            ribbon.b3 = colour->b - (j + 1) * colour->b / config->columns;
             depth = AverageZ4(depths[value], depths[right], depths[elevation], depths[below_right]);
             flag = (flags[value] | flags[right] | flags[elevation] | flags[below_right]) & 0x20;
             if (depth >= 0 && flag == 0) {
