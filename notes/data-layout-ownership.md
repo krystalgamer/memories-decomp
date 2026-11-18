@@ -567,8 +567,10 @@ North America `+0x14FB0` (Japan `-0x40`, PAL `-0xCC`).
 
 Next, again in all regions, `effect_12.c` defines
 `gDuelEffect_StopDefenseBurstConfig` (one `DuelEffect12Config`, 0x10 bytes,
-North America `+0x14FB0`), ending at North America `+0x14FC0` (Japan `-0x40`,
-PAL `-0xCC`), where the raw `data` subsegment resumes.
+North America `+0x14FB0`) and `row_attack_effects.c` defines
+`gDuelEffect_RowStrikeConfig` (one `DuelEffect16Config`, 0x24 bytes,
+`+0x14FC0`), ending at North America `+0x14FE4` (Japan `-0x40`, PAL `-0xCC`),
+where the raw `data` subsegment resumes.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in
