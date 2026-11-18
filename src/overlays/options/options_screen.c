@@ -165,6 +165,7 @@ void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table)
                 packet->r0 = color;
                 packet->g0 = color >> 8;
                 packet->b0 = color >> 16;
+                /* Packed colour words; a DisplayObjectGT4Packet view reorders the loop. */
                 *(u32 *)&packet->r1 = gPalOptions_aWaveColors[row][column + 1];
                 *(u32 *)&packet->r2 = gPalOptions_aWaveColors[row + 1][column];
                 *(u32 *)&packet->r3 = gPalOptions_aWaveColors[row + 1][column + 1];
@@ -173,6 +174,7 @@ void PalOptions_DrawWaveSprite(DisplayObject *object, GsOT *ordering_table)
             }
         }
     } else {
+        /* SpritePrim is GsSPRITE field for field (sprite_primitive.h). */
         GsSortFastSprite((GsSPRITE *)sprite, ordering_table, 0);
     }
 }

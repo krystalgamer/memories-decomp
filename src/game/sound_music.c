@@ -117,6 +117,7 @@ s32 SD_RequestMusicPackageLoad(s16 command_id, s32 unused) {
         q = g_SDValue;
         q->s_wSD_STATUS |= 2;
         off = ((command_id & 0xFF0) >> 4) * sizeof(SDMusicTableEntry);
+        /* Byte-offset addition keeps the retail addu operand order. */
         entry = (SDMusicTableEntry *)(off + (s32)q->s_pstSD_MUSIC_TABLE);
 
         SD_EnqueueSpuRamTransfer(entry->spu_address, (s32)q->s_pwSD_MUSIC_TRACK,

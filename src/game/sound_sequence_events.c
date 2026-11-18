@@ -105,7 +105,7 @@ u8 velocity;
     SDVabProgram *prog;
     s32 used;
     u8 program;
-    u8 *vab;
+    SDVabImage *vab;
     SDSecondaryRecord *rec;
     s32 ch;
     u32 tidx;
@@ -133,21 +133,23 @@ u8 velocity;
 
     channel = channel_arg;
     note = note_arg;
+    /* sound.h declares the loaded VAB image as raw bytes. */
     hdr = (SDVabHeader *)gSD_pSecondaryState->transfer.vab_header;
     rec = &gSD_pSecondaryState->channels[channel & 0xFF];
     program = rec->program;
-    vab = (u8 *)hdr;
+    /* A separate image local keeps the retail spill-slot layout. */
+    vab = (SDVabImage *)hdr;
     used = 0;
     i = 0;
     if (program != 0) {
         do {
-            if (((SDVabProgram *)(vab + SD_VAB_PROGRAM_TABLE_OFFSET))[i].tone_count != 0) {
+            if (vab->programs[i].tone_count != 0) {
                 used++;
             }
             i++;
         } while (i < program);
     }
-    prog = &((SDVabProgram *)(vab + SD_VAB_PROGRAM_TABLE_OFFSET))[program];
+    prog = &vab->programs[program];
     if (prog->tone_count == 0) {
         return;
     }
@@ -157,8 +159,7 @@ u8 velocity;
     ch = channel & 0xFF;
     do {
         level = note & 0x7F;
-        tone = &((SDVabTone *)(vab + SD_VAB_TONE_TABLE_OFFSET))
-                    [used * SD_VAB_TONES_PER_PROGRAM + (tidx & 0xFFFF)];
+        tone = &vab->tones[used * SD_VAB_TONES_PER_PROGRAM + (tidx & 0xFFFF)];
         if (key < tone->note_min) {
             continue;
         }
@@ -190,6 +191,7 @@ u8 velocity;
         i = 0;
         sum = 0;
         vag = tone->vag;
+        /* The VAG size table follows the used programs' tones. */
         sizes = (u16 *)(gSD_pSecondaryState->transfer.vab_header
                         + hdr->program_count * 512 + 0x820);
         obj = &gSD_pSecondaryState->objects[idx];
@@ -313,13 +315,10 @@ void SD_KeyOffSecondaryNote(s32 channel, s32 note, s32 unused) {
     }
 
     {
-        SDSecondaryRecord *q =
-            (SDSecondaryRecord *)gSD_pSecondaryState + (u8)channel;
+        SDSecondaryRecord *q = &gSD_pSecondaryState->channels[(u8)channel];
         q->velocity = 0;
     }
 }
-
-#define SD_SECONDARY_STATE_BYTES(state) ((u8 *)(state))
 
 void SD_HandleSequenceControlChange(s32 channel, s32 controller, u8 value)
 {
@@ -332,13 +331,11 @@ void SD_HandleSequenceControlChange(s32 channel, s32 controller, u8 value)
     s32 sel;
     s32 v;
     s32 i;
-    s32 m;
-    s32 off;
 
     ok = 0;
     id = channel & 0xFF;
     b = gSD_pSecondaryState;
-    e = (SDSecondaryRecord *)b + id;
+    e = &b->channels[id];
     sel = controller & 0xFF;
 
     switch (sel) {
@@ -394,19 +391,15 @@ void SD_HandleSequenceControlChange(s32 channel, s32 controller, u8 value)
         i = 0;
         if (c->object_count > 0) {
             id2 = channel & 0xFF;
-            off = id2 * SD_SEQUENCE_CHANNEL_RECORD_SIZE;
-            m = 0x180;
             do {
                 if (id2 == c->objects[i].channel_index) {
                     if (c->objects[i].lifecycle_stage != 0) {
                         SD_SpatializeSecondaryObject(
-                            (SDSecondaryObject *)(SD_SECONDARY_STATE_BYTES(c) + m),
-                            (SDSecondaryRecord *)(SD_SECONDARY_STATE_BYTES(c) + off));
+                            &c->objects[i], &c->channels[id2]);
                         SD_SetVoiceVolume(i, gSD_pSecondaryState->objects[i].level_left,
                                           gSD_pSecondaryState->objects[i].level_right);
                     }
                 }
-                m += SD_SECONDARY_OBJECT_SIZE;
                 c = gSD_pSecondaryState;
                 i++;
             } while (i < c->object_count);
@@ -416,8 +409,7 @@ void SD_HandleSequenceControlChange(s32 channel, s32 controller, u8 value)
 
 void SD_SetSequenceChannelProgram(unsigned char index, int value)
 {
-    register SDSecondaryRecord *entries =
-        (SDSecondaryRecord *)gSD_pSecondaryState;
+    register SDSecondaryRecord *entries = gSD_pSecondaryState->channels;
 
     entries += index;
 
@@ -426,8 +418,7 @@ void SD_SetSequenceChannelProgram(unsigned char index, int value)
 
 void SD_SetSequenceChannelPitchBendMsb(unsigned char index, int unused, int value)
 {
-    register SDSecondaryRecord *entries =
-        (SDSecondaryRecord *)gSD_pSecondaryState;
+    register SDSecondaryRecord *entries = gSD_pSecondaryState->channels;
 
     entries += index;
 

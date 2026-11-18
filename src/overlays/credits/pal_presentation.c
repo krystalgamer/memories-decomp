@@ -144,7 +144,7 @@ void Credits_DrawGrid(DisplayObject *object, GsOT *ot)
     do {
         packet->y0 = packet->y1 = i;
         i += 24;
-        Graphics_SubmitDrawModePacket((u32 *)packet, ot, 0, 0);
+        Graphics_SubmitDrawModePacket(packet, ot, 0, 0);
     } while (i < 256);
     packet->y0 = 0;
     packet->y1 = 256;
@@ -153,6 +153,6 @@ void Credits_DrawGrid(DisplayObject *object, GsOT *ot)
     do {
         packet->x0 = packet->x1 = i;
         i += 24;
-        Graphics_SubmitDrawModePacket((u32 *)packet, ot, 0, 0);
+        Graphics_SubmitDrawModePacket(packet, ot, 0, 0);
     } while (i < 320);
 }

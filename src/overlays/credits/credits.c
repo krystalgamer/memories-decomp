@@ -670,6 +670,7 @@ void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3)
                     } else {
                         code += 0x1F;
                     }
+                    /* One word load tests group and the flags' low nibble together. */
                     if ((*(u32 *)entry & 0xFFF) == 0x63) {
                         glyph.clut = (code & 0xFF) == 0x69 ? 0x3DE0 : 0x3DA0;
                     }
