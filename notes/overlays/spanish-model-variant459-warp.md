@@ -14,11 +14,13 @@ a different work-block layout. `h442_warp_pal.c` defines
 `VARIANT438_WARP_LAYOUT_459` and renames the function, then includes
 `h421_warp_pal.c`. The layout macro selects three things:
 
-- **State.** `Warp459State` keeps the five 0x1A8-byte rings at `0` and moves
-  the polygon to `+0x2DC8`, the origin to `+0x2EE0`, the direction to
-  `+0x3054`, the step to `+0x308C` and the phase to `+0x30DC`.
+- **State.** `Variant459EntryState` (first matched through a private
+  `Warp459State` view) keeps the five 0x1A8-byte `curtains` at `0` and moves
+  the polygon (`plain`) to `+0x2DC8`, the origin (`matrices[0].t`, selected
+  by `WARP_ORIGIN`) to `+0x2EE0`, the direction (`aim.direction`) to
+  `+0x3054`, the step (`clock.step`) to `+0x308C` and the phase to `+0x30DC`.
 - **Colours.** Each inner and outer component is scaled by
-  `(2048 - size) / 2048`, so a ring fades as it grows.
+  `(2048 - scale) / 2048`, so a ring fades as it grows.
 - **Sorting.** Quads sort whenever depth and flag are non-negative. MODEL438
   also requires `size < 2048`.
 

@@ -366,7 +366,7 @@ s32 SpanishModelVariant438_HandleRequest(Variant438EntryState *context, s32 comm
         if (work->phase > 0) {
             SpanishModelVariant438_DrawLines(context);
             SpanishModelVariant438_DrawAdvancingBand(context);
-            SpanishModelVariant438_DrawWarpRings((Warp438State *)context);
+            SpanishModelVariant438_DrawWarpRings(context);
         }
         if (work->phase >= 2) {
             SpanishModelVariant438_DrawSpiral(context);

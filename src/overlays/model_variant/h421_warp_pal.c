@@ -1,14 +1,17 @@
 #include "../../types.h"
-#include "h421_warp_pal.h"
 
 #if defined(VARIANT438_WARP_LAYOUT_459)
-#define WARP_STATE Warp459State
-#define WARP_COLOR(ring, c) ((c) * (2048 - (ring)->size) / 2048)
+#include "h442_entry_pal.h"
+#define WARP_STATE Variant459EntryState
+#define WARP_ORIGIN(state) ((state)->matrices[0].t)
+#define WARP_COLOR(ring, c) ((c) * (2048 - (ring)->scale) / 2048)
 #define WARP_SORTS(ring) 1
 #else
-#define WARP_STATE Warp438State
+#include "h421_entry_pal.h"
+#define WARP_STATE Variant438EntryState
+#define WARP_ORIGIN(state) ((state)->matrix.t)
 #define WARP_COLOR(ring, c) (c)
-#define WARP_SORTS(ring) ((ring)->size < 2048)
+#define WARP_SORTS(ring) ((ring)->scale < 2048)
 #endif
 
 void SpanishModelVariant438_DrawWarpRings(WARP_STATE *context)
@@ -22,8 +25,8 @@ void SpanishModelVariant438_DrawWarpRings(WARP_STATE *context)
     long flag;
     WARP_STATE *state = context;
     s32 depth = 0;
-    Warp438Ring *ring = state->rings;
-    POLY_GT4 *poly = &state->polygon;
+    ModelVariantTripleCurtain *ring = state->curtains;
+    POLY_GT4 *poly = &state->plain;
     GsOT *ot;
     s32 i, j;
     s32 buffer;
@@ -33,22 +36,22 @@ void SpanishModelVariant438_DrawWarpRings(WARP_STATE *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     buffer = GsGetActiveBuff();
-    yaw = ratan2(state->direction[2], state->direction[0]) + 2048;
-    pitch = ratan2(state->direction[1], state->direction[2]) + 2048;
+    yaw = ratan2(state->aim.direction.vz, state->aim.direction.vx) + 2048;
+    pitch = ratan2(state->aim.direction.vy, state->aim.direction.vz) + 2048;
     if (yaw < 2048) {
         yaw = -yaw + 1024;
     } else {
         yaw += 1024;
     }
     for (i = 0; i < 5; i++, ring++) {
-        if (ring->size > 0) {
-            rsin(ring->size);
+        if (ring->scale > 0) {
+            rsin(ring->scale);
             rotation.vz = 0;
             rotation.vx = -pitch;
             rotation.vy = yaw;
-            matrix.t[0] = state->origin[0] + state->direction[0] * ring->size / 2048;
-            matrix.t[1] = state->origin[1] + state->direction[1] * ring->size / 2048;
-            matrix.t[2] = state->origin[2] + state->direction[2] * ring->size / 2048;
+            matrix.t[0] = WARP_ORIGIN(state)[0] + state->aim.direction.vx * ring->scale / 2048;
+            matrix.t[1] = WARP_ORIGIN(state)[1] + state->aim.direction.vy * ring->scale / 2048;
+            matrix.t[2] = WARP_ORIGIN(state)[2] + state->aim.direction.vz * ring->scale / 2048;
             scale.vx = 4096;
             scale.vy = 4096;
             scale.vz = 4096;
@@ -60,13 +63,13 @@ void SpanishModelVariant438_DrawWarpRings(WARP_STATE *context)
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
             for (j = 0; j < 16; j++) {
-                r0 = WARP_COLOR(ring, ring->inner_color.r);
-                g0 = WARP_COLOR(ring, ring->inner_color.g);
-                b0 = WARP_COLOR(ring, ring->inner_color.b);
-                r1 = WARP_COLOR(ring, ring->outer_color.r);
-                g1 = WARP_COLOR(ring, ring->outer_color.g);
-                b1 = WARP_COLOR(ring, ring->outer_color.b);
-                RotTransPers4(&ring->outer[j], &ring->outer[j + 1], &ring->source[j], &ring->source[j + 1],
+                r0 = WARP_COLOR(ring, ring->color_a.r);
+                g0 = WARP_COLOR(ring, ring->color_a.g);
+                b0 = WARP_COLOR(ring, ring->color_a.b);
+                r1 = WARP_COLOR(ring, ring->color_b.r);
+                g1 = WARP_COLOR(ring, ring->color_b.g);
+                b1 = WARP_COLOR(ring, ring->color_b.b);
+                RotTransPers4(&ring->a[j], &ring->a[j + 1], &ring->c[j], &ring->c[j + 1],
                               (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
                               (long *)&poly->x3, &interpolation, &flag);
                 if (poly->x0 < 160) {
@@ -102,7 +105,7 @@ void SpanishModelVariant438_DrawWarpRings(WARP_STATE *context)
                     poly->v3 = poly->y3;
                     poly->tpage = tpage;
                 }
-                depth = RotTransPers4(&ring->outer[j], &ring->outer[j + 1], &ring->inner[j], &ring->inner[j + 1],
+                depth = RotTransPers4(&ring->a[j], &ring->a[j + 1], &ring->b[j], &ring->b[j + 1],
                                       (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
                                       (long *)&poly->x3, &interpolation, &flag);
                 SetSemiTrans(poly, 1);
@@ -116,13 +119,13 @@ void SpanishModelVariant438_DrawWarpRings(WARP_STATE *context)
                 }
             }
         }
-        if (ring->size < 2048) {
-            ring->size += state->step << 6;
-            if (ring->size >= 2048) {
+        if (ring->scale < 2048) {
+            ring->scale += state->clock.step << 6;
+            if (ring->scale >= 2048) {
                 if (state->phase < 3) {
-                    ring->size -= 2048;
+                    ring->scale -= 2048;
                 } else {
-                    ring->size = 2048;
+                    ring->scale = 2048;
                 }
             }
         }
