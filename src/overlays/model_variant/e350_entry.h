@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT801_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -15,30 +16,12 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/abs.h"
 
-/* One 0x18-byte command row: the sprite half extents, the flight length,
- * the sprite count, the start circle radius, the spark spread, count and
- * size, the fade step, the start time and the time the sprites set off. */
-typedef struct {
-    u16 width;
-    u16 height;
-    u16 steps;
-    u16 count;
-    u16 radius;
-    u16 spark_spread;
-    u16 spark_count;
-    u16 spark_size;
-    u8 fade, unknown_11;
-    u16 unknown_12;
-    u16 start;
-    u16 launch;
-} Model801Config;
-
 /* The work area: the command row; per sprite its position, step, angle,
  * target, 32-point trail and sparks; the timer, the spark frames, the
  * phase, the arrival flags, the drawn and moving counts, the trail lengths
  * and heads, the ambient level, the two textures and the sprite levels. */
 typedef struct {
-    Model801Config *config;
+    ModelVariantFlightConfig *config;
     SVECTOR pos[8];
     SVECTOR step[8];
     SVECTOR angle[8];
@@ -59,7 +42,7 @@ typedef struct {
 } Model801State;
 
 extern GsIMAGE gModelVariant801_aImages[];
-extern Model801Config gModelVariant801_aConfigs[];
+extern ModelVariantFlightConfig gModelVariant801_aConfigs[];
 
 s32 ModelVariant801_HandleRequest(Model801State *context, s32 command);
 

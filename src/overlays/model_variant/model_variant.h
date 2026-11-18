@@ -1067,6 +1067,17 @@ typedef struct {
     u32 scale_step, approach_end, hold_end, grow_end, settle_end, return_end, unknown_24;
 } ModelVariantGlideConfig;
 
+/* One 0x18-byte command row of header 801 (French header 818): the sprite
+ * half extents, the flight length in steps, the sprite count, the start
+ * circle radius, the spark spread, count and size, the fade step, the start
+ * time and the time the sprites set off. */
+typedef struct {
+    u16 width, height, steps, count;
+    u16 radius, spark_spread, spark_count, spark_size;
+    u8 fade, unknown_11;
+    u16 unknown_12, start, launch;
+} ModelVariantFlightConfig;
+
 /* The 0xC-byte command row of headers 633 and 634: the start delay, the
  * radius, the height (header 634 copies it but never reads it), the main
  * colour and the spark colour. */

@@ -38,9 +38,9 @@ s32 FrenchModelVariant818_HandleRequest(Image26952State *context, s32 command)
                 rotation.vy + position.dimensions.y / 2 * ((rand() - rand()) % 4096) / 4096,
                 sign * 450);
             setVector(&state->velocities[i],
-                (state->targets[i].vx - state->positions[i].vx) / state->config->travel_duration,
-                (state->targets[i].vy - state->positions[i].vy) / state->config->travel_duration,
-                (state->targets[i].vz - state->positions[i].vz) / state->config->travel_duration);
+                (state->targets[i].vx - state->positions[i].vx) / state->config->steps,
+                (state->targets[i].vy - state->positions[i].vy) / state->config->steps,
+                (state->targets[i].vz - state->positions[i].vz) / state->config->steps);
             setVector(&state->rotations[i], 0, 0, theta);
             state->hit[i] = 0;
             state->color[i] = 128;
@@ -48,9 +48,9 @@ s32 FrenchModelVariant818_HandleRequest(Image26952State *context, s32 command)
             state->head[i] = 1;
             for (j = 0; j < state->config->spark_count; j++) {
                 setVector(&state->sparks[i][j],
-                    state->config->spread * ((rand() - rand()) % 4096) / 4096,
-                    state->config->spread * ((rand() - rand()) % 4096) / 4096,
-                    state->config->spread * ((rand() - rand()) % 4096) / 4096);
+                    state->config->spark_spread * ((rand() - rand()) % 4096) / 4096,
+                    state->config->spark_spread * ((rand() - rand()) % 4096) / 4096,
+                    state->config->spark_spread * ((rand() - rand()) % 4096) / 4096);
                 state->spark_frames[i][j] = 0;
             }
             for (j = 0; j < 32; j++) {
@@ -72,7 +72,7 @@ s32 FrenchModelVariant818_HandleRequest(Image26952State *context, s32 command)
     ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
-    if (state->elapsed < state->config->camera_delay) {
+    if (state->elapsed < state->config->launch) {
         Model_QueueCameraOrbitFromPreset(active, 0, &rotation, -16);
     } else {
         Model_QueueCameraOrbitFromPreset(active ^ 1, 1, &rotation, -16);
@@ -165,7 +165,7 @@ s32 FrenchModelVariant818_HandleRequest(Image26952State *context, s32 command)
             }
         }
     }
-    if (state->elapsed >= state->config->camera_delay) {
+    if (state->elapsed >= state->config->launch) {
         for (i = 0; i < state->launched; i++) {
             if (state->color[i]) {
                 setVector(&state->rotations[i],
