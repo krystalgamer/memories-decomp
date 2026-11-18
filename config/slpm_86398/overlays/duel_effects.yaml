@@ -124,6 +124,7 @@ segments:
       - [0x15104, .data, overlays/duel_effects/contour_burst_effects]
       - [0x15398, .data, overlays/duel_effects/effect_6]
       - [0x1544C, .data, overlays/duel_effects/effect_drawing]
-      - [0x154AC, data, overlays/japanese_duel_effects/data_154AC]
+      - [0x154AC, .data, overlays/duel_effects/effect_1]
+      - [0x154DC, data, overlays/japanese_duel_effects/data_154DC]
 
   - [0x18000]

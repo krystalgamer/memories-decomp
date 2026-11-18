@@ -581,7 +581,9 @@ bytes, `+0x15144`) and `gDuelEffect_ContourBurstConfigs` (thirty
 `gDuelEffect_DirectDamageConfigs` (six `DuelEffect6Config`, 0xB4 bytes,
 `+0x153D8`). In Japan and PAL that run reaches `effect_drawing.c`'s `.data`
 (Japan `+0x1544C`, PAL `+0x153C0`), so their first raw `data` subsegment is
-gone; North America's resumes at `+0x1548C`.
+gone. `effect_1.c`'s `gDuelEffect_FusionConfigs` (two `DuelEffect1Config`,
+0x30 bytes) follows in every region: North America `+0x1548C`, Japan
+`+0x154AC`, PAL `+0x15420`; the raw `data` resumes after it.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in

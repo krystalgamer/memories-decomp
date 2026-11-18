@@ -121,6 +121,7 @@ segments:
       - [0x15078, .data, overlays/duel_effects/contour_burst_effects]
       - [0x1530C, .data, overlays/duel_effects/effect_6]
       - [0x153C0, .data, overlays/duel_effects/effect_drawing]
-      - [0x15420, data, overlays/italian_duel_effects/data_15420]
+      - [0x15420, .data, overlays/duel_effects/effect_1]
+      - [0x15450, data, overlays/italian_duel_effects/data_15450]
 
   - [0x16000]
