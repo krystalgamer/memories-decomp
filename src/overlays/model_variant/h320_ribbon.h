@@ -14,8 +14,9 @@ typedef struct {
     SVECTOR b[17];
     long sb[17];
     s32 width[17];
-    CVECTOR color;
-    u8 unknown224[0xB4];
+    ModelVariantStripStyle style;
+    u8 unknown_240[0x2C8 - 0x240];
+    VECTOR velocity;
     s32 otz[17];
     long flag[17];
     s16 ox[17];

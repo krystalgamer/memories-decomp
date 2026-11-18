@@ -43,7 +43,7 @@ void ModelVariant376_DrawRibbon(Variant393EntryState *context)
     if (work->tail.phase > 0) {
         twist = (work->part_index << 12) / work->config->count + yaw;
         len = work->width * 40 / 1024;
-        ribbon = (Variant376Ribbon *)work;
+        ribbon = work->records;
         for (i = 0, phase = 0; i < 1; i++, ribbon++, phase = i << 12) {
             for (k = 0, wave = phase - work->ribbon_wave; k < 17; k++, wave += 0x300) {
                 if (k == 0 || k == 16) {
@@ -80,7 +80,7 @@ void ModelVariant376_DrawRibbon(Variant393EntryState *context)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        ribbon = (Variant376Ribbon *)work;
+        ribbon = work->records;
         for (i = 0; i < 1; i++, ribbon++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
@@ -121,7 +121,7 @@ void ModelVariant376_DrawRibbon(Variant393EntryState *context)
                 }
             }
         }
-        ribbon = (Variant376Ribbon *)work;
+        ribbon = work->records;
         for (i = 0; i < 1; i++, ribbon++) {
             k = 0;
             poly = work->flat_textured;
@@ -134,9 +134,9 @@ void ModelVariant376_DrawRibbon(Variant393EntryState *context)
                 poly->y2 = (ribbon->sa[k] >> 16) - ribbon->oy[k];
                 poly->x3 = ribbon->sa[k + 1] - ribbon->ox[k + 1];
                 poly->y3 = (ribbon->sa[k + 1] >> 16) - ribbon->oy[k + 1];
-                poly->r0 = ribbon->color.r;
-                poly->g0 = ribbon->color.g;
-                poly->b0 = ribbon->color.b;
+                poly->r0 = ribbon->style.inner.r;
+                poly->g0 = ribbon->style.inner.g;
+                poly->b0 = ribbon->style.inner.b;
                 if (ribbon->otz[k] >= 0 && ribbon->flag[k] >= 0) {
                     GsSortPoly(poly, ot, ribbon->otz[k]);
                 }

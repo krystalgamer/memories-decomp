@@ -8,6 +8,8 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
+#include "h320_streamers.h"
+#include "h320_ribbon.h"
 
 /* Entry initialization views; the accepted renderers retain their own views. */
 typedef struct {
@@ -18,19 +20,11 @@ typedef struct {
     u32 start, end, ribbon_end, fade_start, fade_end;
 } Variant337EntryConfig;
 
-typedef struct {
-    u8 unknown_000[0x220];
-    ModelVariantStripStyle style;
-    u8 unknown_240[0x2C8 - 0x240];
-    VECTOR velocity;
-    u8 unknown_2D8[0x3A4 - 0x2D8];
-} Variant337EntryRecord;
-
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
-    Variant337EntryRecord records[1];
+    Variant320Ribbon records[1];
     ModelVariantPointSheet rings[2];
-    ModelVariantFlaggedStreamer streamers[2];
+    Variant320Streamer streamers[2];
     ModelVariantPackets packets;
     POLY_FT4 flat_textured[2];
     u8 unknown_CBC[0xCCC - 0xCBC];
