@@ -533,7 +533,7 @@ void Movie_OpenIndexedStream(s32 index, s32 start_frame, s32 end_frame, s32 rgb2
 }
 
 s32 Movie_StartFileStream(
-    const char *path,
+    char *path,
     s32 start_frame,
     s32 end_frame,
     s32 rgb24,
@@ -556,9 +556,9 @@ s32 Movie_StartFileStream(
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 
-s32 File_Exists(const char *path, CdlFILE *file)
+s32 File_Exists(char *path, CdlFILE *file)
 {
-    DslFILE *result = DsSearchFile((DslFILE *)file, (char *)path);
+    DslFILE *result = DsSearchFile((DslFILE *)file, path);
 
     if (result == 0 || result == (DslFILE *)-1) {
         return -1;

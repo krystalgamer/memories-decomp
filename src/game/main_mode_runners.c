@@ -133,7 +133,7 @@ void Main_RunDuel(void)
             gBuildDeck_bConfirmMode = 0x80;
             BuildDeck_InitScreen(
                 (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
-                (u8 *)gDuel_awPlayerDeck, 0, 0x80);
+                gDuel_awPlayerDeck, 0, 0x80);
             Fade_WaitIn();
         } else if (BuildDeck_Update() == 0) {
             SD_BGMFadeOut();
@@ -289,7 +289,7 @@ void Main_RunBuildDeckMenu(void)
         gMain_bActiveModeState = flags | 0x40;
         BuildDeck_InitScreen(
             (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
-            (unsigned char *)gDuel_awPlayerDeck,
+            gDuel_awPlayerDeck,
             0,
             gBuildDeck_bConfirmMode
         );
@@ -610,7 +610,7 @@ void Main_RunTrade(void)
         }
         break;
     case 2:
-        y = *(u16 *)&obj->field_60 - 0x20;
+        y = (u16)obj->field_60 - 0x20;
         obj->field_60 = y;
         Widget_SlideSine(
             obj,
@@ -749,7 +749,7 @@ void Main_RunCredits(void)
                     gMain_bModeRunnerStep = state | 0x80;
                     state = ((u32)((SaveDataState *)gDuel_awPlayerDeck)->duelist_code) %
                         CREDITS_SECRET_NUMBER_COUNT;
-                    table = (u16 *)gCredits_awSecretNumbers;
+                    table = gCredits_awSecretNumbers[0];
                     number = &table[state * 2];
                     gText_StagedValues[0].pair.lo = number[0];
                     gText_StagedValues[0].pair.hi = number[1];
