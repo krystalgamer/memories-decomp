@@ -584,7 +584,7 @@ s32 (*const gModel_apfnEffectHandlers[4])(s32, s32) = {
 };
 const u8 gModel_szSuMrgPath[] = "M:/mrgSU/SU.mrg";
 #ifndef VERSION_JAPAN
-const u8 gModel_szAnimationSoundTraceFormat[] = "e%03ld(%ld)=%d\n";
+const char gModel_szAnimationSoundTraceFormat[] = "e%03ld(%ld)=%d\n";
 const char gModelDebug_szLoadStageFormat[] = "LOAD STAGE(%d,%d)\n";
 const char gModelDebug_szLoadModel0Format[] = "LOAD MODEL0(%d,%d)\n";
 const char gModelDebug_szLoadModel1Format[] = "LOAD MODEL1(%d,%d)\n";
