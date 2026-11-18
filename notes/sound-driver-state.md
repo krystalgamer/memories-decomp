@@ -1734,9 +1734,10 @@ new stored-pointer declarations.
 
 The clock increments only when an unended track's tempo accumulator
 produces its existing carry and that track index equals `field_07F8`.
-It is not an interrupt, frame, byte or event count. The pump retains its
-track-array-relative `STATE_WORD(s32, 0x7F0)` increment and the adjacent
-raw `0x7F8` selector access; only the clock's member-name comment changes.
+It is not an interrupt, frame, byte or event count. The pump reaches the
+increment and the adjacent `field_07F8` selector through its one live
+`SDSequencePlayer *` (`&gSD_pSecondaryState->sequence`, the +0x518 record
+holding the tracks and the sequence-wide words).
 Header parsing still clears the clock, its saved word and `field_07F8`
 in the original order.
 
@@ -2338,15 +2339,17 @@ separate filename buffers in `SDValue`:
 
 The literal bytes are independently checked in the retail loaded image at
 `0x80010784`, `0x80010790` and `0x8001079C`, respectively; `SD_InitState`
-writes them as string literals, the first `.rodata` of `sound_driver.c`.
+writes them from three function-scope `static const` blocks, still the
+first `.rodata` of `sound_driver.c`.
 Preserve the mixed-case text.
 `SD_InitState` first clears the resident state through `0x801EA7FF`, then
-copies these strings with its existing `SDInitBlk11`/`SDInitBlk10`
-assignments. Those block types contain exactly eleven or ten bytes;
-the copies include each terminator, not a sixteen-byte string copy.
+copies these strings with `SDInitBlk11`/`SDInitBlk10` assignments to
+each name's `name11`/`name10` member. Those block types contain exactly
+eleven or ten bytes; the copies include each terminator, not a
+sixteen-byte string copy.
 
-The existing `u8[0x10]` declarations remain, with their offsets and extents
-pinned. The historical extent caveat above still applies: separately
+Each name is an `SDFileName` union whose `u8 text[0x10]` is what the file
+requests pass; offsets and extents stay pinned. The historical extent caveat above still applies: separately
 passed addresses establish three starts, not the complete ownership or
 capacity of each interval. Neither the string lengths nor this naming
 supplies new evidence for the retained sixteen-byte extents.
@@ -2566,9 +2569,9 @@ The existing state-value table above remains the complete writer map.
 Initialization's zero writer is `SD_ResetSecondaryState`, not its caller
 `SD_InitState`. Polling alone changes playing state one into ended state
 three, including the zero-track case; the track pump never publishes that
-transition itself. Its track-array-relative `STATE_WORD(s16, 0x7E2)`
-access remains raw to preserve register allocation; only its explanatory
-member-name comment changes. Mute/restore states four/one, staged/stopped
+transition itself. It reads `sequence_state` off the same
+`SDSequencePlayer *` as the tracks, which keeps retail's single live
+register. Mute/restore states four/one, staged/stopped
 state two, both volume-refresh gates and all flag-store ordering remain.
 
 `sequence_read_limit` is a fixed software offset guard, not an actual

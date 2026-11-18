@@ -36,10 +36,10 @@ void SD_ResetSecondaryState(void)
     transfer_pan_state = gSD_pSecondaryState;
     transfer_pan_state->transfer.vab_pan = 64;
     sequence_state = gSD_pSecondaryState;
-    sequence_state->sequence_open_token = -1;
-    sequence_state->sequence_state = 0;
-    sequence_state->spatial_level_right = SD_SECONDARY_LEVEL_MAX;
-    sequence_state->spatial_level_left = SD_SECONDARY_LEVEL_MAX;
+    sequence_state->sequence.sequence_open_token = -1;
+    sequence_state->sequence.sequence_state = 0;
+    sequence_state->sequence.spatial_level_right = SD_SECONDARY_LEVEL_MAX;
+    sequence_state->sequence.spatial_level_left = SD_SECONDARY_LEVEL_MAX;
     sequence_state->fast_forward_target_address = 0;
     sequence_state->last_track_cursor_address = 0;
     sequence_state->sequence_tick_mode = 0x1000;
@@ -363,10 +363,10 @@ int SD_OpenSequence(u8 *input, short vab_id)
         tag != SD_SEQUENCE_TAG_KDT && tag != SD_SEQUENCE_TAG_KDT1)
         return -1;
     state = gSD_pSecondaryState;
-    if (state->sequence_open_token == -1) {
-        state->sequence_source = input;
-        state->sequence_open_token = vab_id;
-        state->sequence_state = 2;
+    if (state->sequence.sequence_open_token == -1) {
+        state->sequence.sequence_source = input;
+        state->sequence.sequence_open_token = vab_id;
+        state->sequence.sequence_state = 2;
         state->timer_update_inhibit = 0;
         return 0;
     }
@@ -379,20 +379,20 @@ void SD_PlaySequence(s32 start, s32 unused)
     u8 one = 1;
 
     gSD_pSecondaryState->timer_update_inhibit = one;
-    if (gSD_pSecondaryState->sequence_open_token == -1) {
+    if (gSD_pSecondaryState->sequence.sequence_open_token == -1) {
         gSD_pSecondaryState->timer_update_inhibit = 0;
         return;
     }
-    gSD_pSecondaryState->sequence_read_limit = 0x10000;
-    gSD_pSecondaryState->sequence_read_base = gSD_pSecondaryState->sequence_source;
+    gSD_pSecondaryState->sequence.sequence_read_limit = 0x10000;
+    gSD_pSecondaryState->sequence.sequence_read_base = gSD_pSecondaryState->sequence.sequence_source;
     SD_StartSequenceTracks();
 
     start = (u16)start;
     if ((start & 0xFF) == 0) {
-        gSD_pSecondaryState->sequence_state = 4;
+        gSD_pSecondaryState->sequence.sequence_state = 4;
     } else {
         gSD_pSecondaryState->shared_track_updates_enabled = one;
-        gSD_pSecondaryState->sequence_state = 1;
+        gSD_pSecondaryState->sequence.sequence_state = 1;
     }
     gSD_pSecondaryState->timer_update_inhibit = 0;
 }
@@ -408,19 +408,19 @@ void SD_PlaySequenceFastForward(s32 target)
 
     gSD_pSecondaryState->timer_update_inhibit = 1;
     state = gSD_pSecondaryState;
-    if (state->sequence_open_token == -1) {
+    if (state->sequence.sequence_open_token == -1) {
         state->timer_update_inhibit = 0;
     } else {
         SDSecondaryState *first;
         SDSecondaryState *second;
-        state->sequence_read_limit = 0x10000;
-        state->sequence_read_base = state->sequence_source;
+        state->sequence.sequence_read_limit = 0x10000;
+        state->sequence.sequence_read_base = state->sequence.sequence_source;
         SD_StartSequenceTracks();
         first = gSD_pSecondaryState;
         first->shared_track_updates_enabled = 1;
         second = gSD_pSecondaryState;
         first->fast_forward_target_address = target;
-        second->sequence_state = 1;
+        second->sequence.sequence_state = 1;
         second->timer_update_inhibit = 0;
     }
 }
@@ -429,7 +429,7 @@ void SD_StopSequence(s32 unused)
 {
     SDSecondaryState *initial = gSD_pSecondaryState;
 
-    if (initial->sequence_open_token != -1) {
+    if (initial->sequence.sequence_open_token != -1) {
         SDSecondaryState *state;
         SDSecondaryState *other;
         initial->timer_update_inhibit = 1;
@@ -438,9 +438,9 @@ void SD_StopSequence(s32 unused)
         state = gSD_pSecondaryState;
         state->timer_update_inhibit = 0;
         other = gSD_pSecondaryState;
-        state->spatial_level_right = SD_SECONDARY_LEVEL_MAX;
-        state->spatial_level_left = SD_SECONDARY_LEVEL_MAX;
-        state->sequence_state = 2;
+        state->sequence.spatial_level_right = SD_SECONDARY_LEVEL_MAX;
+        state->sequence.spatial_level_left = SD_SECONDARY_LEVEL_MAX;
+        state->sequence.sequence_state = 2;
         other->shared_track_updates_enabled = 0;
     }
 }
@@ -449,12 +449,12 @@ void SD_CloseSequence(s32 unused)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
 
-    if (state->sequence_open_token != -1) {
+    if (state->sequence.sequence_open_token != -1) {
         state->timer_update_inhibit = 1;
-        gSD_pSecondaryState->sequence_open_token = -1;
-        gSD_pSecondaryState->sequence_state = 0;
-        gSD_pSecondaryState->spatial_level_right = SD_SECONDARY_LEVEL_MAX;
-        gSD_pSecondaryState->spatial_level_left = SD_SECONDARY_LEVEL_MAX;
+        gSD_pSecondaryState->sequence.sequence_open_token = -1;
+        gSD_pSecondaryState->sequence.sequence_state = 0;
+        gSD_pSecondaryState->sequence.spatial_level_right = SD_SECONDARY_LEVEL_MAX;
+        gSD_pSecondaryState->sequence.spatial_level_left = SD_SECONDARY_LEVEL_MAX;
         gSD_pSecondaryState->timer_update_inhibit = 0;
     }
 }
@@ -510,7 +510,7 @@ void SD_MuteSecondaryVoices(void)
         } while (i < count);
     }
     state = gSD_pSecondaryState;
-    state->sequence_state = 4;
+    state->sequence.sequence_state = 4;
     state->timer_update_inhibit = 0;
 }
 
@@ -565,17 +565,17 @@ void SD_RestoreSecondaryVoiceVolumes(void)
         } while (i < count);
     }
     state = gSD_pSecondaryState;
-    state->sequence_state = 1;
+    state->sequence.sequence_state = 1;
     state->timer_update_inhibit = 0;
 }
 
 void SD_SetSecondarySpatialLevels(s32 left, s32 right)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
-    s32 mode = state->sequence_state;
+    s32 mode = state->sequence.sequence_state;
 
-    state->spatial_level_left = left & SD_SECONDARY_LEVEL_MASK;
-    state->spatial_level_right = right & SD_SECONDARY_LEVEL_MASK;
+    state->sequence.spatial_level_left = left & SD_SECONDARY_LEVEL_MASK;
+    state->sequence.spatial_level_right = right & SD_SECONDARY_LEVEL_MASK;
     if (mode != 2)
         SD_UpdateSecondaryObjectVolumes();
 }
@@ -586,7 +586,7 @@ void SD_SetSecondaryMasterLevels(s16 left, s16 right)
 
     state->master_level_left = left;
     state->master_level_right = right;
-    if (state->sequence_state != 2)
+    if (state->sequence.sequence_state != 2)
         SD_UpdateSecondaryObjectVolumes();
 }
 
@@ -594,10 +594,10 @@ s16 SD_PollSequenceState(void)
 {
     s32 value;
 
-    if (gSD_pSecondaryState->sequence_state == 1) {
+    if (gSD_pSecondaryState->sequence.sequence_state == 1) {
         value = (s16)SD_GetSequenceStatus();
         if (value == 3)
-            gSD_pSecondaryState->sequence_state = value;
+            gSD_pSecondaryState->sequence.sequence_state = value;
     }
-    return gSD_pSecondaryState->sequence_state;
+    return gSD_pSecondaryState->sequence.sequence_state;
 }
