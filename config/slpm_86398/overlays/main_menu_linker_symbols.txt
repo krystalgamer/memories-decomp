@@ -68,7 +68,6 @@ gTwoPlayerDuel_apSetupCursors = 0x801845B0;
 gTwoPlayerDuel_pSetupMainCursor = 0x801845B8;
 gTwoPlayerDuel_aSetupEntries = 0x801845C0;
 gTwoPlayerDuel_pSetupToggle = 0x801845D8;
-gMainMenu_aCardSortComparators = 0x80180004;
 gMainMenu_bBackRequested = 0x80184595;
 gTrade_aSide1WorkingCards = 0x80185144;
 gTrade_bSide1CursorRow = 0x80185CCB;

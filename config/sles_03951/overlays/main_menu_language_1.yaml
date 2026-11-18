@@ -52,7 +52,7 @@ segments:
     vram: 0x80180000
     align: 4
     subsegments:
-      - [0x0, data, overlays/spanish_main_menu_language_1/header]
+      - [0x0, .data, overlays/main_menu/module_header]
 
   - name: module
     type: code
@@ -60,7 +60,7 @@ segments:
     vram: 0x80180004
     align: 4
     subsegments:
-      - [0x4, rodata, overlays/spanish_main_menu_language_1/rodata]
+      - [0x4, .rodata, overlays/main_menu/module_rodata]
       - [0x1C, c, overlays/main_menu/frontend]
       - [0x1050, c, overlays/main_menu/value_setup]
       - [0x20C0, c, overlays/main_menu/trade_screen]

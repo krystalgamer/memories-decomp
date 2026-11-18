@@ -502,6 +502,38 @@ its tables are defined after its includes. The password and name-entry
 modules' keyboard tables belong to `name_entry_runtime.c`, the starter-deck
 pools and their pointer list to `name_entry_main.c`, in every region.
 
+The Japanese and PAL main-menu images (PAL: the five regional images and the
+16 language images) build the North American main-menu units through their own
+`main_menu*_data_c.json`: `module_header.c` at `0x0` (Japan `0x0F`; PAL
+`0x33`, selected by `VERSION_EUROPE`) and `module_rodata.c` at `0x4`, the
+six card-sort comparator pointers, relocated to each image's own
+comparators. The Japanese linker symbols drop their assignment of
+`gMainMenu_aCardSortComparators`.
+
+The Japanese free-duel image builds `free_duel/module_header.c` (`0x0`, `0x13`)
+and `module_state.c` (`0x1030`, 0x75 bytes of zero in North American order)
+through `free_duel_data_c.json`; like North America's layout it uses
+`subalign: 4`, so the linker leaves the three bytes after
+`gFreeDuel_bScreenFlags` and the raw tail stays at `0x10A8`.
+
+The Japanese password and name-entry images build `password/module_header.c`
+(`0x0`, `0x15`) through their `_data_c.json`. Their layouts now match the
+North American and PAL ones: the word is the whole `module_header` segment and
+the module segment starts at `0x4` with `shop.c`'s `.rodata`, which needs
+`.rodata` ahead of `.text` in `section_order` (Japan had listed `.text`
+first and kept that `.rodata` in the header segment instead).
+They also build `module_state.c` (with `VERSION_JAPAN`) at `0x5108`: the
+North American order 0x2F8 lower, with `gNameEntry_aGlyphVramRects` in place
+of the 0x80-byte padding array and without the trailing 0xB0 one (Japan's
+sector leftovers start right after `gPassword_wCardId`; the two zero bytes
+before the raw tail at `0x51E8` are a `pad`). The 4-byte fill at `0x5104` is
+a `bin`, and the linker symbols drop the state's assignments.
+
+The PAL `password_a`/`password_b` images build `password/module_header.c` at
+`0x0` through their `_data_c.json`; `VERSION_EUROPE` selects their word,
+`0x07`. Their state keeps a different order from North America's and stays
+raw.
+
 The credits module (USA and Japan) starts with its 4-byte module word; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette
 rectangles, then `Credits_UpdateLines`' jump table, and its `.data` holds

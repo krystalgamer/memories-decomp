@@ -560,8 +560,6 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
 /* The Japanese build has no Shift-JIS lookup: the node's glyph byte picks a
  * 4x16 cell of the font page, MoveImage copies it into one of sixteen VRAM
  * slots in turn, and the sprite samples that slot. */
-extern RECT gNameEntry_aGlyphVramRects[];
-
 void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
 {
     GlyphSprite *obj;

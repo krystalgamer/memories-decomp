@@ -1370,8 +1370,8 @@ They now have separate typed owners:
 
 | Range | C owner | Contract |
 |---|---|---|
-| `0x80180000-0x80180004` | `module_header.c` | One `u32` initialized to `0x0F`. |
-| `0x80180004-0x8018001C` | `module_rodata.c` | `MainMenuComparators`, six function pointers in retail order. |
+| `0x80180000-0x80180004` | `module_header.c` | One `u32`: `0x0F` in North America and Japan, `0x33` in the PAL image and its 16 language images (`VERSION_EUROPE`). |
+| `0x80180004-0x8018001C` | `module_rodata.c` | `MainMenuComparators`, six function pointers in retail order (every region and language image; the relocations resolve to each image's own comparator addresses). |
 
 `MainMenu_RefreshTradeInventory` copies `gMainMenu_aCardSortComparators` directly instead of
 forming an array that spans two sections. The compiled `.rodata` object is
