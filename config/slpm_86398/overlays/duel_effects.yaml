@@ -131,6 +131,7 @@ segments:
       # Linker fill between objects, not data.
       - {start: 0x156DA, type: bin, name: overlays/japanese_duel_effects/data_156DA, linker_section_order: .data}
       - [0x156DC, .data, overlays/duel_effects/effect_9]
-      - [0x15790, data, overlays/japanese_duel_effects/data_15790]
+      - [0x15790, .data, overlays/duel_effects/effect_4]
+      - [0x157C8, data, overlays/japanese_duel_effects/data_157C8]
 
   - [0x18000]

@@ -592,8 +592,12 @@ Spanish (`pad`) and stray in North America, Japan and English PAL (raw
 `bin`); that stray fill is why effect 9 is its own object, `effect_9.c`,
 again. `effect_9.c` defines `gDuelEffect_InvertedLifePointRecoveryConfigs`
 (five `DuelEffect9Config`, 0xB4 bytes) after the fill: North America
-`+0x156BC`, Japan `+0x156DC`, PAL `+0x15650`. The raw `data` resumes after
-it.
+`+0x156BC`, Japan `+0x156DC`, PAL `+0x15650`, and `effect_4.c` defines
+`gDuelEffect_CardFlashBurstConfigs` (two `DuelEffect4Config`, 0x38 bytes)
+after it: North America `+0x15770`, Japan `+0x15790`, PAL `+0x15704`. In
+North America that run ends at `effect_17.c`'s `.data` (`+0x157A8`); in
+Japan and PAL the raw `data` resumes after it (Japan `+0x157C8`, PAL
+`+0x1573C`) with the bank's zero-initialized state.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in

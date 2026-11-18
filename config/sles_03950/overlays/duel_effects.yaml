@@ -127,6 +127,7 @@ segments:
       - [0x15450, .data, overlays/duel_effects/life_point_effects]
       - [0x1564E, pad]
       - [0x15650, .data, overlays/duel_effects/effect_9]
-      - [0x15704, data, overlays/italian_duel_effects/data_15704]
+      - [0x15704, .data, overlays/duel_effects/effect_4]
+      - [0x1573C, data, overlays/italian_duel_effects/data_1573C]
 
   - [0x16000]
