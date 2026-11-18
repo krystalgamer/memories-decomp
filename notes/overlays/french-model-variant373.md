@@ -72,13 +72,15 @@ the work area as `a0`. Over the whole run, no breakpoint hit came from a foreign
 image and no first instruction mismatched. So in the slot-0 attack effect the
 strip, ribbon, quad and ray helpers are not reached.
 
-The slot-1 image (header 506), the defending side, was not exercised. The
-game does not play the 3D battle when the CPU attacks, so a two-player duel
-is needed to cover it. Until then, the four helpers are unreached in slot 0
-and untested in slot 1, not proven dead in both. The reworked
-`tools/trace/model_variant373_slot1_helper_reach.lua` covers slot 1: in a 2P
-Duel, player 1 attacks player 2's Venus Cosmo Queen, with slot 0 kept as the
-control.
+The slot-1 image (header 506), the defending side, was covered by a second
+trace (#418) in a two-player duel. In a full defence by the Venus Cosmo
+Queen the controls ran again (`DrawRisingRings` 278, `DrawSphere` 247,
+`DrawSparks` 75 calls) while the four candidates stayed at zero; a second
+defence, cut short after 27 ring draws, and one more slot-0 attack showed the
+same. With no caller in any
+image's source either, the strip, ribbon, quad and ray helpers are unreached
+in both North American Venus images. They are matched only because the
+retail images contain them.
 
 ## Retained sixteen-ray helper
 
