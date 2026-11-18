@@ -60,8 +60,8 @@ s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
         Model_CopySlotPosition(slot ^ 1, (u16 *)&rotation);
         setVector(&work->offset, 0, 0, 0);
         work->velocity.vx = 0;
-        work->velocity.vy = 350 / work->config->rise_frames;
-        work->velocity.vz = (rotation.vz - position.vz) / work->config->rise_frames;
+        work->velocity.vy = 350 / work->config->frames;
+        work->velocity.vz = (rotation.vz - position.vz) / work->config->frames;
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&position);
         for (i = 0; i < work->config->count; i++) {
             setVector(&work->particles[i],
@@ -69,7 +69,7 @@ s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
                 rotation.vy - work->config->spread * (rand() % 4096) / 4096,
                 rotation.vz + work->config->spread * ((rand() - rand()) % 4096) / 4096);
             value = rand() - rand();
-            work->speeds[i] = work->config->fall_speed + value % (work->config->fall_speed / 2);
+            work->speeds[i] = work->config->speed + value % (work->config->speed / 2);
             work->ages[i] = 0;
         }
         for (i = 0; i < 1; i++)
@@ -84,7 +84,7 @@ s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
     ot = Graphics_GetDefaultOrderingTable();
     step = Model_GetFrameStep();
     Model_SetFrameStepOverride(1);
-    if (work->elapsed < work->config->pause_end)
+    if (work->elapsed < work->config->hold_end)
         Model_QueueCameraOrbitFromPreset(slot, 13, &rotation, -8);
     else {
         if (direction > 0)
@@ -110,7 +110,7 @@ s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
     light = *Model_GetLightSourceMatrix();
     setVector(&scale, work->scale, work->scale, work->scale);
     Model_SetSlotScale(slot, &scale);
-    if (work->elapsed < work->config->rise_end) {
+    if (work->elapsed < work->config->approach_end) {
         setVector(&scale, 4096, 4096, 4096);
         work->elapsed += step;
         coordinate = Model_GetCurrentDataEntry(slot);
@@ -119,7 +119,7 @@ s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
         addVector(&work->offset, &work->velocity);
         PopMatrix();
         return 0;
-    } else if (work->elapsed < work->config->pause_end) {
+    } else if (work->elapsed < work->config->hold_end) {
         work->elapsed += step;
         PopMatrix();
         return 0;
@@ -149,7 +149,7 @@ s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
         work->elapsed += step;
         PopMatrix();
         return 1;
-    } else if (work->elapsed < work->config->hold_end) {
+    } else if (work->elapsed < work->config->settle_end) {
         setVector(&scale, 4096, 4096, 4096);
         IMAGE119708_DRAW_PARTICLES();
         if (work->scale > 4096) {

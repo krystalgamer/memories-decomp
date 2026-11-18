@@ -15,10 +15,10 @@ static const VECTOR gModelVariant802_UnitScale = {4096, 4096, 4096, 0};
             setRGB0(&packet, 128, 128, 128);                                                      \
             packet.tpage = work->texture[0] >> 16;                                                \
             packet.clut = work->texture[0];                                                       \
-            setVector(&vertices[0], -work->config->size, -work->config->size, 0);                 \
-            setVector(&vertices[1], work->config->size, -work->config->size, 0);                  \
-            setVector(&vertices[2], -work->config->size, work->config->size, 0);                  \
-            setVector(&vertices[3], work->config->size, work->config->size, 0);                   \
+            setVector(&vertices[0], -work->config->half_size, -work->config->half_size, 0);                 \
+            setVector(&vertices[1], work->config->half_size, -work->config->half_size, 0);                  \
+            setVector(&vertices[2], -work->config->half_size, work->config->half_size, 0);                  \
+            setVector(&vertices[3], work->config->half_size, work->config->half_size, 0);                   \
             setVector(&position, 0, 0, 0);                                                        \
             setVector(&rotation, 0, 0, 0);                                                        \
             scale.vx = 4096;                                                                      \

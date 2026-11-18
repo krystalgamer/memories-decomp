@@ -1058,6 +1058,15 @@ typedef struct {
     u8 red, green, blue, sphere_red, sphere_green, sphere_blue;
 } ModelVariantSphereCommand;
 
+/* One 0x28-byte command row of header 802 (French header 819): the particle
+ * half size and count, the rise speed, the cloud spread, the number of
+ * approach frames, the slot scale step, and the approach, hold, grow, settle
+ * and return times. */
+typedef struct {
+    u16 half_size, count, speed, unknown_06, spread, frames;
+    u32 scale_step, approach_end, hold_end, grow_end, settle_end, return_end, unknown_24;
+} ModelVariantGlideConfig;
+
 /* The 0xC-byte command row of headers 633 and 634: the start delay, the
  * radius, the height (header 634 copies it but never reads it), the main
  * colour and the spark colour. */

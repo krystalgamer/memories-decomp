@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT802_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_scene_runtime.h"
@@ -13,31 +14,12 @@
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 
-/* One 0x28-byte command row: the particle size and count, the rise speed,
- * the cloud spread, the number of approach frames, the slot scale step, and
- * the approach, hold, grow, settle, shrink and return times. */
-typedef struct {
-    u16 size;
-    u16 count;
-    u16 speed;
-    u16 unknown_06;
-    u16 spread;
-    u16 frames;
-    u32 scale_step;
-    u32 approach_end;
-    u32 hold_end;
-    u32 grow_end;
-    u32 settle_end;
-    u32 return_end;
-    u32 unknown_24;
-} Model802Config;
-
 /* The work area: the command row, the slot offset and its per-frame
  * velocity, the particle positions, the slot scale, the elapsed time, the
  * phase, the live particle count, the particle rise speeds and ages, the
  * ambient level and the particle texture. */
 typedef struct {
-    Model802Config *config;
+    ModelVariantGlideConfig *config;
     VECTOR offset;
     VECTOR velocity;
     SVECTOR particles[128];
@@ -52,7 +34,7 @@ typedef struct {
 } Model802State;
 
 extern GsIMAGE gModelVariant802_aImages[];
-extern Model802Config gModelVariant802_aConfigs[];
+extern ModelVariantGlideConfig gModelVariant802_aConfigs[];
 
 s32 ModelVariant802_HandleRequest(Model802State *context, s32 command);
 
