@@ -5,7 +5,7 @@
 #include "../ygo_types.h"
 #include "text_constants.h"
 
-extern TextDecimalDigitKeyBlock gText_DecimalDigitSjisKeys;
+extern const TextDecimalDigitKeyBlock gText_DecimalDigitSjisKeys;
 
 void Text_InitDecimalDigitGlyphMap(void);
 

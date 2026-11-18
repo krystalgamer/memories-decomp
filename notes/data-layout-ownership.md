@@ -195,6 +195,17 @@ The AI script's `"%s:%d\n"` source-line format is a literal in `ai_script.c`,
 whose `-G8` profile emits it as that unit's only `.sdata`; the European
 build makes no such printf call and has no AI-script small data.
 
+## Read-only data
+
+The leading `.rodata` region (`0x80010000`-`0x800129D8`) follows the same
+object order. A file-scope `const` object larger than the `-G` threshold is
+emitted at its definition point, ahead of the literals and jump tables of
+the functions after it, so a table that retail places before a unit's other
+read-only data is defined, with its initializer, before those functions.
+`text_helpers.c` owns its Shift-JIS digit keys this way. Every label still
+in the `initial_data*` blobs up to `0x800119A8` is read only by game units;
+from `0x800119A8` on, the blob is Psy-Q's.
+
 ## Forced `.data` views
 
 A forced `section(".data")` extern view is what still makes a `-G8` unit reach

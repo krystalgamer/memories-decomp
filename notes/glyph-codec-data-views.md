@@ -35,11 +35,13 @@ the existing one-based match index. Pointer ordering, signed address
 comparison, guard placement and partial initialization remain unchanged.
 An empty table or missing key does not acquire a new default output.
 
-The legacy NA storage symbol reports ELF size `0x18`, larger than the
-twenty-byte copied C view. That original metadata/backing remains
-untouched; the canonical alias preserves class/address without inventing
-a size or classifying the remaining bytes. No storage is shortened to
-match the caller's struct.
+`text_helpers.c` defines the key block, with its initializer, as a
+`const` twenty-byte object, the unit's only `.rodata` (NA `0x80010330`,
+Japan `0x800102AC`). The four zero bytes after it, up to
+`frontend_package_stages`' `.rodata`, are alignment, a `pad` entry in
+both `split.yaml` files. Defining it ahead of
+`Text_InitDecimalDigitGlyphMap` keeps the by-value copy as unaligned
+`lwl`/`lwr` pairs.
 
 The converter's backward count scan, all-zero-input behavior, signed
 count/index casts, single-byte/extended encoding, zero-on-miss path and
