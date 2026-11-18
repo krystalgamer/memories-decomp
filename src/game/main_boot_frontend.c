@@ -430,9 +430,9 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
     s32 c;
     s32 v;
 
-    x = (DisplayObject *)0;
+    x = 0;
 
-    if (a != (DisplayObject *)0) {
+    if (a != 0) {
         x = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(x, 0, 0, 0, 0, a->resource_variant, a->texture_page, 0x20D,
                       gDisplay_abResourceBank0);
@@ -463,7 +463,7 @@ void DisplayObject_CrossfadeReplace(DisplayObject *a, DisplayObject *b)
         c = ((i << 16) | (i << 8)) | i;
         b->rgb.word = c;
         y->rgb.word = c;
-        if (a != (DisplayObject *)0) {
+        if (a != 0) {
             c = hi - i;
             v = c * 0x60 + 0x1000;
             c = c | ((c << 16) | (c << 8));

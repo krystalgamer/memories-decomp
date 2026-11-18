@@ -118,13 +118,13 @@ s32 AiScript_ReadShort(void) {
 
 void AiScript_Init(u8 *script)
 {
-    u8 *state = (u8 *)&gAiScript_State;
+    AiScriptState *state = &gAiScript_State;
 
-    bzero(state, sizeof(gAiScript_State));
-    bzero((u8 *)&gAi_Selection, sizeof(gAi_Selection));
+    bzero((u8 *)state, sizeof(gAiScript_State));
+    bzero(gAi_Selection.bytes, sizeof(gAi_Selection));
     bzero((u8 *)gAiScript_aMemory, sizeof(gAiScript_aMemory));
     if (script == 0)
-        state[0] = 1;
+        state->enabled = 1;
     gAiScript_State.script_base = script;
     gAiScript_State.script_cursor = script;
 }
@@ -325,6 +325,8 @@ void AiScript_Jump(void)
     s32 result = AiScript_ReadShort();
     register AiScriptState *state = &gAiScript_State;
 
+    /* Integer addition, here and in the jumps and call below: u8 * arithmetic
+       puts the base first and allocates the sum to the base's register. */
     state->script_cursor =
         (u8 *)(result + (s32)state->script_base);
 }
@@ -719,10 +721,11 @@ void AiScript_LoadBestDifference(void)
     s32 index = AiScript_ReadByte();
     s32 *values = gAiScript_aMemory;
     u32 value;
+    s32 *slot;
 
-    index *= sizeof(*values);
+    slot = values + index;
     value = gAiScript_State.attack_best_stat;
-    *(u32 *)((u8 *)values + index) = value;
+    *slot = value;
 }
 
 void AiScript_LoadBestAttacker(void)
@@ -738,10 +741,11 @@ void AiScript_LoadBestTarget(void)
     s32 index = AiScript_ReadByte();
     s32 *values = gAiScript_aMemory;
     u32 value;
+    s32 *slot;
 
-    index *= sizeof(*values);
+    slot = values + index;
     value = gAiScript_State.attack_best_target;
-    *(u32 *)((u8 *)values + index) = value;
+    *slot = value;
 }
 
 /* AI script opcode taking five operand bytes: a register selecting which
@@ -1932,7 +1936,7 @@ void AiScript_Add(void)
 
 void AiScript_LoadGuardianStarChoice(void)
 {
-    gAi_Selection.fields.zero = *(u8 *)&gAiScript_aMemory[AiScript_ReadByte()];
+    gAi_Selection.fields.zero = gAiScript_aMemory[AiScript_ReadByte()];
 }
 
 void AiScript_Print(void)
