@@ -14,6 +14,7 @@
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/inline_c.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
@@ -118,7 +119,7 @@ u32 *Model_PrepareSharedPrimitiveCaches(GsARGUNIT_SHARED *arg)
             {
                 register u32 depth asm("$8");
                 register u32 z asm("$9");
-                HW_GTE_STORE(14, 0, dst);
+                gte_stsxy2(dst);
                 HW_GTE_READ(8, depth);
                 HW_GTE_READ(19, z);
                 depth <<= 16;
@@ -152,7 +153,7 @@ verts_done:
                 HW_GTE_NCCS_RAW();
                 lo = src[0];
                 hi = src[1];
-                HW_GTE_STORE(22, 0, dst);
+                gte_strgb(dst);
                 dst += 2;
             } while (count != 0);
         }
@@ -236,7 +237,7 @@ u32 *Model_DrawSharedGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[2] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -244,7 +245,7 @@ u32 *Model_DrawSharedGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[5] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -252,7 +253,7 @@ u32 *Model_DrawSharedGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[8] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -413,7 +414,7 @@ u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[2] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -421,7 +422,7 @@ u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[5] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -429,7 +430,7 @@ u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[8] = e;
             e = gHw_Word3 >> 16;
             e <<= 3;
@@ -447,7 +448,7 @@ u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
         cull_test:
             if (z > 0)
                 goto visible;
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             HW_GTE_NCLIP_MAC0_WAIT(z);
             if (z > 0)
                 goto next;
@@ -610,7 +611,7 @@ u32 *Model_DrawSharedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[3] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -618,7 +619,7 @@ u32 *Model_DrawSharedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[6] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -626,7 +627,7 @@ u32 *Model_DrawSharedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[9] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -791,7 +792,7 @@ u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[3] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -799,7 +800,7 @@ u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[6] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -807,7 +808,7 @@ u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[9] = e;
             e = gHw_Word3 >> 16;
             e <<= 3;
@@ -825,7 +826,7 @@ u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
         cull_test:
             if (z > 0)
                 goto visible;
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             HW_GTE_NCLIP_MAC0_WAIT(z);
             if (z > 0)
                 goto next;
@@ -992,7 +993,7 @@ u32 *Model_DrawSharedTwoSidedGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[2] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -1000,7 +1001,7 @@ u32 *Model_DrawSharedTwoSidedGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[5] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -1008,7 +1009,7 @@ u32 *Model_DrawSharedTwoSidedGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[8] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -1164,7 +1165,7 @@ u32 *Model_DrawSharedTwoSidedGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[2] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -1172,7 +1173,7 @@ u32 *Model_DrawSharedTwoSidedGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[5] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -1180,7 +1181,7 @@ u32 *Model_DrawSharedTwoSidedGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[8] = e;
             e = gHw_Word3 >> 16;
             e <<= 3;
@@ -1351,7 +1352,7 @@ u32 *Model_DrawSharedTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[3] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -1359,7 +1360,7 @@ u32 *Model_DrawSharedTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[6] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -1367,7 +1368,7 @@ u32 *Model_DrawSharedTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[9] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -1527,7 +1528,7 @@ u32 *Model_DrawSharedTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[3] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -1535,7 +1536,7 @@ u32 *Model_DrawSharedTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[6] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -1543,7 +1544,7 @@ u32 *Model_DrawSharedTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[9] = e;
             e = gHw_Word3 >> 16;
             e <<= 3;
@@ -1746,7 +1747,7 @@ u32 *Model_DrawSharedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[2] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -1754,7 +1755,7 @@ u32 *Model_DrawSharedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[5] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -1762,7 +1763,7 @@ u32 *Model_DrawSharedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[8] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -1953,7 +1954,7 @@ u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[2] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -1961,7 +1962,7 @@ u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[5] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -1969,7 +1970,7 @@ u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[8] = e;
             e = gHw_Word3 >> 16;
             e <<= 3;
@@ -1987,7 +1988,7 @@ u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
         cull_test:
             if (z > 0)
                 goto visible;
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             HW_GTE_NCLIP_MAC0_WAIT(z);
             if (z > 0)
                 goto next;
@@ -2180,7 +2181,7 @@ u32 *Model_DrawSharedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[3] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -2188,7 +2189,7 @@ u32 *Model_DrawSharedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[6] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -2196,7 +2197,7 @@ u32 *Model_DrawSharedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[9] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -2391,7 +2392,7 @@ u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[3] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -2399,7 +2400,7 @@ u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[6] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -2407,7 +2408,7 @@ u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[9] = e;
             e = gHw_Word3 >> 16;
             e <<= 3;
@@ -2425,7 +2426,7 @@ u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
         cull_test:
             if (z > 0)
                 goto visible;
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             HW_GTE_NCLIP_MAC0_WAIT(z);
             if (z > 0)
                 goto next;
@@ -2622,7 +2623,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[2] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -2630,7 +2631,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[5] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -2638,7 +2639,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[8] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -2824,7 +2825,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[2] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -2832,7 +2833,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[5] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -2840,7 +2841,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[8] = e;
             e = gHw_Word3 >> 16;
             e <<= 3;
@@ -3041,7 +3042,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[3] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -3049,7 +3050,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[6] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -3057,7 +3058,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[9] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
@@ -3247,7 +3248,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            HW_GTE_WRITE(12, e);
+            gte_ldsxy0(e);
             pkt[3] = e;
             e = w1 >> 16;
             e <<= 3;
@@ -3255,7 +3256,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            HW_GTE_WRITE(13, e);
+            gte_ldsxy1(e);
             pkt[6] = e;
             e = w2 >> 16;
             e <<= 3;
@@ -3263,7 +3264,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg
             z = entry[1];
             e = entry[0];
             HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            HW_GTE_WRITE(14, e);
+            gte_ldsxy2(e);
             pkt[9] = e;
             e = gHw_Word3 >> 16;
             e <<= 3;

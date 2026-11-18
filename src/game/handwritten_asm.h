@@ -14,9 +14,11 @@
  * fixed registers ($at, $v0, temporaries) are plain register declarations.
  *
  * GTE commands are emitted without the Psy-Q inline_c.h nop padding because
- * the originals interleave independent work into those cycles. Vertex loads
- * need no such change, so the renderers take gte_ldv0/1/2 from
- * src/psyq/inline_c.h directly; their lwc2 pairs pass the same contract.
+ * the originals interleave independent work into those cycles. Plain register
+ * transfers need no such change, so the renderers take the vertex loads
+ * gte_ldv0/1/2, the screen-XY writes gte_ldsxy0/1/2 and the stores
+ * gte_stsxy2, gte_strgb and gte_strgb3 from src/psyq/inline_c.h directly;
+ * their expansions pass the same contract.
  *
  * Inline assembly is limited to that save/restore, to GTE operations and to
  * three shapes GCC 2.8.1 cannot emit: a lone lwr merged into a C-loaded word

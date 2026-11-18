@@ -32,6 +32,8 @@ class HandwrittenAsmContractTests(unittest.TestCase):
             '  __asm__ volatile(".word 0x4A280030;" "cfc2 %0, $31;" "nop"'
             ' : "=r"(a));\n'
             '  __asm__ volatile("lwc2 $0, 0(%0);" "lwc2 $1, 4(%0)" : : "r"(p));\n'
+            '  __asm__ volatile("swc2 $20, 0( %0 );" "swc2 $21, 0( %1 );"'
+            ' "swc2 $22, 0( %2 )" : : "r"(p), "r"(p), "r"(p) : "memory");\n'
             "}\n"
         )
         self.assertFalse(uses_disallowed_handwritten_asm(source))
@@ -127,6 +129,7 @@ class HandwrittenAsmContractTests(unittest.TestCase):
         for template in (
             "jr $31",
             "sw $4, 0(%0)",
+            "swc2 $22, 0(%3)",
             "lw $29, 0(%0)",
             ".word 0x0000007f",
             "addiu $29, $29, -8",

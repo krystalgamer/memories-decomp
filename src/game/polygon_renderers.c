@@ -152,7 +152,7 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 4, pkt);
                 gHw_At = 1;
@@ -323,9 +323,7 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 4, pkt);
                 HW_GTE_STORE(21, 16, pkt);
@@ -511,7 +509,7 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 4, pkt);
                 gHw_At = 1;
@@ -701,7 +699,7 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word3);
+                    gte_strgb(gHw_Word3);
                 }
                 HW_GTE_STORE(22, 40, pkt);
                 HW_GTE_NCCT();
@@ -712,9 +710,7 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 4, pkt);
                 HW_GTE_STORE(21, 16, pkt);
@@ -909,7 +905,7 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 8, pkt);
                 gHw_At = 1;
@@ -1084,9 +1080,7 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 8, pkt);
                 HW_GTE_STORE(21, 20, pkt);
@@ -1276,7 +1270,7 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 8, pkt);
                 gHw_At = 1;
@@ -1470,7 +1464,7 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word3);
+                    gte_strgb(gHw_Word3);
                 }
                 HW_GTE_STORE(22, 44, pkt);
                 HW_GTE_NCCT();
@@ -1481,9 +1475,7 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 8, pkt);
                 HW_GTE_STORE(21, 20, pkt);
@@ -1672,7 +1664,7 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 4, pkt);
                 gHw_At = 1;
@@ -1838,9 +1830,7 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 4, pkt);
                 HW_GTE_STORE(21, 16, pkt);
@@ -2021,7 +2011,7 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 4, pkt);
                 gHw_At = 1;
@@ -2206,7 +2196,7 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word3);
+                    gte_strgb(gHw_Word3);
                 }
                 HW_GTE_STORE(22, 40, pkt);
                 HW_GTE_NCCT();
@@ -2217,9 +2207,7 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 4, pkt);
                 HW_GTE_STORE(21, 16, pkt);
@@ -2408,7 +2396,7 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 8, pkt);
                 gHw_At = 1;
@@ -2580,9 +2568,7 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 8, pkt);
                 HW_GTE_STORE(21, 20, pkt);
@@ -2769,7 +2755,7 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 8, pkt);
                 gHw_At = 1;
@@ -2960,7 +2946,7 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word3);
+                    gte_strgb(gHw_Word3);
                 }
                 HW_GTE_STORE(22, 44, pkt);
                 HW_GTE_NCCT();
@@ -2971,9 +2957,7 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 8, pkt);
                 HW_GTE_STORE(21, 20, pkt);
@@ -3193,7 +3177,7 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 4, pkt);
                 gHw_At = 1;
@@ -3392,9 +3376,7 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 4, pkt);
                 HW_GTE_STORE(21, 16, pkt);
@@ -3608,7 +3590,7 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 4, pkt);
                 gHw_At = 1;
@@ -3826,7 +3808,7 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word3);
+                    gte_strgb(gHw_Word3);
                 }
                 HW_GTE_STORE(22, 40, pkt);
                 HW_GTE_NCCT();
@@ -3837,9 +3819,7 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 4, pkt);
                 HW_GTE_STORE(21, 16, pkt);
@@ -4061,7 +4041,7 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 8, pkt);
                 gHw_At = 1;
@@ -4266,9 +4246,7 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 8, pkt);
                 HW_GTE_STORE(21, 20, pkt);
@@ -4488,7 +4466,7 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 8, pkt);
                 gHw_At = 1;
@@ -4712,7 +4690,7 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word3);
+                    gte_strgb(gHw_Word3);
                 }
                 HW_GTE_STORE(22, 44, pkt);
                 HW_GTE_NCCT();
@@ -4723,9 +4701,7 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 8, pkt);
                 HW_GTE_STORE(21, 20, pkt);
@@ -4944,7 +4920,7 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 4, pkt);
                 gHw_At = 1;
@@ -5140,9 +5116,7 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 4, pkt);
                 HW_GTE_STORE(21, 16, pkt);
@@ -5353,7 +5327,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 4, pkt);
                 gHw_At = 1;
@@ -5568,7 +5542,7 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word3);
+                    gte_strgb(gHw_Word3);
                 }
                 HW_GTE_STORE(22, 40, pkt);
                 HW_GTE_NCCT();
@@ -5579,9 +5553,7 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 4, pkt);
                 HW_GTE_STORE(21, 16, pkt);
@@ -5800,7 +5772,7 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 8, pkt);
                 gHw_At = 1;
@@ -6002,9 +5974,7 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 8, pkt);
                 HW_GTE_STORE(21, 20, pkt);
@@ -6221,7 +6191,7 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word0 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word0 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word0);
+                    gte_strgb(gHw_Word0);
                 }
                 HW_GTE_STORE(22, 8, pkt);
                 gHw_At = 1;
@@ -6442,7 +6412,7 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 gHw_Word3 >>= 1;
                 if (gHw_ColorCache != 0) {
                     gHw_Word3 += gHw_ColorCache;
-                    HW_GTE_STORE(22, 0, gHw_Word3);
+                    gte_strgb(gHw_Word3);
                 }
                 HW_GTE_STORE(22, 44, pkt);
                 HW_GTE_NCCT();
@@ -6453,9 +6423,7 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                     w1 += gHw_ColorCache;
                     w2 >>= 1;
                     w2 += gHw_ColorCache;
-                    HW_GTE_STORE(20, 0, gHw_Word0);
-                    HW_GTE_STORE(21, 0, w1);
-                    HW_GTE_STORE(22, 0, w2);
+                    gte_strgb3(gHw_Word0, w1, w2);
                 }
                 HW_GTE_STORE(20, 8, pkt);
                 HW_GTE_STORE(21, 20, pkt);
