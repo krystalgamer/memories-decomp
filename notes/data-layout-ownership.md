@@ -502,6 +502,11 @@ its tables are defined after its includes. The password and name-entry
 modules' keyboard tables belong to `name_entry_runtime.c`, the starter-deck
 pools and their pointer list to `name_entry_main.c`, in every region.
 
+The Japanese and PAL main-menu images (PAL: the five regional images and the
+16 language images) build the North American main-menu units through their own
+`main_menu*_data_c.json`: `module_header.c` at `0x0` (Japan `0x0F`; PAL
+`0x33`, selected by `VERSION_EUROPE`).
+
 The credits module (USA and Japan) starts with its 4-byte module word; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette
 rectangles, then `Credits_UpdateLines`' jump table, and its `.data` holds

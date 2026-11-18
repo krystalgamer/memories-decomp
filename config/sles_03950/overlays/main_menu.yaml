@@ -52,7 +52,7 @@ segments:
     vram: 0x80180000
     align: 4
     subsegments:
-      - [0x0, data, overlays/italian_main_menu/header]
+      - [0x0, .data, overlays/main_menu/module_header]
 
   - name: module
     type: code
