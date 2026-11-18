@@ -27,14 +27,7 @@ void DuelEffect_ResetState(void)
         entry->prompt_object = 0;
         entry->aux_object = 0;
         entry->render_object = 0;
-#ifdef VERSION_JAPAN
-        entry = (DuelEffectChannel *)((u8 *)entry + 0x60);
-#elif defined(VERSION_EUROPE)
-        /* The European channel is 100 bytes. */
-        entry = (DuelEffectChannel *)((u8 *)entry + 100);
-#else
         entry++;
-#endif
     } while (--i != 0);
 #ifndef VERSION_EUROPE
     /* The European build makes no occupancy reset here. */
@@ -55,7 +48,7 @@ void TextBox_SetRect(int index, int x, int y, int width, int height)
 #ifdef VERSION_EUROPE
 /* The European channel is 100 bytes. The low two flag bits pick one of
    four text sizes, the same four as the European Text_SetFontMode (8 and 16
-   by default), and the halfword at 0x62 is cleared. */
+   by default), and output_limit is cleared. */
 DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 {
     DuelEffectChannel *channel;
@@ -93,7 +86,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     channel->glyph_delay = 1;
     range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + (index << 1));
     channel->depth_offset = 0;
-    *(u16 *)((u8 *)channel + 0x62) = 0;
+    channel->output_limit = 0;
     channel->entry_range_start = range[0];
     channel->entry_range_count = range[1] - range[0];
     return channel;
