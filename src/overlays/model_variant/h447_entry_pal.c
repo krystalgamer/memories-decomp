@@ -370,7 +370,7 @@ s32 FrenchModelVariant464_HandleRequest(Variant464EntryState *context, s32 comma
             }
         }
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant464_DrawSheets((Sheets464State *)context);
+            SpanishModelVariant464_DrawSheets(context);
             FrenchModelVariant464_DrawRings(context);
         }
         if (work->config->times[0] <= work->clock.frame) {

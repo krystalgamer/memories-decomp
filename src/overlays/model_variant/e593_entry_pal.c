@@ -334,7 +334,7 @@ s32 FrenchModelVariant473_HandleRequest(EntryState473 *context, s32 command)
             SpanishModelVariant473_DrawSpiral(context);
         }
         if (work->config->draw_start <= work->clock.frame && work->phase < 5) {
-            SpanishModelVariant473_DrawSheets((Sheets473State *)context);
+            SpanishModelVariant473_DrawSheets(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

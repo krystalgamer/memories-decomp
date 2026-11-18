@@ -293,7 +293,7 @@ s32 FrenchModelVariant425_HandleRequest(EntryState425 *context, s32 command)
             SpanishModelVariant425_DrawSheets(context);
         }
         if (work->phase >= 3) {
-            FrenchModelVariant423_DrawFunnel((Funnel423State *)context);
+            FrenchModelVariant423_DrawFunnel(context);
             SpanishModelVariant425_DrawMesh(context);
         }
         if (work->phase >= 2) {

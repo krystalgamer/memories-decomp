@@ -8,7 +8,6 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
-#include "e589_funnel_pal.h"
 #include "../model_variant/e591_streamers_pal.h"
 
 typedef struct {
@@ -67,6 +66,6 @@ void SpanishModelVariant425_DrawMesh(EntryState425 *context);
 void SpanishModelVariant425_DrawSpiral(EntryState425 *context);
 void FrenchModelVariant425_DrawRibbon(EntryState425 *context);
 void SpanishModelVariant425_DrawSheets(EntryState425 *context);
-void FrenchModelVariant423_DrawFunnel(Funnel423State *context);
+void FrenchModelVariant423_DrawFunnel(EntryState425 *context);
 
 #endif

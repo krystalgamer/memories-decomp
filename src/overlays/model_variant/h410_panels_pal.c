@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "h410_panels_pal.h"
+#include "h410_entry_pal.h"
 
-void SpanishModelVariant427_DrawPanels(Panel427State *context)
+void SpanishModelVariant427_DrawPanels(EntryState427 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,8 +10,8 @@ void SpanishModelVariant427_DrawPanels(Panel427State *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Panel427State *state = context;
-    ModelVariantProgressRecord *primary = state->primary;
+    EntryState427 *state = context;
+    EntryRibbon427 *primary = state->ribbons;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *polygon;
     GsOT *ot;
@@ -21,20 +21,20 @@ void SpanishModelVariant427_DrawPanels(Panel427State *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    polygon = &state->polygon;
+    polygon = &state->packets.textured[1];
     /* Only the first three panels have a primary record; the cursor steps past them. */
     for (i = 0; i < 6; i++, sheet++, primary++) {
         extra = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             extra = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i < 3) {
-            x = state->directions[i].vx * primary->progress / 1024;
-            y = state->directions[i].vy * primary->progress / 1024;
-            z = state->directions[i].vz * primary->progress / 1024;
+            x = state->ribbon_directions[i].vx * primary->progress / 1024;
+            y = state->ribbon_directions[i].vy * primary->progress / 1024;
+            z = state->ribbon_directions[i].vz * primary->progress / 1024;
             matrix.t[0] = state->matrices[i].t[0] + x;
             matrix.t[1] = state->matrices[i].t[1] + y;
             matrix.t[2] = state->matrices[i].t[2] + z;
@@ -85,32 +85,32 @@ void SpanishModelVariant427_DrawPanels(Panel427State *context)
                 sheet->size = 4096;
             } else if (state->phase == 3) {
                 if (sheet->size < 8192) {
-                    sheet->size += state->step * 512;
+                    sheet->size += state->clock.step * 512;
                     if (sheet->size >= 8192) {
                         sheet->size = 8192;
                         state->phase = 4;
                     }
                 }
             }
-            if (state->time >= state->descriptor->shrink_start && sheet->size > 0) {
-                sheet->size = 8192 - (state->time - state->descriptor->shrink_start) * 8192
-                    / (state->descriptor->shrink_end - state->descriptor->shrink_start);
+            if (state->clock.frame >= state->config->fade_start && sheet->size > 0) {
+                sheet->size = 8192 - (state->clock.frame - state->config->fade_start) * 8192
+                    / (state->config->fade_end - state->config->fade_start);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
             }
         } else {
             if (state->phase == 0 && sheet->size < 4096) {
-                sheet->size = (state->time - state->descriptor->grow_start) * 4096
-                    / (state->descriptor->grow_end - state->descriptor->grow_start);
+                sheet->size = (state->clock.frame - state->config->draw_start) * 4096
+                    / (state->config->grow_end - state->config->draw_start);
                 if (sheet->size >= 4096) {
                     sheet->size = 4096;
                     state->phase = 1;
                 }
             }
-            if (state->time >= state->descriptor->shrink_start && sheet->size > 0) {
-                sheet->size = 4096 - (state->time - state->descriptor->shrink_start) * 4096
-                    / (state->descriptor->shrink_end - state->descriptor->shrink_start);
+            if (state->clock.frame >= state->config->fade_start && sheet->size > 0) {
+                sheet->size = 4096 - (state->clock.frame - state->config->fade_start) * 4096
+                    / (state->config->fade_end - state->config->fade_start);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
