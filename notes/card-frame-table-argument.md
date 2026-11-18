@@ -6,8 +6,8 @@ already-typed packet dispatcher. This is not a depth, table entry or
 texture identifier.
 
 The projected-card caller selects `gGraphics_apOrderingTables[2]`. It now passes that pointer directly,
-retaining the volatile scratch stores, RTPS macros, second record reload
-and projected coordinate stores. Those scheduling-sensitive operations
+retaining the volatile scratch stores, RTPS macros, the second
+`card->object` read and projected coordinate stores. Those scheduling-sensitive operations
 are otherwise untouched.
 
 The other caller is `Duel_DrawCardAtOutputPosition`. That secondary draw

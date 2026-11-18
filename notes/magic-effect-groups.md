@@ -46,17 +46,15 @@ display variant update and the final card-terrain pass are unchanged.
 The stat-penalty sweep's `0xD` allocation uses its actual request type, not
 the older payload-prefix type. Its three unsigned source halfwords are
 explicitly converted to the signed request payload fields with identical
-low bits. The word at `+0x14` still performs the original signed integer
-address/tag calculation: convert `buffer` to `s32`, add the signed step
-shifted by 14, and convert the result back. This is not pointer arithmetic
-or scaling by a pointee size, and the resulting address is not dereferenced
-by this handler.
+low bits. The `u8 *buffer` at `+0x14` advances by the signed step shifted
+by 14, a byte step with no pointee scaling; the resulting address is not
+dereferenced by this handler.
 
 The producer is `DuelEffect_AllocateRequest` in
 `src/game/duel_effect_object_pool.c`: it returns the real pool record with
 `buffer = gRuntime_pSharedWorkBase + 0x3800`. `DuelEffect_UpdateRequests` forwards this
-word as `(s32)rec->buffer` to the effect dispatcher. The conversion does
-not change that ABI or infer how the downstream effect interprets it.
+pointer as `rec->buffer` to the effect dispatcher's `void *` parameter,
+without inferring how the downstream effect interprets it.
 
 The two 500/1000 penalty arms, signed modifier narrowing, command, delay,
 slot/occupied checks, sound and final step update remain unchanged. A

@@ -251,16 +251,9 @@ extern DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
  * card as the draw animation retires each one and raising bit 0x4000 in the
  * scene state gDuel_wSceneStateFlags once it reaches zero.
  *
- * Declared u8, which is what both sources say, with the one signed read left
- * spelled as a cast where it is:
- *
- *     if (*(s8 *)&gDuel_bPendingDrawCount == 0)
- *
- * That is the same arrangement duel_effect_text.h records for
- * gDialog_bInputState: the declaration stays unsigned and the cast at the use
- * is what keeps retail's signed load, so resolving one into the other would
- * be a codegen change rather than a tidy-up. */
-extern u8 gDuel_bPendingDrawCount;
+ * Declared s8: the zero test after the draw reads it signed (lb). The
+ * decrement reads it through a u8 conversion, which keeps that load lbu. */
+extern s8 gDuel_bPendingDrawCount;
 
 void Duel_ClearHandSlots(void);
 
@@ -764,11 +757,6 @@ typedef char DuelSideState_card_view_mode_must_be_at_0x1F[
  * and duel_grid.h describe. Thirty-nine private declarations before this. */
 extern u8 gDuel_bActiveSide;
 
-/* A volatile view of the same byte. Swords of Revealing Light and
- * Cursebreaker (duel_scene.c) reload it at every use, while the rest
- * of that unit reads the plain declaration above. */
-#define DUEL_SIDE_SELECTOR_VOLATILE (*(volatile u8 *)&gDuel_bActiveSide)
-
 /* Destination slot and signed stat adjustment used by the card-move
  * presentation sequence (DuelScene_UpdateCardMove). The adjustment is the
  * pending equip bonus: DuelScene_UpdateCardPlacement adds 500 per equip
@@ -1215,16 +1203,22 @@ void DuelCursor_ProcessHeldGridDirection(DuelSelectionRecord *cursor);
  * call and signed-byte views remain part of the matching contract. */
 s32 DuelCursor_StepTowardTarget(DuelSelectionRecord *cursor);
 
-typedef struct {
-    u8 pixels[0x500];
-    u16 clut[64];
+/* One card's thumbnail: 40x32 8-bpp pixels and a 64-entry CLUT. `words` is
+ * the same block as the GPU transfer words LoadImage and StoreImage2 take;
+ * the pixels are its first 0x140 words. */
+typedef union {
+    struct {
+        u8 pixels[0x500];
+        u16 clut[64];
+    } image;
+    u32 words[DUEL_CARD_DATA_BLOCK_SIZE / sizeof(u32)];
 } DuelCardThumbnailBlock;
 
 typedef char DuelCardThumbnailBlock_size_must_be_0x580[
     sizeof(DuelCardThumbnailBlock) == DUEL_CARD_DATA_BLOCK_SIZE ? 1 : -1
 ];
 typedef char DuelCardThumbnailBlock_clut_offset_must_be_0x500[
-    OFFSETOF(DuelCardThumbnailBlock, clut) == 0x500 ? 1 : -1
+    OFFSETOF(DuelCardThumbnailBlock, image.clut) == 0x500 ? 1 : -1
 ];
 
 typedef struct DuelDeckCardRecord {
@@ -1267,7 +1261,7 @@ extern DuelCardThumbnailBlock gDuel_aCardThumbnailBlocks[];
  * existing full-width tagged-index conventions. */
 DuelCardRecord *Duel_SetupCardRecord(s32, s32);
 
-/* gDuel_aCardThumbnailBlocks[0].clut, bound by the linker as the block array
+/* gDuel_aCardThumbnailBlocks[0].image.clut, bound by the linker as the block array
  * plus 0x500; block n's CLUT row starts n * DUEL_CARD_DATA_BLOCK_SIZE bytes on.
  * Duel_SetupCardRecord keeps this separate label because retail materializes
  * the CLUT address on its own instead of offsetting the shared block base. */
@@ -1771,14 +1765,15 @@ extern s16 gDuel_awBattleDamage[2];
  * need, and it is kept verbatim. */
 extern s8 gDuel_abBattleOutcome[2];
 
-/* The presentation's card/result halfword. Card use also defines and writes
- * gDuel_wPlacementCardId as u16; placement tests its signed value and uses bit 15 to
- * distinguish fusion from equipment. The low twelve bits are the card id. */
-extern u16 gDuel_wPlacementCardId;
+/* The presentation's card/result halfword. Placement tests its signed value
+ * and uses bit 15 to distinguish fusion from equipment; the low twelve bits
+ * are the card id, read through a u16 conversion (lhu). */
+extern s16 gDuel_wPlacementCardId;
 extern s16 gDuel_wEquipCardId;
 
-/* A signed read of the same two bytes, not another allocation. The aggregate
- * read preserves the result-publication dependency in the combination path. */
+/* A struct view of the same two bytes, not another allocation. As a struct
+ * member, DuelScene_UpdateCardPlacement's combination-test load stays after
+ * the object->xy store; a plain read is hoisted above it. */
 typedef struct {
     s16 value;
 } DuelPlacementCardIdCell;
@@ -1912,17 +1907,14 @@ extern s8 gDuel_bAiCursorTarget;
 extern s16 gDuel_wAiHandStackPending;
 
 /* The cursor into the AI's pending selection list gAi_Selection (ai.h). The
- * scripted step sets it to -1 through a signed lvalue cast, and each following
- * step pre-increments it and reads gAi_Selection at the new index, so the walk
- * starts at the list's first entry.
+ * scripted step sets it to -1, and each following step pre-increments it and
+ * reads gAi_Selection at the new signed index, so the walk starts at the
+ * list's first entry.
  *
- * Declared u8, as the private declaration had it: the single load is lbu and
- * the two stores are sb, and the signed views are casts at the use sites --
- * the arrangement duel_scene.h records for gDuel_bPendingDrawCount, where the declaration
- * stays unsigned and the cast at the use is what keeps the signed read. The
- * next named symbol, gDuel_wAiSelectionStepDelay below, is two bytes on, so
- * the one-byte gap is not evidence of a wider object. */
-extern u8 gDuel_bAiSelectionCursor;
+ * Declared s8: the -1 store materialises li -1, and the index read is the
+ * signed byte. The next named symbol, gDuel_wAiSelectionStepDelay below, is
+ * two bytes on, so the one-byte gap is not evidence of a wider object. */
+extern s8 gDuel_bAiSelectionCursor;
 
 /* The step delay for that walk. Each selection entry loads it with 6, every
  * tick takes one off, and the step runs once the signed value reaches zero or

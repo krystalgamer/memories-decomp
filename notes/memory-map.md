@@ -90,11 +90,10 @@ consecutive `D_` names as possible interior elements.
 The section above finds overlaps by reading the symbol table. A second kind is
 invisible that way, because the source never writes the name of the object it
 is using. `duel_scene.c` reaches the deck records like this (in
-`func_8001BAF0`):
+`Duel_ApplyAiHandSelection`, formerly `func_8001BAF0`):
 
 ```c
-#define DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS \
-    ((DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0))
+deck_records = (DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0);
 ```
 
 Retail builds that base from the active-card address itself, as
