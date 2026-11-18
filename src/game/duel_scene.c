@@ -5188,7 +5188,7 @@ s32 DuelCursor_StepTowardTarget(DuelSelectionRecord *cursor)
 #define GRID_CARD(s) (&gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[(s)->row * 5 + (s)->col + gDuel_bActiveSide * 20]])
 #define GRID_CARD_FLAT(s) \
     (&gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[(s)->row * 5 + (s)->col + gDuel_bActiveSide * 20]])
-#define CARD_KIND(id) ((gDuel_adwCardStats[(id) - 1] >> 0x1A) & 0x1F)
+#define CARD_KIND(id) ((gDuel_adwCardStats[(id) - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK)
 
 void DuelScene_UpdateFieldActions(void)
 {
@@ -5433,7 +5433,7 @@ void DuelScene_UpdateFieldActions(void)
                 side = &gDuel_abSelectionSides[gDuel_bActiveSide].records[3];
                 if (a >= 3) {
                     gDuel_bSceneSubStep = 7;
-                    if (CARD_KIND(card->card_id) == 0x17) {
+                    if (CARD_KIND(card->card_id) == CARD_TYPE_EQUIP) {
                         x = 2;
                         y = 3;
                         side->row_min = x;
@@ -5608,7 +5608,7 @@ void DuelScene_UpdateFieldActions(void)
             gDisplayObject_apWorkSlots.slots[1] = o;
             gDuel_bCardMoveSlot = o->kind_index.card_record_index;
             DuelCard_DeactivateRecord(pick);
-            if (CARD_KIND(d) == 0x17) {
+            if (CARD_KIND(d) == CARD_TYPE_EQUIP) {
                 gDuel_bSceneSubStep = 8;
                 return;
             }
@@ -6467,11 +6467,11 @@ void DuelScene_UpdateBattle(void)
                     }
                     rec = &gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[gDuel_bPresentationCursor]->kind_index.card_record_index];
                     if (rec->flags & 0x200) {
-                        level = gDuel_adwCardStats[rec->card_id - 1] >> 0x12;
+                        level = gDuel_adwCardStats[rec->card_id - 1] >> CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                     } else {
-                        level = gDuel_adwCardStats[rec->card_id - 1] >> 0x16;
+                        level = gDuel_adwCardStats[rec->card_id - 1] >> CARD_STAT_GUARDIAN_STAR_1_SHIFT;
                     }
-                    result = level & 0xF;
+                    result = level & CARD_STAT_GUARDIAN_STAR_MASK;
                     SD_SEPlayFull(0x1D);
                     req =
                         DuelEffect_AllocateRequest(0xE);

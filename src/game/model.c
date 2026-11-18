@@ -720,7 +720,7 @@ void Model_UpdateAnimatedBattle(void)
 
     *(ModelSlotS32Quad *)effect_handlers = *(ModelSlotS32Quad *)gModel_apfnEffectHandlers;
     defender_handler_index = 1;
-    if (((gDuel_adwCardStats[gModel_aSlots[1].model_id] >> 0x1A) & 0x1F) == 1) {
+    if (((gDuel_adwCardStats[gModel_aSlots[1].model_id] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) == CARD_TYPE_SPELLCASTER) {
         defender_handler_index = 2;
     }
     switch ((s8)(gModel_bPresentationPhase + 1)) {
@@ -4240,7 +4240,7 @@ void Model_UpdateSlotControl(s32 index)
                 u32 card_id;
                 s32 sound_id;
                 do { card_id = other->model_id; } while (0);
-                sound_id = ((gDuel_adwCardStats[card_id] >> 26) & 0x1F) == 1 ? 3 : 4;
+                sound_id = ((gDuel_adwCardStats[card_id] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) == CARD_TYPE_SPELLCASTER ? 3 : 4;
                 SD_SEPlay(sound_id, 0xFF, 0);
             }
             return;
