@@ -374,15 +374,6 @@ typedef struct {
     u8 unknown_94[4];
 } ModelVariantSheet;
 
-/* A 0x250-byte primary record the sheet helpers read for its active flag and
- * size. */
-typedef struct {
-    u8 unknown_00[0x188];
-    s32 active;
-    s32 size;
-    u8 unknown_190[0xC0];
-} ModelVariantSheetPrimary;
-
 /* ModelVariantSheet with its sixteen corners as one points[16] array and its
  * colours as CVECTORs: outer is the colour of the fourth corner and inner that
  * of the other three, as FrenchModelVariant400_DrawSheets and the header-335
@@ -703,18 +694,6 @@ typedef struct {
     DVECTOR projected;
     long interpolation, flag, target;
 } ModelVariantPackedProjection;
-
-/* The paired-sheet command row: the first sheet count, the pairing flag and
- * the fade window. */
-typedef struct {
-    u8 unknown_00[0x1C];
-    s32 first_count;
-    s32 paired;
-    u8 unknown_24[0x0C];
-    u32 fade_begin;
-    u32 fade_end;
-    u8 unknown_38[8];
-} ModelVariantPairedSheetTiming;
 
 /* One 0x90-byte fan record: a centre point and two rings of five points
  * (point[0], point[1..5], point[6..10]), four quad corners, the inner and
