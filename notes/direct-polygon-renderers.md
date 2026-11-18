@@ -79,8 +79,8 @@ use the `gcc_2_8_1_g0_handwritten_asm` policy described in
 `notes/decompilation-workflow.md`: hard-register declarations, with inline
 assembly only for the s-register save/restore, GTE operations and the few
 load/branch shapes listed below, all in `src/game/handwritten_asm.h` except
-the vertex loads, which use the Psy-Q `inline_c.h` macros
-`gte_ldv0`/`gte_ldv1`/`gte_ldv2`.
+the vertex loads and colour stores, which use the Psy-Q `inline_c.h` macros
+`gte_ldv0`/`gte_ldv1`/`gte_ldv2`, `gte_strgb` and `gte_strgb3`.
 
 Points that the C has to reproduce:
 
