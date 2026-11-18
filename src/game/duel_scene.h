@@ -519,13 +519,12 @@ void DebugEffect_UpdatePreview(void);
 extern struct DisplayObject *gDebugEffect_pPreviewCard0;
 extern struct DisplayObject *gDebugEffect_pPreviewCard1;
 extern DuelCardRecord gDebugEffect_aPreviewCardRecords[];
-/* DuelScene_UpdateEffectPreview's FntPrint strings stay in generated
- * .rodata: retail keeps them, after gDuel_szComSelCardError, ahead of every
- * duel_scene jump table, while GCC would emit them as literals after the
- * tables of earlier functions (Duel_LoadPackageStage's is the first). */
-extern char gDebugEffect_szOperandsFormat[];
-extern char gDebugEffect_szSecondOperandMarker[];
-extern char gDebugEffect_szFirstOperandMarker[];
+/* DuelScene_UpdateEffectPreview's FntPrint strings, the format and the two
+ * markers below the edited operand, defined as duel_scene.c's leading
+ * read-only data (after gDuel_szComSelCardError, where the build has it). */
+extern const char gDebugEffect_szOperandsFormat[];
+extern const char gDebugEffect_szSecondOperandMarker[];
+extern const char gDebugEffect_szFirstOperandMarker[];
 
 /* The developer effect-preview screen. DuelScene_UpdateEffectPreview is the gDuel_apfnSceneStateHandler duel
  * phase entry for it: it runs the preview builder and then prints the
@@ -1926,10 +1925,8 @@ extern s8 gDuel_bAiSelectionCursor;
 extern u16 gDuel_wAiSelectionStepDelay;
 
 /* "Com Error SelCard\n", the scripted path's complaint about a selection byte
- * below 0xB. It stays in generated .rodata: retail keeps the string at
- * 0x80010060, ahead of every duel_scene jump table, but a literal would be
- * emitted after the tables of the earlier functions (from
- * Duel_LoadPackageStage's on). */
+ * below 0xB, defined at the head of duel_scene.c's read-only data
+ * (0x80010060) in the builds that make that printf. */
 extern const char gDuel_szComSelCardError[];
 
 void DuelScene_UpdateHandActions(void);

@@ -68,8 +68,7 @@ segments:
       - [0x838, .rodata, game/file_setup]
       - [0x843, pad]
       - [0x844, .rodata, game/file_transfer_runtime]
-      - {start: 0x860, type: bin, name: german_raw_80010060, linker_section_order: .rodata}
-      - [0x8B0, .rodata, game/duel_scene]
+      - [0x860, .rodata, game/duel_scene]
       - {start: 0x9D8, type: bin, name: german_raw_800101d8, linker_section_order: .rodata}
       - [0x9EC, .rodata, game/library]
       - [0xA34, .rodata, game/main_mode_runners]

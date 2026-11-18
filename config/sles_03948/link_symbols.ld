@@ -480,9 +480,6 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* The startup code clears bss from the first small zero-initialized object. */
 bss_start = main_SBSS_START;
-gDebugEffect_szOperandsFormat = 0x80010060;
-gDebugEffect_szSecondOperandMarker = 0x8001007C;
-gDebugEffect_szFirstOperandMarker = 0x80010094;
 gText_DecimalDivisorView = 0x80092248;
 gTextBox_apfnStateCallbacks = 0x80092270;
 gDuelEffect_nCompactionRequested = 0x8009C6E4;

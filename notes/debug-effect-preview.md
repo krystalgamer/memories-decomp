@@ -57,7 +57,9 @@ These are borrowed slots 6/7, not a private two-record allocation. The
 Japanese view retains its original `D_801B7B80` provider. No bound, pointer
 variable or inline pool-plus-six expression replaces the old array identity.
 
-The HUD resources retain their exact incomplete `u8[]` types:
+The HUD strings are `const char[]` definitions at the head of
+`duel_scene.c`, its leading `.rodata` (#2602), after
+`gDuel_szComSelCardError` in the builds that make that printf:
 
 | Original NA address | Canonical resource | Role |
 | --- | --- | --- |
@@ -65,11 +67,13 @@ The HUD resources retain their exact incomplete `u8[]` types:
 | `0x80010090` | `gDebugEffect_szSecondOperandMarker` | Marker when edited index is nonzero |
 | `0x800100A8` | `gDebugEffect_szFirstOperandMarker` | Marker when edited index is zero |
 
-North American retail bytes confirm the existing two `%2d` fields, marker
-spacing and color markup. No bytes, field widths, terminators, casts or
-`FntPrint` arguments change. European providers use their original
-`0x80010060/0x8001007C/0x80010094` bindings rather than copied NA addresses.
-Every canonical resource aliases the original image provider.
+Retail bytes in every region confirm the two `%2d` fields, the fifteen and
+twelve leading marker spaces and the color markup. Defined before the first
+function, they precede every duel_scene jump table as in retail; literals
+would follow the earlier functions' tables. NA and Japan place them at
+`0x80010074/0x80010090/0x800100A8`; the PAL builds, without the
+`"Com Error SelCard\n"` string, at `0x80010060/0x8001007C/0x80010094`, and
+the first `.align 3` jump table then starts at `0x800100B0`.
 
 ## Regional layout and matching boundary
 
