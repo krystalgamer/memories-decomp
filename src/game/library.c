@@ -1027,7 +1027,7 @@ void Library_UpdateCardView(LibraryState *state)
             }
             break;
         case 1:
-            if (gInput_awPadPressed[0] & 0x80E0) {
+            if (gInput_awPadPressed[0] & (PAD_DIRECTION_LEFT | PAD_BUTTON_CIRCLE | PAD_BUTTON_CROSS | PAD_BUTTON_SQUARE)) {
                 Fade_StartOutKeepOverlay();
                 state->motion.card_view_slide_phase = 1;
                 state->motion.card_view_subphase = 2;

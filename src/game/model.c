@@ -3033,7 +3033,7 @@ s32 ModelDebug_UpdateController(void)
             Model_SetSlotShadowEnabled(1, ((gModel_pBackgroundRecord->flags >> 1) ^ 1) & 1);
     }
 #ifndef VERSION_JAPAN
-    if ((gInput_awPadHeld[0] & 0x100) && (gInput_awPadPressed[1] & 0x100))
+    if ((gInput_awPadHeld[0] & PAD_BUTTON_SELECT) && (gInput_awPadPressed[1] & PAD_BUTTON_SELECT))
         gModelDebug_Display.display_enabled ^= 1;
     if (!gModelDebug_Display.display_enabled)
         return 0;
@@ -3059,23 +3059,23 @@ s32 ModelDebug_UpdateController(void)
         reload++;
         gModel_awSlotModelIds[2] = (rand() >> 8) % 7;
     }
-    if (gInput_awPadPressed[0] & 0x10)
+    if (gInput_awPadPressed[0] & PAD_BUTTON_TRIANGLE)
         reload++;
-    if (gInput_awPadRepeat[0] & 0x900) {
-        if (gInput_awPadRepeat[0] & 0x100)
+    if (gInput_awPadRepeat[0] & (PAD_BUTTON_SELECT | PAD_BUTTON_START)) {
+        if (gInput_awPadRepeat[0] & PAD_BUTTON_SELECT)
             gModel_awSlotModelIds[2] = ((u16)gModel_awSlotModelIds[2] + 6) % 7;
         else
             gModel_awSlotModelIds[2] = ((u16)gModel_awSlotModelIds[2] + 8) % 7;
     }
-    if (gInput_awPadRepeat[0] & 0xA000) {
-        if (gInput_awPadRepeat[0] & 0x8000)
+    if (gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
+        if (gInput_awPadRepeat[0] & PAD_DIRECTION_LEFT)
             gModelDebug_bSelectedDigit = (gModelDebug_bSelectedDigit + 5) % 6;
         else
             gModelDebug_bSelectedDigit = (gModelDebug_bSelectedDigit + 7) % 6;
     }
-    if (gInput_awPadHeld[0] & 0x80) {
-        if (gInput_awPadRepeat[0] & 0x5000) {
-            if (gInput_awPadRepeat[0] & 0x1000)
+    if (gInput_awPadHeld[0] & PAD_BUTTON_SQUARE) {
+        if (gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) {
+            if (gInput_awPadRepeat[0] & PAD_DIRECTION_UP)
                 D_8009B004.halfwords[1] -= 10;
             else
                 D_8009B004.halfwords[1] += 10;
@@ -3096,7 +3096,7 @@ s32 ModelDebug_UpdateController(void)
                 Model_UpdateCoordinateUnitMatrix(stage->root_coordinate, 0);
             }
         }
-    } else if (gInput_awPadRepeat[0] & 0x5000) {
+    } else if (gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) {
         s32 side = gModelDebug_bSelectedDigit >= 3u;
         s16 *number = &gModel_awSlotModelIds[side];
         s32 digits[3] = {
@@ -3105,7 +3105,7 @@ s32 ModelDebug_UpdateController(void)
             (u16)((u16)*number % 10u)
         };
 
-        if (gInput_awPadRepeat[0] & 0x1000) {
+        if (gInput_awPadRepeat[0] & PAD_DIRECTION_UP) {
             digits[(u8)(gModelDebug_bSelectedDigit % 3u)] =
                 (digits[(u8)(gModelDebug_bSelectedDigit % 3u)] + 11) % 10;
         } else {
@@ -3114,13 +3114,13 @@ s32 ModelDebug_UpdateController(void)
         }
         gModel_awSlotModelIds[side] = 100 * digits[0] + 10 * digits[1] + digits[2];
     }
-    if (gInput_awPadPressed[0] & 4)
+    if (gInput_awPadPressed[0] & PAD_BUTTON_L1)
         gModelDebug_abSlotAfFlags[0] ^= 1;
-    if (gInput_awPadPressed[0] & 1)
+    if (gInput_awPadPressed[0] & PAD_BUTTON_L2)
         gModelDebug_abSlotGfFlags[0] ^= 1;
-    if (gInput_awPadPressed[0] & 8)
+    if (gInput_awPadPressed[0] & PAD_BUTTON_R1)
         gModelDebug_abSlotAfFlags[1] ^= 1;
-    if (gInput_awPadPressed[0] & 2)
+    if (gInput_awPadPressed[0] & PAD_BUTTON_R2)
         gModelDebug_abSlotGfFlags[1] ^= 1;
     FntPrint("%s%d", gModelDebug_bSelectedDigit == 0 ?
         selected : normal, (u16)((u16)((u16)gModel_awSlotModelIds[0] / 100u) % 10u));

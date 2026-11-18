@@ -294,11 +294,11 @@ s32 MainMenu_UpdateTradeScreen(void)
 
     if (gTrade_bDecisionMenuActive != 0) {
         decision = 0;
-        if ((gInput_awPadRepeat[0] & 0x5000) != 0 ||
-            (gInput_awPadRepeat[1] & 0x5000) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) != 0 ||
+            (gInput_awPadRepeat[1] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
             SD_SEPlay(6, 255, 0);
-            if ((gInput_awPadRepeat[0] & 0x1000) != 0 ||
-                (gInput_awPadRepeat[1] & 0x1000) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_UP) != 0 ||
+                (gInput_awPadRepeat[1] & PAD_DIRECTION_UP) != 0) {
                 gTrade_bFocusPane = (gTrade_bFocusPane + 2) % 3;
             } else {
                 gTrade_bFocusPane = (gTrade_bFocusPane + 4) % 3;
@@ -349,7 +349,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 TextBox_Destroy(TEXT_CHANNEL(3));
                 gTrade_abReady[0] = 0;
             }
-        } else if ((gInput_awPadPressed[0] & 0x80) != 0) {
+        } else if ((gInput_awPadPressed[0] & PAD_BUTTON_SQUARE) != 0) {
             if (gTrade_abReady[1] != 0 &&
                 gTrade_awOffers[0][0] + gTrade_awOffers[1][0] == 0) {
                 SD_SEPlay(9, 255, 0);
@@ -358,23 +358,23 @@ s32 MainMenu_UpdateTradeScreen(void)
                 MainMenu_CreateTradeReadyIndicator(0);
                 gTrade_abReady[0] = 1;
             }
-        } else if ((gInput_awPadPressed[0] & 0x10) != 0) {
+        } else if ((gInput_awPadPressed[0] & PAD_BUTTON_TRIANGLE) != 0) {
             if (card0->id != 0) {
                 gDuel_wViewerCardID = card0->id;
                 gDuel_bCardViewerYOffset = 20;
                 gDuel_bEffectState = 2;
             }
-        } else if ((gInput_awPadRepeat[0] & 0x900) != 0) {
+        } else if ((gInput_awPadRepeat[0] & (PAD_BUTTON_SELECT | PAD_BUTTON_START)) != 0) {
             SD_SEPlay(47, 255, 0);
-            if ((gInput_awPadRepeat[0] & 0x100) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_BUTTON_SELECT) != 0) {
                 gTrade_abSortMode[0] = (gTrade_abSortMode[0] + 5) % 6;
             } else {
                 gTrade_abSortMode[0] = (gTrade_abSortMode[0] + 7) % 6;
             }
             MainMenu_RefreshTradeInventory(0, 0);
             dirty0++;
-        } else if ((gInput_awPadPressed[0] & 0xA000) != 0) {
-            if ((gInput_awPadPressed[0] & 0x8000) != 0) {
+        } else if ((gInput_awPadPressed[0] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+            if ((gInput_awPadPressed[0] & PAD_DIRECTION_LEFT) != 0) {
                 flags &= ~1;
             } else {
                 flags |= 1;
@@ -402,8 +402,8 @@ s32 MainMenu_UpdateTradeScreen(void)
             } else {
                 SD_SEPlay(9, 255, 0);
             }
-        } else if ((gInput_awPadHeld[0] & 0xC) != 0) {
-            if ((gInput_awPadHeld[0] & 4) != 0) {
+        } else if ((gInput_awPadHeld[0] & PAD_BUTTON_L1_R1_MASK) != 0) {
+            if ((gInput_awPadHeld[0] & PAD_BUTTON_L1) != 0) {
                 low = gTrade_aListScroll[0].target - MAIN_MENU_TRADE_PAGE_STEP;
                 if (low < 0) { low = 0; }
                 gTrade_aListScroll[0].target = low;
@@ -415,8 +415,8 @@ s32 MainMenu_UpdateTradeScreen(void)
                 break;
             }
             SD_SEPlay(6, 255, 0);
-        } else if ((gInput_awPadRepeat[0] & 3) != 0) {
-            if ((gInput_awPadRepeat[0] & 1) != 0) {
+        } else if ((gInput_awPadRepeat[0] & PAD_BUTTON_TRIGGER_MASK) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_BUTTON_L2) != 0) {
                 low = gTrade_aListScroll[0].target - 50;
                 if (low < 0) { low = 0; }
                 gTrade_aListScroll[0].target = low;
@@ -429,8 +429,8 @@ s32 MainMenu_UpdateTradeScreen(void)
             }
             gTrade_aListScroll[0].current = gTrade_aListScroll[0].target;
             dirty0++;
-        } else if ((gInput_awPadRepeat[0] & 0x5000) != 0) {
-            if ((gInput_awPadRepeat[0] & 0x1000) != 0) {
+        } else if ((gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+            if ((gInput_awPadRepeat[0] & PAD_DIRECTION_UP) != 0) {
                 if (gTrade_abCursorRow[0] != 0) {
                     SD_SEPlay(6, 255, 0);
                     gTrade_abCursorRow[0]--;
@@ -468,7 +468,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 TextBox_Destroy(TEXT_CHANNEL(3));
                 gTrade_abReady[1] = 0;
             }
-        } else if ((gInput_awPadPressed[1] & 0x80) != 0) {
+        } else if ((gInput_awPadPressed[1] & PAD_BUTTON_SQUARE) != 0) {
             if (gTrade_abReady[0] != 0 &&
                 gTrade_awOffers[0][0] + gTrade_awOffers[1][0] == 0) {
                 SD_SEPlay(9, 255, 0);
@@ -477,23 +477,23 @@ s32 MainMenu_UpdateTradeScreen(void)
                 MainMenu_CreateTradeReadyIndicator(1);
                 gTrade_abReady[1] = 1;
             }
-        } else if ((gInput_awPadPressed[1] & 0x10) != 0) {
+        } else if ((gInput_awPadPressed[1] & PAD_BUTTON_TRIANGLE) != 0) {
             if (card1->id != 0) {
                 gDuel_wViewerCardID = card1->id;
                 gDuel_bCardViewerYOffset = 20;
                 gDuel_bEffectState = 2;
             }
-        } else if ((gInput_awPadRepeat[1] & 0x900) != 0) {
+        } else if ((gInput_awPadRepeat[1] & (PAD_BUTTON_SELECT | PAD_BUTTON_START)) != 0) {
             SD_SEPlay(47, 255, 0);
-            if ((gInput_awPadRepeat[1] & 0x100) != 0) {
+            if ((gInput_awPadRepeat[1] & PAD_BUTTON_SELECT) != 0) {
                 gTrade_abSortMode[1] = (gTrade_abSortMode[1] + 5) % 6;
             } else {
                 gTrade_abSortMode[1] = (gTrade_abSortMode[1] + 7) % 6;
             }
             MainMenu_RefreshTradeInventory(1, 0);
             dirty1.dirty++;
-        } else if ((gInput_awPadPressed[1] & 0xA000) != 0) {
-            if ((gInput_awPadPressed[1] & 0x8000) != 0) {
+        } else if ((gInput_awPadPressed[1] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
+            if ((gInput_awPadPressed[1] & PAD_DIRECTION_LEFT) != 0) {
                 flags &= ~2;
             } else {
                 flags |= 2;
@@ -521,8 +521,8 @@ s32 MainMenu_UpdateTradeScreen(void)
             } else {
                 SD_SEPlay(9, 255, 0);
             }
-        } else if ((gInput_awPadHeld[1] & 0xC) != 0) {
-            if ((gInput_awPadHeld[1] & 4) != 0) {
+        } else if ((gInput_awPadHeld[1] & PAD_BUTTON_L1_R1_MASK) != 0) {
+            if ((gInput_awPadHeld[1] & PAD_BUTTON_L1) != 0) {
                 low = gTrade_aListScroll[1].target - MAIN_MENU_TRADE_PAGE_STEP;
                 if (low < 0) { low = 0; }
                 gTrade_aListScroll[1].target = low;
@@ -537,8 +537,8 @@ s32 MainMenu_UpdateTradeScreen(void)
                 break;
             }
             SD_SEPlay(6, 255, 0);
-        } else if ((gInput_awPadRepeat[1] & 3) != 0) {
-            if ((gInput_awPadRepeat[1] & 1) != 0) {
+        } else if ((gInput_awPadRepeat[1] & PAD_BUTTON_TRIGGER_MASK) != 0) {
+            if ((gInput_awPadRepeat[1] & PAD_BUTTON_L2) != 0) {
                 low = gTrade_aListScroll[1].target - 50;
                 if (low < 0) { low = 0; }
                 gTrade_aListScroll[1].target = low;
@@ -554,8 +554,8 @@ s32 MainMenu_UpdateTradeScreen(void)
             }
             gTrade_aListScroll[1].current = gTrade_aListScroll[1].target;
             dirty1.dirty++;
-        } else if ((gInput_awPadRepeat[1] & 0x5000) != 0) {
-            if ((gInput_awPadRepeat[1] & 0x1000) != 0) {
+        } else if ((gInput_awPadRepeat[1] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
+            if ((gInput_awPadRepeat[1] & PAD_DIRECTION_UP) != 0) {
                 if (gTrade_abCursorRow[1] != 0) {
                     SD_SEPlay(6, 255, 0);
                     gTrade_abCursorRow[1]--;
