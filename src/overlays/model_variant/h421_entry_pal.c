@@ -300,12 +300,12 @@ s32 SpanishModelVariant438_HandleRequest(Variant438EntryState *context, s32 comm
         work->spiral.field_02 = 0;
         work->spiral.size = 0;
         work->spiral.shrink = 0;
-        work->field_22C8 = 0;
+        work->index = 0;
         work->scale = 4096;
         work->field_22DA = 1024;
         work->progress = 0;
         work->field_22E0 = 0;
-        work->field_22E4 = 0;
+        work->ray_angle = 0;
         work->field_22CA = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;

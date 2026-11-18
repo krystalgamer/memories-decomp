@@ -28,8 +28,10 @@ describe (step `+26DC`, phase `+271C`, private view ending at `+2720`):
 | step | `+19F8` | `+26DC` |
 | phase | `+1A30` | `+271C` |
 
-`e581_entry.h` declares this context as
-`Variant398Header441RingsState`, and the macro selects it as the work type. It also sets growth to `step * 80` (header 398 uses
+The macro selects `Variant441EntryState` (`h424_entry_pal.h`) as the work
+type; the rings lead it as `screen_rings` and the packet is `extra`. (The
+helper was first matched through a private `Variant398Header441RingsState`
+view, folded into the entry state in #9547.) It also sets growth to `step * 80` (header 398 uses
 `step * 96`) and keeps wrapping the scale while `phase < 4` (header 398
 stops at `phase < 3`). Without the macro, the work type stays
 `Variant398EntryState` and the constants are the original ones.

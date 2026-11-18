@@ -288,7 +288,7 @@ s32 SpanishModelVariant441_HandleRequest(Variant441EntryState *context, s32 comm
         work->spiral_size = 0;
         work->spiral_shrink = 0;
         work->progress = 0;
-        work->field_2718 = 0;
+        work->ray_angle = 0;
         work->field_2710 = 0;
         work->field_2712 = 0;
         work->frame_count = 0;
