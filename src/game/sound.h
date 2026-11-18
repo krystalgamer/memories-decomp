@@ -887,7 +887,10 @@ extern SDValue *g_SDValue;
 extern SDSecondaryState *gSD_pSecondaryState;
 
 /* One SPU voice bit per entry.  The object at gSD_adwVoiceMasks is twenty words
- * holding 1 << n for n = 0 .. 19, read out of the retail image.  The uses
+ * holding 1 << n for n = 0 .. 19, defined in sound_secondary_voice.c right
+ * after the note pitch table (retail keeps the two adjacent, and that unit
+ * and its neighbours sound_secondary.c and sound_sequence_events.c are the
+ * readers; none of those has other read-only data to fix the owner).  The uses
  * agree that these are voice masks: SD_SetVoiceVolume submits gSD_adwVoiceMasks[voice]
  * as the `voice` field of the SpuVoiceAttr it hands to SpuSetVoiceAttr, and
  * SD_KeyOffSecondaryObject passes an entry straight to SpuSetKey and SpuGetKeyStatus,

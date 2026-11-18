@@ -29,8 +29,6 @@ gFile_pDuelBankBase = 0x800101DC;
 gFile_pBootTextStage5Destination = 0x800101E0;
 gFile_pBootTextStage6Destination = 0x800101E4;
 gFile_pBootTextStage7Destination = 0x800101E8;
-gSD_adwVoiceMasks = 0x80011360;
-gSD_adwStatusDataByteCounts = 0x800113B0;
 gModel_DiscEffectInitialScale = 0x80011830;
 gModel_BurstEffectInitialScale = 0x80011840;
 gModel_SparkEffectInitialScale = 0x80011850;
@@ -424,7 +422,6 @@ srand = 0x8008F738;
 strcmp = 0x8008F7F8;
 strcpy = 0x8008F868;
 tail_data_start = 0x801AC000;
-gSD_awNotePitchTable = 0x80010760;
 write = 0x80073E48;
 
 /* Semantic draw-state aliases retain the original native providers. */
