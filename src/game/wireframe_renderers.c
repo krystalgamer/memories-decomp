@@ -14,6 +14,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "handwritten_asm.h"
+#include "gte_native.h"
 #include "model_handler_state.h"
 #include "model.h"
 #include "gpu_packets.h"
@@ -93,9 +94,11 @@ u32 *Model_DrawFt3Wireframes(GsARGUNIT_NORMAL *arg)
                 gte_ldv2(v);
                 pkt[1] = gHw_DrawModeTemplate;
                 pkt[7] = gHw_LineTerminator;
-                HW_GTE_RTPT_FLAG(flag);
+                GTE_RTPT_B();
+                HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag >= 0) {
-                    HW_GTE_AVSZ3_OTZ(otz);
+                    GTE_AVSZ3_B();
+                    HW_GTE_READ(7, otz);
                     pkt[2] = gHw_LineTemplate;
                     otz >>= shift;
                     otz <<= 2;
@@ -187,9 +190,11 @@ u32 *Model_DrawGt3Wireframes(GsARGUNIT_NORMAL *arg)
                 gte_ldv2(v);
                 pkt[1] = gHw_DrawModeTemplate;
                 pkt[7] = gHw_LineTerminator;
-                HW_GTE_RTPT_FLAG(flag);
+                GTE_RTPT_B();
+                HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag >= 0) {
-                    HW_GTE_AVSZ3_OTZ(otz);
+                    GTE_AVSZ3_B();
+                    HW_GTE_READ(7, otz);
                     pkt[2] = gHw_LineTemplate;
                     otz >>= shift;
                     otz <<= 2;
@@ -281,7 +286,7 @@ u32 *Model_DrawFt4Wireframes(GsARGUNIT_NORMAL *arg)
                 gte_ldv2(v);
                 v3 = w1 >> 16;
                 v3 <<= 3;
-                HW_GTE_RTPT();
+                GTE_RTPT_B();
                 HW_GTE_READ_FLAG(flag);
                 v = v3 + verts;
                 pkt[1] = gHw_DrawModeTemplate;
@@ -290,9 +295,11 @@ u32 *Model_DrawFt4Wireframes(GsARGUNIT_NORMAL *arg)
                     HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
                     pkt[6] = gHw_LineTerminator;
                     pkt[11] = gHw_LineTerminator;
-                    HW_GTE_RTPS_FLAG(flag);
+                    GTE_RTPS_B();
+                    HW_GTE_READ_FLAG_WAIT(flag);
                     if (flag >= 0) {
-                        HW_GTE_AVSZ4_OTZ(otz);
+                        GTE_AVSZ4_B();
+                        HW_GTE_READ(7, otz);
                         pkt[2] = gHw_LineTemplate;
                         pkt[7] = gHw_LineTemplate;
                         otz >>= shift;
@@ -389,7 +396,7 @@ u32 *Model_DrawGt4Wireframes(GsARGUNIT_NORMAL *arg)
                 gte_ldv2(v);
                 v3 = w3 >> 16;
                 v3 <<= 3;
-                HW_GTE_RTPT();
+                GTE_RTPT_B();
                 HW_GTE_READ_FLAG(flag);
                 v = v3 + verts;
                 pkt[1] = gHw_DrawModeTemplate;
@@ -398,9 +405,11 @@ u32 *Model_DrawGt4Wireframes(GsARGUNIT_NORMAL *arg)
                     HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
                     pkt[6] = gHw_LineTerminator;
                     pkt[11] = gHw_LineTerminator;
-                    HW_GTE_RTPS_FLAG(flag);
+                    GTE_RTPS_B();
+                    HW_GTE_READ_FLAG_WAIT(flag);
                     if (flag >= 0) {
-                        HW_GTE_AVSZ4_OTZ(otz);
+                        GTE_AVSZ4_B();
+                        HW_GTE_READ(7, otz);
                         pkt[2] = gHw_LineTemplate;
                         pkt[7] = gHw_LineTemplate;
                         otz >>= shift;
@@ -494,9 +503,11 @@ u32 *Model_DrawFt3WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                 gte_ldv2(v);
                 pkt[1] = gHw_DrawModeTemplate;
                 pkt[7] = gHw_LineTerminator;
-                HW_GTE_RTPT_FLAG(flag);
+                GTE_RTPT_B();
+                HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag >= 0) {
-                    HW_GTE_AVSZ3_OTZ(otz);
+                    GTE_AVSZ3_B();
+                    HW_GTE_READ(7, otz);
                     pkt[2] = gHw_LineTemplate;
                     otz >>= shift;
                     otz <<= 2;
@@ -588,9 +599,11 @@ u32 *Model_DrawGt3WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                 gte_ldv2(v);
                 pkt[1] = gHw_DrawModeTemplate;
                 pkt[7] = gHw_LineTerminator;
-                HW_GTE_RTPT_FLAG(flag);
+                GTE_RTPT_B();
+                HW_GTE_READ_FLAG_WAIT(flag);
                 if (flag >= 0) {
-                    HW_GTE_AVSZ3_OTZ(otz);
+                    GTE_AVSZ3_B();
+                    HW_GTE_READ(7, otz);
                     pkt[2] = gHw_LineTemplate;
                     otz >>= shift;
                     otz <<= 2;
@@ -682,7 +695,7 @@ u32 *Model_DrawFt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                 gte_ldv2(v);
                 v3 = w1 >> 16;
                 v3 <<= 3;
-                HW_GTE_RTPT();
+                GTE_RTPT_B();
                 HW_GTE_READ_FLAG(flag);
                 v = v3 + verts;
                 pkt[1] = gHw_DrawModeTemplate;
@@ -691,9 +704,11 @@ u32 *Model_DrawFt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                     HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
                     pkt[6] = gHw_LineTerminator;
                     pkt[11] = gHw_LineTerminator;
-                    HW_GTE_RTPS_FLAG(flag);
+                    GTE_RTPS_B();
+                    HW_GTE_READ_FLAG_WAIT(flag);
                     if (flag >= 0) {
-                        HW_GTE_AVSZ4_OTZ(otz);
+                        GTE_AVSZ4_B();
+                        HW_GTE_READ(7, otz);
                         pkt[2] = gHw_LineTemplate;
                         pkt[7] = gHw_LineTemplate;
                         otz >>= shift;
@@ -790,7 +805,7 @@ u32 *Model_DrawGt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                 gte_ldv2(v);
                 v3 = w3 >> 16;
                 v3 <<= 3;
-                HW_GTE_RTPT();
+                GTE_RTPT_B();
                 HW_GTE_READ_FLAG(flag);
                 v = v3 + verts;
                 pkt[1] = gHw_DrawModeTemplate;
@@ -799,9 +814,11 @@ u32 *Model_DrawGt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                     HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
                     pkt[6] = gHw_LineTerminator;
                     pkt[11] = gHw_LineTerminator;
-                    HW_GTE_RTPS_FLAG(flag);
+                    GTE_RTPS_B();
+                    HW_GTE_READ_FLAG_WAIT(flag);
                     if (flag >= 0) {
-                        HW_GTE_AVSZ4_OTZ(otz);
+                        GTE_AVSZ4_B();
+                        HW_GTE_READ(7, otz);
                         pkt[2] = gHw_LineTemplate;
                         pkt[7] = gHw_LineTemplate;
                         otz >>= shift;
@@ -913,7 +930,8 @@ u32 *Model_DrawSharedGt3Wireframes(GsARGUNIT_SHARED *arg)
                             HW_GTE_WRITE(19, z);
                             pkt[1] = gHw_DrawModeTemplate;
                             pkt[7] = gHw_LineTerminator;
-                            HW_GTE_AVSZ3_OTZ(otz);
+                            GTE_AVSZ3_B();
+                            HW_GTE_READ(7, otz);
                             pkt[2] = gHw_LineTemplate;
                             otz >>= shift;
                             otz <<= 2;
@@ -1034,7 +1052,8 @@ u32 *Model_DrawSharedGt4Wireframes(GsARGUNIT_SHARED *arg)
                                 pkt[8] = e;
                                 pkt[6] = gHw_LineTerminator;
                                 pkt[11] = gHw_LineTerminator;
-                                HW_GTE_AVSZ4_OTZ(otz);
+                                GTE_AVSZ4_B();
+                                HW_GTE_READ(7, otz);
                                 pkt[2] = gHw_LineTemplate;
                                 pkt[7] = gHw_LineTemplate;
                                 otz >>= shift;
@@ -1148,7 +1167,8 @@ u32 *Model_DrawSharedGt3WindowRecordWireframes(GsARGUNIT_SHARED *arg)
                             HW_GTE_WRITE(19, z);
                             pkt[1] = gHw_DrawModeTemplate;
                             pkt[7] = gHw_LineTerminator;
-                            HW_GTE_AVSZ3_OTZ(otz);
+                            GTE_AVSZ3_B();
+                            HW_GTE_READ(7, otz);
                             pkt[2] = gHw_LineTemplate;
                             otz >>= shift;
                             otz <<= 2;
@@ -1269,7 +1289,8 @@ u32 *Model_DrawSharedGt4WindowRecordWireframes(GsARGUNIT_SHARED *arg)
                                 pkt[8] = e;
                                 pkt[6] = gHw_LineTerminator;
                                 pkt[11] = gHw_LineTerminator;
-                                HW_GTE_AVSZ4_OTZ(otz);
+                                GTE_AVSZ4_B();
+                                HW_GTE_READ(7, otz);
                                 pkt[2] = gHw_LineTemplate;
                                 pkt[7] = gHw_LineTemplate;
                                 otz >>= shift;

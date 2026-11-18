@@ -14,7 +14,8 @@ the preparation stage and the sixteen drivers that follow it, all in
 `gHw_ByteMask` (the drivers call it `gHw_Color`) and reserves `$25` as
 `gHw_Empty`, where the drivers bind `$25` to a local packet pointer. Sharing
 one translation unit leaves every body unchanged, which the exact match of
-every image confirms. Plain GTE register transfers use the Psy-Q
+every image confirms. GTE commands use the native-opcode macros of
+`src/game/gte_native.h`; plain GTE register transfers use the Psy-Q
 `inline_c.h` macros `gte_ldsxy0`/`gte_ldsxy1`/`gte_ldsxy2`, `gte_stsxy2`
 and `gte_strgb`. GCC cannot
 produce three shapes the originals use, so `src/game/handwritten_asm.h`
@@ -26,7 +27,7 @@ supplies narrow macros the contract checker accepts only in fixed forms:
   one `.set noreorder` block. GCC does not see that branch, so only the exact
   image match vouches for the surrounding flow.
 - The Gt4 drivers also use the direct Gt4 `HW_LWR` load and a two-stage
-  NCLIP (`HW_GTE_NCLIP_MAC0_WAIT`) behind a kept `cull_test` label.
+  NCLIP (`GTE_NCLIP()` then `HW_GTE_READ_WAIT(24, ...)`) behind a kept `cull_test` label.
 - `Model_PrepareSharedPrimitiveCaches` fills three branch delay slots with
   loads, which reorg never does on MIPS1 (`dslot=yes`), so
   `HW_BEQZ_LOAD(test, label, out, offset, base)` emits `beqz`/`lw`.

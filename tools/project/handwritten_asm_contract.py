@@ -5,8 +5,10 @@ The resident model renderers between 0x800612C0 and 0x8006AF74 were written
 by hand: they have no stack frame, keep caller registers in scratch words of
 their argument block and issue GTE commands without the Psy-Q nop padding.
 Their C uses the macros in src/game/handwritten_asm.h for exactly those
-operations, plus the Psy-Q inline_c.h register transfers gte_ldv0/1/2,
-gte_ldsxy0/1/2, gte_stsxy2, gte_strgb and gte_strgb3, and nothing else.
+operations, the native-opcode GTE command macros in src/game/gte_native.h
+(whose command words are GTE_COMMAND_WORDS), and the Psy-Q inline_c.h
+register transfers gte_ldv0/1/2, gte_ldsxy0/1/2, gte_stsxy2, gte_strgb and
+gte_strgb3, and nothing else.
 Only profiles with "handwritten_asm_macros" may do so, and only for
 functions in that address range.
 
