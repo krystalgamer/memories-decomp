@@ -57,7 +57,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     s32 wide;
     s32 size;
 
-    channel = (DuelEffectChannel *)((u8 *)gText_aChannels + index * 100);
+    channel = &gText_aChannels[index];
     channel->flags_34 = flags | DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
     channel->initial_string_id = value;
     narrow = 8;
@@ -84,7 +84,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
         break;
     }
     channel->glyph_delay = 1;
-    range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + (index << 1));
+    range = &gDuelEffect_awEntryRangeBoundaries[index];
     channel->depth_offset = 0;
     channel->output_limit = 0;
     channel->entry_range_start = range[0];
@@ -298,39 +298,12 @@ s32 DuelEffect_FindFreeOccupancySlot(void)
 }
 #endif
 
-#ifdef VERSION_JAPAN
-#define DUEL_EFFECT_MARKER_ENTRY_TYPE JapaneseDuelEffectEntry
-#define DUEL_EFFECT_MARKER_ENTRY_COUNT JAPANESE_DUEL_EFFECT_ENTRY_COUNT
-#elif defined(VERSION_EUROPE)
-#define DUEL_EFFECT_MARKER_ENTRY_TYPE EuropeanDuelEffectEntry
-#define DUEL_EFFECT_MARKER_ENTRY_COUNT EUROPEAN_DUEL_EFFECT_ENTRY_COUNT
-#else
-#define DUEL_EFFECT_MARKER_ENTRY_TYPE DuelEffectEntry
-#define DUEL_EFFECT_MARKER_ENTRY_COUNT DUEL_EFFECT_ENTRY_COUNT
-#endif
-
 /* Clears the marker on each regional entry whose owner_channel_tag equals channel_index + 1. */
 void DuelEffect_ClearMatchingMarker(int channel_index) {
-#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-    DUEL_EFFECT_MARKER_ENTRY_TYPE *entry;
+    DUEL_EFFECT_ENTRY_STORAGE_TYPE *entry;
     int remaining;
     u8 owner_tag;
-    remaining = DUEL_EFFECT_MARKER_ENTRY_COUNT;
-    channel_index = channel_index + 1;
-    entry = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)gDuelEffect_aEntries;
-    do {
-        owner_tag = entry->owner_channel_tag;
-        if (owner_tag == channel_index) {
-            entry->entry_flags = 0;
-        }
-        remaining -= 1;
-        entry += 1;
-    } while (remaining != 0);
-#else
-    DuelEffectEntry *entry;
-    int remaining;
-    u8 owner_tag;
-    remaining = DUEL_EFFECT_ENTRY_COUNT;
+    remaining = DUEL_EFFECT_ENTRY_STORAGE_COUNT;
     channel_index = channel_index + 1;
     entry = gDuelEffect_aEntries;
     do {
@@ -341,20 +314,19 @@ void DuelEffect_ClearMatchingMarker(int channel_index) {
         remaining -= 1;
         entry += 1;
     } while (remaining != 0);
-#endif
 }
 
 /* Clears the marker byte in every entry; the North American layout also
    clears layout_selector, the Japanese and European ones do not. */
 void DuelEffect_ResetEntryMarkers(void) {
-    DUEL_EFFECT_MARKER_ENTRY_TYPE *entry;
+    DUEL_EFFECT_ENTRY_STORAGE_TYPE *entry;
     int remaining;
     /* Old GCC preserves the regional initialization order in the output. */
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
-    entry = (DUEL_EFFECT_MARKER_ENTRY_TYPE *)gDuelEffect_aEntries;
-    remaining = DUEL_EFFECT_MARKER_ENTRY_COUNT;
+    entry = gDuelEffect_aEntries;
+    remaining = DUEL_EFFECT_ENTRY_STORAGE_COUNT;
 #else
-    remaining = DUEL_EFFECT_MARKER_ENTRY_COUNT;
+    remaining = DUEL_EFFECT_ENTRY_STORAGE_COUNT;
     entry = gDuelEffect_aEntries;
 #endif
     for (; remaining != 0; remaining = remaining - 1) {
@@ -466,7 +438,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[0] = (DuelEffectTextSprite *)SCRATCH_ADDR(0xC0);
     sprites[1] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x100);
     sprites[2] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x140);
-    SetPolyGT4((POLY_GT4 *)SCRATCH_ADDR(0));
+    SetPolyGT4(gt4);
     SetSemiTrans(SCRATCH_ADDR(0), 1);
     *(u32 *)&ft4->r0 = 0x808080;
     setlen(ft4, 9);
@@ -848,7 +820,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[0] = (DuelEffectTextSprite *)SCRATCH_ADDR(0xC0);
     sprites[1] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x100);
     sprites[2] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x140);
-    SetPolyGT4((POLY_GT4 *)SCRATCH_ADDR(0));
+    SetPolyGT4(gt4);
     SetSemiTrans(SCRATCH_ADDR(0), 1);
     *(u32 *)&ft4->r0 = 0x808080;
     setlen(ft4, 9);
@@ -1432,13 +1404,13 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
             return;
         }
         if (p->flags_34 & 0x200) {
-            r = (s16 *)(p->output_count * 0x88 + (u8 *)r);
+            r += p->output_count * 0x44;
         }
         q->glyph_index = v;
         DuelEffect_RasterizeGlyph(p, a, v, r + 4);
 #else
         if (f & 0x200) {
-            r = (s16 *)(p->output_count * 0x88 + (u8 *)r);
+            r += p->output_count * 0x44;
         }
         q->glyph_index = 0;
         b = p->color_index_54;
@@ -1473,6 +1445,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     q->local_x = p->pen_x;
     q->local_y = p->pen_y;
 #ifdef VERSION_JAPAN
+    /* The channel's cursor is DuelEffectEntry *; Japan's entries are 0x18. */
     q = (DuelEffectEntry *)((u8 *)q + 0x18);
 #else
     q++;
@@ -1508,8 +1481,6 @@ u32 TextStream_ReadU32LE(DuelEffectChannel *object)
 s8 gDialog_bChoice;
 u8 gDialog_bChoiceControl;
 
-#define DUEL_EFFECT_UNSIGNED_HALFWORD(field) (*(u16 *)&(field))
-
 /* Lays out the choice widget's six x/y pairs on the display object the
    channel holds at 0x30. The pairs sit at stride 8 from 0x28; three of them
    take the channel's rect_x as x and three take rect_x + rect_width, and
@@ -1538,13 +1509,12 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     s32 x;
     s32 y;
 
-    q = (DisplayObject *)p->prompt_object;
-    n = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_x);
+    q = p->prompt_object;
+    n = (u16)p->rect_x;
     q->field_48.vertex.x = n;
     q->field_38.h.field_38 = n;
     q->position.h.field_28 = n;
-    m = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_x) +
-        DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_width);
+    m = (u16)p->rect_x + (u16)p->rect_width;
     q->field_50.h.field_50 = m;
     q->field_40.vertex.x = m;
     q->xy.h.x = m;
@@ -1554,7 +1524,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
        layout_selector % 10 selection, and one y step from the choice row (8 in the
        Japanese build, 10 in the European one, whose wrapper defines its own)
        rather than the US spacings below. */
-    v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_y) + (gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK) +
+    v = (u16)p->rect_y + (gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK) +
         ((s32)((u8)gDialog_bChoice << 24) >> 20);
     q->position.h.field_2A = v;
 
@@ -1576,7 +1546,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     if (k == 1) {
         t = gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
         a = t / 16 * 0x10;
-        v = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_y) +
+        v = (u16)p->rect_y +
             a + gDialog_bChoice * 0x10;
         q->position.h.field_2A = v;
 
@@ -1596,14 +1566,14 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     if (k == 2) {
         t2 = gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
         b = t2 / 16 * 0xC;
-        v2 = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_y) +
+        v2 = (u16)p->rect_y +
              b + gDialog_bChoice * 0xC;
         x = v2 - 2;
         y = v2 + 6;
     } else if (k == 0) {
         t0 = gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
         c = t0 / 16 * 0xC;
-        v0 = DUEL_EFFECT_UNSIGNED_HALFWORD(p->rect_y) +
+        v0 = (u16)p->rect_y +
              c + gDialog_bChoice * 0xC;
         x = v0 + 2;
         y = v0 + 0xA;
@@ -1854,29 +1824,6 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 
 #include "duel_effect_entry_state.h"
 
-#ifdef VERSION_JAPAN
-
-#define DUEL_EFFECT_ENTRY_TYPE JapaneseDuelEffectEntry
-#define DUEL_EFFECT_ENTRIES ((JapaneseDuelEffectEntry *)gDuelEffect_aEntries)
-#define DUEL_EFFECT_RANGE_START(channel) \
-    (((JapaneseDuelEffectEntryRange *)(channel))->entry_range_start)
-#define DUEL_EFFECT_RANGE_COUNT(channel) \
-    (((JapaneseDuelEffectEntryRange *)(channel))->entry_range_count)
-#elif defined(VERSION_EUROPE)
-
-/* The European entries are 0x16 bytes, with handler_state and render_mode at 0x11
-   and 0x13. */
-#define DUEL_EFFECT_ENTRY_TYPE EuropeanDuelEffectEntry
-#define DUEL_EFFECT_ENTRIES ((EuropeanDuelEffectEntry *)gDuelEffect_aEntries)
-#define DUEL_EFFECT_RANGE_START(channel) ((channel)->entry_range_start)
-#define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->entry_range_count)
-#else
-#define DUEL_EFFECT_ENTRY_TYPE DuelEffectEntry
-#define DUEL_EFFECT_ENTRIES gDuelEffect_aEntries
-#define DUEL_EFFECT_RANGE_START(channel) ((channel)->entry_range_start)
-#define DUEL_EFFECT_RANGE_COUNT(channel) ((channel)->entry_range_count)
-#endif
-
 /* Starting from the record's entry range, scans its active entries;
    returns 1 on the first entry with DUEL_EFFECT_ENTRY_FLAG_ACTIVE set and
    handler_state nonzero, 0
@@ -1884,11 +1831,11 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 int DuelEffect_HasActiveEntry(DuelEffectChannel *channel) {
     int start;
     int count;
-    DUEL_EFFECT_ENTRY_TYPE *entry;
+    DUEL_EFFECT_ENTRY_STORAGE_TYPE *entry;
 
-    start = DUEL_EFFECT_RANGE_START(channel);
-    count = DUEL_EFFECT_RANGE_COUNT(channel);
-    entry = &DUEL_EFFECT_ENTRIES[start];
+    start = channel->entry_range_start;
+    count = channel->entry_range_count;
+    entry = &gDuelEffect_aEntries[start];
     for (; count != 0; count--, entry++) {
         if ((entry->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
             return 0;
@@ -1908,14 +1855,14 @@ void DuelEffect_SetEntryControlBytes(DuelEffectChannel *channel, u8 handler_stat
                                      u8 render_mode) {
     int start;
     int count;
-    DUEL_EFFECT_ENTRY_TYPE *entry;
+    DUEL_EFFECT_ENTRY_STORAGE_TYPE *entry;
 
-    start = DUEL_EFFECT_RANGE_START(channel);
+    start = channel->entry_range_start;
     /* Empty statement where a release-stripped debug hook plausibly stood; it
        keeps the count load after the start load, so count reuses the channel register. */
     do { } while (0);
-    count = DUEL_EFFECT_RANGE_COUNT(channel);
-    entry = &DUEL_EFFECT_ENTRIES[start];
+    count = channel->entry_range_count;
+    entry = &gDuelEffect_aEntries[start];
     for (; count != 0; count--, entry++) {
         if ((entry->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) == 0) {
             return;
@@ -1928,7 +1875,7 @@ void DuelEffect_SetEntryControlBytes(DuelEffectChannel *channel, u8 handler_stat
 void Text_CompletePageAdvance(DuelEffectChannel *object)
 {
     u8 state = object->playback_state;
-    DUEL_EFFECT_ENTRY_TYPE *entry;
+    DUEL_EFFECT_ENTRY_STORAGE_TYPE *entry;
 
     if ((state & DUEL_EFFECT_STATE_FLAG_INITIALIZED) == 0) {
         object->playback_state = state | DUEL_EFFECT_STATE_FLAG_INITIALIZED;
@@ -1936,7 +1883,7 @@ void Text_CompletePageAdvance(DuelEffectChannel *object)
         return;
     }
 
-    entry = &DUEL_EFFECT_ENTRIES[DUEL_EFFECT_RANGE_START(object)];
+    entry = &gDuelEffect_aEntries[object->entry_range_start];
     if (entry->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE) {
         return;
     }
@@ -2214,6 +2161,7 @@ void Text_WaitWithViewportShake(DuelEffectChannel *object)
     }
     if (gGraphics_dwSyncedFrameCount & 1) {
         /* u16 views of the s16 viewport keep retail's register allocation. */
+        /* u16 stores: a plain s16 store schedules the origin load first. */
         *(u16 *)&gGraphics_sViewportX = gText_ShakeViewportOrigin[0] + ((rand() & 7) - 4);
         *(u16 *)&gGraphics_sViewportY = gText_ShakeViewportOrigin[1] + ((rand() & 3) - 2);
     }
@@ -2282,15 +2230,13 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
  * way the original read it through $gp. */
 void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
 
-#define DUEL_EFFECT_SIGNED_HALFWORD(field) (*(s16 *)&(field))
-
 s32 TextBox_WrapLineIfNeeded(DuelEffectChannel *object) {
-    if (DUEL_EFFECT_SIGNED_HALFWORD(object->pen_x) >= object->rect_width) {
+    if ((s16)object->pen_x >= object->rect_width) {
         object->pen_x = 0;
         object->pen_y += object->line_advance_y;
     }
     if (object->rect_height <
-        DUEL_EFFECT_SIGNED_HALFWORD(object->pen_y) + object->line_advance_y) {
+        (s16)object->pen_y + object->line_advance_y) {
         object->pen_y -= object->line_advance_y;
         return 1;
     }
@@ -2393,6 +2339,8 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     u8 *text;
     u8 *current;
 
+    /* The slot address shares `text`'s register: a u8 ** local swaps the
+       two registers around the cursor load. */
     text = (u8 *)(s32)object->stream_index;
     text = (u8 *)((u32)text * 4);
     {
@@ -2471,6 +2419,8 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     u8 *text;
     u8 *current;
 
+    /* The slot address shares `text`'s register: a u8 ** local swaps the
+       two registers around the cursor load. */
     text = (u8 *)(s32)object->stream_index;
     text = (u8 *)((u32)text * 4);
     {
@@ -2557,6 +2507,8 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     u8 *current;
     u8 **slot;
 
+    /* The slot address shares `text`'s register: a u8 ** local swaps the
+       two registers around the cursor load. */
     text = (u8 *)(s32)object->stream_index;
     object->staged_icon_variant = 0;
     text = (u8 *)((u32)text * 4);
@@ -3396,10 +3348,9 @@ void Text_HandleCampaignFlagCommand(DuelEffectChannel *object)
 
         target &= 0xFFFF;
         if (Campaign_TestStoryFlag(flag) != 0) {
-            s32 *cursor = (s32 *)(
-                (u32)object + (u32)&((u8 **)0)[object->stream_index]);
+            u8 **cursor = &object->streams[object->stream_index];
 
-            *cursor = (*cursor & TEXT_STREAM_CURSOR_HIGH_MASK) | target;
+            *cursor = (u8 *)(((u32)*cursor & TEXT_STREAM_CURSOR_HIGH_MASK) | target);
         }
     }
 }
@@ -3610,7 +3561,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     s32 f;
 
     e = p->render_object;
-    if (e == (DisplayObject *)0) {
+    if (e == 0) {
         e = DisplayObject_AcquireSlot(DisplayObject_FindFreeSlot(), 6);
         b = p->channel_index;
         e->field_40.clut.x = TEXT_BOX_GLYPH_CLUT_X;
@@ -3802,12 +3753,11 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         object->playback_state = 0;
         DisplayObject_ReleaseIfPresent(object->prompt_object);
         DisplayObject_ReleaseIfPresent(object->aux_object);
-        object->prompt_object = (void *)0;
+        object->prompt_object = 0;
         object->aux_object = 0;
         TextBox_RefreshDisplayObjects(object);
         if ((object->flags_34 & TEXT_BOX_BUILD_OWN_ENTRIES_FLAG) == 0) {
-            entry = (&((TEXT_BOX_ENTRY_TYPE *)gDuelEffect_aEntries)[
-                object->entry_range_start]);
+            entry = &gDuelEffect_aEntries[object->entry_range_start];
             object->entry_begin = entry;
             object->entry_write_cursor = entry;
 #ifndef VERSION_EUROPE
@@ -4488,8 +4438,7 @@ void DuelEffect_ProcessEntries(DuelEffectChannel *channel)
     }
 
     if (gDuelEffect_nCompactionRequested != 0) {
-        q = &((DUEL_EFFECT_PROCESS_ENTRY_TYPE *)gDuelEffect_aEntries)[
-            channel->entry_range_start];
+        q = &gDuelEffect_aEntries[channel->entry_range_start];
         e = channel->entry_write_cursor;
         s = q;
         while (s != e) {
@@ -4540,6 +4489,7 @@ s8 *DisplayEffect_ResetMenuRecords(void)
 #ifdef VERSION_JAPAN
     i = 0;
     do {
+        /* s8 store: through the u8 arena the -1 is materialised as 255. */
         ((s8 *)gRuntime_pSharedWorkBase)[0x7FFF0 + i] = -1;
         i++;
         has_more = i < DISPLAY_EFFECT_VRAM_SLOT_COUNT;
