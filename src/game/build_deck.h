@@ -4,6 +4,7 @@
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
+#include "gs_sprite_words.h"
 #include "display_object.h"
 #include "card_constants.h"
 #include "file_transfer.h"
@@ -160,7 +161,9 @@ typedef struct BuildDeckTransitionState {
     u16 state;
     u16 next_state;
     u8 pane_index;
-    u8 pad_6343;
+    /* BuildDeck_InitScreen's flags argument (its callers pass 0x80 or
+       gBuildDeck_bConfirmMode). */
+    u8 init_flags;
 } BuildDeckTransitionState;
 
 typedef char BuildDeckTransitionState_target_offset_must_be_0x5AA4[
@@ -255,7 +258,7 @@ void BuildDeck_RecountDeckCards(BuildDeckTransitionState *state);
  * `base` is s32 rather than a pointer because that is what the definition
  * takes; the body casts it to BuildDeckTransitionState * to reach lists[1].
  * Its one caller holds the same record as u8 * and casts. */
-void BuildDeck_AddCard(s32 base, s32 card_id);
+void BuildDeck_AddCard(BuildDeckTransitionState *base, s32 card_id);
 
 /* Draws one page of a Build Deck card list: the sort-menu icons above it and
  * eight rows (nine in Europe) of card id and ATK/DEF. The object's field_67
@@ -271,7 +274,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot);
  * drawn at full grey, the others dimmed. `ot` is the ordering table it sorts
  * each icon into, which is what its one caller already holds. */
 void BuildDeck_DrawSortIcons(
-    GsSPRITE *sprite, GsOT *ordering_table, u8 *data, s32 selected);
+    GsSpriteWords *sprite, GsOT *ordering_table, u8 *data, s32 selected);
 
 #ifdef VERSION_EUROPE
 void CardList_DrawHeaderDecimalDigits(
@@ -284,7 +287,7 @@ void CardList_DrawHeaderDecimalDigits(
  * `deck` is the first pane's deck (forty card ids, then the 722 chest counts at +0x50),
  * `other` the second pane's deck or 0, and `flags` the byte kept at +0x6343.
  * Two callers: Main_RunBuildDeckMenu and Main_RunDuel. */
-void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other, s32 flags);
+void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, u16 *other, s32 flags);
 
 /* Returns the id of the entry the cursor is on, or 0 when that row's flag
    byte is clear. Both pane-input steps read the highlighted card through it. */

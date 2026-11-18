@@ -45,19 +45,19 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
     v = o->update_state;
 
     if ((v & 0x40) != 0) {
-        t = *(u16 *)&o->field_60 + 1;
+        t = (u16)o->field_60 + 1;
         o->field_60 = t;
         o->field_44.scale.y = (s16)t * 512;
         o->field_44.scale.x = (s16)t * 512;
         if (o->field_60 >= 8) {
             DisplayObject_ResetVelocity(o);
-            o->field_34.motion.velocity_x = ((*(s16 *)&o->field_18.target.x - o->xy.s.x) << 8) / 12;
+            o->field_34.motion.velocity_x = (((s16)o->field_18.target.x - o->xy.s.x) << 8) / 12;
             o->update_state = o->update_state & 0xBF;
             o->field_60 = 0xC;
-            o->field_38.motion.velocity_y = ((*(s16 *)&o->field_18.target.y - o->xy.s.y) << 8) / 12;
+            o->field_38.motion.velocity_y = (((s16)o->field_18.target.y - o->xy.s.y) << 8) / 12;
         }
     } else if ((v & 0x20) != 0) {
-        t = *(u16 *)&o->field_60 - 1;
+        t = (u16)o->field_60 - 1;
         o->field_60 = t;
         o->field_44.scale.y = (s16)t * 512;
         o->field_44.scale.x = (s16)t * 512;
@@ -66,10 +66,10 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
         }
     } else {
         DisplayObject_StepPositionXY(o);
-        t = *(u16 *)&o->field_60 - 1;
+        t = (u16)o->field_60 - 1;
         o->field_60 = t;
         if (o->field_60 <= 0) {
-            o->xy.word = *(s32 *)&o->field_18.target.x;
+            o->xy.word = o->field_18.word;
             o->field_60 = 8;
             o->update_state = o->update_state | 0x20;
         }
@@ -196,8 +196,6 @@ u8 gCardList_SortIconTable[] = {
     0x4E, 0x55, 0x7A, 0x66, 0x7E, 0x79, 0x00, 0x00,
 };
 
-#define GS_SPRITE_COLOR_WORD(sprite) (*(s32 *)&(sprite)->r)
-
 #ifdef VERSION_EUROPE
 /* European only, right before BuildDeck_DrawSortIcons: draws count digit
    cells from the right (the last byte first), skipping bytes from 10 up,
@@ -221,37 +219,32 @@ void CardList_DrawHeaderDecimalDigits(GsSPRITE *record, GsOT *ordering_table, u8
 #endif
 
 void BuildDeck_DrawSortIcons(
-    GsSPRITE *record, GsOT *ordering_table, u8 *data, s32 selected)
+    GsSpriteWords *record, GsOT *ordering_table, u8 *data, s32 selected)
 {
     s32 i;
     u8 *cursor;
 
-    record->cy = 251;
+    record->prim.cy = 251;
     i = 0;
     cursor = data + 1;
     do {
-        GS_SPRITE_COLOR_WORD(record) = 0x202020;
+        record->words.rgb = 0x202020;
         if ((cursor[0] & 15) == selected)
-            GS_SPRITE_COLOR_WORD(record) = COLOR_RGB24_NEUTRAL_GREY;
+            record->words.rgb = COLOR_RGB24_NEUTRAL_GREY;
         i++;
-        record->u = ((data[0] & 15) << 3) - 128;
-        record->v = data[0] & 240;
+        record->prim.u = ((data[0] & 15) << 3) - 128;
+        record->prim.v = data[0] & 240;
 #ifdef VERSION_EUROPE
-        record->cx = (cursor[0] & 240) + 0x280;
+        record->prim.cx = (cursor[0] & 240) + 0x280;
 #else
-        record->cx = (cursor[0] & 240) | 512;
+        record->prim.cx = (cursor[0] & 240) | 512;
 #endif
         cursor += 2;
-        GsSortFastSprite(record, ordering_table, 0);
-        record->x += 18;
+        GsSortFastSprite(&record->prim, ordering_table, 0);
+        record->prim.x += 18;
         data += 2;
     } while (i < 7);
 }
-
-/* The page drawer reads the colour word unsigned; the sort-icon drawer above
-   used a signed view. */
-#undef GS_SPRITE_COLOR_WORD
-#define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
 
 #ifdef VERSION_EUROPE
 #define CARD_LIST_ROW_COUNT 9
@@ -270,8 +263,8 @@ void BuildDeck_DrawSortIcons(
 void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
 {
     u8 *text;
-    GsSPRITE *sprite = (GsSPRITE *)SCRATCH_ADDR(0x20);
-    GsSPRITE *header = (GsSPRITE *)SCRATCH_ADDR(0x60);
+    GsSpriteWords *sprite = (GsSpriteWords *)SCRATCH_ADDR(0x20);
+    GsSpriteWords *header = (GsSpriteWords *)SCRATCH_ADDR(0x60);
 #ifdef VERSION_EUROPE
     s32 kind;
     CardList *list;
@@ -296,29 +289,29 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
     y0 = obj->xy.s.y;
     attr = obj->attribute;
 #ifdef VERSION_EUROPE
-    sprite->tpage = 0xA;
-    header->tpage = 0xB;
+    sprite->prim.tpage = 0xA;
+    header->prim.tpage = 0xB;
 #else
-    header->tpage = 0xB;
-    sprite->tpage = 0xB;
+    header->prim.tpage = 0xB;
+    sprite->prim.tpage = 0xB;
 #endif
-    GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_NEUTRAL_GREY;
-    *(u32 *)&sprite->w = 0x80008;
-    *(u32 *)&header->w = 0x100010;
+    sprite->words.rgb = COLOR_RGB24_NEUTRAL_GREY;
+    sprite->words.wh = 0x80008;
+    header->words.wh = 0x100010;
 #ifdef VERSION_EUROPE
-    sprite->cx = 0x280;
-    sprite->cy = 0xC0;
+    sprite->prim.cx = 0x280;
+    sprite->prim.cy = 0xC0;
     text = (u8 *)SCRATCH_ADDR(0);
 #else
-    sprite->cx = 0x290;
-    sprite->cy = 0xFA;
+    sprite->prim.cx = 0x290;
+    sprite->prim.cy = 0xFA;
 #endif
     vy = gGraphics_sViewportY;
 #ifndef VERSION_EUROPE
     x = x0 - gGraphics_sViewportX;
 #endif
-    header->attribute = attr;
-    sprite->attribute = attr;
+    header->prim.attribute = attr;
+    sprite->prim.attribute = attr;
 #ifdef VERSION_EUROPE
     do {
     } while (0);
@@ -333,30 +326,30 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
 #ifdef VERSION_EUROPE
     x = x0 - gGraphics_sViewportX;
     row = &list->entries[list->first];
-    header->y = y + 0x11;
+    header->prim.y = y + 0x11;
 #else
     row = &list->entries[list->first];
     text = (u8 *)SCRATCH_ADDR(0);
 #endif
     if (kind == 0) {
-        header->x = x + 0x88;
+        header->prim.x = x + 0x88;
 #ifndef VERSION_EUROPE
-        header->y = y + 0xF;
+        header->prim.y = y + 0xF;
 #endif
         BuildDeck_DrawSortIcons(header, ot, gCardList_SortIconTable, list->sort_mode);
     } else {
-        header->x = x + 0x6A;
+        header->prim.x = x + 0x6A;
 #ifndef VERSION_EUROPE
-        header->y = y + 0xF;
+        header->prim.y = y + 0xF;
 #endif
         BuildDeck_DrawSortIcons(header, ot, &gCardList_SortIconTable[kind * 16],
                       list->sort_mode);
     }
 #ifdef VERSION_EUROPE
-    *(u32 *)&header->w = 0x100008;
-    *(u32 *)&header->cx = 0xC50280;
-    header->v = 0;
-    header->tpage = 0xA;
+    header->words.wh = 0x100008;
+    header->words.cxcy = 0xC50280;
+    header->prim.v = 0;
+    header->prim.tpage = 0xA;
 #endif
     i = 0;
 #ifdef VERSION_EUROPE
@@ -366,136 +359,136 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
 #endif
     do {
 #ifdef VERSION_EUROPE
-        header->x = x + 4;
+        header->prim.x = x + 4;
 #endif
-        sprite->x = x + 4;
+        sprite->prim.x = x + 4;
 #ifdef VERSION_EUROPE
-        header->y = ry;
+        header->prim.y = ry;
 #endif
-        sprite->y = ry;
+        sprite->prim.y = ry;
         if (row->flags != 0) {
-            GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_NEUTRAL_GREY;
+            sprite->words.rgb = COLOR_RGB24_NEUTRAL_GREY;
 #ifdef VERSION_EUROPE
-            GS_SPRITE_COLOR_WORD(header) = COLOR_RGB24_NEUTRAL_GREY;
+            header->words.rgb = COLOR_RGB24_NEUTRAL_GREY;
 #endif
             id = (s16)row->id;
             if (row->flags & 0x80) {
-                GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_DIM_GREY;
+                sprite->words.rgb = COLOR_RGB24_DIM_GREY;
 #ifdef VERSION_EUROPE
-                GS_SPRITE_COLOR_WORD(header) = COLOR_RGB24_DIM_GREY;
+                header->words.rgb = COLOR_RGB24_DIM_GREY;
 #endif
             }
             if (kind != 0) {
 #ifdef VERSION_EUROPE
-                header->cy = 0xC2;
-                header->x = x + 0x11;
+                header->prim.cy = 0xC2;
+                header->prim.x = x + 0x11;
 #endif
-                sprite->x = x + 0x11;
+                sprite->prim.x = x + 0x11;
                 Text_EncodeDecimalNoPadding(list->first + i + 1, 2, text);
 #ifdef VERSION_EUROPE
-                CardList_DrawHeaderDecimalDigits(header, ot, text, 2);
-                header->cy = 0xC5;
+                CardList_DrawHeaderDecimalDigits(&header->prim, ot, text, 2);
+                header->prim.cy = 0xC5;
 #else
-                CardList_DrawDecimalDigits(sprite, ot, text, 2);
+                CardList_DrawDecimalDigits(&sprite->prim, ot, text, 2);
 #endif
-                sprite->x += 4;
+                sprite->prim.x += 4;
 #ifdef VERSION_EUROPE
-                header->x += 4;
+                header->prim.x += 4;
             } else {
-                header->cy = 0xC5;
+                header->prim.cy = 0xC5;
                 if (gBuildDeck_pState->card_sort_rank[id] != 0) {
 #else
             } else if (gBuildDeck_pState->card_sort_rank[id] != 0) {
 #endif
-                sprite->v = 0x68;
-                sprite->w = 0x18;
-                sprite->u = 0xE8;
+                sprite->prim.v = 0x68;
+                sprite->prim.w = 0x18;
+                sprite->prim.u = 0xE8;
 #ifdef VERSION_EUROPE
-                sprite->tpage = 0xB;
-                sprite->cx = 0x310;
-                sprite->cy = 0xFA;
-                sprite->y += 10;
+                sprite->prim.tpage = 0xB;
+                sprite->prim.cx = 0x310;
+                sprite->prim.cy = 0xFA;
+                sprite->prim.y += 10;
 #else
-                sprite->y += 8;
+                sprite->prim.y += 8;
 #endif
-                GsSortFastSprite(sprite, ot, 0);
+                GsSortFastSprite(&sprite->prim, ot, 0);
 #ifdef VERSION_EUROPE
-                sprite->cx = 0x280;
-                sprite->cy = 0xC0;
-                sprite->tpage = 0xA;
+                sprite->prim.cx = 0x280;
+                sprite->prim.cy = 0xC0;
+                sprite->prim.tpage = 0xA;
 #endif
-                sprite->w = 8;
+                sprite->prim.w = 8;
 #ifdef VERSION_EUROPE
-                header->cy = 0xC1;
-                sprite->y -= 10;
-                header->y -= 4;
+                header->prim.cy = 0xC1;
+                sprite->prim.y -= 10;
+                header->prim.y -= 4;
                 }
 #else
-                sprite->y -= 8;
+                sprite->prim.y -= 8;
 #endif
             }
             Text_EncodeDecimalNoPadding(id, 3, text);
 #ifdef VERSION_EUROPE
-            CardList_DrawHeaderDecimalDigits(header, ot, text, 3);
-            sprite->x = header->x + 0x88;
+            CardList_DrawHeaderDecimalDigits(&header->prim, ot, text, 3);
+            sprite->prim.x = header->prim.x + 0x88;
 #else
-            CardList_DrawDecimalDigits(sprite, ot, text, 3);
-            sprite->x += 0x88;
+            CardList_DrawDecimalDigits(&sprite->prim, ot, text, 3);
+            sprite->prim.x += 0x88;
 #endif
             if (row->type < 0x14) {
 #ifdef VERSION_EUROPE
-                sprite->cy = 0xC7;
-                *(u16 *)&sprite->u = 0x40F8;
-                GsSortFastSprite(sprite, ot, 0);
-                *(u16 *)&sprite->u = 0x48F8;
-                sprite->y += 8;
-                GsSortFastSprite(sprite, ot, 0);
-                sprite->cy = 0xC0;
-                sprite->x += 8;
+                sprite->prim.cy = 0xC7;
+                sprite->words.uv = 0x40F8;
+                GsSortFastSprite(&sprite->prim, ot, 0);
+                sprite->words.uv = 0x48F8;
+                sprite->prim.y += 8;
+                GsSortFastSprite(&sprite->prim, ot, 0);
+                sprite->prim.cy = 0xC0;
+                sprite->prim.x += 8;
                 Text_EncodeDecimalDigits(row->defense, 4, text);
-                CardList_DrawDecimalDigits(sprite, ot, text, 4);
-                sprite->x -= 0x20;
-                sprite->y -= 8;
+                CardList_DrawDecimalDigits(&sprite->prim, ot, text, 4);
+                sprite->prim.x -= 0x20;
+                sprite->prim.y -= 8;
                 Text_EncodeDecimalDigits(row->attack, 4, text);
-                CardList_DrawDecimalDigits(sprite, ot, text, 4);
+                CardList_DrawDecimalDigits(&sprite->prim, ot, text, 4);
 #else
                 /* u 0xD0, v 0x58: the ATK label. */
-                *(u16 *)&sprite->u = 0x58D0;
-                GsSortFastSprite(sprite, ot, 0);
-                sprite->x += 8;
+                sprite->words.uv = 0x58D0;
+                GsSortFastSprite(&sprite->prim, ot, 0);
+                sprite->prim.x += 8;
                 Text_EncodeDecimalDigits(row->attack, 4, text);
-                CardList_DrawDecimalDigits(sprite, ot, text, 4);
+                CardList_DrawDecimalDigits(&sprite->prim, ot, text, 4);
                 /* u 0xD8, v 0x58: the DEF label, one line down. */
-                *(u16 *)&sprite->u = 0x58D8;
-                sprite->x -= 0x28;
-                sprite->y += 8;
-                GsSortFastSprite(sprite, ot, 0);
-                sprite->x += 8;
+                sprite->words.uv = 0x58D8;
+                sprite->prim.x -= 0x28;
+                sprite->prim.y += 8;
+                GsSortFastSprite(&sprite->prim, ot, 0);
+                sprite->prim.x += 8;
                 Text_EncodeDecimalDigits(row->defense, 4, text);
-                CardList_DrawDecimalDigits(sprite, ot, text, 4);
-                sprite->y -= 8;
+                CardList_DrawDecimalDigits(&sprite->prim, ot, text, 4);
+                sprite->prim.y -= 8;
 #endif
             }
             if (kind == 0) {
-                sprite->x = x + 0x107;
+                sprite->prim.x = x + 0x107;
 #ifdef VERSION_EUROPE
-                sprite->cy = 0xC0;
+                sprite->prim.cy = 0xC0;
 #endif
-                sprite->y += 8;
+                sprite->prim.y += 8;
                 Text_EncodeDecimalDigits(
                     gBuildDeck_pState->chest_card_quantities[id], 3, text);
-                CardList_DrawDecimalDigits(sprite, ot, text, 3);
+                CardList_DrawDecimalDigits(&sprite->prim, ot, text, 3);
                 n = gBuildDeck_pState->deck_card_quantities[id];
                 /* Red once the deck holds the limit: three copies, or one of
                    ids 0x11-0x15. */
                 if (n >= 3 || ((u32)(id - 0x11) < 5 && n != 0)) {
-                    GS_SPRITE_COLOR_WORD(sprite) = 0x2020FF;
+                    sprite->words.rgb = 0x2020FF;
                 }
-                sprite->x = x + 0x122;
+                sprite->prim.x = x + 0x122;
                 Text_EncodeDecimalDigits(n, 2, text);
-                CardList_DrawDecimalDigits(sprite, ot, text, 2);
-                GS_SPRITE_COLOR_WORD(sprite) = COLOR_RGB24_NEUTRAL_GREY;
-                sprite->y -= 8;
+                CardList_DrawDecimalDigits(&sprite->prim, ot, text, 2);
+                sprite->words.rgb = COLOR_RGB24_NEUTRAL_GREY;
+                sprite->prim.y -= 8;
             }
         }
         row++;
@@ -562,7 +555,7 @@ void CardList_CreateSlotTextBox(CardList *list, s32 slot)
         box->color_index_54 = 4;
     }
     if (list->kind != 0) {
-        *(u16 *)&box->rect_x += 0x160;
+        box->rect_x += 0x160;
     }
     if (slot != 0) {
         box->flags_34 |= CARD_LIST_SLOT_FOLLOWING_FLAG;
@@ -717,7 +710,7 @@ void BuildDeck_RecountDeckCards(BuildDeckTransitionState *state)
    gcc_2_8_1_g0_split. Bounded below by the card-list text boxes, which need
    gcc_2_8_1_g0, and above by CardList_LoadSharedGraphicsStage at gcc_2_8_1_cc_g8_as_g0_split. */
 
-void BuildDeck_AddCard(s32 base, s32 card_id)
+void BuildDeck_AddCard(BuildDeckTransitionState *base, s32 card_id)
 {
     s32 *record;
     CardEntry *entry;
@@ -728,7 +721,7 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
 
         record = &base[record_index];
     }
-    entry = ((BuildDeckTransitionState *)base)->lists[1].entries;
+    entry = base->lists[1].entries;
     for (; index < DECK_SIZE; index++, entry++) {
         if (entry->flags == 0) {
             entry->flags = 1;
@@ -738,8 +731,8 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
             entry->defense =
                 ((*record >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) *
                 CARD_STAT_SCALE;
-            BuildDeck_SortCardList(&((BuildDeckTransitionState *)base)->lists[1]);
-            BuildDeck_RecountDeckCards((BuildDeckTransitionState *)base);
+            BuildDeck_SortCardList(&base->lists[1]);
+            BuildDeck_RecountDeckCards(base);
             return;
         }
     }
@@ -758,6 +751,9 @@ void BuildDeck_AddCard(s32 base, s32 card_id)
 #endif
 #include "../ygo_types.h"
 
+/* Both builds store the descriptor's counter, field_32, w and h through the
+   members' addresses with the other signedness: as member stores GCC
+   reschedules them against the gFile_dwTransferState update. */
 #ifdef VERSION_EUROPE
 void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
 {
@@ -769,7 +765,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
     s32 c;
     s32 n;
     s32 u;
-    s16 *g;
+    RECT *g;
     s32 m;
 
     switch (mode) {
@@ -800,14 +796,14 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
         break;
 
     case 2:
-        g = (s16 *)gGraphics_aImageTransferRects;
-        g[0] = 0x380;
-        g[1] = 0x160;
+        g = gGraphics_aImageTransferRects;
+        g->x = 0x380;
+        g->y = 0x160;
         c = 0x40;
-        g[2] = c;
+        g->w = c;
         one = 0x10;
-        g[3] = one;
-        LoadImage2((RECT *)g,
+        g->h = one;
+        LoadImage2(g,
                    (u32 *)(gFile_TransferBufferBase +
                            gText_bLanguageIndex * FILE_SECTOR_SIZE));
 
@@ -839,12 +835,12 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
         break;
 
     case 4:
-        g = (s16 *)gGraphics_aImageTransferRects;
-        g[0] = 0x280;
-        g[1] = 0xE0;
-        g[2] = 0x100;
-        g[3] = 0x10;
-        LoadImage2((RECT *)g, (u32 *)gFile_TransferBufferBase);
+        g = gGraphics_aImageTransferRects;
+        g->x = 0x280;
+        g->y = 0xE0;
+        g->w = 0x100;
+        g->h = 0x10;
+        LoadImage2(g, (u32 *)gFile_TransferBufferBase);
         break;
     }
 }
@@ -857,7 +853,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
     s32 c;
     s32 n;
     s32 u;
-    s16 *g;
+    RECT *g;
     s32 m;
     s32 m2v;
 
@@ -910,13 +906,13 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
         break;
 
     case 3:
-        g = (s16 *)gGraphics_aImageTransferRects;
+        g = gGraphics_aImageTransferRects;
         c = 0x100;
-        g[0] = c;
-        g[1] = 0xF0;
-        g[2] = c;
-        g[3] = 0x10;
-        LoadImage2((RECT *)g, (u32 *)gFile_TransferBufferBase);
+        g->x = c;
+        g->y = 0xF0;
+        g->w = c;
+        g->h = 0x10;
+        LoadImage2(g, (u32 *)gFile_TransferBufferBase);
         break;
     }
 }
@@ -947,16 +943,16 @@ void Library_PruneRecentCardDrops(void)
     s16 *source;
     u8 *base;
     s32 i;
-    u32 current;
+    s16 *current;
     s16 *destination;
 
     source = gDuel_awRecentCardDrops;
     base = (u8 *)((u32)source - DUEL_RECENT_DROPS_CHEST_DISTANCE);
     i = DUEL_RECENT_CARD_DROP_COUNT - 1;
-    current = (u32)(source + DUEL_RECENT_CARD_DROP_COUNT - 1);
-    for (; i >= 0; i--, current -= sizeof(*source)) {
-        if (*(s16 *)current != 0 && base[*(s16 *)current - 1] == 0)
-            *(s16 *)current = 0;
+    current = source + DUEL_RECENT_CARD_DROP_COUNT - 1;
+    for (; i >= 0; i--, current--) {
+        if (*current != 0 && base[*current - 1] == 0)
+            *current = 0;
     }
     destination = source;
     for (i = 0; i < DUEL_RECENT_CARD_DROP_COUNT; i++, source++) {
@@ -1001,7 +997,7 @@ void Library_PruneRecentCardDrops(void)
 #define BUILD_DECK_LIST_Y 0x2A
 #endif
 
-void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other, s32 flags)
+void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, u16 *other, s32 flags)
 {
     BuildDeckTransitionState *state;
     DisplayObject *object;
@@ -1035,9 +1031,9 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, s32 other,
     on = 1;
     icons = gCardList_SortIconTable;
     gBuildDeck_pState = state;
-    ((u8 *)state)[0x6343] = flags;
+    state->init_flags = flags;
     state[0].deck_cards = deck;
-    state[1].deck_cards = (u16 *)other;
+    state[1].deck_cards = other;
     state[0].pane_index = 0;
     state[1].pane_index = 0;
     do {
@@ -1781,7 +1777,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
             state->chest_card_quantities[r] != 0 &&
             state->deck_card_quantities[r] < DECK_CARD_COPY_LIMIT) {
             SD_SEPlayFull(7);
-            BuildDeck_AddCard((s32)state, r);
+            BuildDeck_AddCard(state, r);
             BuildDeck_TakeCardFromChest(state, r);
             BuildDeck_RefreshCountDisplay(state);
             BuildDeck_CreateCardTransferIcon(r, 3, BUILD_DECK_CHEST_PANE_Y, 0x11C, BUILD_DECK_CHEST_PANE_TARGET_Y);

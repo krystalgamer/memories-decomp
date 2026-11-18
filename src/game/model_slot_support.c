@@ -90,23 +90,23 @@ void Model_InitLightTriplet(s32 index)
     slot->flat_lights[0].direction_x = 3000;
     slot->flat_lights[0].direction_y = 5000;
     slot->flat_lights[0].direction_z = 2000;
-    slot->flat_lights[0].rgb[0] = MODEL_LIGHT_BASE_INTENSITY;
-    slot->flat_lights[0].rgb[1] = MODEL_LIGHT_BASE_INTENSITY;
-    slot->flat_lights[0].rgb[2] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[0].color.rgb[0] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[0].color.rgb[1] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[0].color.rgb[2] = MODEL_LIGHT_BASE_INTENSITY;
 
     slot->flat_lights[1].direction_x = -3000;
     slot->flat_lights[1].direction_y = 5000;
     slot->flat_lights[1].direction_z = -2000;
-    slot->flat_lights[1].rgb[0] = MODEL_LIGHT_BASE_INTENSITY;
-    slot->flat_lights[1].rgb[1] = MODEL_LIGHT_BASE_INTENSITY;
-    slot->flat_lights[1].rgb[2] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[1].color.rgb[0] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[1].color.rgb[1] = MODEL_LIGHT_BASE_INTENSITY;
+    slot->flat_lights[1].color.rgb[2] = MODEL_LIGHT_BASE_INTENSITY;
 
     slot->flat_lights[2].direction_x = 0;
     slot->flat_lights[2].direction_y = -5000;
     slot->flat_lights[2].direction_z = 0;
-    slot->flat_lights[2].rgb[0] = MODEL_LIGHT_DIM_INTENSITY;
-    slot->flat_lights[2].rgb[1] = MODEL_LIGHT_DIM_INTENSITY;
-    slot->flat_lights[2].rgb[2] = MODEL_LIGHT_DIM_INTENSITY;
+    slot->flat_lights[2].color.rgb[0] = MODEL_LIGHT_DIM_INTENSITY;
+    slot->flat_lights[2].color.rgb[1] = MODEL_LIGHT_DIM_INTENSITY;
+    slot->flat_lights[2].color.rgb[2] = MODEL_LIGHT_DIM_INTENSITY;
 }
 
 /* Returns flat light `light` of model slot `index`: Model_DrawSlot and
