@@ -207,7 +207,10 @@ read-only data is defined, with its initializer, before those functions.
 precedes the size-trace `printf` format its handler emits, the disc, burst
 and spark ones follow it (the European build has no trace, so its four are
 contiguous). `duel_scene.c` defines its four debug strings before its first
-function so they lead its jump tables. Every label still
+function so they lead its jump tables. In Japan, `mem_card.c` defines its
+card name, diagnostics and options file name before its update
+(`0x800102F4`), since the options name's only user comes after the update's
+jump tables. Every label still
 in the `initial_data*` blobs up to `0x800119A8` is read only by game units;
 from `0x800119A8` on, the blob is Psy-Q's.
 
