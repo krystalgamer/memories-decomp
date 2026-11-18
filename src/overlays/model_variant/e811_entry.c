@@ -198,7 +198,7 @@ s32 ModelVariant628_HandleRequest(Model628State *context, s32 command)
             if (work->head.elapsed != 0) {
                 break;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0xC);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 0xC);
             GsGetLwUnit(&unit, &ls);
             work->balls[0].head.active = 1;
             work->balls[0].xform.position.vx += ls.t[0];

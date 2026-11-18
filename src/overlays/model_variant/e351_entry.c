@@ -118,7 +118,7 @@ s32 ModelVariant802_HandleRequest(Model802State *context, s32 command)
     }
     Model_SetSlotAmbient(2, work->level, work->level, work->level);
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     scale.vx = work->scale;
     scale.vy = work->scale;
     scale.vz = work->scale;

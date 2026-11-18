@@ -141,7 +141,7 @@ s32 ModelVariant763_HandleRequest(Model763State *context, s32 command)
 
     v = &work->center;
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     SetPolyG3(&g3);
     setRGB0(&g3, work->color[0], work->color[1], work->color[2]);
     setRGB1(&g3, 0, 0, 0);

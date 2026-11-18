@@ -287,7 +287,7 @@ s32 ModelVariant635_HandleRequest(Model635State *context, s32 command)
         switch (work->head.command) {
         case 0:
             if (work->flags[0] < work->copies) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 14);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 14);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->dome_count; i++) {
                     setVector(&work->domes[i][work->flags[0]].xform.position, ls.t[0], ls.t[1], ls.t[2]);
@@ -308,7 +308,7 @@ s32 ModelVariant635_HandleRequest(Model635State *context, s32 command)
             break;
         case 1:
             if (work->flags[0] < work->copies) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 12);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 12);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->dome_count; i++) {
                     setVector(&work->domes[i][work->flags[0]].xform.position, ls.t[0], ls.t[1], ls.t[2]);
@@ -323,7 +323,7 @@ s32 ModelVariant635_HandleRequest(Model635State *context, s32 command)
             break;
         case 2:
             if (work->flags[0] < work->copies) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 27);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 27);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->dome_count; i++) {
                     setVector(&work->domes[i][work->flags[0]].xform.position, ls.t[0], ls.t[1], ls.t[2]);

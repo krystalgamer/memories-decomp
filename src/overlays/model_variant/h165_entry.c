@@ -87,7 +87,7 @@ s32 ModelVariant165_HandleRequest(ModelVariantGatherState *context, s32 command)
     config = work->config;
     point = work->positions;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     target = work->targets;
     PushMatrix();
     SetPolyFT4(&quad);
@@ -100,7 +100,7 @@ s32 ModelVariant165_HandleRequest(ModelVariantGatherState *context, s32 command)
         t = work->elapsed - config->delay - i * config->spacing;
         if (t < 0) {
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
             point->vx = matrix.t[0];
             point->vy = matrix.t[1];
             point->vz = matrix.t[2];

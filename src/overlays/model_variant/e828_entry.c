@@ -22,7 +22,7 @@ static const char gModelVariant644_szWorkSizeFormat[24] = "E_DATA size = %x byte
 
 /* Moves every glow and star to the joint's world position. */
 #define MODEL644_PLACE_ALL(joint)                                                    \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, joint);                \
+    unit = *Model_GetSlotDataEntry(work->head.slot, joint);                \
     GsGetLwUnit(&unit, &ls);                                                         \
     for (i = 0; i < work->count[0]; i++) {                                           \
         work->glows[i].head.active = 1;                                                   \
@@ -249,13 +249,13 @@ s32 ModelVariant644_HandleRequest(Model644State *context, s32 command)
     case 3:
         if (work->head.elapsed < 100 && work->flags[0] == 0) {
             for (i = 0; i < work->count[0]; i++) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, (i + 1) * 6);
+                unit = *Model_GetSlotDataEntry(work->head.slot, (i + 1) * 6);
                 GsGetLwUnit(&unit, &ls);
                 work->glows[i].head.active = 1;
                 setVector(&work->glows[i].xform.position, ls.t[0], ls.t[1], ls.t[2]);
             }
             for (i = 0; i < work->count[1]; i++) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, (i + 1) * 6);
+                unit = *Model_GetSlotDataEntry(work->head.slot, (i + 1) * 6);
                 GsGetLwUnit(&unit, &ls);
                 work->stars[i].head.active = 1;
                 setVector(&work->stars[i].xform.position, ls.t[0], ls.t[1], ls.t[2]);
@@ -273,15 +273,15 @@ s32 ModelVariant644_HandleRequest(Model644State *context, s32 command)
         world = GsIDMATRIX;
         break;
     case 1:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 9);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 9);
         GsGetLwUnit(&unit, &world);
         break;
     case 2:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 3);
         GsGetLwUnit(&unit, &world);
         break;
     case 3:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 4);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 4);
         GsGetLwUnit(&unit, &world);
         break;
     }

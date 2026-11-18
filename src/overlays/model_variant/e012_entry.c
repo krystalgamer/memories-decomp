@@ -67,7 +67,7 @@ s32 ModelVariant172_HandleRequest(Model172State *context, s32 command)
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
     j = 4096;
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     PushMatrix();
     point = work->positions;
     SetPolyFT4(&quad);

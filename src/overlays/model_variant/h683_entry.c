@@ -167,7 +167,7 @@ s32 ModelVariant683_HandleRequest(Model683State *context, s32 command)
             if (work->head.elapsed >= 307 && work->flags[1] == 0) {
                 result = work->flags[1] = work->bursts[0].head.active = work->fade.head.active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 12);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 12);
             GsGetLwUnit(&unit, &ls);
             setVector(&target, ls.t[0], ls.t[1], ls.t[2]);
         } else {

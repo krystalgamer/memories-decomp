@@ -217,7 +217,7 @@ s32 ModelVariant832_HandleRequest(Model832State *context, s32 command)
     setPolyG4(g4);
     setPolyGT4(gt4);
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if ((work->launched == 0 && work->elapsed >= work->config->start) ||
         (work->launched == 1 && work->elapsed >= work->config->launch[0]) ||
         (work->launched == 2 && work->elapsed >= work->config->launch[1]) ||

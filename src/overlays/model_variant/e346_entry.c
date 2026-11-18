@@ -156,7 +156,7 @@ s32 ModelVariant842_HandleRequest(Model842State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if ((work->head == 0 && work->elapsed >= work->config->start[0]) ||
         (work->head == 1 && work->elapsed >= work->config->start[1]) ||
         (work->head == 2 && work->elapsed >= work->config->start[2])) {

@@ -256,16 +256,16 @@ s32 ModelVariant652_HandleRequest(Model652State *context, s32 command)
     inactive = 0;
     switch (work->head.command) {
     case 0:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 6);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 6);
         GsGetLwUnit(&unit, &ls);
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 13);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 13);
         GsGetLwUnit(&unit, &m);
         center.vx = (ls.t[0] + m.t[0]) / 2;
         center.vy = (ls.t[1] + m.t[1]) / 2;
         center.vz = (ls.t[2] + m.t[2]) / 2;
         break;
     case 1:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 19);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 19);
         GsGetLwUnit(&unit, &ls);
         center.vx = ls.t[0];
         center.vy = ls.t[1];

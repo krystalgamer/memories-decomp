@@ -80,7 +80,7 @@ s32 FrenchModelVariant826_HandleRequest(Image104528State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed < work->config->spawn_end && work->flash_count < 64) {
         other = slot ^ 1;
         Model_CopySlotPosition(other, (u16 *)&position);

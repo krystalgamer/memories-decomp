@@ -10,7 +10,7 @@
  * prints the work-area size. */
 
 #define TRACK_POINT(index, point)                                              \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);          \
+    unit = *Model_GetSlotDataEntry(work->head.slot, index);          \
     GsGetLwUnit(&unit, &ls);                                                   \
     (point).vx = ls.t[0];                                                      \
     (point).vy = ls.t[1];                                                      \

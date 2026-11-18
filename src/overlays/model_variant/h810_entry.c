@@ -127,7 +127,7 @@ s32 ModelVariant810_HandleRequest(Model810State *context, s32 command)
 
     if (work->elapsed < work->config->start[0]) {
         PushMatrix();
-        light = *(MATRIX *)Model_GetLightSourceMatrix();
+        light = *Model_GetLightSourceMatrix();
         for (i = 0; i < 2; i++) {
             GsSetLsMatrix(&light);
             GsGetLwUnit(Model_GetSlotDataEntry(slot, work->config->part[i]), &m);
@@ -140,7 +140,7 @@ s32 ModelVariant810_HandleRequest(Model810State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     for (i = 0; i < 2; i++) {
         if (work->elapsed >= work->config->start[i] && (work->ring_r[i] || work->ring_g[i] || work->ring_b[i])) {
             GsSetLsMatrix(&light);

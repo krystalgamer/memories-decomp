@@ -209,7 +209,7 @@ s32 ModelVariant636_HandleRequest(Model636State *context, s32 command)
     } else {
         switch (work->head.command) {
         case 0:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 6);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 6);
             GsGetLwUnit(&unit, &ls);
             if (work->head.elapsed == 0 && work->flags[0] == 0) {
                 for (j = 0; j < 2; j++) {
@@ -249,7 +249,7 @@ s32 ModelVariant636_HandleRequest(Model636State *context, s32 command)
             }
             break;
         case 1:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 6);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 6);
             GsGetLwUnit(&unit, &ls);
             if (work->flags[0] < work->rows && work->head.elapsed >= work->flags[0] * 15) {
                 work->streaks[work->flags[0]].head.active = 1;
@@ -263,7 +263,7 @@ s32 ModelVariant636_HandleRequest(Model636State *context, s32 command)
             }
             break;
         case 2:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 2);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 2);
             GsGetLwUnit(&unit, &ls);
             if (work->flags[0] < work->rows && work->head.elapsed >= work->flags[0] * 30) {
                 work->streaks[work->flags[0]].head.active = 1;

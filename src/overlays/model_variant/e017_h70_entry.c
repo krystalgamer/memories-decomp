@@ -73,7 +73,7 @@ s32 FrenchModelVariant87_HandleRequest(Family87State *context, s32 command)
     }
     PushMatrix();
     point = (SVECTOR *)work->destination_storage;
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     for (i = 0; i < config->count; point++, i++) {
         GsSetLsMatrix(&base);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);

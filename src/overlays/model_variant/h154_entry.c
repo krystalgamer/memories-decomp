@@ -107,14 +107,14 @@ s32 ModelVariant154_HandleRequest(Model154State *context, s32 command)
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     PushMatrix();
     SetPolyFT4(&quad);
     SetPolyF4(&flash);
     SetPolyGT4(&burst);
     t = work->elapsed - config->delay;
     GsSetLsMatrix(&base);
-    GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+    GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
     vertices[0].vx = matrix.t[0];
     vertices[0].vy = matrix.t[1];
     vertices[0].vz = matrix.t[2];
@@ -146,7 +146,7 @@ s32 ModelVariant154_HandleRequest(Model154State *context, s32 command)
             point->pad = 1;
         } else {
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
             point->vx = matrix.t[0];
             point->vy = matrix.t[1];
             point->vz = matrix.t[2];
@@ -204,7 +204,7 @@ s32 ModelVariant154_HandleRequest(Model154State *context, s32 command)
         value = (work->frames % 2 << 8) + 4096;
         setVector(&scale, value, value, value);
         GsSetLsMatrix(&base);
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         setVector(&position, matrix.t[0], matrix.t[1], matrix.t[2]);
         if (t < (config->period + 16) * (config->count - 1)) {
             red = config->ring_red;
@@ -232,7 +232,7 @@ s32 ModelVariant154_HandleRequest(Model154State *context, s32 command)
     t = work->elapsed - config->delay;
     if (t >= 0 && t < (config->period + 16) * config->count) {
         GsSetLsMatrix(&base);
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         setVector(&vertices[0], matrix.t[0], matrix.t[1], matrix.t[2]);
         setVector(&vertices[1], 0, -350, direction * 450);
         RotTransPers(&vertices[0], (long *)&quad.x0, &interpolation, &flag);
@@ -347,7 +347,7 @@ s32 ModelVariant154_HandleRequest(Model154State *context, s32 command)
         }
     }
     if (work->elapsed - config->delay - config->period < 0) {
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         setVector(&vertices[0], matrix.t[0], matrix.t[1], matrix.t[2]);
         setVector(&vertices[1], 0, -350, direction * 450);
         work->heading = ratan2(vertices[0].vy - vertices[1].vy, vertices[1].vz - vertices[0].vz) + ((Model_GetActiveSlotIndex() ^ 1) << 11);
@@ -405,7 +405,7 @@ s32 ModelVariant154_HandleRequest(Model154State *context, s32 command)
     setUV4(&quad, 0, 0, 47, 0, 0, 79, 47, 79);
     SetSemiTrans(&quad, 1);
     GsSetLsMatrix(&base);
-    GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+    GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
     setVector(&vertices[0], matrix.t[0], matrix.t[1], matrix.t[2]);
     value = ratan2(vertices[0].vy + 350, direction * 450 - vertices[0].vz) - ((Model_GetActiveSlotIndex() ^ 1) << 11);
     setVector(&rotation, value, 0, 0);

@@ -29,7 +29,7 @@
         setVector(&(work)->puffs[(work)->flags[0]].xform.scale, value, value, value);                  \
         setVector(&(work)->puffs[(work)->flags[0]].target, 0, 0, 0);                         \
         setVector(&(work)->puffs[(work)->flags[0]].xform.rotation, 0, 0, 0);                           \
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry((work)->head.slot, joint);                      \
+        unit = *Model_GetSlotDataEntry((work)->head.slot, joint);                      \
         GsGetLwUnit(&unit, &ls);                                                                 \
         setVector(&here, ls.t[0], ls.t[1], ls.t[2]);                                             \
         (work)->joints[(work)->flags[0]] = ls;                                                   \
@@ -260,7 +260,7 @@ s32 ModelVariant645_HandleRequest(Model645State *context, s32 command)
         case 0:
             if (work->head.elapsed < 100) {
                 MODEL645_ARM_PUFF(work, ls, unit, here, value, 10);
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 11);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 11);
                 GsGetLwUnit(&unit, &ls);
                 setVector(&there, ls.t[0], ls.t[1], ls.t[2]);
                 setVector(&work->puffs[work->flags[0]].xform.position, (here.vx + there.vx) / 2,

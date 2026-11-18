@@ -76,7 +76,7 @@ s32 FrenchModelVariant162_HandleRequest(Model162State *context, s32 command)
         config = work->config;
         ot = Graphics_GetDefaultOrderingTable();
         PushMatrix();
-        base = *(MATRIX *)Model_GetLightSourceMatrix();
+        base = *Model_GetLightSourceMatrix();
         SetPolyFT4(&quad);
         SetPolyF4(&flash);
         line.attribute = 0x50000000;

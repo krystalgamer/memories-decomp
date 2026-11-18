@@ -58,7 +58,7 @@ s32 FrenchModelVariant142_HandleRequest(Model142State *context, s32 command)
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     SetPolyG4(&trail);
     SetPolyFT4(&quad);
     SetPolyF4(&flash);

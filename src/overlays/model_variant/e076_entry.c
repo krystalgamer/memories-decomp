@@ -72,7 +72,7 @@ s32 ModelVariant128_HandleRequest(Model128State *context, s32 command)
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     PushMatrix();
     SetPolyFT4(&quad);
     SetPolyG4(&flash);

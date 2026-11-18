@@ -169,7 +169,7 @@ s32 ModelVariant654_HandleRequest(Model654State *context, s32 command)
         switch (work->head.command) {
         case 0:
             if (work->flags[0] < work->columns && work->head.elapsed >= work->flags[0] * 4) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 8);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->rows; i++) {
                     work->bursts[i][work->flags[0]].head.active = 1;
@@ -223,7 +223,7 @@ s32 ModelVariant654_HandleRequest(Model654State *context, s32 command)
             break;
         case 9:
             if (work->flags[0] < work->columns && work->head.elapsed >= work->flags[0] * 4) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 8);
                 GsGetLwUnit(&unit, &ls);
                 ls.t[2] += work->direction * 50;
                 for (i = 0; i < work->rows; i++) {
@@ -247,7 +247,7 @@ s32 ModelVariant654_HandleRequest(Model654State *context, s32 command)
             break;
         case 14:
             if (work->flags[0] < work->columns && work->head.elapsed >= work->flags[0] * 4) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 6);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 6);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->rows; i++) {
                     work->bursts[i][work->flags[0]].head.active = 1;

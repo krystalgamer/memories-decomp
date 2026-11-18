@@ -80,7 +80,7 @@ s32 ModelVariant122_HandleRequest(Model122State *context, s32 command)
         box.attribute = 0x50000000;
         box.w = 1;
         box.h = 1;
-        view = *(MATRIX *)Model_GetLightSourceMatrix();
+        view = *Model_GetLightSourceMatrix();
         GsSetLsMatrix(&view);
         if (work->elapsed < cmd->start) {
             work->elapsed += Model_GetFrameStep();

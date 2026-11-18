@@ -61,7 +61,7 @@ s32 ModelVariant108_HandleRequest(Model108State *context, s32 command)
     line.g1 = 0;
     line.b1 = 0;
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     GsSetLsMatrix(&base);
     GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->joints[0]), &matrix);

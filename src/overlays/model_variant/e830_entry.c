@@ -352,7 +352,7 @@ s32 ModelVariant646_HandleRequest(Model646State *context, s32 command)
                 }
             }
             if (work->flags[0] < work->orb_count && work->flags[0] * 20 + 60 < work->head.elapsed) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 1);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->copies; i++) {
                     work->orbs[work->flags[0]][i].head.active = 1;
@@ -419,7 +419,7 @@ s32 ModelVariant646_HandleRequest(Model646State *context, s32 command)
             break;
         case 5:
             if (work->flags[0] < work->orb_count && work->head.elapsed >= work->flags[0] * 20) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 13);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 13);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->copies; i++) {
                     work->orbs[work->flags[0]][i].head.active = 1;
@@ -431,7 +431,7 @@ s32 ModelVariant646_HandleRequest(Model646State *context, s32 command)
         case 6:
             if (work->flags[0] < work->orb_count && work->flags[0] * 16 < work->head.elapsed) {
                 for (i = 0; i < work->copies; i++) {
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, i * 3 + 16);
+                    unit = *Model_GetSlotDataEntry(work->head.slot, i * 3 + 16);
                     GsGetLwUnit(&unit, &ls);
                     work->orbs[work->flags[0]][i].head.active = 1;
                     applyVector(&work->orbs[work->flags[0]][i].xform.position, ls.t[0], ls.t[1], ls.t[2], +=);
@@ -442,7 +442,7 @@ s32 ModelVariant646_HandleRequest(Model646State *context, s32 command)
         case 7:
             if (work->flags[0] < work->orb_count && work->head.elapsed >= work->flags[0] * 8) {
                 for (i = 0; i < work->copies; i++) {
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 6);
+                    unit = *Model_GetSlotDataEntry(work->head.slot, 6);
                     GsGetLwUnit(&unit, &ls);
                     work->orbs[work->flags[0]][i].head.active = 1;
                     applyVector(&work->orbs[work->flags[0]][i].xform.position, ls.t[0], ls.t[1], ls.t[2], +=);
@@ -456,13 +456,13 @@ s32 ModelVariant646_HandleRequest(Model646State *context, s32 command)
         inactive = 0;
         switch (work->head.command) {
         case 3:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 19);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 19);
             break;
         case 4:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 25);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 25);
             break;
         default:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 1);
             break;
         }
         GsGetLwUnit(&unit, &lw);

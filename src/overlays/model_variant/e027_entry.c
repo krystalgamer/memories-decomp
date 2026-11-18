@@ -46,7 +46,7 @@ s32 FrenchModelVariant96_HandleRequest(Model96State *context, s32 command)
             inner->vy = config->inner_radius * csin(angle / config->segments) / 4096;
             inner->vz = 0;
         }
-        base = *(MATRIX *)Model_GetLightSourceMatrix();
+        base = *Model_GetLightSourceMatrix();
         GsSetLsMatrix(&base);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         setVector(&work->positions[0], matrix.t[0], matrix.t[1], matrix.t[2]);
@@ -65,7 +65,7 @@ s32 FrenchModelVariant96_HandleRequest(Model96State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (!work->prepared) {
         position = work->positions;
         GsSetLsMatrix(&base);

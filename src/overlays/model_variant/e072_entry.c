@@ -60,7 +60,7 @@ s32 FrenchModelVariant141_HandleRequest(Model141State *context, s32 command)
     point = work->positions;
     ot = Graphics_GetDefaultOrderingTable();
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     SetPolyFT4(&quad);
     SetPolyF4(&flat);
     SetSemiTrans(&quad, 1);

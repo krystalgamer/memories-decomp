@@ -124,7 +124,7 @@ s32 ModelVariant806_HandleRequest(Model806State *context, s32 command)
     Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->charge.word & 0xFFFFFF) {
         GsGetLwUnit(Model_GetSlotDataEntry(slot, work->config->part), &m);
         setVector(&pos, m.t[0], m.t[1], m.t[2]);

@@ -112,7 +112,7 @@ s32 ModelVariant835_HandleRequest(Model835State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     setPolyFT4(poly);
     setPolyG4(gouraud);
     for (i = 0; i < work->count; i++) {

@@ -80,7 +80,7 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     SetPolyG3(&triangle);
     setRGB0(&triangle, 0, 0, 0);
     setRGB1(&triangle, 0, 0, 0);

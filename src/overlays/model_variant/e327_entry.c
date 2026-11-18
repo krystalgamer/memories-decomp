@@ -99,7 +99,7 @@ s32 ModelVariant778_HandleRequest(Model778State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed < work->config->end
         && (work->elapsed <= work->config->pause_start || work->elapsed > work->config->pause_end)) {
         GsSetLsMatrix(&base);

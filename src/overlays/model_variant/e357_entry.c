@@ -142,7 +142,7 @@ s32 ModelVariant808_HandleRequest(Model808State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->phase == 0) {
         GsSetLsMatrix(&light);
         GsGetLwUnit(Model_GetSlotDataEntry(slot, work->config->part), &m);

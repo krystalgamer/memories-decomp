@@ -62,7 +62,7 @@ s32 FrenchModelVariant131_HandleRequest(ModelVariantBeamParticleState *context, 
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed < config->delay) {
         PushMatrix();
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);

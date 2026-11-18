@@ -68,7 +68,7 @@ s32 FrenchModelVariant116_HandleRequest(Model116State *context, s32 command)
         work->elapsed += Model_GetFrameStep();
         return 0;
     }
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     PushMatrix();
     SetPolyFT4(&quad);

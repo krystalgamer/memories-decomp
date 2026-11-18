@@ -99,7 +99,7 @@ s32 FrenchModelVariant857_HandleRequest(Image103128State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     setPolyFT4(packet);
     setPolyG4(gradient_packet);
     for (i = 0; i < 4; i++) {

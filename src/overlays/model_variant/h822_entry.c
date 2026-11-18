@@ -111,7 +111,7 @@ s32 ModelVariant822_HandleRequest(Model822State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed >= work->config->grow_time && work->grow == 0) {
         work->grow = 1;
         work->width *= 2;

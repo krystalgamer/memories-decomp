@@ -10,7 +10,7 @@
  * work-area size. */
 
 #define AIM_AT_POINT(index)                                                                     \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);                         \
+    unit = *Model_GetSlotDataEntry(work->head.slot, index);                         \
     GsGetLwUnit(&unit, &ls);                                                                  \
     distance = SquareRoot0(ABS(ls.t[0] * ls.t[0] + (ls.t[1] + 350) * (ls.t[1] + 350)           \
         + (ls.t[2] - work->direction * 450) * (ls.t[2] - work->direction * 450)));            \

@@ -62,7 +62,7 @@
     if (work->flags[0] < work->row_count && work->head.elapsed >= work->flags[0] * 20) { \
         for (i = 0; i < work->column_count; i++) {                             \
             work->sparks[work->flags[0]][i].head.active = 1;                        \
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);  \
+            unit = *Model_GetSlotDataEntry(work->head.slot, index);  \
             GsGetLwUnit(&unit, &ls);                                           \
             setVector(&work->sparks[work->flags[0]][i].xform.position, ls.t[0], ls.t[1], ls.t[2]); \
             work->bursts[work->flags[0]][i].head.active = 1;                        \

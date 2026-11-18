@@ -53,7 +53,7 @@ s32 FrenchModelVariant175_HandleRequest(Image40200State *context, s32 command)
     config = work->config;
     point = work->positions;
     ot = Graphics_GetDefaultOrderingTable();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     PushMatrix();
     target = work->targets;
     SetPolyFT4(&quad);

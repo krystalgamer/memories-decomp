@@ -133,7 +133,7 @@ s32 ModelVariant777_HandleRequest(Model777State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed < work->config->spawn_end && work->frames % work->config->period == 0) {
         work->debris_frame[work->head % 16] = 0;
         for (j = 0; j < work->config->point_count; j++) {

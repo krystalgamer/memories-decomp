@@ -69,7 +69,7 @@ s32 ModelVariant67_HandleRequest(Model67State *context, s32 command)
     SetPolyGT4(&strip);
     SetPolyFT4(&quad);
     PushMatrix();
-    view = *(MATRIX *)Model_GetLightSourceMatrix();
+    view = *Model_GetLightSourceMatrix();
     t = work->elapsed - cmd->open_time;
     if (t >= 0) {
         strip.tpage = work->texture[0] >> 16;

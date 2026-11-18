@@ -141,7 +141,7 @@ s32 ModelVariant671_HandleRequest(Model671State *context, s32 command)
     case 0:
         if (work->head.elapsed < 328 && work->head.elapsed >= work->flags[0] * 30 && work->flags[0] < work->count) {
             work->blooms[work->flags[0]].head.active = 1;
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 13);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 13);
             GsGetLwUnit(&unit, &ls);
             (work->blooms + work->flags[0])->xform.position.vx = ls.t[0];
             (work->blooms + work->flags[0])->xform.position.vy = ls.t[1];

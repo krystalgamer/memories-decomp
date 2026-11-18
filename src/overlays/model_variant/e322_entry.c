@@ -101,7 +101,7 @@ s32 ModelVariant773_HandleRequest(Model773State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    view = *(MATRIX *)Model_GetLightSourceMatrix();
+    view = *Model_GetLightSourceMatrix();
     if (work->timer >= work->command->start && work->timer < work->command->phase2 && work->state == 0) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->command->slot), &matrix);
         offset.vx = matrix.t[0];

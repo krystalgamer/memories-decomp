@@ -79,7 +79,7 @@ s32 FrenchModelVariant196_HandleRequest(ModelVariantBeamRingState *context, s32 
 
     config = state->config;
     ot = Graphics_GetDefaultOrderingTable();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     PushMatrix();
     SetPolyFT4(&quad);
     SetPolyF4(&flash);

@@ -104,7 +104,7 @@ s32 FrenchModelVariant804_HandleRequest(Image32768State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
 
     if (work->r[1] || work->g[1] || work->b[1] ||
         work->r[2] || work->g[2] || work->b[2]) {

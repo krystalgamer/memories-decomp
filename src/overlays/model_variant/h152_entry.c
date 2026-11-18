@@ -77,7 +77,7 @@ s32 ModelVariant152_HandleRequest(Model152State *context, s32 command)
     } else {
         config = work->config;
         ot = Graphics_GetDefaultOrderingTable();
-        base = *(MATRIX *)Model_GetLightSourceMatrix();
+        base = *Model_GetLightSourceMatrix();
         PushMatrix();
         SetPolyFT4(&quad);
         SetPolyF4(&fill);

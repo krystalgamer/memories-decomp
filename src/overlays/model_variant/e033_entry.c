@@ -76,7 +76,7 @@ s32 ModelVariant85_HandleRequest(Model85State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     SetPolyG3(&tri);
     setRGB0(&tri, 0, 0, 0);
     setRGB1(&tri, 0, 0, 0);

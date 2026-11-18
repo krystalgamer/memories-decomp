@@ -80,7 +80,7 @@ s32 ModelVariant81_HandleRequest(Model81State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     SetPolyGT4(&gt4);
     gt4.tpage = work->texture >> 16;
     gt4.clut = work->texture;

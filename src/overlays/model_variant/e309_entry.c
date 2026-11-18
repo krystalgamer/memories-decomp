@@ -135,7 +135,7 @@ s32 ModelVariant760_HandleRequest(Model760State *context, s32 command)
         work->phase = 1;
     }
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     work->timer += step;
 
     if (work->phase >= 2) {

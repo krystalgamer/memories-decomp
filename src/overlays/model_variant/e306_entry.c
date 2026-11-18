@@ -105,7 +105,7 @@ s32 ModelVariant757_HandleRequest(Model757State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     setPolyFT4(packet);
     GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);
     pos.vx = m.t[0];

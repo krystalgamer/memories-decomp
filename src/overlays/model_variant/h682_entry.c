@@ -165,7 +165,7 @@ s32 ModelVariant682Us_HandleRequest(Model682UsState *context, s32 command)
                 setVector(&work->columns[work->flags[0]].xform.scale, value, value, value);
                 setVector(&work->columns[work->flags[0]].target, 0, 0, 0);
                 setVector(&work->columns[work->flags[0]].xform.rotation, 0, 0, 0);
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 2);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 2);
                 GsGetLwUnit(&unit, &ls);
                 p0.vx = ls.t[0];
                 p0.vy = ls.t[1];
@@ -185,7 +185,7 @@ s32 ModelVariant682Us_HandleRequest(Model682UsState *context, s32 command)
                     work->sparks[work->flags[2]][i].color[0] = gModelVariant682Us_aConfigs[work->head.command].color[3];
                     work->sparks[work->flags[2]][i].color[1] = gModelVariant682Us_aConfigs[work->head.command].color[4];
                     work->sparks[work->flags[2]][i].color[2] = gModelVariant682Us_aConfigs[work->head.command].color[5];
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, i + 34);
+                    unit = *Model_GetSlotDataEntry(work->head.slot, i + 34);
                     GsGetLwUnit(&unit, &ls);
                     setVector(&work->sparks[work->flags[2]][i].position, ls.t[0], ls.t[1], ls.t[2]);
                 }

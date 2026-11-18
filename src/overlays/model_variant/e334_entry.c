@@ -145,7 +145,7 @@ s32 ModelVariant784_HandleRequest(Model784State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
 
     if ((work->fired == 0 && work->elapsed >= work->config->start[0]) ||
         (work->fired == 1 && work->elapsed >= work->config->start[1]) ||

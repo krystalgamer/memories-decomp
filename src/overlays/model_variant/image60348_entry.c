@@ -9,7 +9,7 @@
 /* Rings drop fading echoes and release camera-facing sprite/shard/cone bursts. */
 
 #define START_RING(index)                                                       \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);            \
+    unit = *Model_GetSlotDataEntry(work->head.slot, index);            \
     GsGetLwUnit(&unit, &ls);                                                     \
     work->rings[work->flags[1]].head.active = 1;                                      \
     setVector(&work->rings[work->flags[1]].xform.position, ls.t[0], ls.t[1], ls.t[2]);  \

@@ -75,7 +75,7 @@ s32 FrenchModelVariant82_HandleRequest(Model82State *context, s32 command)
     point = work->positions;
     velocity = work->velocities;
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     for (i = 0; i < config->count; point++, velocity++, i++) {
         GsSetLsMatrix(&base);
         if (i / config->rate >= work->elapsed) {

@@ -148,7 +148,7 @@ s32 ModelVariant821_HandleRequest(Model821State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed <= work->config->end && work->frames % work->config->period == 0) {
         for (g = 0; g < 3; g++) {
             if (work->head[g] < 10) {

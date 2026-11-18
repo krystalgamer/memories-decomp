@@ -108,7 +108,7 @@ s32 ModelVariant801_HandleRequest(Model801State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     for (i = 0; i < work->shown; i++) {
         if (work->level[i]) {
             setPolyFT4(&ft4);

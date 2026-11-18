@@ -183,7 +183,7 @@ s32 FrenchModelVariant648_HandleRequest(Image9840State *context, s32 command)
             }
         }
         if (work->head.elapsed >= 45 && work->flags[0] == 0) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 7);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 7);
             GsGetLwUnit(&unit, &ls);
             for (i = 0; i < work->secondary_count; i++) {
                 work->secondary[i].head.active = 1;
@@ -202,7 +202,7 @@ s32 FrenchModelVariant648_HandleRequest(Image9840State *context, s32 command)
     PushMatrix();
     view = *(ModelVariantViewSnapshotBytes *)Model_GetViewMetricsBuffer();
     inactive = 0;
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 7);
+    unit = *Model_GetSlotDataEntry(work->head.slot, 7);
     GsGetLwUnit(&unit, &world);
     for (i = 0; i < work->primary_count; i++) {
         if (work->primary[i].head.active == 1) {

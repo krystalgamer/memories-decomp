@@ -163,7 +163,7 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
         config = work->config;
         ot = Graphics_GetDefaultOrderingTable();
         PushMatrix();
-        base = *(MATRIX *)Model_GetLightSourceMatrix();
+        base = *Model_GetLightSourceMatrix();
         SetPolyFT4(&quad);
         SetPolyGT4(&strip);
         SetPolyG4(&panel);

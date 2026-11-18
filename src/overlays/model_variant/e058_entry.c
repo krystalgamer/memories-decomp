@@ -91,7 +91,7 @@ s32 ModelVariant110_HandleRequest(Model110State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     time = work->elapsed - config->delay;
     if (time >= 0 && time < config->fan_duration) {

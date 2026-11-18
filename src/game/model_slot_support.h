@@ -20,7 +20,7 @@ void Model_InitLightTriplet(s32 index);
 /* Address of one MODEL_SLOT_DATA_ENTRY_SIZE entry of model slot `index`'s data.
  * `slot` beyond the slot's entry_count falls back to its current entry,
  * root_coordinate_index. */
-void *Model_GetSlotDataEntry(s32 index, s32 slot);
+struct _GsCOORDUNIT *Model_GetSlotDataEntry(s32 index, s32 slot);
 
 /* The coordinate unit of slot `index`'s current entry. The campaign map and
  * several MODEL variants hand it to Model_UpdateCoordinateUnitMatrix. */

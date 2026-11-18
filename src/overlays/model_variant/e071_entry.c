@@ -10,14 +10,14 @@
  * a ribbon of Gouraud quads. The setup also prints the work-area size. */
 
 #define TRACK_POINT(index, point)                                              \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);          \
+    unit = *Model_GetSlotDataEntry(work->head.slot, index);          \
     GsGetLwUnit(&unit, &ls);                                                   \
     (point).vx = ls.t[0];                                                      \
     (point).vy = ls.t[1];                                                      \
     (point).vz = ls.t[2]
 
 #define START_RING(index)                                                      \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);          \
+    unit = *Model_GetSlotDataEntry(work->head.slot, index);          \
     GsGetLwUnit(&unit, &ls);                                                   \
     work->rings[work->flags[1]].head.active = 1;                                    \
     setVector(&work->rings[work->flags[1]].xform.position, ls.t[0], ls.t[1], ls.t[2]); \

@@ -160,7 +160,7 @@ s32 ModelVariant845_HandleRequest(Model845State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed >= work->config->start && work->head == 0) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);
         for (i = 0; i < 2; i++) {

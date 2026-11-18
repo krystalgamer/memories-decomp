@@ -142,7 +142,7 @@ s32 ModelVariant762_HandleRequest(Model762State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed <= work->config->release) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);
         gModelVariant762_PartPosition.vx = pos.vx = m.t[0];

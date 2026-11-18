@@ -161,7 +161,7 @@ s32 ModelVariant650_HandleRequest(Model650State *context, s32 command)
         switch (work->head.command) {
         case 0:
             if (work->head.elapsed == 0) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 10);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 10);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->sprite_count; i++) {
                     work->sprites[i].active = 1;
@@ -182,7 +182,7 @@ s32 ModelVariant650_HandleRequest(Model650State *context, s32 command)
             break;
         case 2:
             if (work->head.elapsed == 0) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 15);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 15);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->shell_count / 2; i++) {
                     work->shells[i].active = 1;
@@ -195,7 +195,7 @@ s32 ModelVariant650_HandleRequest(Model650State *context, s32 command)
             }
             if (work->flags[0] == 0 && work->head.elapsed >= 135) {
                 work->flags[0] = 1;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 8);
                 GsGetLwUnit(&unit, &ls);
                 for (i = work->shell_count / 2; i < work->shell_count; i++) {
                     work->shells[i].active = 1;

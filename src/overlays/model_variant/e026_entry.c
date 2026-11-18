@@ -107,7 +107,7 @@ s32 ModelVariant78_HandleRequest(Model78State *context, s32 command)
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     SetPolyFT4(&quad);
     SetPolyGT4(&strip);
     setRGB0(&quad, config->red, config->green, config->blue);

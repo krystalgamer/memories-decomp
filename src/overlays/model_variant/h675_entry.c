@@ -185,12 +185,12 @@ s32 ModelVariant675Us_HandleRequest(Model675UsState *context, s32 command)
             if (work->head.elapsed == 0) {
                 work->rings[0].head.active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 8);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->rings[0].xform.position, ls.t[0], ls.t[1], ls.t[2]);
             if (work->flags[0] * 5 + 0x168 < work->head.elapsed && work->flags[0] < work->bolt_count) {
                 work->bolts[work->flags[0]].head.active = 1;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 8);
                 GsGetLwUnit(&unit, &ls);
                 setVector(&work->bolts[work->flags[0]].xform.position, ls.t[0], ls.t[1], ls.t[2]);
                 work->flags[0]++;
@@ -200,12 +200,12 @@ s32 ModelVariant675Us_HandleRequest(Model675UsState *context, s32 command)
             if (work->head.elapsed == 0) {
                 work->rings[0].head.active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 8);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->rings[0].xform.position, ls.t[0], ls.t[1], ls.t[2]);
             if (work->flags[0] * 10 + 0x50 < work->head.elapsed && work->flags[0] < work->bolt_count) {
                 work->bolts[work->flags[0]].head.active = 1;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 8);
                 GsGetLwUnit(&unit, &ls);
                 setVector(&work->bolts[work->flags[0]].xform.position, ls.t[0], ls.t[1], ls.t[2]);
                 work->flags[0]++;
@@ -215,7 +215,7 @@ s32 ModelVariant675Us_HandleRequest(Model675UsState *context, s32 command)
             if (work->head.elapsed == 0) {
                 work->rings[0].head.active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 1);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->rings[0].xform.position, ls.t[0], ls.t[1], ls.t[2]);
             if (work->flags[0] * 10 + 0x64 < work->head.elapsed && work->flags[0] < work->bolt_count) {

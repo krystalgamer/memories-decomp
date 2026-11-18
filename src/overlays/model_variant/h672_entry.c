@@ -143,9 +143,9 @@ s32 ModelVariant672_HandleRequest(Model672State *context, s32 command)
     switch (work->head.command) {
     case 0:
         if (work->head.elapsed < 100 && work->flags[0] < work->count) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 4);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 4);
             GsGetLwUnit(&unit, &lw);
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 5);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 5);
             GsGetLwUnit(&unit, &lw2);
             (work->sparks + work->flags[0])->xform.position.vx = (lw.t[0] + lw2.t[0]) / 2;
             (work->sparks + work->flags[0])->xform.position.vy = (lw.t[1] + lw2.t[1]) / 2;
@@ -158,7 +158,7 @@ s32 ModelVariant672_HandleRequest(Model672State *context, s32 command)
         break;
     case 1:
         if (work->head.elapsed < 200 && work->flags[0] < work->count) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 22);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 22);
             GsGetLwUnit(&unit, &lw);
             work->sparks[work->flags[0]].xform.position.vx = lw.t[0];
             work->sparks[work->flags[0]].xform.position.vy = lw.t[1];
@@ -171,7 +171,7 @@ s32 ModelVariant672_HandleRequest(Model672State *context, s32 command)
         break;
     case 2:
         if (work->head.elapsed < 84 && work->flags[0] < work->count) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, (u8)(work->flags[0] % 5) * 3 + 9);
+            unit = *Model_GetSlotDataEntry(work->head.slot, (u8)(work->flags[0] % 5) * 3 + 9);
             GsGetLwUnit(&unit, &lw);
             (work->sparks + work->flags[0])->xform.position.vx = lw.t[0];
             (work->sparks + work->flags[0])->xform.position.vy = lw.t[1];

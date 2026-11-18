@@ -72,7 +72,7 @@ s32 FrenchModelVariant101_HandleRequest(Model101State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     box.w = box.h = 2;
     box.r = config->particle_r;
     box.g = config->particle_g;

@@ -212,7 +212,7 @@ s32 ModelVariant679Us_HandleRequest(Model679UsState *context, s32 command)
     case 0:
         if (work->head.elapsed < 162 && work->head.elapsed >= work->flags[0] * 3 && work->flags[0] < work->count) {
             work->shells[work->flags[0]].head.active = 1;
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, work->joints[(u8)(work->flags[0] % 12)] + 6);
+            unit = *Model_GetSlotDataEntry(work->head.slot, work->joints[(u8)(work->flags[0] % 12)] + 6);
             GsGetLwUnit(&unit, &ls);
             (work->shells + work->flags[0])->xform.position.vx = ls.t[0];
             (work->shells + work->flags[0])->xform.position.vy = ls.t[1];

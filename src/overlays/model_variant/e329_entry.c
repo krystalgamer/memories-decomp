@@ -133,7 +133,7 @@ s32 ModelVariant780_HandleRequest(Model780State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
 
     if (work->beam != 0) {
         setPolyFT4(&glow);

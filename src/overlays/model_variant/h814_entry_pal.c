@@ -161,7 +161,7 @@ s32 FrenchModelVariant831_HandleRequest(Model831State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if ((work->head == 0 && work->elapsed >= work->config->start) ||
         (work->head == 1 && work->elapsed >= work->config->second_start) ||
         (work->head == 2 && work->elapsed >= work->config->third_start)) {

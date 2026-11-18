@@ -103,7 +103,7 @@ s32 ModelVariant117_HandleRequest(Model117State *context, s32 command)
     SetPolyFT3(&tri);
     SetPolyG3(&unused_gouraud);
     SetPolyGT4(&unused_strip);
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     if (work->elapsed < 0) {
         work->elapsed += Model_GetFrameStep();

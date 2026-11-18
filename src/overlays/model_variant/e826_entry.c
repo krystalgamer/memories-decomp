@@ -263,7 +263,7 @@ s32 ModelVariant680Us_HandleRequest(Model680UsState *context, s32 command)
             if (work->head.elapsed >= 98 && work->head.elapsed < 204) {
                 if (work->head.elapsed >= work->flags[0] * 3 + 98 && work->flags[0] < work->count) {
                     work->blooms[work->flags[0]].head.active = 1;
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(
+                    unit = *Model_GetSlotDataEntry(
                         work->head.slot, (work->joints[work->flags[0] & 3] >> 1) + 29);
                     GsGetLwUnit(&unit, &ls);
                     (work->blooms + work->flags[0])->xform.position.vx = ls.t[0];
@@ -282,7 +282,7 @@ s32 ModelVariant680Us_HandleRequest(Model680UsState *context, s32 command)
                     work->sparks[work->flags[1]][i].color[0] = gModelVariant680Us_aConfigs[work->head.command].color[0];
                     work->sparks[work->flags[1]][i].color[1] = gModelVariant680Us_aConfigs[work->head.command].color[1];
                     work->sparks[work->flags[1]][i].color[2] = gModelVariant680Us_aConfigs[work->head.command].color[2];
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, i + 34);
+                    unit = *Model_GetSlotDataEntry(work->head.slot, i + 34);
                     GsGetLwUnit(&unit, &ls);
                     (work->sparks[work->flags[1]] + i)->position.vx = ls.t[0];
                     (work->sparks[work->flags[1]] + i)->position.vy = ls.t[1];

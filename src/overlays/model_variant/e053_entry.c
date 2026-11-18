@@ -69,7 +69,7 @@ s32 ModelVariant105_HandleRequest(Model105State *context, s32 command)
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     if (work->elapsed < 0) {
         work->elapsed += Model_GetFrameStep();
@@ -105,7 +105,7 @@ s32 ModelVariant105_HandleRequest(Model105State *context, s32 command)
             }
             setUV4(&quad, (t / 2 + i) % 3 * 32, 0, (t / 2 + i) % 3 * 32 + 31, 0, (t / 2 + i) % 3 * 32, 31, (t / 2 + i) % 3 * 32 + 31, 31);
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
             position.vx = matrix.t[0];
             position.vy = matrix.t[1];
             position.vz = matrix.t[2];

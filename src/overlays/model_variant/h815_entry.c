@@ -108,7 +108,7 @@ s32 ModelVariant815_HandleRequest(Model815State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->phase == 0) {
         Model_CopySlotPosition(slot ^ 1, (u16 *)&work->position);
         work->position.vy = 0;

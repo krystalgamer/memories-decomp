@@ -157,7 +157,7 @@ s32 ModelVariant795_HandleRequest(Model795State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed >= work->config->start && work->head == 0) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);
         setVector(&work->origin[work->head], m.t[0], m.t[1], m.t[2]);

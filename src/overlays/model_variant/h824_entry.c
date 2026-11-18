@@ -161,7 +161,7 @@ s32 ModelVariant824_HandleRequest(Model824State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed >= work->config->start && work->elapsed < work->config->end &&
         work->frames % work->config->period == 0 && work->head < work->config->flight.count) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);

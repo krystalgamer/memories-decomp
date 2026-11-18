@@ -188,13 +188,13 @@ s32 ModelVariant656_HandleRequest(Model656State *context, s32 command)
         switch (work->head.command) {
         case 0:
             if (work->head.elapsed == 0) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 18);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 18);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->count; i++) {
                     work->sprites[i].head.active = 1;
                     setVector(&work->sprites[i].xform.position, ls.t[0], ls.t[1], ls.t[2]);
                 }
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 21);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 21);
                 GsGetLwUnit(&unit, &ls);
                 for (i = 0; i < work->count; i++) {
                     work->cones[i].head.active = 1;
@@ -211,11 +211,11 @@ s32 ModelVariant656_HandleRequest(Model656State *context, s32 command)
             break;
         case 1:
             if (work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->count) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 18);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 18);
                 GsGetLwUnit(&unit, &ls);
                 work->sprites[work->flags[0]].head.active = 1;
                 setVector(&work->sprites[work->flags[0]].xform.position, ls.t[0], ls.t[1], ls.t[2]);
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 21);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 21);
                 GsGetLwUnit(&unit, &ls);
                 work->cones[work->flags[0]].head.active = 1;
                 setVector(&work->cones[work->flags[0]].xform.position, ls.t[0], ls.t[1], ls.t[2]);
@@ -232,12 +232,12 @@ s32 ModelVariant656_HandleRequest(Model656State *context, s32 command)
             break;
         case 2:
             if (work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->count) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 21);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 21);
                 GsGetLwUnit(&unit, &ls);
                 work->sprites[work->flags[0]].head.active = 1;
                 setVector(&work->sprites[work->flags[0]].xform.position, ls.t[0], ls.t[1], ls.t[2]);
                 m = ls;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 20);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 20);
                 GsGetLwUnit(&unit, &ls);
                 work->cones[work->flags[0]].head.active = 1;
                 setVector(&work->cones[work->flags[0]].xform.position, ls.t[0], ls.t[1], ls.t[2]);
