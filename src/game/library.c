@@ -14,6 +14,7 @@ static PADDING_VARIABLE(4);
 #include "library.h"
 #include "card_constants.h"
 #include "../psyq/libgs.h"
+#include "gs_sprite_words.h"
 #include "ordering_tables.h"
 #include "display_object.h"
 #include "duel_effect_states.h"
@@ -63,8 +64,6 @@ static PADDING_VARIABLE(4);
  * cell-coordinate helpers and the card-ownership lookups behind
  * Library_MarkOwnedCards (#39). */
 
-#define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
-
 #ifndef LIBRARY_GRID_SCREEN_HEIGHT
 #define LIBRARY_GRID_SCREEN_HEIGHT 0xF0
 #endif
@@ -109,7 +108,7 @@ u32 Library_GetCardFlags(const LibraryState *base, s32 index)
      re-test away on the normal path and the dead store goes with it. */
 void Library_DrawCardGrid(void)
 {
-    GsSPRITE *p;
+    GsSpriteWords *p;
     GsGLINE *q;
     u8 *pj;
     u8 *pk;
@@ -134,7 +133,7 @@ void Library_DrawCardGrid(void)
     s32 first;
     s32 attribute;
 
-    p = (GsSPRITE *)SCRATCH_ADDR(0x320);
+    p = (GsSpriteWords *)SCRATCH_ADDR(0x320);
     n = (gGraphics_sViewportY - 8) / 178;
     ot = gGraphics_apOrderingTables[3];
     if (n < 0) {
@@ -151,29 +150,29 @@ void Library_DrawCardGrid(void)
     grey = 0x404040;
     a = n * 178 + 8;
     b = n * 25;
-    p->x = 8;
+    p->prim.x = 8;
     first = b * 8;
-    p->y = first * 178 + 8;
-    *(u32 *)&p->w = e;
-    *(u32 *)&p->cx = f;
+    p->prim.y = first * 178 + 8;
+    p->words.wh = e;
+    p->words.cxcy = f;
     attribute = 0x8000000;
     do {
 #ifndef LIBRARY_GRID_SKIP_CY_STORE
-        p->cy = 0xF7;
+        p->prim.cy = 0xF7;
 #endif
-        *(u16 *)&p->u = 0xF060;
-        p->attribute = attribute;
-        p->tpage = 0x1B;
+        p->words.uv = 0xF060;
+        p->prim.attribute = attribute;
+        p->prim.tpage = 0x1B;
     } while (0);
     do {
         idx = b * 8;
-        p->y = a;
-        p->y = a - gGraphics_sViewportY;
+        p->prim.y = a;
+        p->prim.y = a - gGraphics_sViewportY;
         for (i = 0; i < 10; idx += 10, i++) {
-            y = p->y;
+            y = p->prim.y;
             j = idx + 1;
             tb = &gLibrary_State;
-            if (y + p->w > 0) {
+            if (y + p->prim.w > 0) {
                 if (y >= LIBRARY_GRID_SCREEN_HEIGHT) {
                     break;
                 }
@@ -186,24 +185,24 @@ void Library_DrawCardGrid(void)
                 do {
                     r = Library_GetCardFlags(tb, j);
                     if (r & LIBRARY_CARD_FLAG_KNOWN) {
-                        GS_SPRITE_COLOR_WORD(p) = white;
+                        p->words.rgb = white;
                         if (r & LIBRARY_CARD_FLAG_UNOWNED) {
-                            GS_SPRITE_COLOR_WORD(p) = grey;
+                            p->words.rgb = grey;
                         }
-                        p->x = c + 8;
-                        p->cx = (u16)((LibraryState *)pj)->cards[0].clut_x;
-                        GsSortFastSprite(p, ot, 2);
+                        p->prim.x = c + 8;
+                        p->prim.cx = (u16)((LibraryState *)pj)->cards[0].clut_x;
+                        GsSortFastSprite(&p->prim, ot, 2);
                     }
                     if (k < CARD_ID_END) {
                         r = Library_GetCardFlags(tb, k);
                         if (r & LIBRARY_CARD_FLAG_KNOWN) {
-                            GS_SPRITE_COLOR_WORD(p) = white;
+                            p->words.rgb = white;
                             if (r & LIBRARY_CARD_FLAG_UNOWNED) {
-                                GS_SPRITE_COLOR_WORD(p) = grey;
+                                p->words.rgb = grey;
                             }
-                            p->x = c + 0xA8;
-                            p->cx = (u16)((LibraryState *)pk)->cards[0].clut_x;
-                            GsSortFastSprite(p, ot, 2);
+                            p->prim.x = c + 0xA8;
+                            p->prim.cx = (u16)((LibraryState *)pk)->cards[0].clut_x;
+                            GsSortFastSprite(&p->prim, ot, 2);
                         }
                     }
                     pj += sizeof(LibraryCardRecord);
@@ -213,7 +212,7 @@ void Library_DrawCardGrid(void)
                     k++;
                 } while (c < 0x8A);
             }
-            p->y = p->y + 0x10;
+            p->prim.y = p->prim.y + 0x10;
             /* A line that ran its cells cannot have stopped the run, so
                clear y; cse then drops the re-test below on this path, and
                jump threading sends the stop straight to the cursor box. */
@@ -326,7 +325,7 @@ s32 Library_UpdateCursorMotion(void)
         object->x = object->rest_x;
         object->y = object->rest_y;
         SD_SEPlayFull(53);
-        Library_RefreshSelectedCardText((const LibraryState *)object);
+        Library_RefreshSelectedCardText(&gLibrary_State);
     }
     object->display_objects.by_role.render->xy.h.x = object->x;
     object->display_objects.by_role.render->xy.h.y = object->y;
@@ -595,7 +594,7 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     s32 v;
     s32 w;
 
-    n = *(u16 *)&o->field_60 - 0x10;
+    n = (u16)o->field_60 - 0x10;
     o->field_60 = n;
     if ((s16)n <= 0) {
         DisplayObject_ReleaseIfPresent(o);
@@ -605,8 +604,8 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     r = (struct ProjectionOut *)SCRATCH_ADDR(0x398);
     o->rgb.c.b = o->field_60;
     DisplayObject_ProjectRotationFacing(o,
-                  o->xy.s.x + *(s16 *)&o->field_18.center.x,
-                  o->xy.s.y + *(s16 *)&o->field_18.center.y,
+                  o->xy.s.x + (s16)o->field_18.center.x,
+                  o->xy.s.y + (s16)o->field_18.center.y,
                   r);
 
     q = (LINE_F4 *)SCRATCH_ADDR(0x2A0);
@@ -657,7 +656,26 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     Graphics_SubmitDrawModePacket((u32 *)q, ot, (u16)k, 1);
 }
 
-DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){DisplayObject*o=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),6);o->field_48.word=src->field_48.word;*(s32*)&o->field_18.center.x=*(s32*)&src->field_18.center.x;o->field_60=0x100;*(s16*)&o->field_3C.size.w=*(s16*)&o->field_18.center.x*2;*(s16*)&o->field_3C.size.h=*(s16*)&o->field_18.center.y*2;o->xy.word=src->xy.word;o->field_20.word=src->field_20.word;o->field_44.word=src->field_44.word;o->rgb.word=0;DisplayObject_SelectOrderingTable1(o);DisplayObject_SetDepthOffset(o,(signed char)(*(u8*)&src->depth_offset+add));o->back_face_handler.word=1;o->field_4C.draw=Library_DrawFadingCardOutline;o->attribute=(o->attribute|(GsALON | GsAONE))&~GsROTOFF;return o;}
+DisplayObject *Library_CreateFadingCardOutline(DisplayObject *src, int add)
+{
+    DisplayObject *o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
+
+    o->field_48.word = src->field_48.word;
+    o->field_18.word = src->field_18.word;
+    o->field_60 = 0x100;
+    o->field_3C.size.w = (s16)o->field_18.center.x * 2;
+    o->field_3C.size.h = (s16)o->field_18.center.y * 2;
+    o->xy.word = src->xy.word;
+    o->field_20.word = src->field_20.word;
+    o->field_44.word = src->field_44.word;
+    o->rgb.word = 0;
+    DisplayObject_SelectOrderingTable1(o);
+    DisplayObject_SetDepthOffset(o, (s8)((u8)src->depth_offset + add));
+    o->back_face_handler.word = 1;
+    o->field_4C.draw = Library_DrawFadingCardOutline;
+    o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
+    return o;
+}
 
 /* The seven contiguous functions of the Library screen: the card-view state
    handler Library_UpdateCardView, the trivial state handlers for states 0 and 3, the
@@ -686,8 +704,6 @@ DisplayObject*Library_CreateFadingCardOutline(DisplayObject*src,int add){Display
      word is volatile because state 5 loads it twice;
    - the typed card-table flag lvalues must retain the retail base-first
      address sum. */
-/* The flat lights' colour bytes are stored as whole words. */
-#define W(p, o) (*(s32 *)((u8 *)(p) + (o)))
 
 #ifndef LIBRARY_CARD_VIEW_BOX_FIELD_54
 #define LIBRARY_CARD_VIEW_BOX_FIELD_54 0
@@ -954,12 +970,12 @@ void Library_UpdateCardView(LibraryState *state)
                 light[0].direction_y = -0x1000;
                 light[0].direction_x = 0;
                 light[0].direction_z = 0;
-                W(light, 0xC) = 0xFFFFFF;
+                light[0].color.word = 0xFFFFFF;
                 light[1].direction_x = 0;
                 light[1].direction_y = 0x1000;
                 light[1].direction_z = 0;
-                W(light, 0x1C) = 0x404040;
-                W(light, 0x2C) = 0xC0C0C0;
+                light[1].color.word = 0x404040;
+                light[2].color.word = 0xC0C0C0;
                 Model_SetSlotAmbient(0, 0x400, 0x400, 0x400);
                 Model_CopySlotPosition(0, (u16 *)0x80181000);
                 p = (SVECTOR *)0x80181000;
@@ -1057,7 +1073,7 @@ void Library_UpdateCardView(LibraryState *state)
             rec->primary_object->flags |= 4;
             state->motion.card_view_phase = 6;
             state->motion.model_load_phase = 0;
-            DisplayObject_ReleaseIfPresent((void *)state->loading_icon);
+            DisplayObject_ReleaseIfPresent(state->loading_icon);
             File_CancelTransfers();
             SD_SEPlayFull(0x31);
             return;
@@ -1110,7 +1126,7 @@ void Library_UpdateCardView(LibraryState *state)
                 return;
             }
         } else if (state->motion.card_view_slide_phase == 0) {
-            DisplayObject_ReleaseIfPresent((void *)state->card_view);
+            DisplayObject_ReleaseIfPresent(state->card_view);
             state->card_view = 0;
             TextBox_Destroy(&gText_aChannels[0]);
             state->motion.card_view_phase = 8;
@@ -1123,14 +1139,12 @@ void Library_UpdateCardView(LibraryState *state)
     }
 }
 
-#undef W
-
 void Library_EnterGridState(LibraryState *state)
 {
     state->motion.state = 1;
 }
 
-void Library_NoOpScreenState3(u8 *value)
+void Library_NoOpScreenState3(LibraryState *state)
 {
 }
 
@@ -1217,7 +1231,7 @@ void Library_UpdateScreen(void)
         Model_UpdateViewMetrics(0);
         break;
     case 3:
-        Library_NoOpScreenState3((u8 *)state);
+        Library_NoOpScreenState3(state);
         break;
     }
 }
@@ -1463,7 +1477,7 @@ void Library_InitializeScreen(void) {
         n--;
         q--;
     } while (n >= 0);
-    File_RequestAsyncTransfer(0, (u8 *)0, LIBRARY_PACKAGE_FIRST_SECTOR,
+    File_RequestAsyncTransfer(0, 0, LIBRARY_PACKAGE_FIRST_SECTOR,
                               LIBRARY_PACKAGE_SECTOR_COUNT,
                               (FileTransferCallback)Library_LoadPackageStage, 0, 0);
     File_WaitForTransfers();
@@ -1556,7 +1570,7 @@ void Library_InitializeScreen(void) {
     TextBox_BuildBlocking(m);
     DisplayObject_SelectOrderingTable3(m->render_object);
     m->render_object->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
-    Library_RefreshSelectedCardText((const LibraryState *)r);
+    Library_RefreshSelectedCardText(r);
     SD_BGMPlay(0x72D0);
 }
 

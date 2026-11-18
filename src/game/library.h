@@ -68,8 +68,8 @@ void Library_UpdateGridCursor(LibraryState *state);
 /* Refreshes text-box slot 1 from the cursor-selected card. Clearing the
  * published selection for an unknown card does not clear the staged ID or
  * selector 5. The existing color_index_54 byte view, unowned override and blocking
- * channel build remain unchanged. The motion-completion caller passes its
- * enclosing LibraryState through the first-member address. */
+ * channel build remain unchanged. The motion-completion caller passes
+ * &gLibrary_State, whose first member is the motion it updates. */
 void Library_RefreshSelectedCardText(const LibraryState *state);
 
 typedef struct {
@@ -89,7 +89,7 @@ void Library_UpdateCardView(LibraryState *state);
 /* Selects grid state 1 with a whole-byte write, not grid setup or a reset. */
 void Library_EnterGridState(LibraryState *state);
 /* The dispatcher's unchanged empty state-3 handler. */
-void Library_NoOpScreenState3(u8 *state);
+void Library_NoOpScreenState3(LibraryState *state);
 
 void Library_UpdateScreen(void);
 

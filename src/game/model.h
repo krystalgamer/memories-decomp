@@ -170,8 +170,12 @@ typedef struct {
     s32 direction_x;
     s32 direction_y;
     s32 direction_z;
-    u8 rgb[3];
-    u8 pad_0F;
+    /* r, g, b and the pad byte; the Library card view stores all four as
+       one word. */
+    union {
+        u8 rgb[4];
+        u32 word;
+    } color;
 } ModelSlotLightEntry;
 
 /* The SDK VECTOR Model_DrawSlot passes render_scale as to ScaleMatrix and
@@ -551,9 +555,7 @@ typedef char ModelSlotLightEntry_layout_must_match[
     OFFSETOF(ModelSlotLightEntry, direction_x) == 0 &&
     OFFSETOF(ModelSlotLightEntry, direction_y) == 4 &&
     OFFSETOF(ModelSlotLightEntry, direction_z) == 8 &&
-    OFFSETOF(ModelSlotLightEntry, rgb) == 0xC &&
-    sizeof(((ModelSlotLightEntry *)0)->rgb) == 3 &&
-    OFFSETOF(ModelSlotLightEntry, pad_0F) == 0xF ? 1 : -1
+    OFFSETOF(ModelSlotLightEntry, color) == 0xC ? 1 : -1
 ];
 typedef char ModelSlotS32Quad_size_must_be_0x10[
     sizeof(ModelSlotS32Quad) == 0x10 ? 1 : -1

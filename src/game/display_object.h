@@ -132,6 +132,8 @@ typedef struct DisplayObject {
             u16 x;
             u16 y;
         } target;
+        /* The target pair as one word, which the transfer icon copies into
+           xy when it arrives. */
         u32 word;
     } field_18;                    /* 0x18 */
     u16 field_1C;                  /* 0x1C */
