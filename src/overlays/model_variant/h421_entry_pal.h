@@ -9,7 +9,10 @@
 typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4];
-    u8 parts[3], unknown_13[9];
+    u8 parts[3], unknown_13[5];
+    /* The rays helper redraws its rays while index + 1 == count. */
+    u16 count;
+    u8 unknown_1A[2];
     u32 start;
     u32 grow_end;
     u32 band_grow_end;
@@ -36,7 +39,7 @@ typedef struct {
     ModelVariantCurtain rings[1];
     ModelVariantWebNarrow webs[3];
     ModelVariantShadedRay glows[12];
-    u8 rays[0x360];
+    ModelVariantOffsetRay rays[8];
     ModelVariantColorBand bands[1];
     ModelVariantSheet sheets[2];
     ModelVariantColorRing spokes[6];
@@ -55,11 +58,11 @@ typedef struct {
     Variant438EntryConfig *config;
     u8 unknown_22B8[4];
     GsCOORDUNIT *parts[3];
-    s16 field_22C8, field_22CA;
+    s16 index, field_22CA;
     CVECTOR color_22CC, color_22D0;
     s32 ring_angle;
     s16 scale, field_22DA;
-    s32 progress, field_22E0, field_22E4;
+    s32 progress, field_22E0, ray_angle;
     s32 phase;
     s32 spiral_state;
     u8 unknown_22F0[8];
