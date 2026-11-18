@@ -12,20 +12,20 @@
 #include "../../psyq/rand.h"
 #include "../../psyq/stdio.h"
 
-/* One 0x2E-byte command row, picked by command % 100: the tube, beam and
- * spark colours, the tube's inner and outer radii and height, the swirl
+/* One 0x2E-byte command row, picked by command % 100: the tornado, beam
+ * and spark colours, the tornado's inner and outer radii and height, the swirl
  * radius, the sway, the beam half height, the beam rise, the spark half size,
  * the burst radius, the fade-in, hold and fade-out durations, the spark
  * lifetime, the spin and swirl rates, the ring spacing, the spark spacing and
  * the start delay. */
 typedef struct {
-    u8 tube_color[3], beam_color[3], spark_color[3], unknown_9;
+    u8 tornado_color[3], beam_color[3], spark_color[3], unknown_9;
     s16 inner_radius, outer_radius, height, swirl_radius, sway, beam_size, rise, spark_size;
     s16 burst_radius, fade_in, hold, fade_out, spark_time, spin, swirl, spacing;
     s16 spark_spacing, delay;
 } Model139Config;
 
-/* The 0x97C-byte work area: the command row, a 9x17 tube mesh, two eight-point
+/* The 0x97C-byte work area: the command row, a 9x17 tornado mesh, two eight-point
  * swirl trails, the swirl centre, a 33-point burst, 96 spark positions, the
  * spin angle, the two swirl phases, three texture words, the completion flag
  * and the elapsed time. */

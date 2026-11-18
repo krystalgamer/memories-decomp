@@ -4,6 +4,10 @@
 
 static const VECTOR gFrenchModelVariant82_UnitScale = {4096, 4096, 4096, 0};
 
+/* In the North American build header 65 is Perfectly Ultimate Great Moth's
+ * attack with its Jupiter guardian star (slot 0, selection 0): an emulator
+ * trace (#418) ran this handler while white particles flew from the moth to
+ * the defender and turned into yellow clouds where they hit. */
 s32 FrenchModelVariant82_HandleRequest(Model82State *context, s32 command)
 {
     Model82State *work;
