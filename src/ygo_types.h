@@ -320,10 +320,17 @@ typedef char DuelEffectEntry_layout_selector_offset_must_be_0x18[
     OFFSETOF(DuelEffectEntry, layout_selector) == 0x18 ? 1 : -1
 ];
 
-/* One 0x14-byte scene-script slot at gSceneScript_Slots. */
-typedef struct {
-    s32 object_address;
-    s16 callback_control;
+struct DisplayObject;
+
+/* One 0x14-byte scene-script slot at gSceneScript_Slots. The control
+   halfword's low byte selects the gSceneScript_RecordCallbacks entry and
+   SceneScript_UpdateColorPulse latches bit 0x8000 of the whole halfword. */
+typedef struct SceneScriptSlot {
+    struct DisplayObject *object;
+    union {
+        s16 control;
+        u8 index;
+    } callback;
     s16 pulse_angle;
     s32 unk08;
     s32 unk0C;
@@ -332,7 +339,7 @@ typedef struct {
 
 /* Script image slot prefix: the owned object and callback control. */
 typedef struct {
-    void *pointer;
+    struct DisplayObject *pointer;
     s16 callback_control;
     u8 pad_06[10];
     /* Set to 1 by ScriptImage_CreateObject and ScriptImage_RebuildObjects
@@ -343,7 +350,7 @@ typedef struct {
 } ScriptImageEntry;
 
 struct DuelEffectChannel;
-typedef void (*SceneScriptRecordCallback)(void *, s32);
+typedef void (*SceneScriptRecordCallback)(struct SceneScriptSlot *, struct DisplayObject *);
 typedef void (*TextBoxStateCallback)(struct DuelEffectChannel *);
 
 typedef char SceneScriptSlot_size_must_be_0x14[
@@ -930,19 +937,6 @@ typedef char FileTransferDescriptor_transfer_mode_offset_must_be_0x46[
 ];
 typedef char FileTransferDescriptor_substate_offset_must_be_0x47[
     OFFSETOF(FileTransferDescriptor, substate) == 0x47 ? 1 : -1
-];
-
-#define FILE_TRANSFER_DESCRIPTOR_WORD_COUNT 18
-
-/* File_ActivateTransfer copies a whole descriptor through aligned words.
-   This is the block-move view of FileTransferDescriptor, not a second record
-   description; the element type is what selects the copy width. */
-typedef struct {
-    s32 value[FILE_TRANSFER_DESCRIPTOR_WORD_COUNT];
-} FileTransferDescriptorWords;
-
-typedef char FileTransferDescriptorWords_size_must_match_descriptor[
-    sizeof(FileTransferDescriptorWords) == sizeof(FileTransferDescriptor) ? 1 : -1
 ];
 
 /* Sound's staged command and the loader's two request slots are the same

@@ -15,9 +15,9 @@
 #define FILE_TRANSFER_REQUEST_BLOCKED_MASK 0x02000030
 
 /* File_ActivateTransfer promotes request slot 1 into slot 0, and
-   SD_ConfigureTransferPhase consumes slot 0. The whole-record copies take its
-   address as bytes at the use. */
-extern FileRequestSlot gFile_ActiveRequestSlot;
+   SD_ConfigureTransferPhase consumes slot 0; File_RequestSecondarySlot
+   stages each request in slot 1. */
+extern FileRequestSlot gFile_ActiveRequestSlot[2];
 /* Range-state wait count, not a frame count; keep the signed completion view. */
 extern u16 gFile_RangeWaitCountdown;
 
@@ -26,7 +26,7 @@ typedef char FileTransfer_default_image_must_fill_sector[
         sizeof(u16) == FILE_SECTOR_SIZE ? 1 : -1
 ];
 
-void File_InitTransferState(s32);
+void File_InitTransferState(u8 *buffer);
 void File_GetPosition(s32 *, const char *);
 void File_SetTransferLocation(
     FileTransferDescriptor *transfer, s32 file_index, s32 sector_offset, s32 size
@@ -316,12 +316,8 @@ extern volatile u16 gFile_ServiceCallGate;
  * Converting the callback use in file_transfer_runtime.c alone, changing
  * nothing else, builds the
  * executable byte for byte. The `u8 []` spelling was not load-bearing, and
- * the one access it guarded -- a whole-record copy written
- * `*(FileTransferDescriptorWords *)gFile_SecondaryTransferDescriptor` --
- * becomes `*(FileTransferDescriptorWords *)&gFile_SecondaryTransferDescriptor`,
- * which is the form that
- * file already used on the line above for the primary descriptor. That copy
- * is File_ActivateTransfer, now in file_transfer_runtime.c. */
+ * the one access it guarded -- a whole-record copy -- is now the plain
+ * structure assignment in File_ActivateTransfer (file_transfer_runtime.c). */
 extern FileTransferDescriptor gFile_SecondaryTransferDescriptor;
 
 /* Set to 1 by File_InitTransferState once its DsInit retry loop succeeds;
