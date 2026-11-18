@@ -1,13 +1,27 @@
 #include "../../types.h"
 
-#include "../model_variant/e577_beams_pal.h"
+#ifdef MODEL_VARIANT444_BEAMS
+#include "../model_variant/e584_entry_pal.h"
+#define BEAMS_STATE Variant444EntryState
+#define BEAMS_FRAME(state) ((state)->clock.frame_count)
+#define BEAMS_STEP(state) ((state)->clock.step)
+#define BEAMS_QUAD(state) (&(state)->textured[0])
+#define BEAMS_PHASE(state) ((state)->tail.phase)
+#else
+#include "../model_variant/e577_entry_pal.h"
+#define BEAMS_STATE EntryState411
+#define BEAMS_FRAME(state) ((state)->frame_count)
+#define BEAMS_STEP(state) ((state)->step)
+#define BEAMS_QUAD(state) (&(state)->packets.textured[0])
+#define BEAMS_PHASE(state) ((state)->phase)
+#endif
 
 /* From phase 4 on, builds sixteen two-point beams in four tilt groups around
  * the spin, grows each point to 0x400, projects each spine and a copy of it
  * moved along the view, and draws each beam as two POLY_GT4 halves fading to
  * black whose depth lies inside the ordering-table range. Header 444 also
  * rejects a zero depth for the first half (MODEL_VARIANT444_BEAMS). */
-void SpanishModelVariant411_DrawBeams(Beam411State *context)
+void SpanishModelVariant411_DrawBeams(BEAMS_STATE *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -16,7 +30,7 @@ void SpanishModelVariant411_DrawBeams(Beam411State *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Beam411State *state;
+    BEAMS_STATE *state;
     ModelVariantSheet *sheet;
     Beam411 *beam;
     POLY_GT4 *quad;
@@ -35,12 +49,12 @@ void SpanishModelVariant411_DrawBeams(Beam411State *context)
     beam = context->beams;
     state = context;
     ot = Graphics_GetDefaultOrderingTable();
-    turn = ratan2(state->direction[2], state->direction[0]) + 0xC00;
-    ratan2(state->direction[1], state->direction[0]);
-    sheet = &state->sheet;
-    quad = &state->quad;
-    if (state->phase >= 4) {
-        for (i = 0, angle = state->spin; i < 16; i++, beam++, angle += 0x400) {
+    turn = ratan2(state->aim.view_delta.vz, state->aim.view_delta.vx) + 0xC00;
+    ratan2(state->aim.view_delta.vy, state->aim.view_delta.vx);
+    sheet = &state->sheets[0];
+    quad = BEAMS_QUAD(state);
+    if (BEAMS_PHASE(state) >= 4) {
+        for (i = 0, angle = state->beam_spin; i < 16; i++, beam++, angle += 0x400) {
             if (i < 4) {
                 tilt = 0x100;
                 if (i == 3) {
@@ -78,7 +92,7 @@ void SpanishModelVariant411_DrawBeams(Beam411State *context)
                 }
             }
         }
-        if (!(state->frame & 1)) {
+        if (!(BEAMS_FRAME(state) & 1)) {
             size = sheet->size;
         } else {
             size = sheet->size - 512;
@@ -86,9 +100,9 @@ void SpanishModelVariant411_DrawBeams(Beam411State *context)
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
-        matrix.t[0] = state->position[0];
-        matrix.t[1] = state->position[1];
-        matrix.t[2] = state->position[2];
+        matrix.t[0] = state->aim.target.vx;
+        matrix.t[1] = state->aim.target.vy;
+        matrix.t[2] = state->aim.target.vz;
         scale.vx = size;
         scale.vy = size;
         scale.vz = size;
@@ -178,5 +192,5 @@ void SpanishModelVariant411_DrawBeams(Beam411State *context)
             beam->age++;
         }
     }
-    state->spin += state->step * 8;
+    state->beam_spin += BEAMS_STEP(state) * 8;
 }

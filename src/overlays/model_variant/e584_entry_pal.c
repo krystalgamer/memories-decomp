@@ -14,11 +14,11 @@ s32 FrenchModelVariant444_HandleRequest(Variant444EntryState *context, s32 comma
     VECTOR squared;
     ModelVariantProjection projection;
     ModelVariantTube *tube = work->tubes;
-    Variant444EntryColorRecord *record = work->records;
+    Beam411 *record = work->beams;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantFunnel *funnel = work->funnels;
     ModelVariantSpokeColorRing *spoke = work->spokes;
-    ModelVariantBeam *beam = work->beams;
+    ModelVariantBeam *beam = work->extras;
     POLY_G3 *triangle = &work->triangle;
     POLY_G4 *quad = &work->quad;
     POLY_GT4 *textured = work->textured;
@@ -140,28 +140,28 @@ s32 FrenchModelVariant444_HandleRequest(Variant444EntryState *context, s32 comma
         }
         for (i = 0; i < 16; i++, record++) {
             if (i % 8 == 0) {
-                r = 128; g = 0; b = 0; record->field_48 = 0;
+                r = 128; g = 0; b = 0; record->age = 0;
             } else if (i % 8 == 1) {
-                r = 128; g = 64; b = 0; record->field_48 = 2;
+                r = 128; g = 64; b = 0; record->age = 2;
             } else if (i % 8 == 2) {
-                r = 128; g = 128; b = 0; record->field_48 = 3;
+                r = 128; g = 128; b = 0; record->age = 3;
             } else if (i % 8 == 3) {
-                r = 0; g = 128; b = 0; record->field_48 = 1;
+                r = 0; g = 128; b = 0; record->age = 1;
             } else if (i % 8 == 4) {
-                r = 0; g = 128; b = 128; record->field_48 = 4;
+                r = 0; g = 128; b = 128; record->age = 4;
             } else if (i % 8 == 5) {
-                r = 0; g = 0; b = 128; record->field_48 = 7;
+                r = 0; g = 0; b = 128; record->age = 7;
             } else if (i % 8 == 6) {
-                r = 128; g = 0; b = 128; record->field_48 = 5;
+                r = 128; g = 0; b = 128; record->age = 5;
             } else {
-                r = 128; g = 0; b = 64; record->field_48 = 6;
+                r = 128; g = 0; b = 64; record->age = 6;
             }
-            record->color_44.r = r;
-            record->color_44.g = g;
-            record->color_44.b = b;
-            record->color_40.r = r + 127;
-            record->color_40.g = g + 127;
-            record->color_40.b = b + 127;
+            record->inner.r = r;
+            record->inner.g = g;
+            record->inner.b = b;
+            record->outer.r = r + 127;
+            record->outer.g = g + 127;
+            record->outer.b = b + 127;
         }
         for (n = 0; n < 2; n++, sheet++) {
             for (k = 0; k < 4; k++) {
@@ -252,7 +252,7 @@ s32 FrenchModelVariant444_HandleRequest(Variant444EntryState *context, s32 comma
         work->spin = 0;
         work->width = 1024;
         work->angle = 0;
-        work->field_1674 = 0;
+        work->beam_spin = 0;
         work->field_1678 = 0;
         work->progress = 0;
         work->field_1658 = 0;

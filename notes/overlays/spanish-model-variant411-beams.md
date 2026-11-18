@@ -21,8 +21,15 @@ each of the first three groups is offset by a further 400. Each point:
   half needs a non-negative depth below 0x800; the second half needs a
   positive depth below 0x800.
 
-The new 0x64-byte `Beam411` records and the fields the helper reads are
-declared in `e577_beams_pal.h`.
+The 0x64-byte `Beam411` records are declared in `e577_beams_pal.h` and type
+the entry's `beams[16]` in both header 411 (`EntryState411`) and header 444
+(`Variant444EntryState`, whose `Variant444EntryColorRecord` named only the
+colours and age of the same records). The helper was first matched through
+a private `Beam411State` view; it now takes the entry state of its build,
+with `BEAMS_FRAME`/`BEAMS_STEP`/`BEAMS_QUAD`/`BEAMS_PHASE` selecting the
+members whose paths differ between the two. The sheet is `sheets[0]`, the
+position and direction are `aim.target` and `aim.view_delta`, and the spin
+at `+0x1674` is `beam_spin` in both entries.
 
 The earlier campaign reached the retail layout with:
 

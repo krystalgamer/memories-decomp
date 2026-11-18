@@ -40,7 +40,7 @@ typedef struct {
     s32 progress;
     s16 field_165C, field_165E;
     CVECTOR inner, outer;
-    s32 spin, width, angle, field_1674, field_1678, phase;
+    s32 spin, width, angle, beam_spin, field_1678, phase;
     u8 unknown_1680[8];
     s32 ambient;
     s16 slot, command;
