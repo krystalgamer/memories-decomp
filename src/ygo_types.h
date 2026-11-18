@@ -620,7 +620,10 @@ typedef void (*NameEntryGlyphUpdate)(u8 *sprite);
 typedef struct {
     u8 pad_00[0x4];
     u32 flags;
-    u8 pad_08[0x3C];
+    u8 pad_08[0x1C];
+    /* DisplayObject update callback and its update_state byte at 0x6C. */
+    void (*update)(struct DisplayObject *);
+    u8 pad_28[0x1C];
     s16 scale_x;
     s16 scale_y;
     /* GsSPRITE mx/my (x low, y high): the renderer copies the word into
@@ -635,10 +638,16 @@ typedef struct {
     u8 textBoxSlot;
     u8 pad_68[0x2];
     u8 sequence;
+    /* DisplayObject kind_arg: the European pulse keeps the sprite when set. */
+    u8 keepAfterPulse;
+    u8 updateState;
 } GlyphSprite;
 
-typedef char GlyphSprite_size_must_be_0x6C[
-    sizeof(GlyphSprite) == 0x6C ? 1 : -1
+typedef char GlyphSprite_size_must_be_0x70[
+    sizeof(GlyphSprite) == 0x70 ? 1 : -1
+];
+typedef char GlyphSprite_update_state_offset_must_be_0x6C[
+    OFFSETOF(GlyphSprite, updateState) == 0x6C ? 1 : -1
 ];
 typedef char GlyphSprite_scale_offset_must_be_0x44[
     OFFSETOF(GlyphSprite, scale_x) == 0x44 ? 1 : -1
@@ -680,51 +689,6 @@ typedef SelectionFrame NameEntrySelectionFrameView;
 
 typedef char SelectionFrame_size_must_be_0x62[
     sizeof(SelectionFrame) == 0x62 ? 1 : -1
-];
-
-/* Known prefixes of the password shop's preview and digit-cursor objects. */
-typedef struct {
-    u8 pad0[0x8];
-    u16 flags;
-    u8 pad0A[0x17];
-    u8 phase;
-    u8 pad22[0x10];
-    u16 y;
-} PasswordCardPreviewView;
-
-typedef struct {
-    u8 pad00[0x8];
-    u16 flags;
-    u8 pad0A[0x0E];
-    s16 target_x;
-    s16 target_y;
-    u8 pad1C[6];
-    u8 phase;
-    u8 pad23[0x0D];
-    s16 x;
-    s16 y;
-    u8 pad34[2];
-    s16 step_x;
-    s16 step_y;
-    u8 pad3A[0x26];
-    s16 timer;
-    u8 pad62[0x7];
-    u8 kind;
-    u8 pad6A[0x2];
-    u8 updateFlags;
-} PasswordCursorView;
-
-typedef char PasswordCursorView_phase_offset_must_be_0x22[
-    OFFSETOF(PasswordCursorView, phase) == 0x22 ? 1 : -1
-];
-typedef char PasswordCursorView_step_x_offset_must_be_0x36[
-    OFFSETOF(PasswordCursorView, step_x) == 0x36 ? 1 : -1
-];
-typedef char PasswordCursorView_timer_offset_must_be_0x60[
-    OFFSETOF(PasswordCursorView, timer) == 0x60 ? 1 : -1
-];
-typedef char PasswordCursorView_update_flags_offset_must_be_0x6C[
-    OFFSETOF(PasswordCursorView, updateFlags) == 0x6C ? 1 : -1
 ];
 
 typedef char SelectionFrame_priority_offset_must_be_0x14[

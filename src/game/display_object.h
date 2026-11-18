@@ -132,6 +132,7 @@ typedef struct DisplayObject {
             u16 x;
             u16 y;
         } target;
+        u32 word;
     } field_18;                    /* 0x18 */
     u16 field_1C;                  /* 0x1C */
     /* The display list the entry was acquired on (the `key` argument of

@@ -15,8 +15,7 @@ extern NameEntryStarterDeckPool
     *gNameEntry_apStarterDeckPools[NAME_ENTRY_STARTER_DECK_POOL_POINTER_COUNT];
 
 /* NameEntry_BuildStarterDeck keeps a u16 cursor after selecting a typed pool:
- * advancing from draw_count to weights as `entry++` is required for the
- * original GCC allocation and instruction count. The cast is an exact-code
- * view of this checked layout, not a second record definition. */
+ * it starts at draw_count and advances to weights with `entry++`, which the
+ * original GCC allocation and instruction count require. */
 
 #endif

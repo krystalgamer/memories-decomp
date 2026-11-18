@@ -202,11 +202,10 @@ so the run stops at `0x8016A930` on the call graph rather than at a gap.
 
 One unit removes all source-boundary ambiguity around
 `gPassword_pDigitCursorWidget`: the cursor helpers, initializer and updater
-now share `PasswordCursorView` in one source.
-While checking that, the paragraph in `shop.h` describing the disagreement
-turned out to contradict the header it sits in - the declaration it says is
-absent was added above it at some point and the paragraph was never updated.
-That is corrected here.
+share it in one source as a plain `DisplayObject *`. Its fields are the
+record's own: the decoration kind is `resource_variant`, the spin byte is
+`field_20.b.rotation_z`, the slide target is `field_18.target` (read signed),
+and the slide timer and flag are `field_60` and `update_state`.
 
 ### Preview recreation and shared interfaces
 
@@ -221,12 +220,11 @@ slot 0. In particular, the initializer's literal `1` does not prove that the
 initial preview is card 1.
 
 [`shop.h`](shop.h) is included by definitions, installers and the resident
-caller. It provides the two entrypoints, the preview contract and a common
-one-argument byte-pointer type for the cursor and decoration callbacks.
-`PasswordCardPreviewView` describes only the control prefix: flags at `+8`,
-phase at `+0x21`, and the raw halfword Y at `+0x32`. It does not describe the
-whole composite allocation or assign a rotation axis. The phase offset is
-`0x21`, not `0x33`; the old `f33` field name used a decimal offset.
+caller. It provides the two entrypoints and the `DisplayObject` cursor and
+decoration callbacks. `gPassword_pCardPreview` is the `DisplayObject` that
+`CardPreview_CreateResourceObjects` returns; the shop touches its flags at
+`+8`, its Y rotation byte `field_20.b.rotation_y` at `+0x21` (the `0x80`
+start is a half turn, stepped by 8 per frame) and its Y at `+0x32`.
 Conditional resident imports live in `c_symbols.ld`; the function definitions
 remain in this overlay, not the resident inventory.
 
@@ -534,12 +532,11 @@ name their fields by role with the hex offset in a comment.
 [`name_entry_frame.h`](name_entry_frame.h) everywhere the two overlap —
 signed x/y at `+0x30/+0x32` and unsigned width at `+0x3C` — and extends it
 with the tween fields at `+0x36/+0x38`, the width bonus at `+0x5E` and the
-timer at `+0x60`. The drawing callback and keyboard now live in the same
-source but retain two named views: `NameEntrySelectionFrameView` is the proven
-drawing prefix, while `SelectionFrame` extends it with the tween fields.
-Keeping both makes each function's evidence explicit without claiming the
-allocation ends at either view. `gNameEntry_pSelectionFrame` remains declared through the
-superset in [`name_entry_state.h`](name_entry_state.h).
+timer at `+0x60`. Those tween fields are the display object's own
+(`field_34.motion`/`field_38.motion`, `resource_uv.b.u`, `field_60`), so
+`gNameEntry_pSelectionFrame` is a `DisplayObject *` and the keyboard reaches it
+through those members; only the drawing callback keeps the
+`NameEntrySelectionFrameView` prefix, for its signed priority read.
 
 ## Glyph-encoding constants and the three meanings of `0xF0`
 

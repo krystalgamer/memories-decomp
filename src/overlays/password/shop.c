@@ -136,78 +136,75 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
     return object;
 }
 
-void Password_UpdateDigitCursor(PasswordCursorView *object)
+void Password_UpdateDigitCursor(DisplayObject *object)
 {
     s16 remaining;
 
-    object->phase += 1;
-    if ((object->updateFlags & 0x40) != 0) {
-        if (DisplayObject_MarkInitialized((DisplayObject *)object) == 0) {
-            DisplayObject_ResetVelocity((DisplayObject *)object);
-            object->step_x =
-                ((object->target_x - object->x) << 8) / object->timer;
-            object->step_y =
-                ((object->target_y - object->y) << 8) / object->timer;
+    object->field_20.b.rotation_z += 1;
+    if ((object->update_state & 0x40) != 0) {
+        if (DisplayObject_MarkInitialized(object) == 0) {
+            DisplayObject_ResetVelocity(object);
+            object->field_34.motion.velocity_x =
+                (((s16)object->field_18.target.x - object->xy.s.x) << 8) / object->field_60;
+            object->field_38.motion.velocity_y =
+                (((s16)object->field_18.target.y - object->xy.s.y) << 8) / object->field_60;
         }
-        DisplayObject_StepPositionXY((DisplayObject *)object);
-        remaining = (u16)object->timer - 1;
-        object->timer = remaining;
+        DisplayObject_StepPositionXY(object);
+        remaining = (u16)object->field_60 - 1;
+        object->field_60 = remaining;
         if (remaining <= 0) {
-            *(s32 *)&object->x = *(s32 *)&object->target_x;
-            object->updateFlags &= 0x3F;
+            object->xy.word = object->field_18.word;
+            object->update_state &= 0x3F;
         }
     }
 }
 
-void Password_UpdateDigitCursorDecoration(DisplayObject *object)
+void Password_UpdateDigitCursorDecoration(DisplayObject *obj)
 {
-    PasswordCursorView *obj = (PasswordCursorView *)object;
-
-    switch (obj->kind) {
+    switch (obj->resource_variant) {
     case 0:
         obj->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         if (gPassword_nDigitIndex >= 7) {
             obj->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        obj->x = 0x129;
-        obj->y = 0x68;
+        obj->xy.s.x = 0x129;
+        obj->xy.s.y = 0x68;
         break;
     case 1:
-        obj->x = gPassword_pDigitCursorWidget->x + 5;
-        obj->y = 0x78;
+        obj->xy.s.x = gPassword_pDigitCursorWidget->xy.s.x + 5;
+        obj->xy.s.y = 0x78;
         break;
     case 2:
         obj->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
         if (gPassword_nDigitIndex <= 0) {
             obj->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
         }
-        obj->x = 0xA9;
-        obj->y = 0x68;
+        obj->xy.s.x = 0xA9;
+        obj->xy.s.y = 0x68;
         break;
     case 3:
-        obj->x = gPassword_pDigitCursorWidget->x + 5;
-        obj->y = 0x58;
+        obj->xy.s.x = gPassword_pDigitCursorWidget->xy.s.x + 5;
+        obj->xy.s.y = 0x58;
         break;
     }
 }
 
-void Password_SetDigitCursorTarget(u8 *a)
+void Password_SetDigitCursorTarget(DisplayObject *obj)
 {
-    PasswordCursorView *obj = (PasswordCursorView *)a;
     s32 value = gPassword_nDigitIndex;
 
-    obj->target_y = 0x63;
-    obj->target_x = value * 16 + 0xA3;
+    obj->field_18.target.y = 0x63;
+    obj->field_18.target.x = value * 16 + 0xA3;
 }
 
 void Password_RecreateCardPreview(s32 ignored)
 {
-    PasswordCardPreviewView *obj;
+    DisplayObject *obj;
 
     DuelEffect_ReleaseResourceObjects(0);
-    obj = (PasswordCardPreviewView *)CardPreview_CreateResourceObjects(0, -1, -1);
-    obj->y = PASSWORD_PREVIEW_Y;
-    obj->phase = 0x80;
+    obj = CardPreview_CreateResourceObjects(0, -1, -1);
+    obj->xy.h.y = PASSWORD_PREVIEW_Y;
+    obj->field_20.b.rotation_y = 0x80;
     obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
     gPassword_pCardPreview = obj;
 }
@@ -260,15 +257,15 @@ void Password_InitShopScreen(void)
     o->attribute |= (GsALON | GsAONE);
     DisplayObject_SelectOrderingTable1(o);
     DisplayObject_SetDepthOffset(o, 10);
-    o->update = (DisplayObjectCallback)Password_UpdateDigitCursor;
-    Password_SetDigitCursorTarget((u8 *)o);
+    o->update = Password_UpdateDigitCursor;
+    Password_SetDigitCursorTarget(o);
     hook = Password_UpdateDigitCursorDecoration;
     slot = gPassword_apDigitCursorDecorations;
     /* A non-struct store, through the union's address: as o->xy.word
        GCC lets the gPassword_pDigitCursorWidget store pass it, and the
        target copies the position first. */
-    *(u32 *)&o->xy = *(u32 *)&o->field_18.target.x;
-    gPassword_pDigitCursorWidget = (PasswordCursorView *)o;
+    *(u32 *)&o->xy = o->field_18.word;
+    gPassword_pDigitCursorWidget = o;
     i = 0;
     do {
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -314,8 +311,8 @@ s32 Password_LookupCardID(void)
 
 void Password_UpdateShopScreen(void)
 {
-    PasswordCursorView *cursor;
-    PasswordCardPreviewView *widget;
+    DisplayObject *cursor;
+    DisplayObject *widget;
     s32 index;
     s32 state;
     SaveDataWorkspace *pool;
@@ -328,9 +325,10 @@ void Password_UpdateShopScreen(void)
     u16 card;
 
     TextBox_UpdateChannels();
-    if ((gPassword_pDigitCursorWidget->updateFlags & 0x40) != 0) {
+    if ((gPassword_pDigitCursorWidget->update_state & 0x40) != 0) {
         return;
     }
+    /* One word load covers flags_34 and initial_string_id. */
     if ((*(u32 *)&gText_aChannels[0].flags_34 & PASSWORD_TEXT_BOX_COMPLETION_MASK) !=
         TEXT_BOX_FLAG_DONE) {
         return;
@@ -356,9 +354,9 @@ void Password_UpdateShopScreen(void)
             }
             SD_SEPlayFull(47);
             cursor = gPassword_pDigitCursorWidget;
-            Password_SetDigitCursorTarget((u8 *)cursor);
-            cursor->timer = 8;
-            cursor->updateFlags |= 0x40;
+            Password_SetDigitCursorTarget(cursor);
+            cursor->field_60 = 8;
+            cursor->update_state |= 0x40;
             return;
         }
         if ((gInput_awPadRepeat[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
@@ -413,8 +411,9 @@ void Password_UpdateShopScreen(void)
             Password_RecreateCardPreview(gPassword_wCardId);
             return;
         }
-        gPassword_pCardPreview->phase = gPassword_pCardPreview->phase + 8;
-        if (gPassword_pCardPreview->phase == 0) {
+        gPassword_pCardPreview->field_20.b.rotation_y =
+            gPassword_pCardPreview->field_20.b.rotation_y + 8;
+        if (gPassword_pCardPreview->field_20.b.rotation_y == 0) {
             gPassword_pCardPreview->flags &= ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             SD_SEPlayFull(12);
             gPassword_wShopState = 2;
@@ -426,6 +425,8 @@ void Password_UpdateShopScreen(void)
         flags2 = gPassword_wShopState;
         if ((flags2 & 0x8000) == 0) {
             gPassword_wShopState = flags2 | 0x8000;
+            /* The shared staging buffer is raw bytes; this screen loads the
+               price table into it. */
             gText_StagedValues[0].pair.lo = ((PasswordShopCard *)gFile_StagingBuffer)[gPassword_wCardId].price;
             gText_StagedValues[0].pair.hi = gPassword_wCardId;
             if (Campaign_TestStoryFlag(
@@ -492,8 +493,8 @@ void Password_UpdateShopScreen(void)
             gPassword_pCardPreview->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         }
         widget = gPassword_pCardPreview;
-        widget->phase = widget->phase + 8;
-        if ((s8)gPassword_pCardPreview->phase < 0) {
+        widget->field_20.b.rotation_y = widget->field_20.b.rotation_y + 8;
+        if ((s8)gPassword_pCardPreview->field_20.b.rotation_y < 0) {
             Password_CreateMessageBox(226, 0);
             gPassword_wShopState = 0;
         }

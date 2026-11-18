@@ -11,8 +11,9 @@ and retains these same layout contracts.
 
 `NameEntry_Init` allocates one object, writes its position and extents,
 installs `NameEntry_DrawSelectionFrame` at `+0x4C`, and publishes the same
-pointer as `gNameEntry_pSelectionFrame`. The drawing callback receives that object, while
-`NameEntry_UpdateKeyboard` moves and resizes it through `gNameEntry_pSelectionFrame`.
+pointer as `gNameEntry_pSelectionFrame` (a `DisplayObject *`). The drawing callback receives that object, while
+`NameEntry_UpdateKeyboard` moves and resizes it through `gNameEntry_pSelectionFrame`'s
+display-object members.
 `NameEntry_SpawnGlyphSprite` also reads its position for the cursor case.
 
 The former drawing and tween views agree where they overlap:
@@ -63,7 +64,8 @@ positioned through the interpolation helpers. Its `field_60` (the view's `slide`
 signed remaining travel, not the selection frame's eight-update timer.
 Its `update_state` at `+0x6C` (the view's `status`) is also used when the dialog controller
 finds a completed transfer sprite by tag. Its size (`0x6E`) and the glyph
-view's size (`0x6C`) describe their observed prefixes only.
+view's size (`0x70`, through its `update_state` byte at `+0x6C`) describe
+their observed prefixes only.
 
 `NameEntryGlyphUpdate` keeps the existing one-argument `u8 *` callback
 contract. It moves to the central type file without changing the callback
