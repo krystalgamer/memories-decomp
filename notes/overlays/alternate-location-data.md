@@ -19,7 +19,7 @@ nor its existing `-O0` profile changes.
 | File range | Runtime range | Owner |
 |---|---|---|
 | `0x1E54-0x2274` | `0x80169E54-0x8016A274` | Sixteen C records, `16 * 66 = 1056 = 0x420` bytes |
-| `0x2274-0x22C8` | `0x8016A274-0x8016A2C8` | C-owned alternate controller state |
+| `0x2274-0x22C8` | `0x8016A274-0x8016A2C8` | C-owned alternate controller state (North America and Japan; PAL keeps its reordered zero state raw) |
 | `0x22C8-0x3000` | `0x8016A2C8-0x8016B000` | Remaining generated data blob |
 
 The state prefix is one packed `0x54`-byte record. It includes the two
