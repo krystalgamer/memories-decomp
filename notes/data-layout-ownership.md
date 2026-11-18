@@ -524,7 +524,7 @@ The initial scales that follow are defined the same way by `effect_10.c`,
 `row_attack_effects.c` (row strike, then back-row sweep), `effect_2.c`,
 `effect_19.c`, `contour_burst_effects.c` (particle contour burst, then
 contour burst), `effect_6.c`, `effect_1.c`, `life_point_effects.c`
-(recovery, reflected direct damage, inverted recovery) and `effect_4.c`, in
+(recovery, then reflected direct damage), `effect_9.c` and `effect_4.c`, in
 that text order: North America `+0x180..+0x2A0`, PAL `+0x138..+0x258`, Japan
 `+0x138..+0x158` and, after the strings, `+0x1B0..+0x2B0`. No raw read-only
 data remains in the header in any region.
@@ -581,7 +581,23 @@ bytes, `+0x15144`) and `gDuelEffect_ContourBurstConfigs` (thirty
 `gDuelEffect_DirectDamageConfigs` (six `DuelEffect6Config`, 0xB4 bytes,
 `+0x153D8`). In Japan and PAL that run reaches `effect_drawing.c`'s `.data`
 (Japan `+0x1544C`, PAL `+0x153C0`), so their first raw `data` subsegment is
-gone; North America's resumes at `+0x1548C`.
+gone. `effect_1.c`'s `gDuelEffect_FusionConfigs` (two `DuelEffect1Config`,
+0x30 bytes) follows in every region: North America `+0x1548C`, Japan
+`+0x154AC`, PAL `+0x15420`. `life_point_effects.c` follows with
+`gDuelEffect_LifePointRecoveryConfigs` (ten `DuelEffect5Config`, 0x168
+bytes, North America `+0x154BC`, Japan `+0x154DC`, PAL `+0x15450`) and
+`gDuelEffect_ReflectedDirectDamageConfigs` (five `DuelEffect7Config`, 0x96
+bytes). The two-byte fill after it is zero in French, German, Italian and
+Spanish (`pad`) and stray in North America, Japan and English PAL (raw
+`bin`); that stray fill is why effect 9 is its own object, `effect_9.c`,
+again. `effect_9.c` defines `gDuelEffect_InvertedLifePointRecoveryConfigs`
+(five `DuelEffect9Config`, 0xB4 bytes) after the fill: North America
+`+0x156BC`, Japan `+0x156DC`, PAL `+0x15650`, and `effect_4.c` defines
+`gDuelEffect_CardFlashBurstConfigs` (two `DuelEffect4Config`, 0x38 bytes)
+after it: North America `+0x15770`, Japan `+0x15790`, PAL `+0x15704`. In
+North America that run ends at `effect_17.c`'s `.data` (`+0x157A8`); in
+Japan and PAL the raw `data` resumes after it (Japan `+0x157C8`, PAL
+`+0x1573C`) with the bank's zero-initialized state.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in

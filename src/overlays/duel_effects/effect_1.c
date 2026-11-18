@@ -12,6 +12,11 @@
 
 const VECTOR gDuelEffect_FusionInitialScale = { ONE, ONE, ONE, 0 };
 
+DuelEffect1Config gDuelEffect_FusionConfigs[2] = {
+    { { 192, 160, 255, 0 }, 16, 16, 32, 16, 32, { 1, 2 }, 48, 32, 80 },
+    { { 255, 160, 255, 0 }, 16, 16, 32, 16, 32, { 1, 2 }, 48, 32, 80 },
+};
+
 void DuelEffect_RunFusion(void *buffer, s32 phase)
 {
     MATRIX world;

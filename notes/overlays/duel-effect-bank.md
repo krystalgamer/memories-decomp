@@ -1165,10 +1165,14 @@ the same addresses and the same `gcc_2_8_1_g0_split` profile.
 Five runs of contiguous `gcc_2_8_1_g0_split` units are now one source each,
 in every duel-effect image (#39):
 
-- `life_point_effects.c`: effects 5, 7 and 9 (life-point recovery, reflected
-  direct damage and inverted life-point recovery), formerly `effect_5.c`,
-  `effect_7.c` and `effect_9.c`. The PAL images build it with a
-  `VERSION_EUROPE` entry define.
+- `life_point_effects.c`: effects 5 and 7 (life-point recovery and reflected
+  direct damage), formerly `effect_5.c` and `effect_7.c`. The PAL images
+  build it with a `VERSION_EUROPE` entry define. Effect 9 (inverted
+  life-point recovery) was grouped with them too, but `effect_9.c` is its own
+  object again (#2602): the two bytes between the reflected direct-damage
+  and inverted-recovery tables in `.data` hold stray bytes in North America,
+  Japan and English PAL, which only a gap between two objects can, since the
+  assembler zero-fills alignment inside one.
 - `row_attack_effects.c`: effects 16 and 23 (row strike and back-row sweep),
   formerly `effect_16.c` and `effect_23.c`.
 - `contour_burst_effects.c`: effects 18 and 0 (particle and plain contour

@@ -37,7 +37,8 @@ This role follows the resident caller and complete update body, not a
 runtime capture or an artwork identification. Preserve the distinct
 number gravity/bounces/fade, matrix copy and scaling order, all five
 configurations, regional constants, original native declarations, SDK
-layouts, generated owners and higher-phase cross fallback. The original
+layouts and higher-phase cross fallback. `life_point_effects.c` defines the
+table as non-`const` `.data` after effect 5's (#2602). The original
 effect-6/effect-7 sources remain separate complete translation units.
 
 ## Layout and behavior

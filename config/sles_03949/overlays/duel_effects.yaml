@@ -63,6 +63,7 @@ segments:
       - [0x1F8, .rodata, overlays/duel_effects/effect_6]
       - [0x208, .rodata, overlays/duel_effects/effect_1]
       - [0x218, .rodata, overlays/duel_effects/life_point_effects]
+      - [0x238, .rodata, overlays/duel_effects/effect_9]
       - [0x248, .rodata, overlays/duel_effects/effect_4]
 
   - name: module
@@ -102,6 +103,7 @@ segments:
       - [0xFBC0, c, overlays/duel_effects/effect_drawing]
       - [0x11794, c, overlays/duel_effects/effect_1]
       - [0x11E10, c, overlays/duel_effects/life_point_effects]
+      - [0x133A8, c, overlays/duel_effects/effect_9]
       - [0x13AAC, c, overlays/duel_effects/effect_4]
       - [0x141E4, .data, overlays/duel_effects/dispatch]
       - [0x144E4, .data, overlays/duel_effects/effect_11]
@@ -121,6 +123,11 @@ segments:
       - [0x15078, .data, overlays/duel_effects/contour_burst_effects]
       - [0x1530C, .data, overlays/duel_effects/effect_6]
       - [0x153C0, .data, overlays/duel_effects/effect_drawing]
-      - [0x15420, data, overlays/german_duel_effects/data_15420]
+      - [0x15420, .data, overlays/duel_effects/effect_1]
+      - [0x15450, .data, overlays/duel_effects/life_point_effects]
+      - [0x1564E, pad]
+      - [0x15650, .data, overlays/duel_effects/effect_9]
+      - [0x15704, .data, overlays/duel_effects/effect_4]
+      - [0x1573C, data, overlays/german_duel_effects/data_1573C]
 
   - [0x16000]

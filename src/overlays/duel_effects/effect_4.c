@@ -12,6 +12,11 @@
 
 const VECTOR gDuelEffect_CardFlashBurstInitialScale = { ONE, ONE, ONE, 0 };
 
+DuelEffect4Config gDuelEffect_CardFlashBurstConfigs[2] = {
+    { { 192, 192, 255, 0 }, 10, { 74, 80, 84 }, { 1, 3 }, 24, 64, 32, 5, 12, 48 },
+    { { 255, 192, 255, 0 }, 10, { 74, 80, 84 }, { 1, 3 }, 24, 64, 32, 6, 12, 48 },
+};
+
 void DuelEffect_RunCardFlashBurst(void *buffer, s32 phase)
 {
     MATRIX world;
