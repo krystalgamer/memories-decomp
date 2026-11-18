@@ -44,23 +44,17 @@ segments:
     vram: 0x80154000
     align: 4
     subsegments:
-      - [0x0, data, overlays/japanese_duel_effects/header]
-
-  - name: effect_22_jump_table
-    type: code
-    start: 0x54
-    vram: 0x80154054
-    align: 4
-    subsegments:
-      - [0x54, .rodata, overlays/duel_effects/effect_22]
-
-  - name: header_after_effect_22
-    type: code
-    start: 0x138
-    vram: 0x80154138
-    align: 4
-    subsegments:
-      - [0x138, data, overlays/japanese_duel_effects/header_after_effect_22]
+      - [0x0, rodata, overlays/japanese_duel_effects/header]
+      - [0x4, .rodata, overlays/duel_effects/effect_11]
+      - [0x14, .rodata, overlays/duel_effects/effect_8]
+      - [0x24, .rodata, overlays/duel_effects/gather_effect]
+      - [0x34, .rodata, overlays/duel_effects/effect_17]
+      - [0x44, .rodata, overlays/duel_effects/effect_22]
+      - [0x138, rodata, overlays/japanese_duel_effects/header_after_effect_22]
+      - [0x158, .rodata, overlays/duel_effects/cross_lines]
+      # Linker fill between objects, not data.
+      - {start: 0x1AE, type: bin, name: overlays/japanese_duel_effects/header_1ae, linker_section_order: .rodata}
+      - [0x1B0, rodata, overlays/japanese_duel_effects/header_after_cross_lines]
 
   - name: module
     type: code

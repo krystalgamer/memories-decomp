@@ -5,6 +5,12 @@
 #include "render_state_semantic_views.h"
 #include "fallback_semantic_views.h"
 
+#ifndef VERSION_EUROPE
+const char gDuelEffect_ErrorMessage[] = "Error:In Effect ...\n";
+const char gDuelEffect_InvalidVariantMessage[] =
+    "Invalid ID. Expected ID is more small. Exit Effect Sequence.\n";
+#endif
+
 void DuelEffect_DrawErrorCross(s32 mode)
 {
     GsLINE line;

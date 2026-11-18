@@ -510,6 +510,16 @@ writes them in reverse order of first use, identical strings merged, as the
 retail images store them. Japan defines only the one palette rectangle it
 reads; the four zero bytes after it are the jump table's 8-byte alignment.
 
+The duel-effect bank's leading read-only data follows its text order too:
+`effect_11.c`, `cross_lines.c` (its two NTSC log strings), `effect_8.c`,
+`gather_effect.c` and `effect_22.c` define their `const VECTOR` initial scales
+or strings ahead of `effect_22.c`'s jump table. Japan and PAL link
+`effect_17.c` between `gather_effect.c` and `effect_22.c`, so its vector sits
+there, while North America links it last and its vector ends the block at
+`+0x2A0`; Japan's strings come after `effect_24.c`'s data at `+0x158`. The
+header layouts are one segment so each unit's `.rodata` keeps that order; the
+fill after the strings is a `bin` subsegment linked as `.rodata`.
+
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in
 others (Japan, the English PAL images, and USA's word after the pointer list).

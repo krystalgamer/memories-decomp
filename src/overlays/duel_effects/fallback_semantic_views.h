@@ -6,7 +6,9 @@
 extern void DuelEffect_DrawErrorCross(s32 mode);
 /* Error texts DuelEffect_DrawErrorCross prints in the NTSC banks; the PAL
  * banks have none. */
-extern char gDuelEffect_ErrorMessage[];
-extern char gDuelEffect_InvalidVariantMessage[];
+#ifndef VERSION_EUROPE
+extern const char gDuelEffect_ErrorMessage[];
+extern const char gDuelEffect_InvalidVariantMessage[];
+#endif
 
 #endif

@@ -14,6 +14,8 @@
 #include "fallback_semantic_views.h"
 #include "../../game/duel_effect_object_pool.h"
 
+const VECTOR gDuelEffect_RitualInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunRitual(void *buffer, s32 phase)
 {
     MATRIX world;

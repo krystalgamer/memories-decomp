@@ -44,23 +44,13 @@ segments:
     vram: 0x80146000
     align: 4
     subsegments:
-      - [0x0, data, overlays/spanish_duel_effects/header]
-
-  - name: effect_22_table
-    type: code
-    start: 0x54
-    vram: 0x80146054
-    align: 4
-    subsegments:
-      - [0x54, .rodata, overlays/duel_effects/effect_22]
-
-  - name: header_after_effect_22_table
-    type: code
-    start: 0x138
-    vram: 0x80146138
-    align: 4
-    subsegments:
-      - [0x138, data, overlays/spanish_duel_effects/header_after_effect_22_table]
+      - [0x0, rodata, overlays/spanish_duel_effects/header]
+      - [0x4, .rodata, overlays/duel_effects/effect_11]
+      - [0x14, .rodata, overlays/duel_effects/effect_8]
+      - [0x24, .rodata, overlays/duel_effects/gather_effect]
+      - [0x34, .rodata, overlays/duel_effects/effect_17]
+      - [0x44, .rodata, overlays/duel_effects/effect_22]
+      - [0x138, rodata, overlays/spanish_duel_effects/header_after_effect_22_table]
 
   - name: module
     type: code

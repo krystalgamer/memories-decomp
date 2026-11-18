@@ -9,7 +9,7 @@ extern void DuelEffect_RunRowStrike(void *work, s32 phase);
 
 extern DuelEffect11Config gDuelEffect_CardBreakupConfig;
 extern DuelEffect16Config gDuelEffect_RowStrikeConfig;
-extern VECTOR gDuelEffect_CardBreakupInitialScale;
+extern const VECTOR gDuelEffect_CardBreakupInitialScale;
 extern VECTOR gDuelEffect_RowStrikeInitialScale;
 
 #endif

@@ -1019,11 +1019,12 @@ Do not narrow it to a boolean or test the full word instead.
 existing NTSC-only `gNorthAmerican_D_80146014` and
 `gNorthAmerican_D_8014602C` objects. Their NA addresses are `80146014` and
 `8014602C`; JP addresses are `80154158` and `80154170`.
-Keep unsized `char[]` declarations and every original data byte, including
-the 24-byte and 64-byte generated storage spans, embedded terminator and
-trailing bytes. No copied/repacked literals, new C allocation, const change
-or PAL string provider is introduced. The PAL `#ifndef VERSION_EUROPE`
-boundary still removes both logging calls completely, not just their output.
+`cross_lines.c` now defines both as `const char[]` (#2602): they are its
+`.rodata`, between `effect_11.c`'s and `effect_8.c`'s in North America and
+after `effect_24.c`'s raw rodata in Japan. The two bytes after them (NA
+`8014606A`, JP `801541AE`) are linker fill, kept raw. The PAL
+`#ifndef VERSION_EUROPE` boundary removes both strings and both logging
+calls completely, not just their output.
 
 The extern-only semantic header binds the existing native function and data
 labels without replacing private declarations. All 20 complete changed C
