@@ -5,7 +5,8 @@ The resident model renderers between 0x800612C0 and 0x8006AF74 were written
 by hand: they have no stack frame, keep caller registers in scratch words of
 their argument block and issue GTE commands without the Psy-Q nop padding.
 Their C uses the macros in src/game/handwritten_asm.h for exactly those
-operations and nothing else. Only profiles with "handwritten_asm_macros" may do so, and only
+operations, plus the Psy-Q inline_c.h vertex loads gte_ldv0/1/2, and nothing
+else. Only profiles with "handwritten_asm_macros" may do so, and only
 for functions in that address range.
 
 After preprocessing, every asm statement must consist solely of allowlisted

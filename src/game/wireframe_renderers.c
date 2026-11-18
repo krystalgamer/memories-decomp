@@ -9,6 +9,7 @@
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
+#include "../psyq/inline_c.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
@@ -81,15 +82,15 @@ u32 *Model_DrawFt3Wireframes(GsARGUNIT_NORMAL *arg)
                 v = w0 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 << 16;
                 v >>= 13;
                 v += verts;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w1 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 pkt[1] = gHw_DrawModeTemplate;
                 pkt[7] = gHw_LineTerminator;
                 HW_GTE_RTPT_FLAG(flag);
@@ -175,15 +176,15 @@ u32 *Model_DrawGt3Wireframes(GsARGUNIT_NORMAL *arg)
                 v = w0 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 pkt[1] = gHw_DrawModeTemplate;
                 pkt[7] = gHw_LineTerminator;
                 HW_GTE_RTPT_FLAG(flag);
@@ -269,15 +270,15 @@ u32 *Model_DrawFt4Wireframes(GsARGUNIT_NORMAL *arg)
                 v = w0 << 16;
                 v >>= 13;
                 v += verts;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w0 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w1 << 16;
                 v >>= 13;
                 v += verts;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 v3 = w1 >> 16;
                 v3 <<= 3;
                 HW_GTE_RTPT();
@@ -285,7 +286,7 @@ u32 *Model_DrawFt4Wireframes(GsARGUNIT_NORMAL *arg)
                 v = v3 + verts;
                 pkt[1] = gHw_DrawModeTemplate;
                 if (flag >= 0) {
-                    HW_GTE_LOAD_V0(v);
+                    gte_ldv0(v);
                     HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
                     pkt[6] = gHw_LineTerminator;
                     pkt[11] = gHw_LineTerminator;
@@ -377,15 +378,15 @@ u32 *Model_DrawGt4Wireframes(GsARGUNIT_NORMAL *arg)
                 v = w0 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 v3 = w3 >> 16;
                 v3 <<= 3;
                 HW_GTE_RTPT();
@@ -393,7 +394,7 @@ u32 *Model_DrawGt4Wireframes(GsARGUNIT_NORMAL *arg)
                 v = v3 + verts;
                 pkt[1] = gHw_DrawModeTemplate;
                 if (flag >= 0) {
-                    HW_GTE_LOAD_V0(v);
+                    gte_ldv0(v);
                     HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
                     pkt[6] = gHw_LineTerminator;
                     pkt[11] = gHw_LineTerminator;
@@ -482,15 +483,15 @@ u32 *Model_DrawFt3WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                 v = w0 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 << 16;
                 v >>= 13;
                 v += verts;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w1 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 pkt[1] = gHw_DrawModeTemplate;
                 pkt[7] = gHw_LineTerminator;
                 HW_GTE_RTPT_FLAG(flag);
@@ -576,15 +577,15 @@ u32 *Model_DrawGt3WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                 v = w0 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 pkt[1] = gHw_DrawModeTemplate;
                 pkt[7] = gHw_LineTerminator;
                 HW_GTE_RTPT_FLAG(flag);
@@ -670,15 +671,15 @@ u32 *Model_DrawFt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                 v = w0 << 16;
                 v >>= 13;
                 v += verts;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w0 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w1 << 16;
                 v >>= 13;
                 v += verts;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 v3 = w1 >> 16;
                 v3 <<= 3;
                 HW_GTE_RTPT();
@@ -686,7 +687,7 @@ u32 *Model_DrawFt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                 v = v3 + verts;
                 pkt[1] = gHw_DrawModeTemplate;
                 if (flag >= 0) {
-                    HW_GTE_LOAD_V0(v);
+                    gte_ldv0(v);
                     HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
                     pkt[6] = gHw_LineTerminator;
                     pkt[11] = gHw_LineTerminator;
@@ -778,15 +779,15 @@ u32 *Model_DrawGt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                 v = w0 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V0(v);
+                gte_ldv0(v);
                 v = w1 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V1(v);
+                gte_ldv1(v);
                 v = w2 >> 16;
                 v <<= 3;
                 v += verts;
-                HW_GTE_LOAD_V2(v);
+                gte_ldv2(v);
                 v3 = w3 >> 16;
                 v3 <<= 3;
                 HW_GTE_RTPT();
@@ -794,7 +795,7 @@ u32 *Model_DrawGt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
                 v = v3 + verts;
                 pkt[1] = gHw_DrawModeTemplate;
                 if (flag >= 0) {
-                    HW_GTE_LOAD_V0(v);
+                    gte_ldv0(v);
                     HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
                     pkt[6] = gHw_LineTerminator;
                     pkt[11] = gHw_LineTerminator;
