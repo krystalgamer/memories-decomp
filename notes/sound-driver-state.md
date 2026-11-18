@@ -1886,8 +1886,9 @@ added. Cloud and witness suites remain for ordinary PR validation.
 
 ### Secondary work-area initialization and scheduling local views
 
-SD_InitSecondaryWorkArea names its original s32 pointer work_area_cursor
-and u32 counter cleared_word_count. The pointer is installed globally
+SD_InitSecondaryWorkArea takes the raw area as void *work_area and walks
+it through a local s32 *work_area_cursor with u32 counter
+cleared_word_count. The pointer is installed globally
 BEFORE its first store, then the original do/while clears exactly 530
 words (0x848 bytes) while advancing that SAME pointer. The global retains
 the initial address. SpuInit, SD_ResetSecondaryPlaybackThunk and
@@ -1942,7 +1943,7 @@ both -1 markers and returns; only the later freshly loaded pointer
 publishes the leading halfword. No full-word success test, new open
 attempt, inferred caller or merged pointer lifetime.
 
-SD_SetMusicTrackBuffer names its u16* track_buffer argument.
+SD_SetMusicTrackBuffer names its SDMusicPackage *track_buffer argument.
 SD_ResetMusicTrackBuffer names default_track_buffer. Both still reset
 music state first, preserve the fixed fallback and 0xFFFF sentinel,
 and keep all global accesses. The reset retains its measured void**
