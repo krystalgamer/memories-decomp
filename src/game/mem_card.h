@@ -451,15 +451,17 @@ extern void SaveData_RequestOptionsWrite(void);
  * Contraction and open create a spotlight mask and decrease its radii.
  * Close moves/releases the box sprite and expands/releases that mask.
  * The objects live in the root's box_object/spotlight_object and the text
- * channel is root->text_index. Japan retains the 0x60-byte channel stride. */
-void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root);
-void Dialog_UpdateCloseTransition(MemCardWorkRoot *root);
-void Dialog_UpdateOpenTransition(MemCardWorkRoot *root);
+ * channel is root->text_index. Japan retains the 0x60-byte channel stride.
+ * The table's caller passes the root and its slot; every step ignores the
+ * slot. */
+void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root, MemCardWorkSlot *slot);
+void Dialog_UpdateCloseTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot);
+void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot);
 
 /* Message-only variant: create the sprite and channel, advance the slide
  * by 0x20 in the same call, then pump text after reaching the endpoint.
  * Completion clears the shared gDialog_bCallbackState byte, not the record or objects. */
-void Dialog_UpdateMessageTransition(MemCardWorkRoot *root);
+void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot);
 
 /* Opens a text-box channel for a dialog: clears the choice selection, builds
  * the box through TextBox_Create at the regional dialog rectangle, and hands

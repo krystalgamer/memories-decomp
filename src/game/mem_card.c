@@ -476,7 +476,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
 #define DIALOG_TRANSITION_CHANNEL_FLAG 4
 #endif
 
-void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root)
+void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root, MemCardWorkSlot *slot)
 {
     DisplayObject *object;
     s32 flags;
@@ -511,7 +511,7 @@ void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root)
     }
 }
 
-void Dialog_UpdateCloseTransition(MemCardWorkRoot *root)
+void Dialog_UpdateCloseTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
 {
     DisplayObject *object;
     DuelEffectChannel *entry;
@@ -558,7 +558,7 @@ void Dialog_UpdateCloseTransition(MemCardWorkRoot *root)
         gDialog_bCallbackState = 0;
 }
 
-void Dialog_UpdateOpenTransition(MemCardWorkRoot *root)
+void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
 {
     DisplayObject *p;
     DuelEffectChannel *r;
@@ -651,7 +651,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root)
 #define DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG 4
 #endif
 
-void Dialog_UpdateMessageTransition(MemCardWorkRoot *root)
+void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
 {
     DisplayObject *e;
     DuelEffectChannel *q;

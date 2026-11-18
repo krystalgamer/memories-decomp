@@ -88,8 +88,8 @@ suites are not executed locally.
 
 ## Effect identity and child-variant countdown
 
-The shared signed byte at +0x30 is effect_id in MenuRecord and the wider
-DisplayEffectVramState view. Script_OpShowMenu stores its first operand;
+The shared signed byte at +0x30 is effect_id in MenuRecord, the type
+resource acquisition also takes. Script_OpShowMenu stores its first operand;
 Text_HandleDisplayEffectCommand compares and stores the same identifier
 while selecting the existing ordinary or portrait slots. Portrait setup
 subtracts CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID from it. Resource
@@ -106,8 +106,8 @@ cache sentinels, portrait threshold arithmetic and all partial reset,
 release and stale-state behavior remain. DisplayObject's unrelated
 field_30 union and other owners are not renamed.
 
-The shared u16 at +0x3E is variant_countdown in MenuRecord and
-DisplayEffectVramState. Reset seeds it with the
+The shared u16 at +0x3E is variant_countdown in MenuRecord.
+Reset seeds it with the
 same rand() mask/base expression. DisplayEffect_UpdateMenuRecord only
 works this countdown when grid[0][1] exists, after the existing flag-0x10
 early return. Its active-variant branch waits for that object's field_5A
