@@ -625,7 +625,7 @@ void DebugMenu_UpdateCampaignEntry(void)
             return;
         }
         selection = gDebug_nSceneOrSoundID;
-        gMain_bActiveModeState = 2;
+        gMain_bActiveModeState = MAIN_MODE_CAMPAIGN;
         gDebugMenu_wCampaignScene = selection;
         gCampaignSceneIndex = selection;
     }
@@ -651,7 +651,7 @@ void DebugMenu_UpdateMapEntry(void)
             gDebugMenu_bStep = 0;
         } else {
             gCampaignMap_bEntryLocation = 0;
-            gMain_bActiveModeState = 5;
+            gMain_bActiveModeState = MAIN_MODE_CAMPAIGN_MAP;
             gDebugMenu_bLastMapId = (u8)gDebug_nSceneOrSoundID;
         }
     }
@@ -673,7 +673,7 @@ void DebugMenu_UpdateTitleEntry(void)
             gDebugMenu_bStep = 0;
         } else {
             D_8009B268 = 1;
-            gMain_bActiveModeState = 8;
+            gMain_bActiveModeState = MAIN_MODE_MENU;
             gMain_bRequestedMenuID = (u8)gDebug_nSceneOrSoundID;
         }
     }
@@ -753,7 +753,7 @@ void DebugMenu_UpdateTradeEntry(void)
         if (result == 1) {
             File_RequestMainMenuPackage();
             File_WaitForTransfers();
-            gMain_bActiveModeState = 14;
+            gMain_bActiveModeState = MAIN_MODE_TRADE;
         }
         gDebugMenu_bStep = 0;
     }
@@ -801,8 +801,8 @@ void DebugMenu_Exit(void)
    gMain_bReturnMode to 15, MAIN_MODE_CREDITS. */
 void DebugMenu_EnterCredits(void)
 {
-    gMain_bActiveModeState = 15;
-    gMain_bReturnMode = 15;
+    gMain_bActiveModeState = MAIN_MODE_CREDITS;
+    gMain_bReturnMode = MAIN_MODE_CREDITS;
 }
 #endif
 
@@ -821,7 +821,7 @@ void DebugMenu_UpdateTwoPlayerDuelEntry(void)
         if (result == 1) {
             File_RequestMainMenuPackage();
             File_WaitForTransfers();
-            gMain_bActiveModeState = 0x10;
+            gMain_bActiveModeState = MAIN_MODE_TWO_PLAYER_DUEL_SETUP;
         }
         gDebugMenu_bStep = 0;
     }

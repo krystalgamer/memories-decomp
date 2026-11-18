@@ -140,7 +140,7 @@ s32 Main_Init(void)
         File_WaitForTransfers();
     }
     Main_ApplyMenuSelection(Main_RunFrontendLoop());
-    gMain_bReturnMode = 8;
+    gMain_bReturnMode = MAIN_MODE_MENU;
     Main_Loop();
     return 0;
 }

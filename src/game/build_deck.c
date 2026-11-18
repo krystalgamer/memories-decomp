@@ -2060,13 +2060,13 @@ s32 BuildDeck_Update(void)
 void BuildDeck_EnterNarrowConfirmMode(void)
 {
     gBuildDeck_bConfirmMode = 0;
-    gMain_bActiveModeState = 7;
+    gMain_bActiveModeState = MAIN_MODE_BUILD_DECK;
 }
 
 void BuildDeck_EnterWideConfirmMode(void)
 {
     gBuildDeck_bConfirmMode = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
-    gMain_bActiveModeState = 7;
+    gMain_bActiveModeState = MAIN_MODE_BUILD_DECK;
 }
 
 void CardList_UpdateSortMode(CardList *list) {

@@ -44,7 +44,7 @@ void Main_RunDebugMenu(void)
     } else {
         DebugMenu_Update();
         if ((gMain_bActiveModeState & 0x40) == 0)
-            gMain_bReturnMode = 0;
+            gMain_bReturnMode = MAIN_MODE_DEBUG;
     }
 }
 
@@ -553,7 +553,7 @@ void Main_RunGameOver(void)
         if (mode != 0) {
             D_8009B268 = 1;
             gMain_bRequestedMenuID = 0;
-            gMain_bActiveModeState = 8;
+            gMain_bActiveModeState = MAIN_MODE_MENU;
             longjmp(gMain_RecoveryJmpBuf, 1);
         }
     }

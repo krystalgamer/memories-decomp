@@ -666,7 +666,7 @@ void Script_OpOpenCampaignMap(void)
 {
     unsigned char value = *gScript_StreamCursor++;
 
-    gMain_bActiveModeState = 5;
+    gMain_bActiveModeState = MAIN_MODE_CAMPAIGN_MAP;
     gCampaignMap_bEntryLocation = value;
 }
 
@@ -967,7 +967,7 @@ void Script_OpSavePrompt(void)
         if (gDialog_bChoice != 0) {
             D_8009B268 = 1;
             gMain_bRequestedMenuID = 5;
-            gMain_bActiveModeState = 8;
+            gMain_bActiveModeState = MAIN_MODE_MENU;
         }
         gDialog_bChoiceCount = 4;
         gDialog_bChoice = 2;
@@ -995,7 +995,7 @@ void Script_OpSavePrompt(void)
         SD_SEPlayFull(8);
         D_8009B268 = 1;
         gMain_bRequestedMenuID = 5;
-        gMain_bActiveModeState = 8;
+        gMain_bActiveModeState = MAIN_MODE_MENU;
         return;
     }
 
@@ -1056,7 +1056,7 @@ void Script_OpSavePrompt(void)
         case 1:
             SD_SEPlayFull(7);
             BuildDeck_EnterNarrowConfirmMode();
-            gMain_bReturnMode = 2;
+            gMain_bReturnMode = MAIN_MODE_CAMPAIGN;
             gCampaignSceneIndex = (u8)gScript_SavePromptSceneOperand;
             break;
         case 2:
@@ -1336,14 +1336,14 @@ void Script_OpDuelResult(void) {
 
 void Script_OpGameOver(void)
 {
-    gMain_bActiveModeState = 12;
-    gMain_bReturnMode = 12;
+    gMain_bActiveModeState = MAIN_MODE_GAME_OVER;
+    gMain_bReturnMode = MAIN_MODE_GAME_OVER;
 }
 
 void Script_OpCredits(void)
 {
-    gMain_bActiveModeState = 15;
-    gMain_bReturnMode = 15;
+    gMain_bActiveModeState = MAIN_MODE_CREDITS;
+    gMain_bReturnMode = MAIN_MODE_CREDITS;
 }
 
 void Script_OpWait(void)
@@ -1415,7 +1415,7 @@ void Script_OpReturnToMenu(void)
 {
     D_8009B268 = 1;
     gMain_bRequestedMenuID = 5;
-    gMain_bActiveModeState = 8;
+    gMain_bActiveModeState = MAIN_MODE_MENU;
 }
 
 void Script_RunTick(void)
