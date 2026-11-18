@@ -6,7 +6,12 @@
  * spreads out from one of the model's joints, 96 sparks fly from another
  * joint to points around the slot, 48 shaded domes open in turn and bursts of
  * four sparks scatter around the opposing slot. A negative command draws a
- * frame; any other command sets the work area up and prints its size. */
+ * frame; any other command sets the work area up and prints its size.
+ *
+ * In the North American build this is Gate Guardian's attack with its Moon
+ * guardian star (slot 0, selection 0): an emulator trace (#418) ran this
+ * handler while the guardian stomped one ripple across the floor, the field
+ * turned to water and clouds streamed from him towards the defender. */
 
 static const VECTOR gModelVariant143Us_UnitScale = {4096, 4096, 4096, 0};
 #ifndef VERSION_FRENCH

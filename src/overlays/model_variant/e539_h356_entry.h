@@ -66,10 +66,11 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant373_aImages[4];
 extern EntryConfig373 gFrenchModelVariant373_aConfigs[];
 /* The entry draws the rising rings, the sphere thrown along the aim and the
- * sparks at the target. In an emulator trace (#418, slot-0 attack, two Venus
- * episodes) these three ran and the strip, ribbon, quad and ray helpers below
- * never did; slot 1 is untraced until
- * tools/trace/model_variant373_slot1_helper_reach.lua is run. */
+ * sparks at the target. The strip, ribbon, quad and ray helpers below have no
+ * caller in any image. Emulator traces (#418) of Cosmo Queen with the Venus
+ * star agree: in her attacks (slot 0, header 356) and defences (slot 1,
+ * header 506) the three called helpers ran hundreds of times and these four
+ * never did. They are matched only because the retail images contain them. */
 void FrenchModelVariant373_DrawRisingRings(EntryState373 *context);
 void FrenchModelVariant373_DrawSphere(EntryState373 *context);
 void FrenchModelVariant373_DrawSparks(EntryState373 *context);

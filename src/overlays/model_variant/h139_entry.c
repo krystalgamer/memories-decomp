@@ -2,11 +2,16 @@
 #include "h139_entry.h"
 #include "../../game/model_slot_support.h"
 
-/* The entry spins two textured tubes that swirl around a centre sliding
- * towards the other slot, trails a column of beam sprites behind each swirl
- * and releases 96 rising sparks that burst into rings of dots. A negative
- * command draws a frame; any other command sets the work area up and prints
- * its size. */
+/* The entry spins two textured tornadoes that swirl around a centre
+ * sliding towards the other slot, trails a column of beam sprites behind
+ * each swirl and releases 96 rising sparks that burst into rings of dots. A
+ * negative command draws a frame; any other command sets the work area up and
+ * prints its size.
+ *
+ * In the North American build this is Perfectly Ultimate Great Moth's
+ * attack with its Moon guardian star (slot 0, selection 1): an emulator
+ * trace (#418) ran this handler while the moth flapped up two tornadoes
+ * that circled towards the defender and burst into white clouds. */
 
 static const VECTOR gModelVariant139_UnitScale = {4096, 4096, 4096, 0};
 
@@ -120,17 +125,17 @@ s32 ModelVariant139_HandleRequest(Model139State *context, s32 command)
         quad.clut = work->texture[1];
         setVector(&scale, 4096, 4096, 4096);
         if (t < config->fade_in) {
-            red = config->tube_color[0] * t / config->fade_in;
-            green = config->tube_color[1] * t / config->fade_in;
-            blue = config->tube_color[2] * t / config->fade_in;
+            red = config->tornado_color[0] * t / config->fade_in;
+            green = config->tornado_color[1] * t / config->fade_in;
+            blue = config->tornado_color[2] * t / config->fade_in;
             setRGB0(&quad, red, green, blue);
         } else if (t < config->fade_in + config->hold) {
-            setRGB0(&quad, config->tube_color[0], config->tube_color[1], config->tube_color[2]);
+            setRGB0(&quad, config->tornado_color[0], config->tornado_color[1], config->tornado_color[2]);
         } else {
             r = config->fade_in + config->hold + config->fade_out - t;
-            red = config->tube_color[0] * r / config->fade_out;
-            green = config->tube_color[1] * r / config->fade_out;
-            blue = config->tube_color[2] * r / config->fade_out;
+            red = config->tornado_color[0] * r / config->fade_out;
+            green = config->tornado_color[1] * r / config->fade_out;
+            blue = config->tornado_color[2] * r / config->fade_out;
             setRGB0(&quad, red, green, blue);
         }
         for (i = 0; i < 2; i++) {
