@@ -1479,7 +1479,7 @@ typedef struct {
 } ModelVariantMovingRibbon;
 
 /* The swarm helper's thirty-two quads, laid out like the quad group: the
- * swarms of headers 402 and 478. */
+ * swarms of headers 402, 430 and 478. */
 typedef struct {
     SVECTOR a[32], b[32], c[32], d[32], positions[32];
     CVECTOR color;
