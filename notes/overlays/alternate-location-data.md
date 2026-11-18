@@ -8,7 +8,10 @@ It supplies the bounded extern and `ALTERNATE_LOCATION_COUNT`.
 
 The record types are unchanged: 66 bytes per location, including four
 12-byte exits at `+0x12`. The new data-only unit compiles separately into
-both overworld images under `gcc_2_8_1_g0`. Neither alternate function body
+both overworld images under `gcc_2_8_1_g0`, in North America, Japan and
+PAL alike. Japan's bytes are North America's; PAL's differ in one byte,
+location 9's only exit `pad2[2]` (`0xC0` NTSC, `0xD0` PAL, the live table's
+sprite `y`), which the PAL entries select with `VERSION_EUROPE`. Neither alternate function body
 nor its existing `-O0` profile changes.
 
 ## Exact extent and placement

@@ -94,7 +94,7 @@ segments:
     vram: 0x80169E54
     align: 4
     subsegments:
-      - [0x1E54, data, overlays/spanish_overworld_after_coup/alternate_location]
+      - [0x1E54, .data, overlays/overworld/alternate_location]
 
   - name: module_data
     type: code
