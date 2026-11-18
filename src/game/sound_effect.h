@@ -76,7 +76,7 @@ void SD_SESetVolumePan(s32 id, s32 volume, s32 pan);
 void SD_FadeOutSoundEffectVoices(u16 id, u8 step);
 
 /* SD_LoadSequenceBankPair's second argument is a word pointer, not a word. */
-void SD_CopySeqBlock(u32 *dst, u32 *src);
+void SD_CopySeqBlock(void *dst_block, void *src_block);
 void SD_LoadSequenceBankPair(s32 side, u32 *src);
 
 #endif

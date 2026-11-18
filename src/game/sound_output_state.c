@@ -374,8 +374,6 @@ s32 SD_HasQueuedStreamCommand(void) {
 #include "sound_sequence_timing.h"
 #include "../ygo_types.h"
 
-#include "sound_command_index.h"
-
 void SD_StepActiveCommand(void)
 {
     SDValue *entry_state;
@@ -569,7 +567,7 @@ void SD_StepActiveCommand(void)
 
     case 72:
         if (g_SDValue->s_wSD_MUSIC_VAB_ID != 0) {
-            SDMusicPackage *list = (SDMusicPackage *)g_SDValue->s_pwSD_MUSIC_TRACK;
+            SDMusicPackage *list = g_SDValue->s_pwSD_MUSIC_TRACK;
 
             g_SDValue->s_wSD_MUSIC_VAB_ID = SD_VabOpenHead(
                 &list->vab_header, 0, list->spu_address
@@ -591,14 +589,14 @@ void SD_StepActiveCommand(void)
             g_SDValue->s_wSD_SEQ_ACCESS = -1;
         }
         {
-            CommandIndexTable *l;
+            SDMusicPackage *l;
             u32 i;
 
             entry_state = g_SDValue;
-            l = (CommandIndexTable *)entry_state->s_pwSD_MUSIC_TRACK;
+            l = entry_state->s_pwSD_MUSIC_TRACK;
             i = entry_state->s_wSD_ACTIVE_COMMAND_VALUE & 0xF;
 
-            if (i >= l->count) {
+            if (i >= l->sequence_count) {
                 g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
                 return;
             }

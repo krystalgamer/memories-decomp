@@ -42,13 +42,13 @@ void SD_InitSecondaryRuntime(void)
     music_state->s_wSD_MUSIC_VAB_ID = -1;
     music_state->s_wSD_OPEN_SEQUENCE_COMMAND = -1;
     music_state->s_wSD_SEQ_ACCESS = -1;
-    music_state->s_pwSD_MUSIC_TRACK = (u16 *)0x801EA800;
+    music_state->s_pwSD_MUSIC_TRACK = (SDMusicPackage *)0x801EA800;
     music_state->s_pstSD_MUSIC_TABLE = (SDMusicTableEntry *)0x801E2000;
-    music_state->s_pwSD_MUSIC_TRACK[0] = 0xFFFF;
-    music_state->s_pwSD_MUSIC_TRACK[1] = 0;
-    *(s32 *)&music_state->s_pwSD_MUSIC_TRACK[2] = 0;
-    *(s32 *)&music_state->s_pwSD_MUSIC_TRACK[4] = 0;
-    *(s32 *)&music_state->s_pwSD_MUSIC_TRACK[6] = 0x40000;
+    music_state->s_pwSD_MUSIC_TRACK->package_id = 0xFFFF;
+    music_state->s_pwSD_MUSIC_TRACK->sequence_count = 0;
+    music_state->s_pwSD_MUSIC_TRACK->field_04 = 0;
+    music_state->s_pwSD_MUSIC_TRACK->field_08 = 0;
+    music_state->s_pwSD_MUSIC_TRACK->spu_address = 0x40000;
     SD_SetSequenceTickMode(2);
     SD_SetSecondaryObjectCount(0x14);
     SD_EnableSecondarySequenceUpdates();
@@ -105,7 +105,7 @@ s32 SD_IsBgmFadeActive(void)
 s32 SD_RequestMusicPackageLoad(s16 command_id, s32 unused) {
     SDValue *p = g_SDValue;
 
-    if (*p->s_pwSD_MUSIC_TRACK != command_id >> 4) {
+    if (p->s_pwSD_MUSIC_TRACK->package_id != command_id >> 4) {
         SDValue *q;
         SDMusicTableEntry *entry;
         s32 off;
@@ -125,7 +125,7 @@ s32 SD_RequestMusicPackageLoad(s16 command_id, s32 unused) {
                                  entry->spu_sector_count << FILE_SECTOR_SHIFT,
                                  entry->ram_sector_count << FILE_SECTOR_SHIFT, 0x20);
 
-        *g_SDValue->s_pwSD_MUSIC_TRACK = 0xFFFF;
+        g_SDValue->s_pwSD_MUSIC_TRACK->package_id = 0xFFFF;
     }
 
     return 0;
@@ -145,7 +145,7 @@ void SD_RequestBgmPlayback(s32 command_id, s32 step)
         SD_ResetMusicState();
         return;
     }
-    if (*g_SDValue->s_pwSD_MUSIC_TRACK != (signed_command >> 4))
+    if (g_SDValue->s_pwSD_MUSIC_TRACK->package_id != (signed_command >> 4))
         SD_RequestMusicPackageLoad(signed_command, 1);
     command.command = 0x48;
     command.value = command_id;
@@ -167,7 +167,7 @@ void SD_OpenMusicVab(void)
     SDValue *open_state = g_SDValue;
 
     if (open_state->s_wSD_MUSIC_VAB_ID != 0) {
-        SDMusicPackage *package = (SDMusicPackage *)open_state->s_pwSD_MUSIC_TRACK;
+        SDMusicPackage *package = open_state->s_pwSD_MUSIC_TRACK;
         s32 vab_result =
             SD_VabOpenHead(&package->vab_header, 0, package->spu_address);
 
@@ -180,30 +180,27 @@ void SD_OpenMusicVab(void)
     }
     {
         register SDValue *publish_state = g_SDValue;
-        register u16 *package_id_ptr = publish_state->s_pwSD_MUSIC_TRACK;
-        publish_state->s_wSD_OPEN_MUSIC_PACKAGE = *package_id_ptr;
+        register SDMusicPackage *package = publish_state->s_pwSD_MUSIC_TRACK;
+        publish_state->s_wSD_OPEN_MUSIC_PACKAGE = package->package_id;
     }
 }
 
-void SD_SetMusicTrackBuffer(u16 *track_buffer)
+void SD_SetMusicTrackBuffer(SDMusicPackage *track_buffer)
 {
     SD_ResetMusicState();
     if (track_buffer != 0)
         g_SDValue->s_pwSD_MUSIC_TRACK = track_buffer;
     else
-        g_SDValue->s_pwSD_MUSIC_TRACK = (u16 *)0x801EA800;
-    *g_SDValue->s_pwSD_MUSIC_TRACK = 0xFFFF;
+        g_SDValue->s_pwSD_MUSIC_TRACK = (SDMusicPackage *)0x801EA800;
+    g_SDValue->s_pwSD_MUSIC_TRACK->package_id = 0xFFFF;
 }
 
 void SD_ResetMusicTrackBuffer(void)
 {
-    u16 *default_track_buffer;
+    SDMusicPackage *default_track_buffer;
 
     SD_ResetMusicState();
-    default_track_buffer = (u16 *)0x801EA800;
-    /* Stored through the member's address as void **: a plain member store
-       (or a u16 ** cast, which fold turns back into one) picks a different
-       register for the pointer and changes seven words. Measured. */
-    *(void **)&g_SDValue->s_pwSD_MUSIC_TRACK = default_track_buffer;
-    default_track_buffer[0] = 0xFFFF;
+    default_track_buffer = (SDMusicPackage *)0x801EA800;
+    g_SDValue->s_pwSD_MUSIC_TRACK = default_track_buffer;
+    default_track_buffer->package_id = 0xFFFF;
 }

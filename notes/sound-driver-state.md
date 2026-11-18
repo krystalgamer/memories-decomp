@@ -740,8 +740,9 @@ two:
 - `SD_ResetMusicTrackBuffer` writes the music-track pointer through
   `((u8 *)g_SDValue + 0x1564)` because a plain member assignment changes
   register allocation. Since #4457 it stores through the member's address,
-  `*(void **)&g_SDValue->s_pwSD_MUSIC_TRACK` in `src/game/sound_music.c`, and the
-  comment above that store carries the measurement.
+  `*(void **)&g_SDValue->s_pwSD_MUSIC_TRACK` in `src/game/sound_music.c`. Since the
+  member became `SDMusicPackage *` (cast-reduction PR #9557), a plain assignment
+  matches and that member-address store is gone.
 - `SD_CountActiveSoundEffectVoices` was documented as indexing the four voice IDs as
   `((u8 *)g_SDValue + index * 2 + 0x404)`. The source spelled that
   `((u8 *)g_SDValue + s0 * 2 + 0x404)`, and `ac4e0662` ("Coalesce the
@@ -789,7 +790,7 @@ of the 6.
     than a signedness change. The unit reads it once, and the `(u16)` sits
     at that read.
   * **0x58 and 0x1564** are pointer views. The canonical spells 0x58 `u32`
-    and 0x1564 `u16 *s_pwSD_MUSIC_TRACK`; this unit reaches the first as `u8 *`
+    and 0x1564 `SDMusicPackage *s_pwSD_MUSIC_TRACK`; this unit reaches the first as `u8 *`
     and the second as both `u8 *` and `List *`. The cast is at the use, so
     the canonical declaration and this unit's readings are both kept.
   * **0x1588**, private `u16` against canonical `s16`, takes no treatment
@@ -1473,11 +1474,11 @@ its `0x1C` layout or the secondary-state transfer offset `0x4A4`:
 | Transfer offset | Existing type | Name | Established use |
 |---|---|---|---|
 | `0x00` | `s16` | `state_token` | Zero on accepted open, `-1` on reset; compared with caller tokens by both body writers. |
-| `0x04` | `u8 *` | `vab_header` | Retained header byte pointer used by note-on to locate programs, tones and the VAG size table. |
+| `0x04` | `SDVabHeader *` | `vab_header` | Retained VAB header pointer used by note-on to locate programs, tones and the VAG size table. |
 | `0x08` | `s32` | `header_size_bytes` | `(program_count << 9) + 0xA20`, used to derive the body size from the VAB file size. |
-| `0x0C` | `s32` | `full_body_source_address` | Source integer address retained only after a successful whole-body write; no matched C reader is established. |
+| `0x0C` | `u8 *` | `full_body_source_address` | `SpuWrite` source address retained only after a successful whole-body write; no matched C reader is established. |
 | `0x10` | `s32` | `body_size_bytes` | Header-derived body byte count used by whole-body and chunked writes. |
-| `0x14` | `u8 *` | `spu_body_base` | SPU byte-address base used for transfers and note-on sample addresses, not a dereferenced RAM buffer. |
+| `0x14` | `u32` | `spu_body_base` | SPU byte-address base used for transfers and note-on sample addresses, not a dereferenced RAM buffer. |
 
 `SD_VabOpenHead` clears `bytes_consumed` before its possible rejection.
 Only a requested token of `-1` checks the existing token and can reject
@@ -1886,8 +1887,9 @@ added. Cloud and witness suites remain for ordinary PR validation.
 
 ### Secondary work-area initialization and scheduling local views
 
-SD_InitSecondaryWorkArea names its original s32 pointer work_area_cursor
-and u32 counter cleared_word_count. The pointer is installed globally
+SD_InitSecondaryWorkArea takes the raw area as void *work_area and walks
+it through a local s32 *work_area_cursor with u32 counter
+cleared_word_count. The pointer is installed globally
 BEFORE its first store, then the original do/while clears exactly 530
 words (0x848 bytes) while advancing that SAME pointer. The global retains
 the initial address. SpuInit, SD_ResetSecondaryPlaybackThunk and
@@ -1942,11 +1944,12 @@ both -1 markers and returns; only the later freshly loaded pointer
 publishes the leading halfword. No full-word success test, new open
 attempt, inferred caller or merged pointer lifetime.
 
-SD_SetMusicTrackBuffer names its u16* track_buffer argument.
+SD_SetMusicTrackBuffer names its SDMusicPackage *track_buffer argument.
 SD_ResetMusicTrackBuffer names default_track_buffer. Both still reset
 music state first, preserve the fixed fallback and 0xFFFF sentinel,
-and keep all global accesses. The reset retains its measured void**
-member-address store, not a direct assignment or a u16** substitution.
+and keep all global accesses. With the member typed as SDMusicPackage *,
+the reset's direct assignment matches; the old void** member-address
+store is no longer needed.
 
 SD_VabTransBody names source_address, expected_token,
 saved_source_address, transfer_state, current_token and transfer.
@@ -2055,8 +2058,9 @@ separate transfer-call tails without register bindings.
 Command 72's sequence header has a count at `+2`, a payload size at `+0xC`,
 and a payload beginning at `+0x50`. Its sixteen index records occupy
 `+0x10..+0x50`, with a **four-byte stride**; this reader consumes only each
-record's low halfword. `sound_command_index.h` owns `CommandIndexTable`,
-which bounds all 32 halfwords and asserts the header size and table offset. It does not use
+record's low halfword. `SDMusicPackage` in `sound_music.h` (the type of
+`s_pwSD_MUSIC_TRACK`) bounds all 32 halfwords and asserts the table and
+embedded pBAV header offsets. It does not use
 the historical one-element `SoundIndexList.indices` view or silently treat
 the records as a packed two-byte index array.
 

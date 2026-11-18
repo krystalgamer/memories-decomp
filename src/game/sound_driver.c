@@ -129,7 +129,7 @@ void SD_InitState(u8 master_xa_lba_byte)
     mix_state->s_wSD_CD_MIXER_OUT = cd_default;
     mix_state->s_wSD_SMF_MIXER_OUT = secondary_default;
     bgm_target_state->s_bSD_BGM_FADE_TARGET = 0xFF;
-    SD_InitSecondaryWorkArea((s32 *)0x801E1670);
+    SD_InitSecondaryWorkArea((SDSecondaryState *)0x801E1670);
     SD_InitSpuCommonVolume();
     SD_InitBufferState();
     SD_InitSecondaryRuntime();

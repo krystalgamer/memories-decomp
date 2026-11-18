@@ -134,6 +134,7 @@ void SD_QueueValueLinkTransfer(s32 link_index)
            SD_VALUE_LINK_BLOCK_SIZE;
     data_start_sector = data_start_sector + 1;
     off = (link_index & SD_VALUE_LINK_INDEX_MASK) * SD_VALUE_LINK_RECORD_SIZE;
+    /* &table[index] reverses the addu operands; off is reused below. */
     entry = (SDValueLink *)(off + (s32)load_state->s_pstSD_SEGROUP_TABLE);
     SD_EnqueueSpuRamTransfer(load_state->s_dwSD_SEGROUP_SPU_ADDR, 0x801E6800,
                   data_start_sector + entry->sector_offset, entry->spu_size,
@@ -371,6 +372,7 @@ void SD_SEStop(s32 id)
         return;
     }
     if ((value & SD_VOICE_LOOKUP_CODE_MASK) == SD_VOICE_LOOKUP_CODE_TAG) {
+        /* [bank][index] computes the bank term before the index shift. */
         u8 *table = (u8 *)g_SDValue->s_aawSD_INDIRECT_SE_ID[0];
         s32 offset = (value & SD_VOICE_LOOKUP_INDEX_MASK) * 2;
         s32 bank = 0;
@@ -409,6 +411,7 @@ void SD_KeyOffVoiceSlots(void)
 
     do {
         SpuSetKey(SPU_OFF, SD_VOICE_SLOT_MASK_ALL);
+        /* The SDK takes char *; the status bytes are read unsigned. */
         SpuGetAllKeysStatus((char *)g_SDValue->s_abSD_VOICE_KEY_STATUS);
         total = g_SDValue->s_abSD_VOICE_KEY_STATUS[23] + g_SDValue->s_abSD_VOICE_KEY_STATUS[21] +
                 g_SDValue->s_abSD_VOICE_KEY_STATUS[22] + g_SDValue->s_abSD_VOICE_KEY_STATUS[23];
@@ -650,6 +653,7 @@ void SD_SEPlay(s32 sound_id, s32 volume, s32 pan_value)
         hi = t2;
         hi = (hi != 0) << 6;
 
+        /* As in SD_KeyOffVoiceById, retail adds the shifted terms first. */
         table = (u8 *)&a->s_aawSD_INDIRECT_SE_ID;
         v = *(u16 *)(table + (lo + hi));
         if (v == SD_PENDING_ENTRY_NONE) {
@@ -935,8 +939,10 @@ void SD_FadeOutSoundEffectVoices(u16 id, u8 step)
     }
 }
 
-void SD_CopySeqBlock(u32 *dst, u32 *src)
+void SD_CopySeqBlock(void *dst_block, void *src_block)
 {
+    u32 *dst = dst_block;
+    u32 *src = src_block;
     u32 i;
 
     for (i = 0; i < SD_PENDING_INPUT_COPY_GROUP_COUNT; i++) {
@@ -972,7 +978,7 @@ void SD_LoadSequenceBankPair(s32 side, u32 *src)
     addr_other = 0xD810 + (rev % 2) * 0x19000;
     blk = (SDSeqBlock *)(0x801E7800 + (side << SD_PENDING_INPUT_BLOCK_SHIFT));
     other = (SDSeqBlock *)(0x801E7800 + (rev << SD_PENDING_INPUT_BLOCK_SHIFT));
-    SD_CopySeqBlock((u32 *)blk, src);
+    SD_CopySeqBlock(blk, src);
     SD_ResetPendingEntries();
 
     for (i = 0; i < 2; i++) {

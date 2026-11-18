@@ -5,7 +5,7 @@
 #include "../psyq/libspu_internal.h"
 
 void SD_ResetSecondaryState(void);
-void SD_InitSecondaryWorkArea(s32 *work_area_cursor);
+void SD_InitSecondaryWorkArea(void *work_area);
 void SD_EnableSecondarySequenceUpdates(void);
 void SD_SetSequenceTickMode(s32 tick_mode);
 void SD_UpdateSecondarySequenceIfEnabled(void);
