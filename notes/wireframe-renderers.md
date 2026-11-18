@@ -61,7 +61,8 @@ GCC never allocates. The C therefore relies on:
 - register declarations for every live value (file-scope global register
   variables for s0-s2 and `$at`, local `register ... asm("$N")` for the rest);
 - inline assembly only for the s0-s2 save/restore and GTE operations, from
-  `src/game/handwritten_asm.h` (vertex loads use the Psy-Q `inline_c.h`
+  `src/game/handwritten_asm.h` (GTE commands come from the native-opcode
+  macros in `src/game/gte_native.h`; vertex loads use the Psy-Q `inline_c.h`
   `gte_ldv0`/`gte_ldv1`/`gte_ldv2`), validated by
   `tools/project/handwritten_asm_contract.py`;
 - the profile's `-fno-schedule-insns -fno-schedule-insns2`, so statements

@@ -13,12 +13,12 @@
  * stops GCC from emitting its own stack-frame save of that register. Other
  * fixed registers ($at, $v0, temporaries) are plain register declarations.
  *
- * GTE commands are emitted without the Psy-Q inline_c.h nop padding because
- * the originals interleave independent work into those cycles. Plain register
- * transfers need no such change, so the renderers take the vertex loads
- * gte_ldv0/1/2, the screen-XY writes gte_ldsxy0/1/2 and the stores
- * gte_stsxy2, gte_strgb and gte_strgb3 from src/psyq/inline_c.h directly;
- * their expansions pass the same contract.
+ * GTE commands come from gte_native.h, mostly in the unpadded _B form
+ * because the originals interleave independent work into the cycles Psy-Q
+ * fills with nops. Plain register transfers need no such change, so the
+ * renderers take the vertex loads gte_ldv0/1/2, the screen-XY writes
+ * gte_ldsxy0/1/2 and the stores gte_stsxy2, gte_strgb and gte_strgb3 from
+ * src/psyq/inline_c.h directly; their expansions pass the same contract.
  *
  * Inline assembly is limited to that save/restore, to GTE operations and to
  * three shapes GCC 2.8.1 cannot emit: a lone lwr merged into a C-loaded word
@@ -64,49 +64,22 @@
 #define HW_LWR(val, offset, p)                                             \
     __asm__ volatile("lwr %0, " #offset "(%1)" : "=r"(val) : "r"(p), "0"(val))
 
-/* GTE data registers: VXY/VZ pairs 0-5, SXY0-2 12-14, OTZ 7, flag $31. */
-#define HW_GTE_RTPT() __asm__ volatile(".word 0x4A280030")
+/* GTE registers: VXY/VZ 0-5, SXY0-2 12-14, OTZ 7, MAC0 24, flag $31. */
 #define HW_GTE_READ_FLAG(out) __asm__ volatile("cfc2 %0, $31" : "=r"(out))
 #define HW_GTE_WRITE(reg, value)                                           \
     __asm__ volatile("mtc2 %0, $" #reg : : "r"(value))
 #define HW_GTE_STORE(reg, offset, p)                                       \
     __asm__ volatile("swc2 $" #reg ", " #offset "(%0)" : : "r"(p) : "memory")
-
-/* RTPT, then read the flag register with its load-delay nop. */
-#define HW_GTE_RTPT_FLAG(out)                                              \
-    __asm__ volatile(".word 0x4A280030;" "cfc2 %0, $31;" "nop" : "=r"(out))
-/* RTPS, then read the flag register with its load-delay nop. */
-#define HW_GTE_RTPS_FLAG(out)                                              \
-    __asm__ volatile(".word 0x4A180001;" "cfc2 %0, $31;" "nop" : "=r"(out))
-/* AVSZ4, then read OTZ. */
-#define HW_GTE_AVSZ4_OTZ(out)                                              \
-    __asm__ volatile(".word 0x4B68002E;" "mfc2 %0, $7" : "=r"(out))
-/* AVSZ3, then read OTZ. */
-#define HW_GTE_AVSZ3_OTZ(out)                                              \
-    __asm__ volatile(".word 0x4B58002D;" "mfc2 %0, $7" : "=r"(out))
+#define HW_GTE_READ(reg, out)                                              \
+    __asm__ volatile("mfc2 %0, $" #reg : "=r"(out))
 
 /* Flag register read followed by its load-delay nop. */
 #define HW_GTE_READ_FLAG_WAIT(out)                                         \
     __asm__ volatile("cfc2 %0, $31;" "nop" : "=r"(out))
-/* RTPS, NCCS and NCCT after the two nops the originals keep before them. */
-#define HW_GTE_RTPS()                                                      \
-    __asm__ volatile("nop;" "nop;" ".word 0x4A180001")
-#define HW_GTE_RTPS_RAW() __asm__ volatile(".word 0x4A180001")
-#define HW_GTE_NCCS_RAW() __asm__ volatile(".word 0x4B08041B")
-#define HW_GTE_NCCS() __asm__ volatile("nop;" "nop;" ".word 0x4B08041B")
-#define HW_GTE_NCCT() __asm__ volatile("nop;" "nop;" ".word 0x4B18043F")
-#define HW_GTE_NCLIP() __asm__ volatile(".word 0x4B400006")
-/* NCLIP after a GTE register write, then read MAC0 with its load delay. */
-#define HW_GTE_NCLIP_MAC0_WAIT(out)                                        \
-    __asm__ volatile("nop;" "nop;" ".word 0x4B400006;" "mfc2 %0, $24;" "nop" \
-                     : "=r"(out))
-/* NCLIP, then read MAC0 with its load-delay nop. */
-#define HW_GTE_NCLIP_MAC0(out)                                             \
-    __asm__ volatile(".word 0x4B400006;" "mfc2 %0, $24;" "nop" : "=r"(out))
-#define HW_GTE_AVSZ3() __asm__ volatile(".word 0x4B58002D")
-#define HW_GTE_AVSZ4() __asm__ volatile(".word 0x4B68002E")
-#define HW_GTE_READ(reg, out)                                              \
-    __asm__ volatile("mfc2 %0, $" #reg : "=r"(out))
+/* Data register read followed by its load-delay nop. */
+#define HW_GTE_READ_WAIT(reg, out)                                         \
+    __asm__ volatile("mfc2 %0, $" #reg ";" "nop" : "=r"(out))
+
 /*
  * if (value == cmp) goto label, with mtc2 value -> reg executed in the
  * branch delay slot either way. GCC cannot fill a slot across inline asm,
@@ -129,7 +102,6 @@
                      ".set\treorder"                                        \
                      : "=r"(out)                                            \
                      : "r"(test), "i"(&&label), "r"(base))
-#define HW_GTE_OTZ(out) __asm__ volatile("mfc2 %0, $7" : "=r"(out))
 
 /* Write SXY0, SXY1, SXY2 into a polygon packet. */
 #define HW_GTE_STORE_SXY3(p, o0, o1, o2)                                   \

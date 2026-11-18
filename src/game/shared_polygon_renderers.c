@@ -19,6 +19,7 @@
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
 #include "handwritten_asm.h"
+#include "gte_native.h"
 #include "model_handler_state.h"
 #include "model.h"
 #include "primitive_handler_modes.h"
@@ -104,7 +105,7 @@ u32 *Model_PrepareSharedPrimitiveCaches(GsARGUNIT_SHARED *arg)
             HW_GTE_WRITE(1, hi);
             count--;
             src += 2;
-            HW_GTE_RTPS_RAW();
+            GTE_RTPS_B();
             lo = src[0];
             hi = src[1];
             gHw_At = 1;
@@ -150,7 +151,7 @@ verts_done:
                 HW_GTE_WRITE(1, hi);
                 count--;
                 src += 2;
-                HW_GTE_NCCS_RAW();
+                GTE_NCCS_B();
                 lo = src[0];
                 hi = src[1];
                 gte_strgb(dst);
@@ -257,7 +258,7 @@ u32 *Model_DrawSharedGt3Primitives(GsARGUNIT_SHARED *arg)
             pkt[8] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
-            HW_GTE_NCLIP();
+            GTE_NCLIP_B();
             w1 <<= 16;
             w1 >>= 13;
             w2 <<= 16;
@@ -275,11 +276,11 @@ u32 *Model_DrawSharedGt3Primitives(GsARGUNIT_SHARED *arg)
             pkt[1] = gHw_Word0;
             pkt[4] = w1;
             pkt[7] = w2;
-            HW_GTE_AVSZ3();
+            GTE_AVSZ3_B();
             gHw_Word0 = rec->words[0];
             w1 = rec->words[1];
             w2 = rec->words[2];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
@@ -441,7 +442,7 @@ u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
             pkt[11] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
-            HW_GTE_NCLIP();
+            GTE_NCLIP_B();
             w1 <<= 16;
             HW_GTE_READ(24, z);
             w1 >>= 13;
@@ -449,7 +450,8 @@ u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
             if (z > 0)
                 goto visible;
             gte_ldsxy0(e);
-            HW_GTE_NCLIP_MAC0_WAIT(z);
+            GTE_NCLIP();
+            HW_GTE_READ_WAIT(24, z);
             if (z > 0)
                 goto next;
         visible:
@@ -470,12 +472,12 @@ u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
             pkt[4] = w1;
             pkt[7] = w2;
             pkt[10] = gHw_Word3;
-            HW_GTE_AVSZ4();
+            GTE_AVSZ4_B();
             gHw_Word0 = rec->words[0];
             w1 = rec->words[1];
             w2 = rec->words[2];
             gHw_Word3 = rec->words[3];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
@@ -631,7 +633,7 @@ u32 *Model_DrawSharedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             pkt[9] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
-            HW_GTE_NCLIP();
+            GTE_NCLIP_B();
             w1 <<= 16;
             w1 >>= 13;
             w2 <<= 16;
@@ -649,12 +651,12 @@ u32 *Model_DrawSharedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             pkt[2] = gHw_Word0;
             pkt[5] = w1;
             pkt[8] = w2;
-            HW_GTE_AVSZ3();
+            GTE_AVSZ3_B();
             gHw_WindowWord = rec->words[0];
             gHw_Word0 = rec->words[1];
             w1 = rec->words[2];
             w2 = rec->words[3];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
@@ -819,7 +821,7 @@ u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             pkt[12] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
-            HW_GTE_NCLIP();
+            GTE_NCLIP_B();
             w1 <<= 16;
             HW_GTE_READ(24, z);
             w1 >>= 13;
@@ -827,7 +829,8 @@ u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             if (z > 0)
                 goto visible;
             gte_ldsxy0(e);
-            HW_GTE_NCLIP_MAC0_WAIT(z);
+            GTE_NCLIP();
+            HW_GTE_READ_WAIT(24, z);
             if (z > 0)
                 goto next;
         visible:
@@ -848,13 +851,13 @@ u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             pkt[5] = w1;
             pkt[8] = w2;
             pkt[11] = gHw_Word3;
-            HW_GTE_AVSZ4();
+            GTE_AVSZ4_B();
             gHw_WindowWord = rec->words[0];
             gHw_Word0 = rec->words[1];
             w1 = rec->words[2];
             w2 = rec->words[3];
             gHw_Word3 = rec->words[4];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
@@ -1023,7 +1026,7 @@ u32 *Model_DrawSharedTwoSidedGt3Primitives(GsARGUNIT_SHARED *arg)
             gHw_Word0 = *(volatile u32 *)gHw_Word0;
             w1 = *(volatile u32 *)w1;
             w2 = *(volatile u32 *)w2;
-            HW_GTE_AVSZ3();
+            GTE_AVSZ3_B();
             gHw_Word0 |= gHw_PolyCode;
             pkt[1] = gHw_Word0;
             pkt[4] = w1;
@@ -1031,7 +1034,7 @@ u32 *Model_DrawSharedTwoSidedGt3Primitives(GsARGUNIT_SHARED *arg)
             gHw_Word0 = rec->words[0];
             w1 = rec->words[1];
             w2 = rec->words[2];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
@@ -1206,7 +1209,7 @@ u32 *Model_DrawSharedTwoSidedGt4Primitives(GsARGUNIT_SHARED *arg)
             w1 = *(volatile u32 *)w1;
             w2 = *(volatile u32 *)w2;
             gHw_Word3 = *(volatile u32 *)gHw_Word3;
-            HW_GTE_AVSZ4();
+            GTE_AVSZ4_B();
             gHw_Word0 |= gHw_PolyCode;
             pkt[1] = gHw_Word0;
             pkt[4] = w1;
@@ -1216,7 +1219,7 @@ u32 *Model_DrawSharedTwoSidedGt4Primitives(GsARGUNIT_SHARED *arg)
             w1 = rec->words[1];
             w2 = rec->words[2];
             gHw_Word3 = rec->words[3];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
@@ -1382,7 +1385,7 @@ u32 *Model_DrawSharedTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             gHw_Word0 = *(volatile u32 *)gHw_Word0;
             w1 = *(volatile u32 *)w1;
             w2 = *(volatile u32 *)w2;
-            HW_GTE_AVSZ3();
+            GTE_AVSZ3_B();
             gHw_Word0 |= gHw_PolyCode;
             pkt[2] = gHw_Word0;
             pkt[5] = w1;
@@ -1391,7 +1394,7 @@ u32 *Model_DrawSharedTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             gHw_Word0 = rec->words[1];
             w1 = rec->words[2];
             w2 = rec->words[3];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
@@ -1574,13 +1577,13 @@ u32 *Model_DrawSharedTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             pkt[5] = w1;
             pkt[8] = w2;
             pkt[11] = gHw_Word3;
-            HW_GTE_AVSZ4();
+            GTE_AVSZ4_B();
             gHw_WindowWord = rec->words[0];
             gHw_Word0 = rec->words[1];
             w1 = rec->words[2];
             w2 = rec->words[3];
             gHw_Word3 = rec->words[4];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             w1 |= gHw_BlendBits;
@@ -1767,7 +1770,7 @@ u32 *Model_DrawSharedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
             pkt[8] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
-            HW_GTE_NCLIP();
+            GTE_NCLIP_B();
             w1 <<= 16;
             w1 >>= 13;
             w2 <<= 16;
@@ -1785,11 +1788,11 @@ u32 *Model_DrawSharedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
             pkt[1] = gHw_Word0;
             pkt[4] = w1;
             pkt[7] = w2;
-            HW_GTE_AVSZ3();
+            GTE_AVSZ3_B();
             gHw_Word0 = rec->words[0];
             w1 = rec->words[1];
             w2 = rec->words[2];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
@@ -1981,7 +1984,7 @@ u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             pkt[11] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
-            HW_GTE_NCLIP();
+            GTE_NCLIP_B();
             w1 <<= 16;
             HW_GTE_READ(24, z);
             w1 >>= 13;
@@ -1989,7 +1992,8 @@ u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             if (z > 0)
                 goto visible;
             gte_ldsxy0(e);
-            HW_GTE_NCLIP_MAC0_WAIT(z);
+            GTE_NCLIP();
+            HW_GTE_READ_WAIT(24, z);
             if (z > 0)
                 goto next;
         visible:
@@ -2010,12 +2014,12 @@ u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             pkt[4] = w1;
             pkt[7] = w2;
             pkt[10] = gHw_Word3;
-            HW_GTE_AVSZ4();
+            GTE_AVSZ4_B();
             gHw_Word0 = rec->words[0];
             w1 = rec->words[1];
             w2 = rec->words[2];
             gHw_Word3 = rec->words[3];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
@@ -2201,7 +2205,7 @@ u32 *Model_DrawSharedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             pkt[9] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
-            HW_GTE_NCLIP();
+            GTE_NCLIP_B();
             w1 <<= 16;
             w1 >>= 13;
             w2 <<= 16;
@@ -2219,12 +2223,12 @@ u32 *Model_DrawSharedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             pkt[2] = gHw_Word0;
             pkt[5] = w1;
             pkt[8] = w2;
-            HW_GTE_AVSZ3();
+            GTE_AVSZ3_B();
             gHw_WindowWord = rec->words[0];
             gHw_Word0 = rec->words[1];
             w1 = rec->words[2];
             w2 = rec->words[3];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
@@ -2419,7 +2423,7 @@ u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             pkt[12] = e;
             gHw_Word0 <<= 16;
             gHw_Word0 >>= 13;
-            HW_GTE_NCLIP();
+            GTE_NCLIP_B();
             w1 <<= 16;
             HW_GTE_READ(24, z);
             w1 >>= 13;
@@ -2427,7 +2431,8 @@ u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             if (z > 0)
                 goto visible;
             gte_ldsxy0(e);
-            HW_GTE_NCLIP_MAC0_WAIT(z);
+            GTE_NCLIP();
+            HW_GTE_READ_WAIT(24, z);
             if (z > 0)
                 goto next;
         visible:
@@ -2448,13 +2453,13 @@ u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
             pkt[5] = w1;
             pkt[8] = w2;
             pkt[11] = gHw_Word3;
-            HW_GTE_AVSZ4();
+            GTE_AVSZ4_B();
             gHw_WindowWord = rec->words[0];
             gHw_Word0 = rec->words[1];
             w1 = rec->words[2];
             w2 = rec->words[3];
             gHw_Word3 = rec->words[4];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
@@ -2653,7 +2658,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
             gHw_Word0 = *(volatile u32 *)gHw_Word0;
             w1 = *(volatile u32 *)w1;
             w2 = *(volatile u32 *)w2;
-            HW_GTE_AVSZ3();
+            GTE_AVSZ3_B();
             gHw_Word0 |= gHw_PolyCode;
             pkt[1] = gHw_Word0;
             pkt[4] = w1;
@@ -2661,7 +2666,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
             gHw_Word0 = rec->words[0];
             w1 = rec->words[1];
             w2 = rec->words[2];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
@@ -2866,7 +2871,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             w1 = *(volatile u32 *)w1;
             w2 = *(volatile u32 *)w2;
             gHw_Word3 = *(volatile u32 *)gHw_Word3;
-            HW_GTE_AVSZ4();
+            GTE_AVSZ4_B();
             gHw_Word0 |= gHw_PolyCode;
             pkt[1] = gHw_Word0;
             pkt[4] = w1;
@@ -2876,7 +2881,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
             w1 = rec->words[1];
             w2 = rec->words[2];
             gHw_Word3 = rec->words[3];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
@@ -3072,7 +3077,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg
             gHw_Word0 = *(volatile u32 *)gHw_Word0;
             w1 = *(volatile u32 *)w1;
             w2 = *(volatile u32 *)w2;
-            HW_GTE_AVSZ3();
+            GTE_AVSZ3_B();
             gHw_Word0 |= gHw_PolyCode;
             pkt[2] = gHw_Word0;
             pkt[5] = w1;
@@ -3081,7 +3086,7 @@ u32 *Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg
             gHw_Word0 = rec->words[1];
             w1 = rec->words[2];
             w2 = rec->words[3];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;
@@ -3294,13 +3299,13 @@ u32 *Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg
             pkt[5] = w1;
             pkt[8] = w2;
             pkt[11] = gHw_Word3;
-            HW_GTE_AVSZ4();
+            GTE_AVSZ4_B();
             gHw_WindowWord = rec->words[0];
             gHw_Word0 = rec->words[1];
             w1 = rec->words[2];
             w2 = rec->words[3];
             gHw_Word3 = rec->words[4];
-            HW_GTE_OTZ(otz);
+            HW_GTE_READ(7, otz);
             gHw_At = 0x02000000;
             gHw_Second = gHw_PolyTemplate & gHw_At;
             gHw_At = 0xFF9FFFFF;

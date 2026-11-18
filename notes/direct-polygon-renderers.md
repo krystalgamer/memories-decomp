@@ -79,8 +79,10 @@ use the `gcc_2_8_1_g0_handwritten_asm` policy described in
 `notes/decompilation-workflow.md`: hard-register declarations, with inline
 assembly only for the s-register save/restore, GTE operations and the few
 load/branch shapes listed below, all in `src/game/handwritten_asm.h` except
-the vertex loads and colour stores, which use the Psy-Q `inline_c.h` macros
-`gte_ldv0`/`gte_ldv1`/`gte_ldv2`, `gte_strgb` and `gte_strgb3`.
+the GTE commands, which use the native-opcode macros of
+`src/game/gte_native.h`, and the vertex loads and colour stores, which use
+the Psy-Q `inline_c.h` macros `gte_ldv0`/`gte_ldv1`/`gte_ldv2`, `gte_strgb`
+and `gte_strgb3`.
 
 Points that the C has to reproduce:
 
@@ -109,7 +111,7 @@ Points that the C has to reproduce:
   the lone `lwr` is `HW_LWR(val, 10, p)`, which merges into the C-loaded word.
 - Gt4 computes the normals pointer before the `gHw_DrawMode` test so the
   `beqz` slot gets the original instruction, and RTPS for the fourth vertex
-  uses `HW_GTE_RTPS_RAW()` because the original schedules its own hazards.
+  uses the unpadded `GTE_RTPS_B()` because the original schedules its own hazards.
 
 ## Native boundaries and acceptance
 
