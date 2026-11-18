@@ -510,6 +510,12 @@ six card-sort comparator pointers, relocated to each image's own
 comparators. The Japanese linker symbols drop their assignment of
 `gMainMenu_aCardSortComparators`.
 
+The Japanese free-duel image builds `free_duel/module_header.c` (`0x0`, `0x13`)
+and `module_state.c` (`0x1030`, 0x75 bytes of zero in North American order)
+through `free_duel_data_c.json`; like North America's layout it uses
+`subalign: 4`, so the linker leaves the three bytes after
+`gFreeDuel_bScreenFlags` and the raw tail stays at `0x10A8`.
+
 The credits module (USA and Japan) starts with its 4-byte module word; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette
 rectangles, then `Credits_UpdateLines`' jump table, and its `.data` holds

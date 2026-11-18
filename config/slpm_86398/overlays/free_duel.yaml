@@ -35,7 +35,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
-  subalign: 2
+  subalign: 4
 
   section_order:
     - ".text"
@@ -52,7 +52,7 @@ segments:
     vram: 0x80168000
     align: 4
     subsegments:
-      - [0x0, data, overlays/japanese_free_duel/module_header]
+      - [0x0, .data, overlays/free_duel/module_header]
 
   - name: module
     type: code
@@ -61,7 +61,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/free_duel/screen_runtime]
-      - [0x1030, data, overlays/japanese_free_duel/module_state]
+      - [0x1030, .data, overlays/free_duel/module_state]
       - [0x10A8, data, overlays/japanese_free_duel/data]
 
   - [0x2800]
