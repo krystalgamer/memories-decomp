@@ -505,7 +505,10 @@ pools and their pointer list to `name_entry_main.c`, in every region.
 The Japanese and PAL main-menu images (PAL: the five regional images and the
 16 language images) build the North American main-menu units through their own
 `main_menu*_data_c.json`: `module_header.c` at `0x0` (Japan `0x0F`; PAL
-`0x33`, selected by `VERSION_EUROPE`).
+`0x33`, selected by `VERSION_EUROPE`) and `module_rodata.c` at `0x4`, the
+six card-sort comparator pointers, relocated to each image's own
+comparators. The Japanese linker symbols drop their assignment of
+`gMainMenu_aCardSortComparators`.
 
 The credits module (USA and Japan) starts with its 4-byte module word; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette
