@@ -1,48 +1,69 @@
--- model_variant373_helper_reach.lua
+-- model_variant373_slot1_helper_reach.lua
 --
 -- WHAT THIS ANSWERS
 --   The header-373 helpers FrenchModelVariant373_DrawStrip, DrawRibbons,
 --   DrawQuads and DrawRays are matched C in every Cosmo Queen variant image,
---   but no caller has been found: the entry only calls DrawLayers, DrawGrid
---   and DrawPoints, and no function-pointer table naming them is known. Are
---   they dead code left in the image, or reached some way the static
---   reading missed? (If dead, the notes and the record comments can say so;
---   if reached, the caller and the phase it runs in name what they draw.)
+--   but no caller has been found: the entry only calls DrawRisingRings,
+--   DrawSphere and DrawSparks. An earlier run (#418) covered the slot-0
+--   image (header 356, 0x8013B000) in two Cosmo Queen attacks: the three
+--   controls fired and the four candidates never did. The slot-1 image
+--   (header 506, 0x8017B000) never loaded, because the game skips the 3D
+--   battle when the CPU attacks. Are the four helpers reached in the slot-1
+--   image, expected to be the one loaded when Cosmo Queen DEFENDS? If they
+--   stay silent there too while the controls fire, the notes can call them
+--   unreached in the US build; if they fire, the caller and the phase name
+--   what they draw.
 --
---   In the US build both Cosmo Queen images with these helpers are loaded
---   when ModelSlot.guardian_star_selection is 0 (Model_LoadMonsterMergeStage
---   stages 7 and 8), expected to be her first guardian star, Venus. The
---   star= column of each START row confirms that mapping as a side result:
+--   Both images are loaded when ModelSlot.guardian_star_selection is 0
+--   (Model_LoadMonsterMergeStage stages 7 and 8), her first star, Venus:
 --     slot 0  model_variant_707_pos0_slot0    header 356  at 0x8013B000
 --     slot 1  model_variant_707_stage8_slot1  header 506  at 0x8017B000
 --   Execution breakpoints sit on all seven helpers in both images. Other
 --   variant images load at the same addresses, so a hit only counts while
 --   the slot's header word is 356 (slot 0) or 506 (slot 1) and the helper's
---   first instruction matches. DrawLayers, DrawGrid and DrawPoints are the
---   live controls: they must fire during a Cosmo Queen battle.
+--   first instruction matches. DrawRisingRings, DrawSphere and DrawSparks
+--   are the live controls: they must fire in the same slot before candidate
+--   silence means anything. Slot 0 stays tracked as the known-good control.
 --
--- HOW TO RUN
+-- HOW TO RUN (about five minutes once the script is loaded)
+--   You need two memory-card saves for the main menu's 2P DUEL, and player
+--   2's deck must hold Cosmo Queen.
 --   1. Open PCSX-Redux with the game and enable the debugger. Select the
 --      interpreter CPU (restart the emulator if you switch).
---   2. Debug -> Lua editor, paste this file. Check that the setup line and
+--   2. Start a 2P DUEL. Play until player 2 has Cosmo Queen face-up in
+--      ATTACK position with the VENUS guardian star, and player 1 has a
+--      monster that can attack her. Do not load the script before this
+--      point.
+--   3. Debug -> Lua editor, paste this file. Check that the setup line and
 --      the "breakpoints installed" line appear.
---   3. Start a Free Duel with Cosmo Queen and play her with the Venus
---      guardian star. Let her fight twice if you can: once attacking (her
---      image in slot 0) and once being attacked (slot 1).
---   4. It prints its document after 4 Cosmo Queen episodes, four minutes
---      after the first one, after 15 minutes in total, or on reset.
---   5. Copy the whole document into
---      tools/trace/result/model_variant373_helper_reach.txt and fill in the
---      context.
+--   4. Player 1 attacks Cosmo Queen (she defends). Watch the 3D battle.
+--   5. If she survives: on player 2's turn let Cosmo Queen attack a player-1
+--      monster (the slot-0 control), and if time allows have player 1 attack
+--      her once more.
+--   6. It prints its document after two slot-1 episodes, after four
+--      episodes, five minutes after it was loaded, or on reset. Copy the
+--      whole document into
+--      tools/trace/result/model_variant373_slot1_helper_reach.txt and fill in
+--      the context.
 --
 -- WHAT TO WRITE IN THE CONTEXT
---   One line per #NN: Cosmo Queen's opponent, the guardian star you picked,
---   whether she attacked or defended, who won, and anything on screen that
---   looked like a strip, ribbons, four quads or a burst of rays.
+--   One line per #NN: who attacked whom (did Cosmo Queen attack or defend),
+--   the guardian star she had, who won, and anything on screen that looked
+--   like a strip, ribbons, four quads or a burst of rays.
+--
+-- LUA STACK OVERFLOW
+--   PCSX-Redux builds before grumpycoders/pcsx-redux d303204c (2026-10-18)
+--   leave two tables on an event listener's coroutine stack on every event.
+--   A GPU::Vsync listener therefore overflows LuaJIT's 65,500 slots after
+--   about 32,750 frames (nine minutes), which printed a page of "(Table)"
+--   lines and "stack overflow" during the previous run. This script stops
+--   itself after five minutes, well inside that budget. After you have
+--   copied the document, a later "stack overflow" message from an old build
+--   is harmless; restart the emulator or update PCSX-Redux to clear it.
 
 local ffi = require('ffi')
 
-local SCRIPT_NAME = 'model_variant373_helper_reach'
+local SCRIPT_NAME = 'model_variant373_slot1_helper_reach'
 -- Breakpoints fire only while the debugger setting is on and the interpreter
 -- CPU is the engine actually running. PCSX-Redux reads the debugger flag live,
 -- so a script can switch it on itself. The CPU engine is chosen at emulator
@@ -121,9 +142,9 @@ local IMAGES = {
 }
 -- offset in the image, first instruction word, name, control
 local HELPERS = {
-    {0x10a8, 0x27bdfec8, 'DrawLayers', true},
-    {0x1770, 0x27bdfee0, 'DrawGrid', true},
-    {0x1ee4, 0x27bdfef0, 'DrawPoints', true},
+    {0x10a8, 0x27bdfec8, 'DrawRisingRings', true},
+    {0x1770, 0x27bdfee0, 'DrawSphere', true},
+    {0x1ee4, 0x27bdfef0, 'DrawSparks', true},
     {0x2240, 0x27bdff00, 'DrawStrip', false},
     {0x2784, 0x27bdfee0, 'DrawRibbons', false},
     {0x2e50, 0x27bdfee0, 'DrawQuads', false},
@@ -131,11 +152,12 @@ local HELPERS = {
 }
 
 local MAX_EPISODES = 4
+local MAX_SLOT1_EPISODES = 2
 local MAX_ROWS = 300
 local MAX_HIT_ROWS = 40
-local WINDOW_FRAMES = 240 * FPS
-local NOTHING_FRAMES = 600 * FPS
-local TIMEOUT_FRAMES = 900 * FPS
+-- Old PCSX-Redux builds leak two Lua stack slots per Vsync event and
+-- overflow at about 32,750 events; five minutes stays well inside that.
+local TIMEOUT_FRAMES = 300 * FPS
 
 local mem = PCSX.getMemPtr()
 
@@ -168,22 +190,27 @@ local frames = 0
 local rows, dropped = {}, 0
 local hitRows = 0
 local episodes = 0
-local firstEpisodeFrame = nil
+local slotEpisodes = {[0] = 0, [1] = 0}
+local closedSlot1 = 0
 local current = {}
-local totals = {}
+-- totals[slot][name]
+local totals = {[0] = {}, [1] = {}}
 local foreign, mismatched = 0, 0
 local callbackError = nil
 local summaries = {}
 local done = false
 
-breakpoints_model_variant373_helper_reach = {}
+-- Printing never raises into the emulator's callback path.
+local function say(text)
+    pcall(print, text)
+end
 
 local function stamp()
     return string.format('t=%6.1fs', frames / FPS)
 end
 
 local function live(text)
-    print(text)
+    say(text)
     if #rows < MAX_ROWS then rows[#rows + 1] = text else dropped = dropped + 1 end
 end
 
@@ -202,60 +229,80 @@ local function closeEpisode(slot, reason)
     local e = current[slot]
     if e == nil then return end
     current[slot] = nil
+    if slot == 1 then closedSlot1 = closedSlot1 + 1 end
     local parts = {}
     for _, h in ipairs(HELPERS) do
         parts[#parts + 1] = h[3] .. '=' .. (e.hits[h[3]] or 0)
     end
-    local line = string.format('#%02d slot=%d frames=%d %s', e.number, slot,
-                               frames - e.startFrame, table.concat(parts, ' '))
-    summaries[#summaries + 1] = line
+    summaries[#summaries + 1] = string.format(
+        '#%02d slot=%d header=%d frames=%d %s', e.number, slot,
+        IMAGES[slot].header, frames - e.startFrame, table.concat(parts, ' '))
     live(string.format('#%02d %s END   slot=%d reason=%s', e.number, stamp(),
                        slot, reason))
+end
+
+local function slotLine(slot)
+    local controls, candidates = 0, 0
+    for _, h in ipairs(HELPERS) do
+        local n = totals[slot][h[3]] or 0
+        if h[4] then controls = controls + n else candidates = candidates + n end
+    end
+    local verdict
+    if slotEpisodes[slot] == 0 then
+        verdict = slot == 1
+            and 'NOT LOADED: Cosmo Queen never defended in a 3D battle; '
+                .. 'slot 1 is still untested'
+            or 'not loaded'
+    elseif controls == 0 then
+        verdict = 'WARNING: image loaded but no control fired; candidate '
+            .. 'silence is not evidence'
+    elseif candidates == 0 then
+        verdict = 'controls fired, candidates silent'
+    else
+        verdict = 'CANDIDATE REACHED'
+    end
+    return string.format('slot%d header=%d episodes=%d control_hits=%d '
+                         .. 'candidate_hits=%d: %s', slot, IMAGES[slot].header,
+                         slotEpisodes[slot], controls, candidates, verdict)
 end
 
 local function finish(reason)
     if done then return end
     done = true
-    for _, bp in ipairs(breakpoints_model_variant373_helper_reach) do
+    for _, bp in ipairs(breakpoints_model_variant373_slot1_helper_reach) do
         pcall(function() bp:disable() end)
     end
     for slot = 0, 1 do
         if current[slot] ~= nil then closeEpisode(slot, 'still running') end
     end
-    local controls, uncalled = 0, 0
-    for _, h in ipairs(HELPERS) do
-        local n = totals[h[3]] or 0
-        if h[4] then controls = controls + n else uncalled = uncalled + n end
-    end
-    print('')
-    print('==== USER CONTEXT ====')
-    print('')
-    print('<one line per #NN: Cosmo Queen\'s opponent, the guardian star you')
-    print(' picked, whether she attacked or defended, who won, and anything that')
-    print(' looked like a strip, ribbons, four quads or a burst of rays>')
-    print('')
-    print('==== TRACE RESULT =====')
-    print('')
-    print('script: ' .. SCRIPT_NAME)
+    local lines = {
+        '',
+        '==== USER CONTEXT ====',
+        '',
+        '<one line per #NN: who attacked whom (did Cosmo Queen attack or',
+        ' defend), her guardian star, who won, and anything that looked like',
+        ' a strip, ribbons, four quads or a burst of rays>',
+        '',
+        '==== TRACE RESULT =====',
+        '',
+        'script: ' .. SCRIPT_NAME,
+    }
+    for _, line in ipairs(lines) do say(line) end
     print('setup: ' .. TRACE_SETUP .. ' ' .. traceExecutionStatus())
-    print('status: ' .. reason)
-    print(string.format('frames: %d episodes: %d control_hits: %d '
-                        .. 'candidate_hits: %d foreign_hits: %d '
-                        .. 'signature_mismatches: %d dropped_rows: %d',
-                        frames, episodes, controls, uncalled, foreign,
-                        mismatched, dropped))
-    if episodes > 0 and controls == 0 then
-        print('warning: a Cosmo Queen image was loaded but no control helper '
-              .. 'fired; candidate silence is not evidence')
-    end
-    if callbackError ~= nil then print('callback_error: ' .. callbackError) end
-    print('')
-    for _, line in ipairs(summaries) do print('summary ' .. line) end
-    print('')
-    for _, line in ipairs(rows) do print(line) end
-    print('')
-    print('--- end of trace, copy everything above into '
-          .. 'tools/trace/result/' .. SCRIPT_NAME .. '.txt ---')
+    say('status: ' .. reason)
+    say(string.format('frames: %d episodes: %d foreign_hits: %d '
+                      .. 'signature_mismatches: %d dropped_rows: %d',
+                      frames, episodes, foreign, mismatched, dropped))
+    say(slotLine(1))
+    say(slotLine(0))
+    if callbackError ~= nil then say('callback_error: ' .. callbackError) end
+    say('')
+    for _, line in ipairs(summaries) do say('summary ' .. line) end
+    say('')
+    for _, line in ipairs(rows) do say(line) end
+    say('')
+    say('--- end of trace, copy everything above into '
+        .. 'tools/trace/result/' .. SCRIPT_NAME .. '.txt ---')
 end
 
 local function onHelper(slot, helper)
@@ -271,7 +318,7 @@ local function onHelper(slot, helper)
     end
     local e = current[slot]
     local name = helper[3]
-    totals[name] = (totals[name] or 0) + 1
+    totals[slot][name] = (totals[slot][name] or 0) + 1
     if e == nil then return end
     local first = e.hits[name] == nil
     e.hits[name] = (e.hits[name] or 0) + 1
@@ -294,16 +341,16 @@ local function pollSlot(slot)
     local isLoaded = loaded(slot)
     local w = work(slot)
     local base = SLOTS + slot * SLOT_SIZE
-    local model = u16(base + MODEL_ID)
     if e ~= nil and (not isLoaded or w ~= e.work) then
         closeEpisode(slot, 'image unloaded or work area changed')
         e = nil
     end
     if e == nil and isLoaded and w ~= nil and episodes < MAX_EPISODES then
         episodes = episodes + 1
-        firstEpisodeFrame = firstEpisodeFrame or frames
+        slotEpisodes[slot] = slotEpisodes[slot] + 1
         current[slot] = {number = episodes, work = w, startFrame = frames,
                          hits = {}}
+        local model = u16(base + MODEL_ID)
         live(string.format('#%02d %s START slot=%d header=%d model=%s%s '
                            .. 'star=%s work=0x%08X phase=%s', episodes,
                            stamp(), slot, IMAGES[slot].header, show(model),
@@ -322,24 +369,23 @@ local function poll()
     end
     pollSlot(0)
     pollSlot(1)
-    if episodes >= MAX_EPISODES and current[0] == nil and current[1] == nil then
+    if closedSlot1 >= MAX_SLOT1_EPISODES then
+        finish('captured ' .. MAX_SLOT1_EPISODES .. ' slot-1 episodes')
+    elseif episodes >= MAX_EPISODES and current[0] == nil
+        and current[1] == nil then
         finish('captured ' .. MAX_EPISODES .. ' episodes')
-    elseif firstEpisodeFrame ~= nil
-        and frames - firstEpisodeFrame >= WINDOW_FRAMES then
-        finish('four-minute window after the first episode ended')
-    elseif firstEpisodeFrame == nil and frames >= NOTHING_FRAMES then
-        finish('ten minutes without a Cosmo Queen image; play her with the '
-               .. 'Venus guardian star')
     elseif frames >= TIMEOUT_FRAMES then
-        finish('timed out')
+        finish('five minutes elapsed')
     end
 end
 
+-- Installed once, at load. Reloading the script replaces these globals.
+breakpoints_model_variant373_slot1_helper_reach = {}
 for slot = 0, 1 do
     for _, helper in ipairs(HELPERS) do
         local s, h = slot, helper
-        breakpoints_model_variant373_helper_reach[
-            #breakpoints_model_variant373_helper_reach + 1] =
+        local list = breakpoints_model_variant373_slot1_helper_reach
+        list[#list + 1] =
             traceAddBreakpoint(IMAGES[s].base + h[1], 'Exec', 4,
                                SCRIPT_NAME .. ': slot' .. s .. ' ' .. h[3],
                                function()
@@ -351,16 +397,19 @@ for slot = 0, 1 do
     end
 end
 
-listeners_model_variant373_helper_reach = {
+listeners_model_variant373_slot1_helper_reach = {
     PCSX.Events.createEventListener('GPU::Vsync', function()
         local ok, err = pcall(poll)
-        if not ok then finish('script error: ' .. tostring(err)) end
+        if not ok then
+            callbackError = callbackError or tostring(err)
+            pcall(finish, 'script error: ' .. tostring(err))
+        end
     end),
     PCSX.Events.createEventListener('ExecutionFlow::Reset', function()
-        finish('reset; reload the script and start again')
+        pcall(finish, 'reset; reload the script and start again')
     end),
 }
 
-print(string.format('%s: %d breakpoints installed; start a Free Duel and let '
-                    .. 'Cosmo Queen (Venus) fight', SCRIPT_NAME,
-                    #breakpoints_model_variant373_helper_reach))
+say(string.format('%s: %d breakpoints installed; player 1 now attacks '
+                  .. 'player 2\'s Cosmo Queen (Venus)', SCRIPT_NAME,
+                  #breakpoints_model_variant373_slot1_helper_reach))

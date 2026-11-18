@@ -769,9 +769,9 @@ which `Model_LoadMonsterMerge` passes as the transfer position:
 | 10 | `+ 210` | 1 (`0x8017B000`) | 1 |
 
 A model's variant images are therefore its effect for each of its two guardian
-stars, in each slot. Selection 0 is the first star printed on the card. In the
-[`model_variant373_helper_reach`](../../tools/trace/result/model_variant373_helper_reach.txt)
-trace, Cosmo Queen (card 708, model 707; stars Venus then Uranus in
+stars, in each slot. Selection 0 is the first star printed on the card. In an
+emulator trace (#418, slot-0 attack, two Venus episodes), Cosmo Queen
+(card 708, model 707; stars Venus then Uranus in
 [`card-catalog.csv`](../card-catalog.csv)) was played with Venus. Both
 episodes loaded the stage-7 image (header 356, slot 0) with
 `guardian_star_selection` 0. The images built from Spanish sources take the Spanish module names:

@@ -1,11 +1,11 @@
 -- Run from the repository root:
---   luajit tools/trace/tests/model_variant373_helper_reach_test.lua
+--   luajit tools/trace/tests/model_variant373_slot1_helper_reach_test.lua
 -- Replays callbacks with mock PCSX events and real LuaJIT FFI memory.
 local ffi = require('ffi')
 assert(PCSX == nil, 'run this standalone, not inside the emulator console')
 local originalPrint = print
 local scriptPath = SCRIPT_UNDER_TEST
-    or 'tools/trace/model_variant373_helper_reach.lua'
+    or 'tools/trace/model_variant373_slot1_helper_reach.lua'
 
 local RAM_BASE = 0x80000000
 local SLOTS, SLOT_SIZE = 0x800f2c40, 0xe20
@@ -14,8 +14,8 @@ local BASES = {[0] = 0x8013b000, [1] = 0x8017b000}
 local HEADERS = {[0] = 356, [1] = 506}
 local WORK = {[0] = 0x80100000, [1] = 0x80140000}
 local HELPERS = {
-    DrawLayers = {0x10a8, 0x27bdfec8}, DrawGrid = {0x1770, 0x27bdfee0},
-    DrawPoints = {0x1ee4, 0x27bdfef0}, DrawStrip = {0x2240, 0x27bdff00},
+    DrawRisingRings = {0x10a8, 0x27bdfec8},
+    DrawSphere = {0x1770, 0x27bdfee0}, DrawSparks = {0x1ee4, 0x27bdfef0}, DrawStrip = {0x2240, 0x27bdff00},
     DrawRibbons = {0x2784, 0x27bdfee0}, DrawQuads = {0x2e50, 0x27bdfee0},
     DrawRays = {0x33d8, 0x27bdfec8},
 }
@@ -53,8 +53,8 @@ local function capture(options)
             end,
         },
     }
-    breakpoints_model_variant373_helper_reach = nil
-    listeners_model_variant373_helper_reach = nil
+    breakpoints_model_variant373_slot1_helper_reach = nil
+    listeners_model_variant373_slot1_helper_reach = nil
     dofile(scriptPath)
 
     local r = {output = output}
@@ -106,7 +106,7 @@ end
 
 local function stopped(r, status)
     assert(r:has('status: ' .. status), status)
-    assert(r:countOf('script: model_variant373_helper_reach') == 1)
+    assert(r:countOf('script: model_variant373_slot1_helper_reach') == 1)
     assert(r:has('==== USER CONTEXT'))
     assert(r:has('setup: '))
     assert(r:allDisabled())
@@ -118,34 +118,65 @@ local function stopped(r, status)
         'termination emits one final document, even after late callbacks')
 end
 
--- A slot-0 episode: controls fire, one candidate fires once, rows name the
--- caller and the phase; a repeat hit prints no second row.
+-- A slot-1 defence: controls fire, one candidate fires once, rows name the
+-- caller and the phase; a repeat hit prints no second row. The slot-0
+-- control is reported separately.
 do
     local r = capture()
     assert(r:has('14 breakpoints installed'))
-    r:load(0)
-    r:phase(0, 3)
+    r:load(1)
+    r:phase(1, 3)
     r:frames(1)
-    assert(r:has('#01 t=   0.0s START slot=0 header=356 model=707 star=0 '
-        .. 'work=0x80100000 phase=3'))
-    r:hit(0, 'DrawLayers')
-    r:hit(0, 'DrawLayers')
-    r:hit(0, 'DrawGrid', 0x8013b5d0)
-    assert(r:has('#01 t=   0.0s first DrawGrid slot=0 ra=0x8013B5D0 '
-        .. 'a0=0x80100000 work=0x80100000 phase=3'))
-    assert(r:countOf('first DrawLayers') == 1)
-    r:hit(0, 'DrawRays', 0x8013e000)
-    assert(r:has('first DrawRays slot=0 ra=0x8013E000 a0=0x80100000 '
-        .. 'work=0x80100000 phase=3 CANDIDATE'))
-    r:unload(0)
+    assert(r:has('#01 t=   0.0s START slot=1 header=506 model=707 star=0 '
+        .. 'work=0x80140000 phase=3'))
+    r:hit(1, 'DrawRisingRings')
+    r:hit(1, 'DrawRisingRings')
+    r:hit(1, 'DrawSphere', 0x8017b5d0)
+    assert(r:has('#01 t=   0.0s first DrawSphere slot=1 ra=0x8017B5D0 '
+        .. 'a0=0x80140000 work=0x80140000 phase=3'))
+    assert(r:countOf('first DrawRisingRings') == 1)
+    r:hit(1, 'DrawRays', 0x8017e000)
+    assert(r:has('first DrawRays slot=1 ra=0x8017E000 a0=0x80140000 '
+        .. 'work=0x80140000 phase=3 CANDIDATE'))
+    r:unload(1)
     r:frames(1)
-    assert(r:has('#01 t=   0.0s END   slot=0 reason=image unloaded'))
+    assert(r:has('#01 t=   0.0s END   slot=1 reason=image unloaded'))
     r:reset()
     stopped(r, 'reset; reload the script and start again')
-    assert(r:has('summary #01 slot=0 frames=1 DrawLayers=2 DrawGrid=1 '
-        .. 'DrawPoints=0 DrawStrip=0 DrawRibbons=0 DrawQuads=0 DrawRays=1'))
-    assert(r:has('control_hits: 3 candidate_hits: 1 foreign_hits: 0 '
-        .. 'signature_mismatches: 0'))
+    assert(r:has('summary #01 slot=1 header=506 frames=1 DrawRisingRings=2 '
+        .. 'DrawSphere=1 DrawSparks=0 DrawStrip=0 DrawRibbons=0 DrawQuads=0 '
+        .. 'DrawRays=1'))
+    assert(r:has('slot1 header=506 episodes=1 control_hits=3 '
+        .. 'candidate_hits=1: CANDIDATE REACHED'))
+    assert(r:has('slot0 header=356 episodes=0 control_hits=0 '
+        .. 'candidate_hits=0: not loaded'))
+    assert(r:has('foreign_hits: 0 signature_mismatches: 0'))
+end
+
+-- Two slot-1 defences end the run early; a slot-0 attack in between is the
+-- control, and silent candidates are reported as such.
+do
+    local r = capture()
+    r:load(1)
+    r:frames(1)
+    r:hit(1, 'DrawSparks')
+    r:unload(1)
+    r:frames(1)
+    r:load(0)
+    r:frames(1)
+    r:hit(0, 'DrawRisingRings')
+    r:unload(0)
+    r:frames(1)
+    r:load(1, nil, 707, WORK[1] + 0x10)
+    r:frames(1)
+    assert(not r:has('status:'), 'one slot-1 episode is still open')
+    r:unload(1)
+    r:frames(1)
+    stopped(r, 'captured 2 slot-1 episodes')
+    assert(r:has('slot1 header=506 episodes=2 control_hits=1 '
+        .. 'candidate_hits=0: controls fired, candidates silent'))
+    assert(r:has('slot0 header=356 episodes=1 control_hits=1 '
+        .. 'candidate_hits=0: controls fired, candidates silent'))
 end
 
 -- Other images at the same address and changed code are not counted; a
@@ -162,11 +193,11 @@ do
     r:corrupt(1, 'DrawQuads')
     r:hit(1, 'DrawQuads')
     assert(not r:has('first DrawQuads'))
-    r:frames(240 * 60)
-    stopped(r, 'four-minute window after the first episode ended')
+    r:frames(300 * 60)
+    stopped(r, 'five minutes elapsed')
     assert(r:has('foreign_hits: 1 signature_mismatches: 1'))
-    assert(r:has('warning: a Cosmo Queen image was loaded but no control '
-        .. 'helper fired'))
+    assert(r:has('slot1 header=506 episodes=1 control_hits=0 '
+        .. 'candidate_hits=0: WARNING: image loaded but no control fired'))
     assert(r:has('reason=still running'))
 end
 
@@ -188,13 +219,15 @@ do
     stopped(r, 'reset')
 end
 
--- Four episodes stop the run; a register failure is reported, not fatal.
+-- Four episodes stop the run when slot 1 never reaches two; a register
+-- failure is reported, not fatal.
 do
     local r = capture()
     for n = 1, 4 do
-        r:load(n % 2, nil, 707, WORK[n % 2] + n * 0x10)
+        local slot = n == 2 and 1 or 0
+        r:load(slot, nil, 707, WORK[slot] + n * 0x10)
         r:frames(1)
-        r:unload(n % 2)
+        r:unload(slot)
         r:frames(1)
     end
     stopped(r, 'captured 4 episodes')
@@ -203,22 +236,41 @@ do
     local r = capture({brokenRegisters = true})
     r:load(0)
     r:frames(1)
-    r:hit(0, 'DrawGrid')
-    assert(r:has('first DrawGrid slot=0 ra=unreadable'))
+    r:hit(0, 'DrawSphere')
+    assert(r:has('first DrawSphere slot=0 ra=unreadable'))
     r:reset()
     stopped(r, 'reset')
 end
+
+-- Nothing at all: the run ends by itself inside the Vsync budget that old
+-- PCSX-Redux builds overflow at (two stack slots per event, 65,500 slots),
+-- and names slot 1 as untested.
 do
     local r = capture()
-    r:frames(600 * 60)
-    stopped(r, 'ten minutes without a Cosmo Queen image')
+    r:frames(300 * 60 - 1)
+    assert(not r:has('status:'))
+    r:frames(1)
+    stopped(r, 'five minutes elapsed')
+    assert(300 * 60 * 2 < 65500)
+    assert(r:has('slot1 header=506 episodes=0 control_hits=0 '
+        .. 'candidate_hits=0: NOT LOADED'))
+    assert(r:has('execution_breakpoint=NOT-observed'))
 end
+
+-- A failing print (the console erroring) does not break the callbacks.
 do
     local r = capture()
-    r:load(0)
-    r:frames(900 * 60)
-    stopped(r, 'four-minute window')
+    local captured = print
+    print = function() error('console full') end
+    r:load(1)
+    r:frames(1)
+    r:hit(1, 'DrawSphere')
+    print = captured
+    r:reset()
+    stopped(r, 'reset')
+    assert(not r:has('callback_error'))
+    assert(r:has('#01 t=   0.0s START slot=1'), 'rows are kept for the document')
 end
 
 print = originalPrint
-print('model_variant373_helper_reach: all cases passed')
+print('model_variant373_slot1_helper_reach: all cases passed')

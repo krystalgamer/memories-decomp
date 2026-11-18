@@ -55,7 +55,7 @@ unclassified; it is neither padding nor excluded game code.
 
 The US Cosmo Queen images build these sources as headers 356 (slot 0,
 stage 7) and 506 (slot 1, stage 8), with the helpers at the same offsets.
-[`model_variant373_helper_reach`](../../tools/trace/result/model_variant373_helper_reach.txt)
+An emulator trace (#418, slot-0 attack, two Venus episodes)
 put execution breakpoints on all seven helpers in both images. It recorded
 two complete Cosmo Queen attack episodes with the Venus star, each loading the
 slot-0 image (about 2,900 frames each):
@@ -75,7 +75,10 @@ strip, ribbon, quad and ray helpers are not reached.
 The slot-1 image (header 506), the defending side, was not exercised. The
 game does not play the 3D battle when the CPU attacks, so a two-player duel
 is needed to cover it. Until then, the four helpers are unreached in slot 0
-and untested in slot 1, not proven dead in both.
+and untested in slot 1, not proven dead in both. The reworked
+`tools/trace/model_variant373_slot1_helper_reach.lua` covers slot 1: in a 2P
+Duel, player 1 attacks player 2's Venus Cosmo Queen, with slot 0 kept as the
+control.
 
 ## Retained sixteen-ray helper
 

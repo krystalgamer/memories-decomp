@@ -76,10 +76,10 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant373_aImages[4];
 extern EntryConfig373 gFrenchModelVariant373_aConfigs[];
 /* The entry draws the rising rings, the sphere thrown along the aim and the
- * sparks at the target. In two traced slot-0 Cosmo Queen attacks
- * (tools/trace/result/model_variant373_helper_reach.txt) these three ran and
- * the strip, ribbon, quad and ray helpers below never did; slot 1 is
- * untraced. */
+ * sparks at the target. In an emulator trace (#418, slot-0 attack, two Venus
+ * episodes) these three ran and the strip, ribbon, quad and ray helpers below
+ * never did; slot 1 is untraced until
+ * tools/trace/model_variant373_slot1_helper_reach.lua is run. */
 void FrenchModelVariant373_DrawRisingRings(EntryState373 *context);
 void FrenchModelVariant373_DrawSphere(EntryState373 *context);
 void FrenchModelVariant373_DrawSparks(EntryState373 *context);
