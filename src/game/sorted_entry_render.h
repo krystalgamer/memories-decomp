@@ -29,6 +29,41 @@ typedef char FogLineG4_size_must_match_LINE_G4[
     sizeof(FogLineG4) == sizeof(LINE_G4) ? 1 : -1
 ];
 
+/* One vertex of a POLY_GT3/POLY_GT4 (libgpu.h) as its words: r/g/b/code
+ * (or pad), x/y, and the u/v halfword followed by clut, tpage or pad. */
+typedef struct FogPolyVertex {
+    u32 color;
+    u32 xy;
+    u16 uv;
+    u16 attr;
+} FogPolyVertex;
+
+/* The scratchpad POLY_GT3 and POLY_GT4 the fog drivers build their filled
+ * faces in. The GTE stores fill the primitive's fields, and the first three
+ * projected x/y words are read back whole into the GTE for NCLIP. */
+typedef union FogPolyGT3 {
+    POLY_GT3 prim;
+    struct {
+        u32 tag;
+        FogPolyVertex v[3];
+    } words;
+} FogPolyGT3;
+
+typedef union FogPolyGT4 {
+    POLY_GT4 prim;
+    struct {
+        u32 tag;
+        FogPolyVertex v[4];
+    } words;
+} FogPolyGT4;
+
+typedef char FogPolyGT3_size_must_match_POLY_GT3[
+    sizeof(FogPolyGT3) == sizeof(POLY_GT3) ? 1 : -1
+];
+typedef char FogPolyGT4_size_must_match_POLY_GT4[
+    sizeof(FogPolyGT4) == sizeof(POLY_GT4) ? 1 : -1
+];
+
 /* The fog drivers' packet output cursor. It starts at arg->out_packetp,
  * receives one primitive per drawn face, steps past that primitive, and ends
  * in gGraphics_pPacketWorkCursor. */
