@@ -5,9 +5,9 @@
 #define MODEL_VARIANT464_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant464_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant464_HandleRequest(Variant464EntryState *context, s32 command)
 {
-    Variant464EntryState *work = (Variant464EntryState *)point;
+    Variant464EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -370,11 +370,11 @@ s32 FrenchModelVariant464_HandleRequest(SVECTOR *point, s32 command)
             }
         }
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant464_DrawSheets((u8 *)point);
-            FrenchModelVariant464_DrawRings((Variant464EntryState *)point);
+            SpanishModelVariant464_DrawSheets((Sheets464State *)context);
+            FrenchModelVariant464_DrawRings(context);
         }
         if (work->config->times[0] <= work->clock.frame) {
-            SpanishModelVariant464_DrawAdvancingQuads((Variant464EntryState *)point);
+            SpanishModelVariant464_DrawAdvancingQuads(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);

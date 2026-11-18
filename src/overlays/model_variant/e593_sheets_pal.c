@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "e593_sheets_pal.h"
 
-void SpanishModelVariant473_DrawSheets(u8 *context)
+void SpanishModelVariant473_DrawSheets(Sheets473State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,10 +11,9 @@ void SpanishModelVariant473_DrawSheets(u8 *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Sheets473State *state = (Sheets473State *)context;
+    Sheets473State *state = context;
     ModelVariantSheet *sheet = state->sheets;
     Sheets473Primary *primary;
-    u8 *primary_cursor;
     POLY_GT4 *polygon;
     SVECTOR *vertex;
     s32 i, j;
@@ -23,10 +22,9 @@ void SpanishModelVariant473_DrawSheets(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     polygon = &state->polygon;
-    /* The sixth sheet has no primary record; advance within the raw context. */
-    primary_cursor = context + 0x18D8;
-    for (i = 0; i < 6; i++, sheet++, primary_cursor += sizeof(Sheets473Primary)) {
-        primary = (Sheets473Primary *)primary_cursor;
+    /* The sixth sheet has no primary record; the cursor steps past the five. */
+    primary = state->primary;
+    for (i = 0; i < 6; i++, sheet++, primary++) {
         extra = 0;
         if (state->frame & 1) {
             extra = sheet->size / 8;

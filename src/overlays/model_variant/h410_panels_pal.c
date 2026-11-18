@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "h410_panels_pal.h"
 
-void SpanishModelVariant427_DrawPanels(u8 *context)
+void SpanishModelVariant427_DrawPanels(Panel427State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,8 +10,8 @@ void SpanishModelVariant427_DrawPanels(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Panel427State *state = (Panel427State *)context;
-    u8 *primary = context + sizeof(state->unknown_0000);
+    Panel427State *state = context;
+    ModelVariantProgressRecord *primary = state->primary;
     ModelVariantSheet *sheet = state->sheets;
     POLY_GT4 *polygon;
     GsOT *ot;
@@ -22,8 +22,8 @@ void SpanishModelVariant427_DrawPanels(u8 *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     polygon = &state->polygon;
-    /* The byte cursor stays in the context; only the first three positions are primary records. */
-    for (i = 0; i < 6; i++, sheet++, primary += sizeof(ModelVariantProgressRecord)) {
+    /* Only the first three panels have a primary record; the cursor steps past them. */
+    for (i = 0; i < 6; i++, sheet++, primary++) {
         extra = 0;
         if (state->frame & 1) {
             extra = sheet->size / 8;
@@ -32,9 +32,9 @@ void SpanishModelVariant427_DrawPanels(u8 *context)
         rotation.vy = 0;
         rotation.vz = 0;
         if (i < 3) {
-            x = state->directions[i].vx * ((ModelVariantProgressRecord *)primary)->progress / 1024;
-            y = state->directions[i].vy * ((ModelVariantProgressRecord *)primary)->progress / 1024;
-            z = state->directions[i].vz * ((ModelVariantProgressRecord *)primary)->progress / 1024;
+            x = state->directions[i].vx * primary->progress / 1024;
+            y = state->directions[i].vy * primary->progress / 1024;
+            z = state->directions[i].vz * primary->progress / 1024;
             matrix.t[0] = state->matrices[i].t[0] + x;
             matrix.t[1] = state->matrices[i].t[1] + y;
             matrix.t[2] = state->matrices[i].t[2] + z;
@@ -74,7 +74,7 @@ void SpanishModelVariant427_DrawPanels(u8 *context)
             polygon->g3 = sheet->outer.g;
             polygon->b3 = sheet->outer.b;
             depth = depth * 8 / 10;
-            if (i >= 3 || ((ModelVariantProgressRecord *)primary)->progress >= 0) {
+            if (i >= 3 || primary->progress >= 0) {
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(polygon, ot, depth);
                 }
