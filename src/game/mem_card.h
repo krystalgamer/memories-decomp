@@ -135,11 +135,11 @@ extern u8 gMemCardWork_bFrameChecksum;
  * addresses, while offset/size are full words at the call boundary.
  * These are distinct from the LIBMCRD MemCardReadFile/WriteFile API. */
 s32 MemCard_ReqLoadDirectory(s32 channel);
-s32 MemCard_ReqReadFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size);
-s32 MemCard_ReqWriteFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size);
+s32 MemCard_ReqReadFile(s32 channel, char *name, s32 buffer, s32 offset, s32 size);
+s32 MemCard_ReqWriteFile(s32 channel, char *name, s32 buffer, s32 offset, s32 size);
 s32 MemCard_ReqReadSector(s32 channel, s32 buffer, s32 sector);
 s32 MemCard_ReqWriteSector(s32 channel, s32 buffer, s32 sector);
-s32 MemCard_ReqCreateFile(s32 channel, s32 name, s32 blocks);
+s32 MemCard_ReqCreateFile(s32 channel, char *name, s32 blocks);
 s32 MemCard_ProcessRequest(s32 mode, s32 *request, s32 *result);
 
 /* The result of the card's asynchronous IO, set from the callbacks

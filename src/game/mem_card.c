@@ -990,7 +990,7 @@ void MemCardWork_UpdateOperation(void)
             gMemCardWork_wFlags |= 0x1000;
             MemCard_ReqReadFile(
                 zero,
-                (s32)name,
+                name,
                 MEM_CARD_WORK_READ_ADDRESS,
                 SAVE_DATA_HEADER_SIZE,
                 MEM_CARD_BLOCK_SIZE - SAVE_DATA_HEADER_SIZE
@@ -1031,7 +1031,7 @@ void MemCardWork_UpdateOperation(void)
             );
             MemCard_ReqWriteFile(
                 zero,
-                (s32)file,
+                file,
                 MEM_CARD_WORK_WRITE_ADDRESS,
                 0,
                 SAVE_DATA_HEADER_SIZE + FILE_SECTOR_SIZE
@@ -1089,7 +1089,7 @@ void MemCardWork_UpdateOperation(void)
         if (!(gMemCardWork_OperationState & 0x80)) {
             gMemCardWork_OperationState |= 0x80;
             if (slot->free_blocks >= root->blocks)
-                MemCard_ReqCreateFile(zero, (s32)MEM_CARD_SAVE_FILE_NAME, root->blocks);
+                MemCard_ReqCreateFile(zero, MEM_CARD_SAVE_FILE_NAME, root->blocks);
             break;
         }
 #ifndef VERSION_EUROPE
