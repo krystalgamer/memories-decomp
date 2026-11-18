@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "h457_ribbons_pal.h"
 #include "h457_entry_pal.h"
 
 /* The North American header-457 copy, built with the CDK compiler, names the
@@ -35,7 +34,7 @@ void FrenchModelVariant474_DrawRibbon(Variant474EntryState *context)
     s32 dy;
     s32 prev;
     s32 cur;
-    Ribbon474 *ribbon;
+    Variant474EntryRibbon *ribbon;
     POLY_GT4 *poly;
     Variant474EntryConfig *timing;
 
@@ -49,7 +48,7 @@ void FrenchModelVariant474_DrawRibbon(Variant474EntryState *context)
     } else {
         len = work->width * 72 / 1024;
     }
-    ribbon = (Ribbon474 *)&work->ribbon;
+    ribbon = &work->ribbon;
     for (i = 0; i < 1; i++, ribbon++) {
         for (k = 0; k < 17; k++) {
             r = (0x400 - ribbon->amp[k]) / 4;
@@ -93,7 +92,7 @@ void FrenchModelVariant474_DrawRibbon(Variant474EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    ribbon = (Ribbon474 *)&work->ribbon;
+    ribbon = &work->ribbon;
     for (i = 0; i < 1; i++, ribbon++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
@@ -127,7 +126,7 @@ void FrenchModelVariant474_DrawRibbon(Variant474EntryState *context)
             }
         }
     }
-    ribbon = (Ribbon474 *)&work->ribbon;
+    ribbon = &work->ribbon;
     for (i = 0; i < 1; i++, ribbon++) {
         poly = work->bars;
         for (k = 0; k < 16; k++) {

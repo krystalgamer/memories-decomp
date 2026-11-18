@@ -26,7 +26,12 @@ typedef struct {
 /* The ribbon view the header-474 ribbons helper draws: phases, amplitudes,
  * two colour rows, a scale and a heading. */
 typedef struct {
-    u8 unknown_000[0x220];
+    SVECTOR a[17];
+    ModelVariantScreenPoint sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    ModelVariantScreenPoint sb[17];
+    s32 width[17];
     s32 phase[17];
     s32 amp[17];
     CVECTOR color[17];
@@ -37,7 +42,9 @@ typedef struct {
     s32 field_344;
     u8 unknown_348[0x88];
     s32 heading[3];
-    u8 unknown_3DC[0xD0];
+    u8 unknown_3DC[4];
+    long flags[17];
+    ModelVariantStripOffsets offsets;
 } Variant474EntryRibbon;
 
 /* The header-474 work area shared with its helpers. */
