@@ -493,3 +493,18 @@ assignments: two in Japan and about 240 in each of the four language builds.
   (checked per section, from `objdump -t`);
 - names inside owned blocks are `link_symbols.ld` aliases, as in the North
   American build.
+
+## Overlay data
+
+Overlay modules follow the same object order: a text unit's `.data` is listed
+at its address in the module's layout (`[0x2B38, .data, overlays/...]`), and
+its tables are defined after its includes. The password and name-entry
+modules' keyboard tables belong to `name_entry_runtime.c`, the starter-deck
+pools and their pointer list to `name_entry_main.c`, in every region.
+
+Between objects the overlay linker left whatever was in memory: the alignment
+gaps around those two objects hold zero in some builds and stray bytes in
+others (Japan, the English PAL images, and USA's word after the pointer list).
+Such fill is not an object. It stays a raw `bin` subsegment, or `pad` where it
+is zero; a layout whose fill starts at an odd address uses `subalign: 1`, since
+every gap there is explicit.

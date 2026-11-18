@@ -28,6 +28,56 @@
 #include "../../overlays/password/name_entry_state.h"
 #include "name_entry_tables.h"
 
+/* This unit's .data opens the module's data, ahead of the starter-deck pools
+ * that name_entry_main.c owns. Columns 0-10 are character cells; the last four
+ * hold the command cells and the negative steps back to their first column. */
+s8 gNameEntry_aKeyboardCells[NAME_ENTRY_KEYBOARD_ROW_COUNT]
+                            [NAME_ENTRY_KEYBOARD_COLUMN_COUNT] = {
+#if defined(VERSION_JAPAN)
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, -12, -13, -3},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, -12, -13, -3},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 66, -12, -13, -3},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, -13, -2},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, -13, -2},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, -12, -13, -3},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, -12, -13, -3},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, -12, -13, -3},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, -12, -13, -3},
+#elif defined(VERSION_EUROPE)
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11, -12, -13, -4},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11, -12, -13, -4},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11, -12, -13, -4},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11, -12, -13, -4},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11, -12, -13, -4},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11, -12, -13, -4},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11, -12, -13, -4},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, -11, -12, -13, -4},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 72, -12, -13, -3},
+#else
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, -13, -2},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, -13, -2},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, -13, -2},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, -13, -2},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 4, -13, -2},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, -12, -13, -3},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, -12, -13, -3},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, -12, -13, -3},
+    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 70, -12, -13, -3},
+#endif
+};
+
+#ifndef VERSION_EUROPE
+/* Europe's keyboard rejects vertical moves on the command columns, so it has
+ * neither the reader nor the table. */
+u8 gNameEntry_aRowLinks[NAME_ENTRY_KEYBOARD_ROW_COUNT][2] = {
+#ifdef VERSION_JAPAN
+    {6, 4}, {6, 4}, {6, 4}, {2, 6}, {2, 6}, {4, 2}, {4, 2}, {4, 2}, {4, 2},
+#else
+    {6, 6}, {6, 6}, {6, 6}, {6, 6}, {6, 6}, {4, 4}, {4, 4}, {4, 4}, {4, 4},
+#endif
+};
+#endif
+
 #ifdef VERSION_EUROPE
 #define NAME_ENTRY_FRAGMENT_BOTTOM 0x100
 #define NAME_ENTRY_SHATTER_WIDTH 0x0C
