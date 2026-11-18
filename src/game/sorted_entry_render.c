@@ -86,6 +86,7 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
     mask = 0xFFFFFF;
     white = (u32 *)SCRATCH_ADDR(0x3C0);
     scr = (s32 *)SCRATCH_ADDR(0x3E0);
+    /* primp is the SDK's u_long *; its halfword 1 is the record count. */
     primp = (u32 *)arg->primp;
     out.bytes = arg->out_packetp;
     n = ((u16 *)primp)[1];
@@ -116,7 +117,7 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
         u32 c1;
         u32 *grey = (u32 *)SCRATCH_ADDR(0x3D0);
         FogLineG4 *lg = (FogLineG4 *)SCRATCH_ADDR(0x380);
-        POLY_GT3 *gt = (POLY_GT3 *)SCRATCH_ADDR(0x380);
+        FogPolyGT3 *gt = (FogPolyGT3 *)SCRATCH_ADDR(0x380);
 
         *white = mask;
         *grey = gModel_dwFogBaseColor;
@@ -125,42 +126,43 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
                 (z = SortedEntry_PopPosition()) < gSortedEntry_nCount) {
                 gte_ldv0(&vertop[rec[7]]);
                 gte_rtps();
-                gte_stsxy(&gt->x0);
+                gte_stsxy(&gt->prim.x0);
                 gte_stflg(&scr[0]);
                 gte_ldv0(&nortop[rec[6]]);
                 gte_ldrgb(grey);
                 gte_ncds();
-                gte_strgb(&gt->r0);
+                gte_strgb(&gt->prim.r0);
                 gte_stszotz(&scr[4]);
                 gte_ldv0(&vertop[rec[9]]);
                 gte_rtps();
-                gte_stsxy(&gt->x1);
+                gte_stsxy(&gt->prim.x1);
                 gte_stflg(&scr[1]);
                 gte_ldv0(&nortop[rec[8]]);
                 gte_ldrgb(grey);
                 gte_ncds();
-                gte_strgb(&gt->r1);
+                gte_strgb(&gt->prim.r1);
                 gte_stszotz(&scr[5]);
                 gte_ldv0(&vertop[rec[11]]);
                 gte_rtps();
-                gte_stsxy(&gt->x2);
+                gte_stsxy(&gt->prim.x2);
                 gte_stflg(&scr[2]);
                 gte_ldv0(&nortop[rec[10]]);
                 gte_ldrgb(grey);
                 gte_ncds();
-                gte_strgb(&gt->r2);
+                gte_strgb(&gt->prim.r2);
                 gte_stszotz(&scr[6]);
-                gte_ldsxy3(*(s32 *)&gt->x0, *(s32 *)&gt->x1, *(s32 *)&gt->x2);
+                gte_ldsxy3(gt->words.v[0].xy, gt->words.v[1].xy, gt->words.v[2].xy);
                 gte_nclip();
                 gte_stopz(&z);
                 if (z > 0 && (scr[0] | scr[1] | scr[2]) >= 0) {
-                    setPolyGT3(gt);
-                    *(u16 *)&gt->u0 = rec[0];
-                    *(u16 *)&gt->u1 = rec[2];
-                    *(u16 *)&gt->u2 = rec[4];
-                    gt->tpage = rec[3];
-                    gt->clut = rec[1];
-                    *out.gt3 = *gt;
+                    setPolyGT3(&gt->prim);
+                    /* Halfword u/v stores: FogPoly words.v[].uv members reallocate the driver. */
+                    *(u16 *)&gt->prim.u0 = rec[0];
+                    *(u16 *)&gt->prim.u1 = rec[2];
+                    *(u16 *)&gt->prim.u2 = rec[4];
+                    gt->prim.tpage = rec[3];
+                    gt->prim.clut = rec[1];
+                    *out.gt3 = gt->prim;
                     z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
                     addPrim(&arg->tagp->org[z], out.bytes);
                     out.gt3++;
@@ -210,48 +212,49 @@ u32 *Model_DrawFogTexturedTriangles(GsARGUNIT_NORMAL *arg)
             rec++;
         }
     } else {
-        POLY_GT3 *gt = (POLY_GT3 *)SCRATCH_ADDR(0x380);
+        FogPolyGT3 *gt = (FogPolyGT3 *)SCRATCH_ADDR(0x380);
 
         *white = gModel_dwFogBaseColor;
         while (--n != -1) {
             gte_ldv0(&vertop[rec[7]]);
             gte_rtps();
-            gte_stsxy(&gt->x0);
+            gte_stsxy(&gt->prim.x0);
             gte_stflg(&scr[0]);
             gte_ldv0(&nortop[rec[6]]);
             gte_ldrgb(white);
             gte_ncds();
-            gte_strgb(&gt->r0);
+            gte_strgb(&gt->prim.r0);
             gte_stszotz(&scr[4]);
             gte_ldv0(&vertop[rec[9]]);
             gte_rtps();
-            gte_stsxy(&gt->x1);
+            gte_stsxy(&gt->prim.x1);
             gte_stflg(&scr[1]);
             gte_ldv0(&nortop[rec[8]]);
             gte_ldrgb(white);
             gte_ncds();
-            gte_strgb(&gt->r1);
+            gte_strgb(&gt->prim.r1);
             gte_stszotz(&scr[5]);
             gte_ldv0(&vertop[rec[11]]);
             gte_rtps();
-            gte_stsxy(&gt->x2);
+            gte_stsxy(&gt->prim.x2);
             gte_stflg(&scr[2]);
             gte_ldv0(&nortop[rec[10]]);
             gte_ldrgb(white);
             gte_ncds();
-            gte_strgb(&gt->r2);
+            gte_strgb(&gt->prim.r2);
             gte_stszotz(&scr[6]);
-            gte_ldsxy3(*(s32 *)&gt->x0, *(s32 *)&gt->x1, *(s32 *)&gt->x2);
+            gte_ldsxy3(gt->words.v[0].xy, gt->words.v[1].xy, gt->words.v[2].xy);
             gte_nclip();
             gte_stopz(&z);
             if (z > 0 && (scr[0] | scr[1] | scr[2]) >= 0) {
-                setPolyGT3(gt);
-                *(u16 *)&gt->u0 = rec[0];
-                *(u16 *)&gt->u1 = rec[2];
-                *(u16 *)&gt->u2 = rec[4];
-                gt->tpage = rec[3];
-                gt->clut = rec[1];
-                *out.gt3 = *gt;
+                setPolyGT3(&gt->prim);
+                /* Halfword u/v stores: FogPoly words.v[].uv members reallocate the driver. */
+                *(u16 *)&gt->prim.u0 = rec[0];
+                *(u16 *)&gt->prim.u1 = rec[2];
+                *(u16 *)&gt->prim.u2 = rec[4];
+                gt->prim.tpage = rec[3];
+                gt->prim.clut = rec[1];
+                *out.gt3 = gt->prim;
                 z = (scr[4] + scr[5] + scr[6]) / 3 >> 4;
                 addPrim(&arg->tagp->org[z], out.bytes);
                 out.gt3++;
@@ -320,6 +323,7 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
     mask = 0xFFFFFF;
     white = (u32 *)SCRATCH_ADDR(0x3C0);
     scr = (s32 *)SCRATCH_ADDR(0x3E0);
+    /* primp is the SDK's u_long *; its halfword 1 is the record count. */
     primp = (u32 *)arg->primp;
     out.bytes = arg->out_packetp;
     n = ((u16 *)primp)[1];
@@ -349,7 +353,7 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
 
     if (flags & 3) {
         LINE_G4 *lg = (LINE_G4 *)SCRATCH_ADDR(0x380);
-        POLY_GT4 *gt = (POLY_GT4 *)SCRATCH_ADDR(0x380);
+        FogPolyGT4 *gt = (FogPolyGT4 *)SCRATCH_ADDR(0x380);
         u32 *grey = (u32 *)SCRATCH_ADDR(0x3D0);
 
         *white = mask;
@@ -360,52 +364,53 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
                 (z = SortedEntry_PopPosition()) < gSortedEntry_nCount) {
                 gte_ldv0(&vertop[rec[7]]);
                 gte_rtps();
-                gte_stsxy(&gt->x0);
+                gte_stsxy(&gt->prim.x0);
                 gte_stflg(&scr[0]);
                 gte_ldv0(&nortop[rec[5]]);
                 gte_ldrgb(grey);
                 gte_ncds();
-                gte_strgb(&gt->r0);
+                gte_strgb(&gt->prim.r0);
                 gte_stszotz(&scr[4]);
                 gte_ldv0(&vertop[rec[9]]);
                 gte_rtps();
-                gte_stsxy(&gt->x1);
+                gte_stsxy(&gt->prim.x1);
                 gte_stflg(&scr[1]);
                 gte_ldv0(&nortop[rec[8]]);
                 gte_ldrgb(grey);
                 gte_ncds();
-                gte_strgb(&gt->r1);
+                gte_strgb(&gt->prim.r1);
                 gte_stszotz(&scr[5]);
                 gte_ldv0(&vertop[rec[11]]);
                 gte_rtps();
-                gte_stsxy(&gt->x2);
+                gte_stsxy(&gt->prim.x2);
                 gte_stflg(flg);
                 gte_ldv0(&nortop[rec[10]]);
                 gte_ldrgb(grey);
                 gte_ncds();
-                gte_strgb(&gt->r2);
+                gte_strgb(&gt->prim.r2);
                 gte_stszotz(&scr[6]);
-                gte_ldsxy3(*(s32 *)&gt->x0, *(s32 *)&gt->x1, *(s32 *)&gt->x2);
+                gte_ldsxy3(gt->words.v[0].xy, gt->words.v[1].xy, gt->words.v[2].xy);
                 gte_nclip();
                 gte_stopz(&z);
                 if (z > 0 && (scr[0] | scr[1] | scr[2]) >= 0) {
                     gte_ldv0(&vertop[rec[13]]);
                     gte_rtps();
-                    gte_stsxy(&gt->x3);
+                    gte_stsxy(&gt->prim.x3);
                     gte_stflg(&scr[3]);
                     gte_ldv0(&nortop[rec[12]]);
                     gte_ldrgb(grey);
                     gte_ncds();
-                    gte_strgb(&gt->r3);
+                    gte_strgb(&gt->prim.r3);
                     gte_stszotz(&scr[7]);
-                    setPolyGT4(gt);
-                    *(u16 *)&gt->u0 = rec[0];
-                    *(u16 *)&gt->u1 = rec[2];
-                    *(u16 *)&gt->u2 = rec[4];
-                    *(u16 *)&gt->u3 = rec[6];
-                    gt->tpage = rec[3];
-                    gt->clut = rec[1];
-                    *out.gt4 = *gt;
+                    setPolyGT4(&gt->prim);
+                    /* Halfword u/v stores: FogPoly words.v[].uv members reallocate the driver. */
+                    *(u16 *)&gt->prim.u0 = rec[0];
+                    *(u16 *)&gt->prim.u1 = rec[2];
+                    *(u16 *)&gt->prim.u2 = rec[4];
+                    *(u16 *)&gt->prim.u3 = rec[6];
+                    gt->prim.tpage = rec[3];
+                    gt->prim.clut = rec[1];
+                    *out.gt4 = gt->prim;
                     z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
                     addPrim(&arg->tagp->org[z], out.bytes);
                     out.gt4++;
@@ -467,58 +472,59 @@ u32 *Model_DrawFogTexturedQuads(GsARGUNIT_NORMAL *arg)
             rec += 14;
         }
     } else {
-        POLY_GT4 *gt = (POLY_GT4 *)SCRATCH_ADDR(0x380);
+        FogPolyGT4 *gt = (FogPolyGT4 *)SCRATCH_ADDR(0x380);
 
         *white = gModel_dwFogBaseColor;
         while (--n != -1) {
             gte_ldv0(&vertop[rec[7]]);
             gte_rtps();
-            gte_stsxy(&gt->x0);
+            gte_stsxy(&gt->prim.x0);
             gte_stflg(&scr[0]);
             gte_ldv0(&nortop[rec[5]]);
             gte_ldrgb(white);
             gte_ncds();
-            gte_strgb(&gt->r0);
+            gte_strgb(&gt->prim.r0);
             gte_stszotz(&scr[4]);
             gte_ldv0(&vertop[rec[9]]);
             gte_rtps();
-            gte_stsxy(&gt->x1);
+            gte_stsxy(&gt->prim.x1);
             gte_stflg(&scr[1]);
             gte_ldv0(&nortop[rec[8]]);
             gte_ldrgb(white);
             gte_ncds();
-            gte_strgb(&gt->r1);
+            gte_strgb(&gt->prim.r1);
             gte_stszotz(&scr[5]);
             gte_ldv0(&vertop[rec[11]]);
             gte_rtps();
-            gte_stsxy(&gt->x2);
+            gte_stsxy(&gt->prim.x2);
             gte_stflg(&scr[2]);
             gte_ldv0(&nortop[rec[10]]);
             gte_ldrgb(white);
             gte_ncds();
-            gte_strgb(&gt->r2);
+            gte_strgb(&gt->prim.r2);
             gte_stszotz(&scr[6]);
-            gte_ldsxy3(*(s32 *)&gt->x0, *(s32 *)&gt->x1, *(s32 *)&gt->x2);
+            gte_ldsxy3(gt->words.v[0].xy, gt->words.v[1].xy, gt->words.v[2].xy);
             gte_nclip();
             gte_stopz(&z);
             if (z > 0 && (scr[0] | scr[1] | scr[2]) >= 0) {
                 gte_ldv0(&vertop[rec[13]]);
                 gte_rtps();
-                gte_stsxy(&gt->x3);
+                gte_stsxy(&gt->prim.x3);
                 gte_stflg(&scr[3]);
                 gte_ldv0(&nortop[rec[12]]);
                 gte_ldrgb(white);
                 gte_ncds();
-                gte_strgb(&gt->r3);
+                gte_strgb(&gt->prim.r3);
                 gte_stszotz(&scr[7]);
-                setPolyGT4(gt);
-                *(u16 *)&gt->u0 = rec[0];
-                *(u16 *)&gt->u1 = rec[2];
-                *(u16 *)&gt->u2 = rec[4];
-                *(u16 *)&gt->u3 = rec[6];
-                gt->tpage = rec[3];
-                gt->clut = rec[1];
-                *out.gt4 = *gt;
+                setPolyGT4(&gt->prim);
+                /* Halfword u/v stores: FogPoly words.v[].uv members reallocate the driver. */
+                *(u16 *)&gt->prim.u0 = rec[0];
+                *(u16 *)&gt->prim.u1 = rec[2];
+                *(u16 *)&gt->prim.u2 = rec[4];
+                *(u16 *)&gt->prim.u3 = rec[6];
+                gt->prim.tpage = rec[3];
+                gt->prim.clut = rec[1];
+                *out.gt4 = gt->prim;
                 z = (scr[4] + scr[5] + scr[6] + scr[7]) / 4 >> 4;
                 addPrim(&arg->tagp->org[z], out.bytes);
                 out.gt4++;
