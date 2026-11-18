@@ -103,8 +103,8 @@ segments:
     - .rodata
     - game/sound_driver
   - - 3936
-    - rodata
-    - initial_data_f60
+    - .rodata
+    - game/sound_secondary_voice
   - - 7088
     - .rodata
     - game/sound_sequence_parser

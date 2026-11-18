@@ -18,8 +18,9 @@ s32 SD_PitchFromNote(s32 note_high, s32 note_low, s32 base, s32 offset);
 
 /* Twelve semitone rows of 128 fine-tune steps: the SPU pitch word for each
  * semitone of the base octave. SD_PitchFromNote indexes it by the difference's
- * semitone and the fine step, then shifts by the octave. */
-extern u16 gSD_awNotePitchTable[12][128];
+ * semitone and the fine step, then shifts by the octave. The table is the
+ * start of this unit's .rodata. */
+extern const u16 gSD_awNotePitchTable[12][128];
 
 /* Computes one secondary sound object's pan position and stereo level pair.
  *

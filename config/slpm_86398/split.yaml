@@ -86,7 +86,7 @@ segments:
       - [0xcf4, rodata, initial_data_cf4]
       - [0xcf4, .rodata, game/sound_output_state]
       - [0xF00, .rodata, game/sound_driver]
-      - [0xfb0, rodata, initial_data_fb0]
+      - [0xfb0, .rodata, game/sound_secondary_voice]
       - [0x1c00, .rodata, game/sound_sequence_parser]
       - [0x1c40, .rodata, game/model]
       - [0x1eb4, .rodata, game/model_animation_unit]
