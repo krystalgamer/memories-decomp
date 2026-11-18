@@ -539,7 +539,7 @@ void MainMenu_DrawFrontendBackground(void)
     shade.y2 = 64;
     shade.x3 = GRAPHICS_DEFAULT_WIDTH;
     shade.y3 = 64;
-    Graphics_SubmitDrawModePacket((u32 *)&shade, (GsOT *)gGraphics_apOrderingTables[2], 4094, 2);
+    Graphics_SubmitDrawModePacket((u32 *)&shade, gGraphics_apOrderingTables[2], 4094, 2);
 
     shade.r0 = 0;
     shade.g0 = 0;
