@@ -52,7 +52,7 @@ segments:
     vram: 0x80168000
     align: 4
     subsegments:
-      - [0x0, data, overlays/german_overworld_before_coup/module_header]
+      - [0x0, .data, overlays/overworld/module_header]
 
   - name: module
     type: code
@@ -68,7 +68,7 @@ segments:
     vram: 0x801691A8
     align: 4
     subsegments:
-      - [0x11A8, data, overlays/german_overworld_before_coup/location_table]
+      - [0x11A8, .data, overlays/overworld/location_table]
 
   - name: live_state
     type: code
@@ -94,7 +94,7 @@ segments:
     vram: 0x80169E54
     align: 4
     subsegments:
-      - [0x1E54, data, overlays/german_overworld_before_coup/alternate_location]
+      - [0x1E54, .data, overlays/overworld/alternate_location]
 
   - name: module_data
     type: code

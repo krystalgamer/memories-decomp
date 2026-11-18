@@ -1,6 +1,13 @@
 #include "../../types.h"
 #include "location_table.h"
 
+/* PAL places location 9's only exit sprite 16 lines lower. */
+#ifdef VERSION_EUROPE
+#define LOCATION_9_EXIT_Y 208
+#else
+#define LOCATION_9_EXIT_Y 192
+#endif
+
 MapLocation gCampaignMap_aLocationTable[CAMPAIGN_MAP_LOCATION_COUNT] = {
     {
         0, 486, 2040, 1596, 492, -548, 0, 0, 13, 0,
@@ -86,7 +93,7 @@ MapLocation gCampaignMap_aLocationTable[CAMPAIGN_MAP_LOCATION_COUNT] = {
     {
         0, 470, 2270, 1044, -26, -514, 0, 0, 0, 0,
         {
-            {0x0000, 160, 192, 0x4000, 2, 0, 16, 0},
+            {0x0000, 160, LOCATION_9_EXIT_Y, 0x4000, 2, 0, 16, 0},
             {0x0000, 0, 0, 0x0000, 0, 16, 0, 0},
             {0x0000, 0, 0, 0x0000, 0, 16, 0, 0},
             {0x0000, 0, 0, 0x0000, 0, 16, 0, 0},

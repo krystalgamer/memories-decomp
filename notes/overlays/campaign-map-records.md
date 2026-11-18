@@ -117,6 +117,11 @@ must not be defaulted to zero merely because the live code does not read it.
 High-bit story-flag values and all unused-exit sentinel records are likewise
 preserved rather than normalized.
 
+The Japanese and PAL images build the same source through their own data
+manifests. Japan's table is byte-identical; the PAL table differs in one
+field, location 9's only exit sprite `y` (`192` NTSC, `208` PAL), which the
+PAL entries select with `VERSION_EUROPE` (`LOCATION_9_EXIT_Y`).
+
 The layout has three pieces after the header:
 
 | File range | Runtime range | Ownership |
