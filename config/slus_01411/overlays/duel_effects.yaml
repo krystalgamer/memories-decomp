@@ -106,6 +106,7 @@ segments:
       - [0x10AB4, c, overlays/duel_effects/life_point_effects]
       - [0x1274C, c, overlays/duel_effects/effect_4]
       - [0x12E84, c, overlays/duel_effects/effect_17]
-      - [0x14270, data, overlays/duel_effects/data]
+      - [0x14270, .data, overlays/duel_effects/dispatch]
+      - [0x14570, data, overlays/duel_effects/data]
 
   - [0x16000]

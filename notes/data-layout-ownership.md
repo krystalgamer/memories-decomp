@@ -529,6 +529,14 @@ that text order: North America `+0x180..+0x2A0`, PAL `+0x138..+0x258`, Japan
 `+0x138..+0x158` and, after the strings, `+0x1B0..+0x2B0`. No raw read-only
 data remains in the header in any region.
 
+The bank's `.data` follows the same text order. `dispatch.c` comes first and
+defines `gDuelEffect_TextureImages` (21 `GsIMAGE`) and
+`gDuelEffect_TextureModesAndVariants` (the 180-byte modes/variant-image
+union, initialized through `.variant`): North America and Japan
+`+0x14270..+0x14570`, PAL `+0x141E4..+0x144E4`. Retail keeps both in `.data`,
+not `.rodata`, so they stay non-`const`. The rest is still the raw `data`
+subsegment.
+
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in
 others (Japan, the English PAL images, and USA's word after the pointer list).

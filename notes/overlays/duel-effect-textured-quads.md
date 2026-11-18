@@ -118,7 +118,11 @@ complete-pair, SDK/ABI and curve-fingerprint controls remain unchanged.
 owners through plain typed externs; the symbol files bind each name in
 place of its former label. It reuses the canonical SDK image type,
 `DuelEffectImageInputs` and `DuelEffectTextureTable`; it defines no storage,
-replacement layout or absolute linker alias.
+replacement layout or absolute linker alias. `dispatch.c`, the first unit in
+text order, defines the image records and the modes/variant union as the
+start of the bank's `.data` (#2602); the union is initialized through its
+`variant` view, so mode 20 is the low half of variant image zero's `pmode`.
+PAL differs only in the CLUT positions (`DUEL_EFFECT_CLUT`).
 
 | C name | Former label | Bytes | NA address | JP address | UK / FR / ES address |
 |---|---|---:|---|---|---|
