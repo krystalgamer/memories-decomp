@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "h435_lines.h"
+#include "h435_entry_pal.h"
 
-void FrenchModelVariant452_DrawLines(Variant452LinesView *ctx)
+void FrenchModelVariant452_DrawLines(Variant452EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -10,8 +10,8 @@ void FrenchModelVariant452_DrawLines(Variant452LinesView *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant452LinesView *work = ctx;
-    Variant452Grid *grid = work->grid;
+    Variant452EntryState *work = ctx;
+    ModelVariantWeb *grid = work->webs;
     GsGLINE *line = &work->line;
     GsOT *ot;
     s16 i, j, k;
@@ -23,31 +23,31 @@ void FrenchModelVariant452_DrawLines(Variant452LinesView *ctx)
 
     ot = Graphics_GetDefaultOrderingTable();
     active = 1;
-    ratan2(work->delta.vz, work->delta.vx);
-    ratan2(work->delta.vy, work->delta.vx);
-    ratan2(work->delta_y, work->delta_x);
+    ratan2(work->view_delta.vz, work->view_delta.vx);
+    ratan2(work->view_delta.vy, work->view_delta.vx);
+    ratan2(work->delta.vz, work->delta.vy);
     ratan2(work->screen_delta.vy, work->screen_delta.vx);
     for (k = 0; k < 3; k++, grid++) {
-        if (grid->count > 0) {
-            fade = size = grid->count;
+        if (grid->scale > 0) {
+            fade = size = grid->scale;
         } else {
             size = fade = 0;
         }
         if (fade > 2048) {
-            r = grid->color[0] * (4096 - fade) / 2048;
-            g = grid->color[1] * (4096 - fade) / 2048;
-            b = grid->color[2] * (4096 - fade) / 2048;
+            r = grid->color.r * (4096 - fade) / 2048;
+            g = grid->color.g * (4096 - fade) / 2048;
+            b = grid->color.b * (4096 - fade) / 2048;
         } else {
-            r = grid->color[0];
-            g = grid->color[1];
-            b = grid->color[2];
+            r = grid->color.r;
+            g = grid->color.g;
+            b = grid->color.b;
         }
         rot.vx = 0;
         rot.vy = 0;
         rot.vz = 0;
-        matrix.t[0] = work->translation[0];
-        matrix.t[1] = work->translation[1];
-        matrix.t[2] = work->translation[2];
+        matrix.t[0] = work->position.vx;
+        matrix.t[1] = work->position.vy;
+        matrix.t[2] = work->position.vz;
         scale.vx = size;
         scale.vy = size;
         scale.vz = size;
@@ -62,8 +62,8 @@ void FrenchModelVariant452_DrawLines(Variant452LinesView *ctx)
             for (j = 0; j < 6; j++) {
                 line->attribute = 0x50000000;
                 depth = RotTransPers4(
-                    &grid->inner[i][j], &grid->outer[i][j],
-                    &grid->inner[i][j], &grid->outer[i][j],
+                    &grid->near[i][j], &grid->far[i][j],
+                    &grid->near[i][j], &grid->far[i][j],
                     (long *)&line->x0, (long *)&line->x1,
                     (long *)&line->x0, (long *)&line->x1,
                     &p, &flag);
@@ -78,13 +78,13 @@ void FrenchModelVariant452_DrawLines(Variant452LinesView *ctx)
                 }
             }
         }
-        if (grid->count < 4096) {
-            grid->count += work->clock.step << 7;
-            if (grid->count >= 4096) {
+        if (grid->scale < 4096) {
+            grid->scale += work->clock.step << 7;
+            if (grid->scale >= 4096) {
                 if (work->phase < 4) {
-                    grid->count -= 4096;
+                    grid->scale -= 4096;
                 } else {
-                    grid->count = 4096;
+                    grid->scale = 4096;
                 }
             } else {
                 active = 0;

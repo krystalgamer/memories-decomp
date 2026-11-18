@@ -332,7 +332,7 @@ s32 FrenchModelVariant452_HandleRequest(Variant452EntryState *context, s32 comma
             FrenchModelVariant452_DrawSheets(context);
             FrenchModelVariant452_DrawStreamers(context);
             if (work->phase > 0) {
-                FrenchModelVariant452_DrawLines((Variant452LinesView *)context);
+                FrenchModelVariant452_DrawLines(context);
             }
         }
         work->clock.frame_count++;

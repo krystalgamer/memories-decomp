@@ -5,7 +5,6 @@
 #include "../../game/model_slot_support.h"
 #include "h422_entry_pal.h"
 #include "../model_variant/model_variant.h"
-#include "h435_lines.h"
 
 typedef struct {
     u8 unknown00[0x28];
@@ -49,7 +48,9 @@ typedef struct {
     ModelVariantPackets packets;
     POLY_GT4 extra;
     POLY_FT4 flat_textured[2];
-    u8 unknown_32BC[0x24];
+    u8 unknown_32BC[0x10];
+    /* The lines helper's packet. */
+    GsGLINE line;
     MATRIX matrix;
     SVECTOR target;
     VECTOR position, delta, path;
@@ -73,6 +74,6 @@ extern GsIMAGE gFrenchModelVariant452_aImages[9];
 extern Variant452EntryConfig gFrenchModelVariant452_aConfigs[];
 void FrenchModelVariant452_DrawSheets(Variant452EntryState *context);
 void FrenchModelVariant452_DrawStreamers(Variant452EntryState *context);
-void FrenchModelVariant452_DrawLines(Variant452LinesView *context);
+void FrenchModelVariant452_DrawLines(Variant452EntryState *context);
 s32 FrenchModelVariant452_HandleRequest(Variant452EntryState *point, s32 command);
 #endif

@@ -30,7 +30,9 @@ typedef struct {
     ModelVariantPackets packets;
     POLY_GT4 extra;
     POLY_FT4 flat_textured[2];
-    u8 unknown_2658[0x24];
+    u8 unknown_2658[0x10];
+    /* The lines helper's packet. */
+    GsGLINE line;
     MATRIX matrix;
     ModelVariantAim aim;
     s32 angles[2];
