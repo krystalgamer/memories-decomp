@@ -9,7 +9,7 @@ extern void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase);
 
 extern DuelEffect6Config gDuelEffect_DirectDamageConfigs[6];
 extern DuelEffect7Config gDuelEffect_ReflectedDirectDamageConfigs[5];
-extern VECTOR gDuelEffect_DirectDamageInitialScale;
-extern VECTOR gDuelEffect_ReflectedDirectDamageInitialScale;
+extern const VECTOR gDuelEffect_DirectDamageInitialScale;
+extern const VECTOR gDuelEffect_ReflectedDirectDamageInitialScale;
 
 #endif

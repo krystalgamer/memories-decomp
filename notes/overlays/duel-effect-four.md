@@ -18,8 +18,9 @@ The complete handler and dispatcher use an extern-only semantic header.
 (NA `8015B770`, JP `80169790`), preserving both 28-byte private records
 and their real 56-byte generated owner. The separate SDK VECTOR
 `gDuelEffect_CardFlashBurstInitialScale` replaces the former label `D_80146248`
-(NA `80146290`, JP `801542A0`), retaining all 16 bytes and padding.
-No private type, provider, layout, profile, native map or allocation changes.
+(NA `80146290`, JP `801542A0`), retaining all 16 bytes and padding; it is
+now `effect_4.c`'s `const` `.rodata` (#2602). No private type, layout,
+profile or native map changes.
 
 Preserve phases at least two selecting the crossed-line fallback, its
 first-update command and greater-than-180 completion, both four-point card

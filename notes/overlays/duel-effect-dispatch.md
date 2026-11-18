@@ -169,8 +169,10 @@ Existing consumers use the named member at offset zero, without changing any
 accepted field offset. This avoids separate incompatible array/struct
 declarations and avoids indexing beyond the old prefix.
 
-The six symbols remain real definitions in the generated input `.data`
-object, not C definitions or absolute aliases. Explicit symbol extents let
+The image records and the modes/variant union are now `dispatch.c`'s own
+`.data` (#2602), the first object of the bank's data; the other four remain
+real definitions in the generated input `.data` object, not C definitions
+or absolute aliases. Explicit symbol extents let
 Splat resolve interior references such as `8015B778` as `D_8015B748 + 0x30`;
 the original bytes and reference operands remain unchanged. The final linked
 symbols have all six exact sizes. The final module section also contains

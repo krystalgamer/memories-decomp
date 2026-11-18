@@ -522,10 +522,20 @@ fill after the strings is a `bin` subsegment linked as `.rodata`.
 The initial scales that follow are defined the same way by `effect_10.c`,
 `effect_24.c`, `effect_21.c`, `effect_15.c`, `effect_13.c`, `effect_12.c`,
 `row_attack_effects.c` (row strike, then back-row sweep), `effect_2.c`,
-`effect_19.c` and `contour_burst_effects.c` (particle contour burst, then
-contour burst), in that text order: North America `+0x180..+0x240`, PAL
-`+0x138..+0x1F8`, Japan `+0x138..+0x158` and, after the strings,
-`+0x1B0..+0x250`.
+`effect_19.c`, `contour_burst_effects.c` (particle contour burst, then
+contour burst), `effect_6.c`, `effect_1.c`, `life_point_effects.c`
+(recovery, reflected direct damage, inverted recovery) and `effect_4.c`, in
+that text order: North America `+0x180..+0x2A0`, PAL `+0x138..+0x258`, Japan
+`+0x138..+0x158` and, after the strings, `+0x1B0..+0x2B0`. No raw read-only
+data remains in the header in any region.
+
+The bank's `.data` follows the same text order. `dispatch.c` comes first and
+defines `gDuelEffect_TextureImages` (21 `GsIMAGE`) and
+`gDuelEffect_TextureModesAndVariants` (the 180-byte modes/variant-image
+union, initialized through `.variant`): North America and Japan
+`+0x14270..+0x14570`, PAL `+0x141E4..+0x144E4`. Retail keeps both in `.data`,
+not `.rodata`, so they stay non-`const`. The rest is still the raw `data`
+subsegment.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in

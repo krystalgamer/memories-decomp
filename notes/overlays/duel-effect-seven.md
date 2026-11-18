@@ -44,7 +44,9 @@ effect-6/effect-7 sources remain separate complete translation units.
 
 The target-compiled configuration has size 30; its five records occupy the
 real data object `D_8015B5B8` (150 bytes). `D_80146228` is a separate 16-byte
-initial scale vector. Neither owner is replaced by an absolute linker alias.
+initial scale vector, now `life_point_effects.c`'s `const` `.rodata` between
+the recovery and inverted-recovery scales (#2602). Neither owner is replaced
+by an absolute linker alias.
 The work structure is `0x268C` bytes, including sixteen four-point trails,
 sixteen velocities, three 32-point rings, sixteen 32-particle arrays and
 their separate velocity arrays. Forty-six target-compiled size, offset and

@@ -5,7 +5,7 @@
 #include "effect_2.h"
 
 extern DuelEffect1Config gDuelEffect_FusionConfigs[2];
-extern VECTOR gDuelEffect_FusionInitialScale;
+extern const VECTOR gDuelEffect_FusionInitialScale;
 extern DuelEffect2Config gDuelEffect_AttackSlashConfigs[7];
 extern const VECTOR gDuelEffect_AttackSlashInitialScale;
 
