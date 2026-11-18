@@ -995,7 +995,8 @@ typedef struct {
 } ModelVariantShadedRay;
 
 /* One 0x1A8-byte screen-textured ring: three rows of seventeen points, inner
- * and outer colours, a scale and a wrap count. */
+ * and outer colours, a scale and a wrap count. Headers 335 and 439 build and
+ * draw it the same way. */
 typedef struct {
     SVECTOR a[17], b[17], c[17];
     CVECTOR inner, outer;

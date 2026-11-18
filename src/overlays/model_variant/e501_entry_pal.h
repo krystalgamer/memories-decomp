@@ -2,7 +2,6 @@
 #define FRENCH335_ENTRY_VIEW_H
 #include "../../types.h"
 #include "e503_h320_entry_pal.h"
-#include "e501_rings.h"
 
 /* A command record. Its frames chain the phases: the sheets grow from start
  * to grow_end, then the orbit widens, the sheets lift and travel, and the
@@ -38,7 +37,7 @@ typedef struct {
 typedef struct {
     Model335EntryRecord records[3];
     ModelVariantPointSheet sheets[4];
-    Variant335Ring rings[3];
+    ModelVariantTwoToneScreenRing rings[3];
     ModelVariantStreamer short_streamers[6];
     ModelVariantFlaggedStreamer streamers[2];
     POLY_G3 triangle;

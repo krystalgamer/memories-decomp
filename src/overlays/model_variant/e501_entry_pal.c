@@ -21,7 +21,7 @@ s32 FrenchModelVariant335_HandleRequest(Model335EntryState *context, s32 command
     ModelVariantProjection projection;
     Model335EntryRecord *record = work->records;
     ModelVariantPointSheet *sheet = work->sheets;
-    Variant335Ring *ring = work->rings;
+    ModelVariantTwoToneScreenRing *ring = work->rings;
     ModelVariantFlaggedStreamer *streamer = work->streamers;
     ModelVariantStreamer *short_streamer = work->short_streamers;
     GsOT *ot = Graphics_GetDefaultOrderingTable();
@@ -172,7 +172,7 @@ s32 FrenchModelVariant335_HandleRequest(Model335EntryState *context, s32 command
                 ring->outer.b = 255;
             }
             ring->scale = 4096 - geometry_index * 4096 / 3;
-            ring->cycles = 0;
+            ring->count = 0;
         }
         for (i = 0; i < 2; i++, streamer++) {
             for (j = 0; j < 17; j++) {

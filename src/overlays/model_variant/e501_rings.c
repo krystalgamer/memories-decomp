@@ -1,5 +1,4 @@
 #include "../../types.h"
-#include "e501_rings.h"
 #include "e501_entry_pal.h"
 
 void FrenchModelVariant335_DrawRings(Model335EntryState *work)
@@ -11,7 +10,7 @@ void FrenchModelVariant335_DrawRings(Model335EntryState *work)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant335Ring *ring = work->rings;
+    ModelVariantTwoToneScreenRing *ring = work->rings;
     POLY_GT4 *quad = &work->textured[2];
     GsOT *ot;
     s32 j;
@@ -27,7 +26,7 @@ void FrenchModelVariant335_DrawRings(Model335EntryState *work)
     done = 1;
     active = GsGetActiveBuff();
     for (j = 0; j < 3; j++, ring++) {
-        if (ring->cycles > 0) {
+        if (ring->count > 0) {
             radius = ring->scale / 8;
             rotation.vx = 0;
             rotation.vy = 0;
@@ -98,7 +97,7 @@ void FrenchModelVariant335_DrawRings(Model335EntryState *work)
             if (ring->scale >= 4096) {
                 if (work->phase < 7) {
                     ring->scale -= 4096;
-                    ring->cycles++;
+                    ring->count++;
                 } else {
                     ring->scale = 4096;
                     done = 1;
