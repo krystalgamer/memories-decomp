@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "e589_ribbon_pal.h"
+#include "e589_entry_pal.h"
 
 /* The North American header-406 copy, built with the CDK compiler, indexes the
  * projected points through pointer arithmetic and reads the coordinates in its
@@ -17,7 +17,7 @@
 #define RIBBON423_HI(screen, n) ((screen)[n].packed >> 16)
 #endif
 
-void FrenchModelVariant423_DrawRibbon(Ribbon423Work *context)
+void FrenchModelVariant423_DrawRibbon(EntryState423 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -29,7 +29,7 @@ void FrenchModelVariant423_DrawRibbon(Ribbon423Work *context)
     long flag;
     GsOT *ot;
     s16 i, j;
-    Ribbon423Work *work = context;
+    EntryState423 *work = context;
     Ribbon423 *ribbon;
     POLY_GT4 *poly;
     s32 angle;
@@ -40,24 +40,24 @@ void FrenchModelVariant423_DrawRibbon(Ribbon423Work *context)
     s32 py, pz;
 
     ot = Graphics_GetDefaultOrderingTable();
-    angle = ratan2(work->target[2], work->target[0]) + 0xC00;
-    ratan2(work->target[1], work->target[0]);
-    poly = &work->poly;
-    if (!(work->frame & 1)) {
-        len = work->fade / 16;
+    angle = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx);
+    poly = &work->packets.textured[0];
+    if (!(work->clock.frame_count & 1)) {
+        len = work->width / 16;
     } else {
-        len = work->fade * 72 / 1024;
+        len = work->width * 72 / 1024;
     }
-    ribbon = work->ribbon;
+    ribbon = work->ribbons;
     for (i = 0; i < 1; i++, ribbon++) {
         if (i < 0) {
             dy = 0;
         }
         for (j = 0; j < 17; j++) {
-            py = work->vec[1] * work->amp / 1024;
-            pz = work->vec[2] * work->amp / 1024;
+            py = work->aim.direction.vy * work->progress / 1024;
+            pz = work->aim.direction.vz * work->progress / 1024;
             n = k = j;
-            setVector(&ribbon->a[n], work->vec[0] * work->amp / 1024 * j / 16, py * (k = n) / 16, pz * j / 16);
+            setVector(&ribbon->a[n], work->aim.direction.vx * work->progress / 1024 * j / 16, py * (k = n) / 16, pz * j / 16);
             setVector(&ribbon->b[j],
                       ribbon->a[j].vx + (rcos(angle) * len >> 12),
                       ribbon->a[j].vy,
@@ -68,9 +68,9 @@ void FrenchModelVariant423_DrawRibbon(Ribbon423Work *context)
     rotation.vx = 0;
     rotation.vy = 0;
     rotation.vz = 0;
-    matrix.t[0] = work->origin[0];
-    matrix.t[1] = work->origin[1];
-    matrix.t[2] = work->origin[2];
+    matrix.t[0] = work->matrix.t[0];
+    matrix.t[1] = work->matrix.t[1];
+    matrix.t[2] = work->matrix.t[2];
     scale.vx = 4096;
     scale.vy = 4096;
     scale.vz = 4096;
@@ -82,7 +82,7 @@ void FrenchModelVariant423_DrawRibbon(Ribbon423Work *context)
     GsGetLs(&coordinate, &light);
     GsSetLsMatrix(&light);
 
-    ribbon = work->ribbon;
+    ribbon = work->ribbons;
     for (i = 0; i < 1; i++, ribbon++) {
         for (j = 0; j < 17; j++) {
             if (j == 16) {
@@ -113,7 +113,7 @@ void FrenchModelVariant423_DrawRibbon(Ribbon423Work *context)
         }
     }
 
-    ribbon = work->ribbon;
+    ribbon = work->ribbons;
     for (i = 0; i < 1; i++, ribbon++) {
         for (j = 0; j < 16; j++) {
             setRGB0(poly, 0, 0, 64);
@@ -144,23 +144,23 @@ void FrenchModelVariant423_DrawRibbon(Ribbon423Work *context)
             }
         }
     }
-    work->phase += work->step * 850;
-    work->wave += work->step * 128;
-    if (work->amp < 0x400) {
-        work->amp += work->step * 64;
-        if (work->amp >= 0x400) {
-            work->amp = 0x400;
-            if (work->state == 2) {
-                work->state = 3;
+    work->ribbon_sway += work->clock.step * 850;
+    work->ribbon_wave += work->clock.step * 128;
+    if (work->progress < 0x400) {
+        work->progress += work->clock.step * 64;
+        if (work->progress >= 0x400) {
+            work->progress = 0x400;
+            if (work->phase == 2) {
+                work->phase = 3;
             }
         }
     }
-    if (work->timing->fade_start <= work->clock && work->fade > 0) {
-        work->fade = 0x400 - ((work->clock - work->timing->fade_start) << 10) / (work->timing->fade_end - work->timing->fade_start);
-        if (work->fade <= 0) {
-            work->fade = 0;
-            if (work->state == 4) {
-                work->state = 5;
+    if (work->config->fade_start <= work->clock.frame && work->width > 0) {
+        work->width = 0x400 - ((work->clock.frame - work->config->fade_start) << 10) / (work->config->fade_end - work->config->fade_start);
+        if (work->width <= 0) {
+            work->width = 0;
+            if (work->phase == 4) {
+                work->phase = 5;
             }
         }
     }

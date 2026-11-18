@@ -10,36 +10,10 @@ typedef struct {
     SVECTOR b[17];
     ModelVariantScreenPoint sb[17];
     s32 width[17];
-    u8 unknown220[0xB8];
+    ModelVariantStripStyle style;
+    u8 unknown_240[0x88];
+    VECTOR position;
     ModelVariantStripOffsets offsets;
 } Ribbon423;
 
-typedef struct {
-    u8 unknown0000[0x4EC];
-    Ribbon423 ribbon[1];
-    u8 unknown084C[0x1C70 - 0x84C];
-    POLY_GT4 poly;
-    u8 unknown1CA4[0x1D4C - 0x1CA4];
-    s32 origin[3];
-    u8 unknown1D58[8];
-    s32 vec[3];
-    u8 unknown1D6C[8];
-    s32 target[3];
-    u8 unknown1D80[0xC];
-    u32 frame;
-    u32 clock;
-    s32 unknown1D94;
-    s32 step;
-    s32 unknown1D9C;
-    ModelVariantRibbonFadeTiming *timing;
-    u8 unknown1DA4[0xC];
-    s32 fade;
-    u8 unknown1DB4[0x20];
-    s32 amp;
-    u8 unknown1DD8[0x24];
-    s32 phase;
-    s32 wave;
-    u8 unknown1E04[8];
-    s32 state;
-} Ribbon423Work;
 #endif

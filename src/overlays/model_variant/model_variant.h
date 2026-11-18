@@ -534,15 +534,6 @@ typedef struct {
     s32 field_1C;
 } ModelVariantStripStyle;
 
-/* One 0x360-byte ribbon: its style block and a position. */
-typedef struct {
-    u8 unknown_000[0x220];
-    ModelVariantStripStyle style;
-    u8 unknown_240[0x88];
-    VECTOR position;
-    u8 unknown_2D8[0x88];
-} ModelVariantLongRibbon;
-
 /* One 0x250-byte ribbon: an eleven-point spine and a copy of it moved along
  * the view, both projected with per-point screen angle and width; inner and
  * outer colours (the ribbon drawers shade by inner), a scale vector, a

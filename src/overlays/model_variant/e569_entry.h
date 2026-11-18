@@ -11,9 +11,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libhmd.h"
-#include "image12048_sheets.h"
 #include "image12048_chains.h"
-#include "image12048_strands.h"
 
 typedef struct {
     u8 unknown_00[8];
@@ -22,7 +20,8 @@ typedef struct {
     u8 unknown_20[8];
     s32 count;
     s32 divisor;
-    u32 sheet_start;
+    /* The sheets grow until grow_end, then fade over fade_span. */
+    u32 grow_end;
     u32 shrink_start;
     u32 shrink_end;
 } Model386Config;
@@ -46,24 +45,9 @@ typedef struct {
 } Model386Strand;
 
 typedef struct {
-    u8 unknown_000[0x144];
-    CVECTOR color[9];
-    s32 stage;
-    s32 dir[3];
-    u8 unknown_178[4];
-    s32 start;
-    s32 end;
-    s32 yaw;
-    s32 pitch;
-    s32 wave;
-    s32 sway;
-    u8 unknown_194[0x48];
-} Model386Chain;
-
-typedef struct {
     Model386Strand strands[5];
     ModelVariantSheet sheets[5];
-    Model386Chain chains[3];
+    Chains12048Chain chains[3];
     ModelVariantPackets packets;
     POLY_FT4 flat[6];
     u8 unknown_11A4[0x10];
@@ -107,9 +91,9 @@ typedef struct {
 extern GsIMAGE gModelVariant386_aImages[];
 extern Model386Config gModelVariant386_aConfigs[];
 
-void FrenchModelVariant403_DrawStrands(Strands12048State *context);
-void FrenchModelVariant403_DrawSheets(Sheets12048State *context);
-void FrenchModelVariant403_DrawChains(Chains12048State *context);
+void FrenchModelVariant403_DrawStrands(Model386State *context);
+void FrenchModelVariant403_DrawSheets(Model386State *context);
+void FrenchModelVariant403_DrawChains(Model386State *context);
 s32 ModelVariant386_HandleRequest(Model386State *context, s32 command);
 
 #endif

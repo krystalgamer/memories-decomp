@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "image12048_strands.h"
+#include "e569_entry.h"
 
-void FrenchModelVariant403_DrawStrands(Strands12048State *context)
+void FrenchModelVariant403_DrawStrands(Model386State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,8 +11,8 @@ void FrenchModelVariant403_DrawStrands(Strands12048State *context)
     long flags[5][7];
     long interpolation;
     long flag;
-    Strands12048State *state = context;
-    Strands12048Strand *strand;
+    Model386State *state = context;
+    Model386Strand *strand;
     POLY_FT4 *poly;
     SVECTOR *pos;
     SVECTOR *edge;
@@ -28,8 +28,8 @@ void FrenchModelVariant403_DrawStrands(Strands12048State *context)
     s32 dx, dy;
 
     ot = Graphics_GetDefaultOrderingTable();
-    angle = ratan2(state->target[2], state->target[0]) + 0xC00;
-    ratan2(state->target[1], state->target[0]);
+    angle = ratan2(state->view_delta.vz, state->view_delta.vx) + 0xC00;
+    ratan2(state->view_delta.vy, state->view_delta.vx);
     if (state->phase > 0) {
         if (state->phase < 4) {
             spread = 24;
@@ -38,7 +38,7 @@ void FrenchModelVariant403_DrawStrands(Strands12048State *context)
         }
         offset = 0;
         strand = state->strands;
-        for (i = 0; i < state->timing->count; i++, strand++, offset = i * 3 * 2048 / state->timing->count) {
+        for (i = 0; i < state->config->count; i++, strand++, offset = i * 3 * 2048 / state->config->count) {
             if (state->phase < 4) {
                 if (i == 0) {
                     tilt = 0x400;
@@ -63,11 +63,11 @@ void FrenchModelVariant403_DrawStrands(Strands12048State *context)
                     twist = offset - j * 4096 / 6 + state->twist;
                     bend = j * 2048 / 6 + offset;
                 }
-                j[strand->pos].vx = state->reach[i].vx * j / 6 +
+                j[strand->pos].vx = state->directions[i].vx * j / 6 +
                                     (rsin(bend) * (rcos(tilt + 0x800) * 128 >> 12) >> 12) +
                                     (rcos(angle) * ((rsin(twist) * 64 >> 12) + (rsin(sway) * 32 >> 12)) >> 12);
-                j[strand->pos].vy = state->reach[i].vy * j / 6;
-                j[strand->pos].vz = state->reach[i].vz * j / 6 +
+                j[strand->pos].vy = state->directions[i].vy * j / 6;
+                j[strand->pos].vz = state->directions[i].vz * j / 6 +
                                     (rsin(angle) * ((rsin(twist) * 64 >> 12) + (rsin(sway) * 32 >> 12)) >> 12);
                 j[strand->edge].vx = j[strand->pos].vx + (rcos(angle) * spread >> 12);
                 pos = &j[strand->pos];
@@ -81,9 +81,9 @@ void FrenchModelVariant403_DrawStrands(Strands12048State *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->origins[i].vx;
-            matrix.t[1] = state->origins[i].vy;
-            matrix.t[2] = state->origins[i].vz;
+            matrix.t[0] = state->transforms[i].t[0];
+            matrix.t[1] = state->transforms[i].t[1];
+            matrix.t[2] = state->transforms[i].t[2];
             scale.vx = 4096;
             scale.vy = 4096;
             scale.vz = 4096;
@@ -125,14 +125,14 @@ void FrenchModelVariant403_DrawStrands(Strands12048State *context)
         }
 
         strand = state->strands;
-        for (i = 0; i < state->timing->count; i++, strand++) {
+        for (i = 0; i < state->config->count; i++, strand++) {
             for (j = 0; j < state->length[i]; j++) {
                 if (state->mode[i] == 3) {
-                    poly = &state->polys[2];
+                    poly = &state->flat[2];
                 } else if (state->mode[i] == 4) {
-                    poly = &state->polys[4];
+                    poly = &state->flat[4];
                 } else {
-                    poly = state->polys;
+                    poly = state->flat;
                 }
                 if (!(state->frame & 1)) {
                     if (!(j & 1)) {
@@ -173,10 +173,10 @@ void FrenchModelVariant403_DrawStrands(Strands12048State *context)
                     if (state->length[i] >= 6) {
                         state->length[i] = 6;
                     }
-                } else if (state->fade[i] < 0x400) {
-                    state->fade[i] += state->step * 128;
-                    if (state->fade[i] >= 0x400) {
-                        state->fade[i] = 0x400;
+                } else if (state->strand_fade[i] < 0x400) {
+                    state->strand_fade[i] += state->step * 128;
+                    if (state->strand_fade[i] >= 0x400) {
+                        state->strand_fade[i] = 0x400;
                         state->mode[i] = 2;
                     }
                 } else if (state->mode[i] == 2 || state->mode[i] == 3) {
@@ -184,12 +184,12 @@ void FrenchModelVariant403_DrawStrands(Strands12048State *context)
                 } else if (state->mode[i] == 4) {
                     state->mode[i] = 5;
                     state->length[i] = 0;
-                    if (i + 1 == state->timing->count) {
+                    if (i + 1 == state->config->count) {
                         state->phase = 2;
                     }
                 }
             } else {
-                if (i + 1 == state->timing->count && state->phase == 2) {
+                if (i + 1 == state->config->count && state->phase == 2) {
                     state->phase = 3;
                 }
                 if (state->phase >= 4 && state->length[i] < 6) {
@@ -201,7 +201,7 @@ void FrenchModelVariant403_DrawStrands(Strands12048State *context)
             }
         }
         if (state->phase == 5) {
-            state->width = 0x400 - ((state->time - state->timing->start) << 10) / state->span;
+            state->width = 0x400 - ((state->time - state->config->shrink_start) << 10) / state->shrink_span;
         }
     }
     state->sway += state->step * 384;
