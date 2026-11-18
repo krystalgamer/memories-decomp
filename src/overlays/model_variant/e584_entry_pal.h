@@ -3,6 +3,7 @@
 
 #include "../../types.h"
 #include "e503_h320_entry_pal.h"
+#include "e577_beams_pal.h"
 
 /* One command record of the French header-444 entry's table. The funnels read
    the first record's fade start (old blob + 0x114) whatever the command. */
@@ -15,21 +16,14 @@ typedef struct {
 extern GsIMAGE gFrenchModelVariant444_aImages[9];
 extern Variant444EntryConfig gFrenchModelVariant444_aConfigs[];
 
-typedef struct {
-    u8 unknown_00[0x40];
-    CVECTOR color_40, color_44;
-    s32 field_48;
-    u8 unknown_4C[0x18];
-} Variant444EntryColorRecord;
-
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
     ModelVariantTube tubes[1];
     ModelVariantSheet sheets[2];
     ModelVariantFunnel funnels[2];
     ModelVariantSpokeColorRing spokes[4];
-    ModelVariantBeam beams[2];
-    Variant444EntryColorRecord records[16];
+    ModelVariantBeam extras[2];
+    Beam411 beams[16];
     POLY_G3 triangle;
     POLY_G4 quad;
     POLY_GT4 textured[2], plain, paged, extra;
@@ -44,7 +38,7 @@ typedef struct {
     s16 field_1658, field_165A;
     s32 progress;
     CVECTOR inner, outer;
-    s32 spin, width, angle, field_1674, field_1678;
+    s32 spin, width, angle, beam_spin, field_1678;
     ModelVariantEntryTail tail;
 } Variant444EntryState;
 

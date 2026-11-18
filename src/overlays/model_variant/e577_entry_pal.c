@@ -255,7 +255,7 @@ s32 FrenchModelVariant411_HandleRequest(EntryState411 *context, s32 command)
         work->width = 1024;
         work->spin = 0;
         work->angle = 0;
-        work->field_1674 = 0;
+        work->beam_spin = 0;
         work->field_1678 = 0;
         work->progress = 0;
         work->field_165C = 0;

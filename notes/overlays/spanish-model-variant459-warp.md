@@ -22,7 +22,7 @@ a different work-block layout. `h442_warp_pal.c` defines
 - **Colours.** Each inner and outer component is scaled by
   `(2048 - scale) / 2048`, so a ring fades as it grows.
 - **Sorting.** Quads sort whenever depth and flag are non-negative. MODEL438
-  also requires `size < 2048`.
+  also requires `scale < 2048`.
 
 The first candidate was exact. The MODEL438 build of the shared body is
 unchanged and still matches in all 24 of its images.

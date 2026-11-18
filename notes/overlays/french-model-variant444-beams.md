@@ -8,7 +8,9 @@ The raw comparison shows identical words, apart from local jump targets
 and one branch. The first beam half is sorted only for a positive depth
 (`blez` skip) rather than a non-negative one (`bltz`). The shared
 `model_variant/e577_beams_pal.c` selects that test with
-`MODEL_VARIANT444_BEAMS`. Its default keeps the header-411 objects unchanged,
+`MODEL_VARIANT444_BEAMS`, which also selects `Variant444EntryState` as the
+work type (see the [MODEL411 beams](spanish-model-variant411-beams.md)). Its
+default keeps the header-411 objects unchanged,
 and the Spanish attempt ledger records the replay. The French
 `e584_beams_pal.c` wrapper and its slot-one form define it.
 
