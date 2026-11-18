@@ -305,7 +305,7 @@ s32 ModelVariant415_HandleRequest(Variant415EntryState *context, s32 command)
             SpanishModelVariant432_DrawBands(context);
         }
         if (work->config->timings[work->start_index] <= work->clock.frame) {
-            ModelVariant415_DrawRibbons((Variant415EntryRibbon *)context);
+            ModelVariant415_DrawRibbons(context->ribbons);
         }
         if (work->config->timings[0] <= work->clock.frame) {
             SpanishModelVariant432_DrawBandLayers(context);

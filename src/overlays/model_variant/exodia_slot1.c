@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "exodia_slot1.h"
 
-s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
+s32 ModelExodia_HandleSecondRequest(ExodiaSecondEntryState *point, s32 command)
 {
-    ExodiaSecondEntryState *work = (ExodiaSecondEntryState *)point;
+    ExodiaSecondEntryState *work = point;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -196,16 +196,16 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
         work->direction.vy = work->target.vy - work->origin.vy;
         work->direction.vz = work->target.vz - work->origin.vz;
         if (work->config->start <= work->frame) {
-            ModelExodia_DrawRings((ExodiaSecondEntryState *)point);
+            ModelExodia_DrawRings(point);
         }
         if (work->config->petals_start <= work->frame) {
-            ModelExodia_DrawPetals((ExodiaSecondEntryState *)point);
+            ModelExodia_DrawPetals(point);
         }
         if (work->config->pulse0 <= work->frame && work->frame < work->config->pulse1) {
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            ModelExodia_DrawBeam((ExodiaSecondEntryState *)point);
+            ModelExodia_DrawBeam(point);
         } else if (work->config->pulse1 <= work->frame && work->frame < work->config->pulse2) {
             if (work->phase == 3) {
                 work->distance = 0;
@@ -215,7 +215,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            ModelExodia_DrawBeam((ExodiaSecondEntryState *)point);
+            ModelExodia_DrawBeam(point);
         } else if (work->config->pulse3 <= work->frame && work->frame < work->config->pulse4) {
             if (work->phase == 3) {
                 work->distance = 0;
@@ -225,7 +225,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            ModelExodia_DrawBeam((ExodiaSecondEntryState *)point);
+            ModelExodia_DrawBeam(point);
         } else if (work->config->pulse5 <= work->frame && work->frame < work->config->pulse6) {
             if (work->phase == 3) {
                 work->distance = 0;
@@ -235,7 +235,7 @@ s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command)
             if (work->phase == 1) {
                 work->phase = 2;
             }
-            ModelExodia_DrawBeam((ExodiaSecondEntryState *)point);
+            ModelExodia_DrawBeam(point);
         }
         if (work->config->fade_start <= work->frame) {
             ot = Graphics_GetDefaultOrderingTable();
