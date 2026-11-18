@@ -8,7 +8,7 @@
 
 typedef struct {
     ModelVariantMesh mesh;
-    EntryRibbon425 ribbons[1];
+    Ribbon426 ribbons[1];
     ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[2];
     ModelVariantStreamer streamers[4];
@@ -33,7 +33,7 @@ typedef struct {
     s16 spiral_angle, field_214E, spiral_size, field_2152;
     ModelVariantStreamerParams streamer;
     CVECTOR inner, outer;
-    s32 spin, ribbon_sway, field_2174, field_2178, field_217C, phase;
+    s32 spin, ribbon_sway, ribbon_wave, field_2178, field_217C, phase;
     s32 field_2184, field_2188;
     u8 unknown_218C[8];
     s32 ambient;
@@ -45,7 +45,7 @@ extern ModelVariantSpiralConfig gFrenchModelVariant426_aConfigs[];
 
 void SpanishModelVariant426_DrawMesh(EntryState426 *context);
 void SpanishModelVariant426_DrawSpiral(EntryState426 *context);
-void FrenchModelVariant426_DrawRibbon(Ribbon426Work *context);
+void FrenchModelVariant426_DrawRibbon(EntryState426 *context);
 void SpanishModelVariant426_DrawSheets(EntryState426 *context);
 void FrenchModelVariant426_DrawStreamers(EntryState426 *context);
 

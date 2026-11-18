@@ -11,7 +11,7 @@
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
-s32 gGameOver_pTitleObject;
+DisplayObject *gGameOver_pTitleObject;
 
 #ifndef GAME_OVER_SCREEN_HEIGHT
 #define GAME_OVER_SCREEN_HEIGHT GRAPHICS_DEFAULT_HEIGHT
@@ -43,7 +43,7 @@ void GameOver_Init(void)
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_ResetVelocity(object);
-    gGameOver_pTitleObject = (s32)object;
+    gGameOver_pTitleObject = object;
     SD_BGMPlay(0x7300);
     Fade_StartIn();
     gFade_State.step = 2;
@@ -55,7 +55,7 @@ s32 GameOver_Update(void)
     s16 value;
     u32 tail_bits;
 
-    p = (DisplayObject *)gGameOver_pTitleObject;
+    p = gGameOver_pTitleObject;
     DisplayObject_StepPositionX(p);
     value = p->field_5A;
     if (value == 0) {

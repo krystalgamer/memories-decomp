@@ -18,7 +18,7 @@ typedef struct {
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
-    ModelVariantScreenRing hoops[3];
+    ModelVariantScreenRing screen_rings[3];
     ModelVariantTube tubes[1];
     ModelVariantWebNarrow webs[3];
     ModelVariantShortRibbon ribbons[1];
@@ -28,7 +28,7 @@ typedef struct {
     ModelVariantColorRing spokes[4];
     ModelVariantShadedRay glows[12];
     ModelVariantPackets packets;
-    POLY_GT4 plain;
+    POLY_GT4 extra;
     POLY_FT4 flat_textured[2];
     u8 unknown_2658[0x24];
     MATRIX matrix;
@@ -59,7 +59,7 @@ void SpanishModelVariant441_DrawTubularMesh(Variant441EntryState *context);
 void SpanishModelVariant441_DrawRibbon(Variant441EntryState *context);
 void SpanishModelVariant441_DrawRainbowSheets(Variant441EntryState *context);
 void SpanishModelVariant441_DrawFramebufferRings(Variant441EntryState *context);
-void ModelVariant398_DrawRings(Variant398Header441RingsState *context);
+void ModelVariant398_DrawRings(Variant441EntryState *context);
 typedef char Variant441EntryConfigSize[(sizeof(Variant441EntryConfig) == 0x30) ? 1 : -1];
 typedef char Variant441EntryStateSize[(sizeof(Variant441EntryState) == 0x2734) ? 1 : -1];
 #endif

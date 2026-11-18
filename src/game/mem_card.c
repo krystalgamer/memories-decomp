@@ -1020,12 +1020,12 @@ void MemCardWork_UpdateOperation(void)
             }
             DuelEffect_CreateChannel(0x80D6, 0);
             Util_CopyWords(
-                (u8 *)MEM_CARD_WORK_WRITE_ADDRESS,
+                MEM_CARD_WORK_WRITE_ADDRESS,
                 gSaveData_aHeaderTemplate,
                 SAVE_DATA_HEADER_SIZE
             );
             Util_FillMemory(
-                (u8 *)MEM_CARD_WORK_WRITE_BODY_ADDRESS,
+                MEM_CARD_WORK_WRITE_BODY_ADDRESS,
                 0x86,
                 FILE_SECTOR_SIZE
             );
