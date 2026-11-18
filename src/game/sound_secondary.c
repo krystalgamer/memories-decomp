@@ -45,11 +45,12 @@ void SD_ResetSecondaryState(void)
     sequence_state->sequence_tick_mode = 0x1000;
 }
 
-void SD_InitSecondaryWorkArea(s32 *work_area_cursor)
+void SD_InitSecondaryWorkArea(void *work_area)
 {
+    s32 *work_area_cursor = work_area;
     u32 cleared_word_count = 0;
 
-    gSD_pSecondaryState = (SDSecondaryState *)work_area_cursor;
+    gSD_pSecondaryState = work_area;
     do {
         *work_area_cursor = 0;
         cleared_word_count++;
@@ -160,9 +161,8 @@ void SD_Term(void)
  * inactive-state rejection. The function then reloads the state pointer, clears
  * the transfer status, and populates the header pointer, header-derived byte
  * counts, two control bytes, and the final pointer-valued field in retail order.
- * The header is taken as SDVabHeader *, which this header now declares; the
- * transfer record still keeps it as a byte pointer, so that one field is the
- * only cast left.
+ * The header is taken as SDVabHeader * and stored as one in the transfer
+ * record; the SPU destination is stored as the SPU address it is.
  *
  * All 38 target instructions agree with retail. The original canonical match
  * and six-entry inline-refinement series ending in deferral remain intact; a new
@@ -191,18 +191,18 @@ s32 SD_VabOpenHead(SDVabHeader *vab, s16 vab_id, s32 spu_addr)
     state = gSD_pSecondaryState;
     state->transfer.state_token = zero;
     entry = &state->transfer;
-    entry->vab_header = (u8 *)vab;
+    entry->vab_header = vab;
     entry->header_size_bytes = (vab->program_count << 9) + 0xA20;
     entry->body_size_bytes = vab->file_size - entry->header_size_bytes;
     entry->vab_master_volume = vab->master_volume;
     entry->vab_pan = vab->pan;
-    entry->spu_body_base = (u8 *)spu_addr;
+    entry->spu_body_base = spu_addr;
     return 0;
 }
 
-s32 SD_VabTransBody(s32 source_address, s16 expected_token)
+s32 SD_VabTransBody(u8 *source_address, s16 expected_token)
 {
-    register int saved_source_address;
+    register u8 *saved_source_address;
     SDSecondaryState *transfer_state = gSD_pSecondaryState;
     short current_token = transfer_state->transfer.state_token;
 
@@ -211,8 +211,8 @@ s32 SD_VabTransBody(s32 source_address, s16 expected_token)
     saved_source_address = source_address;
     {
         SDSecondaryTransfer *transfer = &transfer_state->transfer;
-        SpuSetTransferStartAddr((u32)transfer->spu_body_base);
-        if (SpuWrite((u8 *)saved_source_address, (u32)transfer->body_size_bytes) !=
+        SpuSetTransferStartAddr(transfer->spu_body_base);
+        if (SpuWrite(saved_source_address, (u32)transfer->body_size_bytes) !=
             transfer->body_size_bytes)
             return SD_TRANSFER_ERROR;
         transfer->full_body_source_address = saved_source_address;
@@ -237,7 +237,7 @@ s32 SD_VabTransBodyChunk(u8 *source_bytes, s32 byte_count, s32 expected_token) {
 
     transfer = &transfer_state->transfer;
     SpuSetTransferStartAddr(
-        (u32)(transfer->spu_body_base + transfer_state->bytes_consumed)
+        transfer->spu_body_base + transfer_state->bytes_consumed
     );
 
     {
@@ -278,6 +278,8 @@ void SD_ResetVabTransferState(s32 unused)
         *state_token_ptr = SD_TRANSFER_STATE_INACTIVE;
 }
 
+/* objects[i] makes loop.c give the record giv and the mask cursor swapped
+   registers; the byte offset from the state base keeps retail allocation. */
 #define SD_SECONDARY_STATE_AT_OFFSET(state, offset) \
     ((SDSecondaryState *)((u8 *)(state) + (offset)))
 
@@ -355,6 +357,7 @@ int SD_OpenSequence(u8 *input, short vab_id)
     unsigned int tag;
     SDSecondaryState *state;
     gSD_pSecondaryState->timer_update_inhibit = 1;
+    /* The four-byte file tag is compared as one word load. */
     tag = *(unsigned int *)input;
     if (tag != SD_SEQUENCE_TAG_SEQ && tag != SD_SEQUENCE_TAG_MIDI &&
         tag != SD_SEQUENCE_TAG_KDT && tag != SD_SEQUENCE_TAG_KDT1)

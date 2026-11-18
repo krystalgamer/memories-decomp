@@ -133,8 +133,7 @@ u8 velocity;
 
     channel = channel_arg;
     note = note_arg;
-    /* sound.h declares the loaded VAB image as raw bytes. */
-    hdr = (SDVabHeader *)gSD_pSecondaryState->transfer.vab_header;
+    hdr = gSD_pSecondaryState->transfer.vab_header;
     rec = &gSD_pSecondaryState->channels[channel & 0xFF];
     program = rec->program;
     /* A separate image local keeps the retail spill-slot layout. */
@@ -192,7 +191,8 @@ u8 velocity;
         sum = 0;
         vag = tone->vag;
         /* The VAG size table follows the used programs' tones. */
-        sizes = (u16 *)(gSD_pSecondaryState->transfer.vab_header
+        /* &image->tones[n] folds 0x820 in before the program term. */
+        sizes = (u16 *)((u8 *)gSD_pSecondaryState->transfer.vab_header
                         + hdr->program_count * 512 + 0x820);
         obj = &gSD_pSecondaryState->objects[idx];
         if (vag > 0) {
@@ -207,7 +207,7 @@ u8 velocity;
         gSD_pSecondaryState->voice_attr.mask = 0x6019F;
         gSD_pSecondaryState->voice_attr.volmode.left = 0;
         gSD_pSecondaryState->voice_attr.volmode.right = 0;
-        nb = (s32)gSD_pSecondaryState->transfer.spu_body_base;
+        nb = gSD_pSecondaryState->transfer.spu_body_base;
         gSD_pSecondaryState->voice_attr.voice = vm;
         gSD_pSecondaryState->voice_attr.addr = nb + sum;
         adsr1 = tone->adsr1;

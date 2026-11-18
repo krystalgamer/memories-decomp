@@ -113,26 +113,6 @@ typedef struct {
     u32 spu_size;
 } SDValueLink;
 
-/* Prefix shared by the music packages consumed by SD_StepActiveCommand and
- * SD_OpenMusicVab. Both pass the embedded pBAV header and its SPU destination
- * to SD_VabOpenHead. */
-typedef struct {
-    u8 pad_0000[0x0C];
-    s32 spu_address;
-    u8 pad_0010[0x40];
-    SDVabHeader vab_header;
-} SDMusicPackage;
-
-typedef char SDMusicPackage_spu_address_offset_must_be_0x0C[
-    OFFSETOF(SDMusicPackage, spu_address) == 0x0C ? 1 : -1
-];
-typedef char SDMusicPackage_vab_header_offset_must_be_0x50[
-    OFFSETOF(SDMusicPackage, vab_header) == 0x50 ? 1 : -1
-];
-typedef char SDMusicPackage_vab_header_size_must_be_0x20[
-    sizeof(((SDMusicPackage *)0)->vab_header) == 0x20 ? 1 : -1
-];
-
 typedef struct {
     u8 volume;
     u8 timer;
@@ -291,7 +271,7 @@ typedef struct SDValue {
     SDLevelWord s_uSD_OUTPUT_LEVEL_AUX;
     u8 pad1554[0xC];
     SDMusicTableEntry *s_pstSD_MUSIC_TABLE;
-    u16 *s_pwSD_MUSIC_TRACK;
+    SDMusicPackage *s_pwSD_MUSIC_TRACK;
     u8 pad1568[0x10];
     s16 s_wSD_OPEN_MUSIC_PACKAGE;
     s16 s_wSD_MUSIC_VAB_ID;
@@ -401,11 +381,11 @@ typedef struct {
 typedef struct {
     s16 state_token;
     u8 pad0002[2];
-    u8 *vab_header;
+    SDVabHeader *vab_header;
     s32 header_size_bytes;
-    s32 full_body_source_address;
+    u8 *full_body_source_address;
     s32 body_size_bytes;
-    u8 *spu_body_base;
+    u32 spu_body_base;
     u8 vab_master_volume;
     u8 field_0019;
     u8 field_001A;

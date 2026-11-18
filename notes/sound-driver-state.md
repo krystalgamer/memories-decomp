@@ -2055,8 +2055,9 @@ separate transfer-call tails without register bindings.
 Command 72's sequence header has a count at `+2`, a payload size at `+0xC`,
 and a payload beginning at `+0x50`. Its sixteen index records occupy
 `+0x10..+0x50`, with a **four-byte stride**; this reader consumes only each
-record's low halfword. `sound_command_index.h` owns `CommandIndexTable`,
-which bounds all 32 halfwords and asserts the header size and table offset. It does not use
+record's low halfword. `SDMusicPackage` in `sound_music.h` (the type of
+`s_pwSD_MUSIC_TRACK`) bounds all 32 halfwords and asserts the table and
+embedded pBAV header offsets. It does not use
 the historical one-element `SoundIndexList.indices` view or silently treat
 the records as a packed two-byte index array.
 

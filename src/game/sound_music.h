@@ -2,6 +2,35 @@
 #define MEMORIES_DECOMP_SOUND_MUSIC_H
 
 #include "../types.h"
+#include "sound_transfer_lifecycle.h"
+
+/* Header of the music package at s_pwSD_MUSIC_TRACK. SD_StepActiveCommand and
+ * SD_OpenMusicVab pass the embedded pBAV header and its SPU destination to
+ * SD_VabOpenHead; command 72 opens sequence i at index_records[i][0] * 16
+ * bytes into the package (only each four-byte record's low halfword is read).
+ * SD_ResetMusicState marks the empty buffer with package_id 0xFFFF. */
+typedef struct {
+    u16 package_id;
+    u16 sequence_count;
+    s32 field_04;
+    s32 field_08;
+    s32 spu_address;
+    u16 index_records[16][2];
+    SDVabHeader vab_header;
+} SDMusicPackage;
+
+typedef char SDMusicPackage_spu_address_offset_must_be_0x0C[
+    OFFSETOF(SDMusicPackage, spu_address) == 0x0C ? 1 : -1
+];
+typedef char SDMusicPackage_index_records_offset_must_be_0x10[
+    OFFSETOF(SDMusicPackage, index_records) == 0x10 ? 1 : -1
+];
+typedef char SDMusicPackage_vab_header_offset_must_be_0x50[
+    OFFSETOF(SDMusicPackage, vab_header) == 0x50 ? 1 : -1
+];
+typedef char SDMusicPackage_vab_header_size_must_be_0x20[
+    sizeof(((SDMusicPackage *)0)->vab_header) == 0x20 ? 1 : -1
+];
 
 /* One eight-byte entry in the table selected through SDValue.music_table.
  * Only SD_RequestMusicPackageLoad currently establishes its field layout. */
@@ -49,7 +78,7 @@ void SD_RequestBgmPlaybackDefaultStep(s32 command_id);
 void SD_RequestBgmPlayback(s32 command_id, s32 step);
 void SD_Init(void);
 void SD_OpenMusicVab(void);
-void SD_SetMusicTrackBuffer(u16 *track_buffer);
+void SD_SetMusicTrackBuffer(SDMusicPackage *track_buffer);
 void SD_ResetMusicTrackBuffer(void);
 
 #endif
