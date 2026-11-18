@@ -3,7 +3,6 @@
 #include "../../types.h"
 #include "e503_h320_entry_pal.h"
 #include "../model_variant/e588_halo.h"
-#include "../model_variant/e588_veils.h"
 
 /* One 0x1C8-byte band: three rows of nine points and their screen
  * coordinates, the two colour rows and scale the entry seeds, and the nine
@@ -20,7 +19,7 @@ typedef struct {
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
-    Variant405Veil veils[5];
+    ModelVariantConeRings veils[5];
     Variant405Halo halo;
     ModelVariantWebNarrow webs[3];
     Variant422EntryBand bands[1];

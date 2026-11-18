@@ -19,7 +19,7 @@ bytes. Eight real header/suffix owners cover the remaining 24,384 bytes.
 No inventoried function remains assembly in this family, but the suffix
 at `+0x3834..+0x5000` remains unclassified.
 
-The entry reuses accepted `Variant405Veil`, `Variant405Halo`, web, sheet,
+The entry reuses accepted `ModelVariantConeRings`, `Variant405Halo`, web, sheet,
 ring, spoke, projection and SDK declarations. Its minimum context view
 contains five veils at `+0`, a halo block at `+0x820`, three webs at
 `+0xDD4`, and the previously established band/sheet/ring/spoke/quad views.

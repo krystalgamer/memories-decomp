@@ -9,7 +9,7 @@ s32 FrenchModelVariant422_HandleRequest(Variant422EntryState *context, s32 comma
     VECTOR squared;
     ModelVariantProjection projection;
     Variant405Halo *halo;
-    Variant405Veil *veil;
+    ModelVariantConeRings *veil;
     Variant422EntryBand *band;
     ModelVariantSheet *sheet;
     ModelVariantColorRing *ring;
@@ -116,15 +116,15 @@ s32 FrenchModelVariant422_HandleRequest(Variant422EntryState *context, s32 comma
         SetShadeTex(halo_poly, 0);
         for (outer = 0; outer < 5; outer++, veil++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {
-                setVector(&veil->a[j], (u32)(rcos(angle) * 7) >> 7, 0,
+                setVector(&veil->inner[j], (u32)(rcos(angle) * 7) >> 7, 0,
                           (u32)(rsin(angle) * 7) >> 7);
-                setVector(&veil->b[j], (u32)(rcos(angle) * 5) >> 6, 48,
+                setVector(&veil->middle[j], (u32)(rcos(angle) * 5) >> 6, 48,
                           (u32)(rsin(angle) * 5) >> 6);
-                setVector(&veil->c[j], (u32)(rcos(angle) * 13) >> 7, 48,
+                setVector(&veil->outer[j], (u32)(rcos(angle) * 13) >> 7, 48,
                           (u32)(rsin(angle) * 13) >> 7);
             }
-            veil->scale = -outer * 2048 / 5;
-            veil->count = 0;
+            veil->progress = -outer * 2048 / 5;
+            veil->cycles = 0;
         }
         for (row = 0; row < 5; row++) {
             halo->rise[row] = -(row * 256);

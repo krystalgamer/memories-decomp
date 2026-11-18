@@ -644,6 +644,15 @@ typedef struct {
     s32 count;
 } ModelVariantCurtain;
 
+/* A cone of three seventeen-point rings, inner to outer, each scaled by
+ * rsin(progress) as progress steps to 0x800; cycles counts the completed
+ * passes. Header 366's cones and header 405's veils build and draw it the
+ * same way. */
+typedef struct {
+    SVECTOR inner[17], middle[17], outer[17];
+    s32 progress, cycles;
+} ModelVariantConeRings;
+
 /* The RotTransPers scratch record of the entry handlers: a projected screen
  * point, the interpolation value and flag RotTransPers writes, and the
  * projected screen point of the target. */

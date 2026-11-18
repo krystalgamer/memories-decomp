@@ -1,6 +1,5 @@
 #include "../../types.h"
 
-#include "e588_veils.h"
 #include "../model_variant/e588_entry.h"
 
 /* Draws five veils of sixteen textured POLY_GT4 strips that open and close
@@ -26,7 +25,7 @@ void ModelVariant405_DrawVeils(Variant422EntryState *ctx)
     s32 i;
     s32 all;
     s32 buff;
-    Variant405Veil *veil;
+    ModelVariantConeRings *veil;
     POLY_GT4 *poly;
     s32 j;
     s32 angle;
@@ -42,16 +41,16 @@ void ModelVariant405_DrawVeils(Variant422EntryState *ctx)
     ratan2(work->aim.direction.vz, work->aim.direction.vx);
     ratan2(work->aim.direction.vy, work->aim.direction.vz);
     for (i = 0; i < 5; i++, veil++) {
-        if (veil->scale > 0) {
+        if (veil->progress > 0) {
             for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {
-                setVector(&veil->a[j], rcos(angle) * (rsin(veil->scale) * 224 >> 12) >> 12, 0,
-                          rsin(angle) * (rsin(veil->scale) * 224 >> 12) >> 12);
-                setVector(&veil->b[j], rcos(angle) * (rsin(veil->scale) * 320 >> 12) >> 12,
-                          (u32)(rsin(veil->scale) * 3) >> 8,
-                          rsin(angle) * (rsin(veil->scale) * 320 >> 12) >> 12);
-                setVector(&veil->c[j], rcos(angle) * (rsin(veil->scale) * 416 >> 12) >> 12,
-                          (u32)(rsin(veil->scale) * 3) >> 8,
-                          rsin(angle) * (rsin(veil->scale) * 416 >> 12) >> 12);
+                setVector(&veil->inner[j], rcos(angle) * (rsin(veil->progress) * 224 >> 12) >> 12, 0,
+                          rsin(angle) * (rsin(veil->progress) * 224 >> 12) >> 12);
+                setVector(&veil->middle[j], rcos(angle) * (rsin(veil->progress) * 320 >> 12) >> 12,
+                          (u32)(rsin(veil->progress) * 3) >> 8,
+                          rsin(angle) * (rsin(veil->progress) * 320 >> 12) >> 12);
+                setVector(&veil->outer[j], rcos(angle) * (rsin(veil->progress) * 416 >> 12) >> 12,
+                          (u32)(rsin(veil->progress) * 3) >> 8,
+                          rsin(angle) * (rsin(veil->progress) * 416 >> 12) >> 12);
             }
             light.r = 0xFF;
             light.g = 0xFF;
@@ -63,7 +62,7 @@ void ModelVariant405_DrawVeils(Variant422EntryState *ctx)
             rot.vy = 0;
             rot.vz = 0;
             m.t[0] = work->matrix.t[0];
-            m.t[1] = work->matrix.t[1] - (rcos(veil->scale) * 224 >> 12);
+            m.t[1] = work->matrix.t[1] - (rcos(veil->progress) * 224 >> 12);
             m.t[2] = work->matrix.t[2];
             RotMatrix(&rot, &m);
             coord.coord = m;
@@ -72,7 +71,7 @@ void ModelVariant405_DrawVeils(Variant422EntryState *ctx)
             GsGetLs(&coord, &ls);
             GsSetLsMatrix(&ls);
             for (j = 0; j < 16; j++) {
-                RotTransPers4(&veil->a[j], &veil->a[j + 1], &veil->c[j], &veil->c[j + 1],
+                RotTransPers4(&veil->inner[j], &veil->inner[j + 1], &veil->outer[j], &veil->outer[j + 1],
                               (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
                               (long *)&poly->x3, &p, &flag);
                 if (poly->x0 < 0xA0) {
@@ -108,7 +107,7 @@ void ModelVariant405_DrawVeils(Variant422EntryState *ctx)
                     poly->v3 = poly->y3;
                     poly->tpage = tpage;
                 }
-                otz = RotTransPers4(&veil->a[j], &veil->a[j + 1], &veil->b[j], &veil->b[j + 1],
+                otz = RotTransPers4(&veil->inner[j], &veil->inner[j + 1], &veil->middle[j], &veil->middle[j + 1],
                                     (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2,
                                     (long *)&poly->x3, &p, &flag);
                 SetSemiTrans(poly, 1);
@@ -130,14 +129,14 @@ void ModelVariant405_DrawVeils(Variant422EntryState *ctx)
                 }
             }
         }
-        if (veil->scale < 0x800) {
-            veil->scale += work->clock.step * 40;
-            if (veil->scale >= 0x800) {
+        if (veil->progress < 0x800) {
+            veil->progress += work->clock.step * 40;
+            if (veil->progress >= 0x800) {
                 if (work->config->burst_end <= work->clock.frame) {
-                    veil->scale = 0x800;
-                    veil->count = 1;
+                    veil->progress = 0x800;
+                    veil->cycles = 1;
                 } else {
-                    veil->scale -= 0x800;
+                    veil->progress -= 0x800;
                 }
                 if (work->phase == 0 &&
                     work->config->burst_start <= work->clock.frame) {
@@ -145,7 +144,7 @@ void ModelVariant405_DrawVeils(Variant422EntryState *ctx)
                 }
             }
         }
-        all *= veil->count;
+        all *= veil->cycles;
         if (i + 1 == 5 && all == 1 && work->phase == 2) {
             work->phase = i + 1;
         }
