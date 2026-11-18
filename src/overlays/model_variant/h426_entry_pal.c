@@ -30,7 +30,7 @@ s32 FrenchModelVariant443_HandleRequest(EntryState443 *context, s32 command)
     ModelVariantColorBand *long_band = work->long_bands;
     ModelVariantColorRing *ring_a = work->rings_a;
     ModelVariantColorRing *ring_b = work->rings_b;
-    EntryShape443 *shape = work->shapes;
+    ModelVariantStarShape *shape = work->shapes;
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *textured = work->packets.textured;

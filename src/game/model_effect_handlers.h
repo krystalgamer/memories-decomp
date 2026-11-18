@@ -146,13 +146,6 @@ extern const VECTOR gModel_DiscEffectInitialScale;
  * table. Three expanding rings, 64 dust particles, 32 sparks with drift and
  * rise vectors, 32 embers and 64 smoke particles, each with its frame and
  * colour. */
-typedef struct {
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 pad;
-} ModelBurstColor;
-
 /* The ring colours `table` points at, gModel_BurstRingPalette in model_effect_handlers.c:
  * one byte per ring for each channel, then three unread zero bytes. */
 typedef struct {
@@ -205,12 +198,12 @@ typedef struct {
     u16 tpage;
     u16 clut;
     ModelBurstTexture spark_texture[1];
-    ModelBurstColor colors[3];
+    CVECTOR colors[3];
     u8 flash_r;
     u8 flash_g;
     u8 flash_b;
     u8 pad_da1;
-    ModelBurstColor spark_colors[32];
+    CVECTOR spark_colors[32];
     u8 smoke_r;
     u8 smoke_g;
     u8 smoke_b;
@@ -223,13 +216,6 @@ typedef struct {
     u16 size;
     u16 grow;
 } ModelSparkSize;
-
-typedef struct {
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 pad;
-} ModelSparkColor;
 
 typedef struct {
     SVECTOR sparks[32];
@@ -246,8 +232,8 @@ typedef struct {
     u8 pad709;
     u16 tpage;
     u16 clut;
-    ModelSparkColor spark_colors[32];
-    ModelSparkColor flash_colors[32];
+    CVECTOR spark_colors[32];
+    CVECTOR flash_colors[32];
     u8 dust_r;
     u8 dust_g;
     u8 dust_b;

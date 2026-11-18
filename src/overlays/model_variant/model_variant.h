@@ -1104,7 +1104,8 @@ typedef struct {
  * and per quad a size, a progress word and an initialized flag. The French
  * header-461 and 469 entries build it at work + 0xB90 and + 0x1614 and pass
  * the work area to SpanishModelVariant461_DrawRing and
- * SpanishModelVariant469_DrawQuadRing, which draw v0..v3 and grow size. */
+ * SpanishModelVariant469_DrawQuadRing, which draw v0..v3 and grow size.
+ * Header 446 builds and draws the same ring. */
 typedef struct {
     SVECTOR v0[24], v1[24], v2[24], v3[24], positions[24];
     CVECTOR color;
@@ -1499,5 +1500,41 @@ typedef struct {
     s32 field_60;
     long depth[2];
 } ModelVariantScaledStrip;
+
+/* One 0xE-byte command row of headers 669 and 681: the start delay, the age
+ * at which a ring releases its burst, the size of the rings and cones, then
+ * the ring/streak colour and the burst colour. */
+typedef struct {
+    s16 delay;
+    s16 release;
+    u16 radius, height;
+    u8 color[6];
+} ModelVariantReleaseCommand;
+
+/* One triangle of headers 76 and 143: pointers to its three vertices. */
+typedef struct {
+    SVECTOR *a, *b, *c;
+} ModelVariantFace;
+
+/* A six-point fan (a centre and five rim points), five outer points, four
+ * sprite corners and the inner and outer colours, as the header-438 and 443
+ * entries build it: corners at +/-128, inner colour (255, 192, 192) and outer
+ * colour (64, 64, 0). */
+typedef struct {
+    SVECTOR inner[6], outer[5], corners[4];
+    CVECTOR inner_color, outer_color;
+    s32 field_80, field_84, field_88;
+    u8 unknown_8C[4];
+} ModelVariantStarShape;
+
+/* The RotTransPers outputs the header-408 and 475 entries use to measure the
+ * screen offset from an origin to a target: both packed screen points, and
+ * the interpolation value and flag the two calls share. */
+typedef struct {
+    long origin;
+    long interpolation;
+    long flag;
+    long target;
+} ModelVariantTargetProjection;
 
 #endif

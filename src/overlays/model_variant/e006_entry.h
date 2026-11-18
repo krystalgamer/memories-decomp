@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_VARIANT76_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/gpu_packets.h"
@@ -24,12 +25,6 @@ typedef struct {
 } Model76Config;
 
 typedef struct {
-    SVECTOR *a;
-    SVECTOR *b;
-    SVECTOR *c;
-} Model76Face;
-
-typedef struct {
     Model76Config *config;
     SVECTOR positions[256];
     SVECTOR velocities[256];
@@ -39,7 +34,7 @@ typedef struct {
     s32 elapsed;
     u8 completed;
     u8 field_1a29[3];
-    Model76Face faces[4];
+    ModelVariantFace faces[4];
 } Model76State;
 
 extern Model76Config gFrenchModelVariant76_aConfigs[];

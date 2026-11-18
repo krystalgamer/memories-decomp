@@ -14,7 +14,7 @@ void FrenchModelVariant463_DrawRings(Variant446EntryState *context)
     long flag;
     GsOT *ot;
     Variant446EntryState *state = context;
-    Variant446EntrySprites *ring;
+    ModelVariantQuadRing *ring;
     POLY_FT4 *polygon;
     s16 i;
     s16 angle;

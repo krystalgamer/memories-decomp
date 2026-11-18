@@ -32,13 +32,6 @@ typedef struct {
 } ModelVariant408Mesh;
 
 typedef struct {
-    s32 projected;
-    s32 interpolation;
-    s32 flag;
-    s32 target_projected;
-} ModelVariant408Projection;
-
-typedef struct {
     u8 unknown_00[4];
     u8 part;
     u8 unknown_05[7];

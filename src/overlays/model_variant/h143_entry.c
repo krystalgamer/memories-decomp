@@ -35,7 +35,7 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
     u16 depths[169], projection[169], flags[169];
     SVECTOR corner[4];
     SVECTOR origin;
-    Model143UsColour saved;
+    CVECTOR saved;
     long flag, interpolation;
     Model143UsState *work;
     s32 direction;
@@ -45,7 +45,7 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
     Model143UsConfig *config;
     /* Separate setup and drawing pointers keep the original registers. */
     SVECTOR *point, *vertex;
-    Model143UsColour *colour, *other;
+    CVECTOR *colour, *other;
     /* a, b and c are shared scratch values (wave angle, ring radius, light
      * level, lift, vertex indices, fade amount, dome scale and sprite frame in
      * turn); keeping three variables reproduces the original registers. */
@@ -70,9 +70,9 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
                 point->vy = config->wave_height * csin(a) / 4096;
                 point->vz = config->grid_size * i / 12 - config->grid_size / 2;
                 a = (a + 372) % 4096;
-                colour->red = config->base[0] + config->swing[0] * csin(a) / 4096;
-                colour->green = config->base[1] + config->swing[1] * csin(a) / 4096;
-                colour->blue = config->base[2] + config->swing[2] * csin(a) / 4096;
+                colour->r = config->base[0] + config->swing[0] * csin(a) / 4096;
+                colour->g = config->base[1] + config->swing[1] * csin(a) / 4096;
+                colour->b = config->base[2] + config->swing[2] * csin(a) / 4096;
                 point++;
                 colour++;
             }
@@ -125,20 +125,20 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
         for (i = 0; i < 6; i++) {
             other = colour + 8;
             for (j = 0; j < 4; j++) {
-                colour->red = other->red = config->dome_inner[0] + j * red / 4 * i / 6;
-                colour->green = other->green = config->dome_inner[1] + j * green / 4 * i / 6;
-                colour->blue = other->blue = config->dome_inner[2] + j * blue / 4 * i / 6;
+                colour->r = other->r = config->dome_inner[0] + j * red / 4 * i / 6;
+                colour->g = other->g = config->dome_inner[1] + j * green / 4 * i / 6;
+                colour->b = other->b = config->dome_inner[2] + j * blue / 4 * i / 6;
                 colour++;
                 other--;
             }
-            colour->red = config->dome_inner[0] + i * red / 6;
-            colour->green = config->dome_inner[1] + i * green / 6;
-            colour->blue = config->dome_inner[2] + i * blue / 6;
+            colour->r = config->dome_inner[0] + i * red / 6;
+            colour->g = config->dome_inner[1] + i * green / 6;
+            colour->b = config->dome_inner[2] + i * blue / 6;
             colour += 5;
         }
-        colour->red = config->dome_outer[0];
-        colour->green = config->dome_outer[1];
-        colour->blue = config->dome_outer[2];
+        colour->r = config->dome_outer[0];
+        colour->g = config->dome_outer[1];
+        colour->b = config->dome_outer[2];
         for (i = 47; i >= 0; i--) {
             work->spin[i] = 0;
         }
@@ -217,80 +217,80 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
                         screen[b].vx, screen[b].vy, screen[b + 1].vx, screen[b + 1].vy);
                     /* Each corner's channels are computed before any is stored. */
                     if (time < config->wave_fade) {
-                        red = colour->red * time / config->wave_fade;
-                        green = colour->green * time / config->wave_fade;
-                        blue = colour->blue * time / config->wave_fade;
+                        red = colour->r * time / config->wave_fade;
+                        green = colour->g * time / config->wave_fade;
+                        blue = colour->b * time / config->wave_fade;
                         strip.r0 = red;
                         strip.g0 = green;
                         strip.b0 = blue;
                         colour++;
-                        red = colour->red * time / config->wave_fade;
-                        green = colour->green * time / config->wave_fade;
-                        blue = colour->blue * time / config->wave_fade;
+                        red = colour->r * time / config->wave_fade;
+                        green = colour->g * time / config->wave_fade;
+                        blue = colour->b * time / config->wave_fade;
                         strip.r1 = red;
                         strip.g1 = green;
                         strip.b1 = blue;
                         colour += 12;
-                        red = colour->red * time / config->wave_fade;
-                        green = colour->green * time / config->wave_fade;
-                        blue = colour->blue * time / config->wave_fade;
+                        red = colour->r * time / config->wave_fade;
+                        green = colour->g * time / config->wave_fade;
+                        blue = colour->b * time / config->wave_fade;
                         strip.r2 = red;
                         strip.g2 = green;
                         strip.b2 = blue;
                         colour++;
-                        red = colour->red * time / config->wave_fade;
-                        green = colour->green * time / config->wave_fade;
-                        blue = colour->blue * time / config->wave_fade;
+                        red = colour->r * time / config->wave_fade;
+                        green = colour->g * time / config->wave_fade;
+                        blue = colour->b * time / config->wave_fade;
                         strip.r3 = red;
                         strip.g3 = green;
                         strip.b3 = blue;
                         colour -= 13;
                     } else if (work->elapsed - config->fade_start >= 0) {
                         c = config->wave_fade - (work->elapsed - config->fade_start);
-                        red = colour->red * c / config->wave_fade;
-                        green = colour->green * c / config->wave_fade;
-                        blue = colour->blue * c / config->wave_fade;
+                        red = colour->r * c / config->wave_fade;
+                        green = colour->g * c / config->wave_fade;
+                        blue = colour->b * c / config->wave_fade;
                         strip.r0 = red;
                         strip.g0 = green;
                         strip.b0 = blue;
                         colour++;
-                        red = colour->red * c / config->wave_fade;
-                        green = colour->green * c / config->wave_fade;
-                        blue = colour->blue * c / config->wave_fade;
+                        red = colour->r * c / config->wave_fade;
+                        green = colour->g * c / config->wave_fade;
+                        blue = colour->b * c / config->wave_fade;
                         strip.r1 = red;
                         strip.g1 = green;
                         strip.b1 = blue;
                         colour += 12;
-                        red = colour->red * c / config->wave_fade;
-                        green = colour->green * c / config->wave_fade;
-                        blue = colour->blue * c / config->wave_fade;
+                        red = colour->r * c / config->wave_fade;
+                        green = colour->g * c / config->wave_fade;
+                        blue = colour->b * c / config->wave_fade;
                         strip.r2 = red;
                         strip.g2 = green;
                         strip.b2 = blue;
                         colour++;
-                        red = colour->red * c / config->wave_fade;
-                        green = colour->green * c / config->wave_fade;
-                        blue = colour->blue * c / config->wave_fade;
+                        red = colour->r * c / config->wave_fade;
+                        green = colour->g * c / config->wave_fade;
+                        blue = colour->b * c / config->wave_fade;
                         strip.r3 = red;
                         strip.g3 = green;
                         strip.b3 = blue;
                         colour -= 13;
                     } else {
-                        strip.r0 = colour->red;
-                        strip.g0 = colour->green;
-                        strip.b0 = colour->blue;
+                        strip.r0 = colour->r;
+                        strip.g0 = colour->g;
+                        strip.b0 = colour->b;
                         colour++;
-                        strip.r1 = colour->red;
-                        strip.g1 = colour->green;
-                        strip.b1 = colour->blue;
+                        strip.r1 = colour->r;
+                        strip.g1 = colour->g;
+                        strip.b1 = colour->b;
                         colour += 12;
-                        strip.r2 = colour->red;
-                        strip.g2 = colour->green;
-                        strip.b2 = colour->blue;
+                        strip.r2 = colour->r;
+                        strip.g2 = colour->g;
+                        strip.b2 = colour->b;
                         colour++;
-                        strip.r3 = colour->red;
-                        strip.g3 = colour->green;
-                        strip.b3 = colour->blue;
+                        strip.r3 = colour->r;
+                        strip.g3 = colour->g;
+                        strip.b3 = colour->b;
                         colour -= 13;
                     }
                     /* The outer rows and columns fade to black at the edges. */
@@ -338,15 +338,15 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
                 corner[0].vy = vertex->vy;
                 corner[0].vz = vertex->vz;
                 colour = &work->colours[155];
-                saved.red = colour->red;
-                saved.green = colour->green;
-                saved.blue = colour->blue;
+                saved.r = colour->r;
+                saved.g = colour->g;
+                saved.b = colour->b;
                 for (i = 0; i < 155; i++) {
                     vertex->vy = (vertex - 1)->vy;
                     vertex--;
-                    colour->red = (colour - 1)->red;
-                    colour->green = (colour - 1)->green;
-                    colour->blue = (colour - 1)->blue;
+                    colour->r = (colour - 1)->r;
+                    colour->g = (colour - 1)->g;
+                    colour->b = (colour - 1)->b;
                     colour--;
                 }
             } else {
@@ -355,22 +355,22 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
                 corner[0].vy = vertex->vy;
                 corner[0].vz = vertex->vz;
                 colour = work->colours;
-                saved.red = colour->red;
-                saved.green = colour->green;
-                saved.blue = colour->blue;
+                saved.r = colour->r;
+                saved.g = colour->g;
+                saved.b = colour->b;
                 for (i = 0; i < 155; i++) {
                     vertex->vy = (vertex + 1)->vy;
                     vertex++;
-                    colour->red = (colour + 1)->red;
-                    colour->green = (colour + 1)->green;
-                    colour->blue = (colour + 1)->blue;
+                    colour->r = (colour + 1)->r;
+                    colour->g = (colour + 1)->g;
+                    colour->b = (colour + 1)->b;
                     colour++;
                 }
             }
             vertex->vy = corner[0].vy;
-            colour->red = saved.red;
-            colour->green = saved.green;
-            colour->blue = saved.blue;
+            colour->r = saved.r;
+            colour->g = saved.g;
+            colour->b = saved.b;
         }
         time = work->elapsed - config->ring_start;
         if (time >= 0 && time < config->ring_time) {
@@ -485,21 +485,21 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
                         c = (i + 1) * 9 + j;
                         setXY4(&panel, screen[b].vx, screen[b].vy, screen[b + 1].vx, screen[b + 1].vy,
                             screen[c].vx, screen[c].vy, screen[c + 1].vx, screen[c + 1].vy);
-                        panel.r0 = colour->red;
-                        panel.g0 = colour->green;
-                        panel.b0 = colour->blue;
+                        panel.r0 = colour->r;
+                        panel.g0 = colour->g;
+                        panel.b0 = colour->b;
                         colour++;
-                        panel.r1 = colour->red;
-                        panel.g1 = colour->green;
-                        panel.b1 = colour->blue;
+                        panel.r1 = colour->r;
+                        panel.g1 = colour->g;
+                        panel.b1 = colour->b;
                         colour += 8;
-                        panel.r2 = colour->red;
-                        panel.g2 = colour->green;
-                        panel.b2 = colour->blue;
+                        panel.r2 = colour->r;
+                        panel.g2 = colour->g;
+                        panel.b2 = colour->b;
                         colour++;
-                        panel.r3 = colour->red;
-                        panel.g3 = colour->green;
-                        panel.b3 = colour->blue;
+                        panel.r3 = colour->r;
+                        panel.g3 = colour->g;
+                        panel.b3 = colour->b;
                         /* Stepping back ten, then on by one after the sort,
                          * matches the original pointer updates. */
                         colour -= 10;
@@ -513,7 +513,7 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
                     colour++;
                 }
                 colour = &work->dome_colours[54];
-                setRGB2(&cap, colour->red, colour->green, colour->blue);
+                setRGB2(&cap, colour->r, colour->g, colour->b);
                 colour = &work->dome_colours[45];
                 /* The apex index is kept in a variable, so its address is formed
                  * from the hoisted array bases. */
@@ -522,13 +522,13 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
                     a = 45 + j;
                     setXY3(&cap, screen[a].vx, screen[a].vy, screen[a + 1].vx, screen[a + 1].vy,
                         screen[c].vx, screen[c].vy);
-                    cap.r0 = colour->red;
-                    cap.g0 = colour->green;
-                    cap.b0 = colour->blue;
+                    cap.r0 = colour->r;
+                    cap.g0 = colour->g;
+                    cap.b0 = colour->b;
                     colour++;
-                    cap.r1 = colour->red;
-                    cap.g1 = colour->green;
-                    cap.b1 = colour->blue;
+                    cap.r1 = colour->r;
+                    cap.g1 = colour->g;
+                    cap.b1 = colour->b;
                     colour--;
                     depth = AverageZ3(depths[a], depths[a + 1], depths[c]);
                     flag = (flags[a] | flags[a + 1] | flags[c]) & 0x20;

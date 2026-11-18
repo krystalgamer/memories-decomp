@@ -13,16 +13,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xE-byte command row: the start delay, the age at which a ring
- * releases its burst, the size of the rings and cones, then the ring/streak
- * colour and the burst colour. */
-typedef struct {
-    s16 delay;
-    s16 release;
-    u16 radius, height;
-    u8 color[6];
-} Model669Command;
-
 /* One 0x54-byte element: a ring, a ring echo, a burst or a streak. */
 typedef struct {
     ModelVariantElementHead head;
@@ -73,7 +63,7 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant669_aImages[3];
-extern Model669Command gModelVariant669_aConfigs[];
+extern ModelVariantReleaseCommand gModelVariant669_aConfigs[];
 
 s32 ModelVariant669_HandleRequest(Model669State *context, s32 command);
 

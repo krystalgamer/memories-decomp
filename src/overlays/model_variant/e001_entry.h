@@ -27,11 +27,6 @@ typedef struct {
     s16 spark_size, spark_spread, spark_lift, spark_duration;
 } Model72Config;
 
-/* One ribbon row's colour. */
-typedef struct {
-    u8 red, green, blue, unknown_03;
-} Model72Colour;
-
 /* The 0x904-byte work area: the elapsed time, the ribbon's grid of part
  * positions (one row recorded a frame), the fan's inner and jagged outer
  * rings, 48 spark offsets, one colour per ribbon row, the next row to record,
@@ -42,7 +37,7 @@ typedef struct {
     SVECTOR ring[17];
     SVECTOR outer[17];
     SVECTOR sparks[48];
-    Model72Colour colours[24];
+    CVECTOR colours[24];
     s16 row, unknown_8F6;
     u32 texture[1];
     u8 completed, sparks_on, unknown_8FE[2];

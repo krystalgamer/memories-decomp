@@ -15,7 +15,7 @@ s32 SpanishModelVariant408_HandleRequest(SVECTOR *point, s32 command)
     SVECTOR position;
     SVECTOR target;
     VECTOR squared;
-    ModelVariant408Projection projection;
+    ModelVariantTargetProjection projection;
     ModelVariant408Mesh *mesh = work->meshes;
     ModelVariant408Ring *ring = work->rings;
     POLY_G3 *triangle = &work->packets.triangle;
@@ -224,17 +224,17 @@ s32 SpanishModelVariant408_HandleRequest(SVECTOR *point, s32 command)
         position.vx = work->matrix.t[0];
         position.vy = work->matrix.t[1];
         position.vz = work->matrix.t[2];
-        RotTransPers(&position, (long *)&projection.projected,
-                     (long *)&projection.interpolation, (long *)&projection.flag);
-        screen_x = projection.projected;
-        screen_y = projection.projected >> 16;
+        RotTransPers(&position, &projection.origin,
+                     &projection.interpolation, &projection.flag);
+        screen_x = projection.origin;
+        screen_y = projection.origin >> 16;
         target.vx = work->target.vx;
         target.vy = work->target.vy;
         target.vz = work->target.vz;
-        RotTransPers(&target, (long *)&projection.target_projected,
-                     (long *)&projection.interpolation, (long *)&projection.flag);
-        work->screen_delta.vx = projection.target_projected - screen_x;
-        work->screen_delta.vy = (projection.target_projected >> 16) - screen_y;
+        RotTransPers(&target, &projection.target,
+                     &projection.interpolation, &projection.flag);
+        work->screen_delta.vx = projection.target - screen_x;
+        work->screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->state > 0) {
             SpanishModelVariant408_DrawRingLines((ModelVariant408EntryState *)point);
         }
