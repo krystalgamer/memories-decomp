@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "h457_mesh.h"
+#include "h457_entry_pal.h"
 
-void SpanishModelVariant474_DrawGouraudMesh(Mesh474State *context)
+void SpanishModelVariant474_DrawGouraudMesh(Variant474EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void SpanishModelVariant474_DrawGouraudMesh(Mesh474State *context)
     u8 red[9], green[9], blue[9];
     long interpolation;
     long flag;
-    Mesh474State *state = context;
+    Variant474EntryState *state = context;
     ModelVariantMesh *mesh = &state->mesh;
     POLY_G4 *polygon;
     GsOT *ot;
@@ -20,13 +20,13 @@ void SpanishModelVariant474_DrawGouraudMesh(Mesh474State *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    ratan2(state->direction[2], state->direction[0]);
-    ratan2(state->direction[1], state->direction[2]);
-    polygon = &state->polygon;
-    if (!(state->frame & 1)) {
-        size = state->size + state->size / 16;
+    ratan2(state->direction.vz, state->direction.vx);
+    ratan2(state->direction.vy, state->direction.vz);
+    polygon = &state->packets.quad;
+    if (!(state->clock.frame_count & 1)) {
+        size = state->mesh_size + state->mesh_size / 16;
     } else {
-        size = state->size;
+        size = state->mesh_size;
     }
     rotation.vx = 0;
     rotation.vy = 0;
@@ -46,9 +46,9 @@ void SpanishModelVariant474_DrawGouraudMesh(Mesh474State *context)
     GsSetLsMatrix(&light);
     if (state->phase >= 5) {
         for (i = 0; i < 9; i++) {
-            red[i] = mesh->colors[i].r * state->intensity / 1024;
-            green[i] = mesh->colors[i].g * state->intensity / 1024;
-            blue[i] = mesh->colors[i].b * state->intensity / 1024;
+            red[i] = mesh->colors[i].r * state->mesh_intensity / 1024;
+            green[i] = mesh->colors[i].g * state->mesh_intensity / 1024;
+            blue[i] = mesh->colors[i].b * state->mesh_intensity / 1024;
         }
     } else {
         for (i = 0; i < 9; i++) {
@@ -81,16 +81,16 @@ void SpanishModelVariant474_DrawGouraudMesh(Mesh474State *context)
             }
         }
     }
-    if (state->phase >= 3 && state->size < 4096) {
-        state->size += state->step * 256;
-        if (state->size >= 4096) {
-            state->size = 4096;
+    if (state->phase >= 3 && state->mesh_size < 4096) {
+        state->mesh_size += state->clock.step * 256;
+        if (state->mesh_size >= 4096) {
+            state->mesh_size = 4096;
         }
     }
-    if (state->phase == 5 && state->intensity > 0) {
-        state->intensity -= state->step * 32;
-        if (state->intensity <= 0) {
-            state->intensity = 0;
+    if (state->phase == 5 && state->mesh_intensity > 0) {
+        state->mesh_intensity -= state->clock.step * 32;
+        if (state->mesh_intensity <= 0) {
+            state->mesh_intensity = 0;
             state->phase = 6;
         }
     }
