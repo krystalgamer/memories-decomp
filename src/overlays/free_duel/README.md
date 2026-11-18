@@ -58,9 +58,19 @@ The module imports these resident byte addresses through
 `screen_runtime.c` is the Free Duel overlay's complete text section: nine
 functions in executable order from `FreeDuel_UpdateScrollbar` at `0x80168004`
 through `FreeDuel_Entry` at `0x80168FB4`. One
-`gcc_2_8_1_g0_split` C subsegment at module offset `0x4` covers the full
+`gcc_2_8_1_g0_split_comm` C subsegment at module offset `0x4` covers the full
 `0x102C`-byte range through `0x80169030`; data begins immediately afterward at
 module `+0x1030`.
+
+## Shared module state
+
+The five zero-initialized globals (`gFreeDuel_abGridAvailable`,
+`gFreeDuel_pThumbWidget`, `gFreeDuel_apSparklePool`, `gFreeDuel_pCursorWidget`
+and `gFreeDuel_bScreenFlags`) are tentative definitions in `screen_runtime.c`.
+The `_comm` profile keeps them common, and each layout's
+`screen_runtime_commons` `bss` subsegment places them from its symbol file:
+North America and Japan `+0x1030-+0x10A8`, PAL `+0x10A0-+0x111C` with the
+screen flags first. The bytes after them are the `leftover` segment.
 
 The former cursor-layout, initialization, and per-frame source boundaries did
 not mark object or ownership boundaries:

@@ -2,55 +2,55 @@
   "functions": [
     {
       "address": "0x80168004",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x8C",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x80168090",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x124",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x801681B4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x98",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x8016824C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x750",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x8016899C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x38",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x801689D4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0xC8",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x80168A9C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x1E0",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x80168C7C",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x338",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
     {
       "address": "0x80168FB4",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x7C",
       "source": "src/overlays/free_duel/screen_runtime.c"
     }

@@ -35,7 +35,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
-  subalign: 4
+  subalign: 2
 
   section_order:
     - ".text"
@@ -61,7 +61,14 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/free_duel/screen_runtime]
-      - [0x1030, .data, overlays/free_duel/module_state]
+      - [0x1030, bss, overlays/japanese_free_duel/screen_runtime_commons]
+
+  - name: leftover
+    type: code
+    start: 0x10A8
+    vram: 0x801690A8
+    align: 4
+    subsegments:
       - [0x10A8, data, overlays/japanese_free_duel/data]
 
   - [0x2800]

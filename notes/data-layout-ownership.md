@@ -638,6 +638,15 @@ Such fill is not an object. It stays a raw `bin` subsegment, or `pad` where it
 is zero; a layout whose fill starts at an odd address uses `subalign: 1`, since
 every gap there is explicit.
 
+Zero-initialized overlay state is common storage, as in the resident build
+(see [`build.md`](build.md#common-declarations-for-small-globals-a-unit-reads)):
+the reading unit keeps tentative definitions, builds with
+`gcc_2_8_1_g0_split_comm`, and the layout's `bss` subsegment
+`<unit>_commons` places them from the image's symbol file. Free Duel's
+`screen_runtime.c` is the first (North America and Japan `+0x1030`, PAL
+`+0x10A0`); PAL orders the same five objects differently, as it does every
+resident `.sbss`/`.bss` block.
+
 The Japanese and PAL overworld images (both coup variants) own their data
 through the North American units, listed in each image's
 `overworld_*_data_c.json`: `module_header.c` (`0x0`; PAL selects its `0x06`

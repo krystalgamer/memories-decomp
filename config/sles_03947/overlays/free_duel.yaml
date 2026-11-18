@@ -61,6 +61,14 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/free_duel/screen_runtime]
-      - [0x10A0, data, overlays/european_free_duel/data]
+      - [0x10A0, bss, overlays/european_free_duel/screen_runtime_commons]
+
+  - name: leftover
+    type: code
+    start: 0x111C
+    vram: 0x8016911C
+    align: 4
+    subsegments:
+      - [0x111C, data, overlays/european_free_duel/data]
 
   - [0x2800]
