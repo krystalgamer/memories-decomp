@@ -524,7 +524,7 @@ The initial scales that follow are defined the same way by `effect_10.c`,
 `row_attack_effects.c` (row strike, then back-row sweep), `effect_2.c`,
 `effect_19.c`, `contour_burst_effects.c` (particle contour burst, then
 contour burst), `effect_6.c`, `effect_1.c`, `life_point_effects.c`
-(recovery, reflected direct damage, inverted recovery) and `effect_4.c`, in
+(recovery, then reflected direct damage), `effect_9.c` and `effect_4.c`, in
 that text order: North America `+0x180..+0x2A0`, PAL `+0x138..+0x258`, Japan
 `+0x138..+0x158` and, after the strings, `+0x1B0..+0x2B0`. No raw read-only
 data remains in the header in any region.

@@ -34,7 +34,7 @@ retains the native compatibility declaration.
 180-byte `D_8015B650` owner (NA `8015B6BC`, JP `801696DC`, PAL `8015B650`).
 `gDuelEffect_InvertedLifePointRecoveryInitialScale` binds the 16-byte SDK
 VECTOR `D_80146238` (NA `80146280`, JP `80154290`, PAL `80146238`), copied
-at entry; `life_point_effects.c` defines it as `const VECTOR` `.rodata`
+at entry; `effect_9.c` defines it as `const VECTOR` `.rodata`
 (#2602). Preserve five records, both unread configuration fields, vector
 padding and real generated storage; no new identity-value claim.
 Keep the complete object separate from effect 5 and retain the cross

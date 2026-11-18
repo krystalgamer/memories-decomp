@@ -65,6 +65,7 @@ segments:
       - [0x240, .rodata, overlays/duel_effects/effect_6]
       - [0x250, .rodata, overlays/duel_effects/effect_1]
       - [0x260, .rodata, overlays/duel_effects/life_point_effects]
+      - [0x280, .rodata, overlays/duel_effects/effect_9]
       - [0x290, .rodata, overlays/duel_effects/effect_4]
       - [0x2A0, .rodata, overlays/duel_effects/effect_17]
 
@@ -104,6 +105,7 @@ segments:
       - [0x1016C, c, overlays/duel_effects/contour_quads]
       - [0x10438, c, overlays/duel_effects/effect_1]
       - [0x10AB4, c, overlays/duel_effects/life_point_effects]
+      - [0x12048, c, overlays/duel_effects/effect_9]
       - [0x1274C, c, overlays/duel_effects/effect_4]
       - [0x12E84, c, overlays/duel_effects/effect_17]
       - [0x14270, .data, overlays/duel_effects/dispatch]
