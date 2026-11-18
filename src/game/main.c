@@ -125,7 +125,7 @@ s32 Main_Init(void)
     Movie_ResetPlaybackState();
     DuelEffect_ResetState();
     Text_InitDecimalDigitGlyphMap();
-    SD_InitState(*(u8 *)&gFile_anLba[FILE_INDEX_MASTER_XA]);
+    SD_InitState(gFile_anLba[FILE_INDEX_MASTER_XA]);
     VSyncCallback(Main_VBlankCB);
     Sound_InitFrontend();
     srand(RAND_BOOT_SEED);
@@ -192,6 +192,7 @@ void Graphics_SyncFrame(void)
     }
     gGraphics_nBaseFrameStep = gGraphics_bExtraFrameStep + 1;
 
+    /* Non-volatile store: a volatile one hoists the next call's argument above it. */
     *(u8 *)&gGraphics_bFrameStep = gGraphics_FrameStepControl ? 2 : gGraphics_nBaseFrameStep;
 
     gGraphics_FrameStepControl = 0;
@@ -248,7 +249,7 @@ void Graphics_BeginFrame(void)
     gGraphics_bPacketBufferIndex = idx;
     gGraphics_pActiveFrameBuffer =
         &gGraphics_aFrameBuffers[gGraphics_bActiveBuffer];
-    GsSetWorkBase((PACKET *)arg);
+    GsSetWorkBase(arg);
     base = gGraphics_apOrderingTables;
     slot = base + 3;
     do {
@@ -327,16 +328,16 @@ void Main_InitHardware(GraphicsFrameBuffer *base)
     gGraphics_bClearGreen = 1;
     gFade_bTargetBlue = 1;
     gGraphics_bClearBlue = 1;
-    ((volatile DRAWENV *)&GsDRAWENV)->isbg = 1;
-    ((volatile DRAWENV *)&GsDRAWENV)->dtd = 1;
-    ((volatile DRAWENV *)&GsDRAWENV)->r0 = 1;
-    ((volatile DRAWENV *)&GsDRAWENV)->g0 = 1;
-    ((volatile DRAWENV *)&GsDRAWENV)->b0 = 1;
+    GsDRAWENV.isbg = 1;
+    GsDRAWENV.dtd = 1;
+    GsDRAWENV.r0 = 1;
+    GsDRAWENV.g0 = 1;
+    GsDRAWENV.b0 = 1;
     count = six;
-    ((volatile u8 *)gGraphics_abOrderingTableLengths)[0] = 2;
-    ((volatile u8 *)gGraphics_abOrderingTableLengths)[1] = count;
-    ((volatile u8 *)gGraphics_abOrderingTableLengths)[2] = 0xC;
-    ((volatile u8 *)gGraphics_abOrderingTableLengths)[3] = count;
+    gGraphics_abOrderingTableLengths[0] = 2;
+    gGraphics_abOrderingTableLengths[1] = count;
+    gGraphics_abOrderingTableLengths[2] = 0xC;
+    gGraphics_abOrderingTableLengths[3] = count;
     /* The constant switch enters the buffer loop at its case label. Until
        flow deletes the dead empty loop, that jump comes from outside the
        loop, so loop.c leaves it alone, as with retail's goto loop; jump2

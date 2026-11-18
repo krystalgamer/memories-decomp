@@ -90,7 +90,7 @@ void Library_DrawGlobeXSpan(
             &control[1]
         );
     }
-    Graphics_SubmitDrawModePacket((u32 *)packet, ot, 1, 1);
+    Graphics_SubmitDrawModePacket(packet, ot, 1, 1);
 }
 
 void Library_DrawGlobeZSpan(
@@ -132,5 +132,5 @@ void Library_DrawGlobeZSpan(
             &control[1]
         );
     }
-    Graphics_SubmitDrawModePacket((u32 *)packet, ot, 1, 1);
+    Graphics_SubmitDrawModePacket(packet, ot, 1, 1);
 }
