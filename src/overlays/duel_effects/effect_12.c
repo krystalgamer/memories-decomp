@@ -10,6 +10,10 @@
 
 const VECTOR gDuelEffect_StopDefenseBurstInitialScale = { ONE, ONE, ONE, 0 };
 
+DuelEffect12Config gDuelEffect_StopDefenseBurstConfig = {
+    { 192, 192, 255, 0 }, { 8, 16, 32 }, 8, 16, 8,
+};
+
 void DuelEffect_RunStopDefenseBurst(void *buffer, s32 phase)
 {
     MATRIX world;

@@ -30,8 +30,8 @@ or unused-variant claim is introduced.
 
 The extern-only semantic header binds the complete handler and separate
 config/VECTOR owners without changing private declarations, layout,
-profiles or native symbols; the VECTOR is now `row_attack_effects.c`'s
-`const` `.rodata` (#2602). Together with the
+profiles or native symbols; `row_attack_effects.c` now defines the VECTOR
+as `const` `.rodata` and the config as non-`const` `.data` (#2602). Together with the
 [card breakup](spanish-duel-effect-11.md), these are six evidence-backed
 bindings and 116 existing data bytes, not a new runtime experiment.
 Historical image/recovery results below retain their original scope.

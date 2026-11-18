@@ -18,7 +18,7 @@ of the one 16-byte owner (NA `8015AFB0`, JP `80168F70`).
 `gDuelEffect_StopDefenseBurstInitialScale` replaces the separate former label
 `D_80146188` (NA `801461D0`, JP `801541E0`), retaining its 16-byte SDK
 VECTOR and padding; `effect_12.c` now defines it as `const` `.rodata`
-(#2602). The configuration keeps its generated owner; neither is an
+(#2602), and the configuration as non-`const` `.data`; neither is an
 absolute data alias or an invented variant table.
 
 Every nonnegative phase still selects that same record. Preserve all three

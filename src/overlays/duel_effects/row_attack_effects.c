@@ -18,6 +18,11 @@
 
 const VECTOR gDuelEffect_RowStrikeInitialScale = { ONE, ONE, ONE, 0 };
 
+DuelEffect16Config gDuelEffect_RowStrikeConfig = {
+    { 255, 240, 160, 0 }, { 16, 8, 4, 2 }, 64, 32, { 24, 12, 2, 1 }, 64, 4,
+    { 8, 16, 32 }, 8,
+};
+
 void DuelEffect_RunRowStrike(void *buffer, s32 phase)
 {
     MATRIX world;

@@ -563,8 +563,25 @@ Then, in all regions, `effect_21.c` (`gDuelEffect_SwordsFieldTilePositions`,
 (`gDuelEffect_SelectedCardOverlayConfigs`, eight `DuelEffect15Config`,
 `+0x14CD4`) and `effect_13.c` (its own copy of the 21 images, then four
 `DuelEffect13Config`, `+0x14D14`; PAL entries also `VERSION_EUROPE`), ending at
-North America `+0x14FB0` (Japan `-0x40`, PAL `-0xCC`), where the raw `data`
-subsegment resumes.
+North America `+0x14FB0` (Japan `-0x40`, PAL `-0xCC`).
+
+Next, again in all regions, `effect_12.c` defines
+`gDuelEffect_StopDefenseBurstConfig` (one `DuelEffect12Config`, 0x10 bytes,
+North America `+0x14FB0`) and `row_attack_effects.c` defines
+`gDuelEffect_RowStrikeConfig` (one `DuelEffect16Config`, 0x24 bytes,
+`+0x14FC0`). `effect_2.c` follows with `gDuelEffect_AttackSlashConfigs`
+(seven 50-byte `DuelEffect2Config`, 0x15E bytes, `+0x14FE4`; the code's
+zero-number record, label `D_8015B044`, is `&gDuelEffect_AttackSlashConfigs[6]`).
+Its two-byte linker fill at `+0x15142` is zero in Japan, French, German,
+Italian and Spanish (`pad`) but stray bytes in North America and English PAL
+(raw `bin`). `contour_burst_effects.c` then defines, in definition order,
+`gDuelEffect_ParticleContourBurstConfigs` (two `DuelEffect18Config`, 0x3C
+bytes, `+0x15144`) and `gDuelEffect_ContourBurstConfigs` (thirty
+`DuelEffect0Config`, 0x258 bytes, `+0x15180`), and `effect_6.c` defines
+`gDuelEffect_DirectDamageConfigs` (six `DuelEffect6Config`, 0xB4 bytes,
+`+0x153D8`). In Japan and PAL that run reaches `effect_drawing.c`'s `.data`
+(Japan `+0x1544C`, PAL `+0x153C0`), so their first raw `data` subsegment is
+gone; North America's resumes at `+0x1548C`.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in
