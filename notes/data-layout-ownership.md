@@ -605,3 +605,8 @@ others (Japan, the English PAL images, and USA's word after the pointer list).
 Such fill is not an object. It stays a raw `bin` subsegment, or `pad` where it
 is zero; a layout whose fill starts at an odd address uses `subalign: 1`, since
 every gap there is explicit.
+
+The Japanese and PAL overworld images (both coup variants) own their data
+through the North American units, listed in each image's
+`overworld_*_data_c.json`: `module_header.c` (`0x0`; PAL selects its `0x06`
+module word with `VERSION_EUROPE`).

@@ -1353,7 +1353,10 @@ The resident `.sdata` work is nearly finished, and every overlay module header
 is now C-owned through its `<overlay>_data_c.json` manifest. The values look
 like module identifiers: `main_menu` is `0x0F`, `free_duel` is `0x13`,
 `overworld` is `0x14`, and `password` is `0x15`. The two overworld variants
-share one source and value. Nothing reads these words, so they keep
+share one source and value. The Japanese and PAL overworld images build the
+same `module_header.c` through their own `_data_c.json` manifests: Japan's
+word is also `0x14`, and the PAL entries add `VERSION_EUROPE`, which selects
+their `0x06`. Nothing reads these words, so they keep
 address-based names rather than claiming module-ID semantics.
 
 `main_menu` originally appeared to be the exception. Its Trade inventory
