@@ -520,10 +520,12 @@ there, while North America links it last and its vector ends the block at
 header layouts are one segment so each unit's `.rodata` keeps that order; the
 fill after the strings is a `bin` subsegment linked as `.rodata`.
 The initial scales that follow are defined the same way by `effect_10.c`,
-`effect_24.c`, `effect_21.c`, `effect_15.c`, `effect_13.c`, `effect_12.c`
-and `row_attack_effects.c` (row strike, then back-row sweep), in that text
-order: North America `+0x180..+0x200`, PAL `+0x138..+0x1B8`, Japan
-`+0x138..+0x158` and, after the strings, `+0x1B0..+0x210`.
+`effect_24.c`, `effect_21.c`, `effect_15.c`, `effect_13.c`, `effect_12.c`,
+`row_attack_effects.c` (row strike, then back-row sweep), `effect_2.c`,
+`effect_19.c` and `contour_burst_effects.c` (particle contour burst, then
+contour burst), in that text order: North America `+0x180..+0x240`, PAL
+`+0x138..+0x1F8`, Japan `+0x138..+0x158` and, after the strings,
+`+0x1B0..+0x250`.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in
