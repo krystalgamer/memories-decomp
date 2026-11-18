@@ -65,7 +65,7 @@ void ModelVariant320_DrawStreamers(Variant337EntryState *context)
     } else {
         phase = 0x5DC;
     }
-    streamer = (Variant320Streamer *)work->streamers;
+    streamer = work->streamers;
     i = 0;
     base = work->streamer.rotation_y;
     spin = phase;
@@ -104,7 +104,7 @@ void ModelVariant320_DrawStreamers(Variant337EntryState *context)
     coord.flg = 0;
     GsGetLs(&coord, &ls);
     GsSetLsMatrix(&ls);
-    streamer = (Variant320Streamer *)work->streamers;
+    streamer = work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
@@ -169,7 +169,7 @@ void ModelVariant320_DrawStreamers(Variant337EntryState *context)
 #endif
         }
     }
-    streamer = (Variant320Streamer *)work->streamers;
+    streamer = work->streamers;
     for (i = 0; i < 2; i++, streamer++) {
         for (k = 0; k < 16; k++) {
             poly->x0 = streamer->sa[k] + streamer->ox[k];

@@ -13,7 +13,7 @@
  * as two POLY_GT4 halves as wide as the projected offset, the outer one fading
  * to black. The ray scale grows by step * 256 up to 0x1000, which moves phase
  * 2 on to phase 3. */
-void ModelVariant425_DrawRays(u8 *ctx)
+void ModelVariant425_DrawRays(Variant452EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -47,7 +47,7 @@ void ModelVariant425_DrawRays(u8 *ctx)
     u8 c2;
     u8 c3;
 
-    work = (Variant452EntryState *)ctx;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     sign = -1;
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

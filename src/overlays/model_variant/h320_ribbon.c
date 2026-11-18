@@ -47,7 +47,7 @@ void ModelVariant320_DrawRibbon(Variant337EntryState *context)
         } else {
             len = work->width * 80 / 1024;
         }
-        ribbon = (Variant320Ribbon *)work;
+        ribbon = work->records;
         for (i = 0, phase = 0; i < 1; i++, ribbon++, phase = i * 0x1800) {
             if (i == 0) {
                 turn = 0x400;
@@ -89,7 +89,7 @@ void ModelVariant320_DrawRibbon(Variant337EntryState *context)
         coord.flg = 0;
         GsGetLs(&coord, &ls);
         GsSetLsMatrix(&ls);
-        ribbon = (Variant320Ribbon *)work;
+        ribbon = work->records;
         for (i = 0; i < 1; i++, ribbon++) {
             for (k = 0; k < 17; k++) {
                 if (k == 16) {
@@ -130,7 +130,7 @@ void ModelVariant320_DrawRibbon(Variant337EntryState *context)
                 }
             }
         }
-        ribbon = (Variant320Ribbon *)work;
+        ribbon = work->records;
         for (i = 0; i < 1; i++, ribbon++) {
             k = 0;
             poly = work->flat_textured;
@@ -143,9 +143,9 @@ void ModelVariant320_DrawRibbon(Variant337EntryState *context)
                 poly->y2 = (ribbon->sa[k] >> 16) - ribbon->oy[k];
                 poly->x3 = ribbon->sa[k + 1] - ribbon->ox[k + 1];
                 poly->y3 = (ribbon->sa[k + 1] >> 16) - ribbon->oy[k + 1];
-                poly->r0 = ribbon->color.r;
-                poly->g0 = ribbon->color.g;
-                poly->b0 = ribbon->color.b;
+                poly->r0 = ribbon->style.inner.r;
+                poly->g0 = ribbon->style.inner.g;
+                poly->b0 = ribbon->style.inner.b;
                 if (ribbon->otz[k] >= 0 && ribbon->flag[k] >= 0) {
                     GsSortPoly(poly, ot, ribbon->otz[k]);
                 }

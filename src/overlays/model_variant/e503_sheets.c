@@ -16,7 +16,7 @@ void ModelVariant443_DrawSheets(Variant460EntryState *entry)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant460EntryRecord *obj;
+    Variant443Ribbon *obj;
     GsOT *ot;
     s32 count;
     s32 first;

@@ -2,6 +2,7 @@
 #define MEMORIES_FRENCH_MODEL_VARIANT338_ENTRY_H
 #include "../../types.h"
 #include "h320_entry_pal.h"
+#include "e500_ribbon.h"
 
 typedef struct {
     CVECTOR ribbon, inner, outer;
@@ -17,7 +18,7 @@ typedef struct {
 
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
-    Variant337EntryRecord records[5];
+    Variant321Ribbon records[5];
     ModelVariantPointSheet rings[2];
     ModelVariantStrandWide strands[6];
     ModelVariantFlaggedStreamer streamers[2];

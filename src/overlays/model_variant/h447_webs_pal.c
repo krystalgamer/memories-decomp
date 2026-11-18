@@ -4,7 +4,7 @@
 
 /* Header 464's copy of the header-422 webs (h422_webs.c) over its own
  * entry state; the timing divisor is its config's grow_end. */
-void ModelVariant422_DrawWebs(u8 *ctx)
+void ModelVariant422_DrawWebs(Variant464EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -29,7 +29,7 @@ void ModelVariant422_DrawWebs(u8 *ctx)
     s32 otz;
     s32 done;
 
-    work = (Variant464EntryState *)ctx;
+    work = ctx;
     web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;
