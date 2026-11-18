@@ -13,7 +13,7 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* ModelVariantGrowthElement here: a sprite, cone or dome placed through its
+/* ModelVariantBurst here: a sprite, cone or dome placed through its
  * own coordinate unit. */
 
 typedef struct {
@@ -38,9 +38,9 @@ typedef struct {
     u8 flags[5];
     u8 count, dome_count, unknown_84F;
     MATRIX joints[16];
-    ModelVariantGrowthElement sprites[16];
-    ModelVariantGrowthElement cones[16];
-    ModelVariantGrowthElement domes[16];
+    ModelVariantBurst sprites[16];
+    ModelVariantBurst cones[16];
+    ModelVariantBurst domes[16];
 } Model656State;
 
 /* An eight-byte copy of the view metrics; the entry reads the yaw at +2 and

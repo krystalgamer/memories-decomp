@@ -31,7 +31,7 @@ typedef struct {
     u8 unknown_19[3];
 } Model665Command;
 
-/* ModelVariantGrowthElement here: a quad record placed through its own
+/* ModelVariantBurst here: a quad record placed through its own
  * coordinate unit. */
 
 /* One 0x2C-byte ring of strips flying from start to end. */
@@ -79,10 +79,10 @@ typedef struct {
     u8 unknown_389[3];
     u8 ring_count, rows, cols, spark_count, fan_count;
     u8 unknown_391[3];
-    ModelVariantGrowthElement rising[8][4];
-    ModelVariantGrowthElement sparks[32];
-    ModelVariantGrowthElement burst;
-    ModelVariantGrowthElement fans[32];
+    ModelVariantBurst rising[8][4];
+    ModelVariantBurst sparks[32];
+    ModelVariantBurst burst;
+    ModelVariantBurst fans[32];
     Model665Ring rings[32];
 } Model665State;
 

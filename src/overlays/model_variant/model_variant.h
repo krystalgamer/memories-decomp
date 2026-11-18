@@ -262,14 +262,6 @@ typedef struct {
     VECTOR spin;
 } ModelVariantSpinElement;
 
-/* ModelVariantElement with a growth vector in place of the target, as
- * headers 656 and 665 use it. */
-typedef struct {
-    ModelVariantElementHead head;
-    ModelVariantElementTransform xform;
-    VECTOR growth;
-} ModelVariantGrowthElement;
-
 /* ModelVariantElement with an offset from a centre in place of the
  * target, as headers 657, 660 and 662 use it. */
 typedef struct {
@@ -280,7 +272,7 @@ typedef struct {
 
 /* The 0x4C-byte burst record of header 647, shared by headers 627-673:
  * ModelVariantElement with a growth vector last (the flight or cone growth; headers 632, 634 and 647
- * only clear it). */
+ * only clear it). Headers 656 and 665 and image 9840 use the same record. */
 typedef struct {
     ModelVariantElementHead head;
     ModelVariantElementTransform xform;
