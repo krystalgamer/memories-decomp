@@ -13,7 +13,7 @@
  * that only live a few instructions (the extra packets' tpage in `angle`, the
  * odd bands' heading in `dx`); the retail register allocation depends on it. */
 
-s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant433_HandleRequest(Variant433EntryState *context, s32 command)
 {
     u32 screen_x;
     MATRIX unused_matrix0, unused_matrix1;
@@ -45,7 +45,7 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
     s32 dx, dy;
     u32 frame;
 
-    work = (Variant433EntryState *)point;
+    work = context;
     fan = work->fans;
     ribbon = work->ribbons;
     band = work->bands;
@@ -331,13 +331,13 @@ s32 ModelVariant433_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_y = dy;
         if (work->config->trigger <= work->clock.frame) {
-            SpanishModelVariant450_DrawLines((u8 *)point);
-            SpanishModelVariant450_DrawQuadGroups((u8 *)point);
+            SpanishModelVariant450_DrawLines((Variant450View *)context);
+            SpanishModelVariant450_DrawQuadGroups((Variant450QuadView *)context);
             if (work->tail.phase < 2) {
-                ModelVariant433_DrawRings((Variant433EntryState *)point);
+                ModelVariant433_DrawRings(context);
             }
             if (work->tail.phase > 0) {
-                ModelVariant433_DrawRibbons((Variant433EntryState *)point);
+                ModelVariant433_DrawRibbons(context);
             }
         }
         work->clock.frame_count++;

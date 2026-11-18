@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant450_quads.h"
 
-void SpanishModelVariant450_DrawQuadGroups(u8 *ctx)
+void SpanishModelVariant450_DrawQuadGroups(Variant450QuadView *ctx)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -23,7 +23,7 @@ void SpanishModelVariant450_DrawQuadGroups(u8 *ctx)
     s32 primary_index;
     u8 r, g, b, r1, g1, b1;
 
-    work = (Variant450QuadView *)ctx;
+    work = ctx;
     group = work->groups;
     ot = Graphics_GetDefaultOrderingTable();
     quad = &work->quad;

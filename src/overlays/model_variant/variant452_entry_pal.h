@@ -5,6 +5,7 @@
 #include "../../game/model_slot_support.h"
 #include "variant439_entry_pal.h"
 #include "../model_variant/model_variant.h"
+#include "variant452_lines.h"
 
 typedef struct {
     u8 unknown00[0x28];
@@ -72,6 +73,6 @@ extern GsIMAGE gFrenchModelVariant452_aImages[9];
 extern Variant452EntryConfig gFrenchModelVariant452_aConfigs[];
 void FrenchModelVariant452_DrawSheets(Variant452EntryState *context);
 void FrenchModelVariant452_DrawStreamers(Variant452EntryState *context);
-void FrenchModelVariant452_DrawLines(u8 *context);
-s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command);
+void FrenchModelVariant452_DrawLines(Variant452LinesView *context);
+s32 FrenchModelVariant452_HandleRequest(Variant452EntryState *point, s32 command);
 #endif

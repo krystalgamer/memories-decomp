@@ -1,6 +1,6 @@
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
-#include "e581_entry.h"
+#include "e581_helpers.h"
 
 /* PAL images load the effect palette from VRAM x = 640. */
 #ifndef MODEL_VARIANT398_CLUT_X
@@ -8,12 +8,12 @@
 #endif
 
 /* Header 398's entry: the header-439 entry with framebuffer rings that carry
- * per-point colours, header-398 curtains, five texture uploads and four
+ * per-context colours, header-398 curtains, five texture uploads and four
  * per-frame helpers. */
 
-s32 ModelVariant398_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant398_HandleRequest(Variant398EntryState *context, s32 command)
 {
-    Variant398EntryState *work = (Variant398EntryState *)point;
+    Variant398EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -345,14 +345,14 @@ s32 ModelVariant398_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->frame) {
-            ModelVariant398_DrawSheets((Variant398EntryState *)point);
-            ModelVariant398_DrawRings((u8 *)point);
+            ModelVariant398_DrawSheets(context);
+            ModelVariant398_DrawRings(context);
         }
         if (work->phase >= 2) {
-            ModelVariant398_DrawCurtains((Variant398EntryState *)point);
+            ModelVariant398_DrawCurtains(context);
         }
         if (work->phase > 0) {
-            ModelVariant398_DrawBand((Variant398EntryState *)point);
+            ModelVariant398_DrawBand(context);
         }
         work->frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

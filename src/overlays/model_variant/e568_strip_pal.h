@@ -4,5 +4,6 @@
 #include "../model_variant/model_variant.h"
 #include "e568_rings_pal.h"
 
-void FrenchModelVariant402_DrawStrip(u8 *context);
+/* Built for both the 402 and 412 records; each record's entry header
+ * declares the copy built on it. */
 #endif

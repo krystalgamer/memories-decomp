@@ -3,6 +3,7 @@
 #include "../../types.h"
 #include "../../overlays/model_variant/variant337_entry.h"
 #include "../../game/model_slot_getters.h"
+#include "e581_entry.h"
 
 /* One 0x30-byte command record of the table at gSpanishModelVariant441_aConfigs. */
 typedef struct {
@@ -58,7 +59,7 @@ void SpanishModelVariant441_DrawTubularMesh(Variant441EntryState *context);
 void SpanishModelVariant441_DrawRibbon(Variant441EntryState *context);
 void SpanishModelVariant441_DrawRainbowSheets(Variant441EntryState *context);
 void SpanishModelVariant441_DrawFramebufferRings(Variant441EntryState *context);
-void ModelVariant398_DrawRings(u8 *context);
+void ModelVariant398_DrawRings(Variant398Header441RingsState *context);
 typedef char Variant441EntryConfigSize[(sizeof(Variant441EntryConfig) == 0x30) ? 1 : -1];
 typedef char Variant441EntryStateSize[(sizeof(Variant441EntryState) == 0x2734) ? 1 : -1];
 #endif

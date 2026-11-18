@@ -16,9 +16,9 @@
  * sheet, rings, spoke rings and a fan, plus sixteen streamers and trails
  * for the three per-frame helpers. */
 
-s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant452_HandleRequest(Variant452EntryState *context, s32 command)
 {
-    Variant452EntryState *work = (Variant452EntryState *)point;
+    Variant452EntryState *work = context;
     /* Preserve the native frame, including two unused matrices. */
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
@@ -329,10 +329,10 @@ s32 FrenchModelVariant452_HandleRequest(SVECTOR *point, s32 command)
                   work->target.vy - work->position.vy,
                   work->target.vz - work->position.vz);
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant452_DrawSheets((Variant452EntryState *)point);
-            FrenchModelVariant452_DrawStreamers((Variant452EntryState *)point);
+            FrenchModelVariant452_DrawSheets(context);
+            FrenchModelVariant452_DrawStreamers(context);
             if (work->phase > 0) {
-                FrenchModelVariant452_DrawLines((u8 *)point);
+                FrenchModelVariant452_DrawLines((Variant452LinesView *)context);
             }
         }
         work->clock.frame_count++;

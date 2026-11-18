@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "variant452_lines.h"
 
-void FrenchModelVariant452_DrawLines(u8 *ctx)
+void FrenchModelVariant452_DrawLines(Variant452LinesView *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -10,7 +10,7 @@ void FrenchModelVariant452_DrawLines(u8 *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant452LinesView *work = (Variant452LinesView *)ctx;
+    Variant452LinesView *work = ctx;
     Variant452Grid *grid = work->grid;
     GsGLINE *line = &work->line;
     GsOT *ot;

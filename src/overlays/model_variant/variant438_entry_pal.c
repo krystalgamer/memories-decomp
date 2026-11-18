@@ -9,9 +9,9 @@
    also scales the later rings by n / (count - 1), a branch the single ring never takes. */
 #define MODEL_VARIANT438_RING_COUNT 1
 
-s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
+s32 SpanishModelVariant438_HandleRequest(Variant438EntryState *context, s32 command)
 {
-    Variant438EntryState *work = (Variant438EntryState *)point;
+    Variant438EntryState *work = context;
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;
@@ -360,16 +360,16 @@ s32 SpanishModelVariant438_HandleRequest(SVECTOR *point, s32 command)
         work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
         work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
         if (work->config->start <= work->clock.frame) {
-            SpanishModelVariant438_DrawTargetClampedSheets((Variant438EntryState *)point);
+            SpanishModelVariant438_DrawTargetClampedSheets(context);
         }
-        SpanishModelVariant438_DrawRing((Variant438EntryState *)point);
+        SpanishModelVariant438_DrawRing(context);
         if (work->phase > 0) {
-            SpanishModelVariant438_DrawLines((Variant438EntryState *)point);
-            SpanishModelVariant438_DrawAdvancingBand((Variant438EntryState *)point);
-            SpanishModelVariant438_DrawWarpRings((u8 *)point);
+            SpanishModelVariant438_DrawLines(context);
+            SpanishModelVariant438_DrawAdvancingBand(context);
+            SpanishModelVariant438_DrawWarpRings((Warp438State *)context);
         }
         if (work->phase >= 2) {
-            SpanishModelVariant438_DrawSpiral((Variant438EntryState *)point);
+            SpanishModelVariant438_DrawSpiral(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

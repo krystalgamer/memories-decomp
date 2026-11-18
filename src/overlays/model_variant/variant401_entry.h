@@ -43,6 +43,6 @@ extern GsIMAGE gModelVariant401_aImages[9];
 extern ModelVariantWebConfig gModelVariant401_aConfigs[];
 void ModelVariant401_DrawBand(Variant401EntryState *context);
 void FrenchModelVariant418_DrawSheets(Variant401EntryState *context);
-void ModelVariant416_DrawWebs(u8 *context);
-void FrenchModelVariant433_DrawRays(u8 *context);
+void ModelVariant416_DrawWebs(Variant401EntryState *context);
+void FrenchModelVariant433_DrawRays(Variant401EntryState *context);
 #endif

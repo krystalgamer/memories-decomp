@@ -1,13 +1,13 @@
 #include "../../types.h"
-#include "e568_entry_pal.h"
+#include "e568_helpers.h"
 
 #ifndef MODEL_VARIANT402_CLUT_X
 #define MODEL_VARIANT402_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant402_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant402_HandleRequest(Variant402EntryState *context, s32 command)
 {
-    Variant402EntryState *work = (Variant402EntryState *)point;
+    Variant402EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -218,7 +218,7 @@ s32 FrenchModelVariant402_HandleRequest(SVECTOR *point, s32 command)
             } while (work->part_index < work->config->part_count);
         }
         if (work->config->start <= work->clock.frame) {
-            FrenchModelVariant402_DrawBands((u8 *)point);
+            FrenchModelVariant402_DrawBands(context);
             if (work->phase == 0) {
                 work->phase = 1;
             }

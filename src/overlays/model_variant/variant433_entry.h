@@ -2,6 +2,8 @@
 #define MEMORIES_MODEL_VARIANT433_ENTRY_H
 #include "../../types.h"
 #include "../model_variant/variant337_entry.h"
+#include "variant450_lines.h"
+#include "variant450_quads.h"
 
 typedef struct {
     u8 unknown_00[4], part, unknown_05[3];
@@ -123,6 +125,6 @@ void ModelVariant433_DrawRibbons(Variant433EntryState *context);
 void ModelVariant433_DrawRings(Variant433EntryState *context);
 void ModelVariant433_DrawBands(Variant433EntryState *context);
 void ModelVariant433_DrawCoils(Variant433EntryState *context);
-void SpanishModelVariant450_DrawQuadGroups(u8 *context);
-void SpanishModelVariant450_DrawLines(u8 *context);
+void SpanishModelVariant450_DrawQuadGroups(Variant450QuadView *context);
+void SpanishModelVariant450_DrawLines(Variant450View *context);
 #endif

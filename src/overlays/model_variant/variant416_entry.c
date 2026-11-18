@@ -11,9 +11,9 @@
  * webs, two bands, three sheets, rings, spokes and a fan; a second config
  * threshold starts the burst helpers. */
 
-s32 ModelVariant416_HandleRequest(SVECTOR *point, s32 command)
+s32 ModelVariant416_HandleRequest(Variant416EntryState *context, s32 command)
 {
-    Variant416EntryState *work = (Variant416EntryState *)point;
+    Variant416EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
@@ -319,21 +319,21 @@ s32 ModelVariant416_HandleRequest(SVECTOR *point, s32 command)
                   work->aim.target.vy - work->matrix.t[1],
                   work->aim.target.vz - work->matrix.t[2]);
         if (work->config->start <= work->clock.frame) {
-            ModelVariant416_DrawWebs((u8 *)point);
+            ModelVariant416_DrawWebs(context);
             if (work->tail.phase == 0) {
                 work->tail.phase = 1;
             }
         }
         if (work->config->burst_start <= work->clock.frame) {
             if (work->tail.phase < 5) {
-                ModelVariant416_DrawSheets((Variant416EntryState *)point);
+                ModelVariant416_DrawSheets(context);
             }
             if (work->tail.phase < 3) {
-                ModelVariant416_DrawBands((Variant416EntryState *)point);
+                ModelVariant416_DrawBands(context);
             }
         }
         if (work->tail.phase >= 2) {
-            FrenchModelVariant433_DrawRays((u8 *)point);
+            FrenchModelVariant433_DrawRays(context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->tail.slot);
