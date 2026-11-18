@@ -11,7 +11,7 @@ in slot 0 (header `0x185`) and slot 1 (header `0x21B`). Each layout gains a
 C segment at `0x1864`, carved out of the unclassified image.
 
 The structure follows the Spanish header-461 sheets helper
-(`variant461_sheets.c`):
+(`h444_sheets_pal.c`):
 - **Sets:** a first set of eight sheets is placed by MATRIX translations
   (`transforms[i].t`, `+0x2A5C`); the paired set uses VECTOR positions
   (`+0x2B5C`). The count is 9 or 16, depending on `timing->paired`.

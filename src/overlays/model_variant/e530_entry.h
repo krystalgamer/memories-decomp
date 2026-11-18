@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT418_ENTRY_H
 #define MEMORIES_MODEL_VARIANT418_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/variant337_entry.h"
+#include "../model_variant/h320_entry_pal.h"
 #include "e530_spiral.h"
 
 typedef struct {

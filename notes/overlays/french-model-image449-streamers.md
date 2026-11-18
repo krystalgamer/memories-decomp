@@ -3,7 +3,7 @@
 The `0x8BC` helper at image offset `0x1B9C` is first-ever game code: no release
 had matching C for its body. It sits in the same four header-449 images as the
 ribbons and bands helpers. Both slots build
-`variant449_streamers.c`; each image's symbols file binds
+`h432_streamers.c`; each image's symbols file binds
 `FrenchModelVariant449_DrawStreamers` (formerly `func_8013CB9C`/`func_8017CB9C`)
 at its own address.
 

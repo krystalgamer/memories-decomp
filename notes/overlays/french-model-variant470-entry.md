@@ -16,8 +16,8 @@ types or compiler claims.
 
 | Slot-0 address | Bytes (hex) | Existing C owner |
 |---|---:|---|
-| `8013C510` | `4E4` | French `variant470_quad_pairs.c` (`FrenchModelVariant470_DrawQuadPairs`) |
-| `8013C9F4` | `4DC` | Spanish `variant470_quads.c` (`SpanishModelVariant470_DrawQuads`) |
+| `8013C510` | `4E4` | French `h453_quad_pairs_pal.c` (`FrenchModelVariant470_DrawQuadPairs`) |
+| `8013C9F4` | `4DC` | Spanish `h453_quads_pal.c` (`SpanishModelVariant470_DrawQuads`) |
 
 Both helpers, profiles and inventory rows are unchanged. Each image's symbols
 file binds `FrenchModelVariant470_HandleRequest`, both helpers and

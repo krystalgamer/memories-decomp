@@ -4,31 +4,31 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xD48",
-      "source": "src/overlays/model_variant/variant437_entry_pal.c"
+      "source": "src/overlays/model_variant/h420_entry_pal.c"
     },
     {
       "address": "0x8017BD4C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x75C",
-      "source": "src/overlays/model_variant/variant437_bands.c"
+      "source": "src/overlays/model_variant/h420_bands_pal.c"
     },
     {
       "address": "0x8017C4A8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x660",
-      "source": "src/overlays/model_variant/variant437_sheet.c"
+      "source": "src/overlays/model_variant/h420_sheet_pal.c"
     },
     {
       "address": "0x8017CB08",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xACC",
-      "source": "src/overlays/model_variant/variant437_ribbons.c"
+      "source": "src/overlays/model_variant/h420_ribbons_pal.c"
     },
     {
       "address": "0x8017D5D4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x95C",
-      "source": "src/overlays/model_variant/variant437_streamers.c"
+      "source": "src/overlays/model_variant/h420_streamers_pal.c"
     }
   ],
   "schema": 1

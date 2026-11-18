@@ -1,0 +1,407 @@
+#include "../../types.h"
+#include "../../game/model_slot_getters.h"
+#include "h425_entry.h"
+
+/* PAL images load the effect palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT425_CLUT_X
+#define MODEL_VARIANT425_CLUT_X 512
+#endif
+
+/* Header 425's entry: header 418's entry shape with 5x6 webs, sixteen spiral
+ * arms and sixteen rays in fixed colours, and an orbit context moved along the
+ * direction by the sweep value at + 0x2734 while the sheet, spiral and webs
+ * run. */
+
+s32 ModelVariant425_HandleRequest(Variant425EntryState *context, s32 command)
+{
+    s32 ring_base;
+    Variant425EntryState *work;
+    MATRIX unused_matrix0, unused_matrix1;
+    SVECTOR position, target;
+    VECTOR squared;
+    ModelVariantProjection projection;
+    ModelVariantColorBand *band;
+    ModelVariantSheet *sheet;
+    ModelVariantColorRing *ring;
+    ModelVariantColorRing *spoke;
+    ModelVariantFan *fan;
+    ModelVariantWebSmall *web;
+    ModelVariantShadedRay *arm;
+    ModelVariantRay *ray;
+    POLY_GT4 *textured;
+    POLY_FT4 *flat;
+    POLY_G3 *triangle;
+    POLY_G4 *quad;
+    POLY_GT4 *extra;
+    s32 near_scale, far_scale;
+    s32 result;
+    s32 web_angle, outer, row, n;
+    s32 band_index;
+    s32 corner;
+    s32 band_point;
+    s32 i, j, k, angle, base_angle;
+    s32 near_radius, near_y, far_radius, far_y;
+    u16 tpage, clut;
+    s32 flat_texture, flat_page, packed;
+    GsRVIEW2 *view;
+    u32 screen_x;
+    s32 screen_y;
+    s32 dx, dy;
+    u32 frame;
+
+    work = context;
+    band = work->bands;
+    sheet = work->sheets;
+    ring = work->rings;
+    spoke = work->spokes;
+    web = work->webs;
+    fan = work->fans;
+    arm = work->arms;
+    triangle = &work->packets.triangle;
+    ray = work->rays;
+    textured = work->packets.textured;
+    flat = work->flat_textured;
+    quad = &work->packets.quad;
+    extra = &work->extra;
+    result = 0;
+
+    if (command >= 0) {
+        work->slot = Model_GetActiveSlotIndex();
+        work->config = gModelVariant425_aConfigs + command;
+        work->parts[0] = Model_GetSlotDataEntry(work->slot, work->config->parts[0]);
+        work->parts[1] = Model_GetSlotDataEntry(work->slot, work->config->parts[1]);
+        work->parts[2] = Model_GetSlotDataEntry(work->slot, work->config->parts[2]);
+        if (work->slot == 0) {
+            setVector(&work->target, 0, -300, -450);
+        } else {
+            setVector(&work->target, 0, -300, 450);
+        }
+        GsGetLwUnit(work->parts[0], &work->matrix);
+        setVector(&work->direction,
+                  work->target.vx - work->matrix.t[0],
+                  work->target.vy - work->matrix.t[1],
+                  work->target.vz - work->matrix.t[2]);
+        tpage = GetTPage(1, 1, 896, 0);
+        clut = GetClut(MODEL_VARIANT425_CLUT_X, 244);
+        GetTPage(1, 1, 896, 0);
+        GetClut(MODEL_VARIANT425_CLUT_X, 244);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant425_aImages[7]);
+        flat_page = packed >> 16;
+        flat_texture = packed;
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant425_aImages[5]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant425_aImages[1]);
+        packed = ModelTexture_PackPageClutCopy(work->slot, 1, &gModelVariant425_aImages[8]);
+        SetPolyG3(triangle);
+        SetSemiTrans(triangle, 1);
+        SetPolyG4(quad);
+        SetSemiTrans(quad, 1);
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        setUV4(textured, 126, 0, 127, 0, 126, 63, 127, 63);
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        textured++;
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        setUV4(textured, 64, 0, 127, 0, 64, 63, 127, 63);
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        SetPolyFT4(flat);
+        flat->tpage = flat_page;
+        setUV4(flat, 0, 128, 0, 175, 48, 128, 48, 175);
+        flat->clut = flat_texture;
+        SetSemiTrans(flat, 1);
+        SetShadeTex(flat, 1);
+        flat++;
+        SetPolyFT4(flat);
+        flat->tpage = flat_page;
+        setUV4(flat, 0, 176, 0, 223, 48, 176, 48, 223);
+        flat->clut = flat_texture;
+        SetSemiTrans(flat, 1);
+        SetShadeTex(flat, 1);
+        SetPolyGT4(extra);
+        SetSemiTrans(extra, 1);
+        SetShadeTex(extra, 0);
+        for (band_index = 0; band_index < 1; band_index++, band++) {
+            setVector(&band->scale, 4096, 4096, 4096);
+            for (band_point = 0; band_point < 9; band_point++) {
+                band->inner[band_point].r = work->config->inner.r;
+                band->inner[band_point].g = work->config->inner.g;
+                band->inner[band_point].b = work->config->inner.b;
+                band->outer[band_point].r = work->config->outer.r;
+                band->outer[band_point].g = work->config->outer.g;
+                band->outer[band_point].b = work->config->outer.b;
+            }
+            band->field_19C = 0;
+            band->field_1A0 = 0;
+            band->field_19E = 0;
+        }
+        for (outer = 0; outer < 1; outer++, fan++) {
+            setVector(&fan->point[0], 0, 0, 0);
+            for (j = 0, angle = 0; j < 5; j++, angle = j * 1024) {
+                setVector(&fan->point[j + 1], (u32)rcos(angle) >> 6,
+                          (u32)rsin(angle) >> 8, 0);
+                setVector(&fan->point[j + 6], (u32)(rcos(angle) * 3) >> 10,
+                          (u32)(rsin(angle) * 5) >> 9, 0);
+            }
+            setVector(&fan->corner[0], -128, -128, 0);
+            setVector(&fan->corner[1], 128, -128, 0);
+            setVector(&fan->corner[2], -128, 128, 0);
+            setVector(&fan->corner[3], 128, 128, 0);
+            fan->inner.r = 255;
+            fan->inner.g = 192;
+            fan->inner.b = 192;
+            fan->outer.r = 64;
+            fan->outer.g = 64;
+            fan->outer.b = 0;
+            fan->size = 0;
+            fan->field_84 = 0;
+            fan->done = 0;
+        }
+        for (outer = 0; outer < 1; outer++, sheet++) {
+            for (corner = 0; corner < 4; corner++) {
+                if (corner == 0) {
+                    setVector(&sheet->v0[corner], -256, -256, 0);
+                    setVector(&sheet->v1[corner], 0, -256, 0);
+                    setVector(&sheet->v2[corner], -256, 0, 0);
+                    setVector(&sheet->v3[corner], 0, 0, 0);
+                } else if (corner == 1) {
+                    setVector(&sheet->v0[corner], 256, -256, 0);
+                    setVector(&sheet->v1[corner], 256, 0, 0);
+                    setVector(&sheet->v2[corner], 0, -256, 0);
+                    setVector(&sheet->v3[corner], 0, 0, 0);
+                } else if (corner == 2) {
+                    setVector(&sheet->v0[corner], 256, 256, 0);
+                    setVector(&sheet->v1[corner], 0, 256, 0);
+                    setVector(&sheet->v2[corner], 256, 0, 0);
+                    setVector(&sheet->v3[corner], 0, 0, 0);
+                } else if (corner == 3) {
+                    setVector(&sheet->v0[corner], -256, 256, 0);
+                    setVector(&sheet->v1[corner], -256, 0, 0);
+                    setVector(&sheet->v2[corner], 0, 256, 0);
+                    setVector(&sheet->v3[corner], 0, 0, 0);
+                }
+            }
+            sheet->outer.r = work->config->outer.r;
+            sheet->outer.g = work->config->outer.g;
+            sheet->outer.b = work->config->outer.b;
+            sheet->inner.r = work->config->inner.r;
+            sheet->inner.g = work->config->inner.g;
+            sheet->inner.b = work->config->inner.b;
+            sheet->size = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
+        }
+        outer = 0;
+        far_scale = 512;
+        near_scale = 768;
+        for (web_angle = 0; outer < 3; outer++, web++, web_angle += 300) {
+            for (j = 2048 / 6, row = 0; row < 5; row++, j = (row + 1) * 2048 / 6) {
+                near_radius = rsin(j) * near_scale >> 12;
+                near_y = rcos(j) * near_scale >> 12;
+                far_radius = rsin(j) * far_scale >> 12;
+                far_y = rcos(j) * far_scale >> 12;
+                for (band_point = 0, angle = web_angle; band_point < 6; band_point++, angle = web_angle + band_point * 4096 / 6) {
+                    setVector(&web->near[row][band_point], rcos(angle) * near_radius >> 12,
+                              near_y, rsin(angle) * near_radius >> 12);
+                    setVector(&web->far[row][band_point], rcos(angle) * far_radius >> 12,
+                              far_y, rsin(angle) * far_radius >> 12);
+                }
+            }
+            web->field_1E4 = 0;
+            web->field_1E8 = 0;
+            web->field_1EC = 0;
+            web->color.r = work->config->web.r;
+            web->color.g = work->config->web.g;
+            web->color.b = work->config->web.b;
+            web->scale = -(outer * 4096 / 3);
+            web->field_1F8 = 0;
+            web->field_1FC = 0;
+        }
+        for (ring_base = 0, row = 0; row < 6; ring_base += 256, row++, ring++) {
+            for (outer = 0, angle = ring_base; outer < 8; angle += 512, outer++) {
+                setVector(&ring->inner[outer], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
+                setVector(&ring->outer[outer], (u32)(rcos(angle) * 5) >> 6,
+                          (u32)(rsin(angle) * 5) >> 6, 0);
+            }
+            ring->inner_color.r = 64;
+            ring->inner_color.g = 128;
+            ring->inner_color.b = 255;
+            ring->outer_color.r = 0;
+            ring->outer_color.g = 0;
+            ring->outer_color.b = 0;
+            ring->angle = row * 1024 / 6;
+            ring->count = 0;
+        }
+        for (i = 0; i < 16; i++, arm++) {
+            for (base_angle = 0; base_angle < 2; base_angle++) {
+                if (base_angle == 1) {
+                    arm->outer[base_angle].r = 0;
+                    arm->outer[base_angle].g = 0;
+                    arm->outer[base_angle].b = 0;
+                    arm->inner[base_angle].r = 0;
+                    arm->inner[base_angle].g = 0;
+                    arm->inner[base_angle].b = 0;
+                } else {
+                    arm->outer[base_angle].r = 255;
+                    arm->outer[base_angle].g = 0;
+                    arm->outer[base_angle].b = 255;
+                    arm->inner[base_angle].r = 128;
+                    arm->inner[base_angle].g = 128;
+                    arm->inner[base_angle].b = 128;
+                }
+            }
+        }
+        for (i = 0; i < 16; ray++, i++) {
+            for (j = 0; j < 3; j++) {
+                if (j == 2) {
+                    ray->outer[j].r = 0;
+                    ray->outer[j].g = 0;
+                    ray->outer[j].b = 0;
+                    ray->inner[j].r = 0;
+                    ray->inner[j].g = 0;
+                    ray->inner[j].b = 0;
+                } else {
+                    ray->outer[j].r = 255;
+                    ray->outer[j].g = 0;
+                    ray->outer[j].b = 255;
+                    ray->inner[j].r = 128;
+                    ray->inner[j].g = 128;
+                    ray->inner[j].b = 128;
+                }
+            }
+        }
+        for (base_angle = 0, row = 0; row < 4; row++, spoke++, base_angle += 200) {
+            for (outer = 0, angle = base_angle; outer < 8; angle += 512, outer++) {
+                setVector(&spoke->inner[outer], (u32)(rcos(angle) * 3) >> 5,
+                          (u32)(rsin(angle) * 3) >> 5, 0);
+                setVector(&spoke->outer[outer], (u32)rcos(angle) >> 3, (u32)rsin(angle) >> 3, 0);
+            }
+            spoke->inner_color.r = 0;
+            spoke->inner_color.g = 0;
+            spoke->inner_color.b = 0;
+            spoke->outer_color.r = 255;
+            spoke->outer_color.g = 192;
+            spoke->outer_color.b = 64;
+            spoke->angle = 1024 - row * 256;
+            spoke->count = 0;
+            /* Set in the loop and stored after it, as in the retail code
+             * (the constant fills the loop branch's delay slot). */
+            n = 4096;
+        }
+        work->sweep = 0;
+        work->spiral_shrink = 0;
+        work->ray_scale = 0;
+        work->spiral_angle = 0;
+        work->field_270A = 0;
+        work->spiral_size = 0;
+        work->field_270E = 0;
+        work->field_2710 = 0;
+        work->index = 0;
+        work->band_scale = n;
+        work->field_272E = 1024;
+        work->displacement = 0;
+        work->quad_angle = 0;
+        work->ribbon_angle = 0;
+        work->field_272A = 0;
+        work->clock.frame_count = 0;
+        work->clock.frame = 0;
+        work->clock.animation_frame = 0;
+        work->clock.step = 0;
+        work->phase = 0;
+        work->field_274C = 0;
+        work->clock.fade = 0;
+        work->tint = 2048;
+        work->command = command;
+    } else {
+        view = Model_GetCameraViewBuffer();
+        setVector(&work->view_delta, view->vrx - view->vpx,
+                  view->vry - view->vpy, view->vrz - view->vpz);
+        Square0(&work->view_delta, &squared);
+        angle = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[0] = angle;
+        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        if (work->slot == 0) {
+            Model_CopySlotPosition(1, (u16 *)&work->target);
+        } else {
+            Model_CopySlotPosition(0, (u16 *)&work->target);
+        }
+        GsGetLwUnit(work->parts[0], &work->matrix);
+        setVector(&work->direction,
+                  work->target.vx - work->matrix.t[0],
+                  work->target.vy - work->matrix.t[1],
+                  work->target.vz - work->matrix.t[2]);
+        GsSetLsMatrix(Model_GetLightSourceMatrix());
+        setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
+        RotTransPers(&position, (long *)&projection.projected,
+                     &projection.interpolation, &projection.flag);
+        screen_x = (u16)projection.projected.vx;
+        screen_y = projection.projected.vy;
+        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        RotTransPers(&target, (long *)&projection.target,
+                     &projection.interpolation, &projection.flag);
+        dx = (u16)projection.target.vx - screen_x;
+        dy = projection.target.vy - screen_y;
+        work->screen_delta.vx = dx;
+        work->screen_delta.vy = dy;
+        GsGetLwUnit(work->parts[0], &work->matrix);
+        setVector(&work->direction,
+                  work->target.vx - work->matrix.t[0],
+                  work->target.vy - work->matrix.t[1],
+                  work->target.vz - work->matrix.t[2]);
+        setVector(&work->orbit,
+                  work->matrix.t[0] + work->direction.vx * work->sweep / 1536,
+                  work->matrix.t[1] + work->direction.vy * work->sweep / 1536 -
+                      (rsin(work->sweep) * 256 >> 12),
+                  work->matrix.t[2] + work->direction.vz * work->sweep / 2048);
+        setVector(&work->offset,
+                  work->target.vx - work->orbit.vx,
+                  work->target.vy - work->orbit.vy,
+                  work->target.vz - work->orbit.vz);
+        if (work->config->start <= work->clock.frame) {
+            ModelVariant425_DrawSheet(context);
+            ModelVariant425_DrawSpiral(context);
+            ModelVariant425_DrawWebs(context);
+            if (work->phase >= 2) {
+                ModelVariant425_DrawRays(context);
+            }
+        }
+        work->clock.frame_count++;
+        frame = Model_GetSlotAnimationFrame(work->slot);
+        if (frame != work->clock.animation_frame) {
+            work->clock.frame += Model_GetFrameStep();
+            work->clock.step = Model_GetFrameStep();
+            work->clock.animation_frame = frame;
+        }
+    }
+    Model_SetSlotAmbient(2, work->tint, work->tint, work->tint);
+    if (work->phase < 7) {
+        if (work->tint > 0) {
+            work->tint -= 128;
+            if (work->tint <= 0) {
+                work->tint = 0;
+            }
+        }
+    } else {
+        work->tint = work->clock.fade << 5;
+    }
+    if (work->phase >= 2 && work->phase <= 4) {
+        result = 4;
+    } else if (work->phase == 5) {
+        result = 1;
+        work->phase = 6;
+    } else if (work->phase == 6) {
+        if (work->clock.fade < 64) {
+            work->clock.fade += work->clock.step;
+            if (work->clock.fade >= 64) {
+                work->clock.fade = 64;
+                work->phase = 7;
+            }
+        }
+    } else if (work->phase == 7) {
+        result = 2;
+    }
+    return result;
+}

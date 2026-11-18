@@ -27,11 +27,11 @@ French module with the same bytes at another sector
 (`french_model_variant_43_*` and `french_model_variant_47_stage8_slot1`).
 The Spanish copies of the header-414, header-415 and header-442 helpers
 (`model_variant/e580_bands_pal`, `e581_bands_pal` and
-`variant442_ribbons`) were wired only by those modules' raw layouts and are
+`h425_ribbons_pal`) were wired only by those modules' raw layouts and are
 removed; the French layouts compile the French helpers. The two header-447
 images at sectors 109772 and 109782 keep their raw layouts but compile the
-French header-685 entry (`model_variant/variant685_entry.c`) at `0x4`
-beside `variant447_rings.c`; the rings body's five stale resident calls use
+French header-685 entry (`model_variant/h668_entry_pal.c`) at `0x4`
+beside `h447_rings.c`; the rings body's five stale resident calls use
 the `Rings447_*` names, so `model_image447_rings_linker_symbols.txt` carries
 the French header-685 bindings unchanged.
 

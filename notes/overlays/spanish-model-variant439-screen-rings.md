@@ -17,7 +17,7 @@ The entry does not call this helper directly, as the existing inventory
 records. Three 0x1A8-byte records start at `+0xE08`. Each holds three rows of
 seventeen points, inner and outer colours, a scale and a wrap count. This is
 the layout of the French entry header's screen-ring record; the Spanish source
-declares it in `variant439_screen_rings.h`. The packet is at `+0x1808`, the
+declares it in `h422_screen_rings.h`. The packet is at `+0x1808`, the
 translation at `+0x18F8`, the step at `+0x1944` and the phase at `+0x197C`.
 
 ## Behaviour
@@ -55,7 +55,7 @@ was already bound as `func_800852A8`.
 
 ## Per-image binding
 
-Every image builds `variant439_screen_rings.c` directly, and its symbol file
+Every image builds `h422_screen_rings.c` directly, and its symbol file
 binds `SpanishModelVariant439_DrawScreenRings` at its own address:
 `0x8013C230`/`0x8017C230` in the PAL images and `0x8013C234`/`0x8017C234` in
 the North American and Japanese header-422/572 images. Those build the same

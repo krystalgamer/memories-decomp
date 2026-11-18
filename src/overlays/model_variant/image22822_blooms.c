@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../model_variant/variant437_entry.h"
+#include "../model_variant/h437_entry.h"
 
 void FrenchModelVariant454_DrawBlooms(Variant437State *context)
 {

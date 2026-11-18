@@ -54,14 +54,14 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant139_entry]
+      - [0x4, c, overlays/model_variant/h139_entry]
   - name: rodata
     type: code
     start: 0x1AAC
     vram: 0x8013CAAC
     align: 4
     subsegments:
-      - [0x1AAC, .rodata, overlays/model_variant/variant139_entry]
+      - [0x1AAC, .rodata, overlays/model_variant/h139_entry]
   - name: unclassified_tail
     type: code
     start: 0x1ACC

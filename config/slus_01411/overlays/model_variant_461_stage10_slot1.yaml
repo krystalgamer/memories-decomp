@@ -56,42 +56,42 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant446_entry]
+      - [0x4, c, overlays/model_variant/h446_entry]
   - name: ribbons
     type: code
     start: 0x1984
     vram: 0x8017c984
     align: 4
     subsegments:
-      - [0x1984, c, overlays/model_variant/variant446_ribbons]
+      - [0x1984, c, overlays/model_variant/h446_ribbons]
   - name: paired_sheets
     type: code
     start: 0x2314
     vram: 0x8017d314
     align: 4
     subsegments:
-      - [0x2314, c, overlays/model_variant/variant463_paired_sheets]
+      - [0x2314, c, overlays/model_variant/h446_paired_sheets]
   - name: trail_ribbons
     type: code
     start: 0x2860
     vram: 0x8017d860
     align: 4
     subsegments:
-      - [0x2860, c, overlays/model_variant/variant446_trail_ribbons]
+      - [0x2860, c, overlays/model_variant/h446_trail_ribbons]
   - name: sheets
     type: code
     start: 0x32d8
     vram: 0x8017e2d8
     align: 4
     subsegments:
-      - [0x32d8, c, overlays/model_variant/variant463_sheets]
+      - [0x32d8, c, overlays/model_variant/h446_sheets]
   - name: rings
     type: code
     start: 0x37c8
     vram: 0x8017e7c8
     align: 4
     subsegments:
-      - [0x37c8, c, overlays/model_variant/variant463_rings]
+      - [0x37c8, c, overlays/model_variant/h446_rings]
   - name: unclassified_tail
     type: code
     start: 0x3bf4

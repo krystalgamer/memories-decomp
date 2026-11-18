@@ -8,7 +8,7 @@ compile `model_variant/e592_entry_pal.c`; each image's symbol file
 binds the entry, its helpers and its data label `gFrenchModelVariant426_aImages`/`gFrenchModelVariant426_aConfigs`
 at its own addresses.
 
-- **Base.** It is the header-425 entry (`variant425_entry.c`). The work-area
+- **Base.** It is the header-425 entry (`h425_entry.c`). The work-area
   tail, from the matrix onwards, sits 0x974 bytes higher. The changes are:
   - **Work area.** It holds four header-458 streamers, two funnels and a
     second FT4 pair (`flat2`) ahead of the matrix.
@@ -23,7 +23,7 @@ at its own addresses.
     sheets span 256 units.
   - **Runtime.** It copies the other slot's position without the
     travel adjustment and calls the header-426 helpers.
-- **Views.** `variant426_entry.h` reuses the header-425 entry views and adds
+- **Views.** `h426_entry.h` reuses the header-425 entry views and adds
   `ModelVariantSpiralConfig` and `EntryState426`.
 - **Bindings.** Both regions' `model_variant426_linker_symbols.txt` gain
   the named texture, primitive, `GsGetLwUnit`, `Square0` and `SquareRoot0`

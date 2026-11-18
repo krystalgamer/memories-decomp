@@ -1,4 +1,4 @@
-// German MODEL.MRG model 248 (record 248), sector 68628, header 481, loaded at 0x8013B000; the US header-464 source variant464_entry.c; built from the French source layout of french_model_variant_248_pos0_slot0.
+// German MODEL.MRG model 248 (record 248), sector 68628, header 481, loaded at 0x8013B000; the US header-464 source h464_entry.c; built from the French source layout of french_model_variant_248_pos0_slot0.
 ModelVariant464_HandleRequest = 0x8013B004; // type:func size:0xE34 defined:true
 FrenchModelVariant481_DrawBand = 0x8013BE38; // type:func size:0x8E0 defined:true
 FrenchModelVariant481_DrawRings = 0x8013C718; // type:func size:0x638 defined:true

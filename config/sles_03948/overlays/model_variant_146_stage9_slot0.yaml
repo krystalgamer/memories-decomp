@@ -54,49 +54,49 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant446_entry_pal]
+      - [0x4, c, overlays/model_variant/h429_entry_pal]
   - name: helper_E00
     type: code
     start: 0xE00
     vram: 0x8013BE00
     align: 4
     subsegments:
-      - [0xE00, c, overlays/model_variant/variant446_lines]
+      - [0xE00, c, overlays/model_variant/h429_lines_pal]
   - name: helper_12F8
     type: code
     start: 0x12F8
     vram: 0x8013C2F8
     align: 4
     subsegments:
-      - [0x12F8, c, overlays/model_variant/variant446_strip]
+      - [0x12F8, c, overlays/model_variant/h429_strip_pal]
   - name: helper_195C
     type: code
     start: 0x195C
     vram: 0x8013C95C
     align: 4
     subsegments:
-      - [0x195C, c, overlays/model_variant/variant446_ribbons_pal]
+      - [0x195C, c, overlays/model_variant/h429_ribbons_pal]
   - name: helper_1FE8
     type: code
     start: 0x1FE8
     vram: 0x8013CFE8
     align: 4
     subsegments:
-      - [0x1FE8, c, overlays/model_variant/variant446_pulse]
+      - [0x1FE8, c, overlays/model_variant/h429_pulse_pal]
   - name: helper_24BC
     type: code
     start: 0x24BC
     vram: 0x8013D4BC
     align: 4
     subsegments:
-      - [0x24BC, c, overlays/model_variant/variant446_rings]
+      - [0x24BC, c, overlays/model_variant/h429_rings_pal]
   - name: helper_2CAC
     type: code
     start: 0x2CAC
     vram: 0x8013DCAC
     align: 4
     subsegments:
-      - [0x2CAC, c, overlays/model_variant/variant446_rays]
+      - [0x2CAC, c, overlays/model_variant/h429_rays_pal]
   - name: unclassified_tail
     type: code
     start: 0x36D4

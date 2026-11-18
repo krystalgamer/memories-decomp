@@ -3,7 +3,7 @@
 `FrenchModelVariant436_DrawBands` (formerly `func_8013BD98` / `func_8017BD98`;
 image offset `0xD98`, 0x7A4 bytes) in the
 MODEL707 stage 9 slot 0 and stage 10 slot 1 images is the MODEL449 band body
-(`variant449_bands.c`) over `EntryState436`, which has the MODEL437 layout
+(`h432_bands.c`) over `EntryState436`, which has the MODEL437 layout
 (the band record at `+0x888`, every other field 0x600 lower than MODEL449).
 The joints, the drift lift, the progress clamp and the two `POLY_GT4` halves
 per segment are unchanged.

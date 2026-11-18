@@ -4,10 +4,10 @@
 family, image offset `0x134C`, 0x54C bytes; one source for both slots, bound
 per image) draws and advances a swarm of 32 growing quads. **No release
 had matching C for this body before.** It is a different body from the
-accepted Spanish MODEL478 quads helper (`variant478_quads.c`, 0x508 bytes).
+accepted Spanish MODEL478 quads helper (`h461_quads_pal.c`, 0x508 bytes).
 
 It follows the shape of the Spanish MODEL470 quads helper over the
-MODEL478 record, `EntryState478` in `variant478_entry.h`:
+MODEL478 record, `EntryState478` in `h461_entry_pal.h`:
 - the 32-quad `swarm` at `+0xA28`, with corners `a`..`d`, the colour at
   `+0x500`, sizes at `+0x514` and done flags at `+0x594`;
 - `swarm_packet` at `+0x2948`, `matrix.t` at `+0x29A8`, `aim.direction` at

@@ -22,7 +22,7 @@ each of the first three groups is offset by a further 400. Each point:
   positive depth below 0x800.
 
 The new 0x64-byte `Beam411` records and the fields the helper reads are
-declared in `variant411_beams.h`.
+declared in `h394_beams_pal.h`.
 
 The earlier campaign reached the retail layout with:
 

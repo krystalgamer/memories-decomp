@@ -119,7 +119,7 @@ coverage or classify the raw suffixes.
 
 The 2,972-byte entry has a 208-byte frame and initializes five `0x3A4`-byte
 ribbon records, two `0x98`-byte rings, two `0x378`-byte streamers and the
-existing packet views. The accepted `variant337_entry.h` supplies those
+existing packet views. The accepted `h320_entry_pal.h` supplies those
 three initialization-record types unchanged. A private 52-byte descriptor
 and `0x1F7C` minimum context view preserve stored `G32` pointers; no backing
 allocation is declared.

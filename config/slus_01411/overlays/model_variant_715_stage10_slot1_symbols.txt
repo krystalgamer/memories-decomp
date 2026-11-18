@@ -1,4 +1,4 @@
-// MODEL.MRG model 715 (record 615), sector 169950, header 582, loaded at 0x8017B000; the US source variant432_entry.c
+// MODEL.MRG model 715 (record 615), sector 169950, header 582, loaded at 0x8017B000; the US source h432_entry.c
 ModelVariant432_HandleRequest = 0x8017B004; // type:func size:0xD20 defined:true
 FrenchModelVariant449_DrawSheet = 0x8017BD24; // type:func size:0x520 defined:true
 FrenchModelVariant449_DrawRibbons = 0x8017C244; // type:func size:0x934 defined:true

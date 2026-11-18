@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_SPANISH_MODEL_VARIANT385_ENTRY_H
 #define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT385_ENTRY_H
 #include "../../types.h"
-#include "../../overlays/model_variant/variant337_entry.h"
+#include "../../overlays/model_variant/h320_entry_pal.h"
 #include "../../game/model_slot_getters.h"
 
 /* One 0x4C-byte command record of the table at gSpanishModelVariant385_aConfigs. */

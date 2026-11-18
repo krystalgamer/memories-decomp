@@ -1,4 +1,4 @@
-// MODEL.MRG model 79 (record 79), sector 22004, header 792, loaded at 0x8013B000; the US source variant792_entry.c.
+// MODEL.MRG model 79 (record 79), sector 22004, header 792, loaded at 0x8013B000; the US source h792_entry.c.
 ModelVariant792_HandleRequest = 0x8013B004; // type:func size:0x37EC defined:true
 gModelVariant792_aImages = 0x8013E800; // type:u8 size:0x8C defined:true
 gModelVariant792_aConfigs = 0x8013E88C; // type:u8 size:0x1774 defined:true

@@ -4,7 +4,7 @@
 the third function of the French header-481/631 images (models 248 and 624,
 slot 0 and slot 1). It grows, projects and draws the entry's 33-step band.
 It builds from
-[`variant481_band.c`](../../src/overlays/model_variant/variant481_band.c)
+[`h464_band.c`](../../src/overlays/model_variant/h464_band.c)
 in both slots under `gcc_2_8_1_g0_split`. All four French images
 rebuild byte-identical to retail.
 
@@ -20,7 +20,7 @@ band.
 The band is the entry's 0x8EC-byte `Variant464EntryBand` at context
 `+0x230`; the helper reads `Variant464EntryState` directly. The band's
 spine, edge, screen words, heading, length, flag, depth and half-width
-names came from the helper's former local view, `variant481_band.h`.
+names came from the helper's former local view, `h464_band.h`.
 
 - **Growth:** each step's `offset` starts at `-128 * step`. It is clamped
   to 0 for the shape and grows by `step * 32` until it caps at 0x800.

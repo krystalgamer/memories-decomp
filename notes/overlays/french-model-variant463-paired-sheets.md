@@ -11,7 +11,7 @@ raw slot-1 images, a new C segment at `0x2318` is followed by an
 `unclassified_mid` data segment that runs to the sheets helper at `0x32E8`.
 
 - **Shape.** The control flow follows the Spanish header-461 sheets helper
-  (`variant461_sheets.c`), with these differences:
+  (`h444_sheets_pal.c`), with these differences:
   - the count is 1 in timing mode 1, and the timing record's first count
     otherwise;
   - each sheet scales uniformly, and the scale is written in both position
@@ -24,7 +24,7 @@ raw slot-1 images, a new C segment at `0x2318` is followed by an
   later deleted, but before that it stops jump optimisation from hoisting
   the second constant count store above its branch.
 - **Record.** The helper reads `Variant446EntryState` (a view in
-  `variant463_paired_sheets.h` until it was folded): the primaries are its
+  `h446_paired_sheets.h` until it was folded): the primaries are its
   `ribbons`, the sheets its `sheets`, and the positions `bases`/`tips`. The
   bindings are the ones the sheets helper uses.
 

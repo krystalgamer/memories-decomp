@@ -3,7 +3,7 @@
 Helper `+0x14F8..+0x1F68` is matching C. It is 2,672 bytes in both
 header-479/629 MODEL loads (MODEL379, stages 7/8) of the Spanish release and in
 the same two French images, which carry the identical body at the same offsets.
-`variant479_spiral.c` is compiled once per slot with `gcc_2_8_1_g0_split`; each
+`h462_spiral_pal.c` is compiled once per slot with `gcc_2_8_1_g0_split`; each
 image's symbols file binds `SpanishModelVariant479_DrawSpiral` (formerly
 `func_8013C4F8`/`func_8017C4F8`) at its own address. A scan of every
 extracted MODEL image found the body in these four images only. This is a new

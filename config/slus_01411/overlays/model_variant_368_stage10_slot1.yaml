@@ -54,13 +54,13 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant428_entry]
-      - [0x1038, c, overlays/model_variant/variant428_bands]
-      - [0x17AC, c, overlays/model_variant/variant428_sheets]
-      - [0x1C94, c, overlays/model_variant/variant428_webs]
-      - [0x21FC, c, overlays/model_variant/variant428_spokes]
-      - [0x2508, c, overlays/model_variant/variant428_rings]
-      - [0x2888, c, overlays/model_variant/variant428_quad]
-      - [0x2BF0, c, overlays/model_variant/variant428_spiral]
+      - [0x4, c, overlays/model_variant/h428_entry]
+      - [0x1038, c, overlays/model_variant/h428_bands]
+      - [0x17AC, c, overlays/model_variant/h428_sheets]
+      - [0x1C94, c, overlays/model_variant/h428_webs]
+      - [0x21FC, c, overlays/model_variant/h428_spokes]
+      - [0x2508, c, overlays/model_variant/h428_rings]
+      - [0x2888, c, overlays/model_variant/h428_quad]
+      - [0x2BF0, c, overlays/model_variant/h428_spiral]
       - [0x359C, data, overlays/model_variant_368_stage10_slot1/data]
   - [0x5000]

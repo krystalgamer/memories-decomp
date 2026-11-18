@@ -4,11 +4,11 @@ Four North American MODEL variant images share one module of three
 functions: the entry at `+0x4` (`0xE38` bytes), a band renderer at `+0xE3C`
 (`0x8CC` bytes) and a ring renderer at `+0x1708` (`0x640` bytes). The entry is
 North American C in
-[`variant464_entry.c`](../../src/overlays/model_variant/variant464_entry.c),
+[`h464_entry.c`](../../src/overlays/model_variant/h464_entry.c),
 built under the `gcc_2_7_2_cdk_g0` profile. The ring renderer is the French
-header-481 C, [`variant481_rings.c`](../../src/overlays/model_variant/variant481_rings.c),
+header-481 C, [`h464_rings.c`](../../src/overlays/model_variant/h464_rings.c),
 and the band renderer is the French header-481 C,
-[`variant481_band.c`](../../src/overlays/model_variant/variant481_band.c)
+[`h464_band.c`](../../src/overlays/model_variant/h464_band.c)
 (see [the band note](french-model-variant481-band.md)); the US images build
 both sources directly. The same sources build both slots: the shared C
 defines `ModelVariant464_HandleRequest`, `FrenchModelVariant481_DrawBand`,
@@ -27,11 +27,11 @@ All four rebuild byte-identical to retail.
 
 The French images at the same sectors build the same entry under
 `gcc_2_8_1_g0_split` through
-[`variant481_entry.c`](../../src/overlays/model_variant/variant481_entry.c)
+[`h464_entry_pal.c`](../../src/overlays/model_variant/h464_entry_pal.c)
 in both slots. `VERSION_FRENCH` selects the palette column 640
 instead of 512; the code is otherwise the same apart from resident `jal`
 targets. The French band renderer is `0x8E0` bytes at `+0xE38` and builds from
-`variant481_band.c`, so the rings sit at `+0x1718`, the image table `gModelVariant464_aImages`
+`h464_band.c`, so the rings sit at `+0x1718`, the image table `gModelVariant464_aImages`
 at `0x8013CD50` and the config table `gModelVariant464_aConfigs` at `0x8013CE30`.
 The four French modules take the US names (`french_model_variant_624_pos0_slot0`,
 `_248_pos0_slot0`, `_624_stage8_slot1`, `_248_stage8_slot1`) and all four

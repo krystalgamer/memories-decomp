@@ -467,7 +467,7 @@ halo-specific paths differ from that accepted cutoff.
 
 ## Names
 
-Both slots compile `variant422_entry.c` and the shared US header-405 helper
+Both slots compile `h422_entry.c` and the shared US header-405 helper
 bodies without renaming wrappers. They define
 `FrenchModelVariant422_HandleRequest`, `ModelVariant405_DrawHalo` (`0x1128`),
 `ModelVariant405_DrawVeils` (`0x1620`), `ModelVariant405_DrawBands`

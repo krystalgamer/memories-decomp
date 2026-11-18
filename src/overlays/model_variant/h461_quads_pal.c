@@ -1,0 +1,100 @@
+#include "../../types.h"
+#include "../model_variant/h461_entry_pal.h"
+#include "../../game/gpu_packets.h"
+
+void SpanishModelVariant478_DrawOrbitingQuads(EntryState478 *context)
+{
+    SVECTOR rotation;
+    /* Unused; retains the target's 16-byte stack gap after the rotation. */
+    VECTOR unused;
+    VECTOR scale;
+    MATRIX matrix;
+    MATRIX light;
+    GsCOORDINATE2 coordinate;
+    long interpolation;
+    long flag;
+    GsOT *ot;
+    EntryState478 *state = context;
+    ModelVariantQuadGroup *group = state->quads;
+    POLY_FT4 *polygon = &state->swarm_packet;
+    s16 i, j;
+    s16 angle, ripple;
+    s32 complete;
+    u8 red, green, blue;
+    s32 depth;
+
+    ot = Graphics_GetDefaultOrderingTable();
+    complete = 1;
+    i = 0;
+    ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    ratan2(state->aim.screen_delta.vy, state->aim.screen_delta.vx);
+    for (; i < 1; i++, group++) {
+        j = 0;
+        angle = 0;
+        ripple = 0;
+        for (; j < 10; j++, angle += 1300, ripple += 1700) {
+            if (group->size[j] >= 0) {
+                if (group->size[j] > 3072) {
+                    red = group->color.r * (4096 - group->size[j]) / 1024;
+                    green = group->color.g * (4096 - group->size[j]) / 1024;
+                    blue = group->color.b * (4096 - group->size[j]) / 1024;
+                } else {
+                    red = group->color.r;
+                    green = group->color.g;
+                    blue = group->color.b;
+                }
+                rotation.vx = 0;
+                rotation.vy = 0;
+                rotation.vz = 0;
+                matrix.t[0] = state->aim.target.vx + ((rcos(angle + ripple + group->angle[j]) * 192) >> 12);
+                matrix.t[1] = state->aim.target.vy + ((rsin(angle + group->angle[j]) * 192) >> 12);
+                matrix.t[2] = state->aim.target.vz + ((rsin(ripple + group->angle[j]) * 192) >> 12);
+                scale.vx = group->size[j];
+                scale.vy = group->size[j];
+                scale.vz = group->size[j];
+                RotMatrix(&rotation, &matrix);
+                coordinate.coord = matrix;
+                coordinate.super = 0;
+                coordinate.flg = 0;
+                GsGetLs(&coordinate, &light);
+                GsSetLsMatrix(&light);
+                ReadRotMatrix(&light);
+                RotMatrix(&rotation, &light);
+                ScaleMatrix(&light, &scale);
+                SetRotMatrix(&light);
+                depth = RotTransPers4(&group->a[j], &group->b[j], &group->c[j], &group->d[j],
+                                     (long *)&polygon->x0, (long *)&polygon->x1,
+                                     (long *)&polygon->x2, (long *)&polygon->x3,
+                                     &interpolation, &flag);
+                polygon->r0 = red;
+                polygon->g0 = green;
+                polygon->b0 = blue;
+                if (depth >= 0 && flag >= 0 && group->done[j] == 0) {
+                    GsSortPoly(polygon, ot, (u16)depth);
+                }
+            }
+            if (group->size[j] < 4096) {
+                group->size[j] += state->clock.step * 256;
+                if (group->size[j] >= 4096) {
+                    if (state->config->swarm_start <= state->clock.frame && state->phase >= 3) {
+                        group->size[j] = 4096;
+                        group->done[j] = 1;
+                    } else {
+                        group->initialized[j] = 0;
+                        group->size[j] -= 4096;
+                        group->angle[j] += 600;
+                    }
+                } else if (group->size[j] <= 0) {
+                    if (state->phase >= 3 && state->config->swarm_start <= state->clock.frame) {
+                        group->size[j] = 4096;
+                        group->done[j] = 1;
+                    }
+                }
+            }
+            complete *= group->done[j];
+            if (j + 1 == 10 && complete == 1 && state->phase == 3) {
+                state->phase = 5;
+            }
+        }
+    }
+}

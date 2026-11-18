@@ -11,7 +11,7 @@ bindings](model-variants.md#per-image-symbol-bindings)).
 The body appears in the two French raw images of model 363, directly after
 the header-383 ribbons helper.
 
-The code follows the French header-373 quads helper (`variant373_quads.c`)
+The code follows the French header-373 quads helper (`h356_quads.c`)
 over the header-383 layout, with these differences:
 - it draws into the second quad of a pair at `+0x138C`;
 - the quad colours are written once before the vertex loop;

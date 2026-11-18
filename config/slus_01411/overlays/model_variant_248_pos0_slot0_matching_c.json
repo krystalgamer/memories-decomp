@@ -4,19 +4,19 @@
       "address": "0x8013B004",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0xE38",
-      "source": "src/overlays/model_variant/variant464_entry.c"
+      "source": "src/overlays/model_variant/h464_entry.c"
     },
     {
       "address": "0x8013BE3C",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x8CC",
-      "source": "src/overlays/model_variant/variant481_band.c"
+      "source": "src/overlays/model_variant/h464_band.c"
     },
     {
       "address": "0x8013C708",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x640",
-      "source": "src/overlays/model_variant/variant481_rings.c"
+      "source": "src/overlays/model_variant/h464_rings.c"
     }
   ],
   "schema": 1

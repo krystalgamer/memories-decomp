@@ -1,4 +1,4 @@
-// German MODEL.MRG model 370 (record 320), sector 88500, header 449, loaded at 0x8013B000; the US header-432 source variant432_entry.c; built from the French source layout of french_model_variant_370_stage7_slot0.
+// German MODEL.MRG model 370 (record 320), sector 88500, header 449, loaded at 0x8013B000; the US header-432 source h432_entry.c; built from the French source layout of french_model_variant_370_stage7_slot0.
 ModelVariant432_HandleRequest = 0x8013B004; // type:func size:0xD20 defined:true
 FrenchModelVariant449_DrawSheet = 0x8013BD24; // type:func size:0x51C defined:true
 FrenchModelVariant449_DrawRibbons = 0x8013C240; // type:func size:0x95C defined:true

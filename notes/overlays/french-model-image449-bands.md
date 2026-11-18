@@ -3,7 +3,7 @@
 The `0x75C` helper at image offset `0x2458` is first-ever game code: no release
 had matching C for its body. Four French images carry it: MODEL715 stages 9/10
 (`169940`, `169950`) and MODEL370 stages 7/8 (`88500`, `88510`). Both slots build
-`variant449_bands.c`; each image's symbols file binds
+`h432_bands.c`; each image's symbols file binds
 `FrenchModelVariant449_DrawBands` (formerly `func_8013D458`/`func_8017D458`)
 at its own address.
 

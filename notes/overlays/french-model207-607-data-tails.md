@@ -13,7 +13,7 @@ and only the following two nonzero words.
 | 607, stage 7, slot 0 | 153912 | `0x8013E520` | `0x05031B8E` | `0x05041B8E` |
 
 These are direct file-to-loaded-address mappings, not compressed or relocated
-code. The accepted `variant685_entry` sources do not reference the alleged
+code. The accepted `h668_entry_pal` sources do not reference the alleged
 helpers. MODEL607 stage 8 slot 1 already treats the corresponding range as
 part of its raw `unclassified_tail`; the three corrected layouts use that
 same boundary and representation.

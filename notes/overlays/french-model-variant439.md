@@ -6,8 +6,8 @@ ownership gate separately checks all five C owners in every image.
 
 ## Initial sheets and curtains registration
 
-Fourteen distinct images reuse unchanged accepted `variant422_sheets.c`
-and `variant422_curtains.c` through four canonical renaming wrappers,
+Fourteen distinct images reuse unchanged accepted `h422_sheets.c`
+and `h422_curtains.c` through four canonical renaming wrappers,
 using the named GCC 2.8.1/MASPSX 2.81 profile `gcc_2_8_1_g0_split`.
 Models 185, 391, 436, 504 and 594 select stages 7/8; models 367 and 395
 select stages 9/10. The [instance ledger](french-model-variant439-instances.csv)
@@ -92,7 +92,7 @@ coverage is not an exhaustive runtime-completion claim.
 
 ## Additive bands and retained webs
 
-The accepted `variant422_bands.c` has the correct 1,912-byte size and
+The accepted `h422_bands.c` has the correct 1,912-byte size and
 296-byte frame, but differs at four next-column loads, function offsets
 `0x520/0x52C/0x550/0x55C`, in both French slots. Using `band->sc[j+1]`
 and `band->sb[j+1]` rather than shifted `col->sc[1]/sb[1]` reproduces
@@ -100,7 +100,7 @@ all fourteen complete images. Two `VERSION_FRENCH` guards isolate these
 four expressions; the original US expressions remain unchanged.
 Canonical wrappers rename `func_8013C70C` to `func_8013C704/8017C704`.
 
-The unchanged `variant422_webs.c` separately reproduces all fourteen
+The unchanged `h422_webs.c` separately reproduces all fourteen
 complete images: 1,304 bytes and a 288-byte frame per function. Its
 wrappers rename `func_8013D36C` to `func_8013D360/8017D360`.
 This helper is retained code with **no direct entry-call path**.
@@ -196,16 +196,16 @@ byte-identical; only this note and the progress fixture changed.
 ## Fourteen exact runtime entries
 
 The independent entry batch starts at accepted `feff9128`, without pending
-French422 changes. `variant439_entry.c` and its complete slot-one wrapper
+French422 changes. `h439_entry.c` and its complete slot-one wrapper
 replace only `0x4..0x1230` in all fourteen images: 4,652 bytes and a
 248-byte frame each, adding 65,128 C bytes. The four accepted helper
 sources and their profiles remain unchanged. The `0x1230..0x1704`
 helper remains genuine generated assembly, with no direct entry-call path.
 
 The locally recovered entry view reuses the established shared packet,
-SDK and geometry declarations through `variant337_entry.h`. Its distinct
+SDK and geometry declarations through `h320_entry_pal.h`. Its distinct
 band, fan, screen-ring and 48-byte descriptor views are local to
-`variant439_entry.h`. Three webs, one band, two sheets, six rings, four
+`h439_entry.h`. Three webs, one band, two sheets, six rings, four
 spokes, one fan, three screen-ring records and four curtains retain their
 measured order. The descriptor at `+0x194C` and three part pointers at
 `+0x1954` use `G32`. The observed extent `0x1990` is still only a minimum,

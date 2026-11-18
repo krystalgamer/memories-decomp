@@ -36,7 +36,7 @@ no unresolved indirect transfer. Entry reaches only the first five
 functions. The sheet, spiral, rays and webs C helpers are entry-reachable; the other five C helpers
 remain retained module-local code without a demonstrated entry execution
 path. The entry is the accepted North American header-425 body with the PAL
-palette x = 640 (`variant442_entry{,_slot1}.c`); see
+palette x = 640 (`h442_entry{,_slot1}.c`); see
 [French MODEL entries reusing North American C](french-model-usa-entry-reuse.md).
 Real storage owners preserve each
 four-byte header and 3,024-byte suffix at `0x4430..0x5000`; the suffix is
@@ -91,7 +91,7 @@ snapshots are separate.
 
 ## Entry-reachable smaller-web follow-up
 
-The accepted `variant425_webs.c` compiles unchanged to 964 French bytes.
+The accepted `h425_webs.c` compiles unchanged to 964 French bytes.
 Each image's symbols file binds `ModelVariant425_DrawWebs` at `0x8013D924` or `0x8017D924`.
 All four complete canonical images match after replacing only the assembly
 owner at `0x2924..0x2CE8`, adding four C instances / 3,856 instruction
@@ -145,7 +145,7 @@ Suffixes remain unclassified and counts are not exhaustive runtime coverage.
 The [Family435 first-segment indexing recovery](french-model-variant435.md)
 also produces this family's complete 1,612-byte helper and 296-byte frame.
 Both slots and all four complete canonical images match. The shared
-`variant425_ribbons.c` uses `VERSION_FRENCH` only for the two indexed screen
+`h425_ribbons.c` uses `VERSION_FRENCH` only for the two indexed screen
 coordinate expressions inside `k == 0`; the original US path is unchanged.
 Two guarded wrappers add four C instances / 6,448 bytes.
 
@@ -265,7 +265,7 @@ and policy gates passing. Scope remains 137 paths and 130 unchanged originals.
 
 ## Entry-called sheet follow-up
 
-Two three-line canonical wrappers reuse accepted `variant425_sheet.c`
+Two three-line canonical wrappers reuse accepted `h425_sheet.c`
 unchanged. Both French functions at `+0x1174..+0x1560` match 1,004 bytes
 with a 256-byte frame, and actual scratch links reproduce all four
 complete unmasked images. The sixteen original attempt rows remain
@@ -321,7 +321,7 @@ the accepted cutoff are introduced, and no fresh US rebuild is claimed.
 
 The helper at `+0x1560..+0x1F2C` contributes 2,508 C bytes per image, using
 GCC 2.8.1/MASPSX 2.81 and the named `gcc_2_8_1_g0_split` profile. Two
-regional wrappers reuse accepted `variant425_spiral.c` and its existing
+regional wrappers reuse accepted `h425_spiral.c` and its existing
 arm view. A narrow `VERSION_FRENCH` arm separates the retained turn
 adjustment until after timing-pointer setup. The non-French source arm
 retains the accepted expression and statement order.

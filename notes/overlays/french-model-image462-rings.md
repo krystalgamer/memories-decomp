@@ -13,7 +13,7 @@ C segment at `0x242C`, carved out of the unclassified image.
 The code is the header-463 rings helper (`french-model-image463-rings.md`).
 Its state follows the Spanish header-461 rings layout shifted by `+0x1E0`
 (ring at `+0xD70`, polygon at `+0x3098`, origin at `+0x310C`). The local view
-lives in `variant462_rings.h`, and `model_variant462_linker_symbols.txt`
+lives in `h445_rings.h`, and `model_variant462_linker_symbols.txt`
 covers the resident calls. The
 [attempt ledger](french-model-image462-rings-attempts.csv) records the probe,
 which matched on the first build.

@@ -4,8 +4,8 @@
 0x538 bytes) draws the primary and secondary sheet sets. **No release had
 matching C for this body before.**
 
-It follows the accepted MODEL461 sheets helper (`variant461_sheets.c`) over a
-MODEL469 layout, `variant469_sheets.h`:
+It follows the accepted MODEL461 sheets helper (`h444_sheets_pal.c`) over a
+MODEL469 layout, `h452_sheets_2b30.h`:
 - primaries start at `+0xA84`, sheets at `+0x26E8` and the polygon pair at
   `+0x3388`;
 - positions start at `+0x3558`, and frame, time, step, timing and phase lie

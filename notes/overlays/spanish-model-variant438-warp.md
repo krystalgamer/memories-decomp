@@ -4,7 +4,7 @@ Helper `+0x1614..+0x1B5C` is matching C. It is 1,352 bytes in each of the
 twelve MODEL438 loads of the Spanish release (MODEL147, MODEL211 and MODEL610
 at stages 7/8; MODEL263, MODEL525 and MODEL632 at stages 9/10). The same twelve
 French images carry the identical body at the same offsets. That makes 24
-instances and 32,448 instruction bytes from one routine. `variant438_warp.c`
+instances and 32,448 instruction bytes from one routine. `h421_warp_pal.c`
 (`SpanishModelVariant438_DrawWarpRings`) is compiled once per slot with
 `gcc_2_8_1_g0_split`; each image's symbols file binds the name at its own
 address, including the header-459 images that build it at `+0x13E0`. This is a new decompilation; no region

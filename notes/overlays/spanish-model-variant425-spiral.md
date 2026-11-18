@@ -32,7 +32,7 @@ changes. The following were recovered from this retail body:
   a base of 4.
 - **Colours.** Each arm's colours are read from its record, in the
   `ModelVariantShadedRay` (formerly `ModelVariantSpiralArm`) layout of the accepted shared
-  `model_variant/variant448_spiral.h`, instead of fixed shades.
+  `model_variant/h448_spiral.h`, instead of fixed shades.
 
 The accepted shared spiral sources were used only as structural evidence. The
 first candidate was exact.
@@ -57,5 +57,5 @@ Regressions cover:
 - C segment order, statuses, owners and bindings in the MODEL425 and sheet
   suites
 
-Terminal dependency fingerprints hash the body, the shared `variant448_spiral.h`
+Terminal dependency fingerprints hash the body, the shared `h448_spiral.h`
 header, the shared model-variant header and `gpu_packets.h`, in that order.

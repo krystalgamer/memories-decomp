@@ -26,7 +26,7 @@ not in a reclassified code tail.
 | --- | ---: | --- | --- |
 | `0x0004` | 4,680 | Generated assembly entry | Entry |
 | `0x124C` | 1,056 | Fan C | Yes |
-| `0x166C` | 3,840 | Fan-arms C (`model_variant/variant465_arms.c`) | Yes |
+| `0x166C` | 3,840 | Fan-arms C (`model_variant/h448_arms.c`) | Yes |
 | `0x256C` | 1,352 | Orbit C | Yes |
 | `0x2AB4` | 1,376 | Web C | Not demonstrated |
 | `0x3014` | 776 | Spoke C | Not demonstrated |
@@ -156,7 +156,7 @@ metadata policies. CI and maintainer acceptance remain separate gates.
 
 ## Retained spiral follow-up
 
-The unchanged accepted French465 wrappers around `variant448_spiral.c`
+The unchanged accepted French465 wrappers around `h448_spiral.c`
 reproduce all four 2,392-byte Spanish functions with 304-byte frames.
 Fresh complete-image substitutions preserve every one of the 24 previous
 C objects byte-for-byte, both remaining assembly functions per image,

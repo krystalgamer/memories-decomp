@@ -129,7 +129,7 @@ Three 416-byte narrow webs occupy `0xA80..0xF60`. Both 4-by-6 SVECTOR
 grids, color and scale reuse the existing local `ModelVariantWebNarrow`.
 The measured web control flow matches accepted US416 structure; only the
 context tail is `0x94` later. `VERSION_FRENCH` selects this constant without
-changing the arithmetic or phase control flow of `variant416_webs.c`.
+changing the arithmetic or phase control flow of `h416_webs.c`.
 French433 deliberately uses the default layout, as do the US416 users. The shared header and all
 existing compiler-profile names and flags remain unchanged.
 
@@ -303,7 +303,7 @@ regressions pass without skips, alongside repository policy gates. The
 ## Entry
 
 The 4,060-byte entry is the first C for header 401's entry, shared as
-`src/overlays/model_variant/variant401_entry.c` with `variant401_entry.h`.
+`src/overlays/model_variant/h401_entry.c` with `h401_entry.h`.
 It is the accepted header-416 entry with one 0x27C-byte band of nine columns
 (offsets `-(j * 768) / 8`), two sheets, a fifth texture and no burst
 threshold; the update calls sheet and webs once the config start is reached,
@@ -322,7 +322,7 @@ keeps its 36.
 
 With the default palette x = 512 the same body is the North American
 header-401 entry (`0xFE0` bytes) under `gcc_2_7_2_cdk_g0`, registered in both
-North American images through `variant401_entry.c`, which both slots compile
+North American images through `h401_entry.c`, which both slots compile
 ([North American notes](model-variants.md)).
 
 ## Names

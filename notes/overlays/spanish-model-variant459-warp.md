@@ -10,9 +10,9 @@ entry-reachable call.
 ## Shared source
 
 The body is the [MODEL438 warp rings](spanish-model-variant438-warp.md) with
-a different work-block layout. `variant459_warp.c` defines
+a different work-block layout. `h442_warp_pal.c` defines
 `VARIANT438_WARP_LAYOUT_459` and renames the function, then includes
-`variant438_warp.c`. The layout macro selects three things:
+`h421_warp_pal.c`. The layout macro selects three things:
 
 - **State.** `Warp459State` keeps the five 0x1A8-byte rings at `0` and moves
   the polygon to `+0x2DC8`, the origin to `+0x2EE0`, the direction to

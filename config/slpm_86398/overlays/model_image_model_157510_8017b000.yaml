@@ -56,13 +56,13 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant442_entry]
-      - [0x13E4, c, overlays/model_variant/variant442_warp]
-      - [0x19E0, c, overlays/model_variant/variant459_curtains_pal]
-      - [0x2008, c, overlays/model_variant/variant459_rays]
-      - [0x263C, c, overlays/model_variant/variant459_spiral]
-      - [0x32C0, c, overlays/model_variant/variant459_bands]
-      - [0x3AC0, c, overlays/model_variant/variant459_sheets]
-      - [0x4080, c, overlays/model_variant/variant459_lines]
+      - [0x4, c, overlays/model_variant/h442_entry]
+      - [0x13E4, c, overlays/model_variant/h442_warp]
+      - [0x19E0, c, overlays/model_variant/h442_curtains]
+      - [0x2008, c, overlays/model_variant/h442_rays]
+      - [0x263C, c, overlays/model_variant/h442_spiral]
+      - [0x32C0, c, overlays/model_variant/h442_bands]
+      - [0x3AC0, c, overlays/model_variant/h442_sheets]
+      - [0x4080, c, overlays/model_variant/h442_lines]
       - [0x45EC, data, overlays/japanese_model_image_model_157510_8017b000/data]
   - [0x5000]

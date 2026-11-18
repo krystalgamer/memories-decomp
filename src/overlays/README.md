@@ -83,16 +83,16 @@ directories (#9498, #9500, #9504, #9506). A file's base name is
 `<N>` is the MODEL header number of the family it was written for, with these
 suffixes:
 
-- `variant<N>us_*` (for example `variant143us_entry.c`): `<N>` is a USA MODEL
+- `variant<N>us_*` (for example `h143_entry.c`): `<N>` is a USA MODEL
   header number. These families were decompiled from the North American
   images; most are also built for Japan, and a few (such as
-  `variant445us_entry.c`) are shared by every region.
+  `h445_entry.c`) are shared by every region.
 - `*_usa.c` (for example `exodia_slot0_usa.c`, `e027_entry_usa.c`): the
   USA build of a shared source. Each is a thin wrapper that sets a
   configuration macro (`MODEL_EXODIA_USA`, `GRAPHICS_DEFAULT_HEIGHT 240`, a
   work-size `printf`, ...) and includes the shared `.c`; it has no header of
   its own. Japan reuses most of these wrappers.
-- `*_pal` (for example `variant101_entry_pal.c`/`.h`): a source moved from
+- `*_pal` (for example `h84_entry.c`/`.h`): a source moved from
   `french_model_variant/` or `spanish_model_variant/` whose name clashed with a
   different file already in `model_variant/`; the `.c`/`.h` pair is renamed
   together. These are PAL sources, although some are also built for the USA

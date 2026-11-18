@@ -6,7 +6,7 @@ had matching C for this body before.** It has the same shape as the matched
 MODEL175 tube helper (`e584_tube_pal.c`) with a constant radius.
 
 The helper reads the header-411 record, `EntryState411` in
-`variant411_entry.h`, which repeats the MODEL175 layout except that
+`h394_entry_pal.h`, which repeats the MODEL175 layout except that
 progress is at `+0x1658` instead of `+0x165C`:
 - one 0x54C-byte `ModelVariantTube` at `+0` with `SVECTOR points[9][9]` and
   nine `CVECTOR` colours at `+0x510`;

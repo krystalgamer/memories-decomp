@@ -40,8 +40,8 @@ names come from the image's own symbols file.
 ## Coverage
 
 Together with the header-174 images, whose entry, rings and coils helpers
-come from the French `variant450_entry.c`, `variant450_rings.c` and
-`variant450_coils.c`, every configured European MODEL and SU image now
+come from the French `h433_entry_pal.c`, `h433_rings_pal.c` and
+`h433_coils_pal.c`, every configured European MODEL and SU image now
 builds from C. Every European image has a French counterpart at the same
 sector; the eight French-only modules have no European copy.
 

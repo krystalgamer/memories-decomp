@@ -1,0 +1,68 @@
+#ifndef MEMORIES_DECOMP_SPANISH_MODEL_VARIANT459_ENTRY_H
+#define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT459_ENTRY_H
+#include "../../types.h"
+#include "../../overlays/model_variant/h320_entry_pal.h"
+#include "../../game/model_slot_getters.h"
+
+/* One 0x48-byte command record of the table at gSpanishModelVariant459_aConfigs. */
+typedef struct {
+    CVECTOR inner, outer, web;
+    u8 unknown_0C[4];
+    u8 parts[6], unknown_16[2];
+    u16 vertices[3], unknown_1E[3];
+    u16 count, spiral;
+    u16 limit;
+    u16 band_radius;
+    s32 curtains, mode;
+    u32 start, end;
+    u32 band_end;
+    u32 fade_start;
+    u32 fade_end;
+} Variant459EntryConfig;
+
+/* Minimum observed extent, not an allocation capacity. */
+typedef struct {
+    ModelVariantTripleCurtain curtains[5];
+    ModelVariantCurtain rings[4];
+    ModelVariantWebNarrow webs[3];
+    ModelVariantShadedRay glows[12];
+    u8 rays[0x360];
+    ModelVariantColorBand bands[6];
+    ModelVariantSheet sheets[13];
+    ModelVariantPackets packets;
+    POLY_GT4 plain;
+    POLY_GT4 ray;
+    POLY_FT4 flat_textured[2];
+    u8 unknown_2E80[0x38];
+    GsGLINE line;
+    MATRIX matrices[6];
+    VECTOR points[6];
+    VECTOR directions[6];
+    ModelVariantAim aim;
+    ModelVariantClock clock;
+    s16 spiral_angle, field_3096, spiral_size, field_309A;
+    Variant459EntryConfig *config;
+    u8 unknown_30A0[4];
+    GsCOORDUNIT *parts[6];
+    s16 field_30BC, field_30BE;
+    CVECTOR curtain_inner_color, curtain_outer_color;
+    s32 curtain_angle;
+    s16 scale, field_30CE;
+    s32 progress, field_30D4, field_30D8;
+    s32 phase;
+    s32 spiral_state;
+    u8 unknown_30E4[8];
+    s32 tint;
+    s16 slot, command;
+} Variant459EntryState;
+
+extern GsIMAGE gSpanishModelVariant459_aImages[9];
+extern Variant459EntryConfig gSpanishModelVariant459_aConfigs[];
+void SpanishModelVariant459_DrawCurtains(Variant459EntryState *context);
+void SpanishModelVariant459_DrawSpiral(Variant459EntryState *context);
+void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context);
+void SpanishModelVariant459_DrawPairedSheets(Variant459EntryState *context);
+void SpanishModelVariant459_DrawLines(Variant459EntryState *context);
+typedef char Variant459EntryConfigSize[(sizeof(Variant459EntryConfig) == 0x48) ? 1 : -1];
+typedef char Variant459EntryStateSize[(sizeof(Variant459EntryState) == 0x30F4) ? 1 : -1];
+#endif

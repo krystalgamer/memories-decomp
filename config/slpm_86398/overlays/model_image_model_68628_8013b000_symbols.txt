@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 248 (record 248), sector 68628, header 464, loaded at 0x8013B000; the US source variant464_entry.c; built from the US source layout of model_variant_248_pos0_slot0.
+// Japanese MODEL.MRG model 248 (record 248), sector 68628, header 464, loaded at 0x8013B000; the US source h464_entry.c; built from the US source layout of model_variant_248_pos0_slot0.
 ModelVariant464_HandleRequest = 0x8013B004; // type:func size:0xE38 defined:true
 FrenchModelVariant481_DrawBand = 0x8013BE3C; // type:func size:0x8CC defined:true
 FrenchModelVariant481_DrawRings = 0x8013C708; // type:func size:0x640 defined:true

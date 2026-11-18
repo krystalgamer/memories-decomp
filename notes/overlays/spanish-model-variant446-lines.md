@@ -1,7 +1,7 @@
 # Spanish MODEL446 Gouraud lines
 
 The game-owned helper at image `+0xE00..+0x12F8` is independently recovered in
-`src/overlays/model_variant/variant446_lines.c`. Its 1,272 instruction
+`src/overlays/model_variant/h429_lines_pal.c`. Its 1,272 instruction
 bytes match at `0x8013BE00` and `0x8017BE00` using the existing
 `gcc_2_8_1_g0_split` profile: GCC 2.8.1 and MASPSX 2.81.
 

@@ -3,7 +3,7 @@
 The `0x95C` helper at image offset `0x1240` is first-ever game code: no release
 had matching C for its body. Four French images carry it: MODEL715 stages 9/10
 (`169940`, `169950`) and MODEL370 stages 7/8 (`88500`, `88510`). Both slots build
-`variant449_ribbons.c`; each image's symbols file binds
+`h432_ribbons_pal.c`; each image's symbols file binds
 `FrenchModelVariant449_DrawRibbons` (formerly `func_8013C240`/`func_8017C240`)
 at its own address.
 

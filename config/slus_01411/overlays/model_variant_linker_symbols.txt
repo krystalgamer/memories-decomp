@@ -42,7 +42,7 @@ Square0 = 0x80089C40;
 GsGetLwUnit = 0x8008A4A0;
 
 GsGetLw = 0x8008A4A0;
-/* variant458_strand.c's resident calls, at the current addresses (the header-552 images use model_variant552_linker_symbols.txt). */
+/* h458_strand.c's resident calls, at the current addresses (the header-552 images use model_variant552_linker_symbols.txt). */
 Strand458_RotMatrix = 0x80087D30;
 Strand458_ScaleMatrix = 0x80087670;
 Strand458_GsGetLs = 0x800862D0;

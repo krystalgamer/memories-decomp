@@ -208,7 +208,7 @@ every clean-gate build input remained unchanged.
 The suffix starts with a fifth closed function at `0x23E4..0x2E14` (2,608
 bytes) in all six images and in every PAL region: the header-435 rays
 renderer `ModelVariant425_DrawRays`, which the North American images build
-from `model_variant/variant435_rays.c` with the CDK profile. The PAL images
+from `model_variant/h435_rays.c` with the CDK profile. The PAL images
 build the same source with `gcc_2_8_1_g0_split`. Its masked-tip branch indexes
 the tip segment by `k`, which is 2 there; GCC 2.8.1 then hoists `ray + 8` and
 `ray + 4` out of the point loop as the PAL bytes do, while the literal-index

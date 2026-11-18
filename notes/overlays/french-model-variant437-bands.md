@@ -2,7 +2,7 @@
 
 MODEL103 stages 9/10 now own the 1,884-byte bands helper at image `+0xD4C`,
 `FrenchModelVariant449_DrawBands` (formerly `func_8013BD4C` / `func_8017BD4C`),
-through `src/overlays/model_variant/variant437_bands.c` in both slots;
+through `src/overlays/model_variant/h420_bands_pal.c` in both slots;
 each image's symbols file binds the name at its own address.
 Both compile with the existing `gcc_2_8_1_g0_split` profile,
 GCC 2.8.1 and MASPSX 2.81.
@@ -24,7 +24,7 @@ packet at `0x1424`, origin at `0x1514`, factor at `0x1590`, scale at `0x1598`,
 spread at `0x159C`, delta at `0x15B0`, axis pair at `0x15C0/0x15C2`, flags at
 `0x15DC`, and direction at `0x164C`. The band remains `0xB4` bytes.
 
-`variant437_bands.c` repeats the MODEL449 body over `Variant437EntryState`,
+`h420_bands_pal.c` repeats the MODEL449 body over `Variant437EntryState`,
 whose band record starts at `0x888` instead of `0xE88`, under the original
 function name. The accepted body, the `ModelVariantBandTriple` record, all
 later relative field gaps, and the MODEL449 layout are unchanged. This is not a runtime pointer adjustment. It preserves the

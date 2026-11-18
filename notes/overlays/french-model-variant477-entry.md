@@ -21,8 +21,8 @@ types, headers or compiler claims are imported.
 
 | Slot-0 address | Bytes (hex) | Existing C owner |
 |---|---:|---|
-| `8013C484` | `4D4` | Spanish `variant477_panels.c` |
-| `8013C958` | `468` | Spanish `variant477_quads.c` |
+| `8013C484` | `4D4` | Spanish `h460_panels.c` |
+| `8013C958` | `468` | Spanish `h460_quads.c` |
 
 Both helper implementations, profiles and inventory rows are unchanged.
 Production ELFs verify all three original-sized C owners in all

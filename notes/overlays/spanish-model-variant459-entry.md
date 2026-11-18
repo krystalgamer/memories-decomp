@@ -3,7 +3,7 @@
 Loader entry `+0x0004..+0x13E0` is matching C. It is 5,084 bytes in the
 twelve Spanish MODEL459-family images (MODEL47, 231, 238, 411, 417 and 620,
 stages 7..10) and the eleven French images that carry the identical body at
-the same offsets. `variant459_entry.c`
+the same offsets. `h459_entry.c`
 (`SpanishModelVariant459_HandleRequest`) is compiled once per slot with
 `gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
 and the descriptor tables (`gSpanishModelVariant459_aImages`,

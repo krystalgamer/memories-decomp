@@ -11,7 +11,7 @@ The regional orbit body covers `0x256C`, reusing
 the unchanged accepted `Variant448Orbit` header after independent layout
 verification.
 Two additional wrappers select the measured `VERSION_FRENCH` branch of
-the accepted `variant448_spiral.c` body for the retained helper at `0x39FC`.
+the accepted `h448_spiral.c` body for the retained helper at `0x39FC`.
 Its existing arm header is unchanged.
 The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1/MASPSX 2.81.
 For the original webs/spokes/rings/quad additions, shared bodies, headers,
@@ -82,7 +82,7 @@ These are accessed-view observations, not whole-context allocation proof.
 
 ## Retained narrow webs
 
-The unchanged accepted `variant448_webs.c` body also reproduces
+The unchanged accepted `h448_webs.c` body also reproduces
 `0x2AB4..0x3014` in all four complete images. Entry initializes three
 416-byte records at context `0x6F8..0xBD8`: two 4-by-6 `SVECTOR` grids
 at record offsets `0`/`0xC0`, color at `0x180`, and scale at `0x194`.
@@ -143,11 +143,11 @@ headers and compiler profiles remain unchanged; no unmerged PR is stacked.
 This addition starts independently from accepted master `355c0d797`,
 without pending French431 work. No suitable Spanish or accepted local
 fan body was found. The standalone
-`src/overlays/model_variant/variant465_fan.c` reconstructs the
+`src/overlays/model_variant/h448_fan_pal.c` reconstructs the
 complete local assembly using existing project SDK declarations; both
 slots build it directly. The measured view is the record's leading
 `Variant448Radial radial[1]` from
-`src/overlays/model_variant/variant448_radial.h` (an earlier family-local
+`src/overlays/model_variant/h448_radial.h` (an earlier family-local
 `Variant465Fan` header described the same bytes and has been folded into it).
 Shared source, existing headers and compiler profiles remain unchanged.
 
@@ -252,12 +252,12 @@ and 21 progress/toolchain regressions and policy checks pass without skips.
 
 The companion at `0x166C..0x256C` (3,840 bytes) is the French build of
 the North American header-448 fan
-(`src/overlays/model_variant/variant448_fan.c`, 0xFC0 bytes under
+(`src/overlays/model_variant/h448_fan.c`, 0xFC0 bytes under
 `gcc_2_7_2_cdk_g0`). It uses the same three 0x208-byte
 `Variant448FanUnit` records at `work + 0xBD8` and the unchanged
-`variant448_fan.h`. The NA body is written around GCC 2.7.2 allocation and
+`h448_fan.h`. The NA body is written around GCC 2.7.2 allocation and
 compiles to 985 instructions here, against 960 in the target, so
-`src/overlays/model_variant/variant465_arms.c` holds a separate
+`src/overlays/model_variant/h448_arms.c` holds a separate
 2.8.1 body that both slots build directly.
 It uses the existing `gcc_2_8_1_g0_split` profile.
 
@@ -282,7 +282,7 @@ complete image matches its retail hash.
 
 This independent addition starts from accepted master `06d5a34bd`, including
 the accepted Family341 fan but not pending Family431 fan work. The regional
-body reuses the unchanged accepted `variant448_orbit.h` declarations.
+body reuses the unchanged accepted `h448_orbit.h` declarations.
 The shared US implementation and its compiler contract remain untouched;
 French uses the existing `gcc_2_8_1_g0_split` profile exclusively.
 
@@ -481,8 +481,8 @@ pass without skips, together with the same repository policy gates.
 ## Entry from North American C
 
 The entry at `0x4` (`0x1248` bytes) in all four images is now matching C:
-the North American header-448 entry (`model_variant/variant448_entry.c`)
-built through `model_variant/variant465_entry.c`, which selects the
+the North American header-448 entry (`model_variant/h448_entry.c`)
+built through `model_variant/h448_entry_pal.c`, which selects the
 PAL palette x (640). The family's `func_french_<address>` SDK placeholders take
 their canonical names. See [the reuse note](french-model-usa-entry-reuse.md).
 
@@ -492,8 +492,8 @@ The shared sources define `ModelVariant448_HandleRequest`,
 `ModelVariant448_DrawRadialDisc`, `ModelVariant448_DrawFans`,
 `ModelVariant448_DrawOrbitSheets` and the data tables
 `gModelVariant448_aImages` and `gModelVariant448_aConfigs`. Both slots build the same sources; each image binds
-the names at its own addresses. Here `variant465_fan.c`, `variant465_arms.c`
-and `variant465_orbit.c` define the three helpers at `0x124C`, `0x166C` and
+the names at its own addresses. Here `h448_fan_pal.c`, `h448_arms.c`
+and `h448_orbit_pal.c` define the three helpers at `0x124C`, `0x166C` and
 `0x256C`, and the data block binds at `0x4354`, not at the North American
 `0x43E4` (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

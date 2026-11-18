@@ -1,4 +1,4 @@
-// European MODEL.MRG model 461 (record 411), sector 113646, header 613, loaded at 0x8017B000; raw image with the French header-463 ribbons, paired-sheets, trail-ribbons, sheets and rings helpers. The entry builds from variant463_entry.c.
+// European MODEL.MRG model 461 (record 411), sector 113646, header 613, loaded at 0x8017B000; raw image with the French header-463 ribbons, paired-sheets, trail-ribbons, sheets and rings helpers. The entry builds from h446_entry_pal.c.
 ModelVariant446_HandleRequest = 0x8017B004; // type:func size:0x1980 defined:true
 FrenchModelVariant463_DrawRibbons = 0x8017C984; // type:func size:0x994 defined:true
 FrenchModelVariant463_DrawPairedSheets = 0x8017D318; // type:func size:0x548 defined:true

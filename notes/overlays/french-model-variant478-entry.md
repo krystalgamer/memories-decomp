@@ -23,9 +23,9 @@ Each image retains these existing helper owners, profiles and sizes unchanged:
 
 | Slot-0 address | Bytes (hex) | Existing C owner |
 |---|---:|---|
-| `8013C34C` | `54C` | French `variant478_swarm.c` |
-| `8013C898` | `508` | Spanish `variant478_quads.c` |
-| `8013CDA0` | `480` | Spanish `variant478_rings.c` |
+| `8013C34C` | `54C` | French `h461_swarm_pal.c` |
+| `8013C898` | `508` | Spanish `h461_quads_pal.c` |
+| `8013CDA0` | `480` | Spanish `h461_rings_pal.c` |
 
 Slot-1 addresses use the corresponding `8017` prefix. Production ELFs confirm
 the original-sized entry and all three original-sized helpers in every image.

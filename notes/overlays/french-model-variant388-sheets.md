@@ -18,7 +18,7 @@ Sizes are updated only on the last index of each timing cycle:
   4096, phase 2 grows to 8192 and phase 4 shrinks to 0, then moves to 5.
 
 The drawing half is the MODEL426 sheets code. The update half is the shape
-of the MODEL441 rainbow sheets helper (`variant441_sheets.c`), here with
+of the MODEL441 rainbow sheets helper (`h424_sheets_pal.c`), here with
 unsigned timing words and the timing count at `+0x0C`. As in MODEL441, the
 target reserves 16 unused stack bytes between the rotation and the scale.
 

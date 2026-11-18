@@ -1,4 +1,4 @@
-// MODEL.MRG model 248 (record 248), sector 68638, header 614, loaded at 0x8017B000; the US source variant464_entry.c.
+// MODEL.MRG model 248 (record 248), sector 68638, header 614, loaded at 0x8017B000; the US source h464_entry.c.
 ModelVariant464_HandleRequest = 0x8017B004; // type:func size:0xE38 defined:true
 FrenchModelVariant481_DrawBand = 0x8017BE3C; // type:func size:0x8CC defined:true
 FrenchModelVariant481_DrawRings = 0x8017C708; // type:func size:0x640 defined:true

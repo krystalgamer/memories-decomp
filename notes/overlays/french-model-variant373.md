@@ -145,7 +145,7 @@ The partial`0x2488` view is not an allocation-size or capacity claim.
 Retail reserves sixteen unaccessed stack bytes between the coordinate
 and color locals. The source preserves this measured gap as opaque
 `u8` storage, following accepted French MODEL476's declaration structure
-in `variant459_curtains.c`, without guessing a semantic object type or
+in `h459_curtains.c`, without guessing a semantic object type or
 adding executed stores. The record and context types were independently
 recovered, not imported from the structural lead.
 
@@ -305,7 +305,7 @@ accepted resident packet helper. There is no projection-flag visibility
 test. Outside the phase gate, the count/index condition advances the word
 angle by `step*50`.
 
-Accepted Spanish `variant442_ribbons.c` supplied the initial structural
+Accepted Spanish `h425_ribbons_pal.c` supplied the initial structural
 lead; accepted French `e568_ribbons_pal.c` supplied the phase/upper-depth
 shape. Record, color, configuration, and context declarations were
 independently recovered, not imported from donor types.
@@ -446,7 +446,7 @@ zero brightness advances phase seven. After configuration`0x1C`, the
 rotation word advances bystep64 independently of those phase branches.
 
 Accepted Spanish445/415 bands were inspected first but have different
-geometry and control flow. Accepted shared `variant459_grid.c` provides
+geometry and control flow. Accepted shared `h459_grid.c` provides
 closer projection, gradient, and later-phase structure only. Its
 types, constant packet use, phase numbering, and translation behavior were
 not imported.

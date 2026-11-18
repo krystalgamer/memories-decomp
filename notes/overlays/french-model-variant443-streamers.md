@@ -6,7 +6,7 @@
 passes. **No release had matching C for this body before.** It is reachable
 from the entry.
 
-It follows the accepted MODEL458 streamers helper (`variant458_streamers.c`)
+It follows the accepted MODEL458 streamers helper (`h458_streamers.c`)
 over the MODEL443 record, `EntryState443` in `e503_entry.h`:
 - `streamers` at `+0x11CC`, `sheets` at `+0x2A68`, the `additional`
   `POLY_FT4` pair at `+0x34BC` and `positions` at `+0x3570`;

@@ -12,7 +12,7 @@ models 275, 371 and 517, slot 0 (header `0x1AD`) and slot 1 (header
 unclassified head.
 
 The control flow follows the French MODEL478 swarm helper
-(`variant478_swarm.c`), with these differences:
+(`h461_swarm_pal.c`), with these differences:
 - six quads in a 0x164-byte group at `+0x2FC`, with the colour at `+0xF0`,
   sizes at `+0x104`, done flags at `+0x11C` and reset flags at `+0x14C`;
 - a separate direction vector per quad at `+0x1DD4`;

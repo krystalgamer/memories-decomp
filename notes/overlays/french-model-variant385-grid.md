@@ -6,7 +6,7 @@ scales, fades and draws five 9×17 point sheets as gouraud quads.
 **No release had matching C for this body before.**
 
 It is the MODEL385 counterpart of the French MODEL379 grid helper
-(`variant379_grid.c`). The control flow is the same. The differences:
+(`h462_grid_pal.c`). The control flow is the same. The differences:
 - two discarded `ratan2` calls on the axis at `+0x3B60`;
 - 0x22C-byte pulse records (progress, offset and state at `+0x180`, from
   `+0x18D8`);

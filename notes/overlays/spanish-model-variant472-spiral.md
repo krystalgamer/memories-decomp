@@ -14,7 +14,7 @@ This is the twelve-arm spiral of the accepted MODEL418 spiral, built for
 four-point spines. The records are new 0x104-byte `Variant472SpiralArm`
 records at `+0x1EF4` with per-point outer and inner colours and projection
 flags. They are the record's `EntryFan455 fans[12]`
-(`model_variant/variant455_entry.h`); the `Variant472SpiralArm` view first
+(`model_variant/h455_entry.h`); the `Variant472SpiralArm` view first
 declared for them has been folded into that type.
 
 Before phase 3 the radius is half the size at `+0x2F1C` and the spread is

@@ -6,7 +6,7 @@ draws a 6x16 grid of semi-transparent `POLY_GT4` quads and updates a single
 mesh's progress from the effect timing. **No release had matching C for this
 body before.**
 
-The helper reads `EntryState455` (a local view in `variant472_mesh.h` until
+The helper reads `EntryState455` (a local view in `h455_mesh.h` until
 it was folded). Its discs are `EntryDisc455` (`upper`/`lower` rows), and its
 polygon is the record's `disc_packet`. It uses:
 - one 0x954-byte mesh at `+0x15A0` with a front and a back point grid

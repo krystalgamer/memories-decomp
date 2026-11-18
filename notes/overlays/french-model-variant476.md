@@ -37,7 +37,7 @@ compatibility does not prove runtime execution.
 Each four-byte header and 7,308-byte suffix has one sized raw owner.
 The suffix at `0x3374..0x5000` remains unclassified, not proven non-code.
 The entry is the accepted North American header-459 body with the PAL
-palette x = 640 (`variant476_entry{,_slot1}.c`); see
+palette x = 640 (`h459_entry_pal{,_slot1}.c`); see
 [French MODEL entries reusing North American C](french-model-usa-entry-reuse.md).
 
 ## Entry-called spiral follow-up
@@ -171,12 +171,12 @@ basic-type and G32/PSXLONG policy checks.
 
 ## Entry-called sheet and curtains follow-up
 
-The unchanged accepted US459 `variant459_sheet.c` and
-`variant459_curtains.c` bodies match both French slots using the existing
+The unchanged accepted US459 `h459_sheet.c` and
+`h459_curtains.c` bodies match both French slots using the existing
 French profile. The sheet is 944 bytes with a 256-byte frame; curtains
 are 972 bytes with a 304-byte frame. Four three-line wrappers renamed the
 symbols; they have since been removed (see [Names](#names)). The shared bodies, `model_variant.h`, private
-`variant459_curtains.h` and original US registrations remain unchanged.
+`h459_curtains.h` and original US registrations remain unchanged.
 No regional conditional, new declaration or compiler option is introduced.
 
 Each final wrapper reproduces both complete images independently.
@@ -470,7 +470,7 @@ Both slots compile the shared sources without wrappers. They define
 `ModelVariant459_HandleRequest`, `ModelVariant459_DrawSheet` (`0x135C`),
 `FrenchModelVariant476_DrawSpiral` (`0x170C`), `ModelVariant459_DrawWebs`
 (`0x20BC`), `ModelVariant459_DrawCurtains` (`0x247C`),
-`ModelVariant459_DrawGlobe` (`0x2848`, from `variant476_globe.c`),
+`ModelVariant459_DrawGlobe` (`0x2848`, from `h459_globe.c`),
 `FrenchModelVariant476_DrawScreenGrid` (`0x2DD4`) and the data tables
 `gModelVariant459_aImages` and `gModelVariant459_aConfigs`. Each image binds them at its own addresses (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

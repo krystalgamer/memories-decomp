@@ -1,4 +1,4 @@
-// MODEL.MRG model 461 (record 411), sector 113636, header 446, loaded at 0x8013B000; the US source variant446_entry.c.
+// MODEL.MRG model 461 (record 411), sector 113636, header 446, loaded at 0x8013B000; the US source h446_entry.c.
 ModelVariant446_HandleRequest = 0x8013B004; // type:func size:0x1980 defined:true
 FrenchModelVariant463_DrawRibbons = 0x8013C984; // type:func size:0x990 defined:true
 FrenchModelVariant463_DrawPairedSheets = 0x8013D314; // type:func size:0x54C defined:true

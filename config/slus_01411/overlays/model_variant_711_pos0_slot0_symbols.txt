@@ -1,4 +1,4 @@
-// MODEL.MRG model 711 (record 611), sector 168816, header 814, loaded at 0x8013B000; the US wrapper variant814us_entry.c over the French header-831 C.
+// MODEL.MRG model 711 (record 611), sector 168816, header 814, loaded at 0x8013B000; the US wrapper h814_entry.c over the French header-831 C.
 FrenchModelVariant831_HandleRequest = 0x8013B004; // type:func size:0x3804 defined:true
 gFrenchModelVariant831_aImages = 0x8013E818; // type:u8 size:0x8C defined:true
 gFrenchModelVariant831_aConfigs = 0x8013E8A4; // type:u8 size:0x175C defined:true

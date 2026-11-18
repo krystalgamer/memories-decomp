@@ -8,7 +8,7 @@
       ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x34E8",
-      "source": "src/overlays/model_variant/variant665_entry.c"
+      "source": "src/overlays/model_variant/h665_entry.c"
     }
   ],
   "schema": 1

@@ -5,7 +5,7 @@ animates and draws four groups of paired five-point arcs as gouraud lines.
 **No release had matching C for this body before.**
 
 The helper reads `EntryState469`, the record the 469 entry passes (a local
-view in `variant582_arcs.h` until it was folded). It uses:
+view in `h452_arcs_pal.h` until it was folded). It uses:
 - the four 0xD0-byte `arcs` (`Arcs582Group`) at `+0`, each with near and
   far point grids `[2][5]`, the near/far progress words at `+0xB4`/`+0xBC`
   and done flags at `+0xC4`;

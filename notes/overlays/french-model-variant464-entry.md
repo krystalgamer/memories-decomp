@@ -6,8 +6,8 @@ image) is the loader entry of the six MODEL175/182/244 images
 described in [the family note](spanish-model-variant464.md). **No release had
 matching C for this body before.**
 
-The body follows the French MODEL439 entry (`variant439_entry.c`) with a
-different work layout, kept local in `variant464_entry.h`:
+The body follows the French MODEL439 entry (`h439_entry.c`) with a
+different work layout, kept local in `h464_entry.h`:
 - three 0x1A0-byte webs at `+0x0`, five 0x84-byte primary records at
   `+0x4E0`, six 0x9C-byte sheets at `+0x774`, six rings at `+0xB1C`, four
   spoke rings at `+0xE7C` and one fan at `+0x10BC`;

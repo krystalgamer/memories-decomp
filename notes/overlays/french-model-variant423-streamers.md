@@ -6,7 +6,7 @@ family, formerly `func_8013E0A8` / `func_8017E0A8`), contains
 the same 0x7C4-byte body. **No release had matching C for this body before.**
 No call from the entry was observed.
 
-The body is the accepted MODEL475 streamers helper (`variant475_streamers.c`)
+The body is the accepted MODEL475 streamers helper (`h458_streamers_pal.c`)
 over the shared header-458 streamer layout (`ModelVariantShortStreamer`), with three measured
 differences:
 - the reach is 192 instead of 160;

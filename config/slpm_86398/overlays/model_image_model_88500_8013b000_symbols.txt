@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 320 (record 320), sector 88500, header 432, loaded at 0x8013B000; the US source variant432_entry.c; built from the US source layout of model_variant_320_pos0_slot0.
+// Japanese MODEL.MRG model 320 (record 320), sector 88500, header 432, loaded at 0x8013B000; the US source h432_entry.c; built from the US source layout of model_variant_320_pos0_slot0.
 ModelVariant432_HandleRequest = 0x8013B004; // type:func size:0xD20 defined:true
 FrenchModelVariant449_DrawSheet = 0x8013BD24; // type:func size:0x520 defined:true
 FrenchModelVariant449_DrawRibbons = 0x8013C244; // type:func size:0x934 defined:true

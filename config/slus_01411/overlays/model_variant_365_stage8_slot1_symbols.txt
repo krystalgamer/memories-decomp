@@ -1,4 +1,4 @@
-// MODEL.MRG model 365 (record 315), sector 87130, header 308, loaded at 0x8017B000; the US source variant178_entry.c.
+// MODEL.MRG model 365 (record 315), sector 87130, header 308, loaded at 0x8017B000; the US source h178_entry.c.
 ModelVariant178_HandleRequest = 0x8017B004; // type:func size:0x1AE8 defined:true
 gModelVariant178_aImages = 0x8017CB0C; // type:u8 size:0x54 defined:true
 gModelVariant178_aConfigs = 0x8017CB60; // type:u8 size:0x34A0 defined:true
