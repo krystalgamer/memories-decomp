@@ -14,7 +14,7 @@ s32 FrenchModelVariant460_HandleRequest(Variant460EntryState *context, s32 comma
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant460EntryRecord *record = work->records;
+    Variant443Ribbon *record = work->records;
     ModelVariantSheetSet *sheet = work->sheets;
     ModelVariantFlaggedStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->packets.textured;

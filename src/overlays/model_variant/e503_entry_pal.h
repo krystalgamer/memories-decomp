@@ -2,6 +2,7 @@
 #define MEMORIES_FRENCH_MODEL_VARIANT460_ENTRY_H
 #include "../../types.h"
 #include "h320_entry_pal.h"
+#include "e503_ribbons.h"
 
 typedef struct {
     CVECTOR streamer, outer, ribbon, sheet;
@@ -10,18 +11,9 @@ typedef struct {
     u32 sheet_start, ribbon_start, unknown_34, phase3, phase4;
 } Variant460EntryConfig;
 
-typedef struct {
-    u8 unknown_000[0x220];
-    CVECTOR inner, outer;
-    VECTOR scale;
-    s32 field_238, field_23C, count, field_244, state, length;
-    VECTOR velocity;
-    u8 unknown_260[0x2E8 - 0x260];
-} Variant460EntryRecord;
-
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
-    Variant460EntryRecord records[8];
+    Variant443Ribbon records[8];
     ModelVariantSheetSet sheets[16];
     ModelVariantStrand strands[6];
     ModelVariantFlaggedStreamer streamers[2];

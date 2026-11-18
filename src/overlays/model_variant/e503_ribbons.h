@@ -14,13 +14,10 @@ typedef struct {
     SVECTOR b[17];
     long sb[17];
     s32 width[17];
-    CVECTOR color;
-    u8 unknown224[0x1C];
-    s32 count;
-    u8 unknown244[4];
-    s32 state;
-    s32 len;
-    u8 unknown250[0x10];
+    CVECTOR inner, outer;
+    VECTOR scale;
+    s32 field_238, field_23C, count, field_244, state, length;
+    VECTOR velocity;
     s32 otz[17];
     s16 ox[17];
     s16 oy[17];
