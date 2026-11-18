@@ -1500,4 +1500,19 @@ typedef struct {
     long depth[2];
 } ModelVariantScaledStrip;
 
+/* One 0xE-byte command row of headers 669 and 681: the start delay, the age
+ * at which a ring releases its burst, the size of the rings and cones, then
+ * the ring/streak colour and the burst colour. */
+typedef struct {
+    s16 delay;
+    s16 release;
+    u16 radius, height;
+    u8 color[6];
+} ModelVariantReleaseCommand;
+
+/* One triangle of headers 76 and 143: pointers to its three vertices. */
+typedef struct {
+    SVECTOR *a, *b, *c;
+} ModelVariantFace;
+
 #endif

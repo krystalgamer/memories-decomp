@@ -21,7 +21,7 @@ s32 FrenchModelVariant76_HandleRequest(Model76State *context, s32 command)
     Model76State *work = context;
     Model76Config *config;
     SVECTOR *point;
-    Model76Face *face;
+    ModelVariantFace *face;
     s32 i, j;
     s32 clip;
 
@@ -124,8 +124,8 @@ s32 FrenchModelVariant76_HandleRequest(Model76State *context, s32 command)
                 blue = config->color[2] * work->life[i] / config->fade;
             }
             for (j = 0; j < 4; j++) {
-                face = (Model76Face *)((u8 *)work +
-                    (j * sizeof(Model76Face) + (u32)&((Model76State *)0)->faces));
+                face = (ModelVariantFace *)((u8 *)work +
+                    (j * sizeof(ModelVariantFace) + (u32)&((Model76State *)0)->faces));
                 clip = RotAverageNclip3(face->a, face->b, face->c,
                     (long *)&triangle.x0, (long *)&triangle.x1,
                     (long *)&triangle.x2, &projection, &depth, &flag);

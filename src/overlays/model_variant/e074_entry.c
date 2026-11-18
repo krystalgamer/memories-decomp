@@ -18,7 +18,7 @@ s32 FrenchModelVariant143_HandleRequest(Model143State *context, s32 command)
     GsOT *ot;
     s32 direction, step, i, j, time, clip, value;
     SVECTOR *point, *secondary, *angles;
-    Model143Face *face;
+    ModelVariantFace *face;
     CVECTOR *color;
     u8 red, green, blue;
 
