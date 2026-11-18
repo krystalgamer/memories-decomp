@@ -12,6 +12,14 @@
 
 const VECTOR gDuelEffect_InvertedLifePointRecoveryInitialScale = { ONE, ONE, ONE, 0 };
 
+DuelEffect9Config gDuelEffect_InvertedLifePointRecoveryConfigs[5] = {
+    { { 255, 255, 32 }, { 64, 255, 64 }, 16, 16, { 1, 2 }, 12, { 66, 74, 76 }, 6, 16, 0, 200, 16 },
+    { { 255, 160, 160 }, { 64, 255, 64 }, 16, 24, { 1, 3 }, 16, { 72, 80, 82 }, 7, 16, 0, 500, 24 },
+    { { 128, 255, 128 }, { 64, 255, 64 }, 16, 32, { 1, 3 }, 16, { 78, 86, 88 }, 8, 16, 0, 1000, 32 },
+    { { 255, 48, 48 }, { 64, 255, 64 }, 16, 40, { 1, 4 }, 24, { 84, 92, 94 }, 10, 16, 0, 2000, 48 },
+    { { 255, 255, 192 }, { 64, 255, 64 }, 16, 48, { 2, 4 }, 32, { 90, 98, 100 }, 12, 16, 0, 5000, 64 },
+};
+
 void DuelEffect_RunInvertedLifePointRecovery(void *buffer, s32 phase)
 {
     MATRIX world;

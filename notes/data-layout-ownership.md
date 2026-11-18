@@ -590,7 +590,10 @@ bytes, North America `+0x154BC`, Japan `+0x154DC`, PAL `+0x15450`) and
 bytes). The two-byte fill after it is zero in French, German, Italian and
 Spanish (`pad`) and stray in North America, Japan and English PAL (raw
 `bin`); that stray fill is why effect 9 is its own object, `effect_9.c`,
-again. The raw `data` resumes after the fill.
+again. `effect_9.c` defines `gDuelEffect_InvertedLifePointRecoveryConfigs`
+(five `DuelEffect9Config`, 0xB4 bytes) after the fill: North America
+`+0x156BC`, Japan `+0x156DC`, PAL `+0x15650`. The raw `data` resumes after
+it.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in

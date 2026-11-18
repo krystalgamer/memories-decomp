@@ -128,6 +128,7 @@ segments:
       - [0x15450, .data, overlays/duel_effects/life_point_effects]
       # Linker fill between objects, not data.
       - {start: 0x1564E, type: bin, name: overlays/european_duel_effects/data_1564E, linker_section_order: .data}
-      - [0x15650, data, overlays/european_duel_effects/data_15650]
+      - [0x15650, .data, overlays/duel_effects/effect_9]
+      - [0x15704, data, overlays/european_duel_effects/data_15704]
 
   - [0x16000]
