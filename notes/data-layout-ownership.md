@@ -529,6 +529,11 @@ sector leftovers start right after `gPassword_wCardId`; the two zero bytes
 before the raw tail at `0x51E8` are a `pad`). The 4-byte fill at `0x5104` is
 a `bin`, and the linker symbols drop the state's assignments.
 
+The PAL `password_a`/`password_b` images build `password/module_header.c` at
+`0x0` through their `_data_c.json`; `VERSION_EUROPE` selects their word,
+`0x07`. Their state keeps a different order from North America's and stays
+raw.
+
 The credits module (USA and Japan) starts with its 4-byte module word; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette
 rectangles, then `Credits_UpdateLines`' jump table, and its `.data` holds
