@@ -530,9 +530,9 @@ extern DuelCardRecord gDebugEffect_aPreviewCardRecords[];
  * .rodata: retail keeps them, after gDuel_szComSelCardError, ahead of every
  * duel_scene jump table, while GCC would emit them as literals after the
  * tables of earlier functions (Duel_LoadPackageStage's is the first). */
-extern u8 gDebugEffect_szOperandsFormat[];
-extern u8 gDebugEffect_szSecondOperandMarker[];
-extern u8 gDebugEffect_szFirstOperandMarker[];
+extern char gDebugEffect_szOperandsFormat[];
+extern char gDebugEffect_szSecondOperandMarker[];
+extern char gDebugEffect_szFirstOperandMarker[];
 
 /* The developer effect-preview screen. DuelScene_UpdateEffectPreview is the gDuel_apfnSceneStateHandler duel
  * phase entry for it: it runs the preview builder and then prints the

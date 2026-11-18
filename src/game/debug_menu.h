@@ -41,16 +41,16 @@ extern u16 gDebugMenu_awNibbleMasks[];
    declared here so the source that defines them and the four that read
    them cannot drift apart. DebugMenu_UpdateCampaignEntry reads gDebugMenu_szMessageEditorFormat and gDebugMenu_szCampaignEditorFormat
    when switching between its message and campaign editors. */
-extern u8 gDebugMenu_szSoundEditorFormat[0x28];
-extern u8 gDebugMenu_szMessageEditorFormat[0x18];
-extern u8 gDebugMenu_szCampaignEditorFormat[0x18];
-extern u8 gDebugMenu_szMapEditorFormat[0x1C];
-extern u8 gDebugMenu_szMenuEditorFormat[0x1C];
-extern u8 gDebugMenu_szMovieEditorFormat[0x24];
+extern char gDebugMenu_szSoundEditorFormat[0x28];
+extern char gDebugMenu_szMessageEditorFormat[0x18];
+extern char gDebugMenu_szCampaignEditorFormat[0x18];
+extern char gDebugMenu_szMapEditorFormat[0x1C];
+extern char gDebugMenu_szMenuEditorFormat[0x1C];
+extern char gDebugMenu_szMovieEditorFormat[0x24];
 #ifdef VERSION_EUROPE
 /* The "LANGUAGE = %X" editor format of the European-only language entry
  * (DebugMenu_UpdateLanguageEntry), beside the other gDebugMenu_sz*EditorFormat strings. */
-extern u8 gDebugMenu_szLanguageEditorFormat[0x1C];
+extern char gDebugMenu_szLanguageEditorFormat[0x1C];
 #endif
 extern u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT];
 
@@ -230,7 +230,7 @@ typedef char FrontendDebugSoundValuesSize[
 
 void DebugMenu_Init(void);
 void DebugMenu_OpenValueEditor(
-    u8 *data,
+    char *format,
     s32 caret_column_0,
     s32 caret_column_1,
     s32 caret_column_2,
@@ -261,5 +261,5 @@ extern FrontendDebugDigitCounts gDebug_abEditorDigitCounts;
 extern u8 gDebug_bEditorLeadingLineCount;
 extern u8 gDebug_bEditorRowCount;
 extern u8 gDebug_bEditorFlags;
-extern u8 *gDebug_pszEditorFormat;
+extern char *gDebug_pszEditorFormat;
 #endif

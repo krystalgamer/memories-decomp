@@ -135,11 +135,11 @@ extern u8 gMemCardWork_bFrameChecksum;
  * addresses, while offset/size are full words at the call boundary.
  * These are distinct from the LIBMCRD MemCardReadFile/WriteFile API. */
 s32 MemCard_ReqLoadDirectory(s32 channel);
-s32 MemCard_ReqReadFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size);
-s32 MemCard_ReqWriteFile(s32 channel, s32 name, s32 buffer, s32 offset, s32 size);
+s32 MemCard_ReqReadFile(s32 channel, char *name, s32 buffer, s32 offset, s32 size);
+s32 MemCard_ReqWriteFile(s32 channel, char *name, s32 buffer, s32 offset, s32 size);
 s32 MemCard_ReqReadSector(s32 channel, s32 buffer, s32 sector);
 s32 MemCard_ReqWriteSector(s32 channel, s32 buffer, s32 sector);
-s32 MemCard_ReqCreateFile(s32 channel, s32 name, s32 blocks);
+s32 MemCard_ReqCreateFile(s32 channel, char *name, s32 blocks);
 s32 MemCard_ProcessRequest(s32 mode, s32 *request, s32 *result);
 
 /* The result of the card's asynchronous IO, set from the callbacks
@@ -173,19 +173,19 @@ extern u8 gMemCard_bChannel;
 /* Japan's card save file name and MemCardWork_UpdateOperation diagnostics,
  * linker symbols there (see its MEM_CARD_* entry defines); the other builds write them
  * as literals in mem_card.c. */
-extern u8 gMemCard_szSaveFileName[];
+extern char gMemCard_szSaveFileName[];
 extern char gMemCard_szFreeBlockCountFormat[];
 extern char gMemCard_szMakeFileTrace[];
 extern char gMemCard_szFailFileTrace[];
 
 /* Japanese "BISLPMP86398-YUGIOH": the file name SaveData_RequestOptionsWrite
  * hands to MemCardDialog_Request, separate from the ordinary save name. */
-extern u8 gMemCard_szOptionsFileName[];
+extern char gMemCard_szOptionsFileName[];
 
 /* The modal request's shared filename buffer.
  *
  * mem_card_dialog.c strcpy()s a name into it, and the load/save
- * operations then pass it as the (char *) filename to MemCardCreateFile,
+ * operations then pass it as the filename to MemCardCreateFile,
  * MemCardGetDirentry, MemCardReadFile and MemCardWriteFile. Its consumers
  * include this header, so it belongs here rather than in unmatched.h: that
  * header is for symbols with no identified owner, and this one has an obvious
@@ -194,7 +194,7 @@ extern u8 gMemCard_szOptionsFileName[];
  * The incomplete-array spelling is kept. c_symbols.ld names gDisplayObject_awListHeads
  * thirty-two bytes later, but
  * nothing reads or writes through a bound, so no size is asserted here. */
-extern u8 gMemCardDialog_FileNameBuffer[];
+extern char gMemCardDialog_FileNameBuffer[];
 
 /* Mutable modal request fields: keep the raw encoded port byte and
  * unsigned-halfword size/offset narrowing and wrap at every existing store. */
@@ -436,7 +436,7 @@ void MemCardDialog_Start(s32 step);
  * named by name, with step selecting the operation. The callers use steps 0
  * (load), 1 (load without the confirmation prompt), 2 (save), 3 (Japanese
  * options-screen save) and 4. */
-void MemCardDialog_Request(u8 *buf, s32 size, u8 *name, s32 step);
+void MemCardDialog_Request(u8 *buf, s32 size, char *name, s32 step);
 
 #ifdef VERSION_JAPAN
 /* Options invokes step 3 for the fixed 0x8000-byte buffer at 0x80140000;

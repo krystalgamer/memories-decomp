@@ -36,15 +36,15 @@ SpritePrim D_800E9DF0;
    table File_SetPositionTable reads. The paths are writable arrays, not
    literals: GCC would put literals in .rodata after the table, while retail
    keeps them in .data ahead of it. */
-u8 gFile_szDiscWaMrgPath[20] = "\\DATA\\WA_MRG.MRG;1";
-u8 gFile_szDiscSuMrgPath[16] = "\\DATA\\SU.MRG;1";
-u8 gFile_szDiscModelMrgPath[20] = "\\DATA\\MODEL.MRG;1";
-u8 gFile_szDiscMovieStrPath[20] = "\\DATA\\MOVIE.STR;1";
-u8 gFile_szDiscSdSeDatPath[20] = "\\DATA\\SD_SE.DAT;1";
-u8 gFile_szDiscSdBgmDatPath[20] = "\\DATA\\SD_BGM.DAT;1";
-u8 gFile_szDiscMasterXaPath[20] = "\\DATA\\MASTER.XA;1";
+char gFile_szDiscWaMrgPath[20] = "\\DATA\\WA_MRG.MRG;1";
+char gFile_szDiscSuMrgPath[16] = "\\DATA\\SU.MRG;1";
+char gFile_szDiscModelMrgPath[20] = "\\DATA\\MODEL.MRG;1";
+char gFile_szDiscMovieStrPath[20] = "\\DATA\\MOVIE.STR;1";
+char gFile_szDiscSdSeDatPath[20] = "\\DATA\\SD_SE.DAT;1";
+char gFile_szDiscSdBgmDatPath[20] = "\\DATA\\SD_BGM.DAT;1";
+char gFile_szDiscMasterXaPath[20] = "\\DATA\\MASTER.XA;1";
 
-u8 *gFile_apszName[8] = {
+char *gFile_apszName[8] = {
     gFile_szDiscWaMrgPath,
     gFile_szDiscSuMrgPath,
     gFile_szDiscModelMrgPath,
@@ -52,7 +52,7 @@ u8 *gFile_apszName[8] = {
     gFile_szDiscSdSeDatPath,
     gFile_szDiscSdBgmDatPath,
     gFile_szDiscMasterXaPath,
-    (u8 *)0,
+    (char *)0,
 };
 
 /* Regional value: the table's y position (0xD0 -> 0xE0). The European builds
@@ -63,7 +63,7 @@ u8 *gFile_apszName[8] = {
 
 void File_SetPositionTable(void)
 {
-    u8 *current;
+    char *current;
     s32 i;
     SpritePrim *state;
 
@@ -83,10 +83,10 @@ void File_SetPositionTable(void)
 
     for (i = 0; i < FILE_POSITION_TABLE_CAPACITY; i++) {
         current = gFile_apszName[i];
-        if (current == (u8 *)0) {
+        if (current == (char *)0) {
             break;
         }
-        File_GetPosition(&gFile_anLba[i], (const char *)current);
+        File_GetPosition(&gFile_anLba[i], current);
         printf("%s --> %x\n", current, gFile_anLba[i]);
     }
 }
