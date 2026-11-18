@@ -16,23 +16,36 @@ as #7122). Compiled with the MODEL441 state, the independently reconstructed
 MODEL441 source reproduces every instruction except 32 state displacements.
 Each of those is exactly 0x5AC lower in this family.
 
-This module family therefore declares its own state, `Rays417State`. It has a
-0xA98-byte prefix in place of 0x1044, and every later field keeps the same
-relative layout. With that state, the body compiles exactly. The routine is
+This module family therefore needs its own state layout: a 0xA98-byte prefix
+in place of 0x1044, with every later field at the same relative offset. The
+routine was first matched through a private view, `Rays417State`, and is
 duplicated under its own name, as the repository already does for the MODEL417
 and MODEL441 lines.
 
+The drawer now takes `Variant417EntryState` directly (#9559), and every view
+member sits on an entry member:
+
+- the pulse size is `sheets[0].size` (the view's pulse only named a size at
+  +0x88, which is `ModelVariantSheet.size`);
+- the rays are the entry's `ModelVariantOffsetRay rays[8]`;
+- the timing is the entry's config, read for `config->count`;
+- the base angle is `ray_angle`;
+- the mirror flag is the entry's `slot`: the rays are drawn mirrored for slot 1.
+
 ## Behavior
 
-The behavior is the same as the MODEL441 rays, at these offsets:
+The behavior is the same as the MODEL441 rays, at these `Variant417EntryState`
+offsets:
 
-- eight 0x6C-byte rays at `+0xBC8`
-- a pulse size at `+0xB20`
-- a `POLY_G3` arrowhead at `+0x1F80`
+- eight 0x6C-byte rays at `+0xBC8` (`rays`)
+- a pulse size at `+0xB20` (`sheets[0].size`)
+- a `POLY_G3` arrowhead at `+0x1F80` (`packets.triangle`)
 - origin, direction and secondary direction words at `+0x20E4`, `+0x20F8` and
-  `+0x210C`
+  `+0x210C` (`matrix.t`, `aim.direction`, `aim.view_delta`)
 - frame `+0x2124`, step `+0x2130`, timing `+0x2138`, index `+0x214C`
+  (`frame_count`, `step`, `config`, `index`)
 - progress `+0x2168`, base angle `+0x216C`, mirror flag `+0x2184`
+  (`progress`, `ray_angle`, `slot`)
 
 ## Integration
 

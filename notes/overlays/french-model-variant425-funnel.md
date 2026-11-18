@@ -26,9 +26,12 @@ the default 0x5C0-byte body. The first interval moves funnels and following
 fields back by 1,540 bytes; the second adds four before colours/spin/phase.
 Neither interval is classified as an allocation or interpreted data structure.
 
-The conditional local view retains `Funnel423` / `Funnel423State` as the shared
-type names; it does not import a guessed regional header. Its measured fields
-for this family are:
+The helper was first matched through a conditional local view,
+`Funnel423State`. Since #9544 it takes `EntryState425` (or `EntryState423` in
+the header-423 build) directly; these view fields are the entry's `sheets`,
+`funnels`, `funnel_packet`, `aim.target`/`aim.direction`,
+`clock.frame_count`/`clock.step`, `size`/`intensity`, `inner`/`outer` and
+`spin`/`phase`. The measured offsets for this family are:
 
 | Field | Context offset |
 |---|---|
