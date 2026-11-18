@@ -563,8 +563,12 @@ Then, in all regions, `effect_21.c` (`gDuelEffect_SwordsFieldTilePositions`,
 (`gDuelEffect_SelectedCardOverlayConfigs`, eight `DuelEffect15Config`,
 `+0x14CD4`) and `effect_13.c` (its own copy of the 21 images, then four
 `DuelEffect13Config`, `+0x14D14`; PAL entries also `VERSION_EUROPE`), ending at
-North America `+0x14FB0` (Japan `-0x40`, PAL `-0xCC`), where the raw `data`
-subsegment resumes.
+North America `+0x14FB0` (Japan `-0x40`, PAL `-0xCC`).
+
+Next, again in all regions, `effect_12.c` defines
+`gDuelEffect_StopDefenseBurstConfig` (one `DuelEffect12Config`, 0x10 bytes,
+North America `+0x14FB0`), ending at North America `+0x14FC0` (Japan `-0x40`,
+PAL `-0xCC`), where the raw `data` subsegment resumes.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in

@@ -114,7 +114,8 @@ segments:
       - [0x14B68, .data, overlays/duel_effects/effect_21]
       - [0x14C08, .data, overlays/duel_effects/effect_15]
       - [0x14C48, .data, overlays/duel_effects/effect_13]
-      - [0x14EE4, data, overlays/italian_duel_effects/data]
+      - [0x14EE4, .data, overlays/duel_effects/effect_12]
+      - [0x14EF4, data, overlays/italian_duel_effects/data]
       - [0x153C0, .data, overlays/duel_effects/effect_drawing]
       - [0x15420, data, overlays/italian_duel_effects/data_15420]
 
