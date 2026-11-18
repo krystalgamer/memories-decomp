@@ -19,8 +19,11 @@ phase-to-card mappings or exclusive artwork identities.
 | `BoardDestructionConfigs` | `D_8015A60C` | `8015B7A8` | `80168698` | `8015A60C` | 32 |
 | `BoardDestructionInitialScale` | `D_80146034` | `801462A0` | `80154034` | `80146034` | 16 |
 
-Addresses are hexadecimal. All 816 bytes retain their real generated-data
-owners, original types/bounds and existing five bank maps. The original
+Addresses are hexadecimal. All 816 bytes keep their original types/bounds
+and existing five bank maps. The Destroy Flames image and descriptors, the
+Guardian Star Bonus descriptor and the Board Destruction configurations are
+now `.data` defined by `tile_effect.c`, `gather_effect.c` and `effect_17.c`
+(#2602); the Terrain Change image/configurations keep their generated owner. The original
 private headers remain unchanged; their local declarations and instruction
 uses supply the layouts, not reference-project headers or compiler claims.
 No packed aggregate or absolute alias is introduced. The three initial

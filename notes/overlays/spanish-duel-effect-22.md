@@ -19,8 +19,8 @@ SDK `VECTOR` as `gDuelEffect_RitualInitialScale`. Their native data owners
 remain `D_8015A658` (624 bytes) and `D_80146044` (16 bytes). Actual addresses
 are NA `8015A724`/`8014608C`, JP `801686E4`/`80154044`, and PAL
 `8015A658`/`80146044`. The vector is now a `const VECTOR` that `effect_22.c`
-defines ahead of its jump table (#2602); the configurations keep their
-generated storage. The shared 21-word ritual/card-output buffer remains separately
+defines ahead of its jump table (#2602); the configurations are now its `.data`, after
+`tile_effect.c`'s (#2602). The shared 21-word ritual/card-output buffer remains separately
 owned and address-named.
 
 The complete definition and dispatcher use these canonical bindings;

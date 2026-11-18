@@ -534,8 +534,22 @@ defines `gDuelEffect_TextureImages` (21 `GsIMAGE`) and
 `gDuelEffect_TextureModesAndVariants` (the 180-byte modes/variant-image
 union, initialized through `.variant`): North America and Japan
 `+0x14270..+0x14570`, PAL `+0x141E4..+0x144E4`. Retail keeps both in `.data`,
-not `.rodata`, so they stay non-`const`. The rest is still the raw `data`
-subsegment.
+not `.rodata`, so they stay non-`const`.
+
+The next units' `.data` follow in the same order, one configuration object
+each (non-`const` for the same reason). North America: `effect_11.c`
+(`gDuelEffect_CardBreakupConfig`, `+0x14570`), `effect_drawing.c` (the 12
+glyph `RECT`s, `+0x145A0`), `effect_8.c`, `gather_effect.c`, `tile_effect.c`
+(texture `GsIMAGE`, then its two descriptors) and `effect_22.c`, ending at
+`+0x14994`. Japan and PAL link `effect_17.c` between `gather_effect.c` and
+`tile_effect.c` and `effect_drawing.c` much later, so their run is
+`effect_11`, `effect_8`, `gather_effect`, `effect_17`, `tile_effect`,
+`effect_22` (Japan `+0x14570..+0x14954`, PAL `+0x144E4..+0x148C8`). Units
+whose `.data` lies inside the remaining raw `data` subsegment split it:
+`effect_17.c` at North America `+0x157A8`, `effect_drawing.c` at Japan
+`+0x1544C` and PAL `+0x153C0`; the bytes after each stay a second raw
+subsegment. Only the destroy-flames image differs by region (its height,
+`TILE_IMAGE_HEIGHT`, 196 NTSC and 212 PAL).
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in

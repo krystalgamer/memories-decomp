@@ -24,6 +24,10 @@
 
 const VECTOR gDuelEffect_GuardianStarBonusInitialScale = { ONE, ONE, ONE, 0 };
 
+GatherEffectDescriptor gDuelEffect_GuardianStarBonusConfig = {
+    160, 24, 16, { 90, 96, 100 }, 10, { 1, 3 }, 24,
+};
+
 #ifdef VERSION_EUROPE
 #define GATHER_CURVE_HEIGHT 106
 #else

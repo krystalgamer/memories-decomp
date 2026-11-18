@@ -15,8 +15,8 @@ default phase; it does not establish an exclusive card-effect identity.
 
 The complete handler and dispatcher use an extern-only semantic header.
 `gDuelEffect_FieldColumnBurstConfigs[6]` replaces the former label `D_8015A514`
-(NA `8015A600`, JP `801685A0`), preserving all six 38-byte records and their
-228-byte generated owner. `gDuelEffect_FieldColumnBurstInitialScale` binds
+(NA `8015A600`, JP `801685A0`), preserving all six 38-byte records; `effect_8.c` now
+defines them as its 228-byte `.data` (#2602). `gDuelEffect_FieldColumnBurstInitialScale` binds
 separate native `D_80146014` (NA `8014606C`, JP `80154014`), the 16-byte
 SDK VECTOR that `effect_8.c` now defines as its `.rodata` (#2602). Private recovered work/config types, SDK padding,
 all native maps/profiles and real data allocations remain unchanged.

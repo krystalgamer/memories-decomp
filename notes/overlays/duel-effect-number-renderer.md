@@ -135,11 +135,13 @@ of the canonical union rather than inventing another prefix declaration.
 Twenty target-GCC constants verified these sizes and offsets, packet
 coordinate/tpage/clut offsets, vertex/digit array extents and the 32-bit
 SDK `long`. Each of the three data symbols has exactly one non-executable
-generated-data input-object definition, with its measured size and original
-bytes. The final symbols are real section-backed objects at their original
-addresses, not linker-script absolute aliases. The final linker combines
-code and data into `.module`; its executable flag is not the input-data
-ownership test. The renderer object defines no data, BSS or constant storage.
+input-object definition, with its measured size and original bytes. The
+final symbols are real section-backed objects at their original addresses,
+not linker-script absolute aliases. The final linker combines code and data
+into `.module`; its executable flag is not the input-data ownership test.
+Since #2602 `effect_drawing.c` defines the glyph rectangles as its `.data`
+(North America `0x8015A5A0`, Japan `0x8016944C`, PAL `0x8015B3C0`); the
+texture words and ordering-table pointer stay generated data.
 
 The digit count, digit conversion, alternating-sign helper and FT4 submitter
 remain four real executable overlay functions with inventory-backed extents.

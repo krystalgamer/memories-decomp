@@ -31,9 +31,11 @@ Actual Spanish records independently confirm:
 | Radius / spin / height | 160 / 64 / 64 | 80 / 96 / 96 |
 | Fan spin / mode | 8 / 0 | 16 / 1 |
 
-Seven complete generated owners remain real section-defined data:
+Seven complete owners remain real section-defined data:
 `D_80146034/16`, `D_8015A60C/32`, `D_8015B7A0/84`, `D_8015B748/84`,
-`D_8015B7F4/4`, `D_8015B7F8/8` and `D_8015B800/2`.
+`D_8015B7F4/4`, `D_8015B7F8/8` and `D_8015B800/2`. Since #2602
+`effect_17.c` defines the first two (`const VECTOR` `.rodata` and the
+configurations' `.data`); the rest stay generated.
 The collector output has 21 words including its terminator. Mode zero uses
 selector -1 for up to 20 field objects; mode one uses selector zero for up
 to five selected-row objects. Neither is truncated to a guessed shared bound.
