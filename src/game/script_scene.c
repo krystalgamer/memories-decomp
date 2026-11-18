@@ -54,6 +54,8 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         obj->transfer_mode = 2;
+        /* callback_data carries the request's sector count less one here
+           (ScriptImage_RequestTransfer); other callers keep a pointer in it. */
         obj->phase_size = (s32)obj->callback_data << FILE_SECTOR_SHIFT;
         obj->sector_destination = gFile_TransferBufferBase;
         obj->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
@@ -72,6 +74,7 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         obj->y = SCRIPT_IMAGE_SCREEN_Y;
         obj->w = 0x100;
         obj->h = 4;
+        /* The descriptor's x/y/w/h prefix is the RECT LoadImage2 takes. */
         LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
         break;
     }
@@ -231,9 +234,6 @@ ScriptImageOverlayPlacementTable gScriptImage_OverlayPlacements = {
     { 0, 0 },
 };
 
-#define SCRIPT_IMAGE_ENTRY_OBJECT(entry) \
-    ((DisplayObject *)(entry).pointer)
-
 /* MATCH. Real C -- this retires the ASSEMBLY-DEBT transcription (Unchiga's
  * port, a 24-instruction `__asm__` block with s0/s1 pins) that stood here.
  * gp=0, at=0, no addressing work; default flags.
@@ -295,27 +295,27 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 image_id) {
         o->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
         o->flags &= ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         p->entries[0].object_built = 1;
-        p->entries[0].pointer = (u8 *)o;
+        p->entries[0].pointer = o;
         t = &gScriptImage_OverlayPlacements.rows[n];
         p->entries[0].callback_control = 0;
         if (t->mask & SCRIPT_IMAGE_OVERLAY_FIRST_PRESENT) {
             ScriptImage_CreateObject(&p->entries[1],
                                      0x14, 1);
-            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->xy.h.x =
+            p->entries[1].pointer->xy.h.x =
                 t->x1;
-            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[1])->xy.h.y =
+            p->entries[1].pointer->xy.h.y =
                 t->y1;
         }
         if (t->mask & SCRIPT_IMAGE_OVERLAY_SECOND_PRESENT) {
             ScriptImage_CreateObject(&p->entries[2],
                                      0x16, 2);
-            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->xy.h.x =
+            p->entries[2].pointer->xy.h.x =
                 t->x2;
-            SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->xy.h.y =
+            p->entries[2].pointer->xy.h.y =
                 t->y2;
             p->entries[2].callback_control = t->callback_index;
             if (t->mask & SCRIPT_IMAGE_OVERLAY_SECOND_SCREEN_SPACE) {
-                SCRIPT_IMAGE_ENTRY_OBJECT(p->entries[2])->flags |=
+                p->entries[2].pointer->flags |=
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             }
         }
@@ -482,6 +482,8 @@ void Script_OpShowDialog(void)
         box->flags_34 |= SCRIPT_DIALOG_BOX_FLAG;
         if ((value & 0x8000) != 0) {
             flags = gScript_wCommandWord;
+            /* Volatile keeps the reload below the command-word load; a plain
+               member read is scheduled earlier and shifts the code. */
             boxflags = *(volatile u16 *)&box->flags_34;
             gScript_wCommandWord = flags | 0x4000;
             box->flags_34 = boxflags & (0xFFFF ^ SCRIPT_DIALOG_BOX_FLAG);
@@ -628,6 +630,8 @@ void Script_UpdateViewportTween(void) {
 
     if (ScriptCommand_MarkStarted() == 0) {
         sx = gGraphics_sViewportX;
+        /* The u16 globals are read signed here (retail lh); duel_effect_text.c
+           reads them unsigned, so the declarations stay u16. */
         duration = *(s16 *)&gScript_SharedOperand;
         gScript_ViewportDeltaX = ((*(s16 *)&gScript_ViewportTargetX - sx) << 16) / duration;
         sy = gGraphics_sViewportY;
@@ -1175,6 +1179,7 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         d->x = 0;
         d->w = 0x100;
 #endif
+        /* The descriptor's x/y/w/h prefix is the RECT LoadImage2 takes. */
         LoadImage2((RECT *)d, (u32 *)image_buffer);
         m2 = 0xFFDCFFFF;
         d->alternate_sector_destination = gDisplay_abResourceBank0;
@@ -1261,12 +1266,12 @@ void Script_OpDuelResult(void) {
         object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        gSceneScript_Slots.slots[0].object_address = (s32)object;
+        gSceneScript_Slots.slots[0].object = object;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(object, 0, 0, 0x140, 0x100, 0, 0, 0x19, 0x280, 0xD5);
         DisplayObject_SetDepthOffset(object, -1);
-        gSceneScript_Slots.slots[1].object_address = (s32)object;
-        gSceneScript_Slots.slots[2].object_address = 0;
+        gSceneScript_Slots.slots[1].object = object;
+        gSceneScript_Slots.slots[2].object = 0;
         fill = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
         DisplayObject_InitializeGouraudQuad(fill, 1);
         fill->xy.word = 0x140;
@@ -1289,15 +1294,15 @@ void Script_OpDuelResult(void) {
         object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                     DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         object->attribute |= DISPLAY_OBJECT_ATTRIBUTE_8BPP;
-        gSceneScript_Slots.slots[0].object_address = (s32)object;
+        gSceneScript_Slots.slots[0].object = object;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(object, 0, 0, 0x140, 0xF0, 0, 0, 0x19, 0, 0xF5);
         DisplayObject_SetDepthOffset(object, -1);
-        gSceneScript_Slots.slots[1].object_address = (s32)object;
+        gSceneScript_Slots.slots[1].object = object;
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(object, 0x100, 0, 0x40, 0xF0, 0, 0, 0x19, 0, 0xF5);
         DisplayObject_SetDepthOffset(object, -1);
-        gSceneScript_Slots.slots[2].object_address = (s32)object;
+        gSceneScript_Slots.slots[2].object = object;
         fill = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), four);
         DisplayObject_InitializeGouraudQuad(fill, 0);
         color = 0xF00140;
@@ -1423,6 +1428,8 @@ void Script_RunTick(void)
     state = gScript_EventState;
     if (state & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
         TextBox_UpdateChannels();
+        /* Retail tests the flags with one lw over flags_34 and
+           initial_string_id; a u16 read would be lhu. */
         if ((*(u32 *)&gText_aChannels[0].flags_34 & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
             gScript_EventState &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
@@ -1433,6 +1440,7 @@ void Script_RunTick(void)
     }
     if ((state & DUEL_EVENT_SCRIPT_FLAG_STARTED) == 0) {
         event = gScript_EventState;
+        /* The staged package opens with a table of u16 script offsets. */
         gScript_StreamCursor = gFile_StagingBuffer + ((u16 *)gFile_StagingBuffer)[event];
         command = *gScript_StreamCursor++;
         gScript_DialogCommandLatch = 0;
@@ -1485,6 +1493,11 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
     s32 m;
     u8 *image_buffer;
 
+    /* As in DuelResult_LoadPackageStage, the stores through the members'
+       addresses with another type keep fold from treating them as struct
+       stores. Measured one case at a time as member stores: case 0 and the
+       case-2 destination pair reschedule, and cases 1 and 3 shrink the
+       function by eight bytes. */
     switch (stage) {
     case 0:
         *(s16 *)&p->field_30.h.counter = 0x340;
@@ -1522,6 +1535,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         p->y = CAMPAIGN_SCENE_IMAGE_Y;
         p->w = 0x100;
         p->h = 1;
+        /* The descriptor's x/y/w/h prefix is the RECT LoadImage2 takes. */
         LoadImage2((RECT *)p, (u32 *)image_buffer);
         *(s32 *)&p->alternate_sector_destination = (s32)gFile_StagingBuffer;
         *(s32 *)&p->sector_destination = (s32)gFile_StagingBuffer;
@@ -1571,8 +1585,6 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 #define CAMPAIGN_SCENE_PACKAGE_SECTOR_COUNT FILE_WA_CAMPAIGN_SCENE_SECTOR_COUNT
 #endif
 
-#define CAMPAIGN_PACKAGE_WORDS(data) ((u32 *)(data))
-
 /* Loads the fixed scene presentation/event package. The argument initializes
  * gScript_EventState for the event driver; it does not select a different disc page.
  * The 0x1E57/0x31 request uses Campaign_LoadScenePackageStage to route image,
@@ -1593,7 +1605,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 void Campaign_LoadScenePackage(s16 scene_index)
 {
     SceneScriptSlotTable *table;
-    u32 *src;
+    CampaignDialogPortrait *src;
     RECT *second;
     s32 i;
 
@@ -1612,8 +1624,8 @@ void Campaign_LoadScenePackage(s16 scene_index)
 
     table->images.image_id = -1;
     for (i = 0; i < 3; i++) {
-        table->slots[i].object_address = 0;
-        table->slots[i].callback_control = 0;
+        table->slots[i].object = 0;
+        table->slots[i].callback.control = 0;
     }
     File_WaitForTransfers();
 
@@ -1621,7 +1633,8 @@ void Campaign_LoadScenePackage(s16 scene_index)
         ;
     }
 
-    src = CAMPAIGN_PACKAGE_WORDS(gRuntime_pSharedWorkBase);
+    /* Stage 3 of the package load fills the shared arena with the portraits. */
+    src = (CampaignDialogPortrait *)gRuntime_pSharedWorkBase;
     gGraphics_aImageTransferRects[0].x = 0x380;
     gGraphics_aImageTransferRects[0].y = 0;
     gGraphics_aImageTransferRects[0].w = CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WORD_WIDTH;
@@ -1634,11 +1647,8 @@ void Campaign_LoadScenePackage(s16 scene_index)
 
     i = 0;
     do {
-        LoadImage2(&gGraphics_aImageTransferRects[0], src);
-        LoadImage2(
-            &gGraphics_aImageTransferRects[1],
-            src + CAMPAIGN_DIALOG_PORTRAIT_IMAGE_SIZE / sizeof(u32)
-        );
+        LoadImage2(&gGraphics_aImageTransferRects[0], src->image);
+        LoadImage2(&gGraphics_aImageTransferRects[1], src->clut);
         i++;
         gGraphics_aImageTransferRects[1].y = gGraphics_aImageTransferRects[1].y + 1;
         gGraphics_aImageTransferRects[0].x =
@@ -1654,28 +1664,27 @@ void Campaign_LoadScenePackage(s16 scene_index)
                 CAMPAIGN_DIALOG_PORTRAIT_CLUT_WORD_WIDTH;
             gGraphics_aImageTransferRects[1].y = 0xF0;
         }
-        src += CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE / sizeof(u32);
+        src++;
     } while (i < CAMPAIGN_DIALOG_PORTRAIT_COUNT);
 
     gCampaign_PrimaryDisplayObject = Campaign_CreatePrimaryDisplayObject();
 }
 
 /* Initialized data this unit owns at 0x80090CAC: the two callbacks SceneScript_UpdateSlots selects
- * from each live scene-script record's byte at +4. Their native prototypes
- * differ, so the table keeps the generic two-argument call shape used by its
- * sole consumer and casts at the initializer boundary.
+ * from each live scene-script record's byte at +4. Both take the record and
+ * its display object, the two arguments SceneScript_UpdateSlots passes.
  */
 
 SceneScriptRecordCallback gSceneScript_RecordCallbacks[] = {
-    (SceneScriptRecordCallback)SceneScript_NoOpRecordCallback,
-    (SceneScriptRecordCallback)SceneScript_UpdateColorPulse,
+    SceneScript_NoOpRecordCallback,
+    SceneScript_UpdateColorPulse,
 };
 
 /* The two scene-script record callbacks, in the order gSceneScript_RecordCallbacks
    (this unit) holds them: SceneScript_UpdateSlots picks
    one by each live record's byte at +4. */
 
-void SceneScript_NoOpRecordCallback(void)
+void SceneScript_NoOpRecordCallback(SceneScriptSlot *state, DisplayObject *object)
 {
 }
 
@@ -1686,8 +1695,8 @@ void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
     s32 component;
     DisplayObject *object;
 
-    if (((u16)state->callback_control & 0x8000) == 0) {
-        state->callback_control |= 0x8000;
+    if (((u16)state->callback.control & 0x8000) == 0) {
+        state->callback.control |= 0x8000;
         state->pulse_angle = 0;
     }
     angle = ((u16)state->pulse_angle + 32) & TRIG_ANGLE_MASK;
@@ -1701,14 +1710,14 @@ void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
     color->rgb.c.b = component;
     color->rgb.c.g = component;
     color->rgb.c.r = component;
-    object = (DisplayObject *)gSceneScript_Slots.slots[0].object_address;
+    object = gSceneScript_Slots.slots[0].object;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
         object->rgb.c.b = component;
         object->rgb.c.g = component;
         object->rgb.c.r = component;
     }
-    object = (DisplayObject *)gSceneScript_Slots.slots[1].object_address;
+    object = gSceneScript_Slots.slots[1].object;
     if (object != 0) {
         component = (intensity + 24) / 2 - 128;
         object->rgb.c.b = component;
@@ -1720,9 +1729,9 @@ void SceneScript_UpdateColorPulse(SceneScriptSlot *state, DisplayObject *color)
 void SceneScript_UpdateSlots(SceneScriptSlot *records) {
     s32 i;
     for (i = 0; i < 3; i++) {
-        s32 value = records->object_address;
+        DisplayObject *value = records->object;
         if (value != 0) {
-            gSceneScript_RecordCallbacks[*(u8 *)&records->callback_control](records, value);
+            gSceneScript_RecordCallbacks[records->callback.index](records, value);
         }
         records++;
     }

@@ -76,15 +76,13 @@ The BSS layout is:
 `File_ActivateTransfer` copies the complete secondary descriptor into the
 primary descriptor before publishing the primary-active state.
 
-Its raw `FileTransferDescriptorWords` assignment retains
-`FILE_TRANSFER_DESCRIPTOR_WORD_COUNT` (`18`) signed 32-bit words, including the
-final substate byte. Size assertions tie that copy to the shared `0x48`-byte
-descriptor without changing its type or copy operation: the word element type
-is what sets the move width, so it is deliberately not interchangeable with
-`FileTransferDescriptor`, which has halfword members.
+It is a plain `FileTransferDescriptor` structure assignment. The descriptor
+is word-aligned (it holds pointers), so GCC already moves it as eighteen
+32-bit words, including the final substate byte; the former
+`FileTransferDescriptorWords` view built the same code and has been retired.
 
 The separate `0x20`-byte record at `gFile_ActiveRequestSlot` (`0x801D4200`) is not a descriptor. It is a
-two-slot request table, `FileRequestSlot`: `File_RequestSecondarySlot` stages a request
+two-slot request table, `FileRequestSlot gFile_ActiveRequestSlot[2]`: `File_RequestSecondarySlot` stages a request
 into slot 1 and `File_ActivateTransfer` promotes slot 1 into slot 0, both with
 whole-record copies at that stride, and `SD_ConfigureTransferPhase` then programs the
 descriptor from slot 0.

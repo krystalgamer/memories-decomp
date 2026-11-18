@@ -90,9 +90,9 @@ static PADDING_VARIABLE(4) = {0};
 #include "file_constants.h"
 #include "movie_pipeline.h"
 
-void File_InitTransferState(s32 value)
+void File_InitTransferState(u8 *buffer)
 {
-    gFile_TransferBufferBase = (u8 *)value;
+    gFile_TransferBufferBase = buffer;
     D_8009B110 = 0;
     D_8009B108 = 0;
     gFile_dwTransferState = 0;
@@ -254,7 +254,7 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
     FileTransferDescriptor *r;
     FileTransferDescriptor *image;
     FileTransferDescriptor *t;
-    u8 *dst;
+    u32 *dst;
     u32 *src;
     u32 word;
     s32 i;
@@ -316,7 +316,7 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
            `(&p->sector_destination)[i]` puts the scaled index first instead, so the
            pair is still selected by a byte-pointer sum with the OFFSETOF
            base offset. */
-        dst = (u8 *)*(u32 *)(
+        dst = *(u32 **)(
             (u8 *)p + ((p->buffer_index & 1) << 2) +
             OFFSETOF(FileTransferDescriptor, sector_destination)
         );
@@ -325,7 +325,7 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
         } else {
             src = gFile_ReadySourceCursor;
             for (i = 0; i < (s32)(FILE_SECTOR_SIZE / sizeof(u32)); ++i) {
-                ((u32 *)dst)[i] = src[i];
+                dst[i] = src[i];
             }
             gFile_ReadySourceCursor += FILE_SECTOR_SIZE / sizeof(u32);
         }
@@ -337,7 +337,8 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
         image = gFile_ReadyTransferDescriptor;
         image->x = image->field_30.h.counter;
         image->y = image->field_30.h.field_32;
-        while (LoadImage2((RECT *)gFile_ReadyTransferDescriptor, (u32 *)dst)) {
+        /* The descriptor's x/y/w/h prefix is the RECT LoadImage2 takes. */
+        while (LoadImage2((RECT *)gFile_ReadyTransferDescriptor, dst)) {
         }
         if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_IMAGE_ADVANCE_X) != 0) {
             gFile_ReadyTransferDescriptor->field_30.h.counter += 0x40;
@@ -371,7 +372,7 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
         return;
     case 3:
         n = FILE_SECTOR_SIZE;
-        dst = p->sector_destination;
+        dst = (u32 *)p->sector_destination;
         if (p->phase_remaining < n) {
             n = p->phase_remaining;
         }
@@ -380,8 +381,10 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
         } else {
             src = gFile_ReadySourceCursor;
             for (i = 0; i < n / 4; ++i) {
-                ((u32 *)dst)[i] = src[i];
+                dst[i] = src[i];
             }
+            /* A byte advance: `+= n / 4` on the signed count adds the
+               rounding fixup retail does not have. */
             gFile_ReadySourceCursor = (u32 *)((u8 *)gFile_ReadySourceCursor + n);
         }
         gFile_ReadyTransferDescriptor->total_bytes -= FILE_SECTOR_SIZE;
@@ -390,7 +393,7 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
             CdReadyCallback(0);
         }
         SpuSetTransferStartAddr(gFile_ReadyTransferDescriptor->field_30.word);
-        SpuWrite(dst, (u32)n);
+        SpuWrite((u8 *)dst, (u32)n);
         q = gFile_ReadyTransferDescriptor;
         q->field_30.word += n;
         q->phase_remaining -= FILE_SECTOR_SIZE;
@@ -500,10 +503,10 @@ void File_HandleRangeReadEvent(u8 event)
 void File_HandleLogicalPositionEvent(u8 event, u8 *result)
 {
     s32 value;
-    s32 *destination;
+    u32 *destination;
 
     if (event == DslComplete) {
-        destination = (s32 *)&gFile_PrimaryTransferDescriptor.field_30;
+        destination = &gFile_PrimaryTransferDescriptor.field_30.word;
         value = CdPosToInt_8007E710((const CdlLOC *)result);
         if (value > 0)
             *destination = value;
@@ -513,10 +516,8 @@ void File_HandleLogicalPositionEvent(u8 event, u8 *result)
 
 void File_ActivateTransfer(void)
 {
-    *(FileTransferDescriptorWords *)&gFile_PrimaryTransferDescriptor =
-        *(FileTransferDescriptorWords *)&gFile_SecondaryTransferDescriptor;
-    *(FileRequestSlot *)(u8 *)&gFile_ActiveRequestSlot =
-        *(FileRequestSlot *)((u8 *)&gFile_ActiveRequestSlot + 32);
+    gFile_PrimaryTransferDescriptor = gFile_SecondaryTransferDescriptor;
+    gFile_ActiveRequestSlot[0] = gFile_ActiveRequestSlot[1];
     if (gFile_PrimaryTransferDescriptor.transfer_mode == 4)
         gFile_wTransferStepFlags |= 1;
     gFile_dwTransferState =
@@ -744,7 +745,7 @@ void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_ind
     s32 ram_destination;
     void (*complete_callback)(void);
 
-    request = &gFile_ActiveRequestSlot;
+    request = &gFile_ActiveRequestSlot[0];
     switch (phase_index) {
     case 0:
         if (request->spu_transfer_size == 0) {
@@ -788,8 +789,7 @@ void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_ind
 }
 
 s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
-    u8 *descriptor_bytes;
-    u8 *request_slots;
+    FileTransferDescriptor *descriptor;
     FileTransferCallback phase_callback;
     s32 size;
     s32 ram_size;
@@ -800,7 +800,7 @@ s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
     s32 file_selector;
     s32 request_size;
 
-    if (request == (FileRequestSlot *)0) {
+    if (request == 0) {
         return gFile_dwTransferState & FILE_TRANSFER_STATE_SECONDARY_PENDING;
     }
 
@@ -837,8 +837,7 @@ s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
          * declaration orders and four statement orders are all 6. */
         sector_offset = size;
         request_size = -sector_offset;
-        request_slots = (u8 *)&gFile_ActiveRequestSlot;
-        *(FileRequestSlot *)(request_slots + 0x20) = *request;
+        gFile_ActiveRequestSlot[1] = *request;
         /* The post-copy reload goes through the member's address as u32:
            a plain request->sector_offset (or an s32 cast, which fold turns back into
            one) exchanges the request pointer's and sector-offset local's
@@ -847,7 +846,7 @@ s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
         gFile_dwTransferState =
             gFile_dwTransferState & ~FILE_TRANSFER_STATE_SECONDARY_PENDING;
         flags = file_selector | 0x1400000;
-        phase_callback = (FileTransferCallback)SD_ConfigureTransferPhase;
+        phase_callback = SD_ConfigureTransferPhase;
 
         if ((gFile_dwTransferState & FILE_TRANSFER_STATE_PRIMARY_ACTIVE) != 0) {
             if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_SECTOR_RANGE) != 0) {
@@ -858,12 +857,12 @@ s32 File_RequestSecondarySlot(FileRequestSlot *request, u8 *loader_argument) {
         File_InitTransferDescriptor(
             &gFile_SecondaryTransferDescriptor, flags, loader_argument, sector_offset, request_size, phase_callback, 0, (s32)request
         );
-        descriptor_bytes = (u8 *)&gFile_SecondaryTransferDescriptor;
+        descriptor = &gFile_SecondaryTransferDescriptor;
         gFile_dwTransferState =
             gFile_dwTransferState | FILE_TRANSFER_STATE_SECONDARY_PENDING;
     }
 
-    return (s32)descriptor_bytes;
+    return (s32)descriptor;
 }
 
 FileTransferDescriptor *File_RequestAsyncTransfer(
@@ -882,7 +881,7 @@ FileTransferDescriptor *File_RequestAsyncTransfer(
     if (gFile_BeforePrimaryRequestCallback == 0 &&
         ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
          gFile_dwCancelRequestState) != 0) {
-        result = (FileTransferDescriptor *)0;
+        result = 0;
     } else {
         if (gFile_BeforePrimaryRequestCallback != 0) {
             gFile_BeforePrimaryRequestCallback();
@@ -911,7 +910,7 @@ FileTransferDescriptor *File_TryRequestAsyncTransfer(
     if (gFile_BeforePrimaryRequestCallback == 0) {
         if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              gFile_dwCancelRequestState) != 0) {
-            return (FileTransferDescriptor *)0;
+            return 0;
         }
     } else {
         gFile_BeforePrimaryRequestCallback();

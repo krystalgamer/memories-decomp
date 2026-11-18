@@ -261,7 +261,15 @@ DisplayObject *Campaign_CreatePrimaryDisplayObject(void);
     (CAMPAIGN_DIALOG_PORTRAIT_PHASE_SIZE - \
      CAMPAIGN_DIALOG_PORTRAIT_USED_SIZE)
 
+/* One portrait record in the shared work arena: the 48x48 image
+ * followed by its 64x1 CLUT row, each uploaded with LoadImage2. */
+typedef struct {
+    u32 image[CAMPAIGN_DIALOG_PORTRAIT_IMAGE_SIZE / sizeof(u32)];
+    u32 clut[CAMPAIGN_DIALOG_PORTRAIT_CLUT_SIZE / sizeof(u32)];
+} CampaignDialogPortrait;
+
 typedef char CampaignDialogPortrait_record_size_must_be_0x980[
+    sizeof(CampaignDialogPortrait) == CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE &&
     CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE == 0x980 ? 1 : -1
 ];
 typedef char CampaignDialogPortrait_spill_size_must_be_0x280[
@@ -320,9 +328,9 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode);
  * as five records, and a matching byte read at +0x64 lands inside the caret
  * line; neither is resolved here.)
  *
- * The scene-script code reaches the records as SceneScriptSlot (object_address
- * is left s32: Script_OpDuelResult stores display objects into records 0, 1
- * and 2 and SceneScript_UpdateColorPulse reads records 0 and 1 back). The
+ * The scene-script code reaches the records as SceneScriptSlot (object is
+ * the display object Script_OpDuelResult stores into records 0, 1 and 2 and
+ * SceneScript_UpdateColorPulse reads records 0 and 1 back). The
  * script-image functions take the same bytes as a ScriptImageObjectSet: three
  * ScriptImageEntry records and image_id. The table is a union of the two
  * layouts, and each caller passes the member its callee declares. */
@@ -355,7 +363,7 @@ void SceneScript_UpdateColorPulse(SceneScriptSlot *state, struct DisplayObject *
 /* Entry 0 of the scene-script record callback table gSceneScript_RecordCallbacks
  * (script_scene.c). It is empty: a record whose selector
  * byte is 0 has no per-frame work. */
-void SceneScript_NoOpRecordCallback(void);
+void SceneScript_NoOpRecordCallback(SceneScriptSlot *state, struct DisplayObject *object);
 
 /* One-shot latch on bit 15 of gScript_wCommandWord. Returns 0 the first time it is
  * called after the word is cleared, and 1 on every call after that, so a

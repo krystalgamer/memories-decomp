@@ -67,7 +67,7 @@ void File_SetPositionTable(void)
     s32 i;
     SpritePrim *state;
 
-    File_InitTransferState((s32)gLibrary_aCardArtRecord);
+    File_InitTransferState(gLibrary_aCardArtRecord);
 
     gFile_BeforePrimaryRequestCallback = File_WaitForTransfers;
     state = &D_800E9DF0;
