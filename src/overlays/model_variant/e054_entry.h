@@ -24,10 +24,6 @@ typedef struct {
     s16 grow_end, fade_start, fade_end, dome_delay, flash_delay;
 } Model106Config;
 
-typedef struct {
-    u8 r, g, b, pad;
-} Model106Colour;
-
 /* The 0x530-byte work area: the command row, the 8x16 dome, the eight ring
  * offsets, the 17-point fan, the 16 column colours, three textures, the
  * completion flag, the sprite frames and the elapsed time. */
@@ -36,7 +32,7 @@ typedef struct {
     SVECTOR dome[128];
     SVECTOR ring[8];
     SVECTOR fan[17];
-    Model106Colour colours[16];
+    CVECTOR colours[16];
     u32 texture[3];
     u8 completed;
     u8 frame[16];

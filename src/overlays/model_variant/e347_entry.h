@@ -53,11 +53,6 @@ typedef struct {
     SVECTOR outer;
 } Model798FanPoint;
 
-/* A fading colour, padded to a word. */
-typedef struct {
-    u8 r, g, b, pad;
-} Model798Colour;
-
 /* The work area; the effect has a single bolt, so every per-bolt array has
  * one row: the command row; the bolt position, step, strip angle, flare
  * ring offsets, target, sixteen-point trail and origin; the smoke puffs, the
@@ -114,9 +109,9 @@ typedef struct {
     u16 fan_tpage;
     u16 fan_clut;
     s32 texture[11];
-    Model798Colour bolt[4];
-    Model798Colour glow[4];
-    Model798Colour flash[4];
+    CVECTOR bolt[4];
+    CVECTOR glow[4];
+    CVECTOR flash[4];
 } Model798State;
 
 extern GsIMAGE gModelVariant798_aImages[];
