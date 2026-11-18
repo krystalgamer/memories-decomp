@@ -629,7 +629,7 @@ again. `effect_9.c` defines `gDuelEffect_InvertedLifePointRecoveryConfigs`
 after it: North America `+0x15770`, Japan `+0x15790`, PAL `+0x15704`. In
 North America that run ends at `effect_17.c`'s `.data` (`+0x157A8`); in
 Japan and PAL the raw `data` resumes after it (Japan `+0x157C8`, PAL
-`+0x1573C`) with the bank's zero-initialized state.
+`+0x1573C`) with the bank's zero-initialized state (see below).
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in
@@ -645,7 +645,17 @@ the reading unit keeps tentative definitions, builds with
 `<unit>_commons` places them from the image's symbol file. Free Duel's
 `screen_runtime.c` is the first (North America and Japan `+0x1030`, PAL
 `+0x10A0`); PAL orders the same five objects differently, as it does every
-resident `.sbss`/`.bss` block.
+resident `.sbss`/`.bss` block. The duel-effect bank's shared render state
+follows: `dispatch.c` declares `gDuelEffect_wBasePriority`,
+`gDuelEffect_DrawOffset`, `gDuelEffect_TexturePageClutPairs`,
+`gDuelEffect_CardObjectScratchWords` and `gDuelEffect_pOrderingTable`, and
+`dispatch_commons` places them at North America and Japan
+`+0x157C8-+0x15890` (an unlabelled, unreferenced 8 bytes at `+0x157D8` need
+no C). PAL holds them at `+0x15740-+0x15802` in another order, but they stay
+in the raw `data` blob there: Splat disassembles data words, so a subsegment
+cannot end on a halfword, and its last object, `gDuelEffect_wBasePriority`,
+ends at `+0x15802` with stray bytes right after it. The blob's labels
+satisfy the same common declarations.
 
 The Japanese and PAL overworld images (both coup variants) own their data
 through the North American units, listed in each image's

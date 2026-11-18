@@ -132,6 +132,14 @@ segments:
       - {start: 0x156DA, type: bin, name: overlays/japanese_duel_effects/data_156DA, linker_section_order: .data}
       - [0x156DC, .data, overlays/duel_effects/effect_9]
       - [0x15790, .data, overlays/duel_effects/effect_4]
-      - [0x157C8, data, overlays/japanese_duel_effects/data_157C8]
+      - [0x157C8, bss, overlays/japanese_duel_effects/dispatch_commons]
+
+  - name: leftover
+    type: code
+    start: 0x15890
+    vram: 0x80169890
+    align: 4
+    subsegments:
+      - [0x15890, data, overlays/japanese_duel_effects/data_15890]
 
   - [0x18000]

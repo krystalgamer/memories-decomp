@@ -16,6 +16,17 @@
 #include "field_burst_semantic_views.h"
 #include "card_flash_semantic_views.h"
 
+/* The bank's zero-initialized shared state, read across the effect units.
+   The definitions stay common (this unit builds with
+   gcc_2_8_1_g0_split_comm). The NTSC layouts place them with a
+   dispatch_commons subsegment; PAL's end on a halfword, so its raw tail
+   still labels them. */
+u16 gDuelEffect_wBasePriority;
+SVECTOR gDuelEffect_DrawOffset;
+DuelEffectTextureTable gDuelEffect_TexturePageClutPairs;
+struct DisplayObject *gDuelEffect_CardObjectScratchWords[21];
+GsOT *gDuelEffect_pOrderingTable;
+
 GsIMAGE gDuelEffect_TextureImages[21] = DUEL_EFFECT_TEXTURE_IMAGES;
 
 DuelEffectImageInputs gDuelEffect_TextureModesAndVariants = {

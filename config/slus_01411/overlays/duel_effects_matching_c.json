@@ -2,7 +2,7 @@
   "functions": [
     {
       "address": "0x801462B0",
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x508",
       "source": "src/overlays/duel_effects/dispatch.c"
     },

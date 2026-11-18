@@ -30,6 +30,9 @@ the priority stays `u16`.
 
 The NTSC objects are not contiguous in the PAL order. These names do not
 introduce a packed context object, new allocation or linker alias.
+`dispatch.c` declares all three (with the texture page/CLUT pairs and the
+card-object scratch words) as common storage; see
+[`data-layout-ownership.md`](../data-layout-ownership.md#overlay-data).
 
 The dispatcher selects the active ordering table from request words 8/12.
 All 26 pointer writes remain in their original cases, including both writes
