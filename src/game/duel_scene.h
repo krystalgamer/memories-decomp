@@ -396,15 +396,11 @@ typedef char DuelSelectionSide_size_must_be_side_size[
     sizeof(DuelSelectionSide) == DUEL_SELECTION_SIDE_SIZE ? 1 : -1
 ];
 
-/* The selection table itself: DUEL_SELECTION_SIDE_SIZE bytes per side.
- * Callers that start from record N of the active side form
- * gDuel_abSelectionSides + N * DUEL_SELECTION_RECORD_SIZE and add the side
- * stride. */
-extern u8 gDuel_abSelectionSides[];
+/* The selection table itself: one four-record side per duelist. */
+extern DuelSelectionSide gDuel_abSelectionSides[];
 
 /* Active record in the selection table. Every writer selects a whole
- * DuelSelectionRecord of gDuel_abSelectionSides with the side-stride
- * arithmetic above. Phase entry writes
+ * DuelSelectionRecord of gDuel_abSelectionSides[side].records. Phase entry writes
  * the hand pointer at +8; battle and Exodia paths access cursor_object at +4;
  * the cursor/viewer paths read the shared coordinates and status.
  *
@@ -527,8 +523,8 @@ s32 Ai_SelectFieldPlay(void);
 void DebugEffect_UpdateViewControls(void);
 void DebugEffect_UpdatePreview(void);
 
-extern u8 *gDebugEffect_pPreviewCard0;
-extern u8 *gDebugEffect_pPreviewCard1;
+extern struct DisplayObject *gDebugEffect_pPreviewCard0;
+extern struct DisplayObject *gDebugEffect_pPreviewCard1;
 extern DuelCardRecord gDebugEffect_aPreviewCardRecords[];
 /* DuelScene_UpdateEffectPreview's FntPrint strings stay in generated
  * .rodata: retail keeps them, after gDuel_szComSelCardError, ahead of every
@@ -1094,22 +1090,13 @@ typedef DisplayObject *(*DuelCreateHandCardDisplayObjectAt)(
  * the DisplayObject it holds. */
 void Duel_ApplyCardObjectFlags(DisplayObject *object);
 
-/* The two fields Duel_GetCardEffectVariant reads out of a card's display object: the
-   rotation_z byte at 0x22 and the type byte at 0x68. It is a view of those two
-   offsets, not a claim about the rest of the record, which is why the gaps
-   are still padding. */
-typedef struct {
-    char pad_00[0x22];
-    u8 rotation_z;
-    char pad_23[0x45];
-    u8 type;
-} CardObject;
-
 /* Returns the card's display value. The result is s32, not the s16 two of
    the three callers used to declare: the definition returns int, and every
    call site stores the result straight into a 16-bit field, so the narrowing
-   they were describing happens at the store rather than at the return. */
-s32 Duel_GetCardEffectVariant(CardObject *object);
+   they were describing happens at the store rather than at the return. It
+   reads the card type the duel keeps in resource_branch_index and the
+   rotation_z byte of the card's display object. */
+s32 Duel_GetCardEffectVariant(struct DisplayObject *object);
 
 /* Allocates a type 2 display object, passes x/y to DisplayObject_ConfigureSpriteAtPosition as
    its x/y, and marks it screen space. Defined in
@@ -1373,12 +1360,19 @@ void DuelScene_UpdateDrawResolution(void);
  * expression. */
 void DuelEffect_ApplyTerrain(void);
 
+/* The card's light colour: Duel_DrawFieldCards stores DisplayObject.rgb's word
+ * and RotColorDpq reads it as the CVECTOR it lights. */
+typedef union {
+    s32 word;
+    CVECTOR c;
+} DuelCardLightColor;
+
 /* Draws one 3D field card: `prim` is the lit POLY_GT4 card face, `sprite` the
  * POLY_FT4 projected under it, and `color` a scratch word that receives the
  * object's colour for RotColorDpq. The table index is deliberately read as
  * s8 for the half-turn test, matching retail even for values >= 0x80.
  * One caller: Duel_DrawFieldCards. */
-void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sprite, s32 *color);
+void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sprite, DuelCardLightColor *color);
 
 /* Compares the guardian-star matchup between two selection records and returns
  * display code 4 for neutral, 1 when the first loses, or 6 when it wins.
