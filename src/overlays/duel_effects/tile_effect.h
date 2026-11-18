@@ -42,11 +42,4 @@ typedef char TileEffectState_colour_offsets_must_match[
     OFFSETOF(TileEffectState, colors_b) == 0x258 ? 1 : -1
 ];
 
-/* The texture-word table gDuelEffect_TexturePageClutPairs seen as the page/clut pairs the
- * dispatcher packs, one per image descriptor. */
-typedef struct {
-    u16 page;               /* 0x00 */
-    u16 clut;               /* 0x02 */
-} TileEffectTextureWords;
-
 #endif

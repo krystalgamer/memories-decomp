@@ -92,6 +92,7 @@ void DuelEffect_RunCardFlashBurst(void *buffer, s32 phase)
                       work->config->card_height, 0);
             setVector(&quad[3], work->config->card_width,
                       work->config->card_height, 0);
+            /* One word load tests the colour's r/g/b bytes together. */
             if ((*(u32 *)&work->card_color & 0xFFFFFF) == 0x808080) {
                 DuelEffect_ProjectSubmitFt4(packet, quad, 0, 0);
             } else {

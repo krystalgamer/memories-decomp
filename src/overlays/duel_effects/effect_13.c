@@ -84,7 +84,7 @@ void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
         frame_step = Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         if ((u16)DuelEffect_HasNonzeroColor(&work->glow_color)) {
             setVector(&rotation, 0, 0, work->tick * 128);
             DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, scale_pointer, 0);

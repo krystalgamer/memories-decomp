@@ -42,7 +42,7 @@ void DuelEffect_RunStopDefenseBurst(void *buffer, s32 phase)
         frame_step = Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 3);
         if ((u16)DuelEffect_HasNonzeroColor(&work->color)) {
             for (i = 0; i < 32; i++) {

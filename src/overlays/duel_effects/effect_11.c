@@ -111,7 +111,7 @@ void DuelEffect_RunCardBreakup(void *buffer, s32 phase)
     } else {
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         setPolyFT4(packet);
         setPolyGT4(gradient_packet);
         DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &zero, &scale, 2);

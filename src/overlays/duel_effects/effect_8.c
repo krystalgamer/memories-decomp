@@ -67,7 +67,7 @@ void DuelEffect_RunFieldColumnBurst(void *buffer, s32 phase)
         frame_step = Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &work->origin, &rotation, &scale, 1);
         if ((u16)DuelEffect_HasNonzeroColor(&work->color)) {
             DuelEffect_DrawSharedBaseTriangles(&work->color, work->config->ray_width, work->rays,

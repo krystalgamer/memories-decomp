@@ -9,14 +9,15 @@
 
 void DuelEffect_ProjectSubmitFt4(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
 {
-    s32 p;
-    s32 flag;
+    long p;
+    long flag;
     s32 depth;
 
+    /* The GTE stores each x/y pair as one long; callers pass the bare primitive. */
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
                         (long *)&packet->x0, (long *)&packet->x1,
                         (long *)&packet->x2, (long *)&packet->x3,
-                        (long *)&p, (long *)&flag);
+                        &p, &flag);
     if (flag >= 0) {
         if (bias == 0) {
             DuelEffect_SubmitOffsetFt4(packet, mode);
@@ -29,7 +30,7 @@ void DuelEffect_ProjectSubmitFt4(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, 
                 packet->code &= ~2;
                 GsSortPoly(packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2));
             } else {
-                Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
+                Graphics_SubmitDrawModePacket(packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
             }
         }
     }
@@ -37,14 +38,15 @@ void DuelEffect_ProjectSubmitFt4(POLY_FT4 *packet, SVECTOR *vertices, s16 bias, 
 
 void DuelEffect_ProjectSubmitGt4(POLY_GT4 *packet, SVECTOR *vertices, s16 bias, u16 mode)
 {
-    s32 p;
-    s32 flag;
+    long p;
+    long flag;
     s32 depth;
 
+    /* The GTE stores each x/y pair as one long; callers pass the bare primitive. */
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
                         (long *)&packet->x0, (long *)&packet->x1,
                         (long *)&packet->x2, (long *)&packet->x3,
-                        (long *)&p, (long *)&flag);
+                        &p, &flag);
     if (flag >= 0) {
         if (bias == 0) {
             DuelEffect_SubmitOffsetGt4(packet, mode);
@@ -53,7 +55,7 @@ void DuelEffect_ProjectSubmitGt4(POLY_GT4 *packet, SVECTOR *vertices, s16 bias, 
             if (depth < 0) {
                 depth = 0;
             }
-            Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
+            Graphics_SubmitDrawModePacket(packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
         }
     }
 }
@@ -62,10 +64,11 @@ void DuelEffect_SetTransformMatrix(MATRIX *world, MATRIX *saved, SVECTOR *positi
                     SVECTOR *rotation, VECTOR *scale, u16 mode)
 {
     MATRIX matrix;
-    s32 flag;
+    long flag;
 
     GsSetLsMatrix(world);
-    RotTrans(position, (VECTOR *)&matrix.t[0], (long *)&flag);
+    /* RotTrans writes a VECTOR; MATRIX.t is its first three words. */
+    RotTrans(position, (VECTOR *)&matrix.t[0], &flag);
     RotMatrix(rotation, &matrix);
     if (mode == 2 || mode == 3) {
         MulMatrix2(world, &matrix);

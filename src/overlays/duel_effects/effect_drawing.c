@@ -109,55 +109,55 @@ void DuelEffect_DrawRandomTileQuad(CVECTOR *color, SVECTOR *vertices, s16 depth)
 
 void DuelEffect_DrawTexturedRingStrip(CVECTOR *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, s16 mode)
 {
-    POLY_GT4 polygon;
-    POLY_GT4 *packet = &polygon;
-    s32 p;
-    s32 flag;
+    DisplayObjectGT4Packet polygon;
+    DisplayObjectGT4Packet *packet = &polygon;
+    long p;
+    long flag;
     s32 depth;
     s32 adjusted;
     s32 i;
 
-    setPolyGT4(packet);
-    packet->tpage = gDuelEffect_TexturePageClutPairs.named.page_at_04;
-    packet->clut = gDuelEffect_TexturePageClutPairs.named.clut_at_06;
-    setUV4(packet, 128, 0, 159, 0, 128, 63, 159, 63);
-    setRGB0(packet, 0, 0, 0);
-    setRGB1(packet, 0, 0, 0);
-    setRGB2(packet, color->r, color->g, color->b);
-    setRGB3(packet, color->r, color->g, color->b);
+    setPolyGT4(&packet->prim);
+    packet->prim.tpage = gDuelEffect_TexturePageClutPairs.named.page_at_04;
+    packet->prim.clut = gDuelEffect_TexturePageClutPairs.named.clut_at_06;
+    setUV4(&packet->prim, 128, 0, 159, 0, 128, 63, 159, 63);
+    setRGB0(&packet->prim, 0, 0, 0);
+    setRGB1(&packet->prim, 0, 0, 0);
+    setRGB2(&packet->prim, color->r, color->g, color->b);
+    setRGB3(&packet->prim, color->r, color->g, color->b);
     for (i = 0; i < 32; i++) {
         depth = RotAverage4(&first[i], &first[(i + 1) % 32],
             &middle[i], &middle[(i + 1) % 32],
-            (long *)&packet->x0, (long *)&packet->x1,
-            (long *)&packet->x2, (long *)&packet->x3,
-            (long *)&p, (long *)&flag);
+            &packet->w.xy0, &packet->w.xy1,
+            &packet->w.xy2, &packet->w.xy3,
+            &p, &flag);
         if (depth >= 0 && flag >= 0) {
             adjusted = depth + 1;
             if (mode == 0) {
-                DuelEffect_SubmitOffsetGt4(packet, 1);
+                DuelEffect_SubmitOffsetGt4(&packet->prim, 1);
             } else {
                 depth = adjusted - mode;
                 if (depth < 0) {
                     depth = 0;
                 }
-                Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
+                Graphics_SubmitDrawModePacket(&packet->prim, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
             }
         }
         depth = RotAverage4(&last[i], &last[(i + 1) % 32],
             &middle[i], &middle[(i + 1) % 32],
-            (long *)&packet->x0, (long *)&packet->x1,
-            (long *)&packet->x2, (long *)&packet->x3,
-            (long *)&p, (long *)&flag);
+            &packet->w.xy0, &packet->w.xy1,
+            &packet->w.xy2, &packet->w.xy3,
+            &p, &flag);
         if (depth >= 0 && flag >= 0) {
             adjusted = depth + 1;
             if (mode == 0) {
-                DuelEffect_SubmitOffsetGt4(packet, 1);
+                DuelEffect_SubmitOffsetGt4(&packet->prim, 1);
             } else {
                 depth = adjusted - mode;
                 if (depth < 0) {
                     depth = 0;
                 }
-                Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
+                Graphics_SubmitDrawModePacket(&packet->prim, gDuelEffect_pOrderingTable, (u16)(depth >> 2), mode);
             }
         }
     }
@@ -165,49 +165,49 @@ void DuelEffect_DrawTexturedRingStrip(CVECTOR *color, SVECTOR *first, SVECTOR *m
 
 void DuelEffect_DrawGradientRingStrip(CVECTOR *color, SVECTOR *first, SVECTOR *middle, SVECTOR *last, u16 bias)
 {
-    POLY_G4 polygon;
-    POLY_G4 *packet = &polygon;
-    s32 p;
-    s32 flag;
+    DisplayObjectG4Packet polygon;
+    DisplayObjectG4Packet *packet = &polygon;
+    long p;
+    long flag;
     s32 depth;
     s32 i;
 
-    setPolyG4(packet);
-    setRGB0(packet, 0, 0, 0);
-    setRGB1(packet, 0, 0, 0);
-    setRGB2(packet, color->r >> 1, color->g >> 1, color->b >> 1);
-    setRGB3(&polygon, color->r >> 1, color->g >> 1, color->b >> 1);
+    setPolyG4(&packet->prim);
+    setRGB0(&packet->prim, 0, 0, 0);
+    setRGB1(&packet->prim, 0, 0, 0);
+    setRGB2(&packet->prim, color->r >> 1, color->g >> 1, color->b >> 1);
+    setRGB3(&polygon.prim, color->r >> 1, color->g >> 1, color->b >> 1);
     for (i = 0; i < 32; i++) {
         depth = RotAverage4(&first[i], &first[(i + 1) % 32],
             &middle[i], &middle[(i + 1) % 32],
-            (long *)&packet->x0, (long *)&packet->x1,
-            (long *)&packet->x2, (long *)&packet->x3,
-            (long *)&p, (long *)&flag);
+            &packet->w.xy0, &packet->w.xy1,
+            &packet->w.xy2, &packet->w.xy3,
+            &p, &flag);
         if (flag >= 0) {
             depth -= bias;
             if (bias == 0) {
-                DuelEffect_SubmitOffsetQuad(packet, 1);
+                DuelEffect_SubmitOffsetQuad(&packet->prim, 1);
             } else {
                 if (depth < 0) {
                     depth = 0;
                 }
-                Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
+                Graphics_SubmitDrawModePacket(&packet->prim, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
             }
         }
         depth = RotAverage4(&last[i], &last[(i + 1) % 32],
             &middle[i], &middle[(i + 1) % 32],
-            (long *)&packet->x0, (long *)&packet->x1,
-            (long *)&packet->x2, (long *)&packet->x3,
-            (long *)&p, (long *)&flag);
+            &packet->w.xy0, &packet->w.xy1,
+            &packet->w.xy2, &packet->w.xy3,
+            &p, &flag);
         if (flag >= 0) {
             depth -= bias;
             if (bias == 0) {
-                DuelEffect_SubmitOffsetQuad(packet, 1);
+                DuelEffect_SubmitOffsetQuad(&packet->prim, 1);
             } else {
                 if (depth < 0) {
                     depth = 0;
                 }
-                Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
+                Graphics_SubmitDrawModePacket(&packet->prim, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
             }
         }
     }
@@ -217,11 +217,11 @@ void DuelEffect_DrawProjectedNumber(s32 value, CVECTOR *color, SVECTOR *offset, 
 {
     SVECTOR vertices[20];
     u16 digits[8];
-    POLY_FT4 polygon;
+    DisplayObjectFT4Packet polygon;
     POLY_FT4 copy;
-    POLY_FT4 *packet = &polygon;
-    s32 p;
-    s32 flag;
+    DisplayObjectFT4Packet *packet = &polygon;
+    long p;
+    long flag;
     s32 depth;
     s32 adjusted;
     s32 i;
@@ -234,8 +234,8 @@ void DuelEffect_DrawProjectedNumber(s32 value, CVECTOR *color, SVECTOR *offset, 
     count = DuelEffect_CountDecimalDigitsS16(value);
     DuelEffect_WriteNumberDigits(__builtin_abs(value), digits);
     vertex = 0;
-    setPolyFT4(packet);
-    setRGB0(packet, color->r, color->g, color->b);
+    setPolyFT4(&packet->prim);
+    setRGB0(&packet->prim, color->r, color->g, color->b);
     for (i = 0; i < count * 2 + 4; i++) {
         setVector(&vertices[i],
             size * (i / 2 << 1)
@@ -244,13 +244,13 @@ void DuelEffect_DrawProjectedNumber(s32 value, CVECTOR *color, SVECTOR *offset, 
         addVector(&vertices[i], offset);
     }
     for (i = 0; i < count + 1; i++) {
-        packet->tpage = gDuelEffect_TexturePageClutPairs.pairs[9][0];
-        packet->clut = gDuelEffect_TexturePageClutPairs.pairs[9][1];
+        packet->prim.tpage = gDuelEffect_TexturePageClutPairs.pairs[9][0];
+        packet->prim.clut = gDuelEffect_TexturePageClutPairs.pairs[9][1];
         depth = RotAverage4(&vertices[vertex], &vertices[vertex + 2],
             &vertices[vertex + 1], &vertices[vertex + 3],
-            (long *)&packet->x0, (long *)&packet->x1,
-            (long *)&packet->x2, (long *)&packet->x3,
-            (long *)&p, (long *)&flag);
+            &packet->w.xy0, &packet->w.xy1,
+            &packet->w.xy2, &packet->w.xy3,
+            &p, &flag);
         if (i == 0) {
             if (value > 0) {
                 tile = 10;
@@ -260,20 +260,20 @@ void DuelEffect_DrawProjectedNumber(s32 value, CVECTOR *color, SVECTOR *offset, 
         } else {
             tile = digits[i - 1];
         }
-        setUV4(packet,
+        setUV4(&packet->prim,
             gDuelEffect_aNumberGlyphRects[tile].x, gDuelEffect_aNumberGlyphRects[tile].y,
             gDuelEffect_aNumberGlyphRects[tile].x + gDuelEffect_aNumberGlyphRects[tile].w, gDuelEffect_aNumberGlyphRects[tile].y,
             gDuelEffect_aNumberGlyphRects[tile].x, gDuelEffect_aNumberGlyphRects[tile].y + gDuelEffect_aNumberGlyphRects[tile].h,
             gDuelEffect_aNumberGlyphRects[tile].x + gDuelEffect_aNumberGlyphRects[tile].w,
             gDuelEffect_aNumberGlyphRects[tile].y + gDuelEffect_aNumberGlyphRects[tile].h);
-        copy = polygon;
+        copy = polygon.prim;
         if (bias == 0) {
             if (flag >= 0) {
                 if (mode == 1) {
-                    draw_packet = packet;
+                    draw_packet = &packet->prim;
                     draw_mode = 1;
                 } else if (mode == 0) {
-                    draw_packet = packet;
+                    draw_packet = &packet->prim;
                     draw_mode = 0;
                 } else {
                     vertex += 2;
@@ -286,9 +286,9 @@ void DuelEffect_DrawProjectedNumber(s32 value, CVECTOR *color, SVECTOR *offset, 
             depth = adjusted - bias;
             if (depth >= 0 && flag >= 0) {
                 if (mode == 1) {
-                    Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
+                    Graphics_SubmitDrawModePacket(&packet->prim, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
                 } else {
-                    Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 0);
+                    Graphics_SubmitDrawModePacket(&packet->prim, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 0);
                 }
             }
         }
@@ -357,17 +357,17 @@ void DuelEffect_DrawSharedBaseTriangles(CVECTOR *color, u16 width, SVECTOR *posi
 {
     SVECTOR left;
     SVECTOR right;
-    POLY_G3 polygon;
-    POLY_G3 *packet = &polygon;
-    s32 p;
-    s32 flag;
+    DuelEffectG3Packet polygon;
+    DuelEffectG3Packet *packet = &polygon;
+    long p;
+    long flag;
     s32 i;
     s32 depth;
 
-    setPolyG3(packet);
-    setRGB0(packet, 0, 0, 0);
-    setRGB1(packet, color->r, color->g, color->b);
-    setRGB2(packet, color->r, color->g, color->b);
+    setPolyG3(&packet->prim);
+    setRGB0(&packet->prim, 0, 0, 0);
+    setRGB1(&packet->prim, color->r, color->g, color->b);
+    setRGB2(&packet->prim, color->r, color->g, color->b);
     left.vx = -width;
     left.vy = 0;
     left.vz = 0;
@@ -376,32 +376,32 @@ void DuelEffect_DrawSharedBaseTriangles(CVECTOR *color, u16 width, SVECTOR *posi
     right.vz = 0;
     for (i = 0; i < count; i++) {
         depth = RotAverage3(&positions[i], &left, &right,
-            (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
-            (long *)&p, (long *)&flag) - bias;
-        Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
+            &packet->w.xy0, &packet->w.xy1, &packet->w.xy2,
+            &p, &flag) - bias;
+        Graphics_SubmitDrawModePacket(&packet->prim, gDuelEffect_pOrderingTable, (u16)(depth >> 2), 1);
     }
 }
 
 void DuelEffect_DrawProjectedFlatQuad(CVECTOR *color, SVECTOR *vertices, u16 flags, u16 mode)
 {
-    POLY_F4 polygon;
-    POLY_F4 *packet = &polygon;
-    s32 p;
-    s32 flag;
+    DuelEffectF4Packet polygon;
+    POLY_F4 *packet = &polygon.prim;
+    long p;
+    long flag;
     s32 depth;
 
     setPolyF4(packet);
     setRGB0(packet, color->r, color->g, color->b);
     setSemiTrans(packet, 1);
     depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-        (long *)&packet->x0, (long *)&packet->x1, (long *)&packet->x2,
-        (long *)&packet->x3, (long *)&p, (long *)&flag);
+        &polygon.w.xy0, &polygon.w.xy1, &polygon.w.xy2,
+        &polygon.w.xy3, &p, &flag);
     if (flag >= 0) {
         if (mode == 0) {
             setSemiTrans(packet, 0);
             GsSortPoly(packet, gDuelEffect_pOrderingTable, depth >> 2);
         } else {
-            Graphics_SubmitDrawModePacket((u32 *)packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), flags);
+            Graphics_SubmitDrawModePacket(packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2), flags);
         }
     }
 }
@@ -409,27 +409,27 @@ void DuelEffect_DrawProjectedFlatQuad(CVECTOR *color, SVECTOR *vertices, u16 fla
 u16 DuelEffect_DrawGradientPath(CVECTOR *color, u16 count, SVECTOR *vertices, u16 bias,
                     u16 mode, SVECTOR *output, u16 flags, SVECTOR *offset)
 {
-    GsGLINE line;
-    GsGLINE *packet = &line;
-    s32 p;
-    s32 flag;
+    DuelEffectGLinePacket line;
+    DuelEffectGLinePacket *packet = &line;
+    long p;
+    long flag;
     s32 depth;
     s32 divisor;
     s32 i;
 
-    packet->attribute = 0x40000000U + ((u32)flags << 28);
+    packet->prim.attribute = 0x40000000U + ((u32)flags << 28);
     for (i = 0; i < count; i++) {
         divisor = count + 1;
-        setRGB0(packet, color->r / (divisor - i),
+        setRGB0(&packet->prim, color->r / (divisor - i),
             color->g / (divisor - i), color->b / (divisor - i));
-        setRGB1(packet, color->r / (count - i),
+        setRGB1(&packet->prim, color->r / (count - i),
             color->g / (count - i), color->b / (count - i));
-        RotTransPers(&vertices[i], (long *)&packet->x0, (long *)&p, (long *)&flag);
-        depth = RotTransPers(&vertices[i + 1], (long *)&packet->x1,
-                            (long *)&p, (long *)&flag);
+        RotTransPers(&vertices[i], &packet->w.xy0, &p, &flag);
+        depth = RotTransPers(&vertices[i + 1], &packet->w.xy1,
+                            &p, &flag);
         depth -= bias;
         if (depth >= 0) {
-            GsSortGLine(packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2));
+            GsSortGLine(&packet->prim, gDuelEffect_pOrderingTable, (u16)(depth >> 2));
         }
         if (mode == 1 && vertices[i + 1].vy > 0) {
             setVector(output, vertices[i + 1].vx, 0, vertices[i + 1].vz);
@@ -479,20 +479,20 @@ void DuelEffect_DrawTranslatedTileRect(CVECTOR *color, SVECTOR *offset, u16 widt
     DuelEffect_ProjectSubmitFt4(&packet->polygon, drawing.vertices, 1, 1);
 }
 
-void DuelEffect_DrawGradientConnectionBands(CVECTOR *color, DVECTOR *first, DVECTOR *last, u16 width)
+void DuelEffect_DrawGradientConnectionBands(CVECTOR *color, SVECTOR *first, SVECTOR *last, u16 width)
 {
-    POLY_G4 polygon;
-    POLY_G4 *packet = &polygon;
+    DisplayObjectG4Packet polygon;
+    DisplayObjectG4Packet *packet = &polygon;
     SVECTOR vertices[4];
-    s32 p;
-    s32 flag;
+    long p;
+    long flag;
     s32 i;
 
-    setPolyG4(packet);
-    setRGB0(packet, 0, 0, 0);
-    setRGB1(packet, color->r, color->g, color->b);
-    setRGB2(packet, color->r, color->g, color->b);
-    setRGB3(packet, 0, 0, 0);
+    setPolyG4(&packet->prim);
+    setRGB0(&packet->prim, 0, 0, 0);
+    setRGB1(&packet->prim, color->r, color->g, color->b);
+    setRGB2(&packet->prim, color->r, color->g, color->b);
+    setRGB3(&packet->prim, 0, 0, 0);
     for (i = 0; i < 2; i++) {
         setVector(&vertices[0], first->vx,
             first->vy + (s16)DuelEffect_PowS16(-1, i + 1) * width, 0);
@@ -501,11 +501,11 @@ void DuelEffect_DrawGradientConnectionBands(CVECTOR *color, DVECTOR *first, DVEC
         setVector(&vertices[3], last->vx,
             last->vy + (s16)DuelEffect_PowS16(-1, i + 1) * width, 0);
         RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
-            (long *)&packet->x0, (long *)&packet->x1,
-            (long *)&packet->x2, (long *)&packet->x3,
-            (long *)&p, (long *)&flag);
+            &packet->w.xy0, &packet->w.xy1,
+            &packet->w.xy2, &packet->w.xy3,
+            &p, &flag);
         if (flag >= 0) {
-            DuelEffect_SubmitOffsetQuad(packet, 1);
+            DuelEffect_SubmitOffsetQuad(&packet->prim, 1);
         }
     }
 }

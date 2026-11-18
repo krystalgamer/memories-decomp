@@ -23,16 +23,16 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
     VECTOR scale;
     POLY_FT4 polygon;
     POLY_GT4 gradient;
-    GsGLINE line;
+    DuelEffectGLinePacket line;
     SVECTOR vertices[4];
     CVECTOR color;
     MATRIX backup;
-    s32 flag;
-    s32 p;
+    long flag;
+    long p;
     s32 depth;
     POLY_FT4 *packet;
     POLY_GT4 *gradient_packet;
-    GsGLINE *line_packet;
+    DuelEffectGLinePacket *line_packet;
     DuelEffect22Work *work;
     s32 i;
     s32 j;
@@ -167,7 +167,7 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
         }
         DuelEffect_SetFogBaseColor(work->brightness, work->brightness, work->brightness);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
         if ((u16)DuelEffect_HasNonzeroColor(&work->portal_color)) {
             for (i = 0; i < 2; i++) {
@@ -286,7 +286,8 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
             setVector(&scale, 4096, 4096, 4096);
             setVector(&position, 0, -96, 0);
             GsSetLsMatrix(&world);
-            RotTrans(&position, (VECTOR *)&saved.t[0], (long *)&flag);
+            /* RotTrans writes a VECTOR; MATRIX.t is its first three words. */
+            RotTrans(&position, (VECTOR *)&saved.t[0], &flag);
             ScaleMatrix(&saved, &scale);
             backup = saved;
             for (i = 0; i < 32; i++) {
@@ -304,13 +305,13 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
             setVector(&position, 0, -96, 0);
             DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
             for (i = 0; i < work->active_particles; i++) {
-                line_packet->attribute = 0x50000000;
-                setRGB0(line_packet, work->particle_color.r, work->particle_color.g, work->particle_color.b);
-                setRGB1(line_packet, 0, 0, 0);
-                RotTransPers(&work->line_inner[i], (long *)&line_packet->x0, (long *)&p, (long *)&flag);
-                depth = RotTransPers(&work->line_outer[i], (long *)&line_packet->x1, (long *)&p, (long *)&flag);
+                line_packet->prim.attribute = 0x50000000;
+                setRGB0(&line_packet->prim, work->particle_color.r, work->particle_color.g, work->particle_color.b);
+                setRGB1(&line_packet->prim, 0, 0, 0);
+                RotTransPers(&work->line_inner[i], &line_packet->w.xy0, &p, &flag);
+                depth = RotTransPers(&work->line_outer[i], &line_packet->w.xy1, &p, &flag);
                 if (depth >= 0 && flag >= 0) {
-                    GsSortGLine(line_packet, gDuelEffect_pOrderingTable, (u16)(depth >> 2));
+                    GsSortGLine(&line_packet->prim, gDuelEffect_pOrderingTable, (u16)(depth >> 2));
                 }
                 if (__builtin_abs(work->line_inner[i].vx) > 64 ||
                     __builtin_abs(work->line_inner[i].vy) > 64 ||
@@ -434,7 +435,8 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
             DuelEffect_DrawLayeredTileQuad(&work->particle_color, 128, 1, &position);
             setVector(&position, 0, -96, 0);
             GsSetLsMatrix(&world);
-            RotTrans(&position, (VECTOR *)&saved.t[0], (long *)&flag);
+            /* RotTrans writes a VECTOR; MATRIX.t is its first three words. */
+            RotTrans(&position, (VECTOR *)&saved.t[0], &flag);
             ScaleMatrix(&saved, &scale);
             backup = saved;
             color = work->particle_color;

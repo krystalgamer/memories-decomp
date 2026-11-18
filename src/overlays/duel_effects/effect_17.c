@@ -106,7 +106,7 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
     } else {
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         if (work->stage < 2) {
             if (work->brightness > 8) {
                 work->brightness -= 8;

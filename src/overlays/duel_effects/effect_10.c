@@ -83,7 +83,7 @@ void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
         frame_step = Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
         if ((u16)DuelEffect_HasNonzeroColor(&work->color) && work->stage == 0) {
             DuelEffect_DrawProjectedFlatQuad(&work->color, work->plane, work->config->mode, 1);
@@ -165,6 +165,7 @@ void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
         if ((u16)DuelEffect_HasNonzeroColor(&work->screen_color) && work->stage == 1) {
             DuelEffect_DrawFadingFullscreenColor(&work->screen_color, 15);
         }
+        /* One word load tests color_ready and ring_ready together. */
         if (*(u32 *)&work->color_ready == 0x10001) {
             gDuelEffect_pActiveRequest->progress = 1;
         }

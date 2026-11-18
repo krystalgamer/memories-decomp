@@ -22,6 +22,7 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
     scale = gDuelEffect_SwordsFieldInitialScale;
+    /* The shared work area is a raw byte buffer; these slots live at fixed offsets. */
     slots[0] = (DuelEffect21Work *)(gRuntime_pSharedWorkBase + 0x2800);
     slots[1] = (DuelEffect21Work *)(gRuntime_pSharedWorkBase + 0x2880);
     if (phase >= 0) {
@@ -60,7 +61,7 @@ void DuelEffect_RunSwordsField(void *buffer, s32 phase)
     } else {
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &position, &rotation, &scale, 2);
         for (i = 0; i < slots[__builtin_abs(phase + 1) % 2]->count; i++) {
             copyVector(&position, &slots[__builtin_abs(phase + 1) % 2]->positions[i]);

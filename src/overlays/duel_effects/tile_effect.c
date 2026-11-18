@@ -84,8 +84,8 @@ void DuelEffect_RunDestroyFlames(void *buffer, s32 phase)
         tile->tpage = state->texture_words[0];
         tile->clut = state->texture_words[1];
         setPolyFT4(spark);
-        spark->tpage = ((TileEffectTextureWords *)&gDuelEffect_TexturePageClutPairs)[state->descriptor->texture].page;
-        spark->clut = ((TileEffectTextureWords *)&gDuelEffect_TexturePageClutPairs)[state->descriptor->texture].clut;
+        spark->tpage = gDuelEffect_TexturePageClutPairs.pairs[state->descriptor->texture][0];
+        spark->clut = gDuelEffect_TexturePageClutPairs.pairs[state->descriptor->texture][1];
         for (k = 0; k < 5; k++) {
             for (i = 0; i < 7; i++) {
                 if ((u16)DuelEffect_HasNonzeroColor(&state->colors_a[k][i]) != 0 ||

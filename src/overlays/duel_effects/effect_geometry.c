@@ -135,7 +135,7 @@ void DuelEffect_PackTexturePageClut(u16 *output, GsIMAGE *image, s32 mode)
 {
     output[0] = ((image->pmode & 3) << 7) |
                 ((mode & 3) << 5) |
-                (((s32)(*(u16 *)&image->py & 0x100) << 16) >> 20) |
+                (((s32)((u16)image->py & 0x100) << 16) >> 20) |
                 ((image->px & 0x3FF) >> 6) |
                 ((image->py & 0x200) << 2);
     output[1] = (image->cy << 6) |
@@ -250,6 +250,7 @@ void DuelEffect_InitJaggedColumnVertices(u16 radius, u16 spread, u16 height, u16
         } while (0);
         do {
             angle_step = 2048 / count;
+            /* Integer address arithmetic keeps the retail addu operand order. */
             vertex = (SVECTOR *)(i * sizeof(SVECTOR) + (s32)vertices);
             vertex->vy = step * i - height;
             vertex->vz = z + radius_z * ((sine = csin(angle_step * i), z < 0) ? (sine = -sine) : sine) / 4096;
