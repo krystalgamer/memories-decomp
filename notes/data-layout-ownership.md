@@ -609,4 +609,5 @@ every gap there is explicit.
 The Japanese and PAL overworld images (both coup variants) own their data
 through the North American units, listed in each image's
 `overworld_*_data_c.json`: `module_header.c` (`0x0`; PAL selects its `0x06`
-module word with `VERSION_EUROPE`).
+module word with `VERSION_EUROPE`) and `location_table.c` (`0x11A8`, 0x420
+bytes; PAL moves location 9's exit sprite to `y` 208).

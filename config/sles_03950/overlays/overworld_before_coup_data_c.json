@@ -7,6 +7,13 @@
       ],
       "profile": "gcc_2_8_1_g0",
       "source": "src/overlays/overworld/module_header.c"
+    },
+    {
+      "defines": [
+        "VERSION_EUROPE"
+      ],
+      "profile": "gcc_2_8_1_g0",
+      "source": "src/overlays/overworld/location_table.c"
     }
   ]
 }
