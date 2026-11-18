@@ -200,7 +200,7 @@ void DuelEffect_UpdateCardViewerState(void)
         }
         Fade_SetTargetLevel(0x40, 2);
         /* A lbu of the volatile halfword's low byte; (u8) would keep the lhu. */
-        gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 0x13;
+        gFade_bKeepOverlayDepth = gDisplayObject_awOrderingTableDepthBases[1].low - 0x13;
         SD_SEPlayFull(0x34);
         gDuel_bEffectHandlerFlags |= 0x40;
         return;

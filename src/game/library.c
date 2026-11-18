@@ -578,8 +578,8 @@ void Library_UpdateGridCursor(LibraryState *state)
    b2 changes the code. */
 void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
 {
-    s32 depth_cue;
-    s32 gte_flag;
+    long depth_cue;
+    long gte_flag;
     LINE_F4 *q;
     struct ProjectionOut *r;
     SVECTOR *b0;
@@ -643,17 +643,18 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
 
     RotAverage4(
         b0, b1, b2, b3,
+        /* RotAverage4 takes each packed screen XY as long *. */
         (long *)&q->x0, (long *)&q->x1,
         (long *)&q->x3, (long *)&q->x2,
-        (long *)&depth_cue, (long *)&gte_flag
+        &depth_cue, &gte_flag
     );
 
-    Graphics_SubmitDrawModePacket((u32 *)q, ot, o->ot_depth, 1);
+    Graphics_SubmitDrawModePacket(q, ot, o->ot_depth, 1);
     setlen(q, 3);
     q->code = 0x40;
     k = o->ot_depth;
     *(s32 *)&q->x1 = *(s32 *)&q->x3;
-    Graphics_SubmitDrawModePacket((u32 *)q, ot, (u16)k, 1);
+    Graphics_SubmitDrawModePacket(q, ot, (u16)k, 1);
 }
 
 DisplayObject *Library_CreateFadingCardOutline(DisplayObject *src, int add)
@@ -1458,7 +1459,9 @@ void Library_InitializeScreen(void) {
     s32 d;
     s32 k;
     s32 off;
-    /* Retain the retail index-controlled palette loop and register frame. */
+    /* Retain the retail index-controlled palette loop and register frame:
+       the state address is held as an integer; a LibraryState * copy is
+       propagated back into r and the function loses eight bytes. */
     s32 rb;
 
     gGraphics_sViewportY = 0;

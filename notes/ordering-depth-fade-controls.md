@@ -2,7 +2,7 @@
 
 | Former identity | Canonical name | Preserved view |
 | --- | --- | --- |
-| `D_8009AF74` | `gDisplayObject_awOrderingTableDepthBases` | volatile `u16[4]`, `.sdata` / `.data` |
+| `D_8009AF74` | `gDisplayObject_awOrderingTableDepthBases` | volatile `DisplayObjectDepthBase[4]` (`u16 base` / `u8 low`), `.sdata` / `.data` |
 | `D_8009B140` | `gFade_bKeepOverlayDepth` | `u8`, plain / `.data` |
 | `D_8009B145` | `gFade_bWhiteLatch` | `u8`, plain / `.data` |
 
@@ -15,14 +15,16 @@ table pointer and computes/stores `base[index] - signed_offset`.
 select entries 1 and 3 and recompute using the object's existing offset.
 
 The four initialized values remain `0`, `0x20`, `0x800`, `0x20`.
-Byte readers retain their original casts to the low byte of entry 1 and
-their existing dialog/text/viewer/fade offsets. No unsigned-wrap behavior,
+Byte readers load the low byte of entry 1 through its `low` member (lbu)
+and keep their existing dialog/text/viewer/fade offsets. No unsigned-wrap behavior,
 index validation, sign interpretation or ordering-table geometry is changed.
 The name identifies reference depths, not a new allocation or an inferred
 formula for every table's length.
 
-The declaration is volatile `u16[4]`. Neither the volatile qualifier nor
-the array bound is normalized away.
+The declaration is a volatile array of four `DisplayObjectDepthBase`
+unions: `base` is the halfword every depth computation reads, `low` its
+low byte. Neither the volatile qualifier nor the array bound is
+normalized away.
 
 ## Keep-overlay fade depth
 
