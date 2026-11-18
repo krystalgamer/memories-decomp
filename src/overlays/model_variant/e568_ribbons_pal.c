@@ -1,9 +1,8 @@
 #include "../../types.h"
 
-#include "e568_ribbons_pal.h"
 #include "e568_entry_pal.h"
 
-void FrenchModelVariant402_DrawRibbons(u8 *ctx)
+void FrenchModelVariant402_DrawRibbons(Variant402EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -28,7 +27,7 @@ void FrenchModelVariant402_DrawRibbons(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant402EntryState *)ctx;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     ribbon = work->ribbons;

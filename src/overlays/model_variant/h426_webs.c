@@ -5,7 +5,7 @@
 /* Header 426's copy of the header-405 webs (e588_webs.c), kept in the
  * header-443 images over their entry state: the webs are its spheres and the
  * timing window runs from the config's start to its web_end. */
-void ModelVariant405_DrawWebs(u8 *ctx)
+void ModelVariant405_DrawWebs(EntryState443 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -31,7 +31,7 @@ void ModelVariant405_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (EntryState443 *)ctx;
+    work = ctx;
     web = work->spheres;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

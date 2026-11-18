@@ -6,7 +6,7 @@
  * projects each spine and a copy of it moved along the view, and draws each
  * segment as a POLY_G4 as wide as the projected offset. Once the fourth phase
  * starts, the streamers shrink by step * 16 until they vanish. */
-void ModelVariant458_DrawStreamers(u8 *ctx)
+void ModelVariant458_DrawStreamers(Variant475EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -40,7 +40,7 @@ void ModelVariant458_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (Variant475EntryState *)ctx;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = &work->flat.g4;
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;

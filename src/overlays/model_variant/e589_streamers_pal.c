@@ -5,7 +5,7 @@
 /* Builds two seventeen-point streamers that coil around the variant's axis,
  * projects each spine and a copy of it moved along the view, and draws each
  * segment as a POLY_G4 as wide as the projected offset. */
-void FrenchModelVariant423_DrawStreamers(u8 *ctx)
+void FrenchModelVariant423_DrawStreamers(EntryState423 *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -45,7 +45,7 @@ void FrenchModelVariant423_DrawStreamers(u8 *ctx)
     s32 dx;
     s32 dy;
 
-    work = (EntryState423 *)ctx;
+    work = ctx;
     ot = Graphics_GetDefaultOrderingTable();
     poly = &work->flat.g4;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;

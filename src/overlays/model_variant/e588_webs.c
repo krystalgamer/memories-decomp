@@ -4,7 +4,7 @@
 
 /* Header 405's form of the header-416 webs: a line is sorted whenever its
  * depth is positive. */
-void ModelVariant405_DrawWebs(u8 *ctx)
+void ModelVariant405_DrawWebs(Variant422EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -30,7 +30,7 @@ void ModelVariant405_DrawWebs(u8 *ctx)
     u8 b;
     s32 otz;
 
-    work = (Variant422EntryState *)ctx;
+    work = ctx;
     web = work->webs;
     ot = Graphics_GetDefaultOrderingTable();
     done = 1;

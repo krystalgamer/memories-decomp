@@ -1,7 +1,0 @@
-#ifndef FRENCH402_RIBBONS_VIEW_H
-#define FRENCH402_RIBBONS_VIEW_H
-#include "../../types.h"
-#include "../model_variant/model_variant.h"
-
-void FrenchModelVariant402_DrawRibbons(u8 *context);
-#endif

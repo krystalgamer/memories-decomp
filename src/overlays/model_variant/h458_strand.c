@@ -6,7 +6,7 @@
 /* Builds six strands of thirteen points fanned around the variant origin and draws
  * the visible span of each as GsLINE segments, then advances
  * the span. */
-void ModelVariant458_DrawStrand(u8 *ctx)
+void ModelVariant458_DrawStrand(Variant475EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -26,7 +26,7 @@ void ModelVariant458_DrawStrand(u8 *ctx)
     SVECTOR *v;
     s32 otz;
 
-    work = (Variant475EntryState *)ctx;
+    work = ctx;
     strand = work->strands;
     line = &work->line;
     if (work->tail.phase >= 2) {
