@@ -255,9 +255,8 @@ void BuildDeck_RecountDeckCards(BuildDeckTransitionState *state);
  * BuildDeck_SortCardList, refreshes the pane, and returns, so a full deck of DECK_SIZE
  * entries is a silent no-op.
  *
- * `base` is s32 rather than a pointer because that is what the definition
- * takes; the body casts it to BuildDeckTransitionState * to reach lists[1].
- * Its one caller holds the same record as u8 * and casts. */
+ * `base` is the shared transition state; the card goes into its lists[1].
+ * Its one caller, the chest-pane input step, passes its state directly. */
 void BuildDeck_AddCard(BuildDeckTransitionState *base, s32 card_id);
 
 /* Draws one page of a Build Deck card list: the sort-menu icons above it and
