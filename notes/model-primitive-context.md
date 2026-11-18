@@ -59,9 +59,11 @@ Neither view is widened, merged, initialized or used for new validation.
 
 The COMPLETE primitive decoder names its existing header, primitive base/
 record, record count/countdown, page-field byte offset, stride, packet size, page/
-CLUT biases, colour depth and kind. The captured primitive-record operand
-inside MODEL_MAX_VALUE adopts the same binding name; its structure and
-captured binding are unchanged. Reused x/y, European selector/max scratch and
+CLUT biases, colour depth and kind. The page and CLUT fields are reached
+through `u16 *` cursors at the kind's OFFSETOF(..., tsb/cba) byte offsets,
+and each kind's maximum reads its normal indices through one
+`ModelPrimRecord *record` view of the current record (model_slot_setup.h).
+Reused x/y, European selector/max scratch and
 secondary cursors retain their original roles, lifetimes and read sites.
 Preserve all eight selector arms, regional gates, packed-field arithmetic,
 nullable maximum, repeated selector reads, private switch data and returns.

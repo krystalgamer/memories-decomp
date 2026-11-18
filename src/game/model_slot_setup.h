@@ -86,6 +86,18 @@ typedef struct { u8 r, g, b, code; ModelPrimGT3 prim; } ModelPrimGT3C;
 typedef struct { u8 r, g, b, code; ModelPrimFT4 prim; } ModelPrimFT4C;
 typedef struct { u8 r, g, b, code; ModelPrimGT4 prim; } ModelPrimGT4C;
 
+/* One record of any of those kinds, as the rebase pass reads it. */
+typedef union {
+    ModelPrimFT3 ft3;
+    ModelPrimGT3 gt3;
+    ModelPrimFT4 ft4;
+    ModelPrimGT4 gt4;
+    ModelPrimFT3C ft3c;
+    ModelPrimGT3C gt3c;
+    ModelPrimFT4C ft4c;
+    ModelPrimGT4C gt4c;
+} ModelPrimRecord;
+
 typedef char ModelPrimFT3_size_must_be_0x14[sizeof(ModelPrimFT3) == 0x14 ? 1 : -1];
 typedef char ModelPrimGT3_size_must_be_0x18[sizeof(ModelPrimGT3) == 0x18 ? 1 : -1];
 typedef char ModelPrimFT4_size_must_be_0x18[sizeof(ModelPrimFT4) == 0x18 ? 1 : -1];
@@ -160,6 +172,23 @@ s32 tent_Model_RebaseTexturedPrimitives(
     s32 slot_index, const GsTYPEUNIT *unit, GsARGUNIT *ctx,
     s32 *max_lit_color_index, s32 *packet_bytes
 );
+
+/* One block of a mapped HMD's primitive-header chain, as
+   Model_ResetSlotAnimationTables walks it from the pointer at hmd + 0x10:
+   the next block (-1 ends the chain), the block's header-section pointer,
+   its type count, and the category byte at the top of the first type word
+   (2 and 3 select the payloads the slot imports). */
+typedef struct ModelHmdPrimitiveBlock {
+    struct ModelHmdPrimitiveBlock *next;
+    void **header;
+    s32 type_count;
+    u8 type_low[3];
+    u8 category;
+} ModelHmdPrimitiveBlock;
+
+typedef char ModelHmdPrimitiveBlock_category_must_be_0xF[
+    OFFSETOF(ModelHmdPrimitiveBlock, category) == 0xF ? 1 : -1
+];
 
 /* Clears animation keys/durations and imports the mapped owner-block payloads. */
 void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd);

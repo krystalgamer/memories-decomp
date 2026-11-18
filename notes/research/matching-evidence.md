@@ -3372,14 +3372,22 @@ What was safe, all confirmed against the full-executable hash:
   scratchpad primitive's.
   - Only reads that follow such a store need it. Loads earlier in the block
     can be plain member reads.
-  - It works only when the cast type differs from the member's declared
-    type. `*(s32 *)&e->field_4C` on an `s32` member folds straight back into
-    a member read; spell it `*(u32 *)&`.
+  - The cast form works only when the cast type differs from the member's
+    declared type. `*(s32 *)&e->field_4C` on an `s32` member folds straight
+    back into a member read; spell it `*(u32 *)&`.
+  - A cast is not needed at all: a read or store through a typed local
+    pointer to the member (`long *vpx = &view->vpx; ... *vpx`, or
+    `u16 *flags = &obj->flags; *flags |= ...`) is the same scalar
+    reference, with the member's own type; Model_UpdateViewMetrics uses
+    that spelling.
   - The mirror case also happens. In `func_800580D4` a volatile pointer load
     written as `*(GsCOORDUNIT * volatile *)&D_800F2C40[0].root_coordinate` is a
     fixed-address scalar and floated above a store through the varying
     `arg3`. Written as a struct reference,
-    `((volatile ModelSlot *)D_800F2C40)->root_coordinate`, it stays put.
+    `((volatile ModelSlot *)D_800F2C40)->root_coordinate`, it stays put; a
+    local `volatile ModelSlot *slots = gModel_aSlots;` read as
+    `slots->root_coordinate` (setup_rotation in model.c) is the same
+    struct reference without the cast.
 
 - **When converting a record to a typed pointer, convert every access to it
   at once.** `func_800289BC` reaches a `0x40`-byte record through `u8 *e`

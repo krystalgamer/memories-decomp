@@ -61,7 +61,6 @@ extern s16 gModel_sTextureTintRectH;
 #define MODEL_SLOT_PART_COUNT 58
 #define MODEL_SLOT_UNIT_COUNT 60
 #define MODEL_SLOT_ROW_COUNT 10
-#define MODEL_SLOT_ROW_KEY_TABLE_OFFSET 0x2C8
 #define MODEL_DATA_MIN_FREE_BYTES 0x401
 #define MODEL_LIGHT_BASE_INTENSITY 128
 #define MODEL_LIGHT_DIM_INTENSITY (MODEL_LIGHT_BASE_INTENSITY / 2)
@@ -258,6 +257,19 @@ typedef struct {
 typedef struct {
     u8 bytes[8];
 } ModelBytes8;
+
+/* The view distance/yaw/pitch halfwords as last applied to the background
+   scroll, refreshed as one eight-byte block copied from gModel_wViewDistance
+   and the halfword globals after it. */
+typedef union {
+    ModelBytes8 block;
+    struct {
+        s16 distance;
+        s16 yaw;
+        s16 pitch;
+        s16 pad;
+    } view;
+} ModelViewSnapshot;
 
 /* Four-byte tint descriptor, passed and copied whole. Only RGB is
  * interpolated; the start blend mode reaches the renderer unchanged.
@@ -514,8 +526,7 @@ typedef char ModelSlotPart_start_offset_must_be_0x18[
     OFFSETOF(ModelSlotPart, start) == 0x18 ? 1 : -1
 ];
 typedef char ModelSlot_animation_command_indices_offset_must_be_0x2C8[
-    OFFSETOF(ModelSlot, animation_command_indices) ==
-        MODEL_SLOT_ROW_KEY_TABLE_OFFSET ? 1 : -1
+    OFFSETOF(ModelSlot, animation_command_indices) == 0x2C8 ? 1 : -1
 ];
 typedef char ModelSlot_animation_duration_rows_offset_must_be_0x750[
     OFFSETOF(ModelSlot, animation_duration_rows) == 0x750 ? 1 : -1

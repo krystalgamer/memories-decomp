@@ -14,8 +14,6 @@
 #include "../game/model_scene_runtime.h"
 #include "../game/model_slot_control.h"
 
-#define MODEL_CHANNEL_HALFWORD(cursor) (*(u16 *)(cursor))
-
 /* One model slot's setup: Model_InitSlot, then the primitive decoder it runs
    on each textured unit and the animation-table reset, build and relink
    passes, one contiguous run in every build.
@@ -293,6 +291,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
     ModelPrimitiveBlockHeader *primitive_header;
     u8 *primitive_record;
     u8 *primitive_base;
+    ModelPrimRecord *record;
     s32 record_count;
     s32 remaining_records;
     s32 tsb_offset;
@@ -399,6 +398,8 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     *(u16 *)(primitive_record + cba_offset) = packed;
                 }
             } else if (depth < 2) {
+                /* The CLUT halfword is addressed afresh at each access: a
+                   u16 *cba local costs a saved register ($s1). */
                 clut = *(u16 *)(primitive_record + cba_offset);
                 clut_row = (u32)clut >> 6;
                 if (clut_row < 0x100) {
@@ -420,11 +421,12 @@ s32 tent_Model_RebaseTexturedPrimitives(
                 }
             }
             if (max_lit_color_index != 0) {
+                record = (ModelPrimRecord *)primitive_record;
                 kind = (u16)unit->type;
                 switch (kind) {
                 case 9:
                     current = *max_lit_color_index;
-                    value = ((ModelPrimFT3 *)primitive_record)->norm0;
+                    value = record->ft3.norm0;
                     if (current < value) {
                         current = value;
                     }
@@ -432,7 +434,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x209:
                     current = *max_lit_color_index;
-                    value = ((ModelPrimFT3C *)primitive_record)->prim.norm0;
+                    value = record->ft3c.prim.norm0;
                     if (current < value) {
                         current = value;
                     }
@@ -440,17 +442,17 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0xD:
                     current = *max_lit_color_index;
-                    value = ((ModelPrimGT3 *)primitive_record)->norm0;
+                    value = record->gt3.norm0;
                     if (current < value) {
                         current = value;
                     }
                     *max_lit_color_index = current;
-                    value = ((ModelPrimGT3 *)primitive_record)->norm1;
+                    value = record->gt3.norm1;
                     if (current < value) {
                         current = value;
                         *max_lit_color_index = value;
                     }
-                    value = ((ModelPrimGT3 *)primitive_record)->norm2;
+                    value = record->gt3.norm2;
                     if (current < value) {
                         current = value;
                     }
@@ -458,17 +460,17 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x20D:
                     current = *max_lit_color_index;
-                    value = ((ModelPrimGT3C *)primitive_record)->prim.norm0;
+                    value = record->gt3c.prim.norm0;
                     if (current < value) {
                         current = value;
                     }
                     *max_lit_color_index = current;
-                    value = ((ModelPrimGT3C *)primitive_record)->prim.norm1;
+                    value = record->gt3c.prim.norm1;
                     if (current < value) {
                         current = value;
                         *max_lit_color_index = value;
                     }
-                    value = ((ModelPrimGT3C *)primitive_record)->prim.norm2;
+                    value = record->gt3c.prim.norm2;
                     if (current < value) {
                         current = value;
                     }
@@ -476,7 +478,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x11:
                     current = *max_lit_color_index;
-                    value = ((ModelPrimFT4 *)primitive_record)->norm0;
+                    value = record->ft4.norm0;
                     if (current < value) {
                         current = value;
                     }
@@ -484,7 +486,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x211:
                     current = *max_lit_color_index;
-                    value = ((ModelPrimFT4C *)primitive_record)->prim.norm0;
+                    value = record->ft4c.prim.norm0;
                     if (current < value) {
                         current = value;
                     }
@@ -492,22 +494,22 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x15:
                     current = *max_lit_color_index;
-                    value = ((ModelPrimGT4 *)primitive_record)->norm0;
+                    value = record->gt4.norm0;
                     if (current < value) {
                         current = value;
                     }
                     *max_lit_color_index = current;
-                    value = ((ModelPrimGT4 *)primitive_record)->norm1;
+                    value = record->gt4.norm1;
                     if (current < value) {
                         current = value;
                         *max_lit_color_index = value;
                     }
-                    value = ((ModelPrimGT4 *)primitive_record)->norm2;
+                    value = record->gt4.norm2;
                     if (current < value) {
                         current = value;
                     }
                     *max_lit_color_index = current;
-                    value = ((ModelPrimGT4 *)primitive_record)->norm3;
+                    value = record->gt4.norm3;
                     if (current < value) {
                         current = value;
                     }
@@ -515,22 +517,22 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x215:
                     current = *max_lit_color_index;
-                    value = ((ModelPrimGT4C *)primitive_record)->prim.norm0;
+                    value = record->gt4c.prim.norm0;
                     if (current < value) {
                         current = value;
                     }
                     *max_lit_color_index = current;
-                    value = ((ModelPrimGT4C *)primitive_record)->prim.norm1;
+                    value = record->gt4c.prim.norm1;
                     if (current < value) {
                         current = value;
                         *max_lit_color_index = value;
                     }
-                    value = ((ModelPrimGT4C *)primitive_record)->prim.norm2;
+                    value = record->gt4c.prim.norm2;
                     if (current < value) {
                         current = value;
                     }
                     *max_lit_color_index = current;
-                    value = ((ModelPrimGT4C *)primitive_record)->prim.norm3;
+                    value = record->gt4c.prim.norm3;
                     if (current < value) {
                         current = value;
                     }
@@ -552,8 +554,9 @@ s32 tent_Model_RebaseTexturedPrimitives(
     ModelPrimitiveBlockHeader *primitive_header;
     u8 *primitive_record;
     u8 *primitive_base;
-    u8 *p;
-    u8 *q;
+    ModelPrimRecord *record;
+    u16 *p;
+    u16 *q;
     s32 record_count;
     s32 remaining_records;
     s32 page_word_offset;
@@ -582,52 +585,52 @@ s32 tent_Model_RebaseTexturedPrimitives(
     primitive_kind = (u16)unit->type;
     switch (primitive_kind) {
     case 9:
-        page_word_offset = 6;
-        off2 = 2;
-        record_stride = 0x14;
-        packet_size = 0x20;
+        page_word_offset = OFFSETOF(ModelPrimFT3, tsb);
+        off2 = OFFSETOF(ModelPrimFT3, cba);
+        record_stride = sizeof(ModelPrimFT3);
+        packet_size = sizeof(POLY_FT3);
         break;
     case 0x209:
-        page_word_offset = 0xA;
-        off2 = 6;
-        record_stride = 0x18;
-        packet_size = 0x20;
+        page_word_offset = OFFSETOF(ModelPrimFT3C, prim.tsb);
+        off2 = OFFSETOF(ModelPrimFT3C, prim.cba);
+        record_stride = sizeof(ModelPrimFT3C);
+        packet_size = sizeof(POLY_FT3);
         break;
     case 0xD:
-        page_word_offset = 6;
-        off2 = 2;
-        record_stride = 0x18;
-        packet_size = 0x28;
+        page_word_offset = OFFSETOF(ModelPrimGT3, tsb);
+        off2 = OFFSETOF(ModelPrimGT3, cba);
+        record_stride = sizeof(ModelPrimGT3);
+        packet_size = sizeof(POLY_GT3);
         break;
     case 0x20D:
-        page_word_offset = 0xA;
-        off2 = 6;
-        record_stride = 0x1C;
-        packet_size = 0x28;
+        page_word_offset = OFFSETOF(ModelPrimGT3C, prim.tsb);
+        off2 = OFFSETOF(ModelPrimGT3C, prim.cba);
+        record_stride = sizeof(ModelPrimGT3C);
+        packet_size = sizeof(POLY_GT3);
         break;
     case 0x11:
-        page_word_offset = 6;
-        off2 = 2;
-        record_stride = 0x18;
-        packet_size = 0x28;
+        page_word_offset = OFFSETOF(ModelPrimFT4, tsb);
+        off2 = OFFSETOF(ModelPrimFT4, cba);
+        record_stride = sizeof(ModelPrimFT4);
+        packet_size = sizeof(POLY_FT4);
         break;
     case 0x211:
-        page_word_offset = 0xA;
-        off2 = 6;
-        record_stride = 0x1C;
-        packet_size = 0x28;
+        page_word_offset = OFFSETOF(ModelPrimFT4C, prim.tsb);
+        off2 = OFFSETOF(ModelPrimFT4C, prim.cba);
+        record_stride = sizeof(ModelPrimFT4C);
+        packet_size = sizeof(POLY_FT4);
         break;
     case 0x15:
-        page_word_offset = 6;
-        off2 = 2;
-        record_stride = 0x1C;
-        packet_size = 0x34;
+        page_word_offset = OFFSETOF(ModelPrimGT4, tsb);
+        off2 = OFFSETOF(ModelPrimGT4, cba);
+        record_stride = sizeof(ModelPrimGT4);
+        packet_size = sizeof(POLY_GT4);
         break;
     case 0x215:
-        page_word_offset = 0xA;
-        off2 = 6;
-        record_stride = 0x20;
-        packet_size = 0x34;
+        page_word_offset = OFFSETOF(ModelPrimGT4C, prim.tsb);
+        off2 = OFFSETOF(ModelPrimGT4C, prim.cba);
+        record_stride = sizeof(ModelPrimGT4C);
+        packet_size = sizeof(POLY_GT4);
         break;
     default:
         return 0;
@@ -638,35 +641,35 @@ s32 tent_Model_RebaseTexturedPrimitives(
         clut_bias = (slot_index << 4) + 0x3BD8;
         do {
             if (slot_index < 2) {
-                p = primitive_record + page_word_offset;
-                v = MODEL_CHANNEL_HALFWORD(p);
+                p = (u16 *)(primitive_record + page_word_offset);
+                v = *p;
                 adjusted = v + page_bias;
-                MODEL_CHANNEL_HALFWORD(p) = adjusted;
+                *p = adjusted;
                 color_depth = (v >> 7) & 3;
                 if (color_depth >= 3) {
-                    MODEL_CHANNEL_HALFWORD(p) = adjusted & 0xFF7F;
+                    *p = adjusted & 0xFF7F;
                 }
                 if (color_depth < 2) {
-                    q = primitive_record + off2;
-                    v = MODEL_CHANNEL_HALFWORD(q);
+                    q = (u16 *)(primitive_record + off2);
+                    v = *q;
                     y = v + clut_bias;
-                    MODEL_CHANNEL_HALFWORD(q) = y;
+                    *q = y;
                     x = v >> 6;
                     if (x >= 0x10) {
                         y = (y & 0x3F) + 0x10;
-                        MODEL_CHANNEL_HALFWORD(q) = y;
-                        MODEL_CHANNEL_HALFWORD(q) =
+                        *q = y;
+                        *q =
                             y | ((x % 0x10) << 6);
                     }
                 }
             }
             if (max_lit_color_index != 0) {
-#define MODEL_MAX_VALUE(offset) (*(u16 *)(primitive_record + (offset)))
+                record = (ModelPrimRecord *)primitive_record;
                 primitive_kind = (u16)unit->type;
                 switch (primitive_kind) {
                 case 9:
                     x = *max_lit_color_index;
-                    y = MODEL_MAX_VALUE(0xC);
+                    y = record->ft3.norm0;
                     if (x < y) {
                         x = y;
                     }
@@ -674,7 +677,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x209:
                     x = *max_lit_color_index;
-                    y = MODEL_MAX_VALUE(0x10);
+                    y = record->ft3c.prim.norm0;
                     if (x < y) {
                         x = y;
                     }
@@ -682,17 +685,17 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0xD:
                     x = *max_lit_color_index;
-                    y = MODEL_MAX_VALUE(0xC);
+                    y = record->gt3.norm0;
                     if (x < y) {
                         x = y;
                     }
                     *max_lit_color_index = x;
-                    y = MODEL_MAX_VALUE(0x10);
+                    y = record->gt3.norm1;
                     if (x < y) {
                         x = y;
                         *max_lit_color_index = y;
                     }
-                    y = MODEL_MAX_VALUE(0x14);
+                    y = record->gt3.norm2;
                     if (x < y) {
                         x = y;
                     }
@@ -700,17 +703,17 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x20D:
                     x = *max_lit_color_index;
-                    y = MODEL_MAX_VALUE(0x10);
+                    y = record->gt3c.prim.norm0;
                     if (x < y) {
                         x = y;
                     }
                     *max_lit_color_index = x;
-                    y = MODEL_MAX_VALUE(0x14);
+                    y = record->gt3c.prim.norm1;
                     if (x < y) {
                         x = y;
                         *max_lit_color_index = y;
                     }
-                    y = MODEL_MAX_VALUE(0x18);
+                    y = record->gt3c.prim.norm2;
                     if (x < y) {
                         x = y;
                     }
@@ -718,7 +721,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x11:
                     x = *max_lit_color_index;
-                    y = MODEL_MAX_VALUE(0xE);
+                    y = record->ft4.norm0;
                     if (x < y) {
                         x = y;
                     }
@@ -726,7 +729,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x211:
                     x = *max_lit_color_index;
-                    y = MODEL_MAX_VALUE(0x12);
+                    y = record->ft4c.prim.norm0;
                     if (x < y) {
                         x = y;
                     }
@@ -734,22 +737,22 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x15:
                     x = *max_lit_color_index;
-                    y = MODEL_MAX_VALUE(0xA);
+                    y = record->gt4.norm0;
                     if (x < y) {
                         x = y;
                     }
                     *max_lit_color_index = x;
-                    y = MODEL_MAX_VALUE(0x10);
+                    y = record->gt4.norm1;
                     if (x < y) {
                         x = y;
                         *max_lit_color_index = y;
                     }
-                    y = MODEL_MAX_VALUE(0x14);
+                    y = record->gt4.norm2;
                     if (x < y) {
                         x = y;
                     }
                     *max_lit_color_index = x;
-                    y = MODEL_MAX_VALUE(0x18);
+                    y = record->gt4.norm3;
                     if (x < y) {
                         x = y;
                     }
@@ -757,29 +760,28 @@ s32 tent_Model_RebaseTexturedPrimitives(
                     break;
                 case 0x215:
                     x = *max_lit_color_index;
-                    y = MODEL_MAX_VALUE(0xE);
+                    y = record->gt4c.prim.norm0;
                     if (x < y) {
                         x = y;
                     }
                     *max_lit_color_index = x;
-                    y = MODEL_MAX_VALUE(0x14);
+                    y = record->gt4c.prim.norm1;
                     if (x < y) {
                         x = y;
                         *max_lit_color_index = y;
                     }
-                    y = MODEL_MAX_VALUE(0x18);
+                    y = record->gt4c.prim.norm2;
                     if (x < y) {
                         x = y;
                     }
                     *max_lit_color_index = x;
-                    y = MODEL_MAX_VALUE(0x1C);
+                    y = record->gt4c.prim.norm3;
                     if (x < y) {
                         x = y;
                     }
                     *max_lit_color_index = x;
                     break;
                 }
-#undef MODEL_MAX_VALUE
             }
             primitive_record = primitive_record + record_stride;
             *packet_bytes = *packet_bytes + packet_size;
@@ -794,7 +796,7 @@ void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd)
 {
     ModelSlot *slot;
     u8 *mask_clear_cursor;
-    u8 *owner;
+    ModelHmdPrimitiveBlock *owner;
     void **kind3_payload;
     void **kind2_payload;
     u8 *part_flags_cursor;
@@ -864,22 +866,23 @@ void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd)
         index--;
         mask_clear_cursor--;
     } while (index >= 0);
-    owner = *(u8 **)(hmd + 0x10);
-    if (owner == (u8 *)0) {
+    /* The mapped HMD keeps its first primitive block's address at +0x10. */
+    owner = *(ModelHmdPrimitiveBlock **)(hmd + 0x10);
+    if (owner == 0) {
         return;
     }
     do {
-        if (*(s32 *)(owner + 8) != 0) {
-            owner_kind = owner[0xF];
+        if (owner->type_count != 0) {
+            owner_kind = owner->category;
             if (owner_kind == 3) {
-                kind3_payload = *(void ***)(owner + 4);
+                kind3_payload = owner->header;
             }
             if (owner_kind == 2) {
-                kind2_payload = *(void ***)(owner + 4);
+                kind2_payload = owner->header;
             }
         }
-        owner = *(u8 **)owner;
-    } while (owner != (u8 *)-1);
+        owner = owner->next;
+    } while (owner != (ModelHmdPrimitiveBlock *)-1);
     if (kind3_payload != 0) {
         kind3_payload += 2;
         part_flags_base = *kind3_payload;
@@ -983,7 +986,7 @@ void Model_BuildSlotAnimationTables(s32 slot_index)
 
    The two key reads inside the loops keep a byte-offset sum instead of
    slot->animation_command_indices[row_index][part_index]. Their address has to stay `slot + <running offset> +
-   MODEL_SLOT_ROW_KEY_TABLE_OFFSET`, because that way the channel offset and
+   OFFSETOF(ModelSlot, animation_command_indices)`, because that way the channel offset and
    the row stride share one induction variable; indexing the member gives the
    compiler a second one, which costs a callee-saved register and two
    instructions. Written left to right so the base is the first addend, which
@@ -1032,7 +1035,7 @@ void Model_LinkSlotAnimationRows(s32 slot_index)
         row_one_command = &slot->animation_commands[slot->animation_command_indices[1][part_index]];
 
         do {
-            entry_command_index = *(u16 *)((u8 *)slot + entry_byte_offset + MODEL_SLOT_ROW_KEY_TABLE_OFFSET);
+            entry_command_index = *(u16 *)((u8 *)slot + entry_byte_offset + OFFSETOF(ModelSlot, animation_command_indices));
             row_command = &slot->animation_commands[entry_command_index];
             if (entry_command_index != missing_command_index) {
                 pre_row_command = row_command - 1;
@@ -1049,8 +1052,8 @@ void Model_LinkSlotAnimationRows(s32 slot_index)
                             target_row = (u32)command_word >> 16;
                             target_row = target_row & 0x7F;
                             target_entry = (u16 *)((u8 *)slot
-                                + (part_byte_offset + (u32)&((u16 (*)[MODEL_SLOT_PART_COUNT])0)[target_row])
-                                + MODEL_SLOT_ROW_KEY_TABLE_OFFSET);
+                                + (part_byte_offset + target_row * sizeof(slot->animation_command_indices[0]))
+                                + OFFSETOF(ModelSlot, animation_command_indices));
                             target_command_index = *target_entry;
                             target_command = &slot->animation_commands[target_command_index];
                             if (target_row == 0) {
