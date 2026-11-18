@@ -27,6 +27,22 @@
 #define SD_TRANSFER_ERROR (-1)
 #define SD_TRANSFER_INCOMPLETE (-2)
 
+/* One CD descriptor bank (SD_InitState's sector buffers at 0x801E8800,
+ * 0x801E9000 and 0x801EA000): SD_EnqueueCdPlay and SD_EnqueueCdSeek pass the
+ * bank's leading sector offset and the address of its 8-byte entries, which
+ * start at +8, in the cd_play command. */
+typedef struct {
+    u32 sector_offset;
+    u8 pad_04[4];
+    /* 8-byte entries; SD_StepActiveCommand reads entry `value` as a
+       SoundCommandPair (ygo_types.h). */
+    u8 entries[8];
+} SDCdDescriptorBank;
+
+typedef char SDCdDescriptorBank_entries_offset_must_be_0x8[
+    OFFSETOF(SDCdDescriptorBank, entries) == 0x8 ? 1 : -1
+];
+
 /* The three argument words at +0x04..+0x0C, one view per opcode family.
  * Every view keeps the words' s32 storage; address-shaped words stay s32.
  *
@@ -209,7 +225,12 @@ typedef struct SDValue {
        -- give three different objects and none of them the original,
        because the original load is an ARRAY_REF of a `u8` member and a
        cast is not one.  `b` is that member, and the object is
-       byte-identical. */
+       byte-identical.
+
+       SD_DropQueuedCdPlayCommands and SD_CancelMusicRequests drop a queued
+       command by copying c[i + 1] down over c[i]; with all sixteen entries
+       queued the last copy reads the record-sized span just past the queue,
+       still inside SDValue (pad0380 and the start of voice_attr). */
     union {
         SDCommand c[SD_COMMAND_QUEUE_COUNT];
         u8 b[SD_COMMAND_QUEUE_COUNT * 0x30];
@@ -253,7 +274,7 @@ typedef struct SDValue {
     u8 pad0516[2];
     /* Three descriptor-table bases within the CD mixer-out bank, installed
        after its trailer check even when the signature does not match. */
-    u8 *s_apbSD_CD_DESCRIPTOR_BANK[3];
+    SDCdDescriptorBank *s_apbSD_CD_DESCRIPTOR_BANK[3];
     u8 pad0524[4];
     u32 s_dwSD_CD_START_SECTOR;
     u32 s_dwSD_CD_END_SECTOR;
@@ -302,17 +323,6 @@ typedef struct SDValue {
     u8 s_bSD_SMF_MIXER_OUT_DEFAULT;
     u8 s_bSD_BGM_FADE_STEP_DEFAULT;
 } SDValue;
-
-/* SD_DropQueuedCdPlayCommands and SD_CancelMusicRequests drop a queued command by copying
-   the next 0x30-byte record down over it. With all sixteen entries queued, the copy for the last one
-   reads the record-sized span at state+0x380, past `s_uSD_COMMAND_QUEUE` but still
-   inside SDValue (pad0380 and the start of voice_attr). This view of the
-   same state spans the queue plus that one trailing record, so the read
-   stays inside a declared array. The assertions below pin it to SDValue. */
-typedef struct {
-    u8 pad0000[SD_COMMAND_QUEUE_BYTE_OFFSET];
-    SDCommand c[SD_COMMAND_QUEUE_COUNT + 1];
-} SDCommandShiftView;
 
 typedef struct {
     u8 program;
@@ -544,13 +554,6 @@ typedef char SDValue_note_and_link_offsets_must_match[
 ];
 typedef char SDValue_size_must_be_0x164C[
     sizeof(SDValue) == 0x164C ? 1 : -1
-];
-typedef char SDCommandShiftView_queue_must_overlay_commands[
-    OFFSETOF(SDCommandShiftView, c) ==
-        OFFSETOF(SDValue, s_uSD_COMMAND_QUEUE) ? 1 : -1
-];
-typedef char SDCommandShiftView_must_fit_inside_SDValue[
-    sizeof(SDCommandShiftView) <= sizeof(SDValue) ? 1 : -1
 ];
 typedef char SDValue_lookup_bank_size_must_match_stride[
     sizeof(((SDValue *)0)->s_aawSD_INDIRECT_SE_ID[0]) ==

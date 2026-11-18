@@ -210,7 +210,7 @@ s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
 {
     SDValue *request_state = g_SDValue;
     u16 entry_index = command_id;
-    u8 **descriptor_bank;
+    SDCdDescriptorBank *descriptor_bank;
     s32 bank_tag;
     u8 *descriptor_entries;
     SDCommand command;
@@ -222,27 +222,27 @@ s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
                 switch (command_id & 0xF000) {
                 case 0x8000:
                     entry_index = command_id + 0x8000;
-                    descriptor_bank = (u8 **)request_state->s_apbSD_CD_DESCRIPTOR_BANK[1];
-                    descriptor_entries = (u8 *)&descriptor_bank[2];
+                    descriptor_bank = request_state->s_apbSD_CD_DESCRIPTOR_BANK[1];
+                    descriptor_entries = descriptor_bank->entries;
                     bank_tag = 0x50;
                     break;
                 case 0x9000:
                     entry_index = command_id + 0x7000;
-                    descriptor_bank = (u8 **)request_state->s_apbSD_CD_DESCRIPTOR_BANK[0];
-                    descriptor_entries = (u8 *)&descriptor_bank[2];
+                    descriptor_bank = request_state->s_apbSD_CD_DESCRIPTOR_BANK[0];
+                    descriptor_entries = descriptor_bank->entries;
                     bank_tag = 0x60;
                     break;
                 default:
                     entry_index = entry_index + 0x6000;
                     bank_tag = 0x70;
-                    descriptor_bank = (u8 **)g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[2];
-                    descriptor_entries = (u8 *)&descriptor_bank[2];
+                    descriptor_bank = g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[2];
+                    descriptor_entries = descriptor_bank->entries;
                     break;
                 }
                 {
                     s32 bank_sector_offset;
 
-                    bank_sector_offset = descriptor_bank ? (descriptor_entries ? (s32)*descriptor_bank : (s32)*descriptor_bank) : (s32)*descriptor_bank;
+                    bank_sector_offset = descriptor_bank ? (descriptor_entries ? (s32)descriptor_bank->sector_offset : (s32)descriptor_bank->sector_offset) : (s32)descriptor_bank->sector_offset;
 
                     SD_DropQueuedCdPlayCommands();
                     command.command = 0x24;
@@ -269,7 +269,7 @@ void SD_EnqueueCdSeek(s32 command_id)
     SDValue *status_state;
     s32 class_or_code;
     u16 entry_index;
-    u8 **descriptor_bank;
+    SDCdDescriptorBank *descriptor_bank;
     s32 bank_tag;
     u8 *descriptor_entries;
 
@@ -292,29 +292,31 @@ void SD_EnqueueCdSeek(s32 command_id)
     case 0x8000:
         class_or_code = command_id + class_or_code;
         entry_index = class_or_code;
-        descriptor_bank = (u8 **)request_state->s_apbSD_CD_DESCRIPTOR_BANK[1];
-        descriptor_entries = (u8 *)&descriptor_bank[2];
+        descriptor_bank = request_state->s_apbSD_CD_DESCRIPTOR_BANK[1];
+        descriptor_entries = descriptor_bank->entries;
         bank_tag = 0x50;
         break;
     case 0x9000:
         entry_index = command_id + 0x7000;
-        descriptor_bank = (u8 **)request_state->s_apbSD_CD_DESCRIPTOR_BANK[0];
-        descriptor_entries = (u8 *)&descriptor_bank[2];
+        descriptor_bank = request_state->s_apbSD_CD_DESCRIPTOR_BANK[0];
+        descriptor_entries = descriptor_bank->entries;
         bank_tag = 0x60;
         break;
     default:
         entry_index += 0x6000;
         bank_tag = 0x70;
         bank_state = g_SDValue;
-        descriptor_bank = (u8 **)bank_state->s_apbSD_CD_DESCRIPTOR_BANK[2];
-        descriptor_entries = (u8 *)&descriptor_bank[2];
+        descriptor_bank = bank_state->s_apbSD_CD_DESCRIPTOR_BANK[2];
+        descriptor_entries = descriptor_bank->entries;
         break;
     }
     {
         s32 bank_sector_offset;
 
-        /* The equivalent paths preserve retail's request-store order. */
-        bank_sector_offset = descriptor_bank ? (descriptor_entries ? (s32)*descriptor_bank : (s32)*descriptor_bank) : (s32)*descriptor_bank;
+        /* The equivalent paths preserve retail's request-store order; the
+           arms need the u32-to-s32 conversion (an s32 member, or no
+           conversion, reallocates $16/$5 in both enqueue functions). */
+        bank_sector_offset = descriptor_bank ? (descriptor_entries ? (s32)descriptor_bank->sector_offset : (s32)descriptor_bank->sector_offset) : (s32)descriptor_bank->sector_offset;
 
         SD_DropQueuedCdPlayCommands();
         command.command = 0x21;
@@ -876,7 +878,7 @@ void SD_CancelMusicRequests(void)
             case 0x46:
             case 0x48:
                 g_SDValue->s_uSD_COMMAND_QUEUE.c[i] =
-                    ((SDCommandShiftView *)g_SDValue)->c[i + 1];
+                    g_SDValue->s_uSD_COMMAND_QUEUE.c[i + 1];
                 g_SDValue->s_wSD_NUM_COMMAND = g_SDValue->s_wSD_NUM_COMMAND - 1;
                 break;
             case 0x20:
@@ -884,7 +886,7 @@ void SD_CancelMusicRequests(void)
                     break;
                 }
                 g_SDValue->s_uSD_COMMAND_QUEUE.c[i] =
-                    ((SDCommandShiftView *)g_SDValue)->c[i + 1];
+                    g_SDValue->s_uSD_COMMAND_QUEUE.c[i + 1];
                 g_SDValue->s_wSD_NUM_COMMAND = g_SDValue->s_wSD_NUM_COMMAND - 1;
                 break;
             default:
@@ -942,7 +944,7 @@ void SD_DropQueuedCdPlayCommands(void)
         case 0x29:
         case 0x2B:
             g_SDValue->s_uSD_COMMAND_QUEUE.c[i] =
-                ((SDCommandShiftView *)g_SDValue)->c[i + 1];
+                g_SDValue->s_uSD_COMMAND_QUEUE.c[i + 1];
             g_SDValue->s_wSD_NUM_COMMAND--;
             break;
         default:

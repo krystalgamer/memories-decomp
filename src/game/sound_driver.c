@@ -306,9 +306,9 @@ void SD_UpdateBankLoad(void) {
 #endif
                 }
             }
-            g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[0] = (u8 *)0x801E8800;
-            g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[1] = (u8 *)0x801E9000;
-            g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[2] = (u8 *)0x801EA000;
+            g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[0] = (SDCdDescriptorBank *)0x801E8800;
+            g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[1] = (SDCdDescriptorBank *)0x801E9000;
+            g_SDValue->s_apbSD_CD_DESCRIPTOR_BANK[2] = (SDCdDescriptorBank *)0x801EA000;
             g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
             return;
         }
