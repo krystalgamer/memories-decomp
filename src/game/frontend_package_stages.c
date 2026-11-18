@@ -181,6 +181,8 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 
     case 2:
         m = 0xFFDCFFFF;
+        /* Stored through the member's address: a plain member store is an
+           in-struct reference that gcc reorders, growing the stage by 8 bytes. */
         *(s32 *)&object->phase_size = FILE_SECTOR_SIZE;
         x = gFile_dwTransferState & m;
         y = gFile_TransferBufferBase;
@@ -203,6 +205,8 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         do {
             hun = 0x100;
         } while (0);
+        /* Kept for the same reason: a plain member store reschedules the
+           LoadImage2 setup. */
         *(u16 *)&object->y = 0xF0;
         k = gFile_TransferBufferBase;
         object->x = hun;
