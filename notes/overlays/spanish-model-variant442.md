@@ -1,7 +1,7 @@
 # Spanish MODEL headers 442 and 592
 
 Four distinct Spanish images for models259/630 reuse the unchanged accepted
-`variant425_{sheet,spiral,rays,webs,bands,spokes,rings,quad}.c` bodies through sixteen existing
+`h425_{sheet,spiral,rays,webs,bands,spokes,rings,quad}.c` bodies through sixteen existing
 French442 wrappers. A separately refined ribbon body is selected directly
 for Spanish slot 0 and included by the slot-1 wrapper. Thirty-six
 compiler-owned C instances cover 51,952
@@ -45,7 +45,7 @@ unclassified, not established non-code.
 ## Entry-called rays
 
 The unchanged accepted French symbol-renaming wrappers around
-`variant425_rays.c` independently reproduce all four 2,552-byte Spanish spans
+`h425_rays.c` independently reproduce all four 2,552-byte Spanish spans
 with 456-byte frames under the same named profile. Four complete private links
 retain all thirty-two previous compiler objects byte-for-byte. The sixteen
 historical attempt rows remain verbatim; two terminal wrapper records are added.
@@ -243,7 +243,7 @@ terminal wrapper matches. Full unmasked links, actual compiler/assembly/raw
 owners, sized functions, dependency fingerprints, layouts and resident
 owners are checked independently.
 
-The ribbon calibration used accepted `variant425_ribbons.c` with local
+The ribbon calibration used accepted `h425_ribbons.c` with local
 declarations, then recovered the first-edge indexing from Spanish
 instructions. Both slots were checked against both model images:
 

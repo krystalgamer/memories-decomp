@@ -35,8 +35,8 @@ this retail body:
 - The arms and the timing record are 0x1B68 lower.
 - The length uses a step of 48 instead of 32.
 
-The accepted shared `variant448_spiral.c` and `variant425_spiral.c`, and the
-arm record then in `variant425_spiral.h` (now
+The accepted shared `h448_spiral.c` and `h425_spiral.c`, and the
+arm record then in `h425_spiral.h` (now
 `ModelVariantShadedRay`), were used only as structural evidence. The
 first candidate missed only the three translation-field offsets; it is kept in
 the ledger.

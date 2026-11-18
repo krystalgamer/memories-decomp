@@ -1,7 +1,7 @@
 # French MODEL headers 421 and 571
 
 These twelve secondary-handler instances reuse the unchanged accepted
-`src/overlays/model_variant/variant404_{sheets,webs,spokes,rings,quad}.c` bodies.
+`src/overlays/model_variant/e510_{sheets,webs,spokes,rings,quad}.c` bodies.
 Ten three-line wrappers rename the five function symbols for the two
 measured French load addresses. All entries use the existing
 `gcc_2_8_1_g0_split` profile, GCC 2.8.1 and MASPSX 2.81. The shared source

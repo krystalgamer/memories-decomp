@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../model_variant/variant448_spiral.h"
+#include "../model_variant/h448_spiral.h"
 #include "../model_variant/e591_entry_pal.h"
 
 /* Header 425's phase-guarded spiral: while phase is not

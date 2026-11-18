@@ -15,7 +15,7 @@ Each image layout is split into an unclassified head, the C helper at
 #7137.
 
 The control flow follows the French MODEL458 sheets helper
-(`variant458_sheets.c`), with these differences:
+(`h458_sheets.c`), with these differences:
 - one sheet with one origin matrix and one delta vector, all at fixed
   offsets;
 - doubled scale constants:
@@ -25,7 +25,7 @@ The control flow follows the French MODEL458 sheets helper
 - timing fields 4 bytes lower than MODEL458.
 
 The helper reads the header-432 record (`Variant432EntryState` in
-`model_variant/variant432_entry.h`). The new
+`model_variant/h432_entry.h`). The new
 `model_variant449_linker_symbols.txt` binds the ten resident calls at
 their French addresses, and each split image names it in the overlay
 manifest. All French overlay images rebuild exactly. The

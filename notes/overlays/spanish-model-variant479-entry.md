@@ -3,7 +3,7 @@
 Loader entry `+0x0004..+0x0FD0` is matching C. It is 4,044 bytes in both
 header-479/629 MODEL loads (MODEL379, stages 7/8) of the Spanish release and in
 the same two French images, which carry the identical body at the same offsets.
-`variant479_entry.c` is compiled once per slot with `gcc_2_8_1_g0_split`; each
+`h462_entry_pal.c` is compiled once per slot with `gcc_2_8_1_g0_split`; each
 image's symbols file binds `SpanishModelVariant479_HandleRequest`, its helpers
 and the descriptor tables `gSpanishModelVariant479_aImages` and
 `gSpanishModelVariant479_aConfigs` at its own addresses. This is a new decompilation;

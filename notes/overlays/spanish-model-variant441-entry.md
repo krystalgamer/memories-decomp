@@ -3,7 +3,7 @@
 Loader entry `+0x0004..+0x11BC` is matching C. It is 4,536 bytes in the ten
 Spanish MODEL441-family images (MODEL166, 360, 487 and 590 stages 7/8;
 MODEL709 stages 9/10) and the ten French images that carry the identical
-body at the same offsets. `variant441_entry.c`
+body at the same offsets. `h441_entry.c`
 (`SpanishModelVariant441_HandleRequest`) is compiled once per slot with
 `gcc_2_8_1_g0_split`; each image's symbols file binds the entry, the helpers
 and the descriptor tables (`gSpanishModelVariant441_aImages`,

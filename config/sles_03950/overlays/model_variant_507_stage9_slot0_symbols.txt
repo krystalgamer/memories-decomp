@@ -1,4 +1,4 @@
-// Italian MODEL.MRG model 507 (record 457), sector 126332, header 428, loaded at 0x8013B000; the US header-411 source variant411us_entry.c; built from the French source layout of french_model_variant_507_stage9_slot0.
+// Italian MODEL.MRG model 507 (record 457), sector 126332, header 428, loaded at 0x8013B000; the US header-411 source h411_entry.c; built from the French source layout of french_model_variant_507_stage9_slot0.
 ModelVariant411_HandleRequest = 0x8013B004; // type:func size:0x1304 defined:true
 FrenchModelVariant428_DrawSwarm = 0x8013C308; // type:func size:0x584 defined:true
 FrenchModelVariant428_DrawQuads = 0x8013C88C; // type:func size:0x508 defined:true

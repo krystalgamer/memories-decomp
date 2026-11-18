@@ -2,7 +2,7 @@
 
 Four distinct secondary images have independently recovered entries and reuse
 the unchanged accepted
-`src/overlays/model_variant/variant405_{halo,veils,bands,sheets,webs,spokes,rings,quad}.c` bodies.
+`src/overlays/model_variant/e588_{halo,veils,bands,sheets,webs,spokes,rings,quad}.c` bodies.
 Both slots compile them directly and each image binds their names at its
 own addresses (see [Names](#names)). The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1
 and MASPSX 2.81. Shared bodies, headers, G32 annotations and US profiles
@@ -467,7 +467,7 @@ halo-specific paths differ from that accepted cutoff.
 
 ## Names
 
-Both slots compile `variant422_entry.c` and the shared US header-405 helper
+Both slots compile `h422_entry.c` and the shared US header-405 helper
 bodies without renaming wrappers. They define
 `FrenchModelVariant422_HandleRequest`, `ModelVariant405_DrawHalo` (`0x1128`),
 `ModelVariant405_DrawVeils` (`0x1620`), `ModelVariant405_DrawBands`

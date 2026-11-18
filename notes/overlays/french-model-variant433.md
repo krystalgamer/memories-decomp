@@ -1,7 +1,7 @@
 # French MODEL headers 433 and 583
 
 Four distinct images for models180/440 retain the unchanged accepted
-`src/overlays/model_variant/variant416_{webs,spokes,rings,quad}.c` bodies, which
+`src/overlays/model_variant/h416_{webs,spokes,rings,quad}.c` bodies, which
 both slots now compile directly (see [Names](#names)). The authoritative `gcc_2_8_1_g0_split`
 profile uses GCC 2.8.1 and MASPSX 2.81. Shared bodies, headers, G32
 annotations and US compiler profiles remain unchanged.
@@ -269,7 +269,7 @@ words at `0x68/0x70`, colors at `0x78/0x80`, and depths at `0xA0`.
 The unused ranges `0x48..0x68` and `0x88..0xA0` remain opaque. This does
 not infer additional records or total context allocation.
 Repository type-placement policy requires the definition in
-`variant433_strips.h`; moving it out of the C file does not change the
+`h416_strips.h`; moving it out of the C file does not change the
 accessed layout or function body.
 
 Signed radius at `0x1A78` is divided by 256 with truncation toward zero.
@@ -484,10 +484,10 @@ remain outside the C-completion claim.
 ## Names
 
 Both slots compile the shared sources without renaming wrappers;
-`variant433_entry.c` only selects the palette. They define
+`h433_entry.c` only selects the palette. They define
 `ModelVariant416_HandleRequest`, `ModelVariant416_DrawBands` (`0x1050`, from
-`variant433_strips.c`), `ModelVariant416_DrawSheets` (`0x1810`, from
-`variant433_sheet.c`), `ModelVariant416_DrawWebs` (`0x1C64`),
+`h416_strips.c`), `ModelVariant416_DrawSheets` (`0x1810`, from
+`h416_sheet.c`), `ModelVariant416_DrawWebs` (`0x1C64`),
 `FrenchModelVariant433_DrawRays` (`0x21CC`), `ModelVariant416_DrawSpokes`
 (`0x26C8`), `ModelVariant416_DrawRings` (`0x29D8`), `ModelVariant416_DrawQuad`
 (`0x2D54`) and the data tables `gModelVariant416_aImages` and

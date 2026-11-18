@@ -5,9 +5,9 @@ MODEL461 family, image offset `0x2498`,
 0x43C bytes) draws the 24-segment textured ring. **No release had matching C
 for this body before.** It is reachable directly from the entry.
 
-It follows the accepted MODEL469 rings helper (`variant469_rings.c`) over a
+It follows the accepted MODEL469 rings helper (`h452_rings_pal.c`) over a
 MODEL461 layout. It reads `EntryState461`, the record the entry passes (a
-local view in `variant461_rings.h` until it was folded):
+local view in `h461_rings.h` until it was folded):
 - `ring` starts at `+0xB90` and `ring_packet` (`POLY_FT4`) at `+0x2EB8`;
 - `origin`, `direction` (the probe reads `.vy`/`.vz`) and `screen_delta` are
   at `+0x2F2C`/`+0x302C`/`+0x303C`;

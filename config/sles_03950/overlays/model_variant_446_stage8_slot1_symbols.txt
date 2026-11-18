@@ -1,4 +1,4 @@
-// Italian MODEL.MRG model 446 (record 396), sector 109486, header 759, loaded at 0x8017B000; the US header-742 source variant675us_entry.c, through model_variant/variant692_entry.c; built from the French source layout of french_model_variant_446_stage8_slot1.
+// Italian MODEL.MRG model 446 (record 396), sector 109486, header 759, loaded at 0x8017B000; the US header-742 source h675_entry.c, through model_variant/h675_entry_pal.c; built from the French source layout of french_model_variant_446_stage8_slot1.
 ModelVariant675Us_HandleRequest = 0x8017B004; // type:func size:0x2ACC defined:true
 gModelVariant675Us_aImages = 0x8017DAD0; // type:u8 size:0x8C defined:true
 gModelVariant675Us_aConfigs = 0x8017DB5C; // type:u8 size:0x24A4 defined:true

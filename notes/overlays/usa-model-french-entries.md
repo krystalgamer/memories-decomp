@@ -23,8 +23,8 @@ before the change, so the French images are unaffected.
 |---:|---:|---|---|
 | 59 | `0xB94` | `e006_entry.c` | `447_pos0_slot0`, `489_stage9_slot0`, `562_pos0_slot0`, `57_pos0_slot0` |
 | 60 | `0xC14` | `e007_entry.c` | `386_pos0_slot0`, `53_stage9_slot0`, `547_stage9_slot0`, `84_stage9_slot0` |
-| 65 | `0xDE0` | `variant82_entry.c` | `66_pos0_slot0` |
-| 70 | `0xA18` | `variant87_entry.c` | `140_stage9_slot0`, `584_stage9_slot0` |
+| 65 | `0xDE0` | `h65_entry.c` | `66_pos0_slot0` |
+| 70 | `0xA18` | `h70_entry.c` | `140_stage9_slot0`, `584_stage9_slot0` |
 | 80 | `0x1154` | `e045_entry.c` | `100_pos0_slot0`, `150_stage9_slot0` |
 | 84 | `0xAE0` | `e049_entry.c` | `130_pos0_slot0` |
 | 90 | `0x1184` | `e038_entry.c` | `28_stage9_slot0`, `402_pos0_slot0`, `85_stage9_slot0` |
@@ -33,18 +33,18 @@ before the change, so the French images are unaffected.
 | 104 | `0x10A4` | `e069_entry.c` | `227_stage9_slot0`, `281_pos0_slot0`, `39_stage9_slot0`, `477_stage9_slot0`, `502_pos0_slot0`, `509_pos0_slot0`, `514_pos0_slot0`, `514_stage9_slot0`, `557_stage9_slot0`, `641_pos0_slot0`, `708_stage9_slot0` |
 | 112 | `0xFE4` | `e077_entry.c` | `219_pos0_slot0`, `30_stage9_slot0`, `355_stage9_slot0`, `435_stage9_slot0`, `490_stage9_slot0` |
 | 114 | `0x15B8` | `e062_entry.c` | `183_pos0_slot0`, `273_pos0_slot0`, `486_pos0_slot0`, `490_pos0_slot0`, `540_pos0_slot0`, `637_pos0_slot0` |
-| 115 | `0xEB4` | `variant132_entry.c` | `416_stage9_slot0` |
-| 124 | `0xF5C` | `variant141_entry.c` | `20_stage9_slot0`, `428_pos0_slot0`, `445_pos0_slot0` |
+| 115 | `0xEB4` | `h132_entry.c` | `416_stage9_slot0` |
+| 124 | `0xF5C` | `h141_entry.c` | `20_stage9_slot0`, `428_pos0_slot0`, `445_pos0_slot0` |
 | 126 | `0xFF0` | `e074_entry.c` | `234_stage9_slot0`, `481_pos0_slot0`, `496_pos0_slot0`, `546_stage9_slot0` |
 | 189 | `0xB94` | `e006_entry.c` | `447_stage8_slot1`, `489_stage10_slot1`, `562_stage8_slot1`, `57_stage8_slot1` |
 | 190 | `0xC14` | `variant77_entry_slot1.c` | `386_stage8_slot1`, `53_stage10_slot1`, `547_stage10_slot1`, `84_stage10_slot1` |
 | 189 | `0xB94` | `variant76_entry_slot1.c` | `447_stage8_slot1`, `489_stage10_slot1`, `562_stage8_slot1`, `57_stage8_slot1` |
 | 190 | `0xC14` | `e007_entry.c` | `386_stage8_slot1`, `53_stage10_slot1`, `547_stage10_slot1`, `84_stage10_slot1` |
 | 195 | `0xDE0` | `variant82_entry_slot1.c` | `66_stage8_slot1` |
-| 195 | `0xDE0` | `variant82_entry.c` | `66_stage8_slot1` |
+| 195 | `0xDE0` | `h65_entry.c` | `66_stage8_slot1` |
 | 200 | `0xA18` | `variant87_entry_slot1.c` | `140_stage10_slot1`, `584_stage10_slot1` |
 | 195 | `0xDE0` | `variant82_entry_slot1.c` | `66_stage8_slot1` |
-| 200 | `0xA18` | `variant87_entry.c` | `140_stage10_slot1`, `584_stage10_slot1` |
+| 200 | `0xA18` | `h70_entry.c` | `140_stage10_slot1`, `584_stage10_slot1` |
 | 210 | `0x1154` | `variant97_entry_slot1.c` | `100_stage8_slot1`, `150_stage10_slot1` |
 | 214 | `0xAE0` | `e049_entry.c` | `130_stage8_slot1` |
 | 210 | `0x1154` | `e045_entry.c` | `100_stage8_slot1`, `150_stage10_slot1` |
@@ -61,15 +61,15 @@ before the change, so the French images are unaffected.
 | 244 | `0x15B8` | `e062_entry.c` | `183_stage8_slot1`, `273_stage8_slot1`, `486_stage8_slot1`, `490_stage8_slot1`, `540_stage8_slot1`, `637_stage8_slot1` |
 | 242 | `0xFE4` | `e077_entry.c` | `219_stage8_slot1`, `30_stage10_slot1`, `355_stage10_slot1`, `435_stage10_slot1`, `490_stage10_slot1` |
 | 244 | `0x15B8` | `variant131_entry_slot1.c` | `183_stage8_slot1`, `273_stage8_slot1`, `486_stage8_slot1`, `490_stage8_slot1`, `540_stage8_slot1`, `637_stage8_slot1` |
-| 245 | `0xEB4` | `variant132_entry.c` | `416_stage10_slot1` |
-| 254 | `0xF5C` | `variant141_entry.c` | `20_stage10_slot1`, `428_stage8_slot1`, `445_stage8_slot1` |
+| 245 | `0xEB4` | `h132_entry.c` | `416_stage10_slot1` |
+| 254 | `0xF5C` | `h141_entry.c` | `20_stage10_slot1`, `428_stage8_slot1`, `445_stage8_slot1` |
 | 256 | `0xFF0` | `variant143_entry_slot1.c` | `234_stage10_slot1`, `481_stage8_slot1`, `496_stage8_slot1`, `546_stage10_slot1` |
 | 254 | `0xF5C` | `variant141_entry_slot1.c` | `20_stage10_slot1`, `428_stage8_slot1`, `445_stage8_slot1` |
 | 256 | `0xFF0` | `e074_entry.c` | `234_stage10_slot1`, `481_stage8_slot1`, `496_stage8_slot1`, `546_stage10_slot1` |
 | 765 | `0x14AC` | `e331_entry.c` | `217_pos0_slot0`, `453_pos0_slot0`, `563_pos0_slot0`, `58_pos0_slot0`, `612_pos0_slot0`, `78_stage9_slot0` |
-| 812 | `0xF84` | `variant829_entry.c` | `485_pos0_slot0` |
+| 812 | `0xF84` | `h829_entry.c` | `485_pos0_slot0` |
 | 862 | `0x14AC` | `e331_entry.c` | `217_stage8_slot1`, `453_stage8_slot1`, `563_stage8_slot1`, `58_stage8_slot1`, `612_stage8_slot1`, `78_stage10_slot1` |
-| 909 | `0xF84` | `variant829_entry.c` | `485_stage8_slot1` |
+| 909 | `0xF84` | `h829_entry.c` | `485_stage8_slot1` |
 
 Four more images whose entry has the same French body hold further framed
 functions after it (`model_image_model_7632_8013b000`, `_7642_8017b000`,
@@ -85,8 +85,8 @@ whose default is the French value, and a North American wrapper in
 
 - `e319_entry`: the burst CLUT, `VARIANT770_BURST_CLUT` (French `0x3D28`,
   North American `0x3D20`);
-- `e044_entry`, `variant144_entry`, `e011_entry` and `variant199_entry`:
-  the screen height of the full-screen flash (and, in `variant144_entry`, of the
+- `e044_entry`, `h144_entry`, `e011_entry` and `h182_entry`:
+  the screen height of the full-screen flash (and, in `h144_entry`, of the
   gradient's bottom edge), `GRAPHICS_DEFAULT_HEIGHT` from
   `src/game/graphics_constants.h` (French 256, North American 240).
 
@@ -99,11 +99,11 @@ both slots, are byte-identical to the objects built before these changes.
 | 79 | `0xC48` | `e027_entry_usa.c` | `192_stage9_slot0`, `196_stage9_slot0` |
 | 127 | `0xEAC` | `e075_entry_usa.c` | `492_stage9_slot0` |
 | 181 | `0xD70` | `e011_entry_usa.c` | `508_stage9_slot0` |
-| 182 | `0x1590` | `variant199_entry_usa.c` | `243_stage9_slot0`, `622_stage9_slot0` |
+| 182 | `0x1590` | `h182_entry_usa.c` | `243_stage9_slot0`, `622_stage9_slot0` |
 | 209 | `0xC48` | `e027_entry_usa.c` | `192_stage10_slot1`, `196_stage10_slot1` |
 | 257 | `0xEAC` | `e075_entry_usa.c` | `492_stage10_slot1` |
 | 311 | `0xD70` | `e011_entry_usa.c` | `508_stage10_slot1` |
-| 312 | `0x1590` | `variant199_entry_usa.c` | `243_stage10_slot1`, `622_stage10_slot1` |
+| 312 | `0x1590` | `h182_entry_usa.c` | `243_stage10_slot1`, `622_stage10_slot1` |
 | 753 | `0x16E4` | `e302_entry_usa.c` | `103_pos0_slot0`, `187_stage9_slot0`, `239_pos0_slot0`, `23_pos0_slot0`, `480_pos0_slot0`, `499_pos0_slot0`, `555_pos0_slot0`, `596_stage9_slot0`, `85_pos0_slot0` |
 | 850 | `0x16E4` | `e302_entry_usa.c` | `103_stage8_slot1`, `187_stage10_slot1`, `239_stage8_slot1`, `23_stage8_slot1`, `480_stage8_slot1`, `499_stage8_slot1`, `555_stage8_slot1`, `596_stage10_slot1`, `85_stage8_slot1` |
 
@@ -118,17 +118,17 @@ setup command prints the size of the work area with
 also moves the entry's `.rodata` and data after it. Each of these French sources
 adds the call under its own `VARIANTnnn_PRINT_WORK_SIZE` macro; the North
 American wrappers define the macro and rename the image-local data symbols to
-their North American addresses. The `variant177_entry`, `variant157_entry`,
-`variant163_entry` and `variant162_entry` wrappers also define the North
+their North American addresses. The `h177_entry`, `h157_entry`,
+`h163_entry` and `h145_entry` wrappers also define the North
 American screen height, 240, for the full-screen flash, through the same
-`GRAPHICS_DEFAULT_HEIGHT` default that header 198 uses. `variant167_entry` takes
+`GRAPHICS_DEFAULT_HEIGHT` default that header 198 uses. `h150_entry` takes
 the same default as the number of scanline rows it scrolls: its two row arrays,
 its three row loops, the row angle step (`8192 / GRAPHICS_DEFAULT_HEIGHT`, which
 folds to the French `i * 32`) and the phase wrap. Under their macros,
-`variant178_entry` and `variant167_entry` also end with the plain completion
+`h178_entry` and `h150_entry` also end with the plain completion
 test (`if (work->completed == 0) { ...; return 1; } return 0;`, with `started`
 for header 167) that North American retail's shared return block needs. The
-`variant162_entry` call prints `"%d ( %x ) Byte.\n"` instead, and retail leaves
+`h145_entry` call prints `"%d ( %x ) Byte.\n"` instead, and retail leaves
 `0x18, 0x20, 0x02` in the three bytes that pad that string to the image view, so
 the source spells the format as a 20-byte array that holds them. The French
 sources include the headers that declare the functions they call
@@ -138,24 +138,24 @@ All nine French objects are byte-identical to the objects built before.
 
 | Header | Entry size | North American source | Images |
 |---:|---:|---|---|
-| 136 | `0xE14` | `variant153_entry_usa.c` | `271_pos0_slot0`, `356_stage9_slot0`, `38_pos0_slot0`, `635_pos0_slot0` |
+| 136 | `0xE14` | `h136_entry_usa.c` | `271_pos0_slot0`, `356_stage9_slot0`, `38_pos0_slot0`, `635_pos0_slot0` |
 | 156 | `0xEC0` | `e023_entry_usa.c` | `113_stage9_slot0`, `350_stage9_slot0`, `386_stage9_slot0`, `392_pos0_slot0`, `448_stage9_slot0`, `8_stage9_slot0` |
-| 266 | `0xE14` | `variant153_entry_usa.c` | `167_stage10_slot1`, `271_stage8_slot1`, `356_stage10_slot1`, `38_stage8_slot1`, `635_stage8_slot1` |
+| 266 | `0xE14` | `h136_entry_usa.c` | `167_stage10_slot1`, `271_stage8_slot1`, `356_stage10_slot1`, `38_stage8_slot1`, `635_stage8_slot1` |
 | 286 | `0xEC0` | `e023_entry_usa.c` | `113_stage10_slot1`, `350_stage10_slot1`, `386_stage10_slot1`, `392_stage8_slot1`, `448_stage10_slot1`, `8_stage10_slot1` |
-| 167 | `0xF04` | `variant184_entry_usa.c` | `169_stage9_slot0`, `524_stage9_slot0`, `591_stage9_slot0` |
-| 297 | `0xF04` | `variant184_entry_usa.c` | `169_stage10_slot1`, `524_stage10_slot1`, `591_stage10_slot1` |
-| 140 | `0x1068` | `variant157_entry_usa.c` | `131_stage9_slot0`, `145_stage9_slot0` |
-| 270 | `0x1068` | `variant157_entry_usa.c` | `131_stage10_slot1`, `145_stage10_slot1` |
-| 160 | `0x11AC` | `variant177_entry_usa.c` | `164_stage9_slot0`, `191_stage9_slot0`, `494_stage9_slot0`, `521_stage9_slot0`, `599_stage9_slot0` |
-| 290 | `0x11AC` | `variant177_entry_usa.c` | `164_stage10_slot1`, `191_stage10_slot1`, `494_stage10_slot1`, `521_stage10_slot1`, `599_stage10_slot1` |
-| 145 | `0xDBC` | `variant162_entry_usa.c` | `37_pos0_slot0` |
-| 275 | `0xDBC` | `variant162_entry_usa.c` | `37_stage8_slot1` |
-| 146 | `0xEB8` | `variant163_entry_usa.c` | `37_stage9_slot0` |
-| 276 | `0xEB8` | `variant163_entry_usa.c` | `37_stage10_slot1` |
-| 161 | `0xD44` | `variant178_entry_usa.c` | `141_stage9_slot0` |
-| 291 | `0xD44` | `variant178_entry_usa.c` | `141_stage10_slot1` |
-| 150 | `0xF14` | `variant167_entry_usa.c` | `71_stage9_slot0` |
-| 280 | `0xF14` | `variant167_entry_usa.c` | `71_stage10_slot1` |
+| 167 | `0xF04` | `h167_entry_usa.c` | `169_stage9_slot0`, `524_stage9_slot0`, `591_stage9_slot0` |
+| 297 | `0xF04` | `h167_entry_usa.c` | `169_stage10_slot1`, `524_stage10_slot1`, `591_stage10_slot1` |
+| 140 | `0x1068` | `h140_entry_usa.c` | `131_stage9_slot0`, `145_stage9_slot0` |
+| 270 | `0x1068` | `h140_entry_usa.c` | `131_stage10_slot1`, `145_stage10_slot1` |
+| 160 | `0x11AC` | `h160_entry_usa.c` | `164_stage9_slot0`, `191_stage9_slot0`, `494_stage9_slot0`, `521_stage9_slot0`, `599_stage9_slot0` |
+| 290 | `0x11AC` | `h160_entry_usa.c` | `164_stage10_slot1`, `191_stage10_slot1`, `494_stage10_slot1`, `521_stage10_slot1`, `599_stage10_slot1` |
+| 145 | `0xDBC` | `h145_entry_usa.c` | `37_pos0_slot0` |
+| 275 | `0xDBC` | `h145_entry_usa.c` | `37_stage8_slot1` |
+| 146 | `0xEB8` | `h146_entry_usa.c` | `37_stage9_slot0` |
+| 276 | `0xEB8` | `h146_entry_usa.c` | `37_stage10_slot1` |
+| 161 | `0xD44` | `h161_entry_usa.c` | `141_stage9_slot0` |
+| 291 | `0xD44` | `h161_entry_usa.c` | `141_stage10_slot1` |
+| 150 | `0xF14` | `h150_entry_usa.c` | `71_stage9_slot0` |
+| 280 | `0xF14` | `h150_entry_usa.c` | `71_stage10_slot1` |
 
 ## What remains
 

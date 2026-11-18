@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 457 (record 407), sector 112522, header 595, loaded at 0x8017B000; the US source variant445us_entry.c at 0x8017B000; built from the US source layout of model_variant_457_stage8_slot1.
+// Japanese MODEL.MRG model 457 (record 407), sector 112522, header 595, loaded at 0x8017B000; the US source h445_entry.c at 0x8017B000; built from the US source layout of model_variant_457_stage8_slot1.
 ModelVariant445_HandleRequest = 0x8017B004; // type:func size:0x14C0 defined:true
 ModelVariant445_DrawRibbons = 0x8017C4C4; // type:func size:0xA28 defined:true
 FrenchModelVariant462_DrawSheets = 0x8017CEEC; // type:func size:0x530 defined:true

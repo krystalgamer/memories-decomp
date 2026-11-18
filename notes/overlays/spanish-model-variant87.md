@@ -6,7 +6,7 @@ reachable 2,584-byte entry at offset `4`. Their sectors, headers and hashes
 are recorded in [the instance ledger](spanish-model-variant87-instances.csv).
 
 The Spanish manifests reuse the accepted
-[`variant87_entry.c`](../../src/overlays/model_variant/variant87_entry.c)
+[`h70_entry.c`](../../src/overlays/model_variant/h70_entry.c)
 in both slots without modifying or copying the body.
 The source directory is its historical home, not a claim that regional
 portability is automatic. Both slots were independently compiled under the

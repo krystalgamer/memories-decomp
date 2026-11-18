@@ -13,7 +13,7 @@ rows are unchanged.
 
 ## Recovered ownership
 
-`src/overlays/model_variant/variant461_entry_pal.c` implements the measured
+`src/overlays/model_variant/h444_entry_pal.c` implements the measured
 constructors and runtime path, ring capture, projection and state gates.
 Its local header keeps the uncertain layout local: configuration records have
 stride `0x40`, and the observed context extends through `0x33C0`. SDK and

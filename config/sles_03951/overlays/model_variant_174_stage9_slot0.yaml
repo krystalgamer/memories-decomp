@@ -45,49 +45,49 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant450_entry]
+      - [0x4, c, overlays/model_variant/h433_entry_pal]
   - name: ribbons
     type: code
     start: 0xDD8
     vram: 0x8013BDD8
     align: 4
     subsegments:
-      - [0xDD8, c, overlays/model_variant/variant450_ribbons]
+      - [0xDD8, c, overlays/model_variant/h433_ribbons_pal]
   - name: bands
     type: code
     start: 0x1794
     vram: 0x8013C794
     align: 4
     subsegments:
-      - [0x1794, c, overlays/model_variant/variant450_bands]
+      - [0x1794, c, overlays/model_variant/h433_bands_pal]
   - name: rings
     type: code
     start: 0x1ECC
     vram: 0x8013CECC
     align: 4
     subsegments:
-      - [0x1ECC, c, overlays/model_variant/variant450_rings]
+      - [0x1ECC, c, overlays/model_variant/h433_rings_pal]
   - name: quads
     type: code
     start: 0x27C0
     vram: 0x8013D7C0
     align: 4
     subsegments:
-      - [0x27C0, c, overlays/model_variant/variant450_quads]
+      - [0x27C0, c, overlays/model_variant/h433_quads]
   - name: lines
     type: code
     start: 0x2D88
     vram: 0x8013DD88
     align: 4
     subsegments:
-      - [0x2D88, c, overlays/model_variant/variant450_lines]
+      - [0x2D88, c, overlays/model_variant/h433_lines]
   - name: coils
     type: code
     start: 0x310C
     vram: 0x8013E10C
     align: 4
     subsegments:
-      - [0x310C, c, overlays/model_variant/variant450_coils]
+      - [0x310C, c, overlays/model_variant/h433_coils_pal]
   - name: unclassified_tail
     type: code
     start: 0x3940

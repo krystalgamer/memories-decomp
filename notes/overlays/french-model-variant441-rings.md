@@ -7,7 +7,7 @@ stages 9/10). The entry calls it directly. It is the same routine as the
 accepted North American `e581_rings.c`: three rings of sixteen
 `POLY_GT4` strips, textured from the frame-buffer half each strip lands on.
 
-The French wrapper `variant441_rings.c` only defines
+The French wrapper `h424_rings_pal.c` only defines
 `VARIANT398_RINGS_LAYOUT_441` before including the shared source in both
 slots; each image's symbols file binds the name at its own address. The difference belongs to the header, not the release,
 so it is not a `VERSION_FRENCH` arm: the North American header-424

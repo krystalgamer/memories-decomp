@@ -11,9 +11,9 @@ Spanish/North American header-422 images. Only the work-state layout differs:
   `+0x1C60`.
 
 The raw comparison shows no other change apart from local jump targets. Both
-copies are now typed by their image's entry state: `model_variant/variant422_webs.c`
+copies are now typed by their image's entry state: `model_variant/h422_webs.c`
 reads `Variant439EntryState` (the sole entry of the header-422 images) and
-`model_variant/variant464_webs.c` is its own copy over
+`model_variant/h447_webs_pal.c` is its own copy over
 `Variant464EntryState`, whose members sit at the shifted offsets (the GsGLINE
 packet is each state's `line`, the phase is `tail.phase`, and the timing
 divisor is `config->burst_start` or `config->grow_end`).

@@ -4,7 +4,7 @@
 bytes) is the MODEL417 member of the tube helper family. **No release had
 matching C for this body before.**
 
-It follows the accepted MODEL441 tube (`variant441_tube.c`) over a MODEL417
+It follows the accepted MODEL441 tube (`h424_tube_pal.c`) over a MODEL417
 state in which every field is 0x5AC bytes lower; for example, the tubes start
 at `+0x0` and the `POLY_G4` is at `+0x1FC0`. The one semantic difference is
 the radius base: MODEL441 uses `width / 16`, while MODEL417 uses

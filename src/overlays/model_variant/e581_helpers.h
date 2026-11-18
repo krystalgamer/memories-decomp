@@ -4,7 +4,7 @@
 #include "e581_entry.h"
 
 /* The rings built on the 398 record. The header-441 images build the same
- * body on Variant398Header441RingsState (variant441_entry_pal.h), and the
+ * body on Variant398Header441RingsState (h424_entry_pal.h), and the
  * rings source includes e581_entry.h for both, so this prototype stays
  * out of that header. */
 void ModelVariant398_DrawRings(Variant398EntryState *context);

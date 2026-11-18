@@ -1,5 +1,5 @@
 address,size,name,status,module,notes
-0x8017B004,0x110C,ModelVariant455_HandleRequest,matching_c,overlay/model_image_model_171034_8017b000,Loader entry; C body exact through variant455_entry.c; direct-entry reachable.
+0x8017B004,0x110C,ModelVariant455_HandleRequest,matching_c,overlay/model_image_model_171034_8017b000,Loader entry; C body exact through h455_entry.c; direct-entry reachable.
 0x8017C110,0x628,FrenchModelVariant472_DrawBlooms,matching_c,overlay/model_image_model_171034_8017b000,Complete module byte identity and section-defined C ownership verified.
 0x8017C738,0x604,FrenchModelVariant472_DrawMesh,matching_c,overlay/model_image_model_171034_8017b000,Complete module byte identity and section-defined C ownership verified.
 0x8017CD3C,0xB4C,SpanishModelVariant472_DrawSpiral,matching_c,overlay/model_image_model_171034_8017b000,Complete module byte identity and section-defined C ownership verified.

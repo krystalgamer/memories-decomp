@@ -8,13 +8,13 @@
       ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x10C0",
-      "source": "src/overlays/model_variant/variant668_entry.c"
+      "source": "src/overlays/model_variant/h668_entry.c"
     },
     {
       "address": "0x8017E520",
       "profile": "gcc_2_7_2_cdk_g0",
       "size": "0x42C",
-      "source": "src/overlays/model_variant/variant447_rings_pal.c"
+      "source": "src/overlays/model_variant/h668_rings_r397.c"
     }
   ],
   "schema": 1

@@ -1,4 +1,0 @@
-#include "../../types.h"
-
-#define MODEL_VARIANT461_RIBBONS_LAST (k + 1)
-#include "../model_variant/variant461_ribbons.c"

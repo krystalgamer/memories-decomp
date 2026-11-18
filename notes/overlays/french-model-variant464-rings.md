@@ -6,8 +6,8 @@ sixteen framebuffer-textured `POLY_GT4` strips and advances them. **No
 release had matching C for this body before.**
 
 It shares its drawing pass with the accepted Spanish MODEL443 rings helper
-(`variant443_rings.c`). It reads `Variant464EntryState`, the record the
-464 entry passes (a local view in `variant464_rings.h` until it was folded):
+(`h426_rings.c`). It reads `Variant464EntryState`, the record the
+464 entry passes (a local view in `h447_rings_pal.h` until it was folded):
 - the three 0x1E4-byte `screen_rings` at `+0x114C`
   (`ModelVariantScreenRing`): point rows `a`, `b` and `c`, the progress as
   `scale` at `+0x1DC` and the completion state as `count` at `+0x1E0`;

@@ -1,7 +1,7 @@
 #ifndef MEMORIES_FRENCH_MODEL_VARIANT460_ENTRY_H
 #define MEMORIES_FRENCH_MODEL_VARIANT460_ENTRY_H
 #include "../../types.h"
-#include "variant337_entry.h"
+#include "h320_entry_pal.h"
 
 typedef struct {
     CVECTOR streamer, outer, ribbon, sheet;

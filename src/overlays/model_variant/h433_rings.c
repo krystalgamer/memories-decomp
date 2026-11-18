@@ -1,0 +1,216 @@
+#include "../../types.h"
+#include "h433_rings.h"
+#include "h433_entry.h"
+
+/* Header 433's rings: sixteen rings of nine points grown from the centre by
+ * a per-point amount, projected with RotTransPers4 and drawn as quads from
+ * the projected edges. The second `ring->amount[j] = limit;` in the
+ * then-arm is dead (reload's post-pass deletes the repeated store), but the
+ * register copy reload makes for it stays and fills the j == 8 branch's
+ * delay slot as in the retail code. */
+void ModelVariant433_DrawRings(Variant433EntryState *context)
+{
+    long p;
+    SVECTOR rot;
+    u8 *words;
+    Variant433EntryState *work;
+    GsOT *ot;
+    VECTOR scale;
+    long flag;
+    MATRIX m;
+    MATRIX ls;
+    s32 ang1;
+    s16 i, j;
+    s32 ang2;
+    GsCOORDINATE2 coord;
+    POLY_FT4 *quad;
+    Variant433EntryBand *ring;
+    s32 dx, limit;
+    s32 yaw, pitch;
+    s16 reach;
+    SVECTOR *pt;
+    s32 dy;
+    s32 size;
+    s32 row;
+    SVECTOR *edge;
+    u8 *halves;
+    s32 wave;
+    long flags[16][9];
+    s32 level;
+    s32 radius;
+    s32 half_radius;
+
+    work = context;
+    ot = Graphics_GetDefaultOrderingTable();
+    yaw = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
+    pitch = ratan2(work->view_delta.vy, work->view_delta.vx) + 0xC00;
+    if (!(work->clock.frame_count & 1)) {
+        size = work->radius;
+        if (size < 0) {
+            size += 0x7F;
+        }
+        size = (u32)size >> 7;
+    } else {
+        size = work->radius * 12;
+        if (size < 0) {
+            size += 0x3FF;
+        }
+        size = (u32)size >> 10;
+    }
+    ang1 = 0;
+    i = 0;
+    ang2 = 0;
+    reach = (s16)size;
+    limit = 0x400;
+    ring = work->rings;
+    for (; i < 16; i++, ring++, ang1 += 0x708, ang2 += 0x514) {
+        wave = work->ripple;
+        for (j = 0; j < 9; j++, wave += 0x514) {
+            level = ring->amount[j];
+            radius = 0x400;
+            if (level > 0) {
+                radius = 0;
+                if (level < 0x400) {
+                    radius = limit - level;
+                }
+            }
+            ((SVECTOR *)(j * 8 + (s32)ring))->vx = (rcos(ang1) * (half_radius = radius / 2) >> 12) + (rcos(pitch + yaw + ang1) * (rsin(wave) << 5 >> 12) >> 12);
+            ((SVECTOR *)(j * 8 + (s32)ring))->vy = (rsin(ang1) * half_radius >> 12) + (rsin(pitch + ang1) * (rsin(wave) << 5 >> 12) >> 12);
+            ((SVECTOR *)(j * 8 + (s32)ring))->vz = (rsin(ang2) * half_radius >> 12) + (rsin(yaw + ang2) * (rsin(wave) << 5 >> 12) >> 12);
+            pt = &ring->points[j];
+            /* edges[j], reached from pt as retail does; &ring->edges[j] does not match. */
+            edge = (SVECTOR *)((u8 *)pt + 0x90);
+            edge->vx = pt->vx + (rcos(yaw) * reach >> 12);
+            edge->vy = pt->vy;
+            edge->vz = pt->vz + (rsin(yaw) * reach >> 12);
+            level = ring->amount[j];
+            if (level <= 0x400) {
+                ring->amount[j] += work->clock.step << 7;
+                if (ring->amount[j] >= 0x400) {
+                    ring->amount[j] = limit;
+                    if (work->config->settle_start < work->clock.frame) {
+                        ring->amount[j] = limit;
+                        if (j == 8) {
+                            ring->field_204 = 1;
+                        }
+                    } else if (j == 8) {
+                        for (j = 0; j < 9; j++) {
+                            ring->amount[j] = -(j << 7);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    rot.vx = 0;
+    rot.vy = 0;
+    rot.vz = 0;
+    m.t[0] = work->matrix.t[0];
+    m.t[1] = work->matrix.t[1];
+    m.t[2] = work->matrix.t[2];
+    scale.vx = 0x1000;
+    scale.vy = 0x1000;
+    scale.vz = 0x1000;
+    RotMatrix(&rot, &m);
+    ScaleMatrix(&m, &scale);
+    coord.coord = m;
+    coord.super = 0;
+    coord.flg = 0;
+    GsGetLs(&coord, &ls);
+    GsSetLsMatrix(&ls);
+    ring = work->rings;
+    for (i = 0; i < 16; i++, ring++) {
+        for (j = 0; j < 9; j++) {
+#ifdef VERSION_FRENCH
+            /* The French header-450 rings index the screen, offset and depth
+             * arrays directly, use the loop index in the j == 8 arm, and
+             * have no folded `+ 1` displacements. */
+            if (j == 8) {
+                ring->depth[j] = RotTransPers4(&ring->points[7], &ring->points[8], &ring->points[7], &ring->points[8],
+                                               &ring->screen[7].packed, &ring->screen[8].packed, &ring->screen[7].packed, &ring->screen[8].packed,
+                                               &p, &flags[i][8]);
+                RotTransPers(&ring->edges[8], &ring->edge_screen[8].packed, &p, &flag);
+                dx = ring->screen[j].point.vx - ring->screen[7].point.vx;
+                dy = ring->screen[j].point.vy - ring->screen[7].point.vy;
+                ring->angle[j] = ratan2(dy, dx) - 0x400;
+                ring->width[j] = ring->edge_screen[j].point.vx - ring->screen[j].point.vx;
+                ring->x_offset[8] = rcos(ring->angle[j]) * ring->width[j] >> 12;
+                ring->y_offset[8] = rsin(ring->angle[j]) * ring->width[j] >> 12;
+            } else {
+                ring->depth[j] = RotTransPers4(&ring->points[j], &ring->points[j + 1], &ring->points[j], &ring->points[j + 1],
+                                               &ring->screen[j].packed, &ring->screen[j + 1].packed, &ring->screen[j].packed, &ring->screen[j + 1].packed,
+                                               &p, &flags[i][j]);
+                RotTransPers(&ring->edges[j], &ring->edge_screen[j].packed, &p, &flag);
+                dx = ring->screen[j + 1].point.vx - ring->screen[j].point.vx;
+                dy = ring->screen[j + 1].point.vy - ring->screen[j].point.vy;
+#else
+            if (j == 8) {
+                row = 0;
+                ring->depth[8] = RotTransPers4(&ring->points[7], &ring->points[8], &ring->points[7], &ring->points[8],
+                                               &ring->screen[7].packed, &ring->screen[8].packed, &ring->screen[7].packed, &ring->screen[8].packed,
+                                               &p, &flags[i][8]);
+                RotTransPers(&ring->edges[8], &ring->edge_screen[8].packed, &p, &flag);
+                dx = ring->screen[8].point.vx - ring->screen[7].point.vx;
+                dy = ring->screen[8].point.vy - ring->screen[7].point.vy;
+                ring->angle[8] = ratan2(dy, dx) - 0x400;
+                ring->width[8] = ring->edge_screen[8].point.vx - ring->screen[8].point.vx;
+                ring->x_offset[8] = rcos(ring->angle[8]) * ring->width[8] >> 12;
+                ring->y_offset[8] = rsin(ring->angle[8]) * ring->width[8] >> 12;
+            } else {
+                ring->depth[j] = RotTransPers4(&ring->points[j], &ring->points[j + 1], &ring->points[j], &ring->points[j + 1],
+                                               &ring->screen[j].packed, &ring->screen[j + 1].packed, &ring->screen[j].packed, &ring->screen[j + 1].packed,
+                                               &p, &(&flags[0][(row = i * 9)])[j]);
+                RotTransPers(&ring->edges[j], &ring->edge_screen[j].packed, &p, &flag);
+                dx = (&ring->screen[j])[1].point.vx - ring->screen[j].point.vx;
+                dy = (&ring->screen[j])[1].point.vy - ring->screen[j].point.vy;
+#endif
+                ring->angle[j] = ratan2(dy, dx) - 0x400;
+                ring->width[j] = ring->edge_screen[j].point.vx - ring->screen[j].point.vx;
+                ring->x_offset[j] = rcos(ring->angle[j]) * ring->width[j] >> 12;
+                ring->y_offset[j] = rsin(ring->angle[j]) * ring->width[j] >> 12;
+            }
+        }
+    }
+    ring = work->rings;
+    for (i = 0; i < 16; i++, ring++) {
+        for (j = 0; j < 8; j++) {
+            if ((s16)(j % 2) == (work->clock.frame_count & 1)) {
+                quad = work->flat_extra;
+            } else {
+                quad = &work->flat_extra[1];
+            }
+#ifdef VERSION_FRENCH
+            quad->x0 = ring->screen[j].point.vx + ring->x_offset[j];
+            quad->y0 = (ring->screen[j].packed >> 16) + ring->y_offset[j];
+            quad->x1 = ring->screen[j + 1].point.vx + ring->x_offset[j + 1];
+            quad->y1 = (ring->screen[j + 1].packed >> 16) + ring->y_offset[j + 1];
+            quad->x2 = ring->screen[j].point.vx - ring->x_offset[j];
+            quad->y2 = (ring->screen[j].packed >> 16) - ring->y_offset[j];
+            quad->x3 = ring->screen[j + 1].point.vx - ring->x_offset[j + 1];
+            quad->y3 = (ring->screen[j + 1].packed >> 16) - ring->y_offset[j + 1];
+            quad->r0 = ring->color.r;
+            quad->g0 = ring->color.g;
+            quad->b0 = ring->color.b;
+            if (ring->depth[j] >= 0 && flags[i][j] >= 0 && ring->amount[j] > 0 && ring->field_204 == 0) {
+                GsSortPoly(quad, ot, (u16)ring->depth[j]);
+#else
+            words = (u8 *)(j * 4 + (s32)ring);
+            halves = (u8 *)(j * 2 + (s32)ring);
+            quad->x0 = *(s16 *)(words + 0x48) + *(s16 *)(halves + 0x1BC);
+            quad->y0 = *(s16 *)(halves + 0x1CE) + (*(s32 *)(words + 0x48) >> 16);
+            quad->x1 = *(s16 *)(words + 0x4C) + *(s16 *)(halves + 0x1BE);
+            quad->y1 = *(s16 *)(halves + 0x1D0) + (*(s32 *)(words + 0x4C) >> 16);
+            quad->x2 = *(s16 *)(words + 0x48) - *(s16 *)(halves + 0x1BC);
+            quad->y2 = (*(s32 *)(words + 0x48) >> 16) - *(s16 *)(halves + 0x1CE);
+            quad->x3 = *(s16 *)(words + 0x4C) - *(s16 *)(halves + 0x1BE);
+            quad->y3 = (*(s32 *)(words + 0x4C) >> 16) - *(s16 *)(halves + 0x1D0);
+            quad->r0 = ring->color.r;
+            quad->g0 = ring->color.g;
+            quad->b0 = ring->color.b;
+            if (*(s32 *)(words + 0x198) >= 0 && flags[i][j] >= 0 && *(s32 *)(words + 0x1E0) > 0 && ring->field_204 == 0) {
+                GsSortPoly(quad, ot, (u16)*(s32 *)(words + 0x198));
+#endif
+            }
+        }
+    }
+}

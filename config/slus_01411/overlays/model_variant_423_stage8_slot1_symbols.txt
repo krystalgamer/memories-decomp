@@ -1,4 +1,4 @@
-// MODEL.MRG model 423 (record 373), sector 103138, header 937, loaded at 0x8017B000; the US source variant840_entry.c.
+// MODEL.MRG model 423 (record 373), sector 103138, header 937, loaded at 0x8017B000; the US source h840_entry.c.
 FrenchModelVariant857_HandleRequest = 0x8017B004; // type:func size:0xEE8 defined:true
 gFrenchModelVariant857_UnitScale = 0x8017BEEC; // type:u8 size:0x10
 gFrenchModelVariant857_aImages = 0x8017BEFC; // type:u8 size:0x38

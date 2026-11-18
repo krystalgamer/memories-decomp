@@ -8,7 +8,7 @@ The body appears in the two French raw images of model 82 that also hold
 the header-471 quads helper, directly before it (`0x1530`–`0x1A34`).
 
 The code follows the French header-470 quad-pairs helper
-(`variant470_quad_pairs.c`) with one 0x794-byte group of sixteen quads:
+(`h453_quad_pairs_pal.c`) with one 0x794-byte group of sixteen quads:
 - **Drawing:** quads are drawn up to size 1024 and drift by the size clamped
   at zero. Their scale ramps from 0 at -1024 to 1024 at zero.
 - **Wrap and timeout:** growing quads wrap by 2048, and a quad that falls
@@ -18,7 +18,7 @@ The code follows the French header-470 quad-pairs helper
 The helper reads `Variant454EntryState`, the record the US header-454 entry
 passes: the group is `groups[0]` (`Variant454EntryGroup`, whose `+0x2D4`/`+0x354`
 words are `done`/`initialized`), the anchors are `origins[j].t` and the
-polygon is `glow`. Its former local view `variant471_quad_pairs.h` was
+polygon is `glow`. Its former local view `h454_quad_pairs.h` was
 removed. The resident calls are
 covered by `model_variant471_linker_symbols.txt`. The
 [attempt ledger](french-model-image471-quad-pairs-attempts.csv) records the

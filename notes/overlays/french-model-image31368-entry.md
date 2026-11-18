@@ -31,7 +31,7 @@ Its 118 resident calls occur in the same order, with exactly one additional
 `PopMatrix` on this family's pre-start return path. The local C/header from
 commit `5c3fb33c00450cbf55f267c17d506f324089e830`, published in #8446, supplied
 structure only; this family's command layout and behavioral differences were
-recovered from its native instructions. Generic `variant789_entry.c` is a
+recovered from its native instructions. Generic `h789_entry.c` is a
 different six-flare effect and was rejected as a donor despite the raw header
 value 789. Header values are locators, not family identifiers.
 

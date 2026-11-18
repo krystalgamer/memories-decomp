@@ -16,8 +16,8 @@ change is needed. All four French helpers were independently compiled with
 
 | Offset | Bytes | Frame | Selected implementation |
 | --- | ---: | ---: | --- |
-| `0x27C0..0x2D88` | 1,480 | 264 | `model_variant/variant450_quads.c` |
-| `0x2D88..0x310C` | 900 | 288 | `model_variant/variant450_lines.c` |
+| `0x27C0..0x2D88` | 1,480 | 264 | `model_variant/h433_quads.c` |
+| `0x2D88..0x310C` | 900 | 288 | `model_variant/h433_lines.c` |
 
 This adds four matching C
 instances and 4,760 instruction bytes, not a newly invented algorithm.
@@ -32,8 +32,8 @@ control-flow graphs: `4..DD8`, `DD8..1794`, `1794..1ECC`, `1ECC..27C0`,
 `27C0..2D88`, `2D88..310C`, and `310C..3940`. All seven are C. The entry is
 the accepted North American header-433 body with the PAL palette x = 640; see
 [French MODEL entries reusing North American C](french-model-usa-entry-reuse.md).
-The `1ECC..27C0` rings (`variant450_rings.c`) are a
-wrapper over the North American `variant433_rings.c` with `VERSION_FRENCH`
+The `1ECC..27C0` rings (`h433_rings_pal.c`) are a
+wrapper over the North American `h433_rings.c` with `VERSION_FRENCH`
 defined. Unchanged, that source builds a 2,264-byte body with an 872-byte
 frame, while the French body is 2,292 bytes with an 880-byte frame. The
 French block indexes the screen, offset and depth arrays directly in the quad

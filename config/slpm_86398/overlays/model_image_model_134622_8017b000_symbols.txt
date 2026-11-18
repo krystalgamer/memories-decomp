@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 537 (record 537), sector 134622, header 601, loaded at 0x8017B000; the US source variant451_entry.c; built from the US source layout of model_variant_537_stage10_slot1.
+// Japanese MODEL.MRG model 537 (record 537), sector 134622, header 601, loaded at 0x8017B000; the US source h451_entry.c; built from the US source layout of model_variant_537_stage10_slot1.
 ModelVariant451_HandleRequest = 0x8017B004; // type:func size:0x1490 defined:true
 FrenchModelVariant468_DrawSwarm = 0x8017C494; // type:func size:0x6F0 defined:true
 gModelVariant451_aImages = 0x8017CB84; // type:u8 size:0xFC defined:true

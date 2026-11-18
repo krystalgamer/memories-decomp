@@ -2,7 +2,7 @@
 
 Ten North American MODEL variant images share one entry, at `+0x4` and
 `0x1B2C` bytes long. The entry is new North American C in
-[`variant673_entry.c`](../../src/overlays/model_variant/variant673_entry.c),
+[`h673_entry.c`](../../src/overlays/model_variant/h673_entry.c),
 built under `gcc_2_8_1_g0_split` (not the CDK GCC 2.7.2 profile, which leaves
 a large register-allocation diff), as `ModelVariant673_HandleRequest`. The
 images loaded at `0x8017B000` build the same file directly; each image's
@@ -15,7 +15,7 @@ images loaded at `0x8017B000` build the same file directly; each image's
 
 The French headers 690 and 757 carry the same entry without the `E_DATA`
 work-size printf (`0x1B1C` bytes). Their
-[`model_variant/variant690_entry.c`](../../src/overlays/model_variant/variant690_entry.c)
+[`model_variant/h673_entry_pal.c`](../../src/overlays/model_variant/h673_entry_pal.c)
 wrapper, built in both slots, defines `VERSION_FRENCH`; the French symbols
 files bind `gModelVariant673_aImages` and `gModelVariant673_aConfigs` `0x28` lower.
 All twenty images rebuild byte-identical to retail.

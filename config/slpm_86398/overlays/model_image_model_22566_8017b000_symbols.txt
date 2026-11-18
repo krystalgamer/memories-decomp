@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 81 (record 81), sector 22566, header 929, loaded at 0x8017B000; the US source variant832_entry.c; built from the US source layout of model_variant_81_stage10_slot1.
+// Japanese MODEL.MRG model 81 (record 81), sector 22566, header 929, loaded at 0x8017B000; the US source h832_entry.c; built from the US source layout of model_variant_81_stage10_slot1.
 ModelVariant832_HandleRequest = 0x8017B004; // type:func size:0x4D38 defined:true
 gModelVariant832_aImages = 0x8017FD4C; // type:u8 size:0x150 defined:true
 gModelVariant832_aConfigs = 0x8017FE9C; // type:u8 size:0x164 defined:true

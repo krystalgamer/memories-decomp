@@ -9,7 +9,7 @@ was observed.
 It is the MODEL423 streamers body (#7163): the MODEL475 helper with reach
 192, no `< 0x800` depth cap and no phase-4 shrink tail. Two layout
 differences made a separate source simpler than another base override:
-- the MODEL427 streamer (`variant427_streamers.h`) keeps 0x44 more bytes
+- the MODEL427 streamer (`h410_streamers.h`) keeps 0x44 more bytes
   before the depths, giving a 0x378-byte stride;
 - the work fields do not share one MODEL423-relative shift: the list is at
   `+0x2388`, the `POLY_G4` at `+0x35C8`, the origin at `+0x3688`, direction

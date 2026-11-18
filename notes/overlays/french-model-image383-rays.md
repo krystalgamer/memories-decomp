@@ -11,7 +11,7 @@ bindings](model-variants.md#per-image-symbol-bindings)).
 The body appears in the two French raw images of model 363 that also hold
 the header-383 strip, ribbons and quads helpers.
 
-The code follows the French header-373 rays helper (`variant373_rays.c`) over
+The code follows the French header-373 rays helper (`h356_rays.c`) over
 the header-383 layout (rays at `+0xB74`, quad at `+0x138C`), with these
 differences:
 - **Clip flags:** each ray segment keeps its own flag (`flag[16][2]`), the

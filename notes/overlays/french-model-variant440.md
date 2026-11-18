@@ -1,7 +1,7 @@
 # French MODEL headers 440 and 590
 
 4 distinct secondary images reuse the accepted
-`src/overlays/model_variant/variant423_*.c` sheets, webs, spokes, rings and quad
+`src/overlays/model_variant/{e589_entry_pal,e589_funnel_pal,e589_mesh_pal,e589_ribbon_pal,e589_sheets_pal,e589_spiral_pal,e589_streamers_pal,h423_bands,h423_entry,h423_quad,h423_rings,h423_sheets,h423_spokes,h423_webs}.c` sheets, webs, spokes, rings and quad
 bodies, which both slots now compile directly (see [Names](#names)).
 The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1/MASPSX 2.81.
 The original retained-helper integration preserved shared bodies, headers,
@@ -144,16 +144,16 @@ Family440 head, with only this note and the progress fixture reconciled.
 ## Entry
 
 The 3,856-byte entry is the first C for header 423's entry, shared as
-`src/overlays/model_variant/variant423_entry.c` with
-`variant423_entry.h`. It is the accepted header-428 entry shape without the
+`src/overlays/model_variant/h423_entry.c` with
+`h423_entry.h`. It is the accepted header-428 entry shape without the
 twelve spiral arms (no arm initialization and no spiral call), with a
 0x108-byte band of five colour pairs, a 0x30-byte config without the spiral
 start, and seven halfword/word fields at `+0xF14..0xF23` before phase
 `+0xF24`. Removing the 1,488-byte arm array and shrinking the band from
 0x1C8 bytes moves every later field by 0x690, so config lands at `+0xF00`.
-Two French wrappers, `variant440_entry.c` and `variant440_entry_slot1.c`,
+Two French wrappers, `h423_entry_pal.c` and `variant440_entry_slot1.c`,
 selected the PAL palette x = 640 and renamed the data table and the bands,
-sheets and webs callees. Both slots now compile `variant440_entry.c`, which
+sheets and webs callees. Both slots now compile `h423_entry_pal.c`, which
 only selects the palette (see [Names](#names)). Under `gcc_2_8_1_g0_split` both slots are exact in
 all four complete images (262/631, stages 9/10) at the first attempt; two
 terminal rows are appended to the attempt ledger. The family binding file
@@ -165,18 +165,18 @@ giving 49 bindings; Spanish440 keeps its 36.
 
 With the default palette x = 512 the same body is also the North American
 header-423 entry (`0xF14` bytes) under `gcc_2_7_2_cdk_g0`. It is registered in
-all four North American images through `variant423_entry.c`, which both
+all four North American images through `h423_entry.c`, which both
 slots compile ([North American notes](model-variants.md)).
 
 The bands helper at `+0xF14` remains assembly: the accepted North American
-`variant423_bands.c` body reaches one differing word under the French
+`h423_bands.c` body reaches one differing word under the French
 profile (a copy of the next-column pointer versus `col + 4`).
 
 ## Names
 
 Both slots compile the shared sources without renaming wrappers. They define
 `ModelVariant423_HandleRequest`, `ModelVariant423_DrawBand` (`0xF14`, from
-`variant631_bands.c`), `ModelVariant423_DrawSheets` (`0x16E0`),
+`h423_bands_pal.c`), `ModelVariant423_DrawSheets` (`0x16E0`),
 `ModelVariant423_DrawWebs` (`0x1BD4`), `ModelVariant423_DrawSpokes`
 (`0x2130`), `ModelVariant423_DrawRings` (`0x2440`), `ModelVariant423_DrawQuad`
 (`0x27BC`) and the data tables `gModelVariant423_aImages` and

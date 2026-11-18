@@ -56,14 +56,14 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant162_entry]
+      - [0x4, c, overlays/model_variant/h145_entry]
   - name: scale
     type: code
     start: 0xDAC
     vram: 0x8013BDAC
     align: 4
     subsegments:
-      - [0xDAC, .rodata, overlays/model_variant/variant162_entry]
+      - [0xDAC, .rodata, overlays/model_variant/h145_entry]
   - name: image_view
     type: code
     start: 0xDBC

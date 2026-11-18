@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT398_ENTRY_H
 #define MEMORIES_MODEL_VARIANT398_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/variant439_entry_pal.h"
+#include "../model_variant/h422_entry_pal.h"
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {

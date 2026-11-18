@@ -1,7 +1,7 @@
 # Spanish MODEL headers 440 and 590
 
 Four distinct Spanish images for models262/631 reuse the unchanged
-accepted `variant423_{sheets,webs,spokes,rings,quad}.c` bodies, which both slots
+accepted `h423_{sheets,webs,spokes,rings,quad}.c` bodies, which both slots
 now compile directly under the shared `ModelVariant423_*` names (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)). Ten canonical compiler
 objects independently provide20 C instances / 20,736 instruction bytes using named

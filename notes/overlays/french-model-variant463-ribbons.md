@@ -4,9 +4,9 @@ Two helpers in the header-463 images draw five ribbons, one per primary
 record:
 
 - `FrenchModelVariant463_DrawRibbons` (`0x8013C984` / `0x8017C984`, image
-  offset `0x1984`, 0x994 bytes), `variant463_ribbons.c`;
+  offset `0x1984`, 0x994 bytes), `h446_ribbons_pal.c`;
 - `FrenchModelVariant463_DrawTrailRibbons` (`0x8013D860` / `0x8017D860`,
-  image offset `0x2860`, 0xA88 bytes), `variant463_trail_ribbons.c`.
+  image offset `0x2860`, 0xA88 bytes), `h446_trail_ribbons_pal.c`.
 
 One source serves both slots; each image's symbols file binds the name at its
 own address. They are built into the same eight images as
@@ -38,7 +38,7 @@ helper.
   index loads and extensions that the target keeps.
 - **Record and bindings.** Both ribbon helpers read `Variant446EntryState`
   (`ribbons`/`trails`), whose `Variant446EntryRibbon` now carries the
-  former view's spine, projection and depth names; `variant463_ribbons.h`
+  former view's spine, projection and depth names; `h446_ribbons_pal.h`
   was removed.
   `model_variant463_linker_symbols.txt` gains `RotTransPers` for the French
   raw slot-1 images.

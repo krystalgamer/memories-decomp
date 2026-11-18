@@ -12,13 +12,13 @@ from VRAM x = 640 (`GetClut(640, 244)`) instead of 512.
 | 421 | 12 | `model_variant/e510_entry.c` | `0x11CC` |
 | 424 | 30 | `model_variant/e036_entry.c` | `0x12D4` |
 | 432 | 2 | `model_variant/e570_entry.c` | `0x0DA8` |
-| 433 | 4 | `model_variant/variant416_entry.c` | `0x104C` |
+| 433 | 4 | `model_variant/h416_entry.c` | `0x104C` |
 | 435 | 26 | `model_variant/e530_entry.c` | `0x1080` |
-| 442 | 4 | `model_variant/variant425_entry.c` | `0x1170` |
-| 445 | 12 | `model_variant/variant428_entry.c` | `0x1030` |
-| 450 | 2 | `model_variant/variant433_entry.c` | `0x0DD4` |
-| 465 | 4 | `model_variant/variant448_entry.c` | `0x1248` |
-| 476 | 2 | `model_variant/variant459_entry.c` | `0x1358` |
+| 442 | 4 | `model_variant/h425_entry.c` | `0x1170` |
+| 445 | 12 | `model_variant/h428_entry.c` | `0x1030` |
+| 450 | 2 | `model_variant/h433_entry.c` | `0x0DD4` |
+| 465 | 4 | `model_variant/h448_entry.c` | `0x1248` |
+| 476 | 2 | `model_variant/h459_entry.c` | `0x1358` |
 
 - Each North American source now names its palette x as
   `MODEL_VARIANT<header>_CLUT_X`. It defaults to 512, so the North American

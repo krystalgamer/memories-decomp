@@ -1,7 +1,7 @@
 # French MODEL headers 445 and 595
 
 These twelve secondary-handler images reuse the unchanged accepted
-`src/overlays/model_variant/variant428_{sheets,webs,spokes,rings,quad,spiral}.c` bodies
+`src/overlays/model_variant/h428_{sheets,webs,spokes,rings,quad,spiral}.c` bodies
 and directly select the accepted Spanish445 band sources. Twelve three-line
 French wrappers rename the original shared helpers; the Spanish band body
 and its existing slot-one wrapper already define the measured French
@@ -93,7 +93,7 @@ separate.
 
 ## Entry-called narrow webs
 
-The unchanged accepted `variant428_webs.c` now matches all twelve
+The unchanged accepted `h428_webs.c` now matches all twelve
 `0x1C8C..0x21F0` helpers with a 288-byte frame. Two additional terminal
 canonical-wrapper records add 12 C instances / 16,560 instruction bytes.
 The helper is directly entry-called, unlike the retained spokes/rings/quad.
@@ -140,7 +140,7 @@ policy gates pass. Remaining assembly and unclassified suffixes are not promoted
 
 ## Entry-called bands from the accepted Spanish implementation
 
-The unchanged `src/overlays/model_variant/variant445_bands.c`
+The unchanged `src/overlays/model_variant/h428_bands_pal.c`
 and its existing slot-one wrapper independently reproduce both French
 1,908-byte functions with 296-byte frames and all twelve complete
 canonical scratch images. Their symbols already match the French load
@@ -240,7 +240,7 @@ only this note and the aggregate progress fixture changed in reconciliation.
 
 ## Entry-called spiral from accepted header 428
 
-The unchanged accepted `variant428_spiral.c` and its existing arm view
+The unchanged accepted `h428_spiral.c` and its existing arm view
 reproduce the 2,492-byte helper at `0x2BD8..0x3594`, with a 400-byte
 frame in both slots. Each image's symbols file binds
 `ModelVariant428_DrawSpiral` (formerly `func_8013DBF0`) at the measured

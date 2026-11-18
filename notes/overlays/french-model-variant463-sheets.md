@@ -13,7 +13,7 @@ The body appears in eight images:
 | Spanish | `model_image_model_103424_8013b000`, `model_image_model_113636_8013b000` | `model_image_model_103434_8017b000`, `model_image_model_113646_8017b000` |
 
 - **Shape.** The control flow follows the Spanish header-461 sheets helper
-  (`variant461_sheets.c`), with these differences:
+  (`h444_sheets_pal.c`), with these differences:
   - the sheet count is the timing record's first count;
   - each sheet scales uniformly;
   - sheets below the count follow the primary records;
@@ -22,7 +22,7 @@ The body appears in eight images:
   The arms are identical, but the branch keeps the polygon advance and sheet
   base out of CSE, matching the target.
 - **Record and bindings.** The helper reads `Variant446EntryState`, the
-  record the entry passes (a view in `variant463_sheets.h` until it was
+  record the entry passes (a view in `h446_sheets.h` until it was
   folded). The primaries are the five `0x2B0`-byte `trails` at
   `work+0xD70`; the primary walk, which runs up to the config's first
   count, stays inside that array. The sheets are `panels` at `0x20F8`. The French

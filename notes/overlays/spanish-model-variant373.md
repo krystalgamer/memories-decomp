@@ -9,7 +9,7 @@ basis for assuming portability.
 ## Independently verified ownership
 
 Unchanged canonical sources in
-`src/overlays/model_variant/variant373_*.c` are selected under
+`src/overlays/model_variant/h356_*.c` are selected under
 `gcc_2_8_1_g0_split` (GCC2.8.1/MASPSX2.81).
 
 | Image offset | Bytes per image | Selected owner |

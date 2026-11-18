@@ -1,0 +1,207 @@
+#include "../../types.h"
+#include "h150_entry.h"
+#include "../../game/model_slot_support.h"
+
+/* The North American build reports the work size once per setup command. */
+#if defined(VARIANT167_PRINT_WORK_SIZE)
+#include "../../psyq/stdio.h"
+#endif
+
+static const VECTOR gFrenchModelVariant167_UnitScale = {4096, 4096, 4096, 0};
+
+s32 FrenchModelVariant167_HandleRequest(Model167State *context, s32 command)
+{
+    Model167State *work;
+    MATRIX base, matrix;
+    POLY_FT4 quad;
+    SVECTOR rotation, position;
+    VECTOR scale;
+    SVECTOR vertices[4];
+    long flag, parameter;
+    GsOT *ot;
+    Model167Config *config;
+    SVECTOR *point;
+    s16 *offset, *increment;
+    s32 i, time, value, angle0, angle1, step;
+    u8 red, green, blue;
+    long depth;
+
+    memset(&rotation, 0, 8);
+    memset(&position, 0, 8);
+    scale = gFrenchModelVariant167_UnitScale;
+    work = context;
+    Model_GetActiveSlotIndex();
+    step = Model_GetFrameStep();
+    if (command >= 0) {
+        work->scroll = 0;
+        config = work->config = &gFrenchModelVariant167_aConfigs[command % 100];
+        offset = work->offsets;
+        increment = work->increments;
+        for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; offset++, increment++, i++) {
+            *offset = 0;
+            *increment = config->amplitude
+                + config->amplitude * csin(i * 8192 / GRAPHICS_DEFAULT_HEIGHT) / 4096;
+        }
+        work->phase = 0;
+        point = work->points;
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
+        vertices[0].vy = -350;
+        for (i = 0; i < config->count; point++, i++) {
+            value = rand() % config->radius;
+            angle0 = rand() % 4096;
+            angle1 = rand() % 2048;
+            point->vx = value * ccos(angle0) / 4096 * csin(angle1) / 4096;
+            point->vy = value * ccos(angle1) / 4096;
+            point->vz = value * csin(angle0) / 4096 * csin(angle1) / 4096;
+            point->vx += vertices[0].vx;
+            point->vy += vertices[0].vy;
+            point->vz += vertices[0].vz;
+        }
+        work->texture[0] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 2, &gFrenchModelVariant167_aImages[0]);
+        for (i = 1; i < 2; i++) {
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant167_aImages[i]);
+        }
+        work->elapsed = 0;
+        work->started = 0;
+#if defined(VARIANT167_PRINT_WORK_SIZE)
+        printf("%d (0x%x) Byte\n", sizeof(Model167State), sizeof(Model167State));
+#endif
+        return 0;
+    }
+    config = work->config;
+    ot = Graphics_GetDefaultOrderingTable();
+    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    PushMatrix();
+    SetPolyFT4(&quad);
+    time = work->elapsed - config->delay;
+    if (time >= 0 && time < config->fade_duration) {
+        value = 2048 - time * 6144 / config->fade_duration;
+        Model_SetSlotAmbient(2, value, value, value);
+    } else if (time >= config->fade_duration) {
+        Model_SetSlotAmbient(2, -4096, -4096, -4096);
+    }
+    time = work->elapsed - config->delay - config->particle_delay
+        - config->count * config->stagger - config->particle_duration;
+    if (time >= 0 && time < config->fade_duration) {
+        value = -4096 + time * 6144 / config->fade_duration;
+        Model_SetSlotAmbient(2, value, value, value);
+    } else if (time >= config->fade_duration) {
+        Model_SetSlotAmbient(2, 2048, 2048, 2048);
+    }
+    time = work->elapsed - config->delay;
+    if (time < config->stagger * config->count + config->particle_duration
+        + config->fade_duration + config->particle_delay && time >= 0) {
+        quad.tpage = work->texture[1] >> 16;
+        quad.clut = work->texture[1];
+        time = work->elapsed - config->delay;
+        if (time >= 0 && time < config->fade_duration) {
+            red = config->red * time / config->fade_duration;
+            green = config->green * time / config->fade_duration;
+            blue = config->blue * time / config->fade_duration;
+            SetSemiTrans(&quad, 1);
+        } else {
+            time = work->elapsed - config->delay - config->particle_delay
+                - config->stagger * config->count - config->particle_duration;
+            if (time < 0) {
+                red = config->red;
+                green = config->green;
+                blue = config->blue;
+                SetSemiTrans(&quad, 0);
+            } else {
+                value = config->fade_duration - time;
+                red = config->red * value / config->fade_duration;
+                green = config->green * value / config->fade_duration;
+                blue = config->blue * value / config->fade_duration;
+                SetSemiTrans(&quad, 1);
+            }
+        }
+        setRGB0(&quad, red, green, blue);
+        offset = work->offsets;
+        for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT; offset++, i++) {
+            setUV4(&quad, 0, (work->scroll / 256 + i) % 64,
+                192, (work->scroll / 256 + i) % 64,
+                0, (work->scroll / 256 + i) % 64 + 1,
+                192, (work->scroll / 256 + i) % 64 + 1);
+            setXY4(&quad, *offset / 256 - 64, i, *offset / 256 + 128, i,
+                *offset / 256 - 64, i + 1, *offset / 256 + 128, i + 1);
+            Graphics_SubmitTextureWindowPacket((u32 *)&quad, ot, 4095, 0, 0, 64, 64);
+            setXY4(&quad, *offset / 256 + 128, i, *offset / 256 + 320, i,
+                *offset / 256 + 128, i + 1, *offset / 256 + 320, i + 1);
+            Graphics_SubmitTextureWindowPacket((u32 *)&quad, ot, 4095, 0, 0, 64, 64);
+        }
+        offset = work->offsets;
+        increment = &work->increments[work->phase];
+        for (i = 0; i < GRAPHICS_DEFAULT_HEIGHT - work->phase; offset++, increment++, i++) {
+            *offset += *increment;
+            *offset %= 16384;
+        }
+        increment = work->increments;
+        for (i = 0; i < work->phase; offset++, increment++, i++) {
+            *offset += *increment;
+            *offset %= 16384;
+        }
+        work->scroll = (work->scroll + (step << 8)) % 16384;
+        work->phase = (work->phase + step) % GRAPHICS_DEFAULT_HEIGHT;
+    }
+    SetSemiTrans(&quad, 1);
+    quad.tpage = work->texture[0] >> 16;
+    quad.clut = work->texture[0];
+    setVector(&vertices[0], -config->half_size, -config->half_size, 0);
+    setVector(&vertices[1], config->half_size, -config->half_size, 0);
+    setVector(&vertices[2], -config->half_size, config->half_size, 0);
+    setVector(&vertices[3], config->half_size, config->half_size, 0);
+    setRGB0(&quad, config->particle_red, config->particle_green, config->particle_blue);
+    point = work->points;
+    setVector(&rotation, 0, 0, 0);
+    setVector(&scale, 4096, 4096, 4096);
+    for (i = 0; i < config->count; point++, i++) {
+        time = work->elapsed - config->delay - config->particle_delay - i * config->stagger;
+        if (time >= 0 && time < config->particle_duration) {
+            setVector(&position, point->vx, point->vy, point->vz);
+            GsSetLsMatrix(&base);
+            RotTrans(&position, (VECTOR *)matrix.t, &flag);
+            RotMatrix(&rotation, &matrix);
+            ScaleMatrix(&matrix, &scale);
+            GsSetLsMatrix(&matrix);
+            depth = RotAverage4(&vertices[0], &vertices[1], &vertices[2], &vertices[3],
+                (long *)&quad.x0, (long *)&quad.x1,
+                (long *)&quad.x2, (long *)&quad.x3, &parameter, &flag);
+            value = time * 8 / config->particle_duration;
+            setUV4(&quad, 128 + value % 4 * 32, value / 4 * 32,
+                128 + value % 4 * 32 + 31, value / 4 * 32,
+                128 + value % 4 * 32, value / 4 * 32 + 31,
+                128 + value % 4 * 32 + 31, value / 4 * 32 + 31);
+            if (depth >= 0 && flag >= 0) {
+                GsSortPoly(&quad, ot, (u16)depth);
+            }
+        }
+    }
+    PopMatrix();
+    work->elapsed += step;
+    time = work->elapsed - config->delay - config->particle_delay;
+    if (time < 0) {
+        return 0;
+    } else {
+        time -= config->count * config->stagger + config->particle_duration;
+        if (time >= config->fade_duration) {
+            return 2;
+        } else if (time < 0) {
+            return 4;
+        } else {
+#if defined(VARIANT167_PRINT_WORK_SIZE)
+            if (work->started == 0) {
+                work->started++;
+                return 1;
+            }
+            return 0;
+#else
+            if (!work->started) {
+                work->started++;
+                return 1;
+            } else {
+                return 0;
+            }
+#endif
+        }
+    }
+}

@@ -280,7 +280,7 @@ target-compiled views, external callee starts, and slot wrapper.
 ## Names
 
 Both slots compile the shared sources without renaming wrappers;
-`variant412_{strip,ribbons,rings,bands}.c` only select the MODEL412 views of
+`e578_{strip,ribbons,rings,bands}_pal.c` only select the MODEL412 views of
 the MODEL402 bodies, so they define the MODEL402 names. The images define
 `FrenchModelVariant412_HandleRequest`, `FrenchModelVariant412_DrawTrails`
 (`0xB98`), `FrenchModelVariant402_DrawStrip`, `FrenchModelVariant402_DrawRibbons`,

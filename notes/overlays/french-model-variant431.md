@@ -1,7 +1,7 @@
 # French MODEL headers 431 and 581
 
 2 distinct secondary images reuse the accepted
-`src/overlays/model_variant/variant414_*.c` spokes, rings
+`src/overlays/model_variant/{e575_entry,e575_fan,e575_rings,e575_sheets,e575_spokes,e575_webs,e580_bands_pal,e580_entry_pal}.c` spokes, rings
 bodies, which both slots now compile directly (see [Names](#names)).
 The existing `gcc_2_8_1_g0_split` profile uses GCC 2.8.1/MASPSX 2.81.
 Shared bodies, headers, G32/PSXLONG annotations and profiles are unchanged

@@ -1,4 +1,4 @@
-# Exact C header-831 entry (variant831_entry.c); the data tail stays raw.
+# Exact C header-831 entry (h831_entry.c); the data tail stays raw.
 name: french_model_image_model_168816_8013b000
 sha1: caa36422511b0dfd86411ab556f3bc295591e367
 
@@ -55,14 +55,14 @@ segments:
     vram: 0x8013b004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant831_entry_pal]
+      - [0x4, c, overlays/model_variant/h814_entry_pal]
   - name: rodata
     type: code
     start: 0x3808
     vram: 0x8013E808
     align: 4
     subsegments:
-      - [0x3808, .rodata, overlays/model_variant/variant831_entry_pal]
+      - [0x3808, .rodata, overlays/model_variant/h814_entry_pal]
   - name: unclassified_tail
     type: code
     start: 0x3818

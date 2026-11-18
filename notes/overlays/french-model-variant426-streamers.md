@@ -3,7 +3,7 @@
 `FrenchModelVariant426_DrawStreamers` (`0x8013DBC0` / `0x8017DBC0`, image
 offset `0x2BC0`, 0x880 bytes) in the
 model_variant_0 stage 7 slot 0 and stage 8 slot 1 images is the coiled
-streamer body (`model_variant/variant474_streamers.c`) on the
+streamer body (`model_variant/h457_streamers_pal.c`) on the
 header-458 streamer layout (`ModelVariantStreamer` (formerly `Variant458Streamer`), 0x334 bytes). It differs in
 these ways:
 

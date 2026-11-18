@@ -5,7 +5,7 @@ bytes) is the MODEL417 member of the ribbon helper family. **No release had
 matching C for this body before.** It is a closed stack-prologue helper, and no
 call from the entry was observed.
 
-The accepted MODEL441 ribbon body (`variant441_ribbon.c`) reproduces it
+The accepted MODEL441 ribbon body (`h424_ribbon_pal.c`) reproduces it
 exactly. Every MODEL417 state field is 0x5AC bytes lower than in MODEL441: the
 ribbon at `+0xA2C` instead of `+0xFD8`, the `POLY_GT4` at `+0x1FC0`, and
 origin, direction, time, timing, index, progress, width and phase likewise.

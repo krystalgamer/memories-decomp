@@ -3,7 +3,7 @@
 MODEL62 stages 9/10 contain the independently recovered 1,720-byte helper
 at image `+0x3EF0`, `FrenchModelVariant443_DrawBands` (formerly
 `func_8013EEF0` / `func_8017EEF0`). The body and local
-views are `src/overlays/model_variant/variant443_bands.{c,h}`; the
+views are `src/overlays/model_variant/h426_bands.{c,h}`; the
 second slot changes only the function symbol. Both use the existing
 `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81).
 
@@ -35,7 +35,7 @@ function. These are minimum accessed views, not allocation-capacity claims.
 
 ## Investigation and acceptance
 
-The accepted Spanish `variant438_bands.c` supplies the common two-quad
+The accepted Spanish `h421_bands_pal.c` supplies the common two-quad
 projection sequence. Original French instructions establish the different
 record size, three-band/two-point loops, angle arrays, radius formula,
 direct origin/direction translation and descriptor offsets.

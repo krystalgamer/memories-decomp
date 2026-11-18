@@ -1,5 +1,0 @@
-#include "../../types.h"
-
-#define VARIANT157_PRINT_WORK_SIZE
-#define GRAPHICS_DEFAULT_HEIGHT 240
-#include "../model_variant/variant157_entry_pal.c"

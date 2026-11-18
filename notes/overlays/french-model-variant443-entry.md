@@ -96,7 +96,7 @@ completes all seven functions in each. Spanish registrations are unchanged.
 The code that ends at `0x45A8` is followed by an eighth closed function,
 `0x45A8..0x4AFC`, in both images and in every PAL region. It is
 `ModelVariant405_DrawWebs` with the header-426 layout, built from
-`model_variant/variant426_webs.c` with `gcc_2_8_1_g0_split`; the North
+`model_variant/h426_webs.c` with `gcc_2_8_1_g0_split`; the North
 American images build the same source with the CDK profile. Each image now
 binds `gFrenchModelVariant443_D45A8` at the data block that follows the
 helper (`0x4AFC`), so `e503_entry.c` names the block directly instead of

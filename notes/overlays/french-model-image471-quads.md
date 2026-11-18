@@ -13,7 +13,7 @@ The control flow is the header-429 quads helper (#7206), with these differences:
 - completion moves phase 3 to phase 5.
 
 The helper reads `Variant454EntryState` (`clusters`, `sprite`, the aim and
-the config's `limit`); its former view `variant471_quads.h` was removed.
+the config's `limit`); its former view `h454_quads.h` was removed.
 `model_variant471_linker_symbols.txt`
 covers the resident calls. The
 [attempt ledger](french-model-image471-quads-attempts.csv) records the

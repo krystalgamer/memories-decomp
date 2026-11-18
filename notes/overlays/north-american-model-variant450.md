@@ -12,8 +12,8 @@ profile; the manifests select them directly:
 
 | Offset | Bytes | Matching instances | Selected body |
 | --- | ---: | ---: | --- |
-| `0x2754..0x2D20` | 1,484 | 2 | `model_variant/variant450_quads.c` |
-| `0x2D20..0x30A8` | 904 | 2 | `model_variant/variant450_lines.c` |
+| `0x2754..0x2D20` | 1,484 | 2 | `model_variant/h433_quads.c` |
+| `0x2D20..0x30A8` | 904 | 2 | `model_variant/h433_lines.c` |
 
 The four resulting objects and linked symbol extents match independently.
 Both complete images then reproduce their retail SHA-256 values. This adds
@@ -41,9 +41,9 @@ later recoveries of the other five functions.
 
 The `DDC..1770` ribbons and `1770..1E7C` bands helpers are written for the
 North American instruction streams. They are the French header-450 ribbons and
-bands (`model_variant/variant450_ribbons.c` and `variant450_bands.c`)
+bands (`model_variant/h433_ribbons_pal.c` and `h433_bands_pal.c`)
 with the retail register allocation put back, so they are separate sources
-that read `Variant433EntryState` (`variant433_entry.h`) directly rather
+that read `Variant433EntryState` (`h433_entry.h`) directly rather
 than wrappers. `gcc_2_7_2_cdk_g0` compiles the
 French bodies 28 and 32 bytes too large, and with a different register
 allocation.
@@ -63,8 +63,8 @@ instruction bytes.
 
 ## Rings
 
-The `1E7C..2754` rings helper (`variant433_rings.c`) also builds the French
-header-450 rings (`model_variant/variant450_rings.c`) with
+The `1E7C..2754` rings helper (`h433_rings.c`) also builds the French
+header-450 rings (`model_variant/h433_rings_pal.c`) with
 `VERSION_FRENCH` defined. That block drops the retail forms below that fold
 the `+ 1` neighbour displacements, so the French body is 2,292 bytes with an
 880-byte frame. The French explanation sits inside that block, so removing
@@ -89,8 +89,8 @@ bytes.
 
 ## Coils
 
-The `30A8..38DC` coils helper (`variant433_coils.c`) is the French header-450
-coils (`model_variant/variant450_coils.c`) with the retail allocation
+The `30A8..38DC` coils helper (`h433_coils.c`) is the French header-450
+coils (`model_variant/h433_coils_pal.c`) with the retail allocation
 put back. Both copies read `Variant433EntryState` directly.
 `gcc_2_7_2_cdk_g0` compiles the French body 14 instructions too large. What
 the retail code needs:
@@ -108,10 +108,10 @@ bytes. The raw data is unchanged.
 
 ## Entry
 
-The `4..DDC` entry (`variant433_entry.c`, 886 instructions) is written for the
+The `4..DDC` entry (`h433_entry.c`, 886 instructions) is written for the
 North American stream. Built with `gcc_2_8_1_g0_split` and the PAL palette
 x = 640, it is also the French header-450 entry
-(`model_variant/variant450_entry.c`). On the
+(`model_variant/h433_entry_pal.c`). On the
 setup command it fills six fans, six ribbons, three bands, sixteen rings, seven
 sheets and two streamers from the state at the work pointer, whose block arrays
 are contiguous (`fans[6]` at `0x0`, `ribbons[6]` at `0x270`, `bands[3]` at

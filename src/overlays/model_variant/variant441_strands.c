@@ -1,7 +1,0 @@
-#include "../../types.h"
-
-/* The North American header-441 strands helper indexes the depth flags by the
- * loop counter and reads its projected points through pointer arithmetic (see
- * variant458_strands.c). */
-#define MODEL_VARIANT441_STRANDS_POINTER_SCREEN
-#include "../model_variant/variant458_strands.c"

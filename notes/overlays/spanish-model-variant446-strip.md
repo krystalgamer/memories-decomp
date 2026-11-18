@@ -1,7 +1,7 @@
 # Spanish MODEL446 billboard strip
 
 The game-owned helper at image `+0x12F8..+0x195C` is independently recovered
-in `src/overlays/model_variant/variant446_strip.c`: 1,636 exact
+in `src/overlays/model_variant/h429_strip_pal.c`: 1,636 exact
 instruction bytes at `0x8013C2F8` and `0x8017C2F8`. It uses the existing
 GCC 2.8.1 / MASPSX 2.81 `gcc_2_8_1_g0_split` profile.
 

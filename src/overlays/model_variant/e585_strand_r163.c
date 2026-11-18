@@ -1,8 +1,8 @@
 #include "../../types.h"
 
-#include "variant458_strand.h"
+#include "h458_strand.h"
 
-/* Header 552's leftover copy of the header-458 strands (variant458_strand.c)
+/* Header 552's leftover copy of the header-458 strands (h458_strand.c)
  * over the layout it was compiled against (Variant552StrandWork): it reads
  * its origin as words, advances the span by one and sorts at a quarter
  * depth. */

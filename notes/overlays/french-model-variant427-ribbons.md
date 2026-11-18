@@ -15,7 +15,7 @@ slot-1 images.
   moves stage 2 to 3. The tail fades the width over the timing record's fade
   window, moving stage 4 to 5. It reads the
   record's own `EntryRibbon427` and `EntryState427` fields; the earlier
-  `Ribbon379`/`Ribbon379Work` views in `variant427_ribbons.h` were folded
+  `Ribbon379`/`Ribbon379Work` views in `h410_ribbons_pal.h` were folded
   into them.
 - **Register choice.** The point index is copied through `n = kk = k;`
   before `setVector`, which indexes with `n`; the y term reads `(kk = n)` and

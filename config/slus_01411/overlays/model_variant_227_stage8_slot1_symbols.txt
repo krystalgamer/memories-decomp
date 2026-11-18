@@ -1,4 +1,4 @@
-// MODEL.MRG model 227 (record 227), sector 62842, header 283, loaded at 0x8017B000; the US source variant153us_entry.c.
+// MODEL.MRG model 227 (record 227), sector 62842, header 283, loaded at 0x8017B000; the US source h153_entry.c.
 ModelVariant153Us_HandleRequest = 0x8017B004; // type:func size:0x1438
 D_8017C43C = 0x8017C43C; // type:u32 size:0x10 defined:true
 D_8017B000 = 0x8017B000; // type:u8 size:0x4 defined:true

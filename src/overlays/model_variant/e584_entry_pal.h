@@ -2,7 +2,7 @@
 #define MEMORIES_FRENCH_MODEL_VARIANT444_ENTRY_H
 
 #include "../../types.h"
-#include "variant337_entry.h"
+#include "h320_entry_pal.h"
 
 /* One command record of the French header-444 entry's table. The funnels read
    the first record's fade start (old blob + 0x114) whatever the command. */

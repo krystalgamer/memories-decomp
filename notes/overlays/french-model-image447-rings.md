@@ -10,7 +10,7 @@ No loader entry or resident reference to it has been found; its reachability is 
 - **Layout.** The work area matches the header-463 rings layout, except that
   the pad after the polygon at `0x4420` is 0x54 bytes instead of 0x4C. Every
   later field is 8 bytes higher. The view lives in
-  `model_variant/variant447_rings_pal.h`.
+  `model_variant/h668_rings_r397.h`.
 - **Compiler.** Under gcc 2.8.1 the source is two words longer, uses
   different reload registers and fills the epilogue delay slot. Under
   `gcc_2_7_2_cdk_g0` it matches exactly, including the
@@ -31,10 +31,10 @@ German and Italian images are byte-identical to the Spanish ones. The
 ## Per-image names
 
 The source defines `FrenchModelVariant447_DrawRings`. All fourteen model-447
-images build it at `0x8013E520`/`0x8017E520` by compiling `variant447_rings.c`
+images build it at `0x8013E520`/`0x8017E520` by compiling `h447_rings.c`
 directly. Its five calls into the older resident layout beside the
 header-668/685 entry use the `Rings447_*` names declared in
-`variant447_rings.h` (`Rings447_func_80058F10`, `Rings447_rcos`,
+`h447_rings.h` (`Rings447_func_80058F10`, `Rings447_rcos`,
 `Rings447_GsSetLsMatrix`, `Rings447_ScaleMatrix` and `Rings447_GsSortPoly`),
 which each image's linker file binds at those addresses. Each image binds the name at its own address
 (see [Per-image symbol

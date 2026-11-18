@@ -6,7 +6,7 @@
 C for this body before.** It is reachable directly from the entry.
 
 It follows the accepted MODEL402 ribbons helper (`e568_ribbons_pal.c`). The
-local `variant446_ribbons.h` maps the MODEL402-named work fields to their
+local `h446_ribbons.h` maps the MODEL402-named work fields to their
 MODEL446 offsets: ribbons at `+0x1250`, the `POLY_G3` at `+0x1970`, the
 configuration pointer at `+0x1BA4` and so on. The measured differences are:
 - the fan is only built while the halfword progress is positive;

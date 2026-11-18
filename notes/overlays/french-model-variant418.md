@@ -1,7 +1,7 @@
 # French MODEL headers 418 and 568
 
 Two distinct images for model410 reuse the unchanged accepted
-`src/overlays/model_variant/variant401_{spokes,rings,quad}.c` bodies, which
+`src/overlays/model_variant/h401_{spokes,rings,quad}.c` bodies, which
 both slots now compile directly (see [Names](#names)). The existing `gcc_2_8_1_g0_split` profile uses
 GCC 2.8.1 and MASPSX 2.81. Those three shared bodies, headers, G32 annotations and US
 profiles are unchanged. US source family401 is provenance, not French
@@ -129,7 +129,7 @@ Three 416-byte narrow webs occupy `0xA80..0xF60`. Both 4-by-6 SVECTOR
 grids, color and scale reuse the existing local `ModelVariantWebNarrow`.
 The measured web control flow matches accepted US416 structure; only the
 context tail is `0x94` later. `VERSION_FRENCH` selects this constant without
-changing the arithmetic or phase control flow of `variant416_webs.c`.
+changing the arithmetic or phase control flow of `h416_webs.c`.
 French433 deliberately uses the default layout, as do the US416 users. The shared header and all
 existing compiler-profile names and flags remain unchanged.
 
@@ -303,7 +303,7 @@ regressions pass without skips, alongside repository policy gates. The
 ## Entry
 
 The 4,060-byte entry is the first C for header 401's entry, shared as
-`src/overlays/model_variant/variant401_entry.c` with `variant401_entry.h`.
+`src/overlays/model_variant/h401_entry.c` with `h401_entry.h`.
 It is the accepted header-416 entry with one 0x27C-byte band of nine columns
 (offsets `-(j * 768) / 8`), two sheets, a fifth texture and no burst
 threshold; the update calls sheet and webs once the config start is reached,
@@ -322,13 +322,13 @@ keeps its 36.
 
 With the default palette x = 512 the same body is the North American
 header-401 entry (`0xFE0` bytes) under `gcc_2_7_2_cdk_g0`, registered in both
-North American images through `variant401_entry.c`, which both slots compile
+North American images through `h401_entry.c`, which both slots compile
 ([North American notes](model-variants.md)).
 
 ## Names
 
 Both slots compile the shared sources without renaming wrappers; the
-remaining `variant418_{entry,bands,webs,rays}.c` files only select the
+remaining `{e530_entry,e530_bands,e530_webs,h401_rays_pal}.c` files only select the
 palette, `VERSION_FRENCH` or `MODEL_VARIANT418_RAYS`. They define
 `ModelVariant401_HandleRequest`, `ModelVariant401_DrawBand` (`0xFE0`),
 `FrenchModelVariant418_DrawSheets` (`0x1760`), `ModelVariant416_DrawWebs`

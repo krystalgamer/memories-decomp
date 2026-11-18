@@ -1,4 +1,4 @@
-// MODEL.MRG model 116 (record 116), sector 32226, header 948, loaded at 0x8017B000; the US header-931 source variant834_entry.c.
+// MODEL.MRG model 116 (record 116), sector 32226, header 948, loaded at 0x8017B000; the US header-931 source h834_entry.c.
 ModelVariant834_HandleRequest = 0x8017B004; // type:func size:0x260C defined:true
 gModelVariant834_aImages = 0x8017D620; // type:u8 size:0x54 defined:true
 gModelVariant834_aConfigs = 0x8017D674; // type:u8 size:0x298C defined:true

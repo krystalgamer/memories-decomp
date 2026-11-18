@@ -142,7 +142,7 @@ The `0x21F4` partial view is not an allocation-size claim.
 
 Retail reserves sixteen unaccessed stack bytes between rotation at
 `sp+0x28` and scale at `sp+0x40`. Accepted French MODEL476's reused
-`variant459_curtains.c` provides structural precedent for representing
+`h459_curtains.c` provides structural precedent for representing
 measured unused stack storage as opaque bytes. The quad source retains
 that independently measured gap without inventing a semantic object,
 executed store, fake dependency, or forced register. It also retains

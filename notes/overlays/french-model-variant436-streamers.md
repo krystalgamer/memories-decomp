@@ -6,8 +6,8 @@
 pass. **No release had matching C for this body before.** It is reachable
 from the entry.
 
-It follows the accepted MODEL458 streamers helper (`variant458_streamers.c`)
-over the MODEL436 record, `EntryState436` in `variant436_entry.h`:
+It follows the accepted MODEL458 streamers helper (`h458_streamers.c`)
+over the MODEL436 record, `EntryState436` in `h419_entry_pal.h`:
 - `streamers` at `+0x93C`, the `extra` quads at `+0x14A8` and the entry
   `matrix` at `+0x1508`, used as the one origin;
 - `factor`, `lift` and `scale` at `+0x1590..+0x1598` and one `delta` at

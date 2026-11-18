@@ -1,8 +1,8 @@
 # Spanish MODEL headers 433 and 583
 
 Four distinct Spanish images for models180/440 reuse the unchanged accepted
-`variant416_{webs,spokes,rings,quad}.c` bodies, plus the accepted local
-standalone `variant433_{strips,sheet,rays}.c`, all compiled directly in both
+`h416_{webs,spokes,rings,quad}.c` bodies, plus the accepted local
+standalone `h416_{strips,sheet,rays_pal}.c`, all compiled directly in both
 slots under the shared header-416 names (see [Per-image symbol
 bindings](model-variants.md#per-image-symbol-bindings)). Twenty-eight compiler-owned C instances cover
 33,184 instruction bytes

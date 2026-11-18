@@ -54,56 +54,56 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant426_entry]
+      - [0x4, c, overlays/model_variant/h426_entry]
   - name: helper_1ac4
     type: code
     start: 0x1AC4
     vram: 0x8017CAC4
     align: 4
     subsegments:
-      - [0x1AC4, c, overlays/model_variant/variant426_ribbons]
+      - [0x1AC4, c, overlays/model_variant/h426_ribbons]
   - name: helper_236c
     type: code
     start: 0x236C
     vram: 0x8017D36C
     align: 4
     subsegments:
-      - [0x236C, c, overlays/model_variant/variant443_rings]
+      - [0x236C, c, overlays/model_variant/h426_rings]
   - name: helper_2954
     type: code
     start: 0x2954
     vram: 0x8017D954
     align: 4
     subsegments:
-      - [0x2954, c, overlays/model_variant/variant443_mesh]
+      - [0x2954, c, overlays/model_variant/h426_mesh]
   - name: helper_2f00
     type: code
     start: 0x2F00
     vram: 0x8017DF00
     align: 4
     subsegments:
-      - [0x2F00, c, overlays/model_variant/variant443_sheets_pal]
+      - [0x2F00, c, overlays/model_variant/h426_sheets]
   - name: helper_3640
     type: code
     start: 0x3640
     vram: 0x8017E640
     align: 4
     subsegments:
-      - [0x3640, c, overlays/model_variant/variant443_streamers_pal]
+      - [0x3640, c, overlays/model_variant/h426_streamers]
   - name: helper_3ee0
     type: code
     start: 0x3EE0
     vram: 0x8017EEE0
     align: 4
     subsegments:
-      - [0x3EE0, c, overlays/model_variant/variant443_bands]
+      - [0x3EE0, c, overlays/model_variant/h426_bands]
   - name: helper_4594
     type: code
     start: 0x4594
     vram: 0x8017F594
     align: 4
     subsegments:
-      - [0x4594, c, overlays/model_variant/variant426_webs]
+      - [0x4594, c, overlays/model_variant/h426_webs]
   - name: data
     type: code
     start: 0x4AEC

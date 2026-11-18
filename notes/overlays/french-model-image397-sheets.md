@@ -9,7 +9,7 @@ The body appears in four French raw images: models 258 and 21, slot 0
 at `0x1A9C`, carved out of the unclassified image.
 
 The structure follows the Spanish header-459 sheets helper
-(`variant459_sheets.c`):
+(`h442_sheets.c`):
 - `timing->count` sheets from `+0xE24` (`ModelVariantSheetSet`);
 - below phase 4, sheets sit at 32-byte anchors (`+0x19DC`), scaled by
   `size / timing->divisor`; from phase 4, at the VECTOR positions (`+0x1A70`);

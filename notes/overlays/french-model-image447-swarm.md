@@ -23,7 +23,7 @@ phase machine:
 As in the header-455 swarm, the orbit argument must be written
 `spread - 1024 + angle`. The helper reads `Variant430EntryState` (its `swarm` is
 `ModelVariantSwarmGroup` without the trailing initialized flags; the former
-view `variant447_swarm.h` was removed), and
+view `h430_swarm.h` was removed), and
 `model_variant447_linker_symbols.txt` covers the resident calls. The
 [attempt ledger](french-model-image447-swarm-attempts.csv) records five
 measured probes.

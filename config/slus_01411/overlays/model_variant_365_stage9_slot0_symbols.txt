@@ -1,4 +1,4 @@
-// MODEL.MRG model 365 (record 365), sector 87140, header 178, loaded at 0x8013B000; the US source variant178_entry.c.
+// MODEL.MRG model 365 (record 365), sector 87140, header 178, loaded at 0x8013B000; the US source h178_entry.c.
 ModelVariant178_HandleRequest = 0x8013B004; // type:func size:0x1AE8 defined:true
 gModelVariant178_aImages = 0x8013CB0C; // type:u8 size:0x54 defined:true
 gModelVariant178_aConfigs = 0x8013CB60; // type:u8 size:0x34A0 defined:true

@@ -1,4 +1,4 @@
-// European MODEL.MRG model 356 (record 306), sector 84646, header 935, loaded at 0x8017B000; the US header-918 source variant821_entry.c; built from the French source layout of french_model_variant_356_stage8_slot1.
+// European MODEL.MRG model 356 (record 306), sector 84646, header 935, loaded at 0x8017B000; the US header-918 source h821_entry.c; built from the French source layout of french_model_variant_356_stage8_slot1.
 ModelVariant821_HandleRequest = 0x8017B004; // type:func size:0x391C defined:true
 gModelVariant821_aImages = 0x8017E930; // type:u8 size:0x8C defined:true
 gModelVariant821_aConfigs = 0x8017E9BC; // type:u8 size:0x1644 defined:true

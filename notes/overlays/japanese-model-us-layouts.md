@@ -56,7 +56,7 @@ under `VERSION_JAPAN` plus `MODEL_VARIANT_SLOT1`. The Japanese manifests give
 those images `VERSION_JAPAN` (and `MODEL_VARIANT_SLOT1` in slot 1) as entry
 defines. `VERSION_JAPAN` also selects the Japanese resident struct layouts in
 the shared headers; the entry sources do not use those structs. The header-162
-images compile `model_variant/variant162_entry.c` with the US wrapper's
+images compile `model_variant/h145_entry.c` with the US wrapper's
 `VARIANT162_PRINT_WORK_SIZE` and `GRAPHICS_DEFAULT_HEIGHT=240` as well, and
 the header-89 images take their order-table byte as
 `MODEL89_ORDER_PAD=0x06`.

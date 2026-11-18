@@ -34,7 +34,7 @@ Three source details control the exact allocation (see the
 
 MODEL417 keeps every work field `0x5AC` bytes lower: sheets at `+0xA98`
 instead of `+0x1044`, and the `POLY_GT4` at `+0x1FF4`. Accordingly,
-`variant441_sheets.c` addresses work fields through
+`h424_sheets_pal.c` addresses work fields through
 `SHEETS_WORD`/`SHEETS_OFFSET`, and `e583_sheets_pal.c` only sets
 `SHEETS_SHIFT` to `0x5AC` and renames the function.
 

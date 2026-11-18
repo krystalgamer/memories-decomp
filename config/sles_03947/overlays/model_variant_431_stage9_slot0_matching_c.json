@@ -4,43 +4,43 @@
       "address": "0x8013B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xE34",
-      "source": "src/overlays/model_variant/variant474_entry.c"
+      "source": "src/overlays/model_variant/h457_entry_pal.c"
     },
     {
       "address": "0x8013BE38",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x900",
-      "source": "src/overlays/model_variant/variant474_ribbons.c"
+      "source": "src/overlays/model_variant/h457_ribbons_pal.c"
     },
     {
       "address": "0x8013C738",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x688",
-      "source": "src/overlays/model_variant/variant474_funnels.c"
+      "source": "src/overlays/model_variant/h457_funnels.c"
     },
     {
       "address": "0x8013CDC0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x480",
-      "source": "src/overlays/model_variant/variant474_mesh.c"
+      "source": "src/overlays/model_variant/h457_mesh.c"
     },
     {
       "address": "0x8013D240",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x998",
-      "source": "src/overlays/model_variant/variant474_spiral.c"
+      "source": "src/overlays/model_variant/h457_spiral.c"
     },
     {
       "address": "0x8013DBD8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x4F8",
-      "source": "src/overlays/model_variant/variant474_sheets.c"
+      "source": "src/overlays/model_variant/h457_sheets.c"
     },
     {
       "address": "0x8013E0D0",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x7EC",
-      "source": "src/overlays/model_variant/variant474_streamers.c"
+      "source": "src/overlays/model_variant/h457_streamers_pal.c"
     }
   ],
   "schema": 1

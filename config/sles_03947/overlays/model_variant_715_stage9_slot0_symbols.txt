@@ -1,4 +1,4 @@
-// European MODEL.MRG model 715 (record 615), sector 169940, header 449, loaded at 0x8013B000; the US header-432 source variant432_entry.c; built from the French source layout of french_model_variant_715_stage9_slot0.
+// European MODEL.MRG model 715 (record 615), sector 169940, header 449, loaded at 0x8013B000; the US header-432 source h432_entry.c; built from the French source layout of french_model_variant_715_stage9_slot0.
 ModelVariant432_HandleRequest = 0x8013B004; // type:func size:0xD20 defined:true
 FrenchModelVariant449_DrawSheet = 0x8013BD24; // type:func size:0x51C defined:true
 FrenchModelVariant449_DrawRibbons = 0x8013C240; // type:func size:0x95C defined:true

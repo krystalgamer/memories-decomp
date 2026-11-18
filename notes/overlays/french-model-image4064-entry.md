@@ -6,7 +6,7 @@ Both original 20,480-byte assembly baselines were verified before recovery.
 
 The complete native body independently establishes the same 38-byte command
 row, 1,272-byte state and particle/burst/cone lifecycle as the already accepted
-local `model_variant/variant168_entry.c`. This is local recovered C, not a
+local `model_variant/h168_entry.c`. This is local recovered C, not a
 third-party reference declaration or toolchain claim. The French wrappers
 reuse that body and its owning header with the authoritative
 `gcc_2_8_1_g0_split` profile.

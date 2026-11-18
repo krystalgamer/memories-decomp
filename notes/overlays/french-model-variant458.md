@@ -153,7 +153,7 @@ both 11,508-byte suffixes remain unclassified.
 
 The `0x89C` helper between the sheets and streamers is first-ever game code:
 no release had matching C for its body. Both stage images (`8013C150` and
-`8017C150`) now compile from `variant458_strands.c`.
+`8017C150`) now compile from `h441_strands_pal.c`.
 
 Six `0x200`-byte strand records start at work offset `0`. Each holds nine
 points (`a`, projected `sa`, `angle`, offset points `b`, projected `sb`,

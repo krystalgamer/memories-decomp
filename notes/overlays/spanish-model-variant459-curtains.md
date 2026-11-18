@@ -1,6 +1,6 @@
 # Spanish MODEL459 curtains
 
-Helper `+0x19AC..+0x1FB8` is matching C: `variant459_curtains.c`
+Helper `+0x19AC..+0x1FB8` is matching C: `h459_curtains.c`
 (`SpanishModelVariant459_DrawCurtains`), one source for both load slots,
 bound per image. It is
 1,548 bytes in the twelve Spanish MODEL459 loads (MODEL47, MODEL238,
@@ -11,8 +11,8 @@ instruction bytes. The helper is entry-reachable.
 
 ## Behaviour
 
-The body belongs to the same family as `model_variant/variant422_curtains.c`,
-`e581_curtains.c` and `model_variant/variant464_curtains.c`,
+The body belongs to the same family as `model_variant/h422_curtains.c`,
+`e581_curtains.c` and `model_variant/h447_curtains_pal.c`,
 but it differs in every part that carries state, so it is an independent
 source rather than a layout of an earlier one.
 

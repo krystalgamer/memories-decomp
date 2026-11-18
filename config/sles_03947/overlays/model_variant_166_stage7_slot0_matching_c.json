@@ -4,55 +4,55 @@
       "address": "0x8013B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x11B8",
-      "source": "src/overlays/model_variant/variant441_entry_pal.c"
+      "source": "src/overlays/model_variant/h424_entry_pal.c"
     },
     {
       "address": "0x8013C1BC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x580",
-      "source": "src/overlays/model_variant/variant441_lines.c"
+      "source": "src/overlays/model_variant/h424_lines_pal.c"
     },
     {
       "address": "0x8013C73C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x6A0",
-      "source": "src/overlays/model_variant/variant441_tube.c"
+      "source": "src/overlays/model_variant/h424_tube_pal.c"
     },
     {
       "address": "0x8013CDDC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x620",
-      "source": "src/overlays/model_variant/variant441_ribbon.c"
+      "source": "src/overlays/model_variant/h424_ribbon_pal.c"
     },
     {
       "address": "0x8013D3FC",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x64C",
-      "source": "src/overlays/model_variant/variant441_rays.c"
+      "source": "src/overlays/model_variant/h424_rays_pal.c"
     },
     {
       "address": "0x8013DA48",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x618",
-      "source": "src/overlays/model_variant/variant441_sheets.c"
+      "source": "src/overlays/model_variant/h424_sheets_pal.c"
     },
     {
       "address": "0x8013E060",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x5D0",
-      "source": "src/overlays/model_variant/variant441_framebuffer_rings.c"
+      "source": "src/overlays/model_variant/h424_framebuffer_rings_pal.c"
     },
     {
       "address": "0x8013E630",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xB1C",
-      "source": "src/overlays/model_variant/variant441_spiral.c"
+      "source": "src/overlays/model_variant/h424_spiral_pal.c"
     },
     {
       "address": "0x8013F14C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x608",
-      "source": "src/overlays/model_variant/variant441_rings.c"
+      "source": "src/overlays/model_variant/h424_rings_pal.c"
     }
   ],
   "schema": 1

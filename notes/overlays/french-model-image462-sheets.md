@@ -11,7 +11,7 @@ the header-462 rings helper (`french-model-image462-rings.md`), directly
 before it.
 
 The control flow follows the Spanish header-461 sheets helper
-(`variant461_sheets.c`), with these differences:
+(`h444_sheets_pal.c`), with these differences:
 - 0x2B0-byte primaries (active at `+0x1C8`), which shift the rest of the
   layout by `+0x1E0`;
 - an unweighted sheet scale (`size + extra` on every axis);
@@ -22,7 +22,7 @@ The helper reads `EntryState445Us`, the record the entry passes: the
 primaries are its counted `ribbons` (`state`, `length`), the sheets are its
 `quads`, the positions are `path_origins`/`path_targets`, and the timing is
 the `ModelVariantGrowConfig` (fade window `phase3_end..matrix_end`). The
-local view `variant462_sheets.h` was removed. The resident calls are
+local view `h462_sheets.h` was removed. The resident calls are
 covered by `model_variant462_linker_symbols.txt`. The
 [attempt ledger](french-model-image462-sheets-attempts.csv) records the
 probe, which matched on the first build.

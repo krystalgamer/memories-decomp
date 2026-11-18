@@ -1,7 +1,7 @@
 # French MODEL155016 / MODEL59520 shared entry
 
 For #6460, these four raw French MODEL.MRG images directly reuse the accepted
-local `src/overlays/model_variant/variant177_entry.c` in both slots. Each
+local `src/overlays/model_variant/h177_entry.c` in both slots. Each
 image's symbols file binds `ModelVariant177_HandleRequest`,
 `gModelVariant177_aImages` and `gModelVariant177_aConfigs` at its own addresses;
 the data lives in the raw tail. No shared C or header is changed or copied.
@@ -9,10 +9,10 @@ The established source name is not a new claim about the raw images' header IDs.
 
 | Sector | Load address | Existing source |
 | --- | --- | --- |
-| 59520 | `0x8013B000` | `variant177_entry.c` |
-| 155016 | `0x8013B000` | `variant177_entry.c` |
-| 59530 | `0x8017B000` | `variant177_entry.c` |
-| 155026 | `0x8017B000` | `variant177_entry.c` |
+| 59520 | `0x8013B000` | `h177_entry.c` |
+| 155016 | `0x8013B000` | `h177_entry.c` |
+| 59530 | `0x8017B000` | `h177_entry.c` |
+| 155026 | `0x8017B000` | `h177_entry.c` |
 
 Each entry is 5,372 bytes at load address + 4, with the original 624-byte frame.
 The source also owns the real 16-byte scale vector at image offset `0x1500`.

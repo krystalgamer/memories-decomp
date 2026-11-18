@@ -4,6 +4,6 @@
 #include "../../types.h"
 #define MODEL168_EXTERNAL_SCALE
 #define MODEL168_NO_SIZE_PRINT
-#include "../model_variant/variant168_entry.h"
+#include "../model_variant/h168_entry.h"
 
 #endif

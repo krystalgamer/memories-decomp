@@ -25,11 +25,11 @@ Each image retains these five existing helper owners, profiles and sizes:
 
 | Slot-0 address | Bytes | Existing C owner |
 |---|---:|---|
-| `8013C560` | `638` | French `variant582_arcs.c` |
-| `8013CB98` | `65C` | French `variant582_sheets.c` |
-| `8013D1F4` | `93C` | French `variant469_ribbons.c` |
-| `8013DB30` | `538` | Spanish `variant469_sheets.c` |
-| `8013E068` | `454` | Spanish `variant469_rings.c` |
+| `8013C560` | `638` | French `h452_arcs_pal.c` |
+| `8013CB98` | `65C` | French `h452_sheets_1b98.c` |
+| `8013D1F4` | `93C` | French `h452_ribbons_pal.c` |
+| `8013DB30` | `538` | Spanish `h452_sheets_2b30.c` |
+| `8013E068` | `454` | Spanish `h452_rings_pal.c` |
 
 Slot-1 addresses use the corresponding `8017` prefix. Production ELFs
 independently confirm the original-sized entry and all five original-sized

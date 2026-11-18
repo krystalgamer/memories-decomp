@@ -1,6 +1,0 @@
-#include "../../types.h"
-
-/* The North American header-455 spiral indexes the closing segment directly
- * (see variant472_spiral.c). */
-#define MODEL_VARIANT472_SPIRAL_DIRECT_PREVIOUS
-#include "../model_variant/variant472_spiral.c"

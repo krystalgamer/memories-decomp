@@ -57,31 +57,31 @@ Entry `model_variant/e338_entry.c` line 75: `work->config = gModelVariant372_aCo
 
 ## `Variant430EntryConfig`
 
-Entry `model_variant/variant430_entry.c` line 76: `work->config = &gModelVariant430_aConfigs[command];`. Its work struct `Variant430EntryState` has `config` at `+0x1FD4`.
+Entry `model_variant/h430_entry.c` line 76: `work->config = &gModelVariant430_aConfigs[command];`. Its work struct `Variant430EntryState` has `config` at `+0x1FD4`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `ModelVariantQuadTimingLong.limit` | `FrenchModelVariant447_DrawSwarm` (model_variant/variant447_swarm.c; `model_variant/variant430_entry.c:341`, `Swarm447State.timing` at +0x1FD4); `FrenchModelVariant447_DrawSwarm` (model_variant/variant447_swarm.c; `model_variant/variant430_entry.c:343`, `Swarm447State.timing` at +0x1FD4) | `if (state->timing->limit <= state->time)` | high |
+| `+0x24` | `unknown_24[4]` bytes → `u32 limit` | `ModelVariantQuadTimingLong.limit` | `FrenchModelVariant447_DrawSwarm` (model_variant/h430_swarm.c; `model_variant/h430_entry.c:341`, `Swarm447State.timing` at +0x1FD4); `FrenchModelVariant447_DrawSwarm` (model_variant/h430_swarm.c; `model_variant/h430_entry.c:343`, `Swarm447State.timing` at +0x1FD4) | `if (state->timing->limit <= state->time)` | high |
 
 ## `EntryConfig458`
 
-Entry `model_variant/variant458_entry_pal.c` line 36: `work->config = (EntryConfig458 *)(gFrenchModelVariant458_D230C + 0xFC) + command;`. Its work struct `EntryState458` has `config` at `+0x1F24`.
+Entry `model_variant/h441_entry_pal.c` line 36: `work->config = (EntryConfig458 *)(gFrenchModelVariant458_D230C + 0xFC) + command;`. Its work struct `EntryState458` has `config` at `+0x1F24`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_1C[0xC]` bytes → `s32 move_start` | `EntryConfig458.move_start` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (model_variant/variant458_sheets_pal.c; `model_variant/variant458_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `} else if (work->phase == 1 && work->elapsed >= work->config->move_start)` | high |
-| `+0x20` | `unknown_1C[0xC]` bytes → `s32 move_end` | `EntryConfig458.move_end` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (model_variant/variant458_sheets_pal.c; `model_variant/variant458_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `(work->config->move_end - work->config->move_start);` | high |
-| `+0x24` | `unknown_1C[0xC]` bytes → `s32 fade_start` | `EntryConfig458.fade_start` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (model_variant/variant458_sheets_pal.c; `model_variant/variant458_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `} else if (work->phase == 4 && work->config->fade_start <= work->elapsed)` | high |
+| `+0x1C` | `unknown_1C[0xC]` bytes → `s32 move_start` | `EntryConfig458.move_start` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (model_variant/h441_sheets.c; `model_variant/h441_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `} else if (work->phase == 1 && work->elapsed >= work->config->move_start)` | high |
+| `+0x20` | `unknown_1C[0xC]` bytes → `s32 move_end` | `EntryConfig458.move_end` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (model_variant/h441_sheets.c; `model_variant/h441_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `(work->config->move_end - work->config->move_start);` | high |
+| `+0x24` | `unknown_1C[0xC]` bytes → `s32 fade_start` | `EntryConfig458.fade_start` (was `Variant458Timing`) | `FrenchModelVariant458_DrawSheets` (model_variant/h441_sheets.c; `model_variant/h441_entry_pal.c:259`, `EntryState458.config` at +0x1F24) | `} else if (work->phase == 4 && work->config->fade_start <= work->elapsed)` | high |
 
 ## `ModelVariantGrowConfig`
 
-Entry `model_variant/variant445us_entry.c` line 51: `work->config = (ModelVariantGrowConfig *)(gModelVariant445_D2848 + 0xFC) + command;`. Its work struct `EntryState445Us` has `config` at `+0x354C`.
+Entry `model_variant/h445_entry.c` line 51: `work->config = (ModelVariantGrowConfig *)(gModelVariant445_D2848 + 0xFC) + command;`. Its work struct `EntryState445Us` has `config` at `+0x354C`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `Sheets462Timing.first_count` | `FrenchModelVariant462_DrawSheets` (model_variant/variant462_sheets_pal.c; `model_variant/variant445us_entry.c:381`, `Sheets462State.timing` at +0x354C) | `count = timing->first_count + 1;` | high |
-| `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `Sheets462Timing.paired` | `FrenchModelVariant462_DrawSheets` (model_variant/variant462_sheets_pal.c; `model_variant/variant445us_entry.c:381`, `Sheets462State.timing` at +0x354C) | `if (timing->paired == 0)` | high |
-| `+0x28` | `field_28` → `u32 grow_end` | `Sheets462Timing.grow_end` | `FrenchModelVariant462_DrawSheets` (model_variant/variant462_sheets_pal.c; `model_variant/variant445us_entry.c:381`, `Sheets462State.timing` at +0x354C) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
+| `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `Sheets462Timing.first_count` | `FrenchModelVariant462_DrawSheets` (model_variant/h445_sheets.c; `model_variant/h445_entry.c:381`, `Sheets462State.timing` at +0x354C) | `count = timing->first_count + 1;` | high |
+| `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `Sheets462Timing.paired` | `FrenchModelVariant462_DrawSheets` (model_variant/h445_sheets.c; `model_variant/h445_entry.c:381`, `Sheets462State.timing` at +0x354C) | `if (timing->paired == 0)` | high |
+| `+0x28` | `field_28` → `u32 grow_end` | `Sheets462Timing.grow_end` | `FrenchModelVariant462_DrawSheets` (model_variant/h445_sheets.c; `model_variant/h445_entry.c:381`, `Sheets462State.timing` at +0x354C) | `(state->timing->grow_end - state->timing->grow_begin);` | high |
 
 ## `Variant366Config`
 

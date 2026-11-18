@@ -95,7 +95,7 @@ CLUT column passed to both `GetClut` calls (640 instead of 512). The two
 helpers after it stay generated assembly in the North American images.
 
 The six North American header-460/610 images build their entry and both
-helpers from `model_variant/variant460_entry.c` under `gcc_2_7_2_cdk_g0`; the
+helpers from `model_variant/h460_entry.c` under `gcc_2_7_2_cdk_g0`; the
 helpers are the Spanish header-477 panels and quads sources included with
 renamed addresses. Under gcc 2.8.1 those helpers swap `addu` operands and
 end one word longer, and the entry is one word longer.
@@ -108,13 +108,13 @@ same entry under `gcc_2_8_1_g0_split` (0x12E8 bytes against the North
 American 0x12EC) and keep their 2.8.1 helper.
 
 The two North American header-437/587 images build their entry and the
-blooms helper from `model_variant/variant437_entry.c` under
+blooms helper from `model_variant/h437_entry.c` under
 `gcc_2_7_2_cdk_g0`; the helper is the French `image22822_blooms.c` included
 at the North American address. The French header-454/604 images compile the
 same entry under `gcc_2_8_1_g0_split` and keep their 2.8.1 helper.
 
 The two North American header-451/601 images build their entry and the
-swarm helper from `model_variant/variant451_entry.c` under
+swarm helper from `model_variant/h451_entry.c` under
 `gcc_2_7_2_cdk_g0`; the helper is the French `image134612_swarm.c` included
 at the North American address. The French header-468/618 images compile the
 same entry under `gcc_2_8_1_g0_split` and keep their 2.8.1 helper.
@@ -129,7 +129,7 @@ x 640, beside their existing 2.8.1 helper C.
 
 The two North American header-411/561 images (model 507, stage 9 slot 0 and
 stage 10 slot 1) build their entry and both helpers from
-`model_variant/variant411us_entry.c` under `gcc_2_7_2_cdk_g0`. The entry is
+`model_variant/h411_entry.c` under `gcc_2_7_2_cdk_g0`. The entry is
 the header-412 entry with a 32-sprite swarm at `work + 0x2FC` in place of the
 six flares, 384-unit trail sprites, a `0x38`-byte config and no height offset
 on the root part. The helpers are the French header-428 swarm and quads
@@ -137,16 +137,16 @@ sources included at the North American addresses (the swarm moves from
 `0x8013C308` to `0x8013C30C`); under 2.7.2 both match unchanged.
 The French header-428/578 images compile the same entry under
 `gcc_2_8_1_g0_split` (0x1304 bytes, CLUT column 640, data at `0x8013CD94`)
-through `model_variant/variant428_entry_pal.c`, and build the two helpers
-as their own 2.8.1 segments from `variant428_swarm.c` and `variant428_quads.c`.
+through `model_variant/h411_entry_pal.c`, and build the two helpers
+as their own 2.8.1 segments from `h411_swarm.c` and `h411_quads.c`.
 
 The two North American header-430/580 images build their entry from
-`model_variant/variant430_entry.c` and their swarm helper from
+`model_variant/h430_entry.c` and their swarm helper from
 `model_variant/variant430_swarm.c` (`_slot1.c` for slot 1) under
-`gcc_2_7_2_cdk_g0`; the helper is the French `variant447_swarm.c` included at
+`gcc_2_7_2_cdk_g0`; the helper is the French `h430_swarm.c` included at
 the North American address. The French header-447/597 images compile the
 same entry under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the
-palette to VRAM x 640, and build `variant447_swarm.c` under 2.8.1.
+palette to VRAM x 640, and build `h430_swarm.c` under 2.8.1.
 
 The two North American header-386/536 images build their entry from
 `model_variant/e569_entry.c` under `gcc_2_7_2_cdk_g0`, beside the
@@ -156,23 +156,23 @@ assembly. The French header-403/553 images compile the same entry under
 x 640, beside their existing 2.8.1 helper C.
 
 The two North American header-454/604 images build their entry from
-`model_variant/variant454_entry.c` and both quad helpers from
+`model_variant/h454_entry.c` and both quad helpers from
 `model_variant/variant454_quad_pairs.c` and `variant454_quads.c` (`_slot1.c`
 for slot 1) under `gcc_2_7_2_cdk_g0`; the helpers are the French
-`variant471_quad_pairs.c` and `variant471_quads.c` included at the North
+`h454_quad_pairs.c` and `h454_quads.c` included at the North
 American addresses. The French header-471/621 images compile the same entry
 under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the palette to
 VRAM x 640, and build the two quad helpers under 2.8.1.
 
 The six North American header-435/585 images (models 1, 360 and 550) build
-their entry from `model_variant/variant435_entry.c` (`_slot1.c` for slot 1)
+their entry from `model_variant/h435_entry.c` (`_slot1.c` for slot 1)
 under `gcc_2_7_2_cdk_g0`, beside the C sheets and lines helpers. The
-streamers helper at `+ 0x1524` is the French `variant452_streamers.c` with
+streamers helper at `+ 0x1524` is the French `h435_streamers_pal.c` with
 `MODEL_VARIANT452_STREAMERS_DIRECT_TIP`, and the rays helper at `+ 0x23AC` is
-the North American `variant425_rays.c` with its `MODEL_VARIANT425_RAYS_*`
-selectors, from `variant435_streamers.c` and `variant435_rays.c` (`_slot1.c`
+the North American `h425_rays.c` with its `MODEL_VARIANT425_RAYS_*`
+selectors, from `h435_streamers.c` and `h435_rays.c` (`_slot1.c`
 for slot 1) under the same profile. The entry wrapper includes
-the French `variant452_entry.c` with `MODEL_VARIANT452_CLUT_X` set to 512 and
+the French `h452_entry.c` with `MODEL_VARIANT452_CLUT_X` set to 512 and
 `MODEL_VARIANT452_DATA` pointed at the North American data symbol. The French
 source defaults to x 640 and to `D_8013D3E4 + 0xA30`, since its data symbol
 starts at a helper that the French module still keeps in its unclassified
@@ -195,7 +195,7 @@ helper at `+ 0x28D0` has no French counterpart; it is new C in
 and the streamers under 2.8.1.
 
 The two North American header-455/605 images build their entry from
-`model_variant/variant455_entry.c` under `gcc_2_7_2_cdk_g0`, beside the
+`model_variant/h455_entry.c` under `gcc_2_7_2_cdk_g0`, beside the
 existing blooms, mesh and sheets helper C; the helper at `0x8013CD3C` stays
 generated assembly. The French header-472/622 images compile the same entry
 under `gcc_2_8_1_g0_split` with `VERSION_FRENCH`, which moves the palette to
@@ -208,14 +208,14 @@ existing mesh, sheets and funnel helper C; the helpers at `0x8013C38C`,
 header-426/576 images keep their separately recovered entry.
 
 The two North American header-426/576 images (model 62) build their entry
-from `model_variant/variant426_entry.c` and their streamers helper from
+from `model_variant/h426_entry.c` and their streamers helper from
 `model_variant/e592_streamers.c` (`_slot1.c` for slot 1) under
 `gcc_2_7_2_cdk_g0`, beside the rings, mesh, sheets and bands helper C. The
 ribbons helper at `+ 0x1AC4` is the French `e503_ribbons.c` with
 `MODEL_VARIANT443_RIBBONS_PACKED_SCREEN`, and the webs helper at `+ 0x4594`
 is the North American `e588_webs.c` with the
 `MODEL_VARIANT405_WEBS_*_SHIFT` work-area offsets for this header, both under
-`gcc_2_7_2_cdk_g0` from `variant426_ribbons.c` and `variant426_webs.c` in
+`gcc_2_7_2_cdk_g0` from `h426_ribbons.c` and `h426_webs.c` in
 both slots. The two helpers are `FrenchModelVariant443_DrawRibbons` and
 `ModelVariant405_DrawWebs` in every image (see
 [Per-image symbol bindings](#per-image-symbol-bindings)). The entry and streamers wrappers
@@ -236,7 +236,7 @@ The first word of a variant image is a header id. Every image with a given
 header that has been checked has the same text: the same functions at the same
 addresses, byte for byte. Only the data after the text differs. So the C files
 are named by header, as the Spanish variant files are
-(`src/overlays/model_variant/variant432_*.c`), and each registered image
+(`src/overlays/model_variant/{e570_bands,e570_draw,e570_entry_pal,e570_layers,h432_entry,h432_ribbons}.c`), and each registered image
 of a header reuses them unchanged.
 
 The same helper body also occurs under other headers at other addresses. Those
@@ -285,7 +285,7 @@ fading the colour once the web's scale passes `0x1000`. Each scale grows by
 in phase 4 the phase moves to 5. It opens with four `ratan2` calls whose
 results are unused, and its loop counters are `s16`, which is what puts the
 web counter and the done flag on the stack as the target has them.
-Header 425 has a 242-instruction form at `0x28F8` (`variant425_webs`): 5x6
+Header 425 has a 242-instruction form at `0x28F8` (`h425_webs`): 5x6
 grids in 0x200-byte `ModelVariantWebSmall` records, projected with
 `RotTransPers3`, faded past `0x800` and grown by `step * 128` to `0x1000`.
 Header 398 has a 332-instruction form at `0x2514` (`e581_webs`): the
@@ -331,7 +331,7 @@ byte arrays: grey `0x80` until a height passes 0x300, then fading with
 `(0x400 - height) / 2`. The clamp of the heights is an `if / else if / else`
 chain, the bottom row's fade is held in its own local like the top row's, and
 the deadline test is written `record[0x28] <= now`.
-Header 423's form at `0x1BDC` (`variant423_webs`, 344 instructions) is the
+Header 423's form at `0x1BDC` (`h423_webs`, 344 instructions) is the
 header-397 phased webs over records at `work`, projected with `RotTransPers3`
 and grown by `step * 0x180` from phase 2. Its phase 0 places web `i` at
 `(i << 12) / 3` less the progress `((now - start) * 3 << 12) / (end - start)`
@@ -341,25 +341,25 @@ stored to the scale first.
 Header 442 (models 47, 238, 411 and 620 at `+ 180`, 231 and 417 at `+ 200`)
 and its slot-1 header 592 are the Spanish header-459 image built under gcc
 2.7.2: all eight functions (entry, warp, curtains, rays, spiral, bands, sheets
-and lines) build from `src/overlays/model_variant/variant459_*.c`
-through `variant442_*.c` wrappers that rename the image-local symbols. The
+and lines) build from `src/overlays/model_variant/{h442_bands,h442_curtains,h442_entry_pal,h442_lines,h442_rays,h442_sheets,h442_spiral,h442_warp_pal,h459_curtains,h459_entry,h459_grid,h459_sheet,h459_webs}.c`
+through `{h425_entry_pal,h425_ribbons_pal,h425_spiral_pal,h442_entry,h442_warp}.c` wrappers that rename the image-local symbols. The
 entry wrapper sets `MODEL_VARIANT459_CLUT_X` to 512 (PAL loads the palette
 from 640). The curtains fade branch re-reads the timing record into a fresh
 `start` local; that one form matches both compilers, where the earlier shared
 `rec` load only matched gcc 2.8.1.
 Model 712's header-459 image (and its header-609 slot-1 image) has a
-243-instruction form at `0x2064` (`variant459_webs`): the header-418 grids
+243-instruction form at `0x2064` (`h459_webs`): the header-418 grids
 with header 425's fade and growth, sorted whenever `otz > 0`.
-The same image's grid at `0x2800` (`variant459_grid`, 356 instructions) draws
+The same image's grid at `0x2800` (`h459_grid`, 356 instructions) draws
 a `Variant459Grid` at `work + 0xFF8`, nine rows of seventeen points, as
 `POLY_GT4` strips shaded per row and sorted when `otz >= 0 && flag >= 0`.
 Before phase 5 the rows fade from blue to red by the scale at `work + 0x27FC`,
 which grows by `step << 9` to `0x2000`, swings on `rcos` around `0x1800` in
 phase 3, grows to `0x4000` in phase 4 and fades out in phase 5.
-Its spiral at `0x1714` (`variant459_spiral`, 596 instructions) is the French
-header-476 spiral (`variant476_spiral`) built under gcc 2.7.2 at the North
+Its spiral at `0x1714` (`h442_spiral`, 596 instructions) is the French
+header-476 spiral (`h459_spiral`) built under gcc 2.7.2 at the North
 American address; the code is identical.
-The image's entry at `0x4` (`variant459_entry`, 1239 instructions, written for
+The image's entry at `0x4` (`h459_entry`, 1239 instructions, written for
 the North American stream; `variant459_entry_slot1` builds the header-609
 image) fills the state on the setup command: the three webs, sixteen glows,
 the sheet, the two grids (nine rows of seventeen points at `work + 0xFF8`,
@@ -391,10 +391,10 @@ end, and the phase moves to 5 as in the header-418 form. The timing record at
 `work + 0x5FC` stops the phase-0 wrap once its word at `+ 0x88` passes `0x800`.
 Header 404 carries the same body at `0x318C` (`e510_webs`) with its own
 work-area offsets.
-Header 448's form at `0x2B58` (`variant448_webs`) keeps the records at
+Header 448's form at `0x2B58` (`h448_webs`) keeps the records at
 `work + 0x6F8`, shrinks by `step * 0xE0` in phase 0, and sorts a line whenever
 its depth is positive.
-Header 448's entry at `0x0004` (`variant448_entry`, 1172 instructions) is the
+Header 448's entry at `0x0004` (`h448_entry`, 1172 instructions) is the
 header-404 entry with a 0x34-byte config (start at `+ 0x1C`; the array starts
 at `0x43E4 + 0xFC` and the entry indexes it by command) and the records of the
 helpers above: one 0x128-byte radial record at `work`, twelve 0x7C-byte spiral
@@ -410,7 +410,7 @@ so that the hoisted constant precedes the base copy. The call-free record
 loops of the fan, orbit and arm records share one counter, the call-crossing
 ones another.
 
-Header 448's fans at `0x1678` (`variant448_fan`, 1008 instructions;
+Header 448's fans at `0x1678` (`h448_fan`, 1008 instructions;
 `variant448_fan_slot1` builds the header-598 images) draw the three 0x208-byte
 `Variant448FanUnit`s at `work + 0xBD8`: per unit, two arms of three fans, each a
 two-point spine and its copy moved `0x20` along the view angle; the arm colours
@@ -444,7 +444,7 @@ measured against the alternative:
 All four images rebuild byte-identical to retail; every function of the
 header-448 and header-598 images of models 108 and 573 is now C.
 
-Header 425's entry at `0x0004` (`variant425_entry`, 1117 instructions; models
+Header 425's entry at `0x0004` (`h425_entry`, 1117 instructions; models
 259 and 630, both slots) sets up the sheet, the sixteen spiral arms, the
 sixteen rays, the 5x6 webs and the ribbon, band, spoke-ring and quad records of
 the helpers above, and reads its config and image descriptors from the data at
@@ -461,10 +461,10 @@ the helpers above, and reads its config and image descriptors from the data at
   (`Variant425EntryArm`, `Variant425EntryRay`), with the colour rows it fills
   named. They have the helpers' layouts; the helpers' headers are unchanged.
 
-Header 428's form at `0x1C94` (`variant428_webs`) keeps the records at
+Header 428's form at `0x1C94` (`h428_webs`) keeps the records at
 `work + 0x5D0`, projects with `RotTransPers3`, and shrinks by `step * 0xE0` in
 phase 0.
-Header 416's entry at `0x0004` (`variant416_entry`, 1044 instructions) opens
+Header 416's entry at `0x0004` (`h416_entry`, 1044 instructions) opens
 its work area with sixteen 0xA8-byte records (as header 407), then three webs,
 two 0xA8-byte bands, three sheets, six rings, four spokes and a fan. Its
 0x30-byte config has a second threshold at `+ 0x20` that starts the
@@ -478,9 +478,9 @@ It initializes two sheets, loads a fifth texture (`D + 0x38`, `D + 0x54`
 instead of `D + 0xE0`) and has no burst threshold: once the config start is
 reached it calls sheet then webs, bands while the phase is positive and rays
 from phase 2. The tint fades only below phase 5. The same
-`variant401_entry.c` with palette x = 640 is the French header-418 entry
+`h401_entry.c` with palette x = 640 is the French header-418 entry
 ([French notes](french-model-variant418.md)).
-Its bands at `0xFE4` (`variant401_bands`, 480 instructions;
+Its bands at `0xFE4` (`h401_bands`, 480 instructions;
 `variant401_bands_slot1` builds the header-551 image) draw that band, whose
 `Variant401EntryBand` now names the nine-by-three points at `+ 0x0`, their
 projections at `+ 0xD8` and the depths at `+ 0x258`. The first pass puts three
@@ -502,7 +502,7 @@ the counter its reference count; the radius is a second reader of the
 reduce, so the final depth reads keep the first half's register, and which
 the combiner then turns into the copy the retail code has. Both images
 rebuild byte-identical to retail; every function of both is now C.
-Header 416's form at `0x1C68` (`variant416_webs`) keeps the records at
+Header 416's form at `0x1C68` (`h416_webs`) keeps the records at
 `work + 0xA80` and replaces the phase-0 shrink: each web with a positive scale
 is set to `(i << 12) / 3` less the progress `(now - start) * 3 << 12 / (end -
 start)` of the timing record at `work + 0x1A60`, plus `0x1000`, and wrapped by
@@ -524,7 +524,7 @@ in its first loop nest decide the match, all through gcc 2.7.2's loop pass:
   words short;
 - the radius is an `s16`, which orders the two inner-loop registers.
 
-Header 425 has the same body at `0x2CC0` (`variant425_ribbons`) over 0x6C-byte
+Header 425 has the same body at `0x2CC0` (`h425_ribbons`) over 0x6C-byte
 `ModelVariantRibbonShort` records, drawn when the depth is positive rather than
 non-negative, with the last frame read from `+ 0x18` of the timing record.
 Header 404's form at `0x11D4` (`e510_ribbons`, 420 instructions) is the
@@ -601,7 +601,7 @@ clamped to zero before its sort, which also clears that point's
 column `j` through `(s32 *)band + j`, a pointer that moves on to the next column
 after the clamp and is still assigned after the loops. cse then keeps it as the
 target's `move v1,s0` copy up to the clamp.
-Header 428's entry at `0x0004` (`variant428_entry`, 1037 instructions) is the
+Header 428's entry at `0x0004` (`h428_entry`, 1037 instructions) is the
 French header-439 entry without screen rings or curtains: twelve spiral arms
 open the work area, and a 0x34-byte config whose word at `+ 0x30` starts the
 spiral at `0x2BF0`. Both the ring and the spoke loops step their angle as
@@ -636,7 +636,7 @@ colour pairs, the config is 0x30 bytes without the spiral start, and seven
 halfword/word fields sit at `work + 0xF14..0xF23` before the phase at
 `+ 0xF24`. Dropping the 1,488-byte arms and the 0xC0 band bytes moves the
 later fields by 0x690, so the config pointer is at `work + 0xF00`. The same
-`variant423_entry.c` with palette x = 640 is the French header-440 entry under
+`h423_entry.c` with palette x = 640 is the French header-440 entry under
 the French profile ([French notes](french-model-variant440.md)).
 
 `strand` (header 443) fans six strands of thirteen points around the origin and
@@ -717,7 +717,7 @@ the colours are scaled by `work[0xF46] / 1024`. On the timing record's last
 entry the band stretches (phase 1), widens its radius at `work + 0xF44`
 (phase 2) and fades out (phase 3).
 
-`variant425_rays.c` (header 425, 633 instructions at `0x1F14`) draws sixteen
+`h425_rays.c` (header 425, 633 instructions at `0x1F14`) draws sixteen
 three-point rays in 0xB8-byte `Variant425Ray` records at `work + 0xDC0`,
 fanned around the variant's axis. Even rays reach `0x100` and odd ones `0x80`,
 turning against each other with the sweep at `work + 0x2708` and leaning along
@@ -730,7 +730,7 @@ stack `long status[16][2]`, and the third point's flag is written to
 all change the retail code. The size at `work + 0x273C` grows by
 `step * 256` up to `0x1000`, which moves phase 2 on to phase 3.
 
-`variant416_bands.c` (header 416, 496 instructions) is a two-by-two form of
+`h416_bands.c` (header 416, 496 instructions) is a two-by-two form of
 the header-422 bands. There are two 0xA8-byte `Variant416Band` records at
 `work + 0xF60`, each with two three-point fans projected with `RotTransPers3`
 (flags in a stack `long flag[2][2]`), placed along `work[0x1A20..0x1A28]` by
@@ -809,7 +809,7 @@ episodes loaded the stage-7 image (header 356, slot 0) with
 `391` and `541` are model 54's `+ 200` and `+ 210` images (stages 9 and 10;
 the second loads at `0x8017B000`, see below). They are the North American build
 of the Spanish header-408 variant: the files in `src/overlays/model_variant/`
-named `variant391_*` include the Spanish sources and rename their addresses.
+named `e574_entry` include the Spanish sources and rename their addresses.
 The same C matches the Spanish images under `gcc_2_8_1_g0_split` and the North
 American ones under `gcc_2_7_2_cdk_g0`, so the European build recompiled these
 helpers with the newer compiler. Two other things differ: the entry uploads its
@@ -819,8 +819,8 @@ linker symbols named `0x80082E48` `SetPolyF4`. Its body is `SetPolyG3` (length
 6, code `0x30`), and the 28-byte primitive the entry sets up is a `POLY_G3`.
 
 Headers 320/470 and 415/565 are ported the same way, from the Spanish
-header-337 rings helper (`variant320_*`) and the header-432 draw, layers and
-bands helpers (`variant415_*`). Every North American header is 17 below the
+header-337 rings helper (`h320_{entry,ribbon,streamers}`) and the header-432 draw, layers and
+bands helpers (`{e570_entry,e570_ribbons,e581_bands_pal,e581_entry_pal}`). Every North American header is 17 below the
 Spanish one. Their other functions stay in assembly, except header 415's entry
 and ribbon helper below. The header-415 layers and bands helpers are 20 and 18 words longer than
 their Spanish builds, so the compiler change is more than the epilogue `nop`.
@@ -861,7 +861,7 @@ from `390/227` and `438/255` to `384/229` and `438/256`. That reverses their
 order, so the packet pointer gets `s0`. The entry's prototype for it now takes
 a `Variant415EntryRibbon *`.
 
-`variant320_ribbon.c` (header 320, 554 instructions) is the one-ribbon form of
+`h320_ribbon.c` (header 320, 554 instructions) is the one-ribbon form of
 the five-ribbon helper at `0x8013BBA4` in the header-321 images: a
 seventeen-point spine bent by `rsin(bend) * (rsin(wave) * 64 / 4096 + 0x40)`
 and a copy moved along the view, projected and drawn like the header-376
@@ -873,7 +873,7 @@ for their test, and that dead `lhu` is left behind when jump2 removes them. The
 coil's `k` extension is shared with the later `k` uses, which places it before
 the first call.
 
-`variant320_streamers.c` (header 320, 524 instructions at `0x1714`) draws two
+`h320_streamers.c` (header 320, 524 instructions at `0x1714`) draws two
 seventeen-point streamers in 0x378-byte `Variant320Streamer` records at
 `work + 0x4D4`, the template of the header-443 streamers with a radius of
 `0xC0`, a width of 1 past `0x200` and a length that follows the timing record
@@ -987,8 +987,8 @@ generated assembly, links its `jal` to the C ribbons helper this way.
 The name is an evidence-backed `<Subsystem>_<Verb><Object>` name, recorded in
 [`semantic-symbol-map.csv`](../semantic-symbol-map.csv). The subsystem is the
 directory and header number of the shared source: `ModelVariant405_` for
-`model_variant/variant405_*.c`, `FrenchModelVariant443_` for
-the French `model_variant/variant443_*.c` sources (French header numbers differ from the
+`model_variant/{e341_bands_pal,e341_entry_pal,e341_outer_bands_pal,e341_pulses_pal,e588_bands,e588_halo,e588_quad,e588_rings,e588_sheets,e588_spokes,e588_veils,e588_webs}.c`, `FrenchModelVariant443_` for
+the French `model_variant/{e503_entry,e503_ribbons,e503_sheets,e503_strand,e503_streamers,h426_bands,h426_entry_pal,h426_mesh,h426_ribbons_pal,h426_rings,h426_sheets,h426_streamers}.c` sources (French header numbers differ from the
 North American ones). An address-based name such as `func_8013D8FC` is not
 used for a binding: the one address cannot be correct in all images, and the
 same address names other functions in other families.
@@ -1011,61 +1011,61 @@ only.
 | Name | Shared C | Bound at |
 |---|---|---|
 | `ModelVariant405_DrawWebs` | `model_variant/e588_webs.c` | USA models 1 and 550, Japanese images 456/466 and 138180/138190: `0x8013D8FC`/`0x8017D8FC`. USA model 62, Japanese images 17312/17322: `0x8013F594`/`0x8017F594`. European, French, German, Italian and Spanish models 1 and 550: `0x8013D8F0`/`0x8017D8F0` |
-| `FrenchModelVariant443_DrawRibbons` | `model_variant/variant443_ribbons_pal.c` | USA model 62, Japanese images 17312/17322: `0x8013CAC4`/`0x8017CAC4`. European, French, German, Italian and Spanish model 62: `0x8013CADC`/`0x8017CADC` |
-| `ModelVariant159_HandleRequest` | `model_variant/variant159_entry.c` | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: `0x8013B004`/`0x8017B004` |
-| `gModelVariant159_D1D94` | data subsegment (`variant159_entry.h`) | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: USA and Japanese `0x8013CD94`/`0x8017CD94`; European, French, German, Italian and Spanish `0x8013CD70`/`0x8017CD70` |
-| `gModelVariant159_D1DB0` | data subsegment (`variant159_entry.h`) | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: USA and Japanese `0x8013CDB0`/`0x8017CDB0`; European, French, German, Italian and Spanish `0x8013CD8C`/`0x8017CD8C` |
-| `ModelVariant137_HandleRequest` | `model_variant/variant137_entry.c` | Model 378 slot 0 and slot 1 in every region, Japanese images 90728/90738: `0x8013B004`/`0x8017B004` |
-| `gModelVariant137_D1C34` | data subsegment (`variant137_entry.h`) | Model 378 slot 0 and slot 1 in every region, Japanese images 90728/90738: USA and Japanese `0x8013CC34`/`0x8017CC34`; European, French, German, Italian and Spanish `0x8013CC18`/`0x8017CC18` |
-| `gModelVariant137_D1C88` | data subsegment (`variant137_entry.h`) | Model 378 slot 0 and slot 1 in every region, Japanese images 90728/90738: USA and Japanese `0x8013CC88`/`0x8017CC88`; European, French, German, Italian and Spanish `0x8013CC6C`/`0x8017CC6C` |
-| `ModelVariant445_HandleRequest` | `model_variant/variant445us_entry.c` | Model 457 slot 0 and slot 1 in every region, Japanese images 112512/112522: `0x8013B004`/`0x8017B004` |
-| `ModelVariant445_DrawRibbons` | `model_variant/variant445us_ribbons.c` | Model 457 slot 0 and slot 1 in every region, Japanese images 112512/112522: `0x8013C4C4`/`0x8017C4C4` |
-| `FrenchModelVariant462_DrawSheets` | `model_variant/variant462_sheets_pal.c` | USA model 457, Japanese images 112512/112522: `0x8013CEEC`/`0x8017CEEC`. European, French, German, Italian and Spanish model 457: `0x8013CEF8`/`0x8017CEF8` |
-| `FrenchModelVariant462_DrawRings` | `model_variant/variant462_rings.c` | USA model 457, Japanese images 112512/112522: `0x8013D41C`/`0x8017D41C`. European, French, German, Italian and Spanish model 457: `0x8013D42C`/`0x8017D42C` |
-| `gModelVariant445_D2848` | data subsegment (`variant445us_entry.h`) | USA model 457, Japanese images 112512/112522: `0x8013D848`/`0x8017D848`. European, French, German, Italian and Spanish model 457: `0x8013D860`/`0x8017D860` |
+| `FrenchModelVariant443_DrawRibbons` | `model_variant/h426_ribbons_pal.c` | USA model 62, Japanese images 17312/17322: `0x8013CAC4`/`0x8017CAC4`. European, French, German, Italian and Spanish model 62: `0x8013CADC`/`0x8017CADC` |
+| `ModelVariant159_HandleRequest` | `model_variant/h159_entry.c` | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: `0x8013B004`/`0x8017B004` |
+| `gModelVariant159_D1D94` | data subsegment (`h159_entry.h`) | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: USA and Japanese `0x8013CD94`/`0x8017CD94`; European, French, German, Italian and Spanish `0x8013CD70`/`0x8017CD70` |
+| `gModelVariant159_D1DB0` | data subsegment (`h159_entry.h`) | Model 135 slot 0 and slot 1 in every region, Japanese images 37440/37450: USA and Japanese `0x8013CDB0`/`0x8017CDB0`; European, French, German, Italian and Spanish `0x8013CD8C`/`0x8017CD8C` |
+| `ModelVariant137_HandleRequest` | `model_variant/h137_entry.c` | Model 378 slot 0 and slot 1 in every region, Japanese images 90728/90738: `0x8013B004`/`0x8017B004` |
+| `gModelVariant137_D1C34` | data subsegment (`h137_entry.h`) | Model 378 slot 0 and slot 1 in every region, Japanese images 90728/90738: USA and Japanese `0x8013CC34`/`0x8017CC34`; European, French, German, Italian and Spanish `0x8013CC18`/`0x8017CC18` |
+| `gModelVariant137_D1C88` | data subsegment (`h137_entry.h`) | Model 378 slot 0 and slot 1 in every region, Japanese images 90728/90738: USA and Japanese `0x8013CC88`/`0x8017CC88`; European, French, German, Italian and Spanish `0x8013CC6C`/`0x8017CC6C` |
+| `ModelVariant445_HandleRequest` | `model_variant/h445_entry.c` | Model 457 slot 0 and slot 1 in every region, Japanese images 112512/112522: `0x8013B004`/`0x8017B004` |
+| `ModelVariant445_DrawRibbons` | `model_variant/h445_ribbons.c` | Model 457 slot 0 and slot 1 in every region, Japanese images 112512/112522: `0x8013C4C4`/`0x8017C4C4` |
+| `FrenchModelVariant462_DrawSheets` | `model_variant/h445_sheets.c` | USA model 457, Japanese images 112512/112522: `0x8013CEEC`/`0x8017CEEC`. European, French, German, Italian and Spanish model 457: `0x8013CEF8`/`0x8017CEF8` |
+| `FrenchModelVariant462_DrawRings` | `model_variant/h445_rings.c` | USA model 457, Japanese images 112512/112522: `0x8013D41C`/`0x8017D41C`. European, French, German, Italian and Spanish model 457: `0x8013D42C`/`0x8017D42C` |
+| `gModelVariant445_D2848` | data subsegment (`h445_entry.h`) | USA model 457, Japanese images 112512/112522: `0x8013D848`/`0x8017D848`. European, French, German, Italian and Spanish model 457: `0x8013D860`/`0x8017D860` |
 | `ModelVariant105_HandleRequest` | `model_variant/e053_entry.c` | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013B004`/`0x8017B004` |
 | `gModelVariant105_D1424` | data subsegment (`e053_entry.h`) | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013C424`/`0x8017C424` |
 | `gModelVariant105_D1440` | data subsegment (`e053_entry.h`) | Model 33 slot 0 and slot 1 in every region, Japanese images 9308/9318: `0x8013C440`/`0x8017C440` |
 | `ModelVariant106_HandleRequest` | `model_variant/e054_entry.c` | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013B004`/`0x8017B004` |
 | `gModelVariant106_D2174` | data subsegment (`e054_entry.h`) | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013D174`/`0x8017D174` |
 | `gModelVariant106_D21C8` | data subsegment (`e054_entry.h`) | Model 429 slot 0 and slot 1 in every region, Japanese images 104784/104794: `0x8013D1C8`/`0x8017D1C8` |
-| `ModelVariant132_HandleRequest` | `model_variant/variant132_entry.c` | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013B004`/`0x8017B004` |
-| `gModelVariant132_D1388` | data subsegment (`variant132_entry.h`) | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013C388`/`0x8017C388` |
-| `gModelVariant132_D13C0` | data subsegment (`variant132_entry.h`) | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013C3C0`/`0x8017C3C0` |
-| `ModelVariant133_HandleRequest` | `model_variant/variant133_entry.c` | Model 701 slot 0 and slot 1 in every region, Japanese images 166056/166066: `0x8013B004`/`0x8017B004` |
-| `gModelVariant133_D1864` | data subsegment (`variant133_entry.h`) | Model 701 slot 0 and slot 1 in every region, Japanese images 166056/166066: `0x8013C864`/`0x8017C864` |
-| `gModelVariant133_D18B8` | data subsegment (`variant133_entry.h`) | Model 701 slot 0 and slot 1 in every region, Japanese images 166056/166066: `0x8013C8B8`/`0x8017C8B8` |
-| `ModelVariant135_HandleRequest` | `model_variant/variant135_entry.c` | Model 36 slot 0 and slot 1 in every region, Japanese images 10116/10126: `0x8013B004`/`0x8017B004` |
-| `gModelVariant135_D16A0` | data subsegment (`variant135_entry.h`) | Model 36 slot 0 and slot 1 in every region, Japanese images 10116/10126: USA and Japanese `0x8013C6A0`/`0x8017C6A0`; European, French, German, Italian and Spanish `0x8013C67C`/`0x8017C67C` |
-| `gModelVariant135_D17B8` | data subsegment (`variant135_entry.h`) | Model 36 slot 0 and slot 1 in every region, Japanese images 10116/10126: USA and Japanese `0x8013C7B8`/`0x8017C7B8`; European, French, German, Italian and Spanish `0x8013C794`/`0x8017C794` |
-| `ModelVariant149_HandleRequest` | `model_variant/variant149_entry.c` | Model 253 slot 0 and slot 1 in every region, Japanese images 70028/70038: `0x8013B004`/`0x8017B004` |
-| `gModelVariant149_D14D4` | data subsegment (`variant149_entry.h`) | Model 253 slot 0 and slot 1 in every region, Japanese images 70028/70038: USA and Japanese `0x8013C4D4`/`0x8017C4D4`; European, French, German, Italian and Spanish `0x8013C4B0`/`0x8017C4B0` |
-| `gModelVariant149_D15EC` | data subsegment (`variant149_entry.h`) | Model 253 slot 0 and slot 1 in every region, Japanese images 70028/70038: USA and Japanese `0x8013C5EC`/`0x8017C5EC`; European, French, German, Italian and Spanish `0x8013C5C8`/`0x8017C5C8` |
-| `ModelVariant154_HandleRequest` | `model_variant/variant154_entry.c` | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: `0x8013B004`/`0x8017B004` |
-| `gModelVariant154_D23B4` | data subsegment (`variant154_entry.h`) | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: USA and Japanese `0x8013D3B4`/`0x8017D3B4`; European, French, German, Italian and Spanish `0x8013D390`/`0x8017D390` |
-| `gModelVariant154_D2408` | data subsegment (`variant154_entry.h`) | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: USA and Japanese `0x8013D408`/`0x8017D408`; European, French, German, Italian and Spanish `0x8013D3E4`/`0x8017D3E4` |
+| `ModelVariant132_HandleRequest` | `model_variant/h132_entry.c` | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013B004`/`0x8017B004` |
+| `gModelVariant132_D1388` | data subsegment (`h132_entry.h`) | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013C388`/`0x8017C388` |
+| `gModelVariant132_D13C0` | data subsegment (`h132_entry.h`) | Model 472 slot 0 and slot 1 in every region, Japanese images 116672/116682: `0x8013C3C0`/`0x8017C3C0` |
+| `ModelVariant133_HandleRequest` | `model_variant/h133_entry.c` | Model 701 slot 0 and slot 1 in every region, Japanese images 166056/166066: `0x8013B004`/`0x8017B004` |
+| `gModelVariant133_D1864` | data subsegment (`h133_entry.h`) | Model 701 slot 0 and slot 1 in every region, Japanese images 166056/166066: `0x8013C864`/`0x8017C864` |
+| `gModelVariant133_D18B8` | data subsegment (`h133_entry.h`) | Model 701 slot 0 and slot 1 in every region, Japanese images 166056/166066: `0x8013C8B8`/`0x8017C8B8` |
+| `ModelVariant135_HandleRequest` | `model_variant/h135_entry.c` | Model 36 slot 0 and slot 1 in every region, Japanese images 10116/10126: `0x8013B004`/`0x8017B004` |
+| `gModelVariant135_D16A0` | data subsegment (`h135_entry.h`) | Model 36 slot 0 and slot 1 in every region, Japanese images 10116/10126: USA and Japanese `0x8013C6A0`/`0x8017C6A0`; European, French, German, Italian and Spanish `0x8013C67C`/`0x8017C67C` |
+| `gModelVariant135_D17B8` | data subsegment (`h135_entry.h`) | Model 36 slot 0 and slot 1 in every region, Japanese images 10116/10126: USA and Japanese `0x8013C7B8`/`0x8017C7B8`; European, French, German, Italian and Spanish `0x8013C794`/`0x8017C794` |
+| `ModelVariant149_HandleRequest` | `model_variant/h149_entry.c` | Model 253 slot 0 and slot 1 in every region, Japanese images 70028/70038: `0x8013B004`/`0x8017B004` |
+| `gModelVariant149_D14D4` | data subsegment (`h149_entry.h`) | Model 253 slot 0 and slot 1 in every region, Japanese images 70028/70038: USA and Japanese `0x8013C4D4`/`0x8017C4D4`; European, French, German, Italian and Spanish `0x8013C4B0`/`0x8017C4B0` |
+| `gModelVariant149_D15EC` | data subsegment (`h149_entry.h`) | Model 253 slot 0 and slot 1 in every region, Japanese images 70028/70038: USA and Japanese `0x8013C5EC`/`0x8017C5EC`; European, French, German, Italian and Spanish `0x8013C5C8`/`0x8017C5C8` |
+| `ModelVariant154_HandleRequest` | `model_variant/h154_entry.c` | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: `0x8013B004`/`0x8017B004` |
+| `gModelVariant154_D23B4` | data subsegment (`h154_entry.h`) | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: USA and Japanese `0x8013D3B4`/`0x8017D3B4`; European, French, German, Italian and Spanish `0x8013D390`/`0x8017D390` |
+| `gModelVariant154_D2408` | data subsegment (`h154_entry.h`) | Model 26 slot 0 and slot 1 in every region, Japanese images 7376/7386: USA and Japanese `0x8013D408`/`0x8017D408`; European, French, German, Italian and Spanish `0x8013D3E4`/`0x8017D3E4` |
 | `FrenchModelVariant410_HandleRequest` | `model_variant/e576_entry_pal.c` | Model 54 slot 0 and slot 1 in every region, Japanese images 15084/15094: `0x8013B004`/`0x8017B004` |
 | `FrenchModelVariant410_DrawQuads` | `model_variant/e576_quads.c` | USA model 54, Japanese images 15084/15094: `0x8013BAB0`/`0x8017BAB0`. European, French, German, Italian and Spanish model 54: `0x8013BAAC`/`0x8017BAAC` |
 | `FrenchModelVariant410_DrawRibbons` | `model_variant/e576_ribbons_pal.c` | USA model 54, Japanese images 15084/15094: `0x8013BF60`/`0x8017BF60`. European, French, German, Italian and Spanish model 54: `0x8013BF58`/`0x8017BF58` |
 | `FrenchModelVariant410_DrawRings` | `model_variant/e576_rings.c` | USA model 54, Japanese images 15084/15094: `0x8013C898`/`0x8017C898`. European, French, German, Italian and Spanish model 54: `0x8013C8B8`/`0x8017C8B8` |
-| `gFrenchModelVariant410_D1D04` | data subsegment (`variant410_entry.h`) | USA model 54, Japanese images 15084/15094: `0x8013CCE8`/`0x8017CCE8`. European, French, German, Italian and Spanish model 54: `0x8013CD04`/`0x8017CD04` |
-| `FrenchModelVariant458_HandleRequest` | `model_variant/variant458_entry_pal.c` | Model 202 slot 0 and slot 1 in every region, Japanese images 55932/55942: `0x8013B004`/`0x8017B004` |
-| `FrenchModelVariant458_DrawSheets` | `model_variant/variant458_sheets_pal.c` | USA model 202, Japanese images 55932/55942: `0x8013BC14`/`0x8017BC14`. European, French, German, Italian and Spanish model 202: `0x8013BC10`/`0x8017BC10` |
-| `FrenchModelVariant458_DrawStrands` | `model_variant/variant458_strands.c` | USA model 202, Japanese images 55932/55942: `0x8013C158`/`0x8017C158`. European, French, German, Italian and Spanish model 202: `0x8013C150`/`0x8017C150` |
-| `FrenchModelVariant458_DrawStreamers` | `model_variant/variant458_streamers_pal.c` | USA model 202, Japanese images 55932/55942: `0x8013C9CC`/`0x8017C9CC`. European, French, German, Italian and Spanish model 202: `0x8013C9EC`/`0x8017C9EC` |
-| `gFrenchModelVariant458_D230C` | data subsegment (`variant458_entry.h`) | USA model 202, Japanese images 55932/55942: `0x8013D288`/`0x8017D288`. European, French, German, Italian and Spanish model 202: `0x8013D30C`/`0x8017D30C` |
-| `ModelVariant152_HandleRequest` | `model_variant/variant152_entry.c` | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: `0x8013B004`/`0x8017B004` |
-| `gModelVariant152_D1158` | data subsegment (`variant152_entry.h`) | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: USA and Japanese `0x8013C158`/`0x8017C158`; European, French, German, Italian and Spanish `0x8013C134`/`0x8017C134` |
-| `gModelVariant152_D1190` | data subsegment (`variant152_entry.h`) | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: USA and Japanese `0x8013C190`/`0x8017C190`; European, French, German, Italian and Spanish `0x8013C16C`/`0x8017C16C` |
-| `ModelVariant155_HandleRequest` | `model_variant/variant155_entry.c` | Model 362 slot 0 and slot 1 in every region, Japanese images 86312/86322: `0x8013B004`/`0x8017B004` |
-| `gModelVariant155_D1770` | data subsegment (`variant155_entry.h`) | Model 362 slot 0 and slot 1 in every region, Japanese images 86312/86322: USA and Japanese `0x8013C770`/`0x8017C770`; European, French, German, Italian and Spanish `0x8013C74C`/`0x8017C74C` |
-| `gModelVariant155_D17FC` | data subsegment (`variant155_entry.h`) | Model 362 slot 0 and slot 1 in every region, Japanese images 86312/86322: USA and Japanese `0x8013C7FC`/`0x8017C7FC`; European, French, German, Italian and Spanish `0x8013C7D8`/`0x8017C7D8` |
-| `ModelVariant809_HandleRequest` | `model_variant/variant809_entry.c` | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013B004`/`0x8017B004` |
-| `gModelVariant809_aImages` | data subsegment (`variant809_entry.h`) | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013C0D8`/`0x8017C0D8` |
-| `gModelVariant809_aConfigs` | data subsegment (`variant809_entry.h`) | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013C110`/`0x8017C110` |
-| `ModelVariant158_HandleRequest` | `model_variant/variant158_entry.c` | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013B004`/`0x8017B004` |
-| `gModelVariant158_D113C` | data subsegment (`variant158_entry.h`) | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013C13C`/`0x8017C13C` |
-| `gModelVariant158_D1174` | data subsegment (`variant158_entry.h`) | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013C174`/`0x8017C174` |
+| `gFrenchModelVariant410_D1D04` | data subsegment (`h410_entry.h`) | USA model 54, Japanese images 15084/15094: `0x8013CCE8`/`0x8017CCE8`. European, French, German, Italian and Spanish model 54: `0x8013CD04`/`0x8017CD04` |
+| `FrenchModelVariant458_HandleRequest` | `model_variant/h441_entry_pal.c` | Model 202 slot 0 and slot 1 in every region, Japanese images 55932/55942: `0x8013B004`/`0x8017B004` |
+| `FrenchModelVariant458_DrawSheets` | `model_variant/h441_sheets.c` | USA model 202, Japanese images 55932/55942: `0x8013BC14`/`0x8017BC14`. European, French, German, Italian and Spanish model 202: `0x8013BC10`/`0x8017BC10` |
+| `FrenchModelVariant458_DrawStrands` | `model_variant/h441_strands_pal.c` | USA model 202, Japanese images 55932/55942: `0x8013C158`/`0x8017C158`. European, French, German, Italian and Spanish model 202: `0x8013C150`/`0x8017C150` |
+| `FrenchModelVariant458_DrawStreamers` | `model_variant/h441_streamers.c` | USA model 202, Japanese images 55932/55942: `0x8013C9CC`/`0x8017C9CC`. European, French, German, Italian and Spanish model 202: `0x8013C9EC`/`0x8017C9EC` |
+| `gFrenchModelVariant458_D230C` | data subsegment (`h458_entry.h`) | USA model 202, Japanese images 55932/55942: `0x8013D288`/`0x8017D288`. European, French, German, Italian and Spanish model 202: `0x8013D30C`/`0x8017D30C` |
+| `ModelVariant152_HandleRequest` | `model_variant/h152_entry.c` | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: `0x8013B004`/`0x8017B004` |
+| `gModelVariant152_D1158` | data subsegment (`h152_entry.h`) | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: USA and Japanese `0x8013C158`/`0x8017C158`; European, French, German, Italian and Spanish `0x8013C134`/`0x8017C134` |
+| `gModelVariant152_D1190` | data subsegment (`h152_entry.h`) | Model 371 slot 0 and slot 1 in every region, Japanese images 88796/88806: USA and Japanese `0x8013C190`/`0x8017C190`; European, French, German, Italian and Spanish `0x8013C16C`/`0x8017C16C` |
+| `ModelVariant155_HandleRequest` | `model_variant/h155_entry.c` | Model 362 slot 0 and slot 1 in every region, Japanese images 86312/86322: `0x8013B004`/`0x8017B004` |
+| `gModelVariant155_D1770` | data subsegment (`h155_entry.h`) | Model 362 slot 0 and slot 1 in every region, Japanese images 86312/86322: USA and Japanese `0x8013C770`/`0x8017C770`; European, French, German, Italian and Spanish `0x8013C74C`/`0x8017C74C` |
+| `gModelVariant155_D17FC` | data subsegment (`h155_entry.h`) | Model 362 slot 0 and slot 1 in every region, Japanese images 86312/86322: USA and Japanese `0x8013C7FC`/`0x8017C7FC`; European, French, German, Italian and Spanish `0x8013C7D8`/`0x8017C7D8` |
+| `ModelVariant809_HandleRequest` | `model_variant/h809_entry.c` | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013B004`/`0x8017B004` |
+| `gModelVariant809_aImages` | data subsegment (`h809_entry.h`) | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013C0D8`/`0x8017C0D8` |
+| `gModelVariant809_aConfigs` | data subsegment (`h809_entry.h`) | USA model 428 slot 0 and slot 1, Japanese images 104528/104538: `0x8013C110`/`0x8017C110` |
+| `ModelVariant158_HandleRequest` | `model_variant/h158_entry.c` | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013B004`/`0x8017B004` |
+| `gModelVariant158_D113C` | data subsegment (`h158_entry.h`) | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013C13C`/`0x8017C13C` |
+| `gModelVariant158_D1174` | data subsegment (`h158_entry.h`) | USA model 145 slot 0 and slot 1, Japanese images 40200/40210: `0x8013C174`/`0x8017C174` |
 | `ModelVariant787_HandleRequest` | `model_variant/e336_entry.c` | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013B004`/`0x8017B004` |
 | `gModelVariant787_D12EC` | data subsegment (`e336_entry.h`) | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013C2EC`/`0x8017C2EC` |
 | `gModelVariant787_D1324` | data subsegment (`e336_entry.h`) | USA model 118 slot 0 and slot 1, Japanese images 32768/32778: `0x8013C324`/`0x8017C324` |
@@ -1151,7 +1151,7 @@ registered with `_slot1` wrappers, as above. The other
 functions of these images stay in assembly.
 
 Header 422 also has its own `curtains` helper at `0x2888` (264 instructions,
-`variant422_curtains`): three 0x118-byte `ModelVariantCurtain` records, each two
+`h422_curtains`): three 0x118-byte `ModelVariantCurtain` records, each two
 rows of seventeen points drawn as sixteen `POLY_GT4` strips, turned by two
 `ratan2` angles and faded from `0x800`. Each scale grows by `step << 7` to
 `0x1000` and wraps with a count until the fourth phase. It needs the `work`

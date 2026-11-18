@@ -4,25 +4,25 @@
       "address": "0x8017B004",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x14C0",
-      "source": "src/overlays/model_variant/variant462_entry_pal.c"
+      "source": "src/overlays/model_variant/h445_entry_pal.c"
     },
     {
       "address": "0x8017C4C4",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA34",
-      "source": "src/overlays/model_variant/variant445us_ribbons.c"
+      "source": "src/overlays/model_variant/h445_ribbons.c"
     },
     {
       "address": "0x8017CEF8",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x534",
-      "source": "src/overlays/model_variant/variant462_sheets_pal.c"
+      "source": "src/overlays/model_variant/h445_sheets.c"
     },
     {
       "address": "0x8017D42C",
       "profile": "gcc_2_8_1_g0_split",
       "size": "0x434",
-      "source": "src/overlays/model_variant/variant462_rings.c"
+      "source": "src/overlays/model_variant/h445_rings.c"
     }
   ],
   "schema": 1

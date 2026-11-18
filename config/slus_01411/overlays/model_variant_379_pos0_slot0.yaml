@@ -54,49 +54,49 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/variant462_entry]
+      - [0x4, c, overlays/model_variant/h462_entry]
   - name: helper_fd4
     type: code
     start: 0xFD4
     vram: 0x8013BFD4
     align: 4
     subsegments:
-      - [0xFD4, c, overlays/model_variant/variant462_grid]
+      - [0xFD4, c, overlays/model_variant/h462_grid]
   - name: helper_151c
     type: code
     start: 0x151C
     vram: 0x8013C51C
     align: 4
     subsegments:
-      - [0x151C, c, overlays/model_variant/variant462_spiral]
+      - [0x151C, c, overlays/model_variant/h462_spiral]
   - name: helper_1f6c
     type: code
     start: 0x1F6C
     vram: 0x8013CF6C
     align: 4
     subsegments:
-      - [0x1F6C, c, overlays/model_variant/variant462_ribs]
+      - [0x1F6C, c, overlays/model_variant/h462_ribs]
   - name: helper_2b58
     type: code
     start: 0x2B58
     vram: 0x8013DB58
     align: 4
     subsegments:
-      - [0x2B58, c, overlays/model_variant/variant462_sheets]
+      - [0x2B58, c, overlays/model_variant/h462_sheets]
   - name: streamers
     type: code
     start: 0x3068
     vram: 0x8013E068
     align: 4
     subsegments:
-      - [0x3068, c, overlays/model_variant/variant479_streamers]
+      - [0x3068, c, overlays/model_variant/h462_streamers]
   - name: helper_37dc
     type: code
     start: 0x37DC
     vram: 0x8013E7DC
     align: 4
     subsegments:
-      - [0x37DC, c, overlays/model_variant/variant462_curtains]
+      - [0x37DC, c, overlays/model_variant/h462_curtains]
   - name: data
     type: code
     start: 0x3CBC

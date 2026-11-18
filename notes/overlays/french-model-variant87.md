@@ -1,7 +1,7 @@
 # French MODEL headers 87 and 217
 
 The header-87 entry has an exact C implementation in
-`src/overlays/model_variant/variant87_entry.c`. Header 217 builds the
+`src/overlays/model_variant/h70_entry.c`. Header 217 builds the
 same source; each image's symbols file binds
 `FrenchModelVariant87_HandleRequest` and `gFrenchModelVariant87_aConfigs` at its
 own addresses. The existing named

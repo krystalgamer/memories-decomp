@@ -7,7 +7,7 @@ MODEL175 family, image offset `0xDB4`,
 
 It follows the pattern of the Spanish MODEL417 tube (`e583_tube_pal.c`).
 It reads the header-444 record its entry passes, `Variant444EntryState` in
-`variant444_entry.h`:
+`h444_entry.h`:
 - one 0x54C-byte `ModelVariantTube` at `+0`, holding a 9×9 point grid and
   nine colours at `+0x510`;
 - the `POLY_G4` `quad` at `+0x1420`;

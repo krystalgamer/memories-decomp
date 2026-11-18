@@ -1,0 +1,100 @@
+#include "../../types.h"
+#include "h448_orbit.h"
+#include "h448_entry.h"
+
+void ModelVariant448_DrawOrbitSheets(Variant448EntryState *context)
+{
+    SVECTOR rot;
+    VECTOR scale;
+    MATRIX m;
+    Variant448EntryState *work;
+    MATRIX ls;
+    GsCOORDINATE2 coord;
+    long p;
+    long flag;
+    Variant448FanUnit *object;
+    GsOT *ot;
+    POLY_GT4 *poly;
+    Variant448Orbit *sheet;
+    s32 n, i, j, k;
+    s32 jangle;
+    s32 iangle;
+    s32 bias;
+    s32 angle;
+    s32 count;
+    s32 otz;
+
+    work = context;
+    object = work->fans;
+    ot = Graphics_GetDefaultOrderingTable();
+    poly = &context->packets.textured[1];
+    sheet = context->orbit;
+    count = 0;
+    for (i = 0, iangle = 0; i < 3; i++, object++, iangle = (i << 10) / 3) {
+        for (j = 0, jangle = 0; j < 2; j++, jangle += 2048) {
+            if (*(j + object->stage) > 0) {
+                for (k = 0, angle = jangle + iangle; k < 3; k++, angle = jangle + iangle + (k << 12) / 3) {
+                    bias = 0;
+                    if (work->clock.frame_count & 1) {
+                        bias = sheet->size[i][j][k] / 8;
+                    }
+                    rot.vx = 0;
+                    rot.vy = 0;
+                    rot.vz = 0;
+                    m.t[0] = work->position.vx + (((rcos(angle) * 3 << 6) * (j + 1)) >> 12);
+                    m.t[1] = work->position.vy;
+                    m.t[2] = work->position.vz + (((rsin(angle) * 3 << 6) * (j + 1)) >> 12);
+                    scale.vx = sheet->size[i][j][k] + bias;
+                    scale.vy = sheet->size[i][j][k] + bias;
+                    scale.vz = sheet->size[i][j][k] + bias;
+                    RotMatrix(&rot, &m);
+                    coord.coord = m;
+                    coord.super = 0;
+                    coord.flg = 0;
+                    GsGetLs(&coord, &ls);
+                    GsSetLsMatrix(&ls);
+                    ReadRotMatrix(&ls);
+                    RotMatrix(&rot, &ls);
+                    ScaleMatrix(&ls, &scale);
+                    SetRotMatrix(&ls);
+                    for (n = 0; n < 4; n++) {
+                        otz = RotTransPers4(&sheet->points[0][n], &sheet->points[1][n], &sheet->points[2][n], &sheet->points[3][n],
+                            (long *)&poly->x0, (long *)&poly->x1, (long *)&poly->x2, (long *)&poly->x3, &p, &flag);
+                        poly->r0 = sheet->inner.r;
+                        poly->g0 = sheet->inner.g;
+                        poly->b0 = sheet->inner.b;
+                        poly->r1 = sheet->inner.r;
+                        poly->g1 = sheet->inner.g;
+                        poly->b1 = sheet->inner.b;
+                        poly->r2 = sheet->inner.r;
+                        poly->g2 = sheet->inner.g;
+                        poly->b2 = sheet->inner.b;
+                        poly->r3 = sheet->outer.r;
+                        poly->g3 = sheet->outer.g;
+                        poly->b3 = sheet->outer.b;
+                        if (otz >= 0 && flag >= 0) {
+                            GsSortPoly(poly, ot, otz);
+                        }
+                    }
+                    if (sheet->size[i][j][k] < 8192 && sheet->done[i][j][k] == 0) {
+                        sheet->size[i][j][k] += work->clock.step << 10;
+                        if (sheet->size[i][j][k] >= 8192) {
+                            sheet->size[i][j][k] = 8192;
+                            sheet->done[i][j][k] = 1;
+                        }
+                    } else if (sheet->size[i][j][k] > 0 && sheet->done[i][j][k] == 1) {
+                        sheet->size[i][j][k] -= work->clock.step << 8;
+                        if (sheet->size[i][j][k] <= 0) {
+                            sheet->size[i][j][k] = 0;
+                            sheet->done[i][j][k] = 2;
+                        }
+                    }
+                    count += sheet->done[i][j][k];
+                    if (count >= 36 && work->phase == 6) {
+                        work->phase = 7;
+                    }
+                }
+            }
+        }
+    }
+}

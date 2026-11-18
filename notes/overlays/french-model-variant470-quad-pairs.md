@@ -6,9 +6,9 @@
 release had matching C for this body before.**
 
 It follows the shape of the accepted Spanish MODEL470 quads helper
-(`variant470_quads.c`, which is the third group's helper at `0x19F4` in the
+(`h453_quads_pal.c`, which is the third group's helper at `0x19F4` in the
 same images). It reads `EntryState470`, the record the entry passes (a local
-view in `variant470_quad_pairs.h` until it was folded):
+view in `h453_quad_pairs_pal.h` until it was folded):
 - two 0x4C4-byte groups at `+0`. Each has quads `a`..`d`, the colour at
   `+0x190`, sizes at `+0x1A4`, done flags at `+0x1CC`, reset flags at
   `+0x21C`, 32-byte anchors at `+0x258` and drift directions at `+0x424`;

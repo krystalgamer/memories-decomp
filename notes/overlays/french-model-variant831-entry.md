@@ -3,13 +3,13 @@
 `FrenchModelVariant831_HandleRequest` (image offset `0x4`, 0x3804 bytes) is the loader entry of
 the raw image `model_image_model_168816_8013b000`. The French and Spanish
 copies are byte-identical; both now build
-`model_variant/variant831_entry_pal.c`. Their slot-1 twins
+`model_variant/h814_entry_pal.c`. Their slot-1 twins
 `model_image_model_168826_8017b000` (header 928) build the same C; each
 image's symbols file binds the entry and the `gFrenchModelVariant831_aImages`
 and `gFrenchModelVariant831_aConfigs` labels at its own addresses (the scale
 vector at `0x3808` is a C-local static).
 
-- **Base.** It is the header-792 bolt entry (`model_variant/variant792_entry.c`)
+- **Base.** It is the header-792 bolt entry (`model_variant/h792_entry.c`)
   reworked for three bolts:
   - **Work area.** Per-bolt arrays have three entries. A per-bolt flare
     scale follows the flight counters. The rays become one shared ring of
@@ -44,6 +44,6 @@ The US MODEL.MRG images at sectors 168816/168826 (headers 814/911, modules
 same entry; besides the resident call targets, which
 `config/slus_01411/overlays/variant814us_linker_symbols.txt` supplies, the
 only difference is the flare CLUT row (`0x3D20` instead of the PAL `0x3D28`).
-The wrapper `src/overlays/model_variant/variant814us_entry.c` sets
+The wrapper `src/overlays/model_variant/h814_entry.c` sets
 `VARIANT831_FLARE_CLUT` and includes this source in both slots; the French default is unchanged. Both US images reproduce their
 retail SHA-256.
