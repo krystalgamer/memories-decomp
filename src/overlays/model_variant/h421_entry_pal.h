@@ -3,7 +3,6 @@
 #include "../../types.h"
 #include "../../overlays/model_variant/e503_h320_entry_pal.h"
 #include "../../game/model_slot_getters.h"
-#include "h421_warp_pal.h"
 
 /* One 0x48-byte command record of the table at gSpanishModelVariant438_aConfigs. */
 typedef struct {
@@ -72,7 +71,7 @@ typedef struct {
 
 extern GsIMAGE gSpanishModelVariant438_aImages[9];
 extern Variant438EntryConfig gSpanishModelVariant438_aConfigs[];
-void SpanishModelVariant438_DrawWarpRings(Warp438State *context);
+void SpanishModelVariant438_DrawWarpRings(Variant438EntryState *context);
 void SpanishModelVariant438_DrawRing(Variant438EntryState *context);
 void SpanishModelVariant438_DrawSpiral(Variant438EntryState *context);
 void SpanishModelVariant438_DrawAdvancingBand(Variant438EntryState *context);

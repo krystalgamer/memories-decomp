@@ -26,6 +26,12 @@ travel along the work block's direction vector (`+0x226C`) from its origin
 
 A ring grows by `step << 6` (`+0x22A4`) per frame. Before phase 3
 (`+0x22E8`) it wraps at 2048; after that it clamps there and stops drawing.
+The rings are the entry's `curtains` (`ModelVariantTripleCurtain`): the
+outer, inner and source loops are `a`, `b` and `c`, the inner/outer colours
+are `color_a`/`color_b` (white and magenta from the entry) and the size is
+`scale`. The helper takes `Variant438EntryState` directly; the polygon is
+`plain`, origin is `matrix.t`, direction is `aim.direction` and step is
+`clock.step`. (It was first matched through a private `Warp438State` view.)
 The routine is a sibling of the MODEL388 screen-feedback rings. The
 [MODEL459 warp rings](spanish-model-variant459-warp.md) compile the same body
 under `VARIANT438_WARP_LAYOUT_459`.
