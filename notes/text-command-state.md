@@ -9,7 +9,7 @@ an interior table alias, not a new interpreter object or per-channel state.
 |---|---|---|
 | `0x8009B33A` | `gText_CurrentStreamCode` | Volatile unsigned halfword |
 | `0x8009B350` | `gText_CommandDisposition` | Volatile signed word |
-| `0x8009B340` | `gText_ChoiceLayoutCallback` | Stored function pointer taking a volatile channel |
+| `0x8009B340` | `gText_ChoiceLayoutCallback` | Stored function pointer taking the channel |
 | `0x80090F18` | `gText_apfnPrimaryCommands` | Unsized raw-argument function-pointer array view |
 
 ## Current code and common-symbol ownership

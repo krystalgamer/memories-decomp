@@ -110,9 +110,9 @@ code read and unchecked allocation are not changed or generalized.
 ## Glyph lookup starts from the channel's entry beginning
 
 entry_begin is the original stored entry_head_24 pointer at channel
-+0x24. TextBox_GetGlyphAt retains its existing regional channel selection:
-shared NA/PAL indexing and the compact Japanese stride followed by the
-same shared prefix cast. It still walks local node pointers to the first
++0x24, typed with each build's own entry record. TextBox_GetGlyphAt
+retains its existing regional channel selection: shared NA/PAL indexing
+and the compact Japanese stride, with no cast. It still walks local node pointers to the first
 inactive flag, not to entry_write_cursor or entry_range_count.
 
 All entry strides, signed equality comparisons and PAL local_x/local_y

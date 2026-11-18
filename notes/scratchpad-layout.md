@@ -44,7 +44,7 @@ area. Nothing written here is read by a later call.
 | `0x000` | `DIVPOLYGON4` | `DisplayObject_SubmitPacket` (DivideFT4 buffer) |
 | `0x000` | `u32 *` work area | `Model_DrawSlot` (`GsSortUnit`), `Model_InitSlot` (`GsScanUnit`) |
 | `0x000` | `POLY_GT4`; `0x038` `POLY_FT4`; `0x060` `SVECTOR`; `0x078` `MATRIX`; `0x0A0` `long`; `0x0C0`/`0x100`/`0x140` `DuelEffectTextSprite` | `TextBox_DrawEntries` |
-| `0x000`, `0x040` | `u16` lookup tables | `DuelEffect_RasterizeGlyph` |
+| `0x000`, `0x040` | `DuelEffectGlyphRow` nibble patterns; glyph rows | `DuelEffect_RasterizeGlyph` |
 | `0x000` | `DuelCardRecord` copy | `DuelScene_UpdateCardMove` |
 | `0x000` | `SpritePrim` (card art) | `Duel_DrawCardFrame` |
 | `0x0C0`; `0x140`; `0x180` | colour word; `POLY_FT4`; `POLY_GT4` | `Duel_DrawFieldCards` |

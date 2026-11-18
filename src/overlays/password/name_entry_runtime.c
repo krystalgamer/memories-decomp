@@ -244,13 +244,8 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
     DuelEffectEntry *node;
 #endif
 
-    /* entry_begin is declared with the US entry type. */
 #if defined(VERSION_JAPAN)
-    node = (JapaneseDuelEffectEntry *)
-        gText_aChannels[index].entry_begin;
-#elif defined(VERSION_EUROPE)
-    base = gText_aChannels;
-    node = (EuropeanDuelEffectEntry *)base[index].entry_begin;
+    node = gText_aChannels[index].entry_begin;
 #else
     base = gText_aChannels;
     node = base[index].entry_begin;

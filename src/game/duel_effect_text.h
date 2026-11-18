@@ -163,10 +163,17 @@ s32 Dialog_ReadChoiceInput(struct DuelEffectChannel *record);
  * card's name/description, type or guardian field, or applies its staged
  * color. The card id is the existing gDuel_wSelectedCardID, not a new operand.
  *
- * The stream-slot offset first lives in `text`; a block-scoped stream pointer
- * advances from the object base and is then coalesced back into `text`. That
- * lifetime split preserves the retail allocation without hard-register
- * bindings. */
+ * Its one cursor variable, a TextStreamSlotCursor, holds the selected stream
+ * index, then its byte offset, the slot it addresses and finally the
+ * expanded string stored back into that slot. Retail keeps all four in one
+ * register; a separate u8 ** slot local swaps the slot and cursor
+ * registers. */
+typedef union {
+    s32 index;
+    u8 **slot;
+    u8 *string;
+} TextStreamSlotCursor;
+
 void Text_ExpandSelectedCardInfo(DuelEffectChannel *object);
 
 /* Shared by the guardian and one-byte symbol wrappers, not a table entry:
@@ -250,7 +257,15 @@ void DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value);
 #endif
 
 #ifdef VERSION_JAPAN
-void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *bitmap);
+/* One 16-pixel 4bpp row of the glyph raster: four halfwords of pixels,
+   cleared and copied out as two words. */
+typedef union {
+    u16 pixels[4];
+    u32 words[2];
+} DuelEffectGlyphRow;
+
+void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot,
+                               DuelEffectGlyphRow *bitmap);
 /* The sixteen 4bpp pixel patterns for one nibble of glyph bits, and the
  * colour masks a channel's color_index_54 selects among. */
 extern u16 gText_awGlyphNibblePatterns[16];
@@ -313,9 +328,11 @@ typedef union {
     u8 corner_shade[4];
 } JapaneseDuelEffectEntryShade;
 
-typedef struct {
-    /* Word alignment preserves whole-record copies during compaction. */
-    u32 pad_00;
+typedef struct JapaneseDuelEffectEntry {
+    /* DuelEffect_AppendEntry's tagged glyph value (bit 31 selects a game
+       text record, otherwise a kanji ROM code); its word alignment keeps
+       the compaction's whole-record lw/sw copies. */
+    s32 tagged_value;
     JapaneseDuelEffectEntryShade shade;
     DuelEffectEntryRotation rotation;
     u16 local_x;
@@ -335,20 +352,6 @@ typedef char JapaneseDuelEffectEntry_size_must_be_0x18[
     sizeof(JapaneseDuelEffectEntry) == 0x18 ? 1 : -1
 ];
 
-/* The entry record the US and Japanese glyph handlers and fade helpers
- * receive from DuelEffect_ProcessEntries. */
-#ifndef VERSION_EUROPE
-#ifdef VERSION_JAPAN
-typedef JapaneseDuelEffectEntry DuelEffectGlyphEntry;
-#else
-typedef DuelEffectEntry DuelEffectGlyphEntry;
-#endif
-s32 DisplayObjectFade_MarkInitialized(DuelEffectGlyphEntry *object);
-void DisplayObjectFade_ReleaseChannel(DuelEffectGlyphEntry *object);
-void DuelEffect_UpdateGlyphReveal(DuelEffectGlyphEntry *record);
-void DuelEffect_UpdateGlyphConceal(DuelEffectGlyphEntry *record);
-void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectGlyphEntry *record);
-#endif
 typedef char JapaneseDuelEffectEntry_alignment_must_be_4[
     sizeof(struct { u8 lead; JapaneseDuelEffectEntry entry; }) == 0x1C ? 1 : -1
 ];
@@ -360,7 +363,7 @@ typedef char JapaneseDuelEffectEntry_alignment_must_be_4[
    DuelEffect_UpdateDelayedGlyphRotation. */
 #define EUROPEAN_DUEL_EFFECT_ENTRY_COUNT 800
 
-typedef struct {
+typedef struct EuropeanDuelEffectEntry {
     u16 glyph_code;
     u16 local_x;   /* 0x02 */
     u16 local_y;   /* 0x04 */
@@ -383,14 +386,21 @@ typedef char EuropeanDuelEffectEntry_size_must_be_0x16[
     sizeof(EuropeanDuelEffectEntry) == 0x16 ? 1 : -1
 ];
 
-#ifdef VERSION_EUROPE
-/* The European fade helpers and entry handlers receive the entry itself. */
-s32 DisplayObjectFade_MarkInitialized(EuropeanDuelEffectEntry *object);
-void DisplayObjectFade_ReleaseChannel(EuropeanDuelEffectEntry *object);
-void DuelEffect_UpdateGlyphReveal(EuropeanDuelEffectEntry *record);
-void DuelEffect_UpdateGlyphConceal(EuropeanDuelEffectEntry *record);
-void DuelEffect_UpdateDelayedGlyphRotation(EuropeanDuelEffectEntry *record);
+/* This build's entry record: the type of DuelEffectChannel's entry
+ * cursors and of gDuelEffect_aEntries, and the record the glyph handlers
+ * and fade helpers receive from DuelEffect_ProcessEntries. */
+#if defined(VERSION_JAPAN)
+typedef JapaneseDuelEffectEntry DuelEffectGlyphEntry;
+#elif defined(VERSION_EUROPE)
+typedef EuropeanDuelEffectEntry DuelEffectGlyphEntry;
+#else
+typedef DuelEffectEntry DuelEffectGlyphEntry;
 #endif
+s32 DisplayObjectFade_MarkInitialized(DuelEffectGlyphEntry *object);
+void DisplayObjectFade_ReleaseChannel(DuelEffectGlyphEntry *object);
+void DuelEffect_UpdateGlyphReveal(DuelEffectGlyphEntry *record);
+void DuelEffect_UpdateGlyphConceal(DuelEffectGlyphEntry *record);
+void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectGlyphEntry *record);
 
 void DuelEffect_ClearOccupancyValue(s32 value);
 void DuelEffect_ResetOccupancy(void);

@@ -38,8 +38,9 @@ typedef struct MenuRecord {
        DisplayObject_ConfigureSpriteAtPositionWithResource and
        DisplayObject_ConfigureScreenSprite as x and y; and
        DisplayEffect_UpdatePositionTween eases it toward 0x40/0x42 and hands
-       it to the position helpers as x and y. */
-    u16 x;
+       it to the position helpers as x and y. x is signed: the text
+       dialog command parks it off-screen at -0x38. */
+    s16 x;
     u16 y;
     u8 pad_38[2];
     /* Last explicit grid[0][2] request, not the live object's selector. */
