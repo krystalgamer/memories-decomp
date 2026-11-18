@@ -324,12 +324,15 @@ typedef struct {
 /* The 0x50-byte element of headers 655, 661 and 667: ModelVariantElement
  * with a done flag and a count after the lifetime: the streaks (655, 661)
  * and ribbons (667) clear both at setup, test done and grow count, which
- * shapes their geometry; header 667's fans also test and set done. */
+ * shapes their geometry; header 667's fans also test and set done.
+ * travel is how far the element moves over its lifetime: header 667's
+ * domes add travel.vy * elapsed / duration to their y; the other entries
+ * only set it. */
 typedef struct {
     ModelVariantElementHead head;
     u8 done, count, unknown_12[2];
     ModelVariantElementTransform xform;
-    VECTOR unknown_40;
+    VECTOR travel;
 } ModelVariantCountedElement;
 
 /* One 0x90-byte ring of eight spokes, each drawn as a GsGLINE from

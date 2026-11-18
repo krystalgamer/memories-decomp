@@ -156,7 +156,7 @@ s32 ModelVariant661_HandleRequest(Model661State *context, s32 command)
             work->streaks[i].done = 0;
             work->streaks[i].count = 0;
             setVector(&work->streaks[i].xform.scale, 4096, 4096, 4096);
-            setVector(&work->streaks[i].unknown_40, 0, 0, 0);
+            setVector(&work->streaks[i].travel, 0, 0, 0);
             setVector(&work->streaks[i].xform.rotation, 0, 0, 0);
             setVector(&work->streaks[i].xform.position, 0, 0, 0);
         }
@@ -172,7 +172,7 @@ s32 ModelVariant661_HandleRequest(Model661State *context, s32 command)
             work->bursts[i].head.u = 0;
             work->bursts[i].head.v = 0;
             setVector(&work->bursts[i].xform.scale, 4096, 4096, 4096);
-            setVector(&work->bursts[i].unknown_40, 0, 0, 0);
+            setVector(&work->bursts[i].travel, 0, 0, 0);
             setVector(&work->bursts[i].xform.rotation, 0, work->head.slot * 2048, 0);
             switch (command) {
             case 1:
@@ -207,7 +207,7 @@ s32 ModelVariant661_HandleRequest(Model661State *context, s32 command)
                 work->sparks[i][j].head.u = 0;
                 work->sparks[i][j].head.v = 64;
                 setVector(&work->sparks[i][j].xform.scale, 4096, 4096, 4096);
-                setVector(&work->sparks[i][j].unknown_40, 0, 0, work->place.radius * 10);
+                setVector(&work->sparks[i][j].travel, 0, 0, work->place.radius * 10);
                 setVector(&work->sparks[i][j].xform.rotation,
                     (i << 12) / work->spark_count + j * 113,
                     work->head.slot * 2048 + (i << 12) / work->spark_count + j * 113,
