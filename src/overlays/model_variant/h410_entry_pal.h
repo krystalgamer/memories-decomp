@@ -10,12 +10,13 @@
 #include "../../psyq/libhmd.h"
 #include "../model_variant/h410_mesh_pal.h"
 #include "../model_variant/h410_streamers.h"
-#include "h410_panels_pal.h"
 
 typedef struct {
     u8 unknown_00[0x10], parts[3], unknown_13[5];
-    u32 draw_start;
-    u8 unknown_1C[8];
+    /* The panel drawer grows its sheets between draw_start and grow_end
+     * and shrinks them between fade_start and fade_end. */
+    u32 draw_start, grow_end;
+    u8 unknown_20[4];
     u32 fade_start, fade_end;
 } EntryConfig427;
 
@@ -79,7 +80,7 @@ extern EntryConfig427 gFrenchModelVariant427_aConfigs[];
 void SpanishModelVariant427_DrawMeshes(EntryState427 *context);
 void SpanishModelVariant427_DrawSpiral(EntryState427 *context);
 void FrenchModelVariant427_DrawRibbons(EntryState427 *context);
-void SpanishModelVariant427_DrawPanels(Panel427State *context);
+void SpanishModelVariant427_DrawPanels(EntryState427 *context);
 void SpanishModelVariant427_DrawCurtains(EntryState427 *context);
 
 #endif

@@ -315,7 +315,7 @@ s32 FrenchModelVariant427_HandleRequest(EntryState427 *context, s32 command)
         work->screen_delta.vx = (u16)projection.target - screen_x;
         work->screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->config->draw_start <= work->clock.frame && work->phase < 5) {
-            SpanishModelVariant427_DrawPanels((Panel427State *)context);
+            SpanishModelVariant427_DrawPanels(context);
         }
         if ((u32)(work->phase - 3) < 3) {
             SpanishModelVariant427_DrawCurtains(context);
