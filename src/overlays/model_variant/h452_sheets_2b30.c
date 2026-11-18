@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "h452_sheets_2b30.h"
+#include "h452_entry_pal.h"
 
-void SpanishModelVariant469_DrawSheets(Sheets469State *context)
+void SpanishModelVariant469_DrawSheets(EntryState469 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,11 +10,11 @@ void SpanishModelVariant469_DrawSheets(Sheets469State *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets469State *state = context;
-    ModelVariantSheetPrimary *primary = state->primary;
-    ModelVariantSheetSet *sheet = state->sheets;
-    POLY_GT4 *polygon = state->polygons;
-    ModelVariantPairedSheetTiming *timing;
+    EntryState469 *state = context;
+    ModelVariantCountedRibbon *primary = state->ribbons;
+    ModelVariantSheetSet *sheet = state->quads;
+    POLY_GT4 *polygon = state->textured;
+    EntryConfig469 *timing;
     GsOT *ot;
     s32 count, first;
     s32 i, j;
@@ -22,7 +22,7 @@ void SpanishModelVariant469_DrawSheets(Sheets469State *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    timing = state->timing;
+    timing = state->config;
     if (timing->paired == 0) {
         count = timing->first_count + 1;
         first = timing->first_count;
@@ -33,23 +33,23 @@ void SpanishModelVariant469_DrawSheets(Sheets469State *context)
     polygon++;
     for (i = 0; i < count; i++, sheet++) {
         extra = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             extra = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i < first) {
-            matrix.t[0] = state->positions[i].vx;
-            matrix.t[1] = state->positions[i].vy;
-            matrix.t[2] = state->positions[i].vz;
+            matrix.t[0] = state->path_origins[i].vx;
+            matrix.t[1] = state->path_origins[i].vy;
+            matrix.t[2] = state->path_origins[i].vz;
             scale.vx = sheet->size + extra * 10;
             scale.vy = sheet->size + extra * 6;
             scale.vz = sheet->size + extra * 10;
         } else {
-            matrix.t[0] = state->other_positions[i - first].vx;
-            matrix.t[1] = state->other_positions[i - first].vy;
-            matrix.t[2] = state->other_positions[i - first].vz;
+            matrix.t[0] = state->path_targets[i - first].vx;
+            matrix.t[1] = state->path_targets[i - first].vy;
+            matrix.t[2] = state->path_targets[i - first].vz;
             scale.vx = sheet->size * 2 + extra;
             scale.vy = sheet->size + extra;
             scale.vz = sheet->size * 2 + extra;
@@ -88,7 +88,7 @@ void SpanishModelVariant469_DrawSheets(Sheets469State *context)
         if (i < first) {
             if (state->phase == 1) {
                 if (sheet->size < 4096) {
-                    sheet->size += (state->step >> 1) << 11;
+                    sheet->size += ((u32)state->clock.step >> 1) << 11;
                     if (sheet->size >= 4096) {
                         sheet->size = 4096;
                         if (i + 1 == first) {
@@ -97,21 +97,21 @@ void SpanishModelVariant469_DrawSheets(Sheets469State *context)
                     }
                 }
             } else if (state->phase >= 4 && sheet->size > 0) {
-                if (state->time >= state->timing->fade_begin) {
-                    sheet->size = 4096 - ((state->time - state->timing->fade_begin) << 12) /
-                                        (state->timing->fade_end - state->timing->fade_begin);
+                if (state->clock.frame >= state->config->fade_begin) {
+                    sheet->size = 4096 - ((state->clock.frame - state->config->fade_begin) << 12) /
+                                        (state->config->matrix_end - state->config->fade_begin);
                 }
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
             }
         } else {
-            if (primary->active == 1) {
+            if (primary->state == 1) {
                 if (sheet->shown == 0) {
                     sheet->size = 8192;
                     sheet->shown = 1;
                 } else {
-                    sheet->size = primary->size * 8;
+                    sheet->size = primary->length * 8;
                     if (sheet->size <= 0) {
                         sheet->size = 0;
                         if (state->phase < 5) {

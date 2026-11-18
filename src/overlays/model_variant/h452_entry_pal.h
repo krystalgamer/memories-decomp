@@ -27,9 +27,15 @@ typedef struct {
 
 typedef struct {
     CVECTOR outer, inner, arc_color;
-    u8 unknown_0C[4], parts[3], unknown_13[0x11];
+    u8 unknown_0C[4], parts[3], unknown_13[9];
+    /* The sheet helper draws first_count + 1 sheets, or twice first_count
+     * when paired is set. */
+    s32 first_count, paired;
     u32 draw_start, arc_limit;
-    u8 unknown_2C[8];
+    u8 unknown_2C[4];
+    /* The sheets fade from fade_begin to matrix_end; the entry tracks the
+     * part matrix until matrix_end. */
+    u32 fade_begin;
     u32 matrix_end;
     u8 unknown_38[8];
 } EntryConfig469;

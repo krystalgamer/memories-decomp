@@ -253,10 +253,10 @@ s32 SpanishModelVariant459_HandleRequest(Variant459EntryState *context, s32 comm
         work->field_3096 = 0;
         work->spiral_size = 0;
         work->field_309A = 0;
-        work->field_30BC = 0;
+        work->index = 0;
         work->progress = 0;
         work->field_30D4 = 0;
-        work->field_30D8 = 0;
+        work->ray_angle = 0;
         work->field_30BE = 0;
         work->clock.frame_count = 0;
         work->clock.frame = 0;

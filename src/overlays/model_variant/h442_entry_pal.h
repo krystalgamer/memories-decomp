@@ -26,7 +26,7 @@ typedef struct {
     ModelVariantCurtain rings[4];
     ModelVariantWebNarrow webs[3];
     ModelVariantShadedRay glows[12];
-    u8 rays[0x360];
+    ModelVariantOffsetRay rays[8];
     ModelVariantColorBand bands[6];
     ModelVariantSheet sheets[13];
     ModelVariantPackets packets;
@@ -44,11 +44,11 @@ typedef struct {
     Variant459EntryConfig *config;
     u8 unknown_30A0[4];
     GsCOORDUNIT *parts[6];
-    s16 field_30BC, field_30BE;
+    s16 index, field_30BE;
     CVECTOR curtain_inner_color, curtain_outer_color;
     s32 curtain_angle;
     s16 scale, field_30CE;
-    s32 progress, field_30D4, field_30D8;
+    s32 progress, field_30D4, ray_angle;
     s32 phase;
     s32 spiral_state;
     u8 unknown_30E4[8];
