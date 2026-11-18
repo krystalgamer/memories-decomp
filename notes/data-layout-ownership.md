@@ -558,6 +558,14 @@ shared `DUEL_EFFECT_TEXTURE_IMAGES` initializer in `image_inputs.h`, whose
 `DUEL_EFFECT_CLUT` picks the PAL palette positions under `VERSION_EUROPE`; the
 PAL `effect_10.c` entries carry that define like `dispatch.c`'s.
 
+Then, in all regions, `effect_21.c` (`gDuelEffect_SwordsFieldTilePositions`,
+`SVECTOR[10][2]`, North America `+0x14C34`), `effect_15.c`
+(`gDuelEffect_SelectedCardOverlayConfigs`, eight `DuelEffect15Config`,
+`+0x14CD4`) and `effect_13.c` (its own copy of the 21 images, then four
+`DuelEffect13Config`, `+0x14D14`; PAL entries also `VERSION_EUROPE`), ending at
+North America `+0x14FB0` (Japan `-0x40`, PAL `-0xCC`), where the raw `data`
+subsegment resumes.
+
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in
 others (Japan, the English PAL images, and USA's word after the pointer list).

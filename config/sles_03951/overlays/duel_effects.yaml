@@ -113,7 +113,8 @@ segments:
       - [0x148C8, .data, overlays/duel_effects/effect_10]
       - [0x14B68, .data, overlays/duel_effects/effect_21]
       - [0x14C08, .data, overlays/duel_effects/effect_15]
-      - [0x14C48, data, overlays/spanish_duel_effects/data]
+      - [0x14C48, .data, overlays/duel_effects/effect_13]
+      - [0x14EE4, data, overlays/spanish_duel_effects/data]
       - [0x153C0, .data, overlays/duel_effects/effect_drawing]
       - [0x15420, data, overlays/spanish_duel_effects/data_15420]
 
