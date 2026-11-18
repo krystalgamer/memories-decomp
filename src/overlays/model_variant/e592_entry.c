@@ -16,7 +16,7 @@ s32 ModelVariant409_HandleRequest(EntryState426 *context, s32 command)
     ModelVariantPackedProjection projection;
     ModelVariantMesh *mesh = &work->mesh;
     ModelVariantFunnel *funnel = work->funnels;
-    EntryRibbon425 *ribbon = work->ribbons;
+    Ribbon426 *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantStreamer *streamer = work->streamers;
     ModelVariantShadedRay *spiral = work->spirals;
@@ -255,7 +255,7 @@ s32 ModelVariant409_HandleRequest(EntryState426 *context, s32 command)
         work->field_211C = 0;
         work->field_211E = 0;
         work->ribbon_sway = 0;
-        work->field_2174 = 0;
+        work->ribbon_wave = 0;
         work->field_2178 = 0;
         work->field_217C = 0;
         work->streamer.length = 1024;
@@ -308,7 +308,7 @@ s32 ModelVariant409_HandleRequest(EntryState426 *context, s32 command)
             SpanishModelVariant426_DrawMesh(context);
         }
         if (work->phase > 0) {
-            FrenchModelVariant426_DrawRibbon((Ribbon426Work *)context);
+            FrenchModelVariant426_DrawRibbon(context);
         }
         if (work->config->spiral_start <= work->clock.frame) {
             SpanishModelVariant426_DrawSpiral(context);
