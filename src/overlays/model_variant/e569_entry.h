@@ -46,24 +46,9 @@ typedef struct {
 } Model386Strand;
 
 typedef struct {
-    u8 unknown_000[0x144];
-    CVECTOR color[9];
-    s32 stage;
-    s32 dir[3];
-    u8 unknown_178[4];
-    s32 start;
-    s32 end;
-    s32 yaw;
-    s32 pitch;
-    s32 wave;
-    s32 sway;
-    u8 unknown_194[0x48];
-} Model386Chain;
-
-typedef struct {
     Model386Strand strands[5];
     ModelVariantSheet sheets[5];
-    Model386Chain chains[3];
+    Chains12048Chain chains[3];
     ModelVariantPackets packets;
     POLY_FT4 flat[6];
     u8 unknown_11A4[0x10];
@@ -109,7 +94,7 @@ extern Model386Config gModelVariant386_aConfigs[];
 
 void FrenchModelVariant403_DrawStrands(Strands12048State *context);
 void FrenchModelVariant403_DrawSheets(Sheets12048State *context);
-void FrenchModelVariant403_DrawChains(Chains12048State *context);
+void FrenchModelVariant403_DrawChains(Model386State *context);
 s32 ModelVariant386_HandleRequest(Model386State *context, s32 command);
 
 #endif

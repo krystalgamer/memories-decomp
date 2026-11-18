@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "image12048_chains.h"
+#include "e569_entry.h"
 
-void FrenchModelVariant403_DrawChains(Chains12048State *context)
+void FrenchModelVariant403_DrawChains(Model386State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void FrenchModelVariant403_DrawChains(Chains12048State *context)
     long flags[3][9];
     long interpolation;
     long flag;
-    Chains12048State *state = context;
+    Model386State *state = context;
     Chains12048Chain *chain = state->chains;
     POLY_FT4 *poly;
     SVECTOR *pos;
@@ -26,8 +26,8 @@ void FrenchModelVariant403_DrawChains(Chains12048State *context)
     s32 dx, dy;
 
     ot = Graphics_GetDefaultOrderingTable();
-    angle = ratan2(state->target[2], state->target[0]) + 0xC00;
-    ratan2(state->target[1], state->target[0]);
+    angle = ratan2(state->view_delta.vz, state->view_delta.vx) + 0xC00;
+    ratan2(state->view_delta.vy, state->view_delta.vx);
     for (i = 0; i < 3; i++, chain++) {
         wave = chain->wave;
         sway = chain->sway;
@@ -64,9 +64,9 @@ void FrenchModelVariant403_DrawChains(Chains12048State *context)
     rotation.vx = 0;
     rotation.vy = 0;
     rotation.vz = 0;
-    matrix.t[0] = state->offset.vx;
-    matrix.t[1] = state->offset.vy;
-    matrix.t[2] = state->offset.vz;
+    matrix.t[0] = state->target.vx;
+    matrix.t[1] = state->target.vy;
+    matrix.t[2] = state->target.vz;
     scale.vx = 4096;
     scale.vy = 4096;
     scale.vz = 4096;
@@ -115,7 +115,7 @@ void FrenchModelVariant403_DrawChains(Chains12048State *context)
         if (chain->end >= 0) {
             limit = chain->end;
         }
-        for (j = chain->start, poly = state->polys; j < limit; j++, poly = state->polys) {
+        for (j = chain->start, poly = state->flat; j < limit; j++, poly = state->flat) {
             if (!(j & 1)) {
                 poly++;
             }

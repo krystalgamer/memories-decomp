@@ -28,7 +28,7 @@ s32 ModelVariant386_HandleRequest(Model386State *context, s32 command)
     long screen1;
     Model386Strand *strand;
     ModelVariantSheet *sheet;
-    Model386Chain *chain;
+    Chains12048Chain *chain;
     POLY_GT4 *textured;
     POLY_G3 *triangle;
     POLY_G4 *quad;
@@ -308,7 +308,7 @@ s32 ModelVariant386_HandleRequest(Model386State *context, s32 command)
         }
         FrenchModelVariant403_DrawSheets((Sheets12048State *)context);
         if (work->phase >= 5) {
-            FrenchModelVariant403_DrawChains((Chains12048State *)context);
+            FrenchModelVariant403_DrawChains(context);
         }
         work->frame++;
         frame = Model_GetSlotAnimationFrame(work->slot);
