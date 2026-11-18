@@ -97,7 +97,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
                 ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             DisplayObject_SetResourceVariant(entry, value);
             DisplayObject_SelectOrderingTable1(entry);
-            gMain_apMenuEntries[i] = (u8 *)entry;
+            gMain_apMenuEntries[i] = entry;
         } else {
             gMain_apMenuEntries[i] = 0;
         }
@@ -136,8 +136,8 @@ s32 MainMenu_UpdateFrontendMenu(void)
     DisplayObject *ent3;
     DisplayObject *entry;
     DisplayObject *ent6;
-    u8 **slot;
-    u8 **slot2;
+    DisplayObject **slot;
+    DisplayObject **slot2;
     s32 step;
     s32 level;
     s16 timer;
@@ -287,7 +287,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             }
             do {
         case 0:
-                eloop = (DisplayObject *)*slot;
+                eloop = *slot;
                 if (eloop != 0) {
                     timer = eloop->field_60;
                     step = (u16)eloop->field_60;
@@ -296,7 +296,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                         eloop->field_60 = timer;
                         first = (u32)gMain_bMenuID < 5;
                         if (first ? i < 5 : i >= 5) {
-                            eloop = (DisplayObject *)*slot;
+                            eloop = *slot;
                             first = eloop->field_38.h.field_38;
                             value = eloop->field_34.h.field_36;
                             delta = first - value;
@@ -307,7 +307,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                             value = (u16)eloop->field_38.h.field_38;
                             if (frame != first) {
                                 product = rsin(frame << 6) * delta;
-                                eloop = (DisplayObject *)*slot;
+                                eloop = *slot;
                                 /* In-place truncation avoids the old compiler's quotient copy. */
                                 if (product < 0) {
                                     product += 0xFFF;
@@ -317,16 +317,16 @@ s32 MainMenu_UpdateFrontendMenu(void)
                             }
                             *(volatile s16 *)&eloop->xy.h.x = value;
                             if ((frame & 1) != 0) {
-                                MainMenu_SpawnFrontendEntryAfterimage((DisplayObject *)*slot);
+                                MainMenu_SpawnFrontendEntryAfterimage(*slot);
                             }
-                            ((DisplayObject *)*slot)->flags =
-                                ((DisplayObject *)*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
+                            (*slot)->flags =
+                                (*slot)->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
                         } else {
-                            ((DisplayObject *)*slot)->flags =
-                                ((DisplayObject *)*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+                            (*slot)->flags =
+                                (*slot)->flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                         }
                         moved++;
-                        DisplayObject_SetResourceVariant((DisplayObject *)*slot, (i << 1) | (gMain_bMenuID != i));
+                        DisplayObject_SetResourceVariant(*slot, (i << 1) | (gMain_bMenuID != i));
                     }
                 }
                 i++;
@@ -351,7 +351,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                         }
                         do {
                     case 0:
-                            ent3 = (DisplayObject *)*slot2;
+                            ent3 = *slot2;
                             if (ent3 != 0) {
                                 ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                             }
@@ -386,14 +386,14 @@ s32 MainMenu_UpdateFrontendMenu(void)
             } else {
                 count = 6;
             }
-            DisplayObject_SetResourceVariant((DisplayObject *)gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
+            DisplayObject_SetResourceVariant(gMain_apMenuEntries[gMain_bMenuID], (gMain_bMenuID << 1) | 1);
             /* Keep the store in each arm: the join controls high-half reuse. */
             if ((gInput_awPadRepeat[0] & PAD_DIRECTION_UP) != 0) {
                 *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count - 1) % count + base;
             } else {
                 *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count + 1) % count + base;
             }
-            DisplayObject_SetResourceVariant((DisplayObject *)gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
+            DisplayObject_SetResourceVariant(gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
             SD_SEPlay(6, 0xFF, 0);
             return -1;
         }
@@ -590,9 +590,7 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
 {
     s32 i;
     s32 offset;
-    /* The entries are display objects; gMain_apMenuEntries keeps its u8 *
-       declaration for its other users. */
-    DisplayObject **entries = (DisplayObject **)gMain_apMenuEntries;
+    DisplayObject **entries = gMain_apMenuEntries;
 
     for (i = 0; i < 0xB; i++) {
         if (i & 1) {

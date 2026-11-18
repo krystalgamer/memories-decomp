@@ -75,7 +75,7 @@ extern struct DisplayObject *gMainMenu_pCopyrightNotice;
 extern struct DisplayObject *gMainMenu_pStartPrompt;
 extern s8 gMainMenu_nFadeDirection;
 extern u8 gMain_bMenuID;
-extern u8 *gMain_apMenuEntries[];
+extern struct DisplayObject *gMain_apMenuEntries[];
 extern u8 gMainMenu_bBackRequested;
 extern u8 gMainMenu_bTransitionMode;
 extern u8 gMainMenu_bShadeLevel;
