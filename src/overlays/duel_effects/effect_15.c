@@ -11,6 +11,17 @@
 
 const VECTOR gDuelEffect_SelectedCardOverlayInitialScale = { ONE, ONE, ONE, 0 };
 
+DuelEffect15Config gDuelEffect_SelectedCardOverlayConfigs[8] = {
+    { { 255, 64, 0, 0 }, 3 },
+    { { 255, 0, 255, 0 }, 2 },
+    { { 96, 96, 255, 0 }, 14 },
+    { { 255, 0, 0, 0 }, 1500 },
+    { { 32, 255, 32, 0 }, 9 },
+    { { 255, 255, 255, 0 }, 18 },
+    { { 255, 255, 96, 0 }, 12 },
+    { { 112, 112, 255, 0 }, 999 },
+};
+
 void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
 {
     MATRIX world;

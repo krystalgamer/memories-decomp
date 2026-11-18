@@ -115,7 +115,8 @@ segments:
       - [0x14724, .data, overlays/duel_effects/effect_22]
       - [0x14994, .data, overlays/duel_effects/effect_10]
       - [0x14C34, .data, overlays/duel_effects/effect_21]
-      - [0x14CD4, data, overlays/duel_effects/data]
+      - [0x14CD4, .data, overlays/duel_effects/effect_15]
+      - [0x14D14, data, overlays/duel_effects/data]
       - [0x157A8, .data, overlays/duel_effects/effect_17]
       - [0x157C8, data, overlays/duel_effects/data_157C8]
 
