@@ -182,8 +182,7 @@ typedef char AiScriptState_type_set_offset_must_be_0x7E[
     OFFSETOF(AiScriptState, type_set) == 0x7E ? 1 : -1
 ];
 typedef char AiScriptState_combo_offset_must_be_0x38[
-    OFFSETOF(AiScriptState, combo_cards) ==
-        AI_SCRIPT_COMBO_BYTE_OFFSET ? 1 : -1
+    OFFSETOF(AiScriptState, combo_cards) == 0x38 ? 1 : -1
 ];
 typedef char AiScriptState_unread_flag_offset_must_be_0x97[
     OFFSETOF(AiScriptState, unread_flag) == 0x97 ? 1 : -1
@@ -198,32 +197,25 @@ typedef char AiScriptState_attack_best_target_offset_must_be_0x9B[
     OFFSETOF(AiScriptState, attack_best_target) == 0x9B ? 1 : -1
 ];
 typedef char AiScriptState_fusion_count_offset_must_be_0x9C[
-    OFFSETOF(AiScriptState, fusion_count) ==
-        AI_SCRIPT_FUSION_COUNT_BYTE_OFFSET ? 1 : -1
+    OFFSETOF(AiScriptState, fusion_count) == 0x9C ? 1 : -1
 ];
 typedef char AiScriptState_fusion_limit_offset_must_be_0x9D[
-    OFFSETOF(AiScriptState, fusion_limit) ==
-        AI_SCRIPT_FUSION_LIMIT_BYTE_OFFSET ? 1 : -1
+    OFFSETOF(AiScriptState, fusion_limit) == 0x9D ? 1 : -1
 ];
 typedef char AiScriptState_fusion_set_offset_must_be_0x9E[
-    OFFSETOF(AiScriptState, fusion_set) ==
-        AI_SCRIPT_FUSION_SET_BYTE_OFFSET ? 1 : -1
+    OFFSETOF(AiScriptState, fusion_set) == 0x9E ? 1 : -1
 ];
 typedef char AiScriptState_fusion_best_stat_offset_must_be_0xA0[
-    OFFSETOF(AiScriptState, fusion_best_stat) ==
-        AI_SCRIPT_FUSION_BEST_STAT_BYTE_OFFSET ? 1 : -1
+    OFFSETOF(AiScriptState, fusion_best_stat) == 0xA0 ? 1 : -1
 ];
 typedef char AiScriptState_fusion_depth_offset_must_be_0xA2[
-    OFFSETOF(AiScriptState, fusion_depth) ==
-        AI_SCRIPT_FUSION_DEPTH_BYTE_OFFSET ? 1 : -1
+    OFFSETOF(AiScriptState, fusion_depth) == 0xA2 ? 1 : -1
 ];
 typedef char AiScriptState_fusion_best_depth_offset_must_be_0xA3[
-    OFFSETOF(AiScriptState, fusion_best_depth) ==
-        AI_SCRIPT_FUSION_BEST_DEPTH_BYTE_OFFSET ? 1 : -1
+    OFFSETOF(AiScriptState, fusion_best_depth) == 0xA3 ? 1 : -1
 ];
 typedef char AiScriptState_fusion_path_offset_must_be_0xA4[
-    OFFSETOF(AiScriptState, fusion_path) ==
-        AI_SCRIPT_FUSION_PATH_BYTE_OFFSET ? 1 : -1
+    OFFSETOF(AiScriptState, fusion_path) == 0xA4 ? 1 : -1
 ];
 typedef char AiScriptState_fusion_used_offset_must_be_0xAA[
     OFFSETOF(AiScriptState, fusion_used) == 0xAA ? 1 : -1

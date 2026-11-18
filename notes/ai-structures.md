@@ -189,15 +189,15 @@ controls code generation.
 
 The private `ByteReader` in `AiScript_FindBestAttack` (`ai_script.c`) remains a prefix view. Its pointer
 array shares `AI_SCRIPT_RETURN_STACK_COUNT` with `AiScript_Call`, and a size
-assertion keeps the prefix ending at `AI_SCRIPT_COMBO_BYTE_OFFSET`. Its
+assertion keeps the prefix ending at `combo_cards` (`0x38`). Its
 unrelated `unkC[8]` remains byte padding, not eight return-address slots.
 
-The selected combo buffer at `AI_SCRIPT_COMBO_BYTE_OFFSET` (`0x38`) is not
-the in-progress path at `AI_SCRIPT_FUSION_PATH_BYTE_OFFSET` (`0xA4`).
+The selected combo buffer `combo_cards` (`0x38`) is not
+the in-progress path `fusion_path` (`0xA4`).
 Current depth (`0xA2`) and best depth (`0xA3`) likewise have distinct byte
 offsets tied to the existing structure. The fusion copier retains its
 inclusive best-depth bound and following zero terminator; combo readers keep
-their existing bounds and filtering. Naming the offsets does not replace
+their existing bounds and filtering. Naming the fields does not replace
 raw views, clamp malformed depths, or turn the five-entry combo-start scan
 into a six-entry scan.
 
