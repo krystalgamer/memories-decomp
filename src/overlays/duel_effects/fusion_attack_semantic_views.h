@@ -7,6 +7,6 @@
 extern DuelEffect1Config gDuelEffect_FusionConfigs[2];
 extern VECTOR gDuelEffect_FusionInitialScale;
 extern DuelEffect2Config gDuelEffect_AttackSlashConfigs[7];
-extern VECTOR gDuelEffect_AttackSlashInitialScale;
+extern const VECTOR gDuelEffect_AttackSlashInitialScale;
 
 #endif

@@ -10,7 +10,8 @@ names the overlay presentation, not the resident win-condition or result
 handoff. No new #418 runtime/artwork observation is claimed.
 
 `gDuelEffect_ExodiaInitialScale` names the separate 16-byte SDK VECTOR
-owner at native `D_80146148`, NA `80146190`, JP `80154148`.
+at native `D_80146148`, NA `80146190`, JP `80154148`, now a `const VECTOR`
+that `effect_24.c` defines as its `.rodata` (#2602).
 `gDuelEffect_CardObjectScratchWords[21]` names the full 84-byte owner
 at native `D_8015B7A0`, NA `8015B838`, JP `80169838`. It remains `u32[21]`,
 not a new five-pointer allocation or a changed pointer-bearing layout.

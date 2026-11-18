@@ -5,6 +5,6 @@
 
 extern void DuelEffect_RunSwordsField(void *work, s32 phase);
 extern SVECTOR gDuelEffect_SwordsFieldTilePositions[10][2];
-extern VECTOR gDuelEffect_SwordsFieldInitialScale;
+extern const VECTOR gDuelEffect_SwordsFieldInitialScale;
 
 #endif

@@ -29,8 +29,9 @@ or unused-variant claim is introduced.
 | `gDuelEffect_RowStrikeInitialScale` | `801461E0` | `801541F0` | `D_80146198` | 16 |
 
 The extern-only semantic header binds the complete handler and separate
-real generated config/VECTOR owners without changing private declarations,
-layout, storage, profiles or native symbols. Together with the
+config/VECTOR owners without changing private declarations, layout,
+profiles or native symbols; the VECTOR is now `row_attack_effects.c`'s
+`const` `.rodata` (#2602). Together with the
 [card breakup](spanish-duel-effect-11.md), these are six evidence-backed
 bindings and 116 existing data bytes, not a new runtime experiment.
 Historical image/recovery results below retain their original scope.

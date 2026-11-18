@@ -9,7 +9,7 @@
 extern TileEffectDescriptor gDuelEffect_DestroyFlamesConfigs[2];
 extern GsIMAGE gDuelEffect_DestroyFlamesTextureImage;
 extern DuelEffect10Config gDuelEffect_TerrainChangeConfigs[6];
-extern VECTOR gDuelEffect_TerrainChangeInitialScale;
+extern const VECTOR gDuelEffect_TerrainChangeInitialScale;
 extern GsIMAGE gDuelEffect_TerrainChangeTextureImages[21];
 extern GatherEffectDescriptor gDuelEffect_GuardianStarBonusConfig;
 extern const VECTOR gDuelEffect_GuardianStarBonusInitialScale;

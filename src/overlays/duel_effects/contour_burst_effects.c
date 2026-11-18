@@ -16,6 +16,8 @@
 #define EFFECT_18_RING_HEIGHT 98
 #endif
 
+const VECTOR gDuelEffect_ParticleContourBurstInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunParticleContourBurst(void *buffer, s32 phase)
 {
     MATRIX world;
@@ -138,6 +140,8 @@ void DuelEffect_RunParticleContourBurst(void *buffer, s32 phase)
         }
     }
 }
+
+const VECTOR gDuelEffect_ContourBurstInitialScale = { ONE, ONE, ONE, 0 };
 
 void DuelEffect_RunContourBurst(void *buffer, s32 phase)
 {

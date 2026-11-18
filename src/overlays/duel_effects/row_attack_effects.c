@@ -16,6 +16,8 @@
 #include "selected_cards_semantic_views.h"
 #include "../../game/duel_effect_object_pool.h"
 
+const VECTOR gDuelEffect_RowStrikeInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunRowStrike(void *buffer, s32 phase)
 {
     MATRIX world;
@@ -171,6 +173,8 @@ void DuelEffect_RunRowStrike(void *buffer, s32 phase)
         }
     }
 }
+
+const VECTOR gDuelEffect_BackRowSweepInitialScale = { ONE, ONE, ONE, 0 };
 
 void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
 {

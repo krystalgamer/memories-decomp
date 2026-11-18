@@ -15,7 +15,8 @@ Light, Exodia or gameplay reveal ownership.
 
 The complete handler and dispatcher use an extern-only semantic header.
 `gDuelEffect_ExpandingRingBurstInitialScale` binds the separate 16-byte SDK
-VECTOR at native `D_801461C8` (NA `80146210`, JP `80154220`).
+VECTOR at native `D_801461C8` (NA `80146210`, JP `80154220`), now
+`effect_19.c`'s `const` `.rodata` (#2602).
 The effect has no configuration table to invent. Its original private work
 record, 64 rotation slots, three 32-point rings and 32 particle
 position/velocity slots remain unchanged; all SDK padding and native

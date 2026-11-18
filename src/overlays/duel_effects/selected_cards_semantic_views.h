@@ -6,7 +6,7 @@
 extern void DuelEffect_RunSelectedCardOverlay(void *work, s32 phase);
 extern void DuelEffect_RunBackRowSweep(void *work, s32 phase);
 extern DuelEffect15Config gDuelEffect_SelectedCardOverlayConfigs[8];
-extern VECTOR gDuelEffect_SelectedCardOverlayInitialScale;
-extern VECTOR gDuelEffect_BackRowSweepInitialScale;
+extern const VECTOR gDuelEffect_SelectedCardOverlayInitialScale;
+extern const VECTOR gDuelEffect_BackRowSweepInitialScale;
 
 #endif

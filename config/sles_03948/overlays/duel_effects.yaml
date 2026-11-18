@@ -50,7 +50,17 @@ segments:
       - [0x24, .rodata, overlays/duel_effects/gather_effect]
       - [0x34, .rodata, overlays/duel_effects/effect_17]
       - [0x44, .rodata, overlays/duel_effects/effect_22]
-      - [0x138, rodata, overlays/french_duel_effects/header_after_effect_22_table]
+      - [0x138, .rodata, overlays/duel_effects/effect_10]
+      - [0x148, .rodata, overlays/duel_effects/effect_24]
+      - [0x158, .rodata, overlays/duel_effects/effect_21]
+      - [0x168, .rodata, overlays/duel_effects/effect_15]
+      - [0x178, .rodata, overlays/duel_effects/effect_13]
+      - [0x188, .rodata, overlays/duel_effects/effect_12]
+      - [0x198, .rodata, overlays/duel_effects/row_attack_effects]
+      - [0x1B8, .rodata, overlays/duel_effects/effect_2]
+      - [0x1C8, .rodata, overlays/duel_effects/effect_19]
+      - [0x1D8, .rodata, overlays/duel_effects/contour_burst_effects]
+      - [0x1F8, rodata, overlays/french_duel_effects/header_after_contour_burst_effects]
 
   - name: module
     type: code

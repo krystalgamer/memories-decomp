@@ -9,7 +9,7 @@ extern void DuelEffect_RunParticleContourBurst(void *work, s32 phase);
 
 extern DuelEffect0Config gDuelEffect_ContourBurstConfigs[30];
 extern DuelEffect18Config gDuelEffect_ParticleContourBurstConfigs[2];
-extern VECTOR gDuelEffect_ContourBurstInitialScale;
-extern VECTOR gDuelEffect_ParticleContourBurstInitialScale;
+extern const VECTOR gDuelEffect_ContourBurstInitialScale;
+extern const VECTOR gDuelEffect_ParticleContourBurstInitialScale;
 
 #endif

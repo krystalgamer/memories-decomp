@@ -30,14 +30,14 @@ keeps `80154688`; every complete owner is `4A8` bytes.
 `D_8015B0B4` owner (NA `8015B180`, JP `80169140`, PAL `8015B0B4`).
 `gDuelEffect_ContourBurstInitialScale` binds the existing 16-byte SDK
 VECTOR `D_801461E8` (NA `80146230`, JP `80154240`, PAL `801461E8`).
-Its role is the entry copy to local scale, not a new padding or
-identity-value contract. The semantic header reuses the original private
+Its role is the entry copy to local scale; `contour_burst_effects.c` now
+defines it as `const` `.rodata` after the particle contour burst's (#2602). The semantic header reuses the original private
 types and retains the original native function compatibility declaration.
 
 Preserve all 30 records, the unaligned color, delay/request-field handshake,
 full matrix copies, SDK rotation-store order, frame-step accumulation and
-the phase-at-least-30 cross fallback. Names introduce no storage, const
-qualification, image identity or exclusive gameplay ownership.
+the phase-at-least-30 cross fallback. Names introduce no image identity or
+exclusive gameplay ownership.
 
 ## Independently recovered layout
 

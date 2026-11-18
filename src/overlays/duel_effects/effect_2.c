@@ -12,6 +12,8 @@
 #include "fusion_attack_semantic_views.h"
 #include "../../game/duel_effect_object_pool.h"
 
+const VECTOR gDuelEffect_AttackSlashInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunAttackSlash(void *buffer, s32 phase, s16 number)
 {
     MATRIX world;

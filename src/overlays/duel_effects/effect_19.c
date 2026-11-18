@@ -8,6 +8,8 @@
 #include "card_flash_semantic_views.h"
 #include "../../game/duel_effect_object_pool.h"
 
+const VECTOR gDuelEffect_ExpandingRingBurstInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunExpandingRingBurst(void *buffer, s32 phase)
 {
     MATRIX world;
