@@ -304,7 +304,7 @@ s32 ModelVariant386_HandleRequest(Model386State *context, s32 command)
             work->phase = 4;
         }
         if (work->phase > 0) {
-            FrenchModelVariant403_DrawStrands((Strands12048State *)context);
+            FrenchModelVariant403_DrawStrands(context);
         }
         FrenchModelVariant403_DrawSheets(context);
         if (work->phase >= 5) {
