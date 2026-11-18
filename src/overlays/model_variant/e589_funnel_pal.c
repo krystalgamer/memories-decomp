@@ -1,5 +1,11 @@
 #include "../../types.h"
-#include "e589_funnel_pal.h"
+#ifdef MODEL_VARIANT425_FUNNEL
+#include "e591_entry_pal.h"
+#define FUNNEL_ENTRY_STATE EntryState425
+#else
+#include "e589_entry_pal.h"
+#define FUNNEL_ENTRY_STATE EntryState423
+#endif
 
 #ifdef MODEL_VARIANT425_FUNNEL
 #define MODEL_VARIANT_FUNNEL_RADIUS_SCALE 512
@@ -7,7 +13,7 @@
 #define MODEL_VARIANT_FUNNEL_RADIUS_SCALE 384
 #endif
 
-void FrenchModelVariant423_DrawFunnel(Funnel423State *context)
+void FrenchModelVariant423_DrawFunnel(FUNNEL_ENTRY_STATE *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -16,7 +22,7 @@ void FrenchModelVariant423_DrawFunnel(Funnel423State *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Funnel423State *state = context;
+    FUNNEL_ENTRY_STATE *state = context;
     ModelVariantSheet *sheet;
     ModelVariantFunnel *funnel;
     POLY_GT4 *quad;
@@ -39,17 +45,17 @@ void FrenchModelVariant423_DrawFunnel(Funnel423State *context)
     } while (0);
     ot = Graphics_GetDefaultOrderingTable();
     funnel = state->funnels;
-    turn = ratan2(state->direction[2], state->direction[0]);
+    turn = ratan2(state->aim.direction.vz, state->aim.direction.vx);
     yaw = turn + 0x800;
-    pitch = ratan2(state->direction[1], state->direction[2]);
-    quad = &state->quad;
+    pitch = ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    quad = &state->funnel_packet;
     pitch += 0x800;
     if (yaw < 0x800) {
         yaw = -yaw + 0x400;
     } else {
         yaw = turn + 0xC00;
     }
-    bias = ((state->frame & 1) << 5) * sheet[1].size / 4096;
+    bias = (((s32)state->clock.frame_count & 1) << 5) * sheet[1].size / 4096;
     radius = rsin(1300) * MODEL_VARIANT_FUNNEL_RADIUS_SCALE >> 12;
     height = -(bias + 512);
     for (i = 0; i < 4; i++, funnel++) {
@@ -76,11 +82,11 @@ void FrenchModelVariant423_DrawFunnel(Funnel423State *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->position[0];
-            matrix.t[1] = state->position[1] -
+            matrix.t[0] = state->aim.target.vx;
+            matrix.t[1] = state->aim.target.vy -
                           ((rcos(1300) * MODEL_VARIANT_FUNNEL_RADIUS_SCALE >> 12) +
                            (rsin(276) * MODEL_VARIANT_FUNNEL_RADIUS_SCALE >> 12));
-            matrix.t[2] = state->position[2];
+            matrix.t[2] = state->aim.target.vz;
             scale.vx = size;
             scale.vy = size_y;
             scale.vz = size;
@@ -92,19 +98,19 @@ void FrenchModelVariant423_DrawFunnel(Funnel423State *context)
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
             if (state->phase >= 5) {
-                r = state->inner_color.r * state->fade / 1024;
-                g = state->inner_color.g * state->fade / 1024;
-                b = state->inner_color.b * state->fade / 1024;
-                outer_r = state->outer_color.r * state->fade / 1024;
-                outer_g = state->outer_color.g * state->fade / 1024;
-                outer_b = state->outer_color.b * state->fade / 1024;
+                r = state->inner.r * state->intensity / 1024;
+                g = state->inner.g * state->intensity / 1024;
+                b = state->inner.b * state->intensity / 1024;
+                outer_r = state->outer.r * state->intensity / 1024;
+                outer_g = state->outer.g * state->intensity / 1024;
+                outer_b = state->outer.b * state->intensity / 1024;
             } else {
-                r = state->inner_color.r;
-                g = state->inner_color.g;
-                b = state->inner_color.b;
-                outer_r = state->outer_color.r;
-                outer_g = state->outer_color.g;
-                outer_b = state->outer_color.b;
+                r = state->inner.r;
+                g = state->inner.g;
+                b = state->inner.b;
+                outer_r = state->outer.r;
+                outer_g = state->outer.g;
+                outer_b = state->outer.b;
             }
             r -= r * funnel->size / 8192;
             g -= g * funnel->size / 8192;
@@ -128,11 +134,11 @@ void FrenchModelVariant423_DrawFunnel(Funnel423State *context)
             }
         }
         if (funnel->size < 8192) {
-            funnel->size += state->step << 7;
+            funnel->size += state->clock.step << 7;
             if (funnel->size >= 8192) {
                 funnel->size -= 8192;
             }
         }
     }
-    state->spin += state->step * 80;
+    state->spin += state->clock.step * 80;
 }

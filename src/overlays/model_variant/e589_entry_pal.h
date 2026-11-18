@@ -8,7 +8,6 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
-#include "e589_funnel_pal.h"
 #include "../model_variant/model_variant.h"
 #include "e589_ribbon_pal.h"
 
@@ -62,6 +61,6 @@ void SpanishModelVariant423_DrawMesh(EntryState423 *context);
 void SpanishModelVariant423_DrawSpiral(EntryState423 *context);
 void FrenchModelVariant423_DrawRibbon(Ribbon423Work *context);
 void SpanishModelVariant423_DrawSheets(EntryState423 *context);
-void FrenchModelVariant423_DrawFunnel(Funnel423State *context);
+void FrenchModelVariant423_DrawFunnel(EntryState423 *context);
 
 #endif
