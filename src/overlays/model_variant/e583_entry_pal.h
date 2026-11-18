@@ -29,7 +29,7 @@ typedef struct {
     ModelVariantWebNarrow webs[3];
     ModelVariantShortRibbon ribbons[1];
     ModelVariantSheet sheets[2];
-    u8 rays[0x360];
+    ModelVariantOffsetRay rays[8];
     ModelVariantTripleCurtain curtains[5];
     ModelVariantColorRing spokes[4];
     ModelVariantShadedRay glows[12];
@@ -52,7 +52,7 @@ typedef struct {
     s16 spiral_angle, field_2152, spiral_size, spiral_shrink;
     s32 width, tube_progress, tube_angle;
     s16 field_2164, field_2166, progress, ribbon_width;
-    s32 field_216C;
+    s32 ray_angle;
     s32 phase;
     s32 spiral_state;
     u8 unknown_2178[8];
