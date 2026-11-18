@@ -65,7 +65,7 @@ s16 gModel_sTextureTintRectH;
 s16 gModel_wViewDistance;
 s16 gModel_wViewYaw;
 s16 gModel_wViewPitch;
-ModelBytes8 gModel_ViewSnapshot;
+ModelViewSnapshot gModel_ViewSnapshot;
 #ifndef VERSION_JAPAN
 /* The Japanese block has no slot model ids or debug slot flags. */
 s16 gModel_awSlotModelIds[3];
@@ -508,8 +508,8 @@ void Model_UpdateBackgroundScroll(s32 force)
     s32 background_offset_y;
     s32 texture_width;
 
-    yaw_delta = gModel_wViewYaw - *(s16 *)&gModel_ViewSnapshot.bytes[2];
-    pitch_delta = gModel_wViewPitch - *(s16 *)&gModel_ViewSnapshot.bytes[4];
+    yaw_delta = gModel_wViewYaw - gModel_ViewSnapshot.view.yaw;
+    pitch_delta = gModel_wViewPitch - gModel_ViewSnapshot.view.pitch;
     if (__builtin_abs(yaw_delta) >= 0x801) {
         if (yaw_delta > 0) {
             yaw_delta -= MODEL_ANGLE_FULL_TURN;
@@ -564,7 +564,7 @@ void Model_UpdateBackgroundScroll(s32 force)
         }
         gModel_wBackgroundOffsetY = background_offset_y;
     }
-    gModel_ViewSnapshot = *(ModelBytes8 *)&gModel_wViewDistance;
+    gModel_ViewSnapshot.block = *(ModelBytes8 *)&gModel_wViewDistance;
 }
 
 #include "model_effect_handlers.h"
@@ -1893,6 +1893,7 @@ void Model_PlaySlotAnimationSounds(s32 index) {
 #else
             s32 trace_star;
             s32 trace_command;
+            volatile u16 *traced_position;
 
             sound_position_step = slot->playback_speed * Model_GetFrameStep();
             trace_star = slot->guardian_star_selection;
@@ -1902,7 +1903,8 @@ void Model_PlaySlotAnimationSounds(s32 index) {
             animation_row = slot->guardian_star_selection + 3;
             /* Retail loads animation_sound_position again after the store above; read
                plainly, GCC reuses the value it just stored instead. */
-            sprintf(trace_text, gModel_szAnimationSoundTraceFormat, trace_command / 1000, trace_command % 1000, *(volatile u16 *)&slot->animation_sound_position >> 4);
+            traced_position = &slot->animation_sound_position;
+            sprintf(trace_text, gModel_szAnimationSoundTraceFormat, trace_command / 1000, trace_command % 1000, *traced_position >> 4);
             FntPrint(trace_text);
 #endif
         }
@@ -2871,7 +2873,7 @@ void Model_ResetSceneView(void)
         camera_coordinate->flg = 0;
     }
     gModel_SavedRefView = gModel_RView;
-    gModel_ViewSnapshot = *(ModelBytes8 *)&gModel_wViewDistance;
+    gModel_ViewSnapshot.block = *(ModelBytes8 *)&gModel_wViewDistance;
     Model_UpdateBackgroundScroll(1);
     {
         int camera_hold_state = Model_GetCameraHoldState();
@@ -2982,13 +2984,15 @@ s32 ModelDebug_UpdateController(void)
         }
         if (gModel_aSlots[2].is_active) {
             ModelSlot *stage = gModel_aSlots;
+            s16 *height_field;
             s32 height;
 
             stage += 2;
             /* A natural member store moves the stage-pointer load across it;
-               the u16 member view preserves the original ordering. */
-            *(u16 *)&D_8009B004.fields.height =
-                gModel_pBackgroundRecord->stage_height;
+               a store through a pointer to the member preserves the original
+               ordering. */
+            height_field = &D_8009B004.fields.height;
+            *height_field = gModel_pBackgroundRecord->stage_height;
             height = D_8009B004.fields.height;
             if (stage->root_coordinate) {
                 stage->root_coordinate->rot.vx = 0;
@@ -3094,11 +3098,11 @@ s32 ModelDebug_UpdateController(void)
         }
     } else if (gInput_awPadRepeat[0] & 0x5000) {
         s32 side = gModelDebug_bSelectedDigit >= 3u;
-        u16 *number = (u16 *)&gModel_awSlotModelIds[side];
+        s16 *number = &gModel_awSlotModelIds[side];
         s32 digits[3] = {
-            (u16)((u16)(*number / 100u) % 10u),
-            (u16)((u16)(*number / 10u) % 10u),
-            (u16)(*number % 10u)
+            (u16)((u16)((u16)*number / 100u) % 10u),
+            (u16)((u16)((u16)*number / 10u) % 10u),
+            (u16)((u16)*number % 10u)
         };
 
         if (gInput_awPadRepeat[0] & 0x1000) {
@@ -5431,12 +5435,13 @@ void Model_GetSlotDimensionsWithMinimums(s32 idx, ModelEffectAdjustment *out) {
  * derivation: the horizontal distance and the yaw both take vp - vr in x
  * and z, and the pitch takes the y pair against that distance.
  *
- * They are read as *(s32 *)&view->vpx rather than view->vpx, and that is
- * measured. The plain member reads keep the instruction count at 226 but
- * rename registers across the whole function. Taking each member's address
- * keeps every read a scalar reference, as the old (m + offset) casts were,
- * and builds byte-identically. It is the same device
- * the two DisplayObject_Render*GouraudQuadList functions use; they too store to
+ * They are read through long pointers to the six members rather than as
+ * view->vpx, and that is measured. The plain member reads keep the
+ * instruction count at 226 but rename registers across the whole function.
+ * Reading through each member's address keeps every read a scalar
+ * reference, as the old (m + offset) casts were, and builds
+ * byte-identically. It is the same device the two
+ * DisplayObject_Render*GouraudQuadList functions use; they too store to
  * fixed addresses between the reads.
  */
 #include "model_view_coordinate_helpers.h"
@@ -5444,6 +5449,12 @@ void Model_GetSlotDimensionsWithMinimums(s32 idx, ModelEffectAdjustment *out) {
 void Model_UpdateViewMetrics(GsRVIEW2 *m) {
     GsRVIEW2 *cached_view;
     GsRVIEW2 *selected_view;
+    long *vpx;
+    long *vpy;
+    long *vpz;
+    long *vrx;
+    long *vry;
+    long *vrz;
 
     cached_view = &gModel_RView;
     if (m == 0) {
@@ -5452,16 +5463,22 @@ void Model_UpdateViewMetrics(GsRVIEW2 *m) {
         gModel_RView = *m;
     }
     selected_view = m;
+    vpx = &selected_view->vpx;
+    vpy = &selected_view->vpy;
+    vpz = &selected_view->vpz;
+    vrx = &selected_view->vrx;
+    vry = &selected_view->vry;
+    vrz = &selected_view->vrz;
 
-    gModel_wViewDistance = SquareRoot0((*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) * (*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) + (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz) * (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz));
+    gModel_wViewDistance = SquareRoot0((*vpx - *vrx) * (*vpx - *vrx) + (*vpz - *vrz) * (*vpz - *vrz));
 
-    gModel_wViewYaw = ratan2(*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz,
-                        *(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx);
+    gModel_wViewYaw = ratan2(*vpz - *vrz,
+                        *vpx - *vrx);
 
-    gModel_wViewPitch = ratan2(*(s32 *)&selected_view->vpy - *(s32 *)&selected_view->vry,
+    gModel_wViewPitch = ratan2(*vpy - *vry,
                         gModel_wViewDistance);
 
-    gModel_wViewDistance = SquareRoot0((*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) * (*(s32 *)&selected_view->vpx - *(s32 *)&selected_view->vrx) + (*(s32 *)&selected_view->vpy - *(s32 *)&selected_view->vry) * (*(s32 *)&selected_view->vpy - *(s32 *)&selected_view->vry) + (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz) * (*(s32 *)&selected_view->vpz - *(s32 *)&selected_view->vrz));
+    gModel_wViewDistance = SquareRoot0((*vpx - *vrx) * (*vpx - *vrx) + (*vpy - *vry) * (*vpy - *vry) + (*vpz - *vrz) * (*vpz - *vrz));
 
     gModel_wViewYaw = (gModel_wViewYaw + MODEL_ANGLE_FULL_TURN) %
         MODEL_ANGLE_FULL_TURN;
@@ -5476,17 +5493,16 @@ static __inline__ void setup_rotation(
     GsCOORDUNIT *unit
 )
 {
+    volatile ModelSlot *slots = gModel_aSlots;
+
     source->vy = turn - gModel_wViewYaw;
     source->vz = gModel_wViewPitch;
     *copy = *source;
 
     unit->flg = 0;
-    unit->rot.vx =
-        turn - ((volatile ModelSlot *)gModel_aSlots)->root_coordinate->rot.vx;
-    unit->rot.vy =
-        turn - ((volatile ModelSlot *)gModel_aSlots)->root_coordinate->rot.vy;
-    unit->rot.vz =
-        turn - (u16)((volatile ModelSlot *)gModel_aSlots)->root_coordinate->rot.vz;
+    unit->rot.vx = turn - slots->root_coordinate->rot.vx;
+    unit->rot.vy = turn - slots->root_coordinate->rot.vy;
+    unit->rot.vz = turn - (u16)slots->root_coordinate->rot.vz;
     RotMatrixZXY(&unit->rot, &unit->matrix);
 }
 

@@ -637,7 +637,10 @@ cache state during partial reset.
 
 The unrelated French `Variant393EntryState` fields at coincident
 offsets remain unchanged, including its source, header and fixture.
-No guessed owner-block type, SDK declaration, G32 marker, profile,
+The owner walk reads the libhmd primitive-block chain through
+`ModelHmdPrimitiveBlock` (model_slot_setup.h): next block, header-section
+pointer, type count, and the category byte of the first type word. No SDK
+declaration, G32 marker, profile,
 source grouping, request order or existing test oracle is changed.
 
 ### Timed model-tint requests

@@ -76,8 +76,9 @@ Keep all ten rows, 58 parts, eight mask bytes and existing store order,
 including the casted pointer clears before the null owner-chain return.
 
 owner and kind2_payload/kind3_payload name only the existing mapped
-owner-chain selection: enabled records test +8, use kind byte +0xF
-and fetch the payload at +4. The last matching enabled owner still wins.
+owner-chain selection, read through `ModelHmdPrimitiveBlock`: enabled
+records test `type_count` (+8), use the `category` byte (+0xF) and fetch
+the `header` payload (+4). The last matching enabled owner still wins.
 Keep the null initial chain return and -1 chain terminator as distinct
 tests; no new malformed-chain or null-next handling. Both payloads
 remain independent, with their original byte advances and four final
