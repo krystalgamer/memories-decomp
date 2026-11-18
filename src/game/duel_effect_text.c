@@ -2979,7 +2979,7 @@ void Text_StartCampaignDuel(DuelEffectChannel *o)
     if ((s8)x == 0x26) gDuel_wAnimatedBattleBgmCommand = 0x72B0;
     gDuel_bPostDuelMainMode = 2;
     gDuel_bResumeFromAnimatedBattle = 0;
-    gMain_bActiveModeState = 3;
+    gMain_bActiveModeState = MAIN_MODE_DUEL;
 }
 
 /* Seven contiguous duel-effect command handlers from DuelEffect_PlayBgmCommand
@@ -3082,7 +3082,7 @@ void Text_OpenCampaignMap(DuelEffectChannel *object)
 {
     u8 **stream = &object->streams[object->stream_index];
     u8 value = *(*stream)++;
-    gMain_bActiveModeState = 5;
+    gMain_bActiveModeState = MAIN_MODE_CAMPAIGN_MAP;
     gCampaignMap_bEntryLocation = value;
 }
 

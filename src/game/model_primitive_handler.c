@@ -161,93 +161,93 @@ void *Model_GetPrimitiveHandler(u32 primitive_code) {
         switch (plain_type) {
         case 0:
             return GsU_00000000;
-        case 9:
+        case GsUFT3:
             return Model_DrawFt3Primitives;
-        case 0xD:
+        case GsUGT3:
             return Model_DrawGt3Primitives;
-        case 0x11:
+        case GsUFT4:
             return Model_DrawFt4Primitives;
-        case 0x15:
+        case GsUGT4:
             return Model_DrawGt4Primitives;
-        case 0x209:
+        case GsUTFT3:
             return Model_DrawFt3WindowRecordPrimitives;
-        case 0x20D:
+        case GsUTGT3:
             return Model_DrawGt3WindowRecordPrimitives;
-        case 0x211:
+        case GsUTFT4:
             return Model_DrawFt4WindowRecordPrimitives;
-        case 0x215:
+        case GsUTGT4:
             return Model_DrawGt4WindowRecordPrimitives;
         }
         break;
     case 0x20000:
         fog_type = primitive_code & 0xFFFF;
         switch (fog_type) {
-        case 0xD:
+        case GsUGT3:
             return Model_DrawFogTexturedTriangles;
-        case 0x15:
+        case GsUGT4:
             return Model_DrawFogTexturedQuads;
         }
         break;
     case 0x100000:
         two_sided_type = primitive_code & 0xFFFF;
         switch (two_sided_type) {
-        case 9:
+        case GsUFT3:
             return Model_DrawTwoSidedFt3Primitives;
-        case 0xD:
+        case GsUGT3:
             return Model_DrawTwoSidedGt3Primitives;
-        case 0x11:
+        case GsUFT4:
             return Model_DrawTwoSidedFt4Primitives;
-        case 0x15:
+        case GsUGT4:
             return Model_DrawTwoSidedGt4Primitives;
-        case 0x209:
+        case GsUTFT3:
             return Model_DrawTwoSidedFt3WindowRecordPrimitives;
-        case 0x20D:
+        case GsUTGT3:
             return Model_DrawTwoSidedGt3WindowRecordPrimitives;
-        case 0x211:
+        case GsUTFT4:
             return Model_DrawTwoSidedFt4WindowRecordPrimitives;
-        case 0x215:
+        case GsUTGT4:
             return Model_DrawTwoSidedGt4WindowRecordPrimitives;
         }
         break;
     case 0x200000:
         semi_type = primitive_code & 0xFFFF;
         switch (semi_type) {
-        case 9:
+        case GsUFT3:
             return Model_DrawSemiFt3Primitives;
-        case 0xD:
+        case GsUGT3:
             return Model_DrawSemiGt3Primitives;
-        case 0x11:
+        case GsUFT4:
             return Model_DrawSemiFt4Primitives;
-        case 0x15:
+        case GsUGT4:
             return Model_DrawSemiGt4Primitives;
-        case 0x209:
+        case GsUTFT3:
             return Model_DrawSemiFt3WindowRecordPrimitives;
-        case 0x20D:
+        case GsUTGT3:
             return Model_DrawSemiGt3WindowRecordPrimitives;
-        case 0x211:
+        case GsUTFT4:
             return Model_DrawSemiFt4WindowRecordPrimitives;
-        case 0x215:
+        case GsUTGT4:
             return Model_DrawSemiGt4WindowRecordPrimitives;
         }
         break;
     case 0x300000:
         two_sided_semi_type = primitive_code & 0xFFFF;
         switch (two_sided_semi_type) {
-        case 9:
+        case GsUFT3:
             return Model_DrawTwoSidedSemiFt3Primitives;
-        case 0xD:
+        case GsUGT3:
             return Model_DrawTwoSidedSemiGt3Primitives;
-        case 0x11:
+        case GsUFT4:
             return Model_DrawTwoSidedSemiFt4Primitives;
-        case 0x15:
+        case GsUGT4:
             return Model_DrawTwoSidedSemiGt4Primitives;
-        case 0x209:
+        case GsUTFT3:
             return Model_DrawTwoSidedSemiFt3WindowRecordPrimitives;
-        case 0x20D:
+        case GsUTGT3:
             return Model_DrawTwoSidedSemiGt3WindowRecordPrimitives;
-        case 0x211:
+        case GsUTFT4:
             return Model_DrawTwoSidedSemiFt4WindowRecordPrimitives;
-        case 0x215:
+        case GsUTGT4:
             return Model_DrawTwoSidedSemiGt4WindowRecordPrimitives;
         }
         break;
@@ -275,52 +275,52 @@ s32 Model_GetSharedPrimitiveHandler(s32 primitive_code) {
         switch (primitive_type) {
         case 0x0:
             return (s32)Model_PrepareSharedPrimitiveCaches;
-        case 0xD:
+        case GsUGT3:
             return (s32)Model_DrawSharedGt3Primitives;
-        case 0x15:
+        case GsUGT4:
             return (s32)Model_DrawSharedGt4Primitives;
-        case 0x20D:
+        case GsUTGT3:
             return (s32)Model_DrawSharedGt3WindowRecordPrimitives;
-        case 0x215:
+        case GsUTGT4:
             return (s32)Model_DrawSharedGt4WindowRecordPrimitives;
         }
         break;
     case 0x1100000:
         primitive_type = primitive_code & 0xFFFF;
         switch (primitive_type) {
-        case 0xD:
+        case GsUGT3:
             return (s32)Model_DrawSharedTwoSidedGt3Primitives;
-        case 0x15:
+        case GsUGT4:
             return (s32)Model_DrawSharedTwoSidedGt4Primitives;
-        case 0x20D:
+        case GsUTGT3:
             return (s32)Model_DrawSharedTwoSidedGt3WindowRecordPrimitives;
-        case 0x215:
+        case GsUTGT4:
             return (s32)Model_DrawSharedTwoSidedGt4WindowRecordPrimitives;
         }
         break;
     case 0x1200000:
         primitive_type = primitive_code & 0xFFFF;
         switch (primitive_type) {
-        case 0xD:
+        case GsUGT3:
             return (s32)Model_DrawSharedSemiGt3Primitives;
-        case 0x15:
+        case GsUGT4:
             return (s32)Model_DrawSharedSemiGt4Primitives;
-        case 0x20D:
+        case GsUTGT3:
             return (s32)Model_DrawSharedSemiGt3WindowRecordPrimitives;
-        case 0x215:
+        case GsUTGT4:
             return (s32)Model_DrawSharedSemiGt4WindowRecordPrimitives;
         }
         break;
     case 0x1300000:
         primitive_type = primitive_code & 0xFFFF;
         switch (primitive_type) {
-        case 0xD:
+        case GsUGT3:
             return (s32)Model_DrawSharedTwoSidedSemiGt3Primitives;
-        case 0x15:
+        case GsUGT4:
             return (s32)Model_DrawSharedTwoSidedSemiGt4Primitives;
-        case 0x20D:
+        case GsUTGT3:
             return (s32)Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives;
-        case 0x215:
+        case GsUTGT4:
             return (s32)Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives;
         }
         break;

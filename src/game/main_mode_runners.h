@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MAIN_MODE_RUNNERS_H
 #include "../types.h"
 #include "../ygo_types.h"
+#include "main_modes.h"
 
 void Main_ResetFrontendRuntime(void);
 

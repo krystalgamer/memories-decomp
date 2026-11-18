@@ -29,6 +29,36 @@
     (AI_SLOT_OWN_HAND_FIRST + AI_ACTIVE_CARD_SIDE_SLOT_STRIDE)
 #define AI_SLOT_ROW_LAST(first) ((first) + AI_ACTIVE_CARD_ROW_SLOT_COUNT - 1)
 
+/* The zone operand of the CountCards, FindFirstCard, FindCard and MatchType
+   instructions, decoded by Ai_GetCardRange (notes/ai-scripts.md). "Own" is
+   the AI's side and "opponent" the player's; the _UNUSED zones skip cards
+   flagged DUEL_CARD_FLAG_USED_THIS_TURN. */
+enum {
+    AI_ZONE_OWN_MONSTERS = 0,
+    AI_ZONE_OWN_MONSTERS_UNUSED = 1,
+    AI_ZONE_OWN_SPELLS = 2,
+    AI_ZONE_OWN_SPELLS_UNUSED = 3,
+    AI_ZONE_OWN_HAND = 4,
+    AI_ZONE_OPPONENT_MONSTERS = 5,
+    AI_ZONE_OPPONENT_MONSTERS_UNUSED = 6,
+    AI_ZONE_OPPONENT_SPELLS = 7,
+    AI_ZONE_OPPONENT_SPELLS_UNUSED = 8,
+    AI_ZONE_OPPONENT_HAND = 9
+};
+
+/* The zone operand of FindStrongest and FindWeakest, decoded by
+   Ai_GetWinningCardRange: a different encoding from AI_ZONE_*. The two
+   opponent-monster filters also skip defence- or attack-position cards. */
+enum {
+    AI_STAT_ZONE_OWN_MONSTERS = 0,
+    AI_STAT_ZONE_OWN_MONSTERS_UNUSED = 1,
+    AI_STAT_ZONE_OWN_HAND = 2,
+    AI_STAT_ZONE_OPPONENT_MONSTERS = 3,
+    AI_STAT_ZONE_OPPONENT_ATTACKERS_UNUSED = 4,
+    AI_STAT_ZONE_OPPONENT_DEFENDERS_UNUSED = 5,
+    AI_STAT_ZONE_OPPONENT_HAND = 6
+};
+
 /* Card-state query results and the matching FindFirstCard operand domain. */
 #define AI_CARD_STATE_EMPTY 0
 #define AI_CARD_STATE_FACE_UP 1

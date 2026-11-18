@@ -217,22 +217,22 @@ void Ai_GetWinningCardRange(s32 kind, s32 *low, s32 *high)
     s32 value;
 
     switch (kind) {
-    case 0:
-    case 1:
+    case AI_STAT_ZONE_OWN_MONSTERS:
+    case AI_STAT_ZONE_OWN_MONSTERS_UNUSED:
         *low = AI_SLOT_OWN_MONSTER_FIRST;
         value = AI_SLOT_ROW_LAST(AI_SLOT_OWN_MONSTER_FIRST);
         break;
-    case 2:
+    case AI_STAT_ZONE_OWN_HAND:
         *low = AI_SLOT_OWN_HAND_FIRST;
         value = Ai_GetHandSearchCount() + AI_SLOT_OWN_HAND_FIRST - 1;
         break;
-    case 3:
-    case 4:
-    case 5:
+    case AI_STAT_ZONE_OPPONENT_MONSTERS:
+    case AI_STAT_ZONE_OPPONENT_ATTACKERS_UNUSED:
+    case AI_STAT_ZONE_OPPONENT_DEFENDERS_UNUSED:
         *low = AI_SLOT_OPPONENT_MONSTER_FIRST;
         value = AI_SLOT_ROW_LAST(AI_SLOT_OPPONENT_MONSTER_FIRST);
         break;
-    case 6:
+    case AI_STAT_ZONE_OPPONENT_HAND:
         *low = AI_SLOT_OPPONENT_HAND_FIRST;
         value = AI_SLOT_ROW_LAST(AI_SLOT_OPPONENT_HAND_FIRST);
         break;
@@ -248,31 +248,31 @@ void Ai_GetCardRange(s32 kind, s32 *low, s32 *high)
     s32 value;
 
     switch (kind) {
-    case 0:
-    case 1:
+    case AI_ZONE_OWN_MONSTERS:
+    case AI_ZONE_OWN_MONSTERS_UNUSED:
         *low = AI_SLOT_OWN_MONSTER_FIRST;
         value = AI_SLOT_ROW_LAST(AI_SLOT_OWN_MONSTER_FIRST);
         break;
-    case 2:
-    case 3:
+    case AI_ZONE_OWN_SPELLS:
+    case AI_ZONE_OWN_SPELLS_UNUSED:
         *low = AI_SLOT_OWN_SPELL_FIRST;
         value = AI_SLOT_ROW_LAST(AI_SLOT_OWN_SPELL_FIRST);
         break;
-    case 4:
+    case AI_ZONE_OWN_HAND:
         *low = AI_SLOT_OWN_HAND_FIRST;
         value = Ai_GetHandSearchCount() + AI_SLOT_OWN_HAND_FIRST - 1;
         break;
-    case 5:
-    case 6:
+    case AI_ZONE_OPPONENT_MONSTERS:
+    case AI_ZONE_OPPONENT_MONSTERS_UNUSED:
         *low = AI_SLOT_OPPONENT_MONSTER_FIRST;
         value = AI_SLOT_ROW_LAST(AI_SLOT_OPPONENT_MONSTER_FIRST);
         break;
-    case 7:
-    case 8:
+    case AI_ZONE_OPPONENT_SPELLS:
+    case AI_ZONE_OPPONENT_SPELLS_UNUSED:
         *low = AI_SLOT_OPPONENT_SPELL_FIRST;
         value = AI_SLOT_ROW_LAST(AI_SLOT_OPPONENT_SPELL_FIRST);
         break;
-    case 9:
+    case AI_ZONE_OPPONENT_HAND:
         *low = AI_SLOT_OPPONENT_HAND_FIRST;
         value = AI_SLOT_ROW_LAST(AI_SLOT_OPPONENT_HAND_FIRST);
         break;
@@ -785,24 +785,27 @@ void AiScript_FindStrongest(void)
         if (gDuel_aActiveCards[i].card_id == 0) {
             continue;
         }
-        if (type == 1 || type == 4 || type == 5) {
+        if (type == AI_STAT_ZONE_OWN_MONSTERS_UNUSED ||
+            type == AI_STAT_ZONE_OPPONENT_ATTACKERS_UNUSED ||
+            type == AI_STAT_ZONE_OPPONENT_DEFENDERS_UNUSED) {
             if (gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
                 continue;
             }
         }
-        if (type == 4) {
+        if (type == AI_STAT_ZONE_OPPONENT_ATTACKERS_UNUSED) {
             if (gDuel_aActiveCards[i].flags &
                 DUEL_CARD_FLAG_DEFENSE_POSITION) {
                 continue;
             }
         }
-        if (type == 5) {
+        if (type == AI_STAT_ZONE_OPPONENT_DEFENDERS_UNUSED) {
             if (!(gDuel_aActiveCards[i].flags &
                   DUEL_CARD_FLAG_DEFENSE_POSITION)) {
                 continue;
             }
         }
-        if (type >= 3 && type <= 5) {
+        if (type >= AI_STAT_ZONE_OPPONENT_MONSTERS &&
+            type <= AI_STAT_ZONE_OPPONENT_DEFENDERS_UNUSED) {
             if (gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_FACE_DOWN) {
                 if (hide_face_down == 1) {
                     continue;
@@ -873,24 +876,27 @@ void AiScript_FindWeakest(void)
         if (gDuel_aActiveCards[i].card_id == 0) {
             continue;
         }
-        if (type == 1 || type == 4 || type == 5) {
+        if (type == AI_STAT_ZONE_OWN_MONSTERS_UNUSED ||
+            type == AI_STAT_ZONE_OPPONENT_ATTACKERS_UNUSED ||
+            type == AI_STAT_ZONE_OPPONENT_DEFENDERS_UNUSED) {
             if (gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
                 continue;
             }
         }
-        if (type == 4) {
+        if (type == AI_STAT_ZONE_OPPONENT_ATTACKERS_UNUSED) {
             if (gDuel_aActiveCards[i].flags &
                 DUEL_CARD_FLAG_DEFENSE_POSITION) {
                 continue;
             }
         }
-        if (type == 5) {
+        if (type == AI_STAT_ZONE_OPPONENT_DEFENDERS_UNUSED) {
             if (!(gDuel_aActiveCards[i].flags &
                   DUEL_CARD_FLAG_DEFENSE_POSITION)) {
                 continue;
             }
         }
-        if (type >= 3 && type <= 5) {
+        if (type >= AI_STAT_ZONE_OPPONENT_MONSTERS &&
+            type <= AI_STAT_ZONE_OPPONENT_DEFENDERS_UNUSED) {
             if (gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_FACE_DOWN) {
                 if (hide_face_down == 1) {
                     continue;
@@ -1078,7 +1084,10 @@ void AiScript_CountCards(void)
     for (i = start; i <= end; i++) {
         AiActiveCard *entry = &gDuel_aActiveCards[i];
         if (entry->card_id != 0) {
-            if (type == 1 || type == 3 || type == 6 || type == 8) {
+            if (type == AI_ZONE_OWN_MONSTERS_UNUSED ||
+                type == AI_ZONE_OWN_SPELLS_UNUSED ||
+                type == AI_ZONE_OPPONENT_MONSTERS_UNUSED ||
+                type == AI_ZONE_OPPONENT_SPELLS_UNUSED) {
                 if (!(entry->flags & DUEL_CARD_FLAG_USED_THIS_TURN)) {
                     count++;
                 }
@@ -1120,7 +1129,10 @@ void AiScript_FindFirstCard(void)
     Ai_GetCardRange(type, &start, &end);
 
     for (i = start; i <= end; i++) {
-        if (type == 1 || type == 3 || type == 6 || type == 8) {
+        if (type == AI_ZONE_OWN_MONSTERS_UNUSED ||
+            type == AI_ZONE_OWN_SPELLS_UNUSED ||
+            type == AI_ZONE_OPPONENT_MONSTERS_UNUSED ||
+            type == AI_ZONE_OPPONENT_SPELLS_UNUSED) {
             if (gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
                 continue;
             }
@@ -1184,7 +1196,10 @@ void AiScript_FindCard(void)
         if (gDuel_aActiveCards[i].card_id != wanted) {
             continue;
         }
-        if (type == 1 || type == 3 || type == 6 || type == 8) {
+        if (type == AI_ZONE_OWN_MONSTERS_UNUSED ||
+            type == AI_ZONE_OWN_SPELLS_UNUSED ||
+            type == AI_ZONE_OPPONENT_MONSTERS_UNUSED ||
+            type == AI_ZONE_OPPONENT_SPELLS_UNUSED) {
             if (gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
                 continue;
             }
@@ -1192,7 +1207,7 @@ void AiScript_FindCard(void)
         if (visible_only != 1) {
             break;
         }
-        if (type < 5) {
+        if (type < AI_ZONE_OPPONENT_MONSTERS) {
             break;
         }
         if (!(gDuel_aActiveCards[i].flags & DUEL_CARD_FLAG_FACE_DOWN)) {
@@ -1241,12 +1256,15 @@ void AiScript_MatchType(void)
             if (gDuel_aActiveCards[index].card_type != type) {
                 continue;
             }
-            if (range == one || range == 3 || range == 6 || range == 8) {
+            if (range == one ||
+                range == AI_ZONE_OWN_SPELLS_UNUSED ||
+                range == AI_ZONE_OPPONENT_MONSTERS_UNUSED ||
+                range == AI_ZONE_OPPONENT_SPELLS_UNUSED) {
                 if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_USED_THIS_TURN) != 0) {
                     continue;
                 }
             }
-            if (set == one && range >= 5) {
+            if (set == one && range >= AI_ZONE_OPPONENT_MONSTERS) {
                 if ((gDuel_aActiveCards[index].flags & DUEL_CARD_FLAG_FACE_DOWN) != 0) {
                     continue;
                 }

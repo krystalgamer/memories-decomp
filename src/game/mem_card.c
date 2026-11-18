@@ -1187,15 +1187,15 @@ void MemCardDialog_UpdateLoad(void)
             break;
         }
         switch (gMemCardDialog_SyncResult) {
-        case 0:
-        case 3:
+        case McErrNone:
+        case McErrNewCard:
             gMemCardDialog_OperationState = 2;
             break;
-        case 1:
+        case McErrCardNotExist:
             gMemCardDialog_OperationState = 5;
             break;
-        case 2:
-        case 4:
+        case McErrCardInvalid:
+        case McErrNotFormat:
             gMemCardDialog_OperationState = 6;
             break;
         }
@@ -1225,7 +1225,7 @@ void MemCardDialog_UpdateLoad(void)
             break;
         }
         switch (gMemCardDialog_SyncResult) {
-        case 0:
+        case McErrNone:
             gMemCardDialog_OperationState = 7;
             /* The cursor walks the raw card read buffer; the block just
                read into it is a sealed state. */
@@ -1240,16 +1240,16 @@ void MemCardDialog_UpdateLoad(void)
             }
             gMemCard_wDialogFlags |= 0x400;
             break;
-        case 1:
+        case McErrCardNotExist:
             gMemCardDialog_OperationState = 5;
             break;
-        case 2:
-        case 3:
+        case McErrCardInvalid:
+        case McErrNewCard:
             gMemCardDialog_OperationState = 8;
             break;
-        case 4:
+        case McErrNotFormat:
             break;
-        case 5:
+        case McErrFileNotExist:
             gMemCardDialog_OperationState = 6;
             break;
         }
@@ -1371,14 +1371,14 @@ void MemCardDialog_UpdateSave(void)
             break;
         }
         switch (gMemCardDialog_SyncResult) {
-        case 0:
-        case 3:
+        case McErrNone:
+        case McErrNewCard:
             gMemCardDialog_OperationState = 3;
             if (gMemCard_wDialogFlags & 0x100) {
                 gMemCardDialog_OperationState = 2;
             }
             break;
-        case 4:
+        case McErrNotFormat:
             gMemCardDialog_OperationState = 4;
             if (gMemCard_wDialogFlags & 0x100) {
                 break;
@@ -1388,10 +1388,10 @@ void MemCardDialog_UpdateSave(void)
             }
             gMemCardDialog_OperationState = 0xE;
             break;
-        case 1:
+        case McErrCardNotExist:
             gMemCardDialog_OperationState = 9;
             break;
-        case 2:
+        case McErrCardInvalid:
             gMemCardDialog_OperationState = 0xD;
             break;
         }
@@ -1492,16 +1492,16 @@ void MemCardDialog_UpdateSave(void)
                 break;
             }
             switch (gMemCardDialog_SyncResult) {
-            case 0:
+            case McErrNone:
                 MemCardDialog_SetMessage(0xC3, 0x18);
                 break;
-            case 3:
+            case McErrNewCard:
                 MemCardDialog_SetMessage(0xC3, 0x18);
                 break;
-            case 2:
+            case McErrCardInvalid:
                 gMemCardDialog_OperationState = 0xD;
                 break;
-            case 4:
+            case McErrNotFormat:
                 if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
                     gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
                     if (MemCardFormat(0) != 0) {
@@ -1513,7 +1513,7 @@ void MemCardDialog_UpdateSave(void)
                 }
                 gMemCardDialog_OperationState = 1;
                 break;
-            case 1:
+            case McErrCardNotExist:
                 gMemCardDialog_OperationState = 9;
                 break;
             }
@@ -1564,9 +1564,9 @@ void MemCardDialog_UpdateSave(void)
             if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
                 mode = gMemCardDialog_SyncResult;
                 gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
-                if (mode != 0) {
+                if (mode != McErrNone) {
                     gMemCardDialog_OperationState = 0xD;
-                    if (mode == 1) {
+                    if (mode == McErrCardNotExist) {
                         gMemCardDialog_OperationState = 9;
                     }
                 } else if (gSaveData_AllowIdentityBypass == 0
@@ -1611,9 +1611,9 @@ void MemCardDialog_UpdateSave(void)
             break;
         }
         status = gMemCardDialog_SyncResult;
-        if (status != 0) {
+        if (status != McErrNone) {
             gMemCardDialog_OperationState = 0xB;
-            if (status == 1) {
+            if (status == McErrCardNotExist) {
                 gMemCardDialog_OperationState = 9;
             }
             break;
@@ -1723,11 +1723,11 @@ void MemCardDialog_UpdateSave(void)
             break;
         }
         switch (gMemCardDialog_SyncResult) {
-        case 0:
-        case 3:
+        case McErrNone:
+        case McErrNewCard:
             gMemCardDialog_OperationState = 3;
             break;
-        case 4:
+        case McErrNotFormat:
             gMemCardDialog_OperationState = 4;
             if (gMemCard_wDialogFlags & 0x100) {
                 break;
@@ -1737,10 +1737,10 @@ void MemCardDialog_UpdateSave(void)
             }
             gMemCardDialog_OperationState = 0xE;
             break;
-        case 1:
+        case McErrCardNotExist:
             gMemCardDialog_OperationState = 9;
             break;
-        case 2:
+        case McErrCardInvalid:
             gMemCardDialog_OperationState = 0xD;
             break;
         }
@@ -1812,16 +1812,16 @@ void MemCardDialog_UpdateSave(void)
                 break;
             }
             switch (gMemCardDialog_SyncResult) {
-            case 0:
+            case McErrNone:
                 MemCardDialog_SetMessage(0xC3, 0x18);
                 break;
-            case 3:
+            case McErrNewCard:
                 MemCardDialog_SetMessage(0xC3, 0x18);
                 break;
-            case 2:
+            case McErrCardInvalid:
                 gMemCardDialog_OperationState = 0xD;
                 break;
-            case 4:
+            case McErrNotFormat:
                 if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
                     gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
                     if (MemCardFormat(0) != 0) {
@@ -1833,7 +1833,7 @@ void MemCardDialog_UpdateSave(void)
                 }
                 gMemCardDialog_OperationState = 1;
                 break;
-            case 1:
+            case McErrCardNotExist:
                 gMemCardDialog_OperationState = 9;
                 break;
             }
@@ -1864,9 +1864,9 @@ void MemCardDialog_UpdateSave(void)
             if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
                 mode = gMemCardDialog_SyncResult;
                 gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
-                if (mode != 0) {
+                if (mode != McErrNone) {
                     gMemCardDialog_OperationState = 0xD;
-                    if (mode == 1) {
+                    if (mode == McErrCardNotExist) {
                         gMemCardDialog_OperationState = 9;
                     }
                 } else if (gSaveData_AllowIdentityBypass == 0
@@ -1907,9 +1907,9 @@ void MemCardDialog_UpdateSave(void)
             break;
         }
         result = gMemCardDialog_SyncResult;
-        if (result != 0) {
+        if (result != McErrNone) {
             gMemCardDialog_OperationState = 0xB;
-            if (result == 1) {
+            if (result == McErrCardNotExist) {
                 gMemCardDialog_OperationState = 9;
             }
             break;
@@ -2007,21 +2007,21 @@ void MemCardDialog_UpdateTradeSave(void)
             break;
         }
         switch (gMemCardDialog_SyncResult) {
-        case 1:
+        case McErrCardNotExist:
             MemCardDialog_SetMessage(0xC1, 0x18);
             break;
-        case 0:
-        case 3:
+        case McErrNone:
+        case McErrNewCard:
             gMemCardDialog_OperationState = 1;
             gMemCardDialog_Port ^= 0x10;
             if (gMemCardDialog_Port != 0) {
                 gMemCardDialog_OperationState = 0;
             }
             break;
-        case 2:
+        case McErrCardInvalid:
             MemCardDialog_SetMessage(0xDA, 0x18);
             break;
-        case 4:
+        case McErrNotFormat:
             MemCardDialog_SetMessage(0xC3, 0x18);
             break;
         }
@@ -2058,7 +2058,7 @@ void MemCardDialog_UpdateTradeSave(void)
         }
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_CREATED) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
-            if (gMemCardDialog_SyncResult != 0) {
+            if (gMemCardDialog_SyncResult != McErrNone) {
                 MemCardDialog_SetMessage(0xDA, 0x18);
                 break;
             }
@@ -2117,7 +2117,7 @@ void MemCardDialog_UpdateTradeSave(void)
                 gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
                 break;
             case 0:
-                if (gMemCardDialog_SyncResult != 0) {
+                if (gMemCardDialog_SyncResult != McErrNone) {
                     /* Keeps loop.c from moving this exit block out of the
                        loop, so it stays a branch into the shared tail. */
                     do {

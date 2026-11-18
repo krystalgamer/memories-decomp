@@ -2905,8 +2905,8 @@ void DuelScene_UpdateExodiaResult(void)
     SD_BGMPreload(0x7310);
     Model_SetPresentationBgmCommand(0x7310);
     gDuel_bResumeFromAnimatedBattle = 1;
-    gMain_bReturnMode = 3;
-    gMain_bActiveModeState = 1;
+    gMain_bReturnMode = MAIN_MODE_DUEL;
+    gMain_bActiveModeState = MAIN_MODE_ANIMATED_BATTLE;
 }
 
 void DuelCard_CaptureRoundedTexture(DisplayObject *o)
@@ -6587,8 +6587,8 @@ void DuelScene_UpdateBattle(void)
                 }
             }
             gDuel_bResumeFromAnimatedBattle = 1;
-            gMain_bReturnMode = 3;
-            gMain_bActiveModeState = 1;
+            gMain_bReturnMode = MAIN_MODE_DUEL;
+            gMain_bActiveModeState = MAIN_MODE_ANIMATED_BATTLE;
             return;
         }
         break;
@@ -9616,7 +9616,7 @@ void Main_StartDuel(s32 side0_controller, s32 opponent_id, s32 win_scene, s32 lo
     gDuel_awCampaignSceneByOutcome[1] = loss_scene;
     gDuel_bTerrain = 0;
     gDuel_bResumeFromAnimatedBattle = 0;
-    gMain_bActiveModeState = 3;
+    gMain_bActiveModeState = MAIN_MODE_DUEL;
 }
 
 s32 DuelEffect_MarkInitialized(void)

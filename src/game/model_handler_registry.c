@@ -61,21 +61,21 @@ s32 Model_MapToWireframePrimitiveHandler(s32 handler_value) {
     case 0x200000:
     case 0x300000:
         switch (type_key & 0xFFFF) {
-        case 9:
+        case GsUFT3:
             return (s32)Model_DrawFt3Wireframes;
-        case 0x209:
+        case GsUTFT3:
             return (s32)Model_DrawFt3WindowRecordWireframes;
-        case 0x11:
+        case GsUFT4:
             return (s32)Model_DrawFt4Wireframes;
-        case 0x211:
+        case GsUTFT4:
             return (s32)Model_DrawFt4WindowRecordWireframes;
-        case 0xD:
+        case GsUGT3:
             return (s32)Model_DrawGt3Wireframes;
-        case 0x20D:
+        case GsUTGT3:
             return (s32)Model_DrawGt3WindowRecordWireframes;
-        case 0x15:
+        case GsUGT4:
             return (s32)Model_DrawGt4Wireframes;
-        case 0x215:
+        case GsUTGT4:
             return (s32)Model_DrawGt4WindowRecordWireframes;
         }
         break;
@@ -84,13 +84,13 @@ s32 Model_MapToWireframePrimitiveHandler(s32 handler_value) {
     case 0x1200000:
     case 0x1300000:
         switch (type_key & 0xFFFF) {
-        case 0xD:
+        case GsUGT3:
             return (s32)Model_DrawSharedGt3Wireframes;
-        case 0x20D:
+        case GsUTGT3:
             return (s32)Model_DrawSharedGt3WindowRecordWireframes;
-        case 0x15:
+        case GsUGT4:
             return (s32)Model_DrawSharedGt4Wireframes;
-        case 0x215:
+        case GsUTGT4:
             return (s32)Model_DrawSharedGt4WindowRecordWireframes;
         }
         break;
@@ -111,65 +111,65 @@ s32 Model_MapToBasePrimitiveHandler(s32 handler_value) {
     switch (type_family) {
     case 0x200000:
         switch (type_key & 0xFFFF) {
-        case 0x9:
+        case GsUFT3:
             return (s32)Model_DrawFt3Primitives;
-        case 0x209:
+        case GsUTFT3:
             return (s32)Model_DrawFt3WindowRecordPrimitives;
-        case 0x11:
+        case GsUFT4:
             return (s32)Model_DrawFt4Primitives;
-        case 0x211:
+        case GsUTFT4:
             return (s32)Model_DrawFt4WindowRecordPrimitives;
-        case 0xD:
+        case GsUGT3:
             return (s32)Model_DrawGt3Primitives;
-        case 0x20D:
+        case GsUTGT3:
             return (s32)Model_DrawGt3WindowRecordPrimitives;
-        case 0x15:
+        case GsUGT4:
             return (s32)Model_DrawGt4Primitives;
-        case 0x215:
+        case GsUTGT4:
             return (s32)Model_DrawGt4WindowRecordPrimitives;
         }
         break;
     case 0x300000:
         switch (type_key & 0xFFFF) {
-        case 0x9:
+        case GsUFT3:
             return (s32)Model_DrawTwoSidedFt3Primitives;
-        case 0x209:
+        case GsUTFT3:
             return (s32)Model_DrawTwoSidedFt3WindowRecordPrimitives;
-        case 0x11:
+        case GsUFT4:
             return (s32)Model_DrawTwoSidedFt4Primitives;
-        case 0x211:
+        case GsUTFT4:
             return (s32)Model_DrawTwoSidedFt4WindowRecordPrimitives;
-        case 0xD:
+        case GsUGT3:
             return (s32)Model_DrawTwoSidedGt3Primitives;
-        case 0x20D:
+        case GsUTGT3:
             return (s32)Model_DrawTwoSidedGt3WindowRecordPrimitives;
-        case 0x15:
+        case GsUGT4:
             return (s32)Model_DrawTwoSidedGt4Primitives;
-        case 0x215:
+        case GsUTGT4:
             return (s32)Model_DrawTwoSidedGt4WindowRecordPrimitives;
         }
         break;
     case 0x1200000:
         switch (type_key & 0xFFFF) {
-        case 0xD:
+        case GsUGT3:
             return (s32)Model_DrawSharedGt3Primitives;
-        case 0x20D:
+        case GsUTGT3:
             return (s32)Model_DrawSharedGt3WindowRecordPrimitives;
-        case 0x15:
+        case GsUGT4:
             return (s32)Model_DrawSharedGt4Primitives;
-        case 0x215:
+        case GsUTGT4:
             return (s32)Model_DrawSharedGt4WindowRecordPrimitives;
         }
         break;
     case 0x1300000:
         switch (type_key & 0xFFFF) {
-        case 0xD:
+        case GsUGT3:
             return (s32)Model_DrawSharedTwoSidedGt3Primitives;
-        case 0x20D:
+        case GsUTGT3:
             return (s32)Model_DrawSharedTwoSidedGt3WindowRecordPrimitives;
-        case 0x15:
+        case GsUGT4:
             return (s32)Model_DrawSharedTwoSidedGt4Primitives;
-        case 0x215:
+        case GsUTGT4:
             return (s32)Model_DrawSharedTwoSidedGt4WindowRecordPrimitives;
         }
         break;

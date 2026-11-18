@@ -489,7 +489,7 @@ void FreeDuel_UpdateScreen(void)
     } else {
         if ((gInput_awPadPressed[0] & FREE_DUEL_CANCEL_BUTTON) != 0) {
             SD_SEPlayFull(8);
-            gMain_bActiveModeState = 8;
+            gMain_bActiveModeState = MAIN_MODE_MENU;
             return;
         }
         if ((gInput_awPadPressed[0] & FREE_DUEL_CONFIRM_BUTTONS) == 0) {
@@ -502,7 +502,7 @@ void FreeDuel_UpdateScreen(void)
         }
         if ((gFreeDuel_bCursorColumn | gFreeDuel_bCursorRow) == 0) {
             BuildDeck_EnterNarrowConfirmMode();
-            gMain_bReturnMode = 6;
+            gMain_bReturnMode = MAIN_MODE_FREE_DUEL;
             gFreeDuel_bReturnFlags = 0x40;
             SD_SEPlayFull(0x30);
             return;
@@ -528,7 +528,7 @@ void FreeDuel_UpdateScreen(void)
                 gFreeDuel_bCursorColumn,
             0x6000, 0x6000);
         gDuel_bPostDuelMainMode = 6;
-        gMain_bActiveModeState = 3;
+        gMain_bActiveModeState = MAIN_MODE_DUEL;
     }
 }
 
