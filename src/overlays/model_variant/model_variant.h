@@ -679,14 +679,6 @@ typedef struct {
     DVECTOR target;
 } ModelVariantProjection;
 
-/* The pulsing companion record the lines, rays, tube and mesh helpers of
- * headers 417-459 read only for its size at + 0x88: it scales the rays,
- * widens the tube or mesh radius, or gates the lines. */
-typedef struct {
-    u8 unknown_00[0x88];
-    s32 size;
-} ModelVariantPulse;
-
 /* ModelVariantProjection with the target's projected screen point kept as
  * the packed word RotTransPers writes: the handlers split it with (u16) and
  * >> 16 to get the screen delta. */
