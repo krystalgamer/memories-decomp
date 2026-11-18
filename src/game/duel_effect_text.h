@@ -266,12 +266,6 @@ extern u16 gText_awGlyphColorMasks[];
 extern u8 gText_aGlyphRecordBitmaps[];
 extern u8 gText_aGlyphRecordKeys[];
 
-typedef struct {
-    u8 pad_00[0x5C];
-    u8 entry_range_start;
-    u8 entry_range_count;
-} JapaneseDuelEffectEntryRange;
-
 /* DuelEffect_HasActiveEntry checks the active prefix for a nonzero control
  * byte. The separate Text_CompletePageAdvance state requests clearing, then
  * tests the first configured entry's active flag on subsequent calls.
