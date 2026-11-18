@@ -120,7 +120,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     /* The 16-bit boundaries are stored modulo 256 in the compact channel. */
     range = (unsigned char *)gDuelEffect_awEntryRangeBoundaries + offset;
 #else
-    range = (unsigned short *)((unsigned char *)gDuelEffect_awEntryRangeBoundaries + offset);
+    range = &gDuelEffect_awEntryRangeBoundaries[index];
 #endif
     channel->channel_index = index;
     channel->initial_string_id = value;
@@ -440,6 +440,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[2] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x140);
     SetPolyGT4(gt4);
     SetSemiTrans(SCRATCH_ADDR(0), 1);
+    /* Retail sets the SDK packet's colour with one sw; setRGB0 stores bytes. */
     *(u32 *)&ft4->r0 = 0x808080;
     setlen(ft4, 9);
     setcode(ft4, 0x2C);
@@ -466,8 +467,6 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[0]->words.wh = 0x100008;
     sprites[0]->words.clut = obj->field_40.word;
     sprites[0]->gs.tpage = sprites[2]->gs.tpage = 0xA;
-    /* The channel's entry pointer is typed with the North American record. */
-    p = (EuropeanDuelEffectEntry *)gText_aChannels[obj->resource_root_index].entry_begin;
 #else
     sprites[0]->words.wh = 0x100010;
     sprites[1]->words.wh = 0x100010;
@@ -475,8 +474,8 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[0]->words.clut = obj->field_40.word;
     sprites[0]->gs.tpage = obj->texture_page;
     sprites[1]->gs.tpage = sprites[2]->gs.tpage = 0xB;
-    p = (JapaneseDuelEffectEntry *)gText_aChannels[obj->resource_root_index].entry_begin;
 #endif
+    p = gText_aChannels[obj->resource_root_index].entry_begin;
 
     while (1) {
         f = p->entry_flags;
@@ -683,6 +682,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 vec[4].vy = 8;
                 vec[4].vz = 0;
 #endif
+                /* The SDK prototype takes each packed screen XY as long *. */
                 if (RotAverageNclip4(&vec[1], &vec[2], &vec[3], &vec[4],
                                      (long *)&ft4->x0, (long *)&ft4->x1,
                                      (long *)&ft4->x2, (long *)&ft4->x3,
@@ -822,6 +822,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     sprites[2] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x140);
     SetPolyGT4(gt4);
     SetSemiTrans(SCRATCH_ADDR(0), 1);
+    /* Retail sets the SDK packet's colour with one sw; setRGB0 stores bytes. */
     *(u32 *)&ft4->r0 = 0x808080;
     setlen(ft4, 9);
     setcode(ft4, 0x2C);
@@ -1115,6 +1116,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
                 vec[4].vx = 8;
                 vec[4].vy = 8;
                 vec[4].vz = 0;
+                /* The SDK prototype takes each packed screen XY as long *. */
                 if (RotAverageNclip4(&vec[1], &vec[2], &vec[3], &vec[4],
                                      (long *)&ft4->x0, (long *)&ft4->x1,
                                      (long *)&ft4->x2, (long *)&ft4->x3,
@@ -1227,60 +1229,62 @@ u8 *Text_FindRecordById(s32 id) {
  * sixteen bits. Each nibble of a row selects one of sixteen pixel patterns,
  * masked to the channel's colour, and a copy shifted one pixel is ORed into
  * the row below as a shadow. */
-void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot, s16 *bitmap)
+void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot, DuelEffectGlyphRow *bitmap)
 {
     u16 *glyph;
-    u16 *lut;
+    DuelEffectGlyphRow *block;
     u16 *p;
-    u16 *row;
+    DuelEffectGlyphRow *row;
     u32 w;
     s32 v;
     s32 i;
 
     gDuelEffect_aOccupancyValues[slot] = channel->channel_index + 1;
+    /* The record's bytes and the kanji ROM address (a long) are both read
+       as rows of halfwords. */
     if (tagged_value < 0) {
         glyph = (u16 *)Text_FindRecordById(tagged_value & 0xFFFF);
     } else {
         glyph = (u16 *)Krom2RawAdd2(tagged_value & 0xFFFF);
     }
-    lut = (u16 *)SCRATCH_ADDR(0);
+    /* The scratchpad holds the sixteen nibble patterns at 0 and the
+       glyph's rows at 0x40, both addressed as raster rows. */
+    block = (DuelEffectGlyphRow *)SCRATCH_ADDR(0);
     w = gText_awGlyphColorMasks[channel->color_index_54];
-    p = lut;
+    p = block->pixels;
     for (i = 0; i < 16; i++) {
         *p++ = gText_awGlyphNibblePatterns[i] & w;
     }
-    p = lut;
-    row = (u16 *)SCRATCH_ADDR(0x40);
-    lut = (u16 *)SCRATCH_ADDR(0x40);
-    /* Retail clears the u16 pairs with sw; row[0] = 0 changes the
-       Japanese schedule. */
-    *(u32 *)&row[0] = 0;
-    *(u32 *)&row[2] = 0;
+    p = block->pixels;
+    row = (DuelEffectGlyphRow *)SCRATCH_ADDR(0x40);
+    block = (DuelEffectGlyphRow *)SCRATCH_ADDR(0x40);
+    row->words[0] = 0;
+    row->words[1] = 0;
     for (i = 15; i != 0; i--) {
         w = *glyph++;
         v = p[(w >> 4) & 0xF];
-        row[0] |= v;
-        row[4] = v & ~0x1111;
-        row[1] |= row[4] >> 12;
+        row[0].pixels[0] |= v;
+        row[1].pixels[0] = v & ~0x1111;
+        row[0].pixels[1] |= row[1].pixels[0] >> 12;
         v = p[w & 0xF];
-        row[1] |= v;
-        row[5] = v & ~0x1111;
-        row[2] |= row[5] >> 12;
+        row[0].pixels[1] |= v;
+        row[1].pixels[1] = v & ~0x1111;
+        row[0].pixels[2] |= row[1].pixels[1] >> 12;
         v = p[w >> 12];
-        row[2] |= v;
-        row[6] = v & ~0x1111;
-        row[3] |= row[6] >> 12;
+        row[0].pixels[2] |= v;
+        row[1].pixels[2] = v & ~0x1111;
+        row[0].pixels[3] |= row[1].pixels[2] >> 12;
         v = p[(w >> 8) & 0xF];
-        row[3] |= v;
-        row[7] = v & ~0x1111;
-        row += 4;
+        row[0].pixels[3] |= v;
+        row[1].pixels[3] = v & ~0x1111;
+        row++;
     }
-    row = lut;
+    row = block;
     for (i = 16; i != 0; i--) {
-        ((u32 *)bitmap)[0] = ((u32 *)row)[0];
-        ((u32 *)bitmap)[1] = ((u32 *)row)[1];
-        row += 4;
-        bitmap += 4;
+        bitmap->words[0] = row->words[0];
+        bitmap->words[1] = row->words[1];
+        row++;
+        bitmap++;
     }
 }
 #endif
@@ -1295,7 +1299,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     s32 result;
 
     flags = 0;
-    entry = (EuropeanDuelEffectEntry *)channel->entry_write_cursor;
+    entry = channel->entry_write_cursor;
     entry->owner_channel_tag = channel->channel_index + 1;
     entry->handler_state = 1;
     entry->render_mode = 0;
@@ -1353,13 +1357,13 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     }
     entry++;
     entry->entry_flags = 0;
-    channel->entry_write_cursor = (DuelEffectEntry *)entry;
+    channel->entry_write_cursor = entry;
     return result;
 }
 #else
 void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 {
-    DuelEffectEntry *q;
+    DuelEffectGlyphEntry *q;
     s16 *r;
     u16 f;
     s32 v;
@@ -1407,7 +1411,8 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
             r += p->output_count * 0x44;
         }
         q->glyph_index = v;
-        DuelEffect_RasterizeGlyph(p, a, v, r + 4);
+        /* The bitmap follows the upload RECT in the s16 scratch. */
+        DuelEffect_RasterizeGlyph(p, a, v, (DuelEffectGlyphRow *)(r + 4));
 #else
         if (f & 0x200) {
             r += p->output_count * 0x44;
@@ -1416,7 +1421,12 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
         b = p->color_index_54;
 #endif
         q->entry_flags = 0x80;
+#ifdef VERSION_JAPAN
+        q->tagged_value = a;
+#else
+        /* One sw over glyph_code and pad_02, as retail stores the tag. */
         *(s32 *)q = a;
+#endif
 #ifndef VERSION_JAPAN
         q->palette_index = b;
 #endif
@@ -1432,6 +1442,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 #endif
         r[3] = 0x10;
 #ifdef VERSION_JAPAN
+        /* The s16 upload scratch holds the RECT and then the bitmap. */
         if (p->flags_34 & 0x200) {
             LoadImage((RECT *)r, (u32 *)(r + 4));
         } else {
@@ -1444,12 +1455,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     }
     q->local_x = p->pen_x;
     q->local_y = p->pen_y;
-#ifdef VERSION_JAPAN
-    /* The channel's cursor is DuelEffectEntry *; Japan's entries are 0x18. */
-    q = (DuelEffectEntry *)((u8 *)q + 0x18);
-#else
     q++;
-#endif
     q->entry_flags = 0;
     p->entry_write_cursor = q;
 }
@@ -1993,15 +1999,13 @@ void Text_StartViewportTween(DuelEffectChannel *object)
 
     object->playback_state = 0;
     gScript_ViewportTargetX = TextStream_ReadU16LE(object);
-    /* gScript_ViewportTargetY is u16; these s16 views keep retail's
-       lh/sh and register use (plain or (s16) spellings differ). */
-    *(s16 *)&gScript_ViewportTargetY = TextStream_ReadU16LE(object);
+    gScript_ViewportTargetY = TextStream_ReadU16LE(object);
     gScript_SharedOperand = TextStream_ReadU16LE(object);
 
-    signed_value = *(s16 *)&gScript_ViewportTargetY;
-    raw_value = (u16)*(s16 *)&gScript_ViewportTargetY;
+    signed_value = gScript_ViewportTargetY;
+    raw_value = (u16)gScript_ViewportTargetY;
     if (signed_value >= 0x1000) {
-        *(s16 *)&gScript_ViewportTargetY = raw_value - 0x1000;
+        gScript_ViewportTargetY = raw_value - 0x1000;
         object->playback_state = 10;
     }
 
@@ -2160,10 +2164,9 @@ void Text_WaitWithViewportShake(DuelEffectChannel *object)
         gText_ShakeViewportOrigin[1] = gGraphics_sViewportY;
     }
     if (gGraphics_dwSyncedFrameCount & 1) {
-        /* u16 views of the s16 viewport keep retail's register allocation. */
-        /* u16 stores: a plain s16 store schedules the origin load first. */
-        *(u16 *)&gGraphics_sViewportX = gText_ShakeViewportOrigin[0] + ((rand() & 7) - 4);
-        *(u16 *)&gGraphics_sViewportY = gText_ShakeViewportOrigin[1] + ((rand() & 3) - 2);
+        /* The u16 truncation keeps retail's offset-then-add order. */
+        gGraphics_sViewportX = (u16)(gText_ShakeViewportOrigin[0] + ((rand() & 7) - 4));
+        gGraphics_sViewportY = (u16)(gText_ShakeViewportOrigin[1] + ((rand() & 3) - 2));
     }
     gText_WaitCounter--;
     if (gText_WaitCounter == 0) {
@@ -2228,7 +2231,7 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
 
 /* Small global another unit owns, declared here as a common symbol the
  * way the original read it through $gp. */
-void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
+void (*gText_ChoiceLayoutCallback)(DuelEffectChannel *object);
 
 s32 TextBox_WrapLineIfNeeded(DuelEffectChannel *object) {
     if ((s16)object->pen_x >= object->rect_width) {
@@ -2243,8 +2246,11 @@ s32 TextBox_WrapLineIfNeeded(DuelEffectChannel *object) {
     return 0;
 }
 
-void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object)
+void Text_TryCompleteChoiceLayout(DuelEffectChannel *channel)
 {
+    /* Every access but the flags store is volatile, which keeps retail's
+       access order; the plain store fills the branch delay slot. */
+    volatile DuelEffectChannel *object = channel;
     u32 flags;
     u8 control;
 
@@ -2256,7 +2262,7 @@ void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object)
         gText_ChoiceLayoutCallback = 0;
         flags &= 0xEFFF;
         control &= DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
-        ((DuelEffectChannel *)object)->flags_34 = flags;
+        channel->flags_34 = flags;
         if (control != 0)
             gDialog_bChoiceCount = 2;
     }
@@ -2336,22 +2342,16 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     s32 op;
     s32 id;
     s32 n;
-    u8 *text;
+    /* One register for the index, slot and string, as in retail. */
+    TextStreamSlotCursor text;
     u8 *current;
 
-    /* The slot address shares `text`'s register: a u8 ** local swaps the
-       two registers around the cursor load. */
-    text = (u8 *)(s32)object->stream_index;
-    text = (u8 *)((u32)text * 4);
-    {
-        u8 *stream = (u8 *)object;
-
-        stream += (u32)text;
-        text = stream;
-        current = *(u8 **)text;
-        op = *current++;
-        *(u8 **)text = current;
-    }
+    text.index = object->stream_index;
+    text.index *= sizeof(object->streams[0]);
+    text.string = (u8 *)object->streams + text.index;
+    current = *text.slot;
+    op = *current++;
+    *text.slot = current;
     if (op & 0x10) {
         object->color_index_54 = gText_SelectedCardColorIndex;
         return;
@@ -2390,16 +2390,16 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         object->stream_index++;
         n = id;
         if (id & TEXT_GLOBAL_STRING_ID_BASE) {
-            text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
+            text.string = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) |
                           gText_GlobalStringOffsets[id & (TEXT_GLOBAL_STRING_ID_BASE - 1)]);
         } else {
             if (id >= 0x500) {
                 n = id - 0x100;
             }
-            text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) |
+            text.string = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) |
                           gText_PrimaryStringOffsets[n]);
         }
-        object->streams[object->stream_index] = text;
+        object->streams[object->stream_index] = text.string;
         return;
     }
     object->flags_34 |= 0x80;
@@ -2416,22 +2416,16 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
 {
     s32 op;
     s32 id;
-    u8 *text;
+    /* One register for the index, slot and string, as in retail. */
+    TextStreamSlotCursor text;
     u8 *current;
 
-    /* The slot address shares `text`'s register: a u8 ** local swaps the
-       two registers around the cursor load. */
-    text = (u8 *)(s32)object->stream_index;
-    text = (u8 *)((u32)text * 4);
-    {
-        u8 *stream = (u8 *)object;
-
-        stream += (u32)text;
-        text = stream;
-        current = *(u8 **)text;
-        op = *current++;
-        *(u8 **)text = current;
-    }
+    text.index = object->stream_index;
+    text.index *= sizeof(object->streams[0]);
+    text.string = (u8 *)object->streams + text.index;
+    current = *text.slot;
+    op = *current++;
+    *text.slot = current;
     if (op & 0x10) {
         object->color_index_54 = gText_SelectedCardColorIndex;
         return;
@@ -2476,17 +2470,17 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
             if (id >= 0x500) {
                 s32 n = id - 0x100;
 
-                text = (u8 *)(((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) +
+                text.string = (u8 *)(((u32)gText_AlternateStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) +
                               gText_PrimaryStringOffsets[n]);
             } else {
-                text = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+                text.string = (u8 *)(((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
                               gText_PrimaryStringOffsets[id]);
             }
         } else {
-            text = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
+            text.string = (u8 *)(((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
                           gText_GlobalStringOffsets[id - 0x8000]);
         }
-        object->streams[object->stream_index] = text;
+        object->streams[object->stream_index] = text.string;
         return;
     }
     object->flags_34 |= 0x100;
@@ -2503,24 +2497,17 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     s32 kind;
     s32 stats;
     s32 type;
-    u8 *text;
+    /* One register for the index, slot and string, as in retail. */
+    TextStreamSlotCursor text;
     u8 *current;
-    u8 **slot;
 
-    /* The slot address shares `text`'s register: a u8 ** local swaps the
-       two registers around the cursor load. */
-    text = (u8 *)(s32)object->stream_index;
+    text.index = object->stream_index;
     object->staged_icon_variant = 0;
-    text = (u8 *)((u32)text * 4);
-    {
-        u8 *stream = (u8 *)object;
-
-        stream += (u32)text;
-        text = stream;
-        current = *(u8 **)text;
-        op = *current++;
-        *(u8 **)text = current;
-    }
+    text.index *= sizeof(object->streams[0]);
+    text.string = (u8 *)object->streams + text.index;
+    current = *text.slot;
+    op = *current++;
+    *text.slot = current;
     n = 0;
     if (op & 0x10) {
         object->color_index_54 = gText_SelectedCardColorIndex;
@@ -2570,19 +2557,18 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         object->stream_index++;
         n = id;
         if (id > 0xCFFF) {
-            text = (u8 *)((u32)gText_PrimaryStringOffsets & 0xFFFF0000) +
+            text.string = (u8 *)((u32)gText_PrimaryStringOffsets & 0xFFFF0000) +
                    gText_PrimaryStringOffsets[id - 0xD000];
         } else if (id > 0x7FFF) {
-            text = (u8 *)((u32)gText_GlobalStringOffsets & 0xFFFF0000) +
+            text.string = (u8 *)((u32)gText_GlobalStringOffsets & 0xFFFF0000) +
                    gText_GlobalStringOffsets[id - 0x8000];
         } else {
             if (id >= 0x500) {
                 n = id - 0x100;
             }
-            text = (u8 *)((u32)gText_PrimaryStringAddressAnchor & 0xFFFF0000) + gText_PrimaryStringOffsets[n];
+            text.string = (u8 *)((u32)gText_PrimaryStringAddressAnchor & 0xFFFF0000) + gText_PrimaryStringOffsets[n];
         }
-        slot = &object->streams[object->stream_index];
-        *slot = text;
+        object->streams[object->stream_index] = text.string;
         return;
     }
     object->flags_34 |= 0x80;
@@ -2667,6 +2653,7 @@ void Text_PushFormattedDecimal(DuelEffectChannel *object)
     value_address = TextStream_ReadU32LE(object);
     operand = *object->streams[object->stream_index]++;
     format = operand;
+    /* The stream operand is the absolute address of the value. */
     Text_EncodeDecimalDigits(*(s32 *)value_address, format & 0xF, buf);
 
     pad_glyph = 0;
@@ -3263,7 +3250,7 @@ MenuRecord gDisplayEffect_aMenuRecords[3];
 
 /* Small globals other units own, declared here as common symbols the
  * way the original read them through $gp. */
-void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
+void (*gText_ChoiceLayoutCallback)(DuelEffectChannel *object);
 
 #ifndef TEXT_STREAM_CURSOR_HIGH_MASK
 #define TEXT_STREAM_CURSOR_HIGH_MASK 0xFFFF0000
@@ -3489,8 +3476,7 @@ void Text_HandleDisplayEffectCommand(DuelEffectChannel *o) {
     if (slot != 0) {
         e->x = 0x178;
     } else {
-        /* s16 view: retail materialises li -56, not the u16 0xffc8. */
-        *(s16 *)&e->x = -0x38;
+        e->x = -0x38;
     }
     o->playback_state = 6;
     gText_DisplayEffectRecord = e;
@@ -3679,7 +3665,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     u8 *text;
     u8 **slot;
     u8 *script;
-    DuelEffectEntry *entry;
+    DuelEffectGlyphEntry *entry;
     s32 op;
     void (**handlers)(DuelEffectChannel *);
 

@@ -21,7 +21,7 @@ struct DisplayObject *gCampaign_PrimaryDisplayObject;
 u16 gScript_EventState;
 u16 gScript_SavePromptSceneOperand;
 u16 gScript_ViewportTargetX;
-u16 gScript_ViewportTargetY;
+s16 gScript_ViewportTargetY;
 
 #include "display_object_system.h"
 #include "display_object_layout.h"
@@ -635,7 +635,7 @@ void Script_UpdateViewportTween(void) {
         duration = *(s16 *)&gScript_SharedOperand;
         gScript_ViewportDeltaX = ((*(s16 *)&gScript_ViewportTargetX - sx) << 16) / duration;
         sy = gGraphics_sViewportY;
-        gScript_ViewportDeltaY = ((*(s16 *)&gScript_ViewportTargetY - sy) << 16) / duration;
+        gScript_ViewportDeltaY = ((gScript_ViewportTargetY - sy) << 16) / duration;
         gScript_ViewportAccumulatorX = (sx << 16) | 0x8000;
         gScript_ViewportAccumulatorY = (sy << 16) | 0x8000;
     }

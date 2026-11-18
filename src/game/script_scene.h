@@ -165,7 +165,7 @@ extern u8 *gScript_StreamCursor;
  * stays at the use, so the declaration is the plain u16. */
 extern u16 gScript_SharedOperand;
 extern u16 gScript_ViewportTargetX;
-extern u16 gScript_ViewportTargetY;
+extern s16 gScript_ViewportTargetY;
 
 /* Script_UpdateViewportTween's 16.16 X/Y accumulators and per-invocation
  * deltas. The intervening command latch and stream pointer are independent

@@ -451,8 +451,18 @@ typedef struct DuelEffectChannel {
        pointers, slots 3..7 staying null; 0x20 onward are the fields below.
        Eight slots is the bound the layout allows, not a measured depth. */
     u8 *streams[8];
+    /* Each build's own entry record: 0x18 bytes in Japan and 0x16 in PAL
+       (duel_effect_text.h), the 0x1C DuelEffectEntry in North America. */
+#if defined(VERSION_JAPAN)
+    struct JapaneseDuelEffectEntry *entry_write_cursor;
+    struct JapaneseDuelEffectEntry *entry_begin;
+#elif defined(VERSION_EUROPE)
+    struct EuropeanDuelEffectEntry *entry_write_cursor;
+    struct EuropeanDuelEffectEntry *entry_begin;
+#else
     DuelEffectEntry *entry_write_cursor;
     DuelEffectEntry *entry_begin;
+#endif
     /* Every consumer proves this is a DisplayObject pointer:
        TextBox_RefreshDisplayObjects and Script_OpSavePrompt cast it, card-list text
        reaches ->flags through it, and Dialog_UpdateChoice used to read it

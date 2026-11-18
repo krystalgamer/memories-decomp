@@ -16,15 +16,15 @@ extern volatile u16 gText_CurrentStreamCode;
 /* Three text stream command handlers, all taking the object that owns the
  * streams.
  *
- * Text_TryCompleteChoiceLayout takes a volatile pointer. That is not
- * decoration: the body reads the halfword at 0x34 through a volatile access,
- * but writes it through an ordinary halfword lvalue so the store can fill the
+ * Text_TryCompleteChoiceLayout reads the channel through a volatile local
+ * copy of its parameter: the halfword at 0x34 is read through a volatile
+ * access but written through the plain parameter so the store can fill the
  * branch delay slot. The qualifier preserves access order rather than making
  * a claim about the caller's storage.
  *
  * Text_ExtendGlyphCode and Text_SetStateFromStream both advance the
  * channel's selected stream, streams[stream_index]. */
-void Text_TryCompleteChoiceLayout(volatile DuelEffectChannel *object);
+void Text_TryCompleteChoiceLayout(DuelEffectChannel *channel);
 void Text_ExtendGlyphCode(DuelEffectChannel *owner);
 void Text_SetStateFromStream(DuelEffectChannel *object);
 
@@ -45,8 +45,8 @@ void Text_SetCursorOffset(DuelEffectChannel *object);
  * Text_TryCompleteChoiceLayout clears it once the choice resolves,
  * TextBox_BuildStep clears it when a new box starts, and Text_NewLine is the
  * only caller. Nothing else writes it, so the parameter type is not a guess:
- * it is Text_TryCompleteChoiceLayout's own, volatile qualifier included. */
-extern void (*gText_ChoiceLayoutCallback)(volatile DuelEffectChannel *object);
+ * it is Text_TryCompleteChoiceLayout's own. */
+extern void (*gText_ChoiceLayoutCallback)(DuelEffectChannel *object);
 /* Sixteen handlers for stream bytes 0xF0-0xFF, defined directly after the
  * secondary-command table in duel_effect_command_table.c. TextBox_BuildStep
  * passes each the channel it is building. */

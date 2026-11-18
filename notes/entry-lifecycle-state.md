@@ -96,7 +96,9 @@ The channel's existing fields now spell entry_write_cursor (entry_end_20,
 stored pointer +0x20), entry_begin (entry_head_24, stored pointer +0x24),
 entry_range_start (range_start_5C) and entry_range_count (range_count_5E
 in NA/PAL, range_count_5D in Japan). These are distinct roles, not a new
-allocator, collection abstraction or enforced capacity.
+allocator, collection abstraction or enforced capacity. Both cursors point
+at the build's own record (DuelEffectGlyphEntry: the 0x18-byte Japanese
+and 0x16-byte European records, DuelEffectEntry in North America).
 
 | Existing channel/view | Configured start | Configured count |
 | --- | --- | --- |
