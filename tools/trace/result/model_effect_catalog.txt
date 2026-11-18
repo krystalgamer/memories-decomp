@@ -1,0 +1,70 @@
+==== USER CONTEXT ==== 
+ 
+#1 "Gate Guardian" with Moon guardian star attacks
+#2 "30,000-Year White Turtle" with Neptune guardian star
+
+t= 31.5s started the "Gate Guardian" attack, stomped once, creating a single white ripple on floor. Then opened his arms and started shaking and the field turned into water. He stretched his arms and white clouds start coming out of him towards the enemy. Half-way through the clouds turn into vertical ripples. When the ripples hit the enemy you the same white clouds appear. The turtle turns over and faints. Then "Gate Guardian" plays his entry animation and fades out.
+
+
+#3 "Perfectly Ultimate Great Moth" with Jupiter guardian star
+#4 don't understand why great moth appears twice
+#5 "Giltia the D. Knight" with Sun guardian star
+
+t=107.7s Great Moth attacks by speeding its animation white particles come out and fly towards the enemy. when hitting him they turn into yellow clouds.
+
+
+#6 "Perfectly Ultimate Great Moth" with Moon guardian star
+#7 don't understand why great moth appears twice (again)
+#8 "Giltia the D. Knight" with Sun guardian star
+ 
+
+t=181.5s different attack from Great Moth. It turns it's belly to the enemy by flying a up a little. And produces two tornados by flapping its wings. The tornados go around in circle towards the enemy and when hitting him make white clouds come out.
+
+
+So yes, Great Moth has different attack animations based on the guardian star.
+ 
+==== TRACE RESULT ===== 
+ 
+script: model_effect_catalog 
+setup: debugger=on configured_cpu=interpreter active_cpu=unverified execution_breakpoint=observed 
+status: captured 8 episodes 
+frames: 12580 episodes: 8 breakpoints: 2 stray_hits: 0 foreign_hits: 0 signature_mismatches: 0 unarmed: 0 dropped_rows: 0 
+ 
+summary #02 slot=1 header=936 h936 model=448 card=449 "30,000-Year White Turtle" star=Neptune selection=0 expected=yes frames=3019 
+summary #02   +0x0004 ModelVariant839_HandleRequest hits=0 
+summary #01 slot=0 header=143 h143 model=373 card=374 "Gate Guardian" star=Moon selection=0 expected=yes frames=3244 
+summary #01   +0x0004 ModelVariant143Us_HandleRequest hits=362 first=+22.3s 
+summary #03 slot=0 header=143 h143 model=66 card=67 "Perfectly Ultimate Great Moth" star=Jupiter selection=0 expected=NO (catalog: 373/0) frames=90 
+summary #03   +0x0004 ModelVariant143Us_HandleRequest hits=0 
+summary #05 slot=1 header=306 e032 model=388 card=389 "Giltia the D. Knight" star=Sun selection=0 expected=yes frames=2534 
+summary #05   +0x0004 ModelVariant176_HandleRequest hits=0 
+summary #04 slot=0 header=65 h65 model=66 card=67 "Perfectly Ultimate Great Moth" star=Jupiter selection=0 expected=yes frames=2759 
+summary #04   +0x0004 FrenchModelVariant82_HandleRequest hits=187 first=+20.4s 
+summary #06 slot=0 header=65 h65 model=66 card=67 "Perfectly Ultimate Great Moth" star=Moon selection=1 expected=NO (catalog: 66/0) frames=98 
+summary #06   +0x0004 FrenchModelVariant82_HandleRequest hits=0 
+summary #08 slot=1 header=306 e032 model=388 card=389 "Giltia the D. Knight" star=Sun selection=0 expected=yes frames=2694 
+summary #08   +0x0004 ModelVariant176_HandleRequest hits=0 
+summary #07 slot=0 header=139 h139 model=66 card=67 "Perfectly Ultimate Great Moth" star=Moon selection=1 expected=yes frames=2911 
+summary #07   +0x0004 ModelVariant139_HandleRequest hits=263 first=+20.3s 
+ 
+#01 t=   9.2s START slot=0 header=143 h143 model=373 card=374 "Gate Guardian" star=Moon selection=0 expected=yes work=0x80136000 functions=1 
+#02 t=  11.8s START slot=1 header=936 h936 model=448 card=449 "30,000-Year White Turtle" star=Neptune selection=0 expected=yes work=0x80176000 functions=1 
+#01 t=  31.5s first +0x0004 ModelVariant143Us_HandleRequest slot=0 ra=0x80055B7C 
+#02 t=  62.1s END   slot=1 reason=image unloaded or work area changed 
+#01 t=  63.2s END   slot=0 reason=image unloaded or work area changed 
+#03 t=  87.8s START slot=0 header=143 h143 model=66 card=67 "Perfectly Ultimate Great Moth" star=Jupiter selection=0 expected=NO (catalog: 373/0) work=0x80136000 functions=1 
+#03 t=  89.3s END   slot=0 reason=image unloaded or work area changed 
+#04 t=  89.3s START slot=0 header=65 h65 model=66 card=67 "Perfectly Ultimate Great Moth" star=Jupiter selection=0 expected=yes work=0x80136000 functions=1 
+#05 t=  91.9s START slot=1 header=306 e032 model=388 card=389 "Giltia the D. Knight" star=Sun selection=0 expected=yes work=0x80176000 functions=1 
+#04 t= 109.7s first +0x0004 FrenchModelVariant82_HandleRequest slot=0 ra=0x80055B7C 
+#05 t= 134.1s END   slot=1 reason=image unloaded or work area changed 
+#04 t= 135.2s END   slot=0 reason=image unloaded or work area changed 
+#06 t= 159.5s START slot=0 header=65 h65 model=66 card=67 "Perfectly Ultimate Great Moth" star=Moon selection=1 expected=NO (catalog: 66/0) work=0x80136000 functions=1 
+#06 t= 161.2s END   slot=0 reason=image unloaded or work area changed 
+#07 t= 161.2s START slot=0 header=139 h139 model=66 card=67 "Perfectly Ultimate Great Moth" star=Moon selection=1 expected=yes work=0x80136000 functions=1 
+#08 t= 163.6s START slot=1 header=306 e032 model=388 card=389 "Giltia the D. Knight" star=Sun selection=0 expected=yes work=0x80176000 functions=1 
+#07 t= 181.5s first +0x0004 ModelVariant139_HandleRequest slot=0 ra=0x80055B7C 
+#08 t= 208.5s END   slot=1 reason=image unloaded or work area changed 
+#07 t= 209.7s END   slot=0 reason=image unloaded or work area changed 
+ 
+--- end of trace, copy everything above into tools/trace/result/model_effect_catalog.txt --- 
