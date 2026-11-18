@@ -80,12 +80,6 @@ typedef struct {
     ModelVariantEntryTail tail;
 } Variant475EntryState;
 
-typedef struct {
-    long origin;
-    long p, flag;
-    long target;
-} Variant475EntryProjection;
-
 extern GsIMAGE gFrenchModelVariant475_aImages[9];
 extern Variant475EntryConfig gFrenchModelVariant475_aConfigs[];
 void ModelVariant458_DrawRibbons(Variant475EntryState *context);

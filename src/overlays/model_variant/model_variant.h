@@ -1527,4 +1527,14 @@ typedef struct {
     u8 unknown_8C[4];
 } ModelVariantStarShape;
 
+/* The RotTransPers outputs the header-408 and 475 entries use to measure the
+ * screen offset from an origin to a target: both packed screen points, and
+ * the interpolation value and flag the two calls share. */
+typedef struct {
+    long origin;
+    long interpolation;
+    long flag;
+    long target;
+} ModelVariantTargetProjection;
+
 #endif

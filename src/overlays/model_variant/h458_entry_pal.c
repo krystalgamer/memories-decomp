@@ -12,7 +12,7 @@ s32 FrenchModelVariant475_HandleRequest(Variant475EntryState *context, s32 comma
     SVECTOR origin;
     SVECTOR target;
     VECTOR squared;
-    Variant475EntryProjection projection;
+    ModelVariantTargetProjection projection;
     Variant475EntryState *work;
     Variant475EntryQuads *quads;
     Variant475EntryRibbon *ribbon;
@@ -252,11 +252,11 @@ s32 FrenchModelVariant475_HandleRequest(Variant475EntryState *context, s32 comma
                       work->ends[k].vy - work->starts[k].vy, work->ends[k].vz - work->starts[k].vz);
         }
         setVector(&origin, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
-        RotTransPers(&origin, &projection.origin, &projection.p, &projection.flag);
+        RotTransPers(&origin, &projection.origin, &projection.interpolation, &projection.flag);
         origin_x = projection.origin;
         origin_y = projection.origin >> 16;
         setVector(&target, work->target.vx, work->target.vy, work->target.vz);
-        RotTransPers(&target, &projection.target, &projection.p, &projection.flag);
+        RotTransPers(&target, &projection.target, &projection.interpolation, &projection.flag);
         work->screen_delta.vx = (u16)projection.target - origin_x;
         work->screen_delta.vy = (projection.target >> 16) - origin_y;
         if (work->config->phase4 < work->clock.frame && work->tail.phase == 3) {
