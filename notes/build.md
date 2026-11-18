@@ -664,6 +664,13 @@ merged successor `script_scene.c` builds the same way, with its storage in
 `script_scene_commons`. No linker-script addresses are
 involved; every name needs a `symbols.txt` entry at its retail address.
 
+Overlays work the same way at `-G0`: a unit built with
+`gcc_2_8_1_g0_split_comm` keeps its tentative definitions common, and the
+module layout's `bss` subsegment `<unit>_commons` defines them from the
+image's symbol file. The section order puts that `.bss` after every `.data`,
+so any raw bytes after the state become their own segment. `overlay_build.py`
+rejects a common that a linker assignment, rather than a label, satisfies.
+
 ### Merging units that were one original file
 
 Some legacy units read small globals that sit in a neighbour's `.sbss` or
