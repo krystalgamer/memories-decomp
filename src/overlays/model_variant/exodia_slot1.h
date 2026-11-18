@@ -70,7 +70,7 @@ typedef struct {
 } ExodiaSecondEntryState;
 
 extern ExodiaSecondEntryConfig gModelExodia_aSecondConfigs[];
-s32 ModelExodia_HandleSecondRequest(SVECTOR *point, s32 command);
+s32 ModelExodia_HandleSecondRequest(ExodiaSecondEntryState *point, s32 command);
 void ModelExodia_DrawRings(ExodiaSecondEntryState *context);
 void ModelExodia_DrawPetals(ExodiaSecondEntryState *context);
 void ModelExodia_DrawBeam(ExodiaSecondEntryState *context);
