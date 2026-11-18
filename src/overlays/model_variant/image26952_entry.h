@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_IMAGE26952_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -17,14 +18,7 @@
 #include "../../game/graphics_packet_submission.h"
 
 typedef struct {
-    u16 width, height, travel_duration, count;
-    u16 radius, spread, spark_count, spark_size;
-    u8 fade, unknown_11;
-    u16 unknown_12, start, camera_delay;
-} Image26952Config;
-
-typedef struct {
-    Image26952Config *config;
+    ModelVariantFlightConfig *config;
     SVECTOR positions[8];
     SVECTOR velocities[8];
     SVECTOR rotations[8];
@@ -50,6 +44,6 @@ typedef union {
 
 extern VECTOR gFrenchModelVariant818_UnitScale;
 extern GsIMAGE gFrenchModelVariant818_aImages[2];
-extern Image26952Config gFrenchModelVariant818_aConfigs[];
+extern ModelVariantFlightConfig gFrenchModelVariant818_aConfigs[];
 
 #endif

@@ -18,7 +18,7 @@ s32 ModelVariant366_HandleRequest(Variant366State *context, s32 command)
     Variant366State *work = context;
     ModelVariantScaledStrip *strip = work->strips;
     ModelVariantQuadSheet *quads = work->quads;
-    Variant366Ribbon *ribbon = work->ribbons;
+    ModelVariantConeRings *ribbon = work->ribbons;
     ModelVariantColorRing *ring = work->rings;
     ModelVariantShadedRay *ray = work->rays;
     POLY_GT4 *textured = work->textured;

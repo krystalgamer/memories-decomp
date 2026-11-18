@@ -13,7 +13,7 @@ void FrenchModelVariant447_DrawSwarm(Variant430EntryState *context)
     long interpolation;
     long flag;
     Variant430EntryState *state = context;
-    Variant430EntrySwarm *group = &state->swarm;
+    ModelVariantQuadSwarm *group = &state->swarm;
     POLY_FT4 *polygon = &state->sprite;
     GsOT *ot;
     s16 j;

@@ -43,15 +43,6 @@ typedef struct {
     ModelVariantBurst domes[16];
 } Model656State;
 
-/* An eight-byte copy of the view metrics; the entry reads the yaw at +2 and
- * the pitch at +4 through the halfword view. */
-typedef struct {
-    union {
-        u8 bytes[8];
-        s16 halves[4];
-    } u;
-} Model656ViewSnapshot;
-
 /* The work-size string; slot-1 images carry a nonzero pad byte after it. */
 extern char gModelVariant656_szWorkSizeFormat[];
 extern MATRIX GsIDMATRIX;

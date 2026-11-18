@@ -64,11 +64,12 @@ typedef struct {
 } ModelVariantSwarmGroup;
 
 
-/* An eight-byte copy of the view metrics (Model_GetViewMetricsBuffer) that
- * the header 630-683 entries and image 60348 take each frame; the entries
- * that use it turn their sprites with the yaw at +2 and the pitch at +4. */
+/* An eight-byte copy of the view metrics (Model_GetViewMetricsBuffer: the
+ * distance, yaw and pitch of ModelViewMetrics) that the header 629-683
+ * entries and image 60348 take each frame; the entries that use it turn
+ * their sprites with the yaw at +2 and the pitch at +4. */
 typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
+    s16 distance, yaw, pitch, unknown_06;
 } ModelVariantViewSnapshot;
 
 /* The same eight-byte view-metrics copy kept as bytes, as the header
@@ -643,6 +644,15 @@ typedef struct {
     s32 count;
 } ModelVariantCurtain;
 
+/* A cone of three seventeen-point rings, inner to outer, each scaled by
+ * rsin(progress) as progress steps to 0x800; cycles counts the completed
+ * passes. Header 366's cones and header 405's veils build and draw it the
+ * same way. */
+typedef struct {
+    SVECTOR inner[17], middle[17], outer[17];
+    s32 progress, cycles;
+} ModelVariantConeRings;
+
 /* The RotTransPers scratch record of the entry handlers: a projected screen
  * point, the interpolation value and flag RotTransPers writes, and the
  * projected screen point of the target. */
@@ -1048,6 +1058,26 @@ typedef struct {
     u8 red, green, blue, sphere_red, sphere_green, sphere_blue;
 } ModelVariantSphereCommand;
 
+/* One 0x28-byte command row of header 802 (French header 819): the particle
+ * half size and count, the rise speed, the cloud spread, the number of
+ * approach frames, the slot scale step, and the approach, hold, grow, settle
+ * and return times. */
+typedef struct {
+    u16 half_size, count, speed, unknown_06, spread, frames;
+    u32 scale_step, approach_end, hold_end, grow_end, settle_end, return_end, unknown_24;
+} ModelVariantGlideConfig;
+
+/* One 0x18-byte command row of header 801 (French header 818): the sprite
+ * half extents, the flight length in steps, the sprite count, the start
+ * circle radius, the spark spread, count and size, the fade step, the start
+ * time and the time the sprites set off. */
+typedef struct {
+    u16 width, height, steps, count;
+    u16 radius, spark_spread, spark_count, spark_size;
+    u8 fade, unknown_11;
+    u16 unknown_12, start, launch;
+} ModelVariantFlightConfig;
+
 /* The 0xC-byte command row of headers 633 and 634: the start delay, the
  * radius, the height (header 634 copies it but never reads it), the main
  * colour and the spark colour. */
@@ -1113,18 +1143,6 @@ typedef struct {
     s32 size[24], progress[24], field_494[24], field_4F4[24], initialized[24];
 } ModelVariantQuadRing;
 
-/* The first 0x434 bytes of a ring of 24 quads given by corner arrays v0..v3,
- * and a size per quad, as the stale-linked header-447 and 463 ring helpers
- * read it: the leading part of ModelVariantQuadRing. Header 462's copy of the
- * helper reads the full ring of the North American header-445 entry. */
-typedef struct {
-    SVECTOR v0[24];
-    SVECTOR v1[24];
-    SVECTOR v2[24];
-    SVECTOR v3[24];
-    u8 unknown_300[0xD4];
-    s32 size[24];
-} ModelVariantQuadRingView;
 
 /* One 0x88-byte sheet of four quads: four rows of four corners; each quad
  * takes color[1] on its first three corners and color[0] on the fourth. */
@@ -1481,7 +1499,7 @@ typedef struct {
 } ModelVariantMovingRibbon;
 
 /* The swarm helper's thirty-two quads, laid out like the quad group: the
- * swarms of headers 402 and 478. */
+ * swarms of headers 402, 430 and 478. */
 typedef struct {
     SVECTOR a[32], b[32], c[32], d[32], positions[32];
     CVECTOR color;

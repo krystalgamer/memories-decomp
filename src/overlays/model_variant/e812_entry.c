@@ -15,7 +15,7 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
     GsCOORDUNIT unit;
     SVECTOR v;
     SVECTOR d[2];
-    Model629ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     long interp, flag;
 
     result = 0;
@@ -351,7 +351,7 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model629ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->count_a; i++) {
             if (work->a[i].f00 == 1) {

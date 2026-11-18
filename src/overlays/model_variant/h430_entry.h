@@ -13,20 +13,9 @@ typedef struct {
     u8 unknown_2C[8];
 } Variant430EntryConfig;
 
-/* Thirty-two swarm quads at the start of the work area, drawn by
- * FrenchModelVariant447_DrawSwarm: ModelVariantSwarmGroup without the
- * trailing initialized flags (the trail records follow). */
 typedef struct {
-    SVECTOR a[32], b[32], c[32], d[32], positions[32];
-    CVECTOR color;
-    u8 unknown_504[0x10];
-    s32 size[32];
-    s32 done[32];
-    s32 field_614[32];
-} Variant430EntrySwarm;
-
-typedef struct {
-    Variant430EntrySwarm swarm;
+    /* Drawn by FrenchModelVariant447_DrawSwarm. */
+    ModelVariantQuadSwarm swarm;
     ModelVariantTrail records[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];

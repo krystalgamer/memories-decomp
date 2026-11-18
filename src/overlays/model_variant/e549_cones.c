@@ -21,7 +21,7 @@ void ModelVariant366_DrawCones(Variant366State *context)
     long interpolation;
     long flag;
     Variant366State *work = context;
-    Variant366Ribbon *ribbon;
+    ModelVariantConeRings *ribbon;
     GsOT *ot;
     s32 k;
     s32 sign;

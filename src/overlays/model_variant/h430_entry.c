@@ -26,7 +26,7 @@ s32 ModelVariant430_HandleRequest(Variant430EntryState *context, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant430EntrySwarm *swarm;
+    ModelVariantQuadSwarm *swarm;
     ModelVariantBandPair *band;
     ModelVariantSheet *sheet;
     ModelVariantColorRing *ring;
@@ -147,7 +147,7 @@ s32 ModelVariant430_HandleRequest(Variant430EntryState *context, s32 command)
             swarm->color.b = 64;
             swarm->size[i] = 384 + i * 32;
             swarm->done[i] = 0;
-            swarm->field_614[i] = 0;
+            swarm->reset[i] = 0;
             swarm->positions[i].vx = work->matrix.t[0] + work->aim.direction.vx;
             swarm->positions[i].vy = work->matrix.t[1] + work->aim.direction.vy;
             swarm->positions[i].vz = work->matrix.t[2] + work->aim.direction.vz;

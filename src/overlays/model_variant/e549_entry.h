@@ -18,17 +18,12 @@ typedef struct {
 } Variant366Config;
 
 
-/* The three 17-point ribbon cones drawn by ModelVariant366_DrawCones. */
-typedef struct {
-    SVECTOR inner[17], middle[17], outer[17];
-    s32 progress, cycles;
-} Variant366Ribbon;
 
 typedef struct {
     ModelVariantScaledStrip strips[1];
     ModelVariantQuadSheet quads[1];
     ModelVariantRibbonSpan ribbon_spans[8];
-    Variant366Ribbon ribbons[3];
+    ModelVariantConeRings ribbons[3];
     ModelVariantColorRing rings[4];
     ModelVariantShadedRay rays[16];
     POLY_G3 triangle;
