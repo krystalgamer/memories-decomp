@@ -30,7 +30,8 @@ and 16-byte SDK vector copy. The extern-only
 binds them to native `func_80154B30`, `D_8015B30C` and `D_801461F8`.
 Their actual NA addresses are `0x801555AC`, `0x8015B3D8` and `0x80146240`;
 the function is 3,008 bytes there, versus 3,012 in PAL. JP addresses are
-`0x80162BC4`, `0x80169398` and `0x80154250`.
+`0x80162BC4`, `0x80169398` and `0x80154250`. `effect_6.c` defines the
+vector as `const VECTOR` `.rodata` before its reader (#2602).
 
 These are static caller/initialization roles, not human-confirmed artwork
 identities or new claims about the scale vector's padding or immutability.

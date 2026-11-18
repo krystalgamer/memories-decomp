@@ -20,6 +20,8 @@
 #define EFFECT_5_RISING_HEIGHT 98
 #endif
 
+const VECTOR gDuelEffect_LifePointRecoveryInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunLifePointRecovery(void *buffer, s32 phase)
 {
     MATRIX world;
@@ -203,6 +205,8 @@ void DuelEffect_RunLifePointRecovery(void *buffer, s32 phase)
 #define EFFECT_7_TARGET_HEIGHT 98
 #endif
 
+const VECTOR gDuelEffect_ReflectedDirectDamageInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
 {
     MATRIX world;
@@ -381,6 +385,8 @@ void DuelEffect_RunReflectedDirectDamage(void *buffer, s32 phase)
         }
     }
 }
+
+const VECTOR gDuelEffect_InvertedLifePointRecoveryInitialScale = { ONE, ONE, ONE, 0 };
 
 void DuelEffect_RunInvertedLifePointRecovery(void *buffer, s32 phase)
 {

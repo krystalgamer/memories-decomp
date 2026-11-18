@@ -9,7 +9,7 @@ extern void DuelEffect_RunInvertedLifePointRecovery(void *work, s32 phase);
 
 extern DuelEffect5Config gDuelEffect_LifePointRecoveryConfigs[10];
 extern DuelEffect9Config gDuelEffect_InvertedLifePointRecoveryConfigs[5];
-extern VECTOR gDuelEffect_LifePointRecoveryInitialScale;
-extern VECTOR gDuelEffect_InvertedLifePointRecoveryInitialScale;
+extern const VECTOR gDuelEffect_LifePointRecoveryInitialScale;
+extern const VECTOR gDuelEffect_InvertedLifePointRecoveryInitialScale;
 
 #endif

@@ -7,7 +7,7 @@
 extern void DuelEffect_RunCardFlashBurst(void *work, s32 phase);
 extern void DuelEffect_RunExpandingRingBurst(void *work, s32 phase);
 extern DuelEffect4Config gDuelEffect_CardFlashBurstConfigs[2];
-extern VECTOR gDuelEffect_CardFlashBurstInitialScale;
+extern const VECTOR gDuelEffect_CardFlashBurstInitialScale;
 extern const VECTOR gDuelEffect_ExpandingRingBurstInitialScale;
 
 #endif

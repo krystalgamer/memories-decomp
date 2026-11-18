@@ -13,8 +13,8 @@ names remains in [the dispatcher note](duel-effect-dispatch.md).
 | `gDuelEffect_AttackSlashInitialScale` | `D_801461B8` | `80146200` | `80154210` | `801461B8` | 16 |
 
 Addresses are hexadecimal. The existing five bank maps retain the native
-labels and actual storage providers; the attack-slash scale is now
-`effect_2.c`'s `const VECTOR` `.rodata` (#2602). French/Spanish explicit extents are
+labels and actual storage providers; the fusion and attack-slash scales are
+now `effect_1.c`'s and `effect_2.c`'s `const VECTOR` `.rodata` (#2602). French/Spanish explicit extents are
 `0x30`, `0x10`, `0x15E` and `0x10`; the configuration bounds and layouts
 remain the independently recovered local declarations in `effect_1.h`
 and `effect_2.h`, not reference-project types.

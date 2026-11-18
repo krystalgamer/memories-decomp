@@ -10,6 +10,8 @@
 #include "fusion_attack_semantic_views.h"
 #include "../../game/duel_effect_object_pool.h"
 
+const VECTOR gDuelEffect_FusionInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunFusion(void *buffer, s32 phase)
 {
     MATRIX world;

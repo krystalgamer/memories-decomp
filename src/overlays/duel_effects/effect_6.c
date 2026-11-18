@@ -19,6 +19,8 @@
 #define EFFECT_6_TARGET_SPREAD 12
 #endif
 
+const VECTOR gDuelEffect_DirectDamageInitialScale = { ONE, ONE, ONE, 0 };
+
 void DuelEffect_RunDirectDamage(void *buffer, s32 phase)
 {
     MATRIX world;

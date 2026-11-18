@@ -62,7 +62,10 @@ segments:
       - [0x200, .rodata, overlays/duel_effects/effect_2]
       - [0x210, .rodata, overlays/duel_effects/effect_19]
       - [0x220, .rodata, overlays/duel_effects/contour_burst_effects]
-      - [0x240, rodata, overlays/duel_effects/header_after_contour_burst_effects]
+      - [0x240, .rodata, overlays/duel_effects/effect_6]
+      - [0x250, .rodata, overlays/duel_effects/effect_1]
+      - [0x260, .rodata, overlays/duel_effects/life_point_effects]
+      - [0x290, .rodata, overlays/duel_effects/effect_4]
       - [0x2A0, .rodata, overlays/duel_effects/effect_17]
 
   - name: module
