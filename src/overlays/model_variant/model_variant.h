@@ -1113,18 +1113,6 @@ typedef struct {
     s32 size[24], progress[24], field_494[24], field_4F4[24], initialized[24];
 } ModelVariantQuadRing;
 
-/* The first 0x434 bytes of a ring of 24 quads given by corner arrays v0..v3,
- * and a size per quad, as the stale-linked header-447 and 463 ring helpers
- * read it: the leading part of ModelVariantQuadRing. Header 462's copy of the
- * helper reads the full ring of the North American header-445 entry. */
-typedef struct {
-    SVECTOR v0[24];
-    SVECTOR v1[24];
-    SVECTOR v2[24];
-    SVECTOR v3[24];
-    u8 unknown_300[0xD4];
-    s32 size[24];
-} ModelVariantQuadRingView;
 
 /* One 0x88-byte sheet of four quads: four rows of four corners; each quad
  * takes color[1] on its first three corners and color[0] on the fourth. */
