@@ -124,6 +124,8 @@ segments:
       - [0x1530C, .data, overlays/duel_effects/effect_6]
       - [0x153C0, .data, overlays/duel_effects/effect_drawing]
       - [0x15420, .data, overlays/duel_effects/effect_1]
-      - [0x15450, data, overlays/spanish_duel_effects/data_15450]
+      - [0x15450, .data, overlays/duel_effects/life_point_effects]
+      - [0x1564E, pad]
+      - [0x15650, data, overlays/spanish_duel_effects/data_15650]
 
   - [0x16000]

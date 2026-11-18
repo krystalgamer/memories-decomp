@@ -583,7 +583,14 @@ bytes, `+0x15144`) and `gDuelEffect_ContourBurstConfigs` (thirty
 (Japan `+0x1544C`, PAL `+0x153C0`), so their first raw `data` subsegment is
 gone. `effect_1.c`'s `gDuelEffect_FusionConfigs` (two `DuelEffect1Config`,
 0x30 bytes) follows in every region: North America `+0x1548C`, Japan
-`+0x154AC`, PAL `+0x15420`; the raw `data` resumes after it.
+`+0x154AC`, PAL `+0x15420`. `life_point_effects.c` follows with
+`gDuelEffect_LifePointRecoveryConfigs` (ten `DuelEffect5Config`, 0x168
+bytes, North America `+0x154BC`, Japan `+0x154DC`, PAL `+0x15450`) and
+`gDuelEffect_ReflectedDirectDamageConfigs` (five `DuelEffect7Config`, 0x96
+bytes). The two-byte fill after it is zero in French, German, Italian and
+Spanish (`pad`) and stray in North America, Japan and English PAL (raw
+`bin`); that stray fill is why effect 9 is its own object, `effect_9.c`,
+again. The raw `data` resumes after the fill.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in

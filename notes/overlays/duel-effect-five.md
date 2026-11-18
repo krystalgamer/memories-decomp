@@ -50,7 +50,8 @@ header preserves the original native declaration and private types.
 `gDuelEffect_LifePointRecoveryInitialScale` binds the existing 16-byte SDK
 VECTOR `D_80146218` (NA `80146260`, JP `80154270`, PAL `80146218`), copied
 to the local scale at entry. `life_point_effects.c` now defines it as
-`const VECTOR` `.rodata` before its reader (#2602); neither name introduces
+`const VECTOR` `.rodata` before its reader and the ten configurations as
+non-`const` `.data` (#2602); neither name introduces
 padding meaning or an identity-vector contract.
 
 The ten configurations must remain ten despite the byte-identical pairs:

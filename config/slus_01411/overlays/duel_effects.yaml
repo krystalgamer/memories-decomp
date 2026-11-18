@@ -127,7 +127,10 @@ segments:
       - [0x15144, .data, overlays/duel_effects/contour_burst_effects]
       - [0x153D8, .data, overlays/duel_effects/effect_6]
       - [0x1548C, .data, overlays/duel_effects/effect_1]
-      - [0x154BC, data, overlays/duel_effects/data]
+      - [0x154BC, .data, overlays/duel_effects/life_point_effects]
+      # Linker fill between objects, not data.
+      - {start: 0x156BA, type: bin, name: overlays/duel_effects/data_156BA, linker_section_order: .data}
+      - [0x156BC, data, overlays/duel_effects/data]
       - [0x157A8, .data, overlays/duel_effects/effect_17]
       - [0x157C8, data, overlays/duel_effects/data_157C8]
 
