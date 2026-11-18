@@ -581,7 +581,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     DisplayObject_SelectOrderingTable1(object);
     DisplayObject_SetDepthOffset(object, -1);
 
-    ((DisplayObject *)entry->secondary_object)->subdivisions = 3;
+    entry->secondary_object->subdivisions = 3;
     object->subdivisions = 3;
     object->back_face_handler.word = (u32)CardPreview_UpdateVariant;
 
