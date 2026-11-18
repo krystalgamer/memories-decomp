@@ -76,7 +76,7 @@ segments:
     vram: 0x801695C8
     align: 4
     subsegments:
-      - [0x15C8, data, overlays/japanese_overworld_after_coup/live_state]
+      - [0x15C8, .data, overlays/overworld/live_state]
       - [0x1618, data, overlays/japanese_overworld_after_coup/live_state_tail]
 
   - name: module_tail

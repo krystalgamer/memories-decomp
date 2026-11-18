@@ -1,7 +1,9 @@
 # Live overworld state ownership
 
 `live_state.c` defines the aligned live-state prefix at
-`0x801695C8-0x80169618` in both overworld images. The existing consumers keep
+`0x801695C8-0x80169618` in both overworld images, North American and
+Japanese (identical addresses and bytes). The PAL images keep the same
+zero-filled names in another order (see the PAL symbol map) and stay raw. The existing consumers keep
 their scalar widths and pointer views, and `live_state.h` is the sole
 declaration point for all 18 C-owned symbols.
 

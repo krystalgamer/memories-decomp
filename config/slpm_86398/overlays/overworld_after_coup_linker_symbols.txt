@@ -1,5 +1,4 @@
 DisplayObject_ReleaseIfPresent = 0x8003FA4C;
-gCampaignMap_apExitObjects = 0x801695F8;
 Campaign_TestStoryFlag = 0x8002CA88;
 DisplayObject_FindFreeGeneralSlot = 0x8003F70C;
 DisplayObject_AcquireSlot = 0x8003F78C;
@@ -19,7 +18,6 @@ gModel_dwFogDrawFlags = 0x8009B1FC;
 gSortedEntry_pCursor = 0x8009B200;
 gSortedEntry_nCount = 0x8009B204;
 Model_DrawSlot = 0x80056F9C;
-gCampaignMap_Location = 0x8016960C;
 TextBox_Create = 0x80035938;
 TextBox_BuildBlockingWithGlyphScratch = 0x800390D4;
 gInput_awPadPressed = 0x8009B288;
