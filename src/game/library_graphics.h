@@ -65,16 +65,27 @@ typedef union {
     } h;
 } GlobeLineVertex;
 
+/* One vertex colour of the globe's line packet. Library_DrawWireframeGlobe
+ * sets a whole colour (with the byte after it) in one word store; the
+ * fourth byte is the GPU code in rgb0 and padding in rgb1 and rgb2. */
+typedef union {
+    struct {
+        u8 r, g, b, code;
+    } c;
+    u32 word;
+} GlobeLineColor;
+
 /* The LINE_G3 at scratchpad 0x1F800000 that Library_DrawWireframeGlobe
  * builds and the span helpers project into: LINE_G3's layout with each
- * vertex position typed as GlobeLineVertex. */
+ * vertex position typed as GlobeLineVertex and each colour as
+ * GlobeLineColor. */
 typedef struct {
     u32 tag;
-    u8 r0, g0, b0, code;
+    GlobeLineColor rgb0;
     GlobeLineVertex xy0;
-    u8 r1, g1, b1, p1;
+    GlobeLineColor rgb1;
     GlobeLineVertex xy1;
-    u8 r2, g2, b2, p2;
+    GlobeLineColor rgb2;
     GlobeLineVertex xy2;
     u32 pad;
 } GlobeLinePacket;

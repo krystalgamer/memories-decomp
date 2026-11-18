@@ -126,7 +126,7 @@ void Model_QueueRelativeCameraOrbit(
     }
 
     if (slot_selector == 2) {
-        Model_CopySlotPosition(2, (u16 *)target_halfwords);
+        Model_CopySlotPosition(2, target_halfwords);
         target_halfwords[3] = one;
     }
 
@@ -137,7 +137,7 @@ void Model_QueueRelativeCameraOrbit(
         }
         target_halfwords[0] = target_halfwords[0] + target_offset->vx * offset_sign;
         /* Retail zero-extends only the middle component. */
-        target_halfwords[1] = target_halfwords[1] + *(u16 *)&target_offset->vy;
+        target_halfwords[1] = target_halfwords[1] + (u16)target_offset->vy;
         target_halfwords[2] = target_halfwords[2] + target_offset->vz * offset_sign;
     }
 
@@ -152,20 +152,20 @@ void Model_QueueRelativeCameraOrbit(
     orbit_halfwords[1] = (biased_yaw - x) - (biased_yaw - x) / MODEL_ANGLE_FULL_TURN *
         MODEL_ANGLE_FULL_TURN;
     yaw_word = orbit_halfwords[1];
-    if (*(s16 *)&orbit_halfwords[1] >= MODEL_ANGLE_WRAP_THRESHOLD) {
+    if ((s16)orbit_halfwords[1] >= MODEL_ANGLE_WRAP_THRESHOLD) {
         orbit_halfwords[1] = yaw_word - MODEL_ANGLE_FULL_TURN;
     }
-    if (*(s16 *)&orbit_halfwords[1] < -MODEL_ANGLE_HALF_TURN) {
+    if ((s16)orbit_halfwords[1] < -MODEL_ANGLE_HALF_TURN) {
         orbit_halfwords[1] = orbit_halfwords[1] + MODEL_ANGLE_FULL_TURN;
     }
 
     biased_pitch = pitch + MODEL_ANGLE_FULL_TURN;
     orbit_halfwords[2] = (biased_pitch - biased_pitch / MODEL_ANGLE_FULL_TURN * MODEL_ANGLE_FULL_TURN) -
         view_metrics->pitch;
-    if (*(s16 *)&orbit_halfwords[2] >= MODEL_ANGLE_WRAP_THRESHOLD) {
+    if ((s16)orbit_halfwords[2] >= MODEL_ANGLE_WRAP_THRESHOLD) {
         orbit_halfwords[2] = orbit_halfwords[2] - MODEL_ANGLE_FULL_TURN;
     }
-    if (*(s16 *)&orbit_halfwords[2] < -MODEL_ANGLE_HALF_TURN) {
+    if ((s16)orbit_halfwords[2] < -MODEL_ANGLE_HALF_TURN) {
         orbit_halfwords[2] = orbit_halfwords[2] + MODEL_ANGLE_FULL_TURN;
     }
 
@@ -178,6 +178,8 @@ void Model_QueueRelativeCameraOrbit(
         gModel_nEffectKeyBatchOrdinal = gModel_nEffectKeyBatchOrdinal + 1;
         queue_mode = x > 0;
     }
+    /* The halfword arrays are the endpoints; packed ModelEffectEndpoint locals
+       would be stored a byte at a time. */
     Model_ApplyEffectKeyQueueCommand(
         queue_mode, (ModelEffectEndpoint *)orbit_halfwords, (ModelEffectEndpoint *)target_halfwords, key_magnitude
     );
@@ -220,7 +222,8 @@ static inline s32 Keyframe_ApplyDeadzone(s16 *axis, s32 amount)
 
 void Model_UpdateEffectKeyframes(void)
 {
-    s32 *output_channels[2];
+    long *output_channels[2];
+    GsRVIEW2 *view;
     s16 slot_position[4];
     s16 spline_result[4];
     s16 follow_target_position[4];
@@ -229,8 +232,9 @@ void Model_UpdateEffectKeyframes(void)
     s32 persistent_channel_count;
     s32 channel_index;
 
-    output_channels[0] = (s32 *)Model_GetCameraViewBuffer();
-    output_channels[1] = output_channels[0] + 3;
+    view = Model_GetCameraViewBuffer();
+    output_channels[0] = &view->vpx;
+    output_channels[1] = &view->vrx;
     persistent_channel_count = 0;
     active_channel_count = 0;
     if (!gModel_bEffectKeyCount || !gModel_pCurrentEffectKey) {
@@ -272,9 +276,10 @@ void Model_UpdateEffectKeyframes(void)
                 if (Model_GetSlotReadiness(slot_index) != 1) {
                     break;
                 }
+                /* The MODEL overlays share the u16 * prototype; these s16 halfwords are read signed. */
                 Model_CopySlotPosition(slot_index, (u16 *)slot_position);
                 {
-                    s16 *slot_offset_halfwords = ((s16 (*)[4])gModel_pCurrentEffectKey)[channel_index];
+                    s16 *slot_offset_halfwords = &gModel_pCurrentEffectKey->requested[channel_index].x;
                     slot_position[0] += (u16)slot_offset_halfwords[0];
                     slot_position[1] += (u16)slot_offset_halfwords[1];
                     slot_position[2] += (u16)slot_offset_halfwords[2];
@@ -307,9 +312,13 @@ void Model_UpdateEffectKeyframes(void)
                 if (Model_GetSlotReadiness(slot_index) != 1) {
                     break;
                 }
+                /* The MODEL overlays share the u16 * prototype; these s16 halfwords are read signed. */
                 Model_CopySlotPosition(slot_index, (u16 *)follow_target_position);
                 {
-                    s16 *follow_reference_halfwords = ((s16 (*)[4])gModel_pCurrentEffectKey)[channel_index];
+                    /* Halfwords 8-10 from requested[channel_index] are
+                       resolved[channel_index].x/y/z; reaching them through
+                       &resolved[] instead costs 8 bytes below. */
+                    s16 *follow_reference_halfwords = &gModel_pCurrentEffectKey->requested[channel_index].x;
                     follow_delta[0] = follow_target_position[0] - (u16)follow_reference_halfwords[8];
                     follow_delta[1] = follow_target_position[1] - (u16)follow_reference_halfwords[9];
                     follow_delta[2] = follow_target_position[2] - (u16)follow_reference_halfwords[10];
@@ -359,7 +368,7 @@ void Model_UpdateEffectKeyframes(void)
                         output_channels[channel_index][2] += follow_delta[2];
                         {
                             s16 *committed_reference_halfwords =
-                                ((s16 (*)[4])gModel_pCurrentEffectKey)[channel_index];
+                                &gModel_pCurrentEffectKey->requested[channel_index].x;
                             committed_reference_halfwords[8] += (u16)follow_delta[0];
                             committed_reference_halfwords[9] += (u16)follow_delta[1];
                             committed_reference_halfwords[10] += (u16)follow_delta[2];
@@ -558,6 +567,7 @@ void Model_PrepareEffectKey(Key *state)
             if (Model_GetSlotReadiness(slot_index) != 1) {
                 continue;
             }
+            /* The MODEL overlays share the u16 * prototype; these s16 halfwords are read signed. */
             Model_CopySlotPosition(slot_index, (u16 *)slot_position);
             slot_position[0] = slot_position[0] + (u16)endpoint_view->x;
             slot_position[1] = slot_position[1] + (u16)endpoint_view->y;
@@ -704,7 +714,7 @@ void Model_CaptureKeyframePose(s32 capture_endpoints)
     gModel_aPoseSnapshot[2].vz = metrics->pitch;
     if (capture_endpoints != 0) {
         Key *key = gModel_pCurrentEffectKey;
-        if (key != (Key *)0) {
+        if (key != 0) {
             s32 endpoint_index = 0;
             for (; endpoint_index < 2; endpoint_index++) {
                 /* Read through an s16 pointer: ModelEffectEndpoint is packed,
@@ -756,7 +766,7 @@ s32 Model_AdjustCameraDistanceForSlot(s32 slot_selector, s32 requested_distance)
         return requested_distance;
     }
 
-    Model_GetSlotDimensionsWithOverrides(slot_selector, (s16 *)&dimensions);
+    Model_GetSlotDimensionsWithOverrides(slot_selector, &dimensions);
 
     if (dimensions.max < 50) {
         dimensions.max = 50;
@@ -799,7 +809,7 @@ void Model_SetCameraOrbitFromPreset(s32 slot_selector, s32 preset_index, SVECTOR
     distance = preset->distance;
 
     if (slot_selector < 2) {
-        Model_GetSlotDimensionsWithOverrides(slot_selector, (s16 *)&dimensions);
+        Model_GetSlotDimensionsWithOverrides(slot_selector, &dimensions);
         if (dimensions.max < 0x32) {
             dimensions.max = 0x32;
         }
@@ -828,6 +838,7 @@ void Model_SetCameraOrbit(int slot_selector, int distance, int yaw, int pitch, S
         return;
     if (slot_selector >= 0) {
         short slot_position[4];
+        /* The MODEL overlays share the u16 * prototype; these s16 halfwords are read signed. */
         Model_CopySlotPosition(slot_selector, (u16 *)slot_position);
         camera_view->vrx = slot_position[0];
         camera_view->vry = slot_position[1];
@@ -887,7 +898,7 @@ void Model_QueueCameraOrbitFromPreset(s32 slot_selector, s32 preset_index, SVECT
         ModelEffectAdjustment dimensions;
         s32 size_delta;
 
-        Model_GetSlotDimensionsWithOverrides(slot_selector, (s16 *)&dimensions);
+        Model_GetSlotDimensionsWithOverrides(slot_selector, &dimensions);
         if (dimensions.max < 0x32) {
             dimensions.max = 0x32;
         }
@@ -1018,8 +1029,8 @@ void Model_ApplyEffectKeyQueueCommand(
         Model_RequestCameraMove(-1);
         gModel_pCurrentEffectKey = gModel_aEffectKeys;
         gModel_bEffectKeyCount = 0;
-        if (first == (ModelEffectEndpoint *)0 &&
-            second == (ModelEffectEndpoint *)0 &&
+        if (first == 0 &&
+            second == 0 &&
             (magnitude == 0 || magnitude == 0x4000)) {
             return;
         }
@@ -1030,12 +1041,12 @@ void Model_ApplyEffectKeyQueueCommand(
     case 1:
         if (gModel_bEffectKeyCount < 0xA) {
             Key *key = &gModel_aEffectKeys[gModel_bEffectKeyCount];
-            if (first != (ModelEffectEndpoint *)0) {
+            if (first != 0) {
                 key->requested[0] = *first;
             } else {
                 key->requested[0].kind = 0;
             }
-            if (second != (ModelEffectEndpoint *)0) {
+            if (second != 0) {
                 key->requested[1] = *second;
                 key->ready = 0;
             } else {

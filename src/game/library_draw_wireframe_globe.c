@@ -57,11 +57,11 @@ void Library_DrawWireframeGlobe(void)
         /* Retail materializes this fixed view buffer with literal lui/ori. */
         *par = *(SVECTOR *)0x80181000;
 
-        *(s32 *)&prim->r0 = 0;
+        prim->rgb0.word = 0;
         setlen(prim, 7);
         setcode(prim, 0x58);
         prim->pad = marker;
-        prim->p2 = 0;
+        prim->rgb2.c.code = 0;
         /* vec3->vy, vec2->vy and vec1->vy, stored through their absolute
          * addresses; a member store through the SVECTOR pointers reorders
          * the whole setup. */
@@ -73,10 +73,10 @@ void Library_DrawWireframeGlobe(void)
 
     do {
         t = (0x400 - angle) * 0xFF / 0x400;
-        prim->b1 = t;
-        prim->g1 = t;
-        prim->r1 = t;
-        *(s32 *)&prim->r2 = *(s32 *)&prim->r1;
+        prim->rgb1.c.b = t;
+        prim->rgb1.c.g = t;
+        prim->rgb1.c.r = t;
+        prim->rgb2.word = prim->rgb1.word;
         ctl[2] = gLibrary_State.motion.globe_radius * rcos(angle) / 4096;
         if (ctl[2] == 0) {
             break;
@@ -103,15 +103,15 @@ void Library_DrawWireframeGlobe(void)
 
     {
         u32 marker;
-        *(s32 *)&prim->r0 = 0;
-        *(s32 *)&prim->r1 = 0xFFFFFF;
-        *(s32 *)&prim->r2 = 0;
+        prim->rgb0.word = 0;
+        prim->rgb1.word = 0xFFFFFF;
+        prim->rgb2.word = 0;
         marker = 0x55555555;
         angle = 0;
         setlen(prim, 7);
         setcode(prim, 0x58);
         prim->pad = marker;
-        prim->p2 = 0;
+        prim->rgb2.c.code = 0;
         vec[0].vy = 0;
         vec[1].vy = 0;
         do {
@@ -135,7 +135,7 @@ void Library_DrawWireframeGlobe(void)
             prim->xy2.h.y = y;
             prim->xy1.h.y = y;
             do {
-                Graphics_SubmitDrawModePacket((u32 *)prim, ot, 1, 1);
+                Graphics_SubmitDrawModePacket(prim, ot, 1, 1);
                 prim->xy0.h.y -= step;
                 if (prim->xy0.h.y <= 0) {
                     break;
