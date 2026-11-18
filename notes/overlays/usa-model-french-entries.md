@@ -24,7 +24,7 @@ before the change, so the French images are unaffected.
 | 59 | `0xB94` | `e006_entry.c` | `447_pos0_slot0`, `489_stage9_slot0`, `562_pos0_slot0`, `57_pos0_slot0` |
 | 60 | `0xC14` | `e007_entry.c` | `386_pos0_slot0`, `53_stage9_slot0`, `547_stage9_slot0`, `84_stage9_slot0` |
 | 65 | `0xDE0` | `h65_entry.c` | `66_pos0_slot0` |
-| 70 | `0xA18` | `h70_entry.c` | `140_stage9_slot0`, `584_stage9_slot0` |
+| 70 | `0xA18` | `e017_h70_entry.c` | `140_stage9_slot0`, `584_stage9_slot0` |
 | 80 | `0x1154` | `e045_entry.c` | `100_pos0_slot0`, `150_stage9_slot0` |
 | 84 | `0xAE0` | `e049_entry.c` | `130_pos0_slot0` |
 | 90 | `0x1184` | `e038_entry.c` | `28_stage9_slot0`, `402_pos0_slot0`, `85_stage9_slot0` |
@@ -44,7 +44,7 @@ before the change, so the French images are unaffected.
 | 195 | `0xDE0` | `h65_entry.c` | `66_stage8_slot1` |
 | 200 | `0xA18` | `variant87_entry_slot1.c` | `140_stage10_slot1`, `584_stage10_slot1` |
 | 195 | `0xDE0` | `variant82_entry_slot1.c` | `66_stage8_slot1` |
-| 200 | `0xA18` | `h70_entry.c` | `140_stage10_slot1`, `584_stage10_slot1` |
+| 200 | `0xA18` | `e017_h70_entry.c` | `140_stage10_slot1`, `584_stage10_slot1` |
 | 210 | `0x1154` | `variant97_entry_slot1.c` | `100_stage8_slot1`, `150_stage10_slot1` |
 | 214 | `0xAE0` | `e049_entry.c` | `130_stage8_slot1` |
 | 210 | `0x1154` | `e045_entry.c` | `100_stage8_slot1`, `150_stage10_slot1` |

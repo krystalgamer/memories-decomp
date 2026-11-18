@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT411US_ENTRY_H
 #define MEMORIES_MODEL_VARIANT411US_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 
 /* The 0x38-byte config: the header-412 config without its height word. */
 typedef struct {

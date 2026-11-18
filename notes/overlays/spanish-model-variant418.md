@@ -1,9 +1,9 @@
 # Spanish MODEL headers 418 and 568
 
 Two independently verified MODEL410 images reuse the unchanged accepted
-`h401_{spokes,rings,quad}.c` implementations, which both slots now
-compile directly. The independently verified `h401_rays_pal.c` selector
-includes the header-401 rays copy (`model_variant/h401_rays.c`), typed
+`e584_h401_{spokes,rings,quad}.c` implementations, which both slots now
+compile directly. The independently verified `e584_h401_rays_pal.c` selector
+includes the header-401 rays copy (`model_variant/e584_h401_rays.c`), typed
 over `Variant401EntryState` with its per-segment flag grid.
 The accepted standalone `e530_sheet*` sources independently match both
 Spanish sheet helpers, preserving the `G32` guest timing-pointer storage.

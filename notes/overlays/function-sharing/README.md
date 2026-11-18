@@ -177,7 +177,7 @@ The geometry, resident callees and animation reachability still need their
 own promotion evidence.
 
 The current registration scan also found eight unrelated 2,584-byte C spans
-using `model_variant/h70_entry.c` and its slot-1 wrapper.
+using `model_variant/e017_h70_entry.c` and its slot-1 wrapper.
 Their body hashes and instruction shapes differ: **equal size is not an
 existing donor**. Conversely, the lack of an exact or same-shape donor is not
 proof of semantic uniqueness.

@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT433_ENTRY_H
 #define MEMORIES_MODEL_VARIANT433_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 #include "h433_lines.h"
 #include "h433_quads.h"
 

@@ -478,9 +478,9 @@ It initializes two sheets, loads a fifth texture (`D + 0x38`, `D + 0x54`
 instead of `D + 0xE0`) and has no burst threshold: once the config start is
 reached it calls sheet then webs, bands while the phase is positive and rays
 from phase 2. The tint fades only below phase 5. The same
-`h401_entry.c` with palette x = 640 is the French header-418 entry
+`e584_h401_entry.c` with palette x = 640 is the French header-418 entry
 ([French notes](french-model-variant418.md)).
-Its bands at `0xFE4` (`h401_bands`, 480 instructions;
+Its bands at `0xFE4` (`e584_h401_bands`, 480 instructions;
 `variant401_bands_slot1` builds the header-551 image) draw that band, whose
 `Variant401EntryBand` now names the nine-by-three points at `+ 0x0`, their
 projections at `+ 0xD8` and the depths at `+ 0x258`. The first pass puts three
@@ -819,7 +819,7 @@ linker symbols named `0x80082E48` `SetPolyF4`. Its body is `SetPolyG3` (length
 6, code `0x30`), and the 28-byte primitive the entry sets up is a `POLY_G3`.
 
 Headers 320/470 and 415/565 are ported the same way, from the Spanish
-header-337 rings helper (`h320_{entry,ribbon,streamers}`) and the header-432 draw, layers and
+header-337 rings helper (`e503_h320_{entry,ribbon,streamers}`) and the header-432 draw, layers and
 bands helpers (`{e570_entry,e570_ribbons,e581_bands_pal,e581_entry_pal}`). Every North American header is 17 below the
 Spanish one. Their other functions stay in assembly, except header 415's entry
 and ribbon helper below. The header-415 layers and bands helpers are 20 and 18 words longer than
@@ -861,7 +861,7 @@ from `390/227` and `438/255` to `384/229` and `438/256`. That reverses their
 order, so the packet pointer gets `s0`. The entry's prototype for it now takes
 a `Variant415EntryRibbon *`.
 
-`h320_ribbon.c` (header 320, 554 instructions) is the one-ribbon form of
+`e503_h320_ribbon.c` (header 320, 554 instructions) is the one-ribbon form of
 the five-ribbon helper at `0x8013BBA4` in the header-321 images: a
 seventeen-point spine bent by `rsin(bend) * (rsin(wave) * 64 / 4096 + 0x40)`
 and a copy moved along the view, projected and drawn like the header-376
@@ -873,7 +873,7 @@ for their test, and that dead `lhu` is left behind when jump2 removes them. The
 coil's `k` extension is shared with the later `k` uses, which places it before
 the first call.
 
-`h320_streamers.c` (header 320, 524 instructions at `0x1714`) draws two
+`e503_h320_streamers.c` (header 320, 524 instructions at `0x1714`) draws two
 seventeen-point streamers in 0x378-byte `Variant320Streamer` records at
 `work + 0x4D4`, the template of the header-443 streamers with a radius of
 `0xC0`, a width of 1 past `0x200` and a length that follows the timing record

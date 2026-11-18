@@ -1,7 +1,7 @@
 #ifndef MEMORIES_FRENCH_MODEL_VARIANT439_ENTRY_H
 #define MEMORIES_FRENCH_MODEL_VARIANT439_ENTRY_H
 #include "../../types.h"
-#include "h320_entry_pal.h"
+#include "e503_h320_entry_pal.h"
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {

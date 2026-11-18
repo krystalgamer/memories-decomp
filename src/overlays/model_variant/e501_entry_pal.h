@@ -1,7 +1,7 @@
 #ifndef FRENCH335_ENTRY_VIEW_H
 #define FRENCH335_ENTRY_VIEW_H
 #include "../../types.h"
-#include "h320_entry_pal.h"
+#include "e503_h320_entry_pal.h"
 #include "e501_rings.h"
 
 /* A command record. Its frames chain the phases: the sheets grow from start

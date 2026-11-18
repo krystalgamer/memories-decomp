@@ -54,28 +54,28 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/h320_entry_pal]
+      - [0x4, c, overlays/model_variant/e503_h320_entry_pal]
   - name: helper_9A4
     type: code
     start: 0x9A4
     vram: 0x8013B9A4
     align: 4
     subsegments:
-      - [0x9A4, c, overlays/model_variant/h320_ribbon_pal]
+      - [0x9A4, c, overlays/model_variant/e503_h320_ribbon_pal]
   - name: helper_1278
     type: code
     start: 0x1278
     vram: 0x8013C278
     align: 4
     subsegments:
-      - [0x1278, c, overlays/model_variant/h320_rings]
+      - [0x1278, c, overlays/model_variant/e503_h320_rings]
   - name: streamers
     type: code
     start: 0x1738
     vram: 0x8013C738
     align: 4
     subsegments:
-      - [0x1738, c, overlays/model_variant/h320_streamers_pal]
+      - [0x1738, c, overlays/model_variant/e503_h320_streamers_pal]
   - name: unclassified_tail
     type: code
     start: 0x1F5C

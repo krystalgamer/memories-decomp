@@ -5,7 +5,7 @@
 /* Header 416's form of the header-397 phased webs: in phase 0 each web is
  * placed a third of a turn behind the previous one along the progress of the
  * entry config's start..burst_start window. Header 401 keeps its own copy over
- * Variant401EntryState (h401_webs.c). */
+ * Variant401EntryState (e584_h401_webs.c). */
 void ModelVariant416_DrawWebs(Variant416EntryState *ctx)
 {
     SVECTOR rot;

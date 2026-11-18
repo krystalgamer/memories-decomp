@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT413_ENTRY_H
 #define MEMORIES_MODEL_VARIANT413_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 #include "e595_entry.h"
 
 typedef struct {

@@ -35,7 +35,7 @@ Twelve header-421/571 images reuse
 renaming wrappers under the same GCC 2.8.1 profile. Sheets is entry-reachable;
 spokes, rings and quad are retained module-local code.
 Six header-337/487 images directly reuse the accepted
-`model_variant/h320_rings.c` body and existing slot-one wrapper,
+`model_variant/e503_h320_rings.c` body and existing slot-one wrapper,
 without new French source files. The ring helper is entry-reachable and uses
 the existing GCC 2.8.1 profile.
 Twelve header-445/595 images reuse
@@ -52,7 +52,7 @@ Four header-422/572 and four header-442/592 images reuse
 sixteen French renaming wrappers under GCC 2.8.1. All four helpers in each
 family are retained module-local code, not demonstrated entry execution paths.
 Two header-418/568 and four header-433/583 images compile
-`model_variant/h401_{spokes,rings,quad}.c` and
+`model_variant/e584_h401_{spokes,rings,quad}.c` and
 `model_variant/h416_{spokes,rings,quad}.c` directly. All three C helpers per image are retained, not entry-reachable.
 Two header-431/581 images compile `model_variant/e575_{spokes,rings}.c`
 directly, four header-440/590 images compile `model_variant/h423_{spokes,rings,quad}.c`
@@ -416,8 +416,8 @@ binds to the French addresses. Each image's symbols file binds
 French MODEL headers 797 (stage 9 slot 0) and 894 (stage 10 slot 1) build the header-780 entry (`ModelVariant780_HandleRequest`) from `src/overlays/model_variant/e329_entry.c` through `src/overlays/model_variant/e329_entry_pal.c` in both slots. `VERSION_FRENCH` selects the disc CLUT word 0x3D28; there is no work-size `printf`, so code and data keep the US layout.
 
 Four images under French headers 809 and 906 are the North American
-header-792 entry (`model_variant/h792_entry.c`) unchanged; only the
-resident `jal` targets differ. Both slots build `h792_entry.c`
+header-792 entry (`model_variant/e341_h792_entry.c`) unchanged; only the
+resident `jal` targets differ. Both slots build `e341_h792_entry.c`
 directly through `model_variant809_linker_symbols.txt`.
 
 Ten images under French headers 653 and 720 are the North American
@@ -874,7 +874,7 @@ addresses and the palette, binding
 `model_variant455_entry_linker_symbols.txt`.
 
 Eight images under French headers 806 and 903 are the North American header-789
-entry (`ModelVariant789_HandleRequest`, `model_variant/h789_entry.c`,
+entry (`ModelVariant789_HandleRequest`, `model_variant/e338_h789_entry.c`,
 built directly in both slots) unchanged: it has no work-size printf, and only
 the resident call targets differ, which `model_variant806_linker_symbols.txt`
 binds to the French addresses. Each image's symbols file binds

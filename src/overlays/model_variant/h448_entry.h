@@ -2,7 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT448_ENTRY_H
 
 #include "../../types.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 #include "../../game/model_camera_effects.h"
 #include "h448_fan.h"
 #include "h448_orbit.h"

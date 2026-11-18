@@ -3,7 +3,7 @@
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 
 /* One 0x2C-byte row of header 456's command table. */
 typedef struct {

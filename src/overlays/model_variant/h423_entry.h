@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT423_ENTRY_H
 #define MEMORIES_MODEL_VARIANT423_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 
 /* One 0x108-byte band: three rows of five points and their screen
  * coordinates, the two colour rows and scale the entry seeds, and the five
