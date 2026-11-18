@@ -5,9 +5,9 @@
 #define MODEL_VARIANT473_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant473_HandleRequest(SVECTOR *point, s32 command)
+s32 FrenchModelVariant473_HandleRequest(EntryState473 *context, s32 command)
 {
-    EntryState473 *work = (EntryState473 *)point;
+    EntryState473 *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
@@ -324,17 +324,17 @@ s32 FrenchModelVariant473_HandleRequest(SVECTOR *point, s32 command)
         dy = projection.target.vy - screen_y;
         work->screen_delta.vy = dy;
         if ((u32)(work->phase - 3) < 3) {
-            SpanishModelVariant473_DrawFunnels((EntryState473 *)point);
-            FrenchModelVariant385_DrawGrid((EntryState473 *)point);
+            SpanishModelVariant473_DrawFunnels(context);
+            FrenchModelVariant385_DrawGrid(context);
         }
         if ((u32)(work->phase - 2) < 3) {
-            FrenchModelVariant473_DrawRibs((EntryState473 *)point);
+            FrenchModelVariant473_DrawRibs(context);
         }
         if ((u32)(work->phase - 1) < 4) {
-            SpanishModelVariant473_DrawSpiral((EntryState473 *)point);
+            SpanishModelVariant473_DrawSpiral(context);
         }
         if (work->config->draw_start <= work->clock.frame && work->phase < 5) {
-            SpanishModelVariant473_DrawSheets((u8 *)point);
+            SpanishModelVariant473_DrawSheets((Sheets473State *)context);
         }
         work->clock.frame_count++;
         frame = Model_GetSlotAnimationFrame(work->slot);

@@ -7063,7 +7063,7 @@ void DuelResult_UpdateOrbitSprite(DisplayObject *object) {
     object->xy.h.x =
         (s16)object->field_2C.h.field_2C +
         rcos((s16) angle) * object->position.s.x / ONE;
-    vy = rsin((s16) object->position.h.field_2A) * object->position.s.x;
+    vy = rsin(object->position.s.y) * object->position.s.x;
     object->xy.h.y = object->field_2C.h.field_2E + vy / ONE;
 }
 

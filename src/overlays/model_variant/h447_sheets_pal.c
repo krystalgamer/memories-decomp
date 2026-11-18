@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "h447_sheets_pal.h"
 
-void SpanishModelVariant464_DrawSheets(u8 *context)
+void SpanishModelVariant464_DrawSheets(Sheets464State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,9 +10,9 @@ void SpanishModelVariant464_DrawSheets(u8 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets464State *state = (Sheets464State *)context;
-    /* The final sheet has no primary record; keep traversal in the raw context. */
-    u8 *primary_cursor = context + 0x4E0;
+    Sheets464State *state = context;
+    /* Steps past the five primaries on the final sheet, which has none. */
+    Sheets464Primary *primary = state->primary;
     GsOT *ot;
     ModelVariantSheetSet *sheet = state->sheets;
     POLY_GT4 *polygon;
@@ -26,7 +26,7 @@ void SpanishModelVariant464_DrawSheets(u8 *context)
     i = 0;
     count = state->timing->count;
     polygon = &state->polygon;
-    for (; i <= count; i++, sheet++, primary_cursor += sizeof(Sheets464Primary)) {
+    for (; i <= count; i++, sheet++, primary++) {
         extra = 0;
         if (state->frame & 1) {
             extra = sheet->size / 8;
@@ -98,7 +98,7 @@ void SpanishModelVariant464_DrawSheets(u8 *context)
                     state->phase = 3;
                 }
             }
-        } else if (((Sheets464Primary *)primary_cursor)->active == 1) {
+        } else if (primary->active == 1) {
             if (sheet->size < 16384 && sheet->shown == 0) {
                 sheet->size += state->step * 4096;
                 if (sheet->size >= 16384) {

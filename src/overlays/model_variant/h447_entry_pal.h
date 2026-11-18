@@ -2,6 +2,7 @@
 #define MEMORIES_FRENCH_MODEL_VARIANT464_ENTRY_H
 #include "../../types.h"
 #include "h320_entry_pal.h"
+#include "h447_sheets_pal.h"
 
 typedef struct {
     CVECTOR inner, outer, web;
@@ -62,5 +63,5 @@ extern GsIMAGE gFrenchModelVariant464_aImages[9];
 extern Variant464EntryConfig gFrenchModelVariant464_aConfigs[];
 void FrenchModelVariant464_DrawRings(Variant464EntryState *context);
 void SpanishModelVariant464_DrawAdvancingQuads(Variant464EntryState *context);
-void SpanishModelVariant464_DrawSheets(u8 *context);
+void SpanishModelVariant464_DrawSheets(Sheets464State *context);
 #endif
