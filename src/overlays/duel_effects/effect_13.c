@@ -14,6 +14,15 @@
 
 const VECTOR gDuelEffect_StatPenaltyInitialScale = { ONE, ONE, ONE, 0 };
 
+GsIMAGE gDuelEffect_StatPenaltyTextureImages[21] = DUEL_EFFECT_TEXTURE_IMAGES;
+
+DuelEffect13Config gDuelEffect_StatPenaltyConfigs[4] = {
+    { { 255, 96, 255 }, { 255, 64, 240 }, 24, 80, 16, 8, 1, 0, 500 },
+    { { 255, 255, 255 }, { 255, 64, 240 }, 32, 80, 24, 10, 2, 0, 1000 },
+    { { 192, 192, 255 }, { 255, 64, 240 }, 24, 80, 16, 8, 1, 1, 500 },
+    { { 255, 96, 255 }, { 255, 64, 240 }, 24, 80, 16, 8, 1, 0, 1000 },
+};
+
 void DuelEffect_RunStatPenalty(void *buffer, s32 phase, s16 number)
 {
     MATRIX world;

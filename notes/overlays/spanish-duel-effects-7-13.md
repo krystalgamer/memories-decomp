@@ -30,10 +30,11 @@ the name does not assert that any lower phase is unused or exclusive.
 | `gDuelEffect_StatPenaltyInitialScale` | `801461C0` | `801541D0` | `D_80146178` | 16 |
 | `gDuelEffect_StatPenaltyTextureImages` | `8015AD14` | `80168CD4` | `D_8015AC48` | 588 |
 
-The extern-only semantic header retains the private four-record config
-and all 21 GsIMAGE descriptors in separate real generated owners, not new
-storage or an absolute data alias; the SDK VECTOR is now `effect_13.c`'s
-`const` `.rodata` (#2602). The code
+The extern-only semantic header declares the private four-record config
+and all 21 GsIMAGE descriptors, not an absolute data alias; `effect_13.c`
+defines both as separate non-`const` `.data` (the images from the shared
+`DUEL_EFFECT_TEXTURE_IMAGES` initializer) and the SDK VECTOR as `const`
+`.rodata` (#2602). The code
 reads descriptor zero; naming the complete table does not claim all
 descriptors are used. Byte equality with the primary image table is not
 permission to merge them or make either immutable.
@@ -83,7 +84,7 @@ Effect 13 has a `0xFA0`-byte work object, four 20-byte configurations,
 The five real owners are `D_80146178/16`, `D_8015AC48/588`,
 `D_8015AE94/80`, `D_8015B748/84` and `D_8015B7F8/8`.
 The second image table is byte-equal to the primary Spanish table but
-keeps its separate storage. No absolute overlay-data aliases are added.
+keeps its separate storage (its own `.data` in `effect_13.c`). No absolute overlay-data aliases are added.
 
 All four Spanish heights are 80; blends are 1/2/1/1 and background flags
 0/0/1/0. The curve receives eight vertices; activation grows by two to 48

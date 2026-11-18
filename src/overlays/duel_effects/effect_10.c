@@ -13,6 +13,17 @@
 
 const VECTOR gDuelEffect_TerrainChangeInitialScale = { ONE, ONE, ONE, 0 };
 
+GsIMAGE gDuelEffect_TerrainChangeTextureImages[21] = DUEL_EFFECT_TEXTURE_IMAGES;
+
+DuelEffect10Config gDuelEffect_TerrainChangeConfigs[6] = {
+    { { 0, 255, 0, 0 }, 4, 128, 4, 1, 90 },
+    { { 208, 255, 128, 0 }, 4, 128, 4, 1, 90 },
+    { { 128, 128, 128, 0 }, 4, 128, 4, 1, 90 },
+    { { 128, 255, 128, 0 }, 4, 128, 4, 1, 90 },
+    { { 0, 0, 255, 0 }, 4, 128, 4, 1, 90 },
+    { { 192, 192, 192, 0 }, 4, 128, 4, 2, 90 },
+};
+
 void DuelEffect_RunTerrainChange(void *buffer, s32 phase)
 {
     MATRIX world;

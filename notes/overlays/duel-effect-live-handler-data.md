@@ -21,9 +21,9 @@ phase-to-card mappings or exclusive artwork identities.
 
 Addresses are hexadecimal. All 816 bytes keep their original types/bounds
 and existing five bank maps. The Destroy Flames image and descriptors, the
-Guardian Star Bonus descriptor and the Board Destruction configurations are
-now `.data` defined by `tile_effect.c`, `gather_effect.c` and `effect_17.c`
-(#2602); the Terrain Change image/configurations keep their generated owner. The original
+Guardian Star Bonus descriptor, the Board Destruction configurations and the
+Terrain Change image table/configurations are now `.data` defined by
+`tile_effect.c`, `gather_effect.c`, `effect_17.c` and `effect_10.c` (#2602). The original
 private headers remain unchanged; their local declarations and instruction
 uses supply the layouts, not reference-project headers or compiler claims.
 No packed aggregate or absolute alias is introduced. The three initial
@@ -58,8 +58,10 @@ halfword. No terrain identity or meaning for the last field is inferred.
 The separate 21-record `GsIMAGE` table remains a distinct 588-byte owner.
 The accepted [effect-ten recovery](duel-effect-ten.md) established its
 complete extent and its equality to the primary image table in the French
-image, not permission to deduplicate the storage or assume every regional
-table has identical bytes. This provider reads only record 12's mode and
+image, not permission to deduplicate the storage. `effect_10.c` defines its
+own copy from the shared `DUEL_EFFECT_TEXTURE_IMAGES` initializer; like the
+primary table, PAL moves every CLUT (`DUEL_EFFECT_CLUT`), so the bytes are
+identical within NTSC and within PAL but not across them. This provider reads only record 12's mode and
 coordinates when its config mode is not one, then replaces only packed
 output pair 12's texture-page word. CLUT/output ownership and every other
 record remain untouched.
