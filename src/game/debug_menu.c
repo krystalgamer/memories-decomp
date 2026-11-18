@@ -81,7 +81,7 @@ u8 gDebugMenu_bLastMapId;
 s8 gDebug_bEditorDigit;
 u8 gDebug_bEditorFlags;
 u8 gDebugMenu_bStep;
-u8 *gDebug_pszEditorFormat;
+char *gDebug_pszEditorFormat;
 u8 gDebugMenu_bPage;
 s8 gDebugMenu_bCursor;
 
@@ -94,21 +94,21 @@ s8 gDebugMenu_bCursor;
 
    Each string carries its explicit size. In the image every one is padded to
    a four-byte boundary -- the first is thirty-seven characters and occupies
-   forty bytes -- and a plain u8 name[] = "..." would emit strlen + 1 with no
+   forty bytes -- and a plain char name[] = "..." would emit strlen + 1 with no
    padding, because GCC aligns a char array to one byte. The six would then
    pack tightly and move everything after them.
 
    DebugMenu_UpdateCampaignEntry uses the shared declarations of gDebugMenu_szMessageEditorFormat and gDebugMenu_szCampaignEditorFormat;
    their names retain the original R_MIPS_HI16/R_MIPS_LO16 relocations. */
 #ifdef VERSION_EUROPE
-u8 gDebugMenu_szLanguageEditorFormat[0x1C] = "          LANGUAGE = %X\n";
+char gDebugMenu_szLanguageEditorFormat[0x1C] = "          LANGUAGE = %X\n";
 #endif
-u8 gDebugMenu_szSoundEditorFormat[0x28] = "          SE= %04X BGM=%03X XA= %03X\n";
-u8 gDebugMenu_szMessageEditorFormat[0x18] = "          MSG = %03X\n";
-u8 gDebugMenu_szCampaignEditorFormat[0x18] = "          CAMP = %02X\n";
-u8 gDebugMenu_szMapEditorFormat[0x1C] = "             MAP = %02X\n";
-u8 gDebugMenu_szMenuEditorFormat[0x1C] = "             MENU = %02X\n";
-u8 gDebugMenu_szMovieEditorFormat[0x24] = "                          = %02X\n";
+char gDebugMenu_szSoundEditorFormat[0x28] = "          SE= %04X BGM=%03X XA= %03X\n";
+char gDebugMenu_szMessageEditorFormat[0x18] = "          MSG = %03X\n";
+char gDebugMenu_szCampaignEditorFormat[0x18] = "          CAMP = %02X\n";
+char gDebugMenu_szMapEditorFormat[0x1C] = "             MAP = %02X\n";
+char gDebugMenu_szMenuEditorFormat[0x1C] = "             MENU = %02X\n";
+char gDebugMenu_szMovieEditorFormat[0x24] = "                          = %02X\n";
 
 /* Indexed by gDebugMenu_bCursor in DebugMenu_EnterMappedMode. */
 u8 gDebugMenu_abMainModeByEntry[DEBUG_MENU_ENTRY_COUNT] = {
@@ -195,7 +195,7 @@ void DebugMenu_Init(void)
 }
 
 void DebugMenu_OpenValueEditor(
-    u8 *data,
+    char *format,
     s32 caret_column_0,
     s32 caret_column_1,
     s32 caret_column_2,
@@ -205,7 +205,7 @@ void DebugMenu_OpenValueEditor(
 )
 {
     gDebug_bEditorFlags = 0;
-    gDebug_pszEditorFormat = data;
+    gDebug_pszEditorFormat = format;
     gDebug_abEditorCaretColumns[0] = caret_column_0;
     gDebug_abEditorCaretColumns[1] = caret_column_1;
     gDebug_abEditorCaretColumns[2] = caret_column_2;
@@ -412,7 +412,7 @@ s32 DebugMenu_UpdateValueEditor(void)
             i = i - 1;
         } while (i != 0);
     }
-    FntPrint((char *)gDebug_pszEditorFormat, gDebug_nSceneOrSoundID,
+    FntPrint(gDebug_pszEditorFormat, gDebug_nSceneOrSoundID,
              gDebug_nEditedBgmId, gDebug_nEditedCdSoundId);
     FntPrint("%s\n", gDebug_szEditorCaretLine);
     return ret;
