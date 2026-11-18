@@ -138,6 +138,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         c = gFile_TransferBufferBase;
         p->w = 0x100;
         p->y = k * 2 + 0xF0;
+        /* The descriptor opens with RECT-shaped x/y/w/h; c is the byte buffer. */
         LoadImage2((RECT *)p, (u32 *)c);
         m2 = 0xFFDCFFFF;
         phase_size = &p->phase_size;
@@ -163,6 +164,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
  * way the original read them through $gp. */
 s8 gDisplayEffect_ResourceCacheWriteSlot;
 
+/* Each table entry is a byte offset from b, so the halfword views stay. */
 int DisplayEffect_HasResourceEntry(unsigned char*b,int x,int y,int z){u16 *p;p=(u16*)(b+x*2);if(*p){p=(u16*)(b+*p+y*2);if(*p){p=(u16*)(b+*p+z*2);if(*p)return 1;}}return 0;}
 
 /* Regional value: the CLUT rectangles' x (512 -> 640). The European build
@@ -217,7 +219,7 @@ s32 DisplayEffect_BuildResourceObjects(
             p->attribute = p->attribute | m;
             p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         } else {
-            p = (DisplayObject *)0;
+            p = 0;
         }
         out[1] = p;
 
@@ -231,7 +233,7 @@ s32 DisplayEffect_BuildResourceObjects(
                 p->attribute | GsALON | DISPLAY_OBJECT_ATTRIBUTE_8BPP;
             p->flags = p->flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         } else {
-            p = (DisplayObject *)0;
+            p = 0;
         }
         out[2] = p;
     }
@@ -277,25 +279,18 @@ void DisplayEffect_SetObjectRowBlend(DisplayObject **objects, u32 attribute, s32
    packages. The Japanese build keeps the slot ids inside the gRuntime_pSharedWorkBase arena
    at +0x7FFF0 (as its DisplayEffect_ResetMenuRecords resets them) and its packages start five
    sectors lower, so a regional build supplies its own. */
-#ifndef DISPLAY_EFFECT_SLOT_ID
-#ifdef VERSION_JAPAN
-#define DISPLAY_EFFECT_SLOT_ID(i) (((s8 *)gRuntime_pSharedWorkBase)[0x7FFF0 + (i)])
-#else
-#define DISPLAY_EFFECT_SLOT_ID(i) (gDisplayEffect_CachedResourceIds[i])
-#endif
-#endif
 #ifndef DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR
 #define DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR 15182
 #endif
 
-void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
+void DisplayEffect_UpdateResourceAcquisition(MenuRecord *a)
 {
     DisplayEffectVramSlot *slots;
     DisplayEffectVramSlot *slot;
     FileTransferDescriptor *req;
     s32 i;
 
-    if (DisplayEffect_MarkInitialized((MenuRecord *)a) == 0) {
+    if (DisplayEffect_MarkInitialized(a) == 0) {
         slots = (DisplayEffectVramSlot *)gRuntime_pSharedWorkBase;
         gDisplayEffect_ResourceCacheWriteSlot = 0;
         /* The slot cursor has to be an explicit walking pointer decremented at
@@ -304,10 +299,18 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
            move plus the fifth callee-saved register. */
         slot = &slots[DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1];
         for (i = DISPLAY_EFFECT_VRAM_SLOT_COUNT - 1; i >= 0; i--) {
-            if (DISPLAY_EFFECT_SLOT_ID(i) < 0) {
+#ifdef VERSION_JAPAN
+            /* Signed ids inside the u8 shared arena. */
+            if (((s8 *)gRuntime_pSharedWorkBase)[0x7FFF0 + i] < 0) {
                 gDisplayEffect_ResourceCacheWriteSlot = i;
             }
-            if (DISPLAY_EFFECT_SLOT_ID(i) == a->effect_id) {
+            if (((s8 *)gRuntime_pSharedWorkBase)[0x7FFF0 + i] == a->effect_id) {
+#else
+            if (gDisplayEffect_CachedResourceIds[i] < 0) {
+                gDisplayEffect_ResourceCacheWriteSlot = i;
+            }
+            if (gDisplayEffect_CachedResourceIds[i] == a->effect_id) {
+#endif
                 while (IsIdleGPU(10) != 0) {
                     ;
                 }
@@ -315,25 +318,25 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
                 slot->image_rect.y = 256;
                 slot->image_rect.w = 192;
                 slot->image_rect.h = 256;
-                LoadImage(&slot->image_rect, (u32 *)slot->image);
+                LoadImage(&slot->image_rect, slot->image);
                 slot->clut_rect.x = DISPLAY_EFFECT_CLUT_X;
                 slot->clut_rect.y = a->slot_index * 2 + 240;
                 slot->clut_rect.w = 256;
                 slot->clut_rect.h = 2;
-                LoadImage(&slot->clut_rect, (u32 *)slot->clut);
+                LoadImage(&slot->clut_rect, slot->clut);
                 if (a->slot_index != 0) {
                     Util_CopyWords(gDisplay_abResourceBank1, slot->extra, 0x800);
                 } else {
                     Util_CopyWords(gDisplay_abResourceBank0, slot->extra, 0x800);
                 }
-                a->state |= 0x40;
+                a->display_effect_step |= 0x40;
                 return;
             }
             slot--;
         }
         if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              gFile_dwCancelRequestState) != 0) {
-            a->state &= 0x7F;
+            a->display_effect_step &= 0x7F;
             return;
         }
         req = File_TryRequestAsyncTransfer(
@@ -346,13 +349,17 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
             req->callback_data = gDisplay_abResourceBank1;
         }
         gFile_dwTransferState = req->status_flags | FILE_TRANSFER_STATE_PRIMARY_ACTIVE;
-    } else if ((a->state & 0x40) == 0) {
+    } else if ((a->display_effect_step & 0x40) == 0) {
         if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
              gFile_dwCancelRequestState) != 0) {
             return;
         }
-        a->state |= 0x40;
-        DISPLAY_EFFECT_SLOT_ID(gDisplayEffect_ResourceCacheWriteSlot) = a->effect_id;
+        a->display_effect_step |= 0x40;
+#ifdef VERSION_JAPAN
+        gRuntime_pSharedWorkBase[0x7FFF0 + gDisplayEffect_ResourceCacheWriteSlot] = a->effect_id;
+#else
+        gDisplayEffect_CachedResourceIds[gDisplayEffect_ResourceCacheWriteSlot] = a->effect_id;
+#endif
         while (IsIdleGPU(10) != 0) {
             ;
         }
@@ -361,12 +368,12 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
         slot->image_rect.y = 256;
         slot->image_rect.w = 192;
         slot->image_rect.h = 256;
-        StoreImage(&slot->image_rect, (u32 *)slot->image);
+        StoreImage(&slot->image_rect, slot->image);
         slot->clut_rect.x = DISPLAY_EFFECT_CLUT_X;
         slot->clut_rect.y = a->slot_index * 2 + 240;
         slot->clut_rect.w = 256;
         slot->clut_rect.h = 2;
-        StoreImage(&slot->clut_rect, (u32 *)slot->clut);
+        StoreImage(&slot->clut_rect, slot->clut);
         if (a->slot_index != 0) {
             Util_CopyWords(slot->extra, gDisplay_abResourceBank1, 0x800);
         } else {
@@ -374,8 +381,8 @@ void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *a)
         }
     } else {
         DisplayEffect_BuildResourceObjects(
-            (MenuRecord *)a, (DisplayObject **)a, a->resource_entry_index);
-        a->state = 0;
+            a, a->grid[0], a->resource_entry_index);
+        a->display_effect_step = 0;
         a->variant_update_flags |= 0x40;
     }
 }
@@ -447,7 +454,7 @@ void DisplayEffect_UpdatePositionTween(MenuRecord *p)
         record->tween_delta_y = record->tween_target_y - record->y;
     }
 
-    angle = *(u16 *)&record->tween_angle + *(u16 *)&record->tween_angle_step;
+    angle = (u16)record->tween_angle + (u16)record->tween_angle_step;
     record->tween_angle = angle;
 
     if ((u16)(angle - 1) >= TRIG_ANGLE_QUARTER_TURN - 1) {
@@ -487,12 +494,12 @@ void DisplayEffect_FadeInRecord(MenuRecord *p) {
         p->x = 0x68;
         p->variant_update_flags |= 0x10;
         if (p->slot_index != 0) {
-            *(s16 *)&p->x = 0xD8;
+            p->x = 0xD8;
         }
         DisplayPositionGroup_SetChildPositions(
             p->grid[0],
-            *(s16 *)&p->x,
-            *(s16 *)&p->y
+            (s16)p->x,
+            (s16)p->y
         );
         first = p->grid[0][0];
         depth = first->depth_offset;
@@ -551,7 +558,7 @@ void DisplayEffect_FadeOutRecord(MenuRecord *p)
         p->step_arg.fade_level = 0x80;
     }
 
-    level = *(u16 *)&p->step_arg.fade_level - (gGraphics_nBaseFrameStep << 3);
+    level = (u16)p->step_arg.fade_level - (gGraphics_nBaseFrameStep << 3);
     p->step_arg.fade_level = level;
     u = (s16)level;
     if (u <= 0) {
@@ -658,12 +665,12 @@ void DisplayEffect_CrossfadeResources(MenuRecord *p)
         dd[0] = -dd[0];
         dd[1] = w;
     }
-    y = *(s16 *)&p->y;
-    x = *(s16 *)&p->x + dd[0];
+    y = (s16)p->y;
+    x = (s16)p->x + dd[0];
     x = (s16)x;
     DisplayPositionGroup_SetChildPositions(p->grid[0], x, y);
     DisplayPositionGroup_SetChildPositions(p->grid[1], x, y);
-    x = *(s16 *)&p->x - dd[1];
+    x = (s16)p->x - dd[1];
     x = (s16)x;
     DisplayPositionGroup_SetChildPositions(p->grid[2], x, y);
     DisplayPositionGroup_SetChildPositions(p->grid[3], x, y);
@@ -683,13 +690,13 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     if (DisplayEffect_MarkInitialized(record) == 0) {
         if (record->step_arg.closing != 0) {
             o = record->grid[0][0];
-            *(u16 *)&o->field_60 = 0;
+            o->field_60 = 0;
         } else {
             id = record->effect_id;
             idx = id - CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID;
             o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
             DisplayObject_ConfigureScreenSprite(o, (s16)record->x, (s16)record->y, 0x30, 0x30, 0, 0, 0xE, 0x380, 0xF0);
-            *(u16 *)&o->field_40.clut.x += (idx >> 4) << 6;
+            o->field_40.clut.x += (idx >> 4) << 6;
             o->texture_uv.b.u =
                 (idx % CAMPAIGN_DIALOG_PORTRAIT_GRID_COLUMN_COUNT) *
                 CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WIDTH;
@@ -713,8 +720,8 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
         DisplayObject_ConfigureScreenSprite(o2, o->xy.s.x, o->xy.s.y, 0x30, 0x30, o->texture_uv.b.u, o->texture_uv.b.v, 0xE, DISPLAY_EFFECT_SPRITE_CX, 0xFD);
         o2->attribute = (o2->attribute |
             GsALON | GsATWO | DISPLAY_OBJECT_ATTRIBUTE_8BPP) & ~GsROTOFF;
-        *(u16 *)&o2->field_44.scale.y = *(u16 *)&o->field_44.scale.y;
-        *(u16 *)&o2->field_48.pivot.y = 0;
+        o2->field_44.scale.y = o->field_44.scale.y;
+        o2->field_48.pivot.y = 0;
         DisplayObject_SelectOrderingTable1(o2);
         DisplayObject_SetDepthOffset(o2, -9);
         record->grid[0][1] = o2;
@@ -767,9 +774,8 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
  * one, dispatches `display_effect_step & 0x1F`. The mask permits thirty-two
  * entries and there are eight; the game only stores steps zero through six.
  *
- * The table and dispatcher use MenuRecord *, matching the arena they walk.
- * The single VRAM entry retains its cast because that handler takes the
- * DisplayEffectVramState layout view of the same record.
+ * The table, the dispatcher and every entry use MenuRecord *, matching the
+ * arena they walk.
  * The entries include two that share DisplayEffect_FinishStepWhenIdle.
  *
  * The memory card dialog selects one of the five transition steps with its
@@ -779,7 +785,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
 void (*gDisplayEffect_apfnSteps[])(MenuRecord *) = {
     DisplayEffect_FinishStepWhenIdle,
     DisplayEffect_FinishStepWhenIdle,
-    (void (*)(MenuRecord *))DisplayEffect_UpdateResourceAcquisition,
+    DisplayEffect_UpdateResourceAcquisition,
     DisplayEffect_UpdatePositionTween,
     DisplayEffect_CrossfadeResources,
     DisplayEffect_UpdatePortraitTransition,
@@ -790,11 +796,11 @@ void (*gDisplayEffect_apfnSteps[])(MenuRecord *) = {
 void (*gDialog_apfnTransitionSteps[MEM_CARD_WORK_CALLBACK_COUNT])(
     MemCardWorkRoot *root, MemCardWorkSlot *slot
 ) = {
-    (void (*)(MemCardWorkRoot *, MemCardWorkSlot *))Dialog_UpdateMessageTransition,
-    (void (*)(MemCardWorkRoot *, MemCardWorkSlot *))Dialog_UpdateOpenTransition,
-    (void (*)(MemCardWorkRoot *, MemCardWorkSlot *))Dialog_UpdateCloseTransition,
-    (void (*)(MemCardWorkRoot *, MemCardWorkSlot *))Dialog_UpdateSpotlightContraction,
-    (void (*)(MemCardWorkRoot *, MemCardWorkSlot *))Dialog_UpdateMessageTransition,
+    Dialog_UpdateMessageTransition,
+    Dialog_UpdateOpenTransition,
+    Dialog_UpdateCloseTransition,
+    Dialog_UpdateSpotlightContraction,
+    Dialog_UpdateMessageTransition,
 };
 
 void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {

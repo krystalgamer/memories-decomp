@@ -56,23 +56,18 @@ void DisplayEffect_LoadResourceStage(
 
 /* Builds up to three display objects and writes them back through `out` as
  * out[0], out[1] and out[2], storing NULL in the slots it does not fill. That
- * is why the second parameter is DisplayObject **. The backing MenuRecord
- * grid has mixed consumers, so callers cast each three-word row to this
- * output view. DisplayEffect_CrossfadeResources passes rows 0 through 3, and each call fills its
+ * is why the second parameter is DisplayObject **: callers pass one
+ * three-object row of the MenuRecord grid. DisplayEffect_CrossfadeResources passes rows 0 through 3, and each call fills its
  * own three-slot group. Returns 1 when it built anything and 0 when
  * DisplayEffect_HasResourceEntry rejected the first index; every caller
  * discards that result.
  *
  * The first parameter is the record itself. menu_record.h already names the
  * three fields this reads -- slot_index selects which of the two buffer bases
- * and which layer constants to use, and field_34/field_36 are the x/y pair
+ * and which layer constants to use, and x/y at 0x34/0x36 are the pair
  * that header documents as "the pair DisplayEffect_UpdatePositionTween and DisplayEffect_FadeInRecord hand to
  * the position helpers". They are u16 there and read signed here, so the two
- * reads keep an explicit `*(s16 *)&` at the use.
- *
- * DisplayEffect_UpdateResourceAcquisition in display_effect.c holds the same memory as a
- * DisplayEffectVramState instead and says so with its cast to MenuRecord when
- * it calls DisplayEffect_MarkInitialized. */
+ * reads keep an explicit (s16) at the use. */
 s32 DisplayEffect_BuildResourceObjects(
     MenuRecord *record, DisplayObject **out, s32 resource_index);
 
@@ -91,27 +86,10 @@ void DisplayEffect_SetObjectRowBlend(DisplayObject **objects, u32 attribute, s32
 
 #define DISPLAY_EFFECT_VRAM_SLOT_COUNT 5
 
-/* The wider display-effect view owned by this callback. The lifecycle helpers
- * take the same record as MenuRecord. */
 typedef struct {
-    u8 pad_00[0x30];
-    s8 effect_id;
-    u8 resource_entry_index;
-    u8 variant_update_flags;
-    u8 state;
-    /* Not accessed through this view; named for the screen position that
-       MenuRecord keeps at 0x34/0x36 of the same record. */
-    u16 x;
-    u16 y;
-    u8 pad_38[0x04];
-    u8 slot_index;
-    u8 pad_3D;
-    u16 variant_countdown;
-} DisplayEffectVramState;
-
-typedef struct {
-    u8 image[0x18000];
-    u8 clut[0x400];
+    /* Word buffers: LoadImage and StoreImage move them as u32 *. */
+    u32 image[0x18000 / 4];
+    u32 clut[0x400 / 4];
     u8 extra[0x800];
     RECT image_rect;
     RECT clut_rect;
@@ -137,9 +115,9 @@ extern s8 gDisplayEffect_ResourceCacheWriteSlot;
 extern s8 gDisplayEffect_CachedResourceIds[];
 
 /* Step two: restore a cache hit or request/capture a miss, then build row
- * zero on a later invocation. The write-slot byte is shared across calls;
- * the callback retains this narrow view and the step table's explicit cast. */
-void DisplayEffect_UpdateResourceAcquisition(DisplayEffectVramState *state);
+ * zero on a later invocation. The write-slot byte is shared across calls.
+ * Its bit 0x40 progress flag lives in display_effect_step. */
+void DisplayEffect_UpdateResourceAcquisition(MenuRecord *record);
 
 /* Step 4 rebuilds/crossfades old and new resource rows, with complementary
  * color and position updates; completion retains only the new primary row.

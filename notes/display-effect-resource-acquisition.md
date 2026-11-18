@@ -17,8 +17,8 @@ transition callers establish their roles; the old descriptions alone do not.
 `Script_OpShowMenu` and `Text_HandleDisplayEffectCommand` write the signed
 resource ID at `+0x30`, `resource_entry_index` at `+0x31`, `slot_index`
 at `+0x3C` and step two at `+0x33`. These are separate values. The
-step table retains its cast from `DisplayEffectVramState *` to the public
-`MenuRecord *` callback ABI; neither record layout changes.
+callback takes the `MenuRecord *` of the step table's ABI directly; its
+progress bit 0x40 lives in `display_effect_step`.
 
 The first call uses `DisplayEffect_MarkInitialized`. It clears the shared
 write-slot byte to zero, then walks five ID bytes and five RAM slot
@@ -143,8 +143,7 @@ in the comparison, and a fresh clean gate covers the integrated tree.
 
 ## Resource-entry and shared-slot member views
 
-The +0x31 byte is resource_entry_index in MenuRecord and
-DisplayEffectVramState. It is the first index
+The +0x31 byte is resource_entry_index in MenuRecord. It is the first index
 passed to the three-level resource-table probe and object constructor,
 not the effect/package ID at +0x30 or a claimed facial expression.
 Script stores flags & 15; text adjustment stores flags & 3, while an
@@ -153,7 +152,7 @@ using (flags >> 1) & 3. Portrait start retains its early return.
 All masks, conditional stores, narrowing and the existing partial reset
 remain; no archive-dependent bounds policy is added.
 
-The +0x3C byte is slot_index in MenuRecord and DisplayEffectVramState.
+The +0x3C byte is slot_index in MenuRecord.
 Script publishes the selected record's 0/1 index; text publishes its
 chosen 0/1/2 index, including the portrait value two. This explains the
 side/resource-bank consumers without retyping the byte as Boolean.
