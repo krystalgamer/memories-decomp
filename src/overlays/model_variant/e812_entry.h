@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT629_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_texture_upload.h"
@@ -83,12 +84,6 @@ typedef struct {
     Model629Element c[32];   /* 0xA74 */
 } Model629State;
 
-typedef struct {
-    u16 distance;
-    s16 yaw;
-    s16 pitch;
-    u16 pad;
-} Model629ViewSnapshot;
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant629_aImages[2];

@@ -13,7 +13,7 @@ s32 ModelVariant656_HandleRequest(Model656State *context, s32 command)
     Model656State *work;
     MATRIX ls, m;
     GsCOORDUNIT unit;
-    Model656ViewSnapshot view;
+    ModelVariantViewSnapshot view;
     SVECTOR points[4];
     SVECTOR offset, moved;
     long interpolation, flag;
@@ -256,7 +256,7 @@ s32 ModelVariant656_HandleRequest(Model656State *context, s32 command)
             break;
         }
         PushMatrix();
-        view = *(Model656ViewSnapshot *)Model_GetViewMetricsBuffer();
+        view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->count; i++) {
             if (work->sprites[i].head.active == 1) {
@@ -264,9 +264,9 @@ s32 ModelVariant656_HandleRequest(Model656State *context, s32 command)
                 unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->sprites[i].xform.scale);
                 RotMatrixZ(work->sprites[i].xform.rotation.vz, &unit.matrix);
-                RotMatrixX(work->sprites[i].xform.rotation.vx - (view.u.halves[2] - 0x1000) * work->direction,
+                RotMatrixX(work->sprites[i].xform.rotation.vx - (view.pitch - 0x1000) * work->direction,
                     &unit.matrix);
-                RotMatrixY(work->sprites[i].xform.rotation.vy + (0xC06 - view.u.halves[1]), &unit.matrix);
+                RotMatrixY(work->sprites[i].xform.rotation.vy + (0xC06 - view.yaw), &unit.matrix);
                 unit.matrix.t[0] = work->sprites[i].xform.position.vx
                     + work->sprites[i].growth.vx * work->sprites[i].head.elapsed / work->sprites[i].head.duration;
                 {

@@ -64,11 +64,12 @@ typedef struct {
 } ModelVariantSwarmGroup;
 
 
-/* An eight-byte copy of the view metrics (Model_GetViewMetricsBuffer) that
- * the header 630-683 entries and image 60348 take each frame; the entries
- * that use it turn their sprites with the yaw at +2 and the pitch at +4. */
+/* An eight-byte copy of the view metrics (Model_GetViewMetricsBuffer: the
+ * distance, yaw and pitch of ModelViewMetrics) that the header 629-683
+ * entries and image 60348 take each frame; the entries that use it turn
+ * their sprites with the yaw at +2 and the pitch at +4. */
 typedef struct {
-    s16 unknown_00, yaw, pitch, unknown_06;
+    s16 distance, yaw, pitch, unknown_06;
 } ModelVariantViewSnapshot;
 
 /* The same eight-byte view-metrics copy kept as bytes, as the header
