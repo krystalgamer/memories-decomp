@@ -56,6 +56,15 @@ and reinstall its breakpoints when the BIOS shell is reached. Such a script
 should print both reset and reinstall milestones; silence after reset is a
 setup failure, not a negative result.
 
+PCSX-Redux builds before grumpycoders/pcsx-redux `d303204c` (2026-10-18)
+leave two tables on an event listener's coroutine stack for every event it
+receives. A `GPU::Vsync` listener overflows LuaJIT's 65,500 slots after about
+32,750 frames, roughly nine minutes, and the console prints a page of
+`(Table)` lines ending in `stack overflow at =[C]:-1 ([top])`. Nothing in the
+script can release those slots, and removing a listener from inside an event
+callback is unsafe on the same old builds, so a Vsync trace must finish well
+inside that budget, counted from when the script is loaded.
+
 Every script prints the surrounding document itself, so the only thing left to
 write by hand is the context section:
 
