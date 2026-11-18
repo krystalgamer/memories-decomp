@@ -9,23 +9,23 @@
 
 void DuelEffect_DrawQuadContour(CVECTOR *color, SVECTOR *inner, SVECTOR *outer, u16 bias, u16 flags)
 {
-    POLY_G4 gradient;
-    POLY_G4 *edge = &gradient;
+    DisplayObjectG4Packet gradient;
+    DisplayObjectG4Packet *edge = &gradient;
     POLY_FT4 polygon;
     POLY_FT4 *packet = &polygon;
     SVECTOR vertices[4];
-    s32 p;
-    s32 flag;
+    long p;
+    long flag;
     s32 depth;
     s32 i;
     s32 j;
 
-    setPolyG4(edge);
-    setRGB0(edge, 0, 0, 0);
-    setRGB1(edge, 0, 0, 0);
-    setRGB2(edge, color->r >> 1, color->g >> 1, color->b >> 1);
-    setRGB3(&gradient, color->r >> 1, color->g >> 1, color->b >> 1);
-    setSemiTrans(edge, 1);
+    setPolyG4(&edge->prim);
+    setRGB0(&edge->prim, 0, 0, 0);
+    setRGB1(&edge->prim, 0, 0, 0);
+    setRGB2(&edge->prim, color->r >> 1, color->g >> 1, color->b >> 1);
+    setRGB3(&gradient.prim, color->r >> 1, color->g >> 1, color->b >> 1);
+    setSemiTrans(&edge->prim, 1);
     setPolyFT4(packet);
     packet->tpage = gDuelEffect_TexturePageClutPairs.named.page_at_00;
     packet->clut = gDuelEffect_TexturePageClutPairs.named.clut_at_02;
@@ -35,16 +35,16 @@ void DuelEffect_DrawQuadContour(CVECTOR *color, SVECTOR *inner, SVECTOR *outer, 
     for (i = 0; i < 4; i++) {
         depth = RotAverage4(&outer[i], &outer[(i + 1) % 4],
             &inner[i], &inner[(i + 1) % 4],
-            (long *)&edge->x0, (long *)&edge->x1,
-            (long *)&edge->x2, (long *)&edge->x3,
-            (long *)&p, (long *)&flag);
+            &edge->w.xy0, &edge->w.xy1,
+            &edge->w.xy2, &edge->w.xy3,
+            &p, &flag);
         if (flag >= 0) {
             depth++;
             if (bias == 0) {
-                DuelEffect_SubmitOffsetQuad(edge, flags);
+                DuelEffect_SubmitOffsetQuad(&edge->prim, flags);
             } else {
                 depth -= bias;
-                Graphics_SubmitDrawModePacket((u32 *)edge, gDuelEffect_pOrderingTable,
+                Graphics_SubmitDrawModePacket(&edge->prim, gDuelEffect_pOrderingTable,
                     (u16)(depth >> 2), flags);
             }
         }

@@ -63,7 +63,7 @@ void DuelEffect_RunSelectedCardOverlay(void *buffer, s32 phase)
         Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         scale.vx = work->scale;
         scale.vy = work->scale;
         scale.vz = work->scale;

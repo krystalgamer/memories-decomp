@@ -92,7 +92,7 @@ void DuelEffect_RunRowStrike(void *buffer, s32 phase)
     } else {
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         for (j = 0; j < work->count; j++) {
             DuelEffect_SetTransformMatrix(&world, &saved, &work->origins[j], &rotation, &scale, 3);
             if ((u16)DuelEffect_HasNonzeroColor(&work->primary[j]) ||
@@ -250,7 +250,7 @@ void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
         Model_GetFrameStep();
         Model_SetFrameStepOverride(1);
         PushMatrix();
-        world = *(MATRIX *)Model_GetLightSourceMatrix();
+        world = *Model_GetLightSourceMatrix();
         DuelEffect_SetTransformMatrix(&world, &saved, &work->position, &work->rotation, &scale, 1);
         if ((u16)DuelEffect_HasNonzeroColor(&work->color)) {
             setPolyFT4(packet);
@@ -262,6 +262,7 @@ void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
             setVector(&vertices[1], work->speed >= 0 ? 48 : -48, 0, 0);
             setVector(&vertices[2], 0, 128, 0);
             setVector(&vertices[3], work->speed >= 0 ? 48 : -48, 128, 0);
+            /* One halfword load tests the colour's r/g bytes together. */
             if (*(u16 *)&work->color == 0x8080 && work->color.b == 128) {
                 DuelEffect_ProjectSubmitFt4(packet, vertices, 32, 0);
             } else {

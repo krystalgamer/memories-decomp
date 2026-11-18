@@ -19,18 +19,18 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
     SVECTOR rotation;
     VECTOR scale;
     POLY_FT4 polygon;
-    GsGLINE line;
+    DuelEffectGLinePacket line;
     SVECTOR vertices[4];
     CVECTOR color;
     POLY_FT4 *packet;
-    GsGLINE *line_packet;
+    DuelEffectGLinePacket *line_packet;
     DuelEffect24Work *work;
     s32 i;
     s32 x;
     s32 y;
     s32 z;
-    s32 p;
-    s32 flag;
+    long p;
+    long flag;
 
     memset(&position, 0, sizeof(position));
     memset(&rotation, 0, sizeof(rotation));
@@ -120,24 +120,24 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
             }
             if (work->arrival == 8) {
                 if (work->connection_tick > 0) {
-                    DuelEffect_DrawGradientConnectionBands(&color, (DVECTOR *)&work->targets[0],
-                                 (DVECTOR *)&work->targets[2], work->beam_width * 2);
+                    DuelEffect_DrawGradientConnectionBands(&color, &work->targets[0],
+                                 &work->targets[2], work->beam_width * 2);
                 }
                 if (work->connection_tick > 4) {
-                    DuelEffect_DrawGradientConnectionBands(&color, (DVECTOR *)&work->targets[2],
-                                 (DVECTOR *)&work->targets[4], work->beam_width);
+                    DuelEffect_DrawGradientConnectionBands(&color, &work->targets[2],
+                                 &work->targets[4], work->beam_width);
                 }
                 if (work->connection_tick > 8) {
-                    DuelEffect_DrawGradientConnectionBands(&color, (DVECTOR *)&work->targets[1],
-                                 (DVECTOR *)&work->targets[4], work->beam_width);
+                    DuelEffect_DrawGradientConnectionBands(&color, &work->targets[1],
+                                 &work->targets[4], work->beam_width);
                 }
                 if (work->connection_tick > 12) {
-                    DuelEffect_DrawGradientConnectionBands(&color, (DVECTOR *)&work->targets[1],
-                                 (DVECTOR *)&work->targets[3], work->beam_width);
+                    DuelEffect_DrawGradientConnectionBands(&color, &work->targets[1],
+                                 &work->targets[3], work->beam_width);
                 }
                 if (work->connection_tick > 16) {
-                    DuelEffect_DrawGradientConnectionBands(&color, (DVECTOR *)&work->targets[0],
-                                 (DVECTOR *)&work->targets[3], work->beam_width * 2);
+                    DuelEffect_DrawGradientConnectionBands(&color, &work->targets[0],
+                                 &work->targets[3], work->beam_width * 2);
                 }
                 work->connection_tick++;
                 if (work->connection_tick > 24) {
@@ -170,17 +170,17 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
         }
         if (work->stage != 0) {
             for (i = 0; i < work->line_count; i++) {
-                line_packet->attribute = 0x50000000;
-                setRGB0(line_packet, 255, 128, 128);
-                setRGB1(line_packet, 0, 0, 0);
-                RotTransPers(&work->heads[i], (long *)&line_packet->x0, (long *)&p, (long *)&flag);
-                RotTransPers(&work->tails[i], (long *)&line_packet->x1, (long *)&p, (long *)&flag);
-                line_packet->x0 += gDuelEffect_DrawOffset.vx;
-                line_packet->x1 += gDuelEffect_DrawOffset.vx;
-                line_packet->y0 += gDuelEffect_DrawOffset.vy;
-                line_packet->y1 += gDuelEffect_DrawOffset.vy;
+                line_packet->prim.attribute = 0x50000000;
+                setRGB0(&line_packet->prim, 255, 128, 128);
+                setRGB1(&line_packet->prim, 0, 0, 0);
+                RotTransPers(&work->heads[i], &line_packet->w.xy0, &p, &flag);
+                RotTransPers(&work->tails[i], &line_packet->w.xy1, &p, &flag);
+                line_packet->prim.x0 += gDuelEffect_DrawOffset.vx;
+                line_packet->prim.x1 += gDuelEffect_DrawOffset.vx;
+                line_packet->prim.y0 += gDuelEffect_DrawOffset.vy;
+                line_packet->prim.y1 += gDuelEffect_DrawOffset.vy;
                 if (flag >= 0) {
-                    GsSortGLine(line_packet, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority);
+                    GsSortGLine(&line_packet->prim, gDuelEffect_pOrderingTable, gDuelEffect_wBasePriority);
                 }
                 if (__builtin_abs(work->heads[i].vx) > 32 ||
                     __builtin_abs(work->heads[i].vy) > 32 ||
@@ -229,6 +229,7 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
             }
         }
         if (work->line_count == 64 && work->ray_count == 32 &&
+            /* One word load tests the colour's r/g/b bytes together. */
             work->scale >= 0x6000 && (*(u32 *)&work->center_color & 0xFFFFFF) == 0xFFFFFF &&
             work->stage < 2) {
             work->stage = 2;

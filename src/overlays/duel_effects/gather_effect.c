@@ -68,6 +68,7 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 DuelEffect_InitHalfStepXYRingVertices(0x46 + i * 6, GATHER_CURVE_HEIGHT + i * 6, state->curves[i], 4);
             }
             for (i = 0; i < 32; i++) {
+                /* Byte offsets share the state + i * 8 induction; members add one. */
                 SVECTOR *velocity = (SVECTOR *)((u8 *)state + i * 8 + 0x104);
 
                 velocity->vx = -state->particles[i].vx / state->descriptor->frames;
@@ -78,6 +79,7 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 state->flags[i] = 0;
             }
             for (i = 0; i < 48; i++) {
+                /* Byte offsets share the state + i * 8 induction; members add one. */
                 SVECTOR *velocity = (SVECTOR *)((u8 *)state + i * 8 + 0x744);
 
                 velocity->vx = -state->particles_b[i].vx / state->descriptor->frames;
@@ -131,6 +133,7 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 setRGB0(packet, state->colors[i].r, state->colors[i].g, state->colors[i].b);
                 DuelEffect_InitSquareVertices(frame.quad, state->sizes[i]);
                 for (j = 0; j < 4; j++) {
+                    /* Byte offsets share the state + i * 8 induction; members add one. */
                     SVECTOR *vertex = (SVECTOR *)((u8 *)&frame + j * 8 + 0x68);
                     SVECTOR *particle = (SVECTOR *)((u8 *)state + i * 8 + 0x4);
 
@@ -141,6 +144,7 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 DuelEffect_ProjectSubmitFt4(packet, frame.quad, 0, 1);
                 if (__builtin_abs(state->particles[i].vx) >= 17 ||
                     __builtin_abs(state->particles[i].vy) >= 17) {
+                    /* Byte offsets share the state + i * 8 induction; members add one. */
                     particle = (SVECTOR *)((u8 *)state + i * 8 + 0x4);
                     velocity = (SVECTOR *)((u8 *)state + i * 8 + 0x104);
                     particle->vx += velocity->vx;
@@ -163,6 +167,7 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 DuelEffect_DrawRandomTileQuad(&state->colors_b[i], frame.quad, 0);
                 if (__builtin_abs(state->particles_b[i].vx) >= 17 ||
                     __builtin_abs(state->particles_b[i].vy) >= 17) {
+                    /* Byte offsets share the state + i * 8 induction; members add one. */
                     particle_b = (SVECTOR *)((u8 *)state + i * 8 + 0x5C4);
                     velocity_b = (SVECTOR *)((u8 *)state + i * 8 + 0x744);
                     particle_b->vx += velocity_b->vx;
@@ -195,6 +200,7 @@ void DuelEffect_RunGuardianStarBonus(void *buffer, s32 phase)
                 DuelEffect_SetTransformMatrix(&frame.world, &saved, &frame.position, &state->rotations[i], &frame.scale, 2);
                 DuelEffect_DrawLayeredGradientTrapezoid(&state->color, state->descriptor->widths,
                               state->descriptor->height, 0);
+                /* Byte offsets share the state + i * 8 induction; members add one. */
                 rotate = (SVECTOR *)((u8 *)state + i * 8 + 0x544);
                 rotate->vx += 0x80;
                 rotate->vy += 0x80;
