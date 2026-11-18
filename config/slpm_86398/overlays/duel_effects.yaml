@@ -113,7 +113,8 @@ segments:
       - [0x14698, .data, overlays/duel_effects/effect_17]
       - [0x146B8, .data, overlays/duel_effects/tile_effect]
       - [0x146E4, .data, overlays/duel_effects/effect_22]
-      - [0x14954, data, overlays/japanese_duel_effects/data]
+      - [0x14954, .data, overlays/duel_effects/effect_10]
+      - [0x14BF4, data, overlays/japanese_duel_effects/data]
       - [0x1544C, .data, overlays/duel_effects/effect_drawing]
       - [0x154AC, data, overlays/japanese_duel_effects/data_154AC]
 

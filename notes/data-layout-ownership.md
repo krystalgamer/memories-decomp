@@ -551,6 +551,13 @@ whose `.data` lies inside the remaining raw `data` subsegment split it:
 subsegment. Only the destroy-flames image differs by region (its height,
 `TILE_IMAGE_HEIGHT`, 196 NTSC and 212 PAL).
 
+`effect_10.c` follows in every region (North America `+0x14994`, Japan
+`+0x14954`, PAL `+0x148C8`, 0x2A0 bytes): its own 21-image table, byte-equal
+to the dispatcher's, then six `DuelEffect10Config`. Both image tables use the
+shared `DUEL_EFFECT_TEXTURE_IMAGES` initializer in `image_inputs.h`, whose
+`DUEL_EFFECT_CLUT` picks the PAL palette positions under `VERSION_EUROPE`; the
+PAL `effect_10.c` entries carry that define like `dispatch.c`'s.
+
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in
 others (Japan, the English PAL images, and USA's word after the pointer list).

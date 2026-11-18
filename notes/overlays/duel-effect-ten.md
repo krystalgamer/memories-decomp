@@ -45,7 +45,9 @@ addresses, extents and retail bytes:
 | `D_8015AB14` | 84 | Six 14-byte configurations |
 
 The image table equals the primary `D_8015A1E4` table byte-for-byte but
-retains its own original storage. Entry 12 supplies the mode and coordinates
+retains its own original storage: `effect_10.c` defines it and the
+configurations as `.data` (#2602), sharing only the
+`DUEL_EFFECT_TEXTURE_IMAGES` initializer with `dispatch.c`. Entry 12 supplies the mode and coordinates
 for `getTPage`; the result updates pair 12 of the already-owned
 `D_8015B748` output table. It is not a new absolute alias at `8015B778`.
 The new resident binding is the existing 12-byte matching

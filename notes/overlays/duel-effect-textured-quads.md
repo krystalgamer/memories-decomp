@@ -122,7 +122,9 @@ replacement layout or absolute linker alias. `dispatch.c`, the first unit in
 text order, defines the image records and the modes/variant union as the
 start of the bank's `.data` (#2602); the union is initialized through its
 `variant` view, so mode 20 is the low half of variant image zero's `pmode`.
-PAL differs only in the CLUT positions (`DUEL_EFFECT_CLUT`).
+PAL differs only in the CLUT positions (`DUEL_EFFECT_CLUT`). The image
+initializer is the shared `DUEL_EFFECT_TEXTURE_IMAGES` macro in
+`image_inputs.h`, because later effect units define byte-equal copies.
 
 | C name | Former label | Bytes | NA address | JP address | UK / FR / ES address |
 |---|---|---:|---|---|---|

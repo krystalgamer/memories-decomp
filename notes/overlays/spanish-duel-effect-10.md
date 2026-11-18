@@ -34,9 +34,10 @@ The readiness word spans adjacent halfwords at `0x568` and `0x56A`.
 | `D_8015AB14` | 84 | Six 14-byte configuration records |
 
 The second image table equals `D_8015A1E4` in bytes but is not an alias:
-both retain distinct generated-data storage. Image 12 supplies `getTPage`
-arguments; the output updates the existing `D_8015B748.pairs[12]`.
-No new texture-output alias or C data definition is introduced.
+`effect_10.c` defines its own copy (from the shared
+`DUEL_EFFECT_TEXTURE_IMAGES` initializer) and the configurations as `.data`
+(#2602). Image 12 supplies `getTPage` arguments; the output updates the
+existing `D_8015B748.pairs[12]`. No new texture-output alias is introduced.
 The canonical resident matrix getter binds to the inventoried 12-byte
 `Model_GetLightSourceMatrix` at Spanish `8005C328`.
 

@@ -53,6 +53,9 @@
     },
     {
       "address": "0x8014C8FC",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0_split",
       "size": "0xA7C",
       "source": "src/overlays/duel_effects/effect_10.c"
