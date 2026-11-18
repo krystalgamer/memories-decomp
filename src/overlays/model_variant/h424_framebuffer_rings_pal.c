@@ -12,7 +12,7 @@ void SpanishModelVariant441_DrawFramebufferRings(Variant441EntryState *context)
     long flag;
     Variant441EntryState *state = context;
     ModelVariantTripleCurtain *group = state->curtains;
-    POLY_GT4 *quad = &state->plain;
+    POLY_GT4 *quad = &state->extra;
     GsOT *ot;
     s32 i, j;
     s32 complete;

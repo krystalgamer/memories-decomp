@@ -12,7 +12,7 @@ s32 SpanishModelVariant441_HandleRequest(Variant441EntryState *context, s32 comm
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    ModelVariantScreenRing *hoop = work->hoops;
+    ModelVariantScreenRing *hoop = work->screen_rings;
     ModelVariantWebNarrow *web = work->webs;
     ModelVariantTube *tube = work->tubes;
     ModelVariantShortRibbon *ribbon = work->ribbons;
@@ -23,7 +23,7 @@ s32 SpanishModelVariant441_HandleRequest(Variant441EntryState *context, s32 comm
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;
     POLY_GT4 *textured = work->packets.textured;
-    POLY_GT4 *plain = &work->plain;
+    POLY_GT4 *plain = &work->extra;
     POLY_FT4 *flat = work->flat_textured;
     s32 result = 0;
     u16 tpage, clut;
@@ -347,7 +347,7 @@ s32 SpanishModelVariant441_HandleRequest(Variant441EntryState *context, s32 comm
                 work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
                 if (work->config->start <= work->frame) {
                     SpanishModelVariant441_DrawRainbowSheets(context);
-                    ModelVariant398_DrawRings((Variant398Header441RingsState *)context);
+                    ModelVariant398_DrawRings(context);
                 }
                 if (work->phase > 0) {
                     SpanishModelVariant441_DrawTubularMesh(context);

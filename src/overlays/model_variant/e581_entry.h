@@ -36,23 +36,6 @@ typedef struct {
     s16 slot, command;
 } Variant398EntryState;
 
-/* Header-441 context for the same rings: the rings lead it, and the packet,
- * view and timing fields sit 0xCDC-0xD18 bytes higher than in header 398. */
-typedef struct {
-    ModelVariantScreenRing screen_rings[3];
-    u8 unknown_5AC[0x25D4 - 0x5AC];
-    POLY_GT4 extra;
-    u8 unknown_2608[0x267C - 0x2608];
-    MATRIX matrix;
-    ModelVariantAim aim;
-    s32 angles[2];
-    s32 frame_count;
-    u32 frame, animation_frame;
-    s32 step;
-    u8 unknown_26E0[0x271C - 0x26E0];
-    s32 phase;
-} Variant398Header441RingsState;
-
 extern GsIMAGE gModelVariant398_aImages[9];
 extern ModelVariantWebConfig gModelVariant398_aConfigs[];
 void ModelVariant398_DrawBand(Variant398EntryState *context);

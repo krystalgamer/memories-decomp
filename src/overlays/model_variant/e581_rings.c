@@ -2,11 +2,12 @@
 
 #include "e581_entry.h"
 
-/* French header 441 (North American header 424) keeps the same rings in
- * Variant398Header441RingsState; its frame count is signed, growth is
+/* French header 441 (North American header 424) keeps the same rings at the
+ * head of Variant441EntryState; its frame count is signed, growth is
  * step * 80 and the scale keeps wrapping through phase 3. */
 #if defined(VARIANT398_RINGS_LAYOUT_441)
-#define VARIANT398_RINGS_WORK Variant398Header441RingsState
+#include "h424_entry_pal.h"
+#define VARIANT398_RINGS_WORK Variant441EntryState
 #define VARIANT398_RINGS_GROWTH 80
 #define VARIANT398_RINGS_WRAP_PHASES 4
 #else
