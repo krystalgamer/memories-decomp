@@ -91,7 +91,7 @@ s32 ModelVariant72_HandleRequest(Model72State *context, s32 command)
         for (i = 0; i < config->rows; i++) {
             for (j = 0; j < config->columns; j++) {
                 GsSetLsMatrix(&base);
-                GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->parts[j]),
+                GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->parts[j]),
                     &matrix);
                 setVector(point, matrix.t[0], matrix.t[1], matrix.t[2]);
                 point++;
@@ -109,7 +109,7 @@ s32 ModelVariant72_HandleRequest(Model72State *context, s32 command)
     point = &work->points[work->row * config->columns];
     for (i = 0; i < config->columns; i++) {
         GsSetLsMatrix(&base);
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->parts[i]), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->parts[i]), &matrix);
         setVector(point, matrix.t[0], matrix.t[1], matrix.t[2]);
         point++;
     }

@@ -157,7 +157,7 @@ s32 ModelVariant651_HandleRequest(Model651State *context, s32 command)
         case 0:
             if (work->flags[0] / 4 < work->ring_count) {
                 if ((work->flags[0] & 3) == 0) {
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 5);
+                    unit = *Model_GetSlotDataEntry(work->head.slot, 5);
                     GsGetLwUnit(&unit, &ls);
                     work->rings[work->flags[0] / 4].head.active = 1;
                     applyVector(&work->rings[work->flags[0] / 4].xform.position, ls.t[0], ls.t[1], ls.t[2], +=);
@@ -165,7 +165,7 @@ s32 ModelVariant651_HandleRequest(Model651State *context, s32 command)
                 work->flags[0]++;
             }
             if (work->head.elapsed >= 11 && work->flags[1] == 0) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 5);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 5);
                 GsGetLwUnit(&unit, &ls);
                 work->domes[0].head.active = 1;
                 applyVector(&work->domes[0].xform.position, ls.t[0], ls.t[1], ls.t[2], +=);

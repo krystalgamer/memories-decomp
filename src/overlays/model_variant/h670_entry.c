@@ -164,7 +164,7 @@ s32 ModelVariant670_HandleRequest(Model670State *context, s32 command)
             if (work->head.elapsed < 0x13C && work->head.elapsed >= work->flags[0] * 30
                 && work->flags[0] < work->count) {
                 work->shells[work->flags[0]].head.active = 1;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 2);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 2);
                 GsGetLwUnit(&unit, &m);
                 setVector(&work->shells[work->flags[0]].xform.position, m.t[0], m.t[1], m.t[2]);
                 work->rings[work->flags[0]].head.active = 1;
@@ -175,7 +175,7 @@ s32 ModelVariant670_HandleRequest(Model670State *context, s32 command)
             if (work->head.elapsed < 0x64 && work->head.elapsed >= work->flags[0] * 30
                 && work->flags[0] < work->count) {
                 work->shells[work->flags[0]].head.active = 1;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0xD);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 0xD);
                 GsGetLwUnit(&unit, &m);
                 setVector(&work->shells[work->flags[0]].xform.position, m.t[0], m.t[1], m.t[2]);
                 work->rings[work->flags[0]].head.active = 1;
@@ -186,7 +186,7 @@ s32 ModelVariant670_HandleRequest(Model670State *context, s32 command)
             if (work->head.elapsed < 0x54 && work->head.elapsed >= work->flags[0] * 20
                 && work->flags[0] < work->count) {
                 work->shells[work->flags[0]].head.active = 1;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0x1E);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 0x1E);
                 GsGetLwUnit(&unit, &m);
                 setVector(&offset, 0, -0x82, 0);
                 PushMatrix();

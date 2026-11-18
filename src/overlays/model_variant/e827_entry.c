@@ -144,7 +144,7 @@ s32 ModelVariant643_HandleRequest(Model643State *context, s32 command)
     switch (work->head.command) {
     case 0:
         if (work->head.elapsed == 0) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 5);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 5);
             GsGetLwUnit(&unit, &ls);
             for (k = 0; k < work->cone_count; k++) {
                 work->cones[k].head.active = 1;
@@ -164,7 +164,7 @@ s32 ModelVariant643_HandleRequest(Model643State *context, s32 command)
         break;
     case 1:
         if (work->head.elapsed == 0) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 9);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 9);
             GsGetLwUnit(&unit, &ls);
             for (i = 0; i < work->cone_count; i++) {
                 work->cones[i].head.active = 1;
@@ -176,7 +176,7 @@ s32 ModelVariant643_HandleRequest(Model643State *context, s32 command)
             }
         }
         if (work->head.elapsed >= 8 && work->flags[0] == 0) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 9);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 9);
             GsGetLwUnit(&unit, &ls);
             for (i = 0; i < work->columns; i++) {
                 work->grid[0][i].head.active = 1;
@@ -187,7 +187,7 @@ s32 ModelVariant643_HandleRequest(Model643State *context, s32 command)
         break;
     case 2:
         if (work->head.elapsed == 0) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 15);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 15);
             GsGetLwUnit(&unit, &ls);
             for (i = 0; i < work->cone_count; i++) {
                 work->cones[i].head.active = 1;
@@ -207,7 +207,7 @@ s32 ModelVariant643_HandleRequest(Model643State *context, s32 command)
         break;
     case 3:
         if (work->head.elapsed == 0) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 6);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 6);
             GsGetLwUnit(&unit, &ls);
             for (i = 0; i < work->cone_count; i++) {
                 work->cones[i].head.active = 1;

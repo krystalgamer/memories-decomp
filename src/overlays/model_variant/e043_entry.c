@@ -80,7 +80,7 @@ s32 ModelVariant95_HandleRequest(Model95State *context, s32 command)
         work->elapsed += Model_GetFrameStep();
         PushMatrix();
         GsSetLsMatrix(&base);
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         work->position.vx = matrix.t[0];
         work->position.vy = matrix.t[1];
         work->position.vz = matrix.t[2];

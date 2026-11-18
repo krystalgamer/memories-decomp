@@ -230,7 +230,7 @@ s32 ModelVariant141_HandleRequest(Model141State *context, s32 command)
         t = work->elapsed - config->start - i * config->tube_spacing;
         if (t < 0) {
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->tube_part), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->tube_part), &matrix);
             point->vx = matrix.t[0];
             point->vy = matrix.t[1];
             point->vz = matrix.t[2];
@@ -315,7 +315,7 @@ s32 ModelVariant141_HandleRequest(Model141State *context, s32 command)
         if (t < 0) {
             for (j = 0; j < 3; j++) {
                 GsSetLsMatrix(&base);
-                GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->spark_part), &matrix);
+                GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->spark_part), &matrix);
                 target++;
                 point->vx = matrix.t[0];
                 point->vy = matrix.t[1];
@@ -398,12 +398,12 @@ s32 ModelVariant141_HandleRequest(Model141State *context, s32 command)
     setVector(&corner[3], config->beam_length, config->beam_width / 2, 0);
     setVector(&scale, 4096, 4096, 4096);
     GsSetLsMatrix(&base);
-    GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->beam_from), &matrix);
+    GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->beam_from), &matrix);
     from.vx = matrix.t[0];
     from.vy = matrix.t[1];
     from.vz = matrix.t[2];
     GsSetLsMatrix(&base);
-    GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->beam_to), &matrix);
+    GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->beam_to), &matrix);
     to.vx = matrix.t[0];
     to.vy = matrix.t[1];
     to.vz = matrix.t[2];

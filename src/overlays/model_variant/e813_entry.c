@@ -145,7 +145,7 @@ s32 ModelVariant630_HandleRequest(Model630State *context, s32 command)
     switch (work->head.command) {
     case 0:
         if (work->flags[0] < 3 && work->head.elapsed >= work->flags[0] * 8) {
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 12);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 12);
             GsGetLwUnit(&unit, &ls);
             /* "+ -1" keeps retail's negation of the side factor; "- 1"
              * folds into "1 - slot * 2". */

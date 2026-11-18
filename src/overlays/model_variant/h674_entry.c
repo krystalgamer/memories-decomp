@@ -159,14 +159,14 @@ s32 ModelVariant674_HandleRequest(Model674State *context, s32 command)
             if (work->head.elapsed == 0) {
                 work->rings[0].head.active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0x10);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 0x10);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->rings[0].xform.position, ls.t[0], ls.t[1], ls.t[2]);
             break;
         case 1:
             if (work->head.elapsed == 0) {
                 work->domes[0].head.active = 1;
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 3);
                 GsGetLwUnit(&unit, &ls);
                 setVector(&work->domes[0].xform.position, ls.t[0], ls.t[1], ls.t[2]);
             }
@@ -175,7 +175,7 @@ s32 ModelVariant674_HandleRequest(Model674State *context, s32 command)
             if (work->head.elapsed == 0) {
                 work->rings[0].head.active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0xE);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 0xE);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->rings[0].xform.position, ls.t[0], ls.t[1], ls.t[2]);
             break;

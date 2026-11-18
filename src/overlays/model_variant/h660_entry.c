@@ -304,7 +304,7 @@ s32 ModelVariant660Us_HandleRequest(Model660UsState *context, s32 command)
                 }
             }
             if (work->flags[0] < work->orb_count && work->flags[0] * 40 + 72 < work->head.elapsed) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 23);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 23);
                 GsGetLwUnit(&unit, &ls);
                 work->orbs[work->flags[0]][0].head.active = 1;
                 applyVector(&work->orbs[work->flags[0]][0].xform.position, ls.t[0], ls.t[1], ls.t[2], +=);
@@ -315,7 +315,7 @@ s32 ModelVariant660Us_HandleRequest(Model660UsState *context, s32 command)
                 work->flags[0]++;
             }
             if (work->flags[1] < work->orb_count && work->flags[1] * 40 + 92 < work->head.elapsed) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 25);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 25);
                 GsGetLwUnit(&unit, &ls);
                 work->orbs[work->flags[1]][1].head.active = 1;
                 applyVector(&work->orbs[work->flags[1]][1].xform.position, ls.t[0], ls.t[1], ls.t[2], +=);
@@ -332,12 +332,12 @@ s32 ModelVariant660Us_HandleRequest(Model660UsState *context, s32 command)
         inactive = 0;
         switch (work->head.command) {
         case 0:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 23);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 23);
             GsGetLwUnit(&unit, &lw[1]);
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 25);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 25);
             break;
         default:
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 1);
             break;
         }
         GsGetLwUnit(&unit, &lw[0]);

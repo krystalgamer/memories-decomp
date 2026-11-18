@@ -133,7 +133,7 @@ s32 ModelVariant137_HandleRequest(Model137State *context, s32 command)
         setVector(&vertices[3], config->height, config->height, 0);
         GsSetLsMatrix(&base);
         point = work->sparks;
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         anchor.vx = matrix.t[0];
         anchor.vy = matrix.t[1];
         anchor.vz = matrix.t[2];
@@ -195,7 +195,7 @@ s32 ModelVariant137_HandleRequest(Model137State *context, s32 command)
         shade.g3 = 0;
         shade.b3 = 0;
         GsSetLsMatrix(&base);
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         position.vx = matrix.t[0];
         position.vy = matrix.t[1];
         position.vz = matrix.t[2];
@@ -230,7 +230,7 @@ s32 ModelVariant137_HandleRequest(Model137State *context, s32 command)
     t = work->elapsed - config->orb_start;
     if (t < 0) {
         GsSetLsMatrix(&base);
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), 0), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), 0), &matrix);
         work->orb.vx = matrix.t[0];
         work->orb.vy = matrix.t[1] - config->lift;
         work->orb.vz = matrix.t[2];
@@ -367,7 +367,7 @@ s32 ModelVariant137_HandleRequest(Model137State *context, s32 command)
         shade.b3 = red;
         GsSetLsMatrix(&base);
         GsSetLsMatrix(&base);
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         vertices[0].vx = matrix.t[0];
         vertices[0].vy = matrix.t[1];
         vertices[0].vz = matrix.t[2];

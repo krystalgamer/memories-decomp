@@ -365,7 +365,7 @@ s32 ModelVariant633_HandleRequest(Model633State *context, s32 command)
                 break;
             }
             if (idx >= 0) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 10);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 10);
                 GsGetLwUnit(&unit, &ls);
                 work->trails[idx].head.active = 1;
                 work->bursts[idx].head.active = 1;
@@ -385,7 +385,7 @@ s32 ModelVariant633_HandleRequest(Model633State *context, s32 command)
             break;
         case 1:
             if (work->head.elapsed >= work->flags[0] * 8 && work->flags[0] < work->trail_count) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 0);
                 GsGetLwUnit(&unit, &ls);
                 work->trails[work->flags[0]].head.active = 1;
                 work->trails[work->flags[0]].xform.position.vx += ls.t[0];
@@ -439,7 +439,7 @@ s32 ModelVariant633_HandleRequest(Model633State *context, s32 command)
                 break;
             }
             if (idx >= 0) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 5);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 5);
                 GsGetLwUnit(&unit, &ls);
                 work->trails[idx].head.active = 1;
                 work->bursts[idx].head.active = 1;

@@ -166,7 +166,7 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
                     switch (work->command) {
                     case 0:
                     case 1:
-                        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, 9);
+                        unit = *Model_GetSlotDataEntry(work->slot, 9);
                         break;
                     }
                     GsGetLwUnit(&unit, &ls);
@@ -209,11 +209,11 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
                     if (i == 1) {
                         switch (work->command) {
                         case 2:
-                            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, j * 10 + 12);
+                            unit = *Model_GetSlotDataEntry(work->slot, j * 10 + 12);
                             break;
                         case 3:
                         case 4:
-                            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->slot, j + 13);
+                            unit = *Model_GetSlotDataEntry(work->slot, j + 13);
                             break;
                         }
                         GsGetLwUnit(&unit, &ls);

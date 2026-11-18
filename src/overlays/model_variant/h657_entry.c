@@ -260,7 +260,7 @@ s32 ModelVariant657_HandleRequest(Model657State *context, s32 command)
     switch (work->head.command) {
     case 0:
     case 1:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 10);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 10);
         GsGetLwUnit(&unit, &ls);
         /* ABS inside the call negates the sum in place in the argument
          * register. */
@@ -292,7 +292,7 @@ s32 ModelVariant657_HandleRequest(Model657State *context, s32 command)
         }
         break;
     case 2:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 12);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 12);
         GsGetLwUnit(&unit, &ls);
         distance = SquareRoot0(ABS(ls.t[0] * ls.t[0] + (ls.t[1] + 350) * (ls.t[1] + 350)
             + (ls.t[2] - work->direction * 450) * (ls.t[2] - work->direction * 450)));
@@ -322,7 +322,7 @@ s32 ModelVariant657_HandleRequest(Model657State *context, s32 command)
         }
         break;
     case 3:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 1);
         GsGetLwUnit(&unit, &ls);
         ls.t[1] += 25;
         distance = SquareRoot0(ABS(ls.t[0] * ls.t[0] + (ls.t[1] + 350) * (ls.t[1] + 350)
@@ -353,7 +353,7 @@ s32 ModelVariant657_HandleRequest(Model657State *context, s32 command)
         }
         break;
     case 4:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 8);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 8);
         GsGetLwUnit(&unit, &ls);
         distance = SquareRoot0(ABS(ls.t[0] * ls.t[0] + (ls.t[1] + 350) * (ls.t[1] + 350)
             + (ls.t[2] - work->direction * 450) * (ls.t[2] - work->direction * 450)));
@@ -383,7 +383,7 @@ s32 ModelVariant657_HandleRequest(Model657State *context, s32 command)
         }
         break;
     case 5:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 7);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 7);
         GsGetLwUnit(&unit, &ls);
         ls.t[1] += 25;
         distance = SquareRoot0(ABS(ls.t[0] * ls.t[0] + (ls.t[1] + 350) * (ls.t[1] + 350)
@@ -414,7 +414,7 @@ s32 ModelVariant657_HandleRequest(Model657State *context, s32 command)
         }
         break;
     case 7:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 7);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 7);
         GsGetLwUnit(&unit, &ls);
         ls.t[1] -= 25;
         distance = SquareRoot0(ABS(ls.t[0] * ls.t[0] + (ls.t[1] + 350) * (ls.t[1] + 350)
@@ -445,7 +445,7 @@ s32 ModelVariant657_HandleRequest(Model657State *context, s32 command)
         }
         break;
     case 9:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 3);
         GsGetLwUnit(&unit, &ls);
         ls.t[2] -= work->direction * 50;
         distance = SquareRoot0(ABS(ls.t[0] * ls.t[0] + (ls.t[1] + 350) * (ls.t[1] + 350)
@@ -476,7 +476,7 @@ s32 ModelVariant657_HandleRequest(Model657State *context, s32 command)
         }
         break;
     case 10:
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 7);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 7);
         GsGetLwUnit(&unit, &ls);
         ls.t[1] += 10;
         ls.t[2] -= work->direction * 25;

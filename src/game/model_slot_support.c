@@ -16,7 +16,7 @@ s16 gModel_wViewPitch;
 s16 gModel_wViewYaw;
 s16 gModel_wViewDistance;
 
-void *Model_GetSlotDataEntry(s32 index, s32 slot)
+struct _GsCOORDUNIT *Model_GetSlotDataEntry(s32 index, s32 slot)
 {
     ModelSlot *entry = &gModel_aSlots[index];
 

@@ -209,10 +209,10 @@ s32 ModelVariant649Us_HandleRequest(Model649UsState *context, s32 command)
         PushMatrix();
         view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 3);
         GsGetLwUnit(&unit, &lw);
         setVector(&near, lw.t[0], lw.t[1], lw.t[2]);
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 4);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 4);
         GsGetLwUnit(&unit, &m);
         setVector(&far, m.t[0], m.t[1], m.t[2]);
         for (i = 0; i < work->petal_count; i++) {
@@ -357,10 +357,10 @@ s32 ModelVariant649Us_HandleRequest(Model649UsState *context, s32 command)
         } else {
             inactive++;
         }
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 1);
         GsGetLwUnit(&unit, &ls);
         setVector(&first, ls.t[0], ls.t[1], ls.t[2]);
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 2);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 2);
         GsGetLwUnit(&unit, &ls);
         setVector(&second, ls.t[0], ls.t[1], ls.t[2]);
         setVector(&mid, (first.vx + second.vx) / 2, (first.vy + second.vy) / 2,

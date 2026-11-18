@@ -186,10 +186,10 @@ s32 ModelVariant632_HandleRequest(Model632State *context, s32 command)
             work->trail[i].first = work->trail[i - 1].first;
             work->trail[i].second = work->trail[i - 1].second;
         }
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 15);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 15);
         GsGetLwUnit(&unit, &ls);
         setVector(&work->trail[0].first, ls.t[0], ls.t[1], ls.t[2]);
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 18);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 18);
         GsGetLwUnit(&unit, &ls);
         setVector(&work->trail[0].second, ls.t[0], ls.t[1], ls.t[2]);
         break;
@@ -198,10 +198,10 @@ s32 ModelVariant632_HandleRequest(Model632State *context, s32 command)
             work->trail[i].first = work->trail[i - 1].first;
             work->trail[i].second = work->trail[i - 1].second;
         }
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 16);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 16);
         GsGetLwUnit(&unit, &ls);
         setVector(&work->trail[0].first, ls.t[0], ls.t[1], ls.t[2]);
-        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 17);
+        unit = *Model_GetSlotDataEntry(work->head.slot, 17);
         GsGetLwUnit(&unit, &ls);
         setVector(&work->trail[0].second, ls.t[0], ls.t[1], ls.t[2]);
         break;

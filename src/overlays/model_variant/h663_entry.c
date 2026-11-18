@@ -23,7 +23,7 @@
     setVector(&work->columns[work->flags[0]].xform.scale, value, value, value);       \
     setVector(&work->columns[work->flags[0]].target, 0, 0, 0);              \
     setVector(&work->columns[work->flags[0]].xform.rotation, 0, 0, 0);                \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, point);           \
+    unit = *Model_GetSlotDataEntry(work->head.slot, point);           \
     GsGetLwUnit(&unit, &ls);                                                    \
     p0.vx = ls.t[0];                                                            \
     p0.vy = ls.t[1];                                                            \
@@ -281,7 +281,7 @@ s32 ModelVariant663_HandleRequest(Model663State *context, s32 command)
         case 9:
             if (work->head.elapsed < 24) {
                 SPAWN_COLUMN(31);
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 32);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 32);
                 GsGetLwUnit(&unit, &ls);
                 p1.vx = ls.t[0];
                 p1.vy = ls.t[1];

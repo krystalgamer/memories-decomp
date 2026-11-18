@@ -115,7 +115,7 @@ s32 ModelVariant148_HandleRequest(Model148State *context, s32 command)
         t = work->elapsed - config->delay - i * config->spacing;
         if (t < 0) {
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
             point->vx = 0;
             point->vy = 0;
             point->vz = matrix.t[2];
@@ -128,7 +128,7 @@ s32 ModelVariant148_HandleRequest(Model148State *context, s32 command)
             tri.g0 = quad.g0 = green;
             tri.b0 = quad.b0 = blue;
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
             r = -direction * (config->rise - t) * config->roll % 4096;
             value = ratan2(matrix.t[1] + 350, direction * 450 - matrix.t[2]) + ((Model_GetActiveSlotIndex() ^ 1) << 11);
             setVector(&rotation, value, 0, r);

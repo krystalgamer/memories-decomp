@@ -205,7 +205,7 @@ s32 ModelVariant678Us_HandleRequest(Model678UsState *context, s32 command)
     if (work->head.command == 0 && work->flags[0] < work->columns && work->head.elapsed == 0) {
         for (i = 0; i < work->rows; i++) {
             work->bubbles[work->flags[0]][i].head.active = 1;
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 10);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 10);
             GsGetLwUnit(&unit, &ls);
             (work->bubbles[work->flags[0]] + i)->xform.position.vx = ls.t[0];
             (work->bubbles[work->flags[0]] + i)->xform.position.vy = ls.t[1];

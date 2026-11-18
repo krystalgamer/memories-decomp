@@ -24,7 +24,7 @@ static const char gModelVariant681_szWorkSizeFormat[24] = "E_DATA size = %x byte
 #endif
 
 #define TRACK_POINT(index, matrix)                                             \
-    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, index);          \
+    unit = *Model_GetSlotDataEntry(work->head.slot, index);          \
     GsGetLwUnit(&unit, &matrix)
 
 #define START_FLASHES(index)                                                   \

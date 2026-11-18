@@ -266,7 +266,7 @@ s32 ModelVariant665_HandleRequest(Model665State *context, s32 command)
         case 0:
             if (work->flags[0] * 8 + 6 < work->head.elapsed && work->flags[0] < work->rows) {
                 for (i = 0; i < work->cols; i++) {
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, i + 31);
+                    unit = *Model_GetSlotDataEntry(work->head.slot, i + 31);
                     GsGetLwUnit(&unit, &ls);
                     work->rising[work->flags[0]][i].head.active = 1;
                     setVector(&work->rising[work->flags[0]][i].xform.position, ls.t[0], ls.t[1], ls.t[2]);
@@ -274,7 +274,7 @@ s32 ModelVariant665_HandleRequest(Model665State *context, s32 command)
                 work->flags[0]++;
             }
             if (work->head.elapsed >= 0x75 && work->head.elapsed < 0x116) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 3);
                 GsGetLwUnit(&unit, &ls);
                 work->sparks[work->flags[1]].head.active = 1;
                 work->sparks[work->flags[1]].head.elapsed = 0;
@@ -282,7 +282,7 @@ s32 ModelVariant665_HandleRequest(Model665State *context, s32 command)
                 work->sparks[work->flags[1]].head.color[1] = gModelVariant665_aConfigs[work->head.command].spark_color[1];
                 work->sparks[work->flags[1]].head.color[2] = gModelVariant665_aConfigs[work->head.command].spark_color[2];
                 setVector(&work->sparks[work->flags[1]].xform.position, ls.t[0], ls.t[1] + 70, ls.t[2]);
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 1);
                 work->sparks[work->flags[1]].xform.rotation.vy = unit.rot.vy + 0x800 - work->head.slot * 2048;
                 work->flags[1]++;
                 if (work->flags[1] >= work->spark_count) {
@@ -299,7 +299,7 @@ s32 ModelVariant665_HandleRequest(Model665State *context, s32 command)
         case 1:
             if (work->flags[0] * 10 + 6 < work->head.elapsed && work->flags[0] < work->rows) {
                 for (i = 0; i < work->cols; i++) {
-                    unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, i + 31);
+                    unit = *Model_GetSlotDataEntry(work->head.slot, i + 31);
                     GsGetLwUnit(&unit, &ls);
                     work->rising[work->flags[0]][i].head.active = 1;
                     setVector(&work->rising[work->flags[0]][i].xform.position, ls.t[0], ls.t[1], ls.t[2]);
@@ -308,7 +308,7 @@ s32 ModelVariant665_HandleRequest(Model665State *context, s32 command)
             }
             if ((work->head.elapsed >= 0x79 && work->head.elapsed < 0xC8)
                 || (work->head.elapsed >= 0x141 && work->head.elapsed < 0x182)) {
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 3);
                 GsGetLwUnit(&unit, &ls);
                 work->sparks[work->flags[1]].head.active = 1;
                 work->sparks[work->flags[1]].head.elapsed = 0;
@@ -316,7 +316,7 @@ s32 ModelVariant665_HandleRequest(Model665State *context, s32 command)
                 work->sparks[work->flags[1]].head.color[1] = gModelVariant665_aConfigs[work->head.command].spark_color[1];
                 work->sparks[work->flags[1]].head.color[2] = gModelVariant665_aConfigs[work->head.command].spark_color[2];
                 setVector(&work->sparks[work->flags[1]].xform.position, ls.t[0], ls.t[1] + 70, ls.t[2]);
-                unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 1);
+                unit = *Model_GetSlotDataEntry(work->head.slot, 1);
                 work->sparks[work->flags[1]].xform.rotation.vy = unit.rot.vy + 0x800 - work->head.slot * 2048;
                 work->flags[1]++;
                 if (work->flags[1] >= work->spark_count) {
@@ -331,7 +331,7 @@ s32 ModelVariant665_HandleRequest(Model665State *context, s32 command)
                 work->burst.head.active = 1;
                 work->flags[6] = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 3);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 3);
             GsGetLwUnit(&unit, &ls);
             setVector(&target, ls.t[0], ls.t[1], ls.t[2]);
             Model_SetFrameStepOverride(1);

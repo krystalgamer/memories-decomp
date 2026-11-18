@@ -136,7 +136,7 @@ s32 ModelVariant135_HandleRequest(Model135State *context, s32 command)
         t = work->elapsed - config->delay - i * config->spacing;
         if (t < 0) {
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
             point->vx = matrix.t[0];
             point->vy = matrix.t[1];
             point->vz = matrix.t[2];
@@ -247,13 +247,13 @@ s32 ModelVariant135_HandleRequest(Model135State *context, s32 command)
         point = work->anchors;
         for (i = 0; i < 2; i++) {
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->wave_part + i), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->wave_part + i), &matrix);
             point->vx = matrix.t[0];
             point->vy = matrix.t[1];
             point->vz = matrix.t[2];
             point++;
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->wave_end_part + i), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->wave_end_part + i), &matrix);
             point->vx = matrix.t[0];
             point->vy = matrix.t[1];
             point->vz = matrix.t[2];

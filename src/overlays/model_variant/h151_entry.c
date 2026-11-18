@@ -87,7 +87,7 @@ s32 ModelVariant151_HandleRequest(Model151State *context, s32 command)
     quad.g0 = config->green;
     quad.b0 = config->blue;
     GsSetLsMatrix(&base);
-    GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+    GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
     origin.vx = matrix.t[0];
     origin.vy = matrix.t[1];
     origin.vz = matrix.t[2];

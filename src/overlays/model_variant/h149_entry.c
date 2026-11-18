@@ -104,7 +104,7 @@ s32 ModelVariant149_HandleRequest(Model149State *context, s32 command)
         t = work->elapsed - config->delay[i];
         if (t < 0) {
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
             point->vx = matrix.t[0];
             point->vy = matrix.t[1];
             point->vz = matrix.t[2];
@@ -163,7 +163,7 @@ s32 ModelVariant149_HandleRequest(Model149State *context, s32 command)
         t = work->elapsed - config->delay[i];
         if (t >= 0 && t < config->burst) {
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
             position.vx = matrix.t[0];
             position.vy = matrix.t[1];
             position.vz = matrix.t[2];

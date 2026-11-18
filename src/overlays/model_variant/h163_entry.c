@@ -107,7 +107,7 @@ s32 ModelVariant163_HandleRequest(Model163State *context, s32 command)
     SetPolyGT4(&band);
     if (work->elapsed < config->grow) {
         GsSetLsMatrix(&base);
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         position.vx = matrix.t[0];
         position.vy = matrix.t[1];
         position.vz = matrix.t[2];
@@ -142,7 +142,7 @@ s32 ModelVariant163_HandleRequest(Model163State *context, s32 command)
         }
         point = work->positions;
         GsSetLsMatrix(&base);
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         for (i = 0; i < 4; i++) {
             for (j = 0; j < 2; j++) {
                 point->vx = matrix.t[0];
@@ -304,7 +304,7 @@ s32 ModelVariant163_HandleRequest(Model163State *context, s32 command)
         setVector(&vertices[2], 0, vertices[3].vy, vertices[0].vz);
         point = work->positions;
         GsSetLsMatrix(&base);
-        GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+        GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         target.vx = matrix.t[0];
         target.vy = matrix.t[1];
         target.vz = matrix.t[2];

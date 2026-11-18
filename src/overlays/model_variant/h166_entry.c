@@ -104,7 +104,7 @@ s32 ModelVariant166_HandleRequest(ModelVariantGatherState *context, s32 command)
         t = work->elapsed - config->delay - i * config->spacing;
         if (t < 0) {
             GsSetLsMatrix(&base);
-            GsGetLwUnit((GsCOORDUNIT *)Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
+            GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
             point->vx = matrix.t[0];
             point->vy = matrix.t[1];
             point->vz = matrix.t[2];

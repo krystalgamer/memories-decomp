@@ -293,7 +293,7 @@ s32 ModelVariant676Us_HandleRequest(Model676UsState *context, s32 command)
             if (work->head.elapsed == 0) {
                 work->flashes[0].head.active = 1;
             }
-            unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0xF);
+            unit = *Model_GetSlotDataEntry(work->head.slot, 0xF);
             GsGetLwUnit(&unit, &ls);
             setVector(&work->flashes[0].xform.position, ls.t[0], ls.t[1], ls.t[2]);
             break;
@@ -396,7 +396,7 @@ s32 ModelVariant676Us_HandleRequest(Model676UsState *context, s32 command)
                 if (work->flashes[i].head.duration < work->flashes[i].head.elapsed) {
                     work->flashes[i].head.active = 0;
                     if (i == 0) {
-                        unit = *(GsCOORDUNIT *)Model_GetSlotDataEntry(work->head.slot, 0);
+                        unit = *Model_GetSlotDataEntry(work->head.slot, 0);
                         GsGetLwUnit(&unit, &ls);
                         for (k = 0; k < work->shard_count; k++) {
                             work->shards[k].head.active = 1;
