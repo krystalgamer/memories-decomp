@@ -6,14 +6,14 @@
 /* The seven ISO9660 paths the loader opens, and the null-terminated table
    File_SetPositionTable walks. Defined by src/game/file_setup.c, which owns
    the initialized data at 0x80090704. */
-extern u8 gFile_szDiscWaMrgPath[20];
-extern u8 gFile_szDiscSuMrgPath[16];
-extern u8 gFile_szDiscModelMrgPath[20];
-extern u8 gFile_szDiscMovieStrPath[20];
-extern u8 gFile_szDiscSdSeDatPath[20];
-extern u8 gFile_szDiscSdBgmDatPath[20];
-extern u8 gFile_szDiscMasterXaPath[20];
-extern u8 *gFile_apszName[8];
+extern char gFile_szDiscWaMrgPath[20];
+extern char gFile_szDiscSuMrgPath[16];
+extern char gFile_szDiscModelMrgPath[20];
+extern char gFile_szDiscMovieStrPath[20];
+extern char gFile_szDiscSdSeDatPath[20];
+extern char gFile_szDiscSdBgmDatPath[20];
+extern char gFile_szDiscMasterXaPath[20];
+extern char *gFile_apszName[8];
 
 /* Model archive paths used directly by Model_LoadMonsterMerge. */
 extern const u8 gModel_szSuMrgPath[];
