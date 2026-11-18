@@ -95,8 +95,7 @@ segments:
       - [0x1FEC, .rodata, game/model_animation_unit]
       - [0x201F, pad]
       - [0x2020, rodata, initial_data_1d]
-      - [0x206C, .rodata, game/model_effect_handlers]
-      - [0x207C, rodata, initial_data_1d2]
+      - [0x205C, .rodata, game/model_effect_handlers]
       - [0x20AC, .rodata, game/ai_script]
       - [0x21A8, rodata, initial_data_2]
 

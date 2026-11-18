@@ -32,15 +32,19 @@ providers. No regional table contents are assumed equal to NA.
 
 ## Independent initial scale vectors
 
-`gModel_SubdividedEffectInitialScale`, `gModel_DiscEffectInitialScale` and
-`gModel_BurstEffectInitialScale` are the former `D_8001185C`, `D_8001187C`
-and `D_8001188C`. Their respective handlers copy each complete `VECTOR`
-into a local scale before the existing effect work.
+`gModel_SubdividedEffectInitialScale`, `gModel_DiscEffectInitialScale`,
+`gModel_BurstEffectInitialScale` and `gModel_SparkEffectInitialScale` are the
+former `D_8001185C`, `D_8001187C`, `D_8001188C` and `D_8001189C`. Their
+respective handlers copy each complete `VECTOR` into a local scale before the
+existing effect work.
 
-Actual NA retail words at each label are `{4096, 4096, 4096, 0}`. They
-nevertheless remain three independent sixteen-byte constants and relocation
-identities. They are not deduplicated, given stronger qualifiers, moved
-between headers or assumed to share regional contents.
+The words at each label are `{ONE, ONE, ONE, 0}` in every region. They
+nevertheless remain four independent sixteen-byte constants and relocation
+identities, not deduplicated. `model_effect_handlers.c` defines them as
+`const VECTOR` read-only data (#2602), each ahead of its handler: in NA and
+Japan the subdivided handler's `"%d (0x%x) Byte\n"` format lies between the
+first and the other three; PAL builds have no such trace and keep the four
+back to back at `0x80011820`.
 
 The European subdivided-effect scale bridge retires with its explicit
 canonical provider binding. The similarly spelled French compatibility

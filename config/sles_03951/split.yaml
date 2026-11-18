@@ -90,7 +90,7 @@ segments:
       - [0x1F84, .rodata, game/model_primitive_handler]
       - [0x1FFB, pad]
       - [0x1FFC, .rodata, game/main_menu_load_package_stage]
-      - {start: 0x2020, type: bin, name: spanish_raw_80011820, linker_section_order: .rodata}
+      - [0x2020, .rodata, game/model_effect_handlers]
       - [0x2060, .rodata, game/ai_script]
       - {start: 0x20BC, type: bin, name: spanish_raw_800118bc, linker_section_order: .rodata}
       - [0x30CC, asm, generated/spanish_800128cc]

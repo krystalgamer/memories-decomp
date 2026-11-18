@@ -123,8 +123,8 @@ segments:
     - .rodata
     - game/main_menu_load_package_stage
   - - 8224
-    - rodata
-    - initial_data_2020
+    - .rodata
+    - game/model_effect_handlers
   - - 8288
     - .rodata
     - game/ai_script
