@@ -7,9 +7,10 @@
 #define MODEL_VARIANT408_CLUT_X 640
 #endif
 
-s32 SpanishModelVariant408_HandleRequest(SVECTOR *point, s32 command)
+s32 SpanishModelVariant408_HandleRequest(ModelVariant408EntryState *context, s32 command)
 {
-    ModelVariant408EntryState *work = (ModelVariant408EntryState *)point;
+    ModelVariant408EntryState *work = context;
+    SVECTOR *point;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position;
@@ -236,10 +237,10 @@ s32 SpanishModelVariant408_HandleRequest(SVECTOR *point, s32 command)
         work->screen_delta.vx = projection.target - screen_x;
         work->screen_delta.vy = (projection.target >> 16) - screen_y;
         if (work->state > 0) {
-            SpanishModelVariant408_DrawRingLines((ModelVariant408EntryState *)point);
+            SpanishModelVariant408_DrawRingLines(context);
         }
         if (work->elapsed > work->config->start) {
-            SpanishModelVariant408_DrawMesh((ModelVariant408EntryState *)point);
+            SpanishModelVariant408_DrawMesh(context);
         }
         work->frame++;
         angle = Model_GetSlotAnimationFrame(work->slot);
