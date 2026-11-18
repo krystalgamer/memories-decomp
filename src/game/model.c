@@ -3044,9 +3044,9 @@ s32 ModelDebug_UpdateController(void)
 
         while (1) {
             do {
-                value = (rand() >> 8) % 722;
+                value = (rand() >> 8) % CARD_COUNT;
                 excluded = 720;
-            } while ((u32)value >= 722);
+            } while ((u32)value >= CARD_COUNT);
             if ((u32)(value - 300) >= 50 && (u32)(value - 650) >= 50 && value != excluded) {
                 gModel_awSlotModelIds[i] = value;
                 if ((u16)value != gModel_aSlots[i].model_id) {
