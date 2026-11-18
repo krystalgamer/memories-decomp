@@ -23,8 +23,11 @@ Addresses are hexadecimal. All 816 bytes retain their real generated-data
 owners, original types/bounds and existing five bank maps. The original
 private headers remain unchanged; their local declarations and instruction
 uses supply the layouts, not reference-project headers or compiler claims.
-No new storage, packed aggregate, absolute alias or const qualification is
-introduced.
+No packed aggregate or absolute alias is introduced. The two initial
+scales `GuardianStarBonus` and `BoardDestruction` are now `const VECTOR`
+`.rodata` of `gather_effect.c` and `effect_17.c` (#2602); in North America
+`effect_17.c` is the last unit, so its vector closes the leading read-only
+data at `801462A0`.
 
 ## Destroy Flames
 

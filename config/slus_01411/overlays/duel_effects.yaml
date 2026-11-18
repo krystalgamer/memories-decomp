@@ -44,23 +44,16 @@ segments:
     vram: 0x80146000
     align: 4
     subsegments:
-      - [0x0, data, overlays/duel_effects/header]
-
-  - name: effect_22_jump_table
-    type: code
-    start: 0x9C
-    vram: 0x8014609C
-    align: 4
-    subsegments:
-      - [0x9C, .rodata, overlays/duel_effects/effect_22]
-
-  - name: header_after_effect_22
-    type: code
-    start: 0x180
-    vram: 0x80146180
-    align: 4
-    subsegments:
-      - [0x180, data, overlays/duel_effects/header_after_effect_22]
+      - [0x0, rodata, overlays/duel_effects/header]
+      - [0x4, .rodata, overlays/duel_effects/effect_11]
+      - [0x14, .rodata, overlays/duel_effects/cross_lines]
+      # Linker fill between objects, not data.
+      - {start: 0x6A, type: bin, name: overlays/duel_effects/header_6a, linker_section_order: .rodata}
+      - [0x6C, .rodata, overlays/duel_effects/effect_8]
+      - [0x7C, .rodata, overlays/duel_effects/gather_effect]
+      - [0x8C, .rodata, overlays/duel_effects/effect_22]
+      - [0x180, rodata, overlays/duel_effects/header_after_effect_22]
+      - [0x2A0, .rodata, overlays/duel_effects/effect_17]
 
   - name: module
     type: code

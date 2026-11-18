@@ -12,8 +12,8 @@ extern DuelEffect10Config gDuelEffect_TerrainChangeConfigs[6];
 extern VECTOR gDuelEffect_TerrainChangeInitialScale;
 extern GsIMAGE gDuelEffect_TerrainChangeTextureImages[21];
 extern GatherEffectDescriptor gDuelEffect_GuardianStarBonusConfig;
-extern VECTOR gDuelEffect_GuardianStarBonusInitialScale;
+extern const VECTOR gDuelEffect_GuardianStarBonusInitialScale;
 extern DuelEffect17Config gDuelEffect_BoardDestructionConfigs[2];
-extern VECTOR gDuelEffect_BoardDestructionInitialScale;
+extern const VECTOR gDuelEffect_BoardDestructionInitialScale;
 
 #endif

@@ -22,6 +22,8 @@
 #include "live_handler_data_semantic_views.h"
 #include "../../game/duel_effect_object_pool.h"
 
+const VECTOR gDuelEffect_GuardianStarBonusInitialScale = { ONE, ONE, ONE, 0 };
+
 #ifdef VERSION_EUROPE
 #define GATHER_CURVE_HEIGHT 106
 #else

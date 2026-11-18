@@ -351,11 +351,17 @@ changes old-GCC allocation; explicit zeroing adds unwanted instructions.
 The inline cell-code helper updates its column argument before indexing,
 preserving the selector block's operand order. Neither construct fixes a
 register or inserts assembly. The table declarations live in
-[`name_entry_tables.h`](name_entry_tables.h). Their storage, followed by the
-starter-deck pools and pointer list of
-[`name_entry_starter_deck.h`](name_entry_starter_deck.h), is the raw
-`name_entry_tables` data subsegment at module offset `0x2B38-0x5400`, not
-code. The two movement helpers take the canonical `DisplayObject *`
+[`name_entry_tables.h`](name_entry_tables.h); this unit's `.data` defines
+them and opens the module's data (USA `0x2B38`, Japan `0x2840`, PAL
+`0x2904`). PAL has no `gNameEntry_aRowLinks`, matching its missing reader.
+`name_entry_main.c`'s `.data` follows with the starter-deck pools and pointer
+list of [`name_entry_starter_deck.h`](name_entry_starter_deck.h) (USA
+`0x2BD4-0x53FC`). The bytes between the two objects and after the pointer list
+are linker fill, not data: zero in USA and in the French, German, Italian and
+Spanish images, but `03 72`/`07 2E 34 36` in Japan and `1A`/`04 06 07 02` in
+the English PAL images, so they stay raw `bin` subsegments (`pad` where zero).
+The English PAL layouts use `subalign: 1` because its fill byte sits at the
+odd address `0x8016A98B`. The two movement helpers take the canonical `DisplayObject *`
 without changing the selection frame's layout.
 
 The two external doors are the lifecycle pair: `NameEntry_Init` builds the

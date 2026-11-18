@@ -5,6 +5,6 @@
 
 extern void DuelEffect_RunRitual(void *work, s32 phase);
 extern DuelEffect22Config gDuelEffect_RitualConfigs[24];
-extern VECTOR gDuelEffect_RitualInitialScale;
+extern const VECTOR gDuelEffect_RitualInitialScale;
 
 #endif
