@@ -119,7 +119,9 @@ segments:
       - [0x14CD4, .data, overlays/duel_effects/effect_13]
       - [0x14F70, .data, overlays/duel_effects/effect_12]
       - [0x14F80, .data, overlays/duel_effects/row_attack_effects]
-      - [0x14FA4, data, overlays/japanese_duel_effects/data]
+      - [0x14FA4, .data, overlays/duel_effects/effect_2]
+      - [0x15102, pad]
+      - [0x15104, data, overlays/japanese_duel_effects/data]
       - [0x1544C, .data, overlays/duel_effects/effect_drawing]
       - [0x154AC, data, overlays/japanese_duel_effects/data_154AC]
 
