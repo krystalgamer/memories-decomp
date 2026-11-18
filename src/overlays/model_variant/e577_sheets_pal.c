@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "../model_variant/h394_entry_pal.h"
+#include "../model_variant/e577_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
 void SpanishModelVariant411_DrawFadingSheets(EntryState411 *context)

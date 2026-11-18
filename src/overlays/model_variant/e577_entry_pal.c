@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "h394_entry_pal.h"
+#include "e577_entry_pal.h"
 
 #ifndef MODEL_VARIANT411_CLUT_X
 #define MODEL_VARIANT411_CLUT_X 640

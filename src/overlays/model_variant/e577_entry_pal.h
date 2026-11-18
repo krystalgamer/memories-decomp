@@ -3,7 +3,7 @@
 
 #include "../../types.h"
 #include "e568_entry_pal.h"
-#include "../model_variant/h394_beams_pal.h"
+#include "../model_variant/e577_beams_pal.h"
 #include "../../game/model_slot_getters.h"
 
 /* One command record of the header-411 entry's table. The funnels read

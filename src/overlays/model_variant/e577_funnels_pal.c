@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../model_variant/h394_entry_pal.h"
+#include "../model_variant/e577_entry_pal.h"
 
 /* Two funnels of seventeen-point rings: an inner ring of radius 64 and an outer
  * ring of radius 192 plus the flicker, set back by 128 plus the flicker, drawn as

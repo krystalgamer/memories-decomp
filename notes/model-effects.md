@@ -27,7 +27,8 @@ retail bytes support it:
   fingerprint, and that other stage is `residue+fp`.
 
 Names that come only from stale lines, and the `eXXX` placeholders, are not
-used. So are names interpolated from the header formula below.
+used. Names interpolated from the header formula below are used only for the
+five neighbour-bracket images listed there, and are marked as such.
 
 ## Header words
 
@@ -82,16 +83,33 @@ or absent). The two images of a name are different code, not copies. They
 are listed as extra `model-effects.csv` rows with basis
 `residue-second-image`.
 
-The same brackets also suggest e046 (98), e577 (394), e594 (411), e326 (777)
-and e330 (781), but no direct residue line names those stages. They stay
-`hNNN`.
+## Neighbour-bracket names
+
+Five more images are named from the header formula alone. Each sits between
+two residue-confirmed neighbours of its group with the same NA offset, its
+name has no image anywhere else, and the slot 1 and regional words follow the
+same rules. No direct build-script line names their stages, so they are
+weaker than the residue-confirmed names above. The only residue at their
+stages is stale lines naming effects confirmed elsewhere (e048, e061, e059),
+`+OFF`-only lines, or `e000` placeholders.
+
+| name | NA slot 0/1 | bracket |
+|---|---|---|
+| e046 | 98/228 | e045@97, e048@100 (−52) |
+| e577 | 394/544 | e576@393, e578@395 (+183) |
+| e594 | 411/561 | e592@409, e595@412 (+183) |
+| e326 | 777/874 | e323@774, e327@778 (−451) |
+| e330 | 781/878 | e329@780, e331@782 (−451) |
+
+Their `model-effects.csv` basis is `neighbour bracket`.
 
 ## Columns
 
 `e_name`, then the NA, JP and PAL header word for slot 0 and slot 1, then
 `aliases`, `records` (MODEL records 0–620 whose stages load the image),
 `basis` (`residue`, `residue-aliases`, `residue-one-slot` or
-`residue-second-image`) and `evidence` (the number of stage positions, over
+`residue-second-image`, or `neighbour bracket` for a formula-only name) and
+`evidence` (the number of stage positions, over
 all seven builds, confirmed by each method). A `residue-second-image` row
 repeats the `e_name` of the canonical row above it; its `evidence` gives the
 number of direct residue lines, their model ids, and the confirmed neighbours
@@ -101,8 +119,8 @@ that bracket the header formula.
 
 - Each former `variant<N>_<role>` source was renamed `e<NNN>_<role>` when the
   image has a confirmed name. Otherwise it was renamed `h<NNN>_<role>`, where
-  `NNN` is the image's **slot 0 NA header word**. Header-only images and formula-inferred names
-  both use `hNNN`.
+  `NNN` is the image's **slot 0 NA header word**. Header-only images and other formula-inferred names
+  use `hNNN`; only the five neighbour-bracket names above are applied.
 - A confirmed second image (see above) keeps its header in the name:
   `e<NNN>_h<HHH>_<role>`, where `HHH` is its slot 0 NA header word, for
   example `e503_h320_entry.c` beside the canonical `e503_entry.c`.

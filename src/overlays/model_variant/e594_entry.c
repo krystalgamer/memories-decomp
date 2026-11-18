@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "h411_entry.h"
+#include "e594_entry.h"
 
 /* PAL images load the effect palette from VRAM x = 640. */
 #ifndef MODEL_VARIANT411US_CLUT_X
@@ -413,6 +413,6 @@ s32 ModelVariant411_HandleRequest(Variant411UsEntryState *context, s32 command)
  * gcc 2.7.2; the swarm sits four bytes later in this image. */
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
-#include "../model_variant/h411_swarm.c"
-#include "../model_variant/h411_quads.c"
+#include "../model_variant/e594_swarm.c"
+#include "../model_variant/e594_quads.c"
 #endif

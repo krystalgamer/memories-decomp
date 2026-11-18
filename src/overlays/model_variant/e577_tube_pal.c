@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "h394_entry_pal.h"
+#include "e577_entry_pal.h"
 
 void FrenchModelVariant411_DrawTube(EntryState411 *context)
 {

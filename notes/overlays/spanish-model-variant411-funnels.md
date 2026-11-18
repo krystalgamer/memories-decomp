@@ -41,9 +41,9 @@ The routine then:
 ## Method
 
 The routine was reconstructed from the retail instructions. The helper first
-read a private view in `h394_funnels_pal.h`, which also declared the
+read a private view in `e577_funnels_pal.h`, which also declared the
 overlay data label. It now reads `EntryState411`, and `EntryConfig411` and the
-label live in `h394_entry_pal.h`.
+label live in `e577_entry_pal.h`.
 
 The ledger keeps three rejected layouts. Three source details decide the exact
 schedule:

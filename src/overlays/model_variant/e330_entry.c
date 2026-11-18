@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "h781_entry.h"
+#include "e330_entry.h"
 #include "../../psyq/abs.h"
 
 /* Header 781's entry: two orbs leave each of two model parts, ringed by

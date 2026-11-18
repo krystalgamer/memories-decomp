@@ -1,6 +1,6 @@
 #include "../../types.h"
 
-#include "../model_variant/h394_beams_pal.h"
+#include "../model_variant/e577_beams_pal.h"
 
 /* From phase 4 on, builds sixteen two-point beams in four tilt groups around
  * the spin, grows each point to 0x400, projects each spine and a copy of it

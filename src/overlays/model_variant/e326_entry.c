@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "h777_entry.h"
+#include "e326_entry.h"
 
 /* Header 777's entry: every period a jittered lightning bolt of up to
  * twelve points grows from a model point towards the opposing slot. Each

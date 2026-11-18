@@ -56,21 +56,21 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/h411_entry_pal]
+      - [0x4, c, overlays/model_variant/e594_entry_pal]
   - name: helper_1308
     type: code
     start: 0x1308
     vram: 0x8017C308
     align: 4
     subsegments:
-      - [0x1308, c, overlays/model_variant/h411_swarm]
+      - [0x1308, c, overlays/model_variant/e594_swarm]
   - name: helper_188C
     type: code
     start: 0x188C
     vram: 0x8017C88C
     align: 4
     subsegments:
-      - [0x188C, c, overlays/model_variant/h411_quads]
+      - [0x188C, c, overlays/model_variant/e594_quads]
   - name: unclassified_tail
     type: code
     start: 0x1D94

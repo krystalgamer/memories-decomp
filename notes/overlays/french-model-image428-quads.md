@@ -15,7 +15,7 @@ The control flow is the header-429 quads helper (#7206), with these differences:
   counter `j` the earlier saved register.
 
 The helper reads the US header-411 record (`Variant411UsEntryState` in
-`model_variant/h411_entry.h`), and `model_variant428_linker_symbols.txt`
+`model_variant/e594_entry.h`), and `model_variant428_linker_symbols.txt`
 covers the resident calls. The
 [attempt ledger](french-model-image428-quads-attempts.csv) records the
 measured probes.
@@ -24,6 +24,6 @@ measured probes.
 
 The source defines `FrenchModelVariant428_DrawQuads`. The PAL model-507
 images of both slots build it directly; the North American and Japanese
-images include it from `model_variant/h411_entry.c` at the same
+images include it from `model_variant/e594_entry.c` at the same
 `0x8013C88C`/`0x8017C88C`. Each image binds the name at its own address (see
 [Per-image symbol bindings](model-variants.md#per-image-symbol-bindings)).

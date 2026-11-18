@@ -1,5 +1,5 @@
 #include "../../types.h"
-#include "h98_entry.h"
+#include "e046_entry.h"
 
 /* Header 98's entry: a blinking six-blade fan grows on a joint, a textured
  * 9x9 grid spins under the opponent and rising sparks and spinning rings
