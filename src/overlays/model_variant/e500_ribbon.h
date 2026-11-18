@@ -3,24 +3,4 @@
 
 #include "model_variant.h"
 
-/* The 0x3A4-byte ribbon of header 321: a seventeen-point twisted spine and a
- * copy of it moved along the view, both projected, and per point the screen
- * angle, the projected width, the projection flag, the depth and the width's
- * screen offset. */
-typedef struct {
-    SVECTOR a[17];
-    long sa[17];
-    s32 angle[17];
-    SVECTOR b[17];
-    long sb[17];
-    s32 width[17];
-    ModelVariantStripStyle style;
-    u8 unknown_240[0x2C8 - 0x240];
-    VECTOR velocity;
-    s32 otz[17];
-    long flag[17];
-    s16 ox[17];
-    s16 oy[17];
-} Variant321Ribbon;
-
 #endif

@@ -109,7 +109,7 @@ s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
     PushMatrix();
     light = *Model_GetLightSourceMatrix();
     setVector(&scale, work->scale, work->scale, work->scale);
-    Model_SetSlotScale(slot, (ModelSlotS32Quad *)&scale);
+    Model_SetSlotScale(slot, &scale);
     if (work->elapsed < work->config->rise_end) {
         setVector(&scale, 4096, 4096, 4096);
         work->elapsed += step;

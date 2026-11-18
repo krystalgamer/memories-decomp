@@ -30,7 +30,7 @@ void FrenchModelVariant423_DrawRibbon(EntryState423 *context)
     GsOT *ot;
     s16 i, j;
     EntryState423 *work = context;
-    Ribbon423 *ribbon;
+    ModelVariantPlacedRibbon *ribbon;
     POLY_GT4 *poly;
     s32 angle;
     s16 len;

@@ -13,7 +13,7 @@ void SpanishModelVariant437_DrawSheet(Variant437EntryState *context)
     VECTOR unused;
     long interpolation, flag;
     Variant437EntryState *state = context;
-    Sheet437 *sheet;
+    ModelVariantTwoToneSheet *sheet;
     POLY_GT4 *polygon;
     GsOT *ot;
     s32 i, j, extra, depth;

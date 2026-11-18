@@ -14,7 +14,7 @@ s32 FrenchModelVariant337_HandleRequest(Variant337EntryState *context, s32 comma
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant320Ribbon *record = work->records;
+    ModelVariantSpineRibbon *record = work->records;
     ModelVariantPointSheet *ring = work->rings;
     Variant320Streamer *streamer = work->streamers;
     POLY_GT4 *textured = work->packets.textured;

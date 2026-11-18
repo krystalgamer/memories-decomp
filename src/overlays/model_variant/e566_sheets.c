@@ -11,7 +11,7 @@ void FrenchModelVariant400_DrawSheets(Variant400EntryState *context)
     GsCOORDINATE2 coordinate;
     long projection;
     long flag;
-    Variant400EntryNode *node;
+    ModelVariantMovingRibbon *node;
     ModelVariantPointSheet *quad;
     GsOT *ot;
     Variant400EntryState *work;

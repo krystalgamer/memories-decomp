@@ -270,10 +270,10 @@ s32 ModelVariant404_HandleRequest(Variant404EntryState *context, s32 command)
             spoke->angle = 1024 - row * 256;
             spoke->count = 0;
         }
-        work->spiral_angle = 0;
-        work->field_1932 = 0;
-        work->spiral_size = 0;
-        work->spiral_shrink = 0;
+        work->spiral.angle = 0;
+        work->spiral.field_02 = 0;
+        work->spiral.size = 0;
+        work->spiral.shrink = 0;
         work->field_194C = 0;
         work->band_scale = 4096;
         work->field_1952 = 1024;

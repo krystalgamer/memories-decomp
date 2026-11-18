@@ -21,12 +21,6 @@ typedef union {
     long packed;
 } ModelVariantScreenPoint;
 
-/* The rays command row: the pass count at + 0x18; the helper finishes when
- * its index reaches it. */
-typedef struct {
-    u8 unknown_00[0x18];
-    u16 count;
-} ModelVariantRayTiming;
 
 /* A 0x2FC-byte group of ten quads: corner arrays a..d, a position per quad,
  * a colour, and per quad a size, an angle, a done flag and an initialized
@@ -268,14 +262,6 @@ typedef struct {
     VECTOR spin;
 } ModelVariantSpinElement;
 
-/* ModelVariantElement with a growth vector in place of the target, as
- * headers 656 and 665 use it. */
-typedef struct {
-    ModelVariantElementHead head;
-    ModelVariantElementTransform xform;
-    VECTOR growth;
-} ModelVariantGrowthElement;
-
 /* ModelVariantElement with an offset from a centre in place of the
  * target, as headers 657, 660 and 662 use it. */
 typedef struct {
@@ -286,7 +272,7 @@ typedef struct {
 
 /* The 0x4C-byte burst record of header 647, shared by headers 627-673:
  * ModelVariantElement with a growth vector last (the flight or cone growth; headers 632, 634 and 647
- * only clear it). */
+ * only clear it). Headers 656 and 665 and image 9840 use the same record. */
 typedef struct {
     ModelVariantElementHead head;
     ModelVariantElementTransform xform;
@@ -330,12 +316,15 @@ typedef struct {
 /* The 0x50-byte element of headers 655, 661 and 667: ModelVariantElement
  * with a done flag and a count after the lifetime: the streaks (655, 661)
  * and ribbons (667) clear both at setup, test done and grow count, which
- * shapes their geometry; header 667's fans also test and set done. */
+ * shapes their geometry; header 667's fans also test and set done.
+ * travel is how far the element moves over its lifetime: header 667's
+ * domes add travel.vy * elapsed / duration to their y; the other entries
+ * only set it. */
 typedef struct {
     ModelVariantElementHead head;
     u8 done, count, unknown_12[2];
     ModelVariantElementTransform xform;
-    VECTOR unknown_40;
+    VECTOR travel;
 } ModelVariantCountedElement;
 
 /* One 0x90-byte ring of eight spokes, each drawn as a GsGLINE from
@@ -462,12 +451,6 @@ typedef struct {
     u16 oy[2];
 } ModelVariantRibbon;
 
-/* The ribbon command row: the fade window at + 0x24. */
-typedef struct {
-    u8 unknown00[0x24];
-    u32 fade_start;
-    u32 fade_end;
-} ModelVariantRibbonFadeTiming;
 
 /* The ribbon command row of headers 425 and 426: the growth and fade
  * windows. */
@@ -630,16 +613,6 @@ typedef struct {
     s32 shown;
 } ModelVariantSheetSet;
 
-/* The sheet command row: the window in which the sheets grow and the later
- * window in which they shrink again. */
-typedef struct {
-    u8 unknown_00[0x18];
-    u32 grow_start;
-    u32 grow_end;
-    u8 unknown_20[4];
-    u32 shrink_start;
-    u32 shrink_end;
-} ModelVariantSheetTiming;
 
 /* One 0x274-byte streamer: a thirteen-point spine and its copy moved along
  * the view, both projected, with per-point angle, width, colour, depth and
@@ -1421,5 +1394,110 @@ typedef struct {
     s16 size;
     s16 shrink;
 } ModelVariantSpiralParams;
+
+/* Four quads given by corner arrays v0..v3, an outer colour on the fourth
+ * corner and an inner colour on the other three: the sheets of headers 436
+ * and 437. */
+typedef struct {
+    SVECTOR v0[4];
+    SVECTOR v1[4];
+    SVECTOR v2[4];
+    SVECTOR v3[4];
+    CVECTOR outer;
+    CVECTOR inner;
+} ModelVariantTwoToneSheet;
+
+/* One 0x360-byte ribbon of seventeen points with a position and strip
+ * offsets: the ribbons of headers 423 and 426. */
+typedef struct {
+    SVECTOR a[17];
+    ModelVariantScreenPoint sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    ModelVariantScreenPoint sb[17];
+    s32 width[17];
+    ModelVariantStripStyle style;
+    u8 unknown_240[0x88];
+    VECTOR position;
+    ModelVariantStripOffsets offsets;
+} ModelVariantPlacedRibbon;
+
+/* One 0x200-byte ribbon of nine points: the entry seeds style, and the
+ * ribbon drawer projects the points and takes its colour from style.inner.
+ * Headers 436 and 437 use it. */
+typedef struct {
+    SVECTOR a[9];
+    ModelVariantScreenPoint sa[9];
+    s32 angle[9];
+    SVECTOR b[9];
+    ModelVariantScreenPoint sb[9];
+    s32 width[9];
+    ModelVariantStripStyle style;
+    u8 unknown_140[0x68];
+    s32 otz[9];
+    s16 ox[9];
+    s16 oy[9];
+    s32 start, end, state, count;
+} ModelVariantNinePointRibbon;
+
+/* The 0x3A4-byte ribbon of headers 320 and 321: a seventeen-point twisted
+ * spine and a copy of it moved along the view, both projected, and per point
+ * the screen angle, the projected width, the projection flag, the depth and
+ * the width's screen offset. */
+typedef struct {
+    SVECTOR a[17];
+    long sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    long sb[17];
+    s32 width[17];
+    ModelVariantStripStyle style;
+    u8 unknown_240[0x2C8 - 0x240];
+    VECTOR velocity;
+    s32 otz[17];
+    long flag[17];
+    s16 ox[17];
+    s16 oy[17];
+} ModelVariantSpineRibbon;
+
+/* One 0x370-byte ribbon of seventeen points: the entry seeds style and
+ * position, and the ribbon drawer projects the points and takes its colour
+ * from style.inner. Headers 400 and 443 use it. */
+typedef struct {
+    SVECTOR a[17];
+    ModelVariantScreenPoint sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    ModelVariantScreenPoint sb[17];
+    s32 width[17];
+    ModelVariantStripStyle style;
+    u8 unknown_240[0x88];
+    VECTOR position;
+    VECTOR delta;
+    s32 otz[17];
+    s16 ox[17];
+    s16 oy[17];
+} ModelVariantMovingRibbon;
+
+/* The swarm helper's thirty-two quads, laid out like the quad group: the
+ * swarms of headers 402 and 478. */
+typedef struct {
+    SVECTOR a[32], b[32], c[32], d[32], positions[32];
+    CVECTOR color;
+    u8 unknown_504[0x10];
+    s32 size[32], done[32], reset[32];
+} ModelVariantQuadSwarm;
+
+/* The strip of headers 366 and 373: three point pairs, their projections,
+ * a colour, a scale and the two depths. */
+typedef struct {
+    SVECTOR points[3][2];
+    long projected[3][2];
+    CVECTOR color;
+    VECTOR scale;
+    s16 field_5C, field_5E;
+    s32 field_60;
+    long depth[2];
+} ModelVariantScaledStrip;
 
 #endif

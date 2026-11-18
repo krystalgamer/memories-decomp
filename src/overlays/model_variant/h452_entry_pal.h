@@ -14,7 +14,9 @@
 typedef struct {
     SVECTOR near_points[2][5];
     SVECTOR far_points[2][5];
-    u8 unknown_A0[0x4];
+    /* The config's arc_color, copied at setup; the arc drawer uses fixed
+     * colours instead. */
+    CVECTOR color;
     s32 field_A4;
     s32 field_A8;
     s32 field_AC;

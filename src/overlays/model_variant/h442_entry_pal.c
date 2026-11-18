@@ -249,10 +249,10 @@ s32 SpanishModelVariant459_HandleRequest(Variant459EntryState *context, s32 comm
         work->curtain_outer_color.g = 0;
         work->curtain_outer_color.b = 0;
         work->curtain_angle = 0;
-        work->spiral_angle = 0;
-        work->field_3096 = 0;
-        work->spiral_size = 0;
-        work->field_309A = 0;
+        work->spiral.angle = 0;
+        work->spiral.field_02 = 0;
+        work->spiral.size = 0;
+        work->spiral.shrink = 0;
         work->index = 0;
         work->progress = 0;
         work->field_30D4 = 0;

@@ -18,7 +18,7 @@ s32 ModelVariant402_HandleRequest(Variant402EntryState *context, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant402EntrySwarm *swarm = &work->swarm;
+    ModelVariantQuadSwarm *swarm = &work->swarm;
     ModelVariantBandPair *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantColorRing *ring = work->rings;

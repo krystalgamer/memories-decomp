@@ -12,13 +12,6 @@ typedef struct {
     u32 start, swarm_start, swarm_end, ring_end, fade_start;
 } EntryConfig478;
 
-typedef struct {
-    SVECTOR a[32], b[32], c[32], d[32], positions[32];
-    CVECTOR color;
-    u8 unknown_504[0x10];
-    s32 size[32], done[32], reset[32];
-} EntrySwarm478;
-
 
 typedef struct {
     SVECTOR v0[8], v1[8], v2[8], v3[8], positions[8];
@@ -30,7 +23,7 @@ typedef struct {
 typedef struct {
     ModelVariantQuadGroup quads[1];
     EntryPetals478 petals[3];
-    EntrySwarm478 swarm;
+    ModelVariantQuadSwarm swarm;
     ModelVariantTrail extras[16];
     ModelVariantWebNarrow grids[3];
     ModelVariantBandPair pairs[1];

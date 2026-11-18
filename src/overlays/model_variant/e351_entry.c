@@ -122,7 +122,7 @@ s32 ModelVariant802_HandleRequest(Model802State *context, s32 command)
     scale.vx = work->scale;
     scale.vy = work->scale;
     scale.vz = work->scale;
-    Model_SetSlotScale(slot, (ModelSlotS32Quad *)&scale);
+    Model_SetSlotScale(slot, &scale);
     if (work->elapsed < work->config->approach_end) {
         scale.vx = 4096;
         scale.vy = 4096;

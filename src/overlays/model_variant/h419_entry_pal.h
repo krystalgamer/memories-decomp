@@ -19,26 +19,9 @@ typedef struct {
     u8 unknown_2C[4];
 } EntryConfig436;
 
-/* One 0x200-byte ribbon of nine points: the entry seeds style, and the
- * ribbon drawer projects the points and takes its colour from style.inner. */
 typedef struct {
-    SVECTOR a[9];
-    ModelVariantScreenPoint sa[9];
-    s32 angle[9];
-    SVECTOR b[9];
-    ModelVariantScreenPoint sb[9];
-    s32 width[9];
-    ModelVariantStripStyle style;
-    u8 unknown_140[0x68];
-    s32 otz[9];
-    s16 ox[9];
-    s16 oy[9];
-    s32 start, end, state, count;
-} EntryRibbon436;
-
-typedef struct {
-    EntryRibbon436 ribbons[4];
-    Sheet436 sheets[1];
+    ModelVariantNinePointRibbon ribbons[4];
+    ModelVariantTwoToneSheet sheets[1];
     ModelVariantBandTriple records[1];
     ModelVariantShortStreamer streamers[3];
     u8 unknown_1098[0x318];

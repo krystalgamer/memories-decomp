@@ -187,10 +187,10 @@ s32 SpanishModelVariant388_HandleRequest(Variant388EntryState *context, s32 comm
             spoke->count = 0;
         }
         work->strip_width = 1024;
-        work->spiral_angle = 0;
-        work->field_1886 = 0;
-        work->spiral_size = 0;
-        work->spiral_shrink = 0;
+        work->spiral.angle = 0;
+        work->spiral.field_02 = 0;
+        work->spiral.size = 0;
+        work->spiral.shrink = 0;
         work->progress = 0;
         work->ribbon_angle = 0;
         work->field_188C = 0;

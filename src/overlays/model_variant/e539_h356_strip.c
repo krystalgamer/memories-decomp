@@ -11,7 +11,7 @@ void FrenchModelVariant373_DrawStrip(EntryState373 *context)
     long interpolation;
     long flag;
     EntryState373 *work;
-    EntryStrip373 *strip;
+    ModelVariantScaledStrip *strip;
     POLY_GT4 *quad;
     GsOT *ot;
     s16 i, j;

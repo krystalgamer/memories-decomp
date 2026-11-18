@@ -41,11 +41,6 @@ typedef struct {
     s16 end_zoom;
 } Model815Config;
 
-/* An RGB colour. */
-typedef struct {
-    u8 r, g, b;
-} Model815Rgb;
-
 /* The work area: the command row, the effect position, the shards and the
  * three-ring cone, the embers and the sparks with their velocities, the
  * elapsed time, the frame, the glow scale, the shard ages, the phase, the
@@ -72,8 +67,8 @@ typedef struct {
      * top byte is the spark red) and the spark green/blue halfword. */
     union {
         struct {
-            Model815Rgb glow;
-            Model815Rgb color;
+            Color glow;
+            Color color;
         } c;
         struct {
             u32 glow;

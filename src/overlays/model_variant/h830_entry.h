@@ -48,10 +48,6 @@ typedef struct {
     ModelTintColor tint_end;
 } Model830Config;
 
-typedef struct {
-    u8 r, g, b;
-} Model830Color;
-
 /* The work area: the command row, the opponent position, the sparks, the
  * two ring sets (three edges per segment), the debris and its velocities,
  * the timers, the spark frames, the phase, the live spark count, the ambient
@@ -72,9 +68,9 @@ typedef struct {
     u16 count;
     s32 level;
     s32 texture[4];
-    Model830Color glow;
-    Model830Color ring;
-    Model830Color tint;
+    Color glow;
+    Color ring;
+    Color tint;
 } Model830State;
 
 extern GsIMAGE gModelVariant830_aImages[];

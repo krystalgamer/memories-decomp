@@ -20,25 +20,6 @@ typedef struct {
     u32 fade_start, fade_end;
 } EntryConfig443;
 
-/* One 0x370-byte ribbon of seventeen points: the entry seeds style and
- * position, and the ribbon drawer projects the points and takes its colour
- * from style.inner. */
-typedef struct {
-    SVECTOR a[17];
-    ModelVariantScreenPoint sa[17];
-    s32 angle[17];
-    SVECTOR b[17];
-    ModelVariantScreenPoint sb[17];
-    s32 width[17];
-    ModelVariantStripStyle style;
-    u8 unknown_240[0x88];
-    VECTOR position;
-    VECTOR delta;
-    s32 otz[17];
-    s16 ox[17];
-    s16 oy[17];
-} EntryRibbon443;
-
 typedef struct {
     SVECTOR points[3][4];
     CVECTOR inner, outer;
@@ -65,7 +46,7 @@ typedef struct {
 } EntryShape443;
 
 typedef struct {
-    EntryRibbon443 ribbons[3];
+    ModelVariantMovingRibbon ribbons[3];
     EntryFramebufferRing443 rings[5];
     ModelVariantTube meshes[1];
     ModelVariantShortStreamer streamers[3];

@@ -40,11 +40,6 @@ typedef struct {
     u16 start[6];
 } Model799Config;
 
-/* One bolt's colour bytes, padded to a word. */
-typedef struct {
-    u8 r, g, b, pad;
-} Model799Colour;
-
 /* The work area for up to six bolts: positions, steps, strip angles, ring
  * offsets, targets, 32-point trails and origins; two sets of 64 falling
  * debris pieces with their velocities; smoke puffs; the sixteen-segment
@@ -91,8 +86,8 @@ typedef struct {
     u16 ring_tpage;
     u16 ring_clut;
     s32 texture[7];
-    Model799Colour bolt[6];
-    Model799Colour glow[6];
+    CVECTOR bolt[6];
+    CVECTOR glow[6];
 } Model799State;
 
 extern GsIMAGE gModelVariant799_aImages[];

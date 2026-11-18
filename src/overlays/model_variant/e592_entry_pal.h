@@ -8,7 +8,7 @@
 
 typedef struct {
     ModelVariantMesh mesh;
-    Ribbon426 ribbons[1];
+    ModelVariantPlacedRibbon ribbons[1];
     ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[2];
     ModelVariantStreamer streamers[4];
@@ -30,7 +30,7 @@ typedef struct {
     s16 field_211C, field_211E;
     s32 width, field_2124, size, field_212C, field_2130, field_2134;
     s32 intensity, field_213C, field_2140, progress, travel;
-    s16 spiral_angle, field_214E, spiral_size, field_2152;
+    ModelVariantSpiralParams spiral;
     ModelVariantStreamerParams streamer;
     CVECTOR inner, outer;
     s32 spin, ribbon_sway, ribbon_wave, field_2178, field_217C, phase;

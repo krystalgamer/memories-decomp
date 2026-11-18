@@ -116,9 +116,9 @@ s32 FrenchModelVariant469_HandleRequest(EntryState469 *context, s32 command)
             arc->field_A4 = 0;
             arc->field_A8 = 0;
             arc->field_AC = 0;
-            arc->unknown_A0[0] = work->config->arc_color.r;
-            arc->unknown_A0[1] = work->config->arc_color.g;
-            arc->unknown_A0[2] = work->config->arc_color.b;
+            arc->color.r = work->config->arc_color.r;
+            arc->color.g = work->config->arc_color.g;
+            arc->color.b = work->config->arc_color.b;
             arc->field_CC = 0;
         }
         for (k = 0; k < 5; k++, sheet++) {

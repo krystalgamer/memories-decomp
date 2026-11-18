@@ -125,7 +125,7 @@ s32 ModelVariant667_HandleRequest(Model667State *context, s32 command)
             work->ribbons[i].done = 0;
             work->ribbons[i].count = 0;
             setVector(&work->ribbons[i].xform.scale, 4096, 4096, 4096);
-            setVector(&work->ribbons[i].unknown_40, 0, 0, 0);
+            setVector(&work->ribbons[i].travel, 0, 0, 0);
             setVector(&work->ribbons[i].xform.rotation, 0, 0, 0);
             setVector(&work->ribbons[i].xform.position, 0, 0, 0);
         }
@@ -140,7 +140,7 @@ s32 ModelVariant667_HandleRequest(Model667State *context, s32 command)
             work->sprites[i].head.color[2] = gModelVariant667_aConfigs[command].color[5];
             work->sprites[i].head.u = i % 9;
             setVector(&work->sprites[i].xform.scale, 4096, 4096, 4096);
-            setVector(&work->sprites[i].unknown_40, 0, 0, 0);
+            setVector(&work->sprites[i].travel, 0, 0, 0);
             setVector(&work->sprites[i].xform.rotation, 0, work->head.slot * 2048, 0);
             scale = (i % 2) * 2 - 1;
             value = work->place.height;
@@ -159,7 +159,7 @@ s32 ModelVariant667_HandleRequest(Model667State *context, s32 command)
             work->fans[i].head.color[1] = gModelVariant667_aConfigs[command].color[1];
             work->fans[i].head.color[2] = gModelVariant667_aConfigs[command].color[2];
             setVector(&work->fans[i].xform.scale, 4096, 4096, 4096);
-            setVector(&work->fans[i].unknown_40, 0, 0, 0);
+            setVector(&work->fans[i].travel, 0, 0, 0);
             setVector(&work->fans[i].xform.rotation, 0, work->head.slot * 2048, 0);
             setVector(&work->fans[i].xform.position, 0, 0, 0);
             work->fans[i].done = 0;
@@ -175,7 +175,7 @@ s32 ModelVariant667_HandleRequest(Model667State *context, s32 command)
             work->domes[i].head.color[2] = gModelVariant667_aConfigs[command].color[5];
             work->domes[i].head.u = i % 9;
             setVector(&work->domes[i].xform.scale, 4096, 4096, 4096);
-            setVector(&work->domes[i].unknown_40, 0, -1400, 0);
+            setVector(&work->domes[i].travel, 0, -1400, 0);
             scale = (i % 2) * 2 - 1;
             arc = i << 12;
             setVector(&work->domes[i].xform.rotation, arc / work->dome_count + 0x111, (i % 8) << 9,
@@ -558,7 +558,7 @@ s32 ModelVariant667_HandleRequest(Model667State *context, s32 command)
                 RotMatrixY(work->domes[i].xform.rotation.vy, &unit.matrix);
                 unit.matrix.t[0] = work->domes[i].xform.position.vx;
                 unit.matrix.t[1] = work->domes[i].xform.position.vy
-                    + work->domes[i].unknown_40.vy * work->domes[i].head.elapsed / work->domes[i].head.duration;
+                    + work->domes[i].travel.vy * work->domes[i].head.elapsed / work->domes[i].head.duration;
                 unit.matrix.t[2] = work->domes[i].xform.position.vz;
                 unit.super = work->domes[i].xform.coord;
                 GsGetLsUnit(&unit, &ls);

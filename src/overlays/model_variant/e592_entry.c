@@ -16,7 +16,7 @@ s32 ModelVariant409_HandleRequest(EntryState426 *context, s32 command)
     ModelVariantPackedProjection projection;
     ModelVariantMesh *mesh = &work->mesh;
     ModelVariantFunnel *funnel = work->funnels;
-    Ribbon426 *ribbon = work->ribbons;
+    ModelVariantPlacedRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantStreamer *streamer = work->streamers;
     ModelVariantShadedRay *spiral = work->spirals;
@@ -246,10 +246,10 @@ s32 ModelVariant409_HandleRequest(EntryState426 *context, s32 command)
         work->intensity = 1024;
         work->field_213C = 0;
         work->field_2140 = 0;
-        work->spiral_angle = 0;
-        work->field_214E = 0;
-        work->spiral_size = 0;
-        work->field_2152 = 0;
+        work->spiral.angle = 0;
+        work->spiral.field_02 = 0;
+        work->spiral.size = 0;
+        work->spiral.shrink = 0;
         work->width = 1024;
         work->field_2124 = 1024;
         work->field_211C = 0;

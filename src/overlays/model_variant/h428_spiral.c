@@ -39,18 +39,18 @@ void ModelVariant428_DrawSpiral(Variant428EntryState *context)
     ot = Graphics_GetDefaultOrderingTable();
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     poly = work->packets.textured;
-    r = work->spiral_size / 2;
-    eighth = work->spiral_size / 8;
-    if (r * work->field_15A6 < 0) {
+    r = work->spiral.size / 2;
+    eighth = work->spiral.size / 8;
+    if (r * work->spiral.field_02 < 0) {
         length = 0;
     }
-    if (eighth * work->field_15A6 < 0) {
+    if (eighth * work->spiral.field_02 < 0) {
         length = 0;
     }
     arm = work->arms;
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + work->spiral_angle * 2;
-        theta = (i << 13) / 12 + work->spiral_angle;
+        phi = (i << 12) / 12 + work->spiral.angle * 2;
+        theta = (i << 13) / 12 + work->spiral.angle;
         for (k = 0; k < 2; k++) {
             if (k == 0) {
                 length = work->scale / 512;
@@ -166,10 +166,10 @@ void ModelVariant428_DrawSpiral(Variant428EntryState *context)
             }
         }
     }
-    if (work->spiral_size < 0x400) {
-        work->spiral_size += work->clock.step * 64;
-        if (work->spiral_size >= 0x400) {
-            work->spiral_size = 0x400;
+    if (work->spiral.size < 0x400) {
+        work->spiral.size += work->clock.step * 64;
+        if (work->spiral.size >= 0x400) {
+            work->spiral.size = 0x400;
         }
     }
 }

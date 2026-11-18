@@ -35,7 +35,7 @@ void FrenchModelVariant437_DrawRibbons(Variant437EntryState *context)
     s32 yaw;
     s32 pitch;
     s16 len;
-    Variant437EntryRibbon *ribbon;
+    ModelVariantNinePointRibbon *ribbon;
     POLY_FT4 *poly;
     s32 bend;
     s32 curve;

@@ -21,12 +21,6 @@ typedef struct {
 } Image9840Command;
 
 typedef struct {
-    ModelVariantElementHead head;
-    ModelVariantElementTransform xform;
-    VECTOR growth;
-} Image9840Part;
-
-typedef struct {
     ModelVariantEntryHead head;
     s16 delay;
     u16 radius, length, start_radius, end_radius;
@@ -43,9 +37,9 @@ typedef struct {
     SVECTOR burst_ring[17];
     u8 flags[5];
     u8 primary_count, secondary_count, burst_count;
-    Image9840Part primary[2];
-    Image9840Part secondary[10];
-    Image9840Part bursts[32];
+    ModelVariantBurst primary[2];
+    ModelVariantBurst secondary[10];
+    ModelVariantBurst bursts[32];
 } Image9840State;
 
 extern MATRIX GsIDMATRIX;

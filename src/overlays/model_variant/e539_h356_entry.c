@@ -11,7 +11,7 @@ s32 FrenchModelVariant373_HandleRequest(EntryState373 *context, s32 command)
     ModelVariantDome *sphere = &work->sphere;
     Family373Ring *layer = work->rising_rings;
     EntrySparkGroup373 *group = work->sparks;
-    EntryStrip373 *strip = work->strips;
+    ModelVariantScaledStrip *strip = work->strips;
     ModelVariantQuadSheet *quadrant = work->quadrants;
     ModelVariantColorRing *ring = work->rings;
     ModelVariantShadedRay *ray = work->rays;

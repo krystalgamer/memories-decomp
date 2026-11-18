@@ -42,18 +42,18 @@ void SpanishModelVariant459_DrawSpiral(Variant459EntryState *context)
     poly = work->packets.textured;
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     if (work->phase >= 0) {
-    r = work->spiral_size / 2;
-    eighth = work->spiral_size / 8;
-    if (r * work->field_3096 < 0) {
+    r = work->spiral.size / 2;
+    eighth = work->spiral.size / 8;
+    if (r * work->spiral.field_02 < 0) {
         length = 0;
     }
-    if (eighth * work->field_3096 < 0) {
+    if (eighth * work->spiral.field_02 < 0) {
         length = 0;
     }
     spread = timing->size / 8;
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + work->spiral_angle * 2;
-        theta = (i << 13) / 12 + work->spiral_angle;
+        phi = (i << 12) / 12 + work->spiral.angle * 2;
+        theta = (i << 13) / 12 + work->spiral.angle;
         for (k = 0; k < 2; k++) {
             if (k == 0) {
                 length = spread / 128;
@@ -266,12 +266,12 @@ void SpanishModelVariant459_DrawSpiral(Variant459EntryState *context)
         }
     }
     }
-    work->spiral_angle += 16;
+    work->spiral.angle += 16;
     if (work->config->end <= work->clock.frame &&
-        work->spiral_state == 0 && work->spiral_size < 0x400) {
-        work->spiral_size += work->clock.step * 32;
-        if (work->spiral_size >= 0x400) {
-            work->spiral_size = 0x400;
+        work->spiral_state == 0 && work->spiral.size < 0x400) {
+        work->spiral.size += work->clock.step * 32;
+        if (work->spiral.size >= 0x400) {
+            work->spiral.size = 0x400;
             work->spiral_state = 2;
         }
     }

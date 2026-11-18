@@ -21,7 +21,7 @@
 typedef struct {
     ModelVariantEntryHead head;
     s16 delay;
-    u16 radius, unknown_0C;
+    u16 radius, height;
     u16 tpage[2], unknown_12;
     u16 clut[2], unknown_18[2];
     POLY_GT4 quad;

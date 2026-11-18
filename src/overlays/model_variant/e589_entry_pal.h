@@ -19,7 +19,7 @@ typedef struct {
 
 typedef struct {
     ModelVariantMesh mesh;
-    Ribbon423 ribbons[1];
+    ModelVariantPlacedRibbon ribbons[1];
     ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[2];
     ModelVariantStreamer streamers[2];
