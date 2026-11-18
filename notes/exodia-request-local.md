@@ -16,13 +16,12 @@ is not published to `D_8009B17C`.
 ## Retained representation and sequencing
 
 The allocator still returns its byte API, backed by a real request pool
-entry whose `buffer` starts at `gRuntime_pSharedWorkBase + 0x3800`. The coordinator
-already forwards this member as an integer word. Here, explicit
-`s32`/`void *` value conversions preserve the existing signed additions
-and pointer representation without introducing pointer arithmetic.
-In the per-card path `sum` remains **u32**, while `anim` and `t14` remain
-**s32**: `anim = (s32)fx->buffer + sum` retains the original unsigned
-addition and target signed-word assignment, including word wrap.
+entry whose `u8 *buffer` starts at `gRuntime_pSharedWorkBase + 0x3800`.
+The coordinator forwards this member to the dispatcher's `void *` buffer
+parameter. Here the byte steps are plain `u8 *` additions
+(`fx->buffer + sum`, `t14 + ((n & 3) << 13)`, `fx->buffer + 0x8000`),
+with `t14` a `u8 *` and `sum` still **u32**; they emit the same addu as
+the former integer round trips.
 
 Signed request payload members receive explicit value conversions of
 the old unsigned halfword stores. The display-position additions remain

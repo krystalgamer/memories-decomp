@@ -144,7 +144,10 @@ addresses.
 `gDuel_aCardThumbnailBlocks` is an unsized array of `DuelCardThumbnailBlock`, owned beside
 the deck records in `duel_scene.h` (formerly `duel_deck_card.h`). Each `0x580`-byte element holds
 `0x500` bytes of 40-by-32 8-bpp thumbnail pixels and 64 halfword CLUT
-entries. Header layout contracts retain that total stride and the CLUT's
+entries (`image.pixels`, `image.clut`). The union's `words` member is the
+same block as the GPU transfer words: the pixel upload passes it to
+`LoadImage`, and the placement and ritual readbacks pass it to
+`StoreImage2`. Header layout contracts retain that total stride and the CLUT's
 `+0x500` offset. `Duel_PopulateCombinedDeckData` still copies the complete
 block for each combined-deck entry; it advances a block pointer instead
 of adding a byte stride.
@@ -164,12 +167,12 @@ Only their destination selection changes from byte multiplication to
 block indexing.
 
 `gDuel_CardThumbnailClutBase` (formerly `D_8018C7D8`) is the byte-addressed
-interior label for `gDuel_aCardThumbnailBlocks[0].clut`. The linker scripts
+interior label for `gDuel_aCardThumbnailBlocks[0].image.clut`. The linker scripts
 bind it as `gDuel_aCardThumbnailBlocks + 0x500` rather than as a second
 absolute address. Setup keeps the separate label because retail materializes
 the CLUT address and repeats the block-stride multiplication for that upload.
-Spelling it as `gDuel_aCardThumbnailBlocks[block_index].clut`, or as
-`gDuel_aCardThumbnailBlocks[0].clut` plus the stride, lets GCC reuse the
+Spelling it as `gDuel_aCardThumbnailBlocks[block_index].image.clut`, or as
+`gDuel_aCardThumbnailBlocks[0].image.clut` plus the stride, lets GCC reuse the
 block base and product, which is 8 bytes longer.
 
 ## Marker data record
@@ -205,8 +208,9 @@ ID replacement writes the canonical signed `id` member after the existing
 payload bits, including high-bit values, are retained; the later live-card
 ID mirror still uses the unchanged unsigned temporary.
 
-The non-struct `u8 **` pointer reload and local `u8 *` pointer type are
-deliberately untouched. These local member views do not retype the global
+The data pointer is still reloaded as a non-struct read, now through a
+local `DuelDeckCardRecord **` pointer to the member; its
+`data_block_index` read needs no further view. These local member views do not retype the global
 data pointer or alter helper reloads, slot/deck normalization, readback
 geometry, object publication or state fallthrough.
 
@@ -373,8 +377,9 @@ The projected-frame path now takes `DuelCardRecord *` directly, removing its
 duplicate `DisplayProjectionTrackedObject` view and both caller casts.
 `table_index` remains unsigned in storage; this consumer explicitly casts it
 to `s8` for both orientation comparisons, preserving the signed treatment of
-`0x80..0xFF`. Its second object-pointer read remains volatile at the same
-expression boundary, and the display-object fields retain their original
+`0x80..0xFF`. Its second object-pointer read is a plain member read (the
+volatile scratchpad pointer alone keeps the retail order), and the
+display-object fields retain their original
 unsigned halfword reads. The shared `object` member remains opaque; this
 consumer takes a `DisplayObject` view without retyping every other owner.
 

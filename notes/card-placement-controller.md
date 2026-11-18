@@ -19,9 +19,11 @@ selection, hand, side-statistics, effect-request and resource layouts.
 six consecutive pointer words, including the independently named word at
 `0x800E9F04`. It must not be reduced to a five-element array.
 
-`gDuel_wPlacementCardId` retains the unsigned halfword used by card use. Placement also
-requires a signed read of those same two bytes. `DuelPlacementCardIdCell`
-expresses that read without allocating or enlarging storage. Bit 15 marks a
+`gDuel_wPlacementCardId` is the signed halfword placement tests; the card-id
+reads take its low twelve bits through a `u16` conversion. One test, right
+after the cursor's `xy` store, still reads it through `DuelPlacementCardIdCell`:
+as a struct member that load stays after the store, where a plain read is
+hoisted above it. Bit 15 marks a
 fusion result; the low twelve bits identify the resource. The six-byte
 `DuelDeckCardRecord` supplies the signed index byte and image-block index.
 Fusion readback is an 8-by-88-pixel rectangle into a 1,408-byte block.

@@ -56,7 +56,7 @@ typedef struct DuelEffectRequest {
      * DuelEffect_RunStatPenalty (id 0xD: the negative stat change), and both
      * store it as their work record's number. */
     s16 number;     /* 0x12 */
-    void *buffer;   /* 0x14 */
+    u8 *buffer;     /* 0x14 */
     s16 id;         /* 0x18 */
     s16 phase;      /* 0x1A */
     u8 flags;       /* 0x1C */

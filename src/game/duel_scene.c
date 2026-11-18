@@ -167,7 +167,7 @@
  * fade_runtime_commons places gDuel_wAiSelectionStepDelay and
  * gDuel_wViewTweenDistanceTarget; their common definitions here resolve to
  * those slots, which keeps the duel's reads gp-relative. */
-u16 gDuel_wPlacementCardId;
+s16 gDuel_wPlacementCardId;
 u8 gDuel_bConfirmFlags;
 s16 gDuel_wPendingEquipBonus;
 s32 gDuel_dwViewTweenHeadingAccumulator;
@@ -216,10 +216,10 @@ s8 gDuelCursor_TargetColumn;
 s8 gDuelCursor_TargetRow;
 struct SaveDataState *gDuel_apSideSaveData[2];
 u16 gDuelResult_wBgmId;
-u8 gDuel_bAiSelectionCursor;
+s8 gDuel_bAiSelectionCursor;
 u16 gDuel_wAiSelectionStepDelay;
 struct DuelResultDisplayState *gDuel_pResultDisplayState;
-u8 gDuel_bPendingDrawCount;
+s8 gDuel_bPendingDrawCount;
 u8 gDuel_bDrawStepCountdown;
 s16 gDuel_wViewTweenDistanceTarget;
 struct DuelEffectRequest *gDuel_apSwordsEffectObjects[2 ];
@@ -258,10 +258,10 @@ DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
 ScreenPair gDuel_aCardSlotScreenPositions[DUEL_SCREEN_CARD_POSITION_COUNT];
 DuelEffectResourceRecord gCardPreview_Resources[4];
 
-/* Volatile scratchpad stores and the second record reload preserve retail
- * ordering around the official Psy-Q RTPS macros. The scratchpad word is the
- * SVECTOR gte_ldv0 loads, and the qualifier lives on that pointer, so its
- * three stores are plain member stores.
+/* Volatile scratchpad stores preserve retail ordering around the official
+ * Psy-Q RTPS macros. The scratchpad word is the SVECTOR gte_ldv0 loads, and
+ * the qualifier lives on that pointer, so its three stores are plain member
+ * stores.
  *
  * Immediately follows DisplayObject_ProjectLinkedGroundPosition in the image and shares its projection
  * setup: same 0x1F8003E0 scratchpad pair, same rtps, same write-back through
@@ -280,7 +280,7 @@ void Duel_DrawProjectedFieldCardFrame(DuelCardRecord *card)
         scratch->vy = 0;
         scratch->vx = x;
         scratch->vz =
-            (u16)((volatile DuelCardRecord *)card)->object->field_34.h.z;
+            (u16)card->object->field_34.h.z;
         gte_ldv0(scratch);
         gte_rtps();
         gte_stsxy(&p);
@@ -712,14 +712,14 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
     s32 g2;
     s32 t;
     SpritePrim *z;
-    POLY_FT4 *y;
+    DisplayObjectFT4Packet *y;
 
     if ((u32)(screen_x + 0x33) < 0x173) {
         if (screen_y >= -0x3B) {
             if (screen_y < DUEL_CARD_FRAME_SCREEN_HEIGHT) {
                 o = (CardFrameScratch *)SCRATCH_ADDR(0x3E0);
                 k = (SpritePrim *)SCRATCH_ADDR(0x320);
-                y = (POLY_FT4 *)SCRATCH_ADDR(0x344);
+                y = (DisplayObjectFT4Packet *)SCRATCH_ADDR(0x344);
                 z = (SpritePrim *)SCRATCH_ADDR(0);
                 card = &gDuel_aCardRecords[object->kind_index.card_record_index];
                 o->pos.h.x = screen_x;
@@ -738,9 +738,9 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         return;
                     }
                     g1 = object->rgb.word;
-                    setlen(y, 9);
-                    *(s32 *)&y->r0 = g1;
-                    y->code = 0x2C;
+                    setlen(&y->prim, 9);
+                    y->w.rgb0 = g1;
+                    y->prim.code = 0x2C;
                     if ((object->field_20.word & 0xFFFFFF) == 0) {
                         k->attribute = k->attribute | 0x80;
                         z->attribute = k->attribute;
@@ -759,12 +759,12 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         k->xy.h.y = o->pos.h.y + 0xF;
                         k->uv.b.lo = (n / 10) * 0xC;
                         DisplayObject_SubmitPacket(
-                            k, y, ordering_table, fl,
+                            k, &y->prim, ordering_table, fl,
                             &o->origin);
                         k->uv.b.lo = (n % 10) * 0xC;
                         k->xy.h.x = k->xy.h.x + 0xC;
                         DisplayObject_SubmitPacket(
-                            k, y, ordering_table, fl,
+                            k, &y->prim, ordering_table, fl,
                             &o->origin);
                     }
                 } else if (object->resource_variant == 0) {
@@ -777,21 +777,21 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         k->uv.b.lo = 0x20;
                     case CARD_TYPE_MAGIC:
                         DisplayObject_SubmitPacket(
-                            k, y, ordering_table, fl,
+                            k, &y->prim, ordering_table, fl,
                             &o->origin);
                         k->cxcy.h.cy = k->cxcy.h.cy + 1;
                         break;
                     case CARD_TYPE_TRAP:
                         k->uv.b.lo = 0x40;
                         DisplayObject_SubmitPacket(
-                            k, y, ordering_table, fl,
+                            k, &y->prim, ordering_table, fl,
                             &o->origin);
                         k->cxcy.h.cy = k->cxcy.h.cy + 2;
                         break;
                     case CARD_TYPE_RITUAL:
                         k->uv.b.lo = 0x60;
                         DisplayObject_SubmitPacket(
-                            k, y, ordering_table, fl,
+                            k, &y->prim, ordering_table, fl,
                             &o->origin);
                         k->cxcy.h.cy = k->cxcy.h.cy + 3;
                         break;
@@ -800,7 +800,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         k->uv.word = 0x7078;
                         k->xy.h.x = o->pos.h.x + 5;
                         DisplayObject_SubmitPacket(
-                            k, y, ordering_table, fl,
+                            k, &y->prim, ordering_table, fl,
                             &o->origin);
                         k->uv.b.hi = 0x58;
                         k->extent.wh.h = 8;
@@ -812,12 +812,12 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                         do {
                             k->uv.b.lo = attack_digits[i] * 8;
                             DisplayObject_SubmitPacket(
-                                k, y, ordering_table, fl,
+                                k, &y->prim, ordering_table, fl,
                                 &o->origin);
                             k->xy.h.y = k->xy.h.y + 8;
                             k->uv.b.lo = defense_digits[i] * 8;
                             DisplayObject_SubmitPacket(
-                                k, y, ordering_table, fl,
+                                k, &y->prim, ordering_table, fl,
                                 &o->origin);
                             i--;
                             k->xy.h.x = k->xy.h.x + 8;
@@ -836,7 +836,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                     z->extent.word = 0x200028;
                     z->uv.b.hi = (i / 5) << 5;
                     DisplayObject_SubmitPacket(
-                        z, y, ordering_table, fl,
+                        z, &y->prim, ordering_table, fl,
                         &o->origin);
                 }
                 k->extent.word = 0x3C0034;
@@ -850,7 +850,7 @@ void Duel_DrawCardFrame(DisplayObject *object, GsOT *ordering_table, s32 screen_
                     k->cxcy.word = DUEL_SPRITE_CLUT_CXCY;
                 }
                 DisplayObject_SubmitPacket(
-                    k, y, ordering_table, fl,
+                    k, &y->prim, ordering_table, fl,
                     &o->origin);
             }
         }
@@ -1356,7 +1356,8 @@ void Duel_InitSideStates(void) {
     for (k = 0; k < DUEL_SIDE_COUNT; k++, e++) {
         j = 4;
         r = (s8 *)e + j;
-        /* e->hand[j] recomputes e + j each pass; retail walks this byte cursor. */
+        /* Byte cursor kept: r = &e->hand[j] folds the 0x1A into the base
+           (addu $2,$6,30; sb 0($2)), retail stores sb 26($2) off e + j. */
         for (; j >= 0; j--, r--) {
             r[OFFSETOF(DuelSideState, hand)] = -1;
         }
@@ -1396,6 +1397,8 @@ void Duel_ClearHandSlots(void)
     u8 *field_09 = &entry->selection_order;
 
     do {
+        /* Kept: entry->order_marker stores through entry (sw 4($3)); retail
+           stores through the selection_order cursor (sw -5($3)). */
         *(int *)(field_09 - 5) = 0;
         entry->object = 0;
         *field_09 = 0;
@@ -1934,13 +1937,13 @@ void Duel_LoadTerrainPackage(void)
 void Duel_InitScene(void)
 {
     DisplayObject *obj;
-    u8 *p;
-    u8 *q;
+    SaveDataState *p;
     s32 value;
     s32 side;
     DuelEffectResourceRecord *pane;
     DisplayObject *prev;
     s8 *pid;
+    u16 *flags;
 
     pid = &gDuel_bOpponentID;
     SD_ResetPendingEntries();
@@ -2005,19 +2008,13 @@ void Duel_InitScene(void)
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(obj, 12, 24, 4, 2, gDuel_bTerrain, 11, 732);
     DisplayObject_SelectOrderingTable1(obj);
-    /* Both of this function's flag merges go through the member's address
-       as s16 instead of obj->flags, and the spelling is load-bearing rather
-       than untidy.
-
-       Writing obj->flags lets GCC 2.8.1 schedule the sh into the delay slot
-       of the following jal and drop the nops around it, which shortens the
-       executable by sixteen bytes. *(u16 *)&obj->flags fails identically,
-       because fold turns an address-of cast to the member's own type back
-       into the member access; the s16 cast differs from the u16 member, so
-       it stays a non-struct store. Each site was measured on its own:
-       leaving only the second as member access still loses twelve bytes, and
-       the first accounts for the other four. */
-    *(s16 *)&obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    /* Both of this function's flag merges store through a u16 pointer to
+       the member rather than as obj->flags. As a struct-member store GCC 2.8.1
+       schedules the sh into the delay slot of the following jal and drops
+       the nops around it, which shortens the executable by sixteen bytes;
+       through the pointer it stays a non-struct store. */
+    flags = &obj->flags;
+    *flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     side = (u32)gDuel_bOpponentID >> 31;
     gDuel_pTerrainIcon = obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -2025,7 +2022,8 @@ void Duel_InitScene(void)
         obj, 280, 32, 4, side, 0, 11, 748
     );
     DisplayObject_SelectOrderingTable1(obj);
-    *(s16 *)&obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
+    flags = &obj->flags;
+    *flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     if (gDuel_bActiveSide != 0) {
         obj->field_40.clut.x += 16;
     }
@@ -2044,6 +2042,9 @@ void Duel_InitScene(void)
         gDuel_apSideSaveData[0] = gDuel_apSideSaveData[1] = 0;
         if (pid[-1] < 0) {
             if (gDuel_bOpponentID < 0) {
+                /* The pair workspace is an untyped byte block holding one
+                   state per side. Kept: typed SaveDataState locals for these
+                   stores move the lui from $4 to $2. */
                 gDuel_apSideSaveData[0] = (SaveDataState *)gSaveData_aPairWorkspace;
                 gDuel_apSideSaveData[1] =
                     (SaveDataState *)(gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE);
@@ -2053,16 +2054,15 @@ void Duel_InitScene(void)
                 );
                 return;
             }
-            p = (u8 *)gDuel_awPlayerDeck;
-            gDuel_apSideSaveData[0] = (SaveDataState *)p;
+            /* The persistent state block starts at the deck halfwords. */
+            p = (SaveDataState *)gDuel_awPlayerDeck;
+            gDuel_apSideSaveData[0] = p;
             if (gDuel_bOpponentID < DUEL_MASTER_K_OPPONENT_ID) {
-                q = 0;
-                Duel_ShuffleBothDecks((const u16 *)p, (const u16 *)q);
+                Duel_ShuffleBothDecks(p->player_deck, 0);
                 return;
             }
         }
-        q = p;
-        Duel_ShuffleBothDecks((const u16 *)p, (const u16 *)q);
+        Duel_ShuffleBothDecks(p->player_deck, p->player_deck);
     }
 }
 
@@ -2655,7 +2655,7 @@ void DuelScene_UpdateDrawResolution(void) {
             return;
         }
         gDuel_bDrawStepCountdown = 8;
-        b = gDuel_bPendingDrawCount - 1;
+        b = (u8)gDuel_bPendingDrawCount - 1;
         c = gDuel_pActiveSideState;
         gDuel_bPendingDrawCount = b;
         if (c->deck_draw_cursor >= DECK_SIZE) {
@@ -2688,7 +2688,7 @@ void DuelScene_UpdateDrawResolution(void) {
         n = (u8)gDuel_pActiveSideState->deck_draw_cursor;
         gDuel_pActiveSideState->deck_draw_cursor = n + 1;
         /* Signed view: retail tests the u8 count with lb. */
-        if (*(s8 *)&gDuel_bPendingDrawCount == 0) {
+        if (gDuel_bPendingDrawCount == 0) {
             gDuel_wSceneStateFlags = gDuel_wSceneStateFlags | 0x4000;
         }
         SD_SEPlayFull(0xA);
@@ -2721,7 +2721,7 @@ void DuelScene_UpdateExodiaResult(void)
     s32 anim;
     s32 n;
     s32 r;
-    s32 t14;
+    u8 *t14;
     u32 sum;
     DuelCardStagingBuffer *cards;
     DuelExodiaCardPose *poses;
@@ -2740,6 +2740,9 @@ void DuelScene_UpdateExodiaResult(void)
         i = 0;
         cards = &gDuel_abCardStagingBuffer;
         poses = gDuel_ExodiaCardPoses.poses;
+        /* Kept: routing the address through the s32 r (also the Rand
+           result below) gives retail's early lui/addiu and addu $9,$2,$0;
+           a DisplayObjectCallback local loads it late into $9 directly. */
         r = (s32)DisplayObject_UpdateCosineSlide;
         fnv = r;
         objs = gDisplayObject_apWorkSlots.slots;
@@ -2748,8 +2751,7 @@ void DuelScene_UpdateExodiaResult(void)
         side = gDuel_bActiveSide;
         gDuel_pActiveSelectionRecord =
             gDuel_abSelectionSides[(u8)side].records;
-        /* s16 view: retail materialises li -64; a u16 store gets li 0xffc0. */
-        *(s16 *)&obj->position.h.field_28 = -0x40;
+        obj->position.s.x = -0x40;
         obj->field_2C.h.field_2C = 0x10;
         obj->update_state = 1;
         obj->update = (DisplayObjectCallback)fnv;
@@ -2771,12 +2773,14 @@ void DuelScene_UpdateExodiaResult(void)
         case 0:
                 obj = rec->object;
                 /* Retail adds the record offset to the staging base (addu
-                   offset, base); indexing field_cards swaps the operands. */
+                   offset, base) and folds field_cards into the load offset;
+                   (index + cards->deck.field_cards) folds it into the base. */
                 anim = ((DuelCardStagingBuffer *)(
                     obj->kind_index.card_record_index * sizeof(DuelCardRecord) +
                     (u32)cards))->deck.field_cards[0].card_id - 0x11;
-                /* Integer sum: retail adds the base last (addu offset, base); &poses[anim]
-                   swaps the operands. */
+                /* Integer sum: retail adds the base last (addu $3,$3,$11);
+                   anim + poses, &poses[anim] and pose += anim all give
+                   addu $3,$11,$3. */
                 pose = (DuelExodiaCardPose *)(anim * sizeof(DuelExodiaCardPose) + (u32)poses);
                 obj->position.h.field_28 = pose->biased_x - 0x1A;
                 py = pose->biased_y;
@@ -2828,9 +2832,9 @@ void DuelScene_UpdateExodiaResult(void)
         fx->x = (s16)((rand() & 0xFF) + 0x20);
         r = Rand_GetInterval(0xB0);
         n = (u8)gDuel_bPresentationCursor;
-        t14 = (s32)fx->buffer;
+        t14 = fx->buffer;
         fx->y = (s16)(r + 0x20);
-        fx->buffer = (void *)(t14 + ((n & 3) << 13));
+        fx->buffer = t14 + ((n & 3) << 13);
         gDuel_bPresentationCursor = n + 1;
         return;
     }
@@ -2846,7 +2850,7 @@ void DuelScene_UpdateExodiaResult(void)
             fx->x = 0xA0;
             fx->y = 0x78;
             gDuelEffect_pTrackedRequest = fx;
-            fx->buffer = (void *)((s32)fx->buffer + 0x8000);
+            fx->buffer = fx->buffer + 0x8000;
             return;
         }
         gDuel_wStepCounter = 4;
@@ -2858,8 +2862,7 @@ void DuelScene_UpdateExodiaResult(void)
         d = *slot;
         fx->y = (s16)(d->xy.h.y + 0x1E);
         sum = (k << 12) + 0xA000;
-        anim = (s32)fx->buffer + sum;
-        fx->buffer = (void *)anim;
+        fx->buffer = fx->buffer + sum;
         fx->phase = 9;
         SD_SEPlayFull(0x17);
         gDuel_bPresentationCursor = gDuel_bPresentationCursor + 1;
@@ -3089,7 +3092,7 @@ void DuelScene_UpdateCardUse(void)
         gDuel_bSceneSubStep = 2;
         return;
     case 2:
-        DuelEffect_StartCardEffect((s16)gDuel_wPlacementCardId, 0);
+        DuelEffect_StartCardEffect(gDuel_wPlacementCardId, 0);
         gDuel_bSceneSubStep = 3;
         return;
     case 3:
@@ -3135,7 +3138,7 @@ void DuelScene_UpdateCardUse(void)
     case 4:
         if ((state & 0x80) == 0) {
             gDuel_bSceneSubStep = state | 0x80;
-            DuelEffect_StartCardEffect((s16)gDuel_wPlacementCardId, 1);
+            DuelEffect_StartCardEffect(gDuel_wPlacementCardId, 1);
             return;
         }
         gDuel_wSceneStateFlags = 5;
@@ -3536,11 +3539,11 @@ void DuelScene_UpdateCardPlacement(void)
                                     gDisplayObject_apWorkSlots.slots[0]->kind_index.card_record_index].card_id,
                                 gDuel_abCardStagingBuffer.deck.field_cards[object->kind_index.card_record_index].card_id);
                         }
-                        if (!((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value) {
+                        if (!gDuel_wPlacementCardId) {
                             return;
                         }
                     } while (0);
-                    CardPreview_RequestResourceTransfer(0, gDuel_wPlacementCardId & 0xFFF);
+                    CardPreview_RequestResourceTransfer(0, (u16)gDuel_wPlacementCardId & 0xFFF);
                 }
                 return;
             }
@@ -3558,10 +3561,13 @@ void DuelScene_UpdateCardPlacement(void)
                 return;
             }
             object->xy.word = slots[0]->xy.word;
+            /* Kept: read as a struct member, the halfword load stays after
+               the xy store (sw; lh $2); a plain or local read is hoisted
+               above it into $3. */
             if (!((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value) {
                 gDuel_bSceneSubStep = 7;
                 gDuel_bPlacementNeedsCardMoveSetup = -1;
-            } else if (((DuelPlacementCardIdCell *)&gDuel_wPlacementCardId)->value & 0x8000) {
+            } else if (gDuel_wPlacementCardId & 0x8000) {
                 gDuel_bPlacementNeedsCardMoveSetup = 1;
                 gDuel_wPendingEquipBonus = 0;
                 gDuel_bSceneSubStep = 6;
@@ -3594,16 +3600,16 @@ void DuelScene_UpdateCardPlacement(void)
                         slots = gDisplayObject_apWorkSlots.slots;
                         if (!(gDuel_wTrapPresentationMode & 0x80)) {
                             gDuel_wTrapPresentationMode |= 0x80;
-                            if ((s16)gDuel_wPlacementCardId & 0x8000) {
-                                card->data->id = gDuel_wPlacementCardId & 0xFFF;
+                            if (gDuel_wPlacementCardId & 0x8000) {
+                                card->data->id = (u16)gDuel_wPlacementCardId & 0xFFF;
                                 gDuel_wTrapPresentationMode |= 0x40;
-                                card->card_id = gDuel_wPlacementCardId & 0xFFF;
+                                card->card_id = (u16)gDuel_wPlacementCardId & 0xFFF;
                                 value = card->data->data_block_index;
                                 resource->rects[0].x = resource->src_x + 56;
                                 resource->rects[0].y = resource->src_y;
                                 resource->rects[0].w = 8;
                                 resource->rects[0].h = 88;
-                                StoreImage2(&resource->rects[0], (u32 *)&gDuel_aCardThumbnailBlocks[value]);
+                                StoreImage2(&resource->rects[0], gDuel_aCardThumbnailBlocks[value].words);
                             }
                             return;
                         }
@@ -3667,7 +3673,7 @@ void DuelScene_UpdateCardPlacement(void)
                     if (!(gDuel_wTrapPresentationMode & 0x80)) {
                         gDuel_wTrapPresentationMode |= 0x80;
                         object->field_60 = 30;
-                        if (!((s16)gDuel_wPlacementCardId & 0x8000)) {
+                        if (!(gDuel_wPlacementCardId & 0x8000)) {
                             object->position.h.field_28 = 0;
                             object->position.h.field_2A = 500;
                             gDuel_wTrapPresentationMode |= 0x40;
@@ -3826,7 +3832,7 @@ void DuelScene_UpdateCardPlacement(void)
             if (!(gDuel_bSceneSubStep & 0x80)) {
                 DisplayObject **slots;
                 gDuel_bSceneSubStep |= 0xC0;
-                Duel_MarkCreatedCardKnown((u32)(gDuel_wPlacementCardId & 0xFFF));
+                Duel_MarkCreatedCardKnown((u32)((u16)gDuel_wPlacementCardId & 0xFFF));
                 slots = gDisplayObject_apWorkSlots.slots;
                 slots[0]->flags &= ~0x40;
                 DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
@@ -4280,12 +4286,6 @@ void Duel_BeginFieldPlacementSelection(DuelSelectionRecord *selection) {
     gDuel_wDisplayTransitionFlags = 3;
 }
 
-/* The deck records sit 0x31E0 bytes below the active-card table, and retail
-   forms their base from that table's address rather than from a label of its
-   own. */
-#define DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS \
-    ((DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0))
-
 /* Applies gAi_Selection to the hand: reserves existing hand picks in the
  * local availability list, swaps pool-card records into other occupied hand
  * slots, rebuilds their objects, and rewrites picks as hand-slot codes.
@@ -4309,6 +4309,7 @@ void Duel_ApplyAiHandSelection(void)
     s32 v;
     s32 id;
     s32 k;
+    DuelDeckCardRecord *deck_records;
 
     for (i = 0; i < HAND_SIZE; i++) {
         sel[i] = gDuel_pActiveSideState->hand[i];
@@ -4346,9 +4347,15 @@ void Duel_ApplyAiHandSelection(void)
                         do {
                         } while (0);
                         card = &gDuel_aActiveCards[v];
-                        rec = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS + sel[j];
-                        other = DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS +
-                                card->deck_index;
+                        /* The deck records sit 0x31E0 bytes below the
+                           active-card table, and retail forms their base from
+                           that table's address (lui/addiu, then addu -12768,
+                           hoisted out of the loop) rather than from
+                           gDuel_aDeckCardRecords; set before the loop, GCC
+                           folds the offset into the symbol. */
+                        deck_records = (DuelDeckCardRecord *)((u8 *)gDuel_aActiveCards - 0x31E0);
+                        rec = deck_records + sel[j];
+                        other = deck_records + card->deck_index;
                         v = rec->deck_index;
                         rec->deck_index = other->deck_index;
                         other->deck_index = v;
@@ -4378,8 +4385,6 @@ void Duel_ApplyAiHandSelection(void)
         }
     }
 }
-
-#undef DUEL_DECK_RECORDS_BELOW_ACTIVE_CARDS
 
 #include "input.h"
 
@@ -4432,12 +4437,16 @@ int Duel_CheckQuitInput(void)
  * choice started, then flags the move-back (0x40) and the finish (0x10). */
 static inline void DuelHand_RestoreFlipCard(DisplayObject *obj)
 {
+    u32 *saved;
+
     DisplayObject_ReleaseIfPresent(gDuel_pFlipLeftMarker);
     DisplayObject_ReleaseIfPresent(gDuel_pFlipRightMarker);
     gDuel_pFlipRightMarker = 0;
     gDuel_pFlipLeftMarker = 0;
-    /* Non-struct load: a member load is scheduled away from retail's slot. */
-    obj->position.word = *(s32 *)&obj->field_2C;
+    /* Non-struct load through a u32 pointer: a member load is scheduled
+       away from retail's slot. */
+    saved = &obj->field_2C.word;
+    obj->position.word = *saved;
     DisplayObject_SavePosition(obj);
     obj->field_60 = 0;
     gDuel_bSceneSubStep |= 0x50;
@@ -4458,6 +4467,8 @@ void DuelScene_UpdateHandActions(void)
     s32 v;
     s32 value;
     s32 card_id;
+    u16 *flags;
+    u32 *saved;
 
     side = gDuel_abSelectionSides[gDuel_bActiveSide].records;
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
@@ -4513,7 +4524,7 @@ void DuelScene_UpdateHandActions(void)
             }
             if (AiScript_Run() != 0) {
                 /* s8 view: retail stores li -1, not li 255. */
-                *(s8 *)&gDuel_bAiSelectionCursor = -1;
+                gDuel_bAiSelectionCursor = -1;
                 gDuel_wAiHandStackPending = 0;
                 if (gAi_Selection.bytes[1] != 0) {
                     gDuel_wAiHandStackPending = 1;
@@ -4527,7 +4538,7 @@ void DuelScene_UpdateHandActions(void)
             if (!(gDuel_wActionSubstate & 0x8000)) {
                 gDuel_wActionSubstate |= 0x8000;
                 gDuel_bAiSelectionCursor++;
-                value = gAi_Selection.bytes[(s8)gDuel_bAiSelectionCursor];
+                value = gAi_Selection.bytes[gDuel_bAiSelectionCursor];
                 if (value == 0) {
                     DuelHand_RefreshSelectionColors(side);
                     gDuel_wActionSubstate = 2;
@@ -4628,8 +4639,10 @@ void DuelScene_UpdateHandActions(void)
                 }
                 obj->update = DisplayObject_UpdateCosineSlide;
                 gDuel_wActionSubstate |= 0x5000;
-                /* Copying the .word members reschedules the stores. */
-                obj->position.word = *(s32 *)&obj->field_2C;
+                /* Copying the .word members reschedules the stores; the
+                   load goes through a u32 pointer. */
+                saved = &obj->field_2C.word;
+                obj->position.word = *saved;
                 obj->field_2C.h.field_2C = 0x10;
                 obj->update_state = 1;
                 return;
@@ -4793,9 +4806,11 @@ void DuelScene_UpdateHandActions(void)
                         3, 1, 2, 0xB, 0x20C);
                     DisplayObject_SelectOrderingTable1(sprite);
                     DisplayObject_SetDepthOffset(sprite, 0xA);
-                    /* Non-struct halfword (see Duel_InitScene): a member store
-                       drops below the marker pointer's own store. */
-                    *(s16 *)&sprite->flags |= 0x28;
+                    /* Non-struct halfword through a u16 pointer (see
+                       Duel_InitScene): a member store drops below the marker
+                       pointer's own store. */
+                    flags = &sprite->flags;
+                    *flags |= 0x28;
                     gDuel_pFlipLeftMarker = sprite;
                     sprite = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                     DisplayObject_ConfigureSpriteAtPosition(
@@ -4803,7 +4818,8 @@ void DuelScene_UpdateHandActions(void)
                         3, 1, 0, 0xB, 0x20C);
                     DisplayObject_SelectOrderingTable1(sprite);
                     DisplayObject_SetDepthOffset(sprite, 0xA);
-                    *(s16 *)&sprite->flags |= 0x28;
+                    flags = &sprite->flags;
+                    *flags |= 0x28;
                     gDuel_pFlipRightMarker = sprite;
                     return;
                 }
@@ -5011,8 +5027,7 @@ void DuelCard_UpdateDefenseRotation(DisplayObject *o)
     if (!DisplayObject_MarkInitialized(o)) {
         o->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         if (!o->field_20.b.rotation_z) {
-            /* s16 view: retail materialises li -8; a u16 store gets li 0xfff8. */
-            *(s16 *)&o->position.h.field_28 = -8;
+            o->position.s.x = -8;
             o->position.h.field_2A = 0xC0;
         } else {
             o->position.h.field_28 = 8;
@@ -5186,6 +5201,7 @@ void DuelScene_UpdateFieldActions(void)
     s8 row;
     u32 f;
     s32 flags;
+    u32 *saved;
 
     side = &gDuel_abSelectionSides[gDuel_bActiveSide].records[2];
     if (!(gDuel_wSceneStateFlags & 0x8000)) {
@@ -5516,9 +5532,11 @@ void DuelScene_UpdateFieldActions(void)
                     ((other->position.s.x - o->position.s.x) << 8) / 16;
                 o->field_38.h.field_3A =
                     ((other->position.s.y - o->position.s.y) << 8) / 16;
-                /* A struct-member store schedules the copy after the flag
-                   update; retail stores the word straight after its load. */
-                *(s32 *)&o->field_2C = other->position.word;
+                /* Stored through a u32 pointer: a struct-member store
+                   schedules the copy after the flag update; retail stores the
+                   word straight after its load. */
+                saved = &o->field_2C.word;
+                *saved = other->position.word;
                 gDuel_wDisplayTransitionFlags = 0x58;
                 gDuel_bSceneSubStep |= 0x40;
                 return;
@@ -5932,7 +5950,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     DuelCardStagingBuffer *b1;
     s32 n;
     u8 *tbl2;
-    u8 *rec2;
+    DuelCardRecord *rec2;
     DuelCardStagingBuffer *b2;
     s32 h2;
     DuelCardRecord *e;
@@ -5950,7 +5968,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     DuelCardStagingBuffer *b4;
     s32 j2;
     u8 *tbl3;
-    u8 *rec3;
+    DuelCardRecord *rec3;
     s32 h3;
     s32 k;
 
@@ -5962,7 +5980,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     n = 0;
     i = n;
     tbl2 = gDuel_abFieldGridCardRecordIndices.flat;
-    rec2 = (u8 *)gDuel_aCardRecords;
+    rec2 = gDuel_aCardRecords;
     b2 = &gDuel_abCardStagingBuffer;
     h2 = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
@@ -6027,7 +6045,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     }
     i = 0;
     tbl3 = gDuel_abFieldGridCardRecordIndices.flat;
-    rec3 = (u8 *)gDuel_aCardRecords;
+    rec3 = gDuel_aCardRecords;
     h3 = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     k = DUEL_FAKE_TRAP_CARD_ID;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
@@ -6161,6 +6179,8 @@ void DuelScene_UpdateBattle(void)
     DisplayObject **pair;
     DisplayObject **slots;
     DisplayObjectCallback cb;
+    s32 *xy;
+    s16 *half;
     s32 one;
     s32 y;
     s32 h;
@@ -6520,12 +6540,15 @@ void DuelScene_UpdateBattle(void)
             Duel_SetupFieldCardFromDeck(pair[1]->kind_index.card_record_index, pair[1]->kind_arg.deck_index);
             right->flags |= gDuel_awSavedRecordFlags[1] & 0xA00;
             /* Member stores/loads move against the gp-relative accesses
-               around them; retail schedules these as non-struct halfwords. */
-            *(u16 *)&right->stat_modifier = gDuel_awSavedStatModifiers[1];
+               around them; retail schedules these as non-struct halfwords,
+               reached through s16 pointers. */
+            half = &right->stat_modifier;
+            *half = gDuel_awSavedStatModifiers[1];
             models = gMain_aAnimatedBattleModels;
             gDuel_bBattleRemovalSlot1 = -1;
             gDuel_bBattleRemovalSlot0 = -1;
-            models[0].model_id = *(u16 *)&left->card_id;
+            half = &left->card_id;
+            models[0].model_id = *half;
             models[0].defense_position = 0;
             models[0].attack_compare_override = 0;
             models[0].defense_compare_override = 0;
@@ -6575,9 +6598,11 @@ void DuelScene_UpdateBattle(void)
             side = gDisplayObject_apWorkSlots.slots[ix + 2];
             if (!(flags & 0x80)) {
                 gDuel_bSceneSubStep = flags | 0xC0;
-                /* The copies read (here) and write (below) xy as a non-struct
-                   word; as members the stores are rescheduled. */
-                side->position.word = *(u32 *)&side->xy;
+                /* The copies read (here) and write (below) xy through an s32
+                   pointer, a non-struct word; as members the stores are
+                   rescheduled. */
+                xy = &side->xy.word;
+                side->position.word = *xy;
                 wins = gDuel_abBattleOutcome;
                 if (wins[ix] == 0) {
                     gDuel_bSceneSubStep = 6;
@@ -6615,7 +6640,8 @@ void DuelScene_UpdateBattle(void)
                 if (!(gDuelEffect_pTrackedRequest->flags & 0x80)) {
                     f &= 0xBF;
                     gDuel_bSceneSubStep = f;
-                    *(u32 *)&side->xy = side->position.word;
+                    xy = &side->xy.word;
+                    *xy = side->position.word;
                     gDuel_wStepCounter = 0xA;
                     return;
                 }
@@ -6798,6 +6824,7 @@ s32 Duel_UpdateCardUseConfirmation(void) {
     s32 c;
     s32 v;
     u8 w;
+    u16 *flags;
 
     if ((gDuel_bConfirmFlags & 0x80) == 0) {
         gDuel_bConfirmFlags = gDuel_bConfirmFlags | 0x80;
@@ -6813,19 +6840,14 @@ s32 Duel_UpdateCardUseConfirmation(void) {
         );
         DisplayObject_SelectOrderingTable1(q);
         DisplayObject_SetDepthOffset(q, 0xA);
-        /* This merge, the two below it and the first store to 0x60 go
-           through the members' addresses with the other signedness rather
-           than being plain q->flags and q->field_60 stores. The spelling is
-           load-bearing: as member stores, GCC 2.8.1 fills the following
-           call's or branch's delay slot with the store and drops the nop,
-           which shortens the executable by twelve bytes. The address-of form
-           only keeps them non-struct stores because the cast type differs
-           from the member's; with the same type fold turns it back into the
-           member store. The second 0x60 store can be a plain member store.
-           Reads convert normally -- it is only stores standing next to a
-           branch that get hoisted. */
-        *(s16 *)&q->flags =
-            *(s16 *)&q->flags |
+        /* This merge and the one below it store through a u16 pointer to
+           the member rather than as q->flags. As member stores GCC 2.8.1
+           fills the following call's delay slot with the store and drops
+           the nop, which shortens the executable; through the pointer they
+           stay non-struct stores. */
+        flags = &q->flags;
+        *flags =
+            *flags |
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         gDuel_pFlipLeftMarker = q;
@@ -6839,8 +6861,9 @@ s32 Duel_UpdateCardUseConfirmation(void) {
         );
         DisplayObject_SelectOrderingTable1(q);
         DisplayObject_SetDepthOffset(q, 0xA);
-        *(s16 *)&q->flags =
-            q->flags |
+        flags = &q->flags;
+        *flags =
+            *flags |
             DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
             DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         gDuel_pFlipRightMarker = q;
@@ -7158,12 +7181,7 @@ void DuelScene_UpdateResultOutro(void)
         }
         obj = gDuel_pTerrainIcon;
         gDuelResult_wBgmId = mode;
-        /* The record spells 0x28 u16 and this is the one site that puts a
-           negative value there. Through the plain member GCC materialises
-           -116 as `ori 0xff8c` where retail has `addiu -116`; the store at
-           0x198 below is unaffected, so the divergence is the constant's
-           sign, not the member. */
-        *(s16 *)&obj->position.h.field_28 = -116;
+        obj->position.s.x = -116;
         obj->field_2C.h.field_2C = 0x30;
         obj->update_state = 1;
         obj->update = DisplayObject_UpdateCosineSlide;
@@ -7628,6 +7646,8 @@ void DuelScene_UpdateResultRewards(void)
                     DisplayObject_SelectOrderingTable1(object);
                     x += 20;
                     object->flags |= 0x20;
+                    /* Kept: children[n] with n++ adds an sll before the addu;
+                       retail steps a byte offset (children[2] onwards). */
                     *(DisplayObject **)((u8 *)gDuel_pResultDisplayState + offset + 4) = object;
                     offset += 4;
                 } while (count < gDuel_pResultDisplayState->starchip_prize);
@@ -9495,7 +9515,7 @@ DuelCardRecord *Duel_SetupCardRecord(s32 a, s32 b) {
     q->h = 0x20;
     q->x = (idx % DUEL_FIELD_ROW_SIZE) * 0x14 + 0x380;
     q->y = (idx / DUEL_FIELD_ROW_SIZE) * 0x20;
-    LoadImage(q, (u32 *)gDuel_aCardThumbnailBlocks[block_index].pixels);
+    LoadImage(q, gDuel_aCardThumbnailBlocks[block_index].words);
 
     r = &base[m];
     r->x = 0x380;
@@ -9902,7 +9922,7 @@ void DuelEffect_ApplyMonsterRemoval(void) {
     DuelCardRecord *e;
     u8 *tb;
     u8 *cb;
-    u8 *rb;
+    DuelCardRecord *rb;
     s16 *sp;
     s32 i;
     s32 n;
@@ -9944,7 +9964,7 @@ void DuelEffect_ApplyMonsterRemoval(void) {
 
     tb = gDuel_abFieldGridCardRecordIndices.flat;
     sp = &gDuel_wMonsterRemovalZone;
-    rb = (u8 *)gDuel_aCardRecords;
+    rb = gDuel_aCardRecords;
     for (;;) {
         ix = gDuel_wMonsterRemovalZone + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
         e = (DuelCardRecord *)(*(u8 *)(ix + (s32)tb) * DUEL_CARD_RECORD_SIZE +
@@ -10163,7 +10183,7 @@ void DuelEffect_ApplyRaigeki(void) {
         gDuel_sEffectWorkCounter = (u16)gDuel_sEffectWorkCounter + 1;
         if (v != 0) {
             q = DuelEffect_AllocateRequest(0xB);
-            q->buffer = (u8 *)q->buffer + gDuel_sEffectWorkCounter * 0x3000;
+            q->buffer = q->buffer + gDuel_sEffectWorkCounter * 0x3000;
             q->x = r->object->xy.h.x;
             q->y = r->object->xy.h.y;
             q->z = (u16)r->object->field_34.h.z;
@@ -10279,8 +10299,7 @@ void DuelEffect_ApplyStatPenalty(void) {
         object->x = card->xy.s.x;
         object->y = card->xy.s.y;
         object->z = (s16)(u16)card->field_34.h.z;
-        object->buffer =
-            (void *)((s32)object->buffer + ((s16)gDuel_wStepCounter << 14));
+        object->buffer = object->buffer + ((s16)gDuel_wStepCounter << 14);
         if (gDuel_wEffectCardID == DUEL_SPELLBINDING_CIRCLE_CARD_ID) {
             object->phase = 2;
             record->stat_modifier =
@@ -10434,16 +10453,21 @@ void DuelEffect_ApplySwords(void)
     int slot;
     int side;
     int field_side;
+    /* The side selector is reloaded at every use (lbu off $gp), while the
+       rest of the unit reads it plainly. The address is re-taken before
+       each use: held across a call or a loop it moves into a register. */
+    volatile u8 *active_side;
 
     if (DuelEffect_MarkInitialized() == 0) {
         object = DuelEffect_AllocateRequest(0x15);
-        side = DUEL_SIDE_SELECTOR_VOLATILE ^ 1;
+        active_side = &gDuel_bActiveSide;
+        side = *active_side ^ 1;
         gDuelEffect_pTrackedRequest = object;
         gDuel_apSwordsEffectObjects[side] = object;
         object->flags |= DUEL_EFFECT_REQUEST_FLAG_NONBLOCKING;
         object->x = 0xA0;
         object->y = 0x78;
-        field_side = DUEL_SIDE_SELECTOR_VOLATILE ^ 1;
+        field_side = *active_side ^ 1;
         object->phase = field_side;
         SD_SEPlayFull(0x23);
     } else if (!(gDuel_wCardEffectFlags & 0x40)) {
@@ -10454,7 +10478,8 @@ void DuelEffect_ApplySwords(void)
                 slot < DUEL_FIELD_SIDE_ZONE_COUNT;
                 slot++
             ) {
-                entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.rows[DUEL_SIDE_SELECTOR_VOLATILE][slot]];
+                active_side = &gDuel_bActiveSide;
+                entry = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.rows[*active_side][slot]];
                 if ((*(u32 *)&entry->terrain_modifier & 0x90000000) ==
                     0x90000000) {
                     DisplayObject *current;
@@ -10467,7 +10492,8 @@ void DuelEffect_ApplySwords(void)
         }
     } else if (DisplayObject_FindAllocatedByTag(1) == 0 &&
                gDuelEffect_pTrackedRequest->progress >= 2) {
-        gDuel_aSideStates[DUEL_SIDE_SELECTOR_VOLATILE ^ 1].swords_turns_remaining =
+        active_side = &gDuel_bActiveSide;
+        gDuel_aSideStates[*active_side ^ 1].swords_turns_remaining =
             DUEL_SWORDS_INITIAL_COUNTER;
         gDuel_wCardEffectFlags = 0;
     }
@@ -10494,6 +10520,8 @@ void DuelEffect_ApplyCursebreaker(void) {
     s32 step;
     s32 position_index;
     u8 *grid;
+    /* Reloaded at every use, as in DuelEffect_ApplySwords. */
+    volatile u8 *active_side;
 
     if (DuelEffect_MarkInitialized() == 0) {
         gDuel_sEffectWorkCounter = -1;
@@ -10517,7 +10545,8 @@ void DuelEffect_ApplyCursebreaker(void) {
            retain retail's unsigned halfword loads. */
         do {
             grid = gDuel_abFieldGridCardRecordIndices.flat;
-            base_slot = DUEL_SIDE_SELECTOR_VOLATILE * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
+            active_side = &gDuel_bActiveSide;
+            base_slot = *active_side * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
                         DUEL_FIELD_SIDE_ZONE_COUNT;
         } while ((s16)next == 0 && (s16)next != 0);
         card = grid[(s16)next + base_slot];
@@ -10529,16 +10558,17 @@ void DuelEffect_ApplyCursebreaker(void) {
         /* Keep the row bias in the typed index for retail scheduling. */
         position_index = step + DUEL_FIELD_SIDE_ZONE_COUNT;
         object->phase = 3;
+        active_side = &gDuel_bActiveSide;
         position = (DuelFieldPosition *)(
             position_index * sizeof(DuelFieldPosition) +
-            DUEL_SIDE_SELECTOR_VOLATILE * sizeof(gDuel_aFieldGridGroundPositions[0]) +
+            *active_side * sizeof(gDuel_aFieldGridGroundPositions[0]) +
             positions
         );
         x = (u16)position->x;
         object->y = 0;
         object->x = (s16)x;
         object->z = (s16)(u16)position->y;
-        object->buffer = (void *)((s32)object->buffer + step * 0x3000);
+        object->buffer = object->buffer + step * 0x3000;
         SD_SEPlayFull(0x14);
 
         if ((record->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
@@ -10721,27 +10751,29 @@ void DuelEffect_ApplyRitual(void)
     case 3: {
         u16 state = gDuel_wTrapPresentationMode;
         DuelEffectResourceRecord *resource = &gCardPreview_Resources[1];
-        u8 *data;
+        DuelDeckCardRecord **data_slot;
+        DuelDeckCardRecord *data;
         card = &gDuel_aCardRecords[gDuel_bCardMoveSlot];
         if (!(state & 0x80)) {
             u16 ritual;
             u16 y;
-            /* The data pointer is reloaded through its address as u8 **, a
-               non-struct read; as a plain card->data read the function's
+            /* The data pointer is reloaded through a pointer to the member,
+               a non-struct read; as a plain card->data read the function's
                schedule changes (17 differences). */
             card->data->id =
                 (s16)(ritual = gDuel_RitualResultCardId);
-            data = *(u8 **)&card->data;
+            data_slot = &card->data;
+            data = *data_slot;
             gDuel_wTrapPresentationMode = state | 0x80;
             card->card_id = ritual;
-            value = ((DuelDeckCardRecord *)data)->data_block_index;
+            value = data->data_block_index;
             y = resource->src_y;
             resource->rects[0].x = resource->src_x + 56;
             resource->rects[0].w = 8;
             resource->rects[0].h = 88;
             resource->rects[0].y = y;
             StoreImage(&resource->rects[0],
-                (u32 *)&gDuel_aCardThumbnailBlocks[value]);
+                gDuel_aCardThumbnailBlocks[value].words);
             break;
         }
         Duel_SetupFieldCardFromDeck(
@@ -10794,7 +10826,7 @@ void DuelEffect_ApplyRitual(void)
                 (gInput_awPadPressed[0] & DUEL_EFFECT_RITUAL_CONFIRM_MASK)) {
                 SD_SEPlayFull(7);
                 object->position.h.field_28 = 134;
-                *(s16 *)&object->position.h.field_2A = -128;
+                object->position.s.y = -128;
                 object->field_2C.h.field_2C = 16;
                 object->update_state = 1;
                 object->update = DisplayObject_UpdateCosineSlide;
