@@ -89,7 +89,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
 {
     MATRIX base;
     MATRIX matrix;
-    POLY_G3 triangle;
+    ModelEffectG3Packet triangle;
     POLY_G4 quad;
     GsLINE line;
     SVECTOR rotation;
@@ -218,7 +218,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
         base = *Model_GetLightSourceMatrix();
         color = effect->subdivided_colors;
         PushMatrix();
-        SetPolyG3(&triangle);
+        SetPolyG3(&triangle.prim);
         SetPolyG4(&quad);
         line.attribute = 0x50000000;
         elapsed = effect->elapsed;
@@ -239,66 +239,66 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
         {
             s32 triangle_index;
             for (triangle_index = 0; triangle_index < 128; triangle_index++) {
-                /* The SDK's RotAverage* store each packed x/y pair through a long *. */
+                /* The SDK's RotAverage* store each packed x/y pair through the packet's long xyN word. */
                 work = RotAverageNclip3(vertex, vertex + 1, vertex + 2,
-                    (long *)&triangle.x0, (long *)&triangle.x1, (long *)&triangle.x2,
+                    &triangle.w.xy0, &triangle.w.xy1, &triangle.w.xy2,
                     &interpolation, &depth, &flag);
                 if (remaining >= 0 && remaining < config->fade_duration) {
                     red = (*color)[0] * remaining / config->fade_duration;
                     green = (*color)[1] * remaining / config->fade_duration;
                     blue = (*color)[2] * remaining / config->fade_duration;
                     color++;
-                    triangle.r0 = red;
-                    triangle.g0 = green;
-                    triangle.b0 = blue;
+                    triangle.prim.r0 = red;
+                    triangle.prim.g0 = green;
+                    triangle.prim.b0 = blue;
                     red = (*color)[0] * remaining / config->fade_duration;
                     green = (*color)[1] * remaining / config->fade_duration;
                     blue = (*color)[2] * remaining / config->fade_duration;
                     color++;
-                    triangle.r1 = red;
-                    triangle.g1 = green;
-                    triangle.b1 = blue;
+                    triangle.prim.r1 = red;
+                    triangle.prim.g1 = green;
+                    triangle.prim.b1 = blue;
                     red = (*color)[0] * remaining / config->fade_duration;
                     green = (*color)[1] * remaining / config->fade_duration;
                     blue = (*color)[2] * remaining / config->fade_duration;
                     color++;
-                    triangle.r2 = red;
-                    triangle.g2 = green;
-                    triangle.b2 = blue;
+                    triangle.prim.r2 = red;
+                    triangle.prim.g2 = green;
+                    triangle.prim.b2 = blue;
                 } else if (elapsed >= 0 && elapsed < config->growth_duration) {
                     red = (*color)[0] * elapsed / config->growth_duration;
                     green = (*color)[1] * elapsed / config->growth_duration;
                     blue = (*color)[2] * elapsed / config->growth_duration;
                     color++;
-                    triangle.r0 = red;
-                    triangle.g0 = green;
-                    triangle.b0 = blue;
+                    triangle.prim.r0 = red;
+                    triangle.prim.g0 = green;
+                    triangle.prim.b0 = blue;
                     red = (*color)[0] * elapsed / config->growth_duration;
                     green = (*color)[1] * elapsed / config->growth_duration;
                     blue = (*color)[2] * elapsed / config->growth_duration;
                     color += 2;
-                    triangle.r1 = red;
-                    triangle.r2 = red;
-                    triangle.g1 = green;
-                    triangle.g2 = green;
-                    triangle.b1 = blue;
-                    triangle.b2 = blue;
+                    triangle.prim.r1 = red;
+                    triangle.prim.r2 = red;
+                    triangle.prim.g1 = green;
+                    triangle.prim.g2 = green;
+                    triangle.prim.b1 = blue;
+                    triangle.prim.b2 = blue;
                 } else {
-                    triangle.r0 = (*color)[0];
-                    triangle.g0 = (*color)[1];
-                    triangle.b0 = (*color)[2];
+                    triangle.prim.r0 = (*color)[0];
+                    triangle.prim.g0 = (*color)[1];
+                    triangle.prim.b0 = (*color)[2];
                     color++;
-                    triangle.r1 = (*color)[0];
-                    triangle.g1 = (*color)[1];
-                    triangle.b1 = (*color)[2];
+                    triangle.prim.r1 = (*color)[0];
+                    triangle.prim.g1 = (*color)[1];
+                    triangle.prim.b1 = (*color)[2];
                     color++;
-                    triangle.r2 = (*color)[0];
-                    triangle.g2 = (*color)[1];
-                    triangle.b2 = (*color)[2];
+                    triangle.prim.r2 = (*color)[0];
+                    triangle.prim.g2 = (*color)[1];
+                    triangle.prim.b2 = (*color)[2];
                     color++;
                 }
                 if (depth >= 0 && flag >= 0 && work > 0) {
-                    Graphics_SubmitDrawModePacket(&triangle, ot, (u16)depth, 1);
+                    Graphics_SubmitDrawModePacket(&triangle.prim, ot, (u16)depth, 1);
                 }
                 vertex += 3;
             }
@@ -319,19 +319,19 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
         vertices = effect->vertex_links;
         for (i = 0; i < 8; i++) {
             work = RotAverageNclip3(vertices[0], vertices[1], vertices[2],
-                (long *)&triangle.x0, (long *)&triangle.x1, (long *)&triangle.x2,
+                &triangle.w.xy0, &triangle.w.xy1, &triangle.w.xy2,
                 &interpolation, &depth, &flag);
             if (depth >= 0 && flag >= 0 && work > 0) {
-                line.x0 = triangle.x0;
-                line.y0 = triangle.y0;
-                line.x1 = triangle.x1;
-                line.y1 = triangle.y1;
+                line.x0 = triangle.prim.x0;
+                line.y0 = triangle.prim.y0;
+                line.x1 = triangle.prim.x1;
+                line.y1 = triangle.prim.y1;
                 GsSortLine(&line, ot, (u16)depth);
-                line.x0 = triangle.x2;
-                line.y0 = triangle.y2;
+                line.x0 = triangle.prim.x2;
+                line.y0 = triangle.prim.y2;
                 GsSortLine(&line, ot, (u16)depth);
-                line.x1 = triangle.x0;
-                line.y1 = triangle.y0;
+                line.x1 = triangle.prim.x0;
+                line.y1 = triangle.prim.y0;
                 GsSortLine(&line, ot, (u16)depth);
             }
             vertices += 3;
@@ -716,7 +716,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
 {
     MATRIX ls;
     MATRIX m;
-    POLY_FT4 ft4;
+    ModelEffectFt4Packet ft4;
     SVECTOR rot;
     SVECTOR pos;
     VECTOR scale;
@@ -732,7 +732,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
     s32 l;
     s32 i;
     s32 otz;
-    POLY_FT4 *f;
+    ModelEffectFt4Packet *f;
 
     f = &ft4;
     memset(&rot, 0, 8);
@@ -836,16 +836,16 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
     MulMatrix2(&ls, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
-    setPolyFT4(f);
-    f->tpage = e->tpage;
-    f->clut = e->clut;
-    setUVWH(f, 0, 0, 0x3F, 0x3F);
+    setPolyFT4(&f->prim);
+    f->prim.tpage = e->tpage;
+    f->prim.clut = e->clut;
+    setUVWH(&f->prim, 0, 0, 0x3F, 0x3F);
 
     if (e->phase == 0) {
         for (i = 0; i < 3; i++) {
             if (e->colors[i].r != 0 || e->colors[i].g != 0 || e->colors[i].b != 0) {
                 sign = 1;
-                setRGB0(f, e->colors[i].r, e->colors[i].g, e->colors[i].b);
+                setRGB0(&f->prim, e->colors[i].r, e->colors[i].g, e->colors[i].b);
                 for (j = 0; j < 4; j++) {
                     sign = sign * -1;
                     for (k = 0; k < 4; k++) {
@@ -860,13 +860,13 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                             addVector(&q[1], &e->rings[i]);
                             addVector(&q[2], &e->rings[i]);
                             addVector(&q[3], &e->rings[i]);
-                            setUVWH(f, (3 - k) * 16, (3 - l) * 16, 0xF, 0xF);
-                            /* The SDK's RotAverage* store each packed x/y pair through a long *. */
-                            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0,
-                                              (long *)&f->x1, (long *)&f->x2,
-                                              (long *)&f->x3, &p, &flag);
+                            setUVWH(&f->prim, (3 - k) * 16, (3 - l) * 16, 0xF, 0xF);
+                            /* The SDK's RotAverage* store each packed x/y pair through the packet's long xyN word. */
+                            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0,
+                                              &f->w.xy1, &f->w.xy2,
+                                              &f->w.xy3, &p, &flag);
                             if (otz >= 0 && flag >= 0) {
-                                Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                                Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
                             }
                         }
                     }
@@ -913,7 +913,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
 
     if (e->phase != 0) {
         if (e->flash_r != 0 || e->flash_g != 0 || e->flash_b != 0) {
-            setRGB0(f, e->flash_r, e->flash_g, e->flash_b);
+            setRGB0(&f->prim, e->flash_r, e->flash_g, e->flash_b);
             sign = 1;
             for (j = 0; j < 4; j++) {
                 sign = sign * -1;
@@ -925,12 +925,12 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                         setVector(&q[1], QUAD_X(i), 0, QUAD_Z(j - 2 < 0 ? lo : hi));
                         setVector(&q[2], QUAD_X(i + 1), 0, QUAD_Z(j - 2 < 0 ? -l : l));
                         setVector(&q[3], QUAD_X(i), 0, QUAD_Z(j - 2 < 0 ? -l : l));
-                        setUVWH(f, (3 - i) * 16, (3 - l) * 16, 0xF, 0xF);
-                        otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0,
-                                          (long *)&f->x1, (long *)&f->x2,
-                                          (long *)&f->x3, &p, &flag);
+                        setUVWH(&f->prim, (3 - i) * 16, (3 - l) * 16, 0xF, 0xF);
+                        otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0,
+                                          &f->w.xy1, &f->w.xy2,
+                                          &f->w.xy3, &p, &flag);
                         if (otz >= 0 && flag >= 0) {
-                            Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                            Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
                         }
                     }
                 }
@@ -1004,8 +1004,8 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
             ScaleMatrix(&m, &scale);
             GsSetLsMatrix(&m);
             for (i = 0; i < 64; i++) {
-                setRGB0(f, e->colors[i % 3].r, e->colors[i % 3].g, e->colors[i % 3].b);
-                setUVWH(f, (e->dust_frame[i] % 2) << 5, (e->dust_frame[i] / 2 << 5) + 0x40, 0x1F, 0x1F);
+                setRGB0(&f->prim, e->colors[i % 3].r, e->colors[i % 3].g, e->colors[i % 3].b);
+                setUVWH(&f->prim, (e->dust_frame[i] % 2) << 5, (e->dust_frame[i] / 2 << 5) + 0x40, 0x1F, 0x1F);
                 setVector(&q[0], -0x20, -0x20, 0);
                 setVector(&q[1], 0x20, -0x20, 0);
                 setVector(&q[2], -0x20, 0x20, 0);
@@ -1013,11 +1013,11 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                 for (l = 0; l < 4; l++) {
                     addVector(&q[l], &e->dust[i]);
                 }
-                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, &p, &flag);
+                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0, &f->w.xy1,
+                                  &f->w.xy2, &f->w.xy3, &p, &flag);
                 if (otz >= 0) {
                     if (flag >= 0) {
-                        Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                        Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
                     }
                 }
                 addVector(&e->dust[i], &e->dust_speed[i]);
@@ -1042,8 +1042,8 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
             }
         }
 
-        f->tpage = e->spark_texture[0].tpage;
-        f->clut = e->spark_texture[0].clut;
+        f->prim.tpage = e->spark_texture[0].tpage;
+        f->prim.clut = e->spark_texture[0].clut;
         setVector(&q[0], -0x40, -0x100, 0);
         setVector(&q[1], 0x40, -0x100, 0);
         setVector(&q[2], -0x40, 0, 0);
@@ -1058,12 +1058,12 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
                 RotMatrix(&rot, &m);
                 ScaleMatrix(&m, &scale);
                 GsSetLsMatrix(&m);
-                setUVWH(f, e->spark_frame[i] * 32, 0, 0x1F, 0x3F);
-                setRGB0(f, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
-                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, &p, &flag);
+                setUVWH(&f->prim, e->spark_frame[i] * 32, 0, 0x1F, 0x3F);
+                setRGB0(&f->prim, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
+                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0, &f->w.xy1,
+                                  &f->w.xy2, &f->w.xy3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
-                    Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
                 }
                 e->spark_frame[i] = (e->spark_frame[i] + 1) % 8;
                 if (e->stage < 2) {
@@ -1123,8 +1123,8 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
         }
     }
     if (e->stage >= 2 && (e->smoke_r != 0 || e->smoke_g != 0 || e->smoke_b != 0)) {
-        f->tpage = e->tpage;
-        f->clut = e->clut;
+        f->prim.tpage = e->tpage;
+        f->prim.clut = e->clut;
         setVector(&pos, 0, -0x220, 0);
         addVector(&pos, &e->origin);
         GsSetLsMatrix(&ls);
@@ -1139,41 +1139,41 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
             setVector(&q[1], 0, i - 2 >= 0 ? -0x80 : 0x80, 0);
             setVector(&q[2], -((sign << 16) >> 9), 0, 0);
             setVector(&q[3], 0, 0, 0);
-            setRGB0(f, e->smoke_r, e->smoke_g, e->smoke_b);
-            setUVWH(f, 0x40, 0, 0x3F, 0x3F);
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, &p, &flag);
+            setRGB0(&f->prim, e->smoke_r, e->smoke_g, e->smoke_b);
+            setUVWH(&f->prim, 0x40, 0, 0x3F, 0x3F);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0, &f->w.xy1,
+                              &f->w.xy2, &f->w.xy3, &p, &flag);
             if (otz >= 0) {
                 if (flag >= 0) {
-                    Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
                 }
             }
-            setRGB0(f, e->smoke_r >> 1, e->smoke_g >> 1, e->smoke_b >> 1);
-            setUVWH(f, 0x40, 0x40, 0x3F, 0x3F);
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, &p, &flag);
+            setRGB0(&f->prim, e->smoke_r >> 1, e->smoke_g >> 1, e->smoke_b >> 1);
+            setUVWH(&f->prim, 0x40, 0x40, 0x3F, 0x3F);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0, &f->w.xy1,
+                              &f->w.xy2, &f->w.xy3, &p, &flag);
             if (otz >= 0 && flag >= 0) {
-                Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
             }
         }
-        setUVWH(f, 0, 0x80, 0x1F, 0x7F);
+        setUVWH(&f->prim, 0, 0x80, 0x1F, 0x7F);
         setVector(&q[0], -4, 0, 0);
         setVector(&q[1], 4, 0, 0);
-        setRGB0(f, e->smoke_r >> 2, e->smoke_g >> 2, e->smoke_b >> 2);
+        setRGB0(&f->prim, e->smoke_r >> 2, e->smoke_g >> 2, e->smoke_b >> 2);
         for (i = 0; i < 32; i++) {
             setVector(&q[2], -2, 0, 0);
             setVector(&q[3], 2, 0, 0);
             addVector(&q[2], &e->embers[i]);
             addVector(&q[3], &e->embers[i]);
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, &p, &flag);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0, &f->w.xy1,
+                              &f->w.xy2, &f->w.xy3, &p, &flag);
             if (otz >= 0 && flag >= 0) {
-                Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
             }
         }
         for (i = 0; i < 64; i++) {
-            setRGB0(f, e->smoke_r, e->smoke_g, e->smoke_b);
-            setUVWH(f, (e->smoke_frame[i] % 2) << 5, (e->smoke_frame[i] / 2 << 5) + 0x40, 0x1F,
+            setRGB0(&f->prim, e->smoke_r, e->smoke_g, e->smoke_b);
+            setUVWH(&f->prim, (e->smoke_frame[i] % 2) << 5, (e->smoke_frame[i] / 2 << 5) + 0x40, 0x1F,
                     0x1F);
             setVector(&q[0], -0x20, -0x20, 0);
             setVector(&q[1], 0x20, -0x20, 0);
@@ -1182,11 +1182,11 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
             for (l = 0; l < 4; l++) {
                 addVector(&q[l], &e->smoke[i]);
             }
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                              (long *)&f->x2, (long *)&f->x3, &p, &flag);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0, &f->w.xy1,
+                              &f->w.xy2, &f->w.xy3, &p, &flag);
             if (otz >= 0) {
                 if (flag >= 0) {
-                    Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
                 }
             }
             addVector(&e->smoke[i], &e->smoke_speed[i]);
@@ -1259,8 +1259,8 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
 {
     MATRIX ls;
     MATRIX m;
-    POLY_FT4 ft4;
-    POLY_G4 g4;
+    ModelEffectFt4Packet ft4;
+    ModelEffectG4Packet g4;
     SVECTOR rot;
     SVECTOR pos;
     VECTOR scale;
@@ -1275,8 +1275,8 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
     s32 j;
     s32 k;
     s32 otz;
-    POLY_FT4 *f;
-    POLY_G4 *g;
+    ModelEffectFt4Packet *f;
+    ModelEffectG4Packet *g;
 
     f = &ft4;
     g = &g4;
@@ -1331,26 +1331,26 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
-    setPolyFT4(f);
-    f->tpage = e->tpage;
-    f->clut = e->clut;
-    setUVWH(f, 0x40, 0, 0x3F, 0x3F);
-    setPolyG4(g);
+    setPolyFT4(&f->prim);
+    f->prim.tpage = e->tpage;
+    f->prim.clut = e->clut;
+    setUVWH(&f->prim, 0x40, 0, 0x3F, 0x3F);
+    setPolyG4(&g->prim);
 
     for (i = 0; i < e->spark_count; i++) {
         if (e->spark_colors[i].r != 0 || e->spark_colors[i].g != 0 ||
             e->spark_colors[i].b != 0) {
-            setRGB0(f, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
-            setRGB0(g, 0, 0, 0);
-            setRGB1(g, 0, 0, 0);
+            setRGB0(&f->prim, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
+            setRGB0(&g->prim, 0, 0, 0);
+            setRGB1(&g->prim, 0, 0, 0);
             if (e->spark_count < 32) {
-                setRGB2(g, e->spark_colors[i].r >> 1, e->spark_colors[i].g >> 1,
+                setRGB2(&g->prim, e->spark_colors[i].r >> 1, e->spark_colors[i].g >> 1,
                         e->spark_colors[i].b >> 1);
-                setRGB3(g, e->spark_colors[i].r >> 1, e->spark_colors[i].g >> 1,
+                setRGB3(&g->prim, e->spark_colors[i].r >> 1, e->spark_colors[i].g >> 1,
                         e->spark_colors[i].b >> 1);
             } else {
-                setRGB2(g, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
-                setRGB3(g, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
+                setRGB2(&g->prim, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
+                setRGB3(&g->prim, e->spark_colors[i].r, e->spark_colors[i].g, e->spark_colors[i].b);
             }
             sign = 1;
             for (j = 0; j < 4; j++) {
@@ -1362,11 +1362,11 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
                 for (k = 0; k < 4; k++) {
                     addVector(&q[k], &e->sparks[i]);
                 }
-                /* The SDK's RotAverage* store each packed x/y pair through a long *. */
-                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, &p, &flag);
+                /* The SDK's RotAverage* store each packed x/y pair through the packet's long xyN word. */
+                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0, &f->w.xy1,
+                                  &f->w.xy2, &f->w.xy3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
-                    Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
                 }
             }
             setVector(&q[0], -e->sizes[i].size, -e->sizes[i].grow, 0);
@@ -1376,10 +1376,10 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
             for (k = 0; k < 4; k++) {
                 addVector(&q[k], &e->sparks[i]);
             }
-            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&g->x0, (long *)&g->x1,
-                              (long *)&g->x2, (long *)&g->x3, &p, &flag);
+            otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &g->w.xy0, &g->w.xy1,
+                              &g->w.xy2, &g->w.xy3, &p, &flag);
             if (otz >= 0 && flag >= 0) {
-                Graphics_SubmitDrawModePacket(g, ot, otz & 0xFFFF, 1);
+                Graphics_SubmitDrawModePacket(&g->prim, ot, otz & 0xFFFF, 1);
             }
             if (e->mode == 0) {
                 e->sizes[i].size += 2;
@@ -1436,11 +1436,11 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
         }
     }
 
-    setUVWH(f, 0x40, 0x40, 0x3F, 0x3F);
+    setUVWH(&f->prim, 0x40, 0x40, 0x3F, 0x3F);
     for (i = 0; i < e->flash_count; i++) {
         if (e->flash_colors[i].r != 0 || e->flash_colors[i].g != 0 ||
             e->flash_colors[i].b != 0) {
-            setRGB0(f, e->flash_colors[i].r, e->flash_colors[i].g, e->flash_colors[i].b);
+            setRGB0(&f->prim, e->flash_colors[i].r, e->flash_colors[i].g, e->flash_colors[i].b);
             sign = 1;
             for (j = 0; j < 4; j++) {
                 sign = sign * -1;
@@ -1451,10 +1451,10 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
                 for (k = 0; k < 4; k++) {
                     addVector(&q[k], &e->flashes[i]);
                 }
-                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, &p, &flag);
+                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0, &f->w.xy1,
+                                  &f->w.xy2, &f->w.xy3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
-                    Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
                 }
             }
             if (e->flash_colors[i].r >= 0x20) {
@@ -1514,9 +1514,9 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
     }
     if (e->dust_r != 0 || e->dust_g != 0 || e->dust_b != 0) {
         if (e->mode == 1) {
-            setRGB0(f, e->dust_r, e->dust_g, e->dust_b);
+            setRGB0(&f->prim, e->dust_r, e->dust_g, e->dust_b);
             for (i = 0; i < 64; i++) {
-                setUVWH(f, (e->dust_frame[i] % 2) << 5, (e->dust_frame[i] / 2 << 5) + 0x40, 0x1F,
+                setUVWH(&f->prim, (e->dust_frame[i] % 2) << 5, (e->dust_frame[i] / 2 << 5) + 0x40, 0x1F,
                         0x1F);
                 setVector(&q[0], -0x10, -0x10, 0);
                 setVector(&q[1], 0x10, -0x10, 0);
@@ -1525,10 +1525,10 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
                 for (j = 0; j < 4; j++) {
                     addVector(&q[j], &e->dust[i]);
                 }
-                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], (long *)&f->x0, (long *)&f->x1,
-                                  (long *)&f->x2, (long *)&f->x3, &p, &flag);
+                otz = RotAverage4(&q[0], &q[1], &q[2], &q[3], &f->w.xy0, &f->w.xy1,
+                                  &f->w.xy2, &f->w.xy3, &p, &flag);
                 if (otz >= 0 && flag >= 0) {
-                    Graphics_SubmitDrawModePacket(f, ot, otz & 0xFFFF, 1);
+                    Graphics_SubmitDrawModePacket(&f->prim, ot, otz & 0xFFFF, 1);
                 }
                 addVector(&e->dust[i], &e->dust_speed[i]);
                 e->dust_frame[i] = (e->dust_frame[i] + 1) % 4;
