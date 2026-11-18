@@ -19,7 +19,7 @@ s32 FrenchModelVariant443_HandleRequest(EntryState443 *context, s32 command)
     s16 screen_x[3], screen_y[3];
     VECTOR squared;
     ModelVariantProjection projection;
-    EntryRibbon443 *ribbon = work->ribbons;
+    ModelVariantMovingRibbon *ribbon = work->ribbons;
     EntryFramebufferRing443 *ring = work->rings;
     ModelVariantTube *mesh = work->meshes;
     ModelVariantShortStreamer *streamer = work->streamers;

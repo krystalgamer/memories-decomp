@@ -14,7 +14,7 @@ s32 FrenchModelVariant478_HandleRequest(EntryState478 *context, s32 command)
     ModelVariantPackedProjection projection;
     ModelVariantQuadGroup *quad_group;
     EntryPetals478 *petal;
-    EntrySwarm478 *swarm = &work->swarm;
+    ModelVariantQuadSwarm *swarm = &work->swarm;
     ModelVariantBandPair *pair = work->pairs;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantColorRing *ring = work->rings;

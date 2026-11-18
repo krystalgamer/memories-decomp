@@ -17,17 +17,6 @@ typedef struct {
     u32 end;
 } Variant366Config;
 
-/* The strip drawn by FrenchModelVariant383_DrawStrip. */
-typedef struct {
-    SVECTOR points[3][2];
-    long projected[3][2];
-    CVECTOR color;
-    VECTOR scale;
-    s16 field_5C, field_5E;
-    s32 field_60;
-    long depth[2];
-} Variant366Strip;
-
 
 /* The three 17-point ribbon cones drawn by ModelVariant366_DrawCones. */
 typedef struct {
@@ -36,7 +25,7 @@ typedef struct {
 } Variant366Ribbon;
 
 typedef struct {
-    Variant366Strip strips[1];
+    ModelVariantScaledStrip strips[1];
     ModelVariantQuadSheet quads[1];
     ModelVariantRibbonSpan ribbon_spans[8];
     Variant366Ribbon ribbons[3];

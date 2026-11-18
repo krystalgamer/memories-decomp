@@ -29,7 +29,7 @@ void ModelVariant320_DrawRibbon(Variant337EntryState *context)
     s32 start;
     s32 now;
     s16 len;
-    Variant320Ribbon *ribbon;
+    ModelVariantSpineRibbon *ribbon;
     POLY_FT4 *poly;
     s16 k;
     s32 bend;

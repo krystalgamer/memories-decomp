@@ -15,19 +15,10 @@ typedef struct {
     u8 unknown_2C[8];
 } Variant402EntryConfig;
 
-/* The swarm helper's thirty-two quads, laid out like the quad group. */
-typedef struct {
-    SVECTOR a[32], b[32], c[32], d[32];
-    SVECTOR positions[32];
-    CVECTOR color;
-    u8 unknown_504[0x10];
-    s32 size[32], done[32], reset[32];
-} Variant402EntrySwarm;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantQuadGroup quads[1];
-    Variant402EntrySwarm swarm;
+    ModelVariantQuadSwarm swarm;
     ModelVariantTrail streaks[16];
     ModelVariantWebNarrow webs[3];
     ModelVariantBandPair bands[1];

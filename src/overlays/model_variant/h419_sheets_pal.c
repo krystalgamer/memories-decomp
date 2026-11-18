@@ -14,7 +14,7 @@ void SpanishModelVariant436_DrawSheets(EntryState436 *context)
     long interpolation;
     long flag;
     EntryState436 *state = context;
-    Sheet436 *sheet = state->sheets;
+    ModelVariantTwoToneSheet *sheet = state->sheets;
     POLY_GT4 *quad = state->packets.textured;
     GsOT *ot;
     s32 i, j;

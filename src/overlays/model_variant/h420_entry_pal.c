@@ -15,8 +15,8 @@ s32 FrenchModelVariant437_HandleRequest(Variant437EntryState *context, s32 comma
     VECTOR squared;
     ModelVariantProjection projection;
     ModelVariantBandTriple *record = work->records;
-    Variant437EntryRibbon *ribbon = work->ribbons;
-    Sheet437 *sheet = work->sheets;
+    ModelVariantNinePointRibbon *ribbon = work->ribbons;
+    ModelVariantTwoToneSheet *sheet = work->sheets;
     ModelVariantShortStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;

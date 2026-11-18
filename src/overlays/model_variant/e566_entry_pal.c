@@ -13,7 +13,7 @@ s32 FrenchModelVariant400_HandleRequest(Variant400EntryState *context, s32 comma
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant400EntryNode *node = work->nodes;
+    ModelVariantMovingRibbon *node = work->nodes;
     ModelVariantPointSheet *sheet = work->sheets;
     ModelVariantStreamer *column = work->columns;
     POLY_GT4 *textured = work->packets.textured;

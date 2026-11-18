@@ -865,7 +865,7 @@ a `Variant415EntryRibbon *`.
 the five-ribbon helper at `0x8013BBA4` in the header-321 images: a
 seventeen-point spine bent by `rsin(bend) * (rsin(wave) * 64 / 4096 + 0x40)`
 and a copy moved along the view, projected and drawn like the header-376
-ribbon, over a `Variant320Ribbon` whose depths come before the projection
+ribbon, over a `ModelVariantSpineRibbon` whose depths come before the projection
 flags. The template's per-ribbon turn (`0x400 +- i * 360`) and coil angle
 (`k * 128`) are still computed but never used. That changes the retail code
 even so. The empty turn branches survive until jump2, so reload still loads `i`
@@ -914,7 +914,7 @@ registered that tail as a sixth function, `func_8013E004`; it is not one. Model
 `Model_DrawSlot`.
 
 `e500_ribbon.c` (header 321, 705 instructions) draws five ribbons in the
-style of the header-376 ribbon, over `Variant321Ribbon` records that keep a
+style of the header-376 ribbon, over `ModelVariantSpineRibbon` records that keep a
 per-ribbon segment count at `+ 0x23A`. Each ribbon is turned by its own angle,
 `0x400` for the first and `0x400 +- i * 360` by parity for the others, and
 offset by `rsin(k * 128) * 384`. The first segment is anchored on the spine and

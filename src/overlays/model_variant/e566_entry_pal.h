@@ -14,27 +14,8 @@ typedef struct {
     u32 start, grow_end, end, field_18, field_1C;
 } Variant400EntryConfig;
 
-/* One 0x370-byte ribbon of seventeen points: the entry seeds style and
- * position, and the ribbon drawer projects the points and takes its colour
- * from style.inner. */
 typedef struct {
-    SVECTOR a[17];
-    ModelVariantScreenPoint sa[17];
-    s32 angle[17];
-    SVECTOR b[17];
-    ModelVariantScreenPoint sb[17];
-    s32 width[17];
-    ModelVariantStripStyle style;
-    u8 unknown_240[0x88];
-    VECTOR position;
-    VECTOR delta;
-    s32 otz[17];
-    s16 ox[17];
-    s16 oy[17];
-} Variant400EntryNode;
-
-typedef struct {
-    Variant400EntryNode nodes[5];
+    ModelVariantMovingRibbon nodes[5];
     ModelVariantPointSheet sheets[7];
     ModelVariantStreamer columns[2];
     u8 unknown_1BC0[0x1ED8 - 0x1BC0];

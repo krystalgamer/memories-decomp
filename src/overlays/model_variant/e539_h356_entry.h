@@ -24,16 +24,6 @@ typedef struct {
     u8 unknown_AC[8];
 } EntrySparkGroup373;
 
-typedef struct {
-    SVECTOR points[3][2];
-    long projected[3][2];
-    CVECTOR color;
-    VECTOR scale;
-    s16 field_5C, field_5E;
-    s32 field_60;
-    long depth[2];
-} EntryStrip373;
-
 typedef union {
     POLY_GT4 sphere[8];
     struct {
@@ -46,7 +36,7 @@ typedef struct {
     ModelVariantDome sphere;
     Family373Ring rising_rings[5];
     EntrySparkGroup373 sparks[3];
-    EntryStrip373 strips[1];
+    ModelVariantScaledStrip strips[1];
     ModelVariantQuadSheet quadrants[1];
     ModelVariantRibbonSpan ribbons[8];
     ModelVariantColorRing rings[4];

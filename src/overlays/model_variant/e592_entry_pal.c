@@ -10,7 +10,7 @@ s32 FrenchModelVariant426_HandleRequest(EntryState426 *context, s32 command)
     ModelVariantPackedProjection projection;
     ModelVariantMesh *mesh = &work->mesh;
     ModelVariantFunnel *funnel = work->funnels;
-    Ribbon426 *ribbon = work->ribbons;
+    ModelVariantPlacedRibbon *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantStreamer *streamer = work->streamers;
     ModelVariantShadedRay *spiral = work->spirals;

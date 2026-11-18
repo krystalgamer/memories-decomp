@@ -115,7 +115,7 @@ attempt ledger, after the unchanged historical ring records.
 
 Independent target compilation verifies 46 layout constants against 107
 literal retail instruction anchors in every image. The existing
-`Variant320Ribbon` view covers one `0x3A4`-byte record at context zero:
+`ModelVariantSpineRibbon` view covers one `0x3A4`-byte record at context zero:
 
 | Field | Offset |
 |---|---:|

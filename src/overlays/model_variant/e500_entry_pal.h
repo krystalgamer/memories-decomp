@@ -18,7 +18,7 @@ typedef struct {
 
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
-    Variant321Ribbon records[5];
+    ModelVariantSpineRibbon records[5];
     ModelVariantPointSheet rings[2];
     ModelVariantStrandWide strands[6];
     ModelVariantFlaggedStreamer streamers[2];

@@ -24,7 +24,7 @@ void FrenchModelVariant426_DrawRibbon(EntryState426 *context)
     GsOT *ot;
     s16 i, j;
     EntryState426 *work = context;
-    Ribbon426 *ribbon;
+    ModelVariantPlacedRibbon *ribbon;
     ModelVariantScreenPoint screen;
     s16 prev;
     POLY_GT4 *poly;

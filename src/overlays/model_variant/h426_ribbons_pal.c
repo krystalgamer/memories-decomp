@@ -32,7 +32,7 @@ void FrenchModelVariant443_DrawRibbons(EntryState443 *context)
     s32 yaw;
     s32 pitch;
     s16 len;
-    EntryRibbon443 *ribbon;
+    ModelVariantMovingRibbon *ribbon;
     POLY_FT4 *poly;
     s32 bend;
     s32 dx;

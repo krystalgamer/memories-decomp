@@ -1395,4 +1395,109 @@ typedef struct {
     s16 shrink;
 } ModelVariantSpiralParams;
 
+/* Four quads given by corner arrays v0..v3, an outer colour on the fourth
+ * corner and an inner colour on the other three: the sheets of headers 436
+ * and 437. */
+typedef struct {
+    SVECTOR v0[4];
+    SVECTOR v1[4];
+    SVECTOR v2[4];
+    SVECTOR v3[4];
+    CVECTOR outer;
+    CVECTOR inner;
+} ModelVariantTwoToneSheet;
+
+/* One 0x360-byte ribbon of seventeen points with a position and strip
+ * offsets: the ribbons of headers 423 and 426. */
+typedef struct {
+    SVECTOR a[17];
+    ModelVariantScreenPoint sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    ModelVariantScreenPoint sb[17];
+    s32 width[17];
+    ModelVariantStripStyle style;
+    u8 unknown_240[0x88];
+    VECTOR position;
+    ModelVariantStripOffsets offsets;
+} ModelVariantPlacedRibbon;
+
+/* One 0x200-byte ribbon of nine points: the entry seeds style, and the
+ * ribbon drawer projects the points and takes its colour from style.inner.
+ * Headers 436 and 437 use it. */
+typedef struct {
+    SVECTOR a[9];
+    ModelVariantScreenPoint sa[9];
+    s32 angle[9];
+    SVECTOR b[9];
+    ModelVariantScreenPoint sb[9];
+    s32 width[9];
+    ModelVariantStripStyle style;
+    u8 unknown_140[0x68];
+    s32 otz[9];
+    s16 ox[9];
+    s16 oy[9];
+    s32 start, end, state, count;
+} ModelVariantNinePointRibbon;
+
+/* The 0x3A4-byte ribbon of headers 320 and 321: a seventeen-point twisted
+ * spine and a copy of it moved along the view, both projected, and per point
+ * the screen angle, the projected width, the projection flag, the depth and
+ * the width's screen offset. */
+typedef struct {
+    SVECTOR a[17];
+    long sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    long sb[17];
+    s32 width[17];
+    ModelVariantStripStyle style;
+    u8 unknown_240[0x2C8 - 0x240];
+    VECTOR velocity;
+    s32 otz[17];
+    long flag[17];
+    s16 ox[17];
+    s16 oy[17];
+} ModelVariantSpineRibbon;
+
+/* One 0x370-byte ribbon of seventeen points: the entry seeds style and
+ * position, and the ribbon drawer projects the points and takes its colour
+ * from style.inner. Headers 400 and 443 use it. */
+typedef struct {
+    SVECTOR a[17];
+    ModelVariantScreenPoint sa[17];
+    s32 angle[17];
+    SVECTOR b[17];
+    ModelVariantScreenPoint sb[17];
+    s32 width[17];
+    ModelVariantStripStyle style;
+    u8 unknown_240[0x88];
+    VECTOR position;
+    VECTOR delta;
+    s32 otz[17];
+    s16 ox[17];
+    s16 oy[17];
+} ModelVariantMovingRibbon;
+
+/* The swarm helper's thirty-two quads, laid out like the quad group: the
+ * swarms of headers 402 and 478. */
+typedef struct {
+    SVECTOR a[32], b[32], c[32], d[32], positions[32];
+    CVECTOR color;
+    u8 unknown_504[0x10];
+    s32 size[32], done[32], reset[32];
+} ModelVariantQuadSwarm;
+
+/* The strip of headers 366 and 373: three point pairs, their projections,
+ * a colour, a scale and the two depths. */
+typedef struct {
+    SVECTOR points[3][2];
+    long projected[3][2];
+    CVECTOR color;
+    VECTOR scale;
+    s16 field_5C, field_5E;
+    s32 field_60;
+    long depth[2];
+} ModelVariantScaledStrip;
+
 #endif

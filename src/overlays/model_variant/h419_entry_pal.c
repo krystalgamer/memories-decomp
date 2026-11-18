@@ -16,8 +16,8 @@ s32 FrenchModelVariant436_HandleRequest(EntryState436 *context, s32 command)
     ModelVariantProjection projection;
     s32 i, j;
     ModelVariantBandTriple *record = work->records;
-    EntryRibbon436 *ribbon = work->ribbons;
-    Sheet436 *sheet = work->sheets;
+    ModelVariantNinePointRibbon *ribbon = work->ribbons;
+    ModelVariantTwoToneSheet *sheet = work->sheets;
     ModelVariantShortStreamer *streamer = work->streamers;
     POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat;

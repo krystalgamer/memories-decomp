@@ -12,7 +12,7 @@ void FrenchModelVariant400_DrawStreamers(Variant400EntryState *context)
     long flags[2][17];
     long p;
     long flag;
-    Variant400EntryNode *ribbon;
+    ModelVariantMovingRibbon *ribbon;
     POLY_FT4 *poly;
     GsOT *ot;
     s16 i;
