@@ -9,6 +9,19 @@
 
 const VECTOR gDuelEffect_SwordsFieldInitialScale = { ONE, ONE, ONE, 0 };
 
+SVECTOR gDuelEffect_SwordsFieldTilePositions[10][2] = {
+    { { -152, 0, -108, 0 }, { -160, 0, 108, 0 } },
+    { { -108, 0, -112, 0 }, { -106, 0, 112, 0 } },
+    { { -94, 0, -109, 0 }, { -84, 0, 109, 0 } },
+    { { -66, 0, -61, 0 }, { -52, 0, 61, 0 } },
+    { { -17, 0, -106, 0 }, { -11, 0, 106, 0 } },
+    { { 25, 0, -101, 0 }, { 26, 0, 108, 0 } },
+    { { 39, 0, -94, 0 }, { 61, 0, 101, 0 } },
+    { { 72, 0, -74, 0 }, { 81, 0, 94, 0 } },
+    { { 118, 0, -110, 0 }, { 125, 0, 74, 0 } },
+    { { 149, 0, -86, 0 }, { 143, 0, 75, 0 } },
+};
+
 void DuelEffect_RunSwordsField(void *buffer, s32 phase)
 {
     DuelEffect21Work *slots[2];
