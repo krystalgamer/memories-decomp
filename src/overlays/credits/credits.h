@@ -33,9 +33,11 @@ typedef struct {
     u8 pad[3];
 } CreditsLine;
 
-extern RECT gCredits_ClutRect0;
-extern RECT gCredits_ClutRect1;
-extern RECT gCredits_ClutRect2;
+extern const RECT gCredits_ClutRect0;
+#ifndef VERSION_JAPAN
+extern const RECT gCredits_ClutRect1;
+extern const RECT gCredits_ClutRect2;
+#endif
 extern u8 gCredits_bFinished;
 extern CreditsEntry gCredits_aEntries[];
 extern CreditsLine gCredits_aLines[2];

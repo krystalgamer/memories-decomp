@@ -502,6 +502,14 @@ its tables are defined after its includes. The password and name-entry
 modules' keyboard tables belong to `name_entry_runtime.c`, the starter-deck
 pools and their pointer list to `name_entry_main.c`, in every region.
 
+The credits module (USA and Japan) starts with its 4-byte module word; from
+`+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette
+rectangles, then `Credits_UpdateLines`' jump table, and its `.data` holds
+`gCredits_aEntries`. The text is the table's string literals: the compiler
+writes them in reverse order of first use, identical strings merged, as the
+retail images store them. Japan defines only the one palette rectangle it
+reads; the four zero bytes after it are the jump table's 8-byte alignment.
+
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in
 others (Japan, the English PAL images, and USA's word after the pointer list).

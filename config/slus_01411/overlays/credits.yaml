@@ -46,29 +46,16 @@ options:
     - ".bss"
 
 segments:
-  - name: module_header
+  - name: module
     type: code
     start: 0x0
     vram: 0x80180000
     align: 4
     subsegments:
-      - [0x0, data, overlays/credits/module_header]
-
-  - name: update_jump_table
-    type: code
-    start: 0x79C
-    vram: 0x8018079C
-    align: 4
-    subsegments:
-      - [0x79C, .rodata, overlays/credits/credits]
-
-  - name: module
-    type: code
-    start: 0x7B0
-    vram: 0x801807B0
-    align: 4
-    subsegments:
+      - [0x0, rodata, overlays/credits/module_header]
+      - [0x4, .rodata, overlays/credits/credits]
       - [0x7B0, c, overlays/credits/credits]
-      - [0x1D38, data, overlays/credits/data]
+      - [0x1D38, .data, overlays/credits/credits]
+      - [0x2208, data, overlays/credits/data]
 
   - [0x8000]
