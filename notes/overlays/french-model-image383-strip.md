@@ -12,7 +12,7 @@ The body appears in two French raw images of model 363: slot 0 (header
 `0x17F`, stage 9) and slot 1 (header `0x215`, stage 10). Each layout gains a
 C segment at `0xCBC`, carved out of the unclassified image.
 
-The code is the French header-373 strip helper (`h356_strip.c`) over a
+The code is the French header-373 strip helper (`e539_h356_strip.c`) over a
 different layout: the strip at `+0`, the quad at `+0x138C`, the origin at
 `+0x14E4` and the phase at `+0x1580`. Because the strip now starts at the
 context itself, the strip pointer is assigned inside the phase block, which

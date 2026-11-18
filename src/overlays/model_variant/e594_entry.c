@@ -1,0 +1,418 @@
+#include "../../types.h"
+#include "e594_entry.h"
+
+/* PAL images load the effect palette from VRAM x = 640. */
+#ifndef MODEL_VARIANT411US_CLUT_X
+#define MODEL_VARIANT411US_CLUT_X 512
+#endif
+
+/* Header 411's entry: the header-412 entry with a 32-sprite swarm in place
+ * of the six flares, 384-unit trail sprites and no configured height offset
+ * on the root part. */
+
+s32 ModelVariant411_HandleRequest(Variant411UsEntryState *context, s32 command)
+{
+    Variant411UsEntryState *work = context;
+    MATRIX unused_matrix0;
+    MATRIX unused_matrix1;
+    SVECTOR position, target;
+    VECTOR squared;
+    ModelVariantProjection projection;
+    ModelVariantSwarmGroup *swarm;
+    ModelVariantBandPair *band;
+    ModelVariantSheet *sheet;
+    ModelVariantColorRing *ring;
+    ModelVariantColorRing *spoke;
+    ModelVariantFan *quad_record;
+    ModelVariantWebNarrow *web;
+    ModelVariantTrail *record;
+    ModelVariantQuadGroup *trail;
+    POLY_GT4 *textured;
+    POLY_G3 *triangle;
+    POLY_G4 *quad;
+    POLY_FT4 *flat;
+    POLY_FT4 *sprite;
+    s32 result;
+    s32 web_angle, row, n;
+    s32 i, j, k, angle;
+    s32 packed;
+    s32 near_radius, near_y, far_radius, far_y;
+    s32 near_scale, far_scale;
+    u16 tpage, clut;
+    s32 flat_page;
+    u16 flat_clut;
+    GsRVIEW2 *view;
+    u32 screen_x;
+    s32 screen_y;
+    s32 dy;
+    u32 frame;
+
+    band = work->bands;
+    sheet = work->sheets;
+    ring = work->rings;
+    spoke = work->spokes;
+    quad_record = work->quads;
+    web = work->webs;
+    record = work->records;
+    textured = work->packets.textured;
+    flat = work->flat_textured;
+    swarm = &work->swarm;
+    triangle = &work->packets.triangle;
+    quad = &work->packets.quad;
+    sprite = &work->sprite;
+    result = 0;
+    if (command >= 0) {
+        work->tail.slot = Model_GetActiveSlotIndex();
+        work->config = gModelVariant411_aConfigs + command;
+        work->parts[0] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[0]);
+        work->parts[1] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[1]);
+        work->parts[2] = Model_GetSlotDataEntry(work->tail.slot, work->config->parts[2]);
+        if (work->tail.slot == 0) {
+            setVector(&work->target, 0, -300, -450);
+        } else {
+            setVector(&work->target, 0, -300, 450);
+        }
+        GsGetLwUnit(work->parts[0], &work->matrix);
+        setVector(&work->direction,
+                  work->target.vx - work->matrix.t[0],
+                  work->target.vy - work->matrix.t[1],
+                  work->target.vz - work->matrix.t[2]);
+        tpage = GetTPage(1, 1, 896, 0);
+        clut = GetClut(MODEL_VARIANT411US_CLUT_X, 244);
+        GetTPage(1, 1, 896, 0);
+        GetClut(MODEL_VARIANT411US_CLUT_X, 244);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gModelVariant411_aImages[7]);
+        flat_page = packed >> 16;
+        flat_clut = packed;
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gModelVariant411_aImages[5]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gModelVariant411_aImages[1]);
+        packed = ModelTexture_PackPageClutCopy(work->tail.slot, 1, &gModelVariant411_aImages[3]);
+        SetPolyG3(triangle);
+        SetSemiTrans(triangle, 1);
+        SetPolyG4(quad);
+        SetSemiTrans(quad, 1);
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        setUV4(textured, 126, 0, 127, 0, 126, 63, 127, 63);
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        textured++;
+        SetPolyGT4(textured);
+        textured->tpage = tpage;
+        setUV4(textured, 64, 0, 127, 0, 64, 63, 127, 63);
+        textured->clut = clut;
+        SetSemiTrans(textured, 1);
+        SetShadeTex(textured, 0);
+        SetPolyFT4(flat);
+        flat->tpage = flat_page;
+        setUV4(flat, 0, 128, 0, 175, 48, 128, 48, 175);
+        flat->clut = flat_clut;
+        SetSemiTrans(flat, 1);
+        SetShadeTex(flat, 1);
+        flat++;
+        SetPolyFT4(flat);
+        flat->tpage = flat_page;
+        setUV4(flat, 0, 176, 0, 223, 48, 176, 48, 223);
+        flat->clut = flat_clut;
+        SetSemiTrans(flat, 1);
+        SetShadeTex(flat, 1);
+        SetPolyFT4(sprite);
+        sprite->tpage = packed >> 16;
+        setUV4(sprite, 64, 64, 127, 64, 64, 127, 127, 127);
+        sprite->clut = packed;
+        SetSemiTrans(sprite, 1);
+        SetShadeTex(sprite, 0);
+        for (i = 0; i < 32; i++) {
+            setVector(&swarm->a[i], -384, -384, 0);
+            setVector(&swarm->b[i], 384, -384, 0);
+            setVector(&swarm->c[i], -384, 384, 0);
+            setVector(&swarm->d[i], 384, 384, 0);
+            swarm->color.r = work->config->outer.r;
+            swarm->color.g = work->config->outer.g;
+            swarm->color.b = work->config->outer.b;
+            swarm->size[i] = -(i * 32);
+            swarm->done[i] = 0;
+            swarm->field_614[i] = 0;
+            swarm->initialized[i] = 0;
+            swarm->positions[i].vx = work->matrix.t[0] + work->direction.vx;
+            swarm->positions[i].vy = work->matrix.t[1] + work->direction.vy;
+            swarm->positions[i].vz = work->matrix.t[2] + work->direction.vz;
+        }
+        for (trail = work->trails, n = 0; n < 1; n++, trail++) {
+            for (i = 0; i < 10; i++) {
+                setVector(&trail->a[i], -384, -384, 0);
+                setVector(&trail->b[i], 384, -384, 0);
+                setVector(&trail->c[i], -384, 384, 0);
+                setVector(&trail->d[i], 384, 384, 0);
+                trail->color.r = work->config->outer.r;
+                trail->color.g = work->config->outer.g;
+                trail->color.b = work->config->outer.b;
+                trail->size[i] = -(i * 4096 / 10);
+                trail->angle[i] = 0;
+                trail->done[i] = 0;
+                trail->field_20C[i] = 0;
+                trail->initialized[i] = 0;
+                trail->positions[i].vx = work->matrix.t[0] + work->direction.vx;
+                trail->positions[i].vy = work->matrix.t[1] + work->direction.vy;
+                trail->positions[i].vz = work->matrix.t[2] + work->direction.vz;
+            }
+        }
+        for (n = 0; n < 1; n++, band++) {
+            setVector(&band->scale, 4096, 4096, 4096);
+            for (j = 0; j < 2; j++) {
+                band->ca[j].r = work->config->inner.r;
+                band->ca[j].g = work->config->inner.g;
+                band->ca[j].b = work->config->inner.b;
+                band->cb[j].r = work->config->outer.r;
+                band->cb[j].g = work->config->outer.g;
+                band->cb[j].b = work->config->outer.b;
+                band->offset[j] = -(j * 768);
+            }
+            band->field_90 = 0;
+            band->field_92 = 0;
+            band->field_94 = 0;
+        }
+        for (i = 0; i < 1; i++, quad_record++) {
+            setVector(&quad_record->point[0], 0, 0, 0);
+            for (j = 0, angle = 0; j < 5; j++, angle = j * 1024) {
+                setVector(&quad_record->point[j + 1], (u32)rcos(angle) >> 6,
+                          (u32)rsin(angle) >> 8, 0);
+                setVector(&quad_record->point[j + 6], (u32)(rcos(angle) * 3) >> 10,
+                          (u32)(rsin(angle) * 5) >> 9, 0);
+            }
+            setVector(&quad_record->corner[0], -128, -128, 0);
+            setVector(&quad_record->corner[1], 128, -128, 0);
+            setVector(&quad_record->corner[2], -128, 128, 0);
+            setVector(&quad_record->corner[3], 128, 128, 0);
+            quad_record->inner.r = 255;
+            quad_record->inner.g = 192;
+            quad_record->inner.b = 192;
+            quad_record->outer.r = 64;
+            quad_record->outer.g = 64;
+            quad_record->outer.b = 0;
+            quad_record->size = 0;
+            quad_record->field_84 = 0;
+            quad_record->done = 0;
+        }
+        for (i = 0; i < 2; i++, sheet++) {
+            for (k = 0; k < 4; k++) {
+                if (k == 0) {
+                    setVector(&sheet->v0[k], -64, -64, 0);
+                    setVector(&sheet->v1[k], 0, -64, 0);
+                    setVector(&sheet->v2[k], -64, 0, 0);
+                    setVector(&sheet->v3[k], 0, 0, 0);
+                } else if (k == 1) {
+                    setVector(&sheet->v0[k], 64, -64, 0);
+                    setVector(&sheet->v1[k], 64, 0, 0);
+                    setVector(&sheet->v2[k], 0, -64, 0);
+                    setVector(&sheet->v3[k], 0, 0, 0);
+                } else if (k == 2) {
+                    setVector(&sheet->v0[k], 64, 64, 0);
+                    setVector(&sheet->v1[k], 0, 64, 0);
+                    setVector(&sheet->v2[k], 64, 0, 0);
+                    setVector(&sheet->v3[k], 0, 0, 0);
+                } else if (k == 3) {
+                    setVector(&sheet->v0[k], -64, 64, 0);
+                    setVector(&sheet->v1[k], -64, 0, 0);
+                    setVector(&sheet->v2[k], 0, 64, 0);
+                    setVector(&sheet->v3[k], 0, 0, 0);
+                }
+            }
+            sheet->outer.r = work->config->outer.r;
+            sheet->outer.g = work->config->outer.g;
+            sheet->outer.b = work->config->outer.b;
+            sheet->inner.r = work->config->inner.r;
+            sheet->inner.g = work->config->inner.g;
+            sheet->inner.b = work->config->inner.b;
+            sheet->size = 0;
+            sheet->field_8C = 0;
+            sheet->field_90 = 0;
+        }
+        near_scale = 256;
+        far_scale = 192;
+        for (i = 0, web_angle = 0; i < 3; i++, web++, web_angle += 300) {
+            for (row = 0, j = 2048 / 5; row < 4; row++, j = (row + 1) * 2048 / 5) {
+                near_radius = rsin(j) * near_scale >> 12;
+                near_y = rcos(j) * near_scale >> 12;
+                far_radius = rsin(j) * far_scale >> 12;
+                far_y = rcos(j) * far_scale >> 12;
+                for (j = 0, angle = web_angle; j < 6; j++, angle = web_angle + j * 4096 / 6) {
+                    setVector(&web->near[row][j], rcos(angle) * near_radius >> 12,
+                              near_y, rsin(angle) * near_radius >> 12);
+                    setVector(&web->far[row][j], rcos(angle) * far_radius >> 12,
+                              far_y, rsin(angle) * far_radius >> 12);
+                }
+            }
+            web->field_184 = 0;
+            web->field_188 = 0;
+            web->field_18C = 0;
+            web->color.r = work->config->web.r;
+            web->color.g = work->config->web.g;
+            web->color.b = work->config->web.b;
+            web->scale = 4096 + i * 4096 / 3;
+            web->done = 0;
+            web->field_19C = 0;
+        }
+        for (i = 0; i < 16; i++, record++) {
+            for (j = 0; j < 9; j++) {
+                record->color[j].r = 192 - j * 24;
+                record->color[j].g = 192 - j * 24;
+                record->color[j].b = 255;
+                record->offset[j] = -(j * 256);
+            }
+            record->field_6C = 0;
+            record->field_70 = 0;
+            record->field_74 = 0;
+            record->field_A0 = 0;
+            record->field_A4 = 0;
+        }
+        for (row = 0, j = 0; row < 6; row++, ring++, j += 256) {
+            for (i = 0, angle = j; i < 8; angle += 512, i++) {
+                setVector(&ring->inner[i], (u32)rcos(angle) >> 4, (u32)rsin(angle) >> 4, 0);
+                setVector(&ring->outer[i], (u32)(rcos(angle) * 5) >> 6,
+                          (u32)(rsin(angle) * 5) >> 6, 0);
+            }
+            ring->inner_color.r = 64;
+            ring->inner_color.g = 128;
+            ring->inner_color.b = 255;
+            ring->outer_color.r = 0;
+            ring->outer_color.g = 0;
+            ring->outer_color.b = 0;
+            ring->angle = row * 1024 / 6;
+            ring->count = 0;
+        }
+        for (row = 0, j = 0; row < 4; row++, spoke++, j += 200) {
+            for (i = 0, angle = j; i < 8; i++, angle = j + i * 512) {
+                setVector(&spoke->inner[i], (u32)(rcos(angle) * 3) >> 5,
+                          (u32)(rsin(angle) * 3) >> 5, 0);
+                setVector(&spoke->outer[i], (u32)rcos(angle) >> 3, (u32)rsin(angle) >> 3, 0);
+            }
+            spoke->inner_color.r = 0;
+            spoke->inner_color.g = 0;
+            spoke->inner_color.b = 0;
+            spoke->outer_color.r = 255;
+            spoke->outer_color.g = 192;
+            spoke->outer_color.b = 64;
+            spoke->angle = 1024 - row * 256;
+            spoke->count = 0;
+        }
+        work->field_2764 = 0;
+        work->field_276C = 4096;
+        work->field_276E = 1024;
+        work->field_2770 = 0;
+        work->field_2774 = 0;
+        work->field_2766 = 0;
+        work->sweep = 0;
+        work->clock.frame_count = 0;
+        work->clock.frame = 0;
+        work->clock.animation_frame = 0;
+        work->clock.step = 0;
+        work->tail.phase = 0;
+        work->clock.fade = 0;
+        work->tail.tint = 2048;
+        work->tail.command = command;
+    } else {
+        view = Model_GetCameraViewBuffer();
+        setVector(&work->view_delta, view->vrx - view->vpx,
+                  view->vry - view->vpy, view->vrz - view->vpz);
+        Square0(&work->view_delta, &squared);
+        angle = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
+        work->clock.angles[0] = angle;
+        work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
+        if (work->tail.slot == 0) {
+            Model_CopySlotPosition(1, (u16 *)&work->target);
+        } else {
+            Model_CopySlotPosition(0, (u16 *)&work->target);
+        }
+        GsGetLwUnit(work->parts[0], &work->matrix);
+        setVector(&work->direction,
+                  work->target.vx - work->matrix.t[0],
+                  work->target.vy - work->matrix.t[1],
+                  work->target.vz - work->matrix.t[2]);
+        if (work->config->sweep_start <= work->clock.frame && work->clock.frame < work->config->sweep_end) {
+            work->sweep = (work->clock.frame - work->config->sweep_start) * 6144 /
+                          (work->config->sweep_end - work->config->sweep_start);
+        } else {
+            work->sweep = 0;
+        }
+        swarm = &work->swarm;
+        for (i = 0; i < 32; i++) {
+            if (swarm->size[i] >= 0 && swarm->initialized[i] == 0) {
+                if (work->tail.slot == 0) {
+                    setVector(&work->positions[i], work->target.vx - (rsin(work->sweep) * 512 >> 12),
+                              work->target.vy, work->target.vz);
+                } else {
+                    setVector(&work->positions[i], work->target.vx + (rsin(work->sweep) * 512 >> 12),
+                              work->target.vy, work->target.vz);
+                }
+                swarm->initialized[i] = 1;
+            }
+            setVector(&work->offsets[i], work->positions[i].vx - work->matrix.t[0],
+                      work->positions[i].vy - work->matrix.t[1],
+                      work->positions[i].vz - work->matrix.t[2]);
+        }
+        GsSetLsMatrix(Model_GetLightSourceMatrix());
+        setVector(&position, work->matrix.t[0], work->matrix.t[1], work->matrix.t[2]);
+        RotTransPers(&position, (long *)&projection.projected,
+                     &projection.interpolation, &projection.flag);
+        screen_x = (u16)projection.projected.vx;
+        screen_y = projection.projected.vy;
+        setVector(&target, work->target.vx, work->target.vy, work->target.vz);
+        RotTransPers(&target, (long *)&projection.target,
+                     &projection.interpolation, &projection.flag);
+        work->screen_delta.vx = (u16)projection.target.vx - screen_x;
+        dy = projection.target.vy - screen_y;
+        work->screen_delta.vy = dy;
+        if (work->config->start <= work->clock.frame) {
+            FrenchModelVariant428_DrawSwarm(context);
+        }
+        if (work->tail.phase >= 2) {
+            FrenchModelVariant428_DrawQuads(context);
+        }
+        work->clock.frame_count++;
+        frame = Model_GetSlotAnimationFrame(work->tail.slot);
+        if (frame != work->clock.animation_frame) {
+            work->clock.frame += Model_GetFrameStep();
+            work->clock.step = Model_GetFrameStep();
+            work->clock.animation_frame = frame;
+        }
+    }
+    Model_SetSlotAmbient(2, work->tail.tint, work->tail.tint, work->tail.tint);
+    if (work->tail.phase < 6) {
+        if (work->tail.tint > 0) {
+            work->tail.tint -= 128;
+            if (work->tail.tint <= 0) {
+                work->tail.tint = 0;
+            }
+        }
+    } else {
+        work->tail.tint = work->clock.fade << 5;
+    }
+    if (work->tail.phase >= 2 && work->tail.phase <= 4) {
+        result = 4;
+    } else if (work->tail.phase == 5) {
+        result = 1;
+        work->tail.phase = 6;
+    } else if (work->tail.phase == 6) {
+        if (work->clock.fade < 64) {
+            work->clock.fade += work->clock.step;
+            if (work->clock.fade >= 64) {
+                work->clock.fade = 64;
+                work->tail.phase = 7;
+            }
+        }
+    } else if (work->tail.phase == 7) {
+        result = 2;
+    }
+    return result;
+}
+
+#ifndef VERSION_FRENCH
+/* The helpers are the French header-428 swarm and quads, built here with
+ * gcc 2.7.2; the swarm sits four bytes later in this image. */
+#include "../../game/model_slot_getters.h"
+#include "../../game/model_slot_support.h"
+#include "../model_variant/e594_swarm.c"
+#include "../model_variant/e594_quads.c"
+#endif

@@ -54,10 +54,10 @@ segments:
     vram: 0x8013B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/h394_entry]
-      - [0xE64, c, overlays/model_variant/h394_tube]
-      - [0x1584, c, overlays/model_variant/h394_beams]
-      - [0x1E28, c, overlays/model_variant/h394_sheets]
-      - [0x2478, c, overlays/model_variant/h394_funnels]
+      - [0x4, c, overlays/model_variant/e577_entry]
+      - [0xE64, c, overlays/model_variant/e577_tube]
+      - [0x1584, c, overlays/model_variant/e577_beams]
+      - [0x1E28, c, overlays/model_variant/e577_sheets]
+      - [0x2478, c, overlays/model_variant/e577_funnels]
       - [0x2990, data, overlays/model_variant_452_stage9_slot0/data]
   - [0x5000]

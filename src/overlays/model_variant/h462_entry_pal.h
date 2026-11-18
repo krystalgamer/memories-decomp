@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_SPANISH_MODEL_VARIANT479_ENTRY_H
 #define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT479_ENTRY_H
 #include "../../types.h"
-#include "../../overlays/model_variant/h320_entry_pal.h"
+#include "../../overlays/model_variant/e503_h320_entry_pal.h"
 #include "../model_variant/model_variant.h"
 #include "h462_ribs_pal.h"
 #include "h462_spiral_pal.h"

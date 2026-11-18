@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_SPANISH_MODEL_VARIANT441_ENTRY_H
 #define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT441_ENTRY_H
 #include "../../types.h"
-#include "../../overlays/model_variant/h320_entry_pal.h"
+#include "../../overlays/model_variant/e503_h320_entry_pal.h"
 #include "../../game/model_slot_getters.h"
 #include "e581_entry.h"
 

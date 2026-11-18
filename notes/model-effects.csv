@@ -10,6 +10,7 @@ e014,67,197,66,196,84,214,,56 105 143 469,residue,residue+fp:42 fp-propagated:14
 e015,99,229,98,228,116,246,e047,22 27 73 127 372 404 434 454 506 531 601,residue-aliases,residue+fp:98 fp-propagated:112
 e016,173,303,172,302,190,320,,119,residue,residue+fp:14 fp-propagated:0
 e017,662,729,661,728,679,746,,22 222 236 302 303 389 391 424 568,residue,residue+fp:28 fp-propagated:98
+e017,70,200,69,199,87,217,,140 534,residue-second-image,residue-direct:6 (model 140) bracket:e014@67..e018@71
 e018,71,201,70,200,88,218,,31 290 295 358 451 468 481,residue,residue+fp:70 fp-propagated:28
 e023,156,286,155,285,173,303,,8 113 300 336 342 398,residue,residue+fp:14 fp-propagated:70
 e026,78,208,77,207,95,225,,72 212 222 246 322 495 515 573,residue,residue+fp:70 fp-propagated:42
@@ -17,6 +18,7 @@ e027,79,209,78,208,96,226,,192 196,residue,residue+fp:28 fp-propagated:0
 e028,80,210,79,209,97,227,,100 150,residue,residue+fp:14 fp-propagated:14
 e029,81,211,80,210,98,228,,39 298 474 507 598,residue,residue+fp:42 fp-propagated:28
 e032,176,306,175,305,193,323,,13 52 127 159 177 208 213 338 412 417 429 456 494 531 558,residue,residue+fp:112 fp-propagated:98
+e032,84,214,83,213,101,231,,130,residue-second-image,residue-direct:6 (model 130) bracket:e029@81..e033@85
 e033,85,215,84,214,102,232,,21,residue,residue+fp:14 fp-propagated:0
 e036,407,557,406,556,424,574,e590,68 96 165 186 242 294 297 302 308 326 349 415 470 545 571,residue-aliases,residue+fp:70 fp-propagated:280
 e037,89,219,88,218,106,236,,435,residue,residue+fp:14 fp-propagated:0
@@ -25,6 +27,7 @@ e041,93,223,92,222,110,240,,313,residue,residue+fp:14 fp-propagated:0
 e043,95,225,94,224,112,242,,253,residue,residue+fp:14 fp-propagated:0
 e044,96,226,95,225,113,243,,106,residue,residue+fp:14 fp-propagated:0
 e045,97,227,96,226,114,244,,125,residue,residue+fp:14 fp-propagated:0
+e046,98,228,97,227,115,245,,15,neighbour bracket,bracket:e045@97..e048@100 same offset; no direct residue line
 e048,100,230,99,229,117,247,,15 139 146,residue,residue+fp:28 fp-propagated:14
 e049,101,231,100,230,118,248,,27 506,residue,residue+fp:14 fp-propagated:14
 e050,102,232,101,231,119,249,,380,residue,residue+fp:14 fp-propagated:0
@@ -76,9 +79,11 @@ e320,771,868,770,867,788,885,,73,residue,residue+fp:14 fp-propagated:0
 e321,772,869,771,868,789,886,,113,residue,residue+fp:14 fp-propagated:0
 e322,773,870,772,869,790,887,,240,residue,residue+fp:14 fp-propagated:0
 e323,774,871,773,870,791,888,,89 382 479 521,residue,residue+fp:28 fp-propagated:28
+e326,777,874,776,873,794,891,,101 133 185 218 268 270 291 390 411 447 533 544 596,neighbour bracket,bracket:e323@774..e327@778 same offset; no direct residue line
 e327,778,875,777,874,795,892,,92 94 126,residue,residue+fp:42 fp-propagated:0
 e328,779,876,778,875,796,893,,5 24 49 53 80 86 92 98 120 124 136 154 157 177 196 210 221 238 265 273 326 337 352 423 424 509 520 527 530 536 538 559 570 584 587,residue,residue+fp:350 fp-propagated:168
 e329,780,877,779,876,797,894,,382,residue,residue+fp:14 fp-propagated:0
+e330,781,878,780,877,798,895,,243 572,neighbour bracket,bracket:e329@780..e331@782 same offset; no direct residue line
 e331,782,879,781,878,799,896,,289,residue,residue+fp:14 fp-propagated:0
 e332,783,880,782,879,800,897,,252 279 350 577 590,residue,residue+fp:42 fp-propagated:28
 e333,785,882,784,881,802,899,,406,residue,residue+fp:14 fp-propagated:0
@@ -87,9 +92,11 @@ e335,786,883,785,882,803,900,,467,residue,residue+fp:14 fp-propagated:0
 e336,787,884,786,883,804,901,,118,residue,residue+fp:14 fp-propagated:0
 e337,788,885,787,884,805,902,,131 133 207 270 314 388 533 557,residue,residue+fp:28 fp-propagated:84
 e338,372,522,371,521,389,539,e505,32 184 269 359,residue-aliases,residue+fp:28 fp-propagated:56
+e338,789,886,788,885,806,903,,162 254 283 578,residue-second-image,residue-direct:12 (models 162 254 283) bracket:e337@788..e339@790
 e339,790,887,789,886,807,904,,441,residue,residue+fp:14 fp-propagated:0
 e340,791,888,790,887,808,905,,6 501,residue,residue+fp:14 fp-propagated:14
 e341,388,538,387,537,405,555,e571,57 149 369 512,residue-aliases,residue+fp:42 fp-propagated:28
+e341,792,889,791,888,809,906,,79 519,residue-second-image,residue-direct:6 (model 79) bracket:e340@791..e342@793
 e342,793,890,792,889,810,907,,86 309 420 449,residue,residue+fp:42 fp-propagated:14
 e343,794,891,793,890,811,908,,137,residue,residue+fp:14 fp-propagated:0
 e344,795,892,794,891,812,909,,156 267 537,residue,residue+fp:28 fp-propagated:14
@@ -109,11 +116,13 @@ e500,321,471,320,470,338,488,,34 164 165 210 374 393 409 559,residue,residue+fp:
 e501,318,468,317,467,335,485,,44 508,residue,residue+fp:14 fp-propagated:14
 e502,319,469,318,468,336,486,,422,residue,residue+fp:14 fp-propagated:0
 e503,443,593,442,592,460,610,e513 e539,44 70 98 125 161 168 320 350 408 410 412 419 508 604,residue-aliases,residue+fp:126 fp-propagated:210
+e503,320,470,319,469,337,487,,110 159 360,residue-second-image,residue-direct:28 (models 110 159 410) bracket:e502@319..e507@324
 e504,658,725,657,724,675,742,,61 62 317 341 383 393 421 473 602 604 608 614 616,residue,residue+fp:14 fp-propagated:168
 e507,324,474,323,473,341,491,,7 502,residue,residue+fp:14 fp-propagated:14
 e510,404,554,403,553,421,571,e587,84 88 114 162 184 319,residue-aliases,residue+fp:42 fp-propagated:84
 e520,843,940,842,939,860,957,,100 416,residue,residue+fp:14 fp-propagated:14
 e530,418,568,417,567,435,585,,34 71 124 166 182 275 279 311 419 441 530 540 590,residue,residue+fp:14 fp-propagated:168
+e539,356,506,355,505,373,523,,607,residue-second-image,residue-direct:4 (model 707) bracket:e507@324..e549@366
 e547,371,521,370,520,388,538,e554,8 43 235 269 606,residue-aliases,residue+fp:56 fp-propagated:28
 e549,366,516,365,515,383,533,,313,residue,residue+fp:14 fp-propagated:0
 e551,368,518,367,517,385,535,,170 356 357 463,residue,residue+fp:42 fp-propagated:14
@@ -126,17 +135,20 @@ e570,415,565,414,564,432,582,,351,residue,residue+fp:14 fp-propagated:0
 e574,391,541,390,540,408,558,,54,residue,residue+fp:14 fp-propagated:0
 e575,414,564,413,563,431,581,,351,residue,residue+fp:14 fp-propagated:0
 e576,393,543,392,542,410,560,,54,residue,residue+fp:14 fp-propagated:0
+e577,394,544,393,543,411,561,,314 402,neighbour bracket,bracket:e576@393..e578@395 same offset; no direct residue line
 e578,395,545,394,544,412,562,,10,residue,residue+fp:14 fp-propagated:0
 e580,397,547,396,546,414,564,,2 20 87 108 138 152 168 170 193 338 377 523,residue,residue+fp:98 fp-propagated:70
 e581,398,548,397,547,415,565,,102 282 288 592 595,residue,residue+fp:28 fp-propagated:42
 e583,400,550,399,549,417,567,,134 232 304 485,residue,residue+fp:42 fp-propagated:14
 e584,427,577,426,576,444,594,,175,residue,residue+fp:14 fp-propagated:0
+e584,401,551,400,550,418,568,,360,residue-second-image,residue-direct:10 (model 410) bracket:e583@400..e585@402
 e585,402,552,401,551,419,569,,69 93 95 163 249 375,residue,residue+fp:56 fp-propagated:28
 e588,405,555,404,554,422,572,,1 500,residue,residue+fp:14 fp-propagated:14
 e589,406,556,405,555,423,573,,335,residue,residue+fp:14 fp-propagated:0
 e591,408,558,407,557,425,575,,0,residue,residue+fp:14 fp-propagated:0
 e592,409,559,408,558,426,576,,0,residue,residue+fp:14 fp-propagated:0
 e593,456,606,455,605,473,623,,335,residue,residue+fp:14 fp-propagated:0
+e594,411,561,410,560,428,578,,457,neighbour bracket,bracket:e592@409..e595@412 same offset; no direct residue line
 e595,412,562,411,561,429,579,,275 321 467,residue,residue+fp:14 fp-propagated:28
 e596,413,563,412,562,430,580,,478,residue,residue+fp:14 fp-propagated:0
 e807,678,745,677,744,695,762,,491,residue,residue+fp:14 fp-propagated:0

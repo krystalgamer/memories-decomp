@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT416_ENTRY_H
 #define MEMORIES_MODEL_VARIANT416_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 
 /* One 0xA8-byte band of two segments: three rows of two points and their
  * screen coordinates, per segment the growth level (staggered below zero by

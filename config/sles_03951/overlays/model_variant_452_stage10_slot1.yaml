@@ -54,35 +54,35 @@ segments:
     vram: 0x8017B004
     align: 4
     subsegments:
-      - [0x4, c, overlays/model_variant/h394_entry_pal]
+      - [0x4, c, overlays/model_variant/e577_entry_pal]
   - name: helper_E60
     type: code
     start: 0xE60
     vram: 0x8017BE60
     align: 4
     subsegments:
-      - [0xE60, c, overlays/model_variant/h394_tube_pal]
+      - [0xE60, c, overlays/model_variant/e577_tube_pal]
   - name: helper_157C
     type: code
     start: 0x157C
     vram: 0x8017C57C
     align: 4
     subsegments:
-      - [0x157C, c, overlays/model_variant/h394_beams_pal]
+      - [0x157C, c, overlays/model_variant/e577_beams_pal]
   - name: helper_1E58
     type: code
     start: 0x1E58
     vram: 0x8017CE58
     align: 4
     subsegments:
-      - [0x1E58, c, overlays/model_variant/h394_sheets_pal]
+      - [0x1E58, c, overlays/model_variant/e577_sheets_pal]
   - name: helper_24A4
     type: code
     start: 0x24A4
     vram: 0x8017D4A4
     align: 4
     subsegments:
-      - [0x24A4, c, overlays/model_variant/h394_funnels_pal]
+      - [0x24A4, c, overlays/model_variant/e577_funnels_pal]
   - name: unclassified_tail
     type: code
     start: 0x29B4

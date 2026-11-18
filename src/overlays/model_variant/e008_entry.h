@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT438_ENTRY_H
 #define MEMORIES_MODEL_VARIANT438_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 
 /* One 0x44-byte row of header 438's command table. */
 typedef struct {

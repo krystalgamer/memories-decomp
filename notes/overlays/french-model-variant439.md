@@ -203,7 +203,7 @@ sources and their profiles remain unchanged. The `0x1230..0x1704`
 helper remains genuine generated assembly, with no direct entry-call path.
 
 The locally recovered entry view reuses the established shared packet,
-SDK and geometry declarations through `h320_entry_pal.h`. Its distinct
+SDK and geometry declarations through `e503_h320_entry_pal.h`. Its distinct
 band, fan, screen-ring and 48-byte descriptor views are local to
 `h439_entry.h`. Three webs, one band, two sheets, six rings, four
 spokes, one fan, three screen-ring records and four curtains retain their

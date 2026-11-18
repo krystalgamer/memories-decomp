@@ -8,7 +8,7 @@
 #include "../../game/model_texture_upload.h"
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 
 /* One 0x44-byte command row in gModelVariant380_aConfigs. */
 typedef struct {

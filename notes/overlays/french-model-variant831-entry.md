@@ -9,7 +9,7 @@ image's symbols file binds the entry and the `gFrenchModelVariant831_aImages`
 and `gFrenchModelVariant831_aConfigs` labels at its own addresses (the scale
 vector at `0x3808` is a C-local static).
 
-- **Base.** It is the header-792 bolt entry (`model_variant/h792_entry.c`)
+- **Base.** It is the header-792 bolt entry (`model_variant/e341_h792_entry.c`)
   reworked for three bolts:
   - **Work area.** Per-bolt arrays have three entries. A per-bolt flare
     scale follows the flight counters. The rays become one shared ring of

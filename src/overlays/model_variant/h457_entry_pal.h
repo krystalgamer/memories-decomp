@@ -3,7 +3,7 @@
 #include "../../types.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_camera_effects.h"
-#include "h320_entry_pal.h"
+#include "e503_h320_entry_pal.h"
 #include "../model_variant/model_variant.h"
 
 /* One 0x34-byte command row: the outer and inner sheet colours, the model

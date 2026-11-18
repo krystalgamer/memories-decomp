@@ -1,7 +1,7 @@
 #ifndef MEMORIES_MODEL_VARIANT459_ENTRY_H
 #define MEMORIES_MODEL_VARIANT459_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 #include "../../game/model_camera_effects.h"
 #include "../model_variant/h459_screen_grid.h"
 #include "h459_curtains.h"

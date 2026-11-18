@@ -69,11 +69,11 @@ The `ModelVariantRibbonGrowTiming` view calls this word `grow_start`. The config
 
 ## `Variant411UsEntryConfig` (`gModelVariant411_aConfigs`)
 
-Entry `model_variant/h411_entry.c` sets `work->config = gModelVariant411_aConfigs + command` (line 68); its work struct `Variant411UsEntryState` has `config` at `+0x2750`.
+Entry `model_variant/e594_entry.c` sets `work->config = gModelVariant411_aConfigs + command` (line 68); its work struct `Variant411UsEntryState` has `config` at `+0x2750`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant428_DrawQuads` (model_variant/h411_quads.c; `model_variant/h411_entry.c:373`, `Variant411UsEntryState.config` at +0x2750); `FrenchModelVariant428_DrawSwarm` (model_variant/h411_swarm.c; `model_variant/h411_entry.c:370`, `Variant411UsEntryState.config` at +0x2750) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
+| `+0x20` | `unknown_20[0x10]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant428_DrawQuads` (model_variant/e594_quads.c; `model_variant/e594_entry.c:373`, `Variant411UsEntryState.config` at +0x2750); `FrenchModelVariant428_DrawSwarm` (model_variant/e594_swarm.c; `model_variant/e594_entry.c:370`, `Variant411UsEntryState.config` at +0x2750) | `if (state->timing->limit <= state->time && state->phase >= 3)`; `if (state->timing->limit <= state->time)` | high |
 
 ## `Variant412EntryConfig` (`gModelVariant412_aConfigs`)
 

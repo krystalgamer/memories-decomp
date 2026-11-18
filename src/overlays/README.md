@@ -85,10 +85,16 @@ directories (#9498, #9500, #9504, #9506). A file's base name is
 - `e<NNN>` (for example `e036_entry.c`): the developers' effect name, taken
   from the `bin/eNNN_0.bin`/`bin/eNNN_1.bin` build-script residue in
   MODEL.MRG and confirmed against the retail image. Byte-identical copies
-  share the lowest confirmed name.
+  share the lowest confirmed name. Five names (e046, e577, e594, e326, e330)
+  come only from the header formula between two confirmed neighbours; the
+  notes mark them `neighbour bracket`.
 - `h<NNN>` (for example `h143_entry.c`): an image without a confirmed name.
   `<NNN>` is the image's slot 0 North American MODEL header word (Japan is
   one lower, the PAL builds 17 higher).
+- `e<NNN>_h<HHH>` (for example `e503_h320_entry.c`): a confirmed second image
+  of `eNNN`, an older build at the name's linear header slot that coexists
+  with the canonical `eNNN_*` image. `<HHH>` is its slot 0 North American
+  header word.
 
 [MODEL effect names](../../notes/model-effects.md) and
 [`model-effects.csv`](../../notes/model-effects.csv) give the evidence, map

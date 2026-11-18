@@ -1,0 +1,185 @@
+#include "../../types.h"
+
+#include "e503_h320_ribbon.h"
+#include "../model_variant/e503_h320_entry_pal.h"
+
+/* Builds a seventeen-point ribbon that bends around the variant's axis and a
+ * copy of it moved along the view, projects both, and draws the first
+ * ribbon_length segments as flat POLY_FT4 quads as wide as the projected
+ * offset. In phase 1 the drawn length follows the timing record's clock up to
+ * 16; in phase 3 the copy's offset shrinks with it. The per-ribbon turn and the
+ * coil angle of the header-321 form are still computed but unused here. */
+void ModelVariant320_DrawRibbon(Variant337EntryState *context)
+{
+    SVECTOR rot;
+    VECTOR scale;
+    MATRIX m;
+    MATRIX ls;
+    GsCOORDINATE2 coord;
+    long p;
+    long flag;
+    Variant337EntryState *work;
+    GsOT *ot;
+    s16 i;
+    s32 wave;
+    s32 phase;
+    s32 turn;
+    s32 yaw;
+    s32 pitch;
+    s32 start;
+    s32 now;
+    s16 len;
+    Variant320Ribbon *ribbon;
+    POLY_FT4 *poly;
+    s16 k;
+    s32 bend;
+    s32 coil;
+    s32 dx;
+    s32 dy;
+
+    work = context;
+    ot = Graphics_GetDefaultOrderingTable();
+    yaw = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
+    pitch = ratan2(work->aim.view_delta.vy, work->aim.view_delta.vx) + 0xC00;
+    if (work->tail.phase > 0) {
+        if (!(work->clock.frame_count & 1)) {
+            len = work->width / 16;
+        } else {
+            len = work->width * 80 / 1024;
+        }
+        ribbon = work->records;
+        for (i = 0, phase = 0; i < 1; i++, ribbon++, phase = i * 0x1800) {
+            if (i == 0) {
+                turn = 0x400;
+            } else if (i % 2 == 1) {
+                turn = i * 360 + 0x400;
+            } else {
+                turn = 0x400 - i * 360;
+            }
+            for (k = 0, wave = -work->ribbon_wave; k < 17; k++, wave += 0x300) {
+                if (k == 0 || k == 16) {
+                    bend = 0;
+                } else {
+                    bend = phase - k * 384 + work->ribbon_phase;
+                }
+                coil = k * 128;
+                setVector(&ribbon->a[k],
+                          work->aim.direction.vx * k / 16 +
+                              (rcos(pitch) * (rsin(bend) * ((rsin(wave) * 64 >> 12) + 0x40) >> 12) >> 12),
+                          work->aim.direction.vy * k / 16 +
+                              (rsin(pitch) * (rsin(bend) * ((rsin(wave) * 64 >> 12) + 0x40) >> 12) >> 12),
+                          work->aim.direction.vz * k / 16);
+                setVector(&ribbon->b[k], ribbon->a[k].vx + (rcos(yaw) * len >> 12), ribbon->a[k].vy,
+                          ribbon->a[k].vz + (rsin(yaw) * len >> 12));
+            }
+        }
+        rot.vx = 0;
+        rot.vy = 0;
+        rot.vz = 0;
+        m.t[0] = work->matrix.t[0];
+        m.t[1] = work->matrix.t[1];
+        m.t[2] = work->matrix.t[2];
+        scale.vx = 0x1000;
+        scale.vy = 0x1000;
+        scale.vz = 0x1000;
+        RotMatrix(&rot, &m);
+        ScaleMatrix(&m, &scale);
+        coord.coord = m;
+        coord.super = 0;
+        coord.flg = 0;
+        GsGetLs(&coord, &ls);
+        GsSetLsMatrix(&ls);
+        ribbon = work->records;
+        for (i = 0; i < 1; i++, ribbon++) {
+            for (k = 0; k < 17; k++) {
+                if (k == 16) {
+#if defined(VERSION_FRENCH)
+                    ribbon->otz[k] = RotTransPers4(&ribbon->a[15], &ribbon->a[k], &ribbon->a[15], &ribbon->a[k],
+                                                   &ribbon->sa[15], &ribbon->sa[k], &ribbon->sa[15], &ribbon->sa[k],
+                                                   &p, &ribbon->flag[k]);
+                    RotTransPers(&ribbon->b[k], &ribbon->sb[k], &p, &flag);
+                    dx = (s16)ribbon->sa[k] - (s16)ribbon->sa[15];
+                    dy = (ribbon->sa[k] >> 16) - (ribbon->sa[15] >> 16);
+                    ribbon->angle[k] = ratan2(dy, dx) - 0x400;
+                    ribbon->width[k] = (s16)ribbon->sb[k] - (s16)ribbon->sa[k];
+                    ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                    ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+#else
+                    ribbon->otz[16] = RotTransPers4(&ribbon->a[15], &ribbon->a[16], &ribbon->a[15], &ribbon->a[16],
+                                                    &ribbon->sa[15], &ribbon->sa[16], &ribbon->sa[15], &ribbon->sa[16],
+                                                    &p, &ribbon->flag[16]);
+                    RotTransPers(&ribbon->b[16], &ribbon->sb[16], &p, &flag);
+                    dx = (s16)ribbon->sa[16] - (s16)ribbon->sa[15];
+                    dy = (ribbon->sa[16] >> 16) - (ribbon->sa[15] >> 16);
+                    ribbon->angle[16] = ratan2(dy, dx) - 0x400;
+                    ribbon->width[16] = (s16)ribbon->sb[16] - (s16)ribbon->sa[16];
+                    ribbon->ox[16] = rcos(ribbon->angle[16]) * ribbon->width[16] >> 12;
+                    ribbon->oy[16] = rsin(ribbon->angle[16]) * ribbon->width[16] >> 12;
+#endif
+                } else {
+                    ribbon->otz[k] = RotTransPers4(&ribbon->a[k], &ribbon->a[k + 1], &ribbon->a[k], &ribbon->a[k + 1],
+                                                   &ribbon->sa[k], &ribbon->sa[k + 1], &ribbon->sa[k], &ribbon->sa[k + 1],
+                                                   &p, &ribbon->flag[k]);
+                    RotTransPers(&ribbon->b[k], &ribbon->sb[k], &p, &flag);
+                    dx = (s16)ribbon->sa[k + 1] - (s16)ribbon->sa[k];
+                    dy = (ribbon->sa[k + 1] >> 16) - (ribbon->sa[k] >> 16);
+                    ribbon->angle[k] = ratan2(dy, dx) - 0x400;
+                    ribbon->width[k] = (s16)ribbon->sb[k] - (s16)ribbon->sa[k];
+                    ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                    ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+                }
+            }
+        }
+        ribbon = work->records;
+        for (i = 0; i < 1; i++, ribbon++) {
+            k = 0;
+            poly = work->flat_textured;
+            for (; k < work->ribbon_length; k++) {
+                poly->x0 = ribbon->sa[k] + ribbon->ox[k];
+                poly->y0 = (ribbon->sa[k] >> 16) + ribbon->oy[k];
+                poly->x1 = ribbon->sa[k + 1] + ribbon->ox[k + 1];
+                poly->y1 = (ribbon->sa[k + 1] >> 16) + ribbon->oy[k + 1];
+                poly->x2 = ribbon->sa[k] - ribbon->ox[k];
+                poly->y2 = (ribbon->sa[k] >> 16) - ribbon->oy[k];
+                poly->x3 = ribbon->sa[k + 1] - ribbon->ox[k + 1];
+                poly->y3 = (ribbon->sa[k + 1] >> 16) - ribbon->oy[k + 1];
+                poly->r0 = ribbon->style.inner.r;
+                poly->g0 = ribbon->style.inner.g;
+                poly->b0 = ribbon->style.inner.b;
+                if (ribbon->otz[k] >= 0 && ribbon->flag[k] >= 0) {
+                    GsSortPoly(poly, ot, ribbon->otz[k]);
+                }
+                if (!(k & 1)) {
+                    poly++;
+                } else {
+                    poly--;
+                }
+            }
+        }
+        if (work->tail.phase == 1) {
+            if (work->ribbon_length < 0x11) {
+                start = work->config->end;
+                work->ribbon_length = ((work->clock.frame - start) << 4) /
+                                                  (work->config->ribbon_end - start);
+                if (work->ribbon_length >= 0x10) {
+                    work->ribbon_length = 0x10;
+                    work->tail.phase = 2;
+                }
+            }
+        } else if (work->tail.phase == 3) {
+            if (work->width > 0) {
+                start = work->config->fade_start;
+                now = work->clock.frame;
+                if ((u32)now >= (u32)start) {
+                    work->width =
+                        0x400 - ((u32)(now - start) << 10) / (work->config->fade_end - start);
+                }
+                if (work->width <= 0) {
+                    work->width = 0;
+                }
+            }
+        }
+    }
+    work->ribbon_wave += work->clock.step * 850;
+    work->ribbon_phase += work->clock.step << 7;
+}

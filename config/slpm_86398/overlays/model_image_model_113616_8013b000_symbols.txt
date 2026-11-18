@@ -1,4 +1,4 @@
-// Japanese MODEL.MRG model 461 (record 411), sector 113616, header 777, loaded at 0x8013B000; the US source h777_entry.c; built from the US source layout of model_variant_461_pos0_slot0.
+// Japanese MODEL.MRG model 461 (record 411), sector 113616, header 777, loaded at 0x8013B000; the US source e326_entry.c; built from the US source layout of model_variant_461_pos0_slot0.
 ModelVariant777_HandleRequest = 0x8013B004; // type:func size:0x242C defined:true
 gModelVariant777_aImages = 0x8013D440; // type:u8 size:0x54 defined:true
 gModelVariant777_aConfigs = 0x8013D494; // type:u8 size:0x2B6C defined:true

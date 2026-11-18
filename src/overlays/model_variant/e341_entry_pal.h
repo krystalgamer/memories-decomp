@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_SPANISH_MODEL_VARIANT405_ENTRY_H
 #define MEMORIES_DECOMP_SPANISH_MODEL_VARIANT405_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 #include "../../game/model_slot_getters.h"
 
 /* One 0x20-byte command record of the table at gSpanishModelVariant405_aConfigs. */

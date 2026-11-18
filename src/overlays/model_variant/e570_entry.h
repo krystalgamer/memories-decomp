@@ -1,7 +1,7 @@
 #ifndef MEMORIES_DECOMP_MODEL_VARIANT415_ENTRY_H
 #define MEMORIES_DECOMP_MODEL_VARIANT415_ENTRY_H
 #include "../../types.h"
-#include "../model_variant/h320_entry_pal.h"
+#include "../model_variant/e503_h320_entry_pal.h"
 
 typedef struct {
     u8 unknown_00[4], parts[5], unknown_09[11];

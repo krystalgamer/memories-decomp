@@ -27,7 +27,8 @@ retail bytes support it:
   fingerprint, and that other stage is `residue+fp`.
 
 Names that come only from stale lines, and the `eXXX` placeholders, are not
-used. So are names interpolated from the header formula below.
+used. Names interpolated from the header formula below are used only for the
+five neighbour-bracket images listed there, and are marked as such.
 
 ## Header words
 
@@ -35,7 +36,8 @@ Each stage image begins with a header word, an index into a global effect
 table. The former `variant<N>_*` source numbers came from these words; some
 families used the NA word and others the PAL word. For all 2484 stages per
 region, the region offset is exact: **JP = NA − 1** and **PAL = NA + 17**
-(EU/FR/DE/IT/ES). Each confirmed `eNNN` has exactly one header word per slot.
+(EU/FR/DE/IT/ES). Each confirmed `eNNN` has one canonical header word per
+slot; the seven second images below add a second one.
 Within a group the words are roughly linear, and the slot 1 word is the slot 0
 word plus the group size:
 
@@ -56,20 +58,72 @@ header comes from the slot pair built by the same source, so its basis is
 The residue writes `e000` for header 655/722, but `e000` is also its usual
 placeholder. That image is therefore treated as unnamed (`h655`).
 
+## Second images
+
+Header words are build-list positions. Each group starts linearly and ends in
+a tail that also rebuilds older names, so some names exist twice in retail: an
+older image at the name's linear slot and the canonical one (`residue+fp`) in
+a tail. Seven such linear-slot images are confirmed:
+
+| name | linear NA slot 0/1 | canonical NA slot 0/1 | direct residue lines |
+|---|---|---|---|
+| e017 | 70/200 | 662/729 | 6, `m140` stages 200/210 |
+| e032 | 84/214 | 176/306 | 6, `m130` stages 180/190 |
+| e503 | 320/470 | 443/593 | 28, `m110`/`m159` stages 200/210, `m410` stages 180/190 |
+| e539 | 356/506 | 443/593 (alias of e503) | 4, `m707` stages 180/190 |
+| e584 | 401/551 | 427/577 | 10, `m410` stages 200/210 |
+| e338 | 789/886 | 372/522 | 12, `m162`/`m254` stages 200/210, `m283` stages 180/190 |
+| e341 | 792/889 | 388/538 | 6, `m79` stages 200/210 |
+
+For each one, direct `mNNN.mrg`/`@REM` lines name exactly the stages that
+load the image, the header formula between the two confirmed neighbours gives
+the same name, the slot 1 word is slot 0 plus the group size, and no direct
+line names another effect (the other records' lines are `eXXX` placeholders
+or absent). The two images of a name are different code, not copies. They
+are listed as extra `model-effects.csv` rows with basis
+`residue-second-image`.
+
+## Neighbour-bracket names
+
+Five more images are named from the header formula alone. Each sits between
+two residue-confirmed neighbours of its group with the same NA offset, its
+name has no image anywhere else, and the slot 1 and regional words follow the
+same rules. No direct build-script line names their stages, so they are
+weaker than the residue-confirmed names above. The only residue at their
+stages is stale lines naming effects confirmed elsewhere (e048, e061, e059),
+`+OFF`-only lines, or `e000` placeholders.
+
+| name | NA slot 0/1 | bracket |
+|---|---|---|
+| e046 | 98/228 | e045@97, e048@100 (−52) |
+| e577 | 394/544 | e576@393, e578@395 (+183) |
+| e594 | 411/561 | e592@409, e595@412 (+183) |
+| e326 | 777/874 | e323@774, e327@778 (−451) |
+| e330 | 781/878 | e329@780, e331@782 (−451) |
+
+Their `model-effects.csv` basis is `neighbour bracket`.
+
 ## Columns
 
 `e_name`, then the NA, JP and PAL header word for slot 0 and slot 1, then
 `aliases`, `records` (MODEL records 0–620 whose stages load the image),
-`basis` (`residue`, `residue-aliases` or `residue-one-slot`) and `evidence`
-(the number of stage positions, over all seven builds, confirmed by each
-method).
+`basis` (`residue`, `residue-aliases`, `residue-one-slot` or
+`residue-second-image`, or `neighbour bracket` for a formula-only name) and
+`evidence` (the number of stage positions, over
+all seven builds, confirmed by each method). A `residue-second-image` row
+repeats the `e_name` of the canonical row above it; its `evidence` gives the
+number of direct residue lines, their model ids, and the confirmed neighbours
+that bracket the header formula.
 
 ## Source naming rule
 
 - Each former `variant<N>_<role>` source was renamed `e<NNN>_<role>` when the
   image has a confirmed name. Otherwise it was renamed `h<NNN>_<role>`, where
-  `NNN` is the image's **slot 0 NA header word**. Header-only images and formula-inferred names
-  both use `hNNN`.
+  `NNN` is the image's **slot 0 NA header word**. Header-only images and other formula-inferred names
+  use `hNNN`; only the five neighbour-bracket names above are applied.
+- A confirmed second image (see above) keeps its header in the name:
+  `e<NNN>_h<HHH>_<role>`, where `HHH` is its slot 0 NA header word, for
+  example `e503_h320_entry.c` beside the canonical `e503_entry.c`.
 - The `us` number tag (`variant<N>us_*`) and the clash-avoiding `_pal`
   suffix only recorded which region's header numbered the file, so both were
   dropped. `_pal` is kept, or added, only where a PAL-only build would
