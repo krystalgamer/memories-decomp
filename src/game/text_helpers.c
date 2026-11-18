@@ -78,6 +78,13 @@ void Text_InitDecimalDigitGlyphMap(void)
     }
 }
 #else
+/* The full-width digits "０" through "９" in Shift-JIS, the unit's only
+   read-only data. */
+const TextDecimalDigitKeyBlock gText_DecimalDigitSjisKeys = {
+    { 0x82, 0x4F, 0x82, 0x50, 0x82, 0x51, 0x82, 0x52, 0x82, 0x53,
+      0x82, 0x54, 0x82, 0x55, 0x82, 0x56, 0x82, 0x57, 0x82, 0x58 }
+};
+
 void Text_InitDecimalDigitGlyphMap(void) {
     TextDecimalDigitKeyBlock buf;
     u16 *out;
