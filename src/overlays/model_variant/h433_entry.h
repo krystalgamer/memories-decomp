@@ -3,13 +3,16 @@
 #include "../../types.h"
 #include "../model_variant/e503_h320_entry_pal.h"
 #include "h433_lines.h"
-#include "h433_quads.h"
 
 typedef struct {
     u8 unknown_00[4], part, unknown_05[3];
     u32 unknown_08;
+    /* The 450 quad helper grows its groups from trigger to grow_end and
+     * fades them from fade_start to fade_end. */
     u32 trigger;
-    u8 unknown_10[0x10];
+    u32 grow_end;
+    u8 unknown_14[4];
+    u32 fade_start, fade_end;
     /* After this frame the ring pulses stop restarting and hold. */
     u32 settle_start;
 } Variant433EntryConfig;
@@ -102,7 +105,9 @@ typedef struct {
     ModelVariantPackets packets;
     POLY_FT4 flat[2];
     POLY_FT4 flat_extra[2];
-    u8 unknown_4230[0x24];
+    u8 unknown_4230[0x10];
+    /* The 450 lines helper's packet. */
+    GsGLINE line;
     MATRIX matrix;
     SVECTOR target;
     VECTOR direction;
@@ -125,6 +130,6 @@ void ModelVariant433_DrawRibbons(Variant433EntryState *context);
 void ModelVariant433_DrawRings(Variant433EntryState *context);
 void ModelVariant433_DrawBands(Variant433EntryState *context);
 void ModelVariant433_DrawCoils(Variant433EntryState *context);
-void SpanishModelVariant450_DrawQuadGroups(Variant450QuadView *context);
-void SpanishModelVariant450_DrawLines(Variant450View *context);
+void SpanishModelVariant450_DrawQuadGroups(Variant433EntryState *context);
+void SpanishModelVariant450_DrawLines(Variant433EntryState *context);
 #endif

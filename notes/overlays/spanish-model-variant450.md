@@ -145,3 +145,15 @@ No full CD, GTE geometry, GPU consumption, animation, allocator or complete
 noninterference claim is made. Other revisions may contain differently
 compiled semantic counterparts; the earlier no-exact/shape-donor result
 is not proof that this behavior is region-exclusive.
+
+## Current form
+
+Both helpers now take `Variant433EntryState` directly; the line packet is
+the entry's `line`, the groups are `fans` (line) and `sheets` (quads), and
+the frame and step words are `clock.frame_count` and `clock.step`. Only two
+measured views remain in `h433_lines.h`, because retail addresses these
+records from inside the entry's own members: `Variant450Primary` starts at
+each ribbon's `phase` words (`+0x1D0`, so threshold is `phase[0]` and the
+translation is `target`), and `Variant450Fade` starts at the next sheet's
+`size` (`+0x88`). Typing those through the ribbon or sheet members changes
+the base register's displacement and does not match.

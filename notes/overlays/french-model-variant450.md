@@ -64,7 +64,9 @@ structure, packet arithmetic, caller assumptions, and isolated execution
 evidence. Their source files are shared, not rewritten. Sixty-five
 target-compiled constants recheck the two bounded views and SDK layouts.
 The line groups, primary records, and fade views have strides 104, 536,
-and 160; the seven quad groups have stride 160.
+and 160; the seven quad groups have stride 160. (Both helpers now take `Variant433EntryState`; see the
+[line recovery](spanish-model-variant450.md#current-form) for the two
+views that remain.)
 
 French resident pointers place secondary contexts at `0x80136000` and
 `0x80176000`. The line view ends at `+0x42F8`; the quad view ends at
