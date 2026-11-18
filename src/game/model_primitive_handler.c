@@ -10,19 +10,17 @@
 #include "shared_primitive_renderers.h"
 #include "model_handler_registry.h"
 
-#define MODEL_TYPE2_RECORD_VIEW(record) ((ModelType2Record *)(record))
-
 /* Rewrites a type-2 image unit's VRAM and CLUT records for the model slot,
  * then hands the unit to the image driver Model_GetImagePrimitiveHandler
  * selects and retires it with the GsU_00000000 sentinel. */
 void Model_ProcessType2Unit(
-    s32 model_index, ModelTypeUnit *unit, u8 *scratch)
+    s32 model_index, GsTYPEUNIT *unit, GsARGUNIT *scratch)
 {
-    u8 *image_record_cursor;
-    u8 *next_record_cursor;
-    u8 *clut_data;
+    ModelType2Record *image_record_cursor;
+    ModelType2Record *next_record_cursor;
+    unsigned long *clut_data;
     u16 *palette_entry;
-    ModelType2Scratch *image_context;
+    GsARGUNIT_IMAGE *image_context;
     ModelType2Record *clut_record;
     s32 record_count;
     s32 record_index;
@@ -36,10 +34,12 @@ void Model_ProcessType2Unit(
 
     image_with_clut_kind = 0x2000001;
     record_index = 0;
-    image_context = (ModelType2Scratch *)scratch;
-    next_record_cursor = image_context->records;
-    record_count = ((ModelType2RecordHeader *)next_record_cursor)->record_count;
-    next_record_cursor += sizeof(ModelType2RecordHeader);
+    image_context = (GsARGUNIT_IMAGE *)scratch;
+    /* One cursor steps from the stream header to its records; a separate
+       stream local takes the header load in another register. */
+    next_record_cursor = (ModelType2Record *)image_context->primp;
+    record_count = ((ModelType2RecordStream *)next_record_cursor)->header.record_count;
+    next_record_cursor = ((ModelType2RecordStream *)next_record_cursor)->records;
 
     if (record_count != 0) {
         below_two_slot = model_index < 2;
@@ -49,13 +49,13 @@ void Model_ProcessType2Unit(
         image_record_cursor = next_record_cursor;
 
         do {
-            next_record_cursor = image_record_cursor + sizeof(ModelType2Record);
+            next_record_cursor = image_record_cursor + 1;
             if (unit->type == image_with_clut_kind) {
-                clut_data = image_context->clut_data;
-                if (clut_data != (u8 *)0) {
+                clut_data = image_context->cluttop;
+                if (clut_data != 0) {
                     palette_row = 0;
-                    clut_record = MODEL_TYPE2_RECORD_VIEW(next_record_cursor);
-                    palette_entry = (u16 *)&((u32 *)clut_data)[clut_record->index_offset];
+                    clut_record = next_record_cursor;
+                    palette_entry = (u16 *)&clut_data[clut_record->index_offset];
                     if (clut_record->row_count > 0) {
                         do {
                             if (below_two_slot) {
@@ -101,24 +101,24 @@ void Model_ProcessType2Unit(
                             clut_record->vram_y =
                                 (clut_record->vram_y & 0xF) + 0xD0;
                         }
-                        coordinate_value = MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_y +
-                            MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->row_count - 0x200;
+                        coordinate_value = image_record_cursor->vram_y +
+                            image_record_cursor->row_count - 0x200;
                         if (coordinate_value > 0) {
-                            MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->row_count =
-                                MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->row_count - coordinate_value;
+                            image_record_cursor->row_count =
+                                image_record_cursor->row_count - coordinate_value;
                         }
 #endif
                     }
-                    next_record_cursor += sizeof(ModelType2Record);
+                    next_record_cursor++;
                 }
             }
             if (below_two_slot) {
-                source_image_x = MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_x;
+                source_image_x = image_record_cursor->vram_x;
 #ifdef VERSION_EUROPE
-                MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_x =
+                image_record_cursor->vram_x =
                     (source_image_x - 0x280) + (model_index << 8);
 #else
-                MODEL_TYPE2_RECORD_VIEW(image_record_cursor)->vram_x = (source_image_x - 0x280) + slot_texture_x;
+                image_record_cursor->vram_x = (source_image_x - 0x280) + slot_texture_x;
 #endif
             }
             record_index++;
@@ -127,9 +127,9 @@ void Model_ProcessType2Unit(
         } while (record_index < record_count);
     }
 
-    Model_GetImagePrimitiveHandler(unit->type)((GsARGUNIT *)scratch);
+    Model_GetImagePrimitiveHandler(unit->type)(scratch);
     DrawSync(0);
-    *(ModelHandler *)unit->ptr = (ModelHandler)GsU_00000000;
+    *unit->ptr = (unsigned long)GsU_00000000;
 }
 
 u32 *(*Model_GetImagePrimitiveHandler(u32 v))(GsARGUNIT *)
@@ -160,7 +160,7 @@ void *Model_GetPrimitiveHandler(u32 primitive_code) {
         plain_type = primitive_code & 0xFFFF;
         switch (plain_type) {
         case 0:
-            return (void *)GsU_00000000;
+            return GsU_00000000;
         case 9:
             return Model_DrawFt3Primitives;
         case 0xD:
@@ -255,7 +255,7 @@ void *Model_GetPrimitiveHandler(u32 primitive_code) {
 #ifdef VERSION_EUROPE
     printf("unsupported POLYGON primitive 0x%08lx.\n", primitive_code);
 #endif
-    return (void *)GsU_00000000;
+    return GsU_00000000;
 }
 
 void Model_BindPrimitiveHandler(ModelHandlerObject *object)
