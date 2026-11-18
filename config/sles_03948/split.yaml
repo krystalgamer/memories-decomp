@@ -105,6 +105,9 @@ segments:
   - - 3936
     - rodata
     - initial_data_f60
+  - - 7088
+    - .rodata
+    - game/sound_sequence_parser
   - - 7152
     - .rodata
     - game/model

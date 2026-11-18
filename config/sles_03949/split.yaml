@@ -83,6 +83,7 @@ segments:
       - [0xD04, .rodata, game/sound_output_state]
       - [0xF10, .rodata, game/sound_driver]
       - {start: 0xF60, type: bin, name: german_raw_80010760, linker_section_order: .rodata}
+      - [0x1BB0, .rodata, game/sound_sequence_parser]
       - [0x1BF0, .rodata, game/model]
       - [0x1EF4, .rodata, game/model_animation_unit]
       - [0x1F83, pad]

@@ -9,7 +9,7 @@
 /* The secondary sequencer's stream reader, in image order: closing and
    stopping the root-counter timer that sound_sequence_events.c opens, the
    per-tick SD_UpdateSecondarySequence, the byte and variable-length readers,
-   SD_FindMidiTrackChunk (the unit's only data, the "MTrk" literal in .sdata),
+   SD_FindMidiTrackChunk (whose "MTrk" literal is the unit's .sdata),
    the big-endian readers and header reader, the meta, SysEx and channel event
    handlers, and SD_ReadSequenceEvent, the running-status reader that
    dispatches to them. Everything consumes an SDSequenceTrack stream through
@@ -452,6 +452,11 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
         break;
     }
 }
+
+/* Data-byte count per status high nibble, the unit's only read-only data. */
+const s32 gSD_adwStatusDataByteCounts[16] = {
+    0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 1, 1, 2, 0
+};
 
 /* The event byte is kept twice: `cmd` as read, and `ev` as a u8 copy. GCC
  * 2.8.1 assigns a u8 local with a plain move and zero-extends at each use,

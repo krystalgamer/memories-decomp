@@ -7,7 +7,6 @@ gModel_Slot1VariantDataAddress = 0x80010028;
 gFile_pScreenBankBase = 0x800101D8;
 gSD_awNotePitchTable = 0x80010760;
 gSD_adwVoiceMasks = 0x80011360;
-gSD_adwStatusDataByteCounts = 0x800113B0;
 gModel_SubdividedEffectInitialScale = 0x80011820;
 gModel_DiscEffectInitialScale = 0x80011830;
 gModel_BurstEffectInitialScale = 0x80011840;

@@ -30,7 +30,6 @@ gFile_pBootTextStage5Destination = 0x800101E0;
 gFile_pBootTextStage6Destination = 0x800101E4;
 gFile_pBootTextStage7Destination = 0x800101E8;
 gSD_adwVoiceMasks = 0x80011360;
-gSD_adwStatusDataByteCounts = 0x800113B0;
 gModel_DiscEffectInitialScale = 0x80011830;
 gModel_BurstEffectInitialScale = 0x80011840;
 gModel_SparkEffectInitialScale = 0x80011850;
