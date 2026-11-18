@@ -115,7 +115,7 @@ s32 ModelVariant770_HandleRequest(Model770State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     for (i = 0; i < 2; i++) {
         if (work->elapsed >= work->config->trail_start[i] && work->elapsed < work->config->trail_end[i]
             && work->trail_count[i] < 64) {

@@ -99,7 +99,7 @@ s32 FrenchModelVariant820_HandleRequest(Image135144State *context, s32 command)
     }
     Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
 
     if (work->elapsed <= work->config->charge_end) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);

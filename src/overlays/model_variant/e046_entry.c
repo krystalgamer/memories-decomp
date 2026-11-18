@@ -100,7 +100,7 @@ s32 ModelVariant98_HandleRequest(Model98State *context, s32 command)
         work->elapsed += Model_GetFrameStep();
         return 0;
     }
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     PushMatrix();
     SetPolyFT3(&fan);

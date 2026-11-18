@@ -63,7 +63,7 @@ s32 FrenchModelVariant144_HandleRequest(Model144State *context, s32 command)
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     PushMatrix();
     SetPolyFT4(&quad);
     SetPolyG4(&gradient);

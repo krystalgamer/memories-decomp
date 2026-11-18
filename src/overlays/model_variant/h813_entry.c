@@ -100,7 +100,7 @@ s32 ModelVariant813_HandleRequest(Model813State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed < work->config->emit_end && work->tick % work->config->orb_period == 0
         && work->orb_count < 64) {
         for (i = 0; i < 2; i++) {

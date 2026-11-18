@@ -72,7 +72,7 @@ s32 ModelPrimary63_HandleRequest(ModelPrimary63State *context, s32 command)
 
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     PushMatrix();
     box.attribute = 0x50000000;

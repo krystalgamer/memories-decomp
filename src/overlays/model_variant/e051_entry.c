@@ -66,7 +66,7 @@ s32 ModelVariant103_HandleRequest(Model103State *context, s32 command)
         work->elapsed += Model_GetFrameStep();
         return 0;
     }
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     PushMatrix();
     SetPolyG3(&fan);

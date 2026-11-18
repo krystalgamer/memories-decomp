@@ -153,7 +153,7 @@ s32 ModelVariant817_HandleRequest(Model817State *context, s32 command)
     Model_SetSlotAmbient(2, work->ambient, work->ambient, 0x800);
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->flash != 0) {
         setPolyF4(&f4);
         setRGB0(&f4, work->flash, work->flash, work->flash);

@@ -113,7 +113,7 @@ s32 ModelVariant774_HandleRequest(Model774State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->phase == 0) {
         work->level += 4;
         if (work->level > 0x70) {

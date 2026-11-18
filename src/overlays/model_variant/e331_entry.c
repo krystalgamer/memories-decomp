@@ -117,7 +117,7 @@ s32 ModelVariant782_HandleRequest(Model782State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->phase < 3) {
         setPolyG3(&disc);
         setRGB0(&disc, 0xF0, 0xF0, 0xF0);

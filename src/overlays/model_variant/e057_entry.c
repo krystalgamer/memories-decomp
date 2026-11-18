@@ -125,7 +125,7 @@ s32 ModelVariant109_HandleRequest(Model109State *context, s32 command)
     SetPolyG3(&unused_gouraud);
     SetPolyGT4(&strip);
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     SetSemiTrans(&strip, 1);
     strip.tpage = work->texture[4] >> 16;

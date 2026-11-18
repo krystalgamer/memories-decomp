@@ -189,7 +189,7 @@ s32 ModelVariant818_HandleRequest(Model818State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     setPolyFT4(ft4);
     setPolyG3(g3);
     setPolyG4(g4);

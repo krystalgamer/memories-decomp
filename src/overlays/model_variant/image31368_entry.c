@@ -123,7 +123,7 @@ s32 FrenchModelVariant789_HandleRequest(Image31368State *context, s32 command)
     }
     Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
     PushMatrix();
-    view = *(MATRIX *)Model_GetLightSourceMatrix();
+    view = *Model_GetLightSourceMatrix();
     if (work->elapsed < work->command->start) {
         PopMatrix();
         work->elapsed += step;

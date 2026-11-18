@@ -93,7 +93,7 @@ s32 FrenchModelVariant782_HandleRequest(Model782State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     box.w = box.h = 1;
     box.r = 128;
     box.g = 128;

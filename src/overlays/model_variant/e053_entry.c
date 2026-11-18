@@ -69,7 +69,7 @@ s32 ModelVariant105_HandleRequest(Model105State *context, s32 command)
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     if (work->elapsed < 0) {
         work->elapsed += Model_GetFrameStep();

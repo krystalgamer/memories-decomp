@@ -59,7 +59,7 @@ s32 FrenchModelVariant77_HandleRequest(Model77State *context, s32 command)
     setRGB0(&quad, config->particle_r, config->particle_g, config->particle_b);
     SetSemiTrans(&quad, 1);
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
     setVector(&origin, matrix.t[0], matrix.t[1], matrix.t[2]);

@@ -92,7 +92,7 @@ s32 ModelVariant787_HandleRequest(Model787State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->red[1] || work->green[1] || work->blue[1] || work->red[2] || work->green[2] || work->blue[2]) {
         setPolyGT4(&band);
         setVector(&vertices[0], 0, -work->config->band_height, side * work->config->band_depth);

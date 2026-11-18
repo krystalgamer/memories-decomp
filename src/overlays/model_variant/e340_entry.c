@@ -153,7 +153,7 @@ s32 ModelVariant791_HandleRequest(Model791State *context, s32 command)
     }
     Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed <= work->config->start) {
         work->elapsed += step;
         PopMatrix();

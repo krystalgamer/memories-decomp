@@ -100,7 +100,7 @@ s32 ModelVariant163_HandleRequest(Model163State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     SetPolyFT4(&quad);
     SetPolyG3(&fan);
     SetPolyF4(&flash);

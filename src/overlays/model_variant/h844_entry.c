@@ -143,7 +143,7 @@ s32 ModelVariant844_HandleRequest(Model844State *context, s32 command)
     }
 
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed >= work->config->trail_start && work->elapsed <= work->config->trail_end) {
         GsGetLwUnit(Model_GetSlotDataEntry(slot, work->config->parts[0]), &matrix);
         edge = work->trail_a;

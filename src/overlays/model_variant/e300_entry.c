@@ -140,7 +140,7 @@ s32 ModelVariant752_HandleRequest(Model752State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     setPolyFT4(packet);
     if (work->config->mode == 0) {
         if (work->elapsed < work->config->tint_stop && work->tick % work->config->tint_period == 0) {

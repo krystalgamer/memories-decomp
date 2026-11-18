@@ -119,7 +119,7 @@ s32 ModelVariant805_HandleRequest(Model805State *context, s32 command)
     Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed <= work->config->charge_end) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);
         setVector(&pos, m.t[0], m.t[1], m.t[2]);

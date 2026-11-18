@@ -106,7 +106,7 @@ s32 ModelVariant786_HandleRequest(Model786State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     for (i = 0; i < work->view.s.active; i++) {
         if (work->state[i] < 2) {
             setPolyFT4(&ft4);

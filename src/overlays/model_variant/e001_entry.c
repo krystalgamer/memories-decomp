@@ -105,7 +105,7 @@ s32 ModelVariant72_HandleRequest(Model72State *context, s32 command)
     SetPolyFT4(&quad);
     SetPolyG3(&fan);
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     point = &work->points[work->row * config->columns];
     for (i = 0; i < config->columns; i++) {
         GsSetLsMatrix(&base);

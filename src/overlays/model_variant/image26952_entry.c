@@ -97,7 +97,7 @@ s32 FrenchModelVariant818_HandleRequest(Image26952State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     for (i = 0; i < state->visible; i++) {
         MATRIX *render_matrix = &matrix;
         long *render_flag = &flag;

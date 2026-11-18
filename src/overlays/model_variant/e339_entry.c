@@ -129,7 +129,7 @@ s32 ModelVariant790_HandleRequest(Model790State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed >= work->config->start && work->elapsed < work->config->end &&
         work->frames % work->config->period == 0) {
         GsSetLsMatrix(&light);

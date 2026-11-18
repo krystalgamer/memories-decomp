@@ -66,7 +66,7 @@ s32 FrenchModelVariant117_HandleRequest(Model117State *context, s32 command)
         return 0;
     }
     point = work->positions;
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     PushMatrix();
     target = work->targets;

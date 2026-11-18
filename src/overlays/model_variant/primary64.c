@@ -31,7 +31,7 @@ s32 ModelPrimary64_HandleRequest(ModelPrimary64State *context, s32 command)
     Model_GetActiveSlotIndex();
     if (command >= 0) {
         config = work->config = &gModelPrimary64_Configs[command];
-        base = *(MATRIX *)Model_GetLightSourceMatrix();
+        base = *Model_GetLightSourceMatrix();
         PushMatrix();
         point = work->points;
         part = config->parts;
@@ -52,7 +52,7 @@ s32 ModelPrimary64_HandleRequest(ModelPrimary64State *context, s32 command)
 
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     SetPolyFT4(&quad);
     quad.tpage = work->textures[1] >> 16;
     quad.clut = work->textures[1];

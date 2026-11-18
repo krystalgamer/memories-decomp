@@ -68,7 +68,7 @@ s32 ModelVariant123_HandleRequest(Model123State *context, s32 command)
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed < config->ring_delay) {
         work->elapsed += Model_GetFrameStep();
         return 0;

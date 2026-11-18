@@ -69,7 +69,7 @@ s32 ModelVariant177_HandleRequest(ModelVariantBeamParticleState *context, s32 co
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed < config->delay) {
         PushMatrix();
         GsSetLsMatrix(&base);

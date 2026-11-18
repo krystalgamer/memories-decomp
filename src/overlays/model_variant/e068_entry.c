@@ -69,7 +69,7 @@ s32 ModelVariant120_HandleRequest(Model120State *context, s32 command)
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     time = work->elapsed;
     if (time < config->delay) {
         size = ((config->delay - time) << 11) / config->delay;

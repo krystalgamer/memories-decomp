@@ -121,7 +121,7 @@ s32 ModelVariant828_HandleRequest(Model828State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     setVector(&position, 0, -350, direction * 450);
     GsSetLsMatrix(&base);
     RotTrans(&position, (VECTOR *)matrix.t, &flag);

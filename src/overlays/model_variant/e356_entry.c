@@ -129,7 +129,7 @@ s32 ModelVariant807_HandleRequest(Model807State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->flash != 0) {
         setPolyF4(&f4);
         setRGB0(&f4, work->flash, work->flash, work->flash);

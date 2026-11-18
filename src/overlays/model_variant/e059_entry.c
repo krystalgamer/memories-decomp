@@ -54,7 +54,7 @@ s32 ModelVariant111_HandleRequest(Model111State *context, s32 command)
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed < 0) {
         work->elapsed += Model_GetFrameStep();
         point = work->positions;

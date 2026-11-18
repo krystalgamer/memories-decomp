@@ -84,7 +84,7 @@ s32 ModelVariant809_HandleRequest(Model809State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed < work->config->end && work->spark_count < 64) {
         Model_CopySlotPosition(slot ^ 1, (u16 *)&position);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rotation);

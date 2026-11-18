@@ -115,7 +115,7 @@ s32 ModelVariant767_HandleRequest(Model767State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     count = work->phase;
     if (count > 2) {
         count = 2;

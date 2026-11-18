@@ -76,7 +76,7 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
 
     config = state->config;
     ot = Graphics_GetDefaultOrderingTable();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (state->elapsed < config->delay) {
         state->elapsed += Model_GetFrameStep();
         return 0;

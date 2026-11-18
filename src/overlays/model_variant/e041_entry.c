@@ -171,7 +171,7 @@ s32 ModelVariant93_HandleRequest(Model93State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     SetPolyFT4(&quad);
     SetPolyFT3(&tri);

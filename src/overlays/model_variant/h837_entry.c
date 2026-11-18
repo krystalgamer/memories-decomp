@@ -166,7 +166,7 @@ s32 ModelVariant837_HandleRequest(Model837State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     setPolyG3(g3);
     setPolyFT4(ft4);
     setPolyGT4(gt4);

@@ -55,7 +55,7 @@ s32 ModelPrimary62_HandleRequest(ModelPrimary62State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     SetPolyFT4(&quad);
     quad.tpage = work->texture >> 16;
     quad.clut = work->texture;

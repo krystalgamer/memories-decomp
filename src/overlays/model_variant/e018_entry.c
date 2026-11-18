@@ -56,7 +56,7 @@ s32 FrenchModelVariant88_HandleRequest(Family88State *context, s32 command)
     setVector(&corners[1], config->size, -config->size, 0);
     setVector(&corners[2], -config->size, config->size, 0);
     setVector(&corners[3], config->size, config->size, 0);
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     quad.tpage = work->shared.textures[0] >> 16;
     quad.clut = work->shared.textures[0];
     for (i = 0; i < config->groups; i++) {

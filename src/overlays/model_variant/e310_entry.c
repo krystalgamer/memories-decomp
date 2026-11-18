@@ -119,7 +119,7 @@ s32 ModelVariant761_HandleRequest(Model761State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->frame < 64) {
         SetPolyFT4(&ring);
         v = work->inner;

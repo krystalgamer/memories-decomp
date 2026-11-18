@@ -65,7 +65,7 @@ s32 ModelVariant64_HandleRequest(Model64State *context, s32 command)
     }
     config = work->config;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed < config->start) {
         PushMatrix();
         GsSetLsMatrix(&base);

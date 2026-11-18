@@ -120,7 +120,7 @@ s32 ModelVariant764_HandleRequest(Model764State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->flash < 8) {
         SetPolyFT4(&ft4);
         v = work->shards;

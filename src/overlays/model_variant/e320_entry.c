@@ -156,7 +156,7 @@ s32 ModelVariant771_HandleRequest(Model771State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed >= work->config->trail_start && work->elapsed <= work->config->trail_end) {
         GsGetLwUnit(Model_GetSlotDataEntry(slot, work->config->parts[0]), &m);
         v = work->trail0;

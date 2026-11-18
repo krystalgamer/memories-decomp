@@ -121,7 +121,7 @@ s32 ModelVariant823_HandleRequest(Model823State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     Model_CopySlotPosition(slot ^ 1, (u16 *)&target);
     if (work->elapsed <= work->config->end && work->count < 36) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);

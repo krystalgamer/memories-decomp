@@ -68,7 +68,7 @@ s32 FrenchModelVariant76_HandleRequest(Model76State *context, s32 command)
         return 0;
     }
     config = work->config;
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed < config->delay) {
         PushMatrix();
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);

@@ -119,7 +119,7 @@ s32 ModelVariant106_HandleRequest(Model106State *context, s32 command)
     SetPolyFT4(&quad);
     SetPolyG3(&fan);
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     time = work->elapsed;
     if (time >= 0 && time < config->fan_duration) {
         GsSetLsMatrix(&base);

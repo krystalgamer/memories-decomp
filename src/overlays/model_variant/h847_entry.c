@@ -123,7 +123,7 @@ s32 ModelVariant847_HandleRequest(Model847State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed >= work->config->delay) {
         if (work->elapsed <= work->config->first_end) {
             GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part[0]), &matrix);

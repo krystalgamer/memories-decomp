@@ -133,7 +133,7 @@ s32 ModelVariant834_HandleRequest(Model834State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     setPolyGT4(ring);
     setPolyFT4(quad);
     GsSetLsMatrix(&base);

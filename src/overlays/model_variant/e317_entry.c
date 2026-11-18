@@ -164,7 +164,7 @@ s32 ModelVariant768_HandleRequest(Model768State *context, s32 command)
     }
     Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed < work->config->delay) {
         work->elapsed += step;
         PopMatrix();

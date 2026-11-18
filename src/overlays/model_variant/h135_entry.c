@@ -119,7 +119,7 @@ s32 ModelVariant135_HandleRequest(Model135State *context, s32 command)
     config = work->config;
     point = work->sparks;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     PushMatrix();
     target = work->targets;
     SetPolyFT4(&quad);

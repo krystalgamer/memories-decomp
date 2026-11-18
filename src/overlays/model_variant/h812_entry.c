@@ -94,7 +94,7 @@ s32 FrenchModelVariant829_HandleRequest(Model829State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     for (i = 0; i < work->status.fields.active; i++) {
         if ((work->red[i] || work->green[i] || work->blue[i]) && !work->status.fields.states[i]) {
             setPolyFT4(&quad);

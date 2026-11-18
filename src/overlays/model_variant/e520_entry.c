@@ -108,7 +108,7 @@ s32 ModelVariant843_HandleRequest(Model843State *context, s32 command)
 
     setPolyFT4(packet);
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->config->sparks == 1) {
         if (work->elapsed < work->config->emit_end) {
             GsSetLsMatrix(&base);

@@ -174,7 +174,7 @@ s32 ModelVariant785_HandleRequest(Model785State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
 
     setPolyFT4(&puff);
     puff.tpage = work->texture[4] >> 16;

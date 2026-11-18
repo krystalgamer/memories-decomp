@@ -68,7 +68,7 @@ s32 FrenchModelVariant173_HandleRequest(Model173State *context, s32 command)
     config = work->config;
     point = work->positions;
     ot = Graphics_GetDefaultOrderingTable();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     PushMatrix();
     offset = work->offsets;
     SetPolyFT4(&quad);

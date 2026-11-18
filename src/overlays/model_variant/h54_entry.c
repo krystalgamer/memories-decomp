@@ -80,7 +80,7 @@ s32 ModelVariant54_HandleRequest(Model54State *context, s32 command)
     SetPolyGT4(&strip);
     w = work->sparks;
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsSetLsMatrix(&base);
     quad.tpage = work->texture >> 16;
     quad.clut = work->texture;
@@ -257,7 +257,7 @@ s32 ModelVariant54_HandleRequest(Model54State *context, s32 command)
         quad.clut = work->textures[2];
         Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&from);
         for (j = s; j < config->rings; j++) {
-            base = *(MATRIX *)Model_GetLightSourceMatrix();
+            base = *Model_GetLightSourceMatrix();
             GsSetLsMatrix(&base);
             n = config->height * (work->elapsed - config->start) / 20;
             n = n >= 0 ? (n > config->height ? config->height : n) : 0;

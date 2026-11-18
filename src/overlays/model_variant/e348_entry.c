@@ -176,7 +176,7 @@ s32 ModelVariant799_HandleRequest(Model799State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if ((work->head == 0 && work->u.timers.elapsed >= work->config->start[0]) ||
         (work->head == 1 && work->u.timers.elapsed >= work->config->start[1]) ||
         (work->head == 2 && work->u.timers.elapsed >= work->config->start[2]) ||

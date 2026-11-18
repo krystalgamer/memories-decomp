@@ -112,7 +112,7 @@ s32 ModelVariant751_HandleRequest(Model751State *context, s32 command)
     }
 
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     if (work->elapsed <= work->config->launch_time) {
         GsGetLwUnit(Model_GetSlotDataEntry(slot, work->config->part), &m);
         setVector(&position, m.t[0], m.t[1], m.t[2]);

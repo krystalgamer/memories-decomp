@@ -163,7 +163,7 @@ s32 ModelVariant759_HandleRequest(Model759State *context, s32 command)
 
     v = work->glow;
     PushMatrix();
-    light = *(MATRIX *)Model_GetLightSourceMatrix();
+    light = *Model_GetLightSourceMatrix();
     SetPolyFT4(&glow);
     SetPolyFT4(&flash);
     SetPolyG4(&wave);

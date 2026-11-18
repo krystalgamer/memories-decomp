@@ -116,7 +116,7 @@ s32 ModelVariant766_HandleRequest(Model766State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     if (work->elapsed < work->config->trail_duration && work->trail_count < 32) {
         GsGetLwUnit(Model_GetSlotDataEntry(slot, work->config->first_part), &matrix);
         point = work->trail_first;

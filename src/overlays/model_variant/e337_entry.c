@@ -148,7 +148,7 @@ s32 ModelVariant788_HandleRequest(Model788State *context, s32 command)
         return 0;
     }
     PushMatrix();
-    base = *(MATRIX *)Model_GetLightSourceMatrix();
+    base = *Model_GetLightSourceMatrix();
     GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &matrix);
     position.vx = matrix.t[0];
     position.vy = matrix.t[1];
