@@ -1946,8 +1946,9 @@ attempt, inferred caller or merged pointer lifetime.
 SD_SetMusicTrackBuffer names its SDMusicPackage *track_buffer argument.
 SD_ResetMusicTrackBuffer names default_track_buffer. Both still reset
 music state first, preserve the fixed fallback and 0xFFFF sentinel,
-and keep all global accesses. The reset retains its measured void**
-member-address store, not a direct assignment or a u16** substitution.
+and keep all global accesses. With the member typed as SDMusicPackage *,
+the reset's direct assignment matches; the old void** member-address
+store is no longer needed.
 
 SD_VabTransBody names source_address, expected_token,
 saved_source_address, transfer_state, current_token and transfer.
