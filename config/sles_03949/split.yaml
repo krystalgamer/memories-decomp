@@ -68,8 +68,7 @@ segments:
       - [0x838, .rodata, game/file_setup]
       - [0x843, pad]
       - [0x844, .rodata, game/file_transfer_runtime]
-      - {start: 0x860, type: bin, name: german_raw_80010060, linker_section_order: .rodata}
-      - [0x8B0, .rodata, game/duel_scene]
+      - [0x860, .rodata, game/duel_scene]
       - {start: 0x9D8, type: bin, name: german_raw_800101d8, linker_section_order: .rodata}
       - [0x9EC, .rodata, game/library]
       - [0xA34, .rodata, game/main_mode_runners]
@@ -90,7 +89,7 @@ segments:
       - [0x1F84, .rodata, game/model_primitive_handler]
       - [0x1FFB, pad]
       - [0x1FFC, .rodata, game/main_menu_load_package_stage]
-      - {start: 0x2020, type: bin, name: german_raw_80011820, linker_section_order: .rodata}
+      - [0x2020, .rodata, game/model_effect_handlers]
       - [0x2060, .rodata, game/ai_script]
       - {start: 0x20BC, type: bin, name: german_raw_800118bc, linker_section_order: .rodata}
       - [0x30CC, asm, generated/german_800128cc]

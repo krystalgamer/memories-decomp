@@ -258,6 +258,22 @@ DuelHandSlot gDuelHand_aSlots[HAND_SIZE];
 ScreenPair gDuel_aCardSlotScreenPositions[DUEL_SCREEN_CARD_POSITION_COUNT];
 DuelEffectResourceRecord gCardPreview_Resources[4];
 
+#ifndef DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION
+#define DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION 1
+#endif
+
+/* The unit's leading read-only data (#2602). Retail keeps these strings
+ * ahead of every duel_scene jump table, so they are defined before the
+ * first function rather than written as literals, which would follow the
+ * tables of the earlier functions. PAL builds make no invalid-selection
+ * printf and have no gDuel_szComSelCardError. */
+#if DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION
+const char gDuel_szComSelCardError[] = "Com Error SelCard\n";
+#endif
+const char gDebugEffect_szOperandsFormat[] = "~c0702D EFFECT = %2d %2d\n";
+const char gDebugEffect_szSecondOperandMarker[] = "               **\n~c777";
+const char gDebugEffect_szFirstOperandMarker[] = "            **\n~c777";
+
 /* Volatile scratchpad stores preserve retail ordering around the official
  * Psy-Q RTPS macros. The scratchpad word is the SVECTOR gte_ldv0 loads, and
  * the qualifier lives on that pointer, so its three stores are plain member
@@ -4419,10 +4435,6 @@ int Duel_CheckQuitInput(void)
     ((gDuel_adwCardStats[(id) - 1] >> CARD_STAT_TYPE_SHIFT) & \
      CARD_STAT_TYPE_MASK)
 
-#ifndef DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION
-#define DUEL_HAND_ACTIONS_LOG_INVALID_AI_SELECTION 1
-#endif
-
 #ifdef VERSION_JAPAN
 /* The Japanese build cancels with Cross, confirms with Circle or Square, and
  * reads the card viewer's cell from the side's own column and row. */
@@ -7760,9 +7772,6 @@ void DuelScene_UpdateResultRewards(void)
 u8 gDebugEffect_bEditedOperand = 0;
 u8 gDebugEffect_abOperands[2] = {0};
 u8 gDebugEffect_bPage = 0;
-/* "~c0702D EFFECT = %2d %2d\n" */
-/* "               **\n~c777\0" */
-/* "            **\n~c777\0" */
 
 /* Held, the first speeds up the orbit and view steps and the second the
  * movement. The Japanese release swaps Cross and Circle, so a regional build

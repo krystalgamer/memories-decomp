@@ -29,9 +29,6 @@ gFile_pDuelBankBase = 0x800101DC;
 gFile_pBootTextStage5Destination = 0x800101E0;
 gFile_pBootTextStage6Destination = 0x800101E4;
 gFile_pBootTextStage7Destination = 0x800101E8;
-gModel_DiscEffectInitialScale = 0x80011830;
-gModel_BurstEffectInitialScale = 0x80011840;
-gModel_SparkEffectInitialScale = 0x80011850;
 D_8009B268 = 0x8009C60C;
 gMain_bReturnMode = 0x8009C60D;
 gMain_bActiveModeState = 0x8009C60A;
@@ -391,7 +388,6 @@ gDuel_bOpponentID = 0x8009C6F3;
 gDuel_bTerrain = 0x8009C6F9;
 gDuel_wBgmId = 0x8009C6EA;
 gDuel_wSelectedCardID = 0x8009C6B8;
-gModel_SubdividedEffectInitialScale = 0x80011820;
 gText_WaitCounter = 0x8009C6DC;
 gText_PageAdvanceHoldCountdown = 0x8009C6DE;
 gText_ShakeViewportOrigin = 0x8009C6C4;
@@ -484,9 +480,6 @@ AiScript_LoadSelectionRandom = AiScript_LoadHandFaceDownRequest;
 
 /* The startup code clears bss from the first small zero-initialized object. */
 bss_start = main_SBSS_START;
-gDebugEffect_szOperandsFormat = 0x80010060;
-gDebugEffect_szSecondOperandMarker = 0x8001007C;
-gDebugEffect_szFirstOperandMarker = 0x80010094;
 gText_DecimalDivisorView = 0x80092248;
 gTextBox_apfnStateCallbacks = 0x80092270;
 gDuelEffect_nCompactionRequested = 0x8009C6E4;

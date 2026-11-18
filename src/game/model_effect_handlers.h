@@ -39,9 +39,9 @@ typedef char ModelSubdividedEffect_size_must_be_0x1318[
 ];
 #endif
 
-extern VECTOR gModel_SubdividedEffectInitialScale;
-extern VECTOR gModel_BurstEffectInitialScale;
-extern VECTOR gModel_SparkEffectInitialScale;
+extern const VECTOR gModel_SubdividedEffectInitialScale;
+extern const VECTOR gModel_BurstEffectInitialScale;
+extern const VECTOR gModel_SparkEffectInitialScale;
 
 s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode);
 
@@ -87,7 +87,7 @@ typedef struct {
 } ModelDiscEffectState;
 
 /* Sixteen bytes of rodata copied whole into the handler's scale vector. */
-extern VECTOR gModel_DiscEffectInitialScale;
+extern const VECTOR gModel_DiscEffectInitialScale;
 
 /* Particle state for Model_UpdateBurstEffect, a handler in the gModel_apfnEffectHandlers model effect
  * table. Three expanding rings, 64 dust particles, 32 sparks with drift and

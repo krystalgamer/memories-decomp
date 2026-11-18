@@ -79,6 +79,12 @@ ModelBurstPalette gModel_BurstRingPalette = {
 #define CLAMP(value, lower, upper) \
     ((value) < (lower) ? (lower) : ((value) > (upper) ? (upper) : (value)))
 
+/* The handlers' read-only data (#2602): each handler's unit-scale VECTOR
+   {ONE, ONE, ONE, 0}, emitted ahead of its reader. The subdivided effect's
+   scale precedes the printf format of its size trace, the other three follow
+   it; the European build, which has no trace, keeps the four back to back. */
+const VECTOR gModel_SubdividedEffectInitialScale = { ONE, ONE, ONE, 0 };
+
 s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
 {
     MATRIX base;
@@ -510,6 +516,8 @@ void Triplet_AverageComponents(u8 *out, u8 *a, u8 *b)
     out[0]=(a[0]+b[0])/2; out[1]=(a[1]+b[1])/2; out[2]=(a[2]+b[2])/2;
 }
 
+const VECTOR gModel_DiscEffectInitialScale = { ONE, ONE, ONE, 0 };
+
 s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
 {
     ModelDiscEffectState *e;
@@ -679,6 +687,8 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
 #ifndef MODEL_BURST_CLUT
 #define MODEL_BURST_CLUT 0x3D20
 #endif
+
+const VECTOR gModel_BurstEffectInitialScale = { ONE, ONE, ONE, 0 };
 
 /*
  * A burst handler in the gModel_apfnEffectHandlers model effect table. With a non-negative
@@ -1242,6 +1252,8 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
 
 #define RAND_SPREAD(n) ((rand() - rand()) % 4096 * (n) / 4096)
 #define RAND_DROP(n) (-(rand() % 4096 * (n)) / 4096)
+
+const VECTOR gModel_SparkEffectInitialScale = { ONE, ONE, ONE, 0 };
 
 s32 Model_UpdateSparkEffect(void *data, s32 request)
 {

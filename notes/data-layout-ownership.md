@@ -202,7 +202,12 @@ object order. A file-scope `const` object larger than the `-G` threshold is
 emitted at its definition point, ahead of the literals and jump tables of
 the functions after it, so a table that retail places before a unit's other
 read-only data is defined, with its initializer, before those functions.
-`text_helpers.c` owns its Shift-JIS digit keys this way. Every label still
+`text_helpers.c` owns its Shift-JIS digit keys this way, and
+`model_effect_handlers.c` its four scale vectors: the subdivided effect's
+precedes the size-trace `printf` format its handler emits, the disc, burst
+and spark ones follow it (the European build has no trace, so its four are
+contiguous). `duel_scene.c` defines its four debug strings before its first
+function so they lead its jump tables. Every label still
 in the `initial_data*` blobs up to `0x800119A8` is read only by game units;
 from `0x800119A8` on, the blob is Psy-Q's.
 

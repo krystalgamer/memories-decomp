@@ -3,8 +3,6 @@
 /* Conditional runtime imports; the definitions live in the password image. */
 /* Conditional runtime imports; the function definitions live in main_menu. */
 gFile_pScreenBankBase = 0x800101D8;
-gModel_SubdividedEffectInitialScale = 0x8001185C;
-gModel_DiscEffectInitialScale = 0x8001187C;
 func_80024060 = 0x80024060;
 func_80024088 = 0x80024088;
 func_80029EB0 = 0x80029EB0;

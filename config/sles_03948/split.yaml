@@ -61,9 +61,6 @@ segments:
     - .rodata
     - game/file_transfer_runtime
   - - 2144
-    - rodata
-    - initial_data_860
-  - - 2224
     - .rodata
     - game/duel_scene
   - - 2520
@@ -123,8 +120,8 @@ segments:
     - .rodata
     - game/main_menu_load_package_stage
   - - 8224
-    - rodata
-    - initial_data_2020
+    - .rodata
+    - game/model_effect_handlers
   - - 8288
     - .rodata
     - game/ai_script
