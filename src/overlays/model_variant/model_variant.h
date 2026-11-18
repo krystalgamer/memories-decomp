@@ -716,14 +716,6 @@ typedef struct {
     u8 unknown_38[8];
 } ModelVariantPairedSheetTiming;
 
-/* One 0x3A8-byte record of the array at work + 0xED0 of header 427, read by
- * the mesh and panel helpers only for its progress at + 0x240. */
-typedef struct {
-    u8 unknown_000[0x240];
-    s32 progress;
-    u8 unknown_244[0x164];
-} ModelVariantProgressRecord;
-
 /* One 0x90-byte fan record: a centre point and two rings of five points
  * (point[0], point[1..5], point[6..10]), four quad corners, the inner and
  * outer colours, the growing size and a done flag. The fan drawers use the

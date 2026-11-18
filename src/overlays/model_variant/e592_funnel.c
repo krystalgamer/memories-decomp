@@ -1,12 +1,12 @@
 #include "../../types.h"
 
-#include "e592_funnel.h"
+#include "e592_entry_pal.h"
 
-/* One funnel of seventeen-point rings at the position at +0x20C8: an inner ring
+/* One funnel of seventeen-point rings at aim.target: an inner ring
  * of a fixed radius and an outer ring 160 plus the flicker wider, set back by 256
  * plus the flicker, drawn as sixteen POLY_GT4 quads scaled by the size word.
- * From phase 5 the colours fade with +0x2138; the rings spin by step * 80. */
-void SpanishModelVariant426_DrawFunnel(Funnel426State *context)
+ * From phase 5 the colours fade with intensity; the rings spin by step * 80. */
+void SpanishModelVariant426_DrawFunnel(EntryState426 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -15,7 +15,7 @@ void SpanishModelVariant426_DrawFunnel(Funnel426State *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Funnel426State *state = context;
+    EntryState426 *state = context;
     ModelVariantSheet *sheet;
     ModelVariantFunnel *funnel;
     POLY_GT4 *quad;
@@ -37,17 +37,17 @@ void SpanishModelVariant426_DrawFunnel(Funnel426State *context)
     } while (0);
     ot = Graphics_GetDefaultOrderingTable();
     funnel = state->funnels;
-    turn = ratan2(state->direction[2], state->direction[0]);
+    turn = ratan2(state->aim.direction.vz, state->aim.direction.vx);
     yaw = turn + 0x800;
-    pitch = ratan2(state->direction[1], state->direction[2]);
-    quad = &state->quad;
+    pitch = ratan2(state->aim.direction.vy, state->aim.direction.vz);
+    quad = &state->funnel_packet;
     pitch += 0x800;
     if (yaw < 0x800) {
         yaw = -yaw + 0x400;
     } else {
         yaw = turn + 0xC00;
     }
-    bias = ((state->frame & 1) << 5) * sheet[1].size / 4096;
+    bias = (((s32)state->clock.frame_count & 1) << 5) * sheet[1].size / 4096;
     radius = rsin(2048) * 512 >> 12;
     for (i = 0; i < 1; i++, funnel++) {
         if (state->size > 0) {
@@ -63,9 +63,9 @@ void SpanishModelVariant426_DrawFunnel(Funnel426State *context)
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;
-            matrix.t[0] = state->position[0];
-            matrix.t[1] = state->position[1] - (rcos(2048) * 512 >> 12);
-            matrix.t[2] = state->position[2];
+            matrix.t[0] = state->aim.target.vx;
+            matrix.t[1] = state->aim.target.vy - (rcos(2048) * 512 >> 12);
+            matrix.t[2] = state->aim.target.vz;
             scale.vx = size;
             scale.vy = size;
             scale.vz = size;
@@ -77,19 +77,19 @@ void SpanishModelVariant426_DrawFunnel(Funnel426State *context)
             GsGetLs(&coordinate, &light);
             GsSetLsMatrix(&light);
             if (state->phase >= 5) {
-                r = state->inner_color.r * state->fade / 1024;
-                g = state->inner_color.g * state->fade / 1024;
-                b = state->inner_color.b * state->fade / 1024;
-                outer_r = state->outer_color.r * state->fade / 1024;
-                outer_g = state->outer_color.g * state->fade / 1024;
-                outer_b = state->outer_color.b * state->fade / 1024;
+                r = state->inner.r * state->intensity / 1024;
+                g = state->inner.g * state->intensity / 1024;
+                b = state->inner.b * state->intensity / 1024;
+                outer_r = state->outer.r * state->intensity / 1024;
+                outer_g = state->outer.g * state->intensity / 1024;
+                outer_b = state->outer.b * state->intensity / 1024;
             } else {
-                r = state->inner_color.r;
-                g = state->inner_color.g;
-                b = state->inner_color.b;
-                outer_r = state->outer_color.r;
-                outer_g = state->outer_color.g;
-                outer_b = state->outer_color.b;
+                r = state->inner.r;
+                g = state->inner.g;
+                b = state->inner.b;
+                outer_r = state->outer.r;
+                outer_g = state->outer.g;
+                outer_b = state->outer.b;
             }
             setRGB0(quad, r, g, b);
             setRGB1(quad, r, g, b);
@@ -107,5 +107,5 @@ void SpanishModelVariant426_DrawFunnel(Funnel426State *context)
             }
         }
     }
-    state->spin += state->step * 80;
+    state->spin += state->clock.step * 80;
 }
