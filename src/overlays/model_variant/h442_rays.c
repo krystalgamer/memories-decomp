@@ -1,8 +1,8 @@
 #include "../../types.h"
-#include "h442_rays.h"
+#include "h442_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant459_DrawRays(Rays459State *context)
+void SpanishModelVariant459_DrawRays(Variant459EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,10 +11,10 @@ void SpanishModelVariant459_DrawRays(Rays459State *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Rays459State *state = context;
+    Variant459EntryState *state = context;
     ModelVariantOffsetRay *ray = state->rays;
-    ModelVariantPulse *pulse = &state->pulse;
-    POLY_G3 *triangle = &state->triangle;
+    ModelVariantSheet *pulse = &state->sheets[0];
+    POLY_G3 *triangle = &state->packets.triangle;
     GsOT *ot;
     s16 i, j;
     s16 angle, radius, width;
@@ -23,16 +23,16 @@ void SpanishModelVariant459_DrawRays(Rays459State *context)
     s32 dx, dy;
 
     ot = Graphics_GetDefaultOrderingTable();
-    axis_angle = ratan2(state->direction_b[2], state->direction_b[0]) + 3072;
-    ratan2(state->direction_b[1], state->direction_b[0]);
-    tilt = ratan2(state->direction[2], state->direction[1]) + 1024;
-    ratan2(state->direction[2], state->direction[0]);
-    if (state->mirror == 1) {
+    axis_angle = ratan2(state->aim.view_delta.vz, state->aim.view_delta.vx) + 3072;
+    ratan2(state->aim.view_delta.vy, state->aim.view_delta.vx);
+    tilt = ratan2(state->aim.direction.vz, state->aim.direction.vy) + 1024;
+    ratan2(state->aim.direction.vz, state->aim.direction.vx);
+    if (state->slot == 1) {
         axis_angle = -axis_angle;
     }
     width = 16;
-    flags = state->frame;
-    for (i = 0, angle = state->angle; i < 8; i++, angle = state->angle + i * 512, ray++) {
+    flags = state->clock.frame_count;
+    for (i = 0, angle = state->ray_angle; i < 8; i++, angle = state->ray_angle + i * 512, ray++) {
         for (j = 0; j < 2; j++) {
             radius = 150;
             if (j == 0) {
@@ -49,9 +49,9 @@ void SpanishModelVariant459_DrawRays(Rays459State *context)
     rotation.vx = tilt;
     rotation.vy = 0;
     rotation.vz = 0;
-    matrix.t[0] = state->origin[0] + state->direction[0] * state->progress / 1024;
-    matrix.t[1] = state->origin[1] + state->direction[1] * state->progress / 1024;
-    matrix.t[2] = state->origin[2] + state->direction[2] * state->progress / 1024;
+    matrix.t[0] = state->matrices[0].t[0] + state->aim.direction.vx * state->progress / 1024;
+    matrix.t[1] = state->matrices[0].t[1] + state->aim.direction.vy * state->progress / 1024;
+    matrix.t[2] = state->matrices[0].t[2] + state->aim.direction.vz * state->progress / 1024;
     scale.vx = pulse->size;
     scale.vy = pulse->size;
     scale.vz = pulse->size;
@@ -102,7 +102,7 @@ void SpanishModelVariant459_DrawRays(Rays459State *context)
             }
         }
     }
-    if (state->index + 1 == state->timing->count) {
-        state->angle += state->step * 32;
+    if (state->index + 1 == state->config->count) {
+        state->ray_angle += state->clock.step * 32;
     }
 }
