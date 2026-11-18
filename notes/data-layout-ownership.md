@@ -577,9 +577,11 @@ Italian and Spanish (`pad`) but stray bytes in North America and English PAL
 (raw `bin`). `contour_burst_effects.c` then defines, in definition order,
 `gDuelEffect_ParticleContourBurstConfigs` (two `DuelEffect18Config`, 0x3C
 bytes, `+0x15144`) and `gDuelEffect_ContourBurstConfigs` (thirty
-`DuelEffect0Config`, 0x258 bytes, `+0x15180`). The run ends at North America
-`+0x153D8` (Japan `-0x40`, PAL `-0xCC`), where the raw `data` subsegment
-resumes.
+`DuelEffect0Config`, 0x258 bytes, `+0x15180`), and `effect_6.c` defines
+`gDuelEffect_DirectDamageConfigs` (six `DuelEffect6Config`, 0xB4 bytes,
+`+0x153D8`). In Japan and PAL that run reaches `effect_drawing.c`'s `.data`
+(Japan `+0x1544C`, PAL `+0x153C0`), so their first raw `data` subsegment is
+gone; North America's resumes at `+0x1548C`.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in
