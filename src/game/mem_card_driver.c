@@ -285,7 +285,7 @@ s32 MemCard_FindFiles(s32 chan, const char *pattern, struct DIRENTRY *cursor,
             count++;
         }
     } while (count < MEM_CARD_BLOCK_COUNT);
-    if (out_count != (s32 *)0)
+    if (out_count != 0)
         *out_count = count;
     return count;
 }

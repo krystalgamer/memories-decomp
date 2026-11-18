@@ -28,7 +28,7 @@ extern s16 gLibGs_sActiveBufferIndex;
  * section attribute keeps. Movie_OnDecodeOutput is its only C consumer. */
 extern s32 gLibCd_nDeferredStreamInterrupt;
 
-s32 File_Exists(const char *path, CdlFILE *file);
+s32 File_Exists(char *path, CdlFILE *file);
 s32 Movie_StepPlayback(void);
 s32 Movie_MoveDisplayImage(s32 first, s32 second);
 
@@ -200,7 +200,7 @@ void Movie_OpenIndexedStream(
  * unchanged. Returns -1 when the file is not found, otherwise
  * Movie_OpenStream's result. */
 s32 Movie_StartFileStream(
-    const char *path,
+    char *path,
     s32 start_frame,
     s32 end_frame,
     s32 rgb24,
