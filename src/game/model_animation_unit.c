@@ -264,7 +264,9 @@ u32 *Model_UpdateAnimationUnit(GsARGUNIT_ANIM *ctx)
     u32 active_frames;
     u32 *unit_words;
 
-    /* The SDK leaves primp/htop/ctop as unsigned long * word blocks. */
+    /* The SDK leaves primp/htop/ctop as unsigned long * word blocks. A
+       {word_count, sequence_count} header struct read once into a local
+       moves the primp load from $2 to $3 here. */
     cursor = (GsSEQ *)((GsSEH *)ctx->primp + 1);
     handler_words = (ModelAnimationHandler *)ctx->htop;
     commands = (ModelSeqDescriptor *)ctx->ctop;

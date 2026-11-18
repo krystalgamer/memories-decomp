@@ -39,6 +39,59 @@ typedef char ModelSubdividedEffect_size_must_be_0x1318[
 ];
 #endif
 
+/* The SDK primitives these effects build on the stack, paired with their
+   word layout: RotAverageNclip3 and RotAverage4 store each screen x/y pair
+   through a long *, the word the xyN members name. */
+typedef union {
+    POLY_G3 prim;
+    struct {
+        u32 tag;
+        u32 rgb0;
+        long xy0;
+        u32 rgb1;
+        long xy1;
+        u32 rgb2;
+        long xy2;
+    } w;
+} ModelEffectG3Packet;
+
+typedef union {
+    POLY_FT4 prim;
+    struct {
+        u32 tag;
+        u32 rgb0;
+        long xy0;
+        u32 uv0;
+        long xy1;
+        u32 uv1;
+        long xy2;
+        u32 uv2;
+        long xy3;
+        u32 uv3;
+    } w;
+} ModelEffectFt4Packet;
+
+typedef union {
+    POLY_G4 prim;
+    struct {
+        u32 tag;
+        u32 rgb0;
+        long xy0;
+        u32 rgb1;
+        long xy1;
+        u32 rgb2;
+        long xy2;
+        u32 rgb3;
+        long xy3;
+    } w;
+} ModelEffectG4Packet;
+
+typedef char ModelEffectPackets_match_sdk_sizes[
+    sizeof(ModelEffectG3Packet) == sizeof(POLY_G3) &&
+    sizeof(ModelEffectFt4Packet) == sizeof(POLY_FT4) &&
+    sizeof(ModelEffectG4Packet) == sizeof(POLY_G4) ? 1 : -1
+];
+
 extern const VECTOR gModel_SubdividedEffectInitialScale;
 extern const VECTOR gModel_BurstEffectInitialScale;
 extern const VECTOR gModel_SparkEffectInitialScale;
