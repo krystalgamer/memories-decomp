@@ -8,8 +8,8 @@ object. The local already has that actual type. Its public return now keeps
 the type through `u8 *`; neither the pool API nor the three scalar arguments
 changes.
 
-All observed game callers already cast to `DisplayObject *`. Password keeps
-its existing explicit `PasswordCardPreviewView *` cast. No caller or overlay
+All observed game callers already cast to `DisplayObject *`. Password now
+stores the result directly in its `DisplayObject *` preview pointer. No caller or overlay
 implementation needs changing, and deliberate narrower/configuration views
 are not replaced. No function-pointer consumers were found.
 

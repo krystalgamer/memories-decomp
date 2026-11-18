@@ -65,11 +65,12 @@
  * combine the drawing fields with the ones the keyboard tween needs.
  * NameEntrySelectionFrameView is an alias of this same central contract.
  *
- * NameEntry_Init stores +0x30, +0x32, +0x3C, +0x3E and +0x4C through the u8
- * pointer DisplayObject_AcquireSlot returned, then stores that pointer here with a cast.
- * NameEntry_UpdateKeyboard reads and writes x, y, width, widthBonus and timer
- * and writes stepX and stepY. NameEntry_SpawnGlyphSprite reads x and y.
- * The drawing callback additionally constrains priority and height.
- * ygo_types.h defines the combined SelectionFrame; the observed prefix is
- * not a claim about the complete display-object allocation. */
+ * NameEntry_Init stores +0x30, +0x32, +0x3C, +0x3E and +0x4C through the
+ * DisplayObject it acquired and publishes that object in
+ * gNameEntry_pSelectionFrame (a DisplayObject *). NameEntry_UpdateKeyboard
+ * moves it through the record's own members: xy.s, field_3C.size.w (width),
+ * resource_uv.b.u (width bonus), field_60 (timer) and the motion velocities.
+ * NameEntry_SpawnGlyphSprite reads xy.s. Only the drawing callback keeps
+ * the SelectionFrame view in ygo_types.h, which additionally constrains
+ * priority and height; it is not a claim about the complete allocation. */
 #endif

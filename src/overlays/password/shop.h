@@ -8,11 +8,6 @@
 #include "module_state.h"
 #include "../../game/file_staging_buffer.h"
 
-/* The digit cursor's record, as the cursor helpers, shop updater and
- * initializer describe it between them. Their former private views never
- * disagreed about a byte -- they named different ones -- so this is their
- * union rather than a new claim, and the padding keeps every named field at
- * the offset its own function already used. */
 /* Shop/password-entry state. Every password-shop function lives in shop.c
  * and uses these shared declarations, Password_UpdateShopScreen (0x8016A37C)
  * included: it is matched there in C, and its former candidate is retired.
@@ -23,12 +18,11 @@
  *                          per-step progress flags; the starchip deduction
  *                          counts down in gPassword_dwPriceRemaining.
  *
- * gPassword_pDigitCursorWidget IS here, above, as PasswordCursorView *.
- * This paragraph used to say it was not, and to give three conflicting
- * spellings as the reason; the declaration was added later and the
- * paragraph was left behind, so the header asserted the opposite of what it
- * did. `shop.c` owns the cursor helpers, the initializer and the updater,
- * so every password-shop user consumes the shared view. */
+ * gPassword_pDigitCursorWidget is declared in module_state.h as a
+ * DisplayObject *. `shop.c` owns the cursor helpers, the initializer and the
+ * updater, and reaches the cursor through the record's own members: its
+ * spin in field_20.b.rotation_z, its slide target in field_18.target, the
+ * timer in field_60 and the slide flag in update_state. */
 
 /* The password shop's view of the 0x801A8000 staging buffer: while this
  * screen runs it holds one record per card id, the card's price in
@@ -52,7 +46,7 @@ extern u8 gPassword_szDigits[];
 DuelEffectChannel *Password_CreateMessageBox(s32 messageId, s32 flags);
 void Password_InitShopScreen(void);
 void Password_UpdateShopScreen(void);
-void Password_UpdateDigitCursor(PasswordCursorView *object);
+void Password_UpdateDigitCursor(struct DisplayObject *object);
 void Password_UpdateDigitCursorDecoration(struct DisplayObject *object);
 /* Retain caller setup; the selected card comes from cached slot 0. */
 void Password_RecreateCardPreview(s32 ignored);
@@ -63,7 +57,7 @@ void Password_RefreshDigitDisplay(void);
 void Password_RefreshStarchipDisplay(void);
 
 /* Points the digit cursor at `object` and starts its slide towards it. */
-void Password_SetDigitCursorTarget(u8 *object);
+void Password_SetDigitCursorTarget(struct DisplayObject *object);
 
 /* Resolves the eight entered digits to a card id, or 0 when they do not
    match any password. */

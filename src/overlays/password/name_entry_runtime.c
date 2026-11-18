@@ -96,36 +96,36 @@ void NameEntry_DrawSelectionFrame(NameEntrySelectionFrameView *r, GsOT *ot)
     poly->y2 = y - 1;
     poly->y1 = y - 1;
     poly->y0 = y + 3;
-    Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket(poly, ot, (u16)pri, 1);
     right = x + w;
     poly->x1 = right + 1;
     poly->x0 = right + 1;
     poly->x2 = right - 3;
-    Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket(poly, ot, (u16)pri, 1);
     poly->y2 = y + h + 1;
     poly->y1 = y + h + 1;
     poly->y0 = y + h - 3;
-    Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket(poly, ot, (u16)pri, 1);
     poly->x1 = xm1;
     poly->x0 = xm1;
     poly->x2 = xp3;
-    Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket(poly, ot, (u16)pri, 1);
     line->x1 = x + (w >> 1);
     line->x0 = x + (w >> 1);
     line->y0 = y + 2;
     line->y1 = 0;
-    Graphics_SubmitDrawModePacket((u32 *)line, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket(line, ot, (u16)pri, 1);
     line->y0 = y + h - 2;
     line->y1 = 192;
-    Graphics_SubmitDrawModePacket((u32 *)line, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket(line, ot, (u16)pri, 1);
     line->y1 = y + (h >> 1);
     line->y0 = y + (h >> 1);
     line->x0 = x + 2;
     line->x1 = 0;
-    Graphics_SubmitDrawModePacket((u32 *)line, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket(line, ot, (u16)pri, 1);
     line->x0 = right - 2;
     line->x1 = 320;
-    Graphics_SubmitDrawModePacket((u32 *)line, ot, (u16)pri, 1);
+    Graphics_SubmitDrawModePacket(line, ot, (u16)pri, 1);
 }
 
 void NameEntry_Init(void)
@@ -206,7 +206,7 @@ void NameEntry_Init(void)
     DisplayObject_SelectOrderingTable1(obj);
     DisplayObject_SetDepthOffset(obj, 10);
     obj->field_4C.draw = (DisplayObjectDrawCallback)NameEntry_DrawSelectionFrame;
-    gNameEntry_pSelectionFrame = (SelectionFrame *)obj;
+    gNameEntry_pSelectionFrame = obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
 #ifdef VERSION_EUROPE
     DisplayObject_ConfigureScreenSprite(obj, 107, 199, 32, 32, 144, 128, 23, 640, 224);
@@ -218,7 +218,7 @@ void NameEntry_Init(void)
     obj->attribute = obj->attribute | GsALON;
     DisplayObject_SelectOrderingTable1(obj);
     DisplayObject_SetDepthOffset(obj, 10);
-    gNameEntry_pCaret = (u8 *)obj;
+    gNameEntry_pCaret = obj;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 3);
 #ifdef VERSION_EUROPE
     DisplayObject_ConfigureScreenSprite(obj, 0, 0, 320, 256, 0, 0, 20, 640, 227);
@@ -244,6 +244,7 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
     DuelEffectEntry *node;
 #endif
 
+    /* entry_begin is declared with the US entry type. */
 #if defined(VERSION_JAPAN)
     node = (JapaneseDuelEffectEntry *)
         gText_aChannels[index].entry_begin;
@@ -255,23 +256,18 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
     node = base[index].entry_begin;
 #endif
     for (;;) {
-#ifdef VERSION_EUROPE
         if (!(node->entry_flags & 0x80)) {
-            return (DuelEffectEntry *)0;
+            return 0;
         }
         if ((s16)node->local_x == x &&
             (s16)node->local_y == y) {
+#if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
+            /* The shared prototype names the US entry; this build's differs. */
             return (DuelEffectEntry *)node;
-        }
 #else
-        if (!(((DuelEffectEntry *)node)->entry_flags & 0x80)) {
-            return (DuelEffectEntry *)0;
-        }
-        if ((s16)((DuelEffectEntry *)node)->local_x == x &&
-            (s16)((DuelEffectEntry *)node)->local_y == y) {
-            return (DuelEffectEntry *)node;
-        }
+            return node;
 #endif
+        }
         node++;
     }
 }
@@ -292,6 +288,7 @@ void NameEntry_UpdateGlyphPulse(DisplayObject *sprite)
     s16 frame;
 
 #ifdef VERSION_EUROPE
+    /* sourceGlyph is declared with the US entry type. */
     source = (EuropeanDuelEffectEntry *)obj->sourceGlyph;
 #else
     source = obj->sourceGlyph;
@@ -312,10 +309,10 @@ void NameEntry_UpdateGlyphPulse(DisplayObject *sprite)
     value = obj->frame;
     if (value >= 12) {
 #ifdef VERSION_EUROPE
-        ((DisplayObject *)obj)->update_state = 0;
-        ((DisplayObject *)obj)->update = 0;
+        obj->updateState = 0;
+        obj->update = 0;
         obj->flags |= 0x08000000;
-        if (((DisplayObject *)obj)->kind_arg.keep_after_pulse == 0) {
+        if (obj->keepAfterPulse == 0) {
             DisplayObject_ReleaseIfPresent(obj);
         }
 #else
@@ -547,7 +544,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     } else {
         DisplayObject_ConfigureScreenSprite(
             obj,
-            gNameEntry_pSelectionFrame->x, gNameEntry_pSelectionFrame->y, 16, 16, 128, 128, 23,
+            gNameEntry_pSelectionFrame->xy.s.x, gNameEntry_pSelectionFrame->xy.s.y, 16, 16, 128, 128, 23,
             256, 240
         );
     }
@@ -564,6 +561,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     DuelEffectChannel *p;
     s32 cell;
 
+    /* The shared prototype names the US entry; this build's differs. */
     node = (EuropeanDuelEffectEntry *)w;
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
     if (node != 0) {
@@ -581,14 +579,14 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     } else {
         DisplayObject_ConfigureScreenSprite(
             obj,
-            gNameEntry_pSelectionFrame->x, gNameEntry_pSelectionFrame->y, 16, 16, 128, 128, 23,
+            gNameEntry_pSelectionFrame->xy.s.x, gNameEntry_pSelectionFrame->xy.s.y, 16, 16, 128, 128, 23,
             640, 224
         );
     }
     obj->pivot = 0x80008;
     obj->textBoxSlot = slot;
     obj->sourceGlyph = w;
-    ((DisplayObject *)obj)->kind_arg.keep_after_pulse = 0;
+    obj->keepAfterPulse = 0;
     return obj;
 }
 #else
@@ -675,7 +673,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
     } else {
         DisplayObject_ConfigureScreenSprite(
             obj,
-            gNameEntry_pSelectionFrame->x, gNameEntry_pSelectionFrame->y, 16, 16, 128, 128, 23,
+            gNameEntry_pSelectionFrame->xy.s.x, gNameEntry_pSelectionFrame->xy.s.y, 16, 16, 128, 128, 23,
             256, 240
         );
     }
@@ -700,7 +698,7 @@ s32 NameEntry_AdjustLength(s32 delta, s32 tween_frames)
         }
     }
     gNameEntry_bCaretPos += delta;
-    object = (DisplayObject *)gNameEntry_pCaret;
+    object = gNameEntry_pCaret;
     object->field_44.target.x = gNameEntry_bCaretPos * 16 + 0x6B;
     object->update = NameEntry_UpdateCaretTween;
     object->update_state = 2;
@@ -735,10 +733,10 @@ void NameEntry_UpdateKeyboard(void)
 {
 #ifdef VERSION_EUROPE
     s32 work;
-    SelectionFrame *w;
+    DisplayObject *w;
     DisplayObject *object;
 #else
-    SelectionFrame *w;
+    DisplayObject *w;
     s32 work;
 #endif
     s8 *glyphTable;
@@ -754,6 +752,8 @@ void NameEntry_UpdateKeyboard(void)
     s32 row;
     DuelEffectEntry *node;
 #ifndef VERSION_EUROPE
+    /* One local for the cell table and the spawned sprites: split into typed
+       locals, GCC rematerializes the table address later and renumbers. */
     u8 *obj;
 #endif
     s32 kind;
@@ -766,18 +766,19 @@ void NameEntry_UpdateKeyboard(void)
 
     w = gNameEntry_pSelectionFrame;
     if ((gNameEntry_wSelectionFrameFlags & 0x4000) != 0) {
-        home = w->width - 16;
-        work = w->widthBonus - home;
+        home = w->field_3C.size.w - 16;
+        work = w->resource_uv.b.u - home;
         if (work != 0) {
-            w->width = (work >= 0) ? (w->width + 2) : (w->width - 2);
+            w->field_3C.size.w = (work >= 0) ? (w->field_3C.size.w + 2)
+                                             : (w->field_3C.size.w - 2);
         }
-        DisplayObject_StepPositionXY((DisplayObject *)w);
-        if (--w->timer != 0) {
+        DisplayObject_StepPositionXY(w);
+        if (--w->field_60 != 0) {
             return;
         }
-        w->width = w->widthBonus + 16;
-        w->x = gNameEntry_wCursorTargetX;
-        w->y = gNameEntry_wCursorTargetY;
+        w->field_3C.size.w = w->resource_uv.b.u + 16;
+        w->xy.s.x = gNameEntry_wCursorTargetX;
+        w->xy.s.y = gNameEntry_wCursorTargetY;
         gNameEntry_wSelectionFrameFlags &= 0xBFFF;
     }
     /* A held direction moves the cursor; the cursor update loop below is
@@ -870,10 +871,10 @@ void NameEntry_UpdateKeyboard(void)
             }
 #endif
             gNameEntry_bKeyboardRow = gNameEntry_bSavedRow;
-            w->widthBonus = 0;
+            w->resource_uv.b.u = 0;
             if (work != 0) {
                 if ((work & 0x40) != 0) {
-                    w->widthBonus = 20;
+                    w->resource_uv.b.u = 20;
                 }
                 gNameEntry_bKeyboardRow = work & 0xF;
             }
@@ -882,10 +883,10 @@ void NameEntry_UpdateKeyboard(void)
                 gNameEntry_wCursorTargetX = (s8)gNameEntry_bKeyboardColumn * 20 + 42;
             }
             gNameEntry_wCursorTargetY = (s8)gNameEntry_bKeyboardRow * 18 + 24;
-            DisplayObject_ResetVelocity((DisplayObject *)w);
-            w->timer = 8;
-            w->stepX = ((gNameEntry_wCursorTargetX - w->x) << 8) / 8;
-            w->stepY = ((gNameEntry_wCursorTargetY - w->y) << 8) / 8;
+            DisplayObject_ResetVelocity(w);
+            w->field_60 = 8;
+            w->field_34.motion.velocity_x = ((gNameEntry_wCursorTargetX - w->xy.s.x) << 8) / 8;
+            w->field_38.motion.velocity_y = ((gNameEntry_wCursorTargetY - w->xy.s.y) << 8) / 8;
             {
                 u16 flags = gNameEntry_wSelectionFrameFlags;
 
@@ -967,6 +968,7 @@ void NameEntry_UpdateKeyboard(void)
         if (kind == 1) {
             u16 *slot;
             gNameEntry_bStateFlags |= 0x80;
+            /* The Shift-JIS byte buffer takes the glyph code as one halfword. */
             slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
             *slot = 0;
             if (node != 0) {
@@ -1049,6 +1051,7 @@ void NameEntry_UpdateKeyboard(void)
         if (kind == 1) {
             u16 *slot;
             gNameEntry_bStateFlags |= 0x80;
+            /* The Shift-JIS byte buffer takes the glyph code as one halfword. */
             slot = (u16 *)(gNameEntry_bCaretPos * 2 + (s32)gNameEntry_pNameBuffer);
             *slot = 0;
             if (node != 0) {
@@ -1171,7 +1174,7 @@ void NameEntry_UpdateDialog(void)
             pos = caret->field_60;
             if (pos >= 0) {
                 caret->field_60 = pos - 85;
-                Widget_SlideSine((DisplayObject *)caret, 16, 248,
+                Widget_SlideSine(caret, 16, 248,
                               (s16)(pos - 85));
                 if (caret->field_60 < 0) {
                     caret->xy.s.x = 16;
@@ -1184,7 +1187,7 @@ void NameEntry_UpdateDialog(void)
                 }
             } else {
                 caret->field_60 = pos + 85;
-                Widget_SlideSine((DisplayObject *)caret, 16, 176,
+                Widget_SlideSine(caret, 16, 176,
                               (s16)(pos + 85));
                 if (caret->field_60 >= 0) {
                     caret->xy.s.x = 16;
@@ -1203,6 +1206,7 @@ void NameEntry_UpdateDialog(void)
             }
         } else {
             TextBox_UpdateChannels();
+            /* One word load covers flags_34 and initial_string_id. */
             if ((*(u32 *)&box->flags_34 & NAME_ENTRY_DIALOG_COMPLETION_MASK) !=
                 TEXT_BOX_FLAG_DONE) {
                 return;

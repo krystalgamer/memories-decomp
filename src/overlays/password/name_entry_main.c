@@ -16,7 +16,7 @@ void NameEntry_BuildStarterDeck(void)
     NameEntryStarterDeckPool **table;
     u16 *entry;
     u16 *p;
-    s16 *out;
+    u16 *out;
     s32 remaining;
     s32 acc;
     s32 threshold;
@@ -25,9 +25,9 @@ void NameEntry_BuildStarterDeck(void)
     for (i = CARD_COUNT - 1; i >= 0; i--) {
         counts[i] = 0;
     }
-    out = (s16 *)gDuel_awPlayerDeck;
+    out = gDuel_awPlayerDeck;
     table = gNameEntry_apStarterDeckPools;
-    entry = (u16 *)*table;
+    entry = &(*table)->draw_count;
     while (entry != 0) {
         remaining = *entry;
         entry++;
@@ -56,7 +56,7 @@ void NameEntry_BuildStarterDeck(void)
             remaining--;
         } while (remaining != 0);
         table++;
-        entry = (u16 *)*table;
+        entry = &(*table)->draw_count;
     }
 }
 
@@ -79,7 +79,7 @@ void NameEntry_Main(void)
         rand();
     } while (NameEntry_PollCompletion() == 0);
     NameEntry_BuildStarterDeck();
-    state = (SaveDataState *)gDuel_awPlayerDeck;
+    state = &gSaveData_Workspace.state;
     checksum = 0;
     entry = state->player_name_sjis;
     for (i = SAVE_DATA_PLAYER_NAME_SIZE - 1; i >= 0; i--) {
