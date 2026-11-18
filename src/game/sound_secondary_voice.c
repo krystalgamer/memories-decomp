@@ -293,8 +293,8 @@ void SD_SpatializeSecondaryObject(SDSecondaryObject *object,
         right = (pan * (left << 1)) >> 7;
     }
 
-    left = (left * gSD_pSecondaryState->spatial_level_left) >> 7;
-    right = (right * gSD_pSecondaryState->spatial_level_right) >> 7;
+    left = (left * gSD_pSecondaryState->sequence.spatial_level_left) >> 7;
+    right = (right * gSD_pSecondaryState->sequence.spatial_level_right) >> 7;
     object->level_left = (left * (object->velocity & 0x7F)) >> 7;
     object->level_right = (right * (object->velocity & 0x7F)) >> 7;
 }
@@ -419,7 +419,7 @@ void SD_ResetSecondaryPlayback(void) {
     base = gSD_pSecondaryState;
     base->sequence_level = 0x7F;
     do {
-        track = &gSD_pSecondaryState->tracks[i];
+        track = &gSD_pSecondaryState->sequence.tracks[i];
         i++;
         track->pos = 0;
         track->pos_saved = 0;

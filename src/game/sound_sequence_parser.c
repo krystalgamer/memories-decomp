@@ -75,11 +75,11 @@ s32 SD_ReadSequenceByte(SDSequenceTrack *reader)
 {
     SDSecondaryState *state = gSD_pSecondaryState;
     int offset = reader->pos;
-    int value = state->sequence_read_base[offset];
+    int value = state->sequence.sequence_read_base[offset];
 
     offset++;
     reader->pos = offset;
-    if ((u32)state->sequence_read_limit < (u32)offset) {
+    if ((u32)state->sequence.sequence_read_limit < (u32)offset) {
         reader->ended = 1;
         return -1;
     }
@@ -117,13 +117,13 @@ s32 SD_FindMidiTrackChunk(s32 offset)
     do {
         if (SD_CompareBytes(
                 (u8 *)"MTrk",
-                gSD_pSecondaryState->sequence_read_base + offset,
+                gSD_pSecondaryState->sequence.sequence_read_base + offset,
                 SD_SEQUENCE_MARKER_SIZE) == 0) {
             return offset + SD_SEQUENCE_MARKER_SIZE;
         }
 
         offset++;
-    } while ((u32)gSD_pSecondaryState->sequence_read_limit >= (u32)offset);
+    } while ((u32)gSD_pSecondaryState->sequence.sequence_read_limit >= (u32)offset);
 
     return -1;
 }
@@ -185,16 +185,16 @@ s32 SD_ReadSequenceHeader(void) {
     u32 k;
 
     b = gSD_pSecondaryState;
-    p = b->tracks;
+    p = b->sequence.tracks;
     b->field_0801 = 0;
     do {
-        gSD_pSecondaryState->sequence_tick_count = 0;
-        gSD_pSecondaryState->sequence_tick_count_saved = 0;
-        b->tracks[0].pos = 8;
-        gSD_pSecondaryState->timebase = SD_ReadSequenceU16BE(p);
-        gSD_pSecondaryState->track_count = 1;
-        gSD_pSecondaryState->field_07F8 = 0;
-        gSD_pSecondaryState->sequence_read_limit = 0x10000;
+        gSD_pSecondaryState->sequence.sequence_tick_count = 0;
+        gSD_pSecondaryState->sequence.sequence_tick_count_saved = 0;
+        b->sequence.tracks[0].pos = 8;
+        gSD_pSecondaryState->sequence.timebase = SD_ReadSequenceU16BE(p);
+        gSD_pSecondaryState->sequence.track_count = 1;
+        gSD_pSecondaryState->sequence.field_07F8 = 0;
+        gSD_pSecondaryState->sequence.sequence_read_limit = 0x10000;
         v = (u32)SD_ReadSequenceU32BE(p) >> 8;
         r = v;
         k = 60000000;
@@ -207,7 +207,7 @@ s32 SD_ReadSequenceHeader(void) {
         v = 0xFF;
     }
 
-    m = gSD_pSecondaryState->timebase;
+    m = gSD_pSecondaryState->sequence.timebase;
     switch (m) {
     case 0x18:
     case 0x3C:
@@ -221,12 +221,12 @@ s32 SD_ReadSequenceHeader(void) {
     p->tempo_accumulator = v & 0xFF;
     SD_ReadSequenceByte(p);
 
-    if (gSD_pSecondaryState->timebase >= 0x60) {
-        gSD_pSecondaryState->delta_scale_gate = gSD_pSecondaryState->timebase;
+    if (gSD_pSecondaryState->sequence.timebase >= 0x60) {
+        gSD_pSecondaryState->delta_scale_gate = gSD_pSecondaryState->sequence.timebase;
     } else {
         gSD_pSecondaryState->delta_scale_gate = 0;
     }
-    gSD_pSecondaryState->delta_scale_gate = gSD_pSecondaryState->timebase;
+    gSD_pSecondaryState->delta_scale_gate = gSD_pSecondaryState->sequence.timebase;
     return 1;
 }
 
@@ -270,7 +270,7 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 meta_type)
         if (v >= 0x100) {
             v = 0xFF;
         }
-        t = e->timebase;
+        t = e->sequence.timebase;
         switch (t) {
         case 0x3C:
         case 0x18:
@@ -281,10 +281,10 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 meta_type)
             break;
         }
         f = gSD_pSecondaryState;
-        if (f->track_count != 0) {
+        if (f->sequence.track_count != 0) {
             /* Retail recomputes the record address as `state + off` on
                every iteration, so the byte offset has to stay: walking
-               `f->tracks[i]` strength-reduces to a pointer and loses the
+               `f->sequence.tracks[i]` strength-reduces to a pointer and loses the
                add. Re-basing the state view keeps the field names. */
             off = z;
             i = z;
@@ -292,11 +292,11 @@ void SD_HandleSequenceMetaEvent(SDSequenceTrack *p, s32 meta_type)
                 SDSecondaryState *at =
                     SD_SECONDARY_STATE_AT_OFFSET(f, off);
 
-                at->tracks[0].tempo_step = v;
-                at->tracks[0].tempo_accumulator = v;
+                at->sequence.tracks[0].tempo_step = v;
+                at->sequence.tracks[0].tempo_accumulator = v;
                 off += SD_SEQUENCE_TRACK_RECORD_SIZE;
                 i++;
-            } while (i < f->track_count);
+            } while (i < f->sequence.track_count);
         }
         break;
 
@@ -372,11 +372,11 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                 SDSecondaryState *seq;
 
                 seq = gSD_pSecondaryState;
-                if (seq->field_07F8 != 0) {
-                    if (seq->track_count != 0) {
+                if (seq->sequence.field_07F8 != 0) {
+                    if (seq->sequence.track_count != 0) {
                         i = 0;
                         do {
-                            t = &seq->tracks[i];
+                            t = &seq->sequence.tracks[i];
                             t->ended_saved = t->ended;
                             t->running_status_saved = t->running_status;
                             t->loop_count = d2;
@@ -385,9 +385,9 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                             t->delta_scale_remainder_saved = t->delta_scale_remainder;
                             seq = gSD_pSecondaryState;
                             i++;
-                        } while (i < seq->track_count);
+                        } while (i < seq->sequence.track_count);
                     }
-                    gSD_pSecondaryState->sequence_tick_count_saved = gSD_pSecondaryState->sequence_tick_count;
+                    gSD_pSecondaryState->sequence.sequence_tick_count_saved = gSD_pSecondaryState->sequence.sequence_tick_count;
                 } else {
                     p->loop_count = SD_SEQUENCE_LOOP_UNCOUNTED;
                     p->pos_saved = p->pos;
@@ -401,11 +401,11 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                         p->loop_count = v - 1;
                     }
                     seq = gSD_pSecondaryState;
-                    if (seq->field_07F8 != 0) {
-                        if (seq->track_count != 0) {
+                    if (seq->sequence.field_07F8 != 0) {
+                        if (seq->sequence.track_count != 0) {
                             i = 0;
                             do {
-                                t = &seq->tracks[i];
+                                t = &seq->sequence.tracks[i];
                                 t->ended = t->ended_saved;
                                 t->running_status = t->running_status_saved;
                                 t->pos = t->pos_saved;
@@ -413,9 +413,9 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
                                 t->delta_scale_remainder = t->delta_scale_remainder_saved;
                                 seq = gSD_pSecondaryState;
                                 i++;
-                            } while (i < seq->track_count);
+                            } while (i < seq->sequence.track_count);
                         }
-                        gSD_pSecondaryState->sequence_tick_count = gSD_pSecondaryState->sequence_tick_count_saved;
+                        gSD_pSecondaryState->sequence.sequence_tick_count = gSD_pSecondaryState->sequence.sequence_tick_count_saved;
                     } else {
                         p->pos = p->pos_saved;
                     }
@@ -427,14 +427,14 @@ void SD_DispatchSequenceChannelEvent(SDSequenceTrack *p, s32 status, u8 d1, u8 d
 
             seq = gSD_pSecondaryState;
             if (seq->channels[ch].control_mode == SD_SEQUENCE_LOOP_START) {
-                if (seq->field_07F8 != 0) {
-                    if (seq->track_count != 0) {
+                if (seq->sequence.field_07F8 != 0) {
+                    if (seq->sequence.track_count != 0) {
                         i = 0;
                         do {
-                            seq->tracks[i].loop_count = d2;
+                            seq->sequence.tracks[i].loop_count = d2;
                             seq = gSD_pSecondaryState;
                             i++;
-                        } while (i < seq->track_count);
+                        } while (i < seq->sequence.track_count);
                     }
                 } else {
                     p->loop_count = d2;

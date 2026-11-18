@@ -163,6 +163,15 @@ typedef union {
     s16 halves[2];
 } SDLevelWord;
 
+/* A file name in SDValue: SD_InitState copies the three names in from
+   its constants as one 11- or 10-byte block (name11/name10), and the file
+   requests pass the text. */
+typedef union {
+    u8 text[0x10];
+    SDInitBlk11 name11;
+    SDInitBlk10 name10;
+} SDFileName;
+
 typedef struct SDValue {
     SDGlobalHdrSE s_stGlobalHdrSE;
     u8 pad0008[0x34];
@@ -294,9 +303,9 @@ typedef struct SDValue {
     /* Filename buffers seeded by SD_InitState. SD_StepActiveCommand passes
        them separately to File_RequestSecondarySlot: s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0
        selects SE at 0x10, BGM at 0x20 and MASTER.XA at 0x40. */
-    u8 s_szSD_BGM_FILE[0x10];
-    u8 s_szSD_SE_FILE[0x10];
-    u8 s_szSD_MASTER_XA_FILE[0x10];
+    SDFileName s_szSD_BGM_FILE;
+    SDFileName s_szSD_SE_FILE;
+    SDFileName s_szSD_MASTER_XA_FILE;
     /* Cached CD/secondary mixer defaults from the "VolInfo" trailers.
        Runtime reset restores the active scales from these bytes. */
     u8 s_bSD_CD_MIXER_OUT_DEFAULT;
@@ -393,7 +402,7 @@ typedef struct {
 } SDSecondaryTransfer;
 
 /* One MIDI track reader inside SDSecondaryState, at +0x518. `pos` is a byte
-   offset into the sequence data at SDSecondaryState::sequence_read_base, which is how
+   offset into the sequence data at SDSequencePlayer::sequence_read_base, which is how
    SD_ReadSequenceByte reads through it; the chunk triple is filled in by
    SD_OpenSequenceTrack from the MTrk header. Every `_saved` field is the copy taken
    by controller 0x63/0x14 (loop start) and put back by 0x63/0x1E (loop end)
@@ -420,6 +429,29 @@ typedef struct {
     u8 field_002B;
 } SDSequenceTrack;
 
+/* The MIDI sequence player inside SDSecondaryState, at +0x518: the track
+   readers followed by the sequence-wide state. SD_ProcessSequenceTracks
+   keeps only this record's address live and reaches the state words off
+   it. */
+typedef struct SDSequencePlayer {
+    SDSequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
+    u8 pad07D8[4];
+    u8 *sequence_read_base;
+    /* Retained open argument; only compared with the -1 closed marker. */
+    s16 sequence_open_token;
+    s16 sequence_state;
+    s16 spatial_level_left;
+    s16 spatial_level_right;
+    u8 *sequence_source;
+    s32 sequence_read_limit;
+    s32 sequence_tick_count;
+    s32 sequence_tick_count_saved;
+    u16 field_07F8;
+    u16 track_count;
+    u16 timebase;
+    u8 pad07FE[2];
+} SDSequencePlayer;
+
 typedef struct SDSecondaryState {
     SDSecondaryRecord channels[SD_SEQUENCE_CHANNEL_COUNT];
     SDSecondaryObject objects[SD_SECONDARY_OBJECT_COUNT];
@@ -439,22 +471,7 @@ typedef struct SDSecondaryState {
     s16 sequence_level;
     u16 master_level_left;
     u16 master_level_right;
-    SDSequenceTrack tracks[SD_SEQUENCE_TRACK_COUNT];
-    u8 pad07D8[4];
-    u8 *sequence_read_base;
-    /* Retained open argument; only compared with the -1 closed marker. */
-    s16 sequence_open_token;
-    s16 sequence_state;
-    s16 spatial_level_left;
-    s16 spatial_level_right;
-    u8 *sequence_source;
-    s32 sequence_read_limit;
-    s32 sequence_tick_count;
-    s32 sequence_tick_count_saved;
-    u16 field_07F8;
-    u16 track_count;
-    u16 timebase;
-    u8 pad07FE[2];
+    SDSequencePlayer sequence;
     u8 field_0800;
     u8 field_0801;
     u8 pad0802[2];
@@ -795,8 +812,8 @@ typedef char SDSecondaryState_master_level_offsets_must_match[
 ];
 typedef char SDSecondaryState_spatial_level_offsets_must_match[
     OFFSETOF(SDSecondaryState, sequence_level) == 0x512 &&
-    OFFSETOF(SDSecondaryState, spatial_level_left) == 0x7E4 &&
-    OFFSETOF(SDSecondaryState, spatial_level_right) == 0x7E6 ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence.spatial_level_left) == 0x7E4 &&
+    OFFSETOF(SDSecondaryState, sequence.spatial_level_right) == 0x7E6 ? 1 : -1
 ];
 typedef char SDSecondaryState_pan_override_offset_must_be_0x815[
     OFFSETOF(SDSecondaryState, pan_center_override) == 0x815 ? 1 : -1
@@ -822,28 +839,28 @@ typedef char SDSecondaryState_object_count_offset_must_be_0x510[
     OFFSETOF(SDSecondaryState, object_count) == 0x510 ? 1 : -1
 ];
 typedef char SDSecondaryState_sequence_read_base_offset_must_be_0x7DC[
-    OFFSETOF(SDSecondaryState, sequence_read_base) == 0x7DC ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence.sequence_read_base) == 0x7DC ? 1 : -1
 ];
 typedef char SDSecondaryState_sequence_open_token_offset_must_be_0x7E0[
-    OFFSETOF(SDSecondaryState, sequence_open_token) == 0x7E0 ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence.sequence_open_token) == 0x7E0 ? 1 : -1
 ];
 typedef char SDSecondaryState_sequence_control_offsets_must_match[
-    OFFSETOF(SDSecondaryState, sequence_state) == 0x7E2 &&
-    OFFSETOF(SDSecondaryState, sequence_source) == 0x7E8 &&
-    OFFSETOF(SDSecondaryState, sequence_read_limit) == 0x7EC ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence.sequence_state) == 0x7E2 &&
+    OFFSETOF(SDSecondaryState, sequence.sequence_source) == 0x7E8 &&
+    OFFSETOF(SDSecondaryState, sequence.sequence_read_limit) == 0x7EC ? 1 : -1
 ];
 typedef char SDSecondaryState_tracks_offset_must_be_0x518[
-    OFFSETOF(SDSecondaryState, tracks) ==
+    OFFSETOF(SDSecondaryState, sequence.tracks) ==
         SD_SEQUENCE_TRACK_ARRAY_OFFSET ? 1 : -1
 ];
 typedef char SDSecondaryState_track_count_offset_must_be_0x7FA[
-    OFFSETOF(SDSecondaryState, track_count) == 0x7FA ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence.track_count) == 0x7FA ? 1 : -1
 ];
 typedef char SDSecondaryState_field_0801_offset_must_be_0x801[
     OFFSETOF(SDSecondaryState, field_0801) == 0x801 ? 1 : -1
 ];
 typedef char SDSecondaryState_timebase_offset_must_be_0x7FC[
-    OFFSETOF(SDSecondaryState, timebase) == 0x7FC ? 1 : -1
+    OFFSETOF(SDSecondaryState, sequence.timebase) == 0x7FC ? 1 : -1
 ];
 typedef char SDSecondaryState_bytes_consumed_offset_must_be_0x818[
     OFFSETOF(SDSecondaryState, bytes_consumed) == 0x818 ? 1 : -1
@@ -859,8 +876,8 @@ typedef char SDSecondaryState_update_dispatch_offsets_must_match[
     OFFSETOF(SDSecondaryState, sequence_updates_enabled) == 0x814 ? 1 : -1
 ];
 typedef char SDSecondaryState_clock_and_cursor_offsets_must_match[
-    OFFSETOF(SDSecondaryState, sequence_tick_count) == 0x7F0 &&
-    OFFSETOF(SDSecondaryState, sequence_tick_count_saved) == 0x7F4 &&
+    OFFSETOF(SDSecondaryState, sequence.sequence_tick_count) == 0x7F0 &&
+    OFFSETOF(SDSecondaryState, sequence.sequence_tick_count_saved) == 0x7F4 &&
     OFFSETOF(SDSecondaryState, fast_forward_target_address) == 0x80C &&
     OFFSETOF(SDSecondaryState, last_track_cursor_address) == 0x810 ? 1 : -1
 ];

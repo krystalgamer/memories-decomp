@@ -28,7 +28,7 @@ int SD_OpenSequenceTrack(SDSequenceTrack *entry)
    runtime tick, carrying the remainder in delta_scale_remainder. */
 void SD_ScaleSequenceDelta(SDSequenceTrack *entry)
 {
-    switch (gSD_pSecondaryState->timebase) {
+    switch (gSD_pSecondaryState->sequence.timebase) {
     case 0x30:
         entry->delta_remaining = entry->delta_remaining * 10;
         entry->delta_remaining = entry->delta_remaining + entry->delta_scale_remainder;
@@ -105,14 +105,14 @@ s32 SD_StartSequenceTracks(void)
     SD_ReadSequenceHeader();
     {
         SDSecondaryState *state = gSD_pSecondaryState;
-        if (state->track_count != 0) {
+        if (state->sequence.track_count != 0) {
             s32 count;
 
             do {
                 i = 0;
             } while (0);
             do {
-                SDSequenceTrack *entry = &state->tracks[i];
+                SDSequenceTrack *entry = &state->sequence.tracks[i];
                 s32 value = entry->pos;
 
                 entry->pos_saved = value;
@@ -131,7 +131,7 @@ s32 SD_StartSequenceTracks(void)
                 }
                 state = gSD_pSecondaryState;
                 do {
-                    count = state->track_count;
+                    count = state->sequence.track_count;
                 } while (0);
                 i++;
             } while (i < count);
@@ -161,22 +161,20 @@ void SD_UpdateSecondaryObjectReuseCountdowns(void) {
    tick, at which point the track's delta countdown runs down and the next
    event is dispatched through SD_ReadSequenceEvent. */
 int SD_ProcessSequenceTracks(void) {
-    /* Retail keeps only the track-array base live here and reaches the four
-       neighbouring state words off it, so those four stay as displacements
-       from the array: addressing them through gSD_pSecondaryState costs a second
-       live register and does not match. STATE_WORD spells them as their
-       real SDSecondaryState offsets. Every track field below is typed. */
-#define STATE_WORD(type, off)     (*(type *)(base + (off) - SD_SEQUENCE_TRACK_ARRAY_OFFSET))
-    u8 *base = (u8 *)gSD_pSecondaryState->tracks;
+    /* Retail keeps only the sequence player's address live here and
+       reaches its state words off it; addressing them through
+       gSD_pSecondaryState costs a second live register and does not
+       match. */
+    SDSequencePlayer *player = &gSD_pSecondaryState->sequence;
     int i;
     SDSequenceTrack *entry;
 
-    if (STATE_WORD(s16, 0x7E2) != 1) /* sequence_state */
+    if (player->sequence_state != 1)
         return 0;
-    if (STATE_WORD(u16, 0x7FA) == 0) /* track_count */
+    if (player->track_count == 0)
         return 0;
     i = 0;
-    entry = gSD_pSecondaryState->tracks;
+    entry = gSD_pSecondaryState->sequence.tracks;
     /* Entered through a constant switch: until flow deletes the dead empty
        loop, that jump comes from outside the track loop, so loop.c leaves
        it alone, and jump2 then deletes the jump. */
@@ -190,8 +188,8 @@ int SD_ProcessSequenceTracks(void) {
                 entry->tempo_accumulator = sum;
                 if ((u16)sum >= 0x100) {
                     entry->tempo_accumulator = (u8)sum;
-                    if (i == STATE_WORD(u16, 0x7F8)) /* field_07F8 */
-                        STATE_WORD(s32, 0x7F0)++;   /* sequence_tick_count */
+                    if (i == player->field_07F8)
+                        player->sequence_tick_count++;
                     {
                         u32 count = entry->delta_remaining;
                         if (count != 0 && gSD_pSecondaryState->fast_forward_target_address == 0) {
@@ -215,7 +213,7 @@ int SD_ProcessSequenceTracks(void) {
                     }
                     {
                         SDSecondaryState *root = gSD_pSecondaryState;
-                        int total = (int)root->sequence_read_base + entry->pos;
+                        int total = (int)root->sequence.sequence_read_base + entry->pos;
                         int threshold = root->fast_forward_target_address;
 
                         root->last_track_cursor_address = total;
@@ -226,7 +224,7 @@ int SD_ProcessSequenceTracks(void) {
                 }
             }
             {
-                int count = STATE_WORD(u16, 0x7FA); /* track_count */
+                int count = player->track_count;
                 i++;
                 if (i >= count) {
                     break;
@@ -236,15 +234,14 @@ int SD_ProcessSequenceTracks(void) {
         }
     }
     return 0;
-#undef STATE_WORD
 }
 
 void SD_ResetSequenceTracks(void) {
     s32 i;
 
-    for (i = 0; i < gSD_pSecondaryState->track_count; i++) {
-        gSD_pSecondaryState->tracks[i].ended = 1;
-        gSD_pSecondaryState->tracks[i].pos = 0;
+    for (i = 0; i < gSD_pSecondaryState->sequence.track_count; i++) {
+        gSD_pSecondaryState->sequence.tracks[i].ended = 1;
+        gSD_pSecondaryState->sequence.tracks[i].pos = 0;
     }
 }
 
@@ -253,10 +250,10 @@ s32 SD_GetSequenceStatus(void)
 {
     SDSecondaryState *object = gSD_pSecondaryState;
     s32 index;
-    u16 count = object->track_count;
+    u16 count = object->sequence.track_count;
 
     for (index = 0; index < count; index++) {
-        if (object->tracks[index].ended != 1) {
+        if (object->sequence.tracks[index].ended != 1) {
             return 1;
         }
     }

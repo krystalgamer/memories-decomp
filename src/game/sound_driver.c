@@ -73,9 +73,6 @@ void SD_InitSpuCommonVolume(void)
 #include "sound_music.h"
 #include "sound_effect.h"
 
-#define SD_INIT_BLOCK_10_VIEW(block) ((SDInitBlk10 *)(block))
-#define SD_INIT_BLOCK_11_VIEW(block) ((SDInitBlk11 *)(block))
-
 /* Brings the sound subsystem's resident state up from cold. The state block
  * starts at the end of the loaded image and runs to 0x801EA7FF; it is zeroed a
  * word at a time, the two command callbacks are installed, three file names
@@ -91,6 +88,9 @@ void SD_InitSpuCommonVolume(void)
  * they become separate relocations and the `ori` becomes a second `lui`. */
 void SD_InitState(u8 master_xa_lba_byte)
 {
+    static const SDInitBlk11 sBgmFile = { "SD_bgm.dat" };
+    static const SDInitBlk10 sSeFile = { "SD_se.dat" };
+    static const SDInitBlk10 sMasterXaFile = { "MASTER.XA" };
     u32 *clear_cursor;
     SDValue *mix_state;
     SDValue *status_state;
@@ -108,12 +108,9 @@ void SD_InitState(u8 master_xa_lba_byte)
     } while (clear_cursor <= (u32 *)0x801EA7FF);
     gFile_RangeReadCallback = SD_FadeInStreamAudio;
     gFile_RangePauseCallback = SD_FadeOutStreamAudio;
-    *SD_INIT_BLOCK_11_VIEW(g_SDValue->s_szSD_BGM_FILE) =
-        *SD_INIT_BLOCK_11_VIEW("SD_bgm.dat");
-    *SD_INIT_BLOCK_10_VIEW(g_SDValue->s_szSD_SE_FILE) =
-        *SD_INIT_BLOCK_10_VIEW("SD_se.dat");
-    *SD_INIT_BLOCK_10_VIEW(g_SDValue->s_szSD_MASTER_XA_FILE) =
-        *SD_INIT_BLOCK_10_VIEW("MASTER.XA");
+    g_SDValue->s_szSD_BGM_FILE.name11 = sBgmFile;
+    g_SDValue->s_szSD_SE_FILE.name10 = sSeFile;
+    g_SDValue->s_szSD_MASTER_XA_FILE.name10 = sMasterXaFile;
     g_SDValue->s_bSD_DATA_SOURCE = 3;
     if (master_xa_lba_byte != 0) {
         g_SDValue->s_bSD_DATA_SOURCE |= 0xF0;
