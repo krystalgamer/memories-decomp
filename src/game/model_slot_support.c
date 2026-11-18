@@ -41,7 +41,7 @@ void Model_CopySlotPosition(s32 idx, u16 *out) {
     out[3] = rec->cached_position[3];
 }
 
-void Model_GetSlotDimensionsWithOverrides(s32 index, s16 *output)
+void Model_GetSlotDimensionsWithOverrides(s32 index, ModelEffectAdjustment *output)
 {
     register ModelSlot *entry = &gModel_aSlots[index];
     register u8 *source = entry->metadata.prefix.bytes.field_00;
@@ -50,25 +50,25 @@ void Model_GetSlotDimensionsWithOverrides(s32 index, s16 *output)
     *(ModelBytes8 *)output = *(ModelBytes8 *)entry->cached_dimensions;
     value = source[7];
     if (value) {
-        output[0] = value << 4;
+        output->x = value << 4;
     }
     value = source[8];
     if (value) {
-        output[1] = value << 4;
+        output->y = value << 4;
     }
     value = source[9];
     if (value) {
-        output[2] = value << 4;
+        output->z = value << 4;
     }
-    output[3] = 0;
-    if (output[0] > 0) {
-        output[3] = output[0];
+    output->max = 0;
+    if (output->x > 0) {
+        output->max = output->x;
     }
-    if (output[3] < output[1]) {
-        output[3] = output[1];
+    if (output->max < output->y) {
+        output->max = output->y;
     }
-    if (output[3] < output[2]) {
-        output[3] = output[2];
+    if (output->max < output->z) {
+        output->max = output->z;
     }
 }
 

@@ -15,8 +15,7 @@
 #include "duel_effect_states.h"
 #include "text_staging.h"
 #include "text_message_staging.h"
-
-#define GS_SPRITE_COLOR_WORD(sprite) (*(u32 *)&(sprite)->r)
+#include "gs_sprite_words.h"
 
 /* Regional values: the stat digits' texture page, CLUT and v, and how the
    type icons' CLUT x is formed from the glyph table's page bits. The
@@ -52,7 +51,7 @@
 void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
     u8 atk[8];
     u8 def[8];
-    GsSPRITE *sp;
+    GsSpriteWords *sp;
     u8 *tbl;
     CardListRowSet *rec;
     u16 *entries;
@@ -63,52 +62,53 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
     u8 d;
 
     tbl = gCardList_SortIconTable;
-    sp = (GsSPRITE *)SCRATCH_ADDR(0x320);
+    sp = (GsSpriteWords *)SCRATCH_ADDR(0x320);
+    /* The row sets live in the shared gFile_StagingBuffer (card_list_rows.h). */
     rec = &((CardListRowSet *)gFile_StagingBuffer)[obj->kind_index.row_index];
-    pri = *(s16 *)&obj->ot_depth;
-    sp->attribute = obj->attribute;
-    sp->tpage = 0xB;
-    GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_NEUTRAL_GREY;
-    *(u32 *)&sp->w = 0x100010;
-    sp->x = obj->xy.h.x + 0x22;
-    sp->y = obj->xy.h.y - 0x18;
-    sp->cy = 0xFB;
+    pri = (s16)obj->ot_depth;
+    sp->prim.attribute = obj->attribute;
+    sp->prim.tpage = 0xB;
+    sp->words.rgb = COLOR_RGB24_NEUTRAL_GREY;
+    sp->words.wh = 0x100010;
+    sp->prim.x = obj->xy.h.x + 0x22;
+    sp->prim.y = obj->xy.h.y - 0x18;
+    sp->prim.cy = 0xFB;
     i = 0;
     do {
-        GS_SPRITE_COLOR_WORD(sp) = 0x202020;
+        sp->words.rgb = 0x202020;
         if (i == obj->resource_variant) {
-            GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_NEUTRAL_GREY;
+            sp->words.rgb = COLOR_RGB24_NEUTRAL_GREY;
         }
-        sp->u = (tbl[0] & 0xF) * 8 - 0x80;
-        sp->v = tbl[0] & 0xF0;
-        sp->cx = CARD_LIST_ICON_CX(tbl[1] & 0xF0);
-        GsSortFastSprite(sp, ot, pri);
-        sp->x += 0x14;
+        sp->prim.u = (tbl[0] & 0xF) * 8 - 0x80;
+        sp->prim.v = tbl[0] & 0xF0;
+        sp->prim.cx = CARD_LIST_ICON_CX(tbl[1] & 0xF0);
+        GsSortFastSprite(&sp->prim, ot, pri);
+        sp->prim.x += 0x14;
         i++;
         tbl += 2;
     } while (i < 6);
 
     if (rec->enabled != 0) {
-        sp->attribute = obj->attribute;
-        sp->x = obj->xy.h.x + 0x24;
-        *(u32 *)&sp->w = 0x80008;
+        sp->prim.attribute = obj->attribute;
+        sp->prim.x = obj->xy.h.x + 0x24;
+        sp->words.wh = 0x80008;
         entries = rec->card_entries;
-        sp->y = obj->xy.h.y;
-        sp->tpage = CARD_LIST_DIGIT_TPAGE;
-        sp->cx = CARD_LIST_DIGIT_CX;
-        sp->cy = CARD_LIST_DIGIT_CY;
-        sp->u = 0x80;
-        sp->v = CARD_LIST_DIGIT_V;
+        sp->prim.y = obj->xy.h.y;
+        sp->prim.tpage = CARD_LIST_DIGIT_TPAGE;
+        sp->prim.cx = CARD_LIST_DIGIT_CX;
+        sp->prim.cy = CARD_LIST_DIGIT_CY;
+        sp->prim.u = 0x80;
+        sp->prim.v = CARD_LIST_DIGIT_V;
         i = 0;
         do {
             id = *entries & 0xFFF;
             if (id != 0) {
                 if (((gDuel_adwCardStats[id - 1] >> CARD_STAT_TYPE_SHIFT) &
                      CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
-                    sp->x = obj->xy.h.x + 0x24;
-                    GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_NEUTRAL_GREY;
+                    sp->prim.x = obj->xy.h.x + 0x24;
+                    sp->words.rgb = COLOR_RGB24_NEUTRAL_GREY;
                     if (*entries & 0x8000) {
-                        GS_SPRITE_COLOR_WORD(sp) = COLOR_RGB24_DIM_GREY;
+                        sp->words.rgb = COLOR_RGB24_DIM_GREY;
                     }
                     Text_EncodeDecimalDigits(
                         (gDuel_adwCardStats[id - 1] & CARD_STAT_VALUE_MASK) *
@@ -121,21 +121,21 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
                     for (j = 3; j >= 0; j--) {
                         d = atk[j];
                         if (d < TEXT_DECIMAL_RADIX) {
-                            sp->u = d * 8 - 0x80;
-                            GsSortFastSprite(sp, ot, pri);
+                            sp->prim.u = d * 8 - 0x80;
+                            GsSortFastSprite(&sp->prim, ot, pri);
                         }
                         if (def[j] < TEXT_DECIMAL_RADIX) {
-                            sp->y += 8;
-                            sp->u = def[j] * 8 - 0x80;
-                            GsSortFastSprite(sp, ot, pri);
-                            sp->y -= 8;
+                            sp->prim.y += 8;
+                            sp->prim.u = def[j] * 8 - 0x80;
+                            GsSortFastSprite(&sp->prim, ot, pri);
+                            sp->prim.y -= 8;
                         }
-                        sp->x += 8;
+                        sp->prim.x += 8;
                     }
                 }
             }
             i++;
-            sp->y += 0x16;
+            sp->prim.y += 0x16;
             entries++;
         } while (i < CARD_LIST_ROW_ENTRY_COUNT);
     }
@@ -169,6 +169,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
     s32 empty_color;
 #endif
 
+    /* The row sets live in the shared gFile_StagingBuffer (card_list_rows.h). */
     s = &((CardListRowSet *)gFile_StagingBuffer)[idx];
     base = 0x18;
     s->enabled = flag;
@@ -248,6 +249,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 
 void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1)
 {
+    /* The row sets live in the shared gFile_StagingBuffer (card_list_rows.h). */
     CardListRowSet *record = (CardListRowSet *)gFile_StagingBuffer;
     DisplayObject *object;
     s32 i = 0;

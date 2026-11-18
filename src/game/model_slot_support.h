@@ -5,7 +5,7 @@
 #include "model.h"
 #include "../ygo_types.h"
 
-void Model_GetSlotDimensionsWithOverrides(s32 index, s16 *output);
+void Model_GetSlotDimensionsWithOverrides(s32 index, ModelEffectAdjustment *output);
 void Model_DrawSlotUnitsOnly(s32 index);
 
 /* Returns flat light `light` of model slot `index`, clamping `light` to 0 at
