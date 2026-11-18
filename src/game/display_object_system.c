@@ -17,11 +17,11 @@
  * 0x8009AF76 and 0x8009AF7A. Those are positions inside the array, not
  * separate objects. The .sdata on either side holds string literals of
  * mem_card.c and mem_card_driver.c. */
-volatile u16 gDisplayObject_awOrderingTableDepthBases[4] = {
-    0x0000,
-    0x0020,
-    0x0800,
-    0x0020,
+volatile DisplayObjectDepthBase gDisplayObject_awOrderingTableDepthBases[4] = {
+    { 0x0000 },
+    { 0x0020 },
+    { 0x0800 },
+    { 0x0020 },
 };
 
 #include "../psyq/libgte.h"
@@ -140,7 +140,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key)
         slot->resource_uv.word = 0;
         slot->subdivisions = 0;
         slot->depth_offset = 0;
-        slot->ot_depth = gDisplayObject_awOrderingTableDepthBases[slot->ot_index];
+        slot->ot_depth = gDisplayObject_awOrderingTableDepthBases[slot->ot_index].base;
     }
     return slot;
 }
@@ -1819,11 +1819,11 @@ void DisplayObject_ConfigureSpriteAtPositionWithResource(
 s32 DisplayObject_SetDepthOffset(DisplayObject *obj, s8 value)
 {
     u32 index = obj->ot_index;
-    volatile u16 *table = gDisplayObject_awOrderingTableDepthBases;
+    volatile DisplayObjectDepthBase *table = gDisplayObject_awOrderingTableDepthBases;
     s32 result;
 
     obj->depth_offset = value;
-    result = table[index] - value;
+    result = table[index].base - value;
     obj->ot_depth = result;
     return result;
 }
@@ -1831,13 +1831,13 @@ s32 DisplayObject_SetDepthOffset(DisplayObject *obj, s8 value)
 void DisplayObject_SelectOrderingTable1(DisplayObject *object)
 {
     object->ot_index = 1;
-    object->ot_depth = gDisplayObject_awOrderingTableDepthBases[1] - object->depth_offset;
+    object->ot_depth = gDisplayObject_awOrderingTableDepthBases[1].base - object->depth_offset;
 }
 
 void DisplayObject_SelectOrderingTable3(DisplayObject *object)
 {
     object->ot_index = 3;
-    object->ot_depth = gDisplayObject_awOrderingTableDepthBases[3] - object->depth_offset;
+    object->ot_depth = gDisplayObject_awOrderingTableDepthBases[3].base - object->depth_offset;
 }
 
 int DisplayObject_RunUpdateAndCheckRenderable(DisplayObject *object)

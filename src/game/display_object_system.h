@@ -17,7 +17,15 @@
 extern GsF_LIGHT gDisplayObject_FlatLightDown;
 extern GsF_LIGHT gDisplayObject_FlatLightUp;
 
-extern volatile u16 gDisplayObject_awOrderingTableDepthBases[4];
+/* One ordering-table layer's base depth. The fade and dialog code that
+ * derives a byte depth from layer 1 loads only its low byte (lbu), which
+ * `low` names; everything else reads the halfword. */
+typedef union {
+    u16 base;
+    u8 low;
+} DisplayObjectDepthBase;
+
+extern volatile DisplayObjectDepthBase gDisplayObject_awOrderingTableDepthBases[4];
 
 /* The per-list display object renderers at 0x80090FB0.
  *

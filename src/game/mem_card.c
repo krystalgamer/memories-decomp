@@ -450,7 +450,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
         DIALOG_BOX_WIDTH,
         DUEL_EFFECT_CHANNEL_HEIGHT
     );
-    channel->depth_offset = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 1;
+    channel->depth_offset = gDisplayObject_awOrderingTableDepthBases[1].low - 1;
 
     if (set_flags != 0) {
         channel->flags_34 |= DUEL_EFFECT_CHANNEL_CREATE_FLAGS;
@@ -489,7 +489,7 @@ void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root, MemCardWorkSlot *s
         object->field_48.spotlight.inner = 128;
         object->field_48.spotlight.outer = 224;
         DisplayObject_SelectOrderingTable1(object);
-        DisplayObject_SetDepthOffset(object, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
+        DisplayObject_SetDepthOffset(object, (s8)(gDisplayObject_awOrderingTableDepthBases[1].low - 3));
         object->field_4C.draw = DisplayObject_RenderSpotlightMask;
         root->spotlight_object = object;
     }
@@ -577,7 +577,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
         p->field_48.spotlight.inner = 0x80;
         p->field_48.spotlight.outer = 0xE0;
         DisplayObject_SelectOrderingTable1(p);
-        DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 3));
+        DisplayObject_SetDepthOffset(p, (s8)(gDisplayObject_awOrderingTableDepthBases[1].low - 3));
         p->field_4C.draw = DisplayObject_RenderSpotlightMask;
         root->spotlight_object = p;
         p = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -585,7 +585,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
         p->flags = p->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(p);
-        DisplayObject_SetDepthOffset(p, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 2));
+        DisplayObject_SetDepthOffset(p, (s8)(gDisplayObject_awOrderingTableDepthBases[1].low - 2));
         root->box_object = p;
         DisplayObject_SavePosition(p);
         a = gMemCardWork_OperationMode;
@@ -668,7 +668,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
         e->flags = e->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                    DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(e);
-        DisplayObject_SetDepthOffset(e, (s8)(*(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 2));
+        DisplayObject_SetDepthOffset(e, (s8)(gDisplayObject_awOrderingTableDepthBases[1].low - 2));
         root->box_object = e;
         DisplayObject_SavePosition(e);
         e->field_60 = -0x400;
@@ -1123,17 +1123,19 @@ void MemCardWork_UpdateOperation(void)
 
 /* The two stores below are deliberate: retail writes the masked value and
    then the value with the new bits set. Without volatile the first store is
-   dead and GCC drops it, so this function reaches the word through a volatile
-   lvalue rather than forcing volatile on every reader in mem_card.h. */
+   dead and GCC drops it, so this function reaches the word through a
+   volatile pointer local rather than forcing volatile on every reader in
+   mem_card.h. */
 void MemCardDialog_SetMessage(s32 value, s32 bits)
 {
-    u16 flags = *(volatile u16 *)&gMemCard_wDialogFlags;
+    volatile u16 *dialog_flags = &gMemCard_wDialogFlags;
+    u16 flags = *dialog_flags;
 
     bits |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
     gMemCardDialog_MessageCode = value;
     flags &= 0xFF87;
-    *(volatile u16 *)&gMemCard_wDialogFlags = flags;
-    *(volatile u16 *)&gMemCard_wDialogFlags = flags | bits;
+    *dialog_flags = flags;
+    *dialog_flags = flags | bits;
 }
 
 /* Memory-card load dialog state machine.
@@ -2393,8 +2395,9 @@ s32 SaveData_PollLoad(void) {
     s32 r = MemCardDialog_Poll();
     if (r != 0) {
         if (r == 1) {
-            u8 *p = (u8 *)gDuel_awPlayerDeck;
+            u16 *p = gDuel_awPlayerDeck;
             Util_CopyWords(p, gSaveData_aTransferBuffer, SAVE_DATA_STATE_SIZE);
+            /* The player deck heads the loaded save state. */
             SaveData_ApplyRuntimeState((SaveDataState *)p);
         }
         return r;

@@ -3098,8 +3098,7 @@ void Text_ApplyFadeCommand(DuelEffectChannel *object)
     *cursor = stream + 1;
     opcode = command;
     if (opcode & 0x40) {
-        /* A byte load of the volatile u16 depth base; (u8) of it loads lhu. */
-        gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] + 9;
+        gFade_bKeepOverlayDepth = gDisplayObject_awOrderingTableDepthBases[1].low + 9;
     }
     if (opcode & 0x20) {
         gFade_bKeepOverlayDepth = 4;

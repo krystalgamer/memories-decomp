@@ -1973,7 +1973,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
                 } while (box->prompt_object == 0);
             }
             Fade_SetTargetLevel(BUILD_DECK_CONFIRM_FADE_LEVEL, 2);
-            gFade_bKeepOverlayDepth = *(u8 *)&gDisplayObject_awOrderingTableDepthBases[1] - 8;
+            gFade_bKeepOverlayDepth = gDisplayObject_awOrderingTableDepthBases[1].low - 8;
         }
     }
     /* Computed before the branch: it is only used on the copy path, so it
