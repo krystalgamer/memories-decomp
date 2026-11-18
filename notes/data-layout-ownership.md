@@ -574,8 +574,12 @@ North America `+0x14FB0`) and `row_attack_effects.c` defines
 zero-number record, label `D_8015B044`, is `&gDuelEffect_AttackSlashConfigs[6]`).
 Its two-byte linker fill at `+0x15142` is zero in Japan, French, German,
 Italian and Spanish (`pad`) but stray bytes in North America and English PAL
-(raw `bin`). The run ends at North America `+0x15144` (Japan `-0x40`, PAL
-`-0xCC`), where the raw `data` subsegment resumes.
+(raw `bin`). `contour_burst_effects.c` then defines, in definition order,
+`gDuelEffect_ParticleContourBurstConfigs` (two `DuelEffect18Config`, 0x3C
+bytes, `+0x15144`) and `gDuelEffect_ContourBurstConfigs` (thirty
+`DuelEffect0Config`, 0x258 bytes, `+0x15180`). The run ends at North America
+`+0x153D8` (Japan `-0x40`, PAL `-0xCC`), where the raw `data` subsegment
+resumes.
 
 Between objects the overlay linker left whatever was in memory: the alignment
 gaps around those two objects hold zero in some builds and stray bytes in

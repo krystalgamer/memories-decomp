@@ -122,7 +122,8 @@ segments:
       - [0x14FE4, .data, overlays/duel_effects/effect_2]
       # Linker fill between objects, not data.
       - {start: 0x15142, type: bin, name: overlays/duel_effects/data_15142, linker_section_order: .data}
-      - [0x15144, data, overlays/duel_effects/data]
+      - [0x15144, .data, overlays/duel_effects/contour_burst_effects]
+      - [0x153D8, data, overlays/duel_effects/data]
       - [0x157A8, .data, overlays/duel_effects/effect_17]
       - [0x157C8, data, overlays/duel_effects/data_157C8]
 

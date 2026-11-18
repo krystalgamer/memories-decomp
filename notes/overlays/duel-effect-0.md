@@ -26,8 +26,9 @@ This is static code evidence, not a new human artwork observation.
 
 The actual NA function entry is `80155104`, JP is `8016271C`, and PAL
 keeps `80154688`; every complete owner is `4A8` bytes.
-`gDuelEffect_ContourBurstConfigs[30]` binds the existing 600-byte
-`D_8015B0B4` owner (NA `8015B180`, JP `80169140`, PAL `8015B0B4`).
+`gDuelEffect_ContourBurstConfigs[30]` binds the 600-byte former
+`D_8015B0B4` (NA `8015B180`, JP `80169140`, PAL `8015B0B4`), now non-`const`
+`.data` in `contour_burst_effects.c` after the particle contour burst's (#2602).
 `gDuelEffect_ContourBurstInitialScale` binds the existing 16-byte SDK
 VECTOR `D_801461E8` (NA `80146230`, JP `80154240`, PAL `801461E8`).
 Its role is the entry copy to local scale; `contour_burst_effects.c` now

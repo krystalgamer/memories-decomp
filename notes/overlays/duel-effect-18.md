@@ -34,8 +34,9 @@ not on every update or only when the entire animation is complete.
 
 The actual NA entry is `80154B00`, JP is `80162118`, and PAL keeps
 `80154084`; the complete owner is `604` bytes in each inventory.
-`gDuelEffect_ParticleContourBurstConfigs[2]` binds the existing 60-byte
-`D_8015B078` owner (NA `8015B144`, JP `80169104`, PAL `8015B078`).
+`gDuelEffect_ParticleContourBurstConfigs[2]` binds the 60-byte former
+`D_8015B078` (NA `8015B144`, JP `80169104`, PAL `8015B078`), now non-`const`
+`.data` in `contour_burst_effects.c` ahead of the contour burst's (#2602).
 `gDuelEffect_ParticleContourBurstInitialScale` binds the existing 16-byte
 SDK VECTOR `D_801461D8` (NA `80146220`, JP `80154230`, PAL `801461D8`),
 copied to local scale at entry. `contour_burst_effects.c` now defines it
