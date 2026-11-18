@@ -740,8 +740,9 @@ two:
 - `SD_ResetMusicTrackBuffer` writes the music-track pointer through
   `((u8 *)g_SDValue + 0x1564)` because a plain member assignment changes
   register allocation. Since #4457 it stores through the member's address,
-  `*(void **)&g_SDValue->s_pwSD_MUSIC_TRACK` in `src/game/sound_music.c`, and the
-  comment above that store carries the measurement.
+  `*(void **)&g_SDValue->s_pwSD_MUSIC_TRACK` in `src/game/sound_music.c`. Since the
+  member became `SDMusicPackage *` (cast-reduction PR #9557), a plain assignment
+  matches and that member-address store is gone.
 - `SD_CountActiveSoundEffectVoices` was documented as indexing the four voice IDs as
   `((u8 *)g_SDValue + index * 2 + 0x404)`. The source spelled that
   `((u8 *)g_SDValue + s0 * 2 + 0x404)`, and `ac4e0662` ("Coalesce the
@@ -789,7 +790,7 @@ of the 6.
     than a signedness change. The unit reads it once, and the `(u16)` sits
     at that read.
   * **0x58 and 0x1564** are pointer views. The canonical spells 0x58 `u32`
-    and 0x1564 `u16 *s_pwSD_MUSIC_TRACK`; this unit reaches the first as `u8 *`
+    and 0x1564 `SDMusicPackage *s_pwSD_MUSIC_TRACK`; this unit reaches the first as `u8 *`
     and the second as both `u8 *` and `List *`. The cast is at the use, so
     the canonical declaration and this unit's readings are both kept.
   * **0x1588**, private `u16` against canonical `s16`, takes no treatment
@@ -1473,11 +1474,11 @@ its `0x1C` layout or the secondary-state transfer offset `0x4A4`:
 | Transfer offset | Existing type | Name | Established use |
 |---|---|---|---|
 | `0x00` | `s16` | `state_token` | Zero on accepted open, `-1` on reset; compared with caller tokens by both body writers. |
-| `0x04` | `u8 *` | `vab_header` | Retained header byte pointer used by note-on to locate programs, tones and the VAG size table. |
+| `0x04` | `SDVabHeader *` | `vab_header` | Retained VAB header pointer used by note-on to locate programs, tones and the VAG size table. |
 | `0x08` | `s32` | `header_size_bytes` | `(program_count << 9) + 0xA20`, used to derive the body size from the VAB file size. |
-| `0x0C` | `s32` | `full_body_source_address` | Source integer address retained only after a successful whole-body write; no matched C reader is established. |
+| `0x0C` | `u8 *` | `full_body_source_address` | `SpuWrite` source address retained only after a successful whole-body write; no matched C reader is established. |
 | `0x10` | `s32` | `body_size_bytes` | Header-derived body byte count used by whole-body and chunked writes. |
-| `0x14` | `u8 *` | `spu_body_base` | SPU byte-address base used for transfers and note-on sample addresses, not a dereferenced RAM buffer. |
+| `0x14` | `u32` | `spu_body_base` | SPU byte-address base used for transfers and note-on sample addresses, not a dereferenced RAM buffer. |
 
 `SD_VabOpenHead` clears `bytes_consumed` before its possible rejection.
 Only a requested token of `-1` checks the existing token and can reject
