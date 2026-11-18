@@ -181,10 +181,9 @@ s32 HostFile_ReadRange(char *path, char *destination, s32 offset, s32 length)
 
 void ModelTexture_UploadTimFile(char *path, int destination_mode, int blend_mode, int pixel_x, int pixel_y, int clut_x, int clut_y)
 {
-    /* The 32-byte retail scratch is one word larger than GsIMAGE. */
-    s32 tim_image[8];
+    ModelTimUploadScratch tim;
 
-    ModelTexture_LoadTim((GsIMAGE *)tim_image, path, destination_mode, blend_mode, pixel_x, pixel_y, clut_x, clut_y);
+    ModelTexture_LoadTim(&tim.image, path, destination_mode, blend_mode, pixel_x, pixel_y, clut_x, clut_y);
 }
 
 /* Copies the image header onto the stack before forwarding it, so the
@@ -202,9 +201,7 @@ int Model_SetSlotShadowEnabled(int index, int value)
     {
         register ModelSlot *base = gModel_aSlots;
 
-        entry = &((ModelSlot *)0)[index];
-
-        entry = (ModelSlot *)((unsigned int)entry + (unsigned int)base);
+        entry = &base[index];
     }
 
     old = entry->shadow_enabled;
@@ -296,9 +293,9 @@ s32 Model_IsCreditsPresentationComplete(void)
 
 void Model_UpdateScene(void)
 {
-    u8 *state = (u8 *)&gModel_RView;
+    GsRVIEW2 *state = &gModel_RView;
 
-    GsSetRefView2((GsRVIEW2 *)state);
+    GsSetRefView2(state);
     if (gModel_bSceneMode == 15) {
         Model_UpdateAnimatedBattle();
     }
@@ -308,7 +305,7 @@ void Model_UpdateScene(void)
     if (gModel_bSceneMode == 20) {
         Model_UpdateCreditsPresentation();
     }
-    GsSetRefView2((GsRVIEW2 *)state);
+    GsSetRefView2(state);
     Model_DrawSlot(0);
     Model_DrawSlot(1);
     Model_DrawSlot(2);
@@ -331,30 +328,30 @@ void Model_RunSlotHandlers(s32 index)
     ModelSlot *model_slot = &gModel_aSlots[index];
     ModelSlotHeadEntry *head_unit = model_slot->hmd_units;
     s32 (*remap_handler)(s32) = Model_MapToWireframePrimitiveHandler;
-    u32 *group_words;
-    u32 *next_group_words;
+    ModelPrimitiveGroup *group;
+    ModelPrimitiveGroup *next_group;
     s32 unit_index;
 
     if (model_slot->is_active == 0) {
         return;
     }
     for (unit_index = 0; unit_index < model_slot->hmd_unit_count; unit_index++, head_unit++) {
-        group_words = head_unit->primitive_data;
-        if (group_words != 0) {
+        group = head_unit->primitive_data;
+        if (group != 0) {
             while (1) {
-                if (group_words[2] != 0) {
+                if (group->run_count != 0) {
                     Model_RemapPrimitiveHandlers(
                         remap_handler,
-                        (ModelHandlerRunEntry *)&group_words[3],
-                        group_words[1],
-                        group_words[2]
+                        group->runs,
+                        group->field_04,
+                        group->run_count
                     );
                 }
-                next_group_words = (u32 *)group_words[0];
-                if (next_group_words == (u32 *)-1) {
+                next_group = group->next;
+                if (next_group == (ModelPrimitiveGroup *)-1) {
                     break;
                 }
-                group_words = next_group_words;
+                group = next_group;
             }
         }
     }
@@ -457,14 +454,11 @@ void Model_LockOrbitDirection(int value){int one=1;if(Model_GetCameraHoldState()
 
 #include "camera_view.h"
 
-#define MODEL_SLOT_HALFWORDS(slots, index) \
-    ((u16 *)((u8 *)(slots) + (index) * MODEL_SLOT_SIZE))
-
 s32 Model_GetSlotDistanceFromCameraEye(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
-    u16 *entry = MODEL_SLOT_HALFWORDS(gModel_aSlots[0].cached_position, index);
+    s16 *entry = gModel_aSlots[index].cached_position;
 
     memset(&difference, 0, sizeof(difference));
     difference.vx = gModel_RView.vpx - entry[0];
@@ -480,7 +474,7 @@ s32 Model_GetSlotDistanceFromCameraTarget(s32 index)
 {
     SVECTOR output;
     SVECTOR difference;
-    u16 *entry = MODEL_SLOT_HALFWORDS(gModel_aSlots[0].cached_position, index);
+    s16 *entry = gModel_aSlots[index].cached_position;
 
     memset(&difference, 0, sizeof(difference));
     difference.vx = gModel_RView.vrx - entry[0];
@@ -721,9 +715,6 @@ int Model_IsCameraMoveComplete(int arg)
 #include "main.h"
 #include "gpu_packets.h"
 
-#define MODEL_SLOT_AT_OFFSET(slots, offset) \
-    ((ModelSlot *)((u8 *)(slots) + (offset)))
-
 s32 Model_HasInsufficientBufferSpace(s32 index, s32 type) {
     s32 used;
     s32 room;
@@ -733,8 +724,7 @@ s32 Model_HasInsufficientBufferSpace(s32 index, s32 type) {
     used = (s32)gGraphics_pPacketWorkCursor - (s32)gGraphics_abPacketBuffers;
     used -= gGraphics_bPacketBufferIndex * GRAPHICS_PACKET_BUFFER_SIZE;
     room = GRAPHICS_PACKET_BUFFER_SIZE - used;
-    /* Typed indexing changes the accepted address construction. */
-    record = MODEL_SLOT_AT_OFFSET(gModel_aSlots, index * MODEL_SLOT_SIZE);
+    record = &gModel_aSlots[index];
     if (type < 0) {
         type = Model_GetSlotTintDescriptor(index)[3];
     }

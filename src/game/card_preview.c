@@ -13,8 +13,6 @@
 #include "duel_scene.h"
 #include "card_preview.h"
 
-#define VRAM_UPLOAD_WORDS(address) ((u32 *)(address))
-
 /* Regional values: the package size and the offset of its last image. The
    European package holds one 0x2A0-byte third image per text language
    (gText_bLanguageIndex, below), so the fourth image moves from 0x2AE0 to 0x3560
@@ -27,7 +25,9 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
 {
     DuelEffectResourceRecord *e;
     RECT *rect;
-    u8 *image_source;
+    /* Each image is a word view of the transfer buffer taken at its
+       assignment; gFile_TransferBufferBase is reloaded after every LoadImage. */
+    u32 *image_source;
     s32 x;
 #ifdef VERSION_EUROPE
     s32 offset;
@@ -45,51 +45,51 @@ void CardPreview_HandleResourceTransfer(FileTransferDescriptor *object, s32 mode
     e = &gCardPreview_Resources[(s32)object->callback_data];
 
     rect = &e->rects[0];
-    image_source = gFile_TransferBufferBase;
+    image_source = (u32 *)gFile_TransferBufferBase;
     e->rects[0].w = 0x33;
     e->rects[0].h = 0x60;
     e->rects[0].x = e->src_x;
     e->rects[0].y = e->src_y;
-    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
+    LoadImage(rect, image_source);
 
     rect = &e->rects[1];
     x = e->clut_x;
-    image_source = gFile_TransferBufferBase + 0x2640;
+    image_source = (u32 *)(gFile_TransferBufferBase + 0x2640);
     e->rects[1].w = 0x100;
     e->rects[1].h = 1;
     e->rects[1].x = x;
     e->rects[1].y = e->clut_y;
-    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
+    LoadImage(rect, image_source);
 
     rect = &e->rects[2];
 #ifdef VERSION_EUROPE
     /* The third image of the current text language. */
     offset = gText_bLanguageIndex * 0x2A0 + 0x2840;
-    image_source = gFile_TransferBufferBase + offset;
+    image_source = (u32 *)(gFile_TransferBufferBase + offset);
     e->rects[2].w = 0x18;
     e->rects[2].h = 0xE;
     e->rects[2].x = e->src_x;
 #else
     x = e->src_x;
-    image_source = gFile_TransferBufferBase + 0x2840;
+    image_source = (u32 *)(gFile_TransferBufferBase + 0x2840);
     e->rects[2].w = 0x18;
     e->rects[2].h = 0xE;
     e->rects[2].x = x;
 #endif
     e->rects[2].y = e->src_y + 0x60;
-    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
+    LoadImage(rect, image_source);
 
     rect = &e->rects[3];
 #ifdef VERSION_EUROPE
-    image_source = gFile_TransferBufferBase + 0x3560;
+    image_source = (u32 *)(gFile_TransferBufferBase + 0x3560);
 #else
-    image_source = gFile_TransferBufferBase + 0x2AE0;
+    image_source = (u32 *)(gFile_TransferBufferBase + 0x2AE0);
 #endif
     e->rects[3].w = 8;
     e->rects[3].h = 0x58;
     e->rects[3].x = e->src_x + 0x38;
     e->rects[3].y = e->src_y;
-    LoadImage(rect, VRAM_UPLOAD_WORDS(image_source));
+    LoadImage(rect, image_source);
 }
 
 #include "util.h"
@@ -205,12 +205,13 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
         f4 = f4 | (win->attribute & 0x08000000);
         obj->attribute = f4;
         if (DisplayObject_ProjectRotationFacing(
-                (struct DisplayObject *)obj, win->xy.s.x + (s16)win->field_18.center.x,
+                obj, win->xy.s.x + (s16)win->field_18.center.x,
                 win->xy.s.y + (s16)win->field_18.center.y, origin
             ) <= 0) {
             return;
         }
         arg = (((s16)win->ot_depth - 1) & 0xFFFF) | 0xF0000;
+        /* r0, g0, b0 and code in one store; the SDK's POLY_FT4 has no word member. */
         *(u32 *)&packet->r0 = win->rgb.word;
         setlen(packet, 9);
         packet->code = 0x2C;
@@ -304,7 +305,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
         PRM->uv.b.hi = (PRM->uv.b.hi & 0x80) + 0x10;
         PRM->xy.h.x = win->xy.h.x + CARD_PREVIEW_PANEL_ATK_X;
         PRM->xy.h.y = win->xy.h.y + CARD_PREVIEW_PANEL_ATK_Y;
-        *(u32 *)&PRM->extent = 0x000D0006;
+        PRM->extent.word = 0x000D0006;
         if (rec->stat_palette_flags & 0x80) {
             PRM->cxcy.h.cy = CARD_PREVIEW_PANEL_CLUT_Y + 1;
         }
@@ -336,7 +337,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
         do { sb = 0x00090009; } while (0);
         PRM->xy.h.x = sa + 0x77;
         PRM->xy.h.y = win->xy.h.y + 0x20;
-        *(u32 *)&PRM->extent = sb;
+        PRM->extent.word = sb;
         PRM->uv.b.lo = 0;
         PRM->cxcy.h.cx = CARD_PREVIEW_PANEL_CLUT_X;
         PRM->cxcy.h.cy = CARD_PREVIEW_PANEL_CLUT_Y;
@@ -355,6 +356,8 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
     }
 
     PRM->xy.h.x = win->xy.h.x + 0x6E;
+    /* Stored through the address: the extent.word member store is
+       scheduled differently against the following xy.h.y store. */
     *(u32 *)&PRM->extent = 0x00100010;
     PRM->xy.h.y = win->xy.h.y + 0xD;
     lo = rec->attribute_icon << 4;

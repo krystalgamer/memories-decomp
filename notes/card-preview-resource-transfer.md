@@ -62,11 +62,10 @@ buffer address; `File_SetPositionTable` supplies the known staging arena.
 No global definition, setter signature, flag alias or compiler profile
 changes.
 
-The local `image_source` is `u8 *`: all image/language offsets remain byte
-offsets, not `u32 *` scaling. The two descriptor fields retain their
-unsigned 32-bit address words through explicit `(u32)` casts. The final
-`LoadImage` argument still crosses the existing `VRAM_UPLOAD_WORDS` view,
-and every base reload remains at its original capture point. The local
+The local `image_source` is the `u32 *` that `LoadImage` takes. Each
+assignment adds its byte offset to `gFile_TransferBufferBase` before taking
+the word view, so the image/language offsets remain byte offsets and every
+base reload remains at its original capture point. The local
 `x` stays generic because it is reused for palette and image coordinates.
 
 The whole-callback fixture executes the actual main phase logic with real

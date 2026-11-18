@@ -18,6 +18,13 @@ typedef union {
     } c;
 } ModelBackgroundSprite;
 
+/* ModelTexture_UploadTimFile's 32-byte stack scratch for the TIM header,
+ * one word larger than GsIMAGE. */
+typedef struct {
+    GsIMAGE image;
+    s32 spare;
+} ModelTimUploadScratch;
+
 typedef char ModelBackgroundSprite_rgb_must_be_GsSPRITE_r[
     OFFSETOF(ModelBackgroundSprite, c.rgb) == OFFSETOF(GsSPRITE, r) ? 1 : -1
 ];

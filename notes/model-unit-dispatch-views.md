@@ -10,7 +10,7 @@ pass retain their grouped source and compiler profiles.
 | Original view | Canonical view | Preserved representation |
 | --- | --- | --- |
 | `tent_ModelHandlerRegistry` | `gModel_aHandlerKeyRegistry` | mutable `ModelHandlerRegistryEntry[80]` |
-| `ModelType2Scratch.indices` | `clut_data` | `u8 *`, `+0x18` |
+| `ModelType2Scratch.indices` | `GsARGUNIT_IMAGE.cluttop` | `unsigned long *`, `+0x18` |
 | `ModelType2Record.field_00` | `vram_x` | `u16`, `+0x00` |
 | `ModelType2Record.field_02` | `vram_y` | `s16`, `+0x02` |
 
@@ -48,10 +48,11 @@ exclusive-ownership claim.
 
 ## Image records and the CLUT-data pointer
 
-The authoritative `GsARGUNIT_IMAGE` declaration places `imagetop` at `+0x14`
-and `cluttop` at `+0x18`. The local `ModelType2Scratch` prefix keeps the
-existing pointer-bearing layout, padding, and `u8 *` view at `+0x18`;
-it is not replaced by a full SDK argument structure.
+The authoritative `GsARGUNIT_IMAGE` declaration places `primp` at `+0x00`,
+`imagetop` at `+0x14` and `cluttop` at `+0x18`. `Model_ProcessType2Unit`
+takes the scan's `GsTYPEUNIT` and `GsARGUNIT` and reads the record stream
+and CLUT data through that SDK structure. `primp` points at a
+`ModelType2RecordStream`: the `ModelType2RecordHeader`, then the records.
 
 The existing NA `GsU_02000001` SDK routine at `0x80089ED0` provides a direct
 consumer-side discriminator. It passes each record pointer to `LoadImage`
@@ -72,8 +73,10 @@ descriptor words following the preceding type word; it is not the
 number of image rows, columns, records or pixel-data words.
 
 The processor keeps its original per-row data writes, including the
-first-entry distinction and bit `0x8000` writes to later entries. Its byte
-cursor and explicit word/halfword casts remain. Null-pointer handling,
+first-entry distinction and bit `0x8000` writes to later entries. Its
+record cursors are `ModelType2Record *`; one cursor steps from the stream
+header to the first record, which keeps the header load in retail's
+register, and the CLUT words are addressed as halfwords. Null-pointer handling,
 conditional extra-record advances, signed row/column comparisons, PAL
 coordinate adjustments and row clipping retain their exact order and
 behavior. New names do not add a valid-record assumption or normalize

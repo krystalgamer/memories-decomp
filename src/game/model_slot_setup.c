@@ -192,7 +192,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
                         break;
                     case 2:
                         Model_ProcessType2Unit(
-                            slot_index, (ModelTypeUnit *)&type_unit, sdk_scratch);
+                            slot_index, &type_unit, (GsARGUNIT *)sdk_scratch);
                         break;
                     case 3:
                         Model_LinkSlotAnimationUnit(&type_unit, model_slot);
