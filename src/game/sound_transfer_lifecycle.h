@@ -39,9 +39,6 @@ typedef char SDVabHeader_size_must_be_0x20[
     sizeof(SDVabHeader) == 0x20 ? 1 : -1
 ];
 
-/* Table offsets inside a loaded VAB header image. */
-#define SD_VAB_PROGRAM_TABLE_OFFSET 0x20
-#define SD_VAB_TONE_TABLE_OFFSET 0x820
 #define SD_VAB_TONES_PER_PROGRAM 16
 
 /* The 16-byte program record (libsnd ProgAtr). A VAB image holds 128 of
@@ -84,6 +81,18 @@ typedef struct {
     s16 reserved_18[4];
 } SDVabTone;
 
+/* A loaded VAB header image: the header, all 128 program records, then the
+   tone table, sixteen records per used program (the VAG size table follows
+   the last used program's tones). */
+typedef struct {
+    SDVabHeader header;
+    SDVabProgram programs[128];
+    SDVabTone tones[128 * SD_VAB_TONES_PER_PROGRAM];
+} SDVabImage;
+
+typedef char SDVabImage_tones_offset_must_be_0x820[
+    OFFSETOF(SDVabImage, tones) == 0x820 ? 1 : -1
+];
 typedef char SDVabProgram_size_must_be_0x10[
     sizeof(SDVabProgram) == 0x10 ? 1 : -1
 ];

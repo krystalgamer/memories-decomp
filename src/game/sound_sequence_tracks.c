@@ -155,9 +155,6 @@ void SD_UpdateSecondaryObjectReuseCountdowns(void) {
     }
 }
 
-#define SD_SEQUENCE_TRACK_BYTES(state) ((u8 *)(state)->tracks)
-#define SD_SEQUENCE_TRACK_VIEW(bytes) ((SDSequenceTrack *)(bytes))
-
 /* Advances every MIDI track by one runtime tick. Each track carries a
    fixed-point tempo accumulator: tempo_step is added to
    tempo_accumulator, and a carry out of the low byte is one sequencer
@@ -170,7 +167,7 @@ int SD_ProcessSequenceTracks(void) {
        live register and does not match. STATE_WORD spells them as their
        real SDSecondaryState offsets. Every track field below is typed. */
 #define STATE_WORD(type, off)     (*(type *)(base + (off) - SD_SEQUENCE_TRACK_ARRAY_OFFSET))
-    u8 *base = SD_SEQUENCE_TRACK_BYTES(gSD_pSecondaryState);
+    u8 *base = (u8 *)gSD_pSecondaryState->tracks;
     int i;
     SDSequenceTrack *entry;
 
@@ -179,7 +176,7 @@ int SD_ProcessSequenceTracks(void) {
     if (STATE_WORD(u16, 0x7FA) == 0) /* track_count */
         return 0;
     i = 0;
-    entry = SD_SEQUENCE_TRACK_VIEW(base);
+    entry = gSD_pSecondaryState->tracks;
     /* Entered through a constant switch: until flow deletes the dead empty
        loop, that jump comes from outside the track loop, so loop.c leaves
        it alone, and jump2 then deletes the jump. */
