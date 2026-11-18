@@ -235,7 +235,7 @@ s32 ModelVariant386_HandleRequest(Model386State *context, s32 command)
         work->time = 0;
         work->last_frame = 0;
         work->step = 0;
-        work->fade_span = work->config->shrink_start - work->config->sheet_start;
+        work->fade_span = work->config->shrink_start - work->config->grow_end;
         work->shrink_span = work->config->shrink_end - work->config->shrink_start;
         work->phase = 0;
         work->fade = 0;
@@ -306,7 +306,7 @@ s32 ModelVariant386_HandleRequest(Model386State *context, s32 command)
         if (work->phase > 0) {
             FrenchModelVariant403_DrawStrands((Strands12048State *)context);
         }
-        FrenchModelVariant403_DrawSheets((Sheets12048State *)context);
+        FrenchModelVariant403_DrawSheets(context);
         if (work->phase >= 5) {
             FrenchModelVariant403_DrawChains(context);
         }

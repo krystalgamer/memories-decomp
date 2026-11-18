@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "image12048_sheets.h"
+#include "e569_entry.h"
 
-void FrenchModelVariant403_DrawSheets(Sheets12048State *context)
+void FrenchModelVariant403_DrawSheets(Model386State *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,9 +10,9 @@ void FrenchModelVariant403_DrawSheets(Sheets12048State *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Sheets12048State *state = context;
+    Model386State *state = context;
     ModelVariantSheet *sheet = state->sheets;
-    POLY_GT4 *quad = state->quads;
+    POLY_GT4 *quad = state->packets.textured;
     GsOT *ot;
     s32 i, j;
     s32 count;
@@ -21,7 +21,7 @@ void FrenchModelVariant403_DrawSheets(Sheets12048State *context)
 
     ot = Graphics_GetDefaultOrderingTable();
     if (state->phase < 4) {
-        count = state->timing->count;
+        count = state->config->count;
     } else {
         count = 2;
     }
@@ -38,23 +38,23 @@ void FrenchModelVariant403_DrawSheets(Sheets12048State *context)
             matrix.t[0] = state->transforms[i].t[0];
             matrix.t[1] = state->transforms[i].t[1];
             matrix.t[2] = state->transforms[i].t[2];
-            scale.vx = sheet->size / state->timing->divisor + extra;
-            scale.vy = sheet->size / state->timing->divisor + extra;
-            scale.vz = sheet->size / state->timing->divisor + extra;
+            scale.vx = sheet->size / state->config->divisor + extra;
+            scale.vy = sheet->size / state->config->divisor + extra;
+            scale.vz = sheet->size / state->config->divisor + extra;
         } else {
             /* The scale stores are repeated in both arms; GCC merges them, but
              * the extra arm keeps the quad pointer out of s2. */
             if (i == 0) {
-                matrix.t[0] = state->origin[0];
-                matrix.t[1] = state->origin[1];
-                matrix.t[2] = state->origin[2];
+                matrix.t[0] = state->matrix.t[0];
+                matrix.t[1] = state->matrix.t[1];
+                matrix.t[2] = state->matrix.t[2];
                 scale.vx = sheet->size + extra;
                 scale.vy = sheet->size + extra;
                 scale.vz = sheet->size + extra;
             } else {
-                matrix.t[0] = state->offset.vx;
-                matrix.t[1] = state->offset.vy;
-                matrix.t[2] = state->offset.vz;
+                matrix.t[0] = state->target.vx;
+                matrix.t[1] = state->target.vy;
+                matrix.t[2] = state->target.vz;
                 scale.vx = sheet->size + extra;
                 scale.vy = sheet->size + extra;
                 scale.vz = sheet->size + extra;
@@ -93,14 +93,14 @@ void FrenchModelVariant403_DrawSheets(Sheets12048State *context)
         }
         if (state->phase == 0) {
             if (sheet->size < 4096) {
-                sheet->size = (state->time << 12) / state->timing->grow_end;
+                sheet->size = (state->time << 12) / state->config->grow_end;
                 if (sheet->size >= 4096) {
                     sheet->size = 4096;
                     state->phase = 1;
                 }
             }
         } else if (state->phase < 4) {
-            sheet->size = 4096 - ((state->time - state->timing->grow_end) << 12) / state->fade_span;
+            sheet->size = 4096 - ((state->time - state->config->grow_end) << 12) / state->fade_span;
         } else if (state->phase == 4) {
             if (i == 0) {
                 if (sheet->size < 8192) {
@@ -117,11 +117,11 @@ void FrenchModelVariant403_DrawSheets(Sheets12048State *context)
                 }
             }
         } else if (state->phase == 5) {
-            if (state->time < state->timing->shrink_end) {
+            if (state->time < state->config->shrink_end) {
                 if (i == 0) {
-                    sheet->size = 8192 - ((state->time - state->timing->shrink_begin) << 13) / state->shrink_span;
+                    sheet->size = 8192 - ((state->time - state->config->shrink_start) << 13) / state->shrink_span;
                 } else {
-                    sheet->size = 16384 - ((state->time - state->timing->shrink_begin) << 14) / state->shrink_span;
+                    sheet->size = 16384 - ((state->time - state->config->shrink_start) << 14) / state->shrink_span;
                 }
             } else {
                 state->phase = 6;

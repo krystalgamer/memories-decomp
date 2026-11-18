@@ -11,7 +11,6 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libhmd.h"
-#include "image12048_sheets.h"
 #include "image12048_chains.h"
 #include "image12048_strands.h"
 
@@ -22,7 +21,8 @@ typedef struct {
     u8 unknown_20[8];
     s32 count;
     s32 divisor;
-    u32 sheet_start;
+    /* The sheets grow until grow_end, then fade over fade_span. */
+    u32 grow_end;
     u32 shrink_start;
     u32 shrink_end;
 } Model386Config;
@@ -93,7 +93,7 @@ extern GsIMAGE gModelVariant386_aImages[];
 extern Model386Config gModelVariant386_aConfigs[];
 
 void FrenchModelVariant403_DrawStrands(Strands12048State *context);
-void FrenchModelVariant403_DrawSheets(Sheets12048State *context);
+void FrenchModelVariant403_DrawSheets(Model386State *context);
 void FrenchModelVariant403_DrawChains(Model386State *context);
 s32 ModelVariant386_HandleRequest(Model386State *context, s32 command);
 
