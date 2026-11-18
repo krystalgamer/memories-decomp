@@ -1,7 +1,7 @@
 #include "../../types.h"
-#include "e593_sheets_pal.h"
+#include "e593_entry_pal.h"
 
-void SpanishModelVariant473_DrawSheets(Sheets473State *context)
+void SpanishModelVariant473_DrawSheets(EntryState473 *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,9 +11,9 @@ void SpanishModelVariant473_DrawSheets(Sheets473State *context)
     long interpolation;
     long flag;
     GsOT *ot;
-    Sheets473State *state = context;
+    EntryState473 *state = context;
     ModelVariantSheet *sheet = state->sheets;
-    Sheets473Primary *primary;
+    EntryRibbon473 *primary;
     POLY_GT4 *polygon;
     SVECTOR *vertex;
     s32 i, j;
@@ -21,25 +21,25 @@ void SpanishModelVariant473_DrawSheets(Sheets473State *context)
     s32 depth;
 
     ot = Graphics_GetDefaultOrderingTable();
-    polygon = &state->polygon;
+    polygon = &state->packets.textured[1];
     /* The sixth sheet has no primary record; the cursor steps past the five. */
-    primary = state->primary;
+    primary = state->ribbons;
     for (i = 0; i < 6; i++, sheet++, primary++) {
         extra = 0;
-        if (state->frame & 1) {
+        if (state->clock.frame_count & 1) {
             extra = sheet->size / 8;
         }
         rotation.vx = 0;
         rotation.vy = 0;
         rotation.vz = 0;
         if (i == 5) {
-            matrix.t[0] = state->origin.vx;
-            matrix.t[1] = state->origin.vy;
-            matrix.t[2] = state->origin.vz;
+            matrix.t[0] = state->matrix.t[0];
+            matrix.t[1] = state->matrix.t[1];
+            matrix.t[2] = state->matrix.t[2];
         } else {
-            matrix.t[0] = state->origin.vx + primary->position.vx;
-            matrix.t[1] = state->origin.vy + primary->position.vy;
-            matrix.t[2] = state->origin.vz + primary->position.vz;
+            matrix.t[0] = state->matrix.t[0] + primary->a[8].vx;
+            matrix.t[1] = state->matrix.t[1] + primary->a[8].vy;
+            matrix.t[2] = state->matrix.t[2] + primary->a[8].vz;
         }
         scale.vx = sheet->size + extra;
         scale.vy = sheet->size + extra;
@@ -74,7 +74,7 @@ void SpanishModelVariant473_DrawSheets(Sheets473State *context)
             polygon->g3 = sheet->outer.g;
             polygon->b3 = sheet->outer.b;
             depth = depth * 8 / 10;
-            if (i == 5 || primary->active != 0) {
+            if (i == 5 || primary->state != 0) {
                 if (depth >= 0 && flag >= 0) {
                     GsSortPoly(polygon, ot, depth);
                 }
@@ -82,16 +82,16 @@ void SpanishModelVariant473_DrawSheets(Sheets473State *context)
         }
         if (i == 5) {
             if (state->phase == 0 && sheet->size < 4096) {
-                sheet->size = ((state->time - state->timing->grow_start) << 12) /
-                              (state->timing->grow_end - state->timing->grow_start);
+                sheet->size = ((state->clock.frame - state->config->draw_start) << 12) /
+                              (state->config->grow_end - state->config->draw_start);
                 if (sheet->size >= 4096) {
                     sheet->size = 4096;
                     state->phase = 1;
                 }
             }
-            if (state->time >= state->timing->shrink_start && sheet->size > 0) {
-                sheet->size = 4096 - ((state->time - state->timing->shrink_start) << 12) /
-                                    (state->timing->shrink_end - state->timing->shrink_start);
+            if (state->clock.frame >= state->config->fade_begin && sheet->size > 0) {
+                sheet->size = 4096 - ((state->clock.frame - state->config->fade_begin) << 12) /
+                                    (state->config->fade_end - state->config->fade_begin);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }
@@ -100,15 +100,15 @@ void SpanishModelVariant473_DrawSheets(Sheets473State *context)
             if (state->phase == 2) {
                 sheet->size = 4096;
             } else if (state->phase == 3 && sheet->size < 8192) {
-                sheet->size += state->step * 512;
+                sheet->size += state->clock.step * 512;
                 if (sheet->size >= 8192) {
                     sheet->size = 8192;
                     state->phase = 4;
                 }
             }
-            if (state->time >= state->timing->shrink_start && sheet->size > 0) {
-                sheet->size = 8192 - ((state->time - state->timing->shrink_start) << 13) /
-                                    (state->timing->shrink_end - state->timing->shrink_start);
+            if (state->clock.frame >= state->config->fade_begin && sheet->size > 0) {
+                sheet->size = 8192 - ((state->clock.frame - state->config->fade_begin) << 13) /
+                                    (state->config->fade_end - state->config->fade_begin);
                 if (sheet->size <= 0) {
                     sheet->size = 0;
                 }

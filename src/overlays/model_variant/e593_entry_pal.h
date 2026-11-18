@@ -9,7 +9,6 @@
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
 #include "../model_variant/model_variant.h"
-#include "e593_sheets_pal.h"
 
 typedef struct {
     CVECTOR outer, inner;
@@ -88,7 +87,7 @@ extern EntryConfig473 gFrenchModelVariant473_aConfigs[];
 void FrenchModelVariant385_DrawGrid(EntryState473 *context);
 void SpanishModelVariant473_DrawSpiral(EntryState473 *context);
 void FrenchModelVariant473_DrawRibs(EntryState473 *context);
-void SpanishModelVariant473_DrawSheets(Sheets473State *context);
+void SpanishModelVariant473_DrawSheets(EntryState473 *context);
 void SpanishModelVariant473_DrawFunnels(EntryState473 *context);
 
 #endif
