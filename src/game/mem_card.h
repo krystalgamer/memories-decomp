@@ -169,16 +169,16 @@ extern volatile s32 gMemCard_nIOResult;
 extern u8 gMemCard_bChannel;
 
 /* Japan's card save file name and MemCardWork_UpdateOperation diagnostics,
- * linker symbols there (see its MEM_CARD_* entry defines); the other builds write them
- * as literals in mem_card.c. */
-extern char gMemCard_szSaveFileName[];
-extern char gMemCard_szFreeBlockCountFormat[];
-extern char gMemCard_szMakeFileTrace[];
-extern char gMemCard_szFailFileTrace[];
+ * read-only arrays mem_card.c defines there; the other builds write them as
+ * literals in mem_card.c. */
+extern const char gMemCard_szSaveFileName[];
+extern const char gMemCard_szFreeBlockCountFormat[];
+extern const char gMemCard_szMakeFileTrace[];
+extern const char gMemCard_szFailFileTrace[];
 
 /* Japanese "BISLPMP86398-YUGIOH": the file name SaveData_RequestOptionsWrite
  * hands to MemCardDialog_Request, separate from the ordinary save name. */
-extern char gMemCard_szOptionsFileName[];
+extern const char gMemCard_szOptionsFileName[];
 
 /* The modal request's shared filename buffer.
  *

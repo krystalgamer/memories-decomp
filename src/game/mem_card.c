@@ -748,6 +748,22 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
  * prints are string literals. They are the first .rodata this unit emits, in
  * that order, ahead of the update's jump tables. A region wrapper overrides a
  * default when its image cannot take the literal; each override says why. */
+#ifdef VERSION_JAPAN
+/* Japan keeps the same four strings and its options file name as read-only
+ * arrays, in this order, ahead of the update's jump tables (0x800102F4-
+ * 0x80010340). Only SaveData_RequestOptionsWrite, after the update, uses the
+ * options name, so as a literal it would follow those tables. The four zero
+ * bytes after it are the first table's eight-byte alignment in the object. */
+const char gMemCard_szFreeBlockCountFormat[] = "\nFREE %d\n\n";
+const char gMemCard_szSaveFileName[] = "BISLPM-86398-YUGIOH";
+const char gMemCard_szMakeFileTrace[] = "Make File\n";
+const char gMemCard_szFailFileTrace[] = "Fail File\n";
+const char gMemCard_szOptionsFileName[] = "BISLPMP86398-YUGIOH";
+#define MEM_CARD_SAVE_FILE_NAME gMemCard_szSaveFileName
+#define MEM_CARD_FREE_BLOCK_FORMAT gMemCard_szFreeBlockCountFormat
+#define MEM_CARD_MAKE_FILE_TRACE gMemCard_szMakeFileTrace
+#define MEM_CARD_FAIL_FILE_TRACE gMemCard_szFailFileTrace
+#endif
 #ifndef MEM_CARD_SAVE_FILE_NAME
 #ifdef VERSION_EUROPE
 /* Each European build names its own serial: SLES-03947 plus the language

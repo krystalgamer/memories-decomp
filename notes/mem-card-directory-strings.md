@@ -66,9 +66,9 @@ table, inside the unit's `.rodata`; the four bytes of padding before that
 table at `0x80010340` keep it eight-byte aligned within the object. The
 string's only user, `SaveData_RequestOptionsWrite`, comes after
 `MemCardWork_UpdateOperation`, so a literal there would follow the tables.
-Its `matching_c.json` entry defines therefore map the save name and the three
-`.rodata` diagnostics to linker symbols bound in
-`config/slpm_86398/symbols.txt`: `gMemCard_szFreeBlockCountFormat`
+Under `VERSION_JAPAN`, `mem_card.c` therefore defines the five strings as
+file-scope `const char` arrays ahead of the update, in retail order, and
+points the `MEM_CARD_*` macros at them: `gMemCard_szFreeBlockCountFormat`
 (`0x800102F4`), `gMemCard_szSaveFileName` (`"BISLPM-86398-YUGIOH"` at
 `0x80010300`), `gMemCard_szMakeFileTrace` (`0x80010314`),
 `gMemCard_szFailFileTrace` (`0x80010320`) and

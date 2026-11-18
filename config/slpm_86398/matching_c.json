@@ -9153,11 +9153,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x44",
@@ -9172,11 +9168,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
@@ -9191,11 +9183,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xB4",
@@ -9210,11 +9198,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x74",
@@ -9229,11 +9213,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xB8",
@@ -9248,11 +9228,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x80",
@@ -9267,11 +9243,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x114",
@@ -9286,11 +9258,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
@@ -9305,11 +9273,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
@@ -9324,11 +9288,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2C",
@@ -9343,11 +9303,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x8",
@@ -9362,11 +9318,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x138",
@@ -9381,11 +9333,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xAC",
@@ -9400,11 +9348,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xFC",
@@ -9419,11 +9363,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x130",
@@ -9438,11 +9378,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2EC",
@@ -9457,11 +9393,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x1D4",
@@ -9476,11 +9408,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x848",
@@ -9495,11 +9423,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x24",
@@ -9514,11 +9438,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x344",
@@ -9533,11 +9453,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
@@ -9552,11 +9468,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
@@ -9571,11 +9483,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x73C",
@@ -9590,11 +9498,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x38",
@@ -9609,11 +9513,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x48",
@@ -9628,11 +9528,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3E0",
@@ -9647,11 +9543,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xD0",
@@ -9666,11 +9558,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0xCC",
@@ -9685,11 +9573,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x2B0",
@@ -9704,11 +9588,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x34",
@@ -9723,11 +9603,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x18",
@@ -9742,11 +9618,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x7C",
@@ -9761,11 +9633,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
@@ -9780,11 +9648,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x6C",
@@ -9799,11 +9663,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x58",
@@ -9818,11 +9678,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x30",
@@ -9837,11 +9693,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3E0",
@@ -9856,11 +9708,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x3C",
@@ -9875,11 +9723,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x100",
@@ -9894,11 +9738,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x5C",
@@ -9913,11 +9753,7 @@
         "MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE=0xD4",
         "SAVE_DATA_LOAD_STATUS_ADDRESS=0x8009AFC1",
         "SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON=PAD_BUTTON_CROSS",
-        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE",
-        "MEM_CARD_SAVE_FILE_NAME=gMemCard_szSaveFileName",
-        "MEM_CARD_FREE_BLOCK_FORMAT=gMemCard_szFreeBlockCountFormat",
-        "MEM_CARD_MAKE_FILE_TRACE=gMemCard_szMakeFileTrace",
-        "MEM_CARD_FAIL_FILE_TRACE=gMemCard_szFailFileTrace"
+        "SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON=PAD_BUTTON_CIRCLE"
       ],
       "profile": "gcc_2_8_1_g8_split_comm",
       "size": "0x10",
