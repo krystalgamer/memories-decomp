@@ -41,9 +41,9 @@ the four bytes after the `0x5C` drawing environment are not claimed.
 
 ## Code generation and integration
 
-`GsDRAWENV` is the scalar SDK declaration. Startup writes it through a
-`(volatile DRAWENV *)&GsDRAWENV` cast at each store; per-frame updates use
-the plain name. The five byte stores in each function keep their original source order.
+`GsDRAWENV` is the scalar SDK declaration. Startup and the per-frame updates
+both write it through the plain name; the startup stores build the same
+without a volatile view. The five byte stores in each function keep their original source order.
 `GsDISPENV` remains a nonvolatile scalar `DISPENV`. The tint bytes retain
 startup's volatile `.data`, the movie/frame paths' nonvolatile `.data`, and
 all existing scalar/array and tentative-definition forms in other consumers.
@@ -59,4 +59,4 @@ macros and five typed stores in `src/game/main.c`, with
 `movie_pipeline.c` still owns `Movie_StopStream` and must retain
 `D_8009B142_IN_DATA` before the first header inclusion and use the shared
 tint declarations. Do not restore the old private byte-array
-declaration or erase the volatile startup view while moving these bodies.
+declaration while moving these bodies.

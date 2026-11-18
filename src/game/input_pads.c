@@ -53,7 +53,6 @@ void Input_ResetPads(void) {
     volatile u16 *c = &gInput_awPadHeld[1];
     volatile u16 *b = &gInput_awPadPressed[1];
     volatile u16 *a = &gInput_awPadRepeat[1];
-    u8 *base;
     do {
         *a = 0;
         *b = *a;
@@ -61,9 +60,8 @@ void Input_ResetPads(void) {
         a--; b--; c--; i--;
     } while (i >= 0);
     i = INPUT_REPEAT_TIMER_COUNT - 1;
-    base = gInput_abRepeatTimers;
     for (; i >= 0; i--) {
-        *(u8 *)((u32)i + (u32)base) = 0;
+        gInput_abRepeatTimers[i] = 0;
     }
     gInput_dwPreviousHeld = 0;
     gInput_dwDeferredRepeat = 0;
@@ -76,6 +74,7 @@ void Input_InitPads(void)
 #ifdef VERSION_JAPAN
     PadInit(0);
 #else
+    /* libapi takes the raw packet buffers as char *. */
     InitPAD(
         (char *)&gInput_abRawPadBuffers[0],
         INPUT_RAW_PAD_BUFFER_SIZE,
