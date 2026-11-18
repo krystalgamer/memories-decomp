@@ -516,6 +516,13 @@ through `free_duel_data_c.json`; like North America's layout it uses
 `subalign: 4`, so the linker leaves the three bytes after
 `gFreeDuel_bScreenFlags` and the raw tail stays at `0x10A8`.
 
+The Japanese password and name-entry images build `password/module_header.c`
+(`0x0`, `0x15`) through their `_data_c.json`. Their layouts now match the
+North American and PAL ones: the word is the whole `module_header` segment and
+the module segment starts at `0x4` with `shop.c`'s `.rodata`, which needs
+`.rodata` ahead of `.text` in `section_order` (Japan had listed `.text`
+first and kept that `.rodata` in the header segment instead).
+
 The credits module (USA and Japan) starts with its 4-byte module word; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette
 rectangles, then `Credits_UpdateLines`' jump table, and its `.data` holds
