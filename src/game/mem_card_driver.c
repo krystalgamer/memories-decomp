@@ -306,7 +306,7 @@ s32 MemCard_CalcFreeBlocks(struct DIRENTRY *entry, s32 count)
     return MEM_CARD_BLOCK_COUNT - total;
 }
 
-s32 MemCard_FindEntry(u8 *name, struct DIRENTRY *entry, s32 count)
+s32 MemCard_FindEntry(char *name, struct DIRENTRY *entry, s32 count)
 {
     s32 i;
 
@@ -610,7 +610,7 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
     return 1;
 }
 
-s32 MemCard_FindLoadedEntry(u8 *name)
+s32 MemCard_FindLoadedEntry(char *name)
 {
     return MemCard_FindEntry(name, gMemCard_pDirEntries, gMemCard_nDirEntries);
 }

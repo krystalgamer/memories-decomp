@@ -56,13 +56,13 @@ typedef char MemCardDirectoryEntry_head_offset_must_match[
  * MemCard_FindEntry's first parameter is the name to look for, not a number:
  * the body hands it straight to strcmp. */
 s32 MemCard_CalcFreeBlocks(struct DIRENTRY *entry, s32 count);
-s32 MemCard_FindEntry(u8 *name, struct DIRENTRY *entry, s32 count);
+s32 MemCard_FindEntry(char *name, struct DIRENTRY *entry, s32 count);
 s32 MemCard_FindFiles(s32 chan, const char *pattern, struct DIRENTRY *cursor,
                      s32 *out_count);
 s32 MemCard_DoLoadDirectory(void);
 
 /* Returns MemCard_FindEntry's index for name in the loaded directory. */
-s32 MemCard_FindLoadedEntry(u8 *name);
+s32 MemCard_FindLoadedEntry(char *name);
 
 /* Current directory-entry buffer and the number of records loaded into it. */
 extern struct DIRENTRY *gMemCard_pDirEntries;
