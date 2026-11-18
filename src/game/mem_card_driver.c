@@ -10,7 +10,7 @@
 
 /* Zero-initialized storage this unit owns. Each build's generated
  * mem_card_driver_commons subsegments place it at the retail addresses. */
-s32 gMemCard_pRequestBuf;
+u8 *gMemCard_pRequestBuf;
 u16 gMemCard_wRequestSize;
 u8 gMemCard_bTransferRetriesRemaining;
 u8 gMemCard_bChannel;
@@ -173,7 +173,7 @@ int MemCard_ReqLoadDirectory(int chan)
     return 1;
 }
 
-int MemCard_ReqReadFile(int chan, char *name, int buf, int offset, int size)
+int MemCard_ReqReadFile(int chan, char *name, u8 *buf, int offset, int size)
 {
     int result;
 
@@ -191,7 +191,7 @@ int MemCard_ReqReadFile(int chan, char *name, int buf, int offset, int size)
     return result;
 }
 
-int MemCard_ReqReadSector(int chan, int buf, int sector)
+int MemCard_ReqReadSector(int chan, u8 *buf, int sector)
 {
     int result;
 
@@ -207,7 +207,7 @@ int MemCard_ReqReadSector(int chan, int buf, int sector)
     return result;
 }
 
-int MemCard_ReqWriteFile(int chan, char *name, int buf, int offset, int size)
+int MemCard_ReqWriteFile(int chan, char *name, u8 *buf, int offset, int size)
 {
     int result;
 
@@ -225,7 +225,7 @@ int MemCard_ReqWriteFile(int chan, char *name, int buf, int offset, int size)
     return result;
 }
 
-int MemCard_ReqWriteSector(int chan, int buf, int sector)
+int MemCard_ReqWriteSector(int chan, u8 *buf, int sector)
 {
     int result;
 
@@ -456,10 +456,10 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
             _new_card();
             if (gMemCard_bRequest == 0xB) {
                 _card_read(gMemCard_bChannel, gMemCard_wRequestOffset,
-                           (u8 *)gMemCard_pRequestBuf);
+                           gMemCard_pRequestBuf);
             } else {
                 _card_write(gMemCard_bChannel, gMemCard_wRequestOffset,
-                            (u8 *)gMemCard_pRequestBuf);
+                            gMemCard_pRequestBuf);
             }
             gMemCard_bRequestStep = gMemCard_bRequestStep + 1;
             return 0;
@@ -526,10 +526,10 @@ s32 MemCard_ProcessRequest(s32 poll, s32 *out_state, s32 *out_result)
                 s32 transfer_result;
 
                 if (gMemCard_bRequest == 4) {
-                    transfer_result = write(fd, (void *)gMemCard_pRequestBuf,
+                    transfer_result = write(fd, gMemCard_pRequestBuf,
                                             gMemCard_wRequestSize);
                 } else {
-                    transfer_result = read(fd, (void *)gMemCard_pRequestBuf,
+                    transfer_result = read(fd, gMemCard_pRequestBuf,
                                            gMemCard_wRequestSize);
                 }
                 if (transfer_result == 0)

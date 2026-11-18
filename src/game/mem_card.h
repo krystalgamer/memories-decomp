@@ -16,10 +16,10 @@
 #define MEM_CARD_WORK_ROOT_SIZE 0x1C
 #define MEM_CARD_WORK_CALLBACK_COUNT 5
 #define MEM_CARD_WORK_FRAME_SIZE 128
-#define MEM_CARD_WORK_READ_ADDRESS 0x80200000
-#define MEM_CARD_WORK_FRAME_ADDRESS 0x80210000
-#define MEM_CARD_WORK_WRITE_ADDRESS 0x80300000
-#define MEM_CARD_WORK_WRITE_BODY_ADDRESS 0x80300200
+#define MEM_CARD_WORK_READ_ADDRESS ((u8 *)0x80200000)
+#define MEM_CARD_WORK_FRAME_ADDRESS ((u8 *)0x80210000)
+#define MEM_CARD_WORK_WRITE_ADDRESS ((u8 *)0x80300000)
+#define MEM_CARD_WORK_WRITE_BODY_ADDRESS ((u8 *)0x80300200)
 #define MEM_CARD_WORK_FRAME_BYTES \
     (*(u8 (*)[MEM_CARD_WORK_FRAME_SIZE])MEM_CARD_WORK_FRAME_ADDRESS)
 
@@ -135,10 +135,10 @@ extern u8 gMemCardWork_bFrameChecksum;
  * addresses, while offset/size are full words at the call boundary.
  * These are distinct from the LIBMCRD MemCardReadFile/WriteFile API. */
 s32 MemCard_ReqLoadDirectory(s32 channel);
-s32 MemCard_ReqReadFile(s32 channel, char *name, s32 buffer, s32 offset, s32 size);
-s32 MemCard_ReqWriteFile(s32 channel, char *name, s32 buffer, s32 offset, s32 size);
-s32 MemCard_ReqReadSector(s32 channel, s32 buffer, s32 sector);
-s32 MemCard_ReqWriteSector(s32 channel, s32 buffer, s32 sector);
+s32 MemCard_ReqReadFile(s32 channel, char *name, u8 *buffer, s32 offset, s32 size);
+s32 MemCard_ReqWriteFile(s32 channel, char *name, u8 *buffer, s32 offset, s32 size);
+s32 MemCard_ReqReadSector(s32 channel, u8 *buffer, s32 sector);
+s32 MemCard_ReqWriteSector(s32 channel, u8 *buffer, s32 sector);
 s32 MemCard_ReqCreateFile(s32 channel, char *name, s32 blocks);
 s32 MemCard_ProcessRequest(s32 mode, s32 *request, s32 *result);
 
@@ -286,7 +286,7 @@ extern u8 gMemCard_bRequestStep;
 extern u16 gMemCard_wRequestOffset;
 extern u16 gMemCard_wRequestSize;
 extern char gMemCard_szRequestPath[];
-extern s32 gMemCard_pRequestBuf;
+extern u8 *gMemCard_pRequestBuf;
 
 /* The retry budget of the current stage. Stored by MemCard_BeginRequest
  * (mem_card_driver.c, `gMemCard_bRetries = 10;`;
