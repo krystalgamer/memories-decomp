@@ -42,10 +42,10 @@ void ModelVariant418_DrawSpiral(Variant418EntryState *context)
     uz = work->aim.direction.vz;
     arm = work->arms;
     poly = work->packets.textured;
-    spread = 0x400 - work->spiral_shrink;
+    spread = 0x400 - work->spiral.shrink;
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + work->spiral_angle * 2;
-        theta = (i << 13) / 12 + work->spiral_angle;
+        phi = (i << 12) / 12 + work->spiral.angle * 2;
+        theta = (i << 13) / 12 + work->spiral.angle;
         for (k = 0; k < 2; k++) {
             if (!(work->clock.frame_count & 1)) {
                 length = (k * 32 + 0x10) * spread / 1024;
@@ -64,9 +64,9 @@ void ModelVariant418_DrawSpiral(Variant418EntryState *context)
         }
     }
     if (!(work->clock.frame_count & 1)) {
-        size = work->spiral_size;
+        size = work->spiral.size;
     } else {
-        size = work->spiral_size + work->spiral_size / 8;
+        size = work->spiral.size + work->spiral.size / 8;
     }
     rot.vx = 0;
     rot.vy = 0;
@@ -177,22 +177,22 @@ void ModelVariant418_DrawSpiral(Variant418EntryState *context)
             }
         }
     }
-    work->spiral_angle += 0x10;
+    work->spiral.angle += 0x10;
     if (work->phase == 1) {
-        if (work->spiral_size < 0x1000) {
-            work->spiral_size = ((work->clock.frame - work->config->burst_start) << 12) /
+        if (work->spiral.size < 0x1000) {
+            work->spiral.size = ((work->clock.frame - work->config->burst_start) << 12) /
                                           (work->config->burst_end - work->config->burst_start);
-            if (work->spiral_size >= 0x1000) {
-                work->spiral_size = 0x1000;
+            if (work->spiral.size >= 0x1000) {
+                work->spiral.size = 0x1000;
                 work->phase = 2;
             }
         }
     } else if (work->config->shrink_start < work->clock.frame &&
-               work->phase == 2 && work->spiral_shrink < 0x400) {
-        work->spiral_shrink = ((work->clock.frame - work->config->shrink_start) << 10) /
+               work->phase == 2 && work->spiral.shrink < 0x400) {
+        work->spiral.shrink = ((work->clock.frame - work->config->shrink_start) << 10) /
                                       (work->config->shrink_end - work->config->shrink_start);
-        if (work->spiral_shrink >= 0x400) {
-            work->spiral_shrink = 0x400;
+        if (work->spiral.shrink >= 0x400) {
+            work->spiral.shrink = 0x400;
             work->phase = 3;
         }
     }

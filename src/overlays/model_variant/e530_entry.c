@@ -246,10 +246,10 @@ s32 ModelVariant418_HandleRequest(Variant418EntryState *context, s32 command)
             spoke->angle = 1024 - row * 256;
             spoke->count = 0;
         }
-        work->spiral_angle = 0;
-        work->field_1B6E = 0;
-        work->spiral_size = 0;
-        work->spiral_shrink = 0;
+        work->spiral.angle = 0;
+        work->spiral.field_02 = 0;
+        work->spiral.size = 0;
+        work->spiral.shrink = 0;
         work->index = 0;
         work->band_scale = 4096;
         work->field_1B8E = 1024;

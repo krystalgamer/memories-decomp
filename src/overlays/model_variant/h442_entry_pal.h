@@ -40,7 +40,7 @@ typedef struct {
     VECTOR directions[6];
     ModelVariantAim aim;
     ModelVariantClock clock;
-    s16 spiral_angle, field_3096, spiral_size, field_309A;
+    ModelVariantSpiralParams spiral;
     Variant459EntryConfig *config;
     u8 unknown_30A0[4];
     GsCOORDUNIT *parts[6];

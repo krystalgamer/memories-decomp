@@ -283,10 +283,10 @@ s32 SpanishModelVariant441_HandleRequest(Variant441EntryState *context, s32 comm
         work->ribbon_width = 1024;
         work->tube_angle = 0;
         work->tube_progress = 0;
-        work->spiral_angle = 0;
-        work->field_26FE = 0;
-        work->spiral_size = 0;
-        work->spiral_shrink = 0;
+        work->spiral.angle = 0;
+        work->spiral.field_02 = 0;
+        work->spiral.size = 0;
+        work->spiral.shrink = 0;
         work->progress = 0;
         work->ray_angle = 0;
         work->field_2710 = 0;

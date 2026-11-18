@@ -49,7 +49,7 @@ typedef struct {
     u8 unknown_213C[4];
     GsCOORDUNIT *parts[3];
     s32 index;
-    s16 spiral_angle, field_2152, spiral_size, spiral_shrink;
+    ModelVariantSpiralParams spiral;
     s32 width, tube_progress, tube_angle;
     s16 field_2164, field_2166, progress, ribbon_width;
     s32 ray_angle;

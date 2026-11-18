@@ -241,10 +241,10 @@ s32 FrenchModelVariant426_HandleRequest(EntryState426 *context, s32 command)
         work->intensity = 1024;
         work->field_213C = 0;
         work->field_2140 = 0;
-        work->spiral_angle = 0;
-        work->field_214E = 0;
-        work->spiral_size = 0;
-        work->field_2152 = 0;
+        work->spiral.angle = 0;
+        work->spiral.field_02 = 0;
+        work->spiral.size = 0;
+        work->spiral.shrink = 0;
         work->width = 1024;
         work->field_2124 = 1024;
         work->field_211C = 0;
