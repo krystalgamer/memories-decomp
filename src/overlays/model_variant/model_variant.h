@@ -1516,4 +1516,15 @@ typedef struct {
     SVECTOR *a, *b, *c;
 } ModelVariantFace;
 
+/* A six-point fan (a centre and five rim points), five outer points, four
+ * sprite corners and the inner and outer colours, as the header-438 and 443
+ * entries build it: corners at +/-128, inner colour (255, 192, 192) and outer
+ * colour (64, 64, 0). */
+typedef struct {
+    SVECTOR inner[6], outer[5], corners[4];
+    CVECTOR inner_color, outer_color;
+    s32 field_80, field_84, field_88;
+    u8 unknown_8C[4];
+} ModelVariantStarShape;
+
 #endif

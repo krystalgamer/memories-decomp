@@ -22,7 +22,7 @@ s32 SpanishModelVariant438_HandleRequest(Variant438EntryState *context, s32 comm
     ModelVariantSheet *sheet = work->sheets;
     ModelVariantColorRing *spoke = work->spokes;
     ModelVariantColorRing *petal = work->petals;
-    Variant438EntryStar *star = work->stars;
+    ModelVariantStarShape *star = work->stars;
     ModelVariantWebNarrow *web = work->webs;
     ModelVariantShadedRay *glow = work->glows;
     POLY_G3 *triangle = &work->packets.triangle;
@@ -166,21 +166,21 @@ s32 SpanishModelVariant438_HandleRequest(Variant438EntryState *context, s32 comm
             band->field_19E = 0;
         }
         for (n = 0; n < 1; n++, star++) {
-            setVector(&star->points[0], 0, 0, 0);
+            setVector(&star->inner[0], 0, 0, 0);
             for (j = 0, angle = 0; j < 5; j++, angle = j << 10) {
-                setVector(&star->points[j + 1], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 8, 0);
-                setVector(&star->rays[j], (u32)(rcos(angle) * 3) >> 10, (u32)(rsin(angle) * 5) >> 9, 0);
+                setVector(&star->inner[j + 1], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 8, 0);
+                setVector(&star->outer[j], (u32)(rcos(angle) * 3) >> 10, (u32)(rsin(angle) * 5) >> 9, 0);
             }
-            star->color_a.r = 255;
-            star->color_a.g = 192;
-            star->color_a.b = 192;
+            star->inner_color.r = 255;
+            star->inner_color.g = 192;
+            star->inner_color.b = 192;
             setVector(&star->corners[0], -128, -128, 0);
             setVector(&star->corners[1], 128, -128, 0);
             setVector(&star->corners[2], -128, 128, 0);
             setVector(&star->corners[3], 128, 128, 0);
-            star->color_b.r = 64;
-            star->color_b.g = 64;
-            star->color_b.b = 0;
+            star->outer_color.r = 64;
+            star->outer_color.g = 64;
+            star->outer_color.b = 0;
             star->field_80 = 0;
             star->field_84 = 0;
             star->field_88 = 0;

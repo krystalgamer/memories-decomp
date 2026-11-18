@@ -22,16 +22,6 @@ typedef struct {
     s32 size;
 } Variant438EntryConfig;
 
-/* A six-point fan, five rays, four corners and two colours. */
-typedef struct {
-    SVECTOR points[6];
-    SVECTOR rays[5];
-    SVECTOR corners[4];
-    CVECTOR color_a, color_b;
-    s32 field_80, field_84, field_88;
-    u8 unknown_8C[4];
-} Variant438EntryStar;
-
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantTripleCurtain curtains[5];
@@ -43,7 +33,7 @@ typedef struct {
     ModelVariantSheet sheets[2];
     ModelVariantColorRing spokes[6];
     ModelVariantColorRing petals[4];
-    Variant438EntryStar stars[1];
+    ModelVariantStarShape stars[1];
     ModelVariantPackets packets;
     POLY_GT4 ray;
     POLY_GT4 plain;
