@@ -304,7 +304,7 @@ void Duel_CollectMatchingFieldCardObjects(DisplayObject **output, s32 selector)
     *output = 0;
 }
 
-void DisplayObject_CopyWorkSlots(s32 *destination)
+void DisplayObject_CopyWorkSlots(DisplayObject **destination)
 {
     s32 i;
     DisplayObject **source;
@@ -312,7 +312,7 @@ void DisplayObject_CopyWorkSlots(s32 *destination)
     i = 0;
     source = gDisplayObject_apWorkSlots.slots;
     while (i < DISPLAY_OBJECT_WORK_SLOT_COUNT) {
-        *destination++ = (s32)*source++;
+        *destination++ = *source++;
         i++;
     }
     *destination = 0;

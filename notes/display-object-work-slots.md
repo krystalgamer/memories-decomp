@@ -44,10 +44,12 @@ A scalar pointer or a `.data` annotation is not substituted for its array
 view. The other consumers now share that declaration rather than keeping
 private `u8 *[]`, `int []` and `u8 []` views.
 
-The copier keeps its `s32 *` destination ABI and writes each pointer as an
-integer word before the terminating zero. Its source cursor alone is now
-`DisplayObject **`; this does not impose a pointer-array type on callers'
-destination buffers.
+The copier takes a `DisplayObject **` destination, like the resident
+collectors `Duel_CollectFieldRowCardObjects` and
+`Duel_CollectMatchingFieldCardObjects`, and copies each slot pointer before
+the null terminator. Its one caller, duel effect 24, passes the
+`DisplayObject *[21]` scratch list `gDuelEffect_CardObjectScratchWords`
+directly; the former `s32 *` destination and its casts built identically.
 
 The duel animation uses the existing `DisplayObject` members instead of
 raw `+4`, `+8`, `+0xC`, `+0x44` and `+0x46` addressing. The halfword stores

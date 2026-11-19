@@ -41,7 +41,7 @@ void DuelEffect_RunExodiaBurst(void *buffer, s32 phase)
     line_packet = &line;
     work = buffer;
     if (phase >= 0) {
-        DisplayObject_CopyWorkSlots((s32 *)gDuelEffect_CardObjectScratchWords);
+        DisplayObject_CopyWorkSlots(gDuelEffect_CardObjectScratchWords);
         work->center.vx = (gDuelEffect_CardObjectScratchWords[0]->xy.s.x +
                            gDuelEffect_CardObjectScratchWords[1]->xy.s.x +
                            gDuelEffect_CardObjectScratchWords[2]->xy.s.x +
