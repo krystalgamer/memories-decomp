@@ -188,7 +188,7 @@ void DisplayObject_MoveToListHead(DisplayObject *slot, s32 key)
     slot->flags = saved;
 }
 
-void DisplayObject_ReleaseIfPresent(void *object)
+void DisplayObject_ReleaseIfPresent(DisplayObject *object)
 {
     if (object != 0) {
         DisplayObject_Release(object);

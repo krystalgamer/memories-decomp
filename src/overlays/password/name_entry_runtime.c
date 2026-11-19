@@ -383,10 +383,10 @@ void NameEntry_UpdateGlyphPulse(DisplayObject *sprite)
         obj->update = 0;
         obj->flags |= 0x08000000;
         if (obj->keepAfterPulse == 0) {
-            DisplayObject_ReleaseIfPresent(obj);
+            DisplayObject_ReleaseIfPresent((DisplayObject *)obj);
         }
 #else
-        DisplayObject_ReleaseIfPresent(obj);
+        DisplayObject_ReleaseIfPresent((DisplayObject *)obj);
 #endif
         return;
     }
