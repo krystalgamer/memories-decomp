@@ -25,6 +25,24 @@
 #include "../../overlays/main_menu/ordering_tables.h"
 #include "../../game/main.h"
 
+/* The frontend menu state, zero-initialized and common (this unit builds
+   with gcc_2_8_1_g0_split_comm); each layout's frontend_commons subsegment
+   places it at that image's addresses. */
+struct DisplayObject *gMainMenu_pTitleLogo;
+struct DisplayObject *gMainMenu_pCopyrightNotice;
+struct DisplayObject *gMainMenu_pStartPrompt;
+struct DisplayObject *gMain_apMenuEntries[11];
+u8 gMain_bMenuID;
+u8 gMainMenu_bBackRequested;
+u8 gMainMenu_bTransitionMode;
+u8 gMainMenu_bShadeLevel;
+s8 gMainMenu_nFadeDirection;
+u8 gMainMenu_bTransitionActive;
+u8 gMainMenu_bSaveWritePending;
+u8 gMainMenu_bLoadPending;
+u8 gMainMenu_bTradeLoadPending;
+u8 gMainMenu_bDuelLoadPending;
+
 #ifdef VERSION_EUROPE
 #define MAIN_MENU_ENTRY_TOP_Y 58
 #define MAIN_MENU_ENTRY_BOTTOM_Y 50

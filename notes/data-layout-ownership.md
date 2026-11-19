@@ -510,6 +510,19 @@ six card-sort comparator pointers, relocated to each image's own
 comparators. The Japanese linker symbols drop their assignment of
 `gMainMenu_aCardSortComparators`.
 
+The main-menu state is common storage in all 23 main-menu images, in object
+order: `frontend.c`, `value_setup.c` and `trade_screen.c`
+(`gcc_2_8_1_g0_split_comm`) declare the names each reads, and the layouts
+place them with `frontend_commons`, `value_setup_commons` and
+`trade_screen_commons` from their symbol files (North America and Japan
+`+0x4558..+0x5CD2`, PAL the same order `0x22C` higher, `+0x4784..+0x5EFE`).
+The halfword between the frontend and value-setup blocks is linker fill: a
+`bin` linked in `.bss` order where it is nonzero (North America `04 24`,
+English PAL `05 00`), `pad` elsewhere. The stale bytes after the state are a
+`leftover` segment. North America's `module_state.c` (`= 0` `.data` with `D_`
+fillers) is gone, Japan's linker symbols and PAL's interior second labels go
+with it.
+
 The Japanese free-duel image builds `free_duel/module_header.c` (`0x0`, `0x13`)
 and `module_state.c` (`0x1030`, 0x75 bytes of zero in North American order)
 through `free_duel_data_c.json`; like North America's layout it uses
@@ -522,17 +535,24 @@ North American and PAL ones: the word is the whole `module_header` segment and
 the module segment starts at `0x4` with `shop.c`'s `.rodata`, which needs
 `.rodata` ahead of `.text` in `section_order` (Japan had listed `.text`
 first and kept that `.rodata` in the header segment instead).
-They also build `module_state.c` (with `VERSION_JAPAN`) at `0x5108`: the
-North American order 0x2F8 lower, with `gNameEntry_aGlyphVramRects` in place
-of the 0x80-byte padding array and without the trailing 0xB0 one (Japan's
-sector leftovers start right after `gPassword_wCardId`; the two zero bytes
-before the raw tail at `0x51E8` are a `pad`). The 4-byte fill at `0x5104` is
-a `bin`, and the linker symbols drop the state's assignments.
-
 The PAL `password_a`/`password_b` images build `password/module_header.c` at
 `0x0` through their `_data_c.json`; `VERSION_EUROPE` selects their word,
-`0x07`. Their state keeps a different order from North America's and stays
-raw.
+`0x07`.
+
+The password and name-entry state is common storage in all 14 images:
+`name_entry_runtime.c` declares the name-entry names and `shop.c` the shop
+names (both `gcc_2_8_1_g0_split_comm`). The two units' commons are
+interleaved in every region, so one `name_entry_runtime_commons` subsegment
+(the first declaring object) places both from the image's symbol file: North
+America `+0x5400..+0x54DE`, Japan the same order `0x2F8` lower
+(`+0x5108..+0x51E6`, with its `gNameEntry_aGlyphVramRects` at the 0x80 bytes
+North America leaves unnamed), PAL another order at `+0x51B8..+0x52A0`. The
+word before each block is linker fill (`bin`; `pad` where zero), the bytes
+after it a `leftover` segment, and North America and Japan end on a halfword.
+`module_state.c` and its `PADDING_VARIABLE` fillers are gone; the PAL state
+names move from linker symbols to the symbol files, except Europe's
+`gNameEntry_apKeySprites`, which shares `gPassword_apDigitCursorDecorations`'
+address and stays a linker assignment.
 
 The credits module (USA and Japan) starts with its 4-byte module word; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette

@@ -8,6 +8,8 @@
 #include "../../psyq/libgpu.h"
 #endif
 
+/* The password module's shared state. name_entry_runtime.c and shop.c define
+ * it as common storage; Europe binds gNameEntry_apKeySprites by address. */
 extern struct DisplayObject *gNameEntry_apKeySprites[3];
 extern u8 gNameEntry_bStateFlags;
 extern s8 gNameEntry_bKeyboardColumn;

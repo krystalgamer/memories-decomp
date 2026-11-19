@@ -97,25 +97,26 @@ observed prefix. No screen function bodies or callback signatures change.
 
 ## Shared module state
 
-[`module_state.c`](module_state.c) defines the zero-initialized
-`0x8016D400-0x8016D590` prefix as separate variables in address order: the
-name-entry flags, selection frame and caret state followed by the password
-digits, cursor, preview, selected card and shop state. Europe places the
-same names in another order, so they are not fields of one record. Three `D_`
-arrays cover bytes no North American consumer names; data after `0x8016D590`
-remains raw.
+The zero-initialized state at `0x8016D400-0x8016D4DE` is common storage:
+[`name_entry_runtime.c`](name_entry_runtime.c) declares the name-entry
+flags, selection frame and caret state, and [`shop.c`](shop.c) the password
+digits, cursor, preview, selected card and shop state, as tentative
+definitions (`gcc_2_8_1_g0_split_comm`). The two units' names are
+interleaved, so one `name_entry_runtime_commons` subsegment places them
+from each image's symbol file. Europe holds the same names in another
+order, so they are not fields of one record. Unnamed bytes (four after
+`gNameEntry_bGlyphSequence`, 0x80 after the digit-cursor decorations) need no
+C; data after `0x8016D4DE` remains raw.
 
-The Japanese password and name-entry images build the same unit with
-`VERSION_JAPAN` at `0x8016D108-0x8016D1E6`, 0x2F8 lower and in the same order.
-At the 0x80-byte array Japan defines `gNameEntry_aGlyphVramRects`
-(`RECT[16]`, read by its `NameEntry_SpawnGlyphSprite`), and its state ends
-at `gPassword_wCardId`: the bytes where North America has the trailing 0xB0
-zero array are already sector leftovers there. The four bytes before it
-(`0x8016D104`) are linker fill, a `bin` subsegment like North America's.
+Japan holds the same order 0x2F8 lower (`0x8016D108-0x8016D1E6`); at the
+0x80 bytes it has `gNameEntry_aGlyphVramRects` (`RECT[16]`, read by its
+`NameEntry_SpawnGlyphSprite`, declared under `VERSION_JAPAN`). The four bytes
+before each block are linker fill, a `bin` subsegment. Europe's
+`gNameEntry_apKeySprites` shares the digit-cursor decorations' address and
+is a linker assignment.
 
-[`module_state.h`](module_state.h) declares them for the matching C, and
-`password_symbols.txt` marks each one defined so Splat does not bind it a
-second time.
+[`module_state.h`](module_state.h) declares the state for the other
+readers.
 
 ## Password-shop lifecycle translation unit
 

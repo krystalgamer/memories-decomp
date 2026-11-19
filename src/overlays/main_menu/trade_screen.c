@@ -33,6 +33,24 @@
    display-handle release; the six comparators are reached only through the
    refresh's pointer table. */
 
+/* The Trade screen state, zero-initialized and common (this unit builds with
+   gcc_2_8_1_g0_split_comm); each layout's trade_screen_commons subsegment
+   places it at that image's addresses. gTrade_abCursorRow is only
+   halfword-aligned there, as common storage allows. */
+DisplayObject *gTrade_pBackground;
+DisplayObject *gTrade_pStatsModeDisplay;
+MainMenuSlot gTrade_aCardSlots[2];
+CardCountEntry gTrade_aWorkingCards[2][CARD_COUNT];
+MainMenuPair gTrade_aListScroll[4];
+u16 gTrade_awOffers[2][11];
+u8 gTrade_abReady[2];
+u8 gTrade_abCursorRow[2];
+u8 gTrade_abSortMode[2];
+u8 gTrade_bFocusPane;
+u8 gTrade_bDecisionMenuActive;
+u8 gTrade_bCommitRequested;
+u8 gTrade_bWritePending;
+
 void MainMenu_InitTradeScreen(void)
 {
     DisplayObject *object;

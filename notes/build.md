@@ -1326,9 +1326,10 @@ blobs have a different and more basic obstacle, and it took two candidates to
 see it.
 
 The password head is now mapped without accepting those misleading sparse
-extents. [`module_state.c`](../src/overlays/password/module_state.c) owns the
-complete `0x8016D400-0x8016D590` prefix as separate variables whose types are
-supported by the name-entry and shop consumers. The remainder, `0x8016D590-0x8016F800`, stays raw.
+extents. `name_entry_runtime.c` and `shop.c` declare the state at
+`0x8016D400-0x8016D4DE` as common variables whose types are supported by
+their consumers, and the layout's `name_entry_runtime_commons` places them.
+The remainder, `0x8016D4DE-0x8016F800`, stays raw.
 
 `shop.c` declares `extern u8 *gPassword_apDigitCursorDecorations[]` and walks it to store **four**
 objects -- sixteen bytes -- and the overlay's own function notes describe
@@ -1414,23 +1415,24 @@ The remaining overlay data work is in the current raw tails:
 
 | overlay | raw blob | bytes |
 |---|---|---:|
-| `main_menu` | `0x5CD4-0x8000` | 9004 |
-| `password` | `0x5590-0x7800` | 8816 |
+| `main_menu` | `0x5CD2-0x8000` | 9006 |
+| `password` | `0x54DE-0x7800` | 8994 |
 | `free_duel` | `0x10A8-0x2800` | 5976 |
 | `overworld_before_coup` | `0x22CA-0x3000` | 3382 |
 | `overworld_after_coup` | `0x22CA-0x3000` | 3382 |
 
-The mapped main-menu prefix now covers `0x80184558-0x80185CD4`:
-`module_state.c` defines each frontend, value-setup and Trade name once, in
-address order, with `D_` placeholders for unnamed bytes. Former second labels
-are array elements (`gTwoPlayerDuel_abSetupChoices[2]`,
-`gTwoPlayerDuel_apSetupCursors[2]`, `gTrade_aWorkingCards[1]`,
-`gTrade_abReady[1]`, `gTrade_abCursorRow[1]`). The one remaining binding is
-`gTrade_abCursorRow = D_80185CCA`: GCC 2.8.1 word-aligns every byte array or
-struct in `.data`, so no C object can start at `0x80185CCA`. Retail most
-likely got that address from a linker-allocated common. The two nonzero
-loaded-image padding bytes `D_8018459E`/`D_8018459F` are explicit rather
-than being silently zero-filled.
+The main-menu state `0x80184558-0x80185CD2` is common storage: `frontend.c`,
+`value_setup.c` and `trade_screen.c` (`gcc_2_8_1_g0_split_comm`) each declare
+the names they read as tentative definitions, and the layout places them with
+`frontend_commons`, `value_setup_commons` and `trade_screen_commons` in that
+object order. Former second labels are array elements
+(`gTwoPlayerDuel_abSetupChoices[2]`, `gTwoPlayerDuel_apSetupCursors[2]`,
+`gTrade_aWorkingCards[1]`, `gTrade_abReady[1]`, `gTrade_abCursorRow[1]`).
+`gTrade_abCursorRow` starts at the 2-aligned `0x80185CCA`, which common
+storage allows and a GCC 2.8.1 `.data` byte array does not, so its old
+linker binding is gone. The two nonzero bytes `04 24` at `0x8018459E`
+(English PAL: `05` at the same offset) are linker fill between the frontend
+and value-setup blocks, a `bin` linked in `.bss` order.
 
 The ranges in the table still require consumer-backed boundaries before they
 can be split further. The data-only overlay manifest and build path are no

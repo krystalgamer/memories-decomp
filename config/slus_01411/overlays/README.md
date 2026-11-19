@@ -124,20 +124,19 @@ Main menu additionally maps the adjacent `0x18` bytes of `.rodata` through
 `D_80180000[1]` reach across the section boundary and emits six checked
 function relocations in retail order.
 
-Main menu also owns the complete loaded runtime-state prefix at
-`0x80184558-0x80185CD4`. `module_state.c` defines every frontend, value-setup and Trade name once,
-in address order, including both 722-card inventory rows; former second
-labels are array elements. `main_menu_symbols.txt` marks them
-`// defined:True`. The only remaining binding,
-`gTrade_abCursorRow = D_80185CCA`, exists because GCC 2.8.1 cannot place a
-byte array at that 2-aligned address. The remaining
-raw asset tail begins at module offset `0x5CD4`.
+Main menu's runtime state at `0x80184558-0x80185CD2` is common storage:
+`frontend.c`, `value_setup.c` and `trade_screen.c` declare the names they read
+as tentative definitions (`gcc_2_8_1_g0_split_comm`), including both 722-card
+inventory rows, and the `frontend_commons`, `value_setup_commons` and
+`trade_screen_commons` subsegments place them from `main_menu_symbols.txt`.
+The two bytes at `0x8018459E` between the first two blocks are linker fill
+(a `bin`). The remaining raw tail begins at module offset `0x5CD2`.
 
-Password also owns `0x8016D400-0x8016D590` as separate zero-initialized
-variables in `module_state.c`. Sparse labels are not object extents: for
-example, `gPassword_apDigitCursorDecorations` is a four-pointer array and
-`gPassword_wCardId` is a halfword even though the next generated labels are
-much farther away, so the unnamed bytes after them are their own `D_` arrays.
+Password's zero-initialized state at `0x8016D400-0x8016D4DE` is common
+storage declared by `name_entry_runtime.c` and `shop.c` and placed by the
+`name_entry_runtime_commons` subsegment. Sparse labels are not object
+extents: for example, `gPassword_apDigitCursorDecorations` is a four-pointer
+array even though the next label is 0x90 bytes farther away.
 
 Free Duel additionally maps its complete named state prefix at
 `0x80169030-0x801690A8` through `module_state.c`. The `0x78`-byte object

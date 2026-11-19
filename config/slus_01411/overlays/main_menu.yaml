@@ -36,6 +36,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
 
   section_order:
@@ -60,13 +61,25 @@ segments:
     type: code
     start: 0x4
     vram: 0x80180004
-    align: 4
+    # The Trade screen state ends on a halfword (+0x5CD2).
+    align: 2
     subsegments:
       - [0x4, .rodata, overlays/main_menu/module_rodata]
       - [0x1C, c, overlays/main_menu/frontend]
       - [0xFD8, c, overlays/main_menu/value_setup]
       - [0x1F68, c, overlays/main_menu/trade_screen]
-      - [0x4558, .data, overlays/main_menu/module_state]
-      - [0x5CD4, data, overlays/main_menu/data]
+      - [0x4558, bss_commons, overlays/main_menu/frontend_commons]
+      # Linker fill between objects (nonzero here), not data.
+      - {start: 0x459E, type: bin, name: overlays/main_menu/data_459e, linker_section_order: .bss}
+      - [0x45A0, bss_commons, overlays/main_menu/value_setup_commons]
+      - [0x45DC, bss_commons, overlays/main_menu/trade_screen_commons]
+
+  - name: leftover
+    type: code
+    start: 0x5CD2
+    vram: 0x80185CD2
+    align: 2
+    subsegments:
+      - [0x5CD2, bin, overlays/main_menu/data]
 
   - [0x8000]
