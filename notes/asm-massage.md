@@ -614,6 +614,15 @@ against `.text`; the linked bytes check its target).
   `gcc -S`, then `asm_massage.massage_unit` with every edit file of the unit,
   then GNU as. The regional builders import the same `compile_c`, so the
   Japanese and European executables build the unit the same way.
+- Regional symbols: `word-compose` decides adjacency and alignment of the
+  composed globals from the North American `config/slus_01411/symbols.txt`,
+  also when a regional executable is built. It only emits `lw %lo(first)`
+  against the first global, which each region's linker resolves to its own
+  address; the decision is right because every region keeps the three
+  draw-mode bytes in the same order on a word boundary (`gModel_bCurrentDrawMode`
+  at 0x8009AFE4 here, 0x8009BF6C in `sles_03947`, 0x8009AF4C in
+  `slpm_86398`, each followed by `gModel_bBlendRateActive`), which the regional
+  exact matches confirm.
 - Edit files: by convention, not a manifest field. A source
   `<unit>.c` keeps one `<unit>.massage/<function>.massage` per
   function, named after the function. `massage_unit` requires an edit for
@@ -624,8 +633,10 @@ against `.text`; the linked bytes check its target).
   (`.L<function>_<n>`) and rejects any data directive, so a unit with
   string literals or data cannot silently lose it.
 - Incremental cache: `build_incremental.py` adds the hashes of
-  `asm_massage.py` and `asm_massage_rules.py` to the massaged profile's
-  context and the edit directory's digest to each unit's signature.
+  `asm_massage.py`, `asm_massage_rules.py` and
+  `config/slus_01411/symbols.txt` (read by `word-compose`) to the massaged
+  profile's context and the edit directory's digest to each unit's
+  signature.
 - Contracts: `make check-matching-source-contracts` limits massaged profiles
   to the resident manifest, rejects hard-register variables, accepts only
   asm statements
