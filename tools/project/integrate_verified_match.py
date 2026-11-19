@@ -13,12 +13,6 @@ from pathlib import Path
 from typing import Any
 
 from function_inventory import FIELDS, load_inventory
-from handwritten_asm_contract import (
-    HANDWRITTEN_ASM_PROFILE_KEY,
-    HandwrittenAsmError,
-    handwritten_asm_spans,
-    in_handwritten_range,
-)
 from record_external_attempt import ExternalAttemptError, latest_successes
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
@@ -255,7 +249,6 @@ def validate_effective_profile(profile: Any, profile_name: str) -> None:
                 "maspsx_flags",
                 "aspsx_version",
                 "assembly_filter",
-                HANDWRITTEN_ASM_PROFILE_KEY,
                 "allow_psyq_inline_macros",
                 "psyq_inline_macro",
             )
@@ -270,16 +263,6 @@ def validate_effective_profile(profile: Any, profile_name: str) -> None:
         ) != 0 or profile.get("data_limit") != 0:
             raise IntegrationError(f"profile {profile_name}: asm_massage requires -G0")
         return
-    if HANDWRITTEN_ASM_PROFILE_KEY in profile:
-        if profile[HANDWRITTEN_ASM_PROFILE_KEY] is not True:
-            raise IntegrationError(
-                f"profile {profile_name}: {HANDWRITTEN_ASM_PROFILE_KEY} must be true"
-            )
-        if "allow_psyq_inline_macros" in profile or "psyq_inline_macro" in profile:
-            raise IntegrationError(
-                f"profile {profile_name} cannot combine hand-written asm macros "
-                "with Psy-Q inline macros"
-            )
     if "psyq_inline_macro" in profile:
         if profile["psyq_inline_macro"] not in ("rtps", "stopz", "gte"):
             raise IntegrationError(f"profile {profile_name} has an unsupported Psy-Q inline macro")
@@ -430,30 +413,6 @@ def uses_asm_extension(
                 alias_spans.append(match.span())
         code = mask_spans(code, alias_spans)
     return ASM_PATTERN.search(code) is not None
-
-
-def uses_disallowed_handwritten_asm(
-    source: str,
-    *,
-    allow_symbol_aliases: bool = False,
-    tracked_symbol_names: set[str] | None = None,
-) -> bool:
-    """Allow register pins and only allowlisted handwritten_asm.h expansions."""
-    text = strip_c_comments(source)
-    code = mask_spans(mask_c_literals(text), register_pin_spans(text))
-    code = mask_spans(
-        code, [match.span() for match in SYMBOL_ALIAS_PATTERN.finditer(text)]
-    )
-    try:
-        spans = handwritten_asm_spans(text, code)
-    except HandwrittenAsmError:
-        return True
-    return uses_asm_extension(
-        mask_spans(text, spans),
-        allow_register_pins=True,
-        allow_symbol_aliases=allow_symbol_aliases,
-        tracked_symbol_names=tracked_symbol_names,
-    )
 
 
 def uses_disallowed_psyq_rtps_asm(
@@ -790,18 +749,6 @@ def main() -> int:
                 "allows Psy-Q inline macros"
             )
 
-        handwritten_asm = profile.get(HANDWRITTEN_ASM_PROFILE_KEY) is True
-        if handwritten_asm and not in_handwritten_range(address):
-            raise IntegrationError(
-                f"{address:#010x}: hand-written asm macros are limited to the "
-                "formerly hand-written renderer range"
-            )
-        if handwritten_asm and args.allow_psyq_inline_macros:
-            raise IntegrationError(
-                "--allow-psyq-inline-macros cannot be used with a hand-written "
-                "asm profile"
-            )
-
         functions = load_inventory(functions_path)
         matches = [
             function for function in functions if function.address == address
@@ -827,7 +774,7 @@ def main() -> int:
         source_text = source_bytes.decode("utf-8")
         tracked_symbol_names = load_tracked_symbol_names(root)
         source_without_comments = strip_c_comments(source_text)
-        if not handwritten_asm and contains_register_pin(source_without_comments):
+        if contains_register_pin(source_without_comments):
             raise IntegrationError(
                 f"{address:#010x}: matching C cannot contain hard-register variables"
             )
@@ -843,21 +790,13 @@ def main() -> int:
             )
         preprocessed_text = preprocess_source(root, source, profile)
         preprocessed_without_comments = strip_c_comments(preprocessed_text)
-        if not handwritten_asm and contains_register_pin(
-            preprocessed_without_comments
-        ):
+        if contains_register_pin(preprocessed_without_comments):
             raise IntegrationError(
                 f"{address:#010x}: expanded matching C cannot contain "
                 "hard-register variables"
             )
         if (
-            uses_disallowed_handwritten_asm(
-                preprocessed_text,
-                allow_symbol_aliases=True,
-                tracked_symbol_names=tracked_symbol_names,
-            )
-            if handwritten_asm
-            else uses_disallowed_psyq_inline_asm(
+            uses_disallowed_psyq_inline_asm(
                 preprocessed_text,
                 macro_family=profile.get("psyq_inline_macro", "rtps"),
                 allow_register_pins=True,

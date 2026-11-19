@@ -260,47 +260,33 @@ macros are not expanded and therefore do not cause false failures. Run this
 target after installing the matching compiler; the toolchain-backed CI build
 runs it separately from the toolchain-free metadata job.
 
-The one exception covers the game's hand-written model renderers
-(`0x800612C0`-`0x8006AF74`), which have no stack frame and keep caller
-registers in their argument block. A profile with `"handwritten_asm_macros":
-true` (currently `gcc_2_8_1_g0_handwritten_asm`) may be used only for those
-addresses in `config/slus_01411/matching_c.json`. Such a source may declare
-hard registers, and its inline assembly is limited to the register
-save/restore, GTE register, lone-`lwr` and fixed branch-plus-delay-slot
-macros in `src/game/handwritten_asm.h`, the native-opcode GTE command macros
-in `src/game/gte_native.h`, and the Psy-Q `inline_c.h` register transfers
-`gte_ldv0`/`gte_ldv1`/`gte_ldv2`, `gte_ldsxy0`/`gte_ldsxy1`/`gte_ldsxy2`,
-`gte_stsxy2`, `gte_strgb` and `gte_strgb3`. After
-preprocessing, `tools/project/handwritten_asm_contract.py` checks each asm
-statement against an instruction, GTE command-word, constraint and clobber
-allowlist; empty templates and anything else are rejected. The profile cannot
-be combined with `--allow-psyq-inline-macros`. When such a function already has a
-deferred canonical history, record the exact result with
-`record_external_attempt.py --mode post_terminal_resolution --profile
-gcc_2_8_1_g0_handwritten_asm --allow-register-pins`; the recorder applies the
-same range and contract checks. No unit uses it any more.
+The game's hand-written model renderers (`0x800612C0`-`0x8006AF74`) have no
+stack frame and keep caller registers in their argument block, which GCC
+alone cannot produce. They used to match through register variables and
+private asm macros under a dedicated profile (`gcc_2_8_1_g0_handwritten_asm`,
+now retired; its ledger rows remain valid history). All of them now build
+from plain C through the assembly massage instead.
 
-The second route for that range needs no register declarations or private
-asm. A profile with `"asm_massage": true` (currently `gcc_2_8_1_o2_massaged`:
-plain `-O2` and the target flags, no scheduling switches, no MASPSX keys)
-builds plain C through `gcc -S`, `tools/project/asm_massage.py` and GNU as.
-The massage applies shared, documented rules, then a per-function register
-map and residual diff kept in one tracked edit file per function, in a
-directory beside the source (`<unit>.c` keeps
-`<unit>.massage/<function>.massage`). `make
+That route needs no register declarations or private asm. A profile with
+`"asm_massage": true` (currently `gcc_2_8_1_o2_massaged`: plain `-O2` and the
+target flags, no scheduling switches, no MASPSX keys) builds plain C through
+`gcc -S`, `tools/project/asm_massage.py` and GNU as. The massage applies
+shared, documented rules, then a per-function register map and residual diff
+kept in one tracked edit file per function, in a directory beside the source
+(`<unit>.c` keeps `<unit>.massage/<function>.massage`). `make
 check-matching-source-contracts` limits such a unit to the resident manifest,
-forbids hard registers and the `handwritten_asm.h`/`gte_native.h` headers,
-accepts only asm statements whose template, constraints and clobbers are a
-stock `src/psyq/inline_c.h` macro's, and requires exactly one valid edit file
-per manifest function (an object built from part of the source, split by a
-define, simply leaves the other edits unused). `make check-asm-massage` rebuilds each function
-against the retail executable and proves that its residual preserves every
-data dependence. `integrate_verified_match.py` refuses these profiles; such
-units are integrated by hand. `src/game/wireframe_renderers.c`,
+forbids hard registers, accepts only asm statements whose template,
+constraints and clobbers are a stock `src/psyq/inline_c.h` macro's, and
+requires exactly one valid edit file per manifest function (an object built
+from part of the source, split by a define, simply leaves the other edits
+unused). `make check-asm-massage` rebuilds each function against the retail
+executable and proves that its residual preserves every data dependence.
+`integrate_verified_match.py` refuses these profiles; such units are
+integrated by hand. `src/game/wireframe_renderers.c`,
 `src/game/shared_polygon_renderers.c`,
-`src/game/shared_primitive_cache_prepare.c` and
-`src/game/polygon_renderers.c` are massaged units; see `notes/asm-massage.md`, `notes/wireframe-renderers.md`,
-`notes/shared-primitive-renderers.md` and
+`src/game/shared_primitive_cache_prepare.c` and `src/game/polygon_renderers.c`
+are massaged units; see `notes/asm-massage.md`,
+`notes/wireframe-renderers.md`, `notes/shared-primitive-renderers.md` and
 `notes/direct-polygon-renderers.md`.
 
 For a larger untouched function, find exact-C instruction-shape siblings before

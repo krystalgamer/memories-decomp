@@ -11,11 +11,6 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from handwritten_asm_contract import (
-    HANDWRITTEN_ASM_MANIFEST,
-    HANDWRITTEN_ASM_PROFILE_KEY,
-    in_handwritten_range,
-)
 from integrate_verified_match import (
     contains_register_pin,
     IntegrationError,
@@ -24,7 +19,6 @@ from integrate_verified_match import (
     profile_g_value,
     strip_c_comments,
     uses_asm_extension,
-    uses_disallowed_handwritten_asm,
     uses_disallowed_psyq_inline_asm,
     validate_effective_profile,
 )
@@ -42,24 +36,13 @@ def source_violations(
     allow_psyq_inline_macros: bool = False,
     psyq_inline_macro: str = "rtps",
     allow_register_pins: bool = False,
-    allow_handwritten_asm_macros: bool = False,
 ) -> list[str]:
     text = strip_c_comments(source)
     violations: list[str] = []
-    if (
-        not allow_register_pins
-        and not allow_handwritten_asm_macros
-        and contains_register_pin(text)
-    ):
+    if not allow_register_pins and contains_register_pin(text):
         violations.append("contains a hard-register variable")
     if (
-        uses_disallowed_handwritten_asm(
-            source,
-            allow_symbol_aliases=True,
-            tracked_symbol_names=tracked_symbol_names,
-        )
-        if allow_handwritten_asm_macros
-        else uses_disallowed_psyq_inline_asm(
+        uses_disallowed_psyq_inline_asm(
             source,
             macro_family=psyq_inline_macro,
             allow_register_pins=True,
@@ -81,7 +64,7 @@ def source_violations(
 
 
 INLINE_C = "src/psyq/inline_c.h"
-MASSAGE_FORBIDDEN_INCLUDES = ("handwritten_asm.h", "gte_native.h")
+RESIDENT_MANIFEST = "config/slus_01411/matching_c.json"
 STRING_LITERAL = re.compile(r'"(?:[^"\\]|\\.)*"')
 
 
@@ -135,16 +118,13 @@ def massaged_unit_violations(
     preprocessed: str,
     entries: list[tuple[str, int, int]],
 ) -> list[str]:
-    """A massaged unit is plain C: no register pins, no hand-written asm
-    headers, and only inline_c.h's own asm statements. Its edit directory
-    holds exactly one valid edit file per manifest function."""
+    """A massaged unit is plain C: no register pins and only inline_c.h's
+    own asm statements. Its edit directory holds exactly one valid edit file
+    per manifest function."""
     import asm_massage
     import asm_massage_rules
 
     violations = []
-    for include in re.findall(r'#\s*include\s+"([^"]+)"', strip_c_comments(source)):
-        if include.rsplit("/", 1)[-1] in MASSAGE_FORBIDDEN_INCLUDES:
-            violations.append(f"massaged unit includes {include}")
     allowed = inline_c_shapes(root)
     for body in asm_statements(preprocessed):
         if asm_shape(body) not in allowed:
@@ -251,25 +231,9 @@ def audit(root: Path) -> list[str]:
                 )
                 continue
 
-            handwritten_asm = profile.get(HANDWRITTEN_ASM_PROFILE_KEY) is True
-            if handwritten_asm:
-                try:
-                    in_range = in_handwritten_range(int(str(address), 0))
-                except ValueError:
-                    in_range = False
-                if (
-                    str(manifest.relative_to(root)) != HANDWRITTEN_ASM_MANIFEST
-                    or not in_range
-                ):
-                    problems.append(
-                        f"{label}: hand-written asm macros are limited to the "
-                        "formerly hand-written renderer range"
-                    )
-                    continue
-
             asm_massage = profile.get("asm_massage") is True
             if asm_massage:
-                if str(manifest.relative_to(root)) != HANDWRITTEN_ASM_MANIFEST:
+                if str(manifest.relative_to(root)) != RESIDENT_MANIFEST:
                     problems.append(f"{label}: massaged profiles are resident-only")
                     continue
                 try:
@@ -293,11 +257,7 @@ def audit(root: Path) -> list[str]:
             except (IntegrationError, WorkspaceError, OSError, UnicodeError) as error:
                 problems.append(f"{label}: {error}")
                 continue
-            violations = source_violations(
-                source,
-                tracked_symbol_names,
-                allow_register_pins=handwritten_asm,
-            )
+            violations = source_violations(source, tracked_symbol_names)
             if asm_massage:
                 # Its asm is checked against inline_c.h below.
                 preprocessed_violations = (
@@ -311,7 +271,6 @@ def audit(root: Path) -> list[str]:
                     tracked_symbol_names,
                     allow_psyq_inline_macros=allow_psyq_inline_macros,
                     psyq_inline_macro=profile.get("psyq_inline_macro", "rtps"),
-                    allow_handwritten_asm_macros=handwritten_asm,
                 )
             for violation in preprocessed_violations:
                 if violation not in violations:

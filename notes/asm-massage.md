@@ -22,17 +22,18 @@ source, in `src/game/wireframe_renderers.massage/`,
 The model renderers (`src/game/wireframe_renderers.c`,
 `src/game/polygon_renderers.c`, `src/game/shared_polygon_renderers.c` and
 `src/game/shared_primitive_cache_prepare.c`, about 60 functions) were written
-in assembly. Without the massage they match through register variables,
-`handwritten_asm.h` and `gte_native.h`: C that spells out the original's
-registers and instructions and would not run anywhere else.
+in assembly. Before the massage they matched through register variables
+and private asm macro headers under a dedicated profile (now retired): C
+that spelled out the original's registers and instructions and would not
+run anywhere else.
 
 The massage keeps the C plain and moves the hand optimisation into an
 explicit, reviewable post-pass:
 
 - the C is portable C over the stock Psy-Q `inline_c.h` GTE macros and the
-  `libgpu.h` primitive macros, with no `register`/`asm`, no
-  `handwritten_asm.h`/`gte_native.h`, no type punning and no endianness
-  tricks;
+  `libgpu.h` primitive macros, with no `register`/`asm`, no private asm
+  headers, and no type punning or endianness tricks beyond the documented
+  word views of records, packets and cache entries (A5);
 - it is compiled with exactly the fixed flags (`-O2 -G0 -mel -mips1
   -mcpu=R3000 -msoft-float -fno-builtin -Dpsx -D__psx__ -D__psx`, one level
   for the whole family);
@@ -590,8 +591,8 @@ against `.text`; the linked bytes check its target).
   `asm_massage.py` and `asm_massage_rules.py` to the massaged profile's
   context and the edit directory's digest to each unit's signature.
 - Contracts: `make check-matching-source-contracts` limits massaged profiles
-  to the resident manifest, rejects hard-register variables and the
-  `handwritten_asm.h`/`gte_native.h` includes, accepts only asm statements
+  to the resident manifest, rejects hard-register variables, accepts only
+  asm statements
   whose template, constraints and clobbers equal one of
   `src/psyq/inline_c.h`'s, and requires one edit file per manifest function
   whose `source`, North American `address`/`size` and `rules` are valid.

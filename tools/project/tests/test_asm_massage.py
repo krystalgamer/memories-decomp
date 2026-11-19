@@ -497,7 +497,7 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(am.check_source_contract(
             '#include "../psyq/inline_c.h"\nvoid f(void) { gte_rtpt_b(); }\n'), [])
         self.assertEqual(len(am.check_source_contract(
-            '#include "handwritten_asm.h"\nregister int x asm("$16");\n')), 3)
+            'register int x asm("$16");\n')), 2)
 
 
 class HazardAndResidualTests(unittest.TestCase):
