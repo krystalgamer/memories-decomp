@@ -2482,7 +2482,7 @@ s32 SaveData_UpdateLoadPair(void)
             if ((gSaveData_LoadPairState & 0x80) == 0) {
                 gSaveData_LoadPairState = 3;
                 MemCardDialog_Request(
-                    gSaveData_aPairWorkspace,
+                    gSaveData_aPairWorkspace[0].loaded.bytes,
                     SAVE_DATA_STATE_SIZE,
                     MEM_CARD_SAVE_FILE_NAME,
                     1
@@ -2498,8 +2498,8 @@ s32 SaveData_UpdateLoadPair(void)
             if (v == 1) {
                 if (gSaveData_LoadPairState & 0x40) {
                     if (SaveData_HasSameDuelistCode(
-                            (SaveDataState *)gSaveData_aPairWorkspace,
-                            (SaveDataState *)(gSaveData_aPairWorkspace + 0x1000)) == 0) {
+                            &gSaveData_aPairWorkspace[0].loaded.state,
+                            &gSaveData_aPairWorkspace[1].loaded.state) == 0) {
                         return 1;
                     }
                     gSaveData_LoadPairState = 0xA;
@@ -2574,8 +2574,8 @@ s32 SaveData_UpdateDuelLoad(void)
 {
     s32 result;
     s32 i;
-    u8 *left;
-    u8 *right;
+    u16 *left;
+    u16 *right;
     TextStagingValues *state;
 
     if ((gSaveData_PairSetupState & 128) == 0) {
@@ -2584,18 +2584,18 @@ s32 SaveData_UpdateDuelLoad(void)
     }
     result = SaveData_UpdateTradeLoad();
     if (result == 1) {
-        left = gSaveData_aPairWorkspace;
-        right = gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE;
+        left = gSaveData_aPairWorkspace[0].loaded.state.player_deck;
+        right = gSaveData_aPairWorkspace[1].loaded.state.player_deck;
         i = 0;
         state = gText_StagedValues;
         gSaveData_LoadPairState = 10;
         gSaveData_PairMessageCode = 36;
-        for (; i < DECK_SIZE; i++, left += 2, right += 2) {
-            if (*(u16 *)left == 0) {
+        for (; i < DECK_SIZE; i++, left++, right++) {
+            if (*left == 0) {
                 state->deck_validation.invalid_side = 1;
                 return 0;
             }
-            if (*(u16 *)right == 0) {
+            if (*right == 0) {
                 state->deck_validation.invalid_side = 2;
                 return 0;
             }

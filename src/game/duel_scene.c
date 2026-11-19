@@ -2058,15 +2058,13 @@ void Duel_InitScene(void)
         gDuel_apSideSaveData[0] = gDuel_apSideSaveData[1] = 0;
         if (pid[-1] < 0) {
             if (gDuel_bOpponentID < 0) {
-                /* The pair workspace is an untyped byte block holding one
-                   state per side. Kept: typed SaveDataState locals for these
-                   stores move the lui from $4 to $2. */
-                gDuel_apSideSaveData[0] = (SaveDataState *)gSaveData_aPairWorkspace;
-                gDuel_apSideSaveData[1] =
-                    (SaveDataState *)(gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE);
+                /* Typed SaveDataState locals for these stores move the lui
+                   from $4 to $2; the member addresses do not. */
+                gDuel_apSideSaveData[0] = &gSaveData_aPairWorkspace[0].loaded.state;
+                gDuel_apSideSaveData[1] = &gSaveData_aPairWorkspace[1].loaded.state;
                 Duel_ShuffleBothDecks(
-                    (const u16 *)gSaveData_aPairWorkspace,
-                    (const u16 *)(gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE)
+                    gSaveData_aPairWorkspace[0].loaded.state.player_deck,
+                    gSaveData_aPairWorkspace[1].loaded.state.player_deck
                 );
                 return;
             }
