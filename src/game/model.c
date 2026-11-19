@@ -4813,8 +4813,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
     case 1:
         transfer->field_30.h.counter = slot_index << 8;
         transfer->field_30.h.field_32 = 0x100;
-        transfer->w = 0x40;
-        transfer->h = 0x10;
+        transfer->rect.w = 0x40;
+        transfer->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         transfer->phase_size = 48 * FILE_SECTOR_SIZE;
         gFile_dwTransferState |= 0x10000;
@@ -4855,8 +4855,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             palette_row_rect.h = 1;
             LoadImage2(&palette_row_rect, (u32 *)gModel_abTexturePaletteStaging);
             transfer->field_30.h.counter = (slot_index << 8) + 0xC0;
-            transfer->w = 0x40;
-            transfer->h = 0x10;
+            transfer->rect.w = 0x40;
+            transfer->rect.h = 0x10;
             {
                 u32 cleared_transfer_state, reloaded_transfer_state, image_transfer_bit;
                 cleared_transfer_state = gFile_dwTransferState & 0xFFDDFFFF;
@@ -4885,8 +4885,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             palette_row_rect.h = 1;
             LoadImage2(&palette_row_rect, (u32 *)gFile_abPackageStagingBuffer);
             transfer->field_30.h.counter = (slot_index << 8) + 0xC0;
-            transfer->w = 0x40;
-            transfer->h = 0x10;
+            transfer->rect.w = 0x40;
+            transfer->rect.h = 0x10;
             {
                 u32 cleared_transfer_state, reloaded_transfer_state, image_transfer_bit;
                 cleared_transfer_state = gFile_dwTransferState & 0xFFDDFFFF;
@@ -5081,8 +5081,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
     case 1:
         transfer->field_30.h.counter = 0x200;
         transfer->field_30.h.field_32 = 0x100;
-        transfer->w = 0x40;
-        transfer->h = 0x10;
+        transfer->rect.w = 0x40;
+        transfer->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
@@ -5120,8 +5120,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         LoadImage2(&second_palette_rect, (u32 *)gFile_abPackageStagingBuffer);
         transfer->field_30.h.counter = 0x380;
         transfer->field_30.h.field_32 = 0;
-        transfer->w = 0x40;
-        transfer->h = 0x10;
+        transfer->rect.w = 0x40;
+        transfer->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
@@ -5153,9 +5153,9 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
 
     case 1:
         transfer->field_30.h.field_32 = 0x100;
-        transfer->w = 0x40;
+        transfer->rect.w = 0x40;
         transfer->field_30.h.counter = 0;
-        transfer->h = 0x10;
+        transfer->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;
@@ -5207,9 +5207,9 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         palette_rows_rect.h = 2;
         LoadImage2(&palette_rows_rect, (u32 *)gFile_abPackageStagingBuffer);
         transfer->field_30.h.counter = 0x180;
-        transfer->w = 0x40;
+        transfer->rect.w = 0x40;
         transfer->field_30.h.field_32 = 0x100;
-        transfer->h = 0x10;
+        transfer->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         transfer->transfer_mode = 2;

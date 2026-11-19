@@ -41,8 +41,8 @@ void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     case 0:
         object->field_30.h.counter = 0;
         object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
@@ -60,11 +60,11 @@ void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 2:
-        object->x = FREE_DUEL_IMAGE_X;
-        object->y = FREE_DUEL_IMAGE_Y;
-        object->w = 0x100;
-        object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
+        object->rect.x = FREE_DUEL_IMAGE_X;
+        object->rect.y = FREE_DUEL_IMAGE_Y;
+        object->rect.w = 0x100;
+        object->rect.h = 4;
+        LoadImage2(&object->rect, (u32 *)gFile_TransferBufferBase);
         object->alternate_sector_destination = gDisplay_abResourceBank0;
         object->sector_destination = gDisplay_abResourceBank0;
         object->phase_size = FILE_SECTOR_SIZE;
@@ -148,7 +148,7 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         object->field_30.h.counter = c;
         object->field_30.h.field_32 = c;
         v = gFile_dwTransferState;
-        object->w = 0x40;
+        object->rect.w = 0x40;
         gFile_dwTransferState = v & m;
         w = gFile_dwTransferState;
         n = 0x10000;
@@ -157,7 +157,7 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
             gFile_dwTransferState = w | n;
             object->transfer_mode = 2;
             d = gFile_TransferBufferBase;
-            object->h = 0x10;
+            object->rect.h = 0x10;
         } while (0);
         object->sector_destination = d;
         object->alternate_sector_destination = d + FILE_SECTOR_SIZE;
@@ -166,9 +166,9 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
     case 1:
         object->field_30.h.counter = 0x1C0;
         object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
+        object->rect.w = 0x40;
         v2 = gFile_dwTransferState;
-        object->h = 0x10;
+        object->rect.h = 0x10;
         gFile_dwTransferState = v2 & 0xFFDDFFFF;
         w2 = gFile_dwTransferState;
         gFile_dwTransferState = w2 | 0x10000;
@@ -197,23 +197,23 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         do {
             hun = NAME_ENTRY_PACKAGE_IMAGE_X;
         } while (0);
-        object->x = hun;
-        object->y = NAME_ENTRY_PACKAGE_IMAGE_Y;
+        object->rect.x = hun;
+        object->rect.y = NAME_ENTRY_PACKAGE_IMAGE_Y;
         k = gFile_TransferBufferBase;
-        object->w = 0x100;
+        object->rect.w = 0x100;
 #else
         do {
             hun = 0x100;
         } while (0);
         /* Kept for the same reason: a plain member store reschedules the
            LoadImage2 setup. */
-        *(u16 *)&object->y = 0xF0;
+        *(u16 *)&object->rect.y = 0xF0;
         k = gFile_TransferBufferBase;
-        object->x = hun;
-        object->w = hun;
+        object->rect.x = hun;
+        object->rect.w = hun;
 #endif
-        object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)k);
+        object->rect.h = 4;
+        LoadImage2(&object->rect, (u32 *)k);
         m = 0xFFDCFFFF;
         *(s32 *)&object->phase_size = 15 * FILE_SECTOR_SIZE;
         x = gFile_dwTransferState & m;
@@ -300,8 +300,8 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     case 0:
         object->field_30.h.counter = 0x300;
         object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
@@ -319,11 +319,11 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 2:
-        object->x = PASSWORD_PACKAGE_IMAGE_X;
-        object->y = PASSWORD_PACKAGE_IMAGE_Y;
-        object->w = 0x100;
-        object->h = 0x10;
-        LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
+        object->rect.x = PASSWORD_PACKAGE_IMAGE_X;
+        object->rect.y = PASSWORD_PACKAGE_IMAGE_Y;
+        object->rect.w = 0x100;
+        object->rect.h = 0x10;
+        LoadImage2(&object->rect, (u32 *)gFile_TransferBufferBase);
         object->alternate_sector_destination = gFile_StagingBuffer.bytes;
         object->sector_destination = gFile_StagingBuffer.bytes;
         object->phase_size = 3 * FILE_SECTOR_SIZE;
@@ -391,8 +391,8 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     case 3:
         object->field_30.h.counter = 0x1C0;
         object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
@@ -410,11 +410,11 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 5:
-        object->x = CAMPAIGN_MAP_IMAGE_X;
-        object->y = CAMPAIGN_MAP_IMAGE_Y;
-        object->w = 0x100;
-        object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
+        object->rect.x = CAMPAIGN_MAP_IMAGE_X;
+        object->rect.y = CAMPAIGN_MAP_IMAGE_Y;
+        object->rect.w = 0x100;
+        object->rect.h = 4;
+        LoadImage2(&object->rect, (u32 *)gFile_TransferBufferBase);
         break;
     }
 }
@@ -433,8 +433,8 @@ void Frontend_LoadPackageStageVariantA(FileTransferDescriptor *object, s32 mode)
     case 0:
         object->field_30.h.field_32 = 0x100;
         object->field_30.h.counter = 0;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         object->phase_size = 32 * FILE_SECTOR_SIZE;
         gFile_dwTransferState |= 0x10000;
@@ -452,11 +452,11 @@ void Frontend_LoadPackageStageVariantA(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 2:
-        object->x = 0x280;
-        object->y = 0xE0;
-        object->w = 0x100;
-        object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
+        object->rect.x = 0x280;
+        object->rect.y = 0xE0;
+        object->rect.w = 0x100;
+        object->rect.h = 4;
+        LoadImage2(&object->rect, (u32 *)gFile_TransferBufferBase);
         object->alternate_sector_destination = gDisplay_abResourceBank0;
         object->sector_destination = gDisplay_abResourceBank0;
         object->phase_size = 2 * FILE_SECTOR_SIZE;
@@ -485,8 +485,8 @@ void Frontend_LoadPackageStageVariantB(FileTransferDescriptor *object, s32 mode)
     case 0:
         object->field_30.h.field_32 = 0x100;
         object->field_30.h.counter = 0;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
         gFile_dwTransferState |= 0x10000;
@@ -504,11 +504,11 @@ void Frontend_LoadPackageStageVariantB(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 2:
-        object->x = 0x280;
-        object->y = 0xE0;
-        object->w = 0x100;
-        object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
+        object->rect.x = 0x280;
+        object->rect.y = 0xE0;
+        object->rect.w = 0x100;
+        object->rect.h = 4;
+        LoadImage2(&object->rect, (u32 *)gFile_TransferBufferBase);
         object->alternate_sector_destination = gDisplay_abResourceBank0;
         object->sector_destination = gDisplay_abResourceBank0;
         object->phase_size = 2 * FILE_SECTOR_SIZE;
@@ -573,8 +573,8 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
     case 0:
         object->field_30.h.field_32 = 0x100;
         object->field_30.h.counter = 0;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         object->phase_size =
             OPTIONS_PACKAGE_STAGE_MODE_0_SECTORS * FILE_SECTOR_SIZE;
@@ -593,11 +593,11 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 2:
-        object->x = OPTIONS_PACKAGE_STAGE_MODE_2_X;
-        object->y = OPTIONS_PACKAGE_STAGE_MODE_2_Y;
-        object->w = 0x100;
-        object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
+        object->rect.x = OPTIONS_PACKAGE_STAGE_MODE_2_X;
+        object->rect.y = OPTIONS_PACKAGE_STAGE_MODE_2_Y;
+        object->rect.w = 0x100;
+        object->rect.h = 4;
+        LoadImage2(&object->rect, (u32 *)gFile_TransferBufferBase);
         object->alternate_sector_destination = gDisplay_abResourceBank0;
         object->sector_destination = gDisplay_abResourceBank0;
         object->phase_size = OPTIONS_PACKAGE_STAGE_MODE_2_SECTORS * FILE_SECTOR_SIZE;
@@ -662,8 +662,8 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
     case 0:
         object->field_30.h.field_32 = 0x100;
         object->field_30.h.counter = 0;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         object->phase_size = 48 * FILE_SECTOR_SIZE;
         gFile_dwTransferState |= 0x10000;
@@ -681,11 +681,11 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 2:
-        object->x = GAME_OVER_PACKAGE_IMAGE_X;
-        object->y = GAME_OVER_PACKAGE_IMAGE_Y;
-        object->w = 0x100;
-        object->h = 4;
-        LoadImage2((RECT *)object, (u32 *)gFile_TransferBufferBase);
+        object->rect.x = GAME_OVER_PACKAGE_IMAGE_X;
+        object->rect.y = GAME_OVER_PACKAGE_IMAGE_Y;
+        object->rect.w = 0x100;
+        object->rect.h = 4;
+        LoadImage2(&object->rect, (u32 *)gFile_TransferBufferBase);
         object->alternate_sector_destination = gDisplay_abResourceBank0;
         object->sector_destination = gDisplay_abResourceBank0;
         object->phase_size = FILE_SECTOR_SIZE;

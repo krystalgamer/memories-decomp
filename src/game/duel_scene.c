@@ -1139,8 +1139,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         mask = 0xFFDDFFFF;
         d->field_30.h.counter = 0x300;
         d->field_30.h.field_32 = 0x100;
-        d->w = 0x40;
-        d->h = 0x10;
+        d->rect.w = 0x40;
+        d->rect.h = 0x10;
         flags = gFile_dwTransferState;
         d->phase_size = 64 * FILE_SECTOR_SIZE;
         gFile_dwTransferState = flags & mask;
@@ -1152,8 +1152,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
 #else
         d->field_30.h.counter = 0x300;
         d->field_30.h.field_32 = 0x100;
-        d->w = 0x40;
-        d->h = 0x10;
+        d->rect.w = 0x40;
+        d->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         d->transfer_mode = 2;
@@ -1236,7 +1236,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         d->field_30.h.counter = 0x200;
         d->field_30.h.field_32 = 0x100;
-        d->w = 0x40;
+        d->rect.w = 0x40;
         mask = 0xFFDDFFFF;
         flags = gFile_dwTransferState & mask;
         {
@@ -1248,7 +1248,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
             d->phase_size = mask;
             gFile_dwTransferState |= mask;
             d->transfer_mode = 2;
-            d->h = 0x10;
+            d->rect.h = 0x10;
             image_ptr = gFile_TransferBufferBase;
             d->sector_destination = image_ptr;
             d->alternate_sector_destination = (image_ptr + FILE_SECTOR_SIZE);
@@ -1279,8 +1279,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         u32 loaded;
         u32 enabled;
         d->field_30.h.counter = 0x340;
-        d->w = 0x40;
-        d->h = 0x10;
+        d->rect.w = 0x40;
+        d->rect.h = 0x10;
         cleared = gFile_dwTransferState & 0xFFDDFFFF;
         gFile_dwTransferState = cleared;
         do { loaded = gFile_dwTransferState; } while (0);
@@ -1303,7 +1303,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         u32 flags;
         d->field_30.h.counter = 0x280;
         d->field_30.h.field_32 = 0x100;
-        d->w = 0x40;
+        d->rect.w = 0x40;
         mask = 0xFFDDFFFF;
         flags = gFile_dwTransferState & mask;
         {
@@ -1315,7 +1315,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
             d->phase_size = mask;
             gFile_dwTransferState |= mask;
             d->transfer_mode = 2;
-            d->h = 0x10;
+            d->rect.h = 0x10;
             image_ptr = gFile_TransferBufferBase;
             d->sector_destination = image_ptr;
             d->alternate_sector_destination = (image_ptr + FILE_SECTOR_SIZE);
@@ -6950,7 +6950,7 @@ void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
         do {
             p->field_30.h.counter = 0;
         } while (0);
-        p->w = f;
+        p->rect.w = f;
         gFile_dwTransferState = v & m;
         w = gFile_dwTransferState;
         m = 0x10000;
@@ -6959,7 +6959,7 @@ void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
             gFile_dwTransferState = w | m;
             p->transfer_mode = 2;
             d = gFile_TransferBufferBase;
-            p->h = 0x10;
+            p->rect.h = 0x10;
         } while (0);
         p->sector_destination = d;
         p->alternate_sector_destination = d + FILE_SECTOR_SIZE;
@@ -6976,18 +6976,18 @@ void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
     case 2:
 #ifdef VERSION_EUROPE
         /* The European build uploads the row at (640, 216). */
-        p->x = 0x280;
-        p->y = 0xD8;
-        p->w = 0x100;
+        p->rect.x = 0x280;
+        p->rect.y = 0xD8;
+        p->rect.w = 0x100;
         e = gFile_TransferBufferBase;
 #else
-        p->y = 0xF8;
-        p->w = 0x100;
+        p->rect.y = 0xF8;
+        p->rect.w = 0x100;
         e = gFile_TransferBufferBase;
-        p->x = 0;
+        p->rect.x = 0;
 #endif
-        p->h = 4;
-        LoadImage2((RECT *)p, (u32 *)e);
+        p->rect.h = 4;
+        LoadImage2(&p->rect, (u32 *)e);
         p->alternate_sector_destination = gDisplay_abResourceBank0;
         p->sector_destination = gDisplay_abResourceBank0;
         x = gFile_dwTransferState;

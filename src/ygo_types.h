@@ -3,6 +3,8 @@
 
 #include "types.h"
 #include "game/card_constants.h"
+#include "psyq/libgte.h"
+#include "psyq/libgpu.h"
 
 typedef struct {
     s16 id;
@@ -822,10 +824,9 @@ typedef struct FileTransferDescriptor FileTransferDescriptor;
 typedef void (*FileTransferCallback)();
 
 struct FileTransferDescriptor {
-    s16 x;
-    s16 y;
-    s16 w;
-    s16 h;
+    /* VRAM target of image phases: every writer fills x/y/w/h and then hands
+       the descriptor's address to LoadImage2/LoadImage as this RECT. */
+    RECT rect;
     u8 *sector_destination;
     u8 *alternate_sector_destination;
     /* Not volatile: File_TransferReadyCallback stores it in a branch delay slot, and
@@ -874,10 +875,10 @@ typedef char FileTransferDescriptor_size_must_be_0x48[
     sizeof(FileTransferDescriptor) == 0x48 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_w_offset_must_be_0x04[
-    OFFSETOF(FileTransferDescriptor, w) == 0x04 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, rect.w) == 0x04 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_h_offset_must_be_0x06[
-    OFFSETOF(FileTransferDescriptor, h) == 0x06 ? 1 : -1
+    OFFSETOF(FileTransferDescriptor, rect.h) == 0x06 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_sector_destination_offset_must_be_0x08[
     OFFSETOF(FileTransferDescriptor, sector_destination) == 0x08 ? 1 : -1

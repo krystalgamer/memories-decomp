@@ -103,9 +103,9 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         v_0 = gFile_dwTransferState;
         n = p->position;
         p->field_30.h.field_32 = 0x100;
-        p->w = 0x40;
+        p->rect.w = 0x40;
         p->phase_size = 48 * FILE_SECTOR_SIZE;
-        p->h = 0x10;
+        p->rect.h = 0x10;
         v_0 &= m;
         gFile_dwTransferState = v_0;
         w = gFile_dwTransferState;
@@ -132,14 +132,14 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         break;
 
     case 2:
-        p->x = DISPLAY_EFFECT_RESOURCE_LOAD_X;
+        p->rect.x = DISPLAY_EFFECT_RESOURCE_LOAD_X;
         k = p->position;
-        p->h = 2;
+        p->rect.h = 2;
         c = gFile_TransferBufferBase;
-        p->w = 0x100;
-        p->y = k * 2 + 0xF0;
+        p->rect.w = 0x100;
+        p->rect.y = k * 2 + 0xF0;
         /* The descriptor opens with RECT-shaped x/y/w/h; c is the byte buffer. */
-        LoadImage2((RECT *)p, (u32 *)c);
+        LoadImage2(&p->rect, (u32 *)c);
         m2 = 0xFFDCFFFF;
         phase_size = &p->phase_size;
         *phase_size = FILE_SECTOR_SIZE;
