@@ -3687,12 +3687,12 @@ void DuelScene_UpdateCardPlacement(void)
                         gDuel_wTrapPresentationMode |= 0x80;
                         object->field_60.frames = 30;
                         if (!(gDuel_wPlacementCardId & 0x8000)) {
-                            object->position.h.field_28 = 0;
-                            object->position.h.field_2A = 500;
+                            object->position.equip_bonus.amount = 0;
+                            object->position.equip_bonus.limit = 500;
                             gDuel_wTrapPresentationMode |= 0x40;
-                            object->field_2C.h.field_2C = card->stat_modifier;
+                            object->field_2C.equip_bonus.base_modifier = card->stat_modifier;
                             if (gDuel_wEquipCardId == 0x291) {
-                                object->position.h.field_2A = 1000;
+                                object->position.equip_bonus.limit = 1000;
                                 gDuel_wPendingEquipBonus += 500;
                             }
                         }
@@ -3700,15 +3700,15 @@ void DuelScene_UpdateCardPlacement(void)
                     if (gDuel_wTrapPresentationMode & 0x40) {
                         s32 below;
                         u16 limit;
-                        object->position.h.field_28 += 31;
+                        object->position.equip_bonus.amount += 31;
                         below = object->position.s.x < object->position.s.y;
-                        limit = object->position.h.field_2A;
+                        limit = object->position.equip_bonus.limit;
                         if (!below) {
                             gDuel_wTrapPresentationMode &= ~0x40;
-                            object->position.h.field_28 = limit;
+                            object->position.equip_bonus.amount = limit;
                             object->field_60.frames = 16;
                         }
-                        card->stat_modifier = object->field_2C.h.field_2C + object->position.h.field_28;
+                        card->stat_modifier = object->field_2C.equip_bonus.base_modifier + object->position.equip_bonus.amount;
                         value = Duel_CalcCardStats(card);
                         gCardPreview_Resources[0].attack = value;
                         gCardPreview_Resources[0].defense = value >> 16;
@@ -3873,10 +3873,10 @@ void DuelScene_UpdateCardPlacement(void)
             if (!(gDuel_bSceneSubStep & 0x20)) {
                 DisplayObject **slots;
                 gDisplayObject_apWorkSlots.slots[0]->field_60.phase = 0;
-                gDisplayObject_apWorkSlots.slots[0]->position.h.field_28 = 1;
-                gDisplayObject_apWorkSlots.slots[0]->position.h.field_2A = 0x2680;
+                gDisplayObject_apWorkSlots.slots[0]->position.spiral.field_28 = 1;
+                gDisplayObject_apWorkSlots.slots[0]->position.spiral.radius = 0x2680;
                 gDuel_bSceneSubStep |= 0x20;
-                gDisplayObject_apWorkSlots.slots[0]->field_2C.h.field_2E = 1;
+                gDisplayObject_apWorkSlots.slots[0]->field_2C.spiral.angle_step = 1;
                 {
                     DuelEffectRequest *request;
                     request = DuelEffect_AllocateRequest(1);
@@ -3903,9 +3903,9 @@ void DuelScene_UpdateCardPlacement(void)
                 gDuel_bSceneSubStep = 4;
             } else {
                 object = gDisplayObject_apWorkSlots.slots[0];
-                object->field_2C.h.field_2E += 8;
-                object->field_60.phase += gDisplayObject_apWorkSlots.slots[0]->field_2C.h.field_2E;
-                object->position.h.field_2A -= object->field_60.phase / 12;
+                object->field_2C.spiral.angle_step += 8;
+                object->field_60.phase += gDisplayObject_apWorkSlots.slots[0]->field_2C.spiral.angle_step;
+                object->position.spiral.radius -= object->field_60.phase / 12;
                 n = object->position.s.y >> 8;
                 x = rcos(object->field_60.phase) * n / 4096;
                 value = rsin(object->field_60.phase) * n / 4096;

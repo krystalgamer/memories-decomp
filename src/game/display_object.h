@@ -173,8 +173,11 @@ typedef struct DisplayObject {
 
        The halves have one reading per object kind, each fixed by the
        routine that consumes them, and a view each. All keep the u16 width
-       of `h`; `s` is the signed reading any of them takes where a signed
-       compare or constant needs it.
+       the old offset-named halves had (the Gouraud `vertex` corners, only
+       ever stored, take the POLY_G4's short); `s` is the signed reading any
+       of them takes where a signed compare or constant needs it. Every
+       halfword user now goes through one of the views, so the
+       offset-named `h` pair is gone.
 
        target: where a slide or ease ends. DisplayObject_UpdateCosineSlide*,
        DisplayObject_UpdatePositionRotationTransition and the info-panel and
@@ -212,13 +215,18 @@ typedef struct DisplayObject {
        TextBox_UpdateOutline and DebugMenu_UpdateCursorLayout write the
        corners as halves.
 
-       `h` stays for readings with one routine each: the placement stat
-       count-up and the ritual card's fall. */
+       equip_bonus: DuelScene_UpdateCardPlacement's equip count-up on the
+       card preview object: `amount` climbs by 31 a frame from zero to
+       `limit` (500, or 1000 for card 0x291), and each frame the card's
+       stat_modifier becomes field_2C.equip_bonus.base_modifier + amount
+       before Duel_CalcCardStats refreshes the preview.
+
+       spiral: the same routine's two-card spiral, where slots[0] and
+       slots[1] circle (102, 82) on opposite sides; `radius` is 8.8 (its
+       high byte scales rcos/rsin of field_60.phase) and shrinks by
+       phase / 12 a frame as field_2C.spiral.angle_step speeds the turn up.
+       Its first frame stores 1 in `field_28`, which nothing reads. */
     union {
-        struct {
-            u16 field_28;
-            u16 field_2A;
-        } h;
         /* The same halves as signed screen coordinates (the duel hand's
            slide target). */
         struct {
@@ -263,6 +271,14 @@ typedef struct DisplayObject {
             s16 x;
             s16 y;
         } vertex;
+        struct {
+            u16 amount;
+            u16 limit;
+        } equip_bonus;
+        struct {
+            u16 field_28;
+            u16 radius;
+        } spiral;
     } position;                    /* 0x28 */
     /* The first of the six words at stride 8 that the 0x4C comment below
        describes, and read both ways like its neighbours at 0x30, 0x3C, 0x40
@@ -318,10 +334,13 @@ typedef struct DisplayObject {
        Duel_UpdateCardToFieldView's mode (0 reveal, 1 face-up attack, 2
        face-up defence), chosen on the first frame and switched on.
 
+       equip_bonus and spiral complete position's arms of the same names:
+       the stat_modifier the equip count-up adds to, and the per-frame
+       phase step the two-card spiral adds 8 to each frame.
+
        The other halfword users (the draw-card slide's phase step, the
-       placement base stat, the marker-removal turn limit, the ritual
-       fall's acceleration and the card-move target x) are one routine
-       each and keep `h`. */
+       marker-removal turn limit and the card-move target x) are one
+       routine each and keep `h`. */
     union {
         u32 word;
         struct {
@@ -363,6 +382,14 @@ typedef struct DisplayObject {
             u16 field_2C;
             s16 mode;
         } card_view;
+        struct {
+            u16 base_modifier;
+            s16 field_2E;
+        } equip_bonus;
+        struct {
+            u16 field_2C;
+            s16 angle_step;
+        } spiral;
     } field_2C;                    /* 0x2C */
     /* The 2D x/y pair the renderers draw at. DisplayObject_RenderSpriteList
        and DisplayObject_RenderSpriteStrips copy the word into SpritePrim.xy
