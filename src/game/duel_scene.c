@@ -3602,7 +3602,7 @@ void DuelScene_UpdateCardPlacement(void)
                 gDuel_wTrapPresentationMode = 0;
                 return;
             }
-            switch (gDuel_wTrapPresentationMode & 15) {
+            switch (gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STEP_MASK) {
             case 0:
                 {
                     DisplayObject **slots;
@@ -3611,8 +3611,8 @@ void DuelScene_UpdateCardPlacement(void)
                         DuelEffectResourceRecord *resource = gCardPreview_Resources;
                         card = &gDuel_aCardRecords[card_index];
                         slots = gDisplayObject_apWorkSlots.slots;
-                        if (!(gDuel_wTrapPresentationMode & 0x80)) {
-                            gDuel_wTrapPresentationMode |= 0x80;
+                        if (!(gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STARTED)) {
+                            gDuel_wTrapPresentationMode |= DUEL_TRAP_PRESENTATION_STARTED;
                             if (gDuel_wPlacementCardId & 0x8000) {
                                 card->data->id = (u16)gDuel_wPlacementCardId & 0xFFF;
                                 gDuel_wTrapPresentationMode |= 0x40;
@@ -3657,10 +3657,10 @@ void DuelScene_UpdateCardPlacement(void)
                     s32 alpha;
                     if (DisplayObject_FindAllocatedByTag(1))
                     return;
-                    if (!(gDuel_wTrapPresentationMode & 0x80)) {
+                    if (!(gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STARTED)) {
                         slots = gDisplayObject_apWorkSlots.slots;
                         slots[0]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
-                        gDuel_wTrapPresentationMode |= 0x80;
+                        gDuel_wTrapPresentationMode |= DUEL_TRAP_PRESENTATION_STARTED;
                         if (slots[1])
                         slots[1]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                         gDuel_pCardPreviewObject->field_20.b.rotation_y = 192;
@@ -3683,8 +3683,8 @@ void DuelScene_UpdateCardPlacement(void)
                     DisplayObject **slots;
                     card = &gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[0]->kind_index.card_record_index];
                     object = gDuel_pCardPreviewObject;
-                    if (!(gDuel_wTrapPresentationMode & 0x80)) {
-                        gDuel_wTrapPresentationMode |= 0x80;
+                    if (!(gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STARTED)) {
+                        gDuel_wTrapPresentationMode |= DUEL_TRAP_PRESENTATION_STARTED;
                         object->field_60.frames = 30;
                         if (!(gDuel_wPlacementCardId & 0x8000)) {
                             object->position.equip_bonus.amount = 0;
@@ -3739,14 +3739,14 @@ void DuelScene_UpdateCardPlacement(void)
                     DisplayObject **slots;
                     s32 alpha;
                     object = gDisplayObject_apWorkSlots.slots[0];
-                    if (!(gDuel_wTrapPresentationMode & 0x80)) {
+                    if (!(gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STARTED)) {
                         alpha = gDuel_pCardPreviewObject->field_20.b.rotation_y + 8;
                         gDuel_pCardPreviewObject->field_20.b.rotation_y = alpha;
                         if ((u8)alpha < 64)
                         return;
                         {
                             u16 position = gDuel_pCardPreviewObject->xy.h.x;
-                            gDuel_wTrapPresentationMode |= 0x80;
+                            gDuel_wTrapPresentationMode |= DUEL_TRAP_PRESENTATION_STARTED;
                             object->xy.h.x = position + 44;
                         }
                         DisplayObject_StartAlphaTransition(object, 192, 0, 8);
@@ -3762,8 +3762,8 @@ void DuelScene_UpdateCardPlacement(void)
                 {
                     DisplayObject **slots;
                     object = gDisplayObject_apWorkSlots.slots[0];
-                    if (!(gDuel_wTrapPresentationMode & 0x80)) {
-                        gDuel_wTrapPresentationMode |= 0x80;
+                    if (!(gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STARTED)) {
+                        gDuel_wTrapPresentationMode |= DUEL_TRAP_PRESENTATION_STARTED;
                         DisplayObject_SavePosition(object);
                         object->field_60.phase = 0;
                     }
@@ -6078,7 +6078,7 @@ s32 Duel_UpdateTrapPresentation(void) {
     }
 
     one = 1;
-    v = gDuel_wTrapPresentationMode & 0xF;
+    v = gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STEP_MASK;
 
     /* The default arm comes first so the dispatch keeps retail's two
        separate returns. The do-while(0) spans modes 0-2 (entered at its
@@ -10634,7 +10634,7 @@ void DuelEffect_ApplyRitual(void)
         }
         return;
     }
-    switch (gDuel_wTrapPresentationMode & 0xF) {
+    switch (gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STEP_MASK) {
     case 0:
         if (gDuelEffect_pTrackedRequest->progress) {
             gDuel_bCardMoveSlot = gDisplayObject_apWorkSlots.slots[3]->kind_index.card_record_index;
@@ -10648,10 +10648,10 @@ void DuelEffect_ApplyRitual(void)
         u16 scale;
         s32 countdown;
         object = gDuel_pCardPreviewObject;
-        if (!(gDuel_wTrapPresentationMode & 0x80)) {
+        if (!(gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STARTED)) {
             s32 attribute;
             s16 object_flags;
-            gDuel_wTrapPresentationMode |= 0x80;
+            gDuel_wTrapPresentationMode |= DUEL_TRAP_PRESENTATION_STARTED;
             object = CardPreview_CreateResourceObjects(1, -1, -1);
             object->xy.h.x = 90;
             /* Negative constants go into these halves through the signed
@@ -10692,8 +10692,8 @@ void DuelEffect_ApplyRitual(void)
     }
     case 2:
         object = gDuel_pCardPreviewObject;
-        if (!(gDuel_wTrapPresentationMode & 0x80)) {
-            gDuel_wTrapPresentationMode |= 0x80;
+        if (!(gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STARTED)) {
+            gDuel_wTrapPresentationMode |= DUEL_TRAP_PRESENTATION_STARTED;
             gDuel_sEffectWorkCounter = 32;
         }
         if (!(gDuel_wTrapPresentationMode & 0x40)) {
@@ -10741,7 +10741,7 @@ void DuelEffect_ApplyRitual(void)
         DuelDeckCardRecord **data_slot;
         DuelDeckCardRecord *data;
         card = &gDuel_aCardRecords[gDuel_bCardMoveSlot];
-        if (!(state & 0x80)) {
+        if (!(state & DUEL_TRAP_PRESENTATION_STARTED)) {
             u16 ritual;
             u16 y;
             /* The data pointer is reloaded through a pointer to the member,
@@ -10751,7 +10751,7 @@ void DuelEffect_ApplyRitual(void)
                 (s16)(ritual = gDuel_RitualResultCardId);
             data_slot = &card->data;
             data = *data_slot;
-            gDuel_wTrapPresentationMode = state | 0x80;
+            gDuel_wTrapPresentationMode = state | DUEL_TRAP_PRESENTATION_STARTED;
             card->card_id = ritual;
             value = data->data_block_index;
             y = resource->src_y;
@@ -10781,8 +10781,8 @@ void DuelEffect_ApplyRitual(void)
     }
     case 4:
         object = gDisplayObject_apWorkSlots.slots[1];
-        if (!(gDuel_wTrapPresentationMode & 0x80)) {
-            gDuel_wTrapPresentationMode |= 0x80;
+        if (!(gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STARTED)) {
+            gDuel_wTrapPresentationMode |= DUEL_TRAP_PRESENTATION_STARTED;
             object->position.target.x = 134;
             object->position.target.y = 42;
             object->field_2C.slide.frames = 16;
@@ -10833,8 +10833,8 @@ void DuelEffect_ApplyRitual(void)
     case 5: {
         s16 phase;
         object = gDisplayObject_apWorkSlots.slots[0];
-        if (!(gDuel_wTrapPresentationMode & 0x80)) {
-            gDuel_wTrapPresentationMode |= 0x80;
+        if (!(gDuel_wTrapPresentationMode & DUEL_TRAP_PRESENTATION_STARTED)) {
+            gDuel_wTrapPresentationMode |= DUEL_TRAP_PRESENTATION_STARTED;
             DisplayObject_SavePosition(object);
             object->field_60.phase = -1024;
         }
