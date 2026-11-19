@@ -111,9 +111,9 @@ void SD_InitState(u8 master_xa_lba_byte)
     g_SDValue->s_szSD_BGM_FILE.name11 = sBgmFile;
     g_SDValue->s_szSD_SE_FILE.name10 = sSeFile;
     g_SDValue->s_szSD_MASTER_XA_FILE.name10 = sMasterXaFile;
-    g_SDValue->s_bSD_DATA_SOURCE = 3;
+    g_SDValue->s_bSD_DATA_SOURCE = (SD_DATA_SOURCE_SE | SD_DATA_SOURCE_BGM);
     if (master_xa_lba_byte != 0) {
-        g_SDValue->s_bSD_DATA_SOURCE |= 0xF0;
+        g_SDValue->s_bSD_DATA_SOURCE |= SD_DATA_SOURCE_PERSISTENT_MASK;
     }
     g_SDValue->s_bSD_CD_MIXER_OUT_DEFAULT = 0xFF;
     g_SDValue->s_bSD_SMF_MIXER_OUT_DEFAULT = 0xD2;
@@ -156,11 +156,11 @@ void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)
 {
     g_SDValue->s_dwSD_BANK_LOAD_PHASE = 0;
     if (se_lba == 0)
-        g_SDValue->s_bSD_DATA_SOURCE &= 0xFE;
+        g_SDValue->s_bSD_DATA_SOURCE &= ~SD_DATA_SOURCE_SE;
     if (bgm_lba == 0)
-        g_SDValue->s_bSD_DATA_SOURCE &= 0xFD;
+        g_SDValue->s_bSD_DATA_SOURCE &= ~SD_DATA_SOURCE_BGM;
     if (master_xa_lba == 0)
-        g_SDValue->s_bSD_DATA_SOURCE &= 0xBF;
+        g_SDValue->s_bSD_DATA_SOURCE &= ~SD_DATA_SOURCE_MASTER_XA;
     g_SDValue->s_wSD_STATUS |= (SD_STATUS_DATA_TRANSFER | SD_STATUS_BANK_LOAD);
 }
 
@@ -198,11 +198,11 @@ void SD_UpdateBankLoad(void) {
 
     switch (g_SDValue->s_dwSD_BANK_LOAD_PHASE) {
     case 0:
-        if (g_SDValue->s_bSD_DATA_SOURCE & 1) {
+        if (g_SDValue->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_SE) {
             ram_destination = (u8 *)0x801E6800;
             sector_offset = 0;
             ram_size = 0x800;
-            source_selector = 0x10;
+            source_selector = SD_TRANSFER_SOURCE_SE;
             SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
             g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
             return;
@@ -223,7 +223,7 @@ void SD_UpdateBankLoad(void) {
         ram_destination = (u8 *)0x801E2800;
         sector_offset = 1;
         ram_size = g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP;
-        source_selector = 0x10;
+        source_selector = SD_TRANSFER_SOURCE_SE;
         ram_size = ram_size * 8;
         SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
         g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
@@ -246,11 +246,11 @@ void SD_UpdateBankLoad(void) {
         g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
         return;
     case 6:
-        if (g_SDValue->s_bSD_DATA_SOURCE & 2) {
+        if (g_SDValue->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_BGM) {
             ram_destination = (u8 *)0x801E2000;
             sector_offset = 0;
             ram_size = 0x800;
-            source_selector = 0x20;
+            source_selector = SD_TRANSFER_SOURCE_BGM;
             SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
             g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
             return;
@@ -277,11 +277,11 @@ void SD_UpdateBankLoad(void) {
         }
         break;
     case 8:
-        if (g_SDValue->s_bSD_DATA_SOURCE & 0x80) {
+        if (g_SDValue->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_CD_AUDIO) {
             ram_destination = (u8 *)0x801E8800;
             sector_offset = 0;
             ram_size = 0x2000;
-            source_selector = 0x40;
+            source_selector = SD_TRANSFER_SOURCE_MASTER_XA;
             SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
             g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
             return;
@@ -418,7 +418,7 @@ s32 SD_GetOutputType(void)
 void SD_SetDataSourceFlags(s32 value)
 {
     g_SDValue->s_bSD_DATA_SOURCE =
-        (g_SDValue->s_bSD_DATA_SOURCE & 0xF0) | value;
+        (g_SDValue->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_PERSISTENT_MASK) | value;
 }
 
 s32 SD_GetStatusFlags(void)
@@ -500,7 +500,7 @@ void SD_BGMPreload(s32 command_id)
 {
     u16 saved_command = command_id;
 
-    if ((g_SDValue->s_bSD_DATA_SOURCE & 2) == 0)
+    if ((g_SDValue->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_BGM) == 0)
         return;
 
     if (command_id & 0x8000) {
@@ -523,7 +523,7 @@ void SD_BGMPlayWithStep(s32 command_id, s32 step)
 {
     u16 saved_command = command_id;
 
-    if ((g_SDValue->s_bSD_DATA_SOURCE & 2) == 0)
+    if ((g_SDValue->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_BGM) == 0)
         return;
 
     if (command_id & 0x8000) {

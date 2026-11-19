@@ -180,7 +180,7 @@ void SD_EnqueueCdStop(void)
     SDValue *state = g_SDValue;
     s32 count;
 
-    if ((state->s_bSD_DATA_SOURCE & 0x80) == 0)
+    if ((state->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_CD_AUDIO) == 0)
         return;
     count = state->s_wSD_NUM_COMMAND;
     if (state->s_uSD_COMMAND_QUEUE.c[count].command == SD_COMMAND_CD_STOP)
@@ -215,8 +215,8 @@ s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
     u8 *descriptor_entries;
     SDCommand command;
 
-    if (request_state->s_bSD_DATA_SOURCE & 0x80) {
-        if ((request_state->s_bSD_DATA_SOURCE & 0x40) || entry_index <= 0x9FFF) {
+    if (request_state->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_CD_AUDIO) {
+        if ((request_state->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_MASTER_XA) || entry_index <= 0x9FFF) {
             if (command_id & 0x8000) {
                 request_state->s_wSD_CD_REQUEST_CODE = command_id;
                 switch (command_id & 0xF000) {
@@ -275,10 +275,10 @@ void SD_EnqueueCdSeek(s32 command_id)
 
     request_state = g_SDValue;
     entry_index = command_id;
-    if ((request_state->s_bSD_DATA_SOURCE & 0x80) == 0) {
+    if ((request_state->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_CD_AUDIO) == 0) {
         return;
     }
-    if ((request_state->s_bSD_DATA_SOURCE & 0x40) == 0) {
+    if ((request_state->s_bSD_DATA_SOURCE & SD_DATA_SOURCE_MASTER_XA) == 0) {
         if ((u32)(entry_index & 0xFFFF) > 0x9FFF) {
             return;
         }
@@ -416,16 +416,16 @@ void SD_StepActiveCommand(void)
                 g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
                 return;
             }
-            switch ((s32)g_SDValue->s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0) {
-            case 0x10:
+            switch ((s32)g_SDValue->s_adwSD_ACTIVE_COMMAND_TAIL[0] & SD_TRANSFER_SOURCE_MASK) {
+            case SD_TRANSFER_SOURCE_SE:
                 gSD_pFileRequest->file_selector = FILE_LBA_INDEX_SD_SE;
                 File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_SE_FILE.text);
                 break;
-            case 0x20:
+            case SD_TRANSFER_SOURCE_BGM:
                 gSD_pFileRequest->file_selector = FILE_LBA_INDEX_SD_BGM;
                 File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_BGM_FILE.text);
                 break;
-            case 0x40:
+            case SD_TRANSFER_SOURCE_MASTER_XA:
                 gSD_pFileRequest->file_selector = FILE_LBA_INDEX_MASTER_XA;
                 File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_MASTER_XA_FILE.text);
                 break;

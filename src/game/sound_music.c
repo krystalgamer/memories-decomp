@@ -123,7 +123,7 @@ s32 SD_RequestMusicPackageLoad(s16 command_id, s32 unused) {
         SD_EnqueueSpuRamTransfer(entry->spu_address, (s32)q->s_pwSD_MUSIC_TRACK,
                                  entry->sector_offset,
                                  entry->spu_sector_count << FILE_SECTOR_SHIFT,
-                                 entry->ram_sector_count << FILE_SECTOR_SHIFT, 0x20);
+                                 entry->ram_sector_count << FILE_SECTOR_SHIFT, SD_TRANSFER_SOURCE_BGM);
 
         g_SDValue->s_pwSD_MUSIC_TRACK->package_id = 0xFFFF;
     }

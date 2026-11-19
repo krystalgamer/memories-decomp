@@ -138,7 +138,7 @@ void SD_QueueValueLinkTransfer(s32 link_index)
     entry = (SDValueLink *)(off + (s32)load_state->s_pstSD_SEGROUP_TABLE);
     SD_EnqueueSpuRamTransfer(load_state->s_dwSD_SEGROUP_SPU_ADDR, 0x801E6800,
                   data_start_sector + entry->sector_offset, entry->spu_size,
-                  SD_VALUE_LINK_BLOCK_SIZE, 0x10);
+                  SD_VALUE_LINK_BLOCK_SIZE, SD_TRANSFER_SOURCE_SE);
     registration_state = g_SDValue;
     registration_command.command = SD_COMMAND_SE_GROUP_TRANSFER;
     registration_command.args.seq_block.spu_address = registration_state->s_dwSD_SEGROUP_SPU_ADDR;

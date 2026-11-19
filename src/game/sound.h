@@ -202,6 +202,26 @@ typedef union {
 #define SD_STATUS_DISC_BUSY_MASK \
     (SD_STATUS_CD_REQUEST | SD_STATUS_DATA_TRANSFER | SD_STATUS_CD_STREAMING)
 
+/* SDValue.s_bSD_DATA_SOURCE: SD_InitDataSourceFlags clears SE, BGM or
+   MASTER_XA when that file's LBA is 0, and SD_UpdateBankLoad loads only the
+   banks still present. CD_AUDIO gates every CD play, seek and stop and the
+   XA descriptor load. SD_InitState sets SE | BGM and the whole persistent
+   high nibble, which SD_SetDataSourceFlags keeps when it replaces the low
+   one. */
+#define SD_DATA_SOURCE_SE 0x01
+#define SD_DATA_SOURCE_BGM 0x02
+#define SD_DATA_SOURCE_MASTER_XA 0x40
+#define SD_DATA_SOURCE_CD_AUDIO 0x80
+#define SD_DATA_SOURCE_PERSISTENT_MASK 0xF0
+
+/* The source_selector the RAM/SPU transfer enqueues carry, and that
+   SD_ProcessActiveCommand turns into FILE_LBA_INDEX_SD_SE, _SD_BGM or
+   _MASTER_XA. */
+#define SD_TRANSFER_SOURCE_SE 0x10
+#define SD_TRANSFER_SOURCE_BGM 0x20
+#define SD_TRANSFER_SOURCE_MASTER_XA 0x40
+#define SD_TRANSFER_SOURCE_MASK 0xF0
+
 typedef struct SDValue {
     SDGlobalHdrSE s_stGlobalHdrSE;
     u8 pad0008[0x34];
