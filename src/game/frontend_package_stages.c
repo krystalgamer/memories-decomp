@@ -100,7 +100,7 @@ void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
 #define FREE_DUEL_PACKAGE_START_SECTOR FILE_WA_FREE_DUEL_START_SECTOR
 #endif
 
-void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(0,0,FREE_DUEL_PACKAGE_START_SECTOR,FREE_DUEL_PACKAGE_SECTOR_COUNT,FreeDuel_LoadPackageStage,0,0);File_WaitForTransfers();FreeDuel_Init(gRuntime_pSharedWorkBase);}
+void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG,0,FREE_DUEL_PACKAGE_START_SECTOR,FREE_DUEL_PACKAGE_SECTOR_COUNT,FreeDuel_LoadPackageStage,0,0);File_WaitForTransfers();FreeDuel_Init(gRuntime_pSharedWorkBase);}
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef NAME_ENTRY_PACKAGE_START_SECTOR
@@ -226,7 +226,7 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
     }
 }
 
-void File_RequestNameEntryPackage(void){File_RequestAsyncTransfer(0,0,NAME_ENTRY_PACKAGE_START_SECTOR,FILE_WA_NAME_ENTRY_SECTOR_COUNT,NameEntry_LoadPackageStage,0,0);File_WaitForTransfers();}
+void File_RequestNameEntryPackage(void){File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG,0,NAME_ENTRY_PACKAGE_START_SECTOR,FILE_WA_NAME_ENTRY_SECTOR_COUNT,NameEntry_LoadPackageStage,0,0);File_WaitForTransfers();}
 
 void Text_SjisToGlyphCodes(u8 *dst, const u8 *src, s32 count)
 {
@@ -341,7 +341,7 @@ void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     }
 }
 
-void File_RequestPasswordPackage(void){File_RequestAsyncTransfer(0,0,PASSWORD_PACKAGE_START_SECTOR,FILE_WA_PASSWORD_SECTOR_COUNT,Password_LoadPackageStage,0,0);File_WaitForTransfers();}
+void File_RequestPasswordPackage(void){File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG,0,PASSWORD_PACKAGE_START_SECTOR,FILE_WA_PASSWORD_SECTOR_COUNT,Password_LoadPackageStage,0,0);File_WaitForTransfers();}
 
 /* Where case 5 uploads its image row: (0x100, 0xF0) in the US build and
    (0x280, 0xE0) in the European one, whose entry defines set its own. */
@@ -419,7 +419,7 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     }
 }
 
-void File_RequestEgyptOverworldPackage(void){int x=0;if(Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE))x=FILE_WA_EGYPT_OVERWORLD_SECTOR_COUNT;File_RequestAsyncTransfer(0,0,x+CAMPAIGN_MAP_PACKAGE_START_SECTOR,FILE_WA_EGYPT_OVERWORLD_SECTOR_COUNT,CampaignMap_LoadPackageStage,0,0);File_WaitForTransfers();}
+void File_RequestEgyptOverworldPackage(void){int x=0;if(Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE))x=FILE_WA_EGYPT_OVERWORLD_SECTOR_COUNT;File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG,0,x+CAMPAIGN_MAP_PACKAGE_START_SECTOR,FILE_WA_EGYPT_OVERWORLD_SECTOR_COUNT,CampaignMap_LoadPackageStage,0,0);File_WaitForTransfers();}
 
 #ifdef VERSION_EUROPE
 /* The first of two earlier PAL frontend package callbacks: 640x224 upload
@@ -641,7 +641,7 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 void File_RequestOptionsPackage(void)
 {
     File_RequestAsyncTransfer(
-        0,
+        FILE_LBA_INDEX_WA_MRG,
         0,
         OPTIONS_PACKAGE_START_SECTOR,
         OPTIONS_PACKAGE_SECTOR_COUNT,
@@ -651,7 +651,7 @@ void File_RequestOptionsPackage(void)
     );
     File_WaitForTransfers();
 #if OPTIONS_PACKAGE_LOAD_SECOND_BLOCK
-    File_RequestAsyncTransfer(0, 0, 0x2147, 0x10, 0, 0, (int)0x80140000);
+    File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG, 0, 0x2147, 0x10, 0, 0, (int)0x80140000);
     File_WaitForTransfers();
 #endif
 }
@@ -705,4 +705,4 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 #endif
 #endif
 
-void File_RequestGameOverPackage(void){File_RequestAsyncTransfer(0,0,GAME_OVER_PACKAGE_START_SECTOR,0x32,GameOver_LoadPackageStage,0,0);File_WaitForTransfers();}
+void File_RequestGameOverPackage(void){File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG,0,GAME_OVER_PACKAGE_START_SECTOR,0x32,GameOver_LoadPackageStage,0,0);File_WaitForTransfers();}

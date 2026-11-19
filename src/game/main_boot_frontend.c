@@ -525,7 +525,7 @@ void Main_InitDebugFont(void)
 void Main_RequestLanguageBootPackage(s32 language, s32 wait)
 {
     File_RequestAsyncTransfer(
-        0, 0, language * 110 + 0x1962, 110, Main_LoadBootPackageStage, 0, 0
+        FILE_LBA_INDEX_WA_MRG, 0, language * 110 + 0x1962, 110, Main_LoadBootPackageStage, 0, 0
     );
     if (wait) {
         File_WaitForTransfers();
@@ -545,7 +545,7 @@ void Main_RunBootSequence(s32 mode)
         SD_ReplaceValueLink(SD_SE_GROUP_FRONTEND);
         Main_AdvanceFrames(4);
     } else {
-        File_RequestAsyncTransfer(0, 0, 0x2503, 0x25, Main_LoadBootImageStage, 0, 0);
+        File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG, 0, 0x2503, 0x25, Main_LoadBootImageStage, 0, 0);
         File_WaitForTransfers();
         Fade_InitIn();
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -590,11 +590,11 @@ void Main_RunBootSequence(s32 mode)
     DisplayObject *first;
     gMain_bFrontendPhase = 0;
     if (mode == 0) {
-        File_RequestAsyncTransfer(0, 0, 0x1F90, 0x22, Main_LoadBootImageStage, 0, 0);
+        File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG, 0, 0x1F90, 0x22, Main_LoadBootImageStage, 0, 0);
         File_WaitForTransfers();
     }
     File_RequestAsyncTransfer(
-        0, 0, 0x1690, 0x25, Main_LoadBootPackageStage, 0, 0
+        FILE_LBA_INDEX_WA_MRG, 0, 0x1690, 0x25, Main_LoadBootPackageStage, 0, 0
     );
     if (mode != 0) {
         int display;
@@ -659,11 +659,11 @@ void Main_RunBootSequence(s32 mode)
     register DisplayObject *first;
     gMain_bFrontendPhase = 0;
     if (mode == 0) {
-        File_RequestAsyncTransfer(0, 0, 0x1F85, 0x22, Main_LoadBootImageStage, 0, 0);
+        File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG, 0, 0x1F85, 0x22, Main_LoadBootImageStage, 0, 0);
         File_WaitForTransfers();
     }
     File_RequestAsyncTransfer(
-        0, 0, 0x1690, 0x36, Main_LoadBootPackageStage, 0, 0
+        FILE_LBA_INDEX_WA_MRG, 0, 0x1690, 0x36, Main_LoadBootPackageStage, 0, 0
     );
     if (mode != 0) {
         int display;

@@ -143,7 +143,7 @@ u8 gMainMenu_PackageStageRect[8] = {
 void File_RequestMainMenuPackage(void)
 {
     File_RequestAsyncTransfer(
-        1, gFile_szSuMrgPath, MAIN_MENU_PACKAGE_FIRST_SECTOR, 0x73,
+        FILE_LBA_INDEX_SU_MRG, gFile_szSuMrgPath, MAIN_MENU_PACKAGE_FIRST_SECTOR, 0x73,
         MainMenu_LoadPackageStage, 0, 0
     );
 }

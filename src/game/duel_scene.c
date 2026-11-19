@@ -1901,7 +1901,7 @@ void Duel_LoadTerrainPackage(void)
     int index = value * DUEL_TERRAIN_LOAD_SECTOR_COUNT +
                 DUEL_TERRAIN_LOAD_FIRST_SECTOR;
     File_RequestAsyncTransfer(
-        0, 0, index, DUEL_TERRAIN_LOAD_SECTOR_COUNT,
+        FILE_LBA_INDEX_WA_MRG, 0, index, DUEL_TERRAIN_LOAD_SECTOR_COUNT,
         Duel_LoadPackageStage, 0, 0);
     File_WaitForTransfers();
 }
@@ -1968,7 +1968,7 @@ void Duel_InitScene(void)
     File_WaitForTransfers();
     value = gDuel_bTerrain;
     File_RequestAsyncTransfer(
-        0, 0,
+        FILE_LBA_INDEX_WA_MRG, 0,
         DUEL_INIT_TERRAIN_SECTOR(value),
         DUEL_INIT_TERRAIN_SECTOR_COUNT, Duel_LoadPackageStage, 0, 0);
     File_WaitForTransfers();
@@ -1984,7 +1984,7 @@ void Duel_InitScene(void)
     if (gDuel_bResumeFromAnimatedBattle != 1) {
         if (gDuel_bOpponentID >= 0) {
             File_RequestAsyncTransfer(
-                0, 0,
+                FILE_LBA_INDEX_WA_MRG, 0,
                 gDuel_bOpponentID * (DUELIST_DATA_SECTOR_COUNT - 1) +
                     gDuel_bOpponentID + DUEL_INIT_DUELIST_DATA_FIRST_SECTOR,
                 DUELIST_DATA_SECTOR_COUNT, 0, 0,
@@ -7161,7 +7161,7 @@ void DuelScene_UpdateResultOutro(void)
         }
         gDuel_bOutroWinnerSide = id;
         File_RequestAsyncTransfer(
-            0, 0,
+            FILE_LBA_INDEX_WA_MRG, 0,
             DUEL_RESULT_OUTRO_START_SECTOR,
             FILE_WA_DUEL_RESULTS_SECTOR_COUNT,
             DuelResult_LoadOutroPackageStage, 0, 0
@@ -7209,7 +7209,7 @@ void DuelScene_UpdateResultOutro(void)
                 id = 1;
             }
             File_RequestAsyncTransfer(
-                0, 0,
+                FILE_LBA_INDEX_WA_MRG, 0,
                 id * DUELIST_DATA_SECTOR_COUNT +
                     DUEL_RESULT_DUELIST_DATA_FIRST_SECTOR,
                 DUELIST_DATA_SECTOR_COUNT, 0, 0,
@@ -9375,7 +9375,7 @@ void Duel_RequestCombinedDeckData(void)
     table = &gDuel_abCardStagingBuffer;
     first_id = table->deck_lists.unique_card_ids[0];
     result = File_TryRequestAsyncTransfer(
-        0, (u8 *)0, first_id - 1, previous - first_id + 1,
+        FILE_LBA_INDEX_WA_MRG, (u8 *)0, first_id - 1, previous - first_id + 1,
         Duel_StepCardDataTransfer, 0, 0
     );
     result->callback_data = gDuel_awUniqueDeckCardIds;
@@ -9670,7 +9670,7 @@ void DuelEffect_ApplyTerrain(void) {
         if (gDuelEffect_pTrackedRequest->progress != 0) {
             gDuel_wCardEffectFlags = f | 0x40;
             File_RequestAsyncTransfer(
-                0, (u8 *)0,
+                FILE_LBA_INDEX_WA_MRG, (u8 *)0,
                 DUEL_TERRAIN_EFFECT_SECTOR(gDuel_bTerrain),
                 DUEL_TERRAIN_EFFECT_DATA_SECTOR_COUNT,
                 (FileTransferCallback)0, 0, 0x1000280);

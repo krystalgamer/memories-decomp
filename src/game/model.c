@@ -1579,7 +1579,7 @@ void Model_UpdateCreditsPresentation(void)
   {
     case -1:
       File_RequestAsyncTransfer(
-          1, gModel_szSuMrgPath, MODEL_INTRO_PACKAGE_START_SECTOR,
+          FILE_LBA_INDEX_SU_MRG, gModel_szSuMrgPath, MODEL_INTRO_PACKAGE_START_SECTOR,
           16, 0, 0, gModel_CreditsModuleAddress);
       File_WaitForTransfers();
       D_8009B004.fields.credits_exit_requested = 0;
@@ -4504,7 +4504,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense
     if (slot < 2) {
         if (model == MODEL_SPECIAL_BATTLE_ID) {
             transfer = File_TryRequestAsyncTransfer(
-                1, gModel_szSuMrgPath, MODEL_SPECIAL_BATTLE_FILE_START_SECTOR,
+                FILE_LBA_INDEX_SU_MRG, gModel_szSuMrgPath, MODEL_SPECIAL_BATTLE_FILE_START_SECTOR,
                 MODEL_SPECIAL_BATTLE_FILE_SECTOR_COUNT,
                 Model_LoadSpecialBattlePackageStage, 0, 0
             );
@@ -4531,7 +4531,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense
                 model -= MODEL_MRG_GAP_SIZE;
             }
             transfer = File_TryRequestAsyncTransfer(
-                2, gFile_szModelMrgPath, model * MODEL_MRG_SECTOR_COUNT,
+                FILE_LBA_INDEX_MODEL_MRG, gFile_szModelMrgPath, model * MODEL_MRG_SECTOR_COUNT,
                 MODEL_MRG_SECTOR_COUNT, Model_LoadMonsterMergeStage,
                 0, 0
             );
@@ -4563,7 +4563,7 @@ s32 Model_LoadMonsterMerge(s32 slot, s32 model, s32 attack_override, s32 defense
             request_result++;
         } else {
             transfer = File_TryRequestAsyncTransfer(
-                1, gModel_szSuMrgPath,
+                FILE_LBA_INDEX_SU_MRG, gModel_szSuMrgPath,
                 model * MODEL_AUX_SECTOR_COUNT + MODEL_AUX_FILE_START_SECTOR,
                 MODEL_AUX_SECTOR_COUNT, Model_LoadAuxiliaryPackageStage, 0, 0
             );

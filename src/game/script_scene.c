@@ -144,7 +144,7 @@ void ScriptImage_RequestTransfer(
         return;
     }
     object = File_TryRequestAsyncTransfer(
-        0, 0, base + index * stride + SCRIPT_IMAGE_TRANSFER_BASE, stride,
+        FILE_LBA_INDEX_WA_MRG, 0, base + index * stride + SCRIPT_IMAGE_TRANSFER_BASE, stride,
         ScriptImage_TransferCallback, 0, 0
     );
     object->callback_data = (void *)(stride - 1);
@@ -1237,7 +1237,7 @@ void Script_OpDuelResult(void) {
         gScript_StreamCursor = p + 2;
         gScript_SharedOperand = p[0] | (p[1] << 8);
         File_RequestAsyncTransfer(
-            0, 0,
+            FILE_LBA_INDEX_WA_MRG, 0,
             SCRIPT_DUEL_RESULT_MENU_ASSETS_START_SECTOR,
             FILE_WA_MENU_ASSETS_SECTOR_COUNT,
             DuelResult_LoadPackageStage, 0, 0
@@ -1615,7 +1615,7 @@ void Campaign_LoadScenePackage(s16 scene_index)
     gGraphics_sViewportX = 0;
     gCampaign_PrimaryDisplayObject = 0;
     File_RequestAsyncTransfer(
-        0, 0,
+        FILE_LBA_INDEX_WA_MRG, 0,
         CAMPAIGN_SCENE_PACKAGE_START_SECTOR,
         CAMPAIGN_SCENE_PACKAGE_SECTOR_COUNT,
         Campaign_LoadScenePackageStage, 0, 0
