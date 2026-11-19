@@ -35,6 +35,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
 
   section_order:
@@ -61,7 +62,7 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/free_duel/screen_runtime]
-      - [0x10A0, bss, overlays/spanish_free_duel/screen_runtime_commons]
+      - [0x10A0, bss_commons, overlays/spanish_free_duel/screen_runtime_commons]
 
   - name: leftover
     type: code

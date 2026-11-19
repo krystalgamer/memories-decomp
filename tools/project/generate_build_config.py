@@ -28,9 +28,19 @@ OVERLAY_REGION_PREFIX = "overlay_"
 # Segments whose subsegments this script writes itself; every other segment
 # declares its own in the template.
 GENERATED_SEGMENTS = ("main", "text")
-# Subsegment types Splat disassembles into an assembly blob, and the types
-# that hand a section to the object built from a C translation unit.
-BLOB_SECTION_TYPES = {"data", "rodata", "sdata", "sbss", "bss"}
+# Subsegment types Splat disassembles into an assembly blob, with the section
+# suffix of the file it writes, and the types that hand a section to the
+# object built from a C translation unit. The `*_commons` types are the
+# project's Splat extensions (tools/splat_extensions) for commons blocks.
+BLOB_SECTION_TYPES = {
+    "data": "data",
+    "rodata": "rodata",
+    "sdata": "sdata",
+    "sbss": "sbss",
+    "bss": "bss",
+    "sbss_commons": "sbss",
+    "bss_commons": "bss",
+}
 # A text segment's linker script lists .rodata, .data and .bss for every one
 # of its objects, so those sections are claimed there and can only be owned by
 # a translation unit with no text of its own. It lists no small-data section,
@@ -446,7 +456,9 @@ def collect_data_sources(
             if not isinstance(kind, str) or not isinstance(subsegment, str):
                 continue
             if kind in BLOB_SECTION_TYPES:
-                source = f"tmp/splat/asm/data/{subsegment}.{kind}.s"
+                source = (
+                    f"tmp/splat/asm/data/{subsegment}.{BLOB_SECTION_TYPES[kind]}.s"
+                )
                 object_name = f"{subsegment.rpartition('/')[2]}.o"
                 entry_value: dict[str, Any] = {
                     "kind": "asm",

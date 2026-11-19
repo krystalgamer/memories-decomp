@@ -66,6 +66,8 @@ INPUT_FILES = (
     "tools/project/unit_objects.py",
     "tools/project/workspace.py",
     "tools/project/clean.py",
+    "tools/splat_extensions/bss_commons.py",
+    "tools/splat_extensions/sbss_commons.py",
     "tools/bootstrap/tools.json",
     "tools/bootstrap/requirements.lock",
     "tools/bootstrap/bootstrap-requirements.lock",

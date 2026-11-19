@@ -641,7 +641,7 @@ every gap there is explicit.
 Zero-initialized overlay state is common storage, as in the resident build
 (see [`build.md`](build.md#common-declarations-for-small-globals-a-unit-reads)):
 the reading unit keeps tentative definitions, builds with
-`gcc_2_8_1_g0_split_comm`, and the layout's `bss` subsegment
+`gcc_2_8_1_g0_split_comm`, and the layout's `bss_commons` subsegment
 `<unit>_commons` places them from the image's symbol file. Free Duel's
 `screen_runtime.c` is the first (North America and Japan `+0x1030`, PAL
 `+0x10A0`); PAL orders the same five objects differently, as it does every
