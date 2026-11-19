@@ -950,17 +950,26 @@ void SD_BGMPlay(u32);
    count decremented; an active command of the first five codes is cleared;
    and a playing sequence whose poll reads 1 is stopped, clearing flag 0x80. */
 void SD_CancelMusicRequests(void);
-/* The four menu sound effects SD_SEPlayFull plays across the frontend,
-   duel, deck builder, shop, options and name entry: 6 when a cursor or
-   list moves, 7 when a choice is accepted, 8 when a screen or prompt is
-   backed out of, and 9 when an action is refused (an empty deck slot, a
-   name at its length limit, a card that cannot be added). Other effect
-   ids have no established role yet and stay numeric. */
+/* The menu sound effects SD_SEPlayFull and SD_SEPlay play across the
+   frontend, trade screen, duel, deck builder, shop, options, campaign map
+   and name entry: 6 when a cursor or list moves, 7 when a choice is
+   accepted, 8 when a screen or prompt is backed out of, and 9 when an
+   action is refused (an empty deck slot, a name at its length limit, a
+   card that cannot be added). 47 is played when a value or marker changes
+   in place (a sort order cycles, the sound output or language toggles, a
+   hand card's pick order is set or cleared, the free-duel grid, password
+   digit or keyboard cursor moves). 48 is played when a decision commits or
+   leaves a phase (a trade side marked ready, a duel started, rewards
+   accepted, a map exit taken, a name finished, a shop card bought, the
+   duel's quit prompt opened). Other effect ids have no established role
+   yet and stay numeric. */
 enum {
     SD_SE_CURSOR = 6,
     SD_SE_DECIDE = 7,
     SD_SE_CANCEL = 8,
-    SD_SE_BUZZER = 9
+    SD_SE_BUZZER = 9,
+    SD_SE_CHANGE = 47,
+    SD_SE_COMMIT = 48
 };
 
 void SD_SEPlayFull(u32);

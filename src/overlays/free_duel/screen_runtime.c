@@ -415,7 +415,7 @@ void FreeDuel_UpdateCursorTween(void)
         gFreeDuel_bCursorRow = gFreeDuel_bTargetRow;
         FreeDuel_PlaceCursor(widget, 1);
         gFreeDuel_bScreenFlags &= ~0x40;
-        SD_SEPlayFull(47);
+        SD_SEPlayFull(SD_SE_CHANGE);
     } else {
         slot = FreeDuel_GetSparkleSlot();
         sparkle = FreeDuel_SpawnSparkle();
@@ -513,7 +513,7 @@ void FreeDuel_UpdateScreen(void)
             BuildDeck_EnterNarrowConfirmMode();
             gMain_bReturnMode = MAIN_MODE_FREE_DUEL;
             gFreeDuel_bReturnFlags = 0x40;
-            SD_SEPlayFull(0x30);
+            SD_SEPlayFull(SD_SE_COMMIT);
             return;
         }
         entry = gDuel_awPlayerDeck;
@@ -529,7 +529,7 @@ void FreeDuel_UpdateScreen(void)
             }
             entry++;
         }
-        SD_SEPlayFull(0x30);
+        SD_SEPlayFull(SD_SE_COMMIT);
         gFreeDuel_bReturnFlags = 0x80;
         Main_StartDuel(
             -1,

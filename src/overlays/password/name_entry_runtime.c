@@ -892,7 +892,7 @@ void NameEntry_UpdateKeyboard(void)
             }
         }
         for (;;) {
-            SD_SEPlayFull(47);
+            SD_SEPlayFull(SD_SE_CHANGE);
 #ifdef VERSION_EUROPE
             {
                 s32 tableBase;
@@ -1368,7 +1368,7 @@ void NameEntry_UpdateDialog(void)
         gNameEntry_wPendingDialogId = 0x80F5;
         D_8016D41C = 0;
         gNameEntry_bStateFlags |= 0x20;
-        SD_SEPlayFull(48);
+        SD_SEPlayFull(SD_SE_COMMIT);
         return;
     }
     SD_SEPlayFull(SD_SE_BUZZER);

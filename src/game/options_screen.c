@@ -195,7 +195,7 @@ void Options_HandleInput(void)
             gOptions_bOutputType = 0;
         }
         SD_SetOutputType(value);
-        SD_SEPlayFull(0x2F);
+        SD_SEPlayFull(SD_SE_CHANGE);
         Options_UpdateLayout(gOptions_bSelection);
         return;
     }

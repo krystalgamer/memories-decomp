@@ -333,7 +333,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             gTrade_bDecisionMenuActive = 0;
         } else if ((gInput_awPadPressed[0] & MAIN_MENU_TRADE_CONFIRM_MASK) != 0 ||
             (gInput_awPadPressed[1] & MAIN_MENU_TRADE_CONFIRM_MASK) != 0) {
-            SD_SEPlay(48, 255, 0);
+            SD_SEPlay(SD_SE_COMMIT, 255, 0);
             switch (gTrade_bFocusPane) {
             case 0:
                 TextBox_Destroy(TEXT_CHANNEL(3));
@@ -372,7 +372,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 gTrade_awOffers[0][0] + gTrade_awOffers[1][0] == 0) {
                 SD_SEPlay(SD_SE_BUZZER, 255, 0);
             } else {
-                SD_SEPlay(48, 255, 0);
+                SD_SEPlay(SD_SE_COMMIT, 255, 0);
                 MainMenu_CreateTradeReadyIndicator(0);
                 gTrade_abReady[0] = 1;
             }
@@ -383,7 +383,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 gDuel_bEffectState = 2;
             }
         } else if ((gInput_awPadRepeat[0] & (PAD_BUTTON_SELECT | PAD_BUTTON_START)) != 0) {
-            SD_SEPlay(47, 255, 0);
+            SD_SEPlay(SD_SE_CHANGE, 255, 0);
             if ((gInput_awPadRepeat[0] & PAD_BUTTON_SELECT) != 0) {
                 gTrade_abSortMode[0] = (gTrade_abSortMode[0] + 5) % 6;
             } else {
@@ -491,7 +491,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 gTrade_awOffers[0][0] + gTrade_awOffers[1][0] == 0) {
                 SD_SEPlay(SD_SE_BUZZER, 255, 0);
             } else {
-                SD_SEPlay(48, 255, 0);
+                SD_SEPlay(SD_SE_COMMIT, 255, 0);
                 MainMenu_CreateTradeReadyIndicator(1);
                 gTrade_abReady[1] = 1;
             }
@@ -502,7 +502,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 gDuel_bEffectState = 2;
             }
         } else if ((gInput_awPadRepeat[1] & (PAD_BUTTON_SELECT | PAD_BUTTON_START)) != 0) {
-            SD_SEPlay(47, 255, 0);
+            SD_SEPlay(SD_SE_CHANGE, 255, 0);
             if ((gInput_awPadRepeat[1] & PAD_BUTTON_SELECT) != 0) {
                 gTrade_abSortMode[1] = (gTrade_abSortMode[1] + 5) % 6;
             } else {
