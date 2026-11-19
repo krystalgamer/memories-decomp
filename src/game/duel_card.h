@@ -12,9 +12,21 @@
  * storage type, which other readers load with lbu.
  *
  * Several duel_scene.c tests load terrain_modifier and flags as one word
- * (lw at 0x14) and mask flag bits in its high half. GCC 2.8.1 has no
- * anonymous unions, and a named union would rename every flags user, so
- * those readers keep `*(u32 *)&record->terrain_modifier`. */
+ * (lw at 0x14) and mask flag bits in its high half; they read status.word
+ * with DUEL_CARD_STATUS_FLAGS masks. GCC 2.8.1 has no anonymous unions, so
+ * the halves are reached through status.f. */
+typedef union {
+    struct {
+        s16 terrain_modifier;
+        u16 flags;
+    } f;
+    /* terrain_modifier in the low half, flags in the high half. */
+    u32 word;
+} DuelCardStatus;
+
+/* Moves DUEL_CARD_FLAG_* bits into DuelCardStatus.word's high half. */
+#define DUEL_CARD_STATUS_FLAGS(flags) ((u32)(flags) << 16)
+
 typedef struct {
     struct DisplayObject *object;
     /* The card's gDuel_aDeckCardRecords entry. */
@@ -25,8 +37,7 @@ typedef struct {
     s16 attack;
     s16 defense;
     s16 stat_modifier;
-    s16 terrain_modifier;
-    u16 flags;
+    DuelCardStatus status;
     u8 table_index;
     u8 pad_19[3];
 } DuelCardRecord;
@@ -59,10 +70,10 @@ typedef char DuelCardRecord_stat_modifier_offset_must_be_0x12[
     OFFSETOF(DuelCardRecord, stat_modifier) == 0x12 ? 1 : -1
 ];
 typedef char DuelCardRecord_terrain_modifier_offset_must_be_0x14[
-    OFFSETOF(DuelCardRecord, terrain_modifier) == 0x14 ? 1 : -1
+    OFFSETOF(DuelCardRecord, status.f.terrain_modifier) == 0x14 ? 1 : -1
 ];
 typedef char DuelCardRecord_flags_offset_must_be_0x16[
-    OFFSETOF(DuelCardRecord, flags) == 0x16 ? 1 : -1
+    OFFSETOF(DuelCardRecord, status.f.flags) == 0x16 ? 1 : -1
 ];
 typedef char DuelCardRecord_table_index_offset_must_be_0x18[
     OFFSETOF(DuelCardRecord, table_index) == 0x18 ? 1 : -1

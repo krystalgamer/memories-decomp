@@ -9,7 +9,7 @@ rules:
 - a monster may attack at most once per turn; and
 - a monster that has attacked may not change position again that turn.
 
-The contract is carried by bit `0x4000` in `DuelCardRecord.flags`, named
+The contract is carried by bit `0x4000` in `DuelCardRecord.status.f.flags`, named
 `DUEL_CARD_FLAG_USED_THIS_TURN` in
 [`duel_card_layout.h`](../src/game/duel_card_layout.h). The conclusions below
 come from the matching record constructor and reset code plus the resident
@@ -73,8 +73,8 @@ This makes `0x4000` a turn-local action latch:
 ## Attack selection
 
 The human field-action loop is scene state 5 (`DuelScene_UpdateFieldActions`). Its monster
-attack branch loads a 32-bit word beginning at record offset `+0x14`, so the
-high half is `DuelCardRecord.flags`, and applies:
+attack branch loads `DuelCardRecord.status.word`, the 32-bit word beginning at record offset `+0x14`, so the
+high half is `DuelCardRecord.status.f.flags`, and applies:
 
 ```text
 (word_at_0x14 & 0xC8000000) == 0x80000000
