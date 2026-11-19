@@ -573,14 +573,17 @@ After the entries, `gCredits_bFinished` and `gCredits_aLines[2]` are
 glyphs the line builder substitutes are resident data, and the rest of the
 sixteen sectors is a raw `leftover` segment of stale bytes.
 
-The duel-effect bank's leading read-only data follows its text order too:
+The duel-effect bank starts with its module word, `duel_effects/module_header.c`'s
+`.data` (`0x18` in North America and Japan; `VERSION_EUROPE` selects PAL's
+`0x0B`) in its own `module_header` segment, built through each region's
+`duel_effects_data_c.json`. Its leading read-only data follows its text order too:
 `effect_11.c`, `cross_lines.c` (its two NTSC log strings), `effect_8.c`,
 `gather_effect.c` and `effect_22.c` define their `const VECTOR` initial scales
 or strings ahead of `effect_22.c`'s jump table. Japan and PAL link
 `effect_17.c` between `gather_effect.c` and `effect_22.c`, so its vector sits
 there, while North America links it last and its vector ends the block at
-`+0x2A0`; Japan's strings come after `effect_24.c`'s data at `+0x158`. The
-header layouts are one segment so each unit's `.rodata` keeps that order; the
+`+0x2A0`; Japan's strings come after `effect_24.c`'s data at `+0x158`. From
+`+0x4` the header is one segment so each unit's `.rodata` keeps that order; the
 fill after the strings is a `bin` subsegment linked as `.rodata`.
 The initial scales that follow are defined the same way by `effect_10.c`,
 `effect_24.c`, `effect_21.c`, `effect_15.c`, `effect_13.c`, `effect_12.c`,
