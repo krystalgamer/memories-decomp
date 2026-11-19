@@ -21,9 +21,10 @@ reference states both its offset and what lives there. New code should not
 cast raw `0x1F80xxxx` integers; any such literal left in code is pending
 conversion to this form. A routine whose layout has several parts may
 declare it as one record over offset 0 instead, as `library_graphics.h`
-does with `LibraryGlobeScratch` for `Library_DrawWireframeGlobe`. Comments
-may still quote absolute `0x1F80xxxx` addresses. Psy-Q's `getScratchAddr` from
-`src/psyq/libetc.h` is never used by game code.
+does with `LibraryGlobeScratch` for `Library_DrawWireframeGlobe` and
+`duel_effect_text.h` with `TextBoxDrawScratch` for `TextBox_DrawEntries`.
+Comments may still quote absolute `0x1F80xxxx` addresses. Psy-Q's
+`getScratchAddr` from `src/psyq/libetc.h` is never used by game code.
 
 ## No allocator
 
@@ -45,7 +46,7 @@ area. Nothing written here is read by a later call.
 |---|---|---|
 | `0x000` | `DIVPOLYGON4` | `DisplayObject_SubmitPacket` (DivideFT4 buffer) |
 | `0x000` | `u32 *` work area | `Model_DrawSlot` (`GsSortUnit`), `Model_InitSlot` (`GsScanUnit`) |
-| `0x000` | `POLY_GT4`; `0x038` `POLY_FT4`; `0x060` `SVECTOR`; `0x078` `MATRIX`; `0x0A0` `long`; `0x0C0`/`0x100`/`0x140` `DuelEffectTextSprite` | `TextBox_DrawEntries` |
+| `0x000` | `TextBoxDrawScratch`: `POLY_GT4`; `0x038` `POLY_FT4`; `0x060` five `SVECTOR` (angles, then corners) unioned with a `0x078` `MATRIX`; `0x0A0` three `long`; `0x0C0`/`0x100`/`0x140` `DuelEffectTextSprite` | `TextBox_DrawEntries` |
 | `0x000`, `0x040` | `DuelEffectGlyphRow` nibble patterns; glyph rows | `DuelEffect_RasterizeGlyph` |
 | `0x000` | `DuelCardRecord` copy | `DuelScene_UpdateCardMove` |
 | `0x000` | `SpritePrim` (card art) | `Duel_DrawCardFrame` |
@@ -66,7 +67,7 @@ both a text-box sprite and a duel `POLY_FT4`.
 |---|---|---|
 | `0x280` | `u32` colour (passed as `CVECTOR *`) | `DisplayObject_SubmitPacket` |
 | `0x290..0x29F` | four `u32` texture coordinates | `DisplayObject_SubmitPacket` |
-| `0x2A0` | `LINE_F4` | `Library_DrawFadingCardOutline` |
+| `0x2A0` | `LINE_F4` (`LibraryOutlineScratch`, with its corners at `0x300` and origin at `0x398`) | `Library_DrawFadingCardOutline` |
 | `0x2C0` | `MATRIX` | `Duel_RenderFieldCard3D` |
 | `0x2D0` | `MATRIX` | `DisplayObject_ProjectRotationFacing`, `DisplayObject_ProjectPackedRotationFacing` |
 | `0x2E0` | three `long` (otz, p, flag) | `DisplayObject_SubmitPacket` (`RotAverageNclip4`) |
@@ -102,9 +103,12 @@ the display-object path:
 - `Model_DrawFogTexturedTriangles` and `Model_DrawFogTexturedQuads` build
   `LINE_G4`, `POLY_GT3` or `POLY_GT4` at `0x380`, keep `CVECTOR` colours at
   `0x3C0` and `0x3D0`, and GTE results at `0x3E0` and `0x3E8`;
-- `Duel_RenderFieldCard3D` keeps a `VECTOR` scale at `0x320`, an up vector
-  at `0x380`, a rotation at `0x3A0`, corner vectors at `0x3C0..0x3DF` and a
-  depth word at `0x3E0`.
+- `Duel_RenderFieldCard3D` declares its layout from `0x2C0` as
+  `DuelFieldCardScratch` (`duel_scene.h`): a `MATRIX` at `0x2C0`, four
+  model-space corners at `0x300`, a `VECTOR` scale at `0x320`, an up vector
+  at `0x380`, the rotation angles and rotated corners at `0x3A0..0x3BF`,
+  their ground copies at `0x3C0..0x3DF`, and eight depth and flag words at
+  `0x3E0..0x3FF`.
 
 `Fade_DrawOverlay` builds its `FadeOverlayBox` (`GsBOXF`) at `0x3C0`.
 

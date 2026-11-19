@@ -601,19 +601,19 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
         return;
     }
 
-    r = (struct ProjectionOut *)SCRATCH_ADDR(0x398);
+    r = &LIBRARY_OUTLINE_SCRATCH->origin;
     o->rgb.c.b = o->field_60;
     DisplayObject_ProjectRotationFacing(o,
                   o->xy.s.x + (s16)o->field_18.center.x,
                   o->xy.s.y + (s16)o->field_18.center.y,
                   r);
 
-    q = (LINE_F4 *)SCRATCH_ADDR(0x2A0);
-    b0 = (SVECTOR *)SCRATCH_ADDR(0x300);
+    q = &LIBRARY_OUTLINE_SCRATCH->line;
+    b0 = LIBRARY_OUTLINE_SCRATCH->corners;
     m = 0x55555555;
-    b2 = (SVECTOR *)SCRATCH_ADDR(0x310);
-    b3 = (SVECTOR *)SCRATCH_ADDR(0x318);
-    b1 = (SVECTOR *)SCRATCH_ADDR(0x308);
+    b2 = &LIBRARY_OUTLINE_SCRATCH->corners[2];
+    b3 = &LIBRARY_OUTLINE_SCRATCH->corners[3];
+    b1 = &LIBRARY_OUTLINE_SCRATCH->corners[1];
 
     z = o->rgb.word;
     setlen(q, 6);
