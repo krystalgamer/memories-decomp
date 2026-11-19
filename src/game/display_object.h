@@ -256,8 +256,31 @@ typedef struct DisplayObject {
        Halves: duel_scene.c compares 0x2C against the
        byte at 0x21, and divides 0x80 and 0x800 by 0x2E to derive its
        per-frame increments -- so 0x2E is a nonzero divisor rather than
-       padding. That file calls them `target` and `step`; the names here stay
-       with the offsets. */
+       padding. That file calls them `target` and `step`.
+
+       Three of those halfword readings are shared by several callers and
+       fixed by a callback, so they get views (the widths stay `h`'s):
+
+       slide: DisplayObject_UpdateCosineSlide and its roll-reset sibling
+       divide a half turn (and 0x40 of roll) by `frames`, the slide's
+       length; every caller that installs them sets it beside
+       position.target. Their first frame clears 0x2E, which nothing reads.
+
+       rotation: DisplayObject_UpdatePositionRotationTransition turns
+       rotation_y toward `target_y` by 0x80 / `frames`, taking `frames` from
+       field_60 on its first frame; the field-action card setups store the
+       target (0 or 0x80, face up or down).
+
+       ground_target: the duel field cursor's destination on the ground
+       plane, beside position.ground; DuelCursor_ProcessGridDirection sets
+       it from gDuel_aFieldGridGroundPositions and derives the velocity,
+       and the transition copies the word into position on arrival.
+
+       The other halfword users (the draw-card slide's phase step, a card's
+       saved home position, the placement base stat, the colour target walk,
+       the ritual fall's acceleration, the card-move target x, the card-view
+       mode, the linked panel index and the orbit centre) are one routine
+       each and keep `h`. */
     union {
         u32 word;
         struct {
@@ -267,6 +290,18 @@ typedef struct DisplayObject {
         /* A gouraud quad's vertex colour (DisplayObject_InitializeGouraudQuad
            clears it, DebugMenu_Init sets its green). */
         CVECTOR colour;
+        struct {
+            u16 frames;
+            s16 field_2E;
+        } slide;
+        struct {
+            u16 target_y;
+            s16 frames;
+        } rotation;
+        struct {
+            u16 x;
+            s16 z;
+        } ground_target;
     } field_2C;                    /* 0x2C */
     /* The 2D x/y pair the renderers draw at. DisplayObject_RenderSpriteList
        and DisplayObject_RenderSpriteStrips copy the word into SpritePrim.xy

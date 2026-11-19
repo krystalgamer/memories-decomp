@@ -2765,13 +2765,13 @@ void DuelScene_UpdateExodiaResult(void)
         gDuel_pActiveSelectionRecord =
             gDuel_abSelectionSides[(u8)side].records;
         obj->position.s.x = -0x40;
-        obj->field_2C.h.field_2C = 0x10;
+        obj->field_2C.slide.frames = 0x10;
         obj->update_state = 1;
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.target.y = obj->xy.h.y;
         obj = gDuel_pLifePointsPanel;
         obj->position.target.x = 0x180;
-        obj->field_2C.h.field_2C = 0x10;
+        obj->field_2C.slide.frames = 0x10;
         obj->update_state = 1;
         obj->update = (DisplayObjectCallback)fnv;
         obj->position.target.y = obj->xy.h.y;
@@ -2797,7 +2797,7 @@ void DuelScene_UpdateExodiaResult(void)
                 pose = (DuelExodiaCardPose *)(anim * sizeof(DuelExodiaCardPose) + (u32)poses);
                 obj->position.target.x = pose->biased_x - 0x1A;
                 py = pose->biased_y;
-                obj->field_2C.h.field_2C = 0xB4;
+                obj->field_2C.slide.frames = 0xB4;
                 obj->update_state = 1;
                 obj->update = (DisplayObjectCallback)fnv;
                 obj->position.target.y = py - 0x1E;
@@ -4601,7 +4601,7 @@ void DuelScene_UpdateHandActions(void)
                 }
                 obj->position.s.x = 0x86;
                 obj->position.s.y = 0x5A;
-                obj->field_2C.h.field_2C = 0x10;
+                obj->field_2C.slide.frames = 0x10;
                 obj->update_state = 1;
                 obj->update = DisplayObject_UpdateCosineSlide;
                 DisplayObject_SetDepthOffset(
@@ -4652,7 +4652,7 @@ void DuelScene_UpdateHandActions(void)
                    load goes through a u32 pointer. */
                 saved = &obj->field_2C.word;
                 obj->position.word = *saved;
-                obj->field_2C.h.field_2C = 0x10;
+                obj->field_2C.slide.frames = 0x10;
                 obj->update_state = 1;
                 return;
             }
@@ -5103,10 +5103,10 @@ void DisplayObject_UpdateColorTransition(DisplayObject *object)
 
 void DisplayObject_UpdatePositionRotationTransition(DisplayObject*o)
 {
- if(!DisplayObject_MarkInitialized(o)){if((s16)o->field_2C.h.field_2C!=o->field_20.b.rotation_y)o->flags|=DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_2C.h.field_2E=o->field_60.frames;DisplayObject_SavePosition(o);o->field_60.phase=0;}
- if(o->field_20.b.rotation_y!=(s16)o->field_2C.h.field_2C)o->field_20.b.rotation_y+=0x80/o->field_2C.h.field_2E;
+ if(!DisplayObject_MarkInitialized(o)){if((s16)o->field_2C.rotation.target_y!=o->field_20.b.rotation_y)o->flags|=DISPLAY_OBJECT_FLAG_CLIP_TEST;o->field_2C.rotation.frames=o->field_60.frames;DisplayObject_SavePosition(o);o->field_60.phase=0;}
+ if(o->field_20.b.rotation_y!=(s16)o->field_2C.rotation.target_y)o->field_20.b.rotation_y+=0x80/o->field_2C.rotation.frames;
  DisplayObject_InterpolatePositionCosine(o,o->position.s.x,o->position.s.y,o->field_60.phase);o->field_60.phase+=TRIG_ANGLE_HALF_TURN/o->field_2C.h.field_2E;
- if(o->field_60.phase>=TRIG_ANGLE_HALF_TURN){u8 target=(s16)o->field_2C.h.field_2C;int position=o->position.word;o->field_20.b.rotation_y=target;o->xy.word=position;if(!(target&0xFF))o->flags&=~DISPLAY_OBJECT_FLAG_CLIP_TEST;o->update_state=0;o->update=0;}
+ if(o->field_60.phase>=TRIG_ANGLE_HALF_TURN){u8 target=(s16)o->field_2C.rotation.target_y;int position=o->position.word;o->field_20.b.rotation_y=target;o->xy.word=position;if(!(target&0xFF))o->flags&=~DISPLAY_OBJECT_FLAG_CLIP_TEST;o->update_state=0;o->update=0;}
 }
 
 #include "display_object_layout.h"
@@ -5628,7 +5628,7 @@ void DuelScene_UpdateFieldActions(void)
                 DisplayObject_UpdatePositionRotationTransition;
             o->position.target.x = 0x86;
             o->position.target.y = 0x5A;
-            o->field_2C.h.field_2C = 0;
+            o->field_2C.rotation.target_y = 0;
             o->update_state = 1;
             gDuel_pActionCard = o;
             co = side->cursor_object;
@@ -5715,10 +5715,10 @@ void DuelScene_UpdateFieldActions(void)
                 gDuel_abCardStagingBuffer.deck.field_cards[o->kind_index.card_record_index].screen_x;
             o->position.target.y =
                 gDuel_abCardStagingBuffer.deck.field_cards[o->kind_index.card_record_index].screen_y;
-            o->field_2C.h.field_2C = 0;
+            o->field_2C.rotation.target_y = 0;
             if (gDuel_aCardRecords[o->kind_index.card_record_index].flags
                 & DUEL_CARD_FLAG_FACE_DOWN) {
-                o->field_2C.h.field_2C = 0x80;
+                o->field_2C.rotation.target_y = 0x80;
             }
             o->update_state = 1;
         } else {
@@ -5803,12 +5803,12 @@ void DisplayObject_UpdateCosineSlide(DisplayObject *object)
     if (!DisplayObject_MarkInitialized(object)) {
         DisplayObject_SavePosition(object);
         object->field_60.phase = 0;
-        object->field_2C.h.field_2E = 0;
+        object->field_2C.slide.field_2E = 0;
     }
     DisplayObject_InterpolatePositionCosine(object, object->position.s.x,
                  object->position.s.y, object->field_60.phase);
     object->field_60.phase +=
-        TRIG_ANGLE_HALF_TURN / (s16)object->field_2C.h.field_2C;
+        TRIG_ANGLE_HALF_TURN / (s16)object->field_2C.slide.frames;
     if (object->field_60.phase >= TRIG_ANGLE_HALF_TURN) {
         object->update_state = 0;
         object->update = 0;
@@ -5820,15 +5820,15 @@ void DisplayObject_UpdateCosineSlideWithRollReset(DisplayObject *object)
     if (!DisplayObject_MarkInitialized(object)) {
         DisplayObject_SavePosition(object);
         object->field_60.phase = 0;
-        object->field_2C.h.field_2E = 0;
+        object->field_2C.slide.field_2E = 0;
     }
     if (object->field_20.b.rotation_z) {
-        object->field_20.b.rotation_z += 0x40 / (s16)object->field_2C.h.field_2C;
+        object->field_20.b.rotation_z += 0x40 / (s16)object->field_2C.slide.frames;
     }
     DisplayObject_InterpolatePositionCosine(object, object->position.s.x,
                  object->position.s.y, object->field_60.phase);
     object->field_60.phase +=
-        TRIG_ANGLE_HALF_TURN / (s16)object->field_2C.h.field_2C;
+        TRIG_ANGLE_HALF_TURN / (s16)object->field_2C.slide.frames;
     if (object->field_60.phase >= TRIG_ANGLE_HALF_TURN) {
         object->xy.word = object->position.word;
         object->field_20.b.rotation_z = 0;
@@ -6207,21 +6207,21 @@ void DuelScene_UpdateBattle(void)
         y = 0x5C;
         o->position.s.x = -0x74;
         cb = DisplayObject_UpdateCosineSlideWithRollReset;
-        o->field_2C.h.field_2C = w;
+        o->field_2C.slide.frames = w;
         o->update_state = one;
         o->update = cb;
         o->position.target.y = o->xy.h.y;
         o = gDuel_pLifePointsPanel;
         h = 0x18;
         o->position.target.x = 0x198;
-        o->field_2C.h.field_2C = w;
+        o->field_2C.slide.frames = w;
         o->update_state = one;
         o->update = cb;
         o->position.target.y = o->xy.h.y;
         o = slots[0];
         o->position.target.x = 0x38;
         o->position.target.y = y;
-        o->field_2C.h.field_2C = h;
+        o->field_2C.slide.frames = h;
         o->update_state = one;
         o->update = cb;
         CardPreview_RequestResourceTransfer(0,
@@ -6232,7 +6232,7 @@ void DuelScene_UpdateBattle(void)
         if (o != 0) {
             o->position.target.x = 0xD8;
             o->position.target.y = y;
-            o->field_2C.h.field_2C = h;
+            o->field_2C.slide.frames = h;
             o->update_state = one;
             o->update = cb;
         } else {
@@ -6762,13 +6762,13 @@ void DuelScene_UpdateBattle(void)
             DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots.slots[1]);
             o = gDuel_pTerrainIcon;
             o->position.target.x = 0xC;
-            o->field_2C.h.field_2C = 0x10;
+            o->field_2C.slide.frames = 0x10;
             o->update_state = 1;
             o->update = DisplayObject_UpdateCosineSlideWithRollReset;
             o->position.target.y = o->xy.h.y;
             o = gDuel_pLifePointsPanel;
             o->position.target.x = 0x118;
-            o->field_2C.h.field_2C = 0x10;
+            o->field_2C.slide.frames = 0x10;
             o->update_state = 1;
             o->update = DisplayObject_UpdateCosineSlideWithRollReset;
             o->position.target.y = o->xy.h.y;
@@ -7191,13 +7191,13 @@ void DuelScene_UpdateResultOutro(void)
         obj = gDuel_pTerrainIcon;
         gDuelResult_wBgmId = mode;
         obj->position.s.x = -116;
-        obj->field_2C.h.field_2C = 0x30;
+        obj->field_2C.slide.frames = 0x30;
         obj->update_state = 1;
         obj->update = DisplayObject_UpdateCosineSlide;
         obj->position.target.y = obj->xy.s.y;
         obj = gDuel_pLifePointsPanel;
         obj->position.target.x = 0x198;
-        obj->field_2C.h.field_2C = 0x30;
+        obj->field_2C.slide.frames = 0x30;
         obj->update_state = 1;
         obj->update = DisplayObject_UpdateCosineSlide;
         gDuel_bSceneSubStep = 1;
@@ -8847,9 +8847,9 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         DisplayObject_ResetVelocity(d);
         d->update_state = 0;
         d->field_60.frames = shift;
-        d->field_2C.h.field_2C = d->position.s.x;
-        d->field_2C.h.field_2E = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].y;
-        q = ((d->field_2C.h.field_2E - d->position.s.y) << 8) / shift;
+        d->field_2C.ground_target.x = d->position.s.x;
+        d->field_2C.ground_target.z = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].y;
+        q = ((d->field_2C.ground_target.z - d->position.s.y) << 8) / shift;
         gDuel_wDisplayTransitionFlags = 0x50;
         d->field_38.motion.velocity_z = q;
         o->status |= 0xC0;
@@ -8867,11 +8867,11 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         shift = 8;
         d->field_60.frames = shift;
         d->update_state = 0;
-        d->field_2C.h.field_2C = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].x;
+        d->field_2C.ground_target.x = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].x;
         gDuel_wDisplayTransitionFlags = 0x40;
-        d->field_2C.h.field_2E = d->position.s.y;
+        d->field_2C.ground_target.z = d->position.s.y;
         d->field_34.motion.velocity_x =
-            (((s16)d->field_2C.h.field_2C - d->position.s.x) << shift) / shift;
+            (((s16)d->field_2C.ground_target.x - d->position.s.x) << shift) / shift;
         o->status |= 0x80;
     }
 }
@@ -10804,7 +10804,7 @@ void DuelEffect_ApplyRitual(void)
             gDuel_wTrapPresentationMode |= 0x80;
             object->position.target.x = 134;
             object->position.target.y = 42;
-            object->field_2C.h.field_2C = 16;
+            object->field_2C.slide.frames = 16;
             object->update_state = 1;
             object->update = DisplayObject_UpdateCosineSlide;
         } else if (!(gDuel_wTrapPresentationMode & 0x40)) {
@@ -10833,7 +10833,7 @@ void DuelEffect_ApplyRitual(void)
                 SD_SEPlayFull(SD_SE_DECIDE);
                 object->position.target.x = 134;
                 object->position.s.y = -128;
-                object->field_2C.h.field_2C = 16;
+                object->field_2C.slide.frames = 16;
                 object->update_state = 1;
                 object->update = DisplayObject_UpdateCosineSlide;
                 card = &gDuel_aCardRecords[object->kind_index.card_record_index];
