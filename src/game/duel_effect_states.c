@@ -198,7 +198,7 @@ void DuelEffect_UpdateCardViewerState(void)
                 break;
             }
         }
-        Fade_SetTargetLevel(0x40, 2);
+        Fade_SetTargetLevel(0x40, FADE_FLAG_KEEP_OVERLAY);
         /* A lbu of the volatile halfword's low byte; (u8) would keep the lhu. */
         gFade_bKeepOverlayDepth = gDisplayObject_awOrderingTableDepthBases[1].low - 0x13;
         SD_SEPlayFull(0x34);
@@ -344,7 +344,7 @@ void DuelEffect_UpdateCardViewerState(void)
     gDuel_pCardViewerBackground->field_60.phase = slide_out;
     DisplayObject_SavePosition(next_obj);
     gDuel_pCardViewerCard->field_60.phase = slide_out;
-    Fade_SetTargetLevel(0xFF, 2);
+    Fade_SetTargetLevel(0xFF, FADE_FLAG_KEEP_OVERLAY);
     SD_SEPlayFull(0x34);
     gDuel_bEffectHandlerFlags |= 0x50;
 }

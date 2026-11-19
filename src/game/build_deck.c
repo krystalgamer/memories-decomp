@@ -1933,12 +1933,12 @@ int BuildDeck_HasOpenDeckSlot(void)
  * confirmation box is created (the wide
  * one in the 640-wide mode selected by bit 7 of gBuildDeck_bConfirmMode, the narrow one
  * otherwise, which is then waited on until its prompt_object pointer is filled),
- * Fade_SetTargetLevel(0xA0, 2) runs and gFade_bKeepOverlayDepth is set from gDisplayObject_awOrderingTableDepthBases[1] - 8.
+ * Fade_SetTargetLevel(0xA0, FADE_FLAG_KEEP_OVERLAY) runs and gFade_bKeepOverlayDepth is set from gDisplayObject_awOrderingTableDepthBases[1] - 8.
  * With bit 14 set the effect channel at gText_aChannels is polled: once its flags
  * match TEXT_BOX_FLAG_DONE under TEXT_BOX_COMPLETION_MASK, the box is
  * destroyed and either bit 14
  * is cleared (narrow mode with a choice made) or the state word is reloaded
- * from +0x6340 and Fade_SetTargetLevel(0xFF, 2) runs. Without bit 14 the CARD_COUNT
+ * from +0x6340 and Fade_SetTargetLevel(0xFF, FADE_FLAG_KEEP_OVERLAY) runs. Without bit 14 the CARD_COUNT
  * trunk bytes at +0x5D98 are copied after the DECK_SIZE halfwords of the
  * object at +0. Those halfwords are rebuilt from the 0x10-byte entries at
  * +0x2D54 whose byte 9 is set, Library_PruneRecentCardDrops runs and the state word is
@@ -1972,7 +1972,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
                     TextBox_UpdateChannels();
                 } while (box->prompt_object == 0);
             }
-            Fade_SetTargetLevel(BUILD_DECK_CONFIRM_FADE_LEVEL, 2);
+            Fade_SetTargetLevel(BUILD_DECK_CONFIRM_FADE_LEVEL, FADE_FLAG_KEEP_OVERLAY);
             gFade_bKeepOverlayDepth = gDisplayObject_awOrderingTableDepthBases[1].low - 8;
         }
     }
@@ -1992,7 +1992,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
                 workspace->state &= ~BUILD_DECK_STATE_CONFIRM_OPEN;
             } else {
                 workspace->state = workspace->next_state;
-                Fade_SetTargetLevel(0xFF, 2);
+                Fade_SetTargetLevel(0xFF, FADE_FLAG_KEEP_OVERLAY);
             }
         }
     } else {
