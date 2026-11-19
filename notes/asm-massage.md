@@ -1,26 +1,29 @@
 # Assembly massage for hand-written renderers
 
 Status: integrated for the twelve wireframe drivers of
-`src/game/wireframe_renderers.c`, which build through the
+`src/game/wireframe_renderers.c` and the sixteen shared Gt3/Gt4 drivers of
+`src/game/shared_polygon_renderers.c`, which build through the
 `gcc_2_8_1_o2_massaged` profile in every resident executable (see
-[Build integration](#build-integration)). The polygon renderers still use the
-register-variable C of the `gcc_2_8_1_g0_handwritten_asm` profile; the
-sixteen shared polygon drivers were matched and proven with the massage on
-the prototype only (their inputs are not tracked; numbers below).
+[Build integration](#build-integration)). The direct polygon renderers
+(`src/game/polygon_renderers.c`) and the shared cache-preparation stage
+(`src/game/shared_primitive_cache_prepare.c`) still use the
+register-variable C of the `gcc_2_8_1_g0_handwritten_asm` profile.
 
 The tool is `tools/project/asm_massage.py`, with its rule catalogue in
 `tools/project/asm_massage_rules.py`, the dependence checker in
 `tools/project/asm_massage_deps.py` and unit tests in
 `tools/project/tests/test_asm_massage.py`. Edit files live beside their
-source, in `src/game/wireframe_renderers.massage/`.
+source, in `src/game/wireframe_renderers.massage/` and
+`src/game/shared_polygon_renderers.massage/`.
 
 ## Motivation
 
 The model renderers (`src/game/wireframe_renderers.c`,
-`src/game/polygon_renderers.c`, `src/game/shared_polygon_renderers.c`, about
-60 functions) were written in assembly. Today they match through register
-variables, `handwritten_asm.h` and `gte_native.h`: C that spells out the
-original's registers and instructions and would not run anywhere else.
+`src/game/polygon_renderers.c`, `src/game/shared_polygon_renderers.c` and
+`src/game/shared_primitive_cache_prepare.c`, about 60 functions) were written
+in assembly. Without the massage they match through register variables,
+`handwritten_asm.h` and `gte_native.h`: C that spells out the original's
+registers and instructions and would not run anywhere else.
 
 The massage keeps the C plain and moves the hand optimisation into an
 explicit, reviewable post-pass:
@@ -93,7 +96,7 @@ MASPSX with the massage (see [Build integration](#build-integration)).
 
 ## Rule catalogue
 
-All 28 prototype functions (the twelve wireframe drivers and the sixteen
+All 28 massaged functions (the twelve wireframe drivers and the sixteen
 shared polygon drivers) run the same list, in this order:
 
 ```text
@@ -219,9 +222,7 @@ $v0.1 = $a3       # lw $v0.1, 0x0($t3.1)
 
 ## Metrics
 
-All 28 functions match exactly with the one rule list (the twelve
-wireframe drivers in the build, the sixteen polygon drivers on the
-prototype). "By
+All 28 functions match exactly with the one rule list. "By
 rules" counts final instructions produced or rewritten by a rule, including
 derived nops; "kept" are GCC's instructions with only their registers
 renamed; "residual" instructions are the ones the residual diff placed.
@@ -268,9 +269,10 @@ before looking up the second vertex. Both are plain statement orders.
 
 ### Shared polygon drivers
 
-The sixteen drivers of `src/game/shared_polygon_renderers.c`, measured on
-the prototype with plain C generated from one template per shape (GT3/GT4,
-window record, two-sided, semi); that C and its edit files are not tracked:
+The sixteen drivers of `src/game/shared_polygon_renderers.c`. Their C was
+written from one template per shape (GT3/GT4, window record, two-sided,
+semi), so the drivers differ only where the shapes do; the four packet
+layouts are shared in `src/game/shared_primitive_renderers.h`:
 
 | Function | Address | Retail | Kept | By rules | Residual instrs | Residual diff lines | Map entries |
 | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -358,7 +360,7 @@ applies to with the result:
 A6 (unlinked packet words): until tag-build links a packet into the OT its
 words are scratch; a path that skips the link reuses or abandons them.
 
-Result on the 28 prototype functions:
+Result on the 28 massaged functions:
 
 | Functions | Moves / re-registered / insertions / deletions / merged | Result |
 | --- | --- | --- |
@@ -395,10 +397,26 @@ more than it gains. The scheduler was left out.
 
 ## Evidence
 
-The build gate for the integrated unit:
+The build gate for the integrated units:
 
 ```text
 $ make check-asm-massage | grep -E 'MATCH|check:'
+  MATCH 0x248 bytes at 0x80067354
+  MATCH 0x264 bytes at 0x80067858
+  MATCH 0x2bc bytes at 0x8006759c
+  MATCH 0x2d8 bytes at 0x80067abc
+  MATCH 0x2a4 bytes at 0x8006875c
+  MATCH 0x2c0 bytes at 0x80068d18
+  MATCH 0x318 bytes at 0x80068a00
+  MATCH 0x334 bytes at 0x80068fd8
+  MATCH 0x23c bytes at 0x80067d94
+  MATCH 0x258 bytes at 0x8006825c
+  MATCH 0x28c bytes at 0x80067fd0
+  MATCH 0x2a8 bytes at 0x800684b4
+  MATCH 0x298 bytes at 0x8006930c
+  MATCH 0x2b4 bytes at 0x8006988c
+  MATCH 0x2e8 bytes at 0x800695a4
+  MATCH 0x304 bytes at 0x80069b40
   MATCH 0x150 bytes at 0x8006a3f0
   MATCH 0x150 bytes at 0x80069e44
   MATCH 0x180 bytes at 0x8006a694
@@ -411,14 +429,14 @@ $ make check-asm-massage | grep -E 'MATCH|check:'
   MATCH 0x160 bytes at 0x8006a99c
   MATCH 0x18c bytes at 0x8006ade8
   MATCH 0x18c bytes at 0x8006aafc
-asm_massage check: 12/12 MATCH and proven
+asm_massage check: 28/28 MATCH and proven
 ```
 
 GCC's instruction counts for the wireframes (before massaging) were 104
 (+2 nops) for the FT3/GT3 drivers, 118 (+4) for FT4/GT4, 128 (+3) for shared
-GT3 and 149 (+4) for shared GT4. On the prototype, the sixteen polygon
-drivers went from 210-276 GCC instructions to their retail 143-205, all
-`MATCH`. The full prototype report for one polygon driver:
+GT3 and 149 (+4) for shared GT4. The sixteen polygon drivers go from
+210-276 GCC instructions to their retail 143-205. The full report for one
+polygon driver:
 
 ```text
 Model_DrawSharedGt3Primitives: gcc -O2 215 instructions (+1 nops), massaged 146, retail 146
@@ -426,7 +444,7 @@ Model_DrawSharedGt3Primitives: gcc -O2 215 instructions (+1 nops), massaged 146,
   instruction count per rule (before->after): aligned-word-copy 216->204, gte-direct-read 204->202, unspill 202->189, undo-strength-reduction 189->183, word-compose 183->167, halfword-words 167->170, tag-build 170->165, zero-extend-shifts 165->166, reuse-load 166->163, loop-constant 163->164, store-delay-slot 164->163, gte-load-early 163->160, drop-self-moves 160->159, frameless 159->146
   final instructions by origin: aligned-word-copy+increment-sink+undo-strength-reduction=4, aligned-word-copy+reuse-load+undo-strength-reduction=3, at-constants=3, at-constants+unspill=1, delay=2, dmpsx-native=2, fill-load-delay+invariant-last=1, frameless=6, gcc=50, gte-direct-read=2, gte-load-early=6, halfword-words=10, increment-sink=1, increment-sink+undo-strength-reduction=2, invariant-last=3, loop-constant=2, loop-load-forwarding+tag-build=1, residual=20, store-delay-slot+tag-build=1, tag-build=8, undo-strength-reduction=7, undo-strength-reduction+unspill=1, unspill=2, word-compose=6, zero-extend-shifts=2
   relocations: R_MIPS_HI16 gModel_dwPolyGt3Template, R_MIPS_LO16 gModel_dwPolyGt3Template, R_MIPS_HI16 gModel_dwTpageBlendRateBits, R_MIPS_LO16 gModel_dwTpageBlendRateBits, R_MIPS_HI16 gModel_dwSecondPassClutBits, R_MIPS_LO16 gModel_dwSecondPassClutBits, R_MIPS_HI16 gModel_bCurrentDrawMode, R_MIPS_LO16 gModel_bCurrentDrawMode, R_MIPS_HI16 gModel_dwLitColorCacheBase, R_MIPS_LO16 gModel_dwLitColorCacheBase, R_MIPS_26 .text, R_MIPS_HI16 gGraphics_pPacketWorkCursor, R_MIPS_LO16 gGraphics_pPacketWorkCursor
-  dependence check: 10 moves, 8 re-registered, 0 insertions (0 dead, 0 constants, 2 saves), 2 deletions; all dependences preserved
+  dependence check: 10 moves, 8 re-registered, 0 insertions (0 dead, 0 constants, 2 saves), 0 deletions, 0 merged duplicates; all dependences preserved
   MATCH 0x248 bytes at 0x80067354
 ```
 
@@ -496,15 +514,17 @@ against `.text`; the linked bytes check its target).
 
 ## Next steps
 
-The wireframe family is integrated: one rule list, a one-line residual
-each, every residual proven by the dependence check, and `make
-check-asm-massage` as the gate.
+The wireframe family (one-line residuals) and the shared polygon family
+(39-86 diff lines, all proven mechanically, so review can focus on the C
+and the rules) are integrated, with `make check-asm-massage` as the gate.
+A scheduler does not shrink the polygon residuals.
 
-The shared polygon family is reviewable: its residuals are large
-(39-86 diff lines) but all sixteen are proven mechanically, so review can
-focus on the C and the rules. A scheduler does not shrink them.
-Recommended path: move the polygon drivers to the massaged profile next,
-with the dependence check required to pass, then apply the same approach
-to `src/game/polygon_renderers.c`, which shares the second pass and colour
-arithmetic. The hand-written profile, `handwritten_asm.h` and
+Next: `src/game/polygon_renderers.c`, which shares the second pass and
+colour arithmetic with the shared drivers. The shared cache-preparation
+stage needs more than a new rule: it moves each vector into the GTE with
+`mtc2` from registers loaded one iteration ahead (a software pipeline that
+also reads one entry past the range), and no stock `inline_c.h` macro moves
+a register into `VXY0`/`VZ0` or `RGB`, so plain C plus the massage cannot
+express it without a loop-pipelining transformation the dependence check
+does not prove. The hand-written profile, `handwritten_asm.h` and
 `gte_native.h` stay until no unit uses them.

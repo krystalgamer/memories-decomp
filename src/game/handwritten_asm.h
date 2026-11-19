@@ -3,9 +3,9 @@
 
 /*
  * Inline-assembly building blocks for the model primitive renderers that
- * were originally written by hand. (The hand-written wireframe drivers no
- * longer use them: they are plain C massaged by tools/project/asm_massage.py;
- * see notes/asm-massage.md.)
+ * were originally written by hand. (The hand-written wireframe and shared
+ * Gt3/Gt4 drivers no longer use them: they are plain C massaged by
+ * tools/project/asm_massage.py; see notes/asm-massage.md.)
  *
  * Those routines have no stack frame. They borrow callee-saved registers and
  * preserve the caller's values in scratch words of the argument block
