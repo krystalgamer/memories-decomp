@@ -342,6 +342,52 @@ class DirectPolygonDependenceTests(unittest.TestCase):
         self.assertEqual((report.copies, report.flags), (1, []))
 
 
+class RotationTests(unittest.TestCase):
+    LOOP = ("lw\t$5,24($4)\nlw\t$6,28($4)\nli\t$7,3\n$L1:\n"
+            "lwc2\t$0, 0( $5 );lwc2\t$1, 4( $5 )\naddu\t$7,$7,-1\naddu\t$5,$5,8\n"
+            ".word 0x0000007f\nswc2\t$14, 0( $6 )\n{extra}addu\t$6,$6,8\n"
+            "bne\t$7,$0,$L1\nnop\n{after}j\t$31\nnop")
+
+    def rotated(self, extra: str = "", after: str = ""):
+        instrs = am.webify(parse(self.LOOP.format(extra=extra, after=after)))
+        context = rules.Context({})
+        for name in ("dmpsx-native", "rotate-loop-loads"):
+            instrs = rules.RULES[name].apply(instrs, context)
+        return instrs
+
+    def test_loop_loads_are_pipelined_by_one_iteration(self):
+        out = body(self.rotated())
+        top = out.index("$L1:")
+        self.assertEqual(out[top - 2:top + 3], [
+            "lw %rot1, 0x0($a1.1)", "lw %rot2, 0x4($a1.1)", "$L1:",
+            "mtc2 %rot1, $0", "mtc2 %rot2, $1"])
+        command = out.index(".word 0x4A180001")
+        self.assertEqual(out[command + 1:command + 3],
+                         ["lw %rot1, 0x0($a1.1)", "lw %rot2, 0x4($a1.1)"])
+
+    def test_rotation_is_proven(self):
+        self.assertEqual(deps.rotations(self.rotated()), (2, []))
+
+    def test_rotation_past_an_aliasing_store_is_refused(self):
+        # A store through the source pointer may change the next word.
+        count, problems = deps.rotations(self.rotated(extra="sw\t$0,0($5)\n"))
+        self.assertTrue(problems and "may write" in problems[0])
+
+    def test_rotated_value_read_after_the_loop_is_refused(self):
+        instrs = self.rotated()
+        exit_ = next(n for n, i in enumerate(instrs) if i.op == "jr")
+        instrs.insert(exit_, am.Instr("sw", [("r", "%rot1"), ("m", 0, "$a2.1")]))
+        count, problems = deps.rotations(instrs)
+        self.assertTrue(any("not a single rotated value" in p or "live after" in p
+                            for p in problems))
+
+    def test_shift_tested_against_zero_reads_the_signed_load(self):
+        out = run("sign-extend-load", "lbu\t$8,gSym\nsll\t$3,$8,24\nsra\t$9,$3,24\n"
+                  "sll\t$10,$8,24\nbeq\t$10,$0,$L1\nnop\nsw\t$9,0($5)\n$L1:\nj\t$31\nnop")
+        self.assertIn("lb $t1.1, %lo(gSym)($t0.1)", out)
+        self.assertIn("beq $t1.1, $zero, $L1", out)
+
+
 def physical(names: str, text: str) -> list[str]:
     instrs = am.rename(am.webify(parse(text)), {})
     for name in names.split():
@@ -451,7 +497,7 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(am.check_source_contract(
             '#include "../psyq/inline_c.h"\nvoid f(void) { gte_rtpt_b(); }\n'), [])
         self.assertEqual(len(am.check_source_contract(
-            '#include "handwritten_asm.h"\nregister int x asm("$16");\n')), 3)
+            'register int x asm("$16");\n')), 2)
 
 
 class HazardAndResidualTests(unittest.TestCase):

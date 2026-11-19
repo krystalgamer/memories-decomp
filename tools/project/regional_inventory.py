@@ -205,7 +205,9 @@ def matching_functions(
     return matching
 
 
-HANDWRITTEN_C_NOTE = "handwritten_asm.h"
+# Every formerly hand-written routine now matched in C is built through the
+# asm massage, and its North American inventory note names that profile.
+HANDWRITTEN_C_NOTE = "gcc_2_8_1_o2_massaged"
 
 
 def is_handwritten_reference(function: Function) -> bool:

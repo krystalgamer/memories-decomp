@@ -1,15 +1,22 @@
 /*
- * Shared Gt3/Gt4 polygon drivers (0x80067354-0x80069E44): the sixteen
- * cached-input drivers that read the vertop2/nortop2 caches
- * Model_PrepareSharedPrimitiveCaches fills.
+ * Shared-vertex primitive cache preparation and shared Gt3/Gt4 polygon
+ * drivers (0x80067220-0x80069E44).
+ *
+ * Model_PrepareSharedPrimitiveCaches projects a block's shared vertices
+ * into the vertop2 cache (SXY2 plus an IR0 << 16 | SZ3 word, or all ones
+ * when RTPS overflowed) and, in lit modes, lights its shared normals into
+ * the nortop2 colour cache; the sixteen cached-input drivers then read
+ * those caches.
  *
  * The originals were written by hand: no stack frame, s0-s7 parked in the
- * GsARGUNIT block, the next primitive block returned in $v0. This is plain C
- * over the stock Psy-Q inline_c.h and libgpu.h macros, built with the
- * gcc_2_8_1_o2_massaged profile: GCC's -O2 output is rewritten into the
- * original instructions by tools/project/asm_massage.py with the edit files
- * in shared_polygon_renderers.massage/ (one per function). See
- * notes/asm-massage.md and notes/shared-primitive-renderers.md.
+ * GsARGUNIT block, the next primitive block returned in $v0, and the
+ * preparation loops load the next vector while the GTE works on the
+ * current one. This is plain C over the stock Psy-Q inline_c.h and libgpu.h
+ * macros, built with the gcc_2_8_1_o2_massaged profile: GCC's -O2 output is
+ * rewritten into the original instructions by tools/project/asm_massage.py
+ * with the edit files in shared_polygon_renderers.massage/ (one per
+ * function). See notes/asm-massage.md and
+ * notes/shared-primitive-renderers.md.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
@@ -23,6 +30,72 @@
 #include "model_slot_setup.h"
 #include "primitive_handler_modes.h"
 #include "shared_primitive_renderers.h"
+
+u32 *Model_PrepareSharedPrimitiveCaches(GsARGUNIT_SHARED *arg)
+{
+    ModelSharedCacheBlock *block = (ModelSharedCacheBlock *)arg->primp;
+    u32 rgb = gModel_dwPolyGt3Template & 0xFFFFFF;
+    s8 mode = (s8)gModel_bCurrentDrawMode;
+    /* The colour cache holds two words per normal; a nonzero cache base
+     * selects the second. */
+    u32 offset = gModel_dwLitColorCacheBase;
+    u32 count;
+
+    gte_ldrgb(&rgb);
+    if (offset != 0) {
+        offset = sizeof(u32);
+    }
+    count = block->vertex_count;
+    if (count != 0) {
+        SVECTOR *vertex = &arg->vertop[block->vertex_index];
+        ModelSharedCacheEntry *entry =
+            (ModelSharedCacheEntry *)&arg->vertop2[block->vertex_cache_index];
+
+        do {
+            gte_ldv0(vertex);
+            count--;
+            vertex++;
+            gte_rtps_b();
+            /* Rejected until the projection is accepted. */
+            entry->words[1] = 0xFFFFFFFF;
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            {
+                u32 p, sz;
+
+                gte_stsxy2(&entry->words[0]);
+                gte_stdp(&p);
+                gte_stsz(&sz);
+                entry->words[1] = p << 16 | sz;
+            }
+        next:
+            entry++;
+        } while (count != 0);
+    }
+    if (mode != 0) {
+        count = block->normal_count;
+        if (count != 0) {
+            SVECTOR *normal = &arg->nortop[block->normal_index];
+            u32 *colour = (u32 *)((u8 *)&arg->nortop2[block->colour_cache_index] + offset);
+
+            do {
+                gte_ldv0(normal);
+                count--;
+                normal++;
+                gte_nccs_b();
+                gte_strgb(colour);
+                colour += 2;
+            } while (count != 0);
+        }
+    }
+    return (u32 *)(block + 1);
+}
 
 /* Shared GT3 driver. The vertices were projected into the GsWORKUNIT cache
  * (vertop2: SXY, then otz/p, all ones when rejected) and lit into the colour

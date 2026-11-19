@@ -142,9 +142,9 @@ Matching, attempt-ledger updates, and integration remain sequential.
   March 1997 changes, built from source by `make compiler-272-cygnus`), which
   skips MASPSX and lets GNU as reorder, because MASPSX cannot fill delay
   slots (see `notes/overlays/safecheck2003.md`). The resident hand-written
-  wireframe drivers in `src/game/wireframe_renderers.c`, shared Gt3/Gt4
-  drivers in `src/game/shared_polygon_renderers.c` and direct polygon
-  drivers in `src/game/polygon_renderers.c` select
+  model renderers (`src/game/wireframe_renderers.c`,
+  `src/game/shared_polygon_renderers.c` and `src/game/polygon_renderers.c`)
+  select
   `gcc_2_8_1_o2_massaged`: the same GCC 2.8.1 at plain `-O2`, whose output
   `tools/project/asm_massage.py` rewrites instead of MASPSX, with shared
   rules plus one tracked edit file per function; `make check-asm-massage`

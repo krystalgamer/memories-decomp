@@ -5,28 +5,32 @@ family selected by `Model_GetSharedPrimitiveHandler`: one cache-preparation
 stage and sixteen cached-input polygon drivers. All 119 actual native
 function records across the seven resident images retain their original
 ownership, extents and instructions; the Japanese and European resident
-executables compile the same two sources,
-`src/game/shared_primitive_cache_prepare.c` and
+executables compile the same single source,
 `src/game/shared_polygon_renderers.c`, at their own addresses.
 
-The preparation stage, `Model_PrepareSharedPrimitiveCaches`, is matched C
-under the `gcc_2_8_1_g0_handwritten_asm` policy in its own unit,
-`src/game/shared_primitive_cache_prepare.c`. It names `$12` as
-`gHw_ByteMask` and reserves `$25` as `gHw_Empty`. GTE commands use the
-native-opcode macros of `src/game/gte_native.h`; the plain GTE register
-transfers use the Psy-Q `inline_c.h` macros `gte_stsxy2` and `gte_strgb`.
-It fills three branch delay slots with loads, which GCC 2.8.1 reorg never
-does on MIPS1 (`dslot=yes`), so `HW_BEQZ_LOAD(test, label, out, offset,
-base)` from `src/game/handwritten_asm.h` emits `beqz`/`lw`, and kept labels
-(`HW_KEEP_LABEL`) before some tests block reorg's backward fill. It loads
-each vector with `lw` one iteration ahead and moves it into the GTE with
-`mtc2`, so its last iteration reads the entry past the end of the range.
-Plain C cannot do that portably, and turning a plain loop into that
-pipeline is a speculative load the massage's dependence check cannot prove,
-so it stays outside the assembly massage (see `notes/asm-massage.md`).
+The preparation stage, `Model_PrepareSharedPrimitiveCaches`, is plain C at
+the head of `src/game/shared_polygon_renderers.c`, over the stock
+`inline_c.h` macros (`gte_ldrgb`, `gte_ldv0`, `gte_rtps_b`, `gte_stflg`,
+`gte_stsxy2`, `gte_stdp`, `gte_stsz`, `gte_nccs_b`, `gte_strgb`), reading
+the block through `ModelSharedCacheBlock` and writing the vertop2 entries
+through `ModelSharedCacheEntry` (both in
+`src/game/shared_primitive_renderers.h`). Each loop iteration loads its own
+vector; it never reads past the arrays. The `gcc_2_8_1_o2_massaged` profile
+massages it into the original with its edit file in
+`src/game/shared_polygon_renderers.massage/`: the original loads each
+vector one iteration ahead (`lw` in the preheader and after RTPS/NCCS,
+`mtc2` at the loop head), which the `rotate-loop-loads` rule reproduces and
+the dependence check proves, with the last iteration's dead extra read as
+assumption A7; its loads in branch delay slots and its constant setups are
+residual scheduling (24 diff lines, all proven). The original also sets
+`$t9 = -1` (used for the rejected-entry word) and `$t4 = 0xFF` (never read).
+Neither is a contract with the drivers that run next: every shared driver
+writes `$t4` and `$t9` before reading them, and the caller reaches each
+driver through a function pointer, so the massage keeps `$t4 = 0xFF` only as
+a dead instruction.
 
-The sixteen drivers that follow it are plain C in
-`src/game/shared_polygon_renderers.c` over the stock `inline_c.h` and
+The sixteen drivers that follow it in the same unit are plain C over the
+stock `inline_c.h` and
 `libgpu.h` macros, with no register variables or private asm, built with
 the `gcc_2_8_1_o2_massaged` profile: `tools/project/asm_massage.py` rewrites
 GCC's `-O2` output into the original instructions with one edit file per
@@ -39,9 +43,10 @@ and proves its residual, which here is 40-87 diff lines of the original's
 scheduling; see `notes/asm-massage.md` for the rules, the residual
 classification and the proofs.
 
-The two units were one until the drivers moved to the massaged profile; a
-grouped unit needs a single profile, and the preparation stage, directly
-before the drivers in every image, splits off cleanly.
+The preparation stage and the drivers form one translation unit again: it
+sits directly before them in every image and, now that both are massaged,
+uses the same profile (it was split off while it alone kept the retired
+hand-written profile).
 
 ## Dispatch and names
 

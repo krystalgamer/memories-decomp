@@ -1,14 +1,12 @@
 # Assembly massage for hand-written renderers
 
-Status: integrated for the twelve wireframe drivers of
-`src/game/wireframe_renderers.c`, the sixteen shared Gt3/Gt4 drivers of
-`src/game/shared_polygon_renderers.c` and the thirty-two direct polygon
-drivers of `src/game/polygon_renderers.c`, which build through the
-`gcc_2_8_1_o2_massaged` profile in every resident executable (see
-[Build integration](#build-integration)). Only the shared cache-preparation
-stage (`src/game/shared_primitive_cache_prepare.c`) still uses the
-register-variable C of the `gcc_2_8_1_g0_handwritten_asm` profile; see
-[Next steps](#next-steps) for why.
+Status: integrated for every hand-written model renderer: the twelve
+wireframe drivers of `src/game/wireframe_renderers.c`, the sixteen shared
+Gt3/Gt4 drivers of `src/game/shared_polygon_renderers.c`, the shared
+cache-preparation stage `Model_PrepareSharedPrimitiveCaches` and the
+thirty-two direct polygon drivers of `src/game/polygon_renderers.c`. All
+61 build through the `gcc_2_8_1_o2_massaged` profile in every resident
+executable (see [Build integration](#build-integration)).
 
 The tool is `tools/project/asm_massage.py`, with its rule catalogue in
 `tools/project/asm_massage_rules.py`, the dependence checker in
@@ -21,19 +19,20 @@ source, in `src/game/wireframe_renderers.massage/`,
 ## Motivation
 
 The model renderers (`src/game/wireframe_renderers.c`,
-`src/game/polygon_renderers.c`, `src/game/shared_polygon_renderers.c` and
-`src/game/shared_primitive_cache_prepare.c`, about 60 functions) were written
-in assembly. Without the massage they match through register variables,
-`handwritten_asm.h` and `gte_native.h`: C that spells out the original's
-registers and instructions and would not run anywhere else.
+`src/game/polygon_renderers.c` and `src/game/shared_polygon_renderers.c`, 61
+functions) were written
+in assembly. Before the massage they matched through register variables
+and private asm macro headers under a dedicated profile (now retired): C
+that spelled out the original's registers and instructions and would not
+run anywhere else.
 
 The massage keeps the C plain and moves the hand optimisation into an
 explicit, reviewable post-pass:
 
 - the C is portable C over the stock Psy-Q `inline_c.h` GTE macros and the
-  `libgpu.h` primitive macros, with no `register`/`asm`, no
-  `handwritten_asm.h`/`gte_native.h`, no type punning and no endianness
-  tricks;
+  `libgpu.h` primitive macros, with no `register`/`asm`, no private asm
+  headers, and no type punning or endianness tricks beyond the documented
+  word views of records, packets and cache entries (A5);
 - it is compiled with exactly the fixed flags (`-O2 -G0 -mel -mips1
   -mcpu=R3000 -msoft-float -fno-builtin -Dpsx -D__psx__ -D__psx`, one level
   for the whole family);
@@ -108,7 +107,7 @@ unspill invariant-last fold-address undo-strength-reduction word-compose
 halfword-words tag-build loop-load-forwarding at-constants
 at-branch-constants sign-extend-load zero-extend-shifts reuse-load
 zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early
-dce                                                       (web stage)
+rotate-loop-loads dce                                     (web stage)
 drop-self-moves frameless guard-chain preheader-order fill-load-delay
 fill-branch-slot fill-jump-slot                           (physical stage)
 ```
@@ -130,7 +129,7 @@ fill-branch-slot fill-jump-slot                           (physical stage)
 | `loop-load-forwarding` | web | a loop that reloads a word it stored on every back edge (the second pass re-reading the OT entry it just linked) keeps the stored value: the load moves in front of the loop | every back edge's last store to the word is the register's value |
 | `at-constants` | web | a large constant used only as an ALU operand is built in `$at` before each use (`lui $at,0xFF9F; ori; and t1,t1,$at`), not hoisted into a register; a use GCC put in a delay slot leaves the slot (a nop stays) with its constant, and a register copy keeps its `lui` | what the assembler's immediate macros produced; `$at` must be free there, and the slot use's result unread on the taken path |
 | `at-branch-constants` | web | a small constant compared by `beq`/`bne` against a loop-invariant value is built in `$at` before each branch (`addiu $at,$zero,1; beq mode,$at`) | the assembler's `beq reg,imm` macro; a constant the loop compares fresh loads with (the shared drivers' `-1`) keeps its register |
-| `sign-extend-load` | web | `lbu`/`lhu` whose only use is `sll 24`/`16; sra` -> `lb`/`lh` into the result | the `(s8)gModel_bCurrentDrawMode` casts; the result web has no other definition |
+| `sign-extend-load` | web | `lbu`/`lhu` whose only use is `sll 24`/`16; sra` -> `lb`/`lh` into the result; another `sll 24` of the load that is only tested against zero tests the result instead | the `(s8)gModel_bCurrentDrawMode` casts; the result web has no other definition; `(x << 24) == 0` exactly when `(s8)x == 0` |
 | `zero-extend-shifts` | web | `andi d,s,0xFFFF` -> `sll 16; srl 16`; in a delay slot the `sll` stays in the slot | the hand-written code never uses `andi` for this; `d` must be dead at the branch target |
 | `reuse-load` | web | a second `lw` of the same word through an unchanged pointer reuses the first | GCC reloads because a packet store might alias the cache (A2) |
 | `zero-as-addiu` | web | `move d,$zero` -> `addiu d,$zero,0` (`li d,0`) | identical value |
@@ -138,6 +137,7 @@ fill-branch-slot fill-jump-slot                           (physical stage)
 | `loop-constant` | web | a small `addiu r,$zero,imm` that only one loop reads is set at the top of the loop body, not hoisted by GCC's loop-invariant motion | re-materialising a constant |
 | `store-delay-slot` | web | a store right before a branch with an empty slot moves into the slot | it ran on both paths before and still does |
 | `gte-load-early` | web | an `mtc2` moves up to just after the test of its own value, into that test's empty delay slot unless a store waits there; a value no earlier test reads does not cross a test (`gte_ldsz3`/`gte_ldsz4` writes, one per vertex) | only the skip path sees the extra SZ writes, and it reloads them before any AVSZ (A4) |
+| `rotate-loop-loads` | web | software pipelining by one iteration: a do-while loop whose head loads GTE input with `lwc2 off(p)`, `p` advanced once per iteration by a constant, loads it with `lw` into new registers in the preheader and again right after the advance and the GTE command (for the next iteration); the head moves them in with `mtc2` | the cache-preparation loops' original shape (the loads overlap RTPS/NCCS). The dependence check proves each rotation (below); the last iteration's extra read is A7 |
 | `dce` | web | delete pure instructions whose results are unread | |
 | `drop-self-moves` | physical | `addu r,r,$zero` after renaming | GCC's `move $11,$4` once both are `$a0` |
 | `frameless` | physical | delete the `$sp` frame; park the callee-saved registers the body writes in the argument block (`frameless = $a0 0x20`; shared drivers `0x28`) | saves follow the argument unpacking, restores open the exit block; fails if anything else uses `$sp` |
@@ -194,7 +194,10 @@ five documented assumptions about the game's data:
   command words. Changing a CLUT (`(uv0 & 0xFFFF) | clut`) or the blend
   bits (`uv1 & 0xFF9FFFFF | 0x00400000`) uses the GPU's documented word
   layout, as libgpu's `setClut`/`getTPage` do, not host byte order. SXY
-  words are composed as `x | y << 16`, the GTE register format.
+  words are composed as `x | y << 16`, the GTE register format. The cache
+  preparation writes vertop2 entries through the `words[]` view of
+  `ModelSharedCacheEntry`: SXY2, then `p << 16 | otz` (`p` from IR0, `otz`
+  from SZ3), the little-endian layout of `GsWORKUNIT`'s `otz` and `p`.
 
 The draw-mode guard: the original loads the word at `0x8009AFE4`
 (`gModel_bCurrentDrawMode`, `gModel_bBlendRateActive`,
@@ -243,7 +246,7 @@ $v0.1 = $a3       # lw $v0.1, 0x0($t3.1)
 
 ## Metrics
 
-All 60 functions match exactly with the one rule list. "By
+All 61 functions match exactly with the one rule list. "By
 rules" counts final instructions produced or rewritten by a rule, including
 derived nops; "kept" are GCC's instructions with only their registers
 renamed; "residual" instructions are the ones the residual diff placed.
@@ -390,6 +393,21 @@ in the semi variants the blend-flag setup block. Each is either a single
 moved instruction or a choice between two equal registers, which a rule
 could not make without matching one function's layout.
 
+### Shared cache preparation
+
+`Model_PrepareSharedPrimitiveCaches` (plain C with one load per loop
+iteration; the original pipelines both loops by one iteration, which
+`rotate-loop-loads` reproduces):
+
+| Function | Address | Retail | Kept | By rules | Residual instrs | Residual diff lines | Map entries |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `Model_PrepareSharedPrimitiveCaches` | `0x80067220` | 77 | 38 | 28 | 11 | 25 | 23 |
+
+The residual is scheduling: the argument and global loads in the original's
+order, `$t9 = -1` set once before the loop instead of in it, the dead
+`$t4 = 0xFF`, the counter and pointer advances above the GTE command, and
+the original's loads in the delay slots of the draw-mode and count tests.
+
 ## Dependence check
 
 `check` also proves that the residual keeps the program's meaning, so a
@@ -431,6 +449,15 @@ applies to with the result:
   register rewritten before the next GTE command, or a store into the packet
   being built (A6, below); moves across labels and control-flow changes
   are reported;
+- loop rotations (`rotate-loop-loads`) are proven on the rule output: each
+  rotated register has exactly two definitions, the same `lw off(p)` in the
+  preheader and in the body after the body's only, constant advance of `p`
+  on the straight path from the loop head; its one reader is the `mtc2` that
+  replaced the `lwc2`, before the advance, so it sees the word the `lwc2`
+  read; the loop head is reached only by falling in or by its back edge;
+  no store in the loop (or between the preheader load and the loop) may
+  write the word (A2); and the register is dead on every loop exit, so the
+  last iteration's extra load only reads (A7);
 - insertions must be dead, rebuild a constant the readers expect, copy a
   register whose single value every reader of the copy expects (the
   original keeps `colour = template` in its own register), or be frameless
@@ -441,15 +468,22 @@ applies to with the result:
 A6 (unlinked packet words): until tag-build links a packet into the OT its
 words are scratch; a path that skips the link reuses or abandons them.
 
-Result on the 60 massaged functions:
+A7 (reading past a source array): a rotated loop loads one element past
+the end of its source array on its last iteration (the vertex and normal
+arrays of a shared HMD block). The value is never used; the array lies in
+the model data, followed by more of it, and PlayStation RAM reads do not
+fault, so the read is harmless. The C itself never reads past the array.
+
+Result on the 61 massaged functions:
 
 | Functions | Moves / re-registered / insertions / deletions / merged | Result |
 | --- | --- | --- |
 | 12 wireframe drivers | 0 / 0 / 1 (the dead `nortop` load) / 0 / 0 | proven |
 | 16 shared polygon drivers | 10-25 / 3-12 / 0-3 (dead or rebuilt constants; save-area accesses counted apart) / 0-3 / 0-1 (the semi window GT3 and the two semi GT4 forms merge one) | proven |
 | 32 direct polygon drivers | 4-18 / 4-26 / 1-2 (dead, rebuilt constants, or the `colour` register copy in sixteen of them) / 0-4 / 0-1 | proven |
+| `Model_PrepareSharedPrimitiveCaches` | 8 / 2 / 1 (dead) / 0 / 0, and 4 rotated loads | proven (A7) |
 
-All 60 residuals are proven with no assumption beyond A1-A6. In the three
+All 61 residuals are proven with no assumption beyond A1-A7. In the three
 semi drivers GCC duplicates the code-byte shift (`srl $s3,$s0,24`) into
 the two ways into the join after the semi setup (one in a delay slot, one
 behind an extra label); the original computes it once after the join. The
@@ -482,7 +516,7 @@ The build gate for the integrated units:
 
 ```text
 $ make check-asm-massage | tail -1
-asm_massage check: 60/60 MATCH and proven
+asm_massage check: 61/61 MATCH and proven
 ```
 
 GCC's instruction counts for the wireframes (before massaging) were 104
@@ -513,10 +547,11 @@ against `.text`; the linked bytes check its target).
 ## Risks
 
 - Rules preserve the C's meaning under their preconditions and assumptions
-  A1-A5; the residual is now checked too (see the dependence check), under
-  A6. It proves all 60 residuals. Control-flow rewrites other than merging
-  a duplicated instruction at a join are still reported, not proven.
-- A1-A6 hold for the game's data but are not C guarantees.
+  A1-A5 (and A7 for `rotate-loop-loads`, whose rotations the dependence
+  check proves); the residual is checked too (see the dependence check),
+  under A6. It proves all 61 residuals. Control-flow rewrites other than
+  merging a duplicated instruction at a join are still reported, not proven.
+- A1-A7 hold for the game's data but are not C guarantees.
 - The scheduling rules (`guard-chain`, `preheader-order`,
   `fill-load-delay`, `store-delay-slot`, `gte-load-early`,
   `invariant-last`) encode this family's hand-scheduling conventions. They
@@ -555,8 +590,8 @@ against `.text`; the linked bytes check its target).
   `asm_massage.py` and `asm_massage_rules.py` to the massaged profile's
   context and the edit directory's digest to each unit's signature.
 - Contracts: `make check-matching-source-contracts` limits massaged profiles
-  to the resident manifest, rejects hard-register variables and the
-  `handwritten_asm.h`/`gte_native.h` includes, accepts only asm statements
+  to the resident manifest, rejects hard-register variables, accepts only
+  asm statements
   whose template, constraints and clobbers equal one of
   `src/psyq/inline_c.h`'s, and requires one edit file per manifest function
   whose `source`, North American `address`/`size` and `rules` are valid.
@@ -569,20 +604,8 @@ against `.text`; the linked bytes check its target).
 
 ## Next steps
 
-All three families are integrated, with `make check-asm-massage` as the
-gate: the wireframes with one-line residuals, the shared and direct polygon
-drivers with 20-90 diff lines of the original's scheduling, all proven
-mechanically, so review can focus on the C and the rules. A scheduler does
-not shrink the polygon residuals.
-
-The one hand-written routine left is the shared cache-preparation stage,
-`Model_PrepareSharedPrimitiveCaches`. `gte-direct-write` now covers its
-`mtc2 template,$6`, but its vertex and normal loops are software-pipelined:
-each iteration moves the vector loaded on the previous one into the GTE
-(`lw lo,0(src); lw hi,4(src)` ahead of `mtc2 lo,$0; mtc2 hi,$1`), so the
-last iteration reads the entry past the end of the range. Plain C either
-reads past the array (not portable C) or loads each vector where it is
-used, and turning that into the pipelined loop is a loop rotation with a
-speculative load that the dependence check cannot prove. So it keeps the
-`gcc_2_8_1_g0_handwritten_asm` profile, and with it `handwritten_asm.h`,
-`gte_native.h` and `tools/project/handwritten_asm_contract.py`.
+Every hand-written model renderer is integrated, with `make
+check-asm-massage` as the gate: the wireframes with one-line residuals, the
+polygon drivers and the cache preparation with 20-90 diff lines of the
+original's scheduling, all proven mechanically, so review can focus on the
+C and the rules. A scheduler does not shrink the polygon residuals.

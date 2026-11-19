@@ -56,6 +56,10 @@ RETIRED_PROFILES = frozenset(
         # boot module, replaced by the Cygnus 2.7.2 profile that builds all
         # nine of its functions.
         "gcc_2_7_2_psx_g0_gnu_reorder",
+        # Register-variable C with hand-written asm macros for the model
+        # renderers, retired once every one of them matched as plain C through
+        # the asm massage (gcc_2_8_1_o2_massaged; notes/asm-massage.md).
+        "gcc_2_8_1_g0_handwritten_asm",
         # The assembler now runs at -G0 for every unit, so profiles that gave
         # it a different -G from the compiler and MASPSX no longer exist.
         "gcc_2_8_1_cc_g0_as_g8",
@@ -668,30 +672,11 @@ def main() -> int:
                     "deferred canonical or inline-refinement history"
                 )
 
-        from handwritten_asm_contract import (
-            HANDWRITTEN_ASM_PROFILE_KEY,
-            in_handwritten_range,
-        )
         from integrate_verified_match import (
             load_tracked_symbol_names,
             uses_asm_extension,
-            uses_disallowed_handwritten_asm,
             uses_disallowed_psyq_inline_asm,
         )
-
-        handwritten_asm = (
-            profiles[args.profile].get(HANDWRITTEN_ASM_PROFILE_KEY) is True
-        )
-        if handwritten_asm and not in_handwritten_range(address):
-            raise ExternalAttemptError(
-                f"{address:#010x}: hand-written asm macros are limited to the "
-                "formerly hand-written renderer range"
-            )
-        if handwritten_asm and args.allow_psyq_inline_macros:
-            raise ExternalAttemptError(
-                "--allow-psyq-inline-macros cannot be used with a hand-written "
-                "asm profile"
-            )
 
         candidate = resolve_within(root, args.candidate, must_exist=True)
         temporary_root = resolve_within(root, "tmp", must_exist=True)
@@ -726,13 +711,7 @@ def main() -> int:
                 tracked_symbol_names=tracked_symbol_names,
             )
             or (
-                uses_disallowed_handwritten_asm(
-                    preprocessed_text,
-                    allow_symbol_aliases=args.allow_symbol_aliases,
-                    tracked_symbol_names=tracked_symbol_names,
-                )
-                if handwritten_asm
-                else uses_disallowed_psyq_inline_asm(
+                uses_disallowed_psyq_inline_asm(
                     preprocessed_text,
                     macro_family=profiles[args.profile].get("psyq_inline_macro", "rtps"),
                     allow_register_pins=args.allow_register_pins,

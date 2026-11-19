@@ -180,7 +180,7 @@ class RegionalInventoryTests(unittest.TestCase):
         reference = [
             Function(
                 0x2000, 4, "first", "matching_c", "game",
-                "Matched in C with handwritten_asm.h macros.",
+                "Matched as plain C through the gcc_2_8_1_o2_massaged profile.",
             )
         ]
         with self.assertRaisesRegex(InventoryError, "instruction shapes differ"):

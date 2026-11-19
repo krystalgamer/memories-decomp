@@ -916,10 +916,6 @@ def check_source_contract(text: str) -> list[str]:
         problems.append("inline assembly outside inline_c.h")
     if re.search(r"\bregister\b", text):
         problems.append("register variables")
-    for include in re.findall(r'#include\s+"([^"]+)"', text):
-        name = include.rsplit("/", 1)[-1]
-        if name in ("handwritten_asm.h", "gte_native.h"):
-            problems.append(f"forbidden include {include}")
     return problems
 
 
