@@ -33,6 +33,7 @@ gCampaignMap_bEnterSceneState = 0x8016960D; // defined:True
 gCampaignMap_dwTweenDistance = 0x80169610; // defined:True
 gCampaignMap_dwTweenDistanceStep = 0x80169614; // defined:True
 gCampaignMap_LocationPrev = 0x80169618;
+D_80169619 = 0x80169619;
 CampaignMap_PickAlternateExit = 0x801697D0; // type:func
 CampaignMap_UpdateAlternateLocation = 0x80169A9C; // type:func
 gCampaignMapAlt_aLocationTable = 0x80169E54; // defined:True

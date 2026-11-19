@@ -1,12 +1,10 @@
 DisplayObject_ReleaseIfPresent = 0x80040490;
-gCampaignMap_apExitObjects = 0x80169600;
 Campaign_TestStoryFlag = 0x8002CD38;
 DisplayObject_FindFreeGeneralSlot = 0x80040150;
 DisplayObject_AcquireSlot = 0x800401D0;
 DisplayObject_ConfigureSpriteAtPositionWithResource = 0x800429D8;
 DisplayObject_SetDepthOffset = 0x80042A1C;
 gDisplay_abResourceBank0 = 0x801AF000;
-gCampaignMap_Location = 0x801695DC;
 TextBox_Create = 0x80035F98;
 TextBox_BuildBlockingWithGlyphScratch = 0x8003983C;
 gViewState_Current = 0x800F0DC0;

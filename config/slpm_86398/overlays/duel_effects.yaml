@@ -34,6 +34,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
   section_order: [".text", ".rodata", ".data", ".sdata", ".sbss", ".bss"]
 
@@ -132,7 +133,7 @@ segments:
       - {start: 0x156DA, type: bin, name: overlays/japanese_duel_effects/data_156DA, linker_section_order: .data}
       - [0x156DC, .data, overlays/duel_effects/effect_9]
       - [0x15790, .data, overlays/duel_effects/effect_4]
-      - [0x157C8, bss, overlays/japanese_duel_effects/dispatch_commons]
+      - [0x157C8, bss_commons, overlays/japanese_duel_effects/dispatch_commons]
 
   - name: leftover
     type: code

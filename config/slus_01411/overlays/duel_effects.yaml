@@ -34,6 +34,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
   section_order: [".text", ".rodata", ".data", ".sdata", ".sbss", ".bss"]
 
@@ -133,7 +134,7 @@ segments:
       - [0x156BC, .data, overlays/duel_effects/effect_9]
       - [0x15770, .data, overlays/duel_effects/effect_4]
       - [0x157A8, .data, overlays/duel_effects/effect_17]
-      - [0x157C8, bss, overlays/duel_effects/dispatch_commons]
+      - [0x157C8, bss_commons, overlays/duel_effects/dispatch_commons]
 
   - name: leftover
     type: code

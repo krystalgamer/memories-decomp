@@ -200,9 +200,9 @@ both verified images, with SHA-256
 The alternate table at `0x1E54-0x2274` is identical to the active table at
 `0x11A8-0x15C8`, and to both variant copies, with SHA-256
 `0259a2516466fd98262c69a1f4da03d22fec71b9f4e125adea7925fe35220c12`.
-The following bytes at `0x2274-0x22C7` are now a shared C-owned alternate
-controller state record. `gCampaignMapAlt_LocationPrev` and `D_8016A2C9` remain at the aligned
-start of the generated raw tail; both are initially zero in both variants.
+The following bytes at `0x2274-0x22C9` are the alternate controller state,
+zero in both variants: `alternate_location_tick.c` declares it as common
+storage, through `gCampaignMapAlt_LocationPrev` and `D_8016A2C9`.
 Variant differences start at `0x22CA`. Identical local bytes do not prove
 identical usable runtime behavior when raw callees and external state remain
 unresolved.

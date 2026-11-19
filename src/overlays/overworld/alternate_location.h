@@ -70,7 +70,7 @@ typedef char AlternateExit_size_must_be_12[
  *   D_800C4E68   A pad or status word; the alternate exit selector tests
  *                0x20/0xC0 in US and 0x40/0xA0 in Japan.
  *
- * The adjacent controller state is defined in alternate_state.c. */
+ * The adjacent controller state is defined in alternate_location_tick.c. */
 extern AlternateLocation gCampaignMapAlt_aLocationTable[ALTERNATE_LOCATION_COUNT];
 extern DisplayObject *gCampaignMapAlt_pLocationMarker;
 extern DisplayObject *gCampaignMapAlt_pSpotlight;

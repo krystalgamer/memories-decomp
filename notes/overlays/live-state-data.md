@@ -1,11 +1,16 @@
 # Live overworld state ownership
 
-`live_state.c` defines the aligned live-state prefix at
-`0x801695C8-0x80169618` in both overworld images, North American and
-Japanese (identical addresses and bytes). The PAL images keep the same
-zero-filled names in another order (see the PAL symbol map) and stay raw. The existing consumers keep
-their scalar widths and pointer views, and `live_state.h` is the sole
-declaration point for all 18 C-owned symbols.
+The live map state is zero-initialized common storage. `set_location.c`,
+its reader, declares all 20 objects as tentative definitions and builds
+with `gcc_2_8_1_g0_split_comm`; each overworld layout places them with a
+`set_location_commons` subsegment (the `bss_commons` type, see
+[`build.md`](../build.md#common-declarations-for-small-globals-a-unit-reads))
+from its symbol file. North America and Japan hold them at
+`0x801695C8-0x8016961A` (identical addresses and bytes); the PAL images hold
+the same names in another order at `0x801695C8-0x8016961C`, as PAL does for
+every resident `.sbss`/`.bss` block. The existing consumers keep their
+scalar widths and pointer views; `live_state.h` declares the first 18 and
+`campaign_map.h` the last two.
 
 ## Proven fields and boundary
 
@@ -35,29 +40,22 @@ declaration point for all 18 C-owned symbols.
 location updates and the spawn/release helpers establish the pointer and
 flag roles. No new semantic symbol names are asserted.
 
-The prefix is 80 bytes: 75 bytes of named objects and five alignment bytes
-at `0x801695ED-0x801695EF` and `0x8016960E-0x8016960F`. The original bytes
-are all zero. Ordinary compiler alignment reproduces the gaps; no invented
-padding objects or packed state struct is needed. Each definition explicitly
-selects `.data`, since these zeros are present in the module image and must
-not migrate into zero-fill-only `.bss`.
+In North America and Japan the first 80 bytes hold the table's 18 objects
+(75 bytes and five alignment bytes at `0x801695ED-0x801695EF` and
+`0x8016960E-0x8016960F`), then `gCampaignMap_LocationPrev` and `D_80169619`
+at `0x80169618` and `0x80169619`. All are zero. The block ends there, on a
+halfword: the word at `0x80169618` reads `00 00 43 00`, and the `0x43` is the
+first stale byte. The `bss_commons` type lists blocks that end mid-word, so
+the live-state segment aligns to 2.
 
-The two bytes at `0x80169618` and `0x80169619` are **not** included.
-They share the raw word `00 00 43 00`; the remaining halfword `0x0043` cannot
-be absorbed as zero-fill padding. `gCampaignMap_LocationPrev` and
-`D_80169619` stay declared in `campaign_map.h`, and the whole word and
-following opaque tail stay raw.
-
-That tail, `0x80169618-0x801697D0`, is a `data` subsegment
-(`live_state_tail`) after the live state in every region's two overworld
-images, not code. Past the boundary word it holds `0x1B4` bytes of stale
-`-O0` instructions: the frame-pointer-relative body of some earlier function
-from its middle (no prologue) through its epilogue. Nothing branches to,
-calls or loads from it; its only jump targets itself. The US and Japanese
-images carry the same bytes; the PAL images carry a variant whose boundary
-word is zero. Splat still places the existing labels inside it
-(`gCampaignMap_LocationPrev` and `D_80169619` in the US and Japanese maps,
-`gCampaignMap_dwTweenRefZStep` in the PAL maps).
+The rest of the window, from `0x8016961A` (North America and Japan) or
+`0x8016961C` (PAL) to `0x801697D0`, is its own `live_state_tail` segment
+(a `bin` that starts on a halfword, or `data`), not code. Past the boundary
+it holds stale `-O0` instructions: the frame-pointer-relative body of some
+earlier function from its middle (no prologue) through its epilogue.
+Nothing branches to, calls or loads from it; its only jump targets itself.
+The US and Japanese images carry the same bytes; the PAL images carry a
+variant.
 
 ## One pointer-slot declaration
 
@@ -85,8 +83,8 @@ The overworld layouts now consume one project-owned `overworld_symbols.txt`.
 Every existing reference-map name and address is retained, as are the
 project's alternate-function names; the reference file itself is unchanged.
 All 18 state symbols are marked `defined:True` in that one build map.
-Their linked symbols now belong to the C data section rather than absolute
-assignments.
+Their linked symbols now belong to the commons subsegment's section rather
+than absolute assignments.
 
 The build also checks this distinction automatically for all data-only
 manifest units. After linking and before extracting the binary, it inspects
@@ -94,7 +92,9 @@ global data exports from each C object and requires a section-defined symbol
 in the ELF. Missing, absolute, undefined and unallocated-common results are
 errors, as are duplicate data definitions across data-only units. Interior
 aliases that the C object does not define remain allowed, including the
-documented alternate call into the live table.
+documented alternate call into the live table. Units built with a `_comm`
+profile, `set_location.c` among them, get the same check for every common
+they declare.
 
 A real negative control demonstrates the need for this check: adding an
 absolute `gCampaignMap_MoveState = 0x80169608` assignment still produces a

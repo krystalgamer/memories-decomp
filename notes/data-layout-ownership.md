@@ -641,7 +641,7 @@ every gap there is explicit.
 Zero-initialized overlay state is common storage, as in the resident build
 (see [`build.md`](build.md#common-declarations-for-small-globals-a-unit-reads)):
 the reading unit keeps tentative definitions, builds with
-`gcc_2_8_1_g0_split_comm`, and the layout's `bss` subsegment
+`gcc_2_8_1_g0_split_comm`, and the layout's `bss_commons` subsegment
 `<unit>_commons` places them from the image's symbol file. Free Duel's
 `screen_runtime.c` is the first (North America and Japan `+0x1030`, PAL
 `+0x10A0`); PAL orders the same five objects differently, as it does every
@@ -651,20 +651,24 @@ follows: `dispatch.c` declares `gDuelEffect_wBasePriority`,
 `gDuelEffect_CardObjectScratchWords` and `gDuelEffect_pOrderingTable`, and
 `dispatch_commons` places them at North America and Japan
 `+0x157C8-+0x15890` (an unlabelled, unreferenced 8 bytes at `+0x157D8` need
-no C). PAL holds them at `+0x15740-+0x15802` in another order, but they stay
-in the raw `data` blob there: Splat disassembles data words, so a subsegment
-cannot end on a halfword, and its last object, `gDuelEffect_wBasePriority`,
-ends at `+0x15802` with stray bytes right after it. The blob's labels
-satisfy the same common declarations.
+no C). PAL holds them at `+0x15740-+0x15802` in another order, after a
+word of linker fill (nonzero in the English image, zero elsewhere); its
+last object, `gDuelEffect_wBasePriority`, ends on the halfword at
+`+0x15802`, which the `bss_commons` type can list, so the PAL module
+segment aligns to 2 and the stray bytes after it are a `leftover`
+segment.
 
 The Japanese and PAL overworld images (both coup variants) own their data
 through the North American units, listed in each image's
 `overworld_*_data_c.json`: `module_header.c` (`0x0`; PAL selects its `0x06`
 module word with `VERSION_EUROPE`) and `location_table.c` (`0x11A8`, 0x420
-bytes; PAL moves location 9's exit sprite to `y` 208); Japan also
-`live_state.c` (`0x15C8`, 0x50 bytes, North American order); then
-`alternate_location.c` (`0x1E54`, 0x420 bytes, the same PAL exit byte) and,
-in Japan, `alternate_state.c` (`0x2274`, 0x54 bytes). The PAL images keep the
-live and alternate state names in a different order from North America's
-(zero bytes, likely linker-allocated); like the duel-effect bank's tail state
-they stay raw until that layout is settled.
+bytes; PAL moves location 9's exit sprite to `y` 208); then
+`alternate_location.c` (`0x1E54`, 0x420 bytes, the same PAL exit byte). The
+zero-initialized live and alternate state is common storage in all fourteen
+overworld images: `set_location.c` (`gcc_2_8_1_g0_split_comm`) declares the
+live state and `alternate_location_tick.c` (`gcc_2_8_1_o0_g0_split_comm`) the
+alternate state, and each layout places them with `set_location_commons`
+(`+0x15C8`) and `alternate_location_tick_commons` (`+0x2274`) from its symbol
+file. North America and Japan end them on halfwords (`+0x161A`, `+0x22CA`);
+PAL holds the same names in another order, ending at `+0x161C` and
+`+0x22CC`. The stale bytes after each block are their own segment.

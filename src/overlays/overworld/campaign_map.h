@@ -10,16 +10,16 @@
  *
  * The live helpers in set_location.c work on the same map: a table of
  * location records, the location the player is standing on, the one they
- * came from, and the state of the move between them. location_table.h and
- * live_state.h own the C table and aligned state-prefix declarations.
+ * came from, and the state of the move between them. location_table.h
+ * declares the C table and live_state.h the state set_location.c defines.
  */
 
 /* The live table's camera targets, marker coordinates and four exits share
  * one 66-byte record. ygo_types.h owns the layout; the separate alternate
  * table in alternate_location.h is not an alias of this one. Field evidence
  * and signed-copy details are in notes/overlays/campaign-map-records.md. */
-/* These two bytes remain in the raw word at 0x80169618; its high halfword is
- * 0x0043 and must not be absorbed as zero-fill padding. */
+/* The last two bytes of the live state in North America and Japan, where
+ * the module's stale bytes follow from 0x8016961A. */
 extern u8 gCampaignMap_LocationPrev;
 extern u8 D_80169619;
 

@@ -654,9 +654,9 @@ because their own storage would become common too.
 
 Such a unit still takes a `*_comm` profile, and its own tentative storage
 becomes common like the rest. The storage itself comes from its `split.yaml`
-slot: the bytes those globals occupy become a splat `sbss` (or `bss`) data
-subsegment named `<unit>_commons`, whose generated assembly defines a label
-for each global from `symbols.txt`. Those definitions satisfy every unit's
+slot: the bytes those globals occupy become an `sbss_commons` (or
+`bss_commons`) subsegment named `<unit>_commons`, whose generated assembly
+defines a label for each global from `symbols.txt`. Those definitions satisfy every unit's
 common declaration, so the linker places no common storage of its own. Any
 `static` storage the unit keeps follows as its ordinary `.sbss` subsegment.
 `script_op_load_image_scene.c` was the first unit built this way; its
@@ -664,11 +664,28 @@ merged successor `script_scene.c` builds the same way, with its storage in
 `script_scene_commons`. No linker-script addresses are
 involved; every name needs a `symbols.txt` entry at its retail address.
 
+`sbss_commons` and `bss_commons` are the project's Splat segment types in
+`tools/splat_extensions/`, which each layout using them names through
+`extensions_path`. They write the block the way an assembler allocates
+commons: one label and one `.space` per symbol, each running to the next
+label or the end of the block, in `.sbss` or `.bss`, under an `.align` that
+matches the block's start address (up to 16 bytes, MASPSX's largest common
+alignment). The linker therefore warns only where a retail address is less
+aligned than the common's size implies. Splat's built-in `sbss`/`bss` types
+would disassemble the same bytes as data words and silently drop a label in
+a trailing halfword, so they cannot hold a block that ends mid-word. Every
+byte of the block must be zero; the type rejects anything else. The
+assembly keeps the built-in `<name>.sbss.s` / `<name>.bss.s` path, so the
+build and linker-script handling are the same for both.
+
 Overlays work the same way at `-G0`: a unit built with
-`gcc_2_8_1_g0_split_comm` keeps its tentative definitions common, and the
-module layout's `bss` subsegment `<unit>_commons` defines them from the
+`gcc_2_8_1_g0_split_comm` (or `gcc_2_8_1_o0_g0_split_comm` for an `-O0`
+unit) keeps its tentative definitions common, and the
+module layout's `bss_commons` subsegment `<unit>_commons` defines them from the
 image's symbol file. The section order puts that `.bss` after every `.data`,
-so any raw bytes after the state become their own segment. `overlay_build.py`
+so any raw bytes after the state become their own segment; when the state
+ends on a halfword, both segments take `align: 2`, because Splat pads each
+section's end to its segment's `align`, counted from the section's start. `overlay_build.py`
 rejects a common that a linker assignment, rather than a label, satisfies.
 
 ### Merging units that were one original file
@@ -1285,7 +1302,7 @@ declared in C. Consumer widths, rather than generated label extents, establish:
 
 They are zero-initialized state, so `screen_runtime.c` declares them as
 tentative definitions and builds with `gcc_2_8_1_g0_split_comm`; the
-layout's `screen_runtime_commons` `bss` subsegment places them at
+layout's `screen_runtime_commons` `bss_commons` subsegment places them at
 `0x80169030-0x801690A8`, as the resident `<unit>_commons` subsegments do
 (see "Common declarations for small globals a unit reads"). The PAL images
 hold the same five objects in another order (`gFreeDuel_bScreenFlags` first,
@@ -1400,8 +1417,8 @@ The remaining overlay data work is in the current raw tails:
 | `main_menu` | `0x5CD4-0x8000` | 9004 |
 | `password` | `0x5590-0x7800` | 8816 |
 | `free_duel` | `0x10A8-0x2800` | 5976 |
-| `overworld_before_coup` | `0x2274-0x3000` | 3468 |
-| `overworld_after_coup` | `0x2274-0x3000` | 3468 |
+| `overworld_before_coup` | `0x22CA-0x3000` | 3382 |
+| `overworld_after_coup` | `0x22CA-0x3000` | 3382 |
 
 The mapped main-menu prefix now covers `0x80184558-0x80185CD4`:
 `module_state.c` defines each frontend, value-setup and Trade name once, in

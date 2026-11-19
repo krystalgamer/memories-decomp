@@ -5,7 +5,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x4C",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -14,7 +14,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x13C",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -23,7 +23,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x5C",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -32,7 +32,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x70",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -41,7 +41,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0xB8",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -50,7 +50,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x78",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -59,7 +59,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x200",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -68,7 +68,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0xE4",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -77,7 +77,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x250",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -86,7 +86,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x1EC",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -95,7 +95,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x364",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -104,7 +104,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x1C0",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -113,7 +113,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x1DC",
       "source": "src/overlays/overworld/set_location.c"
     },
@@ -131,7 +131,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_o0_g0_split",
+      "profile": "gcc_2_8_1_o0_g0_split_comm",
       "size": "0x3B8",
       "source": "src/overlays/overworld/alternate_location_tick.c"
     }

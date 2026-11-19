@@ -499,6 +499,8 @@ FINGERPRINT_SCRIPTS = (
     "tools/project/overlay_sources.py",
     "tools/project/unit_objects.py",
     "tools/project/workspace.py",
+    "tools/splat_extensions/bss_commons.py",
+    "tools/splat_extensions/sbss_commons.py",
     "tools/vendor/maspsx/maspsx.py",
 )
 CONFIG_REFERENCE = re.compile(r"config/[A-Za-z0-9_./-]+")

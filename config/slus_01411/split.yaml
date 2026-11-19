@@ -38,6 +38,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
 
   section_order:
@@ -179,10 +180,10 @@ segments:
     vram: 0x8009B090
     align: 2
     subsegments:
-      - [0x8b890, sbss, main_commons]
-      - [0x8b8e0, sbss, file_setup_commons]
-      - [0x8b8e8, sbss, file_transfer_runtime_commons]
-      - [0x8b940, sbss, fade_runtime_commons]
+      - [0x8b890, sbss_commons, main_commons]
+      - [0x8b8e0, sbss_commons, file_setup_commons]
+      - [0x8b8e8, sbss_commons, file_transfer_runtime_commons]
+      - [0x8b940, sbss_commons, fade_runtime_commons]
 
   - name: bss_image_after_viewport
     type: bin
@@ -190,44 +191,44 @@ segments:
     vram: 0x8009B150
     align: 2
     subsegments:
-      - [0x8b950, sbss, duel_scene_commons]
-      - [0x8ba44, sbss, duel_effect_states_commons]
+      - [0x8b950, sbss_commons, duel_scene_commons]
+      - [0x8ba44, sbss_commons, duel_effect_states_commons]
       - [0x8ba58, .sbss, game/library]
-      - [0x8ba60, sbss, duel_effect_object_pool_commons]
+      - [0x8ba60, sbss_commons, duel_effect_object_pool_commons]
       - [0x8ba68, bin, bss_image_8009b268]
-      - [0x8ba70, sbss, script_scene_commons]
-      - [0x8bab0, sbss, debug_menu_commons]
+      - [0x8ba70, sbss_commons, script_scene_commons]
+      - [0x8bab0, sbss_commons, debug_menu_commons]
       - [0x8baf8, .sbss, game/build_deck]
-      - [0x8bb00, sbss, sorted_entry_render_commons]
+      - [0x8bb00, sbss_commons, sorted_entry_render_commons]
       - [0x8bb18, bin, bss_image_8009b318]
       - [0x8bb7c, .sbss, game/options_screen]
-      - [0x8bb90, sbss, input_pads_commons]
-      - [0x8bbb8, sbss, mem_card_commons]
-      - [0x8bc00, sbss, sound_frontend_commons]
-      - [0x8bc10, sbss, display_object_system_commons]
+      - [0x8bb90, sbss_commons, input_pads_commons]
+      - [0x8bbb8, sbss_commons, mem_card_commons]
+      - [0x8bc00, sbss_commons, sound_frontend_commons]
+      - [0x8bc10, sbss_commons, display_object_system_commons]
       - [0x8bc28, .sbss, game/main_boot_frontend]
-      - [0x8bc30, sbss, mem_card_driver_commons]
-      - [0x8bc58, sbss, sound_driver_commons]
-      - [0x8bc68, sbss, model_commons]
-      - [0x8bc98, sbss, movie_pipeline_commons]
-      - [0x8bca8, bss, main_bss_commons]
-      - [0xda5f0, bss, file_setup_bss_commons]
-      - [0xda618, bss, file_transfer_runtime_bss_commons]
-      - [0xda6c8, bss, fade_runtime_bss_commons]
-      - [0xda6f0, bss, duel_scene_bss_commons]
+      - [0x8bc30, sbss_commons, mem_card_driver_commons]
+      - [0x8bc58, sbss_commons, sound_driver_commons]
+      - [0x8bc68, sbss_commons, model_commons]
+      - [0x8bc98, sbss_commons, movie_pipeline_commons]
+      - [0x8bca8, bss_commons, main_bss_commons]
+      - [0xda5f0, bss_commons, file_setup_bss_commons]
+      - [0xda618, bss_commons, file_transfer_runtime_bss_commons]
+      - [0xda6c8, bss_commons, fade_runtime_bss_commons]
+      - [0xda6f0, bss_commons, duel_scene_bss_commons]
       - [0xda9e8, .bss, game/library_graphics]
-      - [0xdb588, bss, duel_effect_object_pool_bss_commons]
-      - [0xdb688, bss, main_mode_runners_commons]
-      - [0xdb6d8, bss, debug_menu_bss_commons]
-      - [0xdb708, bss, duel_effect_text_commons]
-      - [0xdfe68, bss, input_pads_bss_commons]
-      - [0xdfed0, bss, mem_card_bss_commons]
-      - [0xe0638, bss, display_object_system_bss_commons]
-      - [0xe3088, bss, mem_card_driver_bss_commons]
-      - [0xe3320, bss, model_bss_commons]
-      - [0xe5ea0, bss, model_scene_runtime_bss_commons]
-      - [0xe5f50, bss, movie_pipeline_bss_commons]
-      - [0xe5f68, bss, model_camera_effects_bss_commons]
+      - [0xdb588, bss_commons, duel_effect_object_pool_bss_commons]
+      - [0xdb688, bss_commons, main_mode_runners_commons]
+      - [0xdb6d8, bss_commons, debug_menu_bss_commons]
+      - [0xdb708, bss_commons, duel_effect_text_commons]
+      - [0xdfe68, bss_commons, input_pads_bss_commons]
+      - [0xdfed0, bss_commons, mem_card_bss_commons]
+      - [0xe0638, bss_commons, display_object_system_bss_commons]
+      - [0xe3088, bss_commons, mem_card_driver_bss_commons]
+      - [0xe3320, bss_commons, model_bss_commons]
+      - [0xe5ea0, bss_commons, model_scene_runtime_bss_commons]
+      - [0xe5f50, bss_commons, movie_pipeline_bss_commons]
+      - [0xe5f68, bss_commons, model_camera_effects_bss_commons]
       - [0xe6118, .bss, game/model_handler_registry]
       - [0xe6398, .bss, game/ai_script]
       # The 4 bytes after ai_script's .bss are the 8-byte alignment the
