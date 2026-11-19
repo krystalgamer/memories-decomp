@@ -1720,3 +1720,4 @@ gScript_wCommandWord = 0x8009C610;
 gMovie_pWorkArea = 0x8009C818;
 gMovie_StreamLoc = 0x8009C81C;
 gMovie_FileInfo = 0x800F6F08;
+gRuntime_pSharedWorkBase = 0x80010000;

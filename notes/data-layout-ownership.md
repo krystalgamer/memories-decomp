@@ -218,7 +218,10 @@ regions, the second glyph starting `0x1E` bytes after the first: GCC
 word-aligns every array variable and every object starts word-aligned, so
 they are one 0x3C-byte object, `gCredits_abReplacementGlyphs[2][15][2]`, in
 the data-only `credits_resident_glyphs.c` (`gcc_2_8_1_g0`), which the
-overlay indexes. Every label still
+overlay indexes. The fourteen address words at `0x80010000` lead the
+region as the data-only `-G0` unit `high_memory_addresses.c`, because a `-G8`
+owner would put each four-byte `const` in `.sdata`
+(notes/high-memory-load-addresses.md). Every label still
 in the `initial_data*` blobs up to `0x800119A8` is read only by game units;
 from `0x800119A8` on, the blob is Psy-Q's.
 

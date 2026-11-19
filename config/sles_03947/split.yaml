@@ -66,7 +66,7 @@ segments:
     vram: 0x80010000
     align: 4
     subsegments:
-      - [0x000800, rodata, initial_data]
+      - [0x000800, .rodata, game/high_memory_addresses]
       - [0x000838, .rodata, game/file_setup]
       - [0x000843, pad]
       - [0x000844, .rodata, game/file_transfer_runtime]

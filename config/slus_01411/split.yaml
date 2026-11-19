@@ -68,7 +68,7 @@ segments:
       # The region before the text is the compiler's read-only data. A
       # matching C function that owns some declares it here, the way the ff8
       # and silent-hill configurations do, and gaps are pad.
-      - [0x800, rodata, initial_data]
+      - [0x800, .rodata, game/high_memory_addresses]
       - [0x838, .rodata, game/file_setup]
       - [0x843, pad]
       - [0x844, .rodata, game/file_transfer_runtime]
