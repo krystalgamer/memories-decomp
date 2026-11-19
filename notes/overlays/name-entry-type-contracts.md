@@ -67,9 +67,9 @@ finds a completed transfer sprite by tag. Its size (`0x6E`) and the glyph
 view's size (`0x70`, through its `update_state` byte at `+0x6C`) describe
 their observed prefixes only.
 
-`NameEntryGlyphUpdate` keeps the existing one-argument `u8 *` callback
-contract. It moves to the central type file without changing the callback
-definitions or installers.
+The former `NameEntryGlyphUpdate` typedef (a one-argument `u8 *` callback)
+had no users and was removed; the glyph sprite's `update` member is the
+DisplayObject callback type.
 
 ## The source glyph and starter-pool dependencies
 

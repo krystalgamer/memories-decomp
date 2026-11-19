@@ -14,7 +14,7 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 textBoxSlot, s32 x, s32 y);
 /* The sprite created by NameEntry_SpawnGlyphSprite and stepped by the glyph
  * callbacks. +0x44/+0x46 are scale for the pulse callback and destination XY
  * for the tween callbacks; the installed +0x24 callback selects the meaning. */
-/* GlyphSprite and NameEntryGlyphUpdate are defined in ygo_types.h. */
+/* GlyphSprite is defined in ygo_types.h. */
 
 void *NameEntry_SpawnGlyphSprite(s32 textBoxSlot, DuelEffectEntry *glyphNode);
 void NameEntry_UpdateGlyphPulse(struct DisplayObject *sprite);

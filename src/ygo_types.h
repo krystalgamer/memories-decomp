@@ -631,8 +631,6 @@ typedef char DuelEffectChannel_output_limit_offset_must_be_0x61[
 ];
 #endif
 
-typedef void (*NameEntryGlyphUpdate)(u8 *sprite);
-
 /* The installed callback selects scale versus destination XY at 0x44/0x46.
    This is a name-entry view, not a universal display-object interpretation. */
 typedef struct {

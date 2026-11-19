@@ -6,8 +6,6 @@
 
 struct DisplayObject;
 
-typedef void (*MainMenuEntryEffectUpdate)(u8 *object);
-
 /* Frontend screen state, all of it owned by the front-end functions in
  * frontend.c. The state symbols
  * themselves are not defined in C.
