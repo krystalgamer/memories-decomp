@@ -102,7 +102,7 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -228,7 +228,7 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb0 = rgb0;
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -359,7 +359,7 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -512,7 +512,7 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
                 packet->rgb3 = rgb3;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -635,7 +635,7 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -762,7 +762,7 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb0 = rgb0;
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -894,7 +894,7 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -1048,7 +1048,7 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
                 packet->rgb3 = rgb3;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -1162,7 +1162,7 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -1279,7 +1279,7 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb0 = rgb0;
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -1401,7 +1401,7 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -1545,7 +1545,7 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
                 packet->rgb3 = rgb3;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -1659,7 +1659,7 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -1780,7 +1780,7 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb0 = rgb0;
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -1906,7 +1906,7 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -2054,7 +2054,7 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
                 packet->rgb3 = rgb3;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -2193,7 +2193,7 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -2336,7 +2336,7 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb0 = rgb0;
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -2484,7 +2484,7 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -2654,7 +2654,7 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
                 packet->rgb3 = rgb3;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -2794,7 +2794,7 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -2941,7 +2941,7 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb0 = rgb0;
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -3093,7 +3093,7 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -3267,7 +3267,7 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
                 packet->rgb3 = rgb3;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -3401,7 +3401,7 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -3538,7 +3538,7 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb0 = rgb0;
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -3680,7 +3680,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -3844,7 +3844,7 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
                 packet->rgb3 = rgb3;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(packet, code);
             }
             {
                 u32 uv0 = record->words[0];
@@ -3978,7 +3978,7 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -4119,7 +4119,7 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb0 = rgb0;
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -4265,7 +4265,7 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
@@ -4433,7 +4433,7 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 packet->rgb1 = rgb1;
                 packet->rgb2 = rgb2;
                 packet->rgb3 = rgb3;
-                ((u8 *)&packet->rgb0)[3] = code;
+                setcode(&packet->window, code);
             }
             {
                 u32 uv0 = record->words[1];
