@@ -5070,13 +5070,14 @@ void DisplayObject_UpdateColorTransition(DisplayObject *object)
     s32 remaining = 3;
     s32 i = 0;
     /* The three colour bytes of rgb step against the signed halfwords at
-       0x28, 0x2A and 0x2C: position.h's two and then field_2C.h's first, so
-       the target walk indexes on from position.h.field_28. */
+       0x28, 0x2A and 0x2C: position.colour_target's r and g and then
+       field_2C.colour_target.b, so the target walk indexes on from
+       position.colour_target.r. */
     u8 *current = &object->rgb.c.r;
 
     for (; i < 3; i++) {
         s32 value = *current;
-        s32 limit = (s16)(&object->position.h.field_28)[i];
+        s32 limit = (s16)(&object->position.colour_target.r)[i];
 
         if (value < limit) {
             value += step;
@@ -5647,9 +5648,9 @@ void DuelScene_UpdateFieldActions(void)
                         if (card->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
                             a = 0x10;
                         }
-                        o->field_2C.h.field_2C = a;
-                        o->position.h.field_2A = a;
-                        o->position.h.field_28 = a;
+                        o->field_2C.colour_target.b = a;
+                        o->position.colour_target.g = a;
+                        o->position.colour_target.r = a;
                     }
                 }
                 gDuel_bConfirmFlags = 0;
@@ -5738,9 +5739,9 @@ void DuelScene_UpdateFieldActions(void)
                 if (card->flags & DUEL_CARD_FLAG_USED_THIS_TURN) {
                     a = 0x40;
                 }
-                o->field_2C.h.field_2C = a;
-                o->position.h.field_2A = a;
-                o->position.h.field_28 = a;
+                o->field_2C.colour_target.b = a;
+                o->position.colour_target.g = a;
+                o->position.colour_target.r = a;
             }
         }
         return;

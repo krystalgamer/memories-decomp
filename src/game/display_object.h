@@ -199,10 +199,15 @@ typedef struct DisplayObject {
        radius, which shrinks by 2 a frame and ends the orbit at zero, and
        its angle.
 
+       colour_target: DisplayObject_UpdateColorTransition's red and green
+       targets. It steps rgb's three bytes toward three halfwords in a row,
+       walking from colour_target.r here on into field_2C.colour_target.b, so
+       the r/g/b targets are one array split across the two unions; the
+       duel field-dim setups store all three.
+
        `h` stays for readings with one routine each: the Gouraud corners
        duel_effect_text.c and debug_menu.c write, the placement stat
-       count-up, the ritual card's fall, and the red/green colour targets
-       DisplayObject_UpdateColorTransition walks as an array into 0x2C. */
+       count-up and the ritual card's fall. */
     union {
         struct {
             u16 field_28;
@@ -243,6 +248,10 @@ typedef struct DisplayObject {
             u16 radius;
             u16 angle;
         } orbit;
+        struct {
+            u16 r;
+            u16 g;
+        } colour_target;
     } position;                    /* 0x28 */
     /* The first of the six words at stride 8 that the 0x4C comment below
        describes, and read both ways like its neighbours at 0x30, 0x3C, 0x40
@@ -276,8 +285,12 @@ typedef struct DisplayObject {
        it from gDuel_aFieldGridGroundPositions and derives the velocity,
        and the transition copies the word into position on arrival.
 
+       colour_target: the blue target that completes
+       position.colour_target's red and green for
+       DisplayObject_UpdateColorTransition's walk.
+
        The other halfword users (the draw-card slide's phase step, a card's
-       saved home position, the placement base stat, the colour target walk,
+       saved home position, the placement base stat,
        the ritual fall's acceleration, the card-move target x, the card-view
        mode, the linked panel index and the orbit centre) are one routine
        each and keep `h`. */
@@ -302,6 +315,10 @@ typedef struct DisplayObject {
             u16 x;
             s16 z;
         } ground_target;
+        struct {
+            u16 b;
+            s16 field_2E;
+        } colour_target;
     } field_2C;                    /* 0x2C */
     /* The 2D x/y pair the renderers draw at. DisplayObject_RenderSpriteList
        and DisplayObject_RenderSpriteStrips copy the word into SpritePrim.xy
