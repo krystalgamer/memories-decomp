@@ -951,9 +951,9 @@ void NameEntry_UpdateKeyboard(void)
         }
     }
 #ifdef VERSION_EUROPE
-    if ((gInput_awPadRepeat[0] & 0xC) != 0) {
+    if ((gInput_awPadRepeat[0] & PAD_BUTTON_L1_R1_MASK) != 0) {
         work = 1;
-        if ((gInput_awPadRepeat[0] & 4) != 0) {
+        if ((gInput_awPadRepeat[0] & PAD_BUTTON_L1) != 0) {
             work = -1;
         }
         if (NameEntry_AdjustLength(work, 6) == 0) {

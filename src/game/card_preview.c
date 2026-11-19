@@ -480,7 +480,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
 #endif
 
     card_id = (s16)entry->card_id;
-    variant = (gDuel_adwCardStats[card_id - 1] >> 26) & 0x1F;
+    variant = (gDuel_adwCardStats[card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
     object->resource_root_index = index;
     object->resource_branch_index = (u8)variant;
 
@@ -541,7 +541,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
             entry->attack = attack_value;
             if (attack_value < 0) {
                 entry->attack =
-                    (s16)((gDuel_adwCardStats[card_id - 1] & 0x1FF) * 10);
+                    (s16)((gDuel_adwCardStats[card_id - 1] & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE);
             }
         }
         {
@@ -549,7 +549,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
             entry->defense = defense_value;
             if (defense_value < 0) {
                 entry->defense =
-                    (s16)(((gDuel_adwCardStats[card_id - 1] >> 9) & 0x1FF) * 10);
+                    (s16)(((gDuel_adwCardStats[card_id - 1] >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE);
             }
         }
         setup = 0x100;

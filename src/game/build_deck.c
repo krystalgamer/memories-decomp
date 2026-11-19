@@ -435,7 +435,7 @@ void BuildDeck_DrawCardListPage(DisplayObject *obj, GsOT *ot)
             CardList_DrawDecimalDigits(&sprite->prim, ot, text, 3);
             sprite->prim.x += 0x88;
 #endif
-            if (row->type < 0x14) {
+            if (row->type < CARD_TYPE_MAGIC) {
 #ifdef VERSION_EUROPE
                 sprite->prim.cy = 0xC7;
                 sprite->words.uv = 0x40F8;
@@ -1066,10 +1066,10 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, u16 *other
                 if (card != 0) {
                     entry->id = card;
                     entry->flags = on;
-                    entry->type = (gDuel_adwCardStats[card - 1] >> 26) & 0x1F;
-                    entry->attack = (gDuel_adwCardStats[card - 1] & 0x1FF) * 10;
+                    entry->type = (gDuel_adwCardStats[card - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+                    entry->attack = (gDuel_adwCardStats[card - 1] & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
                     total++;
-                    entry->defense = ((gDuel_adwCardStats[card - 1] >> 9) & 0x1FF) * 10;
+                    entry->defense = ((gDuel_adwCardStats[card - 1] >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
                 }
             }
             /* Keep the signed -1 materialization, not unsigned 65535. */
@@ -1094,9 +1094,9 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, u16 *other
                 card = j + 1;
                 entry->flags = 0;
                 entry->id = card;
-                entry->type = (gDuel_adwCardStats[j] >> 26) & 0x1F;
-                entry->attack = (gDuel_adwCardStats[j] & 0x1FF) * 10;
-                entry->defense = ((gDuel_adwCardStats[j] >> 9) & 0x1FF) * 10;
+                entry->type = (gDuel_adwCardStats[j] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK;
+                entry->attack = (gDuel_adwCardStats[j] & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
+                entry->defense = ((gDuel_adwCardStats[j] >> CARD_STAT_DEFENSE_SHIFT) & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
                 state->chest_card_quantities[card] = *quantity;
                 if (*quantity != 0) {
                     entry->flags = on;

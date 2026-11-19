@@ -4701,16 +4701,16 @@ void DuelScene_UpdateHandActions(void)
             if (Duel_CheckQuitInput() != 0) {
                 break;
             }
-            if (gInput_awPadPressed[0] & 0x10) {
+            if (gInput_awPadPressed[0] & PAD_BUTTON_TRIANGLE) {
                 card_id = gDuel_abCardStagingBuffer.deck.field_cards[HAND_CARD_INDEX(side)].card_id;
                 gDuel_bCardViewerYOffset = 0x14;
                 gDuel_bEffectState = 2;
                 gDuel_wViewerCardID = card_id;
                 return;
             }
-            if (gInput_awPadRepeat[0] & 0xA000) {
+            if (gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 value = (s8)side->hand_cursor_slot;
-                if (gInput_awPadRepeat[0] & 0x2000) {
+                if (gInput_awPadRepeat[0] & PAD_DIRECTION_RIGHT) {
                     value++;
                     if (value >= 5) {
                         return;
@@ -4727,14 +4727,14 @@ void DuelScene_UpdateHandActions(void)
                 SD_SEPlayFull(6);
                 return;
             }
-            if ((gInput_awPadPressed[0] & 0xFFFF) == 0x1000 && gInput_awPadHeld[0] == 0x1000) {
+            if ((gInput_awPadPressed[0] & 0xFFFF) == PAD_DIRECTION_UP && gInput_awPadHeld[0] == PAD_DIRECTION_UP) {
                 if (hand->selection_order == 0) {
                     DuelHand_CreateSelectionOrderMarker(side);
                     return;
                 }
             } else if ((gInput_awPadPressed[0] & HAND_ACTIONS_CANCEL_MASK) ||
-                       ((gInput_awPadPressed[0] & 0xFFFF) == 0x4000 &&
-                        gInput_awPadHeld[0] == 0x4000)) {
+                       ((gInput_awPadPressed[0] & 0xFFFF) == PAD_DIRECTION_DOWN &&
+                        gInput_awPadHeld[0] == PAD_DIRECTION_DOWN)) {
                 value = hand->selection_order;
                 if (value != 0) {
                     SD_SEPlayFull(0x2F);
@@ -4755,7 +4755,7 @@ void DuelScene_UpdateHandActions(void)
                     return;
                 }
             } else {
-                if (gInput_awPadHeld[0] & 3) {
+                if (gInput_awPadHeld[0] & PAD_BUTTON_TRIGGER_MASK) {
                     gDuelCursor_PickFlags = 0;
                     gDuel_pActiveSelectionRecord = &gDuel_abSelectionSides[gDuel_bActiveSide].records[1];
                     gDuel_wSceneStateFlags |= 0x4000;
@@ -4848,10 +4848,10 @@ void DuelScene_UpdateHandActions(void)
                         return;
                     }
                 }
-            } else if (gInput_awPadRepeat[0] & 0xA000) {
+            } else if (gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 obj->field_60 = 0x10;
                 gDuel_bSceneSubStep |= 0x20;
-                if (gInput_awPadRepeat[0] & 0x2000) {
+                if (gInput_awPadRepeat[0] & PAD_DIRECTION_RIGHT) {
                     obj->field_60 = -0x10;
                 }
                 SD_SEPlayFull(0xB);
@@ -5188,7 +5188,7 @@ s32 DuelCursor_StepTowardTarget(DuelSelectionRecord *cursor)
 #define GRID_CARD(s) (&gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[(s)->row * 5 + (s)->col + gDuel_bActiveSide * 20]])
 #define GRID_CARD_FLAT(s) \
     (&gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[(s)->row * 5 + (s)->col + gDuel_bActiveSide * 20]])
-#define CARD_KIND(id) ((gDuel_adwCardStats[(id) - 1] >> 0x1A) & 0x1F)
+#define CARD_KIND(id) ((gDuel_adwCardStats[(id) - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK)
 
 void DuelScene_UpdateFieldActions(void)
 {
@@ -5378,14 +5378,14 @@ void DuelScene_UpdateFieldActions(void)
                     gDuel_pActionReadyMarker = 0;
                 }
             }
-            if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] < 0 && (gInput_awPadPressed[0] & 0x800)) {
+            if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] < 0 && (gInput_awPadPressed[0] & PAD_BUTTON_START)) {
                 gDuel_bSceneSubStep = 0xB;
                 return;
             }
             if (Duel_CheckQuitInput() != 0) {
                 return;
             }
-            if (gInput_awPadPressed[0] & 0xC) {
+            if (gInput_awPadPressed[0] & PAD_BUTTON_L1_R1_MASK) {
                 r = side->row;
                 card = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[r * 5 + side->col + gDuel_bActiveSide * 20]];
                 if (r == 2 && DuelCard_CanActThisTurn(card) != 0) {
@@ -5433,7 +5433,7 @@ void DuelScene_UpdateFieldActions(void)
                 side = &gDuel_abSelectionSides[gDuel_bActiveSide].records[3];
                 if (a >= 3) {
                     gDuel_bSceneSubStep = 7;
-                    if (CARD_KIND(card->card_id) == 0x17) {
+                    if (CARD_KIND(card->card_id) == CARD_TYPE_EQUIP) {
                         x = 2;
                         y = 3;
                         side->row_min = x;
@@ -5564,7 +5564,7 @@ void DuelScene_UpdateFieldActions(void)
                 return;
             }
             gDuel_bAnimatedBattleRequested = 0;
-            if (gInput_awPadPressed[0] & 0x80) {
+            if (gInput_awPadPressed[0] & PAD_BUTTON_SQUARE) {
                 gDuel_bAnimatedBattleRequested = 1;
             }
         }
@@ -5608,7 +5608,7 @@ void DuelScene_UpdateFieldActions(void)
             gDisplayObject_apWorkSlots.slots[1] = o;
             gDuel_bCardMoveSlot = o->kind_index.card_record_index;
             DuelCard_DeactivateRecord(pick);
-            if (CARD_KIND(d) == 0x17) {
+            if (CARD_KIND(d) == CARD_TYPE_EQUIP) {
                 gDuel_bSceneSubStep = 8;
                 return;
             }
@@ -6467,11 +6467,11 @@ void DuelScene_UpdateBattle(void)
                     }
                     rec = &gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[gDuel_bPresentationCursor]->kind_index.card_record_index];
                     if (rec->flags & 0x200) {
-                        level = gDuel_adwCardStats[rec->card_id - 1] >> 0x12;
+                        level = gDuel_adwCardStats[rec->card_id - 1] >> CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                     } else {
-                        level = gDuel_adwCardStats[rec->card_id - 1] >> 0x16;
+                        level = gDuel_adwCardStats[rec->card_id - 1] >> CARD_STAT_GUARDIAN_STAR_1_SHIFT;
                     }
-                    result = level & 0xF;
+                    result = level & CARD_STAT_GUARDIAN_STAR_MASK;
                     SD_SEPlayFull(0x1D);
                     req =
                         DuelEffect_AllocateRequest(0xE);
@@ -7719,9 +7719,9 @@ void DuelScene_UpdateResultRewards(void)
                 }
             }
         }
-    } else if (gInput_awPadRepeat[0] & 0xA000) {
+    } else if (gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
         gDuel_pResultDisplayState->page_index++;
-        if (gInput_awPadRepeat[0] & 0x8000) {
+        if (gInput_awPadRepeat[0] & PAD_DIRECTION_LEFT) {
             page = gDuel_pResultDisplayState->page_index - 2;
             gDuel_pResultDisplayState->page_index = page;
             if (page < 0)

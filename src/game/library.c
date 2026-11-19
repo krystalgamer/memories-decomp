@@ -798,7 +798,7 @@ void Library_UpdateCardView(LibraryState *state)
         if (mode == 1) {
             state->motion.model_load_phase = 0;
             id = (u16)state->motion.selected_card_id - 1;
-            if (((gDuel_adwCardStats[id] >> 0x1A) & 0x1F) < 0x14) {
+            if (((gDuel_adwCardStats[id] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC) {
                 Model_LoadMonsterMerge(0, id, 0, 0, 0, 0, 4);
                 state->motion.animation_countdown = 0x12C;
                 state->motion.model_load_phase = 2;
@@ -887,7 +887,7 @@ void Library_UpdateCardView(LibraryState *state)
         state->motion.card_view_slide_phase = 1;
         gDuel_wSelectedCardID = (u16)state->motion.selected_card_id;
         layout = 3;
-        if (((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> 0x1A) & 0x1F) >= 0x14) {
+        if (((gDuel_adwCardStats[gDuel_wSelectedCardID - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) >= CARD_TYPE_MAGIC) {
             layout = 4;
         }
         box = TextBox_Create(
@@ -1027,7 +1027,7 @@ void Library_UpdateCardView(LibraryState *state)
             }
             break;
         case 1:
-            if (gInput_awPadPressed[0] & 0x80E0) {
+            if (gInput_awPadPressed[0] & (PAD_DIRECTION_LEFT | PAD_BUTTON_CIRCLE | PAD_BUTTON_CROSS | PAD_BUTTON_SQUARE)) {
                 Fade_StartOutKeepOverlay();
                 state->motion.card_view_slide_phase = 1;
                 state->motion.card_view_subphase = 2;
@@ -1081,7 +1081,7 @@ void Library_UpdateCardView(LibraryState *state)
         }
         if (state->motion.model_load_phase == 0 &&
             (gInput_awPadPressed[0] & LIBRARY_CARD_VIEW_ACTION_MASK)
-            && ((gDuel_adwCardStats[(u16)state->motion.selected_card_id - 1] >> 0x1A) & 0x1F) < 0x14
+            && ((gDuel_adwCardStats[(u16)state->motion.selected_card_id - 1] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) < CARD_TYPE_MAGIC
             && state->motion.card_view_slide_phase == 0) {
             state->motion.card_view_phase = 4;
             return;
