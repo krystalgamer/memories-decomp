@@ -950,7 +950,16 @@ def assemble_and_link(asm_text: str, edit: EditFile, work: Path) -> tuple[bytes,
     elf = work / f"{stem}.elf"
     binary = work / f"{stem}.bin"
     asm.write_text(asm_text)
-    run([str(ROOT / (BINUTILS + "as")), "-EL", "-mips1", "-G0", "-o", str(obj), str(asm)])
+    # Assemble and link exactly as the build does: under
+    # USE_SYSTEM_MIPS_BINUTILS=1 (CI) the packaged assembler pads and
+    # 16-byte-aligns .text, which would shift a function that does not start
+    # on a 16-byte boundary unless the build's compatibility flags and
+    # alignment normalization are applied here too.
+    import build_baseline
+
+    run([str(ROOT / (BINUTILS + "as")), "-EL", "-mips1", "-G0",
+         *build_baseline.assembler_compatibility_flags(), "-o", str(obj), str(asm)])
+    build_baseline.normalize_text_alignment(ROOT, obj)
     relocs = run([str(ROOT / (BINUTILS + "readelf")), "-rW", str(obj)],
                  capture_output=True).stdout.decode()
     referenced = sorted(set(re.findall(r"R_MIPS_(?:HI16|LO16)\s+\S+\s+(\w+)", relocs)))
@@ -960,7 +969,8 @@ def assemble_and_link(asm_text: str, edit: EditFile, work: Path) -> tuple[bytes,
         if name not in table:
             raise MassageError(f"no address for {name} in {SYMBOLS}")
         defsyms += ["--defsym", f"{name}=0x{table[name]:08X}"]
-    run([str(ROOT / (BINUTILS + "ld")), "-EL", "-Ttext", edit.settings["address"],
+    run([str(ROOT / (BINUTILS + "ld")), "-EL", *build_baseline.linker_compatibility_flags(),
+         "-Ttext", edit.settings["address"],
          "-e", edit.function, *defsyms, "-o", str(elf), str(obj)])
     run([str(ROOT / (BINUTILS + "objcopy")), "-O", "binary", "-j", ".text", str(elf), str(binary)])
     text_relocs = relocs.split("'.rel.text'", 1)[1].split("Relocation section", 1)[0] if "'.rel.text'" in relocs else ""
