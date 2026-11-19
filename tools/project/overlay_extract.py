@@ -16,7 +16,13 @@ from typing import Any, BinaryIO
 from compile_defines import DefineError, combine_defines, validate_defines
 from unit_objects import ObjectNameError, entry_object
 from hashing import sha256_stream
-from overlay_sources import OverlaySourceError, c_segments
+from overlay_sources import (
+    MODEL_MODULE_WORDS,
+    OverlaySourceError,
+    c_segments,
+    model_module_words,
+    segment_vram,
+)
 from workspace import WorkspaceError, require_workspace_root, resolve_within
 
 
@@ -438,6 +444,74 @@ def verify_metadata(root: Path) -> None:
     verify_object_overrides(root)
     verify_csv_format(root)
     verify_sources_wired(root)
+    verify_model_module_words(root)
+
+
+# A MODEL image's build-list word in each region, relative to North America.
+MODEL_WORD_OFFSETS = {
+    "slus_01411": 0,
+    "slpm_86398": -1,
+    "sles_03947": 17,
+    "sles_03948": 17,
+    "sles_03949": 17,
+    "sles_03950": 17,
+    "sles_03951": 17,
+}
+
+
+def verify_model_module_words(root: Path) -> None:
+    """Check each region's MODEL module-word table against its layouts.
+
+    c_segments already requires a row for every layout that wires the shared
+    header. Here every row must name an existing layout, and the words must
+    agree with the build-list rule of notes/model-effects.md: images built from
+    the same sources at the same address share one word in a region, which is
+    the North American word minus 1 in Japan and plus 17 in PAL.
+    """
+    config = resolve_within(root, "config", must_exist=True)
+    keyed: dict[str, dict[tuple[tuple[str, ...], int], tuple[int, str]]] = {}
+    rows = 0
+    for region in sorted(path for path in config.iterdir() if path.is_dir()):
+        try:
+            words = model_module_words(root, region.relative_to(root).as_posix())
+        except OverlaySourceError as error:
+            raise OverlayError(str(error)) from error
+        if not words:
+            continue
+        if region.name not in MODEL_WORD_OFFSETS:
+            raise OverlayError(f"{region.name}: no MODEL word offset is known")
+        groups = keyed.setdefault(region.name, {})
+        for stem, word in words.items():
+            layout = region / "overlays" / f"{stem}.yaml"
+            label = f"{region.name}/{MODEL_MODULE_WORDS}: {stem}"
+            if not layout.is_file():
+                raise OverlayError(f"{label}: no such layout")
+            rows += 1
+            vram = segment_vram(layout.read_text(encoding="utf-8"), "module_header")
+            manifest = layout.with_name(f"{stem}_matching_c.json")
+            if vram is None or not manifest.is_file():
+                continue
+            sources = tuple(sorted({
+                entry["source"]
+                for entry in json.loads(manifest.read_text(encoding="utf-8"))["functions"]
+            }))
+            known = groups.setdefault((sources, vram), (word, stem))
+            if known[0] != word:
+                raise OverlayError(
+                    f"{label}: word {word} differs from {known[1]} ({known[0]}), "
+                    "built from the same sources at the same address"
+                )
+    reference = keyed.get("slus_01411", {})
+    for region, groups in keyed.items():
+        offset = MODEL_WORD_OFFSETS[region]
+        for key, (word, stem) in groups.items():
+            if key in reference and reference[key][0] + offset != word:
+                raise OverlayError(
+                    f"{region}/{MODEL_MODULE_WORDS}: {stem} word {word} is not "
+                    f"North American {reference[key][1]} ({reference[key][0]}) "
+                    f"{offset:+d}"
+                )
+    print(f"MODEL module words: OK ({rows} rows)")
 
 
 def verify_sources_wired(root: Path) -> None:

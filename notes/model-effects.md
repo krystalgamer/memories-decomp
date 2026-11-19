@@ -37,7 +37,9 @@ table. The former `variant<N>_*` source numbers came from these words; some
 families used the NA word and others the PAL word. For all 2484 stages per
 region, the region offset is exact: **JP = NA − 1** and **PAL = NA + 17**
 (EU/FR/DE/IT/ES). Each confirmed `eNNN` has one canonical header word per
-slot; the seven second images below add a second one.
+slot; the seven second images below add a second one. The build compiles each
+image's word from `config/<region>/overlays/model_module_words.csv`, and
+`make check-metadata` enforces these region offsets there.
 Within a group the words are roughly linear, and the slot 1 word is the slot 0
 word plus the group size:
 
