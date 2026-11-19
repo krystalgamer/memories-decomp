@@ -1210,8 +1210,8 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, u16 *other
 s32 BuildDeck_TestAndSetInitialized(BuildDeckTransitionState *state)
 {
     u16 flags = state->state;
-    if ((flags & 0x8000) == 0) {
-        state->state = flags | 0x8000;
+    if ((flags & BUILD_DECK_STATE_INITIALIZED) == 0) {
+        state->state = flags | BUILD_DECK_STATE_INITIALIZED;
         return 0;
     }
     return 1;
@@ -1960,7 +1960,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
             /* The mode byte is read before the flag store, as retail
                schedules it. */
             mode = gBuildDeck_bConfirmMode & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
-            workspace->state |= 0x4000;
+            workspace->state |= BUILD_DECK_STATE_CONFIRM_OPEN;
             if (mode) {
                 TextBox_CreateFlagged(
                     0, 8, 0x28, BUILD_DECK_WIDE_BOX_Y, 0xF0, 0x10, BUILD_DECK_WIDE_BOX_FLAGS
@@ -1979,7 +1979,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
     /* Computed before the branch: it is only used on the copy path, so it
        crosses no call, and reorg lifts it into the branch delay slot. */
     src = &workspace->chest_card_quantities[CARD_ID_FIRST];
-    if (workspace->state & 0x4000) {
+    if (workspace->state & BUILD_DECK_STATE_CONFIRM_OPEN) {
         TextBox_UpdateChannels();
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
@@ -1989,7 +1989,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
             TextBox_Destroy(box);
             if (!(gBuildDeck_bConfirmMode & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) &&
                 gDialog_bChoice != 0) {
-                workspace->state &= 0xBFFF;
+                workspace->state &= ~BUILD_DECK_STATE_CONFIRM_OPEN;
             } else {
                 workspace->state = workspace->next_state;
                 Fade_SetTargetLevel(0xFF, 2);
@@ -2051,7 +2051,7 @@ s32 BuildDeck_Update(void)
     first->rgb.c.r = color;
 
     if (DuelEffect_UpdateState() == 0) {
-        gBuildDeck_apfnStepHandlers[gBuildDeck_pState->state & 0x3F](gBuildDeck_pState);
+        gBuildDeck_apfnStepHandlers[gBuildDeck_pState->state & BUILD_DECK_STATE_STEP_MASK](gBuildDeck_pState);
     }
 
     return gBuildDeck_pState->state;
