@@ -17,7 +17,9 @@ submitted even if the second flags word is still negative, so these names
 do not imply a complete axis sweep or a successful-clipping guarantee.
 
 The `LINE_G3` packet is at scratchpad `0x1F800000`, four `SVECTOR` inputs
-begin at `0x1F800038`, and the control words are at `0x1F800060`. The centre
+begin at `0x1F800038`, the control words are at `0x1F800060` and the centre
+at `0x1F800200`; `library_graphics.h` declares that layout as
+`LibraryGlobeScratch`, reached through `LIBRARY_GLOBE_SCRATCH`. The centre
 copy reads eight bytes from the view buffer at `0x80181000`. Its literal
 `lui`/`ori` address construction and `SVECTOR` struct copy preserve the
 retail unaligned load/store pairs. `SVECTOR`'s alignment of 2 lowers to the
@@ -25,8 +27,10 @@ same two `lwl`/`lwr` and `swl`/`swr` pairs as the alignment-one `Bytes8` spellin
 it replaced. The packet, vectors and control words are written through their
 `LINE_G3`, `SVECTOR` and `long` members. Three exceptions remain: the colour
 words, written through `*(s32 *)&prim->rN`; the three scratch `vy` clears,
-kept on absolute addresses because member stores through the vector pointers
-reorder the setup; and the unsigned `(u16)` first read of `y0`, which is
+kept on absolute addresses (`*&LIBRARY_GLOBE_SCRATCH->points[n].vy`, whose
+address folds to a constant) because a plain member store reuses the packet
+base register and stores through the vector pointers reorder the setup; and
+the unsigned `(u16)` first read of `y0`, which is
 retail's `lhu`. The globe radius is `LibraryMotionState.globe_radius`, the
 halfword at `gLibrary_State.motion.globe_radius`, declared by
 `src/game/library_graphics.h`. The card-view controller owns the separate
