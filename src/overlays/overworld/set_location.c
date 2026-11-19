@@ -551,7 +551,7 @@ void CampaignMap_UpdateLocation(void)
         }
         gViewState_Current.distance = gViewState_Current.distance - 2;
         ViewState_ApplyOrbit();
-        if ((gFade_State.flags & 0x80) == 0) {
+        if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
             gMain_bActiveModeState = MAIN_MODE_CAMPAIGN;
             gCampaignSceneIndex = gCampaignMap_Location + 32;
         }

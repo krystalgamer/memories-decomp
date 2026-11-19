@@ -1255,7 +1255,7 @@ void Model_UpdateAnimatedBattle(void)
         break;
     case 42:
         Model_SetSlotDrawMode(2, 3);
-        if (!(gFade_State.flags & 0x80)) {
+        if (!(gFade_State.flags & FADE_FLAG_ACTIVE)) {
             SD_ResetPendingEntries();
             gModel_bPresentationPhase = -2;
         }

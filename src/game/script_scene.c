@@ -472,7 +472,7 @@ void Script_OpShowDialog(void)
         script = gScript_StreamCursor;
         gScript_StreamCursor = script + 2;
         value = script[0] | (script[1] << 8);
-        gScript_EventState |= 0x4000;
+        gScript_EventState |= DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
 #if !defined(VERSION_JAPAN) && !defined(VERSION_EUROPE)
         /* The Japanese and European builds make no DuelEffect_SetEntryRangeLayout call here. */
         DuelEffect_SetEntryRangeLayout(0, 2);
@@ -490,7 +490,7 @@ void Script_OpShowDialog(void)
         }
         gScript_DialogCommandLatch = gScript_wCommandWord;
     } else {
-        if ((gScript_EventState & 0x4000) == 0) {
+        if ((gScript_EventState & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) == 0) {
             if ((gScript_wCommandWord & 0x4000) == 0) {
                 TextBox_Destroy(gText_aChannels);
             }
@@ -1097,7 +1097,7 @@ void Script_OpFadeOut(void)
         }
         return;
     default:
-        if (gFade_State.flags & 0x80) {
+        if (gFade_State.flags & FADE_FLAG_ACTIVE) {
             return;
         }
     }

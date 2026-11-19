@@ -926,7 +926,7 @@ void Library_UpdateCardView(LibraryState *state)
         }
         return;
     case 2:
-        if (state->motion.model_load_phase != 1 && !(gFade_State.flags & 0x80)) {
+        if (state->motion.model_load_phase != 1 && !(gFade_State.flags & FADE_FLAG_ACTIVE)) {
             gMain_apFrameServiceCallbacks[3] = 0;
             i = 0;
             do {
@@ -1019,7 +1019,7 @@ void Library_UpdateCardView(LibraryState *state)
             state->motion.globe_radius = (u16)state->motion.globe_radius + 0x2A;
             if (state->motion.globe_radius >= 0x400) {
                 state->motion.globe_radius = 0x400;
-                if (!(gFade_State.flags & 0x80) && state->motion.card_view_slide_phase == 0) {
+                if (!(gFade_State.flags & FADE_FLAG_ACTIVE) && state->motion.card_view_slide_phase == 0) {
                     state->motion.card_view_subphase = 1;
                     DisplayObject_SetResourceVariant(state->loading_icon, 1);
                     return;
@@ -1054,7 +1054,7 @@ void Library_UpdateCardView(LibraryState *state)
                     break;
                 }
             }
-            if (!(gFade_State.flags & 0x80) && state->motion.card_view_slide_phase == 0) {
+            if (!(gFade_State.flags & FADE_FLAG_ACTIVE) && state->motion.card_view_slide_phase == 0) {
                 SD_KeyOffVoiceSlots();
                 gMain_apFrameServiceCallbacks[2] = 0;
                 {
