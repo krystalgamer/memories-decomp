@@ -383,6 +383,23 @@ typedef struct DisplayObject {
             s16 z;
             s16 start_x;
         } ease;
+        /* The main-menu entries' horizontal slide:
+           MainMenu_StartFrontendEntryTransition stores the x an entry starts
+           from here (and copies it into xy) and the x it ends at in
+           field_38.entry_slide.to_x; MainMenu_UpdateFrontendMenu moves xy
+           from one to the other along a sine over field_60.frames. */
+        struct {
+            s16 z;
+            s16 from_x;
+        } entry_slide;
+        /* The main-menu start prompt's idle counter: cleared when the
+           prompt is shown and advanced by gGraphics_nBaseFrameStep each
+           frame START is not pressed; at 0xBB8 MainMenu_UpdateFrontendMenu
+           returns -2 and the boot frontend starts over. */
+        struct {
+            s16 z;
+            s16 idle_frames;
+        } prompt;
         /* A gouraud quad's vertex colour (DisplayObject_InitializeGouraudQuad
            clears it, DebugMenu_Init sets its green). */
         CVECTOR colour;
@@ -420,9 +437,10 @@ typedef struct DisplayObject {
        DisplayObject_StepPosition* (or integrates the duel cursor's ground
        position with fraction_x/fraction_z the same way) writes `motion`,
        and the value-widget tween and the duel slide-back that read a saved
-       start take `ease`. The plain halves are left to the readings neither
-       arm covers: the main-menu entries' slide endpoints (0x36 from, 0x38
-       to), the start prompt's idle counter at 0x36, and the Gouraud corner
+       start take `ease`. The main menu's own two readings have arms of
+       their own: `entry_slide` for the entries' slide endpoints (0x36
+       from, 0x38 to) and field_34's `prompt` for the start prompt's idle
+       counter at 0x36. The plain halves are left to the Gouraud corner
        pairs duel_effect_text.c and debug_menu.c write. */
     union {
         u32 word;
@@ -440,6 +458,12 @@ typedef struct DisplayObject {
             s16 start_y;
             s16 field_3A;
         } ease;
+        /* The x a main-menu entry slides to, after
+           field_34.entry_slide.from_x. */
+        struct {
+            s16 to_x;
+            s16 field_3A;
+        } entry_slide;
     } field_38;                    /* 0x38 */
     /* 0x3C likewise: DisplayObject_RenderSpriteList copies the whole word
        into the sprite primitive's extent, and the quad renderers copy it as

@@ -96,7 +96,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
         third->update_state = 0x3C;
         fourth = gMainMenu_pStartPrompt;
         third->field_60.step = -2;
-        fourth->field_34.h.field_36 = 0;
+        fourth->field_34.prompt.idle_frames = 0;
     }
 
     for (i = 0; i < 11; i++) {
@@ -251,7 +251,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             ent2->rgb.c.r = 0x80;
             ent2->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
             gMainMenu_pStartPrompt->update_state = 0x3C;
-            gMainMenu_pStartPrompt->field_34.h.field_36 = 0;
+            gMainMenu_pStartPrompt->field_34.prompt.idle_frames = 0;
         }
         gMainMenu_nFadeDirection = 0;
         return -1;
@@ -286,8 +286,8 @@ s32 MainMenu_UpdateFrontendMenu(void)
             gMainMenu_nFadeDirection = 1;
         } else {
             ent6 = gMainMenu_pStartPrompt;
-            acc = (u16)ent6->field_34.h.field_36 + (u16)gGraphics_nBaseFrameStep;
-            ent6->field_34.h.field_36 = acc;
+            acc = (u16)ent6->field_34.prompt.idle_frames + (u16)gGraphics_nBaseFrameStep;
+            ent6->field_34.prompt.idle_frames = acc;
             if ((s16)acc >= 0xBB8) {
                 return -2;
             }
@@ -315,14 +315,14 @@ s32 MainMenu_UpdateFrontendMenu(void)
                         first = (u32)gMain_bMenuID < 5;
                         if (first ? i < 5 : i >= 5) {
                             eloop = *slot;
-                            first = eloop->field_38.h.field_38;
-                            value = eloop->field_34.h.field_36;
+                            first = eloop->field_38.entry_slide.to_x;
+                            value = eloop->field_34.entry_slide.from_x;
                             delta = first - value;
                             value = eloop->field_60.frames;
                             /* Keep the selector/endpoint scratch live as the phase limit. */
                             first = 0x10;
                             frame = first - value;
-                            value = (u16)eloop->field_38.h.field_38;
+                            value = (u16)eloop->field_38.entry_slide.to_x;
                             if (frame != first) {
                                 product = rsin(frame << 6) * delta;
                                 eloop = *slot;
@@ -331,7 +331,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                                     product += 0xFFF;
                                 }
                                 product >>= 12;
-                                value = (u16)eloop->field_34.h.field_36 + product;
+                                value = (u16)eloop->field_34.entry_slide.from_x + product;
                             }
                             *(volatile s16 *)&eloop->xy.h.x = value;
                             if ((frame & 1) != 0) {
@@ -618,13 +618,13 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
         }
         if (entries[i] != 0) {
             if (mode != 0) {
-                entries[i]->field_34.h.field_36 = 0xA0;
-                entries[i]->field_38.h.field_38 = offset;
+                entries[i]->field_34.entry_slide.from_x = 0xA0;
+                entries[i]->field_38.entry_slide.to_x = offset;
             } else {
-                entries[i]->field_34.h.field_36 = offset;
-                entries[i]->field_38.h.field_38 = 0xA0;
+                entries[i]->field_34.entry_slide.from_x = offset;
+                entries[i]->field_38.entry_slide.to_x = 0xA0;
             }
-            entries[i]->xy.h.x = entries[i]->field_34.h.field_36;
+            entries[i]->xy.h.x = entries[i]->field_34.entry_slide.from_x;
             entries[i]->field_60.frames = 0x10;
         }
     }
