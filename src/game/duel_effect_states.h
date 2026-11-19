@@ -153,6 +153,13 @@ extern s16 gText_CdSoundPollBudget;
  * dialog_transition.c's handlers additionally raise 0x20 and 0x40,
  * and the byte is cleared back to 0 when a scene is torn down. */
 extern u8 gDialog_bCallbackState;
+/* The memory-card dialog transition step (gDialog_apfnTransitionSteps
+   index) and its two phase bits: SETTLED once the box slide or spotlight
+   sweep has finished, TEXT_DONE once the text box reports
+   TEXT_BOX_FLAG_DONE; the following tick returns the byte to 0. */
+#define DIALOG_TRANSITION_STEP_MASK 0xF
+#define DIALOG_TRANSITION_FLAG_TEXT_DONE 0x20
+#define DIALOG_TRANSITION_FLAG_SETTLED 0x40
 
 /* Raw legacy work-operation mode, also consumed by the combined dialog
  * opener. MemCardWork_InitializeOperation stores its entire u8 parameter.

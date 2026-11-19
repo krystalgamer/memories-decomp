@@ -495,7 +495,7 @@ void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root, MemCardWorkSlot *s
     }
     flags = gDialog_bCallbackState;
     object = root->spotlight_object;
-    if (flags & 64) {
+    if (flags & DIALOG_TRANSITION_FLAG_SETTLED) {
         gDialog_bCallbackState = 0;
     } else {
         s32 x = (u16)object->field_48.spotlight.inner - 8;
@@ -504,7 +504,7 @@ void Dialog_UpdateSpotlightContraction(MemCardWorkRoot *root, MemCardWorkSlot *s
         object->field_48.spotlight.outer = y;
         object->field_48.spotlight.inner = x;
         if ((s16)x <= 0) {
-            gDialog_bCallbackState = flags | 64;
+            gDialog_bCallbackState = flags | DIALOG_TRANSITION_FLAG_SETTLED;
             object->field_48.spotlight.inner = 0;
             object->field_48.spotlight.outer = 64;
         }
@@ -599,15 +599,15 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
                        p->xy.s.y);
     }
     f = gDialog_bCallbackState;
-    if ((f & 0x20) != 0) {
+    if ((f & DIALOG_TRANSITION_FLAG_TEXT_DONE) != 0) {
         gDialog_bCallbackState = 0;
         return;
     }
     r = &gText_aChannels[root->text_index];
-    if ((f & 0x40) != 0) {
+    if ((f & DIALOG_TRANSITION_FLAG_SETTLED) != 0) {
         TextBox_UpdateChannels();
         if ((r->flags & TEXT_BOX_FLAG_DONE) != 0) {
-            gDialog_bCallbackState = gDialog_bCallbackState | 0x20;
+            gDialog_bCallbackState = gDialog_bCallbackState | DIALOG_TRANSITION_FLAG_TEXT_DONE;
             if (gDialog_bChoice == 0) {
                 DuelEffect_CreateChannel(0x80D4, 0);
                 gDialog_bChoice = 0;
@@ -640,7 +640,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
         if (root->box_object->field_60.phase == 0) {
             g = gDialog_bCallbackState;
             r->flags = r->flags & (0xFFFF ^ DIALOG_TRANSITION_CHANNEL_FLAG);
-            gDialog_bCallbackState = g | 0x40;
+            gDialog_bCallbackState = g | DIALOG_TRANSITION_FLAG_SETTLED;
         }
     }
 }
@@ -686,7 +686,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
     q = &gText_aChannels[root->text_index];
     g = gDialog_bCallbackState;
 
-    if ((g & 0x40) != 0) {
+    if ((g & DIALOG_TRANSITION_FLAG_SETTLED) != 0) {
         TextBox_UpdateChannels();
         if ((q->flags & TEXT_BOX_FLAG_DONE) != 0) {
             gDialog_bCallbackState = 0;
@@ -698,7 +698,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
             e->xy.s.x = DIALOG_BOX_X;
             e->xy.s.y = 0x50;
             h = q->flags;
-            gDialog_bCallbackState = g | 0x40;
+            gDialog_bCallbackState = g | DIALOG_TRANSITION_FLAG_SETTLED;
             q->flags = h & (0xFFFF ^ DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG);
         } else {
             Widget_SlideSine(e, DIALOG_BOX_X, 0x50, (s16)v);
@@ -918,9 +918,9 @@ void MemCardWork_UpdateOperation(void)
             break;
         }
     }
-    if (gDialog_bCallbackState & 0xF) {
+    if (gDialog_bCallbackState & DIALOG_TRANSITION_STEP_MASK) {
         status = 1;
-        gDialog_apfnTransitionSteps[gDialog_bCallbackState & 0xF](root, slot);
+        gDialog_apfnTransitionSteps[gDialog_bCallbackState & DIALOG_TRANSITION_STEP_MASK](root, slot);
     }
     if (status >= 0)
         return;
@@ -931,10 +931,10 @@ void MemCardWork_UpdateOperation(void)
             gMemCardWork_wFlags &= ~0x400;
         return;
     }
-    switch (gMemCardWork_OperationState & 0xF) {
+    switch (gMemCardWork_OperationState & MEM_CARD_WORK_STEP_MASK) {
     case 0:
-        if (!(gMemCardWork_OperationState & 0x80)) {
-            gMemCardWork_OperationState |= 0x80;
+        if (!(gMemCardWork_OperationState & MEM_CARD_WORK_STEP_STARTED)) {
+            gMemCardWork_OperationState |= MEM_CARD_WORK_STEP_STARTED;
             gDialog_bCallbackState = 1;
             break;
         }
@@ -947,8 +947,8 @@ void MemCardWork_UpdateOperation(void)
         gMemCardWork_OperationState = 1;
         gMemCardWork_wFlags |= 0x4000;
     case 1:
-        if (!(gMemCardWork_OperationState & 0x80)) {
-            gMemCardWork_OperationState |= 0x80;
+        if (!(gMemCardWork_OperationState & MEM_CARD_WORK_STEP_STARTED)) {
+            gMemCardWork_OperationState |= MEM_CARD_WORK_STEP_STARTED;
             gMemCardWork_wFlags |= 0x1000;
             MemCard_ReqLoadDirectory(zero);
             break;
@@ -970,8 +970,8 @@ void MemCardWork_UpdateOperation(void)
             gMemCardWork_OperationState = 7;
         break;
     case 5:
-        if (!(gMemCardWork_OperationState & 0x80)) {
-            gMemCardWork_OperationState |= 0x80;
+        if (!(gMemCardWork_OperationState & MEM_CARD_WORK_STEP_STARTED)) {
+            gMemCardWork_OperationState |= MEM_CARD_WORK_STEP_STARTED;
             index = MemCard_FindLoadedEntry(MEM_CARD_SAVE_FILE_NAME);
             if (index < 0 || (gMemCardWork_wFlags & 2)) {
                 message = 0xD3;
@@ -991,8 +991,8 @@ void MemCardWork_UpdateOperation(void)
         }
         gMemCardWork_OperationState = 6;
     case 6:
-        if (!(gMemCardWork_OperationState & 0x80)) {
-            gMemCardWork_OperationState |= 0x80;
+        if (!(gMemCardWork_OperationState & MEM_CARD_WORK_STEP_STARTED)) {
+            gMemCardWork_OperationState |= MEM_CARD_WORK_STEP_STARTED;
             name = MEM_CARD_SAVE_FILE_NAME;
             index = MemCard_FindLoadedEntry(name);
             message = 0xD3;
@@ -1023,8 +1023,8 @@ void MemCardWork_UpdateOperation(void)
         s32 wait;
         s32 result;
         char *file;
-        if (!(gMemCardWork_OperationState & 0x80)) {
-            gMemCardWork_OperationState |= 0x80;
+        if (!(gMemCardWork_OperationState & MEM_CARD_WORK_STEP_STARTED)) {
+            gMemCardWork_OperationState |= MEM_CARD_WORK_STEP_STARTED;
             if (gMemCardWork_wFlags & 2) {
                 gMemCardWork_OperationState = 9;
                 break;
@@ -1071,10 +1071,10 @@ void MemCardWork_UpdateOperation(void)
         gMemCardWork_OperationState = remaining;
     }
     case 8:
-        if (!(gMemCardWork_OperationState & 0x80)) {
+        if (!(gMemCardWork_OperationState & MEM_CARD_WORK_STEP_STARTED)) {
             s32 i;
             s32 sector;
-            gMemCardWork_OperationState |= 0x80;
+            gMemCardWork_OperationState |= MEM_CARD_WORK_STEP_STARTED;
             index = MemCard_FindLoadedEntry(MEM_CARD_SAVE_FILE_NAME);
             checksum = 0;
             i = 0;
@@ -1102,8 +1102,8 @@ void MemCardWork_UpdateOperation(void)
         break;
     case 9:
     case 10:
-        if (!(gMemCardWork_OperationState & 0x80)) {
-            gMemCardWork_OperationState |= 0x80;
+        if (!(gMemCardWork_OperationState & MEM_CARD_WORK_STEP_STARTED)) {
+            gMemCardWork_OperationState |= MEM_CARD_WORK_STEP_STARTED;
             if (slot->free_blocks >= root->blocks)
                 MemCard_ReqCreateFile(zero, MEM_CARD_SAVE_FILE_NAME, root->blocks);
             break;
@@ -1159,7 +1159,7 @@ void MemCardDialog_UpdateLoad(void)
     long files;
     s32 message;
 
-    switch (gMemCardDialog_OperationState & 0xF) {
+    switch (gMemCardDialog_OperationState & MEM_CARD_DIALOG_STEP_MASK) {
     case 0:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
@@ -1337,7 +1337,7 @@ void MemCardDialog_UpdateSave(void)
     s32 status;
     s32 message;
 
-    switch (gMemCardDialog_OperationState & 0xF) {
+    switch (gMemCardDialog_OperationState & MEM_CARD_DIALOG_STEP_MASK) {
     case 0:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
@@ -1699,7 +1699,7 @@ void MemCardDialog_UpdateSave(void)
     s32 mode;
     s32 message;
 
-    switch (gMemCardDialog_OperationState & 0xF) {
+    switch (gMemCardDialog_OperationState & MEM_CARD_DIALOG_STEP_MASK) {
     case 0:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
@@ -1996,7 +1996,7 @@ void MemCardDialog_UpdateTradeSave(void)
         MemCardDialog_SetMessage(MEM_CARD_DIALOG_TRADE_SAVE_INITIAL_MESSAGE, 0);
         gMemCardDialog_OperationState = 0;
     }
-    switch (gMemCardDialog_OperationState & 0xF) {
+    switch (gMemCardDialog_OperationState & MEM_CARD_DIALOG_STEP_MASK) {
     case 0:
         if ((gMemCardDialog_OperationState & MEM_CARD_DIALOG_FLAG_RESULT_READY) == 0) {
             gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
