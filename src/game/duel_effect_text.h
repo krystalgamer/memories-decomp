@@ -257,13 +257,25 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value);
 void DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value);
 #endif
 
-#ifdef VERSION_JAPAN
 /* One 16-pixel 4bpp row of the glyph raster: four halfwords of pixels,
    cleared and copied out as two words. */
 typedef union {
     u16 pixels[4];
     u32 words[2];
 } DuelEffectGlyphRow;
+
+/* One 0x88-byte record of gText_GlyphUploadScratch: the VRAM RECT that
+   DuelEffect_AppendEntry fills and hands to LoadImage/LoadImage2, followed by
+   the 16x16 4bpp bitmap Japan's DuelEffect_RasterizeGlyph writes and uploads.
+   Flag 0x200 selects the record by output_count. */
+typedef struct {
+    RECT rect;
+    DuelEffectGlyphRow rows[16];
+} TextGlyphUpload;
+
+typedef char TextGlyphUpload_size_must_be_0x88[sizeof(TextGlyphUpload) == 0x88 ? 1 : -1];
+
+#ifdef VERSION_JAPAN
 
 void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot,
                                DuelEffectGlyphRow *bitmap);
@@ -569,8 +581,7 @@ struct DuelEffectChannel;
 void TextBox_BuildBlocking(struct DuelEffectChannel *object);
 void TextBox_BuildBlockingWithGlyphScratch(struct DuelEffectChannel *object);
 
-/* Unsized original halfword view: RECT prefix and regional glyph scratch. */
-extern s16 gText_GlyphUploadScratch[];
+extern TextGlyphUpload gText_GlyphUploadScratch[];
 
 /* Draws a duel-effect channel's text glyph, icon or rotating quad from
  * scratchpad packets. Nothing calls it directly: TextBox_RefreshDisplayObjects stores its

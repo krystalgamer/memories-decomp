@@ -1364,7 +1364,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
 void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 {
     DuelEffectGlyphEntry *q;
-    s16 *r;
+    TextGlyphUpload *r;
     u16 f;
     s32 v;
     s32 b;
@@ -1408,14 +1408,13 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
             return;
         }
         if (p->flags_34 & 0x200) {
-            r += p->output_count * 0x44;
+            r += p->output_count;
         }
         q->glyph_index = v;
-        /* The bitmap follows the upload RECT in the s16 scratch. */
-        DuelEffect_RasterizeGlyph(p, a, v, (DuelEffectGlyphRow *)(r + 4));
+        DuelEffect_RasterizeGlyph(p, a, v, r->rows);
 #else
         if (f & 0x200) {
-            r += p->output_count * 0x44;
+            r += p->output_count;
         }
         q->glyph_index = 0;
         b = p->color_index_54;
@@ -1431,22 +1430,21 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
         q->palette_index = b;
 #endif
 #ifdef VERSION_JAPAN
-        r[0] = 0x280 + ((v & 0xF) << 2);
-        r[1] = v & 0xF0;
+        r->rect.x = 0x280 + ((v & 0xF) << 2);
+        r->rect.y = v & 0xF0;
 #else
-        r[0] = 0x280;
+        r->rect.x = 0x280;
 #endif
-        r[2] = 4;
+        r->rect.w = 4;
 #ifndef VERSION_JAPAN
-        r[1] = 0;
+        r->rect.y = 0;
 #endif
-        r[3] = 0x10;
+        r->rect.h = 0x10;
 #ifdef VERSION_JAPAN
-        /* The s16 upload scratch holds the RECT and then the bitmap. */
         if (p->flags_34 & 0x200) {
-            LoadImage((RECT *)r, (u32 *)(r + 4));
+            LoadImage(&r->rect, r->rows[0].words);
         } else {
-            LoadImage2((RECT *)r, (u32 *)(r + 4));
+            LoadImage2(&r->rect, r->rows[0].words);
         }
 #endif
     }
