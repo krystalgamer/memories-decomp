@@ -149,7 +149,7 @@ For #39 the fourteen optimized functions at `[0x80168004, 0x80169040)`
 `initialize.c`, `input.c`, `wave_tables.c`, `language_request.c`,
 `language_image.c`, `update.c`, `signed_step.c` and `language_selection.c`),
 are one `src/overlays/options/options_screen.c` unit in address order at
-`gcc_2_8_1_g0_split`. They are contiguous, share one profile and own no data,
+`gcc_2_8_1_g0_split` (now `gcc_2_8_1_g0_split_comm`; see "Module data"). They are contiguous and share one profile,
 and every one is `Options_Init`, `Options_Update` or a helper or render
 callback of theirs. The layout is the same in all five PAL images, so it is
 neutral evidence. Each `options.yaml` lists the unit as one `options_screen`
@@ -160,6 +160,23 @@ likewise one `options_suffix.c` unit at `gcc_2_8_1_o0_g0_split` and one
 `options_suffix` segment. Raw data separates the two units and their
 profiles differ, so they stay two objects. Earlier sections and the attempt ledgers keep the former
 file names as historical records.
+
+## Module data
+
+The module word at `0x0` is `src/overlays/options/module_header.c`
+(`u32 D_80168000 = 0x08`, the same in all five PAL images), listed in each
+image's `options_data_c.json`. `options_screen.c` owns the data after its
+code: `.data` `gPalOptions_aStripTextures` (`u8[5][3]`, texture u, v and CLUT
+row per strip, read by `PalOptions_DrawScrollingStrips`) at `0x1040`, one
+byte of linker fill at `0x104F` (nonzero in the English image, so a `bin`
+there and `pad` elsewhere), then the fourteen zero-initialized screen globals
+as tentative definitions (`_comm` profile) placed by an
+`options_screen_commons` subsegment at `0x1050..0x11FD` from each image's
+symbol file. The state ends on a byte, so the code segment and the layout use
+alignment 1; the stale bytes from `0x11FD` stay a raw `bin`
+(`unclassified_tail`). The unnamed gaps inside the block (after
+`gPalOptions_bMode`, before `gPalOptions_aWaveOffsets`) carry no label, so
+the address-named `D_` fillers left the symbol files.
 
 ## Unoptimized suffix leaves
 
