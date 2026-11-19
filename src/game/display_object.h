@@ -295,7 +295,8 @@ typedef struct DisplayObject {
        padding. That file calls them `target` and `step`.
 
        Three of those halfword readings are shared by several callers and
-       fixed by a callback, so they get views (the widths stay `h`'s):
+       fixed by a callback, so they get views (each keeps the old u16 low
+       and s16 high halfword):
 
        slide: DisplayObject_UpdateCosineSlide and its roll-reset sibling
        divide a half turn (and 0x40 of roll) by `frames`, the slide's
@@ -338,15 +339,19 @@ typedef struct DisplayObject {
        the stat_modifier the equip count-up adds to, and the per-frame
        phase step the two-card spiral adds 8 to each frame.
 
-       The other halfword users (the draw-card slide's phase step, the
-       marker-removal turn limit and the card-move target x) are one
-       routine each and keep `h`. */
+       Three single-routine readings complete the set. draw_slide:
+       Duel_UpdateDrawCardSlide's phase step, 0x400 / field_60.frames, added
+       to the Widget_SlideSine phase each frame. marker_turn:
+       Duel_UpdateCardMarkerRemovalTurn turns rotation_y by 8 a frame until
+       it reaches `limit_y` (0x40, or 0xC0 from a turned card), a quarter
+       turn. card_move: DuelScene_UpdateCardMove's destination x (the
+       target slot's projected x less 0x1E), handed to Widget_SlideSine as
+       the target.
+
+       Every halfword user goes through a view, so the offset-named `h`
+       pair is gone. */
     union {
         u32 word;
-        struct {
-            u16 field_2C;
-            s16 field_2E;
-        } h;
         /* A gouraud quad's vertex colour (DisplayObject_InitializeGouraudQuad
            clears it, DebugMenu_Init sets its green). */
         CVECTOR colour;
@@ -390,6 +395,18 @@ typedef struct DisplayObject {
             u16 field_2C;
             s16 angle_step;
         } spiral;
+        struct {
+            u16 phase_step;
+            s16 field_2E;
+        } draw_slide;
+        struct {
+            u16 field_2C;
+            s16 limit_y;
+        } marker_turn;
+        struct {
+            u16 field_2C;
+            s16 target_x;
+        } card_move;
     } field_2C;                    /* 0x2C */
     /* The 2D x/y pair the renderers draw at. DisplayObject_RenderSpriteList
        and DisplayObject_RenderSpriteStrips copy the word into SpritePrim.xy

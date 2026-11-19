@@ -2583,14 +2583,14 @@ void DuelScene_UpdateDrawPhase(void) {
 void Duel_UpdateDrawCardSlide(DisplayObject *o)
 {
     if (!DisplayObject_MarkInitialized(o)) {
-        o->field_2C.h.field_2C = 0x400 / o->field_60.frames;
+        o->field_2C.draw_slide.phase_step = 0x400 / o->field_60.frames;
         o->position.target.x = o->xy.h.x - 0x140;
         DisplayObject_SavePosition(o);
         o->field_60.phase = -0x400;
     }
     Widget_SlideSine(o, o->position.s.x,
                   o->xy.s.y, o->field_60.phase);
-    o->field_60.phase += o->field_2C.h.field_2C;
+    o->field_60.phase += o->field_2C.draw_slide.phase_step;
     if (o->field_60.phase >= 0) {
         o->update = 0;
         o->update_state = 0;
@@ -3278,10 +3278,10 @@ void Duel_UpdateCardMarkerRemovalTurn(DisplayObject *o)
     int current;
 
     if (!DisplayObject_MarkInitialized(o)) {
-        o->field_2C.h.field_2E = 0x40;
+        o->field_2C.marker_turn.limit_y = 0x40;
         o->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         if (o->field_20.b.rotation_y) {
-            o->field_2C.h.field_2E = 0xC0;
+            o->field_2C.marker_turn.limit_y = 0xC0;
         }
     }
     current = o->field_20.b.rotation_y + 8;
@@ -3296,7 +3296,7 @@ void Duel_UpdateCardMarkerRemovalTurn(DisplayObject *o)
             o->update_state = 0;
             o->update = 0;
         }
-    } else if (o->field_20.b.rotation_y >= o->field_2C.h.field_2E) {
+    } else if (o->field_20.b.rotation_y >= o->field_2C.marker_turn.limit_y) {
         o->update_state |= 0x40;
         o->field_20.b.rotation_y = 0xC0;
         o->resource_root_index = 0;
@@ -4125,13 +4125,13 @@ void DuelScene_UpdateCardMove(void)
     case 4:
         if (!(gDuel_bSceneSubStep & 0x80)) {
             gDuel_bSceneSubStep |= 0x80;
-            object->field_2C.h.field_2E = Duel_ProjectCardSlotScreenX(gDuel_bCardMoveSlot) - 0x1E;
+            object->field_2C.card_move.target_x = Duel_ProjectCardSlotScreenX(gDuel_bCardMoveSlot) - 0x1E;
             DisplayObject_SavePosition(object);
             object->field_60.phase = 0x400;
         }
         if (!(gDuel_bSceneSubStep & 0x40)) {
             Widget_SlideSine(object,
-                             object->field_2C.h.field_2E, -0xBC,
+                             object->field_2C.card_move.target_x, -0xBC,
                              object->field_60.phase);
             object->field_60.phase -= 0x2A;
             if (object->field_60.phase > 0) {
