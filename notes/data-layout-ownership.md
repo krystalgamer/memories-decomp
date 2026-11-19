@@ -580,13 +580,13 @@ the game's packaging, so it uses the game's profile, not safechk's.
 
 Every MODEL.MRG image (`model_variant_*`, `model_return_*`, `model_primary_*`,
 `model_image_*`) starts with its build-list word (notes/model-effects.md), the
-whole `module_header` segment. The North American layouts point it at the one
+whole `module_header` segment. Every region's layouts point it at the one
 shared `src/overlays/model_variant/module_header.c` (`.data`, `gcc_2_8_1_g0`
 like the other module words, even in the CDK and GCC 2.8.0 images); the word
-comes from the stem's row in `config/slus_01411/overlays/model_module_words.csv`
-and the label from the segment's address (`D_8013B000` and so on), with no
-per-image manifest (notes/build.md, "Shared MODEL module words"). The Japanese
-and PAL layouts still hold the word as raw data.
+comes from the stem's row in the region's
+`config/<region>/overlays/model_module_words.csv` and the label from the
+segment's address (`D_8013B000` and so on), with no per-image manifest
+(notes/build.md, "Shared MODEL module words").
 
 The duel-effect bank starts with its module word, `duel_effects/module_header.c`'s
 `.data` (`0x18` in North America and Japan; `VERSION_EUROPE` selects PAL's

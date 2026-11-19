@@ -49,7 +49,7 @@ segments:
     vram: 0x8017B000
     align: 4
     subsegments:
-      - [0x0, data, overlays/european_model_variant_254_stage10_slot1/module_header]
+      - [0x0, .data, overlays/model_variant/module_header]
   - name: entry
     type: code
     start: 0x4
