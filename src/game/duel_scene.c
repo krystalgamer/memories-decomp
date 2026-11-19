@@ -10927,25 +10927,17 @@ void DuelEffect_StartCardEffect(int value, int flag)
 s32 Duel_FindFreeFieldSlot(s32 start)
 {
     s32 base;
-    s32 off;
     DuelCardRecord *p;
     s32 i;
 
-    do {
-        base = gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT + start;
-        off = base << 3;
-        off -= base;
-        off <<= 2;
-        /* Byte offset kept: &gDuel_aCardRecords[base] swaps base and p's registers. */
-        p = (DuelCardRecord *)((u8 *)gDuel_aCardRecords + off);
-        for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
-            off = p->flags & DUEL_CARD_FLAG_OCCUPIED;
-            if (off == 0) {
-                return gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT + start + i;
-            }
-            p++;
+    base = gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT + start;
+    p = &gDuel_aCardRecords[base];
+    for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
+        if ((p->flags & DUEL_CARD_FLAG_OCCUPIED) == 0) {
+            return gDuel_bActiveSide * DUEL_CARD_SIDE_RECORD_COUNT + start + i;
         }
-    } while (0);
+        p++;
+    }
     return -1;
 }
 
