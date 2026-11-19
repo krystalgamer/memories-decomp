@@ -103,9 +103,12 @@ the display-object path:
 - `Model_DrawFogTexturedTriangles` and `Model_DrawFogTexturedQuads` build
   `LINE_G4`, `POLY_GT3` or `POLY_GT4` at `0x380`, keep `CVECTOR` colours at
   `0x3C0` and `0x3D0`, and GTE results at `0x3E0` and `0x3E8`;
-- `Duel_RenderFieldCard3D` keeps a `VECTOR` scale at `0x320`, an up vector
-  at `0x380`, a rotation at `0x3A0`, corner vectors at `0x3C0..0x3DF` and a
-  depth word at `0x3E0`.
+- `Duel_RenderFieldCard3D` declares its layout from `0x2C0` as
+  `DuelFieldCardScratch` (`duel_scene.h`): a `MATRIX` at `0x2C0`, four
+  model-space corners at `0x300`, a `VECTOR` scale at `0x320`, an up vector
+  at `0x380`, the rotation angles and rotated corners at `0x3A0..0x3BF`,
+  their ground copies at `0x3C0..0x3DF`, and eight depth and flag words at
+  `0x3E0..0x3FF`.
 
 `Fade_DrawOverlay` builds its `FadeOverlayBox` (`GsBOXF`) at `0x3C0`.
 

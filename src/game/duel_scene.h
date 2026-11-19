@@ -16,6 +16,7 @@
 #include "color_constants.h"
 #include "mem_card.h"
 #include "file_staging_buffer.h"
+#include "scratchpad.h"
 
 /* libgpu.h uses SVECTOR without declaring it, so libgte.h has to come first
  * for this header to be includable on its own. */
@@ -1366,6 +1367,43 @@ typedef union {
  * s8 for the half-turn test, matching retail even for values >= 0x80.
  * One caller: Duel_DrawFieldCards. */
 void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sprite, DuelCardLightColor *color);
+
+/* Duel_RenderFieldCard3D's scratchpad layout from 0x1F8002C0: the local
+ * matrix, the four model-space card corners, the ScaleMatrix vector, the
+ * light normal, then the rotated corners (the first one holds the Euler
+ * angles until RotMatrixZYX_gte has read them) directly followed by their
+ * ground copies, and the depth words: RotTransSV's flag word and the four
+ * RotColorDpq flags, then the four RotColorDpq depths. The gaps are
+ * scratchpad the card does not use. */
+typedef struct {
+    MATRIX matrix;
+    u8 pad_20[0x40 - 0x20];
+    SVECTOR corners[4];
+    VECTOR scale;
+    u8 pad_70[0xC0 - 0x70];
+    SVECTOR normal;
+    u8 pad_c8[0xE0 - 0xC8];
+    SVECTOR points[8];
+    long depth[8];
+} DuelFieldCardScratch;
+
+typedef char DuelFieldCardScratch_corners_offset_must_be_0x40[
+    OFFSETOF(DuelFieldCardScratch, corners) == 0x40 ? 1 : -1
+];
+typedef char DuelFieldCardScratch_scale_offset_must_be_0x60[
+    OFFSETOF(DuelFieldCardScratch, scale) == 0x60 ? 1 : -1
+];
+typedef char DuelFieldCardScratch_normal_offset_must_be_0xC0[
+    OFFSETOF(DuelFieldCardScratch, normal) == 0xC0 ? 1 : -1
+];
+typedef char DuelFieldCardScratch_points_offset_must_be_0xE0[
+    OFFSETOF(DuelFieldCardScratch, points) == 0xE0 ? 1 : -1
+];
+typedef char DuelFieldCardScratch_must_end_at_the_scratchpad_end[
+    sizeof(DuelFieldCardScratch) == 0x400 - 0x2C0 ? 1 : -1
+];
+
+#define DUEL_FIELD_CARD_SCRATCH ((DuelFieldCardScratch *)SCRATCH_ADDR(0x2C0))
 
 /* Compares the guardian-star matchup between two selection records and returns
  * display code 4 for neutral, 1 when the first loses, or 6 when it wins.

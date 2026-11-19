@@ -378,12 +378,12 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
         return;
     }
 
-    lm = (MATRIX *)SCRATCH_ADDR(0x2C0);
-    q = (SVECTOR *)SCRATCH_ADDR(0x300);
-    scale = (VECTOR *)SCRATCH_ADDR(0x320);
-    up = (SVECTOR *)SCRATCH_ADDR(0x380);
-    rot = (SVECTOR *)SCRATCH_ADDR(0x3A0);
-    depth = (long *)SCRATCH_ADDR(0x3E0);
+    lm = &DUEL_FIELD_CARD_SCRATCH->matrix;
+    q = DUEL_FIELD_CARD_SCRATCH->corners;
+    scale = &DUEL_FIELD_CARD_SCRATCH->scale;
+    up = &DUEL_FIELD_CARD_SCRATCH->normal;
+    rot = DUEL_FIELD_CARD_SCRATCH->points;
+    depth = DUEL_FIELD_CARD_SCRATCH->depth;
     up->vx = 0;
     up->vy = 0x1000;
     up->vz = 0;
@@ -415,9 +415,9 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
         ScaleMatrix(lm, scale);
     }
 
-    q2 = (SVECTOR *)SCRATCH_ADDR(0x310);
-    q3 = (SVECTOR *)SCRATCH_ADDR(0x318);
-    q1 = (SVECTOR *)SCRATCH_ADDR(0x308);
+    q2 = &DUEL_FIELD_CARD_SCRATCH->corners[2];
+    q3 = &DUEL_FIELD_CARD_SCRATCH->corners[3];
+    q1 = &DUEL_FIELD_CARD_SCRATCH->corners[1];
     q[0].vx = q2->vx = -0x19;
     q[1].vx = q3->vx = 0x1A;
     q[0].vz = q1->vz = 0x1D;
@@ -430,9 +430,9 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     RotTransSV(&q[2], &rot[2], depth);
     RotTransSV(&q[3], &rot[3], depth);
 
-    c1 = (SVECTOR *)SCRATCH_ADDR(0x3C8);
-    c2 = (SVECTOR *)SCRATCH_ADDR(0x3D0);
-    c3 = (SVECTOR *)SCRATCH_ADDR(0x3D8);
+    c1 = &DUEL_FIELD_CARD_SCRATCH->points[5];
+    c2 = &DUEL_FIELD_CARD_SCRATCH->points[6];
+    c3 = &DUEL_FIELD_CARD_SCRATCH->points[7];
     rot[4] = rot[0];
     *c1 = rot[1];
     *c2 = rot[2];
@@ -499,16 +499,16 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     c2->vy = 0;
     c1->vy = 0;
     rot[4].vy = 0;
-    gte_ldv0((SVECTOR *)SCRATCH_ADDR(0x3C0));
+    gte_ldv0(&DUEL_FIELD_CARD_SCRATCH->points[4]);
     gte_rtps();
     gte_stsxy(&sprite->x0);
-    gte_ldv0((SVECTOR *)SCRATCH_ADDR(0x3C8));
+    gte_ldv0(&DUEL_FIELD_CARD_SCRATCH->points[5]);
     gte_rtps();
     gte_stsxy(&sprite->x1);
-    gte_ldv0((SVECTOR *)SCRATCH_ADDR(0x3D0));
+    gte_ldv0(&DUEL_FIELD_CARD_SCRATCH->points[6]);
     gte_rtps();
     gte_stsxy(&sprite->x2);
-    gte_ldv0((SVECTOR *)SCRATCH_ADDR(0x3D8));
+    gte_ldv0(&DUEL_FIELD_CARD_SCRATCH->points[7]);
     gte_rtps();
     gte_stsxy(&sprite->x3);
     GsSortPoly(sprite, tab[2], 0xFFF);
