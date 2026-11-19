@@ -992,7 +992,7 @@ void Script_OpSavePrompt(void)
              SAVE_PROMPT_DECK_ERROR_COMPLETION_FLAG) != 0) {
             return;
         }
-        SD_SEPlayFull(8);
+        SD_SEPlayFull(SD_SE_CANCEL);
         D_8009B268 = 1;
         gMain_bRequestedMenuID = 5;
         gMain_bActiveModeState = MAIN_MODE_MENU;
@@ -1047,24 +1047,24 @@ void Script_OpSavePrompt(void)
         choice = gDialog_bChoice;
         switch (choice) {
         case 0:
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
             gSaveData_Workspace.state.campaign_scene.word =
                 gScript_SavePromptSceneOperand;
             SaveData_RequestWrite();
             gScript_wCommandWord |= SCRIPT_SAVE_PROMPT_CONTROL_CARD_DIALOG;
             break;
         case 1:
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
             BuildDeck_EnterNarrowConfirmMode();
             gMain_bReturnMode = MAIN_MODE_CAMPAIGN;
             gCampaignSceneIndex = (u8)gScript_SavePromptSceneOperand;
             break;
         case 2:
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
             gScript_wCommandWord |= SCRIPT_SAVE_PROMPT_CONTROL_EXIT_CONFIRM;
             break;
         case 3:
-            SD_SEPlayFull(8);
+            SD_SEPlayFull(SD_SE_CANCEL);
             gScript_wCommandWord |= SCRIPT_SAVE_PROMPT_CONTROL_SLIDE_OUT;
             break;
         }

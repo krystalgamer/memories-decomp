@@ -869,7 +869,7 @@ void NameEntry_UpdateKeyboard(void)
         if ((gInput_awPadHeld[0] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
             if (gNameEntry_bKeyboardColumn >= 11) {
 #ifdef VERSION_EUROPE
-                SD_SEPlayFull(9);
+                SD_SEPlayFull(SD_SE_BUZZER);
                 return;
 #else
                 n = gInput_awPadHeld[0] & PAD_DIRECTION_DOWN;
@@ -983,7 +983,7 @@ void NameEntry_UpdateKeyboard(void)
             work = -1;
         }
         if (NameEntry_AdjustLength(work, 6) == 0) {
-            SD_SEPlayFull(9);
+            SD_SEPlayFull(SD_SE_BUZZER);
         }
         return;
     }
@@ -1073,7 +1073,7 @@ void NameEntry_UpdateKeyboard(void)
             }
             NameEntry_BuildKeyboardTextBox(gNameEntry_bCharacterSet);
             work = 2;
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
             break;
 #endif
         case 4:
@@ -1084,7 +1084,7 @@ void NameEntry_UpdateKeyboard(void)
                 gx = 20;
             }
             if (NameEntry_AdjustLength(d, 6) == 0) {
-                SD_SEPlayFull(9);
+                SD_SEPlayFull(SD_SE_BUZZER);
             }
             gy = 36;
             break;
@@ -1143,7 +1143,7 @@ void NameEntry_UpdateKeyboard(void)
         if (NameEntry_AdjustLength(-1, 6) != 0) {
             SD_SEPlayFull(12);
         } else {
-            SD_SEPlayFull(9);
+            SD_SEPlayFull(SD_SE_BUZZER);
         }
     }
 #else
@@ -1372,7 +1372,7 @@ void NameEntry_UpdateDialog(void)
         SD_SEPlayFull(48);
         return;
     }
-    SD_SEPlayFull(9);
+    SD_SEPlayFull(SD_SE_BUZZER);
 }
 
 s32 NameEntry_PollCompletion(void)

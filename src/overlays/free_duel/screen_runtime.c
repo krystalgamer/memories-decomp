@@ -497,7 +497,7 @@ void FreeDuel_UpdateScreen(void)
         }
     } else {
         if ((gInput_awPadPressed[0] & FREE_DUEL_CANCEL_BUTTON) != 0) {
-            SD_SEPlayFull(8);
+            SD_SEPlayFull(SD_SE_CANCEL);
             gMain_bActiveModeState = MAIN_MODE_MENU;
             return;
         }
@@ -519,7 +519,7 @@ void FreeDuel_UpdateScreen(void)
         entry = gDuel_awPlayerDeck;
         for (index = 0; index < DECK_SIZE; index++) {
             if (*entry == 0) {
-                SD_SEPlayFull(9);
+                SD_SEPlayFull(SD_SE_BUZZER);
                 TextBox_CreateFlagged(
                     1, 8, 0x30, 0x6C, 0xE0, 0x10,
                     FREE_DUEL_EMPTY_DECK_DIALOG_ID

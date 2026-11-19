@@ -1527,7 +1527,7 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
                 }
                 list->first_target = row;
                 if (list->first != row) {
-                    SD_SEPlayFull(6);
+                    SD_SEPlayFull(SD_SE_CURSOR);
                     continue;
                 }
                 for (;;) {
@@ -1535,7 +1535,7 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
                         list->cursor = sel;
                         list->cursor_box->xy.h.y =
                             sel * 22 + CARD_LIST_CURSOR_Y_BASE;
-                        SD_SEPlayFull(6);
+                        SD_SEPlayFull(SD_SE_CURSOR);
                     }
                     return 1;
             case 0:
@@ -1561,7 +1561,7 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
                             }
                         }
                         if (list->first != row) {
-                            SD_SEPlayFull(6);
+                            SD_SEPlayFull(SD_SE_CURSOR);
                             list->first_target = row;
                             list->first = row;
                             CardList_CreateSlotTextBoxes(list, CARD_LIST_VISIBLE_ROWS);
@@ -1593,7 +1593,7 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
                         if (row < 0) {
                             return 1;
                         }
-                        SD_SEPlayFull(6);
+                        SD_SEPlayFull(SD_SE_CURSOR);
                         list->first_target = row;
                         if (list->first != row) {
                             break;
@@ -1714,7 +1714,7 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
     if ((gInput_awPadRepeat[0] & BUILD_DECK_PANE_CONFIRM_MASK) != 0) {
         r = BuildDeck_GetActiveCardID(e);
         if (r != 0) {
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
             e->entries[e->first + e->cursor].flags = 0;
             BuildDeck_SortCardList(&state->lists[1]);
             BuildDeck_RecountDeckCards(state);
@@ -1723,7 +1723,7 @@ void BuildDeck_UpdateDeckPaneInput(BuildDeckTransitionState *state) {
             BuildDeck_CreateCardTransferIcon(r, BUILD_DECK_DECK_PANE_X, BUILD_DECK_DECK_PANE_Y, 0x162, BUILD_DECK_DECK_PANE_TARGET_Y);
             return;
         }
-        SD_SEPlayFull(9);
+        SD_SEPlayFull(SD_SE_BUZZER);
     }
 }
 
@@ -1776,7 +1776,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
         if (state->deck_total < DECK_SIZE &&
             state->chest_card_quantities[r] != 0 &&
             state->deck_card_quantities[r] < DECK_CARD_COPY_LIMIT) {
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
             BuildDeck_AddCard(state, r);
             BuildDeck_TakeCardFromChest(state, r);
             BuildDeck_RefreshCountDisplay(state);
@@ -1785,7 +1785,7 @@ void BuildDeck_UpdateChestPaneInput(BuildDeckTransitionState *state)
         }
     }
 
-    SD_SEPlayFull(9);
+    SD_SEPlayFull(SD_SE_BUZZER);
 }
 
 #define BUILD_DECK_PANE_TRANSITION_TICKS 16
@@ -1955,7 +1955,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
     s32 i;
 
     if (BuildDeck_TestAndSetInitialized(workspace) == 0) {
-        SD_SEPlayFull(8);
+        SD_SEPlayFull(SD_SE_CANCEL);
         if (BuildDeck_HasOpenDeckSlot() != 0) {
             /* The mode byte is read before the flag store, as retail
                schedules it. */

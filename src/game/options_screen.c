@@ -168,7 +168,7 @@ void Options_HandleInput(void)
         gOptions_bSelection = selection;
         Options_InitTextDisplay(selection);
         Options_UpdateLayout(selection);
-        SD_SEPlayFull(6);
+        SD_SEPlayFull(SD_SE_CURSOR);
         return;
     }
 #endif
@@ -202,14 +202,14 @@ void Options_HandleInput(void)
 
     if (gOptions_bSelection != 0 &&
         (gInput_awPadPressed[0] & OPTIONS_CONFIRM_MASK)) {
-        SD_SEPlayFull(7);
+        SD_SEPlayFull(SD_SE_DECIDE);
         gOptions_bState = (u8)gOptions_bSelection + 1;
         return;
     }
 
     if (gInput_awPadPressed[0] & OPTIONS_CANCEL_BUTTON) {
         gOptions_bState = 0;
-        SD_SEPlayFull(8);
+        SD_SEPlayFull(SD_SE_CANCEL);
     }
 }
 
