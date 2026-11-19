@@ -639,7 +639,8 @@ against `.text`; the linked bytes check its target).
   signature.
 - Contracts: `make check-matching-source-contracts` limits massaged profiles
   to the resident manifest, rejects hard-register variables, accepts only
-  asm statements
+  asm statements (in any spelling, `asm`, `__asm` or `__asm__`, with or
+  without `volatile`, in the preprocessed unit including its headers)
   whose template, constraints and clobbers equal one of
   `src/psyq/inline_c.h`'s, and requires one edit file per manifest function
   whose `source`, North American `address`/`size` and `rules` are valid.

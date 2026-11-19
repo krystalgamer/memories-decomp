@@ -647,6 +647,12 @@ class UnitTests(unittest.TestCase):
         own = '__asm__ volatile ( "lwc2 $0, 0( %0 )" : : "r"( p ) ) ;'
         self.assertIn(contracts.asm_shape(contracts.asm_statements(stock)[0]), allowed)
         self.assertNotIn(contracts.asm_shape(contracts.asm_statements(own)[0]), allowed)
+        # Every GCC spelling of an asm statement is found.
+        for spelling in ("asm", "__asm", "asm volatile", "__asm __volatile__", "asm __volatile"):
+            found = contracts.asm_statements(own.replace("__asm__ volatile", spelling))
+            self.assertEqual([contracts.asm_shape(body) for body in found],
+                             [contracts.asm_shape(contracts.asm_statements(own)[0])])
+        self.assertEqual(contracts.asm_statements("int plasma(int x);"), [])
 
 
 if __name__ == "__main__":
