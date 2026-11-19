@@ -23,7 +23,7 @@ void Sound_InitFrontend(void)
         lbas[FILE_LBA_INDEX_SD_SE],
         lbas[FILE_LBA_INDEX_SD_BGM],
         lbas[FILE_LBA_INDEX_MASTER_XA]);
-    while (SD_GetStatusFlags() & 8) {
+    while (SD_GetStatusFlags() & SD_STATUS_BANK_LOAD) {
         Main_AdvanceFrame();
     }
 }

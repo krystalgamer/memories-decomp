@@ -276,7 +276,7 @@ s32 SD_ReplaceValueLink(s32 value)
         register SDValue *final = g_SDValue;
         register s32 call_value = index;
         final->s_wSD_SEGROUP_REQUEST = value;
-        final->s_wSD_STATUS |= 2;
+        final->s_wSD_STATUS |= SD_STATUS_DATA_TRANSFER;
         SD_QueueValueLinkTransfer(call_value);
     }
     return 1;
@@ -289,7 +289,7 @@ s32 SD_RequestValueLink(u16 value)
     if (state->s_wSD_SEGROUP_REQUEST == value)
         return 1;
     state->s_wSD_SEGROUP_REQUEST = value;
-    state->s_wSD_STATUS |= 2;
+    state->s_wSD_STATUS |= SD_STATUS_DATA_TRANSFER;
     SD_QueueValueLinkTransfer(value);
     return 1;
 }
@@ -300,7 +300,7 @@ void SD_QueueValueLinkList(u16 *items, s32 count)
 
     SpuSetKey(SPU_OFF, SD_VOICE_SLOT_MASK_ALL);
     SD_ResetPendingEntries();
-    g_SDValue->s_wSD_STATUS |= 2;
+    g_SDValue->s_wSD_STATUS |= SD_STATUS_DATA_TRANSFER;
     for (i = 0; i < count; i++) {
         if (items[i] != 0xFFFF)
             SD_QueueValueLinkTransfer(items[i]);

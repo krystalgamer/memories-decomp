@@ -66,10 +66,10 @@ void SD_InitSecondaryRuntime(void)
 
 void SD_ResetMusicState(void) {
     if (g_SDValue->s_wSD_SEQ_ACCESS != -1) {
-        if (g_SDValue->s_wSD_STATUS & 0x80) {
+        if (g_SDValue->s_wSD_STATUS & SD_STATUS_SEQUENCE_PLAYING) {
             SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
             g_SDValue->s_wSD_STATUS =
-                g_SDValue->s_wSD_STATUS & 0xFF7F;
+                g_SDValue->s_wSD_STATUS & ~SD_STATUS_SEQUENCE_PLAYING;
         }
         SD_CloseSequence(g_SDValue->s_wSD_SEQ_ACCESS);
         g_SDValue->s_wSD_SEQ_ACCESS = -1;
@@ -115,7 +115,7 @@ s32 SD_RequestMusicPackageLoad(s16 command_id, s32 unused) {
         SpuSetReverbModeType(SPU_REV_MODE_OFF);
 
         q = g_SDValue;
-        q->s_wSD_STATUS |= 2;
+        q->s_wSD_STATUS |= SD_STATUS_DATA_TRANSFER;
         off = ((command_id & 0xFF0) >> 4) * sizeof(SDMusicTableEntry);
         /* Byte-offset addition keeps the retail addu operand order. */
         entry = (SDMusicTableEntry *)(off + (s32)q->s_pstSD_MUSIC_TABLE);

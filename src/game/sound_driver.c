@@ -19,8 +19,8 @@ void SD_FadeInStreamAudio(void)
     first->s_bSD_CD_FADE_TARGET = 255;
     state = g_SDValue;
     first->s_wSD_CD_FADE_STEP = 64;
-    state->s_wSD_STATUS = (state->s_wSD_STATUS & 0xFFFC) | 4;
-    if ((state->s_wSD_STATUS & 0x80) &&
+    state->s_wSD_STATUS = (state->s_wSD_STATUS & ~(SD_STATUS_CD_REQUEST | SD_STATUS_DATA_TRANSFER)) | SD_STATUS_CD_STREAMING;
+    if ((state->s_wSD_STATUS & SD_STATUS_SEQUENCE_PLAYING) &&
         state->s_wSD_SEQ_FADE_STEP >= 0) {
         state->s_wSD_SEQ_FADE_STEP = -16;
         state->s_bSD_BGM_FADE_TARGET = 220;
@@ -32,20 +32,20 @@ void SD_FadeOutStreamAudio(void)
     SDValue *state = g_SDValue;
     SDValue *flags;
 
-    if (state->s_wSD_STATUS & 0x80) {
+    if (state->s_wSD_STATUS & SD_STATUS_SEQUENCE_PLAYING) {
         state->s_wSD_SEQ_FADE_STEP = 8;
         state->s_bSD_BGM_FADE_TARGET = 255;
         state = g_SDValue;
         state->s_bSD_CD_FADE_TARGET = 0;
         flags = g_SDValue;
         state->s_wSD_CD_FADE_STEP = -64;
-        flags->s_wSD_STATUS &= 0xFFFB;
+        flags->s_wSD_STATUS &= ~SD_STATUS_CD_STREAMING;
         return;
     }
     state->s_bSD_CD_FADE_TARGET = 0;
     flags = g_SDValue;
     state->s_wSD_CD_FADE_STEP = -64;
-    flags->s_wSD_STATUS &= 0xFFFB;
+    flags->s_wSD_STATUS &= ~SD_STATUS_CD_STREAMING;
 }
 
 void SD_InitSpuCommonVolume(void)
@@ -161,7 +161,7 @@ void SD_InitDataSourceFlags(s32 se_lba, s32 bgm_lba, s32 master_xa_lba)
         g_SDValue->s_bSD_DATA_SOURCE &= 0xFD;
     if (master_xa_lba == 0)
         g_SDValue->s_bSD_DATA_SOURCE &= 0xBF;
-    g_SDValue->s_wSD_STATUS |= 0xA;
+    g_SDValue->s_wSD_STATUS |= (SD_STATUS_DATA_TRANSFER | SD_STATUS_BANK_LOAD);
 }
 
 #include "../psyq/stdio.h"
@@ -210,7 +210,7 @@ void SD_UpdateBankLoad(void) {
         g_SDValue->s_dwSD_BANK_LOAD_PHASE += 6;
         return;
     case 1:
-        if ((SD_GetStatusFlags() & 7) == 0) {
+        if ((SD_GetStatusFlags() & SD_STATUS_DISC_BUSY_MASK) == 0) {
             g_SDValue->s_stGlobalHdrSE = *(SDGlobalHdrSE *)0x801E6800;
             g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
             return;
@@ -229,7 +229,7 @@ void SD_UpdateBankLoad(void) {
         g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
         return;
     case 3:
-        if ((SD_GetStatusFlags() & 7) == 0) {
+        if ((SD_GetStatusFlags() & SD_STATUS_DISC_BUSY_MASK) == 0) {
             SD_InitVoiceState();
             g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
             return;
@@ -240,7 +240,7 @@ void SD_UpdateBankLoad(void) {
         g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
         return;
     case 5:
-        if (SD_GetStatusFlags() & 7) {
+        if (SD_GetStatusFlags() & SD_STATUS_DISC_BUSY_MASK) {
             return;
         }
         g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
@@ -258,7 +258,7 @@ void SD_UpdateBankLoad(void) {
         g_SDValue->s_dwSD_BANK_LOAD_PHASE += 2;
         return;
     case 7:
-        if ((SD_GetStatusFlags() & 7) == 0) {
+        if ((SD_GetStatusFlags() & SD_STATUS_DISC_BUSY_MASK) == 0) {
             bank_tail = (SDBankStagingBuffer *)0x801E2000;
             if (gSD_SmfBankVolInfoTag == 'V') {
                 signature_first = bank_tail->signature[0];
@@ -289,7 +289,7 @@ void SD_UpdateBankLoad(void) {
         g_SDValue->s_dwSD_BANK_LOAD_PHASE = 0x3E7;
         return;
     case 9:
-        if ((SD_GetStatusFlags() & 7) == 0) {
+        if ((SD_GetStatusFlags() & SD_STATUS_DISC_BUSY_MASK) == 0) {
             bank_tail = (SDBankStagingBuffer *)0x801E8800;
             if (gSD_CdBankVolInfoTag == 'V') {
                 signature_first = bank_tail->signature[0];
@@ -311,8 +311,8 @@ void SD_UpdateBankLoad(void) {
         }
         break;
     default:
-        if ((SD_GetStatusFlags() & 7) == 0) {
-            g_SDValue->s_wSD_STATUS &= 0xFFF7;
+        if ((SD_GetStatusFlags() & SD_STATUS_DISC_BUSY_MASK) == 0) {
+            g_SDValue->s_wSD_STATUS &= ~SD_STATUS_BANK_LOAD;
         }
         break;
     }
@@ -349,7 +349,7 @@ void SD_ResetRuntime(void)
     if (sequence_state->s_wSD_SEQ_ACCESS != -1) {
         if (SD_PollSequenceState() != 1) {
             SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
-            g_SDValue->s_wSD_STATUS &= 0xFF7F;
+            g_SDValue->s_wSD_STATUS &= ~SD_STATUS_SEQUENCE_PLAYING;
         }
         SD_CloseSequence(g_SDValue->s_wSD_SEQ_ACCESS);
     }
@@ -431,7 +431,7 @@ void SD_VSync(void)
     if (gSD_pSecondaryState->vsync_update_mode)
         SD_UpdateSecondarySequenceIfEnabled();
     SD_UpdateRuntime();
-    if (g_SDValue->s_wSD_STATUS & 8)
+    if (g_SDValue->s_wSD_STATUS & SD_STATUS_BANK_LOAD)
         SD_UpdateBankLoad();
 }
 
@@ -440,7 +440,7 @@ void SD_EnqueueRamTransfer(s32 ram_destination, s32 sector_offset, s32 ram_size,
     SDCommand command;
 
     SD_StartCdFade(-32, 0, 1);
-    g_SDValue->s_wSD_STATUS |= 2;
+    g_SDValue->s_wSD_STATUS |= SD_STATUS_DATA_TRANSFER;
     command.command = SD_COMMAND_DATA_TRANSFER;
     command.transfer_selector = source_selector;
     command.transfer_sector_offset = sector_offset;
@@ -456,7 +456,7 @@ void SD_EnqueueSpuTransfer(s32 spu_destination, s32 sector_offset, s32 spu_size,
     SDCommand command;
 
     SD_StartCdFade(-32, 0, 1);
-    g_SDValue->s_wSD_STATUS |= 2;
+    g_SDValue->s_wSD_STATUS |= SD_STATUS_DATA_TRANSFER;
     command.command = SD_COMMAND_DATA_TRANSFER;
     command.transfer_selector = source_selector;
     command.transfer_sector_offset = sector_offset;
@@ -479,7 +479,7 @@ void SD_EnqueueSpuRamTransfer(
     SDCommand command;
 
     SD_StartCdFade(-32, 0, 1);
-    g_SDValue->s_wSD_STATUS |= 2;
+    g_SDValue->s_wSD_STATUS |= SD_STATUS_DATA_TRANSFER;
     command.command = SD_COMMAND_DATA_TRANSFER;
     command.transfer_selector = source_selector;
     command.transfer_sector_offset = sector_offset;

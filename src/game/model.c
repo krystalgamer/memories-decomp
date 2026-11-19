@@ -1345,7 +1345,7 @@ void Model_UpdateExodiaPresentation(void)
         break;
     }
     case 1:
-        if (SD_GetStatusFlags() & 0x80) {
+        if (SD_GetStatusFlags() & SD_STATUS_SEQUENCE_PLAYING) {
             camera_offset.vy = -2000;
             Model_SeekSlotAnimation(0, 0, 10);
             Model_QueueRelativeCameraOrbit(0, 2000, 0x100, 0x100, &camera_offset, 110);
@@ -1777,7 +1777,7 @@ void Model_UpdateCreditsPresentation(void)
           if ( !D_8009B004.fields.credits_exit_requested )
           {
             result = (s16)SD_GetStatusFlags();
-            if ( (s16)result != 128 )
+            if ( (s16)result != SD_STATUS_SEQUENCE_PLAYING )
             {
               ++D_8009B004.fields.credits_exit_requested;
               gModel_bPresentationPhase = 2;
@@ -1787,7 +1787,7 @@ void Model_UpdateCreditsPresentation(void)
       }
       else
       {
-        if (SD_GetStatusFlags() & 0x80)
+        if (SD_GetStatusFlags() & SD_STATUS_SEQUENCE_PLAYING)
         {
           result = gModel_aSlots[0].is_active;
           if ( gModel_aSlots[0].is_active )

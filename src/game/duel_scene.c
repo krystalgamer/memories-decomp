@@ -7313,7 +7313,7 @@ void DuelScene_UpdateResultOutro(void)
             if ((s16)timer > 0) {
                 if ((gInput_awPadPressed[0] &
                      (PAD_BUTTON_CANCEL | PAD_BUTTON_CONFIRM_MASK)) == 0) {
-                    if ((SD_GetStatusFlags() & 0x80) != 0) {
+                    if ((SD_GetStatusFlags() & SD_STATUS_SEQUENCE_PLAYING) != 0) {
                         return;
                     }
                 }
