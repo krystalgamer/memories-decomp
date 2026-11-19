@@ -21,6 +21,13 @@
         "VERSION_EUROPE"
       ],
       "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/file_bank_addresses.c",
+      "defines": [
+        "VERSION_EUROPE"
+      ],
+      "profile": "gcc_2_8_1_g0"
     }
   ]
 }

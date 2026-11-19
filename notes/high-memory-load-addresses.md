@@ -45,8 +45,8 @@ The PAL boot text tail is a separate, later cohort outside the fourteen
 NA words above. `gFile_pBootTextStage5Destination`,
 `gFile_pBootTextStage6Destination` and `gFile_pBootTextStage7Destination`
 are the original stored `u8 *` words at `0x800101E0/4/8`, declared
-under the European build guard only and bound directly by the European
-link scripts. Boot stages 5/6/7 read those individual words
+under the European build guard only and defined after
+`gFile_pScreenBankBase` and `gFile_pDuelBankBase` (see Storage). Boot stages 5/6/7 read those individual words
 for their 30/32/7-sector transfers. The names identify the measured
 transfer roles, not independently verified pointer contents, allocation
 sizes or a uniform text-bank format. See the
@@ -316,3 +316,14 @@ unit defines that word without including it. The difference is load bearing:
 with a `const` declaration GCC moves `DuelEffect_AllocateRequest`'s load of
 the word below the request's first store, and the North American executable
 no longer matches. The readers were compiled against a non-`const` view.
+
+The words at `0x800101D8`, between `duel_scene.c`'s and `library.c`'s
+read-only data, are the same kind of object: `gFile_pScreenBankBase`
+(`0x80168000`) and `gFile_pDuelBankBase` (`0x80146000`; Japan `0x80154000`),
+then in the European builds the three boot-text destinations, 8 or 0x14
+bytes. Every candidate owner in that place is `-G8`, so they are the
+data-only `-G0` unit
+[`file_bank_addresses.c`](../src/game/file_bank_addresses.c), built with
+`VERSION_JAPAN` or `VERSION_EUROPE` from the regional `data_c.json`. All five
+declarations (`file_transfer.h`, `high_memory_addresses.h`,
+`european_text_bank_views.h`) are `const` and every reader still matches.

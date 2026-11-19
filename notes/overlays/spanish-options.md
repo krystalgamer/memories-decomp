@@ -108,7 +108,7 @@ The resident layout is **not** the French raw-object layout:
 
 | Selected Spanish raw object | Resident views |
 |---|---|
-| `spanish_raw_800101d8` | Four-byte options load pointer at `0x800101D8`. |
+| `file_bank_addresses` (`.rodata`, formerly `spanish_raw_800101d8`) | Four-byte options load pointer at `0x800101D8`. |
 | `spanish_raw_8009c398` | Language byte `0x8009C44B`; four-byte transfer flags `0x8009C460`, secondary status `0x8009C484` and live buffer pointer `0x8009C4B0`. |
 | `spanish_raw_800918dc` | The SDK cosine helper's 1,025-entry signed-halfword quarter-wave table at `0x80095C38`; 2,050 bytes, not compiler-C coverage. |
 | `image_after_viewport` | Input halfwords at `0x8009C728` / `0x8009C72C`, output-mode byte at `0x8009C784`, inline `RECT[2]` at `0x8009C838`, canonical fade state at `0x800EB248`, object pool at `0x800F1210`, resource-bank transfer view at `0x801AF000`, color bytes at `0x801BF98C` and transfer-buffer view at `0x801DC000`. |

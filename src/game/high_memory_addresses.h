@@ -18,7 +18,7 @@ extern u8 *const gMainMenu_pSuModuleBase;
 /* Staging base selected by duel package stage 7. The retail word holds
  * 0x80146000, the base of the WA_MRG shared duel-bank overlay slot
  * (notes/memory-map.md). */
-extern u8 *gFile_pDuelBankBase;
+extern u8 *const gFile_pDuelBankBase;
 
 /* Module data arguments copied into channel +0xDE8/+0xDEC, not entry points.
  * Model_InitSlot reads each as an absolute word under -G8, so like the

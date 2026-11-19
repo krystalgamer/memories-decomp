@@ -221,9 +221,10 @@ the data-only `credits_resident_glyphs.c` (`gcc_2_8_1_g0`), which the
 overlay indexes. The fourteen address words at `0x80010000` lead the
 region as the data-only `-G0` unit `high_memory_addresses.c`, because a `-G8`
 owner would put each four-byte `const` in `.sdata`
-(notes/high-memory-load-addresses.md). Every label still
-in the `initial_data*` blobs up to `0x800119A8` is read only by game units;
-from `0x800119A8` on, the blob is Psy-Q's.
+(notes/high-memory-load-addresses.md); the transfer-destination words at
+`0x800101D8` are `file_bank_addresses.c` for the same reason. No game data
+is left in the leading `initial_data*` blobs: what remains, from
+`0x800119A8` on, is Psy-Q's.
 
 ## Forced `.data` views
 

@@ -140,7 +140,7 @@ void File_CancelTransfers(void);
  * a plain read, which are the same load. It sits at 0x800101D8, out of $gp's
  * range, and every unit reaches it with %hi/%lo.
  */
-extern u8 *gFile_pScreenBankBase;
+extern u8 *const gFile_pScreenBankBase;
 
 /* The per-file starting sector table the transfer setup indexes by file
    number. Four sources reached it, all with this identical declaration and

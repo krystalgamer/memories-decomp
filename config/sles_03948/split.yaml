@@ -65,8 +65,8 @@ segments:
     - .rodata
     - game/duel_scene
   - - 2520
-    - rodata
-    - initial_data_9d8
+    - .rodata
+    - game/file_bank_addresses
   - - 2540
     - .rodata
     - game/library

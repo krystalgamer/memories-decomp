@@ -71,7 +71,7 @@ segments:
       - [0x000843, pad]
       - [0x000844, .rodata, game/file_transfer_runtime]
       - [0x000860, .rodata, game/duel_scene]
-      - [0x9d8, rodata, initial_data_9d8]
+      - [0x9d8, .rodata, game/file_bank_addresses]
       - [0x9ec, .rodata, game/library]
       - [0xa34, .rodata, game/main_mode_runners]
       - [0xa60, .rodata, game/debug_menu]
