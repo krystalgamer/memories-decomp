@@ -1326,9 +1326,10 @@ blobs have a different and more basic obstacle, and it took two candidates to
 see it.
 
 The password head is now mapped without accepting those misleading sparse
-extents. [`module_state.c`](../src/overlays/password/module_state.c) owns the
-complete `0x8016D400-0x8016D590` prefix as separate variables whose types are
-supported by the name-entry and shop consumers. The remainder, `0x8016D590-0x8016F800`, stays raw.
+extents. `name_entry_runtime.c` and `shop.c` declare the state at
+`0x8016D400-0x8016D4DE` as common variables whose types are supported by
+their consumers, and the layout's `name_entry_runtime_commons` places them.
+The remainder, `0x8016D4DE-0x8016F800`, stays raw.
 
 `shop.c` declares `extern u8 *gPassword_apDigitCursorDecorations[]` and walks it to store **four**
 objects -- sixteen bytes -- and the overlay's own function notes describe
@@ -1415,7 +1416,7 @@ The remaining overlay data work is in the current raw tails:
 | overlay | raw blob | bytes |
 |---|---|---:|
 | `main_menu` | `0x5CD2-0x8000` | 9006 |
-| `password` | `0x5590-0x7800` | 8816 |
+| `password` | `0x54DE-0x7800` | 8994 |
 | `free_duel` | `0x10A8-0x2800` | 5976 |
 | `overworld_before_coup` | `0x22CA-0x3000` | 3382 |
 | `overworld_after_coup` | `0x22CA-0x3000` | 3382 |

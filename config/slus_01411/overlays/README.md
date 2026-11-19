@@ -132,11 +132,11 @@ inventory rows, and the `frontend_commons`, `value_setup_commons` and
 The two bytes at `0x8018459E` between the first two blocks are linker fill
 (a `bin`). The remaining raw tail begins at module offset `0x5CD2`.
 
-Password also owns `0x8016D400-0x8016D590` as separate zero-initialized
-variables in `module_state.c`. Sparse labels are not object extents: for
-example, `gPassword_apDigitCursorDecorations` is a four-pointer array and
-`gPassword_wCardId` is a halfword even though the next generated labels are
-much farther away, so the unnamed bytes after them are their own `D_` arrays.
+Password's zero-initialized state at `0x8016D400-0x8016D4DE` is common
+storage declared by `name_entry_runtime.c` and `shop.c` and placed by the
+`name_entry_runtime_commons` subsegment. Sparse labels are not object
+extents: for example, `gPassword_apDigitCursorDecorations` is a four-pointer
+array even though the next label is 0x90 bytes farther away.
 
 Free Duel additionally maps its complete named state prefix at
 `0x80169030-0x801690A8` through `module_state.c`. The `0x78`-byte object

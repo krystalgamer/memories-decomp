@@ -28,6 +28,32 @@
 #include "../../overlays/password/name_entry_state.h"
 #include "name_entry_tables.h"
 
+/* The name-entry state, zero-initialized and common (this unit builds with
+ * gcc_2_8_1_g0_split_comm). The linker interleaves it with shop.c's commons,
+ * so each layout's name_entry_runtime_commons subsegment places both units'
+ * names at that image's addresses. Europe's gNameEntry_apKeySprites shares
+ * shop.c's gPassword_apDigitCursorDecorations storage and stays a linker
+ * assignment. */
+u8 gNameEntry_bStateFlags;
+s8 gNameEntry_bKeyboardColumn;
+u8 gNameEntry_bKeyboardRow;
+u8 gNameEntry_bGlyphVramSlot;
+struct DisplayObject *gNameEntry_pSelectionFrame;
+u8 gNameEntry_bGlyphSequence;
+u8 *gNameEntry_pNameBuffer;
+u8 D_8016D41C;
+u8 gNameEntry_bSavedRow;
+s8 gNameEntry_bCaretPos;
+s16 gNameEntry_wCursorTargetX;
+s16 gNameEntry_wCursorTargetY;
+struct DisplayObject *gNameEntry_pCaret;
+#ifdef VERSION_JAPAN
+RECT gNameEntry_aGlyphVramRects[16];
+#endif
+u8 gNameEntry_bCharacterSet;
+u16 gNameEntry_wPendingDialogId;
+u16 gNameEntry_wSelectionFrameFlags;
+
 /* This unit's .data opens the module's data, ahead of the starter-deck pools
  * that name_entry_main.c owns. Columns 0-10 are character cells; the last four
  * hold the command cells and the negative steps back to their first column. */

@@ -20,6 +20,20 @@
 #include "../../game/mem_card.h"
 #include "../../game/main_mode_state.h"
 
+/* The shop state, zero-initialized and common (this unit builds with
+ * gcc_2_8_1_g0_split_comm); each layout's name_entry_runtime_commons
+ * subsegment places it, interleaved with the name-entry state, at that
+ * image's addresses. */
+u8 gPassword_abDigits[8];
+struct DisplayObject *gPassword_pDigitCursorWidget;
+u16 gPassword_wShopState;
+s32 gPassword_nDigitIndex;
+struct DuelEffectResourceRecord *gPassword_pCardCache;
+u32 gPassword_dwPriceRemaining;
+struct DisplayObject *gPassword_apDigitCursorDecorations[4];
+struct DisplayObject *gPassword_pCardPreview;
+u16 gPassword_wCardId;
+
 #ifdef VERSION_JAPAN
 #define PASSWORD_SHOP_CANCEL_BUTTON PAD_BUTTON_CROSS
 #define PASSWORD_SHOP_CONFIRM_BUTTON PAD_BUTTON_CIRCLE

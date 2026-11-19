@@ -34,6 +34,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
 
   section_order:
@@ -57,7 +58,8 @@ segments:
     type: code
     start: 0x4
     vram: 0x80168004
-    align: 4
+    # The module state ends on a halfword (+0x51E6).
+    align: 2
     subsegments:
       - [0x4, .rodata, overlays/password/shop]
       - [0x18, c, overlays/password/func_801680B4]
@@ -70,8 +72,14 @@ segments:
       - [0x28DC, .data, overlays/password/name_entry_main]
       # Linker fill between objects, not data.
       - [0x5104, bin, overlays/japanese_password/data_5104]
-      - [0x5108, .data, overlays/password/module_state]
-      - [0x51E6, pad]
-      - [0x51E8, data, overlays/japanese_password/data]
+      - [0x5108, bss_commons, overlays/japanese_password/name_entry_runtime_commons]
+
+  - name: leftover
+    type: code
+    start: 0x51E6
+    vram: 0x8016D1E6
+    align: 2
+    subsegments:
+      - [0x51E6, bin, overlays/japanese_password/data]
 
   - [0x7800]
