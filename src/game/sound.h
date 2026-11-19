@@ -950,6 +950,19 @@ void SD_BGMPlay(u32);
    count decremented; an active command of the first five codes is cleared;
    and a playing sequence whose poll reads 1 is stopped, clearing flag 0x80. */
 void SD_CancelMusicRequests(void);
+/* The four menu sound effects SD_SEPlayFull plays across the frontend,
+   duel, deck builder, shop, options and name entry: 6 when a cursor or
+   list moves, 7 when a choice is accepted, 8 when a screen or prompt is
+   backed out of, and 9 when an action is refused (an empty deck slot, a
+   name at its length limit, a card that cannot be added). Other effect
+   ids have no established role yet and stay numeric. */
+enum {
+    SD_SE_CURSOR = 6,
+    SD_SE_DECIDE = 7,
+    SD_SE_CANCEL = 8,
+    SD_SE_BUZZER = 9
+};
+
 void SD_SEPlayFull(u32);
 /* Three arguments, and no result. Its three callers spelled the id s32, u32
    and u16, and the last spelled the other two u8 and s8 -- all three collapse

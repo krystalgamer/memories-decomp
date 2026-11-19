@@ -386,13 +386,13 @@ void Password_UpdateShopScreen(void)
                     step = 9;
                 }
             }
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
             gPassword_abDigits[gPassword_nDigitIndex] = step;
             Password_RefreshDigitDisplay();
             return;
         }
         if ((gInput_awPadPressed[0] & PASSWORD_SHOP_CANCEL_BUTTON) != 0) {
-            SD_SEPlayFull(8);
+            SD_SEPlayFull(SD_SE_CANCEL);
             SD_BGMFadeOut();
             Fade_WaitOut();
             gMain_bActiveModeState = gMain_bReturnMode;
@@ -402,7 +402,7 @@ void Password_UpdateShopScreen(void)
             card = Password_LookupCardID();
             gPassword_wCardId = card;
             if (card == 0) {
-                SD_SEPlayFull(9);
+                SD_SEPlayFull(SD_SE_BUZZER);
                 return;
             }
             gPassword_wShopState = 1;

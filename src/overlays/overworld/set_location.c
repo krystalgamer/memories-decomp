@@ -524,7 +524,7 @@ s32 CampaignMap_PickExit(void)
                 Campaign_TestStoryFlag(exits->story_flag) != 0) {
                 if ((gInput_awPadHeld[0] & exits->input_mask) != 0) {
                     gCampaignMap_MoveState = exits->move_steps;
-                    SD_SEPlayFull(6);
+                    SD_SEPlayFull(SD_SE_CURSOR);
                     return exits->destination;
                 }
             }

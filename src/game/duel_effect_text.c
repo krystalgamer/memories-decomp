@@ -1695,7 +1695,7 @@ s32 Dialog_ReadChoiceInput(DuelEffectChannel *record)
                 return 1;
             }
         }
-        SD_SEPlayFull(6);
+        SD_SEPlayFull(SD_SE_CURSOR);
         Dialog_HighlightChoice(record);
         return 1;
     }
@@ -1815,12 +1815,12 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
 
     choice_bit = 1 << gDialog_bChoice;
     if ((gDialog_bChoiceEnabled & choice_bit) == 0) {
-        SD_SEPlayFull(9);
+        SD_SEPlayFull(SD_SE_BUZZER);
         return;
     }
 
     p->playback_state = 0;
-    SD_SEPlayFull(7);
+    SD_SEPlayFull(SD_SE_DECIDE);
     if ((gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_RETAIN_HIGHLIGHT) == 0) {
         DisplayObject_ReleaseIfPresent(p->prompt_object);
         p->prompt_object = 0;

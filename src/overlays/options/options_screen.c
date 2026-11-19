@@ -310,7 +310,7 @@ void PalOptions_HandleInput(void)
     }
     if ((gInput_awPadPressed[0] & (PAD_BUTTON_CIRCLE | PAD_BUTTON_CROSS)) != 0) {
         gPalOptions_bState = 3;
-        SD_SEPlayFull(8);
+        SD_SEPlayFull(SD_SE_CANCEL);
     }
 }
 

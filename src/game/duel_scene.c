@@ -4121,7 +4121,7 @@ void DuelScene_UpdateCardMove(void)
         }
         if (!Dialog_ReadChoiceInput(gText_aChannels) &&
             (gInput_awPadPressed[0] & DUEL_CARD_STAGING_CONFIRM_MASK)) {
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
             gDuel_bSceneSubStep |= 0x10;
         }
         break;
@@ -4558,7 +4558,7 @@ void DuelScene_UpdateHandActions(void)
                     if (gDuel_wAiHandStackPending != 0) {
                         gDuel_wActionSubstate = 3;
                     }
-                    SD_SEPlayFull(7);
+                    SD_SEPlayFull(SD_SE_DECIDE);
                     return;
                 }
                 if (value < 0xB) {
@@ -4574,7 +4574,7 @@ void DuelScene_UpdateHandActions(void)
             if ((s16)gDuel_wAiSelectionStepDelay <= 0) {
                 gDuel_wAiSelectionStepDelay = 6;
                 if ((s8)side->hand_cursor_slot != gDuel_bAiCursorTarget) {
-                    SD_SEPlayFull(6);
+                    SD_SEPlayFull(SD_SE_CURSOR);
                     if ((s8)side->hand_cursor_slot > gDuel_bAiCursorTarget) {
                         side->hand_cursor_slot -= 1;
                     } else {
@@ -4724,7 +4724,7 @@ void DuelScene_UpdateHandActions(void)
                 side->hand_cursor_slot = value;
                 DuelHand_PositionSelectionCursor(side);
                 DuelField_CreateCardInfoTextBox(side, HAND_CARD_INDEX(side));
-                SD_SEPlayFull(6);
+                SD_SEPlayFull(SD_SE_CURSOR);
                 return;
             }
             if ((gInput_awPadPressed[0] & 0xFFFF) == PAD_DIRECTION_UP && gInput_awPadHeld[0] == PAD_DIRECTION_UP) {
@@ -4762,7 +4762,7 @@ void DuelScene_UpdateHandActions(void)
                     return;
                 }
                 if ((gInput_awPadPressed[0] & HAND_ACTIONS_CONFIRM_MASK) && side->ordered_pick_count != 1) {
-                    SD_SEPlayFull(7);
+                    SD_SEPlayFull(SD_SE_DECIDE);
                     gDuel_bSceneSubStep = 4;
                     DuelHand_RefreshSelectionColors(side);
                     if (side->ordered_pick_count == 0) {
@@ -4857,7 +4857,7 @@ void DuelScene_UpdateHandActions(void)
                 SD_SEPlayFull(0xB);
                 return;
             } else if (gInput_awPadPressed[0] & HAND_ACTIONS_CANCEL_MASK) {
-                SD_SEPlayFull(8);
+                SD_SEPlayFull(SD_SE_CANCEL);
                 if (obj->field_20.b.rotation_y != 0) {
                     obj->field_60 = 0x10;
                     gDuel_bSceneSubStep |= 0x30;
@@ -4865,7 +4865,7 @@ void DuelScene_UpdateHandActions(void)
                 }
                 DuelHand_RestoreFlipCard(obj);
             } else if (gInput_awPadPressed[0] & HAND_ACTIONS_CONFIRM_MASK) {
-                SD_SEPlayFull(7);
+                SD_SEPlayFull(SD_SE_DECIDE);
                 gDuel_aCardRecords[obj->kind_index.card_record_index].flags &= 0xEFFF;
                 if (obj->field_20.b.rotation_y != 0) {
                     gDuel_aCardRecords[obj->kind_index.card_record_index].flags |= DUEL_CARD_FLAG_FACE_DOWN;
@@ -4945,14 +4945,14 @@ void DuelScene_UpdateHandActions(void)
             if (gInput_awPadPressed[0] & HAND_ACTIONS_CANCEL_MASK) {
                 gDuel_wDisplayTransitionFlags = 0xC;
                 gDuel_bSceneSubStep |= 0x50;
-                SD_SEPlayFull(8);
+                SD_SEPlayFull(SD_SE_CANCEL);
                 return;
             }
             if (!(gInput_awPadPressed[0] & HAND_ACTIONS_CONFIRM_MASK)) {
                 break;
             }
         }
-        SD_SEPlayFull(7);
+        SD_SEPlayFull(SD_SE_DECIDE);
         for (n = 6; n >= 0; n--) {
             gDisplayObject_apWorkSlots.slots[n] = 0;
         }
@@ -5409,23 +5409,23 @@ void DuelScene_UpdateFieldActions(void)
             }
             if (side->row == 2) {
                 if (gDuel_pActiveSideState->swords_turns_remaining != 0) {
-                    SD_SEPlayFull(9);
+                    SD_SEPlayFull(SD_SE_BUZZER);
                     return;
                 }
                 if (gDuel_wOutcomeFlags & 0x1000) {
-                    SD_SEPlayFull(9);
+                    SD_SEPlayFull(SD_SE_BUZZER);
                     return;
                 }
             }
             if (side->row < 2) {
-                SD_SEPlayFull(9);
+                SD_SEPlayFull(SD_SE_BUZZER);
                 return;
             }
         }
         i = side->row * DUEL_FIELD_ROW_SIZE + side->col;
         card = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
         if ((*(u32 *)&card->terrain_modifier & 0xC8000000) == 0x80000000) {
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
             DisplayObject_ReleaseIfPresent(gDuel_pActionReadyMarker);
             gDuel_pActionReadyMarker = 0;
             a = side->row;
@@ -5453,7 +5453,7 @@ void DuelScene_UpdateFieldActions(void)
                 }
             }
         } else {
-            SD_SEPlayFull(9);
+            SD_SEPlayFull(SD_SE_BUZZER);
         }
         return;
     case 4:
@@ -5583,10 +5583,10 @@ void DuelScene_UpdateFieldActions(void)
         i = side->row * DUEL_FIELD_ROW_SIZE + side->col;
         pick = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
         if (a == 0 && !(pick->flags & DUEL_CARD_FLAG_OCCUPIED)) {
-            SD_SEPlayFull(9);
+            SD_SEPlayFull(SD_SE_BUZZER);
             return;
         }
-        SD_SEPlayFull(7);
+        SD_SEPlayFull(SD_SE_DECIDE);
         for (n = 6; n >= 0; n--) {
             gDisplayObject_apWorkSlots.slots[n] = 0;
         }
@@ -5709,7 +5709,7 @@ void DuelScene_UpdateFieldActions(void)
         }
         if (a != 1) {
             gDuel_bSceneSubStep |= 0x10;
-            SD_SEPlayFull(8);
+            SD_SEPlayFull(SD_SE_CANCEL);
             o = gDuel_pActionCard;
             o->field_60 = 0xC;
             o->update =
@@ -5725,7 +5725,7 @@ void DuelScene_UpdateFieldActions(void)
             }
             o->update_state = 1;
         } else {
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
         }
         gDuel_dwFieldDimTarget = 0x808080;
         card = gDuel_aCardRecords;
@@ -7729,7 +7729,7 @@ void DuelScene_UpdateResultRewards(void)
         }
         if ((s8)gDuel_pResultDisplayState->page_index >= 3)
             gDuel_pResultDisplayState->page_index = 0;
-        SD_SEPlayFull(6);
+        SD_SEPlayFull(SD_SE_CURSOR);
         Duel_ShowResultPage((s8)gDuel_pResultDisplayState->page_index);
     } else if (gInput_awPadPressed[0] & DUEL_RESULT_REWARDS_CONFIRM_BUTTON) {
         gDuel_wSceneStateFlags |= 0x4000;
@@ -8822,7 +8822,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         /* The record is deliberately left in $a0 rather than passed. */
         ((void (*)(void))DuelField_RefreshCursorCardInfo)();
         o->status &= 0x3F;
-        SD_SEPlayFull(6);
+        SD_SEPlayFull(SD_SE_CURSOR);
         return;
     }
     if (dir < 0) {
@@ -10833,7 +10833,7 @@ void DuelEffect_ApplyRitual(void)
         } else if (!(gDuel_wTrapPresentationMode & 0x20)) {
             if (!Dialog_ReadChoiceInput(gText_aChannels) &&
                 (gInput_awPadPressed[0] & DUEL_EFFECT_RITUAL_CONFIRM_MASK)) {
-                SD_SEPlayFull(7);
+                SD_SEPlayFull(SD_SE_DECIDE);
                 object->position.h.field_28 = 134;
                 object->position.s.y = -128;
                 object->field_2C.h.field_2C = 16;

@@ -2464,11 +2464,11 @@ s32 SaveData_UpdateLoadPair(void)
         return 0;
     case 1:
         if (gInput_awPadPressed[0] & SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON) {
-            SD_SEPlayFull(8);
+            SD_SEPlayFull(SD_SE_CANCEL);
             gSaveData_LoadPairState = 0x82;
             gMemCard_pDialogObject->field_60 = 0x400;
         } else if (gInput_awPadPressed[0] & SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON) {
-            SD_SEPlayFull(7);
+            SD_SEPlayFull(SD_SE_DECIDE);
             gSaveData_LoadPairState = 2;
             gMemCard_pDialogObject->field_60 = 0x400;
         }
