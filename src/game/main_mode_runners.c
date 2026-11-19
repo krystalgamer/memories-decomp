@@ -864,7 +864,7 @@ void Main_RunTwoPlayerDuelSetup(void)
         MainMenu_FinishValueSetup();
         if (result == 1) {
             Main_StartDuel(-1, -1, 0, 0);
-            gDuel_bPostDuelMainMode = 8;
+            gDuel_bPostDuelMainMode = MAIN_MODE_MENU;
         } else {
             gMain_bActiveModeState = gMain_bReturnMode;
         }

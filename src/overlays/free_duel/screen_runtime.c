@@ -536,7 +536,7 @@ void FreeDuel_UpdateScreen(void)
             gFreeDuel_bCursorRow * FREE_DUEL_GRID_COLUMN_COUNT +
                 gFreeDuel_bCursorColumn,
             0x6000, 0x6000);
-        gDuel_bPostDuelMainMode = 6;
+        gDuel_bPostDuelMainMode = MAIN_MODE_FREE_DUEL;
         gMain_bActiveModeState = MAIN_MODE_DUEL;
     }
 }
