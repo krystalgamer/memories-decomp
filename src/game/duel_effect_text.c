@@ -1516,10 +1516,10 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     q = p->prompt_object;
     n = (u16)p->rect_x;
     q->field_48.vertex.x = n;
-    q->field_38.h.field_38 = n;
-    q->position.h.field_28 = n;
+    q->field_38.vertex.x = n;
+    q->position.vertex.x = n;
     m = (u16)p->rect_x + (u16)p->rect_width;
-    q->field_50.h.field_50 = m;
+    q->field_50.vertex.x = m;
     q->field_40.vertex.x = m;
     q->xy.h.x = m;
 
@@ -1530,7 +1530,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
        rather than the US spacings below. */
     v = (u16)p->rect_y + (gDialog_bChoiceControl & DIALOG_CHOICE_CONTROL_LAYOUT_MASK) +
         ((s32)((u8)gDialog_bChoice << 24) >> 20);
-    q->position.h.field_2A = v;
+    q->position.vertex.y = v;
 
     do {
         w = v;
@@ -1539,8 +1539,8 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     v = v + DUEL_EFFECT_LAYOUT_ROW_STEP;
     w = w + 0x10;
     q->field_40.vertex.y = v;
-    q->field_38.h.field_3A = v;
-    q->field_50.h.field_52 = w;
+    q->field_38.vertex.y = v;
+    q->field_50.vertex.y = w;
     q->field_48.vertex.y = w;
 #else
     k = gDuelEffect_aEntries[
@@ -1552,7 +1552,7 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
         a = t / 16 * 0x10;
         v = (u16)p->rect_y +
             a + gDialog_bChoice * 0x10;
-        q->position.h.field_2A = v;
+        q->position.vertex.y = v;
 
         do {
             w = v;
@@ -1561,8 +1561,8 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
         v = v + 0x10;
         w = w + 0x10;
         q->field_40.vertex.y = v;
-        q->field_38.h.field_3A = v;
-        q->field_50.h.field_52 = w;
+        q->field_38.vertex.y = v;
+        q->field_50.vertex.y = w;
         q->field_48.vertex.y = w;
         return;
     }
@@ -1586,11 +1586,11 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p) {
     }
 
     q->xy.h.y = x;
-    q->position.h.field_2A = x;
+    q->position.vertex.y = x;
     x = x + 0xC;
     q->field_40.vertex.y = y;
-    q->field_38.h.field_3A = y;
-    q->field_50.h.field_52 = x;
+    q->field_38.vertex.y = y;
+    q->field_50.vertex.y = x;
     q->field_48.vertex.y = x;
 #endif
 }
@@ -3505,20 +3505,20 @@ void TextBox_UpdateOutline(struct DuelEffectChannel *record) {
     b->field_18.center.y = a->field_18.center.y;
     v = a->xy.h.x;
     b->field_48.vertex.x = v;
-    b->position.h.field_28 = v;
-    b->field_38.h.field_38 = v - 8;
+    b->position.vertex.x = v;
+    b->field_38.vertex.x = v - 8;
     v = a->xy.h.x + a->field_3C.size.w;
-    b->field_50.h.field_50 = v;
+    b->field_50.vertex.x = v;
     b->xy.h.x = v;
     b->field_40.vertex.x = v + 8;
     v = a->xy.h.y - 8;
     b->xy.h.y = v;
-    b->position.h.field_2A = v;
+    b->position.vertex.y = v;
     v = a->xy.h.y + a->field_48.pivot.y;
     b->field_40.vertex.y = v;
-    b->field_38.h.field_3A = v;
+    b->field_38.vertex.y = v;
     v = a->xy.h.y + a->field_3C.size.h + 8;
-    b->field_50.h.field_52 = v;
+    b->field_50.vertex.y = v;
     b->field_48.vertex.y = v;
 }
 
