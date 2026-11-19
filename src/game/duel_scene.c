@@ -3720,7 +3720,7 @@ void DuelScene_UpdateCardPlacement(void)
                     {
                         /* Via a local pointer: a plain member store reschedules this function. */
                         u16 *flags = &gDuel_pCardPreviewObject->flags;
-                        *flags |= 4;
+                        *flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
                     }
                     slots = gDisplayObject_apWorkSlots.slots;
                     DisplayObject_ReleaseIfPresent(slots[0]);
