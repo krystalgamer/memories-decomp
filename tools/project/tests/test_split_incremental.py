@@ -494,6 +494,20 @@ class IncrementalSplitTests(unittest.TestCase):
         with self.assertRaisesRegex(split_incremental.IncrementalSplitError, "extension"):
             self.prepare()
 
+    def test_project_extension_directory_is_fingerprinted(self) -> None:
+        self.write("tools/splat_extensions/bss_commons.py", "first\n")
+        self.options["extensions_path"] = split_incremental.EXTENSIONS_DIRECTORY
+        self.write_config()
+        self.assertFalse(self.prepare())
+        self.assertTrue(self.prepare())
+        self.write("tools/splat_extensions/bss_commons.py", "second\n")
+        self.assertFalse(self.prepare())
+        self.write("tools/splat_extensions/sbss_commons.py", "added\n")
+        self.assertFalse(self.prepare())
+        self.write("tools/splat_extensions/__pycache__/bss_commons.cpython-312.pyc", b"cache")
+        self.assertTrue(self.prepare())
+        self.assertEqual(self.generated.call_count, 3)
+
     def test_optional_outputs_must_be_inside_the_tracked_split_tree(self) -> None:
         for name, value in (
             ("ld_symbol_header_path", "src/generated.h"),

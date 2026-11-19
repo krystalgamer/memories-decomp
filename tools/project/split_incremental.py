@@ -66,13 +66,14 @@ INPUT_FILES = (
     "tools/project/unit_objects.py",
     "tools/project/workspace.py",
     "tools/project/clean.py",
-    "tools/splat_extensions/bss_commons.py",
-    "tools/splat_extensions/sbss_commons.py",
     "tools/bootstrap/tools.json",
     "tools/bootstrap/requirements.lock",
     "tools/bootstrap/bootstrap-requirements.lock",
     "tools/environments/python/bin/splat",
 )
+# Splat loads every module in this directory as a segment type, so the whole
+# directory is a split input.
+EXTENSIONS_DIRECTORY = "tools/splat_extensions"
 
 
 def resolved_relative_path(root: Path, path: Path) -> tuple[str, Path]:
@@ -96,6 +97,17 @@ def source_file_paths(root: Path, directory: Path) -> dict[str, Path]:
             name, resolved = resolved_relative_path(root, path)
             if path.suffix == ".c":
                 result[name] = resolved
+    return result
+
+
+def extension_file_paths(root: Path, directory: Path) -> dict[str, Path]:
+    result: dict[str, Path] = {}
+    for path in sorted(directory.rglob("*")):
+        if "__pycache__" in path.parts or path.suffix in {".pyc", ".pyo"}:
+            continue
+        if path.is_file():
+            name, resolved = resolved_relative_path(root, path)
+            result[name] = resolved
     return result
 
 
@@ -213,10 +225,13 @@ def input_signature(root: Path) -> str:
         raise IncrementalSplitError(
             "incremental splitting requires the resident single-linker layout; use make split"
         )
+    extension_inputs: dict[str, Path] = {}
     if options.extensions_path is not None:
-        raise IncrementalSplitError(
-            "incremental splitting cannot fingerprint arbitrary extension inputs; use make split"
-        )
+        if options.extensions_path.resolve() != resolve_within(root, EXTENSIONS_DIRECTORY):
+            raise IncrementalSplitError(
+                "incremental splitting cannot fingerprint arbitrary extension inputs; use make split"
+            )
+        extension_inputs = extension_file_paths(root, options.extensions_path)
 
     source_directory = options.src_path.resolve(strict=True)
     relative_path(root, source_directory)
@@ -231,6 +246,8 @@ def input_signature(root: Path) -> str:
         name: sha256(resolve_within(root, name, must_exist=True))
         for name in INPUT_FILES
     }
+    for name, path in extension_inputs.items():
+        inputs[name] = sha256(path)
     for path in (
         options.target_path,
         *options.symbol_addrs_paths,
