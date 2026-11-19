@@ -35,6 +35,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
 
   section_order:
@@ -62,6 +63,14 @@ segments:
       - [0x4, .rodata, overlays/credits/credits]
       - [0x820, c, overlays/credits/credits]
       - [0x1C74, .data, overlays/credits/credits]
-      - [0x2164, data, overlays/japanese_credits/data]
+      - [0x2164, bss_commons, overlays/japanese_credits/credits_commons]
+  # Unclassified retail tail: preserved storage, not recovered C coverage.
+  - name: leftover
+    type: code
+    start: 0x2198
+    vram: 0x80182198
+    align: 4
+    subsegments:
+      - [0x2198, bin, overlays/japanese_credits/data]
 
   - [0x8000]

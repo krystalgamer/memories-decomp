@@ -35,6 +35,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
 
   section_order:
@@ -62,6 +63,14 @@ segments:
       - [0x4, .rodata, overlays/credits/credits]
       - [0x7B0, c, overlays/credits/credits]
       - [0x1D38, .data, overlays/credits/credits]
-      - [0x2208, data, overlays/credits/data]
+      - [0x2208, bss_commons, overlays/credits/credits_commons]
+  # Unclassified retail tail: preserved storage, not recovered C coverage.
+  - name: leftover
+    type: code
+    start: 0x223C
+    vram: 0x8018223C
+    align: 4
+    subsegments:
+      - [0x223C, bin, overlays/credits/data]
 
   - [0x8000]

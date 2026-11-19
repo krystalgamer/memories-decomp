@@ -506,6 +506,12 @@ const RECT gCredits_ClutRect1 = { 0x200, 0xF7, 0x10, 1 };
 const RECT gCredits_ClutRect2 = { 0x200, 0xF8, 0x10, 1 };
 #endif
 
+/* The presentation state, zero-initialized and common (this unit builds with
+ * gcc_2_8_1_g0_split_comm); each layout's credits_commons subsegment places it
+ * after the entry table. */
+u8 gCredits_bFinished;
+CreditsLine gCredits_aLines[2];
+
 #ifdef VERSION_JAPAN
 /* The Japanese package draws its rows from glyph bitmaps in VRAM, so it
  * uploads one palette instead of the three colour ramps. */

@@ -566,6 +566,12 @@ rectangles, then `Credits_UpdateLines`' jump table, and its `.data` holds
 writes them in reverse order of first use, identical strings merged, as the
 retail images store them. Japan defines only the one palette rectangle it
 reads; the four zero bytes after it are the jump table's 8-byte alignment.
+After the entries, `gCredits_bFinished` and `gCredits_aLines[2]` are
+`credits.c` tentative definitions (`gcc_2_8_1_g0_split_comm`) placed by a
+`credits_commons` subsegment (USA `+0x2208..+0x223C`, Japan
+`+0x2164..+0x2198`). Nothing in the module reads past them: the replacement
+glyphs the line builder substitutes are resident data, and the rest of the
+sixteen sectors is a raw `leftover` segment of stale bytes.
 
 The duel-effect bank's leading read-only data follows its text order too:
 `effect_11.c`, `cross_lines.c` (its two NTSC log strings), `effect_8.c`,
