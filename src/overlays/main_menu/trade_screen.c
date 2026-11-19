@@ -167,10 +167,10 @@ void MainMenu_InitTradeScreen(void)
 
 /*
  * Exact pure-C match under gcc_2_8_1_g0_split. Natural restore-pointer roles
- * recover a1/a2, a path-exclusive typed carrier recovers s2, and the
- * dirty-counter increment repeated in the sort and stats-mode arms gives GCC
- * the weight needed to allocate that counter to s3 without a hard-register
- * binding; cross-jumping folds the second increment back into the first.
+ * recover a1/a2, and the dirty-counter increment repeated in the sort and
+ * stats-mode arms gives GCC the weight needed to allocate that counter to s3
+ * without a hard-register binding; cross-jumping folds the second increment
+ * back into the first.
  */
 s32 MainMenu_UpdateTradeScreen(void)
 {
@@ -178,7 +178,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     s32 low;
     s32 decision;
     s32 dirty0;
-    MainMenuTradeDirtyCarrier dirty1;
+    s32 dirty1;
     s32 cursor0;
     s32 cursor1;
     s32 flags;
@@ -208,7 +208,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     CardCountEntry *card1;
 
     dirty0 = 0;
-    dirty1.dirty = dirty0;
+    dirty1 = dirty0;
     cursor0 = 1;
     cursor1 = cursor0;
     value = gTrade_pStatsModeDisplay->resource_variant - 4;
@@ -247,12 +247,11 @@ s32 MainMenu_UpdateTradeScreen(void)
                 source++;
             } while (destination != end);
             i = 0;
-            dirty1.clearBase = gTrade_abReady;
             do {
                 gTrade_awOffers[i][0] = 0;
                 MainMenu_RefreshTradeInventory(i, 1);
                 MainMenu_RebuildTradeInventoryRows(i);
-                *(u8 *)(i + (s32)dirty1.clearBase) = 0;
+                gTrade_abReady[i] = 0;
                 i++;
             } while (i < 2);
             Input_ResetPads();
@@ -509,20 +508,20 @@ s32 MainMenu_UpdateTradeScreen(void)
                 gTrade_abSortMode[1] = (gTrade_abSortMode[1] + 7) % 6;
             }
             MainMenu_RefreshTradeInventory(1, 0);
-            dirty1.dirty++;
+            dirty1++;
         } else if ((gInput_awPadPressed[1] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
             if ((gInput_awPadPressed[1] & PAD_DIRECTION_LEFT) != 0) {
                 flags &= ~2;
             } else {
                 flags |= 2;
             }
-            dirty1.dirty++;
+            dirty1++;
         } else if ((gInput_awPadPressed[1] & MAIN_MENU_TRADE_CANCEL_BUTTON) != 0) {
             if (gTrade_awOffers[1][0] != 0) {
                 MainMenu_AdjustTradeCardCount(1, gTrade_awOffers[1][gTrade_awOffers[1][0]], 1);
                 SD_SEPlay(SD_SE_CANCEL, 255, 0);
                 gTrade_awOffers[1][0]--;
-                dirty1.dirty++;
+                dirty1++;
             } else if (gTrade_awOffers[0][0] != 0 || gTrade_abReady[0] != 0) {
                 SD_SEPlay(SD_SE_BUZZER, 255, 0);
             } else {
@@ -535,7 +534,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 /* Use the increment result rather than reloading the count. */
                 gTrade_awOffers[1][++gTrade_awOffers[1][0]] = card1->id;
                 card1->count--;
-                dirty1.dirty++;
+                dirty1++;
             } else {
                 SD_SEPlay(SD_SE_BUZZER, 255, 0);
             }
@@ -571,7 +570,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 SD_SEPlay(SD_SE_CURSOR, 255, 0);
             }
             gTrade_aListScroll[1].current = gTrade_aListScroll[1].target;
-            dirty1.dirty++;
+            dirty1++;
         } else if ((gInput_awPadRepeat[1] & PAD_DIRECTION_VERTICAL_MASK) != 0) {
             if ((gInput_awPadRepeat[1] & PAD_DIRECTION_UP) != 0) {
                 if (gTrade_abCursorRow[1] != 0) {
@@ -581,7 +580,7 @@ s32 MainMenu_UpdateTradeScreen(void)
                 } else if (gTrade_aListScroll[1].target != 0) {
                     SD_SEPlay(SD_SE_CURSOR, 255, 0);
                     gTrade_aListScroll[1].current = --gTrade_aListScroll[1].target;
-                    dirty1.dirty++;
+                    dirty1++;
                 }
             } else if (gTrade_abCursorRow[1] < MAIN_MENU_TRADE_SCROLL_MAX) {
                 SD_SEPlay(SD_SE_CURSOR, 255, 0);
@@ -590,7 +589,7 @@ s32 MainMenu_UpdateTradeScreen(void)
             } else if (gTrade_aListScroll[1].target < maximum) {
                 SD_SEPlay(SD_SE_CURSOR, 255, 0);
                 gTrade_aListScroll[1].current = ++gTrade_aListScroll[1].target;
-                dirty1.dirty++;
+                dirty1++;
             }
         }
         if (gTrade_aListScroll[1].current == gTrade_aListScroll[1].target) {
@@ -599,7 +598,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     default:
         gTrade_aListScroll[1].current = gTrade_aListScroll[1].current < gTrade_aListScroll[1].target ?
             gTrade_aListScroll[1].current + 1 : gTrade_aListScroll[1].current - 1;
-        dirty1.dirty++;
+        dirty1++;
     }
 
     if (cursor0 != 0) {
@@ -615,7 +614,7 @@ s32 MainMenu_UpdateTradeScreen(void)
     if (dirty0 != 0) {
         MainMenu_RebuildTradeInventoryRows(0);
     }
-    if (dirty1.dirty != 0) {
+    if (dirty1 != 0) {
         MainMenu_RebuildTradeInventoryRows(1);
     }
     if (gTrade_abReady[0] != 0 && gTrade_abReady[1] != 0) {
@@ -1179,17 +1178,13 @@ void MainMenu_ApplyTradeOfferInventoryDelta(s32 slot, s32 amount)
 
 void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
 {
-    CardCountEntry *p;
     CardCountEntry *entry;
     u32 total;
-    s32 offset;
     s32 i;
 
     i = 0;
-    offset = slot * 2888;
-    p = gTrade_aWorkingCards[0];
     while (i < CARD_COUNT) {
-        entry = (CardCountEntry *)(offset + (s32)p);
+        entry = &gTrade_aWorkingCards[slot][i];
         if (entry->id == id) {
             total = entry->count + amount;
             if (total < 0xFB) {
@@ -1197,7 +1192,6 @@ void MainMenu_AdjustTradeCardCount(s32 slot, s32 id, u32 amount)
             }
             return;
         }
-        p++;
         i++;
     }
 }
@@ -1397,6 +1391,6 @@ void MainMenu_RebuildTradeInventoryRows(s32 side)
     s32 flags;
 
     flags = gTrade_pStatsModeDisplay->resource_variant - 4;
-    CardList_BuildRowSetTextBoxes((u16 *)(side * 2888 + (s32)gTrade_aWorkingCards + gTrade_aListScroll[side].current * 4), side,
+    CardList_BuildRowSetTextBoxes((u16 *)&gTrade_aWorkingCards[side][gTrade_aListScroll[side].current], side,
                   flags & (1 << side), flags);
 }

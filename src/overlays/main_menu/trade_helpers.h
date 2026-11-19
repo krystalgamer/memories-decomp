@@ -43,14 +43,6 @@ typedef struct {
 
 extern MainMenuPair gTrade_aListScroll[];
 
-/* These values are live on disjoint paths. Sharing their carrier reproduces
-   the retail s2 allocation without a hard-register binding. */
-typedef union {
-    s32 dirty;
-    u8 *clearBase;
-} MainMenuTradeDirtyCarrier;
-
-
 /* The two Trade display handles, gTrade_pBackground and gTrade_pStatsModeDisplay -- the pair
  * README.md:177-178 lists as what MainMenu_ReleaseTradeDisplayHandles
  * releases and clears. MainMenu_InitTradeScreen stores a DisplayObject_AcquireSlot
@@ -105,9 +97,8 @@ extern u8 gTrade_abSortMode[2];
  * MainMenu_RefreshTradeInventory (it stores
  * `[slot][i].id` and `.count`, then sorts `[slot]`; the module's functions.csv
  * row for 0x8018338C records why), and the other three reach the same
- * rows through it: MainMenu_AdjustTradeCardCount walks row 0 from
- * `gTrade_aWorkingCards[0]` with `slot * 2888` added,
- * MainMenu_RebuildTradeInventoryRows forms `side * 2888 + (s32)gTrade_aWorkingCards`,
+ * rows through it: MainMenu_AdjustTradeCardCount scans `[slot][i]`,
+ * MainMenu_RebuildTradeInventoryRows passes `&[side][scroll]`,
  * and MainMenu_UpdateTradeScreen indexes `[0][...]` and `[1][...]` (row 1, +0xB48 =
  * CARD_COUNT * 4, once a separate label, gTrade_aSide1WorkingCards).
  * Two rows end at gTrade_aListScroll, +0x1690. */
