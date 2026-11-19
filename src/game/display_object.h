@@ -535,14 +535,35 @@ typedef struct DisplayObject {
         s32 word;
         u16 uv;
     } field_54;                    /* 0x54 */
-    /* The command stream reads this pair as command_offset/frame_delay.
-       ReadNextCommand fetches current + (u16)command_offset and advances by
-       three; resets and jumps clear the offset. UpdateCommandStream opens
-       the script and counts the delay down by gGraphics_nBaseFrameStep.
-       These are stream-only names: other object kinds reuse these words
-       as packet coordinates/colours, so the generic offsets remain. */
-    s16 field_58;                  /* 0x58 */
-    s16 field_5A;                  /* 0x5A */
+    /* Two per-kind views of one word.
+
+       stream: a timed sprite stream's position. ReadNextCommand fetches
+       current + (u16)command_offset, stores the opcode as frame_delay and
+       advances the offset by three; resets and jumps clear the offset.
+       UpdateCommandStream opens the script with offset 0 and delay 1 and
+       counts the delay down by gGraphics_nBaseFrameStep, reading the next
+       command when it runs out; GameOver_Update and
+       DisplayEffect_UpdateMenuRecord poll it for zero, the script having
+       stopped.
+
+       quad: a Gouraud quad's flag for a second submission.
+       DisplayObject_InitializeGouraudQuad stores it with an sb and
+       DisplayObject_RenderGouraudQuadList (list 4) tests only that byte.
+
+       word: the textured-quad renderer (list 5) copies the word as its
+       second POLY_GT4's first vertex x/y. */
+    union {
+        s32 word;
+        struct {
+            s16 command_offset;
+            s16 frame_delay;
+        } stream;
+        struct {
+            s16 field_58;
+            u8 has_secondary_quad;
+            u8 field_5B;
+        } quad;
+    } field_58;                    /* 0x58 */
     /* The texture u/v (low byte u, high byte v) a sprite or card quad draws
        from. DisplayObject_RenderSpriteList and DisplayObject_RenderSpriteStrips
        copy the halfword into SpritePrim.uv (GsSPRITE u/v), as do the card
@@ -731,7 +752,7 @@ typedef struct DisplayObject {
    as (u8)object[1].next, the low byte of the following entry's `next`, which
    compiles to the same lbu; DisplayObject_InitializeTexturedGouraudQuad keeps
    the byte store ((u8 *)object)[0x72], and the second vertex set is reached from the members
-   its words begin at: *(s32 *)&object->field_58, &object->fraction_z and so on,
+   its words begin at: object->field_58.word, &object->fraction_z and so on,
    since those words span members no union here pairs.
 
    The scratchpad in both renderers is typed as its libgpu primitive paired

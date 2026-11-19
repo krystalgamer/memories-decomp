@@ -57,7 +57,7 @@ s32 GameOver_Update(void)
 
     p = gGameOver_pTitleObject;
     DisplayObject_StepPositionX(p);
-    value = p->field_5A;
+    value = p->field_58.stream.frame_delay;
     if (value == 0) {
         switch (p->update_state) {
         case 0:

@@ -162,7 +162,7 @@ The setter retains its own byte store and resource-resolution-bit clear.
 
 MenuRecord +0x3B is variant_update_counter, not a pure countdown or frame
 clock. Under bit 0x02 it is decremented and stored before the child
-field_5A gate, then tested through the original signed-byte local cast.
+field_58.stream.frame_delay gate, then tested through the original signed-byte local cast.
 A nonpositive request can clear it and bit 0x02; an explicit request
 stores six and publishes requested_variant. With that bit clear and a
 negative input, the slow path instead increments the same byte and tests

@@ -766,7 +766,7 @@ void DisplayObject_RenderGouraudQuadList(void) {
                 DisplayObject_SubmitPacket((SpritePrim *)attribute, packet, table[object->ot_index],
                                            object->ot_depth | bit, projection);
 
-                if ((u8)object->field_5A != 0) {
+                if (object->field_58.quad.has_secondary_quad != 0) {
                     x0 = object->field_48.word;
                     x1 = object->field_50.word;
                     packet->w.xy0 = x0;
@@ -880,8 +880,8 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
 
                 /* Byte 0x72 is the low byte of the next pool entry's `next`. */
                 if ((u8)object[1].next != 0) {
-                    /* These words and halfwords span members no union pairs. */
-                    x0 = *(s32 *)&object->field_58;
+                    /* The words from 0x64 on span members no union pairs. */
+                    x0 = object->field_58.word;
                     x1 = *(s32 *)&object->fraction_z;
                     packet->w.xy0 = x0;
                     packet->w.xy1 = x1;
@@ -919,7 +919,7 @@ void DisplayObject_RenderFrame(void)
 /* Entries 0 through 4 of gDisplayObjectStream_apfnCommandHandlers. */
 s32 DisplayObjectStream_Stop(DisplayObject *object, const u8 *data)
 {
-    object->field_5A = 0;
+    object->field_58.stream.frame_delay = 0;
     return -1;
 }
 
@@ -928,7 +928,7 @@ s32 DisplayObjectStream_ResetOffset(
     const u8 *data
 )
 {
-    object->field_58 = 0;
+    object->field_58.stream.command_offset = 0;
     return 1;
 }
 
@@ -945,7 +945,7 @@ s32 DisplayObjectStream_JumpToOffset(
     const u8 *data
 )
 {
-    object->field_58 = 0;
+    object->field_58.stream.command_offset = 0;
     object->field_50.current = object->field_54.resource + ((data[1] << 8) | data[0]);
     return 1;
 }
@@ -956,7 +956,7 @@ s32 DisplayObjectStream_ToggleFlagAndJumpToOffset(
 )
 {
     object->attribute ^= 0x800000;
-    object->field_58 = 0;
+    object->field_58.stream.command_offset = 0;
     object->field_50.current = object->field_54.resource + ((data[1] << 8) | data[0]);
     return 1;
 }
@@ -974,7 +974,7 @@ s32 DisplayObjectStream_JumpToRandomOffset(
     hi = data[1];
     lo = data[0];
     base = object->field_54.resource;
-    object->field_58 = 0;
+    object->field_58.stream.command_offset = 0;
     object->field_50.current = base + ((hi << 8) | lo);
     return 1;
 }
@@ -1283,7 +1283,7 @@ void DisplayObjectStream_ReadNextCommand(
     s32 (**table)(DisplayObject *, const u8 *);
     s32 value;
 
-    p = object->field_50.current + (u16)object->field_58;
+    p = object->field_50.current + (u16)object->field_58.stream.command_offset;
     op = *p;
     p++;
 
@@ -1293,30 +1293,30 @@ void DisplayObjectStream_ReadNextCommand(
             if (table[op ^ 0xFF](object, p) == -1) {
                 return;
             }
-            p = object->field_50.current + (u16)object->field_58;
+            p = object->field_50.current + (u16)object->field_58.stream.command_offset;
             op = *p;
             p++;
         } while (op >= 0xF0);
     }
 
-    object->field_5A = op;
+    object->field_58.stream.frame_delay = op;
     value = (p[1] << 8) | p[0];
     /* The operand is a byte offset into the resource; the sheet starts there. */
     object->field_4C.frame_data = (SpriteSheet *)(object->field_54.resource + value);
-    object->field_58 += 3;
+    object->field_58.stream.command_offset += 3;
 }
 
 #include "display_object.h"
 #include "graphics_frame_controls.h"
 
 /* If object's 0x10 state bit isn't set yet: marks it set, resets
-   field_58/field_5A, then walks a 3-level little-endian-u16 offset chain
+   the stream's command_offset/frame_delay, then walks a 3-level little-endian-u16 offset chain
    through the object's field_54 byte buffer (indexed at each level by
    resource_root_index, resource_branch_index, resource_variant) to resolve a final pointer. That pointer and a
    copy of the attribute (masked to clear bit 0x00800000, restored if flags'
    0x100 bit is set) become the args for DisplayObjectStream_ReadNextCommand,
    which always fires on this path. Otherwise (0x10 already set): if neither
-   of flags' low two bits are set and the field_5A cooldown is nonzero,
+   of flags' low two bits are set and the frame_delay cooldown is nonzero,
    decrements it by gGraphics_nBaseFrameStep and fires DisplayObjectStream_ReadNextCommand
    once it reaches zero or below.
 
@@ -1343,8 +1343,8 @@ void DisplayObject_UpdateCommandStream(DisplayObject *object) {
 
         base = object->field_54.resource;
         object->flags = object->flags | 0x10;
-        object->field_58 = 0;
-        object->field_5A = 1;
+        object->field_58.stream.command_offset = 0;
+        object->field_58.stream.frame_delay = 1;
 
         p1 = base + object->resource_root_index * 2;
         off1 = p1[1] << 8;
@@ -1369,9 +1369,9 @@ void DisplayObject_UpdateCommandStream(DisplayObject *object) {
         return;
     }
 
-    if (!(object->flags & 3) && object->field_5A != 0) {
-        s16 remain = (u16)object->field_5A - (u16)gGraphics_nBaseFrameStep;
-        object->field_5A = remain;
+    if (!(object->flags & 3) && object->field_58.stream.frame_delay != 0) {
+        s16 remain = (u16)object->field_58.stream.frame_delay - (u16)gGraphics_nBaseFrameStep;
+        object->field_58.stream.frame_delay = remain;
         if (remain <= 0) {
             DisplayObjectStream_ReadNextCommand(object, script, attribute, object);
         }
@@ -1754,9 +1754,9 @@ void DisplayObject_InitializeGouraudQuad(
     object->field_1C = 0;
     object->field_18.center.y = 0;
     object->field_18.center.x = 0;
-    /* List 4 reads only this low byte to gate a second POLY_G4 submission;
-       retail stores it with an sb, not field_5A's sh. */
-    *(u8 *)&object->field_5A = has_secondary_quad;
+    /* List 4 reads only this byte to gate a second POLY_G4 submission;
+       retail stores it with an sb. */
+    object->field_58.quad.has_secondary_quad = has_secondary_quad;
     object->flags = flags | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 }
 

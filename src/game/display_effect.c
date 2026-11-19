@@ -817,7 +817,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
 
     if (p->grid[0][1] != 0) {
         if ((f & 1) != 0) {
-            if ((p->grid[0][1])->field_5A == 0) {
+            if ((p->grid[0][1])->field_58.stream.frame_delay == 0) {
                 p->variant_countdown =
                     (rand() & DISPLAY_EFFECT_DELAY_MASK) +
                     DISPLAY_EFFECT_DELAY_BASE;
@@ -847,7 +847,7 @@ void DisplayEffect_UpdateMenuRecord(MenuRecord *p, s32 n) {
     default:
         c = p->variant_update_counter - 1;
         p->variant_update_counter = c;
-        if ((p->grid[0][2])->field_5A != 0) {
+        if ((p->grid[0][2])->field_58.stream.frame_delay != 0) {
             return;
         }
         if ((s8)c > 0) {
