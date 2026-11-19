@@ -37,10 +37,12 @@ different submission paths:
 | GT4, mode 1 | Resident call at base priority with flags 1 |
 | GT4, every other `u16` mode | Clear semitransparency, SDK sort at wrapped base priority plus one |
 
-The generic view remains `void *`: actual G4 packets and FT4-layout
-coordinates share the accessed XY offsets, as the original caller-backed
-contract below explains. It is not narrowed to FT4 or generalized to
-arbitrary incompatible packet layouts. No offset caching, reordered
+The quad helper takes a `POLY_G4 *`: every caller (the gradient
+trapezoids in `effect_drawing.c` and `contour_quads.c`) passes the `prim` of
+a `DisplayObjectG4Packet`. It was first typed `void *` with an internal
+`POLY_FT4` view, which is only valid because the two layouts share the
+accessed XY offsets; the G4 parameter is byte-identical. It is not
+generalized to arbitrary packet layouts. No offset caching, reordered
 stores, mode-as-boolean normalization or priority widening is introduced.
 
 ### Projection and base matrix
@@ -104,9 +106,9 @@ Only mode one selects flagged submission, not every nonzero mode.
 The caller at `0x801558F4` also passes a SDK `POLY_G4` to `0x80152EC4`.
 Its four XY pairs have the same offsets as `POLY_FT4`; the helper accesses
 only those fields before forwarding the raw primitive. Its public parameter
-is therefore `void *`, with an internal SDK layout view, rather than an
-unjustified FT4-only interface. This caller-backed refinement retains all
-216 instruction bytes unchanged.
+was therefore first `void *` with an internal FT4 layout view; once every
+caller was C and all of them passed a `POLY_G4`, it became `POLY_G4 *`.
+Both refinements retain all 216 instruction bytes unchanged.
 
 The initializer at `0x80146258` writes the X, Y and Z halfwords at
 `D_8015B7F8 + 0/2/4`; the next priority word is at `0x8015B800`. This

@@ -3,10 +3,8 @@
 #include "packet_semantic_views.h"
 #include "render_state_semantic_views.h"
 
-void DuelEffect_SubmitOffsetQuad(void *primitive, u16 flags)
+void DuelEffect_SubmitOffsetQuad(POLY_G4 *packet, u16 flags)
 {
-    POLY_FT4 *packet = primitive;
-
     packet->x0 += gDuelEffect_DrawOffset.vx;
     packet->x1 += gDuelEffect_DrawOffset.vx;
     packet->x2 += gDuelEffect_DrawOffset.vx;

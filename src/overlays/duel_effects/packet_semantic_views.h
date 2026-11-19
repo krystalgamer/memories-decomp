@@ -5,7 +5,7 @@
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 
-extern void DuelEffect_SubmitOffsetQuad(void *primitive, u16 flags);
+extern void DuelEffect_SubmitOffsetQuad(POLY_G4 *packet, u16 flags);
 extern void DuelEffect_SubmitOffsetFt4(POLY_FT4 *packet, u16 mode);
 extern void DuelEffect_SubmitOffsetGt4(POLY_GT4 *packet, u16 mode);
 extern void DuelEffect_InitBaseMatrix(MATRIX *matrix);
