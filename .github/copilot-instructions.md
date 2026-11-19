@@ -87,7 +87,9 @@ Matching, attempt-ledger updates, and integration remain sequential.
   These generated files are not source and must not be edited or committed.
 - `tools/project/build_baseline.py` assembles unmatched generated MIPS,
   compiles matching C with its per-function profile, normalizes compiler
-  assembly through the matching MASPSX version, converts binary regions to
+  assembly through the matching MASPSX version (or, for a profile with
+  `"asm_massage": true`, through `tools/project/asm_massage.py` and the
+  unit's tracked `<unit>.massage/` edit files), converts binary regions to
   objects, and links everything in executable order.
 - `config/slus_01411/split.yaml` fixes the original image layout and directs
   Splat to generate `tmp/splat/slus_01411.ld`;
@@ -139,7 +141,12 @@ Matching, attempt-ledger updates, and integration remain sequential.
   `gcc_2_7_2_cygnus_g0_mips_as_gnu_reorder` (cygnus-2.7.2-970404 less two
   March 1997 changes, built from source by `make compiler-272-cygnus`), which
   skips MASPSX and lets GNU as reorder, because MASPSX cannot fill delay
-  slots (see `notes/overlays/safecheck2003.md`). A profile is still chosen by name in the
+  slots (see `notes/overlays/safecheck2003.md`). The resident hand-written
+  wireframe drivers in `src/game/wireframe_renderers.c` select
+  `gcc_2_8_1_o2_massaged`: the same GCC 2.8.1 at plain `-O2`, whose output
+  `tools/project/asm_massage.py` rewrites instead of MASPSX, with shared
+  rules plus one tracked edit file per function; `make check-asm-massage`
+  must prove each residual (see `notes/asm-massage.md`). A profile is still chosen by name in the
   `*_matching_c.json` manifests, never by ad hoc flags, and exact full-image
   matching stays mandatory.
 - Record every materially distinct source/compiler experiment and its precise

@@ -57,7 +57,13 @@ class RetiredProfileTests(unittest.TestCase):
                 else:
                     self.assertTrue(name.startswith("gcc_2_8_1_"))
                     self.assertIn("gcc-2.8.1-psx", profile["compiler"])
-                self.assertEqual(profile["aspsx_version"], "2.81")
+                if profile.get("asm_massage") is True:
+                    # GCC's output goes through tools/project/asm_massage.py
+                    # and GNU as, not MASPSX (notes/asm-massage.md).
+                    self.assertNotIn("aspsx_version", profile)
+                    self.assertNotIn("maspsx_flags", profile)
+                else:
+                    self.assertEqual(profile["aspsx_version"], "2.81")
 
     def test_recorded_history_may_name_a_retired_profile(self) -> None:
         with (self.config / "external_attempts.csv").open(

@@ -1,1330 +1,840 @@
 /*
- * Wireframe drawers for the GsARGUNIT polygon formats (0x80069E44-0x8006AF74).
+ * Wireframe drivers for the GsARGUNIT polygon formats (0x80069E44-0x8006AF74).
  *
- * These were written by hand in the original: no stack frame, s0-s2 parked in
- * scratch words of the GsARGUNIT block, the argument read straight from $a0 and
- * the next primitive pointer returned in $v0. The register variables and
- * handwritten_asm.h macros reproduce that contract; see
- * notes/wireframe-renderers.md.
+ * The originals were written by hand: no stack frame, s0-s2 parked in the
+ * GsARGUNIT block, the next primitive block returned in $v0. This is plain C
+ * over the stock Psy-Q inline_c.h and libgpu.h macros, built with the
+ * gcc_2_8_1_o2_massaged profile: GCC's -O2 output is rewritten into the
+ * original instructions by tools/project/asm_massage.py with the edit files
+ * in wireframe_renderers.massage/ (one per function). See
+ * notes/asm-massage.md and notes/wireframe-renderers.md.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
-#include "../psyq/inline_c.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
-#include "handwritten_asm.h"
-#include "gte_native.h"
-#include "model_handler_state.h"
-#include "model.h"
+#include "../psyq/inline_c.h"
 #include "gpu_packets.h"
+#include "model.h"
+#include "model_handler_state.h"
 #include "model_slot_setup.h"
 #include "wireframe_renderers.h"
 
-register u32 gHw_LineTemplate asm("$16");
-register u32 gHw_DrawModeTemplate asm("$17");
-register u32 gHw_LineTerminator asm("$18");
-register u32 gHw_At asm("$1");
-
-/*
- * Each drawer converts its SDK pointers once on entry: the primitive block
- * to its ModelPrimitiveBlockHeader, primtop plus the word offset to its
- * ModelDraw*Record type (model_slot_setup.h), and the vertex (or vertop2
- * cache) and OT bases to u32 addresses. The record cursor points to volatile
- * data because the original reads its words in a fixed order. Typed pointer
- * arithmetic swaps the addu operands, so cache entry and OT slot addresses
- * are integers converted at their dereference. The draw mode is read as the
- * whole word holding gModel_bCurrentDrawMode, as the original's lw does.
- */
-
+/* Wireframe FT3 driver. Each visible triangle becomes a closed four-point
+ * LINE_F4 (draw-mode word, colour/code word, four XYs, terminator) linked
+ * into the ordering table at its average Z. */
 u32 *Model_DrawFt3Wireframes(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    u32 *packet = (u32 *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt3Record *record =
+        (ModelDrawFt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawFt3Record *)(base + off);
-        if (mode != gHw_At) {
-            register u32 verts asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF4Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            verts = (u32)arg->vertop;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register u32 w0 asm("$8") = rec->words[3];
-                register u32 w1 asm("$9") = rec->words[4];
-                register u32 v asm("$13");
-                register s32 flag asm("$2");
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                v = w0 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv0(v);
-                v = w1 << 16;
-                v >>= 13;
-                v += verts;
-                gte_ldv1(v);
-                v = w1 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv2(v);
-                pkt[1] = gHw_DrawModeTemplate;
-                pkt[7] = gHw_LineTerminator;
-                GTE_RTPT_B();
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag >= 0) {
-                    GTE_AVSZ3_B();
-                    HW_GTE_READ(7, otz);
-                    pkt[2] = gHw_LineTemplate;
-                    otz >>= shift;
-                    otz <<= 2;
-                    otz += ot;
-                    slot = (u32 *)otz;
-                    t = *slot;
-                    HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x14, 0x18);
-                    t = (t << 8) | 7;
-                    gHw_At = t >> 8;
-                    t = (t << 24) | gHw_At;
-                    pkt[0] = t;
-                    t = ((u32)pkt << 8) >> 8;
-                    *slot = t;
-                    pkt += 8;
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+    /* The original tests the whole word at gModel_bCurrentDrawMode (draw
+     * mode, blend flag, tint red/green) against 1. Model_DrawSlot returns
+     * early for draw mode 1 (model.c, before the part loop), so this is
+     * effectively always true. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF4Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        SVECTOR *vertices = arg->vertop;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
 
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        do {
+            s32 flag;
+            u32 otz;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            packet[1] = draw_mode;
+            packet[7] = terminator;
+            gte_rtpt_b();
+            gte_stflg(&flag);
+            if (flag >= 0) {
+                GsOT_TAG *slot;
+                u32 next;
+
+                gte_avsz3_b();
+                gte_stotz(&otz);
+                packet[2] = line;
+                slot = &ot[otz >> shift];
+                next = getaddr(slot);
+                gte_stsxy0(&packet[3]);
+                gte_stsxy1(&packet[4]);
+                gte_stsxy2(&packet[5]);
+                gte_stsxy0(&packet[6]);
+                setlen(packet, 7);
+                setaddr(packet, next);
+                setaddr(slot, packet);
+                packet += 8;
+            }
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe GT3 driver. Each visible triangle becomes a closed four-point
+ * LINE_F4 (draw-mode word, colour/code word, four XYs, terminator) linked
+ * into the ordering table at its average Z. */
 u32 *Model_DrawGt3Wireframes(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    u32 *packet = (u32 *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3Record *record =
+        (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawGt3Record *)(base + off);
-        if (mode != gHw_At) {
-            register u32 verts asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF4Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            verts = (u32)arg->vertop;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register u32 w0 asm("$8") = rec->words[3];
-                register u32 w1 asm("$9") = rec->words[4];
-                register u32 w2 asm("$10") = rec->words[5];
-                register u32 v asm("$13");
-                register s32 flag asm("$2");
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                v = w0 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv0(v);
-                v = w1 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv1(v);
-                v = w2 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv2(v);
-                pkt[1] = gHw_DrawModeTemplate;
-                pkt[7] = gHw_LineTerminator;
-                GTE_RTPT_B();
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag >= 0) {
-                    GTE_AVSZ3_B();
-                    HW_GTE_READ(7, otz);
-                    pkt[2] = gHw_LineTemplate;
-                    otz >>= shift;
-                    otz <<= 2;
-                    otz += ot;
-                    slot = (u32 *)otz;
-                    t = *slot;
-                    HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x14, 0x18);
-                    t = (t << 8) | 7;
-                    gHw_At = t >> 8;
-                    t = (t << 24) | gHw_At;
-                    pkt[0] = t;
-                    t = ((u32)pkt << 8) >> 8;
-                    *slot = t;
-                    pkt += 8;
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+    /* The original tests the whole word at gModel_bCurrentDrawMode (draw
+     * mode, blend flag, tint red/green) against 1. Model_DrawSlot returns
+     * early for draw mode 1 (model.c, before the part loop), so this is
+     * effectively always true. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF4Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        SVECTOR *vertices = arg->vertop;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
 
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        do {
+            s32 flag;
+            u32 otz;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            packet[1] = draw_mode;
+            packet[7] = terminator;
+            gte_rtpt_b();
+            gte_stflg(&flag);
+            if (flag >= 0) {
+                GsOT_TAG *slot;
+                u32 next;
+
+                gte_avsz3_b();
+                gte_stotz(&otz);
+                packet[2] = line;
+                slot = &ot[otz >> shift];
+                next = getaddr(slot);
+                gte_stsxy0(&packet[3]);
+                gte_stsxy1(&packet[4]);
+                gte_stsxy2(&packet[5]);
+                gte_stsxy0(&packet[6]);
+                setlen(packet, 7);
+                setaddr(packet, next);
+                setaddr(slot, packet);
+                packet += 8;
+            }
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe FT4 driver. Each visible quad becomes two three-point LINE_F3
+ * polylines (0-1-3 and 3-2-0) behind one draw-mode word, linked into the
+ * ordering table at its average Z. RTPT projects vertices 0-2; RTPS then
+ * projects vertex 3. */
 u32 *Model_DrawFt4Wireframes(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    u32 *packet = (u32 *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt4Record *record =
+        (ModelDrawFt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawFt4Record *)(base + off);
-        if (mode != gHw_At) {
-            register u32 verts asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF3Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            verts = (u32)arg->vertop;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register u32 w0 asm("$8") = rec->words[4];
-                register u32 w1 asm("$9") = rec->words[5];
-                register u32 v asm("$13");
-                register u32 v3 asm("$11");
-                register s32 flag asm("$2");
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                v = w0 << 16;
-                v >>= 13;
-                v += verts;
-                gte_ldv0(v);
-                v = w0 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv1(v);
-                v = w1 << 16;
-                v >>= 13;
-                v += verts;
-                gte_ldv2(v);
-                v3 = w1 >> 16;
-                v3 <<= 3;
-                GTE_RTPT_B();
-                HW_GTE_READ_FLAG(flag);
-                v = v3 + verts;
-                pkt[1] = gHw_DrawModeTemplate;
+    /* Whole-word draw-mode test, as in Model_DrawFt3Wireframes. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF3Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        SVECTOR *vertices = arg->vertop;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
+
+        do {
+            s32 flag;
+            u32 otz;
+            SVECTOR *fourth;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            fourth = &vertices[record->prim.vert3];
+            gte_rtpt_b();
+            gte_stflg(&flag);
+            packet[1] = draw_mode;
+            if (flag >= 0) {
+                gte_ldv0(fourth);
+                gte_stsxy0(&packet[3]);
+                gte_stsxy1(&packet[4]);
+                gte_stsxy2(&packet[9]);
+                gte_stsxy0(&packet[10]);
+                packet[6] = terminator;
+                packet[11] = terminator;
+                gte_rtps_b();
+                gte_stflg(&flag);
                 if (flag >= 0) {
-                    gte_ldv0(v);
-                    HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
-                    pkt[6] = gHw_LineTerminator;
-                    pkt[11] = gHw_LineTerminator;
-                    GTE_RTPS_B();
-                    HW_GTE_READ_FLAG_WAIT(flag);
-                    if (flag >= 0) {
-                        GTE_AVSZ4_B();
-                        HW_GTE_READ(7, otz);
-                        pkt[2] = gHw_LineTemplate;
-                        pkt[7] = gHw_LineTemplate;
-                        otz >>= shift;
-                        otz <<= 2;
-                        otz += ot;
-                        slot = (u32 *)otz;
-                        t = *slot;
-                        HW_GTE_STORE(14, 0x14, pkt);
-                        HW_GTE_STORE(14, 0x20, pkt);
-                        t = (t << 8) | 0xB;
-                        gHw_At = t >> 8;
-                        t = (t << 24) | gHw_At;
-                        pkt[0] = t;
-                        t = ((u32)pkt << 8) >> 8;
-                        *slot = t;
-                        pkt += 12;
-                    }
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+                    GsOT_TAG *slot;
+                    u32 next;
 
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+                    gte_avsz4_b();
+                    gte_stotz(&otz);
+                    packet[2] = line;
+                    packet[7] = line;
+                    slot = &ot[otz >> shift];
+                    next = getaddr(slot);
+                    gte_stsxy2(&packet[5]);
+                    gte_stsxy2(&packet[8]);
+                    setlen(packet, 11);
+                    setaddr(packet, next);
+                    setaddr(slot, packet);
+                    packet += 12;
+                }
+            }
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe GT4 driver. Each visible quad becomes two three-point LINE_F3
+ * polylines (0-1-3 and 3-2-0) behind one draw-mode word, linked into the
+ * ordering table at its average Z. RTPT projects vertices 0-2; RTPS then
+ * projects vertex 3. */
 u32 *Model_DrawGt4Wireframes(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    u32 *packet = (u32 *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4Record *record =
+        (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawGt4Record *)(base + off);
-        if (mode != gHw_At) {
-            register u32 verts asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF3Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            verts = (u32)arg->vertop;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register u32 w0 asm("$8") = rec->words[3];
-                register u32 w1 asm("$9") = rec->words[4];
-                register u32 w2 asm("$10") = rec->words[5];
-                register u32 w3 asm("$11") = rec->words[6];
-                register u32 v asm("$13");
-                register u32 v3 asm("$13");
-                register s32 flag asm("$2");
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                v = w0 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv0(v);
-                v = w1 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv1(v);
-                v = w2 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv2(v);
-                v3 = w3 >> 16;
-                v3 <<= 3;
-                GTE_RTPT_B();
-                HW_GTE_READ_FLAG(flag);
-                v = v3 + verts;
-                pkt[1] = gHw_DrawModeTemplate;
+    /* Whole-word draw-mode test, as in Model_DrawFt3Wireframes. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF3Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        SVECTOR *vertices = arg->vertop;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
+
+        do {
+            s32 flag;
+            u32 otz;
+            SVECTOR *fourth;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            fourth = &vertices[record->prim.vert3];
+            gte_rtpt_b();
+            gte_stflg(&flag);
+            packet[1] = draw_mode;
+            if (flag >= 0) {
+                gte_ldv0(fourth);
+                gte_stsxy0(&packet[3]);
+                gte_stsxy1(&packet[4]);
+                gte_stsxy2(&packet[9]);
+                gte_stsxy0(&packet[10]);
+                packet[6] = terminator;
+                packet[11] = terminator;
+                gte_rtps_b();
+                gte_stflg(&flag);
                 if (flag >= 0) {
-                    gte_ldv0(v);
-                    HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
-                    pkt[6] = gHw_LineTerminator;
-                    pkt[11] = gHw_LineTerminator;
-                    GTE_RTPS_B();
-                    HW_GTE_READ_FLAG_WAIT(flag);
-                    if (flag >= 0) {
-                        GTE_AVSZ4_B();
-                        HW_GTE_READ(7, otz);
-                        pkt[2] = gHw_LineTemplate;
-                        pkt[7] = gHw_LineTemplate;
-                        otz >>= shift;
-                        otz <<= 2;
-                        otz += ot;
-                        slot = (u32 *)otz;
-                        t = *slot;
-                        HW_GTE_STORE(14, 0x14, pkt);
-                        HW_GTE_STORE(14, 0x20, pkt);
-                        t = (t << 8) | 0xB;
-                        gHw_At = t >> 8;
-                        t = (t << 24) | gHw_At;
-                        pkt[0] = t;
-                        t = ((u32)pkt << 8) >> 8;
-                        *slot = t;
-                        pkt += 12;
-                    }
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+                    GsOT_TAG *slot;
+                    u32 next;
 
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+                    gte_avsz4_b();
+                    gte_stotz(&otz);
+                    packet[2] = line;
+                    packet[7] = line;
+                    slot = &ot[otz >> shift];
+                    next = getaddr(slot);
+                    gte_stsxy2(&packet[5]);
+                    gte_stsxy2(&packet[8]);
+                    setlen(packet, 11);
+                    setaddr(packet, next);
+                    setaddr(slot, packet);
+                    packet += 12;
+                }
+            }
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe FT3 window-record driver (the record starts with the
+ * texture-window word, which wireframes skip). Each visible triangle
+ * becomes a closed four-point LINE_F4 (draw-mode word, colour/code word,
+ * four XYs, terminator) linked into the ordering table at its average Z. */
 u32 *Model_DrawFt3WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    u32 *packet = (u32 *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt3WindowRecord *record =
+        (ModelDrawFt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawFt3WindowRecord *)(base + off);
-        if (mode != gHw_At) {
-            register u32 verts asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF4Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            verts = (u32)arg->vertop;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register u32 w0 asm("$8") = rec->words[4];
-                register u32 w1 asm("$9") = rec->words[5];
-                register u32 v asm("$13");
-                register s32 flag asm("$2");
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                v = w0 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv0(v);
-                v = w1 << 16;
-                v >>= 13;
-                v += verts;
-                gte_ldv1(v);
-                v = w1 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv2(v);
-                pkt[1] = gHw_DrawModeTemplate;
-                pkt[7] = gHw_LineTerminator;
-                GTE_RTPT_B();
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag >= 0) {
-                    GTE_AVSZ3_B();
-                    HW_GTE_READ(7, otz);
-                    pkt[2] = gHw_LineTemplate;
-                    otz >>= shift;
-                    otz <<= 2;
-                    otz += ot;
-                    slot = (u32 *)otz;
-                    t = *slot;
-                    HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x14, 0x18);
-                    t = (t << 8) | 7;
-                    gHw_At = t >> 8;
-                    t = (t << 24) | gHw_At;
-                    pkt[0] = t;
-                    t = ((u32)pkt << 8) >> 8;
-                    *slot = t;
-                    pkt += 8;
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+    /* The original tests the whole word at gModel_bCurrentDrawMode (draw
+     * mode, blend flag, tint red/green) against 1. Model_DrawSlot returns
+     * early for draw mode 1 (model.c, before the part loop), so this is
+     * effectively always true. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF4Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        SVECTOR *vertices = arg->vertop;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
 
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        do {
+            s32 flag;
+            u32 otz;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            packet[1] = draw_mode;
+            packet[7] = terminator;
+            gte_rtpt_b();
+            gte_stflg(&flag);
+            if (flag >= 0) {
+                GsOT_TAG *slot;
+                u32 next;
+
+                gte_avsz3_b();
+                gte_stotz(&otz);
+                packet[2] = line;
+                slot = &ot[otz >> shift];
+                next = getaddr(slot);
+                gte_stsxy0(&packet[3]);
+                gte_stsxy1(&packet[4]);
+                gte_stsxy2(&packet[5]);
+                gte_stsxy0(&packet[6]);
+                setlen(packet, 7);
+                setaddr(packet, next);
+                setaddr(slot, packet);
+                packet += 8;
+            }
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe GT3 window-record driver (the record starts with the
+ * texture-window word, which wireframes skip). Each visible triangle
+ * becomes a closed four-point LINE_F4 (draw-mode word, colour/code word,
+ * four XYs, terminator) linked into the ordering table at its average Z. */
 u32 *Model_DrawGt3WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    u32 *packet = (u32 *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3WindowRecord *record =
+        (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawGt3WindowRecord *)(base + off);
-        if (mode != gHw_At) {
-            register u32 verts asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF4Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            verts = (u32)arg->vertop;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register u32 w0 asm("$8") = rec->words[4];
-                register u32 w1 asm("$9") = rec->words[5];
-                register u32 w2 asm("$10") = rec->words[6];
-                register u32 v asm("$13");
-                register s32 flag asm("$2");
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                v = w0 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv0(v);
-                v = w1 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv1(v);
-                v = w2 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv2(v);
-                pkt[1] = gHw_DrawModeTemplate;
-                pkt[7] = gHw_LineTerminator;
-                GTE_RTPT_B();
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag >= 0) {
-                    GTE_AVSZ3_B();
-                    HW_GTE_READ(7, otz);
-                    pkt[2] = gHw_LineTemplate;
-                    otz >>= shift;
-                    otz <<= 2;
-                    otz += ot;
-                    slot = (u32 *)otz;
-                    t = *slot;
-                    HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x14, 0x18);
-                    t = (t << 8) | 7;
-                    gHw_At = t >> 8;
-                    t = (t << 24) | gHw_At;
-                    pkt[0] = t;
-                    t = ((u32)pkt << 8) >> 8;
-                    *slot = t;
-                    pkt += 8;
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+    /* The original tests the whole word at gModel_bCurrentDrawMode (draw
+     * mode, blend flag, tint red/green) against 1. Model_DrawSlot returns
+     * early for draw mode 1 (model.c, before the part loop), so this is
+     * effectively always true. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF4Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        SVECTOR *vertices = arg->vertop;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
 
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        do {
+            s32 flag;
+            u32 otz;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            packet[1] = draw_mode;
+            packet[7] = terminator;
+            gte_rtpt_b();
+            gte_stflg(&flag);
+            if (flag >= 0) {
+                GsOT_TAG *slot;
+                u32 next;
+
+                gte_avsz3_b();
+                gte_stotz(&otz);
+                packet[2] = line;
+                slot = &ot[otz >> shift];
+                next = getaddr(slot);
+                gte_stsxy0(&packet[3]);
+                gte_stsxy1(&packet[4]);
+                gte_stsxy2(&packet[5]);
+                gte_stsxy0(&packet[6]);
+                setlen(packet, 7);
+                setaddr(packet, next);
+                setaddr(slot, packet);
+                packet += 8;
+            }
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe FT4 window-record driver (the record starts with the
+ * texture-window word, which wireframes skip). Each visible quad becomes
+ * two three-point LINE_F3 polylines (0-1-3 and 3-2-0) behind one draw-mode
+ * word, linked into the ordering table at its average Z. RTPT projects
+ * vertices 0-2; RTPS then projects vertex 3. */
 u32 *Model_DrawFt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    u32 *packet = (u32 *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt4WindowRecord *record =
+        (ModelDrawFt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawFt4WindowRecord *)(base + off);
-        if (mode != gHw_At) {
-            register u32 verts asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF3Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            verts = (u32)arg->vertop;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register u32 w0 asm("$8") = rec->words[5];
-                register u32 w1 asm("$9") = rec->words[6];
-                register u32 v asm("$13");
-                register u32 v3 asm("$11");
-                register s32 flag asm("$2");
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                v = w0 << 16;
-                v >>= 13;
-                v += verts;
-                gte_ldv0(v);
-                v = w0 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv1(v);
-                v = w1 << 16;
-                v >>= 13;
-                v += verts;
-                gte_ldv2(v);
-                v3 = w1 >> 16;
-                v3 <<= 3;
-                GTE_RTPT_B();
-                HW_GTE_READ_FLAG(flag);
-                v = v3 + verts;
-                pkt[1] = gHw_DrawModeTemplate;
+    /* Whole-word draw-mode test, as in Model_DrawFt3Wireframes. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF3Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        SVECTOR *vertices = arg->vertop;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
+
+        do {
+            s32 flag;
+            u32 otz;
+            SVECTOR *fourth;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            fourth = &vertices[record->prim.prim.vert3];
+            gte_rtpt_b();
+            gte_stflg(&flag);
+            packet[1] = draw_mode;
+            if (flag >= 0) {
+                gte_ldv0(fourth);
+                gte_stsxy0(&packet[3]);
+                gte_stsxy1(&packet[4]);
+                gte_stsxy2(&packet[9]);
+                gte_stsxy0(&packet[10]);
+                packet[6] = terminator;
+                packet[11] = terminator;
+                gte_rtps_b();
+                gte_stflg(&flag);
                 if (flag >= 0) {
-                    gte_ldv0(v);
-                    HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
-                    pkt[6] = gHw_LineTerminator;
-                    pkt[11] = gHw_LineTerminator;
-                    GTE_RTPS_B();
-                    HW_GTE_READ_FLAG_WAIT(flag);
-                    if (flag >= 0) {
-                        GTE_AVSZ4_B();
-                        HW_GTE_READ(7, otz);
-                        pkt[2] = gHw_LineTemplate;
-                        pkt[7] = gHw_LineTemplate;
-                        otz >>= shift;
-                        otz <<= 2;
-                        otz += ot;
-                        slot = (u32 *)otz;
-                        t = *slot;
-                        HW_GTE_STORE(14, 0x14, pkt);
-                        HW_GTE_STORE(14, 0x20, pkt);
-                        t = (t << 8) | 0xB;
-                        gHw_At = t >> 8;
-                        t = (t << 24) | gHw_At;
-                        pkt[0] = t;
-                        t = ((u32)pkt << 8) >> 8;
-                        *slot = t;
-                        pkt += 12;
-                    }
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+                    GsOT_TAG *slot;
+                    u32 next;
 
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+                    gte_avsz4_b();
+                    gte_stotz(&otz);
+                    packet[2] = line;
+                    packet[7] = line;
+                    slot = &ot[otz >> shift];
+                    next = getaddr(slot);
+                    gte_stsxy2(&packet[5]);
+                    gte_stsxy2(&packet[8]);
+                    setlen(packet, 11);
+                    setaddr(packet, next);
+                    setaddr(slot, packet);
+                    packet += 12;
+                }
+            }
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe GT4 window-record driver (the record starts with the
+ * texture-window word, which wireframes skip). Each visible quad becomes
+ * two three-point LINE_F3 polylines (0-1-3 and 3-2-0) behind one draw-mode
+ * word, linked into the ordering table at its average Z. RTPT projects
+ * vertices 0-2; RTPS then projects vertex 3. */
 u32 *Model_DrawGt4WindowRecordWireframes(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    u32 *packet = (u32 *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4WindowRecord *record =
+        (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawGt4WindowRecord *)(base + off);
-        if (mode != gHw_At) {
-            register u32 verts asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF3Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            verts = (u32)arg->vertop;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register u32 w0 asm("$8") = rec->words[4];
-                register u32 w1 asm("$9") = rec->words[5];
-                register u32 w2 asm("$10") = rec->words[6];
-                register u32 w3 asm("$11") = rec->words[7];
-                register u32 v asm("$13");
-                register u32 v3 asm("$13");
-                register s32 flag asm("$2");
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                v = w0 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv0(v);
-                v = w1 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv1(v);
-                v = w2 >> 16;
-                v <<= 3;
-                v += verts;
-                gte_ldv2(v);
-                v3 = w3 >> 16;
-                v3 <<= 3;
-                GTE_RTPT_B();
-                HW_GTE_READ_FLAG(flag);
-                v = v3 + verts;
-                pkt[1] = gHw_DrawModeTemplate;
+    /* Whole-word draw-mode test, as in Model_DrawFt3Wireframes. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF3Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        SVECTOR *vertices = arg->vertop;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
+
+        do {
+            s32 flag;
+            u32 otz;
+            SVECTOR *fourth;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            fourth = &vertices[record->prim.prim.vert3];
+            gte_rtpt_b();
+            gte_stflg(&flag);
+            packet[1] = draw_mode;
+            if (flag >= 0) {
+                gte_ldv0(fourth);
+                gte_stsxy0(&packet[3]);
+                gte_stsxy1(&packet[4]);
+                gte_stsxy2(&packet[9]);
+                gte_stsxy0(&packet[10]);
+                packet[6] = terminator;
+                packet[11] = terminator;
+                gte_rtps_b();
+                gte_stflg(&flag);
                 if (flag >= 0) {
-                    gte_ldv0(v);
-                    HW_GTE_STORE_SXY_LOOP(pkt, 0xC, 0x10, 0x24, 0x28);
-                    pkt[6] = gHw_LineTerminator;
-                    pkt[11] = gHw_LineTerminator;
-                    GTE_RTPS_B();
-                    HW_GTE_READ_FLAG_WAIT(flag);
-                    if (flag >= 0) {
-                        GTE_AVSZ4_B();
-                        HW_GTE_READ(7, otz);
-                        pkt[2] = gHw_LineTemplate;
-                        pkt[7] = gHw_LineTemplate;
-                        otz >>= shift;
-                        otz <<= 2;
-                        otz += ot;
-                        slot = (u32 *)otz;
-                        t = *slot;
-                        HW_GTE_STORE(14, 0x14, pkt);
-                        HW_GTE_STORE(14, 0x20, pkt);
-                        t = (t << 8) | 0xB;
-                        gHw_At = t >> 8;
-                        t = (t << 24) | gHw_At;
-                        pkt[0] = t;
-                        t = ((u32)pkt << 8) >> 8;
-                        *slot = t;
-                        pkt += 12;
-                    }
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+                    GsOT_TAG *slot;
+                    u32 next;
 
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+                    gte_avsz4_b();
+                    gte_stotz(&otz);
+                    packet[2] = line;
+                    packet[7] = line;
+                    slot = &ot[otz >> shift];
+                    next = getaddr(slot);
+                    gte_stsxy2(&packet[5]);
+                    gte_stsxy2(&packet[8]);
+                    setlen(packet, 11);
+                    setaddr(packet, next);
+                    setaddr(slot, packet);
+                    packet += 12;
+                }
+            }
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe driver for shared GT3 records. The vertices were projected
+ * earlier into the GsWORKUNIT cache (vertop2); an entry whose depth word
+ * (otz and p) is all ones is invalid and drops the triangle. */
 u32 *Model_DrawSharedGt3Wireframes(GsARGUNIT_SHARED *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    WireTrianglePacket *packet = (WireTrianglePacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3Record *record =
+        (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x28, 17, 0x2C, 18, 0x30);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawGt3Record *)(base + off);
-        if (mode != gHw_At) {
-            register u32 cache asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF4Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            cache = (u32)arg->vertop2;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop2;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register s32 empty asm("$3");
-                empty = -1;
-                {
-                register u32 w0 asm("$8") = rec->words[3];
-                register u32 w1 asm("$9") = rec->words[4];
-                register u32 w2 asm("$10") = rec->words[5];
-                register u32 e asm("$13");
-                register s32 z asm("$2");
-                volatile u32 *entry;
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                e = w0 >> 16;
-                e <<= 3;
-                entry = (volatile u32 *)(e + cache);
-                z = entry[1];
-                e = entry[0];
-                pkt[3] = e;
-                if (z != empty) {
-                    HW_GTE_WRITE(17, z);
-                    pkt[6] = e;
-                    e = w1 >> 16;
-                    e <<= 3;
-                    entry = (volatile u32 *)(e + cache);
-                    z = entry[1];
-                    e = entry[0];
-                    pkt[4] = e;
-                    if (z != empty) {
-                        HW_GTE_WRITE(18, z);
-                        e = w2 >> 16;
-                        e <<= 3;
-                        entry = (volatile u32 *)(e + cache);
-                        z = entry[1];
-                        e = entry[0];
-                        pkt[5] = e;
-                        if (z != empty) {
-                            HW_GTE_WRITE(19, z);
-                            pkt[1] = gHw_DrawModeTemplate;
-                            pkt[7] = gHw_LineTerminator;
-                            GTE_AVSZ3_B();
-                            HW_GTE_READ(7, otz);
-                            pkt[2] = gHw_LineTemplate;
-                            otz >>= shift;
-                            otz <<= 2;
-                            otz += ot;
-                            slot = (u32 *)otz;
-                            t = *slot;
-                            t = (t << 8) | 7;
-                            gHw_At = t >> 8;
-                            t = (t << 24) | gHw_At;
-                            pkt[0] = t;
-                            t = ((u32)pkt << 8) >> 8;
-                            *slot = t;
-                            pkt += 8;
-                        }
+    /* Whole-word draw-mode test, as in Model_DrawFt3Wireframes. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF4Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        GsWORKUNIT *cache = arg->vertop2;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
+
+        do {
+            /* Depth words go to the 16-bit SZ registers, which keep otz. */
+            GsWORKUNIT *v0 = &cache[record->prim.vert0];
+            u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+
+            packet->xy[0] = v0->vec;
+            if (z0 != 0xFFFFFFFF) {
+                GsWORKUNIT *v1;
+                u32 z1;
+
+                packet->xy[3] = v0->vec;
+                v1 = &cache[record->prim.vert1];
+                z1 = (u32)(u16)v1->otz | (u32)(u16)v1->p << 16;
+                packet->xy[1] = v1->vec;
+                if (z1 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v2 = &cache[record->prim.vert2];
+                    u32 z2 = (u32)(u16)v2->otz | (u32)(u16)v2->p << 16;
+
+                    packet->xy[2] = v2->vec;
+                    if (z2 != 0xFFFFFFFF) {
+                        u32 otz;
+                        GsOT_TAG *slot;
+                        u32 next;
+
+                        gte_ldsz3(z0, z1, z2);
+                        packet->draw_mode = draw_mode;
+                        packet->terminator = terminator;
+                        gte_avsz3_b();
+                        gte_stotz(&otz);
+                        packet->line = line;
+                        slot = &ot[otz >> shift];
+                        next = getaddr(slot);
+                        setlen(packet, 7);
+                        setaddr(packet, next);
+                        setaddr(slot, packet);
+                        packet++;
                     }
                 }
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
+            }
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x28, 17, 0x2C, 18, 0x30);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe driver for shared GT4 records, reading the projected GsWORKUNIT
+ * cache (vertop2) like Model_DrawSharedGt3Wireframes. */
 u32 *Model_DrawSharedGt4Wireframes(GsARGUNIT_SHARED *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    WireQuadPacket *packet = (WireQuadPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4Record *record =
+        (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x28, 17, 0x2C, 18, 0x30);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawGt4Record *)(base + off);
-        if (mode != gHw_At) {
-            register u32 cache asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF3Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            cache = (u32)arg->vertop2;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop2;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register s32 empty asm("$3");
-                empty = -1;
-                {
-                register u32 w0 asm("$8") = rec->words[3];
-                register u32 w1 asm("$9") = rec->words[4];
-                register u32 w2 asm("$10") = rec->words[5];
-                register u32 w3 asm("$11") = rec->words[6];
-                register u32 e asm("$13");
-                register s32 z asm("$2");
-                volatile u32 *entry;
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                e = w0 >> 16;
-                e <<= 3;
-                entry = (volatile u32 *)(e + cache);
-                z = entry[1];
-                e = entry[0];
-                pkt[3] = e;
-                if (z != empty) {
-                    HW_GTE_WRITE(16, z);
-                    pkt[10] = e;
-                    e = w1 >> 16;
-                    e <<= 3;
-                    entry = (volatile u32 *)(e + cache);
-                    z = entry[1];
-                    e = entry[0];
-                    pkt[4] = e;
-                    if (z != empty) {
-                        HW_GTE_WRITE(17, z);
-                        e = w2 >> 16;
-                        e <<= 3;
-                        entry = (volatile u32 *)(e + cache);
-                        z = entry[1];
-                        e = entry[0];
-                        pkt[9] = e;
-                        if (z != empty) {
-                            HW_GTE_WRITE(18, z);
-                            e = w3 >> 16;
-                            e <<= 3;
-                            entry = (volatile u32 *)(e + cache);
-                            z = entry[1];
-                            e = entry[0];
-                            pkt[5] = e;
-                            if (z != empty) {
-                                HW_GTE_WRITE(19, z);
-                                pkt[8] = e;
-                                pkt[6] = gHw_LineTerminator;
-                                pkt[11] = gHw_LineTerminator;
-                                GTE_AVSZ4_B();
-                                HW_GTE_READ(7, otz);
-                                pkt[2] = gHw_LineTemplate;
-                                pkt[7] = gHw_LineTemplate;
-                                otz >>= shift;
-                                otz <<= 2;
-                                otz += ot;
-                                slot = (u32 *)otz;
-                                t = *slot;
-                                pkt[1] = gHw_DrawModeTemplate;
-                                t = (t << 8) | 0xB;
-                                gHw_At = t >> 8;
-                                t = (t << 24) | gHw_At;
-                                pkt[0] = t;
-                                t = ((u32)pkt << 8) >> 8;
-                                *slot = t;
-                                pkt += 12;
-                            }
+    /* Whole-word draw-mode test, as in Model_DrawFt3Wireframes. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF3Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        GsWORKUNIT *cache = arg->vertop2;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
+
+        do {
+            /* Depth words go to the 16-bit SZ registers, which keep otz. */
+            GsWORKUNIT *v0 = &cache[record->prim.vert0];
+            u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+
+            packet->edge[0].xy[0] = v0->vec;
+            if (z0 != 0xFFFFFFFF) {
+                GsWORKUNIT *v1;
+                u32 z1;
+
+                packet->edge[1].xy[2] = v0->vec;
+                v1 = &cache[record->prim.vert1];
+                z1 = (u32)(u16)v1->otz | (u32)(u16)v1->p << 16;
+                packet->edge[0].xy[1] = v1->vec;
+                if (z1 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v2 = &cache[record->prim.vert2];
+                    u32 z2 = (u32)(u16)v2->otz | (u32)(u16)v2->p << 16;
+
+                    packet->edge[1].xy[1] = v2->vec;
+                    if (z2 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v3 = &cache[record->prim.vert3];
+                        u32 z3 = (u32)(u16)v3->otz | (u32)(u16)v3->p << 16;
+
+                        packet->edge[0].xy[2] = v3->vec;
+                        if (z3 != 0xFFFFFFFF) {
+                            u32 otz;
+                            GsOT_TAG *slot;
+                            u32 next;
+
+                            packet->edge[1].xy[0] = v3->vec;
+                            gte_ldsz4(z0, z1, z2, z3);
+                            packet->edge[0].terminator = terminator;
+                            packet->edge[1].terminator = terminator;
+                            gte_avsz4_b();
+                            gte_stotz(&otz);
+                            packet->edge[0].line = line;
+                            packet->edge[1].line = line;
+                            slot = &ot[otz >> shift];
+                            next = getaddr(slot);
+                            packet->draw_mode = draw_mode;
+                            setlen(packet, 11);
+                            setaddr(packet, next);
+                            setaddr(slot, packet);
+                            packet++;
                         }
                     }
                 }
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
+            }
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x28, 17, 0x2C, 18, 0x30);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe driver for shared GT3 window records (the record starts with
+ * the texture-window word, which wireframes skip). The vertices were
+ * projected earlier into the GsWORKUNIT cache (vertop2); an entry whose
+ * depth word (otz and p) is all ones is invalid and drops the triangle. */
 u32 *Model_DrawSharedGt3WindowRecordWireframes(GsARGUNIT_SHARED *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    WireTrianglePacket *packet = (WireTrianglePacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3WindowRecord *record =
+        (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x28, 17, 0x2C, 18, 0x30);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawGt3WindowRecord *)(base + off);
-        if (mode != gHw_At) {
-            register u32 cache asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF4Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            cache = (u32)arg->vertop2;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop2;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register s32 empty asm("$3");
-                empty = -1;
-                {
-                register u32 w0 asm("$8") = rec->words[4];
-                register u32 w1 asm("$9") = rec->words[5];
-                register u32 w2 asm("$10") = rec->words[6];
-                register u32 e asm("$13");
-                register s32 z asm("$2");
-                volatile u32 *entry;
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                e = w0 >> 16;
-                e <<= 3;
-                entry = (volatile u32 *)(e + cache);
-                z = entry[1];
-                e = entry[0];
-                pkt[3] = e;
-                if (z != empty) {
-                    HW_GTE_WRITE(17, z);
-                    pkt[6] = e;
-                    e = w1 >> 16;
-                    e <<= 3;
-                    entry = (volatile u32 *)(e + cache);
-                    z = entry[1];
-                    e = entry[0];
-                    pkt[4] = e;
-                    if (z != empty) {
-                        HW_GTE_WRITE(18, z);
-                        e = w2 >> 16;
-                        e <<= 3;
-                        entry = (volatile u32 *)(e + cache);
-                        z = entry[1];
-                        e = entry[0];
-                        pkt[5] = e;
-                        if (z != empty) {
-                            HW_GTE_WRITE(19, z);
-                            pkt[1] = gHw_DrawModeTemplate;
-                            pkt[7] = gHw_LineTerminator;
-                            GTE_AVSZ3_B();
-                            HW_GTE_READ(7, otz);
-                            pkt[2] = gHw_LineTemplate;
-                            otz >>= shift;
-                            otz <<= 2;
-                            otz += ot;
-                            slot = (u32 *)otz;
-                            t = *slot;
-                            t = (t << 8) | 7;
-                            gHw_At = t >> 8;
-                            t = (t << 24) | gHw_At;
-                            pkt[0] = t;
-                            t = ((u32)pkt << 8) >> 8;
-                            *slot = t;
-                            pkt += 8;
-                        }
+    /* Whole-word draw-mode test, as in Model_DrawFt3Wireframes. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF4Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        GsWORKUNIT *cache = arg->vertop2;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
+
+        do {
+            /* Depth words go to the 16-bit SZ registers, which keep otz. */
+            GsWORKUNIT *v0 = &cache[record->prim.prim.vert0];
+            u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+
+            packet->xy[0] = v0->vec;
+            if (z0 != 0xFFFFFFFF) {
+                GsWORKUNIT *v1;
+                u32 z1;
+
+                packet->xy[3] = v0->vec;
+                v1 = &cache[record->prim.prim.vert1];
+                z1 = (u32)(u16)v1->otz | (u32)(u16)v1->p << 16;
+                packet->xy[1] = v1->vec;
+                if (z1 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v2 = &cache[record->prim.prim.vert2];
+                    u32 z2 = (u32)(u16)v2->otz | (u32)(u16)v2->p << 16;
+
+                    packet->xy[2] = v2->vec;
+                    if (z2 != 0xFFFFFFFF) {
+                        u32 otz;
+                        GsOT_TAG *slot;
+                        u32 next;
+
+                        gte_ldsz3(z0, z1, z2);
+                        packet->draw_mode = draw_mode;
+                        packet->terminator = terminator;
+                        gte_avsz3_b();
+                        gte_stotz(&otz);
+                        packet->line = line;
+                        slot = &ot[otz >> shift];
+                        next = getaddr(slot);
+                        setlen(packet, 7);
+                        setaddr(packet, next);
+                        setaddr(slot, packet);
+                        packet++;
                     }
                 }
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
+            }
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x28, 17, 0x2C, 18, 0x30);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Wireframe driver for shared GT4 window records (the record starts with
+ * the texture-window word, which wireframes skip), reading the projected
+ * GsWORKUNIT cache (vertop2) like Model_DrawSharedGt3Wireframes. */
 u32 *Model_DrawSharedGt4WindowRecordWireframes(GsARGUNIT_SHARED *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register u32 mode asm("$13");
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    WireQuadPacket *packet = (WireQuadPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4WindowRecord *record =
+        (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x28, 17, 0x2C, 18, 0x30);
-    mode = *(u32 *)&gModel_bCurrentDrawMode;
-    if (count != 0) {
-        gHw_At = 1;
-        rec = (ModelDrawGt4WindowRecord *)(base + off);
-        if (mode != gHw_At) {
-            register u32 cache asm("$5");
-            register u32 normals asm("$6");
-            register GsOT *otp asm("$13");
-            register u32 shift asm("$14");
-            register u32 ot asm("$15");
-            gHw_LineTemplate = gModel_dwLineF3Template;
-            gHw_DrawModeTemplate = gModel_dwDrawModeTemplate;
-            gHw_LineTerminator = 0x55555555;
-            cache = (u32)arg->vertop2;
-            normals = (u32)*(SVECTOR *volatile *)&arg->nortop2;
-            otp = arg->tagp;
-            shift = arg->shift;
-            ot = (u32)otp->org;
-            do {
-                register s32 empty asm("$3");
-                empty = -1;
-                {
-                register u32 w0 asm("$8") = rec->words[4];
-                register u32 w1 asm("$9") = rec->words[5];
-                register u32 w2 asm("$10") = rec->words[6];
-                register u32 w3 asm("$11") = rec->words[7];
-                register u32 e asm("$13");
-                register s32 z asm("$2");
-                volatile u32 *entry;
-                register u32 *slot asm("$2");
-                register u32 otz asm("$2");
-                register u32 t asm("$13");
-                e = w0 >> 16;
-                e <<= 3;
-                entry = (volatile u32 *)(e + cache);
-                z = entry[1];
-                e = entry[0];
-                pkt[3] = e;
-                if (z != empty) {
-                    HW_GTE_WRITE(16, z);
-                    pkt[10] = e;
-                    e = w1 >> 16;
-                    e <<= 3;
-                    entry = (volatile u32 *)(e + cache);
-                    z = entry[1];
-                    e = entry[0];
-                    pkt[4] = e;
-                    if (z != empty) {
-                        HW_GTE_WRITE(17, z);
-                        e = w2 >> 16;
-                        e <<= 3;
-                        entry = (volatile u32 *)(e + cache);
-                        z = entry[1];
-                        e = entry[0];
-                        pkt[9] = e;
-                        if (z != empty) {
-                            HW_GTE_WRITE(18, z);
-                            e = w3 >> 16;
-                            e <<= 3;
-                            entry = (volatile u32 *)(e + cache);
-                            z = entry[1];
-                            e = entry[0];
-                            pkt[5] = e;
-                            if (z != empty) {
-                                HW_GTE_WRITE(19, z);
-                                pkt[8] = e;
-                                pkt[6] = gHw_LineTerminator;
-                                pkt[11] = gHw_LineTerminator;
-                                GTE_AVSZ4_B();
-                                HW_GTE_READ(7, otz);
-                                pkt[2] = gHw_LineTemplate;
-                                pkt[7] = gHw_LineTemplate;
-                                otz >>= shift;
-                                otz <<= 2;
-                                otz += ot;
-                                slot = (u32 *)otz;
-                                t = *slot;
-                                pkt[1] = gHw_DrawModeTemplate;
-                                t = (t << 8) | 0xB;
-                                gHw_At = t >> 8;
-                                t = (t << 24) | gHw_At;
-                                pkt[0] = t;
-                                t = ((u32)pkt << 8) >> 8;
-                                *slot = t;
-                                pkt += 12;
-                            }
+    /* Whole-word draw-mode test, as in Model_DrawFt3Wireframes. */
+    if (count != 0 &&
+        ((u32)gModel_bCurrentDrawMode | (u32)gModel_bBlendRateActive << 8 |
+         (u32)gModel_wDrawTintRedGreen << 16) != 1) {
+        u32 line = gModel_dwLineF3Template;
+        u32 draw_mode = gModel_dwDrawModeTemplate;
+        u32 terminator = 0x55555555;
+        GsWORKUNIT *cache = arg->vertop2;
+        GsOT_TAG *ot = arg->tagp->org;
+        u32 shift = arg->shift;
+
+        do {
+            /* Depth words go to the 16-bit SZ registers, which keep otz. */
+            GsWORKUNIT *v0 = &cache[record->prim.prim.vert0];
+            u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+
+            packet->edge[0].xy[0] = v0->vec;
+            if (z0 != 0xFFFFFFFF) {
+                GsWORKUNIT *v1;
+                u32 z1;
+
+                packet->edge[1].xy[2] = v0->vec;
+                v1 = &cache[record->prim.prim.vert1];
+                z1 = (u32)(u16)v1->otz | (u32)(u16)v1->p << 16;
+                packet->edge[0].xy[1] = v1->vec;
+                if (z1 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v2 = &cache[record->prim.prim.vert2];
+                    u32 z2 = (u32)(u16)v2->otz | (u32)(u16)v2->p << 16;
+
+                    packet->edge[1].xy[1] = v2->vec;
+                    if (z2 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v3 = &cache[record->prim.prim.vert3];
+                        u32 z3 = (u32)(u16)v3->otz | (u32)(u16)v3->p << 16;
+
+                        packet->edge[0].xy[2] = v3->vec;
+                        if (z3 != 0xFFFFFFFF) {
+                            u32 otz;
+                            GsOT_TAG *slot;
+                            u32 next;
+
+                            packet->edge[1].xy[0] = v3->vec;
+                            gte_ldsz4(z0, z1, z2, z3);
+                            packet->edge[0].terminator = terminator;
+                            packet->edge[1].terminator = terminator;
+                            gte_avsz4_b();
+                            gte_stotz(&otz);
+                            packet->edge[0].line = line;
+                            packet->edge[1].line = line;
+                            slot = &ot[otz >> shift];
+                            next = getaddr(slot);
+                            packet->draw_mode = draw_mode;
+                            setlen(packet, 11);
+                            setaddr(packet, next);
+                            setaddr(slot, packet);
+                            packet++;
                         }
                     }
                 }
-                }
-                count--;
-                rec++;
-            } while (count != 0);
-        }
+            }
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x28, 17, 0x2C, 18, 0x30);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }

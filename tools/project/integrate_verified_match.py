@@ -244,6 +244,32 @@ def profile_g_value(flags: Any, description: str) -> int:
 def validate_effective_profile(profile: Any, profile_name: str) -> None:
     if not isinstance(profile, dict):
         raise IntegrationError(f"invalid compiler profile: {profile_name}")
+    if "asm_massage" in profile:
+        # GCC's output goes through tools/project/asm_massage.py and GNU as
+        # at -G0 instead of MASPSX, so the profile takes no MASPSX settings.
+        if profile["asm_massage"] is not True:
+            raise IntegrationError(f"profile {profile_name}: asm_massage must be true")
+        conflicting = sorted(
+            key
+            for key in (
+                "maspsx_flags",
+                "aspsx_version",
+                "assembly_filter",
+                HANDWRITTEN_ASM_PROFILE_KEY,
+                "allow_psyq_inline_macros",
+                "psyq_inline_macro",
+            )
+            if key in profile
+        )
+        if conflicting:
+            raise IntegrationError(
+                f"profile {profile_name}: asm_massage excludes " + ", ".join(conflicting)
+            )
+        if profile_g_value(
+            profile.get("compiler_flags"), f"{profile_name} compiler_flags"
+        ) != 0 or profile.get("data_limit") != 0:
+            raise IntegrationError(f"profile {profile_name}: asm_massage requires -G0")
+        return
     if HANDWRITTEN_ASM_PROFILE_KEY in profile:
         if profile[HANDWRITTEN_ASM_PROFILE_KEY] is not True:
             raise IntegrationError(
@@ -750,6 +776,11 @@ def main() -> int:
             raise IntegrationError(f"unknown compiler profile: {args.profile}")
         profile = profiles[args.profile]
         validate_effective_profile(profile, args.profile)
+        if profile.get("asm_massage") is True:
+            raise IntegrationError(
+                "massaged profiles need tracked edit files beside the source and "
+                "are integrated by hand; see notes/asm-massage.md"
+            )
         if (
             args.allow_psyq_inline_macros
             and profile.get("allow_psyq_inline_macros") is not True

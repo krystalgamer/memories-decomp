@@ -21498,73 +21498,73 @@
     },
     {
       "address": "0x8006A01C",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x150",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006A16C",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x154",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006A2C0",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x180",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006A440",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x188",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006A5C8",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x150",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006A718",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x154",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006A86C",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x180",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006A9EC",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x188",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006AB74",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x160",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006ACD4",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x18C",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006AE60",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x160",
       "source": "src/game/wireframe_renderers.c"
     },
     {
       "address": "0x8006AFC0",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x18C",
       "source": "src/game/wireframe_renderers.c"
     },

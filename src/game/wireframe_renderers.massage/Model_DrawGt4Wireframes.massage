@@ -1,0 +1,44 @@
+# Model_DrawGt4Wireframes: massage of its plain C in src/game/wireframe_renderers.c.
+function = Model_DrawGt4Wireframes
+source = src/game/wireframe_renderers.c
+address = 0x8006A268
+size = 0x188
+rules = strip-nops aligned-word-copy invariant-last dmpsx-native gte-direct-read unspill fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot
+frameless = $a0 0x20
+
+[registers]
+$v0.1 = $a3       # lw $v0.1, 0x0($t6.1)
+$v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
+$v0.7 = $at       # addiu $v0.7, $zero, 0x1
+$v0.8 = $t5       # lw $v0.8, 0x4($t6.1)
+$v0.9 = $t5       # srl $v0.9, %word1, 16
+$v0.12 = $t5      # srl $v0.12, %word2, 16
+$v0.15 = $t5      # srl $v0.15, %word3, 16
+$v0.18 = $t5      # srl $v0.18, %word4, 16
+$v1.1 = $a1       # lw $v1.1, 0x14($t6.1)
+$v1.5 = $t5       # addu $v1.5, $v0.19, $t0.1
+$v1.6 = $v0       # mfc2 $v1.6, $7
+$a0.4 = $t5       # lui $a0.4, %hi(gModel_bCurrentDrawMode)
+$a1.1 = $t9       # lw $a1.1, 0x10($t6.1)
+$a2.1 = $a3       # addu $a2.1, $v1.1, $v0.3
+$t0.1 = $a1       # lw $t0.1, 0x18($t6.1)
+$t1.1 = $t8       # lhu $t1.1, 0x2($v0.1)
+$t3.1 = $s0       # lui $t3.1, %hi(gModel_dwLineF3Template)
+$t5.1 = $s2       # lui $t5.1, 0x5555
+$t6.1 = $a0       # addu $t6.1, $a0.0, $zero
+$s0.1 = $s1       # lui $s0.1, %hi(gModel_dwDrawModeTemplate)
+$t8.1 = $t7       # lw $t8.1, 0x4($v0.8)
+$t9.1 = $t6       # lw $t9.1, 0x8($t6.1)
+%tag1 = $t5       # lw %tag1, 0x0($v1.9)
+%word1 = $t0      # lw %word1, 0xC($a2.1)
+%word2 = $t1      # lw %word2, 0x10($a2.1)
+%word3 = $t2      # lw %word3, 0x14($a2.1)
+%word4 = $t3      # lw %word4, 0x18($a2.1)
+
+[residual]
+--- rules
++++ retail
+@@ -23,2 +23,3 @@
+ lw $a1, 0x18($a0)
++lw $a2, 0x1C($a0)
+ lw $t5, 0x4($a0)

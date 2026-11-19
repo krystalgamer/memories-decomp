@@ -4,7 +4,7 @@ The twelve game-owned handwritten callbacks returned by
 `Model_MapToWireframePrimitiveHandler` have source-format-based names. In the
 North American resident executable they are matched in C by
 `src/game/wireframe_renderers.c` under the named
-`gcc_2_8_1_g0_handwritten_asm` profile; the Japanese and European resident
+`gcc_2_8_1_o2_massaged` profile; the Japanese and European resident
 executables compile the same source at their own addresses.
 
 ## Source formats, not line shading
@@ -27,8 +27,8 @@ executables compile the same source at their own addresses.
 FT/GT describes the input primitive record, independently identified through
 the corresponding filled renderer and its `gModel_dwPolyFt3/Ft4/Gt3/Gt4Template`
 reference. It does not claim textured or Gouraud-shaded line output.
-The C reads those records through the same volatile `ModelDraw*Record`
-unions of `src/game/model_slot_setup.h` as the filled renderers.
+The C reads those records through the same `ModelDraw*Record` unions of
+`src/game/model_slot_setup.h` as the filled renderers.
 All twelve wireframe targets use the existing flat line templates.
 For example, the ordinary triangle path writes
 `SXY0/SXY1/SXY2/SXY0` into a closed line packet.
@@ -56,24 +56,29 @@ The originals have no stack frame. They park the caller's s0-s2 in scratch
 words of the argument block (`0x20`-`0x28`, or `0x28`-`0x30` for the shared
 paths), keep the line, draw-mode and `0x55555555` terminator words in those
 registers, and use `$at` directly for `beq $13,1` and `rol $13,$13,24`, which
-GCC never allocates. The C therefore relies on:
+GCC never allocates. No C form compiled by GCC alone produces that.
 
-- register declarations for every live value (file-scope global register
-  variables for s0-s2 and `$at`, local `register ... asm("$N")` for the rest);
-- inline assembly only for the s0-s2 save/restore and GTE operations, from
-  `src/game/handwritten_asm.h` (GTE commands come from the native-opcode
-  macros in `src/game/gte_native.h`; vertex loads use the Psy-Q `inline_c.h`
-  `gte_ldv0`/`gte_ldv1`/`gte_ldv2`), validated by
-  `tools/project/handwritten_asm_contract.py`;
-- the profile's `-fno-schedule-insns -fno-schedule-insns2`, so statements
-  keep the original instruction order;
-- `HW_KEEP_LABEL`, which keeps a label in front of the final return. GCC's
-  delay-slot filler stops at labels, so the epilogue keeps its
-  `addiu $v0,$v0,8; jr $ra; nop` order. The label address is stored in a
-  `.discard` section that the linker script drops, so no data is emitted.
+The C is therefore plain and portable: no register variables, no private
+asm, only the stock Psy-Q `inline_c.h` GTE macros and `libgpu.h` packet
+macros (`getaddr`, `setlen`, `setaddr`), and the real headers for the globals
+it reads. The `gcc_2_8_1_o2_massaged` profile compiles it at plain `-O2` and
+passes GCC's output through `tools/project/asm_massage.py`, which rewrites it
+into the original instructions with the twelve edit files in
+`src/game/wireframe_renderers.massage/`:
 
-Without register declarations no C form matches: the `$at` macro expansions
-and the use of s0-s2 while `$t4` stays free cannot come from GCC's allocator.
+- shared rules for the hand optimisations, among them the frameless
+  prologue that parks s0-s2 (`frameless = $a0 0x20`, or `0x28` for the
+  shared drivers), native COP2 command words, the composed draw-mode word
+  guard through `$at`, the single-word OT tag build and the guard-branch and
+  terminator scheduling;
+- a register map per function (the original's register for each of GCC's
+  live ranges);
+- a residual of one line per function, the original's unused `nortop` load.
+
+`make check-asm-massage` rebuilds each driver, compares it byte for byte and
+with its relocations against the retail executable, and proves that the
+residual preserves every data dependence. The design, rule catalogue and
+semantic assumptions are in `notes/asm-massage.md`.
 
 Every scratch offset, record advance, clipping/sentinel branch,
 depth/ordering-table operation, packet terminator, return-header calculation
