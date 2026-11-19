@@ -178,22 +178,6 @@ extern volatile u16 gFile_wTransferStepFlags;
  */
 extern u32 gFile_dwCancelRequestState;
 
-/* 0x801DC000, gLibrary_aCardArtRecord in config/slus_01411/symbols.txt:372.
- * File_SetPositionTable hands its address to File_InitTransferState
- * (src/game/file_setup.c), which stores it into gFile_TransferBufferBase
- * (File_InitTransferState, file_transfer_runtime.c). The two memory-card dialogs also reach it, always by
- * address: MemCardDialog_UpdateSave and MemCardDialog_UpdateTradeSave
- * (mem_card_dialog.c) pass it to MemCardReadFile as the destination of a
- * read whose last argument is 0x480, and compare it as a SaveDataState.
- * Every retail access is an address-take (one in File_SetPositionTable,
- * two in each of MemCardDialog_UpdateSave and
- * MemCardDialog_UpdateTradeSave), so the code says nothing
- * about the object's width; gFile_abPackageStagingBuffer
- * (file_package_staging.h) is named 0x1000 bytes higher and
- * gText_GlyphUploadScratch 0x2000 lower. The three units used to declare it
- * privately, all as `u8 []`. */
-extern u8 gLibrary_aCardArtRecord[];
-
 /* The primary transfer descriptor. Four sources in this family reach it as a
  * FileTransferDescriptor, agreeing on the spelling, and none defines it. */
 extern FileTransferDescriptor gFile_PrimaryTransferDescriptor;

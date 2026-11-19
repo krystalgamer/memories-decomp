@@ -730,6 +730,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
 #include "text_staging.h"
 #include "text_message_staging.h"
 #include "file_transfer.h"
+#include "file_transfer_buffer.h"
 #include "script_scene.h"
 #include "mem_card_dialog_steps.h"
 #include "dialog_layout.h"
@@ -1556,7 +1557,7 @@ void MemCardDialog_UpdateSave(void)
                 }
                 gMemCardDialog_RetryCounter = 0;
                 MemCardReadFile(0, gMemCardDialog_FileNameBuffer,
-                                (unsigned long *)gLibrary_aCardArtRecord,
+                                gLibrary_aCardArtRecord.words,
                                 gMemCardDialog_TransferOffset, 0x480);
                 gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
                 break;
@@ -1572,12 +1573,12 @@ void MemCardDialog_UpdateSave(void)
                 } else if (gSaveData_AllowIdentityBypass == 0
                            && SaveData_MatchesDuelistAndCurrentSequence(
                                   (SaveDataState *)gMemCard_pPrimaryTransferCursor,
-                                  (SaveDataState *)gLibrary_aCardArtRecord) == 0) {
+                                  &gLibrary_aCardArtRecord.save_state) == 0) {
                     if (gMemCardDialog_RetryCounter == 0) {
                         gMemCardDialog_RetryCounter++;
                         gMemCardDialog_OperationState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
                         MemCardReadFile(0, gMemCardDialog_FileNameBuffer,
-                                        (unsigned long *)gLibrary_aCardArtRecord,
+                                        gLibrary_aCardArtRecord.words,
                                         gMemCardDialog_TransferOffset + SAVE_DATA_STATE_SIZE, 0x480);
                         gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
                         break;
@@ -1856,7 +1857,7 @@ void MemCardDialog_UpdateSave(void)
                 gMemCardDialog_OperationState |= MEM_CARD_DIALOG_FLAG_RESULT_READY;
                 gMemCardDialog_RetryCounter = 0;
                 MemCardReadFile(0, gMemCardDialog_FileNameBuffer,
-                                (unsigned long *)gLibrary_aCardArtRecord,
+                                gLibrary_aCardArtRecord.words,
                                 gMemCardDialog_TransferOffset, 0x480);
                 gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
                 break;
@@ -1872,12 +1873,12 @@ void MemCardDialog_UpdateSave(void)
                 } else if (gSaveData_AllowIdentityBypass == 0
                            && SaveData_MatchesDuelistAndCurrentSequence(
                                   (SaveDataState *)gMemCard_pPrimaryTransferCursor,
-                                  (SaveDataState *)gLibrary_aCardArtRecord) == 0) {
+                                  &gLibrary_aCardArtRecord.save_state) == 0) {
                     if (gMemCardDialog_RetryCounter == 0) {
                         gMemCardDialog_RetryCounter++;
                         gMemCardDialog_OperationState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
                         MemCardReadFile(0, gMemCardDialog_FileNameBuffer,
-                                        (unsigned long *)gLibrary_aCardArtRecord,
+                                        gLibrary_aCardArtRecord.words,
                                         gMemCardDialog_TransferOffset + SAVE_DATA_STATE_SIZE, 0x480);
                         gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
                         break;
@@ -2051,7 +2052,7 @@ void MemCardDialog_UpdateTradeSave(void)
             gMemCardDialog_RetryCounter = 0;
             gMemCardDialog_CardNumberArg[0] = (gMemCardDialog_Port >> 4) + 1;
             MemCardReadFile(gMemCardDialog_Port, gMemCardDialog_FileNameBuffer,
-                            (unsigned long *)gLibrary_aCardArtRecord,
+                            gLibrary_aCardArtRecord.words,
                             gMemCardDialog_TransferOffset, 0x480);
             gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
             break;
@@ -2069,7 +2070,7 @@ void MemCardDialog_UpdateTradeSave(void)
         }
         if (SaveData_HasSameDuelistCode(
                 (SaveDataState *)record,
-                (SaveDataState *)gLibrary_aCardArtRecord) == 0) {
+                &gLibrary_aCardArtRecord.save_state) == 0) {
             if (gMemCardDialog_RetryCounter != 0) {
                 MemCardDialog_SetMessage(0xC3, 0x18);
                 break;
@@ -2077,7 +2078,7 @@ void MemCardDialog_UpdateTradeSave(void)
             gMemCardDialog_RetryCounter++;
             gMemCardDialog_OperationState &= ~MEM_CARD_DIALOG_FLAG_RESULT_CREATED;
             MemCardReadFile(gMemCardDialog_Port, gMemCardDialog_FileNameBuffer,
-                            (unsigned long *)gLibrary_aCardArtRecord,
+                            gLibrary_aCardArtRecord.words,
                             gMemCardDialog_TransferOffset + SAVE_DATA_STATE_SIZE, 0x480);
             gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING;
             break;

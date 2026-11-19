@@ -19,6 +19,7 @@
 #include "main.h"
 
 #include "file_transfer.h"
+#include "file_transfer_buffer.h"
 
 void func_800136D4(void)
 {
@@ -67,7 +68,7 @@ void File_SetPositionTable(void)
     s32 i;
     SpritePrim *state;
 
-    File_InitTransferState(gLibrary_aCardArtRecord);
+    File_InitTransferState(gLibrary_aCardArtRecord.bytes);
 
     gFile_BeforePrimaryRequestCallback = File_WaitForTransfers;
     state = &D_800E9DF0;
