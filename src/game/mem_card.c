@@ -453,7 +453,7 @@ DuelEffectChannel *DuelEffect_CreateChannel(s32 value, s32 set_flags) {
     channel->depth_offset = gDisplayObject_awOrderingTableDepthBases[1].low - 1;
 
     if (set_flags != 0) {
-        channel->flags |= DUEL_EFFECT_CHANNEL_CREATE_FLAGS;
+        channel->status.f.flags |= DUEL_EFFECT_CHANNEL_CREATE_FLAGS;
     } else if (value & 0x8000) {
         TextBox_BuildBlocking(channel);
     }
@@ -591,7 +591,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
         a = gMemCardWork_OperationMode;
         p->field_60.phase = -0x400;
         r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
-        r->flags = r->flags | DIALOG_TRANSITION_CHANNEL_FLAG;
+        r->status.f.flags = r->status.f.flags | DIALOG_TRANSITION_CHANNEL_FLAG;
         do {
             TextBox_UpdateChannels();
         } while (r->prompt_object == 0);
@@ -606,7 +606,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
     r = &gText_aChannels[root->text_index];
     if ((f & DIALOG_TRANSITION_FLAG_SETTLED) != 0) {
         TextBox_UpdateChannels();
-        if ((r->flags & TEXT_BOX_FLAG_DONE) != 0) {
+        if ((r->status.f.flags & TEXT_BOX_FLAG_DONE) != 0) {
             gDialog_bCallbackState = gDialog_bCallbackState | DIALOG_TRANSITION_FLAG_TEXT_DONE;
             if (gDialog_bChoice == 0) {
                 DuelEffect_CreateChannel(0x80D4, 0);
@@ -639,7 +639,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
         p->field_48.spotlight.outer = 0x40;
         if (root->box_object->field_60.phase == 0) {
             g = gDialog_bCallbackState;
-            r->flags = r->flags & (0xFFFF ^ DIALOG_TRANSITION_CHANNEL_FLAG);
+            r->status.f.flags = r->status.f.flags & (0xFFFF ^ DIALOG_TRANSITION_CHANNEL_FLAG);
             gDialog_bCallbackState = g | DIALOG_TRANSITION_FLAG_SETTLED;
         }
     }
@@ -673,7 +673,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
         DisplayObject_SavePosition(e);
         e->field_60.phase = -0x400;
         q = DuelEffect_CreateChannel(0xD0, 0);
-        q->flags = q->flags | DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG;
+        q->status.f.flags = q->status.f.flags | DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG;
         do {
             TextBox_UpdateChannels();
         } while (q->prompt_object == 0);
@@ -688,7 +688,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
 
     if ((g & DIALOG_TRANSITION_FLAG_SETTLED) != 0) {
         TextBox_UpdateChannels();
-        if ((q->flags & TEXT_BOX_FLAG_DONE) != 0) {
+        if ((q->status.f.flags & TEXT_BOX_FLAG_DONE) != 0) {
             gDialog_bCallbackState = 0;
         }
     } else {
@@ -697,9 +697,9 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
         if ((s16)v >= 0) {
             e->xy.s.x = DIALOG_BOX_X;
             e->xy.s.y = 0x50;
-            h = q->flags;
+            h = q->status.f.flags;
             gDialog_bCallbackState = g | DIALOG_TRANSITION_FLAG_SETTLED;
-            q->flags = h & (0xFFFF ^ DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG);
+            q->status.f.flags = h & (0xFFFF ^ DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG);
         } else {
             Widget_SlideSine(e, DIALOG_BOX_X, 0x50, (s16)v);
         }
@@ -927,7 +927,7 @@ void MemCardWork_UpdateOperation(void)
     if (gMemCardWork_wFlags & 0x400) {
         DuelEffectChannel *text = &gText_aChannels[root->text_index];
         TextBox_UpdateChannels();
-        if ((*(u32 *)&text->flags & MEM_CARD_MESSAGE_COMPLETION_MASK) == 0x2000)
+        if ((text->status.word & MEM_CARD_MESSAGE_COMPLETION_MASK) == 0x2000)
             gMemCardWork_wFlags &= ~0x400;
         return;
     }
@@ -2192,7 +2192,7 @@ void MemCardDialog_CreateObject(void)
     gMemCardDialog_ChannelIndex = 0;
 
     for (; i < DUEL_EFFECT_CHANNEL_COUNT; i++) {
-        if (!(p->flags & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE)) {
+        if (!(p->status.f.flags & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE)) {
             gMemCardDialog_ChannelIndex = i;
             break;
         }
@@ -2250,9 +2250,9 @@ void MemCardDialog_Update(void)
             }
             if ((gMemCard_wDialogFlags & 0x10) != 0) {
 #ifdef VERSION_EUROPE
-                p->flags = p->flags | 0x1010;
+                p->status.f.flags = p->status.f.flags | 0x1010;
 #else
-                p->flags = p->flags | 0x1008;
+                p->status.f.flags = p->status.f.flags | 0x1008;
 #endif
                 return;
             }
@@ -2261,9 +2261,9 @@ void MemCardDialog_Update(void)
             TextBox_UpdateChannels();
             p = &gText_aChannels[gMemCardDialog_ChannelIndex];
 #ifdef VERSION_EUROPE
-            if ((*(s32 *)&p->flags & 0x2010) !=
+            if ((p->status.word & 0x2010) !=
 #else
-            if ((*(s32 *)&p->flags & TEXT_BOX_COMPLETION_MASK) !=
+            if ((p->status.word & TEXT_BOX_COMPLETION_MASK) !=
 #endif
                 TEXT_BOX_FLAG_DONE) {
                 return;
@@ -2528,7 +2528,7 @@ s32 SaveData_UpdateLoadPair(void)
             o->depth_offset = 0x10;
             do {
                 TextBox_UpdateChannels();
-            } while ((o->flags & TEXT_BOX_FLAG_DONE) == 0);
+            } while ((o->status.f.flags & TEXT_BOX_FLAG_DONE) == 0);
         }
         if (gSaveData_LoadPairState & 0x40) {
             if (MemCardDialog_StepSlide(
@@ -2539,7 +2539,7 @@ s32 SaveData_UpdateLoadPair(void)
         }
         TextBox_UpdateChannels();
         q = gText_aChannels;
-        if ((q[gMemCardDialog_ChannelIndex].flags & SAVE_DATA_LOAD_CHANNEL_FLAG) == 0) {
+        if ((q[gMemCardDialog_ChannelIndex].status.f.flags & SAVE_DATA_LOAD_CHANNEL_FLAG) == 0) {
             gSaveData_LoadPairState = 0xB;
         }
         return 0;

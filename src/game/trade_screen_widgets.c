@@ -223,7 +223,7 @@ void CardList_BuildRowSetTextBoxes(const CardCountEntry *e, s32 idx, s32 flag, s
 #endif
         }
         if (i != 0) {
-            box->flags |= CARD_LIST_FOLLOWING_FLAG;
+            box->status.f.flags |= CARD_LIST_FOLLOWING_FLAG;
         }
         TextBox_BuildBlocking(box);
         e++;

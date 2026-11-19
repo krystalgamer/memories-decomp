@@ -444,6 +444,16 @@ typedef char LibraryMotionState_size_must_be_0x48[
    it plays back in slot 0), and 0x20/0x24 bracket the record's slice of gDuelEffect_aEntries:
    TextBox_BuildStep seeds both with &gDuelEffect_aEntries[entry_range_start],
    DuelEffect_ProcessEntries walks from 0x24 and moves 0x20 as it compacts. */
+/* GCC 2.8.1 has no anonymous unions, so the halves are reached through f. */
+typedef union {
+    struct {
+        u16 flags;
+        u16 initial_string_id;
+    } f;
+    /* flags in the low half, initial_string_id in the high half. */
+    u32 word;
+} DuelEffectChannelStatus;
+
 typedef struct DuelEffectChannel {
     /* Text stream stack, selected by the signed stream_index at 0x58 (-1
        when idle). Slot 0 is the string being played back; string pushes
@@ -476,11 +486,11 @@ typedef struct DuelEffectChannel {
        unrelated DuelEffectResourceRecord. */
     struct DisplayObject *aux_object;
     struct DisplayObject *prompt_object;
-    /* Channel state bits: TEXT_BOX_FLAG_DONE, DUEL_EFFECT_CHANNEL_FLAG_ACTIVE
-       and the per-screen box flags callers OR in. Several completion tests read
-       it with initial_string_id as one word (`*(u32 *)&channel->flags`). */
-    u16 flags;
-    u16 initial_string_id;
+    /* f.flags holds the channel state bits: TEXT_BOX_FLAG_DONE,
+       DUEL_EFFECT_CHANNEL_FLAG_ACTIVE and the per-screen box flags callers OR
+       in. Several completion tests read it with initial_string_id as one word
+       (lw at 0x34) through status.word. */
+    DuelEffectChannelStatus status;
     u16 pen_x;
     u16 pen_y;
     s16 rect_x;
@@ -571,7 +581,7 @@ typedef char DuelEffectChannel_prompt_object_offset_must_be_0x30[
     OFFSETOF(DuelEffectChannel, prompt_object) == 0x30 ? 1 : -1
 ];
 typedef char DuelEffectChannel_flags_offset_must_be_0x34[
-    OFFSETOF(DuelEffectChannel, flags) == 0x34 ? 1 : -1
+    OFFSETOF(DuelEffectChannel, status.f.flags) == 0x34 ? 1 : -1
 ];
 typedef char DuelEffectChannel_pen_x_offset_must_be_0x38[
     OFFSETOF(DuelEffectChannel, pen_x) == 0x38 ? 1 : -1
