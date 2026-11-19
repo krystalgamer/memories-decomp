@@ -158,6 +158,10 @@ typedef struct BuildDeckTransitionState {
     u8 deck_card_quantities[CARD_ID_END];
     u8 chest_card_quantities[CARD_ID_END];
     u8 card_sort_rank[CARD_ID_END + 1];
+    /* BUILD_DECK_STATE_STEP_MASK selects gBuildDeck_apfnStepHandlers;
+       BuildDeck_TestAndSetInitialized latches BUILD_DECK_STATE_INITIALIZED,
+       and the exit confirmation sets BUILD_DECK_STATE_CONFIRM_OPEN while its
+       text box is up. */
     u16 state;
     u16 next_state;
     u8 pane_index;
@@ -165,6 +169,10 @@ typedef struct BuildDeckTransitionState {
        gBuildDeck_bConfirmMode). */
     u8 init_flags;
 } BuildDeckTransitionState;
+
+#define BUILD_DECK_STATE_STEP_MASK 0x3F
+#define BUILD_DECK_STATE_CONFIRM_OPEN 0x4000
+#define BUILD_DECK_STATE_INITIALIZED 0x8000
 
 typedef char BuildDeckTransitionState_target_offset_must_be_0x5AA4[
     OFFSETOF(BuildDeckTransitionState, viewport_target_x) == 0x5AA4 ? 1 : -1

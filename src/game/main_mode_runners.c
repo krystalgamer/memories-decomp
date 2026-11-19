@@ -719,7 +719,7 @@ void Main_RunCredits(void)
             save_state = &gSaveData_Workspace.state;
             save_state->campaign_scene.word = 0x30;
             for (flag = 0x20; flag < 0x120; flag++) {
-                Library_UpdateCardUsedFlag(flag | 0x8000);
+                Library_UpdateCardUsedFlag(flag | CAMPAIGN_FLAG_CLEAR_MODIFIER);
             }
             gMain_bModeRunnerStep = 0;
             save_state->credits_flags = save_state->credits_flags | 3;
