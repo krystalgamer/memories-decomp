@@ -405,13 +405,8 @@ void DisplayObject_RenderSpriteSheetList(void) {
     s32 i = gDisplayObject_awListHeads[2];
 
     if (i >= 0) {
-        DisplayObject *base = gDisplayObject_aPool;
-        GsOT **table = gGraphics_apOrderingTables;
-
         do {
-            /* Integer sum: &base[i] swaps the addu operands. */
-            DisplayObject *object =
-                (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
+            DisplayObject *object = &gDisplayObject_aPool[i];
             DisplayObjectCallback callback = object->update;
             DisplayObject *data = object;
 
@@ -425,7 +420,7 @@ void DisplayObject_RenderSpriteSheetList(void) {
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
                 DisplayObject_UpdateCommandStream(data);
                 DisplayObject_RenderSpriteSheet(
-                    data, table[object->ot_index],
+                    data, gGraphics_apOrderingTables[object->ot_index],
                     (s16)object->ot_depth
                 );
             }
@@ -590,13 +585,8 @@ void DisplayObject_RenderSpriteStripList(void)
     s32 i = gDisplayObject_awListHeads[3];
 
     if (i >= 0) {
-        DisplayObject *base = gDisplayObject_aPool;
-        GsOT **table = gGraphics_apOrderingTables;
-
         do {
-            /* Integer sum: &base[i] swaps the addu operands. */
-            DisplayObject *object =
-                (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
+            DisplayObject *object = &gDisplayObject_aPool[i];
             DisplayObjectCallback callback = object->update;
             DisplayObject *data = object;
 
@@ -608,8 +598,9 @@ void DisplayObject_RenderSpriteStripList(void)
 
             if (((object->flags & DISPLAY_OBJECT_RENDERABLE_MASK) ^
                  DISPLAY_OBJECT_RENDERABLE_MASK) == 0) {
-                DisplayObject_RenderSpriteStrips(object, table[object->ot_index],
-                              (s16)object->ot_depth);
+                DisplayObject_RenderSpriteStrips(object,
+                    gGraphics_apOrderingTables[object->ot_index],
+                    (s16)object->ot_depth);
             }
         } while (i >= 0);
     }
@@ -635,13 +626,8 @@ void DisplayObject_RunSecondaryCallbackList(void)
     s32 i = gDisplayObject_awListHeads[6];
 
     if (i >= 0) {
-        DisplayObject *base = gDisplayObject_aPool;
-        GsOT **table = gGraphics_apOrderingTables;
-
         do {
-            /* Integer sum: &base[i] swaps the addu operands. */
-            DisplayObject *object =
-                (DisplayObject *)(i * DISPLAY_OBJECT_RECORD_SIZE + (s32)base);
+            DisplayObject *object = &gDisplayObject_aPool[i];
             DisplayObjectCallback callback = object->update;
 
             i = object->next;
@@ -655,7 +641,8 @@ void DisplayObject_RunSecondaryCallbackList(void)
                 DisplayObjectDrawCallback secondary = object->field_4C.draw;
 
                 if (secondary != 0) {
-                    secondary(object, table[object->ot_index]);
+                    secondary(object,
+                        gGraphics_apOrderingTables[object->ot_index]);
                 }
             }
         } while (i >= 0);

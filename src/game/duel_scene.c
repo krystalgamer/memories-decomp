@@ -5959,9 +5959,6 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     s32 i;
     DuelCardStagingBuffer *b1;
     s32 n;
-    u8 *tbl2;
-    DuelCardRecord *rec2;
-    DuelCardStagingBuffer *b2;
     s32 h2;
     DuelCardRecord *e;
     s32 id;
@@ -5977,10 +5974,7 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     DisplayObject *w;
     DuelCardStagingBuffer *b4;
     s32 j2;
-    u8 *tbl3;
-    DuelCardRecord *rec3;
     s32 h3;
-    s32 k;
 
     i = 0;
     b1 = &gDuel_abCardStagingBuffer;
@@ -5989,15 +5983,9 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
     }
     n = 0;
     i = n;
-    tbl2 = gDuel_abFieldGridCardRecordIndices.flat;
-    rec2 = gDuel_aCardRecords;
-    b2 = &gDuel_abCardStagingBuffer;
     h2 = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
-        /* Integer address arithmetic keeps retail's addu operand order here
-           and below; u8 pointer arithmetic swaps it. */
-        e = (DuelCardRecord *)(*(u8 *)(i + h2 + (s32)tbl2) *
-            DUEL_CARD_RECORD_SIZE + (s32)rec2);
+        e = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[i + h2]];
         if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             id = (u16)e->card_id;
             if ((u32)(id - DUEL_ATTACK_TRAP_FIRST_CARD_ID) <
@@ -6005,14 +5993,10 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
                 sx = (s16)id;
                 th = sx - DUEL_ATTACK_TRAP_FIRST_CARD_ID;
                 n++;
-                /* Retail adds the slot offset to the base (addu offset,
-                   base); indexing the member swaps the operands. */
-                ((DuelCardStagingBuffer *)(th * sizeof(u16) + (u32)b2))
-                    ->attack_traps.table.entries.card_ids[0] = id;
+                gDuel_abCardStagingBuffer.attack_traps.table.entries.card_ids[th] = id;
                 sx2 = sx - (DUEL_ATTACK_TRAP_FIRST_CARD_ID -
                     DUEL_CARD_STAGING_TRAP_RECORD_INDEX_BIAS);
-                ((DuelCardStagingBuffer *)(sx2 * sizeof(u16) + (u32)b2))
-                    ->attack_traps.table.words[0] =
+                gDuel_abCardStagingBuffer.attack_traps.table.words[sx2] =
                     e->object->kind_index.card_record_index;
             }
         }
@@ -6034,6 +6018,9 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
         do {
             if (((DuelAttackTrapTable *)(q + high + 0x3C68))
                     ->entries.card_ids[0] != 0) {
+                /* The table is small data: indexed directly, its %gp_rel
+                   address stays in the loop. Retail hoists it into this
+                   local and adds it last, as integers. */
                 v = *(u8 *)(i + (s32)tb);
                 if (v * DUEL_ATTACK_TRAP_THRESHOLD_SCALE < th) {
                     break;
@@ -6054,16 +6041,12 @@ s32 Duel_SelectAttackTrap(const DisplayObject *p) {
         }
     }
     i = 0;
-    tbl3 = gDuel_abFieldGridCardRecordIndices.flat;
-    rec3 = gDuel_aCardRecords;
     h3 = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT;
-    k = DUEL_FAKE_TRAP_CARD_ID;
     for (; i < DUEL_FIELD_ROW_SIZE; i++) {
-        e = (DuelCardRecord *)(*(u8 *)(i + h3 + (s32)tbl3) *
-            DUEL_CARD_RECORD_SIZE + (s32)rec3);
+        e = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[i + h3]];
         if ((e->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             v = e->card_id;
-            if (v == k) {
+            if (v == DUEL_FAKE_TRAP_CARD_ID) {
                 /* loop.c moves this exit back after the threshold pass's
                    `return 1`, where retail keeps it. */
                 w = e->object;
@@ -10110,9 +10093,9 @@ void DuelEffect_ApplyBoardDestruction(void) {
     if ((f & 0x40) != 0) {
         i = DUEL_FIELD_ROW_SIZE;
         while (1) {
-            p = (DuelCardRecord *)(gDuel_abFieldGridCardRecordIndices.flat[
+            p = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[
                 i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
-            ] * DUEL_CARD_RECORD_SIZE + (u8 *)gDuel_aCardRecords);
+            ]];
             if ((p->flags & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
                 p->object->resource_branch_index == CARD_TYPE_DRAGON) {
                 DuelCard_RemoveFromField(p);
@@ -10184,8 +10167,8 @@ void DuelEffect_ApplyRaigeki(void) {
         SD_SEPlayFull(0x15);
         n = gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT +
             DUEL_FIELD_ROW_SIZE;
-        r = (DuelCardRecord *)((u8 *)gDuel_aCardRecords +
-            gDuel_abFieldGridCardRecordIndices.flat[gDuel_sEffectWorkCounter + n] * DUEL_CARD_RECORD_SIZE);
+        r = &gDuel_aCardRecords[
+            gDuel_abFieldGridCardRecordIndices.flat[gDuel_sEffectWorkCounter + n]];
         v = r->flags & DUEL_CARD_FLAG_OCCUPIED;
         gDuel_sEffectWorkCounter = (u16)gDuel_sEffectWorkCounter + 1;
         if (v != 0) {
