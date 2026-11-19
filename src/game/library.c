@@ -880,7 +880,7 @@ void Library_UpdateCardView(LibraryState *state)
         DisplayObject_ConfigureSpriteAtPosition(o, 0x148, LIBRARY_CARD_VIEW_Y, 0, 2, 0, 0x1B, 0x107);
         o->resource_uv.b.v = 0x80;
         o->field_60 = -0x400;
-        o->flags |= 8;
+        o->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(o);
         DisplayObject_SetDepthOffset(o, 4);
         state->card_view = o;
@@ -992,7 +992,7 @@ void Library_UpdateCardView(LibraryState *state)
             state->motion.animation_countdown = 0x12C;
             state->motion.card_view_slide_phase = 2;
             o = rec->primary_object;
-            o->flags |= 4;
+            o->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
             DisplayObject_SavePosition(o);
             o->field_60 = 0;
             SD_SEPlayFull(0x34);
@@ -1071,7 +1071,7 @@ void Library_UpdateCardView(LibraryState *state)
         break;
     case 5:
         if (gInput_awPadPressed[0] & LIBRARY_CARD_VIEW_CANCEL_BUTTON) {
-            rec->primary_object->flags |= 4;
+            rec->primary_object->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
             state->motion.card_view_phase = 6;
             state->motion.model_load_phase = 0;
             DisplayObject_ReleaseIfPresent(state->loading_icon);
@@ -1100,7 +1100,7 @@ void Library_UpdateCardView(LibraryState *state)
                 state->motion.display_objects.all[i]->flags |= 0x40;
                 i++;
             } while (i < 9);
-            TEXT_CHANNEL(3)->render_object->flags |= 0x40;
+            TEXT_CHANNEL(3)->render_object->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
             gMain_apFrameServiceCallbacks[3] = Library_DrawCardGrid;
             Fade_StartInKeepOverlay();
             state->motion.card_view_slide_phase = 2;

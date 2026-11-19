@@ -579,7 +579,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     object->field_48.pivot.y = DUEL_RESOURCE_SECONDARY_Y;
     object->kind_index.front_variant = (u8)variant;
     object->attribute |= 0x01000000;
-    object->flags |= 8;
+    object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
     DisplayObject_SelectOrderingTable1(object);
     DisplayObject_SetDepthOffset(object, -1);
