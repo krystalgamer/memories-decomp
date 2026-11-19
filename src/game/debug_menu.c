@@ -762,7 +762,7 @@ void DebugMenu_UpdateTradeEntry(void)
 void DebugMenu_EnterDuel(void)
 {
     gDuel_wBgmId = 0x71D0;
-    gDuel_bPostDuelMainMode = 0;
+    gDuel_bPostDuelMainMode = MAIN_MODE_DEBUG;
     Main_StartDuel(-1, 1, 0x8000, 0x8000);
 }
 
