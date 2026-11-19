@@ -27,9 +27,7 @@
 /* The shop's price table is the shop_cards view of gFile_StagingBuffer
  * (file_staging_buffer.h). */
 
-/* gPassword_aTable is the password table Password_LookupCardID searches, and
- * gPassword_szDigits is the eight-digit string Password_RefreshDigitDisplay rebuilds. */
-extern s32 gPassword_aTable[];
+/* gPassword_szDigits is the eight-digit string Password_RefreshDigitDisplay rebuilds. */
 extern u8 gPassword_szDigits[];
 
 /* Builds text-box record 0 and returns it; both call sites ignore the

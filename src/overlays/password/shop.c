@@ -301,7 +301,7 @@ void Password_InitShopScreen(void)
 s32 Password_LookupCardID(void)
 {
     s32 packed = 0;
-    s32 *entry = gPassword_aTable;
+    PasswordShopCard *entry = &gFile_StagingBuffer.shop_cards[1];
     s32 index;
     s32 i;
 
@@ -312,13 +312,13 @@ s32 Password_LookupCardID(void)
 
     index = 1;
     for (;;) {
-        if (entry[0] == -1) {
+        if (entry->price == -1) {
             return 0;
         }
-        if (packed == entry[1]) {
+        if (packed == entry->password) {
             return index;
         }
-        entry += 2;
+        entry++;
         index++;
     }
 }

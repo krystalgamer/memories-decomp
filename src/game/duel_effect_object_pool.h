@@ -175,23 +175,9 @@ typedef char DuelRitualResult_clear_word_offset_must_be_0x0C[
     OFFSETOF(DuelRitualResult, terminator) == 0x0C ? 1 : -1
 ];
 
-/* The recipe table that Duel_CheckRitual walks.
- * Duel_LoadPackageStage's case 4 fills it, handing the address to a transfer
- * as both sector_destination and alternate_sector_destination with mode 0x800, the same way its case 3 fills
- * gDuel_aFusionTable. Duel_CheckRitual then scans it as fixed-size records --
- * id first, stepping by DUEL_RITUAL_RECIPE_HALFWORD_COUNT -- and stops on a
- * zero id, so the loaded data is self-terminating.
- *
- * The same memory is also borrowed as scratch once the duel is over:
- * DuelScene_UpdateResultOutro casts it to DuelResultSpriteSlot * for the outro, which
- * duel_result_outro.h documents as "the gDuel_awRitualData scratch". That reuse is
- * why the array stays unsized here -- the two consumers disagree about the
- * element type, and only the halfword view belongs to this header.
- *
- * DuelScene_UpdateResultRewards reuses the same backing for a complete
- * 0x40-byte result display record after recipe processing has ended, and
- * casts it to DuelResultDisplayState * the same way. */
-extern u16 gDuel_awRitualData[];
+/* The recipe table that Duel_CheckRitual walks is gDuel_awRitualData.recipe_words,
+ * declared in duel_scene.h together with the duel-result views that reuse the
+ * same sector once the duel is over. */
 
 s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritual_id);
 

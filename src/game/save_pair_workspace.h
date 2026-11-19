@@ -10,21 +10,16 @@
  * SaveData_UpdateLoadPair (mem_card.c) reads each memory card's state block
  * (SAVE_DATA_STATE_SIZE bytes) into `loaded` of slots 0 and 1 and compares
  * their duelist codes; SaveData_UpdateDuelLoad checks both decks and converts
- * both names (player_name_sjis, linked as gSaveData_aFirstPlayerNameSjis at
- * +0x40C); Duel_InitScene (duel_scene.c) uses the two loaded states as the
- * sides' save data; MainMenu_RefreshTradeInventory (main_menu/trade_screen.c)
+ * both names (player_name_sjis); Duel_InitScene (duel_scene.c) uses the two
+ * loaded states as the sides' save data; MainMenu_RefreshTradeInventory (main_menu/trade_screen.c)
  * lists a slot's card_quantities.
  *
  * MainMenu_UpdateTradeScreen copies the first TWO_PLAYER_SAVE_TRANSFER_SIZE
- * bytes of each `loaded` block to `trade_write` at +0x680 (linked as
- * gSaveData_aTradeWriteStaging), moves card counts between the two
- * trade_write card_quantities, and SaveData_RequestTradeWrite seals both
+ * bytes of each `loaded` block to `trade_write` at +0x680, moves card counts
+ * between the two trade_write card_quantities, and SaveData_RequestTradeWrite seals both
  * trade_write blocks before writing them; after the write the screen copies
  * trade_write back over `loaded`. That unit still walks the slots through
- * its 16-byte block view. Nothing is known to use the slot past +0xD00.
- *
- * The linker scripts also name slot 1's `loaded` gSaveData_aSecondPlayerState
- * (+0x1000); the interior names keep their own declarations. */
+ * its 16-byte block view. Nothing is known to use the slot past +0xD00. */
 typedef struct {
     SaveDataStateBlock loaded;
     SaveDataStateBlock trade_write;
@@ -39,6 +34,5 @@ typedef char SaveDataPairSlot_trade_write_offset_must_be_0x680[
 ];
 
 extern SaveDataPairSlot gSaveData_aPairWorkspace[2];
-extern u8 gSaveData_aSecondPlayerState[];
 
 #endif

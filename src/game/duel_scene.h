@@ -1631,9 +1631,8 @@ typedef char DuelResultDisplayState_size_must_be_0x40[
  * record.
  *
  * The sole writer, DuelScene_UpdateResultRewards, points it at
- * gDuel_awRitualData's reused
- * image-backed storage, which spans this complete record; it is not a
- * pointer to a short recipe allocation. */
+ * gDuel_awRitualData.result_display, the ritual-recipe sector reused once the
+ * duel is over (see DuelRitualDataBlock). */
 extern DuelResultDisplayState *gDuel_pResultDisplayState;
 
 /* Duel-result and rewards UI controller installed by the scene table. */
@@ -1659,7 +1658,7 @@ typedef struct {
     u8 tag;
 } DuelResultSpriteSpec;
 
-/* One slot of the table DuelScene_UpdateResultOutro keeps in the gDuel_awRitualData scratch
+/* One slot of the table DuelScene_UpdateResultOutro keeps in gDuel_awRitualData.sprite_slots
    while the outro runs: the object it spawned for that sprite, so step 3 can
    retarget every one of them. Only the pointer is reached; the rest of the
    0xC-byte stride is what the scratch already holds. */
@@ -1675,11 +1674,37 @@ typedef char DuelResultSpriteSlot_size_must_be_0xC[
     sizeof(DuelResultSpriteSlot) == 0xC ? 1 : -1
 ];
 
+/* The one-sector block at 0x801799D8 (it ends where gDuel_awEquipTable starts).
+ *
+ * Duel_LoadPackageStage's case 4 fills it with the ritual recipes, handing the
+ * address to a transfer as both sector_destination and alternate_sector_destination
+ * with a one-sector phase, the same way its case 3 fills gDuel_aFusionTable.
+ * Duel_CheckRitual then scans recipe_words as fixed-size records -- id first,
+ * stepping by DUEL_RITUAL_RECIPE_HALFWORD_COUNT -- and stops on a zero id, so the
+ * loaded data is self-terminating.
+ *
+ * Once the duel is over the same memory is borrowed as scratch:
+ * DuelScene_UpdateResultOutro keeps its DuelResultSpriteSlot table in it, and
+ * DuelScene_UpdateResultRewards points gDuel_pResultDisplayState at the complete
+ * 0x40-byte result display record. */
+typedef union {
+    u8 bytes[FILE_SECTOR_SIZE];
+    u16 recipe_words[FILE_SECTOR_SIZE / sizeof(u16)];
+    DuelResultSpriteSlot sprite_slots[DUEL_RESULT_SPRITE_COUNT];
+    DuelResultDisplayState result_display;
+} DuelRitualDataBlock;
+
+typedef char DuelRitualDataBlock_size_must_be_one_sector[
+    sizeof(DuelRitualDataBlock) == FILE_SECTOR_SIZE ? 1 : -1
+];
+
+extern DuelRitualDataBlock gDuel_awRitualData;
+
 extern u16 gDuelResult_wBgmId;
 
 /* gDuel_apfnSceneStateHandler duel phase entry: the result outro. It spawns one object per row
  * of the winning side's sprite table -- gDuelResult_aSpriteSpecsOpponent with a real opponent,
- * gDuelResult_aSpriteSpecsNoOpponent without -- keeps them in the gDuel_awRitualData scratch as
+ * gDuelResult_aSpriteSpecsNoOpponent without -- keeps them in gDuel_awRitualData.sprite_slots as
  * DuelResultSpriteSlot entries, and retargets all of them on its third step. */
 void DuelScene_UpdateResultOutro(void);
 
