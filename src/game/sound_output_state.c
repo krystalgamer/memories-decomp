@@ -418,15 +418,15 @@ void SD_StepActiveCommand(void)
             }
             switch ((s32)g_SDValue->s_adwSD_ACTIVE_COMMAND_TAIL[0] & 0xF0) {
             case 0x10:
-                gSD_pFileRequest->file_selector = 4;
+                gSD_pFileRequest->file_selector = FILE_LBA_INDEX_SD_SE;
                 File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_SE_FILE.text);
                 break;
             case 0x20:
-                gSD_pFileRequest->file_selector = 5;
+                gSD_pFileRequest->file_selector = FILE_LBA_INDEX_SD_BGM;
                 File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_BGM_FILE.text);
                 break;
             case 0x40:
-                gSD_pFileRequest->file_selector = 6;
+                gSD_pFileRequest->file_selector = FILE_LBA_INDEX_MASTER_XA;
                 File_RequestSecondarySlot(gSD_pFileRequest, g_SDValue->s_szSD_MASTER_XA_FILE.text);
                 break;
             }
@@ -504,7 +504,7 @@ void SD_StepActiveCommand(void)
             second_word &= first_word;
             gSD_pFileRequest->cd_filter_file = g_SDValue->s_bSD_CD_FILTER_FILE;
             bank_sector_offset = (s32)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0;
-            gSD_pFileRequest->file_selector = 6;
+            gSD_pFileRequest->file_selector = FILE_LBA_INDEX_MASTER_XA;
             second_word += bank_sector_offset;
             gSD_pFileRequest->sector_offset = second_word;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
@@ -550,7 +550,7 @@ void SD_StepActiveCommand(void)
             gSD_pFileRequest->cd_filter_channel = g_SDValue->s_bSD_CD_FILTER_CHANNEL;
             gSD_pFileRequest->cd_filter_file = g_SDValue->s_bSD_CD_FILTER_FILE;
             start_sector_offset = g_SDValue->s_dwSD_CD_START_SECTOR;
-            gSD_pFileRequest->file_selector = 6;
+            gSD_pFileRequest->file_selector = FILE_LBA_INDEX_MASTER_XA;
             gSD_pFileRequest->sector_offset = start_sector_offset;
             File_RequestSecondarySlot(gSD_pFileRequest, 0);
         }
