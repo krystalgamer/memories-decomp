@@ -139,7 +139,7 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
 /* Settles the returning duel's record, resets the grid and uploads the
    portrait blocks; the upload stops as soon as the grid's last entry is
    loaded. */
-static inline void FreeDuel_InitRecordsAndPortraits(u8 *src)
+static inline void FreeDuel_InitRecordsAndPortraits(DuelistPortrait *src)
 {
     s32 i;
     s32 one;
@@ -212,9 +212,8 @@ static inline void FreeDuel_InitRecordsAndPortraits(u8 *src)
         gGraphics_aImageTransferRects[0].w = 24;
         gGraphics_aImageTransferRects[0].h = 48;
         for (col = 0; col < FREE_DUEL_GRID_COLUMN_COUNT; col++) {
-            LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)src);
-            LoadImage2(&gGraphics_aImageTransferRects[1],
-                       (u32 *)(src + FREE_DUEL_PORTRAIT_IMAGE_SIZE));
+            LoadImage2(&gGraphics_aImageTransferRects[0], src->image);
+            LoadImage2(&gGraphics_aImageTransferRects[1], src->clut);
             gGraphics_aImageTransferRects[0].x += 24;
             gGraphics_aImageTransferRects[1].y++;
             if ((s16)gGraphics_aImageTransferRects[1].y >= 512) {
@@ -222,7 +221,7 @@ static inline void FreeDuel_InitRecordsAndPortraits(u8 *src)
                 gGraphics_aImageTransferRects[1].x += 64;
             }
             count++;
-            src += FREE_DUEL_PORTRAIT_RECORD_SIZE;
+            src++;
         }
     }
     for (row = 0; row < 5; row++) {
@@ -231,16 +230,15 @@ static inline void FreeDuel_InitRecordsAndPortraits(u8 *src)
         gGraphics_aImageTransferRects[0].w = 24;
         gGraphics_aImageTransferRects[0].h = 48;
         for (col = 0; col < FREE_DUEL_GRID_COLUMN_COUNT; col++) {
-            LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)src);
-            LoadImage2(&gGraphics_aImageTransferRects[1],
-                       (u32 *)(src + FREE_DUEL_PORTRAIT_IMAGE_SIZE));
+            LoadImage2(&gGraphics_aImageTransferRects[0], src->image);
+            LoadImage2(&gGraphics_aImageTransferRects[1], src->clut);
             count++;
             if (count >= FREE_DUEL_GRID_ENTRY_COUNT) {
                 return;
             }
             gGraphics_aImageTransferRects[0].x += 24;
             gGraphics_aImageTransferRects[1].y++;
-            src += FREE_DUEL_PORTRAIT_RECORD_SIZE;
+            src++;
             if ((s16)gGraphics_aImageTransferRects[1].y >= 512) {
                 gGraphics_aImageTransferRects[1].y = 496;
                 gGraphics_aImageTransferRects[1].x += 64;
@@ -249,7 +247,7 @@ static inline void FreeDuel_InitRecordsAndPortraits(u8 *src)
     }
 }
 
-void FreeDuel_Init(u8 *src)
+void FreeDuel_Init(DuelistPortrait *src)
 {
     s32 i;
     s32 k;
