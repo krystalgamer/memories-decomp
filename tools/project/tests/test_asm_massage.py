@@ -343,6 +343,8 @@ class DirectPolygonDependenceTests(unittest.TestCase):
 
 
 class RotationTests(unittest.TestCase):
+    # The loop reads vertop (0x18) and writes vertop2 (0x1C).
+    LAYOUT = "GsARGUNIT_SHARED"
     LOOP = ("lw\t$5,24($4)\nlw\t$6,28($4)\nli\t$7,3\n$L1:\n"
             "lwc2\t$0, 0( $5 );lwc2\t$1, 4( $5 )\naddu\t$7,$7,-1\naddu\t$5,$5,8\n"
             ".word 0x0000007f\nswc2\t$14, 0( $6 )\n{extra}addu\t$6,$6,8\n"
@@ -351,9 +353,9 @@ class RotationTests(unittest.TestCase):
     def rotated(self, extra: str = "", after: str = ""):
         instrs = am.webify(parse(self.LOOP.format(extra=extra, after=after)))
         context = rules.Context({})
-        for name in ("dmpsx-native", "rotate-loop-loads"):
-            instrs = rules.RULES[name].apply(instrs, context)
-        return instrs
+        instrs = rules.RULES["dmpsx-native"].apply(instrs, context)
+        self.unrotated = instrs
+        return rules.RULES["rotate-loop-loads"].apply(instrs, context)
 
     def test_loop_loads_are_pipelined_by_one_iteration(self):
         out = body(self.rotated())
@@ -366,18 +368,29 @@ class RotationTests(unittest.TestCase):
                          ["lw %rot1, 0x0($a1.1)", "lw %rot2, 0x4($a1.1)"])
 
     def test_rotation_is_proven(self):
-        self.assertEqual(deps.rotations(self.rotated()), (2, []))
+        self.assertEqual(deps.rotations(self.rotated(), self.unrotated, self.LAYOUT), (2, []))
+
+    def test_rotation_must_replace_the_same_gte_load(self):
+        instrs = self.rotated()
+        count, problems = deps.rotations(instrs)
+        self.assertTrue(problems and "no pre-rotation program" in problems[0])
+        # The pre-rule lwc2 read another word than the lw pair now reads.
+        lwc2 = next(i for i in self.unrotated if i.op == "lwc2")
+        lwc2.args = [lwc2.args[0], ("m", 8, lwc2.args[1][2])]
+        count, problems = deps.rotations(instrs, self.unrotated, self.LAYOUT)
+        self.assertTrue(any("not a load of" in p for p in problems))
 
     def test_rotation_past_an_aliasing_store_is_refused(self):
         # A store through the source pointer may change the next word.
-        count, problems = deps.rotations(self.rotated(extra="sw\t$0,0($5)\n"))
+        instrs = self.rotated(extra="sw\t$0,0($5)\n")
+        count, problems = deps.rotations(instrs, self.unrotated, self.LAYOUT)
         self.assertTrue(problems and "may write" in problems[0])
 
     def test_rotated_value_read_after_the_loop_is_refused(self):
         instrs = self.rotated()
         exit_ = next(n for n, i in enumerate(instrs) if i.op == "jr")
         instrs.insert(exit_, am.Instr("sw", [("r", "%rot1"), ("m", 0, "$a2.1")]))
-        count, problems = deps.rotations(instrs)
+        count, problems = deps.rotations(instrs, self.unrotated, self.LAYOUT)
         self.assertTrue(any("not a single rotated value" in p or "live after" in p
                             for p in problems))
 
@@ -490,6 +503,79 @@ class JoinMergeTests(unittest.TestCase):
         self.assertEqual(report.merged, [])
         self.assertIn("read on a not-taken path", report.refused[0])
         self.assertTrue(report.flags)
+
+
+class ProverSoundnessTests(unittest.TestCase):
+    """Residuals that change what the program computes must be flagged."""
+
+    def flags(self, program: str, edit) -> list[str]:
+        before = am.rename(am.webify(parse(program)), {})
+        texts = [i.text() for i in before]
+        patch = am.make_residual(texts, edit(list(texts)))
+        return deps.check(before, am.apply_residual(before, patch)).flags
+
+    @staticmethod
+    def swap(old: str, new: str):
+        return lambda texts: [new if t == old else t for t in texts]
+
+    def test_loop_counter_is_not_the_constant_it_starts_from(self):
+        # $v0 starts at 0 like the constant in $v1, but is redefined.
+        program = ("li\t$2,0\nli\t$3,0\n$L1:\nsw\t$3,0($4)\naddu\t$2,$2,1\n"
+                   "slt\t$8,$2,$6\nbne\t$8,$0,$L1\naddu\t$4,$4,4\nj\t$31\nnop")
+        self.assertTrue(self.flags(program, self.swap("sw $v1, 0x0($a0)", "sw $v0, 0x0($a0)")))
+
+    def test_a_merge_is_not_either_of_its_sources(self):
+        program = ("lw\t$8,0($4)\nlw\t$10,4($4)\nbeq\t$5,$0,$L1\nmove\t$9,$8\n"
+                   "move\t$9,$10\n$L1:\nsw\t$9,0($6)\nj\t$31\nnop")
+        self.assertTrue(self.flags(program, self.swap("sw $t1, 0x0($a2)", "sw $t0, 0x0($a2)")))
+        self.assertTrue(self.flags(program, self.swap("addu $t1, $t2, $zero",
+                                                      "addu $t1, $t0, $zero")))
+
+    def test_only_single_definition_webs_share_values(self):
+        loop = am.webify(parse("li\t$2,0\nli\t$3,0\n$L1:\naddu\t$2,$2,1\n"
+                               "bne\t$2,$6,$L1\nnop\nj\t$31\nnop"))
+        values = deps.constants(loop)
+        self.assertEqual(sorted(values.values()), [0])  # $3 only, not the counter
+        same = deps.copy_classes(loop, values)
+        self.assertNotEqual(same("$2.1"), same("$3.1"))
+        merge = am.webify(parse("lw\t$8,0($4)\nlw\t$10,4($4)\nbeq\t$5,$0,$L1\nmove\t$9,$8\n"
+                                "move\t$9,$10\n$L1:\nsw\t$9,0($6)\nj\t$31\nnop"))
+        same = deps.copy_classes(merge)
+        self.assertNotEqual(same("$8.1"), same("$10.1"))
+
+    def test_live_in_registers_are_not_interchangeable(self):
+        self.assertTrue(self.flags("lw\t$2,0($5)\nsw\t$2,0($6)\nj\t$31\nnop",
+                                   self.swap("lw $v0, 0x0($a1)", "lw $v0, 0x0($a2)")))
+
+    def test_rebuilt_constant_keeps_its_value(self):
+        program = "lui\t$8,0x1\nori\t$8,$8,0x2345\nsw\t$8,0($4)\nj\t$31\nnop"
+        self.assertTrue(self.flags(program, self.swap("lui $t0, 0x1", "lui $t0, 0x7")))
+        self.assertEqual(self.flags(program, self.swap("lui $t0, 0x1", "lui $t0, 0x1")), [])
+
+    def test_gte_loads_are_memory_reads(self):
+        program = "sw\t$8,0($4)\nlwc2\t$0, 0( $5 )\nj\t$31\nnop"
+        flags = self.flags(program, lambda t: [t[1], t[0]] + t[2:])
+        self.assertIn("memory", " ".join(flags))
+
+    def test_globals_overlap_by_address_and_width(self):
+        # gModel_bCurrentDrawMode and gModel_bBlendRateActive are adjacent
+        # bytes: a word read of the first covers the second.
+        self.assertTrue(deps.globals_overlap("%lo(gModel_bCurrentDrawMode)", 4,
+                                             "%lo(gModel_bBlendRateActive)", 1))
+        self.assertFalse(deps.globals_overlap("%lo(gModel_bCurrentDrawMode)", 1,
+                                              "%lo(gModel_bBlendRateActive)", 1))
+        self.assertTrue(deps.globals_overlap("%lo(gUnknownA)", 1, "%lo(gUnknownB)", 1))
+
+    def test_argument_fields_follow_the_layout(self):
+        program = ("lw\t$8,24($4)\nlw\t$9,28($4)\nsw\t$0,0($8)\nlw\t$10,0($9)\n"
+                   "sw\t$10,0($6)\nj\t$31\nnop")
+        before = am.rename(am.webify(parse(program)), {})
+        for layout, separate in (("GsARGUNIT_NORMAL", True), (None, False)):
+            prog = deps.Program(before, layout)
+            store, load = prog.order[2], prog.order[3]
+            self.assertEqual(deps.may_alias(prog, store, load), not separate)
+        self.assertEqual(deps.Program(before, "GsARGUNIT_NORMAL").region("$t1", 3), "normals")
+        self.assertEqual(deps.Program(before, "GsARGUNIT_SHARED").region("$t1", 3), "cache")
 
 
 class ContractTests(unittest.TestCase):

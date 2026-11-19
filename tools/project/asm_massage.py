@@ -118,6 +118,9 @@ class Instr:
     implicit: list | None = None
     # After renaming: the same instruction with web names (for checks).
     web: "Instr | None" = None
+    # A rule-made instruction that stands for an instruction of the rule's
+    # input (rotate-loop-loads: the mtc2 for the lwc2 it replaced).
+    replaced: "Instr | None" = None
 
     @property
     def is_label(self) -> bool:
@@ -583,7 +586,8 @@ def canonical_labels(instrs: list[Instr]) -> list[Instr]:
     for instr in instrs:
         if instr.is_label and instr.args[0][1] not in used:
             continue
-        new = Instr(instr.op, list(instr.args), set(instr.origin), instr.implicit, instr.web)
+        new = Instr(instr.op, list(instr.args), set(instr.origin), instr.implicit, instr.web,
+                    instr.replaced)
         new.args = [("l", mapping[a[1]]) if a[0] == "l" else a for a in new.args]
         out.append(new)
     return out
@@ -732,7 +736,7 @@ def apply_rule(rule, instrs: list[Instr], context) -> list[Instr]:
     return instrs
 
 
-def run_pipeline(edit: EditFile, gcc_text: str, *, registers=None,
+def run_pipeline(edit: EditFile, gcc_text: str, *, registers=None, capture: dict | None = None,
                  residual=None, stage: str = "final", context=None):
     """Return the massaged instruction list. STAGE "rules" stops before the
     register map, "renamed" before the residual."""
@@ -749,6 +753,10 @@ def run_pipeline(edit: EditFile, gcc_text: str, *, registers=None,
             raise MassageError(f"unknown rule {name}")
         rule = rules_module.RULES[name]
         if rule.stage == "web":
+            if capture is not None:
+                # Each web rule's input, for checks against the program
+                # before the rule (rotations).
+                capture.setdefault("inputs", {})[name] = instrs
             instrs = apply_rule(rule, instrs, context)
     if stage == "rules":
         return canonical_labels(instrs)
@@ -758,6 +766,8 @@ def run_pipeline(edit: EditFile, gcc_text: str, *, registers=None,
         if rule.stage == "physical":
             instrs = apply_rule(rule, instrs, context)
     instrs = canonical_labels(instrs)
+    if capture is not None:
+        capture["dropped"] = context.dropped
     if stage == "renamed":
         return instrs
     instrs = apply_residual(instrs, residual)
@@ -919,6 +929,14 @@ def check_source_contract(text: str) -> list[str]:
     return problems
 
 
+def argument_layout(edit: EditFile) -> str | None:
+    """The type of the function's pointer argument in its C source (which
+    GsARGUNIT layout names the regions of its fields), or None."""
+    text = (ROOT / edit.settings["source"]).read_text()
+    match = re.search(rf"\b{re.escape(edit.function)}\s*\(\s*(?:const\s+)?(\w+)\s*\*", text)
+    return match.group(1) if match else None
+
+
 def symbol_table() -> dict[str, int]:
     table = {}
     for line in (ROOT / SYMBOLS).read_text().splitlines():
@@ -1071,11 +1089,16 @@ def command_check(edit: EditFile, work: Path, verbose: bool) -> int:
     print("  relocations: " + ", ".join(relocs))
     import asm_massage_deps
 
-    before = run_pipeline(edit, gcc_text, stage="renamed")
+    capture: dict = {}
+    before = run_pipeline(edit, gcc_text, stage="renamed", capture=capture)
     frameless = edit.settings.get("frameless", "").split()
+    ruled: dict = {}
+    webs = run_pipeline(edit, gcc_text, stage="rules", capture=ruled)
     deps = asm_massage_deps.check(before, apply_residual(before, edit.residual),
                                   (frameless[0], int(frameless[1], 0)) if frameless else None,
-                                  run_pipeline(edit, gcc_text, stage="rules"))
+                                  webs, dropped=capture["dropped"],
+                                  unrotated=ruled.get("inputs", {}).get("rotate-loop-loads"),
+                                  layout=argument_layout(edit))
     print("  " + deps.summary())
     for flag in deps.flags[: None if verbose else 8]:
         print("    " + flag)
