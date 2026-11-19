@@ -557,7 +557,9 @@ only by name, and every PAL image holds one 16-byte object at
 key-sprite name as that array under `VERSION_EUROPE` and no linker assignment
 remains.
 
-The credits module (USA and Japan) starts with its 4-byte module word; from
+The credits module (USA and Japan) starts with its 4-byte module word,
+`credits/module_header.c`'s `.data` (0x10; the PAL model_intro images build
+the same unit with `VERSION_EUROPE`, 0x34) in its own layout segment; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette
 rectangles, then `Credits_UpdateLines`' jump table, and its `.data` holds
 `gCredits_aEntries`. The text is the table's string literals: the compiler

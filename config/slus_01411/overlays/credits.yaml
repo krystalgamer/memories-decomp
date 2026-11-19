@@ -46,13 +46,19 @@ options:
     - ".bss"
 
 segments:
-  - name: module
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x80180000
     align: 4
     subsegments:
-      - [0x0, rodata, overlays/credits/module_header]
+      - [0x0, .data, overlays/credits/module_header]
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x80180004
+    align: 4
+    subsegments:
       - [0x4, .rodata, overlays/credits/credits]
       - [0x7B0, c, overlays/credits/credits]
       - [0x1D38, .data, overlays/credits/credits]
