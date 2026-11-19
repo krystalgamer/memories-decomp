@@ -25,11 +25,11 @@ void DisplayObject_ProjectGroundPosition(DisplayObject *object)
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
     {
         SVECTOR *scratch = (SVECTOR *)SCRATCH_ADDR(0x3E0);
-        u16 x = object->position.h.field_28;
+        u16 x = object->position.ground.x;
 
         scratch->vy = 0;
         scratch->vx = x;
-        scratch->vz = object->position.h.field_2A;
+        scratch->vz = object->position.ground.z;
         gte_ldv0(scratch);
         gte_rtps();
         gte_stsxy(&object->xy);

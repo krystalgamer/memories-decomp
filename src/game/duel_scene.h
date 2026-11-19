@@ -443,8 +443,8 @@ s32 DuelCursor_UpdateDirection(DuelSelectionRecord *object);
 typedef s32 (*DuelCursorUpdateDirectionWithDir)(DuelSelectionRecord *cursor, s8 dir);
 
 typedef char DuelCursorMotion_position_offsets_must_match[
-    OFFSETOF(DisplayObject, position.h.field_28) == 0x28 &&
-    OFFSETOF(DisplayObject, position.h.field_2A) == 0x2A ? 1 : -1
+    OFFSETOF(DisplayObject, position.ground.x) == 0x28 &&
+    OFFSETOF(DisplayObject, position.ground.z) == 0x2A ? 1 : -1
 ];
 typedef char DuelCursorMotion_target_offsets_must_match[
     OFFSETOF(DisplayObject, field_2C.h.field_2C) == 0x2C &&
@@ -1135,8 +1135,8 @@ void Duel_SetupFieldCardFromDeck(s32 slot, s32 deck_index);
  *   update_state              the step's phase bits (0x40 started, 0x20 the
  *                             first half of the turn is done);
  *   field_60.frames           the frame counter of the current half;
- *   position.h.field_28       the per-frame angle step;
- *   position.h.field_2A       the turn angle, stepped unsigned; the two settle
+ *   position.turn.step        the per-frame angle step;
+ *   position.turn.angle       the turn angle, stepped unsigned; the two settle
  *                             constants are stored signed through position.s.y
  *                             (addiu rather than ori);
  *   field_20.b.rotation_x/y/z the rotation bytes the angle's high byte drives

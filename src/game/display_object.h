@@ -169,7 +169,40 @@ typedef struct DisplayObject {
     /* 0x28 and 0x30 are each read both ways: display_projection.c and the two
        sprite emitters take whole words, while duel_scene.c derives a
        parent-relative offset from the halves. A union records both without
-       forcing either side to spell the other's access. */
+       forcing either side to spell the other's access.
+
+       The halves have one reading per object kind, each fixed by the
+       routine that consumes them, and a view each. All keep the u16 width
+       of `h`; `s` is the signed reading any of them takes where a signed
+       compare or constant needs it.
+
+       target: where a slide or ease ends. DisplayObject_UpdateCosineSlide*,
+       DisplayObject_UpdatePositionRotationTransition and the info-panel and
+       draw-card slides hand it to DisplayObject_InterpolatePositionCosine or
+       Widget_SlideSine as the target and copy the word into xy at the end;
+       the battle shake jitters xy around it.
+
+       ground: a ground-plane x/z. DisplayObject_ProjectGroundPosition loads
+       x as the vertex vx and z as its vz (vy 0) before gte_rtps; the duel
+       field cursor is created at a gDuel_aFieldGridGroundPositions entry
+       and integrates the pair with velocity_x/velocity_z.
+
+       offset: a linked object's displacement from its parent's xy, which
+       DuelSelection_LinkDisplayObject measures and
+       DuelSelection_UpdateLinkedObject adds back.
+
+       alpha: DisplayObject_StartAlphaTransition's target and step for the
+       byte at 0x21. rotation: DuelCard_UpdateDefenseRotation's per-frame
+       step for rotation_z and the angle it settles at. turn: the card-view
+       turns' per-frame angle step and the 8.8 turn angle whose high byte
+       becomes a rotation byte. orbit: DuelResult_UpdateOrbitSprite's
+       radius, which shrinks by 2 a frame and ends the orbit at zero, and
+       its angle.
+
+       `h` stays for readings with one routine each: the Gouraud corners
+       duel_effect_text.c and debug_menu.c write, the placement stat
+       count-up, the ritual card's fall, and the red/green colour targets
+       DisplayObject_UpdateColorTransition walks as an array into 0x2C. */
     union {
         struct {
             u16 field_28;
@@ -182,6 +215,34 @@ typedef struct DisplayObject {
             s16 y;
         } s;
         s32 word;
+        struct {
+            u16 x;
+            u16 y;
+        } target;
+        struct {
+            u16 x;
+            u16 z;
+        } ground;
+        struct {
+            u16 x;
+            u16 y;
+        } offset;
+        struct {
+            u16 target;
+            u16 step;
+        } alpha;
+        struct {
+            u16 step;
+            u16 target;
+        } rotation;
+        struct {
+            u16 step;
+            u16 angle;
+        } turn;
+        struct {
+            u16 radius;
+            u16 angle;
+        } orbit;
     } position;                    /* 0x28 */
     /* The first of the six words at stride 8 that the 0x4C comment below
        describes, and read both ways like its neighbours at 0x30, 0x3C, 0x40
