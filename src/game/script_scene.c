@@ -373,8 +373,8 @@ s32 ScriptCommand_MarkStarted(void)
 {
     u16 value = gScript_wCommandWord;
 
-    if (!(value & 0x8000)) {
-        gScript_wCommandWord = value | 0x8000;
+    if (!(value & SCRIPT_COMMAND_STARTED)) {
+        gScript_wCommandWord = value | SCRIPT_COMMAND_STARTED;
         return 0;
     }
     return 1;
@@ -1451,7 +1451,7 @@ void Script_RunTick(void)
         gScript_wCommandWord = gScript_DialogCommandLatch;
     }
     while (1) {
-        gScript_apfnCommandHandlers[gScript_wCommandWord & 0x1F]();
+        gScript_apfnCommandHandlers[gScript_wCommandWord & SCRIPT_COMMAND_OPCODE_MASK]();
         if (gScript_wCommandWord != 0) {
             return;
         }
