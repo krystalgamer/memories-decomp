@@ -326,7 +326,7 @@ DuelEffectEntry *TextBox_GetGlyphAt(s32 index, s32 x, s32 y)
     node = base[index].entry_begin;
 #endif
     for (;;) {
-        if (!(node->entry_flags & 0x80)) {
+        if (!(node->entry_flags & DUEL_EFFECT_ENTRY_FLAG_ACTIVE)) {
             return 0;
         }
         if ((s16)node->local_x == x &&
