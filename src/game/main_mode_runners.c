@@ -130,10 +130,10 @@ void Main_RunDuel(void)
     case 0:
         if (!(value & MAIN_MODE_RUNNER_STEP_STARTED)) {
             gMain_bModeRunnerStep = value | MAIN_MODE_RUNNER_STEP_STARTED;
-            gBuildDeck_bConfirmMode = 0x80;
+            gBuildDeck_bConfirmMode = BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG;
             BuildDeck_InitScreen(
                 (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
-                gDuel_awPlayerDeck, 0, 0x80);
+                gDuel_awPlayerDeck, 0, BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG);
             Fade_WaitIn();
         } else if (BuildDeck_Update() == 0) {
             SD_BGMFadeOut();

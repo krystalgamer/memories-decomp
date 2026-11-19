@@ -1480,7 +1480,7 @@ void Library_InitializeScreen(void) {
         n--;
         q--;
     } while (n >= 0);
-    File_RequestAsyncTransfer(0, 0, LIBRARY_PACKAGE_FIRST_SECTOR,
+    File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG, 0, LIBRARY_PACKAGE_FIRST_SECTOR,
                               LIBRARY_PACKAGE_SECTOR_COUNT,
                               (FileTransferCallback)Library_LoadPackageStage, 0, 0);
     File_WaitForTransfers();

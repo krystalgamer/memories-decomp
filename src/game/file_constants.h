@@ -29,6 +29,12 @@
 #define FILE_TRANSFER_FLAG_IMAGE_ADVANCE_X 0x20000
 #define FILE_TRANSFER_FLAG_SKIP_RAM_WRITE 0x200000
 #define FILE_TRANSFER_FLAG_MEMORY_SOURCE 0x40000000
+/* gFile_anLba / gFile_apszName indices; a transfer request's flags carry
+   one in their low nibble (FILE_TRANSFER_FILE_INDEX_MASK). */
+#define FILE_LBA_INDEX_WA_MRG 0
+#define FILE_LBA_INDEX_SU_MRG 1
+#define FILE_LBA_INDEX_MODEL_MRG 2
+#define FILE_LBA_INDEX_MOVIE_STR 3
 #define FILE_LBA_INDEX_SD_SE 4
 #define FILE_LBA_INDEX_SD_BGM 5
 #define FILE_LBA_INDEX_MASTER_XA 6

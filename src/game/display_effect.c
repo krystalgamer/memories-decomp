@@ -340,7 +340,7 @@ void DisplayEffect_UpdateResourceAcquisition(MenuRecord *a)
             return;
         }
         req = File_TryRequestAsyncTransfer(
-            0, 0, a->effect_id * 50 + DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR, 50,
+            FILE_LBA_INDEX_WA_MRG, 0, a->effect_id * 50 + DISPLAY_EFFECT_RESOURCE_FIRST_SECTOR, 50,
             DisplayEffect_LoadResourceStage, 0, 0
         );
         req->callback_data = gDisplay_abResourceBank0;

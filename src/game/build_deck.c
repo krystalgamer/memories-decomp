@@ -928,7 +928,7 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
 void CardList_LoadSharedGraphics(void)
 {
     File_RequestAsyncTransfer(
-        0, 0, CARD_LIST_GRAPHICS_REQUEST_FILE_ID, CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT,
+        FILE_LBA_INDEX_WA_MRG, 0, CARD_LIST_GRAPHICS_REQUEST_FILE_ID, CARD_LIST_GRAPHICS_REQUEST_SECTOR_COUNT,
         CardList_LoadSharedGraphicsStage, 0, 0);
     File_WaitForTransfers();
 }

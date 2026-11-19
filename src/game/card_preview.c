@@ -437,7 +437,7 @@ FileTransferDescriptor *CardPreview_RequestResourceTransfer(s32 slot, s32 card_i
 
     gCardPreview_Resources[slot].card_id = card_id;
     object = File_TryRequestAsyncTransfer(
-        0, 0, DUEL_RESOURCE_TRANSFER_POSITION(card_id),
+        FILE_LBA_INDEX_WA_MRG, 0, DUEL_RESOURCE_TRANSFER_POSITION(card_id),
         DUEL_RESOURCE_TRANSFER_SECTORS, CardPreview_HandleResourceTransfer, 0, 0);
     object->callback_data = (void *)slot;
     gFile_dwTransferState =
