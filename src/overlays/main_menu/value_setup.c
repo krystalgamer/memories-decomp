@@ -61,6 +61,16 @@
    gTwoPlayerDuel_abSetupChoices[2] (0x801845BE) is the shared toggle choice.
    Input writes it; finish reads it and preserves its != 1 rule.
    The resident caller finishes on both accept and cancel, committing both. */
+/* Zero-initialized and common (this unit builds with
+   gcc_2_8_1_g0_split_comm); each layout's value_setup_commons subsegment
+   places them at that image's addresses. */
+DisplayObject *gTwoPlayerDuel_pBackground;
+DisplayObject *gTwoPlayerDuel_pSetupPanel;
+DisplayObject *gTwoPlayerDuel_apSetupCursors[3];
+u8 gTwoPlayerDuel_abSetupChoices[3];
+ValueSetupEntry gTwoPlayerDuel_aSetupEntries[2];
+u8 *gTwoPlayerDuel_pSetupToggle;
+
 void MainMenu_StartValueSetup(u16 *first, u16 *second, u8 *toggle)
 {
     DisplayObject *object;

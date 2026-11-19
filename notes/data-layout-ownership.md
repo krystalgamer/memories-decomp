@@ -510,6 +510,19 @@ six card-sort comparator pointers, relocated to each image's own
 comparators. The Japanese linker symbols drop their assignment of
 `gMainMenu_aCardSortComparators`.
 
+The main-menu state is common storage in all 23 main-menu images, in object
+order: `frontend.c`, `value_setup.c` and `trade_screen.c`
+(`gcc_2_8_1_g0_split_comm`) declare the names each reads, and the layouts
+place them with `frontend_commons`, `value_setup_commons` and
+`trade_screen_commons` from their symbol files (North America and Japan
+`+0x4558..+0x5CD2`, PAL the same order `0x22C` higher, `+0x4784..+0x5EFE`).
+The halfword between the frontend and value-setup blocks is linker fill: a
+`bin` linked in `.bss` order where it is nonzero (North America `04 24`,
+English PAL `05 00`), `pad` elsewhere. The stale bytes after the state are a
+`leftover` segment. North America's `module_state.c` (`= 0` `.data` with `D_`
+fillers) is gone, Japan's linker symbols and PAL's interior second labels go
+with it.
+
 The Japanese free-duel image builds `free_duel/module_header.c` (`0x0`, `0x13`)
 and `module_state.c` (`0x1030`, 0x75 bytes of zero in North American order)
 through `free_duel_data_c.json`; like North America's layout it uses

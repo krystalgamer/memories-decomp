@@ -30,14 +30,12 @@ successful-write and resume loops through the two-byte array. Preserve that
 interior symbol and relocation identity, all byte declarations, the first-byte
 scalar arm, and volatile casts at existing use sites.
 
-In NA these are separate variables defined in `module_state.c`; the side-1
-ready byte is spelled `gTrade_abReady[1]` (formerly also labelled
-`gTrade_bSide1Ready`). Every European main-menu symbol file binds the names
-directly at `0x80185EF4/EF5/EFB/EFC/EFD`. Japan, whose main-menu state layout
-matches North America (`gTrade_abCursorRow` and `gTrade_bFocusPane` are already
-bound at `0x80185CCA`/`0x80185CCE`), binds them at the NA addresses instead of
-relying on Splat's auto-generated `D_` providers; the Japanese overlay match
-verifies those addresses.
+These are separate common variables that `trade_screen.c` declares as
+tentative definitions; the side-1 ready byte is spelled `gTrade_abReady[1]`
+(formerly also labelled `gTrade_bSide1Ready`). Each image's
+`trade_screen_commons` subsegment places them from its symbol file: North
+America and Japan at `0x80185CC8/CC9/CCF/CD0/CD1`, PAL at
+`0x80185EF4/EF5/EFB/EFC/EFD`.
 
 ## Compatibility and matching
 

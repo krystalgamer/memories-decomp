@@ -18,7 +18,7 @@ Byte 2 once had a second label, `gMainMenu_bValueSetupToggleChoice`
 `gTwoPlayerDuel_abSetupChoices[2]`, which addresses the byte the same way,
 so the array is its only name.
 
-The real initialized owner in `module_state.c` remains the complete
+The real owner, `value_setup.c`'s common storage, remains the complete
 `0x3C`-byte `MainMenuValueSetupState` at NA `0x801845A0`. Its three-byte
 `selections` member, pad, three widget pointers, both value records, toggle
 pointer and initializer are unchanged. No storage, array bound, pointer

@@ -38,10 +38,9 @@ slot 1. The other display's visual identity remains unassigned. Existing
 allocation checks, unchecked later dereferences, input/dirty ordering,
 full-width subtraction and setter semantics are unchanged.
 
-`module_state.c` defines this four-byte pointer at NA `0x801845E0` as its
-own variable. Native Japanese addressing
-binds the name at the same address; every European image binds it at
-`0x8018480C`. The canonical declaration is a plain extern bound by each
+`trade_screen.c` declares this four-byte pointer as its own common
+variable, which each image's `trade_screen_commons` places: North America
+and Japan at `0x801845E0`, every European image at `0x8018480C`. The canonical declaration is a plain extern bound by each
 image's main-menu symbol file (no asm label) and preserves the original private `MainMenuWidget` type, `G32`, casts and
 native compatibility declaration. No new storage, override or
 DisplayObject retyping is introduced.
