@@ -186,6 +186,22 @@ typedef union {
     SDInitBlk10 name10;
 } SDFileName;
 
+/* SDValue.s_wSD_STATUS bits, also returned by SD_GetStatusFlags.
+   CD_REQUEST is set by SD_EnqueueCdPlay/Seek and DATA_TRANSFER by every
+   RAM/SPU/value-link transfer; both clear once no stream command is left
+   queued. CD_STREAMING is set by SD_FadeInStreamAudio and cleared by the
+   fade-out and the next CD play. BANK_LOAD runs SD_UpdateBankLoad from
+   SD_VSync until the bank is in. SEQUENCE_PLAYING brackets
+   SD_PlaySequence/SD_StopSequence. The bank loader waits for the disc
+   bits to drain. */
+#define SD_STATUS_CD_REQUEST 0x01
+#define SD_STATUS_DATA_TRANSFER 0x02
+#define SD_STATUS_CD_STREAMING 0x04
+#define SD_STATUS_BANK_LOAD 0x08
+#define SD_STATUS_SEQUENCE_PLAYING 0x80
+#define SD_STATUS_DISC_BUSY_MASK \
+    (SD_STATUS_CD_REQUEST | SD_STATUS_DATA_TRANSFER | SD_STATUS_CD_STREAMING)
+
 typedef struct SDValue {
     SDGlobalHdrSE s_stGlobalHdrSE;
     u8 pad0008[0x34];

@@ -169,7 +169,7 @@ s32 SD_MeasureCdAudioLevel(void)
     measured_level = state->s_uSD_OUTPUT_LEVEL.halves[1];
     state->s_uSD_OUTPUT_LEVEL.sum = measured_level;
     state->s_uSD_OUTPUT_LEVEL_AUX.sum = state->s_uSD_OUTPUT_LEVEL_AUX.halves[1];
-    if (!(state->s_wSD_STATUS & 3)) {
+    if (!(state->s_wSD_STATUS & (SD_STATUS_CD_REQUEST | SD_STATUS_DATA_TRANSFER))) {
         return measured_level;
     }
     return 0;
@@ -253,7 +253,7 @@ s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
                     SD_EnqueueCommand(&command);
                     SD_ResetCdPan();
                 }
-                g_SDValue->s_wSD_STATUS = (g_SDValue->s_wSD_STATUS | 1) & 0xFFFB;
+                g_SDValue->s_wSD_STATUS = (g_SDValue->s_wSD_STATUS | SD_STATUS_CD_REQUEST) & ~SD_STATUS_CD_STREAMING;
                 return 1;
             }
         }
@@ -327,7 +327,7 @@ void SD_EnqueueCdSeek(s32 command_id)
         SD_EnqueueCommand(&command);
     }
     status_state = g_SDValue;
-    status_state->s_wSD_STATUS = (status_state->s_wSD_STATUS | 1) & 0xFFFB;
+    status_state->s_wSD_STATUS = (status_state->s_wSD_STATUS | SD_STATUS_CD_REQUEST) & ~SD_STATUS_CD_STREAMING;
 }
 
 void SD_ClearBusyFlag(void)
@@ -446,7 +446,7 @@ void SD_StepActiveCommand(void)
         if ((SD_HasQueuedStreamCommand() & 0xFF) != 0) {
             return;
         }
-        g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & 0xFFFC;
+        g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & ~(SD_STATUS_CD_REQUEST | SD_STATUS_DATA_TRANSFER);
         return;
 
     case SD_COMMAND_CD_STOP:
@@ -475,7 +475,7 @@ void SD_StepActiveCommand(void)
             SDValue *sd = g_SDValue;
             u16 flags = sd->s_wSD_STATUS;
             sd->s_bSD_ACTIVE_COMMAND_PHASE = 0;
-            sd->s_wSD_STATUS = flags & 0xFFF8;
+            sd->s_wSD_STATUS = flags & ~SD_STATUS_DISC_BUSY_MASK;
             g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
         }
         return;
@@ -578,12 +578,12 @@ void SD_StepActiveCommand(void)
             }
         }
         if (g_SDValue->s_wSD_SEQ_ACCESS == 0) {
-            if ((g_SDValue->s_wSD_STATUS & 0x80) != 0) {
+            if ((g_SDValue->s_wSD_STATUS & SD_STATUS_SEQUENCE_PLAYING) != 0) {
                 SD_StopSequence(0);
                 SD_SetSecondaryMasterLevels(0, 0);
                 g_SDValue->s_wSD_SEQ_FADE_LEVEL = 0;
                 g_SDValue->s_wSD_SEQ_FADE_STEP = 0;
-                g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & 0xFF7F;
+                g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & ~SD_STATUS_SEQUENCE_PLAYING;
             }
             SD_CloseSequence(g_SDValue->s_wSD_SEQ_ACCESS);
             g_SDValue->s_wSD_SEQ_ACCESS = -1;
@@ -610,7 +610,7 @@ void SD_StepActiveCommand(void)
                 {
                     SDValue *sd = g_SDValue;
                     sd->s_bSD_SEQ_FADE_TARGET = 0xFF;
-                    sd->s_wSD_STATUS = sd->s_wSD_STATUS | 0x80;
+                    sd->s_wSD_STATUS = sd->s_wSD_STATUS | SD_STATUS_SEQUENCE_PLAYING;
                     sd->s_wSD_SEQ_FADE_STEP = (u16)sd->s_dwSD_ACTIVE_COMMAND_ARG1;
                 }
             }
@@ -755,7 +755,7 @@ void SD_UpdateRuntime(void)
     }
 
     state = g_SDValue;
-    if ((state->s_wSD_STATUS & 0x80) != 0 &&
+    if ((state->s_wSD_STATUS & SD_STATUS_SEQUENCE_PLAYING) != 0 &&
         state->s_wSD_SEQ_ACCESS != -1 &&
         SD_PollSequenceState() != 1) {
         SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
@@ -763,7 +763,7 @@ void SD_UpdateRuntime(void)
         flags_or_command = state->s_wSD_STATUS;
         state->s_wSD_SEQ_FADE_STEP = -0x80;
         state->s_bSD_SEQ_FADE_TARGET = 0;
-        flags_or_command &= 0xFF7F;
+        flags_or_command &= ~SD_STATUS_SEQUENCE_PLAYING;
         state->s_wSD_STATUS = flags_or_command;
     }
 
@@ -910,19 +910,19 @@ void SD_CancelMusicRequests(void)
         break;
     }
 
-    if ((g_SDValue->s_wSD_STATUS & 0x80) != 0) {
+    if ((g_SDValue->s_wSD_STATUS & SD_STATUS_SEQUENCE_PLAYING) != 0) {
         if (g_SDValue->s_wSD_SEQ_ACCESS != -1) {
             if (SD_PollSequenceState() == 1) {
                 SD_StopSequence(g_SDValue->s_wSD_SEQ_ACCESS);
             }
-            g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & 0xFF7F;
+            g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & ~SD_STATUS_SEQUENCE_PLAYING;
         }
     }
 }
 
 #include "sound.h"
 
-/* Drops every queued 0x24, 0x29 and 0x2B command, shifting the next record
+/* Drops every queued SD_COMMAND_CD_PLAY, SD_COMMAND_CD_FADE and 0x2B command, shifting the next record
  * down over each one and shortening the queue, then clears the pending
  * 0x7C/0x7D pair when it holds one of those commands.
  *

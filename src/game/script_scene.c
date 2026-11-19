@@ -1319,7 +1319,7 @@ void Script_OpDuelResult(void) {
         gFade_State.step = four;
         Fade_Wait();
     } else {
-        if (SD_GetStatusFlags() & 0x80) {
+        if (SD_GetStatusFlags() & SD_STATUS_SEQUENCE_PLAYING) {
             return;
         }
         Fade_WaitOut();
