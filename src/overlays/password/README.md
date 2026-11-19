@@ -112,8 +112,10 @@ Japan holds the same order 0x2F8 lower (`0x8016D108-0x8016D1E6`); at the
 0x80 bytes it has `gNameEntry_aGlyphVramRects` (`RECT[16]`, read by its
 `NameEntry_SpawnGlyphSprite`, declared under `VERSION_JAPAN`). The four bytes
 before each block are linker fill, a `bin` subsegment. Europe's
-`gNameEntry_apKeySprites` shares the digit-cursor decorations' address and
-is a linker assignment.
+`gNameEntry_apKeySprites` is the digit-cursor decorations' array: commons
+merge only by name, and each PAL image has one 16-byte object there, so
+`module_state.h` defines the key-sprite name as an alias of
+`gPassword_apDigitCursorDecorations` under `VERSION_EUROPE`.
 
 [`module_state.h`](module_state.h) declares the state for the other
 readers.

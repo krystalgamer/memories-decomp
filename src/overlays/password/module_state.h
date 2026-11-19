@@ -9,8 +9,7 @@
 #endif
 
 /* The password module's shared state. name_entry_runtime.c and shop.c define
- * it as common storage; Europe binds gNameEntry_apKeySprites by address. */
-extern struct DisplayObject *gNameEntry_apKeySprites[3];
+ * it as common storage. */
 extern u8 gNameEntry_bStateFlags;
 extern s8 gNameEntry_bKeyboardColumn;
 extern u8 gNameEntry_bKeyboardRow;
@@ -31,6 +30,13 @@ extern s16 gNameEntry_wCursorTargetY;
 extern u32 gPassword_dwPriceRemaining;
 extern struct DisplayObject *gNameEntry_pCaret;
 extern struct DisplayObject *gPassword_apDigitCursorDecorations[];
+#ifdef VERSION_EUROPE
+/* Europe's name entry keeps its three key sprites in the digit-cursor
+ * decorations' array. The linker merges commons only by name, and every PAL
+ * image holds a single 16-byte object for both at 0x8016D290, so the
+ * key-sprite name is that array under its name-entry role. */
+#define gNameEntry_apKeySprites gPassword_apDigitCursorDecorations
+#endif
 #ifdef VERSION_JAPAN
 extern RECT gNameEntry_aGlyphVramRects[16];
 #endif
