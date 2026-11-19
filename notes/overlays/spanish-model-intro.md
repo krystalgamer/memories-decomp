@@ -16,7 +16,8 @@ input or upload is introduced.
 ## Recovered C extent
 
 `src/overlays/credits/pal_presentation.c` is one contiguous translation unit,
-compiled with the named `gcc_2_8_1_g0_split` profile (GCC 2.8.1 / MASPSX 2.81).
+compiled with the named `gcc_2_8_1_g0_split_comm` profile (GCC 2.8.1 / MASPSX 2.81;
+formerly `gcc_2_8_1_g0_split`, see "Local data and resident contracts").
 
 | Address | Bytes | Observed operation |
 |---|---:|---|
@@ -73,10 +74,15 @@ as `european_model_intro` and `spanish_model_intro`, are unchanged.
 | `gCredits_pGridObject` | 4 | Display-object pointer |
 | `gCredits_dwFrameCounter` | 4 | Unsigned frame counter |
 
-Each symbol has actual generated `.data` input storage. None is defined in the
-external linker bindings. These are **preserved data, not C-owned data**;
-three padding bytes after the completion flag and the four-byte module header
-are preserved separately from the five recovered functions.
+`pal_presentation.c` owns all five in every PAL image (#2602):
+`gCredits_aCues` is its `.data` at `0x5D0` (same bytes in all five images),
+and the four zero-initialized globals are tentative definitions (`_comm`
+profile) that a `pal_presentation_commons` subsegment places at
+`0x650..0x674` from each image's symbol file (the three bytes after the
+completion flag are unnamed space, so its symbol entry has no size). The
+module word at `0x0` is `src/overlays/credits/module_header.c`
+(`u32 D_80180000 = 0x34`), listed in each image's `model_intro_data_c.json`.
+None is defined in the external linker bindings.
 
 The cue and state types stay local. Existing headers supply `DuelEffectChannel`,
 `DisplayObject`, `LINE_F2`, `GsOT`, text-box and packet APIs. The owning

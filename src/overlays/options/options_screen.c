@@ -10,6 +10,33 @@
 #include "../../game/sprite_primitive.h"
 #include "helpers.h"
 
+/* Per strip: texture u, v and CLUT row (relative to 0x280). */
+u8 gPalOptions_aStripTextures[5][3] = {
+    { 0x00, 0x40, 0x10 },
+    { 0x00, 0x60, 0x20 },
+    { 0x50, 0x00, 0x30 },
+    { 0x50, 0x20, 0x40 },
+    { 0x80, 0x00, 0x50 },
+};
+
+/* The screen state, zero-initialized and common (this unit builds with
+ * gcc_2_8_1_g0_split_comm); each layout's options_screen_commons subsegment
+ * places it at the image's addresses. */
+s16 gPalOptions_wStripScroll;
+u8 gPalOptions_bMode;
+s8 gPalOptions_bSoundOutputType;
+s16 gPalOptions_wStripScrollTarget;
+DisplayObject *gPalOptions_pLanguageSprite;
+DisplayObject *gPalOptions_pSoundTypeSprite;
+s32 gPalOptions_aWaveOffsets[5][9];
+s8 gPalOptions_bSelectedRow;
+DisplayObject *gPalOptions_pLabelSprite;
+DisplayObject *gPalOptions_pCursor;
+s8 gPalOptions_bLanguage;
+s32 gPalOptions_dwWavePhase;
+u32 gPalOptions_aWaveColors[5][9];
+u8 gPalOptions_bState;
+
 void PalOptions_SetTextColorSlots(s32 selection)
 {
     u8 *colors = gText_abColorSlots;

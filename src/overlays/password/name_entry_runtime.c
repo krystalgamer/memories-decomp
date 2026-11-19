@@ -31,9 +31,8 @@
 /* The name-entry state, zero-initialized and common (this unit builds with
  * gcc_2_8_1_g0_split_comm). The linker interleaves it with shop.c's commons,
  * so each layout's name_entry_runtime_commons subsegment places both units'
- * names at that image's addresses. Europe's gNameEntry_apKeySprites shares
- * shop.c's gPassword_apDigitCursorDecorations storage and stays a linker
- * assignment. */
+ * names at that image's addresses. Europe's gNameEntry_apKeySprites is
+ * shop.c's gPassword_apDigitCursorDecorations (module_state.h). */
 u8 gNameEntry_bStateFlags;
 s8 gNameEntry_bKeyboardColumn;
 u8 gNameEntry_bKeyboardRow;

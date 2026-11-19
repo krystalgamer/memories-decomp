@@ -550,9 +550,12 @@ North America leaves unnamed), PAL another order at `+0x51B8..+0x52A0`. The
 word before each block is linker fill (`bin`; `pad` where zero), the bytes
 after it a `leftover` segment, and North America and Japan end on a halfword.
 `module_state.c` and its `PADDING_VARIABLE` fillers are gone; the PAL state
-names move from linker symbols to the symbol files, except Europe's
-`gNameEntry_apKeySprites`, which shares `gPassword_apDigitCursorDecorations`'
-address and stays a linker assignment.
+names move from linker symbols to the symbol files. Europe's
+`gNameEntry_apKeySprites` is not a separate object: the linker merges commons
+only by name, and every PAL image holds one 16-byte object at
+`gPassword_apDigitCursorDecorations`' address, so `module_state.h` spells the
+key-sprite name as that array under `VERSION_EUROPE` and no linker assignment
+remains.
 
 The credits module (USA and Japan) starts with its 4-byte module word; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette

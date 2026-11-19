@@ -33,6 +33,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
   section_order:
     - ".text"
@@ -49,7 +50,7 @@ segments:
     vram: 0x80180000
     align: 4
     subsegments:
-      - [0x0, data, overlays/german_model_intro/module_header]
+      - [0x0, .data, overlays/credits/module_header]
   - name: module
     type: code
     start: 0x4
@@ -57,7 +58,8 @@ segments:
     align: 4
     subsegments:
       - [0x4, c, overlays/credits/pal_presentation]
-      - [0x5D0, data, overlays/german_model_intro/data]
+      - [0x5D0, .data, overlays/credits/pal_presentation]
+      - [0x650, bss_commons, overlays/german_model_intro/pal_presentation_commons]
   # Unclassified retail tail: preserved storage, not recovered C coverage.
   - name: opaque_tail
     type: code

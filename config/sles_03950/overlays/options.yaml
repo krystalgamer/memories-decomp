@@ -31,7 +31,8 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
-  subalign: 2
+  extensions_path: tools/splat_extensions
+  subalign: 1
   section_order:
     - ".text"
     - ".rodata"
@@ -47,21 +48,26 @@ segments:
     vram: 0x80168000
     align: 4
     subsegments:
-      - [0x0, data, overlays/italian_options/module_header]
+      - [0x0, .data, overlays/options/module_header]
   - name: options_screen
     type: code
     start: 0x4
     vram: 0x80168004
-    align: 4
+    # The screen state ends on a byte (+0x11FD).
+    align: 1
     subsegments:
       - [0x4, c, overlays/options/options_screen]
+      - [0x1040, .data, overlays/options/options_screen]
+      # Linker fill between objects, not data.
+      - [0x104F, pad]
+      - [0x1050, bss_commons, overlays/italian_options/options_screen_commons]
   - name: unclassified_tail
     type: code
-    start: 0x1040
-    vram: 0x80169040
-    align: 4
+    start: 0x11FD
+    vram: 0x801691FD
+    align: 1
     subsegments:
-      - [0x1040, data, overlays/italian_options/unclassified_tail]
+      - [0x11FD, bin, overlays/italian_options/unclassified_tail]
   - name: options_suffix
     type: code
     start: 0x1D78

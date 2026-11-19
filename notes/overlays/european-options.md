@@ -18,8 +18,10 @@ the 251 differing bytes are almost all resident addresses:
 - In the raw module data (`0x1040-0x1D78` and `0x1F74-0x3000`), most
   differences are the same kind of resident references in leftover code
   (36 `jal` targets plus `%lo` offsets). The rest are a few initialized
-  bytes: `0x104F` and `0x1F83-0x1F87`. These ranges stay raw data. The two
-  suffix functions at `0x1D78` and `0x1F3C` are byte-identical.
+  bytes: `0x104F` and `0x1F83-0x1F87`. `0x104F` is linker fill (a `bin`
+  here, `pad` in the other images; see the French note's module-data
+  section); the rest stays raw data. The two suffix functions at `0x1D78`
+  and `0x1F3C` are byte-identical.
 
 There is no language-count, layout or behaviour difference, so nothing in
 the shared C needs a region define. The module reuses the French layout,
