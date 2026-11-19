@@ -997,7 +997,7 @@ void Library_PruneRecentCardDrops(void)
 #define BUILD_DECK_LIST_Y 0x2A
 #endif
 
-void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, u16 *other, s32 flags)
+void BuildDeck_InitScreen(BuildDeckTransitionState *base, u16 *deck, u16 *other, s32 flags)
 {
     BuildDeckTransitionState *state;
     DisplayObject *object;

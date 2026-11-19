@@ -1605,7 +1605,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 void Campaign_LoadScenePackage(s16 scene_index)
 {
     SceneScriptSlotTable *table;
-    CampaignDialogPortrait *src;
+    DuelistPortrait *src;
     RECT *second;
     s32 i;
 
@@ -1634,7 +1634,7 @@ void Campaign_LoadScenePackage(s16 scene_index)
     }
 
     /* Stage 3 of the package load fills the shared arena with the portraits. */
-    src = (CampaignDialogPortrait *)gRuntime_pSharedWorkBase;
+    src = (DuelistPortrait *)gRuntime_pSharedWorkBase;
     gGraphics_aImageTransferRects[0].x = 0x380;
     gGraphics_aImageTransferRects[0].y = 0;
     gGraphics_aImageTransferRects[0].w = CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WORD_WIDTH;

@@ -1,6 +1,7 @@
 #ifndef MEMORIES_DECOMP_TRADE_SCREEN_WIDGETS_H
 #define MEMORIES_DECOMP_TRADE_SCREEN_WIDGETS_H
 #include "../types.h"
+#include "../ygo_types.h"
 #include "../psyq/libgte.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
@@ -14,7 +15,7 @@
  * the build noticing. */
 void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot);
 
-void CardList_BuildRowSetTextBoxes(u16 *entries, s32 side, s32 flag, s32 ignored);
+void CardList_BuildRowSetTextBoxes(const CardCountEntry *entries, s32 side, s32 flag, s32 ignored);
 
 /* Builds the two card-list row sets at gFile_StagingBuffer, one per player, anchored
  * at (x0, y0) and (x1, y1). Each gets a fresh display object whose render

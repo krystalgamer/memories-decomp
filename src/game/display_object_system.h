@@ -96,7 +96,7 @@ void *DisplayObject_AcquireSlot(s32 index, s32 key);
 void DisplayObject_Release(struct DisplayObject *slot);
 void DisplayObject_MoveToListHead(struct DisplayObject *slot, s32 key);
 
-void DisplayObject_ReleaseIfPresent(void *object);
+void DisplayObject_ReleaseIfPresent(struct DisplayObject *object);
 
 void DisplayObject_Reset(void);
 void DisplayObject_ConfigureSpriteAtPosition(

@@ -158,21 +158,22 @@ and five European per-function wrappers and their `VERSION_*_FREE_DUEL_*`
 guards. Only the region macro remains, which still selects the PAL cursor text box, initializer layout
 and dialog, and the Japanese and PAL input buttons.
 
-## Duelist portrait record sizes
+## Duelist portrait records
 
-`FreeDuel_Init` walks the transferred portrait arena with two named strides
-rather than raw literals:
+`FreeDuel_Init` takes the transferred portrait arena as an array of
+`DuelistPortrait` records (`src/game/duelist_portrait.h`), the same `0x980`-byte
+record `Campaign_LoadScenePackage` walks for the dialog portraits:
 
-| Constant | Value | Meaning |
+| Member | Offset | Meaning |
 |---|---|---|
-| `FREE_DUEL_PORTRAIT_IMAGE_SIZE` | `2304` (`0x900`) | Offset from a record's start to its CLUT |
-| `FREE_DUEL_PORTRAIT_RECORD_SIZE` | `2432` (`0x980`) | Stride from one record to the next |
+| `image` | `0x000` | `48 x 48` 8-bit image, `0x900` bytes |
+| `clut` | `0x900` | Its `64 x 1` CLUT row, `0x80` bytes |
 
-Both values are backed by [`notes/mrg-files.md`](../../../notes/mrg-files.md),
+The layout is backed by [`notes/mrg-files.md`](../../../notes/mrg-files.md),
 which records that this package supplies 40 portrait records of `0x980` bytes
 each, and that each record holds a `48 x 48` 8-bit image of `0x900` bytes
 followed by its palette. The `LoadImage2` pair in the upload loop uses exactly
-that split: the image at the record base, the CLUT at `+0x900`.
+that split, `src->image` then `src->clut`, and `src++` steps one record.
 
 The neighbouring literals in that loop are deliberately **left as numbers**.
 The `5`-iteration outer loops and the `25`/`15` split are VRAM band

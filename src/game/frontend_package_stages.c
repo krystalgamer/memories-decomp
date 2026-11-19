@@ -100,7 +100,7 @@ void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
 #define FREE_DUEL_PACKAGE_START_SECTOR FILE_WA_FREE_DUEL_START_SECTOR
 #endif
 
-void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG,0,FREE_DUEL_PACKAGE_START_SECTOR,FREE_DUEL_PACKAGE_SECTOR_COUNT,FreeDuel_LoadPackageStage,0,0);File_WaitForTransfers();FreeDuel_Init(gRuntime_pSharedWorkBase);}
+void Main_InitFreeDuelMenu(void){File_RequestAsyncTransfer(FILE_LBA_INDEX_WA_MRG,0,FREE_DUEL_PACKAGE_START_SECTOR,FREE_DUEL_PACKAGE_SECTOR_COUNT,FreeDuel_LoadPackageStage,0,0);File_WaitForTransfers();FreeDuel_Init((DuelistPortrait *)gRuntime_pSharedWorkBase);}
 
 /* The package's first sector in WA.MRG. A regional build defines its own. */
 #ifndef NAME_ENTRY_PACKAGE_START_SECTOR

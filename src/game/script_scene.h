@@ -5,6 +5,7 @@
 #include "../ygo_types.h"
 #include "file_staging_buffer.h"
 #include "menu_record.h"
+#include "duelist_portrait.h"
 
 typedef struct {
     ScriptImageEntry entries[3];
@@ -249,12 +250,8 @@ DisplayObject *Campaign_CreatePrimaryDisplayObject(void);
 #define CAMPAIGN_DIALOG_PORTRAIT_IMAGE_HEIGHT 48
 #define CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WORD_WIDTH \
     (CAMPAIGN_DIALOG_PORTRAIT_IMAGE_WIDTH / 2)
-#define CAMPAIGN_DIALOG_PORTRAIT_IMAGE_SIZE 0x900
 #define CAMPAIGN_DIALOG_PORTRAIT_CLUT_WORD_WIDTH 0x40
-#define CAMPAIGN_DIALOG_PORTRAIT_CLUT_SIZE 0x80
-#define CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE \
-    (CAMPAIGN_DIALOG_PORTRAIT_IMAGE_SIZE + \
-     CAMPAIGN_DIALOG_PORTRAIT_CLUT_SIZE)
+#define CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE sizeof(DuelistPortrait)
 #define CAMPAIGN_DIALOG_PORTRAIT_CLUT_ROWS_PER_COLUMN 16
 #define CAMPAIGN_DIALOG_PORTRAIT_PHASE_SIZE 0xF000
 #define CAMPAIGN_DIALOG_PORTRAIT_USED_SIZE \
@@ -264,18 +261,7 @@ DisplayObject *Campaign_CreatePrimaryDisplayObject(void);
     (CAMPAIGN_DIALOG_PORTRAIT_PHASE_SIZE - \
      CAMPAIGN_DIALOG_PORTRAIT_USED_SIZE)
 
-/* One portrait record in the shared work arena: the 48x48 image
- * followed by its 64x1 CLUT row, each uploaded with LoadImage2. */
-typedef struct {
-    u32 image[CAMPAIGN_DIALOG_PORTRAIT_IMAGE_SIZE / sizeof(u32)];
-    u32 clut[CAMPAIGN_DIALOG_PORTRAIT_CLUT_SIZE / sizeof(u32)];
-} CampaignDialogPortrait;
-
-typedef char CampaignDialogPortrait_record_size_must_be_0x980[
-    sizeof(CampaignDialogPortrait) == CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE &&
-    CAMPAIGN_DIALOG_PORTRAIT_RECORD_SIZE == 0x980 ? 1 : -1
-];
-typedef char CampaignDialogPortrait_spill_size_must_be_0x280[
+typedef char CampaignDialogPortraitPhase_spill_size_must_be_0x280[
     CAMPAIGN_DIALOG_PORTRAIT_SPILL_SIZE == 0x280 ? 1 : -1
 ];
 

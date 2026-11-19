@@ -23,7 +23,7 @@ concept the site is using.
 
 | Site | Constant | Backing |
 |---|---|---|
-| `FreeDuel_Init` record walk (4 literals) | `FREE_DUEL_PORTRAIT_IMAGE_SIZE`, `FREE_DUEL_PORTRAIT_RECORD_SIZE` | [`../mrg-files.md`](../mrg-files.md): 40 portrait records of `0x980`, each a `48 x 48` 8-bit image of `0x900` plus palette |
+| `FreeDuel_Init` record walk (4 literals) | `FREE_DUEL_PORTRAIT_IMAGE_SIZE`, `FREE_DUEL_PORTRAIT_RECORD_SIZE`; since replaced by the `DuelistPortrait` record (`src/game/duelist_portrait.h`) | [`../mrg-files.md`](../mrg-files.md): 40 portrait records of `0x980`, each a `48 x 48` 8-bit image of `0x900` plus palette |
 | `Password_RefreshDigitDisplay`, `NameEntry_UpdateDialog` (5 literals) | `TEXT_SINGLE_BYTE_GLYPH_LIMIT`, `TEXT_STRING_TERMINATOR` | Resident `func_80038148` already spells the same two-byte glyph rule with these names |
 
 ## Negative results

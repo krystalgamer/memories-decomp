@@ -540,9 +540,9 @@ void DuelEffect_UpdateObjectLayout(DuelEffectChannel *p);
 
 #ifdef VERSION_EUROPE
 
-void DuelEffect_UpdateGlyphSpiralFade(EuropeanDuelEffectEntry *record, void *context);
-void DuelEffect_StartGlyphSpiralReveal(EuropeanDuelEffectEntry *record, void *context);
-void DuelEffect_StartGlyphSpiralConceal(EuropeanDuelEffectEntry *record, void *context);
+void DuelEffect_UpdateGlyphSpiralFade(EuropeanDuelEffectEntry *record, DuelEffectChannel *channel);
+void DuelEffect_StartGlyphSpiralReveal(EuropeanDuelEffectEntry *record, DuelEffectChannel *channel);
+void DuelEffect_StartGlyphSpiralConceal(EuropeanDuelEffectEntry *record, DuelEffectChannel *channel);
 void DuelEffect_UpdateGlyphLinearFade(EuropeanDuelEffectEntry *record);
 void DuelEffect_UpdateGlyphFadeIn(EuropeanDuelEffectEntry *record);
 void DuelEffect_UpdateGlyphFadeOut(EuropeanDuelEffectEntry *record);

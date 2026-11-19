@@ -1391,6 +1391,6 @@ void MainMenu_RebuildTradeInventoryRows(s32 side)
     s32 flags;
 
     flags = gTrade_pStatsModeDisplay->resource_variant - 4;
-    CardList_BuildRowSetTextBoxes((u16 *)&gTrade_aWorkingCards[side][gTrade_aListScroll[side].current], side,
+    CardList_BuildRowSetTextBoxes(&gTrade_aWorkingCards[side][gTrade_aListScroll[side].current], side,
                   flags & (1 << side), flags);
 }

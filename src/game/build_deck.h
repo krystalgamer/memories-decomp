@@ -294,7 +294,7 @@ void CardList_DrawHeaderDecimalDigits(
  * `deck` is the first pane's deck (forty card ids, then the 722 chest counts at +0x50),
  * `other` the second pane's deck or 0, and `flags` the byte kept at +0x6343.
  * Two callers: Main_RunBuildDeckMenu and Main_RunDuel. */
-void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, u16 *other, s32 flags);
+void BuildDeck_InitScreen(BuildDeckTransitionState *base, u16 *deck, u16 *other, s32 flags);
 
 /* Returns the id of the entry the cursor is on, or 0 when that row's flag
    byte is clear. Both pane-input steps read the highlighted card through it. */

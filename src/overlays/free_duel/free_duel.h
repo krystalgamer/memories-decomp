@@ -3,6 +3,7 @@
 
 #include "../../types.h"
 #include "../../game/display_object.h"
+#include "../../game/duelist_portrait.h"
 #include "module_state.h"
 
 /* Shared state for the free-duel opponent-select screen.
@@ -28,10 +29,10 @@ extern s8 gFreeDuel_bTargetRow;
 extern u8 gFreeDuel_bReturnFlags;
 
 /* Builds the duelist grid screen, uploading each available duelist's
- * portrait record from `src` to VRAM with LoadImage2 on the way.
+ * DuelistPortrait record from `src` to VRAM with LoadImage2 on the way.
  * Main_InitFreeDuelMenu calls it from resident code once the module transfer
  * has finished, and c_symbols.ld gives the resident link its address. */
-void FreeDuel_Init(u8 *src);
+void FreeDuel_Init(DuelistPortrait *src);
 
 void FreeDuel_PlaceCursor(DisplayObject *w, s32 arm);
 DisplayObject **FreeDuel_GetSparkleSlot(void);

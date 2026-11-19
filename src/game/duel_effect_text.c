@@ -4252,7 +4252,7 @@ void DuelEffect_UpdateDelayedGlyphRotation(DuelEffectGlyphEntry *record) {
 #endif
 
 #ifdef VERSION_EUROPE
-void DuelEffect_UpdateGlyphSpiralFade(EuropeanDuelEffectEntry *record, void *context)
+void DuelEffect_UpdateGlyphSpiralFade(EuropeanDuelEffectEntry *record, DuelEffectChannel *channel)
 {
     s32 radius;
     s32 value;
@@ -4327,20 +4327,20 @@ void DuelEffect_UpdateGlyphSpiralFade(EuropeanDuelEffectEntry *record, void *con
         *origin_y + rsin(value) * radius / 0x1000;
 }
 
-void DuelEffect_StartGlyphSpiralReveal(EuropeanDuelEffectEntry *record, void *context)
+void DuelEffect_StartGlyphSpiralReveal(EuropeanDuelEffectEntry *record, DuelEffectChannel *channel)
 {
     record->shear = (rand() & 0x1F) + 8;
     record->shear = (rand() & 0x1F) + 32;
     record->handler_state = 4;
-    DuelEffect_UpdateGlyphSpiralFade(record, context);
+    DuelEffect_UpdateGlyphSpiralFade(record, channel);
 }
 
-void DuelEffect_StartGlyphSpiralConceal(EuropeanDuelEffectEntry *record, void *context)
+void DuelEffect_StartGlyphSpiralConceal(EuropeanDuelEffectEntry *record, DuelEffectChannel *channel)
 {
     record->shear = ((rand() & 0x1F) + 8) | -0x80;
     record->shear = ((rand() & 0x1F) + 32) | -0x80;
     record->handler_state = 4;
-    DuelEffect_UpdateGlyphSpiralFade(record, context);
+    DuelEffect_UpdateGlyphSpiralFade(record, channel);
 }
 
 void DuelEffect_UpdateGlyphLinearFade(EuropeanDuelEffectEntry *record)
