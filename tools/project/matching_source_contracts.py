@@ -69,10 +69,13 @@ STRING_LITERAL = re.compile(r'"(?:[^"\\]|\\.)*"')
 
 
 def asm_statements(text: str) -> list[str]:
-    """Every __asm__ statement's parenthesised body (comments removed)."""
+    """Every asm statement's parenthesised body (comments removed), in any
+    GCC spelling: asm, __asm or __asm__, optionally volatile."""
     text = strip_c_comments(text)
     bodies = []
-    for match in re.finditer(r"\b__asm__\b(?:\s+(?:volatile|__volatile__))?\s*\(", text):
+    for match in re.finditer(
+        r"\b(?:asm|__asm|__asm__)\b(?:\s+(?:volatile|__volatile|__volatile__)\b)?\s*\(", text
+    ):
         depth, index = 1, match.end()
         while depth and index < len(text):
             char = text[index]

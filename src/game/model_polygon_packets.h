@@ -9,6 +9,9 @@
  * area (polygon_renderers.c and shared_polygon_renderers.c), as GPU command
  * words: the tag, then the words the GPU reads. The drivers copy whole
  * u/v/CLUT/TPAGE words from their records, so a vertex's UV is one word.
+ * rgb0's top byte is the GPU code, P_TAG's code byte: setcode(packet, c)
+ * sets it, and in the window-record packets, whose rgb0 follows the E2
+ * word, setcode(&packet->window, c) does.
  */
 
 /* POLY_FT3: the colour+code word, then XY and UV+CLUT/TPAGE per vertex. */

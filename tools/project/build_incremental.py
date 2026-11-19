@@ -33,6 +33,7 @@ CACHE_PATH = f"{CACHE_DIRECTORY}/cache.json"
 CACHE_SCHEMA = 2
 # Modules a massaged unit's build runs (see build_baseline.compile_massaged_c).
 ASM_MASSAGE_MODULES = ("asm_massage", "asm_massage_rules")
+ASM_MASSAGE_SYMBOLS = "config/slus_01411/symbols.txt"
 # The configuration whose resident executable this script rebuilds.
 REGION = "slus_01411"
 CACHE_CHECKPOINT_INTERVAL = 16
@@ -477,6 +478,10 @@ def dependency_context(
                 )
                 for module in ASM_MASSAGE_MODULES
             ]
+            # word-compose reads symbol addresses (global adjacency).
+            profile_context[name]["asm_massage_symbols_sha256"] = file_cache.sha256(
+                file_cache.workspace_path(root, ASM_MASSAGE_SYMBOLS, must_exist=True)
+            )
     return {
         "build_baseline_sha256": file_cache.sha256(Path(build_baseline.__file__)),
         "build_incremental_sha256": file_cache.sha256(Path(__file__)),

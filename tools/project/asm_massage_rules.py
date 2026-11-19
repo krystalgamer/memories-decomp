@@ -27,6 +27,9 @@ class Context:
         self.fresh: dict[str, int] = {}
         # rule name -> (instructions before, instructions after)
         self.stats: dict[str, tuple[int, int]] = {}
+        # Copies drop-self-moves deleted, with the instructions that followed
+        # them (the dependence check still needs the value flow).
+        self.dropped: list[tuple[Instr, list[Instr]]] = []
 
     def new_reg(self, prefix: str) -> str:
         self.fresh[prefix] = self.fresh.get(prefix, 0) + 1
@@ -299,7 +302,53 @@ def promote_slots(instrs, context):
             else:
                 new = Instr("addu", [i.args[0], ("r", reg), ("r", "$zero")], set(i.origin))
             instrs[n] = tag(new, "unspill")
-        return promote_slots(instrs, context)
+        return promote_slots(coalesce_slot(instrs, reg), context)
+    return instrs
+
+
+def coalesce_slot(instrs, reg):
+    """Fold a promoted slot's copies where GCC only moved it through a
+    temporary: "x = slot; y = x + c; slot = y" becomes "slot += c", and a
+    copy read only as an address before the slot changes reads the slot."""
+    changed = True
+    while changed:
+        changed = False
+        for n, i in enumerate(instrs):
+            if not (i.op == "addu" and i.args[1] == ("r", reg) and i.args[2] == ("r", "$zero")):
+                continue
+            x = i.args[0][1]
+            if defs_of(instrs, x) != [n]:
+                continue
+            uses = uses_of(instrs, x)
+            if len(uses) == 1 and instrs[uses[0]].op == "addiu" \
+                    and instrs[uses[0]].args[1] == ("r", x) and isinstance(instrs[uses[0]].args[2][1], int):
+                m = uses[0]
+                y = instrs[m].args[0][1]
+                later = uses_of(instrs, y)
+                if (defs_of(instrs, y) == [m] and len(later) == 1 and later[0] > m
+                        and instrs[later[0]].op == "addu" and instrs[later[0]].args[0] == ("r", reg)
+                        and instrs[later[0]].args[1] == ("r", y) and n < m
+                        # (the store may sit in the delay slot of the branch
+                        # that ends the run: it runs on both paths)
+                        and straight(instrs, n, later[0] - (1 if is_delay_slot(instrs, later[0]) else 0))
+                        and not any(reg in instrs[k].defs() for k in range(n + 1, later[0]))):
+                    t = later[0]
+                    instrs[t] = tag(Instr("addiu", [("r", reg), ("r", reg), instrs[m].args[2]],
+                                          set(instrs[t].origin)), "unspill")
+                    instrs = delete(instrs, {n, m})
+                    changed = True
+                    break
+            if uses and all(any(a[0] == "m" and a[2] == x for a in instrs[u].args)
+                            and x not in [a[1] for a in instrs[u].args if a[0] == "r"]
+                            and u > n and straight(instrs, n, u + 1)
+                            and not any(reg in instrs[k].defs() for k in range(n + 1, u))
+                            for u in uses):
+                for u in uses:
+                    instrs[u].replace_reg(x, reg, defs=False)
+                    tag(instrs[u], "unspill")
+                instrs = delete(instrs, {n})
+                changed = True
+                break
     return instrs
 
 
@@ -367,6 +416,9 @@ def induction(instrs: list[Instr], reg: str):
     base, steps = None, []
     for n in defs_of(instrs, reg):
         i = instrs[n]
+        if i.op == "addu" and i.args[2] == ("r", "$zero") and i.args[1][1] != reg and base is None:
+            base = n  # a copy: another register plus 0
+            continue
         if i.op != "addiu" or not isinstance(i.args[2][1], int):
             return None
         if i.args[1][1] == reg:
@@ -390,7 +442,8 @@ def undo_strength_reduction(instrs, context):
             if shape is None or not mem_only_uses(instrs, q, allow_increment=True):
                 continue
             base_index, steps = shape
-            p, k = instrs[base_index].args[1][1], instrs[base_index].args[2][1]
+            p = instrs[base_index].args[1][1]
+            k = instrs[base_index].args[2][1] if instrs[base_index].op == "addiu" else 0
             if p in PRECOLORED:
                 continue
             if not live_after(instrs, base_index, p):
@@ -406,6 +459,22 @@ def undo_strength_reduction(instrs, context):
                 break
             delta = pointer_delta(instrs, p, q, base_index)
             if delta is None:
+                # Or the second copy of the real pointer: another register
+                # copied from the same source and advanced in step with q.
+                dom = dominators(instrs)
+                copies = [n for n, i in enumerate(instrs) if i.op == "addu"
+                          and i.args[1] == ("r", p) and i.args[2] == ("r", "$zero") and n != base_index]
+                for copy in copies:
+                    other = instrs[copy].args[0][1]
+                    if other in PRECOLORED or other == q or induction(instrs, other) is None:
+                        continue
+                    delta = pointer_delta(instrs, other, q, base_index, source=p)
+                    # The copy must exist wherever q is used through it.
+                    if delta is not None and all(copy in dom[n] for n in delta):
+                        p = other
+                        break
+                    delta = None
+            if delta is None:
                 continue
             for n, i in enumerate(instrs):
                 if any(a[0] == "m" and a[2] == q for a in i.args):
@@ -417,8 +486,10 @@ def undo_strength_reduction(instrs, context):
     return instrs
 
 
-def pointer_delta(instrs: list[Instr], p: str, q: str, base_index: int):
-    """Constant q - p at the entry of every instruction that uses q, or None."""
+def pointer_delta(instrs: list[Instr], p: str, q: str, base_index: int, source: str | None = None):
+    """Constant q - p at the entry of every instruction that uses q, or None.
+    With SOURCE, q's base reads SOURCE and p is a copy of SOURCE: the copy
+    keeps the difference q's base set (p = SOURCE, q = SOURCE + k)."""
     labels = label_index(instrs)
     preds = [[] for _ in instrs]
     for n in range(len(instrs)):
@@ -434,12 +505,15 @@ def pointer_delta(instrs: list[Instr], p: str, q: str, base_index: int):
             value = UNDEF if not values else values.pop() if len(values) == 1 else CONFLICT
             into[n] = value
             if n == base_index:
-                value = instr.args[2][1]
+                value = instr.args[2][1] if instr.op == "addiu" else 0  # a copy is + 0
             elif q in instr.defs():
                 value = value + instr.args[2][1] if isinstance(value, int) else CONFLICT
             elif p in instr.defs():
                 if instr.op == "addiu" and instr.args[1][1] == p and isinstance(value, int):
                     value -= instr.args[2][1]
+                elif (source is not None and instr.op == "addu" and instr.args[1] == ("r", source)
+                      and instr.args[2] == ("r", "$zero") and isinstance(value, int)):
+                    pass  # p = SOURCE, which q's base offset is relative to
                 else:
                     value = CONFLICT
             if out[n] != value:
@@ -1268,8 +1342,10 @@ def rotate_loop_loads(instrs, context):
                 out += [tag(Instr("lw", [("r", r), ("m", instrs[k].args[1][1], base)]), "rotate-loop-loads")
                         for k, r in load_of.items()]
             if n in load_of:
-                out.append(tag(Instr("mtc2", [("r", load_of[n]), instr.args[0]], set(instr.origin)),
-                               "rotate-loop-loads"))
+                move = tag(Instr("mtc2", [("r", load_of[n]), instr.args[0]], set(instr.origin)),
+                           "rotate-loop-loads")
+                move.replaced = instr
+                out.append(move)
                 continue
             out.append(instr)
         return rotate_loop_loads(out, context)
@@ -1318,7 +1394,15 @@ def drop_self_moves(instrs, context):
     dead = {n for n, i in enumerate(instrs)
             if i.op in ("addu", "or") and i.args[2] == ("r", "$zero") and i.args[0] == i.args[1]
             or i.op == "addiu" and i.args[0] == i.args[1] and i.args[2] == ("i", 0)}
-    return delete(instrs, dead)
+    out = delete(instrs, dead)
+    for n in sorted(dead):
+        if instrs[n].op not in ("addu", "or"):
+            continue
+        # Anchors for putting the copy back: the instructions after its place
+        # (a copy in a delay slot goes back in front of its branch).
+        start = n - 1 if is_delay_slot(instrs, n) else n + 1
+        context.dropped.append((instrs[n], instrs[start:]))
+    return out
 
 
 @rule("frameless", "physical",
