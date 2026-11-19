@@ -2395,10 +2395,9 @@ s32 SaveData_PollLoad(void) {
     s32 r = MemCardDialog_Poll();
     if (r != 0) {
         if (r == 1) {
-            u16 *p = gDuel_awPlayerDeck;
+            SaveDataState *p = &gSaveData_Workspace.state;
             Util_CopyWords(p, gSaveData_aTransferBuffer, SAVE_DATA_STATE_SIZE);
-            /* The player deck heads the loaded save state. */
-            SaveData_ApplyRuntimeState((SaveDataState *)p);
+            SaveData_ApplyRuntimeState(p);
         }
         return r;
     }

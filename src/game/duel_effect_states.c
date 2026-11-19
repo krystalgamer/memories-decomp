@@ -390,8 +390,7 @@ void func_800289AC(void)
 void DuelEffect_UpdateIdentitySave(void)
 {
     if (DuelEffect_MarkStateInitialized() == 0) {
-        /* The save image starts at the shared u16 deck array (mem_card.h). */
-        ((SaveDataState *)gDuel_awPlayerDeck)->duelist_code = (rand() << 8) + 1;
+        gSaveData_Workspace.state.duelist_code = (rand() << 8) + 1;
         gSaveData_AllowIdentityBypass = 1;
         SaveData_RequestWrite();
     }

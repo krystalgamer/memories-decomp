@@ -654,7 +654,9 @@ typedef struct SaveDataState {
     u16 duel_wins;
     u16 duel_losses;
     SaveDataDuelistRecord duelist_records[FREE_DUEL_GRID_ENTRY_COUNT];
-    u8 pad_5BC[0x20];
+    /* Newest first; Duel_AwardCard shifts the list down and stores the
+     * awarded id at [0]. Also linked as gDuel_awRecentCardDrops. */
+    s16 recent_card_drops[DUEL_RECENT_CARD_DROP_COUNT];
     /* The campaign scene byte. The save prompt and the credits store a
      * halfword here, which also covers the opaque byte after it. */
     union {

@@ -2070,8 +2070,7 @@ void Duel_InitScene(void)
                 );
                 return;
             }
-            /* The persistent state block starts at the deck halfwords. */
-            p = (SaveDataState *)gDuel_awPlayerDeck;
+            p = &gSaveData_Workspace.state;
             gDuel_apSideSaveData[0] = p;
             if (gDuel_bOpponentID < DUEL_MASTER_K_OPPONENT_ID) {
                 Duel_ShuffleBothDecks(p->player_deck, 0);
@@ -7530,10 +7529,10 @@ s32 Duel_SelectCardDrop(s32 pool_index)
 void Duel_AwardCard(s32 card_id)
 {
     s32 i;
-    u8 *base = (u8 *)gDuel_awPlayerDeck;
-    u8 *quantity = base + (card_id + 0x4F);
-    u16 *destination = (u16 *)(base + 0x5BC);
-    u16 *entry;
+    SaveDataState *state = &gSaveData_Workspace.state;
+    u8 *quantity = &state->card_quantities[card_id - CARD_ID_FIRST];
+    s16 *destination = state->recent_card_drops;
+    s16 *entry;
 
     (*quantity)++;
     if (*quantity >= CARD_CHEST_QUANTITY_MAX + 1)

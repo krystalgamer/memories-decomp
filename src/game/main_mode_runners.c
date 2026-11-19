@@ -716,7 +716,7 @@ void Main_RunCredits(void)
         gMain_bActiveModeState = mode | 0x40;
         Fade_InitIn();
         for (;;) {
-            save_state = (SaveDataState *)gDuel_awPlayerDeck;
+            save_state = &gSaveData_Workspace.state;
             save_state->campaign_scene.word = 0x30;
             for (flag = 0x20; flag < 0x120; flag++) {
                 Library_UpdateCardUsedFlag(flag | 0x8000);
@@ -747,7 +747,7 @@ void Main_RunCredits(void)
             case 1:
                 if ((state & 0x80) == 0) {
                     gMain_bModeRunnerStep = state | 0x80;
-                    state = ((u32)((SaveDataState *)gDuel_awPlayerDeck)->duelist_code) %
+                    state = ((u32)gSaveData_Workspace.state.duelist_code) %
                         CREDITS_SECRET_NUMBER_COUNT;
                     table = gCredits_awSecretNumbers[0];
                     number = &table[state * 2];
