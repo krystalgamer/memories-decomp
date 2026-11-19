@@ -917,7 +917,7 @@ void Script_OpSavePrompt(void)
     flags = gScript_wCommandWord;
     if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_FOLLOWUP_PHASE) == 0) {
         chan = gText_aChannels;
-        if ((chan->flags_34 & 0x2000) == 0) {
+        if ((chan->flags_34 & TEXT_BOX_FLAG_DONE) == 0) {
             return;
         }
         if (DuelEffect_HasActiveEntry(chan) != 0) {
@@ -959,7 +959,7 @@ void Script_OpSavePrompt(void)
             } while (box->prompt_object == 0);
         }
         prompt = SAVE_PROMPT_CHANNEL(2);
-        if ((prompt->flags_34 & 0x2000) == 0) {
+        if ((prompt->flags_34 & TEXT_BOX_FLAG_DONE) == 0) {
             return;
         }
         gScript_wCommandWord &= 0xF3FF;

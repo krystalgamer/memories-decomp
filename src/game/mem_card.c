@@ -688,7 +688,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
 
     if ((g & 0x40) != 0) {
         TextBox_UpdateChannels();
-        if ((q->flags_34 & 0x2000) != 0) {
+        if ((q->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
             gDialog_bCallbackState = 0;
         }
     } else {

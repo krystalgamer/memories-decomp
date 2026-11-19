@@ -310,7 +310,7 @@ void DuelEffect_UpdateCardViewerState(void)
             TextBox_Destroy(dead_box);
         }
         gGraphics_bSyncVBlankTarget = 0;
-        gDuel_bEffectState |= 0x40;
+        gDuel_bEffectState |= DUEL_EFFECT_STATE_FLAG_COMPLETE;
         return;
     }
 
@@ -396,7 +396,7 @@ void DuelEffect_UpdateIdentitySave(void)
         SaveData_RequestWrite();
     }
     if (MemCardDialog_Poll() != 0) {
-        gDuel_bEffectState |= 0x40;
+        gDuel_bEffectState |= DUEL_EFFECT_STATE_FLAG_COMPLETE;
     }
 }
 #else
