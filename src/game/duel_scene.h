@@ -629,6 +629,11 @@ extern s16 gDuel_sEffectWorkCounter;
  * two points the effect finishes. Four further writers are still assembly,
  * all `sh $zero`. */
 extern u16 gDuel_wTrapPresentationMode;
+/* Its sequencers keep the step in the low nibble and latch STARTED the
+   first frame a step runs; storing the next plain step clears it. 0x40 is
+   a per-step phase bit and stays numeric. */
+#define DUEL_TRAP_PRESENTATION_STEP_MASK 0xF
+#define DUEL_TRAP_PRESENTATION_STARTED 0x80
 
 s32 DuelEffect_MarkInitialized(void);
 void DuelEffect_ClearCardEffect(void);

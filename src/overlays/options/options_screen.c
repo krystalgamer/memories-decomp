@@ -5,6 +5,7 @@
 #include "../../game/file_transfer.h"
 #include "../../game/input.h"
 #include "../../game/main.h"
+#include "../../game/options_state.h"
 #include "../../game/scratchpad.h"
 #include "../../game/sound.h"
 #include "../../game/sprite_primitive.h"
@@ -415,13 +416,13 @@ void PalOptions_StoreLanguageImage(void)
 
 s32 Options_Update(void)
 {
-    switch (gPalOptions_bState & 0xF) {
+    switch (gPalOptions_bState & OPTIONS_STATE_STEP_MASK) {
     case 1:
         PalOptions_HandleInput();
         break;
     case 2:
-        if ((gPalOptions_bState & 0x80) == 0) {
-            gPalOptions_bState |= 0x80;
+        if ((gPalOptions_bState & OPTIONS_STATE_STARTED) == 0) {
+            gPalOptions_bState |= OPTIONS_STATE_STARTED;
             Fade_StartIn();
         }
         if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
@@ -429,8 +430,8 @@ s32 Options_Update(void)
         }
         break;
     case 3:
-        if ((gPalOptions_bState & 0x80) == 0) {
-            gPalOptions_bState |= 0x80;
+        if ((gPalOptions_bState & OPTIONS_STATE_STARTED) == 0) {
+            gPalOptions_bState |= OPTIONS_STATE_STARTED;
             PalOptions_RequestLanguage(gPalOptions_bLanguage);
             SD_BGMFadeOut();
             Fade_StartOut();
