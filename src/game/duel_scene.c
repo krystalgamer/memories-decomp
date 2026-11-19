@@ -1211,7 +1211,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->transfer_mode = 1;
         break;
     case 4:
-        d->sector_destination = d->alternate_sector_destination = (u8 *)gDuel_awRitualData;
+        d->sector_destination = d->alternate_sector_destination = gDuel_awRitualData.bytes;
         d->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
@@ -7143,7 +7143,7 @@ void DuelResult_UpdateDepartingSprite(DisplayObject *object)
      2  spawn the seven confetti sprites from the gDuelResult_aSpriteSpecsOpponent (real opponent)
         or gDuelResult_aSpriteSpecsNoOpponent (no opponent) table row for the winning side, each on
         DuelResult_UpdateOrbitSprite with a random radius and orbit key, and
-        remember them in the gDuel_awRitualData slot table; then wait for
+        remember them in gDuel_awRitualData.sprite_slots; then wait for
         DisplayObject_FindAllocatedByTag.
      3  hold for 0x258 frames or until the player presses one of the 0xE0
         buttons, then retarget every spawned sprite at DuelResult_UpdateDepartingSprite so it
@@ -7164,7 +7164,7 @@ void DuelScene_UpdateResultOutro(void)
     s32 mode;
     s32 v;
 
-    slots = (DuelResultSpriteSlot *)gDuel_awRitualData;
+    slots = gDuel_awRitualData.sprite_slots;
 
     v = gDuel_wSceneStateFlags;
     if ((v & DUEL_SCENE_FLAG_INITIALIZED) == 0) {
@@ -7580,7 +7580,7 @@ void DuelScene_UpdateResultRewards(void)
         gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         Fade_StartOutKeepOverlay();
         Fade_SetTargetLevel(128, 2);
-        gDuel_pResultDisplayState = (DuelResultDisplayState *)gDuel_awRitualData;
+        gDuel_pResultDisplayState = &gDuel_awRitualData.result_display;
         gGraphics_sViewportY = 0;
         gGraphics_sViewportX = 0;
         gText_BranchSelectorA = 0;

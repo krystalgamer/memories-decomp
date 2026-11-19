@@ -180,7 +180,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     s32 i;
     s32 j;
 
-    p = gDuel_awRitualData;
+    p = gDuel_awRitualData.recipe_words;
     while (1) {
         if (p[0] == 0) {
             return 0;
