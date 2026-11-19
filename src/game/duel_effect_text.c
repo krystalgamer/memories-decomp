@@ -2555,16 +2555,16 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         object->stream_index++;
         n = id;
         if (id > 0xCFFF) {
-            text.string = (u8 *)((u32)gText_PrimaryStringOffsets & 0xFFFF0000) +
+            text.string = (u8 *)((u32)gText_PrimaryStringOffsets & TEXT_BANK_ADDRESS_MASK) +
                    gText_PrimaryStringOffsets[id - 0xD000];
         } else if (id > 0x7FFF) {
-            text.string = (u8 *)((u32)gText_GlobalStringOffsets & 0xFFFF0000) +
+            text.string = (u8 *)((u32)gText_GlobalStringOffsets & TEXT_BANK_ADDRESS_MASK) +
                    gText_GlobalStringOffsets[id - 0x8000];
         } else {
             if (id >= 0x500) {
                 n = id - 0x100;
             }
-            text.string = (u8 *)((u32)gText_PrimaryStringAddressAnchor & 0xFFFF0000) + gText_PrimaryStringOffsets[n];
+            text.string = (u8 *)((u32)gText_PrimaryStringAddressAnchor & TEXT_BANK_ADDRESS_MASK) + gText_PrimaryStringOffsets[n];
         }
         object->streams[object->stream_index] = text.string;
         return;
