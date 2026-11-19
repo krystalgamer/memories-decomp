@@ -121,6 +121,12 @@ extern u8 gMemCardWork_bFrameChecksum;
 #define MEM_CARD_BLOCK_COUNT 15
 #define MEM_CARD_DIRECTORY_RETRIES 5
 
+/* gMemCardDialog_OperationState and gMemCardWork_OperationState keep their
+   step in the low nibble; the work state latches STARTED the first frame
+   a step runs. */
+#define MEM_CARD_DIALOG_STEP_MASK 0xF
+#define MEM_CARD_WORK_STEP_MASK 0xF
+#define MEM_CARD_WORK_STEP_STARTED 0x80
 #define MEM_CARD_DIALOG_FLAG_RESULT_CREATED 0x40
 #define MEM_CARD_DIALOG_FLAG_RESULT_READY 0x80
 #define MEM_CARD_DIALOG_FLAG_CLOSING 0x800
