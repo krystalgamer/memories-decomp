@@ -419,13 +419,13 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
     if ((flags & 0x80) == 0) {
         object->update_state = flags | 0x80;
         DisplayObject_ResetVelocity(object);
-        object->field_34.h.field_36 = Rand_GetInterval(0x200) - 0x100;
-        object->field_38.h.field_38 = -Rand_GetInterval(0x180);
+        object->field_34.motion.velocity_x = Rand_GetInterval(0x200) - 0x100;
+        object->field_38.motion.velocity_y = -Rand_GetInterval(0x180);
     }
-    object->field_34.h.field_36 =
-        DisplayObject_StepTowardZero(object->field_34.h.field_36, 8);
-    object->field_38.h.field_38 =
-        DisplayObject_StepToward(object->field_38.h.field_38, 0x800, 0x40);
+    object->field_34.motion.velocity_x =
+        DisplayObject_StepTowardZero(object->field_34.motion.velocity_x, 8);
+    object->field_38.motion.velocity_y =
+        DisplayObject_StepToward(object->field_38.motion.velocity_y, 0x800, 0x40);
     DisplayObject_StepPositionXY(object);
     if (object->xy.s.y >= NAME_ENTRY_FRAGMENT_BOTTOM) {
         DisplayObject_ReleaseIfPresent(object);
@@ -485,18 +485,18 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
     if ((flags & 0x80) == 0) {
         object->update_state = flags | 0x80;
         DisplayObject_ResetVelocity(object);
-        object->field_34.h.field_36 =
+        object->field_34.motion.velocity_x =
             ((object->field_44.target.x -
               object->xy.s.x) << 8) /
-            object->field_60;
-        object->field_38.h.field_38 =
+            object->field_60.frames;
+        object->field_38.motion.velocity_y =
             ((object->field_44.target.y -
               object->xy.s.y) << 8) /
-            object->field_60;
+            object->field_60.frames;
     }
     DisplayObject_StepPositionXY(object);
-    remaining = (u16)object->field_60 - 1;
-    object->field_60 = remaining;
+    remaining = (u16)object->field_60.frames - 1;
+    object->field_60.frames = remaining;
     if (remaining <= 0) {
         object->update = 0;
         object->update_state = 0;
@@ -517,24 +517,24 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
     if ((g->update_state & 0x80) == 0) {
         g->update_state |= 0x80;
         DisplayObject_ResetVelocity(g);
-        g->field_34.h.field_36 =
+        g->field_34.motion.velocity_x =
             ((g->field_44.target.x - g->xy.s.x) << 8) /
-            g->field_60;
-        g->field_38.h.field_38 =
+            g->field_60.frames;
+        g->field_38.motion.velocity_y =
             ((g->field_44.target.y - g->xy.s.y) << 8) /
-            g->field_60;
+            g->field_60.frames;
     }
     if ((g->update_state & 0x40) != 0) {
-        n = (u16)g->field_60 - 1;
-        g->field_60 = n;
+        n = (u16)g->field_60.frames - 1;
+        g->field_60.frames = n;
         if ((s16)n <= 0) {
             DisplayObject_ReleaseIfPresent(g);
         }
         return;
     }
     DisplayObject_StepPositionXY(g);
-    n = (u16)g->field_60 - 1;
-    g->field_60 = n;
+    n = (u16)g->field_60.frames - 1;
+    g->field_60.frames = n;
     if ((s16)n > 0) {
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 1);
         DisplayObject_ConfigureScreenSprite(o,
@@ -553,7 +553,7 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
                       (u16)g->field_40.clut.x, (u16)g->field_40.clut.y);
 #endif
         o->rgb.word = 0x606060;
-        o->field_60 = 6;
+        o->field_60.step = 6;
         o->update = DisplayObject_FadeBrightnessAndRelease;
         o->attribute |= (GsALON | GsAONE);
         return;
@@ -572,7 +572,7 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
 #else
     node = TextBox_GetGlyphAt(3, gNameEntry_bCaretPos << 4,
 #endif
-                              ((w->field_60 = 2), 0));
+                              ((w->field_60.frames = 2), 0));
     if (node == 0) {
         return;
     }
@@ -770,7 +770,7 @@ s32 NameEntry_AdjustLength(s32 delta, s32 tween_frames)
     object->field_44.target.x = gNameEntry_bCaretPos * 16 + 0x6B;
     object->update = NameEntry_UpdateCaretTween;
     object->update_state = 2;
-    object->field_60 = tween_frames;
+    object->field_60.frames = tween_frames;
     object->field_44.target.y = object->xy.h.y;
     SD_SEPlayFull(0xC);
     return 1;
@@ -841,7 +841,7 @@ void NameEntry_UpdateKeyboard(void)
                                              : (w->field_3C.size.w - 2);
         }
         DisplayObject_StepPositionXY(w);
-        if (--w->field_60 != 0) {
+        if (--w->field_60.frames != 0) {
             return;
         }
         w->field_3C.size.w = w->resource_uv.b.u + 16;
@@ -952,7 +952,7 @@ void NameEntry_UpdateKeyboard(void)
             }
             gNameEntry_wCursorTargetY = (s8)gNameEntry_bKeyboardRow * 18 + 24;
             DisplayObject_ResetVelocity(w);
-            w->field_60 = 8;
+            w->field_60.frames = 8;
             w->field_34.motion.velocity_x = ((gNameEntry_wCursorTargetX - w->xy.s.x) << 8) / 8;
             w->field_38.motion.velocity_y = ((gNameEntry_wCursorTargetY - w->xy.s.y) << 8) / 8;
             {
@@ -1043,7 +1043,7 @@ void NameEntry_UpdateKeyboard(void)
                 *slot = node->glyph_code;
             }
             object = NameEntry_SpawnGlyphSprite(1, node);
-            object->field_60 = 8;
+            object->field_60.frames = 8;
             object->update = NameEntry_UpdateGlyphTransfer;
             object->field_44.target.y = 204;
             object->field_44.target.x = gNameEntry_bCaretPos * 16 + 114;
@@ -1126,7 +1126,7 @@ void NameEntry_UpdateKeyboard(void)
                 *slot = node->glyph_code;
             }
             obj = NameEntry_SpawnGlyphSprite(1, node);
-            ((DisplayObject *)obj)->field_60 = 8;
+            ((DisplayObject *)obj)->field_60.frames = 8;
             ((DisplayObject *)obj)->update =
                 NameEntry_UpdateGlyphTransfer;
             ((DisplayObject *)obj)->field_44.target.y = 204;
@@ -1172,7 +1172,7 @@ void NameEntry_UpdateKeyboard(void)
 void NameEntry_UpdateDialog(void)
 {
     DuelEffectChannel *box;
-    /* The dialog panel; field_60 is the signed distance left on its slide. */
+    /* The dialog panel; field_60.phase is its slide's signed sine phase. */
     DisplayObject *caret;
     u8 flags;
     u8 fb;
@@ -1228,7 +1228,7 @@ void NameEntry_UpdateDialog(void)
             caret->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             box->aux_object = caret;
             DisplayObject_SavePosition(caret);
-            caret->field_60 = -1024;
+            caret->field_60.phase = -1024;
             gNameEntry_bStateFlags |= 2;
             return;
         }
@@ -1239,12 +1239,12 @@ void NameEntry_UpdateDialog(void)
 #endif
         caret = box->aux_object;
         if ((flags & 2) != 0) {
-            pos = caret->field_60;
+            pos = caret->field_60.phase;
             if (pos >= 0) {
-                caret->field_60 = pos - 85;
+                caret->field_60.phase = pos - 85;
                 Widget_SlideSine(caret, 16, 248,
                               (s16)(pos - 85));
-                if (caret->field_60 < 0) {
+                if (caret->field_60.phase < 0) {
                     caret->xy.s.x = 16;
                     fb = gNameEntry_bStateFlags;
                     caret->xy.s.y = 248;
@@ -1254,10 +1254,10 @@ void NameEntry_UpdateDialog(void)
                     return;
                 }
             } else {
-                caret->field_60 = pos + 85;
+                caret->field_60.phase = pos + 85;
                 Widget_SlideSine(caret, 16, 176,
                               (s16)(pos + 85));
-                if (caret->field_60 >= 0) {
+                if (caret->field_60.phase >= 0) {
                     caret->xy.s.x = 16;
                     fc = gNameEntry_bStateFlags;
                     caret->xy.s.y = 176;
@@ -1289,7 +1289,7 @@ void NameEntry_UpdateDialog(void)
         }
         DisplayObject_SavePosition(caret);
         fe = gNameEntry_bStateFlags;
-        caret->field_60 = 1024;
+        caret->field_60.phase = 1024;
         gNameEntry_bStateFlags = fe | 2;
         return;
     }

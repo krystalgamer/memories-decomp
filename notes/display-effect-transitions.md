@@ -74,12 +74,12 @@ one generic cleanup path.
 
 The portrait-ID path uses the existing image/grid/CLUT constants. With
 `field_40` zero it creates a primary sprite and starts its signed
-`field_60` value at `0x14`; otherwise it reuses the primary and starts at
+`field_60.frames` value at `0x14`; otherwise it reuses the primary and starts at
 zero. Both paths create the secondary blend sprite and continue the
 update in that initialization call.
 
 The source keeps both `(u16)gGraphics_nBaseFrameStep` sites, low-halfword stores and
-signed `field_60` tests. They are not replaced with the full-word views
+signed `field_60.frames` tests. They are not replaced with the full-word views
 used by the other ramps. The regional secondary CLUT-x macro remains
 `0x200` by default and `0x280` in Europe.
 

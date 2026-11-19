@@ -41,7 +41,7 @@ extern u8 D_80169619;
  * clears it and stores CampaignMap_CreateLocationMarker's return;
  * CampaignMap_UpdateLocation stores the same return, moves its xy to the
  * location's marker position and clears it; and
- * CampaignMap_UpdateLocationTransition eases it there, using field_60 as the
+ * CampaignMap_UpdateLocationTransition eases it there, using field_60.phase as the
  * cosine phase.
  *
  * gCampaignMap_pSpotlight is the spotlight mask. The location transition

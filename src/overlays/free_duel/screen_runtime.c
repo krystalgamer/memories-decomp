@@ -357,7 +357,7 @@ void FreeDuel_UpdateSparkle(void)
         if (obj != 0 && (obj->update_state & 0xF) == 1) {
             if (!(obj->update_state & 0x80)) {
                 obj->update_state |= 0x80;
-                obj->field_60 = 16;
+                obj->field_60.frames = 16;
                 obj->rgb.word = COLOR_RGB24_DIM_GREY;
                 obj->attribute |= (GsALON | GsAONE);
             }
@@ -365,8 +365,8 @@ void FreeDuel_UpdateSparkle(void)
             obj->rgb.c.b = level;
             obj->rgb.c.g = level;
             obj->rgb.c.r = level;
-            timer = obj->field_60 - 1;
-            obj->field_60 = timer;
+            timer = obj->field_60.frames - 1;
+            obj->field_60.frames = timer;
             if (timer == 0) {
                 DisplayObject_ReleaseIfPresent(obj);
                 gFreeDuel_apSparklePool[i] = 0;
@@ -391,7 +391,7 @@ void FreeDuel_UpdateCursorTween(void)
             return;
         }
         gFreeDuel_bScreenFlags |= 0x40;
-        widget->field_60 = 8;
+        widget->field_60.frames = 8;
         DisplayObject_ResetVelocity(widget);
 
         d = gFreeDuel_bTargetColumn;
@@ -401,15 +401,15 @@ void FreeDuel_UpdateCursorTween(void)
         sx = (d << 8) / 8;
         d = gFreeDuel_bTargetRow;
         ty = d * 52 + 40;
-        widget->field_34.h.field_36 = sx;
+        widget->field_34.motion.velocity_x = sx;
         d = widget->xy.s.y;
         d = ty - d;
-        widget->field_38.h.field_38 = (d << 8) / 8;
+        widget->field_38.motion.velocity_y = (d << 8) / 8;
     }
 
     DisplayObject_StepPositionXY(widget);
-    left = (u16)widget->field_60 - 1;
-    widget->field_60 = left;
+    left = (u16)widget->field_60.frames - 1;
+    widget->field_60.frames = left;
     if (left == 0) {
         gFreeDuel_bCursorColumn = gFreeDuel_bTargetColumn;
         gFreeDuel_bCursorRow = gFreeDuel_bTargetRow;

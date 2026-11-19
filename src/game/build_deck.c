@@ -36,7 +36,7 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
 
     if (DisplayObject_MarkInitialized(o) == 0) {
         o->field_44.word = 0;
-        o->field_60 = 0;
+        o->field_60.frames = 0;
         o->attribute = o->attribute & ~GsROTOFF;
         o->update_state = o->update_state | 0x40;
         SD_SEPlayFull(0xA);
@@ -45,32 +45,32 @@ void BuildDeck_UpdateCardTransferIcon(DisplayObject *o) {
     v = o->update_state;
 
     if ((v & 0x40) != 0) {
-        t = (u16)o->field_60 + 1;
-        o->field_60 = t;
+        t = (u16)o->field_60.frames + 1;
+        o->field_60.frames = t;
         o->field_44.scale.y = (s16)t * 512;
         o->field_44.scale.x = (s16)t * 512;
-        if (o->field_60 >= 8) {
+        if (o->field_60.frames >= 8) {
             DisplayObject_ResetVelocity(o);
             o->field_34.motion.velocity_x = (((s16)o->field_18.target.x - o->xy.s.x) << 8) / 12;
             o->update_state = o->update_state & 0xBF;
-            o->field_60 = 0xC;
+            o->field_60.frames = 0xC;
             o->field_38.motion.velocity_y = (((s16)o->field_18.target.y - o->xy.s.y) << 8) / 12;
         }
     } else if ((v & 0x20) != 0) {
-        t = (u16)o->field_60 - 1;
-        o->field_60 = t;
+        t = (u16)o->field_60.frames - 1;
+        o->field_60.frames = t;
         o->field_44.scale.y = (s16)t * 512;
         o->field_44.scale.x = (s16)t * 512;
-        if (o->field_60 == 0) {
+        if (o->field_60.frames == 0) {
             DisplayObject_ReleaseIfPresent(o);
         }
     } else {
         DisplayObject_StepPositionXY(o);
-        t = (u16)o->field_60 - 1;
-        o->field_60 = t;
-        if (o->field_60 <= 0) {
+        t = (u16)o->field_60.frames - 1;
+        o->field_60.frames = t;
+        if (o->field_60.frames <= 0) {
             o->xy.word = o->field_18.word;
-            o->field_60 = 8;
+            o->field_60.frames = 8;
             o->update_state = o->update_state | 0x20;
         }
     }

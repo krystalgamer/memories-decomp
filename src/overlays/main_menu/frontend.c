@@ -95,7 +95,7 @@ void MainMenu_InitFrontendMenu(s32 unused, s32 menu)
         third = gMainMenu_pStartPrompt;
         third->update_state = 0x3C;
         fourth = gMainMenu_pStartPrompt;
-        third->field_60 = -2;
+        third->field_60.step = -2;
         fourth->field_34.h.field_36 = 0;
     }
 
@@ -263,7 +263,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
         if (entry->update_state != 0) {
             entry->update_state = entry->update_state - 1;
         } else {
-            lvl = entry->rgb.c.b + (u8)entry->field_60;
+            lvl = entry->rgb.c.b + (u8)entry->field_60.step;
             entry->rgb.c.b = lvl;
             entry->rgb.c.g = lvl;
             entry->rgb.c.r = lvl;
@@ -274,8 +274,8 @@ s32 MainMenu_UpdateFrontendMenu(void)
                     entry->update_state = 0x3C;
                 }
                 ent5 = gMainMenu_pStartPrompt;
-                neg = ent5->field_60;
-                ent5->field_60 = -neg;
+                neg = ent5->field_60.step;
+                ent5->field_60.step = -neg;
             }
         }
         if ((gInput_awPadPressed[0] & PAD_BUTTON_START) != 0) {
@@ -307,18 +307,18 @@ s32 MainMenu_UpdateFrontendMenu(void)
         case 0:
                 eloop = *slot;
                 if (eloop != 0) {
-                    timer = eloop->field_60;
-                    step = (u16)eloop->field_60;
+                    timer = eloop->field_60.frames;
+                    step = (u16)eloop->field_60.frames;
                     if (timer > 0) {
                         timer = step - 1;
-                        eloop->field_60 = timer;
+                        eloop->field_60.frames = timer;
                         first = (u32)gMain_bMenuID < 5;
                         if (first ? i < 5 : i >= 5) {
                             eloop = *slot;
                             first = eloop->field_38.h.field_38;
                             value = eloop->field_34.h.field_36;
                             delta = first - value;
-                            value = eloop->field_60;
+                            value = eloop->field_60.frames;
                             /* Keep the selector/endpoint scratch live as the phase limit. */
                             first = 0x10;
                             frame = first - value;
@@ -625,7 +625,7 @@ void MainMenu_StartFrontendEntryTransition(s32 mode)
                 entries[i]->field_38.h.field_38 = 0xA0;
             }
             entries[i]->xy.h.x = entries[i]->field_34.h.field_36;
-            entries[i]->field_60 = 0x10;
+            entries[i]->field_60.frames = 0x10;
         }
     }
     gMainMenu_bTransitionMode = mode;
@@ -664,7 +664,7 @@ void MainMenu_SpawnFrontendEntryAfterimage(DisplayObject *entry)
         object->flags |=
             DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(object);
-        DisplayObject_SetDepthOffset(object, (s8)(-(u8)entry->field_60));
+        DisplayObject_SetDepthOffset(object, (s8)(-(u8)entry->field_60.frames));
         object->update =
             MainMenu_UpdateFrontendEntryAfterimage;
         object->rgb.c.r = entry->rgb.c.r;

@@ -306,7 +306,7 @@ void CampaignMap_SetLocation(s32 index)
     obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 6);
     obj->xy.h.x = 160;
     obj->xy.h.y = 144;
-    obj->field_60 = 128;
+    obj->field_60.word = 128;
     obj->field_48.spotlight.inner = 32;
     obj->field_48.spotlight.outer = 192;
     obj->field_44.scale.x = 5120;
@@ -393,7 +393,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
         gCampaignMap_bTransitionFlags = flags | 0x80;
         if (marker != 0) {
             DisplayObject_SavePosition(marker);
-            marker->field_60 = 0;
+            marker->field_60.phase = 0;
         }
         gCampaignMap_nTweenFramesLeft = gCampaignMap_MoveState;
         CampaignMap_StartCameraTween(
@@ -430,9 +430,9 @@ s32 CampaignMap_UpdateLocationTransition(void)
     }
     marker = gCampaignMap_pLocationMarker;
     if (marker != 0) {
-        if (marker->field_60 < 2048) {
+        if (marker->field_60.phase < 2048) {
             quotient = 2048 / gCampaignMap_MoveState;
-            marker->field_60 += quotient;
+            marker->field_60.phase += quotient;
             DisplayObject_InterpolatePositionCosine(
                 marker,
                 gCampaignMap_aLocationTable[
@@ -441,7 +441,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
                 gCampaignMap_aLocationTable[
                     gCampaignMap_Location
                 ].marker_y,
-                marker->field_60
+                marker->field_60.phase
             );
         }
     }

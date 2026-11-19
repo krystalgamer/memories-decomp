@@ -558,7 +558,7 @@ void Library_UpdateGridCursor(LibraryState *state)
 }
 
 /* The draw callback Library_CreateFadingCardOutline installs at 0x4C on the object it
-   builds: it fades the object out over its own field_60 countdown, projects
+   builds: it fades the object out over its own field_60.level countdown, projects
    it, and emits a four-vertex flat polyline (one colour word, length 6)
    and then, with the length cut to 3 and x3/y3 copied into x1/y1, a single
    flat line from the first vertex to the last, both through Graphics_SubmitDrawModePacket.
@@ -594,15 +594,15 @@ void Library_DrawFadingCardOutline(DisplayObject *o, GsOT *ot)
     s32 v;
     s32 w;
 
-    n = (u16)o->field_60 - 0x10;
-    o->field_60 = n;
+    n = (u16)o->field_60.level - 0x10;
+    o->field_60.level = n;
     if ((s16)n <= 0) {
         DisplayObject_ReleaseIfPresent(o);
         return;
     }
 
     r = &LIBRARY_OUTLINE_SCRATCH->origin;
-    o->rgb.c.b = o->field_60;
+    o->rgb.c.b = o->field_60.level;
     DisplayObject_ProjectRotationFacing(o,
                   o->xy.s.x + (s16)o->field_18.center.x,
                   o->xy.s.y + (s16)o->field_18.center.y,
@@ -663,7 +663,7 @@ DisplayObject *Library_CreateFadingCardOutline(DisplayObject *src, int add)
 
     o->field_48.word = src->field_48.word;
     o->field_18.word = src->field_18.word;
-    o->field_60 = 0x100;
+    o->field_60.level = 0x100;
     o->field_3C.size.w = (s16)o->field_18.center.x * 2;
     o->field_3C.size.h = (s16)o->field_18.center.y * 2;
     o->xy.word = src->xy.word;
@@ -826,16 +826,16 @@ void Library_UpdateCardView(LibraryState *state)
             o->xy.s.x = 0x148;
             o->xy.s.y = LIBRARY_CARD_VIEW_Y;
             DisplayObject_SavePosition(o);
-            o->field_60 = -0x400;
+            o->field_60.phase = -0x400;
         }
-        o->field_60 += 0x33;
-        if (o->field_60 >= 0) {
+        o->field_60.phase += 0x33;
+        if (o->field_60.phase >= 0) {
             o->xy.s.x = LIBRARY_CARD_VIEW_X;
             o->xy.s.y = LIBRARY_CARD_VIEW_Y;
             state->motion.card_view_slide_phase = 0;
         } else {
             Widget_SlideSine(
-                o, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y, o->field_60);
+                o, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y, o->field_60.phase);
         }
         TextBox_SetPos(&gText_aChannels[0], o->xy.s.x, o->xy.s.y);
         break;
@@ -844,15 +844,15 @@ void Library_UpdateCardView(LibraryState *state)
         if (!(flags & 0x80)) {
             state->motion.card_view_slide_phase = flags | 0x80;
             DisplayObject_SavePosition(o);
-            o->field_60 = 0x400;
+            o->field_60.phase = 0x400;
         }
-        o->field_60 -= 0x33;
-        if (o->field_60 <= 0) {
+        o->field_60.phase -= 0x33;
+        if (o->field_60.phase <= 0) {
             o->xy.s.x = 0x148;
             o->xy.s.y = LIBRARY_CARD_VIEW_Y;
             state->motion.card_view_slide_phase = 0;
         } else {
-            Widget_SlideSine(o, 0x148, LIBRARY_CARD_VIEW_Y, o->field_60);
+            Widget_SlideSine(o, 0x148, LIBRARY_CARD_VIEW_Y, o->field_60.phase);
         }
         TextBox_SetPos(&gText_aChannels[0], o->xy.s.x, o->xy.s.y);
         break;
@@ -873,13 +873,13 @@ void Library_UpdateCardView(LibraryState *state)
         o->xy.s.y = state->motion.rest_y - gGraphics_sViewportY - id;
         o->field_44.scale.x = o->field_44.scale.y = 0;
         DisplayObject_SavePosition(o);
-        o->field_60 = 0;
+        o->field_60.phase = 0;
         SD_SEPlayFull(0x32);
         rec->secondary_object->attribute |= 0x80000000;
         o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(o, 0x148, LIBRARY_CARD_VIEW_Y, 0, 2, 0, 0x1B, 0x107);
         o->resource_uv.b.v = 0x80;
-        o->field_60 = -0x400;
+        o->field_60.phase = -0x400;
         o->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(o);
         DisplayObject_SetDepthOffset(o, 4);
@@ -908,9 +908,9 @@ void Library_UpdateCardView(LibraryState *state)
             o->field_20.b.rotation_z += 0xC;
             o->field_20.b.rotation_y += 6;
             o->field_44.scale.y = o->field_44.scale.x += 0xCC;
-            o->field_60 += 0x66;
-            DisplayObject_InterpolatePositionCosine(o, 2, LIBRARY_CARD_ZOOM_Y, o->field_60);
-            if (o->field_60 >= 0x800) {
+            o->field_60.phase += 0x66;
+            DisplayObject_InterpolatePositionCosine(o, 2, LIBRARY_CARD_ZOOM_Y, o->field_60.phase);
+            if (o->field_60.phase >= 0x800) {
                 o->field_20.word = 0x8000;
                 o->xy.word = (LIBRARY_CARD_ZOOM_Y << 16) | 2;
                 o->field_44.word = 0x10001000;
@@ -994,7 +994,7 @@ void Library_UpdateCardView(LibraryState *state)
             o = rec->primary_object;
             o->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
             DisplayObject_SavePosition(o);
-            o->field_60 = 0;
+            o->field_60.phase = 0;
             SD_SEPlayFull(0x34);
             Fade_StartInKeepOverlay();
             return;
@@ -1003,14 +1003,14 @@ void Library_UpdateCardView(LibraryState *state)
         switch (sel) {
         case 0:
             o = rec->primary_object;
-            if (o->field_60 < 0x800) {
+            if (o->field_60.phase < 0x800) {
                 o->field_20.b.rotation_y -= 4;
                 if (o->field_20.b.rotation_y < LIBRARY_CARD_ZOOM_MIN_SCALE) {
                     o->field_20.b.rotation_y = LIBRARY_CARD_ZOOM_MIN_SCALE;
                 }
-                o->field_60 += 0xCC;
-                DisplayObject_InterpolatePositionCosine(o, -0x16, LIBRARY_CARD_ZOOM_Y, o->field_60);
-                if (o->field_60 >= 0x800) {
+                o->field_60.phase += 0xCC;
+                DisplayObject_InterpolatePositionCosine(o, -0x16, LIBRARY_CARD_ZOOM_Y, o->field_60.phase);
+                if (o->field_60.phase >= 0x800) {
                     o->field_20.b.rotation_y = LIBRARY_CARD_ZOOM_MIN_SCALE;
                     o->xy.s.x = -0x16;
                     o->xy.s.y = LIBRARY_CARD_ZOOM_Y;
@@ -1034,7 +1034,7 @@ void Library_UpdateCardView(LibraryState *state)
                 SD_SEPlayFull(0x34);
                 o = rec->primary_object;
                 DisplayObject_SavePosition(o);
-                o->field_60 = 0;
+                o->field_60.phase = 0;
                 return;
             }
             break;
@@ -1042,9 +1042,9 @@ void Library_UpdateCardView(LibraryState *state)
             o = rec->primary_object;
             if (o->flags & 4) {
                 o->field_20.b.rotation_y += 4;
-                o->field_60 += 0xCC;
-                DisplayObject_InterpolatePositionCosine(o, 2, LIBRARY_CARD_ZOOM_Y, o->field_60);
-                if (o->field_60 >= 0x800) {
+                o->field_60.phase += 0xCC;
+                DisplayObject_InterpolatePositionCosine(o, 2, LIBRARY_CARD_ZOOM_Y, o->field_60.phase);
+                if (o->field_60.phase >= 0x800) {
                     o->field_20.b.rotation_y = 0;
                     o->xy.s.x = 2;
                     o->xy.s.y = LIBRARY_CARD_ZOOM_Y;
@@ -1095,7 +1095,7 @@ void Library_UpdateCardView(LibraryState *state)
             o->attribute &= 0xF7FFFFFF;
             DisplayObject_SavePosition(o);
             i = 0;
-            o->field_60 = 0;
+            o->field_60.phase = 0;
             do {
                 state->motion.display_objects.all[i]->flags |= 0x40;
                 i++;
@@ -1115,13 +1115,13 @@ void Library_UpdateCardView(LibraryState *state)
             Library_CreateFadingCardOutline(o, 1);
             o->field_20.b.rotation_z += 0xC;
             o->field_20.b.rotation_y += 6;
-            o->field_60 += 0x66;
+            o->field_60.phase += 0x66;
             DisplayObject_InterpolatePositionCosine(o,
                 state->motion.x - o->field_48.pivot.x - gGraphics_sViewportX,
                 state->motion.y - o->field_48.pivot.y - gGraphics_sViewportY,
-                o->field_60);
+                o->field_60.phase);
             o->field_44.scale.y = o->field_44.scale.x -= 0xCC;
-            if (o->field_60 >= 0x800) {
+            if (o->field_60.phase >= 0x800) {
                 DuelEffect_ReleaseResourceObjects(0);
                 state->cards[(u16)state->motion.selected_card_id].flags |= 0x80;
                 return;

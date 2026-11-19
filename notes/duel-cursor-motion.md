@@ -8,13 +8,13 @@ allocate, copy by the private type's size, or advance a private-type array.
 
 | Former member | Offset | Canonical member |
 | --- | --- | --- |
-| `x` | `0x28` | `position.h.field_28` |
-| `y` | `0x2A` | `position.h.field_2A` |
-| `target_x` | `0x2C` | `field_2C.h.field_2C` |
-| `target_y` | `0x2E` | `field_2C.h.field_2E` |
-| `step_x` | `0x36` | `field_34.h.field_36` |
-| `step_y` | `0x3A` | `field_38.h.field_3A` |
-| `steps` | `0x60` | `field_60` |
+| `x` | `0x28` | `position.ground.x` |
+| `y` | `0x2A` | `position.ground.z` |
+| `target_x` | `0x2C` | `field_2C.ground_target.x` |
+| `target_y` | `0x2E` | `field_2C.ground_target.z` |
+| `step_x` | `0x36` | `field_34.motion.velocity_x` |
+| `step_y` | `0x3A` | `field_38.motion.velocity_z` |
+| `steps` | `0x60` | `field_60.frames` |
 | `moving` | `0x6C` | `update_state` |
 
 The removed view was `0x6E` bytes because its last byte was followed by

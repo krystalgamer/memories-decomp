@@ -22,7 +22,7 @@
  * DisplayObject *. `shop.c` owns the cursor helpers, the initializer and the
  * updater, and reaches the cursor through the record's own members: its
  * spin in field_20.b.rotation_z, its slide target in field_18.target, the
- * timer in field_60 and the slide flag in update_state. */
+ * timer in field_60.frames and the slide flag in update_state. */
 
 /* The shop's price table is the shop_cards view of gFile_StagingBuffer
  * (file_staging_buffer.h). */

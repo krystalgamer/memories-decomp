@@ -136,7 +136,7 @@ void DuelEffect_UpdateCardViewerState(void)
 #endif
         obj->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
         DisplayObject_SavePosition(obj);
-        obj->field_60 = slide_in;
+        obj->field_60.phase = slide_in;
         DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset(obj, 0x14);
         gDuel_pCardViewerCard = obj;
@@ -146,12 +146,12 @@ void DuelEffect_UpdateCardViewerState(void)
 #else
         DisplayObject_ConfigureSpriteAtPosition(obj, 0x148, gDuel_bCardViewerYOffset + 0xE, 0, 2, 0, 0xD, 0x107);
 #endif
-        obj->field_60 = slide_in;
+        obj->field_60.phase = slide_in;
         obj->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset(obj, 0x14);
         DisplayObject_SavePosition(obj);
-        obj->field_60 = slide_in;
+        obj->field_60.phase = slide_in;
         gDuel_pCardViewerBackground = obj;
         gDuel_pCardViewerTextBox = 0;
         i = 0;
@@ -209,7 +209,7 @@ void DuelEffect_UpdateCardViewerState(void)
     state = gDuel_bEffectHandlerFlags;
     if (state & 0x40) {
         obj = gDuel_pCardViewerBackground;
-        speed = obj->field_60;
+        speed = obj->field_60.phase;
         if (speed != 0) {
             if (state & 0x10) {
 #ifdef VERSION_EUROPE
@@ -223,11 +223,11 @@ void DuelEffect_UpdateCardViewerState(void)
                                  obj->xy.s.y,
                                  speed);
 #endif
-                flags = obj->field_60 - 0x55;
-                obj->field_60 = flags;
+                flags = obj->field_60.phase - 0x55;
+                obj->field_60.phase = flags;
                 if ((s16)flags <= 0) {
                     obj->xy.s.x = 0x400;
-                    obj->field_60 = 0;
+                    obj->field_60.phase = 0;
                 }
             } else {
 #ifdef VERSION_EUROPE
@@ -241,15 +241,15 @@ void DuelEffect_UpdateCardViewerState(void)
                                  obj->xy.s.y,
                                  speed);
 #endif
-                flags = (u16)obj->field_60 + 0x55;
-                obj->field_60 = flags;
+                flags = (u16)obj->field_60.phase + 0x55;
+                obj->field_60.phase = flags;
                 if ((s16)flags >= 0) {
 #ifdef VERSION_EUROPE
                     obj->xy.s.y = 6;
 #else
                     obj->xy.s.x = DUEL_CARD_VIEWER_SHOWN_X;
 #endif
-                    obj->field_60 = 0;
+                    obj->field_60.phase = 0;
                 }
             }
             pos_box = gDuel_pCardViewerTextBox;
@@ -259,29 +259,29 @@ void DuelEffect_UpdateCardViewerState(void)
             }
         }
         obj = gDuel_pCardViewerCard;
-        speed = obj->field_60;
+        speed = obj->field_60.phase;
         if (speed != 0) {
             if (gDuel_bEffectHandlerFlags & 0x10) {
                 Widget_SlideSine(obj,
                                  -0x8C,
                                  obj->xy.s.y,
                                  speed);
-                flags = obj->field_60 - 0x55;
-                obj->field_60 = flags;
+                flags = obj->field_60.phase - 0x55;
+                obj->field_60.phase = flags;
                 if ((s16)flags <= 0) {
                     obj->xy.s.x = 0x400;
-                    obj->field_60 = 0;
+                    obj->field_60.phase = 0;
                 }
             } else {
                 Widget_SlideSine(obj,
                                  2,
                                  obj->xy.s.y,
                                  speed);
-                flags = obj->field_60 + 0x55;
-                obj->field_60 = flags;
+                flags = obj->field_60.phase + 0x55;
+                obj->field_60.phase = flags;
                 if ((s16)flags >= 0) {
                     obj->xy.s.x = 2;
-                    obj->field_60 = 0;
+                    obj->field_60.phase = 0;
                 }
             }
         }
@@ -290,10 +290,10 @@ void DuelEffect_UpdateCardViewerState(void)
             return;
         }
         bg = gDuel_pCardViewerBackground;
-        if (bg->field_60 != 0) {
+        if (bg->field_60.phase != 0) {
             return;
         }
-        if (gDuel_pCardViewerCard->field_60 != 0) {
+        if (gDuel_pCardViewerCard->field_60.phase != 0) {
             return;
         }
         closing = gDuel_bEffectHandlerFlags;
@@ -341,9 +341,9 @@ void DuelEffect_UpdateCardViewerState(void)
     slide_out = 0x400;
     DisplayObject_SavePosition(gDuel_pCardViewerBackground);
     next_obj = gDuel_pCardViewerCard;
-    gDuel_pCardViewerBackground->field_60 = slide_out;
+    gDuel_pCardViewerBackground->field_60.phase = slide_out;
     DisplayObject_SavePosition(next_obj);
-    gDuel_pCardViewerCard->field_60 = slide_out;
+    gDuel_pCardViewerCard->field_60.phase = slide_out;
     Fade_SetTargetLevel(0xFF, 2);
     SD_SEPlayFull(0x34);
     gDuel_bEffectHandlerFlags |= 0x50;

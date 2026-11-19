@@ -334,7 +334,7 @@ extern u8 gMemCard_bLoadStep;
  *   gMemCard_pDialogObject
  *               The box's display object. Assigned when the dialog opens,
  *               null-tested before teardown and reset to 0 after
- *               DisplayObject_ReleaseIfPresent releases it; callers drive its field_60
+ *               DisplayObject_ReleaseIfPresent releases it; callers drive its field_60.phase
  *               between -0x400 and 0x400.
  */
 extern u8 gMemCardDialog_ChannelIndex;

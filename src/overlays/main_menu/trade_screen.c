@@ -118,7 +118,7 @@ void MainMenu_InitTradeScreen(void)
                 DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                 DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
             DisplayObject_SetDepthOffset(entry, 0);
-            entry->field_60 = -2;
+            entry->field_60.step = -2;
             gTrade_aCardSlots[i].object = entry;
         } else {
             gTrade_aCardSlots[i].object = 0;
@@ -1054,14 +1054,14 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
         MainMenu_DrawTradeColumnOverlay(0);
         obj[0]->rgb.c.r = obj[0]->rgb.c.g =
             obj[0]->rgb.c.b = 0x40;
-        obj[0]->field_60 = 2;
+        obj[0]->field_60.step = 2;
     } else {
-        obj[0]->rgb.c.r += obj[0]->field_60;
-        obj[0]->rgb.c.g += obj[0]->field_60;
-        obj[0]->rgb.c.b += obj[0]->field_60;
+        obj[0]->rgb.c.r += obj[0]->field_60.step;
+        obj[0]->rgb.c.g += obj[0]->field_60.step;
+        obj[0]->rgb.c.b += obj[0]->field_60.step;
         if (obj[0]->rgb.c.r < 0x41 ||
             (s8)obj[0]->rgb.c.r < 0) {
-            obj[0]->field_60 *= -1;
+            obj[0]->field_60.step *= -1;
         }
     }
 
@@ -1069,14 +1069,14 @@ void MainMenu_DrawTradeOffersAndHighlights(void)
         MainMenu_DrawTradeColumnOverlay(1);
         obj[1]->rgb.c.r = obj[1]->rgb.c.g =
             obj[1]->rgb.c.b = 0x40;
-        obj[1]->field_60 = 2;
+        obj[1]->field_60.step = 2;
     } else {
-        obj[1]->rgb.c.r += obj[1]->field_60;
-        obj[1]->rgb.c.g += obj[1]->field_60;
-        obj[1]->rgb.c.b += obj[1]->field_60;
+        obj[1]->rgb.c.r += obj[1]->field_60.step;
+        obj[1]->rgb.c.g += obj[1]->field_60.step;
+        obj[1]->rgb.c.b += obj[1]->field_60.step;
         if (obj[1]->rgb.c.r < 0x41 ||
             (s8)obj[1]->rgb.c.r < 0) {
-            obj[1]->field_60 *= -1;
+            obj[1]->field_60.step *= -1;
         }
     }
 
