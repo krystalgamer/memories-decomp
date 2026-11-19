@@ -47,8 +47,8 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
 {
     switch (mode) {
     case 0:
-        obj->field_30.h.field_32 = 0x100;
-        obj->field_30.h.counter = 0;
+        obj->cursor.image.y = 0x100;
+        obj->cursor.image.x = 0;
         obj->rect.w = 0x40;
         obj->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -1136,8 +1136,8 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
            (and s32 for the u32 phase_size), so fold leaves them as non-struct
            stores. Spelling any of the four as a member store changes 8 to 22
            words of this case. */
-        *(s16 *)&d->field_30.h.counter = 0x1C0;
-        *(s16 *)&d->field_30.h.field_32 = 0x100;
+        *(s16 *)&d->cursor.image.x = 0x1C0;
+        *(s16 *)&d->cursor.image.y = 0x100;
         t0 = gFile_dwTransferState;
         *(u16 *)&d->rect.w = 0x40;
         gFile_dwTransferState = t0 & m;
@@ -1500,7 +1500,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
        function by eight bytes. */
     switch (stage) {
     case 0:
-        *(s16 *)&p->field_30.h.counter = 0x340;
+        *(s16 *)&p->cursor.image.x = 0x340;
         *(u16 *)&p->rect.w = 0x40;
         m = 0xFFDDFFFF;
         v_0 = gFile_dwTransferState;
@@ -1508,7 +1508,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         v_0 &= m;
         gFile_dwTransferState = v_0;
         w = gFile_dwTransferState;
-        *(s16 *)&p->field_30.h.field_32 = 0;
+        *(s16 *)&p->cursor.image.y = 0;
         w |= 0x10000;
         gFile_dwTransferState = w;
         p->transfer_mode = 2;

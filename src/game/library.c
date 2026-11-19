@@ -1255,8 +1255,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
        rows sit at x 0x280 (y 0xE0 and 0xE6). */
     switch (mode) {
     case 0:
-        object->field_30.h.counter = 0x300;
-        object->field_30.h.field_32 = 0x100;
+        object->cursor.image.x = 0x300;
+        object->cursor.image.y = 0x100;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -1295,8 +1295,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gGraphics_aImageTransferRects[0].w = 0x100;
         gGraphics_aImageTransferRects[0].h = 0x10;
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
-        object->field_30.h.counter = 0x240;
-        object->field_30.h.field_32 = 0x100;
+        object->cursor.image.x = 0x240;
+        object->cursor.image.y = 0x100;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -1314,7 +1314,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gGraphics_aImageTransferRects[0].h = 2;
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         object->transfer_mode = 3;
-        object->field_30.word = 0x26810;
+        object->cursor.word = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
         object->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
@@ -1339,8 +1339,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
     case 0:
-        object->field_30.h.counter = 0x300;
-        object->field_30.h.field_32 = 0x100;
+        object->cursor.image.x = 0x300;
+        object->cursor.image.y = 0x100;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -1365,8 +1365,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gGraphics_aImageTransferRects[0].w = 0x100;
         gGraphics_aImageTransferRects[0].h = 0x10;
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
-        object->field_30.h.counter = 0x240;
-        object->field_30.h.field_32 = 0x100;
+        object->cursor.image.x = 0x240;
+        object->cursor.image.y = 0x100;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -1384,7 +1384,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gGraphics_aImageTransferRects[0].h = 2;
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         object->transfer_mode = 3;
-        object->field_30.word = 0x26810;
+        object->cursor.word = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
         object->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;

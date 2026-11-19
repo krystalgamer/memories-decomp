@@ -67,9 +67,9 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         s32 w;
 
         m = 0xFFDDFFFF;
-        obj->field_30.h.counter = 0x2C0;
+        obj->cursor.image.x = 0x2C0;
         w = 0x40;
-        obj->field_30.h.field_32 = 0;
+        obj->cursor.image.y = 0;
         obj->rect.w = w;
         gFile_dwTransferState &= m;
         m = 0x10000;
@@ -114,14 +114,14 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         u32 loaded;
         u32 enabled;
 
-        obj->field_30.h.counter = 0x280;
+        obj->cursor.image.x = 0x280;
         obj->rect.w = 0x40;
         obj->rect.h = 0x10;
         cleared = gFile_dwTransferState & 0xFFDDFFFF;
         gFile_dwTransferState = cleared;
         do { loaded = gFile_dwTransferState; } while (0);
         do { enabled = 0x10000; } while (0);
-        obj->field_30.h.field_32 = 0;
+        obj->cursor.image.y = 0;
         gFile_dwTransferState = loaded | enabled;
         obj->transfer_mode = 2;
         obj->phase_size = 12 * FILE_SECTOR_SIZE;
@@ -135,14 +135,14 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         u32 loaded;
         u32 enabled;
 
-        obj->field_30.h.counter = 0x2C0;
+        obj->cursor.image.x = 0x2C0;
         obj->rect.w = 0x40;
         obj->rect.h = 0x10;
         cleared = gFile_dwTransferState & 0xFFDDFFFF;
         gFile_dwTransferState = cleared;
         do { loaded = gFile_dwTransferState; } while (0);
         do { enabled = 0x10000; } while (0);
-        obj->field_30.h.field_32 = 0;
+        obj->cursor.image.y = 0;
         gFile_dwTransferState = loaded | enabled;
         obj->transfer_mode = 2;
         obj->phase_size = 13 * FILE_SECTOR_SIZE;
@@ -156,14 +156,14 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
         u32 loaded;
         u32 enabled;
 
-        obj->field_30.h.counter = 0x300;
+        obj->cursor.image.x = 0x300;
         obj->rect.w = 0x40;
         obj->rect.h = 0x10;
         cleared = gFile_dwTransferState & 0xFFDDFFFF;
         gFile_dwTransferState = cleared;
         do { loaded = gFile_dwTransferState; } while (0);
         do { enabled = 0x10000; } while (0);
-        obj->field_30.h.field_32 = 0;
+        obj->cursor.image.y = 0;
         gFile_dwTransferState = loaded | enabled;
         obj->transfer_mode = 2;
         obj->phase_size = 13 * FILE_SECTOR_SIZE;
@@ -225,8 +225,8 @@ void Main_LoadBootPackageStage(FileTransferDescriptor *obj, s32 stage) {
 #else
     switch (stage) {
     case 0:
-        obj->field_30.h.counter = 0x280;
-        obj->field_30.h.field_32 = 0;
+        obj->cursor.image.x = 0x280;
+        obj->cursor.image.y = 0;
         obj->rect.w = 0x40;
         obj->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -293,8 +293,8 @@ void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
     switch (mode) {
     case 0:
         m = 0xFFDDFFFF;
-        p->field_30.h.counter = 0xC0;
-        p->field_30.h.field_32 = 0x100;
+        p->cursor.image.x = 0xC0;
+        p->cursor.image.y = 0x100;
         v = gFile_dwTransferState;
         f = 0x40;
         p->rect.w = f;
@@ -361,11 +361,11 @@ void Main_LoadBootImageStage(FileTransferDescriptor *p, s32 mode)
     switch (mode) {
     case 0:
         m = 0xFFDDFFFF;
-        p->field_30.h.field_32 = 0x100;
+        p->cursor.image.y = 0x100;
         v = gFile_dwTransferState;
         f = 0x40;
         do {
-            p->field_30.h.counter = 0;
+            p->cursor.image.x = 0;
         } while (0);
         p->rect.w = f;
         gFile_dwTransferState = v & m;

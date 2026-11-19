@@ -841,27 +841,31 @@ struct FileTransferDescriptor {
     s32 absolute_lba;
     s32 phase_remaining;
     u32 status_flags;
-    /* One word at 0x30 that the loader's phase callbacks write both ways,
-       so the record carries both readings rather than picking one.
+    /* The phase's advancing cursor at 0x30, read per transfer_mode, so the
+       record carries one arm per reading rather than picking one.
 
-       As two halfwords it is a pair: duel_scene.c counts
-       sectors in `counter` alone, the phase-2 paths write a VRAM position
-       pair, and the file-state setup in file_transfer_runtime.c splits a byte
-       count across the two halves.
-       As one word it is a single packed constant, which is what the phase-3
-       paths of Library_LoadPackageStage and Model_LoadSpecialBattlePackageStage store in one instruction.
+       image (mode 2): the VRAM position of the next sector. Every image-phase
+       writer stores x and y next to rect.w/h and transfer_mode 2, and
+       File_InitTransferDescriptor splits a positive target into y (high
+       half) and x (low half). File_TransferReadyCallback copies x/y into
+       rect.x/y before LoadImage2, then advances x by 0x40 or y by 0x10,
+       wrapping y within 0x100 and stepping x.
 
-       Neither view is a superset of the other and retail emits both, so
-       collapsing them to either alone changes codegen: spelling the phase-3
-       word as two halfword stores costs an instruction at each site and
-       overflows .text. */
+       The halfword arms and the one-word arms are not supersets of each
+       other and retail emits both, so collapsing them to either alone
+       changes codegen: spelling a one-word store as two halfword stores costs
+       an instruction at each site and overflows .text. */
     union {
+        struct {
+            u16 x;
+            u16 y;
+        } image;
         struct {
             u16 counter;
             u16 field_32;
         } h;
         u32 word;
-    } field_30;
+    } cursor;
     s32 direct_destination;
     void *callback_data;
     u32 position;
@@ -898,11 +902,11 @@ typedef char FileTransferDescriptor_absolute_lba_offset_must_be_0x24[
 typedef char FileTransferDescriptor_status_flags_offset_must_be_0x2C[
     OFFSETOF(FileTransferDescriptor, status_flags) == 0x2C ? 1 : -1
 ];
-typedef char FileTransferDescriptor_counter_offset_must_be_0x30[
-    OFFSETOF(FileTransferDescriptor, field_30.h.counter) == 0x30 ? 1 : -1
+typedef char FileTransferDescriptor_image_x_offset_must_be_0x30[
+    OFFSETOF(FileTransferDescriptor, cursor.image.x) == 0x30 ? 1 : -1
 ];
-typedef char FileTransferDescriptor_field_32_offset_must_be_0x32[
-    OFFSETOF(FileTransferDescriptor, field_30.h.field_32) == 0x32 ? 1 : -1
+typedef char FileTransferDescriptor_image_y_offset_must_be_0x32[
+    OFFSETOF(FileTransferDescriptor, cursor.image.y) == 0x32 ? 1 : -1
 ];
 typedef char FileTransferDescriptor_callback_data_offset_must_be_0x38[
     OFFSETOF(FileTransferDescriptor, callback_data) == 0x38 ? 1 : -1
