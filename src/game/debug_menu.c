@@ -562,9 +562,9 @@ void DebugMenu_UpdateCampaignEntry(void)
 
     /* Entry and a Select press both reopen the editor for the chosen
        field. */
-    switch (gDebugMenu_bStep & 0x80) {
+    switch (gDebugMenu_bStep & FRONTEND_STEP_FLAG_ENTERED) {
     case 0:
-        gDebugMenu_bStep = gDebugMenu_bStep | 0x80;
+        gDebugMenu_bStep = gDebugMenu_bStep | FRONTEND_STEP_FLAG_ENTERED;
         DebugMenu_DimPrimaryDisplayObject();
         Campaign_LoadScenePackage(0);
         gDebugMenu_bCampaignEditField = 0;

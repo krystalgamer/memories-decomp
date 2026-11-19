@@ -688,7 +688,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
 
     if ((g & 0x40) != 0) {
         TextBox_UpdateChannels();
-        if ((q->flags_34 & 0x2000) != 0) {
+        if ((q->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
             gDialog_bCallbackState = 0;
         }
     } else {
@@ -1148,7 +1148,7 @@ void MemCardDialog_SetMessage(s32 value, s32 bits)
      and is copied into $a0 at the call.
    - gDialog_bChoice is read through a .data section attribute so it keeps the
      %hi/%lo pair the target uses instead of a gp-relative byte load.
-   - The gMemCard_wDialogFlags |= 0x1000 tail is written once inside case 3
+   - The gMemCard_wDialogFlags |= MEM_CARD_DIALOG_FLAG_IO_PENDING tail is written once inside case 3
      and entered by goto from case 1, matching the retail block order.
    - Cases 0/1 and 2/3 fall through, and cases 6 and 8 are spelled as separate
      bodies: retail keeps two distinct jump-table targets for them.

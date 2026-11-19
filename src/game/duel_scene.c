@@ -3346,14 +3346,14 @@ void DuelScene_UpdateCardPlacement(void)
     s32 phase_clear;
     s32 x;
 
-    if (!(gDuel_wSceneStateFlags & 0x8000)) {
+    if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
         DisplayObject **slots;
         DisplayObject **cursor;
         DuelHandSlot *hand;
         s16 y;
         x = 260;
         value = 4;
-        gDuel_wSceneStateFlags |= 0x8000;
+        gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         gDuel_pActiveSelectionRecord = side;
         gDuel_bPlacementNeedsCardMoveSetup = 0;
         gDuel_bPresentationCursor = 0;
@@ -4483,8 +4483,8 @@ void DuelScene_UpdateHandActions(void)
     u32 *saved;
 
     side = gDuel_abSelectionSides[gDuel_bActiveSide].records;
-    if (!(gDuel_wSceneStateFlags & 0x8000)) {
-        gDuel_wSceneStateFlags |= 0x8000;
+    if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
+        gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         for (n = 6; n >= 0; n--) {
             gDisplayObject_apWorkSlots.slots[n] = 0;
         }
@@ -5216,8 +5216,8 @@ void DuelScene_UpdateFieldActions(void)
     u32 *saved;
 
     side = &gDuel_abSelectionSides[gDuel_bActiveSide].records[2];
-    if (!(gDuel_wSceneStateFlags & 0x8000)) {
-        gDuel_wSceneStateFlags |= 0x8000;
+    if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
+        gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         if (gDuel_aSideStates[0].life_points.signed_value == 0 ||
             gDuel_aSideStates[1].life_points.signed_value == 0) {
             gDuel_bWinnerSide = gDuel_bActiveSide;
@@ -5720,7 +5720,7 @@ void DuelScene_UpdateFieldActions(void)
                 gDuel_abCardStagingBuffer.deck.field_cards[o->kind_index.card_record_index].screen_y;
             o->field_2C.h.field_2C = 0;
             if (gDuel_aCardRecords[o->kind_index.card_record_index].flags
-                & 0x1000) {
+                & DUEL_CARD_FLAG_FACE_DOWN) {
                 o->field_2C.h.field_2C = 0x80;
             }
             o->update_state = 1;
@@ -6201,8 +6201,8 @@ void DuelScene_UpdateBattle(void)
     DuelSelectionRecord *cur;
     DuelEffectResourceRecord *effects;
 
-    if (!(gDuel_wSceneStateFlags & 0x8000)) {
-        gDuel_wSceneStateFlags |= 0x8000;
+    if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
+        gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         w = 0x10;
         one = 1;
         slots = gDisplayObject_apWorkSlots.slots;
@@ -6388,7 +6388,7 @@ void DuelScene_UpdateBattle(void)
             Fade_StartOutKeepOverlayAndHideSecondaryTables();
             return;
         }
-        if (!(gFade_State.flags & 0x80)) {
+        if (!(gFade_State.flags & FADE_FLAG_ACTIVE)) {
             gDuel_bSceneSubStep = 4;
             if (gDuel_wSelectedTrapCardId != 0) {
                 gDuel_bPresentationCursor = gDuel_wSelectedTrapCardId == 0x2B2;
@@ -6502,7 +6502,7 @@ void DuelScene_UpdateBattle(void)
             u8 f = gDuel_bSceneSubStep;
 
             if (f & 0x20) {
-                if (!(gDuelEffect_pTrackedRequest->flags & 0x80)) {
+                if (!(gDuelEffect_pTrackedRequest->flags & DUEL_EFFECT_REQUEST_FLAG_ACTIVE)) {
                     gDuel_bSceneSubStep = f & 0xDF;
                 }
             }
@@ -6540,7 +6540,7 @@ void DuelScene_UpdateBattle(void)
             Fade_FillBandLevels(0xFF);
             return;
         }
-        if (!(gFade_State.flags & 0x80) && SD_IsBgmFadeActive() == 0) {
+        if (!(gFade_State.flags & FADE_FLAG_ACTIVE) && SD_IsBgmFadeActive() == 0) {
             pair = gDisplayObject_apWorkSlots.slots;
             SD_BGMPreload(gDuel_wAnimatedBattleBgmCommand);
             Model_SetPresentationBgmCommand(gDuel_wAnimatedBattleBgmCommand);
@@ -6649,7 +6649,7 @@ void DuelScene_UpdateBattle(void)
             s32 f = gDuel_bSceneSubStep;
 
             if (f & 0x40) {
-                if (!(gDuelEffect_pTrackedRequest->flags & 0x80)) {
+                if (!(gDuelEffect_pTrackedRequest->flags & DUEL_EFFECT_REQUEST_FLAG_ACTIVE)) {
                     f &= 0xBF;
                     gDuel_bSceneSubStep = f;
                     xy = &side->xy.word;
@@ -6730,7 +6730,7 @@ void DuelScene_UpdateBattle(void)
                     return;
                 }
             }
-        } else if (!(gDuelEffect_pTrackedRequest->flags & 0x80)) {
+        } else if (!(gDuelEffect_pTrackedRequest->flags & DUEL_EFFECT_REQUEST_FLAG_ACTIVE)) {
             gDuel_bSceneSubStep = 6;
             if (gDuel_wSelectedTrapCardId != 0) {
                 gDuel_bSceneSubStep = 0xB;
@@ -7579,8 +7579,8 @@ void DuelScene_UpdateResultRewards(void)
 
     gViewState_Current.angle = (u16)gViewState_Current.angle + 2;
     ViewState_ApplyOrbit();
-    if (!(gDuel_wSceneStateFlags & 0x8000)) {
-        gDuel_wSceneStateFlags |= 0x8000;
+    if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
+        gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         Fade_StartOutKeepOverlay();
         Fade_SetTargetLevel(128, 2);
         gDuel_pResultDisplayState = (DuelResultDisplayState *)gDuel_awRitualData;
@@ -7685,7 +7685,7 @@ void DuelScene_UpdateResultRewards(void)
         return;
     }
     if (gDuel_wSceneStateFlags & 0x4000) {
-        if (!(gFade_State.flags & 0x80)) {
+        if (!(gFade_State.flags & FADE_FLAG_ACTIVE)) {
             if (!(gDuel_wSceneStateFlags & 0x2000)) {
                 gDuel_wSceneStateFlags |= 0x2000;
                 Fade_StartOut();
@@ -9145,7 +9145,7 @@ void DuelScene_Update(void)
 
             TextBox_UpdateChannels();
             cleanup = TEXT_CHANNEL(3);
-            if (cleanup->flags_34 & 0x2000) {
+            if (cleanup->flags_34 & TEXT_BOX_FLAG_DONE) {
                 TextBox_Destroy(cleanup);
                 gDuel_bQuitDialogState = 0;
                 if (gDialog_bChoice != 0) {

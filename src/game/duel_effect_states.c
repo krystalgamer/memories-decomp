@@ -202,7 +202,7 @@ void DuelEffect_UpdateCardViewerState(void)
         /* A lbu of the volatile halfword's low byte; (u8) would keep the lhu. */
         gFade_bKeepOverlayDepth = gDisplayObject_awOrderingTableDepthBases[1].low - 0x13;
         SD_SEPlayFull(0x34);
-        gDuel_bEffectHandlerFlags |= 0x40;
+        gDuel_bEffectHandlerFlags |= DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN;
         return;
     }
 
@@ -310,7 +310,7 @@ void DuelEffect_UpdateCardViewerState(void)
             TextBox_Destroy(dead_box);
         }
         gGraphics_bSyncVBlankTarget = 0;
-        gDuel_bEffectState |= 0x40;
+        gDuel_bEffectState |= DUEL_EFFECT_STATE_FLAG_COMPLETE;
         return;
     }
 
@@ -396,7 +396,7 @@ void DuelEffect_UpdateIdentitySave(void)
         SaveData_RequestWrite();
     }
     if (MemCardDialog_Poll() != 0) {
-        gDuel_bEffectState |= 0x40;
+        gDuel_bEffectState |= DUEL_EFFECT_STATE_FLAG_COMPLETE;
     }
 }
 #else

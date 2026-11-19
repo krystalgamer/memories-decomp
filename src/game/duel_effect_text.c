@@ -2188,7 +2188,7 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
         p->delay_countdown = 0xFF;
         gText_CdSoundWaitPhase = 0;
         if (gText_CdSoundPollBudget != 0) {
-            p->playback_state |= 0x40;
+            p->playback_state |= DUEL_EFFECT_STATE_FLAG_COMPLETE;
         }
     }
 
@@ -2212,7 +2212,7 @@ void Text_WaitForCdSoundTransfer(DuelEffectChannel *object)
             if ((gFile_wTransferStepFlags & 0x4000) == 0) {
                 break;
             }
-            if ((p->playback_state & 0x40) == 0) {
+            if ((p->playback_state & DUEL_EFFECT_STATE_FLAG_COMPLETE) == 0) {
                 return;
             }
             gText_CdSoundPollBudget--;
@@ -3896,9 +3896,9 @@ void TextBox_UpdateChannels(void)
     reset_value = -1;
     table = gText_aGlyphLookup;
     do {
-        if (p->flags_34 & 0x8000) {
+        if (p->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
             gText_PumpedGlyphIndex = 0;
-            if ((p->flags_34 & 0x2000) == 0) {
+            if ((p->flags_34 & TEXT_BOX_FLAG_DONE) == 0) {
                 gText_PumpedGlyphIndex = reset_value;
                 cnt = -1;
                 for (;;) {
