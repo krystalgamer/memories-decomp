@@ -1511,6 +1511,37 @@ Regional variants are expressed with per-entry `"defines"` lists on the
 shared source rather than wrapper sources, as the five European builds
 compile `src/game/model_animation_unit.c` with `"defines": ["VERSION_EUROPE"]`.
 
+#### Shared MODEL module words
+
+Each of the roughly 3,600 MODEL.MRG images per region begins with one word, its
+position in the developers' build list (notes/model-effects.md). Rather than a
+`_data_c.json` per image, every image builds that word from the one shared
+`src/overlays/model_variant/module_header.c`:
+
+```c
+u32 MODEL_MODULE_WORD_LABEL = MODEL_MODULE_WORD;
+```
+
+A layout opts in by naming the source in its `module_header` segment, which
+holds only the word: `[0x0, .data, overlays/model_variant/module_header]`.
+`c_segments()` in `tools/project/overlay_sources.py` then adds the data unit
+itself, with profile `gcc_2_8_1_g0` and, after the region's defines,
+`MODEL_MODULE_WORD=<word>` from the layout stem's row in
+`config/<region>/overlays/model_module_words.csv` (`stem,word`, decimal,
+sorted, one row per stem) and `MODEL_MODULE_WORD_LABEL=D_<vram>` from the
+`module_header` segment's `vram`. A wired layout with no row, a row whose layout
+does not wire the source, and a manifest entry that lists the source are all
+errors; `make check-metadata` also rejects rows without a layout and words that
+break the build-list rule (one word per region for the same sources at the
+same address; Japan = North America − 1, PAL = North America + 17).
+
+The table itself is not a module input: the effective defines are already part
+of each module's fingerprint and object key, so editing one row rebuilds only
+that image. `tools/project/own_model_module_words.py <region>` moves a region's
+raw headers over: it reads each word from the extracted image, writes the
+table and rewrites only that subsegment line, and refuses a `module_header`
+segment that holds anything but the word.
+
 ### Object-name overrides
 
 Splat names a C unit's object after its `split.yaml` segment, and the segment

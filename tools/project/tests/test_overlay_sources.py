@@ -652,5 +652,239 @@ class OverlaySourceTests(unittest.TestCase):
                         overlay_build.object_symbols(self.root, self.root / "data.o")
 
 
+MODEL_LAYOUT = (
+    "options:\n"
+    "  target_path: tmp/model/{stem}.bin\n"
+    "segments:\n"
+    "  - name: module_header\n"
+    "    type: code\n"
+    "    start: 0x0\n"
+    "    vram: {vram}\n"
+    "    align: 4\n"
+    "    subsegments:\n"
+    "      - [0x0, {kind}, overlays/{header}/module_header]\n"
+    "  - name: entry\n"
+    "    type: code\n"
+    "    start: 0x4\n"
+    "    vram: 0x8013B004\n"
+    "    subsegments:\n"
+    "      - [0x4, c, overlays/model_variant/e001_entry]\n"
+)
+COMPACT_MODEL_LAYOUT = (
+    "options:\n"
+    "  target_path: tmp/model/{stem}.bin\n"
+    "segments:\n"
+    "- name: module_header\n"
+    "  type: code\n"
+    "  start: 0\n"
+    "  vram: 2148773888\n"
+    "  align: 4\n"
+    "  subsegments:\n"
+    "  - [0, data, overlays/{stem}/module_header]\n"
+    "- name: entry\n"
+    "  type: code\n"
+    "  start: 4\n"
+    "  subsegments:\n"
+    "  - [4, c, overlays/model_variant/e001_entry]\n"
+)
+
+
+class ModelModuleWordTests(unittest.TestCase):
+    def setUp(self) -> None:
+        if Path.cwd().resolve() != REPOSITORY:
+            raise RuntimeError("run these tests from the repository root")
+        temporary = tempfile.TemporaryDirectory(
+            prefix="model-module-words-test-", dir=REPOSITORY / "tmp"
+        )
+        self.addCleanup(temporary.cleanup)
+        self.root = Path(temporary.name) / "workspace"
+        self.write(
+            "config/slus_01411/compiler_profiles.json",
+            json.dumps({"schema": 1, "profiles": {"g0": {}, "gcc_2_8_1_g0": {}}}),
+        )
+        self.write(overlay_sources.MODEL_MODULE_HEADER, "/* fixture */\n")
+        self.write("src/overlays/model_variant/e001_entry.c", "/* fixture */\n")
+
+    def write(self, relative: str, text: str) -> Path:
+        path = self.root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(text, encoding="utf-8")
+        return path
+
+    def image(
+        self, stem: str, region: str = "slus_01411", vram: str = "0x8013b000",
+        owned: bool = True,
+    ) -> Path:
+        self.write(
+            f"config/{region}/overlays/{stem}_matching_c.json",
+            json.dumps({"schema": 1, "functions": [
+                {"source": "src/overlays/model_variant/e001_entry.c", "profile": "g0"}
+            ]}),
+        )
+        return self.write(
+            f"config/{region}/overlays/{stem}.yaml",
+            MODEL_LAYOUT.format(
+                stem=stem, vram=vram,
+                kind=".data" if owned else "data",
+                header="model_variant" if owned else stem,
+            ),
+        )
+
+    def words(self, rows: str, region: str = "slus_01411") -> None:
+        # Rewrites within one clock tick can keep the cached size and mtime.
+        overlay_sources._MODEL_WORDS_CACHE.clear()
+        self.write(
+            f"config/{region}/overlays/model_module_words.csv", f"stem,word\n{rows}"
+        )
+
+    def header_unit(self, layout: Path) -> dict[str, object]:
+        (unit,) = [
+            segment for segment in overlay_sources.c_segments(self.root, layout)
+            if segment["kind"] == "data"
+        ]
+        return unit
+
+    def test_table_word_and_header_address_become_defines(self) -> None:
+        layout = self.image("model_variant_1")
+        self.words("model_variant_1,409\n")
+        self.assertEqual(
+            self.header_unit(layout),
+            {
+                "kind": "data",
+                "source": overlay_sources.MODEL_MODULE_HEADER,
+                "profile": "gcc_2_8_1_g0",
+                "object": "src/overlays/model_variant/module_header.o",
+                "defines": ["MODEL_MODULE_WORD=409", "MODEL_MODULE_WORD_LABEL=D_8013B000"],
+            },
+        )
+
+    def test_decimal_layout_address_is_read(self) -> None:
+        self.write(
+            "config/slus_01411/overlays/model_variant_2.yaml",
+            COMPACT_MODEL_LAYOUT.format(stem="model_variant_2").replace(
+                "0, data, overlays/model_variant_2/", "0, .data, overlays/model_variant/"
+            ),
+        )
+        self.image("model_variant_1")
+        layout = self.root / "config/slus_01411/overlays/model_variant_2.yaml"
+        layout.with_name("model_variant_2_matching_c.json").write_text(
+            (layout.with_name("model_variant_1_matching_c.json")).read_text()
+        )
+        self.words("model_variant_1,1\nmodel_variant_2,2\n")
+        self.assertIn(
+            "MODEL_MODULE_WORD_LABEL=D_8013B000", self.header_unit(layout)["defines"]
+        )
+
+    def test_missing_stale_and_explicit_rows_are_rejected(self) -> None:
+        layout = self.image("model_variant_1")
+        with self.assertRaisesRegex(OverlaySourceError, "has no row"):
+            overlay_sources.c_segments(self.root, layout)
+        raw = self.image("model_variant_2", owned=False)
+        self.words("model_variant_1,1\nmodel_variant_2,2\n")
+        with self.assertRaisesRegex(OverlaySourceError, "does not wire"):
+            overlay_sources.c_segments(self.root, raw)
+        self.write(
+            "config/slus_01411/overlays/model_variant_1_data_c.json",
+            json.dumps({"schema": 1, "units": [
+                {"source": overlay_sources.MODEL_MODULE_HEADER, "profile": "g0"}
+            ]}),
+        )
+        with self.assertRaisesRegex(OverlaySourceError, "do not list it"):
+            overlay_sources.c_segments(self.root, layout)
+
+    def test_malformed_tables_are_rejected(self) -> None:
+        layout = self.image("model_variant_1")
+        for rows, message in (
+            ("model_variant_1,1\nmodel_variant_1,2\n", "duplicate stem"),
+            ("model_variant_1,0\n", "invalid row"),
+            ("model_variant_1,0x10\n", "invalid row"),
+            ("model_variant_2,1\nmodel_variant_1,2\n", "sorted"),
+        ):
+            with self.subTest(rows=rows):
+                self.words(rows)
+                with self.assertRaisesRegex(OverlaySourceError, message):
+                    overlay_sources.c_segments(self.root, layout)
+
+    def test_metadata_rejects_stale_rows_and_inconsistent_words(self) -> None:
+        self.image("model_variant_1")
+        self.image("model_variant_2")
+        self.words("model_variant_1,40\nmodel_variant_2,40\n")
+        with contextlib.redirect_stdout(io.StringIO()):
+            overlay_extract.verify_model_module_words(self.root)
+        self.words("model_variant_1,40\nmodel_variant_2,41\n")
+        with self.assertRaisesRegex(overlay_extract.OverlayError, "same sources"):
+            overlay_extract.verify_model_module_words(self.root)
+        self.words("model_variant_1,40\nmodel_variant_3,40\n")
+        with self.assertRaisesRegex(overlay_extract.OverlayError, "no such layout"):
+            overlay_extract.verify_model_module_words(self.root)
+
+    def test_metadata_checks_regional_offsets_against_north_america(self) -> None:
+        self.image("model_variant_1")
+        self.words("model_variant_1,40\n")
+        self.image("model_image_1", region="slpm_86398")
+        self.image("model_image_1", region="sles_03948")
+        for japan, pal, valid in ((39, 57, True), (40, 57, False), (39, 40, False)):
+            with self.subTest(japan=japan, pal=pal):
+                self.words(f"model_image_1,{japan}\n", region="slpm_86398")
+                self.words(f"model_image_1,{pal}\n", region="sles_03948")
+                with contextlib.redirect_stdout(io.StringIO()):
+                    if valid:
+                        overlay_extract.verify_model_module_words(self.root)
+                    else:
+                        with self.assertRaisesRegex(
+                            overlay_extract.OverlayError, "is not North American"
+                        ):
+                            overlay_extract.verify_model_module_words(self.root)
+
+    def test_generator_rewrites_both_layout_styles(self) -> None:
+        import own_model_module_words as own
+
+        hexadecimal = MODEL_LAYOUT.format(
+            stem="model_variant_1", vram="0x8013B000", kind="data",
+            header="model_variant_1",
+        )
+        self.assertEqual(
+            own.own_header(hexadecimal, "hex"),
+            hexadecimal.replace(
+                "[0x0, data, overlays/model_variant_1/",
+                "[0x0, .data, overlays/model_variant/",
+            ),
+        )
+        compact = COMPACT_MODEL_LAYOUT.format(stem="model_variant_2")
+        self.assertEqual(
+            own.own_header(compact, "compact"),
+            compact.replace(
+                "[0, data, overlays/model_variant_2/", "[0, .data, overlays/model_variant/"
+            ),
+        )
+        self.assertIsNone(own.own_header(own.own_header(compact, "again"), "again"))
+        shared = hexadecimal.replace(
+            "      - [0x0, data, overlays/model_variant_1/module_header]\n",
+            "      - [0x0, data, overlays/model_variant_1/module_header]\n"
+            "      - [0x4, data, overlays/model_variant_1/more]\n",
+        )
+        with self.assertRaisesRegex(own.OwnError, "only the header word"):
+            own.own_header(shared, "shared")
+
+    def test_generator_records_words_and_rewrites_layouts(self) -> None:
+        import own_model_module_words as own
+
+        layout = self.image("model_variant_2", owned=False)
+        self.image("model_variant_1")
+        self.words("model_variant_1,40\n")
+        self.write("tmp/model/model_variant_2.bin", "")
+        (self.root / "tmp/model/model_variant_2.bin").write_bytes(
+            (0x1B0).to_bytes(4, "little") + b"rest"
+        )
+        self.assertEqual(own.own_region(self.root, "slus_01411"), (1, 2))
+        self.assertEqual(
+            (self.root / "config/slus_01411/overlays/model_module_words.csv").read_text(),
+            "stem,word\nmodel_variant_1,40\nmodel_variant_2,432\n",
+        )
+        self.assertIn("[0x0, .data, overlays/model_variant/module_header]",
+                      layout.read_text())
+        self.assertEqual(own.own_region(self.root, "slus_01411"), (0, 2))
+
+
 if __name__ == "__main__":
     unittest.main()
