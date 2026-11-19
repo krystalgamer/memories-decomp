@@ -143,7 +143,6 @@ Matching, attempt-ledger updates, and integration remain sequential.
   skips MASPSX and lets GNU as reorder, because MASPSX cannot fill delay
   slots (see `notes/overlays/safecheck2003.md`). The resident hand-written
   model renderers (`src/game/wireframe_renderers.c`,
-  `src/game/shared_primitive_cache_prepare.c`,
   `src/game/shared_polygon_renderers.c` and `src/game/polygon_renderers.c`)
   select
   `gcc_2_8_1_o2_massaged`: the same GCC 2.8.1 at plain `-O2`, whose output

@@ -13,15 +13,14 @@ The tool is `tools/project/asm_massage.py`, with its rule catalogue in
 `tools/project/asm_massage_deps.py` and unit tests in
 `tools/project/tests/test_asm_massage.py`. Edit files live beside their
 source, in `src/game/wireframe_renderers.massage/`,
-`src/game/shared_polygon_renderers.massage/`,
-`src/game/shared_primitive_cache_prepare.massage/` and
+`src/game/shared_polygon_renderers.massage/` and
 `src/game/polygon_renderers.massage/`.
 
 ## Motivation
 
 The model renderers (`src/game/wireframe_renderers.c`,
-`src/game/polygon_renderers.c`, `src/game/shared_polygon_renderers.c` and
-`src/game/shared_primitive_cache_prepare.c`, about 60 functions) were written
+`src/game/polygon_renderers.c` and `src/game/shared_polygon_renderers.c`, 61
+functions) were written
 in assembly. Before the massage they matched through register variables
 and private asm macro headers under a dedicated profile (now retired): C
 that spelled out the original's registers and instructions and would not

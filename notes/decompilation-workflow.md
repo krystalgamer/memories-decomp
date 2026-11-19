@@ -283,9 +283,8 @@ unused). `make check-asm-massage` rebuilds each function against the retail
 executable and proves that its residual preserves every data dependence.
 `integrate_verified_match.py` refuses these profiles; such units are
 integrated by hand. `src/game/wireframe_renderers.c`,
-`src/game/shared_polygon_renderers.c`,
-`src/game/shared_primitive_cache_prepare.c` and `src/game/polygon_renderers.c`
-are massaged units; see `notes/asm-massage.md`,
+`src/game/shared_polygon_renderers.c` and `src/game/polygon_renderers.c` are
+massaged units; see `notes/asm-massage.md`,
 `notes/wireframe-renderers.md`, `notes/shared-primitive-renderers.md` and
 `notes/direct-polygon-renderers.md`.
 
