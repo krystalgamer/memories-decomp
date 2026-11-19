@@ -38,8 +38,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
     case 0:
         object->field_30.h.counter = 0x200;
         object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
@@ -51,8 +51,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
     case 1:
         object->field_30.h.counter = 0x380;
         object->field_30.h.field_32 = 0;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;

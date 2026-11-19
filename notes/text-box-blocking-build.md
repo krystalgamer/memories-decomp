@@ -14,10 +14,12 @@ before the first iteration and no timeout, frame advance or new guard is added.
 ## What the extra bit actually does
 
 NA/Japanese appenders select a `0x88`-byte scratch record per glyph when
-`0x200` is set. `gText_GlyphUploadScratch`, formerly `D_801DA000`, keeps the
-original incomplete `s16[]` view. The record starts with a RECT prefix;
-Japan rasterizes the 16x16 4bpp bitmap at byte `+8`. No array capacity or shared
-record struct is inferred.
+`0x200` is set. `gText_GlyphUploadScratch`, formerly `D_801DA000`, is an
+unsized `TextGlyphUpload[]` (`duel_effect_text.h`): each record is the Psy-Q
+RECT the appender fills, then the 16x16 4bpp bitmap (`DuelEffectGlyphRow[16]`)
+Japan rasterizes at byte `+8` and uploads from. Indexing records by
+`output_count` emits the same code as the former `s16[]` view's
+`output_count * 0x44` halfword offset. No array capacity is inferred.
 
 Japan selects `LoadImage` with the flag and `LoadImage2` without it. The local
 retail GPU dispatch table at `0x80094620` identifies slot `+8` as `_addque2`

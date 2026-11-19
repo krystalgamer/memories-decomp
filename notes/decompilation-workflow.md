@@ -431,8 +431,8 @@ free. It changes what the compiler is allowed to assume about aliasing.
 `Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)` is the
 worked example. Every offset it touches
 maps onto an existing `FileTransferDescriptor` field, and it calls
-`LoadImage2((RECT *)p, ...)`, which confirms the record opens with the `x/y/w/h`
-pair. Retyping the parameter and converting all ten accesses does not merely
+`LoadImage2(&p->rect, ...)` (once spelled `(RECT *)p`), which confirms the record
+opens with the `x/y/w/h` RECT. Retyping the parameter and converting all ten accesses does not merely
 fail the match, it produces a *better* function: the executable comes out eight
 bytes short and the object drops from 1948 to 1940 bytes.
 

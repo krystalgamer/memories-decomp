@@ -1257,8 +1257,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
     case 0:
         object->field_30.h.counter = 0x300;
         object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
@@ -1297,8 +1297,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         object->field_30.h.counter = 0x240;
         object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
@@ -1341,8 +1341,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
     case 0:
         object->field_30.h.counter = 0x300;
         object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;
@@ -1367,8 +1367,8 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         object->field_30.h.counter = 0x240;
         object->field_30.h.field_32 = 0x100;
-        object->w = 0x40;
-        object->h = 0x10;
+        object->rect.w = 0x40;
+        object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         object->transfer_mode = 2;

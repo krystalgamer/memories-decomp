@@ -175,8 +175,8 @@ FileTransferDescriptor *File_InitTransferDescriptor(
                 transfer->transfer_mode = 2;
                 transfer->field_30.h.field_32 = ((u32)target) >> 16;
                 transfer->field_30.h.counter = target;
-                transfer->w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
-                transfer->h = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
+                transfer->rect.w = FILE_TRANSFER_DEFAULT_IMAGE_WORD_WIDTH;
+                transfer->rect.h = FILE_TRANSFER_DEFAULT_IMAGE_HEIGHT;
                 transfer->sector_destination = gFile_TransferBufferBase;
                 transfer->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
             }
@@ -335,10 +335,9 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
             CdReadyCallback(0);
         }
         image = gFile_ReadyTransferDescriptor;
-        image->x = image->field_30.h.counter;
-        image->y = image->field_30.h.field_32;
-        /* The descriptor's x/y/w/h prefix is the RECT LoadImage2 takes. */
-        while (LoadImage2((RECT *)gFile_ReadyTransferDescriptor, dst)) {
+        image->rect.x = image->field_30.h.counter;
+        image->rect.y = image->field_30.h.field_32;
+        while (LoadImage2(&gFile_ReadyTransferDescriptor->rect, dst)) {
         }
         if ((gFile_dwTransferState & FILE_TRANSFER_FLAG_IMAGE_ADVANCE_X) != 0) {
             gFile_ReadyTransferDescriptor->field_30.h.counter += 0x40;

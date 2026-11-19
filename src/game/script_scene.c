@@ -49,8 +49,8 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
     case 0:
         obj->field_30.h.field_32 = 0x100;
         obj->field_30.h.counter = 0;
-        obj->w = 0x40;
-        obj->h = 0x10;
+        obj->rect.w = 0x40;
+        obj->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
         obj->transfer_mode = 2;
@@ -70,12 +70,12 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
         break;
 
     case 2:
-        obj->x = SCRIPT_IMAGE_SCREEN_X;
-        obj->y = SCRIPT_IMAGE_SCREEN_Y;
-        obj->w = 0x100;
-        obj->h = 4;
+        obj->rect.x = SCRIPT_IMAGE_SCREEN_X;
+        obj->rect.y = SCRIPT_IMAGE_SCREEN_Y;
+        obj->rect.w = 0x100;
+        obj->rect.h = 4;
         /* The descriptor's x/y/w/h prefix is the RECT LoadImage2 takes. */
-        LoadImage2((RECT *)obj, (u32 *)gFile_TransferBufferBase);
+        LoadImage2(&obj->rect, (u32 *)gFile_TransferBufferBase);
         break;
     }
 }
@@ -1139,7 +1139,7 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         *(s16 *)&d->field_30.h.counter = 0x1C0;
         *(s16 *)&d->field_30.h.field_32 = 0x100;
         t0 = gFile_dwTransferState;
-        *(u16 *)&d->w = 0x40;
+        *(u16 *)&d->rect.w = 0x40;
         gFile_dwTransferState = t0 & m;
         u0 = gFile_dwTransferState;
         *(s32 *)&d->phase_size = n;
@@ -1147,7 +1147,7 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
         d->transfer_mode = 2;
         v0 = gFile_TransferBufferBase;
         do {
-            d->h = 0x10;
+            d->rect.h = 0x10;
         } while (0);
         d->sector_destination = v0;
         d->alternate_sector_destination = v0 + FILE_SECTOR_SIZE;
@@ -1167,20 +1167,20 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
     case 2:
 #ifdef VERSION_EUROPE
         /* The European image goes to (0x280, 0xD4). */
-        d->x = 0x280;
-        d->y = 0xD4;
-        d->h = mode;
+        d->rect.x = 0x280;
+        d->rect.y = 0xD4;
+        d->rect.h = mode;
         image_buffer = gFile_TransferBufferBase;
-        d->w = 0x100;
+        d->rect.w = 0x100;
 #else
-        d->y = 0xF4;
-        d->h = mode;
+        d->rect.y = 0xF4;
+        d->rect.h = mode;
         image_buffer = gFile_TransferBufferBase;
-        d->x = 0;
-        d->w = 0x100;
+        d->rect.x = 0;
+        d->rect.w = 0x100;
 #endif
         /* The descriptor's x/y/w/h prefix is the RECT LoadImage2 takes. */
-        LoadImage2((RECT *)d, (u32 *)image_buffer);
+        LoadImage2(&d->rect, (u32 *)image_buffer);
         m2 = 0xFFDCFFFF;
         d->alternate_sector_destination = gDisplay_abResourceBank0;
         d->sector_destination = gDisplay_abResourceBank0;
@@ -1501,10 +1501,10 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
     switch (stage) {
     case 0:
         *(s16 *)&p->field_30.h.counter = 0x340;
-        *(u16 *)&p->w = 0x40;
+        *(u16 *)&p->rect.w = 0x40;
         m = 0xFFDDFFFF;
         v_0 = gFile_dwTransferState;
-        *(u16 *)&p->h = 0x10;
+        *(u16 *)&p->rect.h = 0x10;
         v_0 &= m;
         gFile_dwTransferState = v_0;
         w = gFile_dwTransferState;
@@ -1531,12 +1531,12 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
 
     case 2:
         image_buffer = gFile_TransferBufferBase;
-        p->x = CAMPAIGN_SCENE_IMAGE_X;
-        p->y = CAMPAIGN_SCENE_IMAGE_Y;
-        p->w = 0x100;
-        p->h = 1;
+        p->rect.x = CAMPAIGN_SCENE_IMAGE_X;
+        p->rect.y = CAMPAIGN_SCENE_IMAGE_Y;
+        p->rect.w = 0x100;
+        p->rect.h = 1;
         /* The descriptor's x/y/w/h prefix is the RECT LoadImage2 takes. */
-        LoadImage2((RECT *)p, (u32 *)image_buffer);
+        LoadImage2(&p->rect, (u32 *)image_buffer);
         *(s32 *)&p->alternate_sector_destination = (s32)gFile_StagingBuffer.bytes;
         *(s32 *)&p->sector_destination = (s32)gFile_StagingBuffer.bytes;
         m = 0xFFDCFFFF;
