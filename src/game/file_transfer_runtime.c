@@ -391,10 +391,10 @@ void File_TransferReadyCallback(u8 intr, u8 *result, u32 *unused)
             DsEndReadySystem();
             CdReadyCallback(0);
         }
-        SpuSetTransferStartAddr(gFile_ReadyTransferDescriptor->cursor.word);
+        SpuSetTransferStartAddr(gFile_ReadyTransferDescriptor->cursor.spu_address);
         SpuWrite((u8 *)dst, (u32)n);
         q = gFile_ReadyTransferDescriptor;
-        q->cursor.word += n;
+        q->cursor.spu_address += n;
         q->phase_remaining -= FILE_SECTOR_SIZE;
         if (q->phase_remaining <= 0) {
             q->phase_size = 0;
@@ -505,7 +505,7 @@ void File_HandleLogicalPositionEvent(u8 event, u8 *result)
     u32 *destination;
 
     if (event == DslComplete) {
-        destination = &gFile_PrimaryTransferDescriptor.cursor.word;
+        destination = &gFile_PrimaryTransferDescriptor.cursor.sector_position;
         value = CdPosToInt_8007E710((const CdlLOC *)result);
         if (value > 0)
             *destination = value;
@@ -562,7 +562,7 @@ void File_StepActiveTransfer(void)
             if (gFile_wTransferStepFlags & 2) {
                 gFile_wTransferStepFlags = gFile_wTransferStepFlags & 0xFFFE;
             } else {
-                transfer->cursor.word = 0;
+                transfer->cursor.sector_position = 0;
             }
         }
         switch (gFile_wStepState) {
@@ -623,7 +623,7 @@ void File_StepActiveTransfer(void)
         case 6:
             gFile_RangeWaitCountdown = gFile_RangeWaitCountdown - 1;
             if ((s16)gFile_RangeWaitCountdown > 0) {
-                if ((s32)transfer->cursor.word < transfer->direct_destination) {
+                if ((s32)transfer->cursor.sector_position < transfer->direct_destination) {
                     return;
                 }
             }
@@ -733,7 +733,7 @@ void File_ServiceTransfers(s32 arg0)
    File_InitTransferDescriptor's FileTransferCallback parameter, so its first
    argument is the descriptor that entry point fills in. It programs the same
    fields the other two do -- the sector_destination/alternate_sector_destination source window,
-   phase_size, the word at field_30 and transfer_mode -- which is what its old private
+   phase_size, the SPU cursor (cursor.spu_address) and transfer_mode -- which is what its old private
    record named
    value_8, value_c, value_1c, value_30 and mode_46. */
 void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_index)
@@ -754,7 +754,7 @@ void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_ind
             sector_buffer = gFile_TransferBufferBase;
             descriptor->sector_destination = sector_buffer;
             descriptor->alternate_sector_destination = sector_buffer + FILE_SECTOR_SIZE;
-            descriptor->cursor.word = request->spu_destination;
+            descriptor->cursor.spu_address = request->spu_destination;
             phase_size = request->spu_transfer_size;
             descriptor->phase_size = phase_size;
             if (phase_size < 0)

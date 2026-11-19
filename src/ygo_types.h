@@ -851,6 +851,17 @@ struct FileTransferDescriptor {
        rect.x/y before LoadImage2, then advances x by 0x40 or y by 0x10,
        wrapping y within 0x100 and stepping x.
 
+       spu_address (mode 3): the SPU destination of the next sector.
+       File_TransferReadyCallback hands it to SpuSetTransferStartAddr and
+       advances it by the SpuWrite byte count; the phase-3 writers store SPU
+       addresses (0x26810, 0xD810 + slot * 0x19000, a request's
+       spu_destination).
+
+       sector_position (sector-range transfers): the drive's logical sector.
+       File_HandleLogicalPositionEvent stores CdPosToInt of the DslGetlocL
+       result here, and File_StepActiveTransfer zeroes it and waits until it
+       reaches direct_destination.
+
        The halfword arms and the one-word arms are not supersets of each
        other and retail emits both, so collapsing them to either alone
        changes codegen: spelling a one-word store as two halfword stores costs
@@ -864,7 +875,8 @@ struct FileTransferDescriptor {
             u16 counter;
             u16 field_32;
         } h;
-        u32 word;
+        u32 spu_address;
+        u32 sector_position;
     } cursor;
     s32 direct_destination;
     void *callback_data;

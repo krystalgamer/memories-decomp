@@ -1314,7 +1314,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gGraphics_aImageTransferRects[0].h = 2;
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         object->transfer_mode = 3;
-        object->cursor.word = 0x26810;
+        object->cursor.spu_address = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
         object->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;
@@ -1384,7 +1384,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         gGraphics_aImageTransferRects[0].h = 2;
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
         object->transfer_mode = 3;
-        object->cursor.word = 0x26810;
+        object->cursor.spu_address = 0x26810;
         object->phase_size = 20 * FILE_SECTOR_SIZE;
         object->sector_destination = gFile_TransferBufferBase;
         object->alternate_sector_destination = gFile_TransferBufferBase + FILE_SECTOR_SIZE;

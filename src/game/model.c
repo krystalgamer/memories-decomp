@@ -5009,7 +5009,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             transfer->transfer_mode = 1;
         } else {
             transfer->transfer_mode = 3;
-            transfer->cursor.word = slot_index * 0x19000 + 0xD810;
+            transfer->cursor.spu_address = slot_index * 0x19000 + 0xD810;
             transfer->phase_size = 50 * FILE_SECTOR_SIZE;
             transfer->sector_destination = gFile_TransferBufferBase;
             transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
@@ -5228,7 +5228,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
 
     case 8:
         transfer->transfer_mode = 3;
-        transfer->cursor.word = 0xD810;
+        transfer->cursor.spu_address = 0xD810;
         transfer->phase_size = 50 * FILE_SECTOR_SIZE;
         transfer->sector_destination = gFile_TransferBufferBase;
         transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
