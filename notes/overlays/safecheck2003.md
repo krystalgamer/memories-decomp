@@ -21,13 +21,19 @@ binds those names to the region's addresses.
 
 ## Layout
 
+The module word is the game's WA_MRG packaging, not part of Sony's object:
+`src/overlays/safecheck2003/module_header.c` defines it (`0x16`;
+`VERSION_EUROPE` selects PAL's `0x09`) with the game's `gcc_2_8_1_g0`
+profile, built through each region's `safecheck2003_data_c.json` as the
+whole `module_header` segment.
+
 After the module word, the image is the sections of one object, each
 rounded up to sixteen bytes, in the order `.rdata`, `.text`, `.data`,
 `.bss`:
 
 | Offset | Section | Contents |
 |---|---|---|
-| `0x0` | | module word (WA_MRG packaging, kept raw) |
+| `0x0` | `.data` | module word (WA_MRG packaging), `module_header.c` |
 | `0x4` | `.rdata` | 20-entry state jump table of `SafetySync` |
 | `0x54` | | English warning text |
 | `0xA8` | | Shift-JIS warning text |

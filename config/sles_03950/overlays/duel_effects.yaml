@@ -39,13 +39,20 @@ options:
   section_order: [".text", ".rodata", ".data", ".sdata", ".sbss", ".bss"]
 
 segments:
-  - name: header
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x80146000
     align: 4
     subsegments:
-      - [0x0, rodata, overlays/italian_duel_effects/header]
+      - [0x0, .data, overlays/duel_effects/module_header]
+
+  - name: header
+    type: code
+    start: 0x4
+    vram: 0x80146004
+    align: 4
+    subsegments:
       - [0x4, .rodata, overlays/duel_effects/effect_11]
       - [0x14, .rodata, overlays/duel_effects/effect_8]
       - [0x24, .rodata, overlays/duel_effects/gather_effect]
