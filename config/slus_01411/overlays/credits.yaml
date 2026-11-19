@@ -35,6 +35,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
 
   section_order:
@@ -46,16 +47,30 @@ options:
     - ".bss"
 
 segments:
-  - name: module
+  - name: module_header
     type: code
     start: 0x0
     vram: 0x80180000
     align: 4
     subsegments:
-      - [0x0, rodata, overlays/credits/module_header]
+      - [0x0, .data, overlays/credits/module_header]
+  - name: module
+    type: code
+    start: 0x4
+    vram: 0x80180004
+    align: 4
+    subsegments:
       - [0x4, .rodata, overlays/credits/credits]
       - [0x7B0, c, overlays/credits/credits]
       - [0x1D38, .data, overlays/credits/credits]
-      - [0x2208, data, overlays/credits/data]
+      - [0x2208, bss_commons, overlays/credits/credits_commons]
+  # Unclassified retail tail: preserved storage, not recovered C coverage.
+  - name: leftover
+    type: code
+    start: 0x223C
+    vram: 0x8018223C
+    align: 4
+    subsegments:
+      - [0x223C, bin, overlays/credits/data]
 
   - [0x8000]

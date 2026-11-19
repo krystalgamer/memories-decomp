@@ -2,6 +2,9 @@
   "schema": 1,
   "units": [
     {
+      "defines": [
+        "VERSION_EUROPE"
+      ],
       "profile": "gcc_2_8_1_g0",
       "source": "src/overlays/credits/module_header.c"
     }

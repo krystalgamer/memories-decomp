@@ -557,13 +557,21 @@ only by name, and every PAL image holds one 16-byte object at
 key-sprite name as that array under `VERSION_EUROPE` and no linker assignment
 remains.
 
-The credits module (USA and Japan) starts with its 4-byte module word; from
+The credits module (USA and Japan) starts with its 4-byte module word,
+`credits/module_header.c`'s `.data` (0x10; the PAL model_intro images build
+the same unit with `VERSION_EUROPE`, 0x34) in its own layout segment; from
 `+0x4` on, `credits.c`'s `.rodata` holds the row text, then the palette
 rectangles, then `Credits_UpdateLines`' jump table, and its `.data` holds
 `gCredits_aEntries`. The text is the table's string literals: the compiler
 writes them in reverse order of first use, identical strings merged, as the
 retail images store them. Japan defines only the one palette rectangle it
 reads; the four zero bytes after it are the jump table's 8-byte alignment.
+After the entries, `gCredits_bFinished` and `gCredits_aLines[2]` are
+`credits.c` tentative definitions (`gcc_2_8_1_g0_split_comm`) placed by a
+`credits_commons` subsegment (USA `+0x2208..+0x223C`, Japan
+`+0x2164..+0x2198`). Nothing in the module reads past them: the replacement
+glyphs the line builder substitutes are resident data, and the rest of the
+sixteen sectors is a raw `leftover` segment of stale bytes.
 
 The duel-effect bank's leading read-only data follows its text order too:
 `effect_11.c`, `cross_lines.c` (its two NTSC log strings), `effect_8.c`,

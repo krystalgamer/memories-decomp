@@ -5,7 +5,7 @@
       "defines": [
         "VERSION_JAPAN"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0xE0",
       "source": "src/overlays/credits/credits.c"
     },
@@ -14,7 +14,7 @@
       "defines": [
         "VERSION_JAPAN"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x534",
       "source": "src/overlays/credits/credits.c"
     },
@@ -23,7 +23,7 @@
       "defines": [
         "VERSION_JAPAN"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x804",
       "source": "src/overlays/credits/credits.c"
     },
@@ -32,7 +32,7 @@
       "defines": [
         "VERSION_JAPAN"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x550",
       "source": "src/overlays/credits/credits.c"
     },
@@ -41,7 +41,7 @@
       "defines": [
         "VERSION_JAPAN"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0xDC",
       "source": "src/overlays/credits/credits.c"
     },
@@ -50,7 +50,7 @@
       "defines": [
         "VERSION_JAPAN"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x10",
       "source": "src/overlays/credits/credits.c"
     }
