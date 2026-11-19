@@ -1963,7 +1963,7 @@ void Duel_InitScene(void)
 
     pid = &gDuel_bOpponentID;
     SD_ResetPendingEntries();
-    SD_ReplaceValueLink(1);
+    SD_ReplaceValueLink(SD_SE_GROUP_DUEL);
     Main_AdvanceFrames(4);
     File_WaitForTransfers();
     value = gDuel_bTerrain;
@@ -3720,7 +3720,7 @@ void DuelScene_UpdateCardPlacement(void)
                     {
                         /* Via a local pointer: a plain member store reschedules this function. */
                         u16 *flags = &gDuel_pCardPreviewObject->flags;
-                        *flags |= 4;
+                        *flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
                     }
                     slots = gDisplayObject_apWorkSlots.slots;
                     DisplayObject_ReleaseIfPresent(slots[0]);
@@ -7563,7 +7563,7 @@ void DuelScene_UpdateResultRewards(void)
     if (!(gDuel_wSceneStateFlags & DUEL_SCENE_FLAG_INITIALIZED)) {
         gDuel_wSceneStateFlags |= DUEL_SCENE_FLAG_INITIALIZED;
         Fade_StartOutKeepOverlay();
-        Fade_SetTargetLevel(128, 2);
+        Fade_SetTargetLevel(128, FADE_FLAG_KEEP_OVERLAY);
         gDuel_pResultDisplayState = &gDuel_awRitualData.result_display;
         gGraphics_sViewportY = 0;
         gGraphics_sViewportX = 0;
@@ -7714,7 +7714,7 @@ void DuelScene_UpdateResultRewards(void)
         Duel_ShowResultPage((s8)gDuel_pResultDisplayState->page_index);
     } else if (gInput_awPadPressed[0] & DUEL_RESULT_REWARDS_CONFIRM_BUTTON) {
         gDuel_wSceneStateFlags |= 0x4000;
-        Fade_SetTargetLevel(0, 6);
+        Fade_SetTargetLevel(0, FADE_FLAG_KEEP_OVERLAY | FADE_FLAG_HIDE_SECONDARY_ORDERING_TABLE);
         SD_SEPlayFull(SD_SE_COMMIT);
     }
 }

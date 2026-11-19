@@ -190,14 +190,14 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
     if ((obj->texture_page & m) ^ (obj->resource_root_index & k)) {
         win->flags = flags;
     }
-    if ((flags & 0x40) == 0) {
+    if ((flags & DISPLAY_OBJECT_FLAG_RENDERABLE) == 0) {
         return;
     }
     origin = (DisplayObjectPacketOrigin *)SCRATCH_ADDR(0x398);
     PRM = (SpritePrim *)SCRATCH_ADDR(0x320);
     packet = (POLY_FT4 *)SCRATCH_ADDR(0x344);
     arg = (((s16)win->ot_depth - 1) & 0xFFFF) | 0x10000;
-    if (flags & 0x4) {
+    if (flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) {
         obj->field_20.word = win->field_20.word;
         f4 = obj->attribute & ~(1<<27) ;
         obj->field_44.word = win->field_44.word;

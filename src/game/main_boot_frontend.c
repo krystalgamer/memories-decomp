@@ -542,7 +542,7 @@ void Main_RunBootSequence(s32 mode)
     gGraphics_wFlags = 0;
     if (mode != 0) {
         Main_RequestLanguageBootPackage(gText_bLanguageIndex, 1);
-        SD_ReplaceValueLink(2);
+        SD_ReplaceValueLink(SD_SE_GROUP_FRONTEND);
         Main_AdvanceFrames(4);
     } else {
         File_RequestAsyncTransfer(0, 0, 0x2503, 0x25, Main_LoadBootImageStage, 0, 0);
@@ -567,7 +567,7 @@ void Main_RunBootSequence(s32 mode)
         object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                          DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
         DisplayObject_CrossfadeReplace(first, object);
-        SD_ReplaceValueLink(2);
+        SD_ReplaceValueLink(SD_SE_GROUP_FRONTEND);
         Main_AdvanceFrames(4);
         Main_HoldBootScreen(0xB4);
         gText_bLanguageIndex = BUILD_LANGUAGE_INDEX;
@@ -606,7 +606,7 @@ void Main_RunBootSequence(s32 mode)
         );
         SetDumpFnt(display);
         gGraphics_wFlags = 0;
-        SD_ReplaceValueLink(2);
+        SD_ReplaceValueLink(SD_SE_GROUP_FRONTEND);
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
         return;
@@ -638,7 +638,7 @@ void Main_RunBootSequence(s32 mode)
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_CrossfadeReplace(first, object);
     first = object;
-    SD_ReplaceValueLink(2);
+    SD_ReplaceValueLink(SD_SE_GROUP_FRONTEND);
     Main_AdvanceFrames(4);
     Main_HoldBootScreen(0xB4);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
@@ -675,7 +675,7 @@ void Main_RunBootSequence(s32 mode)
         );
         SetDumpFnt(display);
         gGraphics_wFlags = 0;
-        SD_ReplaceValueLink(2);
+        SD_ReplaceValueLink(SD_SE_GROUP_FRONTEND);
         Main_AdvanceFrames(4);
         File_WaitForTransfers();
         return;
@@ -706,7 +706,7 @@ void Main_RunBootSequence(s32 mode)
     object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET |
                      DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     DisplayObject_CrossfadeReplace(first, object);
-    SD_ReplaceValueLink(2);
+    SD_ReplaceValueLink(SD_SE_GROUP_FRONTEND);
     Main_AdvanceFrames(4);
     File_RequestMainMenuPackage();
     Main_HoldBootScreen(0xB4);
