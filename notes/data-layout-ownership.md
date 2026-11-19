@@ -651,11 +651,12 @@ follows: `dispatch.c` declares `gDuelEffect_wBasePriority`,
 `gDuelEffect_CardObjectScratchWords` and `gDuelEffect_pOrderingTable`, and
 `dispatch_commons` places them at North America and Japan
 `+0x157C8-+0x15890` (an unlabelled, unreferenced 8 bytes at `+0x157D8` need
-no C). PAL holds them at `+0x15740-+0x15802` in another order, but they stay
-in the raw `data` blob there: Splat disassembles data words, so a subsegment
-cannot end on a halfword, and its last object, `gDuelEffect_wBasePriority`,
-ends at `+0x15802` with stray bytes right after it. The blob's labels
-satisfy the same common declarations.
+no C). PAL holds them at `+0x15740-+0x15802` in another order, after a
+word of linker fill (nonzero in the English image, zero elsewhere); its
+last object, `gDuelEffect_wBasePriority`, ends on the halfword at
+`+0x15802`, which the `bss_commons` type can list, so the PAL module
+segment aligns to 2 and the stray bytes after it are a `leftover`
+segment.
 
 The Japanese and PAL overworld images (both coup variants) own their data
 through the North American units, listed in each image's

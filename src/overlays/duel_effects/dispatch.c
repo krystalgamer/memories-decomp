@@ -18,9 +18,8 @@
 
 /* The bank's zero-initialized shared state, read across the effect units.
    The definitions stay common (this unit builds with
-   gcc_2_8_1_g0_split_comm). The NTSC layouts place them with a
-   dispatch_commons subsegment; PAL's end on a halfword, so its raw tail
-   still labels them. */
+   gcc_2_8_1_g0_split_comm). Every layout places them, in its own order,
+   with a dispatch_commons subsegment. */
 u16 gDuelEffect_wBasePriority;
 SVECTOR gDuelEffect_DrawOffset;
 DuelEffectTextureTable gDuelEffect_TexturePageClutPairs;

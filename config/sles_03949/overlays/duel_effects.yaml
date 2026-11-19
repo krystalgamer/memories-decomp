@@ -34,6 +34,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
   section_order: [".text", ".rodata", ".data", ".sdata", ".sbss", ".bss"]
 
@@ -70,7 +71,8 @@ segments:
     type: code
     start: 0x258
     vram: 0x80146258
-    align: 4
+    # The module ends on a halfword (+0x15802).
+    align: 2
     subsegments:
       - [0x258, c, overlays/duel_effects/dispatch]
       - [0x760, c, overlays/duel_effects/effect_11]
@@ -128,6 +130,15 @@ segments:
       - [0x1564E, pad]
       - [0x15650, .data, overlays/duel_effects/effect_9]
       - [0x15704, .data, overlays/duel_effects/effect_4]
-      - [0x1573C, data, overlays/german_duel_effects/data_1573C]
+      - [0x1573C, pad]
+      - [0x15740, bss_commons, overlays/german_duel_effects/dispatch_commons]
+
+  - name: leftover
+    type: code
+    start: 0x15802
+    vram: 0x8015B802
+    align: 2
+    subsegments:
+      - [0x15802, bin, overlays/german_duel_effects/data_15802]
 
   - [0x16000]
