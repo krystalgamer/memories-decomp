@@ -136,11 +136,14 @@ def stack_slot(instrs: list[Instr], arg: tuple):
         return None
     if arg[2] == "$sp":
         return arg[1]
-    defs = defs_of(instrs, arg[2])
-    if len(defs) == 1:
-        d = instrs[defs[0]]
-        if d.op == "addiu" and d.args[1][1] == "$sp":
-            return d.args[2][1] + arg[1]
+    # GCC may duplicate the address computation into each way into a join;
+    # identical copies define the same address.
+    values = {(instrs[d].op, instrs[d].args[1][1], instrs[d].args[2][1])
+              if instrs[d].op == "addiu" else None for d in defs_of(instrs, arg[2])}
+    if len(values) == 1:
+        value = values.pop()
+        if value is not None and value[1] == "$sp" and isinstance(value[2], int):
+            return value[2] + arg[1]
     return None
 
 
@@ -190,6 +193,38 @@ def gte_direct_read(instrs, context):
     return instrs
 
 
+@rule("gte-direct-write", "web",
+      "gte_ldrgb and friends load a GTE register from memory; C that has the "
+      "value in a variable stores it to a stack slot first. Move it straight "
+      "from the GPR with mtc2 instead.")
+def gte_direct_write(instrs, context):
+    changed = True
+    while changed:
+        changed = False
+        for j, store in enumerate(instrs):
+            if store.op != "sw":
+                continue
+            slot = stack_slot(instrs, store.args[1])
+            if slot is None:
+                continue
+            users = [n for n, i in enumerate(instrs) if n != j and any(
+                stack_slot(instrs, a) == slot for a in i.args if a[0] == "m")]
+            if len(users) != 1 or instrs[users[0]].op != "lwc2" or users[0] < j:
+                continue
+            load = users[0]
+            value = store.args[0][1]
+            if not straight(instrs, j, load) or any(
+                    value in instrs[n].defs() for n in range(j + 1, load)):
+                continue
+            new = tag(Instr("mtc2", [("r", value), instrs[load].args[0]],
+                            set(instrs[load].origin)), "gte-direct-write")
+            instrs = instrs[:load] + [new] + instrs[load + 1:]
+            instrs = delete(instrs, {j})
+            changed = True
+            break
+    return instrs
+
+
 @rule("unspill", "web",
       "GCC spills loop-invariant values to the stack when it runs out of "
       "registers; the original keeps them in registers. A stack slot written "
@@ -207,9 +242,10 @@ def unspill(instrs, context):
         if not accesses and not is_delay_slot(instrs, j):
             # A spill nobody reloads.
             return unspill(delete(instrs, {j}), context)
-        if (not accesses or any(instrs[n].op != "lw" or n < j for n in accesses)
+        if (not accesses or any(not reload_reads(instrs, instrs[n].op, value) or n < j
+                                for n in accesses)
                 or value in PRECOLORED or any(d > j for d in defs_of(instrs, value))
-                or not defs_of(instrs, value)):
+                or not (defs_of(instrs, value) or value.split(".")[0] in ("$a0", "$a1", "$a2", "$a3"))):
             continue
         gone = {j}
         for n in accesses:
@@ -226,7 +262,57 @@ def unspill(instrs, context):
                     tag(i, "unspill")
             gone.add(n)
         return unspill(delete(instrs, gone), context)
+    return promote_slots(instrs, context)
+
+
+def promote_slots(instrs, context):
+    """A stack slot GCC uses as the home of a variable that changes (a
+    loop-carried value spilled for want of registers) becomes a register:
+    each word store is a copy into it and each word load a copy out, which
+    the register map then coalesces."""
+    slots: dict = {}
+    for n, i in enumerate(instrs):
+        if "$sp" in i.uses() and not (i.op in ("lw", "sw") and i.args[1][0] == "m"
+                                     and i.args[1][2] == "$sp" and isinstance(i.args[1][1], int)):
+            if not (i.op == "addiu" and i.args[0] == ("r", "$sp")):
+                for a in i.args:
+                    if a[0] == "m" and a[2] == "$sp" and isinstance(a[1], int):
+                        slots.setdefault(a[1] & ~3, []).append(None)
+                if i.op == "addiu" and i.args[1] == ("r", "$sp"):
+                    slots.setdefault(i.args[2][1] & ~3, []).append(None)
+            continue
+        if i.op in ("lw", "sw") and i.args[1][0] == "m" and i.args[1][2] == "$sp" \
+                and i.args[0][1] not in CALLEE_SAVED + ["$ra"]:
+            slots.setdefault(i.args[1][1], []).append(n)
+    for slot, accesses in slots.items():
+        if None in accesses or slot % 4:
+            continue
+        stores = [n for n in accesses if instrs[n].op == "sw"]
+        loads = [n for n in accesses if instrs[n].op == "lw"]
+        if len(stores) < 2 or not loads:
+            continue  # single stores are unspill's
+        reg = context.new_reg("slot")
+        for n in accesses:
+            i = instrs[n]
+            if i.op == "sw":
+                new = Instr("addu", [("r", reg), i.args[0], ("r", "$zero")], set(i.origin))
+            else:
+                new = Instr("addu", [i.args[0], ("r", reg), ("r", "$zero")], set(i.origin))
+            instrs[n] = tag(new, "unspill")
+        return promote_slots(instrs, context)
     return instrs
+
+
+def reload_reads(instrs: list[Instr], op: str, value: str) -> bool:
+    """Whether a reload with OP of a slot holding VALUE reads all of it: a
+    word, or (little-endian) the low byte/halfword of a value that fits."""
+    if op == "lw":
+        return True
+    bits = {"lbu": 8, "lhu": 16}.get(op)
+    producers = defs_of(instrs, value)
+    if bits is None or not producers:
+        return False
+    return all(instrs[p].op == "srl" and instrs[p].args[2][1] >= 32 - bits for p in producers)
 
 
 def mem_only_uses(instrs: list[Instr], reg: str, allow_increment: bool = False) -> bool:
@@ -411,6 +497,25 @@ def halfword_words(instrs, context):
                     and offsets & {w, w + 2} == {w + 2} and w - 4 not in packed.values()
                     and w not in packed and w - 4 not in packed):
                 packed[w] = w - 4
+        # A load past a branch whose word holds no other index, is not
+        # lwr-packed and is read whole elsewhere (FT4's norm0, in the word
+        # whose low half is u3/v3) stays a halfword load where C reads it.
+        involved = set(packed) | set(packed.values())
+        whole = {i.args[1][1] for i in instrs if i.op == "lw" and i.args[1][0] == "m"
+                 and i.args[1][2] == base and isinstance(i.args[1][1], int)}
+        lone = [n for n in members if n != first
+                and not straight(instrs, first, n)
+                and sum(1 for m in members if instrs[m].args[1][1] & ~3
+                        == instrs[n].args[1][1] & ~3) == 1
+                and instrs[n].args[1][1] & ~3 not in involved
+                and instrs[n].args[1][1] & ~3 in whole]
+        if lone:
+            members = [n for n in members if n not in lone]
+            if len(members) < 2:
+                continue
+            offsets = {instrs[n].args[1][1] for n in members}
+            words = sorted({off & ~3 for off in offsets})
+            packed = {w: v for w, v in packed.items() if w in words and v in words}
         words = [w for w in words if w not in packed.values()]
         regs = {w: context.new_reg("word") for w in words}
         replace: dict[int, list[Instr]] = {}
@@ -769,6 +874,23 @@ def loop_load_forwarding(instrs, context):
 AT_OPS = {"and", "or", "xor", "nor", "addu", "subu", "slt", "sltu"}
 
 
+def slot_dead_when_taken(instrs, slot: int) -> bool:
+    """Whether the delay-slot instruction's results are unread on the
+    taken path of its branch."""
+    from asm_massage import label_index, live_after
+
+    branch = instrs[slot - 1]
+    if not branch.args or branch.args[-1][0] != "l":
+        return False
+    t = label_index(instrs).get(branch.args[-1][1])
+    if t is None:
+        return False
+    for reg in instrs[slot].defs():
+        if reg in instrs[t].uses() or (reg not in instrs[t].defs() and live_after(instrs, t, reg)):
+            return False
+    return True
+
+
 @rule("at-constants", "web",
       "A large constant (lui, lui+ori) used only as an ALU operand is built in "
       "$at right before each use, as the assembler's immediate macros did "
@@ -795,7 +917,14 @@ def at_constants(instrs, context):
         uses = uses_of(instrs, reg)
         if not uses or any(instrs[u].op not in AT_OPS or u in chain for u in uses):
             continue
+        if any(instrs[u].op == "addu" and ("r", "$zero") in instrs[u].args[1:] for u in uses):
+            continue  # a register copy: the constant is loaded into its register
         if any(live_at(instrs, u, "$at") for u in uses):
+            continue
+        # A use GCC put in a delay slot (from the fall-through path) leaves
+        # the slot with its constant, which needs the taken path not to read
+        # its result.
+        if any(is_delay_slot(instrs, u) and not slot_dead_when_taken(instrs, u) for u in uses):
             continue
         value = instrs[chain[0]].args[1][1] << 16
         if len(chain) == 2:
@@ -803,8 +932,12 @@ def at_constants(instrs, context):
         out = []
         for m, i in enumerate(instrs):
             if m in chain:
+                if is_delay_slot(instrs, m):
+                    out.append(Instr("nop", [], {"at-constants"}))
                 continue
             if m in uses:
+                if is_delay_slot(instrs, m):
+                    out.append(Instr("nop", [], {"at-constants"}))
                 out.append(tag(Instr("lui", [("r", "$at"), ("i", value >> 16)]), "at-constants"))
                 if value & 0xFFFF:
                     out.append(tag(Instr("ori", [("r", "$at"), ("r", "$at"), ("i", value & 0xFFFF)]),
@@ -815,6 +948,88 @@ def at_constants(instrs, context):
                 tag(i, "at-constants")
             out.append(i)
         return at_constants(out, context)
+    return instrs
+
+
+@rule("at-branch-constants", "web",
+      "A small nonzero constant (addiu r,$zero,imm) used only as a beq/bne "
+      "operand is built in $at right before each branch, as the assembler's "
+      "beq r,imm macro did, instead of being hoisted into its own register.")
+def at_branch_constants(instrs, context):
+    from asm_massage import web_home
+
+    for n, small in enumerate(instrs):
+        if (small.op != "addiu" or small.args[1] != ("r", "$zero")
+                or not isinstance(small.args[2][1], int) or small.args[2][1] == 0):
+            continue
+        reg = small.args[0][1]
+        if reg in PRECOLORED or web_home(reg) == "$at" or defs_of(instrs, reg) != [n]:
+            continue
+        uses = uses_of(instrs, reg)
+        if not uses or any(instrs[u].op not in ("beq", "bne") for u in uses):
+            continue
+        if any(live_at(instrs, u, "$at") for u in uses):
+            continue
+        # Only a test of a loop-invariant value (beq mode,1): a constant the
+        # loop compares fresh loads with stays in its own register.
+        spans = loops(instrs)
+        def invariant(u):
+            other = [a[1] for a in instrs[u].args[:2] if a[0] == "r" and a[1] != reg]
+            around = [(a, b) for a, b in spans if a < u <= b + 1]
+            return all(not any(a < d <= b + 1 for a, b in around for d in defs_of(instrs, o))
+                       for o in other)
+        if not all(invariant(u) for u in uses):
+            continue
+        out = []
+        for m, i in enumerate(instrs):
+            if m == n:
+                if is_delay_slot(instrs, m):
+                    out.append(Instr("nop", [], {"at-branch-constants"}))
+                continue
+            if m in uses:
+                out.append(tag(Instr("addiu", [("r", "$at"), ("r", "$zero"), small.args[2]]),
+                               "at-branch-constants"))
+                i.replace_reg(reg, "$at", defs=False)
+                if i.args[0] == ("r", "$at"):
+                    i.args = [i.args[1], i.args[0], i.args[2]]
+                tag(i, "at-branch-constants")
+            out.append(i)
+        return at_branch_constants(out, context)
+    return instrs
+
+
+@rule("sign-extend-load", "web",
+      "A (s8)/(s16) cast of a loaded byte or halfword is a signed load (lb, "
+      "lh), not lbu/lhu followed by sll/sra.")
+def sign_extend_load(instrs, context):
+    widths = {"lbu": ("lb", 24), "lhu": ("lh", 16)}
+    for n, load in enumerate(instrs):
+        if load.op not in widths:
+            continue
+        signed, bits = widths[load.op]
+        reg = load.args[0][1]
+        uses = uses_of(instrs, reg)
+        if len(uses) != 1 or defs_of(instrs, reg) != [n]:
+            continue
+        shl = instrs[uses[0]]
+        if shl.op != "sll" or shl.args[1][1] != reg or shl.args[2][1] != bits:
+            continue
+        mid = shl.args[0][1]
+        uses2 = uses_of(instrs, mid)
+        if len(uses2) != 1 or len(defs_of(instrs, mid)) != 1:
+            continue
+        sra = instrs[uses2[0]]
+        if sra.op != "sra" or sra.args[1][1] != mid or sra.args[2][1] != bits:
+            continue
+        dest = sra.args[0][1]
+        # The result web has no other definition, so defining it at the
+        # load is the same value wherever it is read.
+        if defs_of(instrs, dest) != [uses2[0]] or any(
+                dest in instrs[k].uses() for k in range(n + 1, uses2[0])):
+            continue
+        new = tag(Instr(signed, [("r", dest), load.args[1]], set(load.origin)), "sign-extend-load")
+        instrs = instrs[:n] + [new] + instrs[n + 1:]
+        return sign_extend_load(delete(instrs, {uses[0], uses2[0]}), context)
     return instrs
 
 
@@ -887,6 +1102,8 @@ def increment_sink(instrs, context):
             i = instrs[m]
             if i.is_label or i.op in BRANCHES or p in i.defs():
                 break
+            if i.op == "addiu" and i.args[0] == i.args[1]:
+                break  # another increment: never swap two of them back and forth
             if p in i.uses():
                 if any(a[0] == "r" and a[1] == p for a in i.args) or not all(
                         isinstance(a[1], int) for a in i.args if a[0] == "m" and a[2] == p):
@@ -1265,6 +1482,31 @@ def fill_branch_slot(instrs, context):
             moved = tag(candidate, "fill-branch-slot")
             return fill_branch_slot(instrs[:k] + instrs[k + 1:n + 1] + [moved] + instrs[n + 2:],
                                     context)
+    return instrs
+
+
+@rule("fill-jump-slot", "physical",
+      "An empty delay slot of an unconditional jump takes the nearest small "
+      "constant load (addiu r,$zero,imm) above it in its block, as the "
+      "original sets the next pass's flag in the jump's slot.")
+def fill_jump_slot(instrs, context):
+    for n, jump in enumerate(instrs[:-1]):
+        if jump.op != "j" or instrs[n + 1].op != "nop":
+            continue
+        for k in range(n - 1, -1, -1):
+            candidate = instrs[k]
+            if candidate.is_label or candidate.op in BRANCHES or is_delay_slot(instrs, k):
+                break
+            if not (candidate.op == "addiu" and candidate.args[1] == ("r", "$zero")):
+                continue
+            dests = set(candidate.defs())
+            if any(touches(x, dests) for x in instrs[k + 1:n]):
+                break
+            if k > 0 and needs_hazard_nop(instrs[k - 1], instrs[k + 1]):
+                break
+            moved = tag(candidate, "fill-jump-slot")
+            return fill_jump_slot(instrs[:k] + instrs[k + 1:n + 1] + [moved] + instrs[n + 2:],
+                                  context)
     return instrs
 
 

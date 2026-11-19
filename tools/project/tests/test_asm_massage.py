@@ -281,6 +281,67 @@ class PolygonRuleTests(unittest.TestCase):
         self.assertIn("srl $t4.2, $t4.1, 13", out)
 
 
+class DirectPolygonRuleTests(unittest.TestCase):
+    def test_gte_load_of_a_stored_variable_becomes_mtc2(self):
+        out = run("gte-direct-write", "lw\t$15,gSym\nsw\t$15,8($sp)\n"
+                  "lwc2\t$6, 0( $sp )\nj\t$31\nnop".replace("0( $sp )", "8( $sp )"))
+        self.assertIn("mtc2 $t7.2, $6", out)
+        self.assertFalse(any("$sp" in line for line in out))
+
+    def test_cast_byte_load_is_a_signed_load(self):
+        out = run("sign-extend-load", "lbu\t$8,gSym\nbeq\t$5,$0,$L1\nnop\n"
+                  "sll\t$3,$8,24\nsra\t$9,$3,24\nsw\t$9,0($5)\n$L1:\nj\t$31\nnop")
+        self.assertEqual(out[:2], ["lui $t0.1, %hi(gSym)", "lb $t1.1, %lo(gSym)($t0.1)"])
+        self.assertFalse(any(line.startswith(("sll", "sra")) for line in out))
+
+    def test_invariant_compare_constant_is_built_in_at(self):
+        loop = ("lb\t$22,gSym\nli\t$3,1\n$L1:\nlw\t$2,4($6)\nbeq\t{},$3,$L2\nnop\n"
+                "addu\t$6,$6,8\n$L2:\nbne\t$6,$0,$L1\nnop\nj\t$31\nnop")
+        out = run("at-branch-constants", loop.format("$22"))
+        self.assertIn("addiu $at, $zero, 0x1", out)
+        self.assertIn("beq $s6.2, $at, $L2", out)
+        # A constant the loop compares fresh loads with keeps its register.
+        self.assertNotIn("addiu $at, $zero, 0x1", run("at-branch-constants", loop.format("$2")))
+
+    def test_loop_carried_spill_slot_becomes_a_register(self):
+        out = run("unspill", "sw\t$5,48($sp)\n$L1:\nlw\t$24,48($sp)\naddu\t$24,$24,28\n"
+                  "sw\t$24,48($sp)\nbne\t$24,$0,$L1\nnop\nj\t$31\nnop")
+        self.assertFalse(any("($sp)" in line for line in out))
+        self.assertIn("addu %slot1, $a1.0, $zero", out)
+
+    def test_constant_in_a_delay_slot_leaves_a_nop(self):
+        # GCC's preheader constant feeds an AND it put in a branch slot; the
+        # AND leaves the slot (the taken path does not read it).
+        out = run("at-constants", "li\t$10,0xff9fffff\nbeq\t$5,$0,$L1\nand\t$9,$9,$10\n"
+                  "sw\t$9,0($5)\n$L1:\nj\t$31\nnop")
+        self.assertEqual(out[:5], ["beq $a1.0, $zero, $L1", "nop", "lui $at, 0xFF9F",
+                                   "ori $at, $at, 0xFFFF", "and $t1.1, $t1.0, $at"])
+
+    def test_jump_slot_takes_the_flag_reset(self):
+        out = physical("fill-jump-slot", "li\t$3,0\nsw\t$12,4($25)\naddu\t$25,$25,8\n"
+                       "j\t$L1\nnop\n$L1:\nj\t$31\nnop")
+        self.assertEqual(out[:4], ["sw $t4, 0x4($t9)", "addiu $t9, $t9, 0x8", "j $L1",
+                                   "addiu $v1, $zero, 0x0"])
+
+
+class DirectPolygonDependenceTests(unittest.TestCase):
+    def test_accesses_across_a_pointer_increment_are_rebased(self):
+        for later, overlap in ((8, True), (4, False)):
+            program = f"sw\t$8,40($25)\naddu\t$25,$25,32\nsw\t$9,{later}($25)\nj\t$31\nnop"
+            prog = deps.Program(am.rename(am.webify(parse(program)), {}))
+            first, _, second = prog.order[:3]
+            self.assertEqual(deps.may_alias(prog, first, second), overlap)
+
+    def test_inserted_register_copy_is_proven(self):
+        program = "lw\t$16,gSym\nsw\t$16,0($5)\nj\t$31\nnop"
+        before = am.rename(am.webify(parse(program)), {})
+        texts = [i.text() for i in before]
+        patch = am.make_residual(texts, texts[:2] + ["addu $t4, $s0, $zero",
+                                                     "sw $t4, 0x0($a1)"] + texts[3:])
+        report = deps.check(before, am.apply_residual(before, patch))
+        self.assertEqual((report.copies, report.flags), (1, []))
+
+
 def physical(names: str, text: str) -> list[str]:
     instrs = am.rename(am.webify(parse(text)), {})
     for name in names.split():

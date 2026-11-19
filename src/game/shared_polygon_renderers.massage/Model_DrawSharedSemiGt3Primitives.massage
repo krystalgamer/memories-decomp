@@ -3,7 +3,7 @@ function = Model_DrawSharedSemiGt3Primitives
 source = src/game/shared_polygon_renderers.c
 address = 0x8006875C
 size = 0x2A4
-rules = strip-nops aligned-word-copy invariant-last dmpsx-native gte-direct-read unspill fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot
+rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-write unspill invariant-last fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants at-branch-constants sign-extend-load zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot fill-jump-slot
 frameless = $a0 0x28
 
 [registers]
@@ -12,9 +12,8 @@ $v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
 $v0.4 = $s0       # lui $v0.4, %hi(gModel_dwPolyGt3Template)
 $v0.10 = $s2      # lhu $v0.10, 0x2($t9.1)
 $v0.11 = $t0      # srl $v0.11, $v0.6, 24
-$v0.13 = $at      # addiu $v0.13, $zero, 0x1
 $v0.14 = $t5      # lui $v0.14, %hi(gModel_dwLitColorCacheBase)
-$v0.16 = $t5      # lw $v0.16, 0x4($s4.1)
+$v0.16 = $t7      # lw $v0.16, 0x4($s4.1)
 $v0.18 = $t5      # srl $v0.18, %word1, 16
 $v0.24 = $t5      # srl $v0.24, %word2, 16
 $v0.30 = $t5      # srl $v0.30, %word3, 16
@@ -31,6 +30,7 @@ $v1.14 = $t5      # lw $v1.14, 0x0($a0.3)
 $v1.15 = $t2      # sll $v1.15, %word3, 16
 $v1.17 = $t1      # lw $v1.17, 0x0($a1.2)
 $v1.18 = $t1      # and $v1.18, $a1.3, $at
+$a0.0 = $a0     
 $a0.1 = $t5       # addu $a0.1, $v0.19, $s2.1
 $a0.2 = $t5       # addu $a0.2, $v0.25, $s2.1
 $a0.3 = $t5       # addu $a0.3, $v0.31, $s2.1
@@ -41,7 +41,7 @@ $a1.3 = $t1       # lw $a1.3, 0x4($t9.1)
 $a1.4 = $t1       # or $a1.4, $v1.18, $s5.2
 $a2.1 = $v0       # lw $a2.1, 0x4($a0.2)
 $a2.2 = $t0       # addu $a2.2, $v0.37, $t7.1
-$a2.3 = $v0       # addu $a2.3, $v0.17, $v0.47
+$a2.3 = $v0       # addu $a2.3, $v0.47, $v0.17
 $a3.1 = $v0       # lw $a3.1, 0x4($a0.1)
 $a3.2 = $v1       # and $a3.2, $v0.6, $at
 $t1.1 = $t0       # lw $t1.1, 0x0($t9.1)
@@ -68,7 +68,7 @@ $fp.1 = $v1       # addiu $fp.1, $zero, -0x1
 [residual]
 --- rules
 +++ retail
-@@ -9,16 +9,18 @@
+@@ -9,17 +9,18 @@
  sw $s2, 0x30($a0)
 +sw $s3, 0x34($a0)
  beq $t8, $zero, .L1
@@ -91,39 +91,43 @@ $fp.1 = $v1       # addiu $fp.1, $zero, -0x1
 +bne $v0, $zero, .L8
  addu $t4, $s0, $zero
 -bne $v0, $zero, .L8
+-nop
  lw $s1, 0x4($a3)
-@@ -30,3 +32,2 @@
+@@ -31,3 +32,2 @@
  nop
 -lui $s1, 0x20
  lhu $s2, 0x2($a3)
-@@ -34,4 +35,5 @@
+@@ -35,4 +35,5 @@
  lw $t4, %lo(gModel_dwPolyGt3SemiTemplate)($t4)
 +sll $s2, $s2, 16
  j .L7
 -sll $s2, $s2, 16
 +lui $s1, 0x20
  .L8:
-@@ -41,4 +43,4 @@
+@@ -42,4 +43,4 @@
  lb $t5, %lo(gModel_bCurrentDrawMode)($t5)
 -srl $t0, $s0, 24
 -sll $t0, $t0, 24
 +srl $s3, $s0, 24
 +sll $s3, $s3, 24
  addiu $at, $zero, 0x1
-@@ -46,3 +48,2 @@
+@@ -47,3 +48,2 @@
  nop
 -lw $a2, 0x24($a0)
  lui $t5, %hi(gModel_dwLitColorCacheBase)
-@@ -50,2 +51,3 @@
+@@ -51,2 +51,3 @@
  lw $a1, 0x1C($a0)
 +lw $a2, 0x24($a0)
  beq $t5, $zero, .L6
-@@ -56,3 +58,3 @@
+@@ -55,5 +56,5 @@
+ .L6:
+-lw $t7, 0x4($a0)
++lw $t5, 0x4($a0)
  lw $t6, 0x8($a0)
--lw $t5, 0x4($t5)
+-lw $t7, 0x4($t7)
 +lw $t7, 0x4($t5)
  .L5:
-@@ -91,13 +93,12 @@
+@@ -92,13 +93,12 @@
  srl $t0, $t0, 13
 -addu $t0, $t0, $a2
  .word 0x4B400006
@@ -142,17 +146,12 @@ $fp.1 = $v1       # addiu $fp.1, $zero, -0x1
 -blez $v0, .L2
 -nop
  lw $t0, 0x0($t0)
-@@ -105,3 +106,3 @@
+@@ -106,3 +106,3 @@
  lw $t2, 0x0($t2)
 -or $t0, $t0, $t0
 +or $t0, $t0, $s3
  sw $t0, 0x4($t9)
-@@ -122,3 +123,3 @@
- sll $v0, $v0, 2
--addu $v0, $t5, $v0
-+addu $v0, $v0, $t7
- lw $t5, 0x0($v0)
-@@ -142,16 +143,15 @@
+@@ -143,16 +143,15 @@
  or $t0, $t0, $s2
 -addiu $v1, $zero, 0x0
 -sw $t4, 0x2C($t9)
@@ -175,12 +174,12 @@ $fp.1 = $v1       # addiu $fp.1, $zero, -0x1
 -lw $v1, 0x20($t9)
 -or $t1, $t1, $at
  sw $v1, 0x48($t9)
-@@ -159,3 +159,3 @@
+@@ -160,3 +159,3 @@
  j .L4
 -nop
 +addiu $v1, $zero, 0x0
  .L3:
-@@ -170,2 +170,3 @@
+@@ -171,2 +170,3 @@
  lw $s2, 0x30($a0)
 +lw $s3, 0x34($a0)
  lw $v0, 0x0($a0)

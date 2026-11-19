@@ -96,38 +96,43 @@ MASPSX with the massage (see [Build integration](#build-integration)).
 
 ## Rule catalogue
 
-All 28 massaged functions (the twelve wireframe drivers and the sixteen
-shared polygon drivers) run the same list, in this order:
+Every massaged function (the twelve wireframe drivers, the sixteen shared
+polygon drivers and the thirty-two direct polygon drivers) runs the same
+list, in this order:
 
 ```text
-strip-nops aligned-word-copy invariant-last dmpsx-native gte-direct-read
-unspill fold-address undo-strength-reduction word-compose halfword-words
-tag-build loop-load-forwarding at-constants zero-extend-shifts reuse-load
+strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-write
+unspill invariant-last fold-address undo-strength-reduction word-compose
+halfword-words tag-build loop-load-forwarding at-constants
+at-branch-constants sign-extend-load zero-extend-shifts reuse-load
 zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early
 dce                                                       (web stage)
 drop-self-moves frameless guard-chain preheader-order fill-load-delay
-fill-branch-slot                                          (physical stage)
+fill-branch-slot fill-jump-slot                           (physical stage)
 ```
 
 | Rule | Stage | Rewrite | Why it is safe / why the original looks like this |
 | --- | --- | --- | --- |
 | `strip-nops` | web | drop nops outside delay slots (the `nop` inside `gte_stflg`), except the GTE waits in front of a command (`gte_nclip()`) | step 7 re-derives load-delay nops from the final order; GTE waits are not load delays |
 | `aligned-word-copy` | web | adjacent `lwl`/`lwr` and `swl`/`swr` pairs (GCC's copy of a 2-byte-aligned `DVECTOR`) -> `lw`/`sw` | GsWORKUNIT cache entries and packets are word aligned (A3) |
-| `invariant-last` | web | inside a loop, a commutative op with one loop-invariant operand writes it last (`addu t5,index,vertices`) | operand order is free; this is the original's spelling everywhere in both families |
+| `invariant-last` | web | inside a loop, a commutative op with one loop-invariant operand writes it last (`addu t5,index,vertices`); runs after `unspill`, so a reloaded invariant counts | operand order is free; this is the original's spelling everywhere |
 | `dmpsx-native` | web | `inline_c.h` command markers -> native COP2 words (RTPS, RTPT, NCDS, NCCS, NCCT, NCLIP, AVSZ3, AVSZ4) | exactly what DMPSX did; an unknown marker is an error |
 | `gte-direct-read` | web | `cfc2 $12,$31; sw` / `swc2 $7`/`$24` to a stack variable and the C's later `lw` -> `cfc2`/`mfc2` straight into the reader's register | straight-line code, one read per store (a reused variable such as two `gte_stflg(&flag)` pairs each store with its own read), no GTE command in between |
-| `unspill` | web | GCC's stack spill of a value that does not change after the store: reloads read the value's register; a reload feeding a merge (`colour = poly` or the semi template) becomes a register copy; a never-reloaded spill goes | exact: the slot holds that value at every reload |
+| `gte-direct-write` | web | a C variable stored to a stack slot only so `gte_ldrgb(&rgb)` can `lwc2` it -> `mtc2` from the variable's register | straight-line, the slot has no other access and the register is unchanged in between; the direct drivers' `mtc2 template,$6` |
+| `unspill` | web | GCC's stack spill of a value that does not change after the store: reloads read the value's register (a byte or halfword reload too, when every definition is a `srl` that fits it, as `code = poly >> 24`); a reload feeding a merge (`colour = poly` or the semi template) becomes a register copy; a never-reloaded spill goes. A slot stored more than once (a loop-carried value, the spilled argument pointer) becomes a register: stores and loads turn into copies the register map coalesces | exact: the slot holds that value at every reload |
 | `fold-address` | web | `addiu t,b,K` + accesses at `0(t)` -> `K(b)` | `gte_stsxy0(&packet[3])` passes an address; `t` must be single-use and `b` unchanged |
 | `undo-strength-reduction` | web | GCC's biased (`record+18`) or duplicated (`packet+3`) loop pointers -> offsets from the real pointer | constant pointer difference proven by dataflow at every use |
 | `word-compose` | web | a word composed from adjacent zero-extended fields -> one `lw`: the three draw-mode globals, a GsWORKUNIT's `otz`/`p` pair or its `vx`/`vy` SXY word | global adjacency and alignment checked against `config/slus_01411/symbols.txt`; structure fields need a word-aligned offset (A3) |
-| `halfword-words` | web | `lhu` record halfwords of one loop -> `lw` of the containing words at the first load (which must dominate the others) + `srl 16` / `sll 16; srl 16-k` (fusing the `<<3` scale); a record that would need more than four word registers packs two lone high halves with `lw x,k; lwr x,k-2` (the GT4 polygon `norm0`/`vert0`) | little-endian target; the words are only hoisted past stores through other pointers (A2) |
+| `halfword-words` | web | `lhu` record halfwords of one loop -> `lw` of the containing words at the first load (which must dominate the others) + `srl 16` / `sll 16; srl 16-k` (fusing the `<<3` scale); a record that would need more than four word registers packs two lone high halves with `lw x,k; lwr x,k-2` (the GT4 polygon `norm0`/`vert0`). A load past a branch whose word holds no other index, is not packed and is read whole elsewhere stays an `lhu` (the FT4 `norm0`, beside `u3`/`v3`) | little-endian target; the words are only hoisted past stores through other pointers (A2) |
 | `tag-build` | web | `setlen` + `setaddr`/`addPrim` byte/mask sequence -> `lw; sll 8; ori len; srl $at,8; sll 24; or; sw tag; sll 8; srl 8; sw ot` (the OT store may sit in a delay slot) | the OT entry is read where the C reads it (A1) |
 | `loop-load-forwarding` | web | a loop that reloads a word it stored on every back edge (the second pass re-reading the OT entry it just linked) keeps the stored value: the load moves in front of the loop | every back edge's last store to the word is the register's value |
-| `at-constants` | web | a large constant used only as an ALU operand is built in `$at` before each use (`lui $at,0xFF9F; ori; and t1,t1,$at`), not hoisted into a register | what the assembler's immediate macros produced; `$at` must be free there |
+| `at-constants` | web | a large constant used only as an ALU operand is built in `$at` before each use (`lui $at,0xFF9F; ori; and t1,t1,$at`), not hoisted into a register; a use GCC put in a delay slot leaves the slot (a nop stays) with its constant, and a register copy keeps its `lui` | what the assembler's immediate macros produced; `$at` must be free there, and the slot use's result unread on the taken path |
+| `at-branch-constants` | web | a small constant compared by `beq`/`bne` against a loop-invariant value is built in `$at` before each branch (`addiu $at,$zero,1; beq mode,$at`) | the assembler's `beq reg,imm` macro; a constant the loop compares fresh loads with (the shared drivers' `-1`) keeps its register |
+| `sign-extend-load` | web | `lbu`/`lhu` whose only use is `sll 24`/`16; sra` -> `lb`/`lh` into the result | the `(s8)gModel_bCurrentDrawMode` casts; the result web has no other definition |
 | `zero-extend-shifts` | web | `andi d,s,0xFFFF` -> `sll 16; srl 16`; in a delay slot the `sll` stays in the slot | the hand-written code never uses `andi` for this; `d` must be dead at the branch target |
 | `reuse-load` | web | a second `lw` of the same word through an unchanged pointer reuses the first | GCC reloads because a packet store might alias the cache (A2) |
 | `zero-as-addiu` | web | `move d,$zero` -> `addiu d,$zero,0` (`li d,0`) | identical value |
-| `increment-sink` | web | a pointer increment moves to the end of its block, past the accesses through it (their offsets grow) | pure re-addressing |
+| `increment-sink` | web | a pointer increment moves to the end of its block, past the accesses through it (their offsets grow), but never past another increment | pure re-addressing |
 | `loop-constant` | web | a small `addiu r,$zero,imm` that only one loop reads is set at the top of the loop body, not hoisted by GCC's loop-invariant motion | re-materialising a constant |
 | `store-delay-slot` | web | a store right before a branch with an empty slot moves into the slot | it ran on both paths before and still does |
 | `gte-load-early` | web | an `mtc2` moves up to just after the test of its own value, into that test's empty delay slot unless a store waits there; a value no earlier test reads does not cross a test (`gte_ldsz3`/`gte_ldsz4` writes, one per vertex) | only the skip path sees the extra SZ writes, and it reloads them before any AVSZ (A4) |
@@ -138,6 +143,7 @@ fill-branch-slot                                          (physical stage)
 | `preheader-order` | physical | before a loop: template loads, then `lui`/`ori` constants (the terminator), then the argument fields | pure constant moves, checked against every intervening use |
 | `fill-load-delay` | physical | a load whose result the next instruction reads takes the nearest movable ALU instruction above it into its delay slot | operands untouched in between; otherwise a nop is derived |
 | `fill-branch-slot` | physical | an empty conditional-branch slot takes the nearest movable ALU instruction above it, unless that would leave a load-use hazard | it ran on both paths before and still does |
+| `fill-jump-slot` | physical | an empty `j` slot takes the nearest small constant load above it in its block (the second pass's `semi = 0`) | the jump always runs its slot; operands untouched in between |
 
 Twelve rules came from the wireframe drivers. The sixteen polygon drivers
 added `unspill`, `loop-load-forwarding`, `at-constants`,
@@ -150,6 +156,17 @@ and `fill-branch-slot`, and widened `strip-nops` (GTE waits),
 added only for a hunk that repeated across functions; the twelve wireframe
 edit files changed only in their `rules =` line and still match.
 
+The thirty-two direct polygon drivers added `gte-direct-write`,
+`at-branch-constants`, `sign-extend-load` and `fill-jump-slot`, widened
+`unspill` (narrow reloads, entry values, promoted slots), `halfword-words`
+(FT4 `norm0`) and `at-constants` (delay-slot uses, copies), stopped
+`increment-sink` from swapping two increments, and moved `invariant-last`
+after `unspill`. Fixing `at-constants` also changed what it did with a
+constant GCC had put in a delay slot (the next instruction slid into the
+slot): the shared drivers' edit files were re-derived with the one list
+(their residuals moved by -1 to +6 lines), and the wireframes stayed at
+their single line.
+
 ### Semantic assumptions
 
 The C states portable semantics; these rules reproduce the original under
@@ -159,8 +176,10 @@ five documented assumptions about the game's data:
   clearing its length byte, where `addPrim` keeps it. Ordering-table
   entries are created with a zero length byte (`ClearOTag`/`GsClearOt` write
   24-bit links) and every `addPrim` keeps it zero.
-- A2 (no aliasing): primitive records, the GsWORKUNIT cache, the packet
-  buffer and the OT never overlap, so loads may move across packet stores.
+- A2 (no aliasing): primitive records, the GsWORKUNIT cache, the lit
+  colour cache (`nortop2`, or `gModel_dwLitColorCacheBase` in the direct
+  drivers), the packet buffer and the OT never overlap, so loads may move
+  across packet stores.
 - A3 (alignment): GsWORKUNIT cache entries and packet buffers are word
   aligned, so a `DVECTOR` copy or the `otz`/`p` pair is one word access.
 - A4 (GTE state on skipped primitives): the shared drivers' early SZ writes
@@ -276,25 +295,27 @@ layouts are shared in `src/game/shared_primitive_renderers.h`:
 
 | Function | Address | Retail | Kept | By rules | Residual instrs | Residual diff lines | Map entries |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| `Model_DrawSharedGt3Primitives` | `0x80067354` | 146 | 50 | 76 | 20 | 40 | 52 |
-| `Model_DrawSharedGt4Primitives` | `0x8006759C` | 175 | 57 | 95 | 23 | 46 | 59 |
-| `Model_DrawSharedGt3WindowRecordPrimitives` | `0x80067858` | 153 | 49 | 77 | 27 | 55 | 55 |
-| `Model_DrawSharedGt4WindowRecordPrimitives` | `0x80067ABC` | 182 | 57 | 100 | 25 | 51 | 61 |
-| `Model_DrawSharedTwoSidedGt3Primitives` | `0x80067D94` | 143 | 50 | 73 | 20 | 39 | 47 |
-| `Model_DrawSharedTwoSidedGt4Primitives` | `0x80067FD0` | 163 | 53 | 84 | 26 | 50 | 55 |
-| `Model_DrawSharedTwoSidedGt3WindowRecordPrimitives` | `0x8006825C` | 150 | 49 | 74 | 27 | 54 | 49 |
-| `Model_DrawSharedTwoSidedGt4WindowRecordPrimitives` | `0x800684B4` | 170 | 53 | 85 | 32 | 63 | 57 |
-| `Model_DrawSharedSemiGt3Primitives` | `0x8006875C` | 169 | 55 | 86 | 28 | 55 | 57 |
-| `Model_DrawSharedSemiGt4Primitives` | `0x80068A00` | 198 | 63 | 102 | 33 | 68 | 63 |
-| `Model_DrawSharedSemiGt3WindowRecordPrimitives` | `0x80068D18` | 176 | 55 | 79 | 42 | 86 | 62 |
-| `Model_DrawSharedSemiGt4WindowRecordPrimitives` | `0x80068FD8` | 205 | 64 | 109 | 32 | 63 | 66 |
-| `Model_DrawSharedTwoSidedSemiGt3Primitives` | `0x8006930C` | 166 | 55 | 83 | 28 | 54 | 52 |
-| `Model_DrawSharedTwoSidedSemiGt4Primitives` | `0x800695A4` | 186 | 58 | 92 | 36 | 72 | 60 |
-| `Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives` | `0x8006988C` | 173 | 57 | 76 | 40 | 77 | 57 |
-| `Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives` | `0x80069B40` | 193 | 59 | 94 | 40 | 77 | 61 |
+| `Model_DrawSharedGt3Primitives` | `0x80067354` | 146 | 47 | 79 | 20 | 41 | 52 |
+| `Model_DrawSharedGt4Primitives` | `0x8006759C` | 175 | 53 | 99 | 23 | 46 | 60 |
+| `Model_DrawSharedGt3WindowRecordPrimitives` | `0x80067858` | 153 | 46 | 80 | 27 | 56 | 55 |
+| `Model_DrawSharedGt4WindowRecordPrimitives` | `0x80067ABC` | 182 | 54 | 103 | 25 | 52 | 61 |
+| `Model_DrawSharedTwoSidedGt3Primitives` | `0x80067D94` | 143 | 47 | 76 | 20 | 40 | 47 |
+| `Model_DrawSharedTwoSidedGt4Primitives` | `0x80067FD0` | 163 | 49 | 88 | 26 | 50 | 56 |
+| `Model_DrawSharedTwoSidedGt3WindowRecordPrimitives` | `0x8006825C` | 150 | 46 | 77 | 27 | 55 | 49 |
+| `Model_DrawSharedTwoSidedGt4WindowRecordPrimitives` | `0x800684B4` | 170 | 49 | 89 | 32 | 63 | 58 |
+| `Model_DrawSharedSemiGt3Primitives` | `0x8006875C` | 169 | 52 | 89 | 28 | 57 | 57 |
+| `Model_DrawSharedSemiGt4Primitives` | `0x80068A00` | 198 | 56 | 106 | 36 | 75 | 64 |
+| `Model_DrawSharedSemiGt3WindowRecordPrimitives` | `0x80068D18` | 176 | 52 | 82 | 42 | 87 | 62 |
+| `Model_DrawSharedSemiGt4WindowRecordPrimitives` | `0x80068FD8` | 205 | 61 | 111 | 33 | 67 | 68 |
+| `Model_DrawSharedTwoSidedSemiGt3Primitives` | `0x8006930C` | 166 | 52 | 86 | 28 | 56 | 52 |
+| `Model_DrawSharedTwoSidedSemiGt4Primitives` | `0x800695A4` | 186 | 51 | 96 | 39 | 79 | 61 |
+| `Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives` | `0x8006988C` | 173 | 54 | 79 | 40 | 79 | 57 |
+| `Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives` | `0x80069B40` | 193 | 56 | 96 | 41 | 81 | 63 |
 
 The polygon residuals are larger: 20-42 instructions (13-24% of each
-function, 39-86 diff lines). Classified by content across the sixteen:
+function, 40-87 diff lines). Classified by content across the sixteen (as
+first measured; the re-derivation with the direct drivers' rule list moved
+each function by -1 to +6 lines):
 
 | Hunks | Diff lines | Functions | Content |
 | --- | --- | --- | --- |
@@ -340,9 +361,13 @@ applies to with the result:
 - dependences are taken between webs, not registers: RAW, WAR and WAW,
   GTE data/control registers (a GTE command reads and writes them all), and
   memory, where two accesses conflict if one stores and they may overlap
-  (same unchanged base and overlapping bytes, the same global, or the same
-  A2 region inferred from the GsARGUNIT field the base pointer came from);
-  every conflicting pair must keep its order;
+  (same base and overlapping bytes, counting constant increments of the
+  base between them, the same global, or the same A2 region inferred from
+  the GsARGUNIT field the base pointer came from, or from
+  `gModel_dwLitColorCacheBase` for the colour cache). Regions are inferred
+  per GCC live range, so a register the renamed program reuses for another
+  value does not hide them, and a copy of the argument pointer counts as the
+  argument; every conflicting pair must keep its order;
 - allocation: in the final program every register read must be reached only
   by definitions of the value it expects, on every path; values joined by a
   register copy, a spill slot or an equal constant are interchangeable.
@@ -352,8 +377,10 @@ applies to with the result:
   register rewritten before the next GTE command, or a store into the packet
   being built (A6, below); moves across labels and control-flow changes
   are reported;
-- insertions must be dead, rebuild a constant the readers expect, or be
-  frameless save-area accesses; deleted pure instructions are covered by the
+- insertions must be dead, rebuild a constant the readers expect, copy a
+  register whose single value every reader of the copy expects (the
+  original keeps `colour = template` in its own register), or be frameless
+  save-area accesses; deleted pure instructions are covered by the
   allocation check; GTE commands must keep at least their original wait
   after the last GTE register write (up to the two-instruction rule).
 
@@ -515,7 +542,7 @@ against `.text`; the linked bytes check its target).
 ## Next steps
 
 The wireframe family (one-line residuals) and the shared polygon family
-(39-86 diff lines, all proven mechanically, so review can focus on the C
+(40-87 diff lines, all proven mechanically, so review can focus on the C
 and the rules) are integrated, with `make check-asm-massage` as the gate.
 A scheduler does not shrink the polygon residuals.
 

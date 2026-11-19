@@ -3,7 +3,7 @@ function = Model_DrawSharedGt4WindowRecordPrimitives
 source = src/game/shared_polygon_renderers.c
 address = 0x80067ABC
 size = 0x2D8
-rules = strip-nops aligned-word-copy invariant-last dmpsx-native gte-direct-read unspill fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot
+rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-write unspill invariant-last fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants at-branch-constants sign-extend-load zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot fill-jump-slot
 frameless = $a0 0x28
 
 [registers]
@@ -12,7 +12,7 @@ $v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
 $v0.4 = $s3       # srl $v0.4, $t5.1, 24
 $v0.6 = $t5       # lui $v0.6, %hi(gModel_bCurrentDrawMode)
 $v0.8 = $t5       # lui $v0.8, %hi(gModel_dwLitColorCacheBase)
-$v0.10 = $t5      # lw $v0.10, 0x4($fp.1)
+$v0.10 = $t7      # lw $v0.10, 0x4($fp.1)
 $v0.12 = $t5      # srl $v0.12, %word1, 16
 $v0.18 = $t5      # srl $v0.18, %word2, 16
 $v0.24 = $t5      # srl $v0.24, %word3, 16
@@ -23,12 +23,12 @@ $v0.42 = $t3      # sll $v0.42, %word4, 16
 $v0.57 = $t0      # sll $v0.57, $t2.2, 16
 $v0.58 = $t1      # and $v0.58, $a2.4, $at
 $v1.1 = $a1       # lw $v1.1, 0x14($fp.1)
-$v1.2 = $at       # addiu $v1.2, $zero, 0x1
 $v1.5 = $t5       # lw $v1.5, 0x0($a0.1)
 $v1.8 = $t5       # lw $v1.8, 0x0($a0.2)
 $v1.11 = $t5      # lw $v1.11, 0x0($a0.3)
 $v1.14 = $t5      # lw $v1.14, 0x0($a0.4)
 $v1.15 = $t0      # lw $v1.15, 0x0($a2.2)
+$a0.0 = $a0     
 $a0.1 = $t5       # addu $a0.1, $v0.13, $s2.1
 $a0.2 = $t5       # addu $a0.2, $v0.19, $s2.1
 $a0.3 = $t5       # addu $a0.3, $v0.25, $s2.1
@@ -36,7 +36,7 @@ $a0.4 = $t5       # addu $a0.4, $v0.31, $s2.1
 $a0.5 = $t2       # sll $a0.5, %word3, 16
 $a1.1 = $v0       # lw $a1.1, 0x4($a0.4)
 $a1.2 = $t1       # addu $a1.2, $v0.39, $t7.1
-$a1.4 = $v0       # addu $a1.4, $v0.11, $v0.50
+$a1.4 = $v0       # addu $a1.4, $v0.50, $v0.11
 $a2.1 = $v0       # lw $a2.1, 0x4($a0.3)
 $a2.2 = $t0       # addu $a2.2, $v0.37, $t7.1
 $a2.3 = $t1       # lw $a2.3, 0x8($s3.1)
@@ -90,9 +90,12 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
  lw $a1, 0x1C($a0)
 +lw $a2, 0x24($a0)
  beq $t5, $zero, .L7
-@@ -38,5 +38,6 @@
+@@ -36,7 +36,8 @@
+ .L7:
+-lw $t7, 0x4($a0)
++lw $t5, 0x4($a0)
  lw $t6, 0x8($a0)
--lw $t5, 0x4($t5)
+-lw $t7, 0x4($t7)
 +lw $t7, 0x4($t5)
  .L6:
  addiu $v1, $zero, -0x1
@@ -124,11 +127,6 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
 -srl $t3, $t3, 13
 -addu $t3, $t3, $a2
  lw $t2, 0x0($t2)
-@@ -125,3 +126,3 @@
- sll $v0, $v0, 2
--addu $v0, $t5, $v0
-+addu $v0, $v0, $t7
- lw $t5, 0x0($v0)
 @@ -131,6 +132,5 @@
  sw $t2, 0x28($t9)
 -lui $s4, 0xE200

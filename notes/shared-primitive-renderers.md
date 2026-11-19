@@ -32,7 +32,7 @@ driver in `src/game/shared_polygon_renderers.massage/`. The packet layouts
 they write (`SharedGt3Packet`, `SharedGt4Packet` and the two
 `WindowRecord` forms) live in `src/game/shared_primitive_renderers.h`.
 `make check-asm-massage` compares every driver with the retail executable
-and proves its residual, which here is 39-86 diff lines of the original's
+and proves its residual, which here is 40-87 diff lines of the original's
 scheduling; see `notes/asm-massage.md` for the rules, the residual
 classification and the proofs.
 
