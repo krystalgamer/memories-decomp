@@ -300,10 +300,27 @@ typedef struct DisplayObject {
        position.colour_target's red and green for
        DisplayObject_UpdateColorTransition's walk.
 
-       The other halfword users (the draw-card slide's phase step, a card's
-       saved home position, the placement base stat,
-       the ritual fall's acceleration, the card-move target x, the card-view
-       mode, the linked panel index and the orbit centre) are one routine
+       home: a duel hand card's home x/y, saved from xy (or from the ease
+       start) when DuelScene_UpdateHandActions lifts it, and copied back
+       into position as a word (DuelHand_RestoreFlipCard and the cancel
+       path) so the card slides home.
+
+       orbit: the centre DuelResult_UpdateOrbitSprite turns a confetti
+       sprite around, beside position.orbit's radius and angle; the outro
+       saves the spawn xy here as a word and the sprite snaps back to it
+       when the radius runs out.
+
+       link: the selection record index whose info panel
+       DuelSelection_UpdateLinkedObject follows, stored by
+       DuelSelection_LinkDisplayObject beside position.offset.
+
+       card_view: Duel_UpdateCardToSelectionView's and
+       Duel_UpdateCardToFieldView's mode (0 reveal, 1 face-up attack, 2
+       face-up defence), chosen on the first frame and switched on.
+
+       The other halfword users (the draw-card slide's phase step, the
+       placement base stat, the marker-removal turn limit, the ritual
+       fall's acceleration and the card-move target x) are one routine
        each and keep `h`. */
     union {
         u32 word;
@@ -330,6 +347,22 @@ typedef struct DisplayObject {
             u16 b;
             s16 field_2E;
         } colour_target;
+        struct {
+            u16 x;
+            s16 y;
+        } home;
+        struct {
+            u16 centre_x;
+            s16 centre_y;
+        } orbit;
+        struct {
+            u16 record_index;
+            s16 field_2E;
+        } link;
+        struct {
+            u16 field_2C;
+            s16 mode;
+        } card_view;
     } field_2C;                    /* 0x2C */
     /* The 2D x/y pair the renderers draw at. DisplayObject_RenderSpriteList
        and DisplayObject_RenderSpriteStrips copy the word into SpritePrim.xy
