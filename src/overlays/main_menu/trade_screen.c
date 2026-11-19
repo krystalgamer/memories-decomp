@@ -638,7 +638,7 @@ s32 MainMenu_UpdateTradeScreen(void)
 void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
 {
     MainMenuComparators comparators;
-    u8 *row;
+    SaveDataPairSlot *row;
     u8 *counts;
     s32 i;
     s32 mode;
@@ -648,8 +648,8 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
     comparators = gMainMenu_aCardSortComparators;
 
     if (force != 0 || mode == 0) {
-        row = gSaveData_aPairWorkspace + slot * TWO_PLAYER_SAVE_SLOT_STRIDE;
-        counts = row + SAVE_DATA_CARD_QUANTITIES_OFFSET;
+        row = &gSaveData_aPairWorkspace[slot];
+        counts = row->loaded.state.card_quantities;
         for (i = 0; i < CARD_COUNT; i++) {
             if (counts[i] != 0) {
                 id = i + 1;

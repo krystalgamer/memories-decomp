@@ -2,28 +2,43 @@
 #define GAME_SAVE_PAIR_WORKSPACE_H
 
 #include "../types.h"
+#include "mem_card.h"
 
-/* 0x801D1200. Five functions in four units take its address and nothing
- * else: Duel_InitScene (src/game/duel_scene.c, `pool =
- * gSaveData_aPairWorkspace;`, then `pool + 0x1000`), SaveData_UpdateLoadPair
- * (mem_card_dialog.c as the first argument to MemCardDialog_Request
- * and through SaveDataState casts, the second at
- * `gSaveData_aPairWorkspace + 0x1000`; that unit also names +0x1000 as
- * gSaveData_aSecondPlayerState),
- * SaveData_UpdateDuelLoad (mem_card_dialog.c, the
- * second `+ TWO_PLAYER_SAVE_SLOT_STRIDE`), MainMenu_RefreshTradeInventory
- * (MainMenu_RefreshTradeInventory in src/overlays/main_menu/trade_screen.c, `+ slot * 0x1000`) and
- * MainMenu_UpdateTradeScreen (src/overlays/main_menu/trade_screen.c, through
- * its 16-byte block view, cast at the use). The
- * resident listings form the address with lui/addiu (Duel_InitScene.s:226-227,
- * SaveData_UpdateDuelLoad.s:22-23, SaveData_UpdateLoadPair.s:115-116 and :136-137) and say
- * nothing about the object's width. The linker scripts name
- * gSaveData_aFirstPlayerNameSjis (+0x40C) and gSaveData_aTradeWriteStaging (+0x680)
- * inside it, and the Block16 indexes above reach +0x400, +0x680, +0x6D0,
- * +0xA80, +0x1000, +0x1680 and +0x16D0; the interior names keep their own
- * declarations. Of the five units that used to declare
- * it privately, four said `u8 []` and trade_screen.c `Block16 []`. */
-extern u8 gSaveData_aPairWorkspace[];
+/* 0x801D1200: two TWO_PLAYER_SAVE_SLOT_STRIDE-byte slots, one per player,
+ * used by the two-player duel and the trade screen.
+ *
+ * SaveData_UpdateLoadPair (mem_card.c) reads each memory card's state block
+ * (SAVE_DATA_STATE_SIZE bytes) into `loaded` of slots 0 and 1 and compares
+ * their duelist codes; SaveData_UpdateDuelLoad checks both decks and converts
+ * both names (player_name_sjis, linked as gSaveData_aFirstPlayerNameSjis at
+ * +0x40C); Duel_InitScene (duel_scene.c) uses the two loaded states as the
+ * sides' save data; MainMenu_RefreshTradeInventory (main_menu/trade_screen.c)
+ * lists a slot's card_quantities.
+ *
+ * MainMenu_UpdateTradeScreen copies the first TWO_PLAYER_SAVE_TRANSFER_SIZE
+ * bytes of each `loaded` block to `trade_write` at +0x680 (linked as
+ * gSaveData_aTradeWriteStaging), moves card counts between the two
+ * trade_write card_quantities, and SaveData_RequestTradeWrite seals both
+ * trade_write blocks before writing them; after the write the screen copies
+ * trade_write back over `loaded`. That unit still walks the slots through
+ * its 16-byte block view. Nothing is known to use the slot past +0xD00.
+ *
+ * The linker scripts also name slot 1's `loaded` gSaveData_aSecondPlayerState
+ * (+0x1000); the interior names keep their own declarations. */
+typedef struct {
+    SaveDataStateBlock loaded;
+    SaveDataStateBlock trade_write;
+    u8 unused_D00[TWO_PLAYER_SAVE_SLOT_STRIDE - 2 * SAVE_DATA_STATE_SIZE];
+} SaveDataPairSlot;
+
+typedef char SaveDataPairSlot_size_must_be_the_slot_stride[
+    sizeof(SaveDataPairSlot) == TWO_PLAYER_SAVE_SLOT_STRIDE ? 1 : -1
+];
+typedef char SaveDataPairSlot_trade_write_offset_must_be_0x680[
+    OFFSETOF(SaveDataPairSlot, trade_write) == SAVE_DATA_STATE_SIZE ? 1 : -1
+];
+
+extern SaveDataPairSlot gSaveData_aPairWorkspace[2];
 extern u8 gSaveData_aSecondPlayerState[];
 
 #endif

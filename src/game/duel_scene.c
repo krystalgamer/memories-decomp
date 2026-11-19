@@ -2058,20 +2058,17 @@ void Duel_InitScene(void)
         gDuel_apSideSaveData[0] = gDuel_apSideSaveData[1] = 0;
         if (pid[-1] < 0) {
             if (gDuel_bOpponentID < 0) {
-                /* The pair workspace is an untyped byte block holding one
-                   state per side. Kept: typed SaveDataState locals for these
-                   stores move the lui from $4 to $2. */
-                gDuel_apSideSaveData[0] = (SaveDataState *)gSaveData_aPairWorkspace;
-                gDuel_apSideSaveData[1] =
-                    (SaveDataState *)(gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE);
+                /* Typed SaveDataState locals for these stores move the lui
+                   from $4 to $2; the member addresses do not. */
+                gDuel_apSideSaveData[0] = &gSaveData_aPairWorkspace[0].loaded.state;
+                gDuel_apSideSaveData[1] = &gSaveData_aPairWorkspace[1].loaded.state;
                 Duel_ShuffleBothDecks(
-                    (const u16 *)gSaveData_aPairWorkspace,
-                    (const u16 *)(gSaveData_aPairWorkspace + TWO_PLAYER_SAVE_SLOT_STRIDE)
+                    gSaveData_aPairWorkspace[0].loaded.state.player_deck,
+                    gSaveData_aPairWorkspace[1].loaded.state.player_deck
                 );
                 return;
             }
-            /* The persistent state block starts at the deck halfwords. */
-            p = (SaveDataState *)gDuel_awPlayerDeck;
+            p = &gSaveData_Workspace.state;
             gDuel_apSideSaveData[0] = p;
             if (gDuel_bOpponentID < DUEL_MASTER_K_OPPONENT_ID) {
                 Duel_ShuffleBothDecks(p->player_deck, 0);
@@ -7530,10 +7527,10 @@ s32 Duel_SelectCardDrop(s32 pool_index)
 void Duel_AwardCard(s32 card_id)
 {
     s32 i;
-    u8 *base = (u8 *)gDuel_awPlayerDeck;
-    u8 *quantity = base + (card_id + 0x4F);
-    u16 *destination = (u16 *)(base + 0x5BC);
-    u16 *entry;
+    SaveDataState *state = &gSaveData_Workspace.state;
+    u8 *quantity = &state->card_quantities[card_id - CARD_ID_FIRST];
+    s16 *destination = state->recent_card_drops;
+    s16 *entry;
 
     (*quantity)++;
     if (*quantity >= CARD_CHEST_QUANTITY_MAX + 1)
