@@ -471,7 +471,7 @@ void DuelEffect_PlaySoundCommand(DuelEffectChannel *object);
 void DuelEffect_PlayBgmCommand(DuelEffectChannel *object);
 void DuelEffect_ProcessBgmCommand(DuelEffectChannel *object);
 
-/* Clears flags_34 and fields 0x28-0x30 on all four gText_aChannels effect
+/* Clears flags and fields 0x28-0x30 on all four gText_aChannels effect
    channels, then the occupancy table (not in the European build) and the
    entry markers. */
 void DuelEffect_ResetState(void);

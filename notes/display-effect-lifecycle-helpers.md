@@ -131,5 +131,5 @@ clean retail gate.
 `DuelEffect_MarkObjectIfActive` used to take a `MenuRecord *` and OR its flag
 into `field_34`. Every caller passes a text-box channel from `TextBox_Create`
 or `TextBox_CreateFlagged`, so the parameter is now a `DuelEffectChannel *`
-and the write is to `flags_34`. That is the same u16 at the same offset, so
+and the write is to `flags`. That is the same u16 at the same offset, so
 the emitted code is unchanged. The callers' `(MenuRecord *)` casts are gone.

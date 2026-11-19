@@ -476,7 +476,10 @@ typedef struct DuelEffectChannel {
        unrelated DuelEffectResourceRecord. */
     struct DisplayObject *aux_object;
     struct DisplayObject *prompt_object;
-    u16 flags_34;
+    /* Channel state bits: TEXT_BOX_FLAG_DONE, DUEL_EFFECT_CHANNEL_FLAG_ACTIVE
+       and the per-screen box flags callers OR in. Several completion tests read
+       it with initial_string_id as one word (`*(u32 *)&channel->flags`). */
+    u16 flags;
     u16 initial_string_id;
     u16 pen_x;
     u16 pen_y;
@@ -564,8 +567,8 @@ typedef char DuelEffectChannel_aux_object_offset_must_be_0x2C[
 typedef char DuelEffectChannel_prompt_object_offset_must_be_0x30[
     OFFSETOF(DuelEffectChannel, prompt_object) == 0x30 ? 1 : -1
 ];
-typedef char DuelEffectChannel_flags_34_offset_must_be_0x34[
-    OFFSETOF(DuelEffectChannel, flags_34) == 0x34 ? 1 : -1
+typedef char DuelEffectChannel_flags_offset_must_be_0x34[
+    OFFSETOF(DuelEffectChannel, flags) == 0x34 ? 1 : -1
 ];
 typedef char DuelEffectChannel_pen_x_offset_must_be_0x38[
     OFFSETOF(DuelEffectChannel, pen_x) == 0x38 ? 1 : -1

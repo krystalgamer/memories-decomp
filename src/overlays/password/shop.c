@@ -145,7 +145,7 @@ DuelEffectChannel *Password_CreateMessageBox(int message_id, int flags)
         TextBox_BuildBlocking(object);
     }
     if (flags & 0x80) {
-        object->flags_34 |= PASSWORD_MESSAGE_BOX_WAIT_FLAG;
+        object->flags |= PASSWORD_MESSAGE_BOX_WAIT_FLAG;
     }
     return object;
 }
@@ -342,8 +342,8 @@ void Password_UpdateShopScreen(void)
     if ((gPassword_pDigitCursorWidget->update_state & 0x40) != 0) {
         return;
     }
-    /* One word load covers flags_34 and initial_string_id. */
-    if ((*(u32 *)&gText_aChannels[0].flags_34 & PASSWORD_TEXT_BOX_COMPLETION_MASK) !=
+    /* One word load covers flags and initial_string_id. */
+    if ((*(u32 *)&gText_aChannels[0].flags & PASSWORD_TEXT_BOX_COMPLETION_MASK) !=
         TEXT_BOX_FLAG_DONE) {
         return;
     }

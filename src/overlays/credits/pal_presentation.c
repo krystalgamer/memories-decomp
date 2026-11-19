@@ -127,7 +127,7 @@ s32 Credits_UpdateLines(void)
                             next = gCredits_aChannels[i].cue + 1;
                             if (gCredits_aCues[next].clear_secondary) {
                                 for (j = 2; j < 4; j++) {
-                                    if (gText_aChannels[j].flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
+                                    if (gText_aChannels[j].flags & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
                                         DuelEffect_SetEntryControlBytes(&gText_aChannels[j], 6, 0);
                                         gCredits_aChannels[j].phase++;
                                     }

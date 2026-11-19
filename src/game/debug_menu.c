@@ -592,7 +592,7 @@ void DebugMenu_UpdateCampaignEntry(void)
         TextBox_UpdateChannels();
         textbox = gText_aChannels;
         if ((gDebugMenu_bStep & 0x20) == 0) {
-            if ((textbox->flags_34 & TEXT_BOX_FLAG_DONE) != 0) {
+            if ((textbox->flags & TEXT_BOX_FLAG_DONE) != 0) {
                 textbox->prompt_object = Dialog_OpenChoice(textbox);
                 gDebugMenu_bStep = gDebugMenu_bStep | 0x20;
             }

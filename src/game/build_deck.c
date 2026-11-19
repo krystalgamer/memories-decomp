@@ -558,7 +558,7 @@ void CardList_CreateSlotTextBox(CardList *list, s32 slot)
         box->rect_x += 0x160;
     }
     if (slot != 0) {
-        box->flags_34 |= CARD_LIST_SLOT_FOLLOWING_FLAG;
+        box->flags |= CARD_LIST_SLOT_FOLLOWING_FLAG;
     }
     TextBox_BuildBlocking(box);
 }
@@ -1984,7 +1984,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
         box = gText_aChannels;
-        if ((*(u32 *)&box->flags_34 & BUILD_DECK_CONFIRM_COMPLETION_MASK) ==
+        if ((*(u32 *)&box->flags & BUILD_DECK_CONFIRM_COMPLETION_MASK) ==
             TEXT_BOX_FLAG_DONE) {
             TextBox_Destroy(box);
             if (!(gBuildDeck_bConfirmMode & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) &&

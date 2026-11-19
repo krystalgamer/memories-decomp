@@ -11,7 +11,7 @@ The matching source/header paths remain
 ## One record pointer, two registers
 
 The source walks one `DuelEffectChannel *` beside a down-counter and reads
-`prompt_object` and `flags_34` through it. Under `gcc_2_8_1_g8_split_comm`
+`prompt_object` and `flags` through it. Under `gcc_2_8_1_g8_split_comm`
 the strength reducer parks a second induction register on the record's
 `+0x30` pair, so the retail body still sees the choice object at
 displacement zero and the flags at displacement four. An earlier match kept

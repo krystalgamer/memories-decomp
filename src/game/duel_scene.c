@@ -9143,7 +9143,7 @@ void DuelScene_Update(void)
 
             TextBox_UpdateChannels();
             cleanup = TEXT_CHANNEL(3);
-            if (cleanup->flags_34 & TEXT_BOX_FLAG_DONE) {
+            if (cleanup->flags & TEXT_BOX_FLAG_DONE) {
                 TextBox_Destroy(cleanup);
                 gDuel_bQuitDialogState = 0;
                 if (gDialog_bChoice != 0) {

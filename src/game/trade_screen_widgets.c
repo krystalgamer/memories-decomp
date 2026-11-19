@@ -221,7 +221,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 #endif
         }
         if (i != 0) {
-            box->flags_34 |= CARD_LIST_FOLLOWING_FLAG;
+            box->flags |= CARD_LIST_FOLLOWING_FLAG;
         }
         TextBox_BuildBlocking(box);
         e += 2;

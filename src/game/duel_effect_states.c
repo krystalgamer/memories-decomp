@@ -66,7 +66,7 @@ int DuelEffect_MarkStateInitialized(void)
     return 1;
 }
 
-void DuelEffect_UpdateDialogState(void){DuelEffectChannel*o;if(DuelEffect_MarkStateInitialized()==0){TextBox_Create(0,gDuel_wEffectDialogTextID,0x10,0xB0,0x120,0x30);return;}TextBox_UpdateChannels();o=gText_aChannels;if((gDuel_bEffectHandlerFlags&DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN)==0){unsigned short f=o->flags_34;if((f&DUEL_EFFECT_DIALOG_DONE_FLAG)==0)return;if((f&DUEL_EFFECT_DIALOG_CHOICE_FLAG)==0){o->prompt_object=Dialog_OpenChoice(o);gDuel_bEffectHandlerFlags|=DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN;return;}}else{if(Input_IsPad1ConfirmPressed()==0)return;SD_SEPlayFull(11);}TextBox_Destroy(o);gDuel_bEffectState|=DUEL_EFFECT_STATE_FLAG_COMPLETE;}
+void DuelEffect_UpdateDialogState(void){DuelEffectChannel*o;if(DuelEffect_MarkStateInitialized()==0){TextBox_Create(0,gDuel_wEffectDialogTextID,0x10,0xB0,0x120,0x30);return;}TextBox_UpdateChannels();o=gText_aChannels;if((gDuel_bEffectHandlerFlags&DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN)==0){unsigned short f=o->flags;if((f&DUEL_EFFECT_DIALOG_DONE_FLAG)==0)return;if((f&DUEL_EFFECT_DIALOG_CHOICE_FLAG)==0){o->prompt_object=Dialog_OpenChoice(o);gDuel_bEffectHandlerFlags|=DUEL_EFFECT_DIALOG_FLAG_CHOICE_OPEN;return;}}else{if(Input_IsPad1ConfirmPressed()==0)return;SD_SEPlayFull(11);}TextBox_Destroy(o);gDuel_bEffectState|=DUEL_EFFECT_STATE_FLAG_COMPLETE;}
 
 void func_800283EC(void)
 {
@@ -163,7 +163,7 @@ void DuelEffect_UpdateCardViewerState(void)
         chan = gText_aChannels;
         for (; i < 3; i++, chan++) {
 #endif
-            if ((chan->flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) == 0) {
+            if ((chan->flags & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) == 0) {
 #ifdef VERSION_EUROPE
                 card = (s16)gDuel_wViewerCardID;
                 gText_StagedValues[0].card.card_id = gDuel_wSelectedCardID = card;
