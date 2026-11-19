@@ -579,7 +579,8 @@ void DuelSelection_LinkDisplayObject(
 void DuelSelection_LinkDisplayObjects(DuelSelectionRecord *parent, s32 clear);
 
 /* The card-effect flag word. duel_scene.c owns the initialization bit:
- * DuelEffect_MarkInitialized sets bit 0x80 the first time it is asked and
+ * DuelEffect_MarkInitialized sets DUEL_CARD_EFFECT_FLAG_INITIALIZED (0x80)
+ * the first time it is asked and
  * DuelEffect_ClearCardEffect clears the whole word.
  * DuelEffect_StartCardEffect starts an effect by writing
  * DUEL_CARD_EFFECT_FLAG_ACTIVE, or ACTIVE | SECOND_HANDLER

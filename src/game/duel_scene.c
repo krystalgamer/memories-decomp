@@ -9621,8 +9621,8 @@ s32 DuelEffect_MarkInitialized(void)
 {
     u16 value = gDuel_wCardEffectFlags;
 
-    if (!(value & 0x80)) {
-        gDuel_wCardEffectFlags = value | 0x80;
+    if (!(value & DUEL_CARD_EFFECT_FLAG_INITIALIZED)) {
+        gDuel_wCardEffectFlags = value | DUEL_CARD_EFFECT_FLAG_INITIALIZED;
         return 0;
     }
     return 1;
