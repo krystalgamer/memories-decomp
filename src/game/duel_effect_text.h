@@ -7,6 +7,7 @@
 #include "duel_effect_states.h"
 #include "display_object.h"
 #include "../ygo_types.h"
+#include "scratchpad.h"
 
 /* The dialog choice prompt's shared state.
  *
@@ -764,4 +765,51 @@ typedef union DuelEffectTextSprite {
 typedef char DuelEffectTextSprite_size_must_match_GsSPRITE[
     sizeof(DuelEffectTextSprite) == sizeof(GsSPRITE) ? 1 : -1
 ];
+
+/* TextBox_DrawEntries's scratchpad layout. `gt4` is the shaded glyph packet
+ * and `ft4` the rotated one. `gte.vectors[0]` holds the rotation angles that
+ * RotMatrixZYX_gte turns into `gte.rotation.matrix`; once GsSetLsMatrix has
+ * loaded that matrix, `vectors[1..4]` are rebuilt as the RotAverageNclip4
+ * corners, the last two over the matrix's own rows. `work` takes the glyph
+ * code while a sprite is chosen and then RotAverageNclip4's p, otz and flag.
+ * The three glyph sprites sit 0x40 apart; the gaps are unused. */
+typedef struct {
+    DuelEffectTextSprite sprite;
+    u8 pad_24[0x40 - 0x24];
+} TextBoxDrawSpriteSlot;
+
+typedef struct {
+    POLY_GT4 gt4;
+    u8 pad_34[0x38 - 0x34];
+    POLY_FT4 ft4;
+    union {
+        SVECTOR vectors[5];
+        struct {
+            u8 pad_00[0x18];
+            MATRIX matrix;
+        } rotation;
+    } gte;
+    u8 pad_98[0xA0 - 0x98];
+    long work[3];
+    u8 pad_ac[0xC0 - 0xAC];
+    TextBoxDrawSpriteSlot sprites[3];
+} TextBoxDrawScratch;
+
+typedef char TextBoxDrawScratch_ft4_offset_must_be_0x38[
+    OFFSETOF(TextBoxDrawScratch, ft4) == 0x38 ? 1 : -1
+];
+typedef char TextBoxDrawScratch_vectors_offset_must_be_0x60[
+    OFFSETOF(TextBoxDrawScratch, gte.vectors) == 0x60 ? 1 : -1
+];
+typedef char TextBoxDrawScratch_matrix_offset_must_be_0x78[
+    OFFSETOF(TextBoxDrawScratch, gte.rotation.matrix) == 0x78 ? 1 : -1
+];
+typedef char TextBoxDrawScratch_work_offset_must_be_0xA0[
+    OFFSETOF(TextBoxDrawScratch, work) == 0xA0 ? 1 : -1
+];
+typedef char TextBoxDrawScratch_sprites_offset_must_be_0xC0[
+    OFFSETOF(TextBoxDrawScratch, sprites) == 0xC0 ? 1 : -1
+];
+
+#define TEXT_BOX_DRAW_SCRATCH ((TextBoxDrawScratch *)SCRATCH_ADDR(0))
 #endif

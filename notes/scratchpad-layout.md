@@ -21,9 +21,10 @@ reference states both its offset and what lives there. New code should not
 cast raw `0x1F80xxxx` integers; any such literal left in code is pending
 conversion to this form. A routine whose layout has several parts may
 declare it as one record over offset 0 instead, as `library_graphics.h`
-does with `LibraryGlobeScratch` for `Library_DrawWireframeGlobe`. Comments
-may still quote absolute `0x1F80xxxx` addresses. Psy-Q's `getScratchAddr` from
-`src/psyq/libetc.h` is never used by game code.
+does with `LibraryGlobeScratch` for `Library_DrawWireframeGlobe` and
+`duel_effect_text.h` with `TextBoxDrawScratch` for `TextBox_DrawEntries`.
+Comments may still quote absolute `0x1F80xxxx` addresses. Psy-Q's
+`getScratchAddr` from `src/psyq/libetc.h` is never used by game code.
 
 ## No allocator
 
@@ -45,7 +46,7 @@ area. Nothing written here is read by a later call.
 |---|---|---|
 | `0x000` | `DIVPOLYGON4` | `DisplayObject_SubmitPacket` (DivideFT4 buffer) |
 | `0x000` | `u32 *` work area | `Model_DrawSlot` (`GsSortUnit`), `Model_InitSlot` (`GsScanUnit`) |
-| `0x000` | `POLY_GT4`; `0x038` `POLY_FT4`; `0x060` `SVECTOR`; `0x078` `MATRIX`; `0x0A0` `long`; `0x0C0`/`0x100`/`0x140` `DuelEffectTextSprite` | `TextBox_DrawEntries` |
+| `0x000` | `TextBoxDrawScratch`: `POLY_GT4`; `0x038` `POLY_FT4`; `0x060` five `SVECTOR` (angles, then corners) unioned with a `0x078` `MATRIX`; `0x0A0` three `long`; `0x0C0`/`0x100`/`0x140` `DuelEffectTextSprite` | `TextBox_DrawEntries` |
 | `0x000`, `0x040` | `DuelEffectGlyphRow` nibble patterns; glyph rows | `DuelEffect_RasterizeGlyph` |
 | `0x000` | `DuelCardRecord` copy | `DuelScene_UpdateCardMove` |
 | `0x000` | `SpritePrim` (card art) | `Duel_DrawCardFrame` |

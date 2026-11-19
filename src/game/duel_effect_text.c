@@ -423,23 +423,23 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         x = x - gGraphics_sViewportX;
         y = y - gGraphics_sViewportY;
     }
-    ft4 = (POLY_FT4 *)SCRATCH_ADDR(0x38);
-    vec = (SVECTOR *)SCRATCH_ADDR(0x60);
+    ft4 = &TEXT_BOX_DRAW_SCRATCH->ft4;
+    vec = TEXT_BOX_DRAW_SCRATCH->gte.vectors;
 #ifdef VERSION_EUROPE
     /* This boundary preserves the European object's incoming-argument spill. */
     do {
-        mat = (MATRIX *)SCRATCH_ADDR(0x78);
+        mat = &TEXT_BOX_DRAW_SCRATCH->gte.rotation.matrix;
     } while (0);
 #else
-    mat = (MATRIX *)SCRATCH_ADDR(0x78);
+    mat = &TEXT_BOX_DRAW_SCRATCH->gte.rotation.matrix;
 #endif
-    res = (long *)SCRATCH_ADDR(0xA0);
-    gt4 = (POLY_GT4 *)SCRATCH_ADDR(0);
-    sprites[0] = (DuelEffectTextSprite *)SCRATCH_ADDR(0xC0);
-    sprites[1] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x100);
-    sprites[2] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x140);
+    res = TEXT_BOX_DRAW_SCRATCH->work;
+    gt4 = &TEXT_BOX_DRAW_SCRATCH->gt4;
+    sprites[0] = &TEXT_BOX_DRAW_SCRATCH->sprites[0].sprite;
+    sprites[1] = &TEXT_BOX_DRAW_SCRATCH->sprites[1].sprite;
+    sprites[2] = &TEXT_BOX_DRAW_SCRATCH->sprites[2].sprite;
     SetPolyGT4(gt4);
-    SetSemiTrans(SCRATCH_ADDR(0), 1);
+    SetSemiTrans(&TEXT_BOX_DRAW_SCRATCH->gt4, 1);
     /* Retail sets the SDK packet's colour with one sw; setRGB0 stores bytes. */
     *(u32 *)&ft4->r0 = 0x808080;
     setlen(ft4, 9);
@@ -812,16 +812,16 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
         x = x - gGraphics_sViewportX;
         y = y - gGraphics_sViewportY;
     }
-    ft4 = (POLY_FT4 *)SCRATCH_ADDR(0x38);
-    vec = (SVECTOR *)SCRATCH_ADDR(0x60);
-    mat = (MATRIX *)SCRATCH_ADDR(0x78);
-    res = (long *)SCRATCH_ADDR(0xA0);
-    gt4 = (POLY_GT4 *)SCRATCH_ADDR(0);
-    sprites[0] = (DuelEffectTextSprite *)SCRATCH_ADDR(0xC0);
-    sprites[1] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x100);
-    sprites[2] = (DuelEffectTextSprite *)SCRATCH_ADDR(0x140);
+    ft4 = &TEXT_BOX_DRAW_SCRATCH->ft4;
+    vec = TEXT_BOX_DRAW_SCRATCH->gte.vectors;
+    mat = &TEXT_BOX_DRAW_SCRATCH->gte.rotation.matrix;
+    res = TEXT_BOX_DRAW_SCRATCH->work;
+    gt4 = &TEXT_BOX_DRAW_SCRATCH->gt4;
+    sprites[0] = &TEXT_BOX_DRAW_SCRATCH->sprites[0].sprite;
+    sprites[1] = &TEXT_BOX_DRAW_SCRATCH->sprites[1].sprite;
+    sprites[2] = &TEXT_BOX_DRAW_SCRATCH->sprites[2].sprite;
     SetPolyGT4(gt4);
-    SetSemiTrans(SCRATCH_ADDR(0), 1);
+    SetSemiTrans(&TEXT_BOX_DRAW_SCRATCH->gt4, 1);
     /* Retail sets the SDK packet's colour with one sw; setRGB0 stores bytes. */
     *(u32 *)&ft4->r0 = 0x808080;
     setlen(ft4, 9);
