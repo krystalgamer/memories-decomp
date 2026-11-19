@@ -3595,7 +3595,7 @@ void DuelScene_UpdateCardPlacement(void)
     case 4:
         {
             DisplayObject **slots;
-            if ((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState)
+            if ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState)
             return;
             if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
                 gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
@@ -6252,7 +6252,7 @@ void DuelScene_UpdateBattle(void)
 
     switch (gDuel_bSceneSubStep & 0xF) {
     case 1:
-        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED) && ((gFile_dwTransferState & 0x02000030) | gFile_dwCancelRequestState) == 0) {
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED) && ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState) == 0) {
             if (!(gDuel_bSceneSubStep & 0x40)) {
                 id = gDuel_wSelectedTrapCardId;
                 gDuel_bSceneSubStep |= 0x40;

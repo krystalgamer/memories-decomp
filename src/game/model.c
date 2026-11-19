@@ -1312,7 +1312,7 @@ void Model_UpdateExodiaPresentation(void)
     case 0: {
         ModelSlot *load_slots;
         if (gModel_aSlots[0].load_step == 0xFF) {
-            if (((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState) == 0) {
+            if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState) == 0) {
                 Model_LoadMonsterMerge(
                     0, MODEL_SPECIAL_BATTLE_ID, 0, 0, 0, 0, 4);
             }
@@ -2977,7 +2977,7 @@ s32 ModelDebug_UpdateController(void)
         FntPrint(gModelDebug_szLoadStageFormat, slots[2].model_id, slots[2].load_step);
 #endif
         if (slots[2].load_step == 255) {
-            if (!((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState))
+            if (!((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState))
                 Model_LoadMonsterMerge(2, -1, -1, -1, -1, -1, 0);
         } else {
             Model_AdvanceSlotLoad(2);
@@ -3011,7 +3011,7 @@ s32 ModelDebug_UpdateController(void)
         FntPrint(gModelDebug_szLoadModel0Format, slots[0].model_id, slots[0].load_step);
 #endif
         if (slots[0].load_step == 255) {
-            if (!((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState))
+            if (!((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState))
                 Model_LoadMonsterMerge(0, -1, -1, -1, -1, -1, 0);
         } else {
             Model_AdvanceSlotLoad(0);
@@ -3024,7 +3024,7 @@ s32 ModelDebug_UpdateController(void)
         FntPrint(gModelDebug_szLoadModel1Format, slots[1].model_id, slots[1].load_step);
 #endif
         if (slots[1].load_step == 255) {
-            if (!((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState))
+            if (!((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState))
                 Model_LoadMonsterMerge(1, -1, -1, -1, -1, -1, 0);
         } else {
             Model_AdvanceSlotLoad(1);
