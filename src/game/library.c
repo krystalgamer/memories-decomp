@@ -110,8 +110,6 @@ void Library_DrawCardGrid(void)
 {
     GsSpriteWords *p;
     GsGLINE *q;
-    u8 *pj;
-    u8 *pk;
     GsOT *ot;
     s32 n;
     s32 idx;
@@ -178,10 +176,6 @@ void Library_DrawCardGrid(void)
                 }
                 k = idx + 0x65;
                 c = 0;
-                /* Keep the cursors at the unshifted state base: rebasing them
-                   to cards[] changes the retail address calculations. */
-                pk = (u8 *)&gLibrary_State + k * sizeof(LibraryCardRecord);
-                pj = (u8 *)&gLibrary_State + j * sizeof(LibraryCardRecord);
                 do {
                     r = Library_GetCardFlags(tb, j);
                     if (r & LIBRARY_CARD_FLAG_KNOWN) {
@@ -190,7 +184,7 @@ void Library_DrawCardGrid(void)
                             p->words.rgb = grey;
                         }
                         p->prim.x = c + 8;
-                        p->prim.cx = (u16)((LibraryState *)pj)->cards[0].clut_x;
+                        p->prim.cx = (u16)gLibrary_State.cards[j].clut_x;
                         GsSortFastSprite(&p->prim, ot, 2);
                     }
                     if (k < CARD_ID_END) {
@@ -201,15 +195,15 @@ void Library_DrawCardGrid(void)
                                 p->words.rgb = grey;
                             }
                             p->prim.x = c + 0xA8;
-                            p->prim.cx = (u16)((LibraryState *)pk)->cards[0].clut_x;
+                            p->prim.cx = (u16)gLibrary_State.cards[k].clut_x;
                             GsSortFastSprite(&p->prim, ot, 2);
                         }
                     }
-                    pj += sizeof(LibraryCardRecord);
+                    /* The cards[] cursors step just before their counters,
+                       which gives retail's pj, j, pk, c order. */
                     j++;
-                    pk += sizeof(LibraryCardRecord);
-                    c += 0xE;
                     k++;
+                    c += 0xE;
                 } while (c < 0x8A);
             }
             p->prim.y = p->prim.y + 0x10;

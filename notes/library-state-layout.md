@@ -389,13 +389,17 @@ SDK-object, light and scratch views retain their measured scalar access
 shape; no new meanings are guessed for other padding and phases are not
 merged.
 
-The renderer must also keep cursors anchored at the unshifted state base,
-advancing by `sizeof(LibraryCardRecord)`, with a typed view at each CLUT
-read. A measured `LibraryCardRecord *` candidate anchored directly at
-`&state.cards[index]` changes the address setup and fails the whole-image
-size gate (`0x1D07FC` rather than `0x1D0800`). Keeping the original cursor
-anchor preserves the retail `lhu` displacement while removing the literal
-field offsets. The motion coordinates use the existing typed prefix with
+The renderer reads each CLUT as `gLibrary_State.cards[j].clut_x` (and
+`[k]`) straight off the global. Loop strength reduction then creates the
+same two cursors retail keeps at the unshifted state base
+(`j * 4 + &gLibrary_State`, stepped by four) and folds the `cards` offset
+into the `lhu 84(...)` displacement. A `LibraryCardRecord *` pointer
+anchored at `&state.cards[index]` instead changes the address setup and
+fails the whole-image size gate (`0x1D07FC` rather than `0x1D0800`). The
+compiler adds the cursor steps just before each counter's own increment, so
+the loop advances `j`, then `k`, then the cell column `c`. That ordering
+reproduces retail's `pj, j, pk, c` order, with `k++` moved into the branch
+delay slot. The motion coordinates use the existing typed prefix with
 explicit unsigned reads, preserving `lhu`.
 
 The unified global, typed table initializer, selected-card flag read,
