@@ -324,7 +324,7 @@ void CampaignMap_SetLocation(s32 index)
         panel = gCampaignMap_pSpotlight;
         flags = panel->flags;
         gCampaignMap_pLocationMarker = marker;
-        panel->flags = flags & 0xFFBF;
+        panel->flags = flags & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
     }
     track = 0x70A0;
     if (Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE) != 0) {
@@ -405,7 +405,7 @@ s32 CampaignMap_UpdateLocationTransition(void)
                 obj->field_48.spotlight.inner = 180;
                 obj->field_48.spotlight.outer = 340;
                 flags = gCampaignMap_bTransitionFlags;
-                raise = obj->flags | 0x40;
+                raise = obj->flags | DISPLAY_OBJECT_FLAG_RENDERABLE;
                 gCampaignMap_bTransitionFlags = flags | 0x60;
                 obj->flags = raise;
             }

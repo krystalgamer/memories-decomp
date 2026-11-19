@@ -809,7 +809,7 @@ void Library_UpdateCardView(LibraryState *state)
                 state->motion.model_load_phase = 0;
                 o = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
                 DisplayObject_ConfigureSpriteAtPosition(o, 0x130, LIBRARY_LOADING_ICON_Y, 3, 0, 2, 0xB, 0x20C);
-                o->flags |= 0x28;
+                o->flags |= (DISPLAY_OBJECT_FLAG_SCREEN_SPACE | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET);
                 DisplayObject_SelectOrderingTable1(o);
                 DisplayObject_SetDepthOffset(o, 0xA);
                 state->loading_icon = o;
@@ -1040,7 +1040,7 @@ void Library_UpdateCardView(LibraryState *state)
             break;
         case 2:
             o = rec->primary_object;
-            if (o->flags & 4) {
+            if (o->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) {
                 o->field_20.b.rotation_y += 4;
                 o->field_60.phase += 0xCC;
                 DisplayObject_InterpolatePositionCosine(o, 2, LIBRARY_CARD_ZOOM_Y, o->field_60.phase);
@@ -1050,7 +1050,7 @@ void Library_UpdateCardView(LibraryState *state)
                     o->xy.s.y = LIBRARY_CARD_ZOOM_Y;
                     o->flags &= 0xFFFB;
                 }
-                if (o->flags & 4) {
+                if (o->flags & DISPLAY_OBJECT_FLAG_CLIP_TEST) {
                     break;
                 }
             }
@@ -1097,7 +1097,7 @@ void Library_UpdateCardView(LibraryState *state)
             i = 0;
             o->field_60.phase = 0;
             do {
-                state->motion.display_objects.all[i]->flags |= 0x40;
+                state->motion.display_objects.all[i]->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
                 i++;
             } while (i < 9);
             TEXT_CHANNEL(3)->render_object->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;

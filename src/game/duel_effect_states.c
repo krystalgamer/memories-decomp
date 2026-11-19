@@ -321,7 +321,7 @@ void DuelEffect_UpdateCardViewerState(void)
             objflags = obj->flags;
             obj->field_20.b.rotation_y = 0;
             state = gDuel_bEffectHandlerFlags | 0x20;
-            obj->flags = objflags & 0xFFFB;
+            obj->flags = objflags & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             gDuel_bEffectHandlerFlags = state;
         }
         return;

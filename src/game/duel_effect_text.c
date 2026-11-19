@@ -419,7 +419,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     x = obj->xy.s.x;
     y = obj->xy.s.y;
     pri = (s16)obj->ot_depth;
-    if (!(obj->flags & 8)) {
+    if (!(obj->flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE)) {
         x = x - gGraphics_sViewportX;
         y = y - gGraphics_sViewportY;
     }
@@ -808,7 +808,7 @@ void TextBox_DrawEntries(DisplayObject *obj, GsOT *ot)
     x = obj->xy.s.x;
     y = obj->xy.s.y;
     pri = (s16)obj->ot_depth;
-    if (!(obj->flags & 8)) {
+    if (!(obj->flags & DISPLAY_OBJECT_FLAG_SCREEN_SPACE)) {
         x = x - gGraphics_sViewportX;
         y = y - gGraphics_sViewportY;
     }
