@@ -573,6 +573,11 @@ After the entries, `gCredits_bFinished` and `gCredits_aLines[2]` are
 glyphs the line builder substitutes are resident data, and the rest of the
 sixteen sectors is a raw `leftover` segment of stale bytes.
 
+The safechk boot module's word (`0x16`; PAL `0x09` under `VERSION_EUROPE`)
+is `safecheck2003/module_header.c`'s `.data`, the whole `module_header`
+segment of every region's layout, through `safecheck2003_data_c.json`; it is
+the game's packaging, so it uses the game's profile, not safechk's.
+
 The duel-effect bank starts with its module word, `duel_effects/module_header.c`'s
 `.data` (`0x18` in North America and Japan; `VERSION_EUROPE` selects PAL's
 `0x0B`) in its own `module_header` segment, built through each region's
