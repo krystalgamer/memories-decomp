@@ -812,15 +812,11 @@ def massage_unit(gcc_text: str, edits: dict[str, EditFile]) -> str:
     with its own edit file and label prefix (.L<function>_<n>)."""
     names = unit_functions(gcc_text)
     missing = sorted(set(names) - set(edits))
-    extra = sorted(set(edits) - set(names))
-    if missing or extra or len(set(names)) != len(names):
-        raise MassageError(
-            "edit files and functions differ: "
-            + "; ".join(filter(None, [
-                missing and "no edit for " + ", ".join(missing),
-                extra and "no function for " + ", ".join(extra),
-            ])) or "duplicate function"
-        )
+    if missing or len(set(names)) != len(names):
+        # Edit files without a function are allowed: a source built as
+        # several objects (split by defines) shares one edit directory, and
+        # matching_source_contracts checks the directory against the manifest.
+        raise MassageError("no edit for " + ", ".join(missing) if missing else "duplicate function")
     lines = list(HEADER)
     for name in names:
         lines += emit_function(run_pipeline(edits[name], gcc_text), name, f".L{name}_")
@@ -1152,6 +1148,20 @@ def command_derive(edit: EditFile, work: Path) -> int:
         best = max(counter, key=lambda r: (counter[r], r))
         if best != web_home(head):
             registers[head] = best
+    # Registers no aligned instruction votes for (rule-made ones such as a
+    # promoted stack slot) take the register of a copy partner.
+    changed = True
+    while changed:
+        changed = False
+        for instr in ruled:
+            if instr.op == "addu" and instr.args[2] == ("r", "$zero"):
+                a, b = (chains.get(x, x) for x in (instr.args[0][1], instr.args[1][1]))
+                for x, y in ((a, b), (b, a)):
+                    if x not in registers and x not in PRECOLORED and y not in PRECOLORED:
+                        partner = registers.get(y)
+                        if partner:
+                            registers[x] = partner
+                            changed = True
     renamed = run_pipeline(edit, gcc_text, registers=registers, residual=[], stage="renamed")
     residual = make_residual([i.text() for i in renamed], [i.text() for i in target])
     notes = {}
@@ -1213,8 +1223,14 @@ def main(argv: list[str] | None = None) -> int:
             paths = edit_paths(args.edit)
             if not paths:
                 raise MassageError("no edit files")
-            failed = [path for path in paths
-                      if command_check(read_edit(path), work, args.verbose)]
+            failed = []
+            for path in paths:
+                try:
+                    if command_check(read_edit(path), work, args.verbose):
+                        failed.append(path)
+                except MassageError as error:
+                    print(f"{path}: {error}")
+                    failed.append(path)
             if len(paths) > 1:
                 print(f"asm_massage check: {len(paths) - len(failed)}/{len(paths)} MATCH and proven")
             return 1 if failed else 0

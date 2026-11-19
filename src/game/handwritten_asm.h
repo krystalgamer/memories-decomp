@@ -2,10 +2,11 @@
 #define MEMORIES_DECOMP_HANDWRITTEN_ASM_H
 
 /*
- * Inline-assembly building blocks for the model primitive renderers that
- * were originally written by hand. (The hand-written wireframe and shared
- * Gt3/Gt4 drivers no longer use them: they are plain C massaged by
- * tools/project/asm_massage.py; see notes/asm-massage.md.)
+ * Inline-assembly building blocks for the model renderers that were
+ * originally written by hand. Only Model_PrepareSharedPrimitiveCaches
+ * (shared_primitive_cache_prepare.c) still uses them; the wireframe, shared
+ * Gt3/Gt4 and direct polygon drivers are plain C massaged by
+ * tools/project/asm_massage.py (see notes/asm-massage.md).
  *
  * Those routines have no stack frame. They borrow callee-saved registers and
  * preserve the caller's values in scratch words of the argument block

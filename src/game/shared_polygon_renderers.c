@@ -33,8 +33,8 @@
 u32 *Model_DrawSharedGt3Primitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt3Packet *packet =
-        (SharedGt3Packet *)arg->out_packetp;
+    ModelGt3Packet *packet =
+        (ModelGt3Packet *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt3Record *record =
         (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
@@ -164,8 +164,8 @@ u32 *Model_DrawSharedGt3Primitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt4Packet *packet =
-        (SharedGt4Packet *)arg->out_packetp;
+    ModelGt4Packet *packet =
+        (ModelGt4Packet *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt4Record *record =
         (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
@@ -321,8 +321,8 @@ u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt3WindowRecordPacket *packet =
-        (SharedGt3WindowRecordPacket *)arg->out_packetp;
+    ModelGt3WindowRecordPacket *packet =
+        (ModelGt3WindowRecordPacket *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt3WindowRecord *record =
         (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
@@ -455,8 +455,8 @@ u32 *Model_DrawSharedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt4WindowRecordPacket *packet =
-        (SharedGt4WindowRecordPacket *)arg->out_packetp;
+    ModelGt4WindowRecordPacket *packet =
+        (ModelGt4WindowRecordPacket *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt4WindowRecord *record =
         (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
@@ -615,8 +615,8 @@ u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedTwoSidedGt3Primitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt3Packet *packet =
-        (SharedGt3Packet *)arg->out_packetp;
+    ModelGt3Packet *packet =
+        (ModelGt3Packet *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt3Record *record =
         (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
@@ -741,8 +741,8 @@ u32 *Model_DrawSharedTwoSidedGt3Primitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedTwoSidedGt4Primitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt4Packet *packet =
-        (SharedGt4Packet *)arg->out_packetp;
+    ModelGt4Packet *packet =
+        (ModelGt4Packet *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt4Record *record =
         (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
@@ -886,8 +886,8 @@ u32 *Model_DrawSharedTwoSidedGt4Primitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt3WindowRecordPacket *packet =
-        (SharedGt3WindowRecordPacket *)arg->out_packetp;
+    ModelGt3WindowRecordPacket *packet =
+        (ModelGt3WindowRecordPacket *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt3WindowRecord *record =
         (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
@@ -1016,8 +1016,8 @@ u32 *Model_DrawSharedTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt4WindowRecordPacket *packet =
-        (SharedGt4WindowRecordPacket *)arg->out_packetp;
+    ModelGt4WindowRecordPacket *packet =
+        (ModelGt4WindowRecordPacket *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt4WindowRecord *record =
         (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
@@ -1163,8 +1163,8 @@ u32 *Model_DrawSharedTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt3Packet *packet =
-        (SharedGt3Packet *)arg->out_packetp;
+    ModelGt3Packet *packet =
+        (ModelGt3Packet *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt3Record *record =
         (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
@@ -1307,8 +1307,8 @@ u32 *Model_DrawSharedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt4Packet *packet =
-        (SharedGt4Packet *)arg->out_packetp;
+    ModelGt4Packet *packet =
+        (ModelGt4Packet *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt4Record *record =
         (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
@@ -1478,8 +1478,8 @@ u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt3WindowRecordPacket *packet =
-        (SharedGt3WindowRecordPacket *)arg->out_packetp;
+    ModelGt3WindowRecordPacket *packet =
+        (ModelGt3WindowRecordPacket *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt3WindowRecord *record =
         (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
@@ -1626,8 +1626,8 @@ u32 *Model_DrawSharedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt4WindowRecordPacket *packet =
-        (SharedGt4WindowRecordPacket *)arg->out_packetp;
+    ModelGt4WindowRecordPacket *packet =
+        (ModelGt4WindowRecordPacket *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt4WindowRecord *record =
         (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
@@ -1800,8 +1800,8 @@ u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedTwoSidedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt3Packet *packet =
-        (SharedGt3Packet *)arg->out_packetp;
+    ModelGt3Packet *packet =
+        (ModelGt3Packet *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt3Record *record =
         (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
@@ -1940,8 +1940,8 @@ u32 *Model_DrawSharedTwoSidedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedTwoSidedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt4Packet *packet =
-        (SharedGt4Packet *)arg->out_packetp;
+    ModelGt4Packet *packet =
+        (ModelGt4Packet *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt4Record *record =
         (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
@@ -2098,8 +2098,8 @@ u32 *Model_DrawSharedTwoSidedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
 u32 *Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt3WindowRecordPacket *packet =
-        (SharedGt3WindowRecordPacket *)arg->out_packetp;
+    ModelGt3WindowRecordPacket *packet =
+        (ModelGt3WindowRecordPacket *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt3WindowRecord *record =
         (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
@@ -2241,8 +2241,8 @@ u32 *Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg
 u32 *Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
     ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
-    SharedGt4WindowRecordPacket *packet =
-        (SharedGt4WindowRecordPacket *)arg->out_packetp;
+    ModelGt4WindowRecordPacket *packet =
+        (ModelGt4WindowRecordPacket *)arg->out_packetp;
     u32 count = block->record_count;
     ModelDrawGt4WindowRecord *record =
         (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);

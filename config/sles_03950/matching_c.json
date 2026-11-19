@@ -19814,7 +19814,7 @@
         "MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES"
       ],
       "object": "game/model_draw_gouraud_primitives",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2C4",
       "source": "src/game/polygon_renderers.c"
     },
@@ -19825,7 +19825,7 @@
         "MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES"
       ],
       "object": "game/model_draw_gouraud_primitives",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x358",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21393,7 +21393,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x25C",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21402,7 +21402,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2A4",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21411,7 +21411,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x27C",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21420,7 +21420,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2E4",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21429,7 +21429,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2C4",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21438,7 +21438,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x378",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21447,7 +21447,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x248",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21456,7 +21456,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2B0",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21465,7 +21465,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x290",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21474,7 +21474,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x344",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21483,7 +21483,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x268",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21492,7 +21492,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2D0",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21501,7 +21501,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2B0",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21510,7 +21510,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x364",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21519,7 +21519,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2B8",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21528,7 +21528,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x320",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21537,7 +21537,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x300",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21546,7 +21546,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x3B4",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21555,7 +21555,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2D8",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21564,7 +21564,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x340",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21573,7 +21573,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x320",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21582,7 +21582,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x3D4",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21591,7 +21591,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2A4",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21600,7 +21600,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x30C",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21609,7 +21609,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2EC",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21618,7 +21618,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x3A0",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21627,7 +21627,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x2C4",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21636,7 +21636,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x32C",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21645,7 +21645,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x30C",
       "source": "src/game/polygon_renderers.c"
     },
@@ -21654,7 +21654,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x3C0",
       "source": "src/game/polygon_renderers.c"
     },

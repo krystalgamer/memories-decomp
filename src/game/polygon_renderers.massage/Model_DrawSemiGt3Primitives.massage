@@ -1,0 +1,190 @@
+# Model_DrawSemiGt3Primitives: massage of its plain C in src/game/polygon_renderers.c.
+function = Model_DrawSemiGt3Primitives
+source = src/game/polygon_renderers.c
+address = 0x80064248
+size = 0x320
+rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-write unspill invariant-last fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants at-branch-constants sign-extend-load zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot fill-jump-slot
+frameless = $a0 0x20
+
+[registers]
+$v0.1 = $a3       # lw $v0.1, 0x0($s7.1)
+$v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
+$v0.8 = $s2       # lhu $v0.8, 0x2($t9.1)
+$v0.10 = $s6      # lb $v0.10, %lo(gModel_bCurrentDrawMode)($a0.1)
+$v0.11 = $t7      # lw $v0.11, 0x4($s7.1)
+$v0.13 = $t5      # srl $v0.13, %word1, 16
+$v0.16 = $t5      # srl $v0.16, %word2, 16
+$v0.19 = $t5      # srl $v0.19, %word3, 16
+$v0.22 = $t0      # sll $v0.22, %word1, 16
+$v0.23 = $t1      # sll $v0.23, %word2, 16
+$v0.24 = $t2      # sll $v0.24, %word3, 16
+$v0.29 = $t5      # addu $v0.29, $a1.1, $s2.1
+$v0.30 = $t2      # srl $v0.30, $a1.1, 1
+$v0.34 = $v1      # srl $v0.34, $t3.1, 1
+$v0.48 = $t1      # and $v0.48, $a1.4, $at
+$v1.1 = $a1       # lw $v1.1, 0x14($s7.1)
+$v1.2 = $s1       # lw $v1.2, 0x4($t9.1)
+$v1.3 = $t1       # addu $v1.3, $a3.1, $zero
+$v1.4 = $t5       # addu $v1.4, $a3.1, $s2.1
+$v1.5 = $t1       # srl $v1.5, $a3.1, 1
+$a0.0 = $a0     
+$a0.1 = $s6       # lui $a0.1, %hi(gModel_bCurrentDrawMode)
+$a0.3 = $t0       # addu $a0.3, $t0.1, $zero
+$a0.5 = $t5       # addu $a0.5, $t0.1, $s2.1
+$a0.6 = $t0       # srl $a0.6, $t0.1, 1
+$a1.1 = $t2       # srl $a1.1, $v0.24, 13
+$a1.2 = $t1       # lw $a1.2, 0x4($t9.1)
+$a2.1 = $t9       # lw $a2.1, 0x10($s7.1)
+$a3.1 = $t1       # srl $a3.1, $v0.23, 13
+$a3.2 = $v0       # addu $a3.2, $v0.40, $v0.12
+$t0.1 = $t0       # srl $t0.1, $v0.22, 13
+$t0.2 = $v1       # and $t0.2, $s6.3, $at
+$t3.1 = $t0       # addu $t3.1, $a1.1, $zero
+$t3.2 = $t0       # lw $t3.2, 0x0($t9.1)
+$t4.2 = $t2       # lw $t4.2, 0x8($t9.1)
+$t5.1 = $s7       # lui $t5.1, %hi(gModel_dwLitColorCacheBase)
+$t7.1 = $t4       # or $t7.1, $s6.2, $at
+$s0.1 = $s3       # srl $s0.1, $s6.3, 24
+$s1.1 = $t8       # lhu $s1.1, 0x2($v0.1)
+$s2.1 = $a2       # lw $s2.1, 0x1C($s7.1)
+$s3.7 = $v1       # lw $s3.7, 0x8($a2.1)
+$s3.9 = $v1       # lw $s3.9, 0x14($a2.1)
+$s3.11 = $v1      # lw $s3.11, 0x20($a2.1)
+$s4.1 = $a1       # lw $s4.1, 0x18($s7.1)
+$s5.1 = $t6       # lw $s5.1, 0x8($s7.1)
+$s6.1 = $s0       # lui $s6.1, %hi(gModel_dwPolyGt3Template)
+$s6.3 = $s0       # addu $s6.3, $t7.1, $zero
+$s7.1 = $a0       # addu $s7.1, $a0.0, $zero
+$t8.1 = $s2       # lui $t8.1, %hi(gModel_dwSecondPassClutBits)
+$t9.1 = $a3       # addu $t9.1, $v1.1, $v0.3
+$fp.1 = $s1       # lui $fp.1, %hi(gModel_dwTpageBlendRateBits)
+%tag1 = $t5       # lw %tag1, 0x0($a3.2)
+%word1 = $t0      # lw %word1, 0xC($t9.1)
+%word2 = $t1      # lw %word2, 0x10($t9.1)
+%word3 = $t2      # lw %word3, 0x14($t9.1)
+
+[residual]
+--- rules
++++ retail
+@@ -24,8 +24,9 @@
+ lw $s7, %lo(gModel_dwLitColorCacheBase)($s7)
+-lui $at, 0x200
+-or $t4, $s0, $at
++addu $t4, $s0, $zero
+ lui $v0, %hi(gModel_bBlendRateActive)
+ lb $v0, %lo(gModel_bBlendRateActive)($v0)
++lui $at, 0x200
++or $s0, $s0, $at
+ bne $v0, $zero, .L11
+-addu $s0, $t4, $zero
++addu $t4, $s0, $zero
+ lw $s1, 0x4($a3)
+@@ -36,4 +37,3 @@
+ beq $s2, $zero, .L10
+-srl $s3, $s0, 24
+-lui $s1, 0x20
++nop
+ lhu $s2, 0x2($a3)
+@@ -41,14 +41,15 @@
+ lw $t4, %lo(gModel_dwPolyGt3SemiTemplate)($t4)
++sll $s2, $s2, 16
+ j .L10
+-sll $s2, $s2, 16
++lui $s1, 0x20
+ .L11:
+ addiu $s2, $zero, 0x0
++.L10:
+ srl $s3, $s0, 24
+-.L10:
++lw $a1, 0x18($a0)
++lw $a2, 0x1C($a0)
+ mtc2 $s0, $6
+-lw $a2, 0x1C($a0)
+-lw $a1, 0x18($a0)
+-lw $t7, 0x4($a0)
++lw $t5, 0x4($a0)
+ lw $t6, 0x8($a0)
+-lw $t7, 0x4($t7)
++lw $t7, 0x4($t5)
+ .L9:
+@@ -78,6 +79,5 @@
+ sll $t2, $t2, 16
+-srl $t2, $t2, 13
+ addiu $at, $zero, 0x1
+ beq $s6, $at, .L8
+-addu $t0, $t2, $zero
++srl $t2, $t2, 13
+ cfc2 $v0, $31
+@@ -92,10 +92,9 @@
+ beq $s6, $zero, .L6
+-srl $t0, $t0, 1
+ addu $t5, $t0, $a2
+-addu $t5, $t1, $a2
+-addu $t5, $t2, $a2
+ lwc2 $0, 0x0($t5)
+ lwc2 $1, 0x4($t5)
++addu $t5, $t1, $a2
+ lwc2 $2, 0x0($t5)
+ lwc2 $3, 0x4($t5)
++addu $t5, $t2, $a2
+ lwc2 $4, 0x0($t5)
+@@ -125,13 +124,14 @@
+ .L6:
+-addu $t0, $t0, $s7
++srl $t0, $t0, 1
++addu $v1, $t0, $s7
++lw $t0, 0x0($v1)
+ srl $t1, $t1, 1
+-addu $t1, $t1, $s7
+-srl $v1, $t0, 1
+-addu $v1, $v1, $s7
+-lw $t0, 0x0($t0)
+-lw $t1, 0x0($t1)
+-lw $v1, 0x0($v1)
++addu $v1, $t1, $s7
++lw $t1, 0x0($v1)
++srl $t2, $t2, 1
++addu $v1, $t2, $s7
++lw $t2, 0x0($v1)
+ sw $t0, 0x4($t9)
+ sw $t1, 0x10($t9)
+-sw $v1, 0x1C($t9)
++sw $t2, 0x1C($t9)
+ sb $s3, 0x7($t9)
+@@ -151,2 +151,3 @@
+ addu $v0, $v0, $t7
++lw $t5, 0x0($v0)
+ swc2 $12, 0x8($t9)
+@@ -154,3 +155,2 @@
+ swc2 $14, 0x20($t9)
+-lw $t5, 0x0($v0)
+ .L4:
+@@ -170,4 +170,5 @@
+ beq $s2, $zero, .L3
+-nop
+-addiu $v1, $zero, 0x0
++sll $t0, $t0, 16
++srl $t0, $t0, 16
++or $t0, $t0, $s2
+ lui $at, 0xFF9F
+@@ -178,16 +179,13 @@
+ lw $v1, 0x8($t9)
+-sll $v0, $t0, 16
++sw $t4, 0x2C($t9)
+ sw $v1, 0x30($t9)
+ lw $v1, 0x14($t9)
+-srl $v0, $v0, 16
++sw $t4, 0x38($t9)
+ sw $v1, 0x3C($t9)
+ lw $v1, 0x20($t9)
+-or $t0, $v0, $s2
++sw $t4, 0x44($t9)
+ sw $v1, 0x48($t9)
+-sw $t4, 0x2C($t9)
+-sw $t4, 0x38($t9)
+-sw $t4, 0x44($t9)
+ addiu $t9, $t9, 0x28
+ j .L4
+-nop
++addiu $v1, $zero, 0x0
+ .L3:

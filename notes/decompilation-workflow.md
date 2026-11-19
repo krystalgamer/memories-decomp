@@ -278,10 +278,10 @@ be combined with `--allow-psyq-inline-macros`. When such a function already has 
 deferred canonical history, record the exact result with
 `record_external_attempt.py --mode post_terminal_resolution --profile
 gcc_2_8_1_g0_handwritten_asm --allow-register-pins`; the recorder applies the
-same range and contract checks. See
-`notes/direct-polygon-renderers.md` for the polygon drivers and
-`notes/shared-primitive-renderers.md` for the shared cache-preparation stage,
-which still use it.
+same range and contract checks. Only the shared cache-preparation stage,
+`Model_PrepareSharedPrimitiveCaches`, still uses it (see
+`notes/shared-primitive-renderers.md` for why the massage cannot express
+it).
 
 The second route for that range needs no register declarations or private
 asm. A profile with `"asm_massage": true` (currently `gcc_2_8_1_o2_massaged`:
@@ -295,13 +295,15 @@ check-matching-source-contracts` limits such a unit to the resident manifest,
 forbids hard registers and the `handwritten_asm.h`/`gte_native.h` headers,
 accepts only asm statements whose template, constraints and clobbers are a
 stock `src/psyq/inline_c.h` macro's, and requires exactly one valid edit file
-per manifest function. `make check-asm-massage` rebuilds each function
+per manifest function (an object built from part of the source, split by a
+define, simply leaves the other edits unused). `make check-asm-massage` rebuilds each function
 against the retail executable and proves that its residual preserves every
 data dependence. `integrate_verified_match.py` refuses these profiles; such
-units are integrated by hand. `src/game/wireframe_renderers.c` and
-`src/game/shared_polygon_renderers.c` are massaged units; see
-`notes/asm-massage.md`, `notes/wireframe-renderers.md` and
-`notes/shared-primitive-renderers.md`.
+units are integrated by hand. `src/game/wireframe_renderers.c`,
+`src/game/shared_polygon_renderers.c` and `src/game/polygon_renderers.c` are
+massaged units; see `notes/asm-massage.md`, `notes/wireframe-renderers.md`,
+`notes/shared-primitive-renderers.md` and
+`notes/direct-polygon-renderers.md`.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:

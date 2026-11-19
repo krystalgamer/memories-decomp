@@ -43,6 +43,7 @@ Model (on the program after renaming, before and after the residual):
 from __future__ import annotations
 
 from dataclasses import dataclass, field
+import re
 
 from asm_massage import BRANCHES, LOADS, STORES, Instr, label_index, live_after
 
@@ -50,6 +51,11 @@ GTE_WRITES = {"mtc2": "g", "ctc2": "c", "lwc2": "g"}
 GTE_READS = {"mfc2": "g", "cfc2": "c", "swc2": "g"}
 SIZES = {"lb": 1, "lbu": 1, "sb": 1, "lh": 2, "lhu": 2, "sh": 2}
 # GsARGUNIT fields (normal and shared) that hold base pointers, by offset.
+# Globals that hold a pointer into one of the regions (A2): the direct
+# drivers' lit-colour cache is the same buffer the shared drivers reach
+# through nortop2.
+GLOBAL_REGIONS = {"gModel_dwLitColorCacheBase": "colours"}
+
 ARG_REGIONS = {
     0x0: "header", 0x4: "ot-header", 0x10: "packet", 0x14: "records",
     0x18: "vertices", 0x1C: "cache", 0x20: "normals", 0x24: "colours",
@@ -64,6 +70,7 @@ class Report:
     dead_inserts: int = 0
     saves: int = 0
     constants: int = 0
+    copies: int = 0
     deletes: int = 0
     merged: list[str] = field(default_factory=list)
     refused: list[str] = field(default_factory=list)
@@ -72,7 +79,7 @@ class Report:
     def summary(self) -> str:
         head = (f"dependence check: {self.moves} moves, {self.rewrites} re-registered, "
                 f"{self.inserts} insertions ({self.dead_inserts} dead, {self.constants} constants, "
-                f"{self.saves} saves), "
+                f"{self.copies} copies, {self.saves} saves), "
                 f"{self.deletes} deletions, {len(self.merged)} merged duplicates; ")
         if not self.flags:
             return head + "all dependences preserved"
@@ -171,6 +178,8 @@ class Program:
             if reg not in instr.defs():
                 continue
             op, a = instr.op, instr.args
+            if op == "lw" and a[1][0] == "m" and isinstance(a[1][1], str):
+                return global_region(a[1][1])
             if op == "lw" and a[1][0] == "m" and isinstance(a[1][1], int):
                 base, off = a[1][2], a[1][1]
                 if base == "$a0":
@@ -195,6 +204,61 @@ class Program:
         return regions.pop() if len(regions) == 1 else None
 
 
+def global_region(offset: str) -> str | None:
+    match = re.fullmatch(r"%lo\((\w+)\)", offset)
+    return GLOBAL_REGIONS.get(match.group(1)) if match else None
+
+
+def is_argument(prog: Program, name: str) -> bool:
+    """Whether a web is the GsARGUNIT pointer ($a0 or a copy of it)."""
+    if name in ("$a0", "$a0.0"):
+        return True
+    same = getattr(prog, "same", None)
+    if same is not None and same(name) in (same("$a0"), same("$a0.0")):
+        return True
+    defs = [i.web for i in prog.order if i.web is not None and name in i.web.defs()]
+    return (len(defs) == 1 and defs[0].op in ("addu", "or") and defs[0].args[2] == ("r", "$zero")
+            and defs[0].args[1][1] in ("$a0", "$a0.0"))
+
+
+def web_region(prog: Program, name: str, depth: int = 0) -> str | None:
+    """Region of a def-use web (a GCC live range, whatever register the map
+    gives it), from its definitions anywhere in the program; pointer
+    increments keep the region."""
+    if depth > 6:
+        return None
+    if is_argument(prog, name):
+        return None
+    regions = set()
+    for instr in prog.order:
+        web = instr.web
+        if web is None or name not in web.defs():
+            continue
+        op, a = web.op, web.args
+        if op == "addiu" and a[1][1] == name:
+            continue
+        if op == "lw" and a[1][0] == "m" and isinstance(a[1][1], str):
+            regions.add(global_region(a[1][1]))
+        elif op == "lw" and a[1][0] == "m" and isinstance(a[1][1], int):
+            base, off = a[1][2], a[1][1]
+            # A copy of $a0 that the renaming turned back into $a0 (and
+            # dropped as a self-move) is still the argument pointer.
+            physical_arg = (instr.op == "lw" and instr.args[1][2] == "$a0"
+                            and not any("$a0" in i.defs() for i in prog.order))
+            if physical_arg or is_argument(prog, base):
+                regions.add(ARG_REGIONS.get(off))
+            elif web_region(prog, base, depth + 1) == "ot-header" and off == 4:
+                regions.add("ot")
+            else:
+                regions.add(None)
+        elif op in ("addu", "addiu"):
+            found = {web_region(prog, src, depth + 1) for src in web.uses()} - {None}
+            regions.add(found.pop() if len(found) == 1 else None)
+        else:
+            regions.add(None)
+    return regions.pop() if len(regions) == 1 else None
+
+
 def may_alias(prog: Program, x: Instr, y: Instr) -> bool:
     ax, ay = mem_access(x), mem_access(y)
     sx, bx, ox, nx = ax
@@ -205,9 +269,33 @@ def may_alias(prog: Program, x: Instr, y: Instr) -> bool:
         return False  # a global and a heap pointer (A2)
     px, py = prog.position[id(x)], prog.position[id(y)]
     lo, hi = sorted((px, py))
-    if bx == by and not any(bx in prog.order[k].defs() for k in range(lo, hi)):
-        return not (ox + nx <= oy or oy + ny <= ox)
+    if bx == by:
+        # Same base: constant increments between the two (straight-line,
+        # as the order is) shift one offset; any other write is unknown.
+        delta, known = 0, True
+        for k in range(lo, hi):
+            instr = prog.order[k]
+            if bx not in instr.defs():
+                continue
+            if (instr.op == "addiu" and instr.args[1] == ("r", bx)
+                    and isinstance(instr.args[2][1], int)
+                    and not any(prog.order[m].is_label for m in range(lo, hi))):
+                delta += instr.args[2][1]
+            else:
+                known = False
+        if known:
+            if px > py:
+                ox += delta
+            else:
+                oy += delta
+            return not (ox + nx <= oy or oy + ny <= ox)
     rx, ry = prog.region(bx, px), prog.region(by, py)
+    # The renamed program may reuse a register for unrelated webs; the
+    # web-level region of an instruction GCC emitted is more precise.
+    if x.web is not None and mem_access(x.web):
+        rx = web_region(prog, mem_access(x.web)[1]) or rx
+    if y.web is not None and mem_access(y.web):
+        ry = web_region(prog, mem_access(y.web)[1]) or ry
     if rx and ry and rx != ry:
         return False  # A2: distinct regions never overlap
     return True
@@ -252,6 +340,44 @@ def constant_feeds(program, into, n, values, same) -> bool:
             want = wide[1] if kind == "u" else wide[2] if kind == "m" else None
             if name == reg:
                 if values.get(want) != local[reg]:
+                    return False
+                found = True
+    return found
+
+
+def copy_feeds(program, into, n, same) -> bool:
+    """An inserted register copy (the original keeps a value in two
+    registers) whose source holds one web on every path and whose every
+    reader expects that web (or a copy of it)."""
+    instr = program[n]
+    if instr.op not in ("addu", "or") or instr.args[2] != ("r", "$zero"):
+        return False
+    reg, src = instr.args[0][1], instr.args[1][1]
+    sources = set()
+    for d, r in into[n]:
+        if r != src:
+            continue
+        definer = program[d] if d >= 0 else None
+        if definer is None or definer.web is None:
+            return False
+        defs = [w for w, p in zip(definer.web.defs(), definer.defs()) if p == src]
+        if len(defs) != 1:
+            return False
+        sources.add(same(defs[0]))
+    if len(sources) != 1:
+        return False
+    value = sources.pop()
+    found = False
+    for k, reader in enumerate(program):
+        if (n, reg) not in into[k] or reg not in reader.uses():
+            continue
+        if reader.web is None:
+            return False
+        for kind, phys, wide in zip(_kinds(reader), reader.args, reader.web.args):
+            name = phys[1] if kind == "u" else phys[2] if kind == "m" else None
+            want = wide[1] if kind == "u" else wide[2] if kind == "m" else None
+            if name == reg:
+                if same(want) != value:
                     return False
                 found = True
     return found
@@ -745,6 +871,7 @@ def check(before: list[Instr], after_raw: list[Instr], frameless=None, webs=None
     report.inserts, report.deletes = len(inserts), len(deletes)
 
     pb, pa = Program(before), Program(after)
+    pb.same = pa.same = same
     report.flags += pa.problems
     if pb.anchors != pa.anchors:
         diff = [f"{x} -> {y}" for x, y in zip(pb.anchors, pa.anchors) if x != y][:3]
@@ -811,6 +938,9 @@ def check(before: list[Instr], after_raw: list[Instr], frameless=None, webs=None
         if side_effect(instr) or any(live_after(after, n, r) for r in instr.defs()):
             if constant_feeds(after, into, n, values, same):
                 report.constants += 1
+                continue
+            if copy_feeds(after, into, n, same):
+                report.copies += 1
                 continue
             report.flags.append(f"inserted live instruction: {instr.text()}")
         else:

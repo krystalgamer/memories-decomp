@@ -20,8 +20,10 @@ does on MIPS1 (`dslot=yes`), so `HW_BEQZ_LOAD(test, label, out, offset,
 base)` from `src/game/handwritten_asm.h` emits `beqz`/`lw`, and kept labels
 (`HW_KEEP_LABEL`) before some tests block reorg's backward fill. It loads
 each vector with `lw` one iteration ahead and moves it into the GTE with
-`mtc2`; no stock `inline_c.h` macro moves a register into `VXY0`/`VZ0` or
-`RGB`, so it stays outside the assembly massage.
+`mtc2`, so its last iteration reads the entry past the end of the range.
+Plain C cannot do that portably, and turning a plain loop into that
+pipeline is a speculative load the massage's dependence check cannot prove,
+so it stays outside the assembly massage (see `notes/asm-massage.md`).
 
 The sixteen drivers that follow it are plain C in
 `src/game/shared_polygon_renderers.c` over the stock `inline_c.h` and
@@ -29,10 +31,11 @@ The sixteen drivers that follow it are plain C in
 the `gcc_2_8_1_o2_massaged` profile: `tools/project/asm_massage.py` rewrites
 GCC's `-O2` output into the original instructions with one edit file per
 driver in `src/game/shared_polygon_renderers.massage/`. The packet layouts
-they write (`SharedGt3Packet`, `SharedGt4Packet` and the two
-`WindowRecord` forms) live in `src/game/shared_primitive_renderers.h`.
+they write (`ModelGt3Packet`, `ModelGt4Packet` and the two
+`WindowRecord` forms) live in `src/game/model_polygon_packets.h`, shared
+with the direct drivers.
 `make check-asm-massage` compares every driver with the retail executable
-and proves its residual, which here is 39-86 diff lines of the original's
+and proves its residual, which here is 40-87 diff lines of the original's
 scheduling; see `notes/asm-massage.md` for the rules, the residual
 classification and the proofs.
 

@@ -1,6546 +1,4487 @@
 /*
- * Direct Ft3/Gt3/Ft4/Gt4 polygon drawers, all eight variants in image order
+ * Direct Ft3/Gt3/Ft4/Gt4 polygon drivers, all eight variants in image order
  * (0x800612C0-0x80067220): base, window-record, two-sided, two-sided
  * window-record, semi-transparent, semi window-record, two-sided semi and
  * two-sided semi window-record.
  *
- * Every variant shares the hand-written contract below; see
- * notes/direct-polygon-renderers.md.
- */
-#include "../types.h"
-#include "../psyq/libgte.h"
-#include "../psyq/inline_c.h"
-#include "../psyq/libgpu.h"
-#include "../psyq/libgs.h"
-#include "../psyq/libhmd.h"
-#include "handwritten_asm.h"
-#include "gte_native.h"
-#include "model_handler_state.h"
-#include "model.h"
-#include "primitive_handler_modes.h"
-#include "gpu_packets.h"
-#include "model_slot_setup.h"
-#include "direct_polygon_renderers.h"
-
-register u32 gHw_PolyTemplate asm("$16");
-register u32 gHw_BlendBits asm("$17");
-register u32 gHw_SecondClut asm("$18");
-register u32 gHw_PolyCode asm("$19");
-register u32 gHw_WindowCode asm("$20");
-register u32 gHw_WindowWord asm("$21");
-register s32 gHw_DrawMode asm("$22");
-register u32 gHw_ColorCache asm("$23");
-register u32 gHw_At asm("$1");
-register u32 gHw_Word0 asm("$8");
-register u32 gHw_Second asm("$3");
-/*
- * $30 is unused by the originals. Reserving it leaves each function's "zero"
- * pseudo without a register, so reload substitutes the constant and
- * "gHw_Zero - zero" assembles to the original "li reg, 0" while
- * "gHw_Zero <<= zero" assembles to the original delay-slot nop.
- */
-register u32 gHw_Zero asm("$0");
-register u32 gHw_Color asm("$12");
-register u32 gHw_Word3 asm("$11");
-register u32 gHw_Unused30 asm("$30");
-
-/*
- * Each drawer converts its SDK pointers once on entry: the primitive block
- * to its ModelPrimitiveBlockHeader, primtop plus the word offset to its
- * record type, and the vertex, normal and OT bases to the u32 addresses the
- * GTE loads and slot arithmetic work on. The record cursor points to
- * volatile data because the original reads its words in a fixed order around
- * the GTE operations. Kept per-use conversions: the OT slot address and the
- * lit-colour cache address held in $3 are integers that are then
- * dereferenced, the packet's code byte is written through a byte view of the
- * u32 packet words, and the packet tag stores the packet address.
- */
-
-/*
- * Base Ft3/Gt3/Ft4/Gt4 polygon drawers (0x800612C0-0x80061DDC).
+ * The originals were written by hand: no stack frame, s0-s7 parked in the
+ * GsARGUNIT block, the next primitive block returned in $v0. This is plain C
+ * over the stock Psy-Q inline_c.h and libgpu.h macros, built with the
+ * gcc_2_8_1_o2_massaged profile: GCC's -O2 output is rewritten into the
+ * original instructions by tools/project/asm_massage.py with the edit files
+ * in polygon_renderers.massage/ (one per function). See notes/asm-massage.md
+ * and notes/direct-polygon-renderers.md.
  *
- * Hand-written in the original: no stack frame, borrowed s-registers parked
- * in scratch words of the GsARGUNIT block, the argument read from $a0 and the
- * next primitive block returned in $v0. Register variables and the
- * handwritten_asm.h macros reproduce that contract; see
- * notes/direct-polygon-renderers.md.
- *
- * The Japanese and European executables link the base Gt3/Gt4 drawers well
+ * The Japanese and European executables link the base Gt3/Gt4 drivers well
  * before the rest of this file; they build this file once without those two
  * and once more, as the game/model_draw_gouraud_primitives object (with
  * MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES), with only those two.
  */
+#include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
+#include "../psyq/libhmd.h"
+#include "../psyq/inline_c.h"
+#include "gpu_packets.h"
+#include "model.h"
+#include "model_handler_state.h"
+#include "model_polygon_packets.h"
+#include "model_slot_setup.h"
+#include "primitive_handler_modes.h"
+#include "direct_polygon_renderers.h"
 
 #if !defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
+
 u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt3Packet *packet = (ModelFt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt3Record *record =
+        (ModelDrawFt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 4, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[7] = w2;
-            tag = (tag << 8) | 7;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                gHw_Word0 <<= 16;
-                pkt[10] = gHw_Second;
-                gHw_Second = pkt[4];
-                gHw_Word0 >>= 16;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[6];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[14] = gHw_Second;
-                pkt[9] = gHw_Color;
-                pkt += 8;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 8;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            normal = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    setlen(packet, 7);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 #endif
 
 #if !(defined(VERSION_JAPAN) || defined(VERSION_EUROPE)) || defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
+
 u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt3Packet *packet = (ModelGt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3Record *record =
+        (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            gHw_At = 1;
-            w2 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            if (gHw_DrawMode != 0) {
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 4, pkt);
-                HW_GTE_STORE(21, 16, pkt);
-                HW_GTE_STORE(22, 28, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                pkt[4] = w1;
-                pkt[7] = w2;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[11] = gHw_Color;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-        skip:
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            normal0 = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            normal1 = record->prim.norm1 * sizeof(SVECTOR);
+            normal2 = record->prim.norm2 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            if (mode != 0) {
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 #endif
 
 #if !defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
+
 u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt4Packet *packet = (ModelFt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt4Record *record =
+        (ModelDrawFt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            v = gHw_Word0 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv0(v);
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word3 = w1 >> 16;
-            gHw_Word3 <<= 3;
-            GTE_RTPT_B();
-            v = gHw_Word3 + verts;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
-            GTE_RTPS();
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_Word0 = ((ModelDrawFt4Record *)rec)->prim.norm0;
-            gHw_Word0 <<= 3;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 4, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE(14, 32, pkt);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[7] = w2;
-            pkt[9] = gHw_Word3;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                gHw_Word0 <<= 16;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[4];
-                gHw_Word0 >>= 16;
-                pkt[14] = gHw_Second;
-                gHw_Second = pkt[6];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[16] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[11] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            SVECTOR *vertex3;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            vertex3 = &vertices[record->prim.vert3];
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            gte_rtps();
+            normal = record->prim.norm0 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 uv3 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy2(&packet->xy3);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 #endif
 
 #if !(defined(VERSION_JAPAN) || defined(VERSION_EUROPE)) || defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
+
 u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt4Packet *packet = (ModelGt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4Record *record =
+        (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            HW_LWR(gHw_Word0, 10, rec);
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            gHw_Word3 = rec->words[6];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            v = gHw_Word3 >> 16;
-            v <<= 3;
-            GTE_RTPT_B();
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_At = 1;
-            v += verts;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPS_B();
-            w1 <<= 16;
-            gHw_At = 1;
-            w1 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            HW_GTE_STORE(14, 44, pkt);
-            w2 <<= 16;
-            w2 >>= 13;
-            v = gHw_Word3 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                gHw_Word3 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word3 += gHw_ColorCache;
-                    gte_strgb(gHw_Word3);
-                }
-                HW_GTE_STORE(22, 40, pkt);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 4, pkt);
-                HW_GTE_STORE(21, 16, pkt);
-                HW_GTE_STORE(22, 28, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                gHw_Word3 >>= 1;
-                gHw_Second = gHw_Word3 + gHw_ColorCache;
-                gHw_Word3 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                pkt[4] = w1;
-                pkt[7] = w2;
-                pkt[10] = gHw_Word3;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            pkt[12] = gHw_Word3;
-            tag = (tag << 8) | 12;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[11];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                pkt += 13;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-        skip:
-            pkt += 13;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 normal3;
+            SVECTOR *vertex3;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            vertex3 = &vertices[record->prim.vert3];
+            gte_rtpt_b();
+            normal3 = record->prim.norm3 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            normal0 = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtps_b();
+            normal1 = record->prim.norm1 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            gte_stsxy2(&packet->xy3);
+            normal2 = record->prim.norm2 * sizeof(SVECTOR);
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal3);
+                gte_nccs();
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal3 / 2));
+                }
+                gte_strgb(&packet->rgb3);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+                u32 rgb3 = *(u32 *)(lit + normal3 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                packet->rgb3 = rgb3;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 uv3 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    setlen(packet, 12);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet[1].rgb3 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 #endif
 
 #if !defined(MODEL_DRAW_DETACHED_GOURAUD_PRIMITIVES)
-
-/*
- * Window record Ft3/Gt3/Ft4/Gt4 polygon drawers (0x80061DDC-0x80062978).
- *
- * Hand-written in the original: no stack frame, borrowed s-registers parked
- * in scratch words of the GsARGUNIT block, the argument read from $a0 and the
- * next primitive block returned in $v0. Register variables and the
- * handwritten_asm.h macros reproduce that contract; see
- * notes/direct-polygon-renderers.md.
- */
 
 u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt3WindowRecordPacket *packet = (ModelFt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt3WindowRecord *record =
+        (ModelDrawFt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 8, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[8] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[9] = gHw_WindowCode;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                gHw_Word0 <<= 16;
-                pkt[13] = gHw_Second;
-                gHw_Second = pkt[5];
-                gHw_Word0 >>= 16;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[7];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[17] = gHw_Second;
-                pkt[12] = gHw_Color;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            normal = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt3WindowRecordPacket *packet = (ModelGt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3WindowRecord *record =
+        (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            gHw_At = 1;
-            w2 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            gHw_WindowWord = rec->words[0];
-            if (gHw_DrawMode != 0) {
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 8, pkt);
-                HW_GTE_STORE(21, 20, pkt);
-                HW_GTE_STORE(22, 32, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                pkt[5] = w1;
-                pkt[8] = w2;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-        skip:
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            normal0 = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            normal1 = record->prim.prim.norm1 * sizeof(SVECTOR);
+            normal2 = record->prim.prim.norm2 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 11);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt4WindowRecordPacket *packet = (ModelFt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt4WindowRecord *record =
+        (ModelDrawFt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[5];
-            w1 = rec->words[6];
-            v = gHw_Word0 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv0(v);
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word3 = w1 >> 16;
-            gHw_Word3 <<= 3;
-            GTE_RTPT_B();
-            v = gHw_Word3 + verts;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
-            GTE_RTPS();
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_Word0 = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.norm0;
-            gHw_Word0 <<= 3;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 8, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE(14, 36, pkt);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[8] = w2;
-            pkt[10] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                gHw_Word0 <<= 16;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                gHw_Word0 >>= 16;
-                pkt[17] = gHw_Second;
-                gHw_Second = pkt[7];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[19] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[14] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            SVECTOR *vertex3;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            vertex3 = &vertices[record->prim.prim.vert3];
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            gte_rtps();
+            normal = record->prim.prim.norm0 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 uv3 = record->words[4];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy2(&packet->xy3);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 11);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt4WindowRecordPacket *packet = (ModelGt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4WindowRecord *record =
+        (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
+
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
         shift = arg->shift;
-        ot = (u32)otp->org;
+        colour = poly;
         do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            HW_LWR(gHw_Word0, 14, rec);
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            gHw_Word3 = rec->words[7];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            v = gHw_Word3 >> 16;
-            v <<= 3;
-            GTE_RTPT_B();
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_At = 1;
-            v += verts;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 normal3;
+            SVECTOR *vertex3;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            vertex3 = &vertices[record->prim.prim.vert3];
+            gte_rtpt_b();
+            normal3 = record->prim.prim.norm3 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
                     goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPS_B();
-            w1 <<= 16;
-            gHw_At = 1;
-            w1 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            HW_GTE_STORE(14, 48, pkt);
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word3 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                gHw_Word3 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word3 += gHw_ColorCache;
-                    gte_strgb(gHw_Word3);
                 }
-                HW_GTE_STORE(22, 44, pkt);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 8, pkt);
-                HW_GTE_STORE(21, 20, pkt);
-                HW_GTE_STORE(22, 32, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
                     goto next;
+                }
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            normal0 = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtps_b();
+            normal1 = record->prim.prim.norm1 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            gte_stsxy2(&packet->xy3);
+            normal2 = record->prim.prim.norm2 * sizeof(SVECTOR);
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal3);
+                gte_nccs();
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal3 / 2));
+                }
+                gte_strgb(&packet->rgb3);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
             } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                gHw_Word3 >>= 1;
-                gHw_Second = gHw_Word3 + gHw_ColorCache;
-                gHw_Word3 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                pkt[5] = w1;
-                pkt[8] = w2;
-                pkt[11] = gHw_Word3;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+                u32 rgb3 = *(u32 *)(lit + normal3 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                packet->rgb3 = rgb3;
+                ((u8 *)&packet->rgb0)[3] = code;
             }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[13] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[14] = gHw_WindowCode;
-            tag = (tag << 8) | 14;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                gHw_Second = pkt[12];
-                pkt[26] = gHw_Color;
-                pkt[27] = gHw_Second;
-                pkt += 15;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 uv3 = record->words[4];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 14);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet[1].rgb3 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
             }
-        skip:
-            pkt += 15;
         next:
-            count--;
-            rec++;
-        } while (count != 0);
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
-
-/*
- * Two sided Ft3/Gt3/Ft4/Gt4 polygon drawers (0x80062978-0x80063444).
- *
- * Hand-written in the original: no stack frame, borrowed s-registers parked
- * in scratch words of the GsARGUNIT block, the argument read from $a0 and the
- * next primitive block returned in $v0. Register variables and the
- * handwritten_asm.h macros reproduce that contract; see
- * notes/direct-polygon-renderers.md.
- */
 
 u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt3Packet *packet = (ModelFt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt3Record *record =
+        (ModelDrawFt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 4, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[7] = w2;
-            tag = (tag << 8) | 7;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                gHw_Word0 <<= 16;
-                pkt[10] = gHw_Second;
-                gHw_Second = pkt[4];
-                gHw_Word0 >>= 16;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[6];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[14] = gHw_Second;
-                pkt[9] = gHw_Color;
-                pkt += 8;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 8;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            normal = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    setlen(packet, 7);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt3Packet *packet = (ModelGt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3Record *record =
+        (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            gHw_At = 1;
-            w2 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            if (gHw_DrawMode != 0) {
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 4, pkt);
-                HW_GTE_STORE(21, 16, pkt);
-                HW_GTE_STORE(22, 28, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                pkt[4] = w1;
-                pkt[7] = w2;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[11] = gHw_Color;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-        skip:
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            normal0 = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            normal1 = record->prim.norm1 * sizeof(SVECTOR);
+            normal2 = record->prim.norm2 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            if (mode != 0) {
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt4Packet *packet = (ModelFt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt4Record *record =
+        (ModelDrawFt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            v = gHw_Word0 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv0(v);
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word3 = w1 >> 16;
-            gHw_Word3 <<= 3;
-            GTE_RTPT_B();
-            v = gHw_Word3 + verts;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
-            GTE_RTPS();
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_Word0 = ((ModelDrawFt4Record *)rec)->prim.norm0;
-            gHw_Word0 <<= 3;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 4, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE(14, 32, pkt);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[7] = w2;
-            pkt[9] = gHw_Word3;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                gHw_Word0 <<= 16;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[4];
-                gHw_Word0 >>= 16;
-                pkt[14] = gHw_Second;
-                gHw_Second = pkt[6];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[16] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[11] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            SVECTOR *vertex3;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            vertex3 = &vertices[record->prim.vert3];
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            gte_rtps();
+            normal = record->prim.norm0 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 uv3 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy2(&packet->xy3);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt4Packet *packet = (ModelGt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4Record *record =
+        (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
+
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
         shift = arg->shift;
-        ot = (u32)otp->org;
+        colour = poly;
         do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            HW_LWR(gHw_Word0, 10, rec);
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            gHw_Word3 = rec->words[6];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            v = gHw_Word3 >> 16;
-            v <<= 3;
-            GTE_RTPT_B();
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_At = 1;
-            v += verts;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 normal3;
+            SVECTOR *vertex3;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            vertex3 = &vertices[record->prim.vert3];
+            gte_rtpt_b();
+            normal3 = record->prim.norm3 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
                     goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPS_B();
-            w1 <<= 16;
-            gHw_At = 1;
-            w1 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            HW_GTE_STORE(14, 44, pkt);
-            w2 <<= 16;
-            w2 >>= 13;
-            v = gHw_Word3 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                gHw_Word3 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word3 += gHw_ColorCache;
-                    gte_strgb(gHw_Word3);
                 }
-                HW_GTE_STORE(22, 40, pkt);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 4, pkt);
-                HW_GTE_STORE(21, 16, pkt);
-                HW_GTE_STORE(22, 28, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            normal0 = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtps_b();
+            normal1 = record->prim.norm1 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
                     goto next;
+                }
+            }
+            gte_avsz4_b();
+            gte_stsxy2(&packet->xy3);
+            normal2 = record->prim.norm2 * sizeof(SVECTOR);
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal3);
+                gte_nccs();
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal3 / 2));
+                }
+                gte_strgb(&packet->rgb3);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
             } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                gHw_Word3 >>= 1;
-                gHw_Second = gHw_Word3 + gHw_ColorCache;
-                gHw_Word3 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                pkt[4] = w1;
-                pkt[7] = w2;
-                pkt[10] = gHw_Word3;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+                u32 rgb3 = *(u32 *)(lit + normal3 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                packet->rgb3 = rgb3;
+                ((u8 *)&packet->rgb0)[3] = code;
             }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            pkt[12] = gHw_Word3;
-            tag = (tag << 8) | 12;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[11];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                pkt += 13;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 uv3 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    setlen(packet, 12);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet[1].rgb3 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
             }
-        skip:
-            pkt += 13;
         next:
-            count--;
-            rec++;
-        } while (count != 0);
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
-
-/*
- * Two sided window record Ft3/Gt3/Ft4/Gt4 polygon drawers (0x80063444-0x80063F90).
- *
- * Hand-written in the original: no stack frame, borrowed s-registers parked
- * in scratch words of the GsARGUNIT block, the argument read from $a0 and the
- * next primitive block returned in $v0. Register variables and the
- * handwritten_asm.h macros reproduce that contract; see
- * notes/direct-polygon-renderers.md.
- */
 
 u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt3WindowRecordPacket *packet = (ModelFt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt3WindowRecord *record =
+        (ModelDrawFt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 8, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[8] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[9] = gHw_WindowCode;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                gHw_Word0 <<= 16;
-                pkt[13] = gHw_Second;
-                gHw_Second = pkt[5];
-                gHw_Word0 >>= 16;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[7];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[17] = gHw_Second;
-                pkt[12] = gHw_Color;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            normal = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt3WindowRecordPacket *packet = (ModelGt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3WindowRecord *record =
+        (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            gHw_At = 1;
-            w2 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            gHw_WindowWord = rec->words[0];
-            if (gHw_DrawMode != 0) {
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 8, pkt);
-                HW_GTE_STORE(21, 20, pkt);
-                HW_GTE_STORE(22, 32, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                pkt[5] = w1;
-                pkt[8] = w2;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-        skip:
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            normal0 = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            normal1 = record->prim.prim.norm1 * sizeof(SVECTOR);
+            normal2 = record->prim.prim.norm2 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 11);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt4WindowRecordPacket *packet = (ModelFt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt4WindowRecord *record =
+        (ModelDrawFt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[5];
-            w1 = rec->words[6];
-            v = gHw_Word0 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv0(v);
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word3 = w1 >> 16;
-            gHw_Word3 <<= 3;
-            GTE_RTPT_B();
-            v = gHw_Word3 + verts;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
-            GTE_RTPS();
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_Word0 = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.norm0;
-            gHw_Word0 <<= 3;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 8, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE(14, 36, pkt);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[8] = w2;
-            pkt[10] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                gHw_Word0 <<= 16;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                gHw_Word0 >>= 16;
-                pkt[17] = gHw_Second;
-                gHw_Second = pkt[7];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[19] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[14] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        colour = poly;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            SVECTOR *vertex3;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            vertex3 = &vertices[record->prim.prim.vert3];
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            gte_rtps();
+            normal = record->prim.prim.norm0 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 uv3 = record->words[4];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy2(&packet->xy3);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 11);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt4WindowRecordPacket *packet = (ModelGt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4WindowRecord *record =
+        (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
+
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
         shift = arg->shift;
-        ot = (u32)otp->org;
+        colour = poly;
         do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            HW_LWR(gHw_Word0, 14, rec);
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            gHw_Word3 = rec->words[7];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            v = gHw_Word3 >> 16;
-            v <<= 3;
-            GTE_RTPT_B();
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_At = 1;
-            v += verts;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 normal3;
+            SVECTOR *vertex3;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            vertex3 = &vertices[record->prim.prim.vert3];
+            gte_rtpt_b();
+            normal3 = record->prim.prim.norm3 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
                     goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPS_B();
-            w1 <<= 16;
-            gHw_At = 1;
-            w1 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            HW_GTE_STORE(14, 48, pkt);
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word3 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                gHw_Word3 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word3 += gHw_ColorCache;
-                    gte_strgb(gHw_Word3);
                 }
-                HW_GTE_STORE(22, 44, pkt);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 8, pkt);
-                HW_GTE_STORE(21, 20, pkt);
-                HW_GTE_STORE(22, 32, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            normal0 = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtps_b();
+            normal1 = record->prim.prim.norm1 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
                     goto next;
+                }
+            }
+            gte_avsz4_b();
+            gte_stsxy2(&packet->xy3);
+            normal2 = record->prim.prim.norm2 * sizeof(SVECTOR);
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal3);
+                gte_nccs();
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal3 / 2));
+                }
+                gte_strgb(&packet->rgb3);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
             } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                gHw_Word3 >>= 1;
-                gHw_Second = gHw_Word3 + gHw_ColorCache;
-                gHw_Word3 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                pkt[5] = w1;
-                pkt[8] = w2;
-                pkt[11] = gHw_Word3;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+                u32 rgb3 = *(u32 *)(lit + normal3 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                packet->rgb3 = rgb3;
+                ((u8 *)&packet->rgb0)[3] = code;
             }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[13] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[14] = gHw_WindowCode;
-            tag = (tag << 8) | 14;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                gHw_Second = pkt[12];
-                pkt[26] = gHw_Color;
-                pkt[27] = gHw_Second;
-                pkt += 15;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 uv3 = record->words[4];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 14);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet[1].rgb3 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
             }
-        skip:
-            pkt += 15;
         next:
-            count--;
-            rec++;
-        } while (count != 0);
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
-
-/*
- * Semi Ft3/Gt3/Ft4/Gt4 polygon drawers (0x80063F90-0x80064C1C).
- *
- * Hand-written in the original: no stack frame, borrowed s-registers parked
- * in scratch words of the GsARGUNIT block, the argument read from $a0 and the
- * next primitive block returned in $v0. Register variables and the
- * handwritten_asm.h macros reproduce that contract; see
- * notes/direct-polygon-renderers.md.
- */
 
 u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt3Packet *packet = (ModelFt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt3Record *record =
+        (ModelDrawFt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawFt3Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyFt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 4, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[7] = w2;
-            tag = (tag << 8) | 7;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                gHw_Word0 <<= 16;
-                pkt[10] = gHw_Second;
-                gHw_Second = pkt[4];
-                gHw_Word0 >>= 16;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[6];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[14] = gHw_Second;
-                pkt[9] = gHw_Color;
-                pkt += 8;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 8;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[1] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.cba << 16;
+                    colour = gModel_dwPolyFt3SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            normal = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    setlen(packet, 7);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt3Packet *packet = (ModelGt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3Record *record =
+        (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt3Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyGt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            gHw_At = 1;
-            w2 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            if (gHw_DrawMode != 0) {
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 4, pkt);
-                HW_GTE_STORE(21, 16, pkt);
-                HW_GTE_STORE(22, 28, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                pkt[4] = w1;
-                pkt[7] = w2;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[11] = gHw_Color;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-        skip:
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[1] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.cba << 16;
+                    colour = gModel_dwPolyGt3SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            normal0 = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            normal1 = record->prim.norm1 * sizeof(SVECTOR);
+            normal2 = record->prim.norm2 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            if (mode != 0) {
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt4Packet *packet = (ModelFt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt4Record *record =
+        (ModelDrawFt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawFt4Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyFt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            v = gHw_Word0 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv0(v);
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word3 = w1 >> 16;
-            gHw_Word3 <<= 3;
-            GTE_RTPT_B();
-            v = gHw_Word3 + verts;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
-            GTE_RTPS();
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_Word0 = ((ModelDrawFt4Record *)rec)->prim.norm0;
-            gHw_Word0 <<= 3;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 4, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE(14, 32, pkt);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[7] = w2;
-            pkt[9] = gHw_Word3;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                gHw_Word0 <<= 16;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[4];
-                gHw_Word0 >>= 16;
-                pkt[14] = gHw_Second;
-                gHw_Second = pkt[6];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[16] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[11] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[1] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.cba << 16;
+                    colour = gModel_dwPolyFt4SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            SVECTOR *vertex3;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            vertex3 = &vertices[record->prim.vert3];
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            gte_rtps();
+            normal = record->prim.norm0 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 uv3 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy2(&packet->xy3);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt4Packet *packet = (ModelGt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4Record *record =
+        (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
+
         {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt4Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyGt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            HW_LWR(gHw_Word0, 10, rec);
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            gHw_Word3 = rec->words[6];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            v = gHw_Word3 >> 16;
-            v <<= 3;
-            GTE_RTPT_B();
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_At = 1;
-            v += verts;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPS_B();
-            w1 <<= 16;
-            gHw_At = 1;
-            w1 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            HW_GTE_STORE(14, 44, pkt);
-            w2 <<= 16;
-            w2 >>= 13;
-            v = gHw_Word3 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                gHw_Word3 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word3 += gHw_ColorCache;
-                    gte_strgb(gHw_Word3);
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[1] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.cba << 16;
+                    colour = gModel_dwPolyGt4SemiTemplate;
+                    blend = 0x00200000;
                 }
-                HW_GTE_STORE(22, 40, pkt);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 4, pkt);
-                HW_GTE_STORE(21, 16, pkt);
-                HW_GTE_STORE(22, 28, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
             } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                gHw_Word3 >>= 1;
-                gHw_Second = gHw_Word3 + gHw_ColorCache;
-                gHw_Word3 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                pkt[4] = w1;
-                pkt[7] = w2;
-                pkt[10] = gHw_Word3;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
+                second_clut = 0;
             }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            pkt[12] = gHw_Word3;
-            tag = (tag << 8) | 12;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[11];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                pkt += 13;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 normal3;
+            SVECTOR *vertex3;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            vertex3 = &vertices[record->prim.vert3];
+            gte_rtpt_b();
+            normal3 = record->prim.norm3 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
             }
-        skip:
-            pkt += 13;
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            normal0 = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtps_b();
+            normal1 = record->prim.norm1 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            gte_stsxy2(&packet->xy3);
+            normal2 = record->prim.norm2 * sizeof(SVECTOR);
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal3);
+                gte_nccs();
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal3 / 2));
+                }
+                gte_strgb(&packet->rgb3);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+                u32 rgb3 = *(u32 *)(lit + normal3 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                packet->rgb3 = rgb3;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 uv3 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    setlen(packet, 12);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet[1].rgb3 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
         next:
-            count--;
-            rec++;
-        } while (count != 0);
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
-
-/*
- * Semi window record Ft3/Gt3/Ft4/Gt4 polygon drawers (0x80064C1C-0x80065928).
- *
- * Hand-written in the original: no stack frame, borrowed s-registers parked
- * in scratch words of the GsARGUNIT block, the argument read from $a0 and the
- * next primitive block returned in $v0. Register variables and the
- * handwritten_asm.h macros reproduce that contract; see
- * notes/direct-polygon-renderers.md.
- */
 
 u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt3WindowRecordPacket *packet = (ModelFt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt3WindowRecord *record =
+        (ModelDrawFt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawFt3WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyFt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 8, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[8] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[9] = gHw_WindowCode;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                gHw_Word0 <<= 16;
-                pkt[13] = gHw_Second;
-                gHw_Second = pkt[5];
-                gHw_Word0 >>= 16;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[7];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[17] = gHw_Second;
-                pkt[12] = gHw_Color;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[2] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.prim.cba << 16;
+                    colour = gModel_dwPolyFt3SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            normal = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt3WindowRecordPacket *packet = (ModelGt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3WindowRecord *record =
+        (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt3WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyGt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            gHw_At = 1;
-            w2 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            gHw_WindowWord = rec->words[0];
-            if (gHw_DrawMode != 0) {
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 8, pkt);
-                HW_GTE_STORE(21, 20, pkt);
-                HW_GTE_STORE(22, 32, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                pkt[5] = w1;
-                pkt[8] = w2;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-        skip:
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[2] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.prim.cba << 16;
+                    colour = gModel_dwPolyGt3SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            normal0 = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            normal1 = record->prim.prim.norm1 * sizeof(SVECTOR);
+            normal2 = record->prim.prim.norm2 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 11);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt4WindowRecordPacket *packet = (ModelFt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt4WindowRecord *record =
+        (ModelDrawFt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyFt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[5];
-            w1 = rec->words[6];
-            v = gHw_Word0 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv0(v);
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word3 = w1 >> 16;
-            gHw_Word3 <<= 3;
-            GTE_RTPT_B();
-            v = gHw_Word3 + verts;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
-            GTE_RTPS();
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_Word0 = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.norm0;
-            gHw_Word0 <<= 3;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 8, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE(14, 36, pkt);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[8] = w2;
-            pkt[10] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                gHw_Word0 <<= 16;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                gHw_Word0 >>= 16;
-                pkt[17] = gHw_Second;
-                gHw_Second = pkt[7];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[19] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[14] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[2] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.prim.cba << 16;
+                    colour = gModel_dwPolyFt4SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            SVECTOR *vertex3;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            vertex3 = &vertices[record->prim.prim.vert3];
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            gte_rtps();
+            normal = record->prim.prim.norm0 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 uv3 = record->words[4];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy2(&packet->xy3);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 11);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt4WindowRecordPacket *packet = (ModelGt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4WindowRecord *record =
+        (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
+
         {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt4WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyGt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            HW_LWR(gHw_Word0, 14, rec);
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            gHw_Word3 = rec->words[7];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            v = gHw_Word3 >> 16;
-            v <<= 3;
-            GTE_RTPT_B();
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_At = 1;
-            v += verts;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-                GTE_NCLIP_B();
-                HW_GTE_READ_WAIT(24, flag);
-                if (flag <= 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPS_B();
-            w1 <<= 16;
-            gHw_At = 1;
-            w1 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            HW_GTE_STORE(14, 48, pkt);
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word3 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                gHw_Word3 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word3 += gHw_ColorCache;
-                    gte_strgb(gHw_Word3);
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[2] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.prim.cba << 16;
+                    colour = gModel_dwPolyGt4SemiTemplate;
+                    blend = 0x00200000;
                 }
-                HW_GTE_STORE(22, 44, pkt);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 8, pkt);
-                HW_GTE_STORE(21, 20, pkt);
-                HW_GTE_STORE(22, 32, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
             } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                gHw_Word3 >>= 1;
-                gHw_Second = gHw_Word3 + gHw_ColorCache;
-                gHw_Word3 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                pkt[5] = w1;
-                pkt[8] = w2;
-                pkt[11] = gHw_Word3;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
+                second_clut = 0;
             }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[13] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[14] = gHw_WindowCode;
-            tag = (tag << 8) | 14;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                gHw_Second = pkt[12];
-                pkt[26] = gHw_Color;
-                pkt[27] = gHw_Second;
-                pkt += 15;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 normal3;
+            SVECTOR *vertex3;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            vertex3 = &vertices[record->prim.prim.vert3];
+            gte_rtpt_b();
+            normal3 = record->prim.prim.norm3 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+                s32 opz;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+                gte_nclip_b();
+                gte_stopz(&opz);
+                if (opz <= 0) {
+                    goto next;
+                }
             }
-        skip:
-            pkt += 15;
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            normal0 = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtps_b();
+            normal1 = record->prim.prim.norm1 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            gte_stsxy2(&packet->xy3);
+            normal2 = record->prim.prim.norm2 * sizeof(SVECTOR);
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal3);
+                gte_nccs();
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal3 / 2));
+                }
+                gte_strgb(&packet->rgb3);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+                u32 rgb3 = *(u32 *)(lit + normal3 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                packet->rgb3 = rgb3;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 uv3 = record->words[4];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 14);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet[1].rgb3 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
         next:
-            count--;
-            rec++;
-        } while (count != 0);
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
-
-/*
- * Two sided semi Ft3/Gt3/Ft4/Gt4 polygon drawers (0x80065928-0x80066564).
- *
- * Hand-written in the original: no stack frame, borrowed s-registers parked
- * in scratch words of the GsARGUNIT block, the argument read from $a0 and the
- * next primitive block returned in $v0. Register variables and the
- * handwritten_asm.h macros reproduce that contract; see
- * notes/direct-polygon-renderers.md.
- */
 
 u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt3Packet *packet = (ModelFt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt3Record *record =
+        (ModelDrawFt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawFt3Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyFt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 4, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[7] = w2;
-            tag = (tag << 8) | 7;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                gHw_Word0 <<= 16;
-                pkt[10] = gHw_Second;
-                gHw_Second = pkt[4];
-                gHw_Word0 >>= 16;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[6];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[14] = gHw_Second;
-                pkt[9] = gHw_Color;
-                pkt += 8;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 8;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[1] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.cba << 16;
+                    colour = gModel_dwPolyFt3SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            normal = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    setlen(packet, 7);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt3Packet *packet = (ModelGt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3Record *record =
+        (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt3Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyGt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            gHw_At = 1;
-            w2 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            if (gHw_DrawMode != 0) {
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 4, pkt);
-                HW_GTE_STORE(21, 16, pkt);
-                HW_GTE_STORE(22, 28, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                pkt[4] = w1;
-                pkt[7] = w2;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[11] = gHw_Color;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-        skip:
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[1] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.cba << 16;
+                    colour = gModel_dwPolyGt3SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            normal0 = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            normal1 = record->prim.norm1 * sizeof(SVECTOR);
+            normal2 = record->prim.norm2 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            if (mode != 0) {
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt4Packet *packet = (ModelFt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt4Record *record =
+        (ModelDrawFt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawFt4Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyFt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            v = gHw_Word0 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv0(v);
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word3 = w1 >> 16;
-            gHw_Word3 <<= 3;
-            GTE_RTPT_B();
-            v = gHw_Word3 + verts;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 8, 16, 24);
-            GTE_RTPS();
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_Word0 = ((ModelDrawFt4Record *)rec)->prim.norm0;
-            gHw_Word0 <<= 3;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 4, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE(14, 32, pkt);
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[7] = w2;
-            pkt[9] = gHw_Word3;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                gHw_Word0 <<= 16;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[4];
-                gHw_Word0 >>= 16;
-                pkt[14] = gHw_Second;
-                gHw_Second = pkt[6];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[16] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[11] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[1] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.cba << 16;
+                    colour = gModel_dwPolyFt4SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            SVECTOR *vertex3;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            vertex3 = &vertices[record->prim.vert3];
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            gte_rtps();
+            normal = record->prim.norm0 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 uv3 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy2(&packet->xy3);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt4Packet *packet = (ModelGt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4Record *record =
+        (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
+
         {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt4Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyGt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[3];
-            HW_LWR(gHw_Word0, 10, rec);
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            gHw_Word3 = rec->words[6];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            v = gHw_Word3 >> 16;
-            v <<= 3;
-            GTE_RTPT_B();
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_At = 1;
-            v += verts;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 8, 20, 32);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPS_B();
-            w1 <<= 16;
-            gHw_At = 1;
-            w1 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            HW_GTE_STORE(14, 44, pkt);
-            w2 <<= 16;
-            w2 >>= 13;
-            v = gHw_Word3 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                gHw_Word3 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word3 += gHw_ColorCache;
-                    gte_strgb(gHw_Word3);
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[1] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.cba << 16;
+                    colour = gModel_dwPolyGt4SemiTemplate;
+                    blend = 0x00200000;
                 }
-                HW_GTE_STORE(22, 40, pkt);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 4, pkt);
-                HW_GTE_STORE(21, 16, pkt);
-                HW_GTE_STORE(22, 28, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
             } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                gHw_Word3 >>= 1;
-                gHw_Second = gHw_Word3 + gHw_ColorCache;
-                gHw_Word3 = *(volatile u32 *)gHw_Second;
-                pkt[1] = gHw_Word0;
-                pkt[4] = w1;
-                pkt[7] = w2;
-                pkt[10] = gHw_Word3;
-                ((u8 *)pkt)[7] = gHw_PolyCode;
+                second_clut = 0;
             }
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            pkt[12] = gHw_Word3;
-            tag = (tag << 8) | 12;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[11];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                pkt += 13;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 normal3;
+            SVECTOR *vertex3;
+
+            gte_ldv0(&vertices[record->prim.vert0]);
+            gte_ldv1(&vertices[record->prim.vert1]);
+            gte_ldv2(&vertices[record->prim.vert2]);
+            vertex3 = &vertices[record->prim.vert3];
+            gte_rtpt_b();
+            normal3 = record->prim.norm3 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
             }
-        skip:
-            pkt += 13;
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            normal0 = record->prim.norm0 * sizeof(SVECTOR);
+            gte_rtps_b();
+            normal1 = record->prim.norm1 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            gte_stsxy2(&packet->xy3);
+            normal2 = record->prim.norm2 * sizeof(SVECTOR);
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal3);
+                gte_nccs();
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal3 / 2));
+                }
+                gte_strgb(&packet->rgb3);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+                u32 rgb3 = *(u32 *)(lit + normal3 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                packet->rgb3 = rgb3;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[0];
+                u32 uv1 = record->words[1];
+                u32 uv2 = record->words[2];
+                u32 uv3 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    setlen(packet, 12);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet[1].rgb3 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
         next:
-            count--;
-            rec++;
-        } while (count != 0);
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 22, 0x30, 23, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
-
-/*
- * Two sided semi window record Ft3/Gt3/Ft4/Gt4 polygon drawers (0x80066564-0x80067220).
- *
- * Hand-written in the original: no stack frame, borrowed s-registers parked
- * in scratch words of the GsARGUNIT block, the argument read from $a0 and the
- * next primitive block returned in $v0. Register variables and the
- * handwritten_asm.h macros reproduce that contract; see
- * notes/direct-polygon-renderers.md.
- */
 
 u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt3WindowRecordPacket *packet = (ModelFt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt3WindowRecord *record =
+        (ModelDrawFt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawFt3WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyFt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 8, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[8] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[9] = gHw_WindowCode;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                gHw_Word0 <<= 16;
-                pkt[13] = gHw_Second;
-                gHw_Second = pkt[5];
-                gHw_Word0 >>= 16;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[7];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[17] = gHw_Second;
-                pkt[12] = gHw_Color;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[2] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.prim.cba << 16;
+                    colour = gModel_dwPolyFt3SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            normal = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 9);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt3WindowRecordPacket *packet = (ModelGt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3WindowRecord *record =
+        (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt3WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyGt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPT_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            gHw_At = 1;
-            w2 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ3_B();
-            gHw_WindowWord = rec->words[0];
-            if (gHw_DrawMode != 0) {
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 8, pkt);
-                HW_GTE_STORE(21, 20, pkt);
-                HW_GTE_STORE(22, 32, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                pkt[5] = w1;
-                pkt[8] = w2;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-        skip:
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[2] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.prim.cba << 16;
+                    colour = gModel_dwPolyGt3SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            normal0 = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtpt_b();
+            normal1 = record->prim.prim.norm1 * sizeof(SVECTOR);
+            normal2 = record->prim.prim.norm2 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz3_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 11);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawFt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelFt4WindowRecordPacket *packet = (ModelFt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawFt4WindowRecord *record =
+        (ModelDrawFt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawFt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyFt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyFt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[5];
-            w1 = rec->words[6];
-            v = gHw_Word0 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv0(v);
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w1 << 16;
-            v >>= 13;
-            v += verts;
-            gte_ldv2(v);
-            gHw_Word3 = w1 >> 16;
-            gHw_Word3 <<= 3;
-            GTE_RTPT_B();
-            v = gHw_Word3 + verts;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 12, 20, 28);
-            GTE_RTPS();
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_Word0 = ((ModelDrawFt4WindowRecord *)rec)->prim.prim.norm0;
-            gHw_Word0 <<= 3;
-            gHw_At = 1;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word0 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    gte_strgb(gHw_Word0);
-                }
-                HW_GTE_STORE(22, 8, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
-            } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
-            }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-            HW_GTE_STORE(14, 36, pkt);
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[8] = w2;
-            pkt[10] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0 && gHw_SecondClut != 0) {
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                gHw_Word0 <<= 16;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                gHw_Word0 >>= 16;
-                pkt[17] = gHw_Second;
-                gHw_Second = pkt[7];
-                gHw_Word0 |= gHw_SecondClut;
-                pkt[19] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[14] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
-            }
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
-    }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
+        u32 poly = gModel_dwPolyFt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
 
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
+        {
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[2] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.prim.cba << 16;
+                    colour = gModel_dwPolyFt4SemiTemplate;
+                    blend = 0x00200000;
+                }
+            } else {
+                second_clut = 0;
+            }
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offset of the record's normal; its lit colour sits at
+             * half that offset in the colour cache. */
+            u32 normal;
+            SVECTOR *vertex3;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            vertex3 = &vertices[record->prim.prim.vert3];
+            gte_rtpt_b();
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            gte_rtps();
+            normal = record->prim.prim.norm0 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal);
+                gte_nccs();
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal / 2));
+                }
+                gte_strgb(&packet->rgb0);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                packet->rgb0 = *(u32 *)(lit + normal / 2);
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 uv3 = record->words[4];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                gte_stsxy2(&packet->xy3);
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 11);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
+        next:
+            record++;
+        } while (--count != 0);
     }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
 u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 {
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    ModelGt4WindowRecordPacket *packet = (ModelGt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4WindowRecord *record =
+        (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    blk = (ModelPrimitiveBlockHeader *)arg->primp;
-    pkt = (u32 *)arg->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&arg->primtop;
-    off <<= 2;
-    HW_SAVE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_SAVE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_SAVE_REGS2(arg, 22, 0x38, 23, 0x3C);
     if (count != 0) {
-        register u32 verts asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
-        rec = (ModelDrawGt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_DrawMode = (s8)gModel_bCurrentDrawMode;
-        gHw_ColorCache = gModel_dwLitColorCacheBase;
-        gHw_Color = gHw_PolyTemplate;
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        s8 mode = (s8)gModel_bCurrentDrawMode;
+        u32 lit = gModel_dwLitColorCacheBase;
+        u32 colour;
+        u32 code;
+        SVECTOR *vertices;
+        SVECTOR *normals;
+        GsOT_TAG *ot;
+        u32 shift;
+        u32 rgb;
+
         {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt4WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyGt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_WindowCode = 0xE2000000;
-        verts = (u32)arg->vertop;
-        normals = (u32)*(SVECTOR *volatile *)&arg->nortop;
-        HW_GTE_WRITE(6, gHw_PolyTemplate);
-        otp = arg->tagp;
-        shift = arg->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 v asm("$13");
-            register s32 flag asm("$2");
-            register u32 *slot asm("$2");
-            register u32 z asm("$2");
-            register u32 tag asm("$13");
-            gHw_Word0 = rec->words[4];
-            HW_LWR(gHw_Word0, 14, rec);
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            gHw_Word3 = rec->words[7];
-            v = gHw_Word0 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv0(v);
-            v = w1 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv1(v);
-            v = w2 >> 16;
-            v <<= 3;
-            v += verts;
-            gte_ldv2(v);
-            v = gHw_Word3 >> 16;
-            v <<= 3;
-            GTE_RTPT_B();
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_At = 1;
-            v += verts;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            gte_ldv0(v);
-            HW_GTE_STORE_SXY3(pkt, 12, 24, 36);
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_RTPS_B();
-            w1 <<= 16;
-            gHw_At = 1;
-            w1 >>= 13;
-            if (gHw_DrawMode != gHw_At) {
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0)
-                    goto next;
-            }
-            GTE_AVSZ4_B();
-            HW_GTE_STORE(14, 48, pkt);
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_WindowWord = rec->words[0];
-            v = gHw_Word3 + normals;
-            if (gHw_DrawMode != 0) {
-                gte_ldv0(v);
-                GTE_NCCS();
-                v = gHw_Word0 + normals;
-                gte_ldv0(v);
-                v = w1 + normals;
-                gte_ldv1(v);
-                v = w2 + normals;
-                gte_ldv2(v);
-                gHw_Word3 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word3 += gHw_ColorCache;
-                    gte_strgb(gHw_Word3);
+            s8 active = (s8)gModel_bBlendRateActive;
+
+            poly |= 0x02000000;
+            colour = poly;
+            /* The first record's tpage blend bits and CLUT select a
+             * second pass with the semi template. */
+            if (active == 0) {
+                blend = record->words[2] & 0x00600000;
+                if (blend != 0) {
+                    second_clut = 0;
+                } else if (second_clut != 0) {
+                    second_clut = record->prim.prim.cba << 16;
+                    colour = gModel_dwPolyGt4SemiTemplate;
+                    blend = 0x00200000;
                 }
-                HW_GTE_STORE(22, 44, pkt);
-                GTE_NCCT();
-                gHw_Word0 >>= 1;
-                if (gHw_ColorCache != 0) {
-                    gHw_Word0 += gHw_ColorCache;
-                    w1 >>= 1;
-                    w1 += gHw_ColorCache;
-                    w2 >>= 1;
-                    w2 += gHw_ColorCache;
-                    gte_strgb3(gHw_Word0, w1, w2);
-                }
-                HW_GTE_STORE(20, 8, pkt);
-                HW_GTE_STORE(21, 20, pkt);
-                HW_GTE_STORE(22, 32, pkt);
-                gHw_At = 1;
-                if (gHw_DrawMode == gHw_At)
-                    goto next;
             } else {
-                gHw_Word0 >>= 1;
-                gHw_Second = gHw_Word0 + gHw_ColorCache;
-                gHw_Word0 = *(volatile u32 *)gHw_Second;
-                w1 >>= 1;
-                gHw_Second = w1 + gHw_ColorCache;
-                w1 = *(volatile u32 *)gHw_Second;
-                w2 >>= 1;
-                gHw_Second = w2 + gHw_ColorCache;
-                w2 = *(volatile u32 *)gHw_Second;
-                gHw_Word3 >>= 1;
-                gHw_Second = gHw_Word3 + gHw_ColorCache;
-                gHw_Word3 = *(volatile u32 *)gHw_Second;
-                pkt[2] = gHw_Word0;
-                pkt[5] = w1;
-                pkt[8] = w2;
-                pkt[11] = gHw_Word3;
-                ((u8 *)pkt)[11] = gHw_PolyCode;
+                second_clut = 0;
             }
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, z);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            z >>= shift;
-            z <<= 2;
-            z += ot;
-            slot = (u32 *)z;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[13] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[14] = gHw_WindowCode;
-            tag = (tag << 8) | 14;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                gHw_Second = pkt[12];
-                pkt[26] = gHw_Color;
-                pkt[27] = gHw_Second;
-                pkt += 15;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        }
+        code = poly >> 24;
+        vertices = arg->vertop;
+        normals = arg->nortop;
+        rgb = poly;
+        /* The template's code byte rides through the lighting into the
+         * packet's colour word. */
+        gte_ldrgb(&rgb);
+        ot = arg->tagp->org;
+        shift = arg->shift;
+        do {
+            /* Byte offsets of the record's normals; their lit colours sit
+             * at half those offsets in the colour cache. */
+            u32 normal0, normal1, normal2;
+            u32 normal3;
+            SVECTOR *vertex3;
+            u32 window;
+
+            gte_ldv0(&vertices[record->prim.prim.vert0]);
+            gte_ldv1(&vertices[record->prim.prim.vert1]);
+            gte_ldv2(&vertices[record->prim.prim.vert2]);
+            vertex3 = &vertices[record->prim.prim.vert3];
+            gte_rtpt_b();
+            normal3 = record->prim.prim.norm3 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
             }
-        skip:
-            pkt += 15;
+            gte_ldv0(vertex3);
+            gte_stsxy3(&packet->xy0, &packet->xy1, &packet->xy2);
+            normal0 = record->prim.prim.norm0 * sizeof(SVECTOR);
+            gte_rtps_b();
+            normal1 = record->prim.prim.norm1 * sizeof(SVECTOR);
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
+                if (flag < 0) {
+                    goto next;
+                }
+            }
+            gte_avsz4_b();
+            gte_stsxy2(&packet->xy3);
+            normal2 = record->prim.prim.norm2 * sizeof(SVECTOR);
+            window = record->words[0];
+            if (mode != 0) {
+                gte_ldv0((u8 *)normals + normal3);
+                gte_nccs();
+                gte_ldv3((u8 *)normals + normal0, (u8 *)normals + normal1,
+                         (u8 *)normals + normal2);
+                if (lit != 0) {
+                    gte_strgb((u32 *)(lit + normal3 / 2));
+                }
+                gte_strgb(&packet->rgb3);
+                gte_ncct();
+                if (lit != 0) {
+                    gte_strgb3((u32 *)(lit + normal0 / 2), (u32 *)(lit + normal1 / 2),
+                               (u32 *)(lit + normal2 / 2));
+                }
+                gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
+                if (mode == 1) {
+                    goto next;
+                }
+            } else {
+                u32 rgb0 = *(u32 *)(lit + normal0 / 2);
+                u32 rgb1 = *(u32 *)(lit + normal1 / 2);
+                u32 rgb2 = *(u32 *)(lit + normal2 / 2);
+                u32 rgb3 = *(u32 *)(lit + normal3 / 2);
+
+                packet->rgb0 = rgb0;
+                packet->rgb1 = rgb1;
+                packet->rgb2 = rgb2;
+                packet->rgb3 = rgb3;
+                ((u8 *)&packet->rgb0)[3] = code;
+            }
+            {
+                u32 uv0 = record->words[1];
+                u32 uv1 = record->words[2];
+                u32 uv2 = record->words[3];
+                u32 uv3 = record->words[4];
+                u32 otz, semi;
+                GsOT_TAG *slot;
+
+                gte_stotz(&otz);
+                semi = poly & 0x02000000;
+                uv1 &= 0xFF9FFFFF;
+                uv1 |= blend;
+                slot = &ot[otz >> shift];
+                for (;;) {
+                    packet->uv0 = uv0;
+                    packet->uv1 = uv1;
+                    packet->uv2 = uv2;
+                    packet->uv3 = uv3;
+                    packet->window = window;
+                    packet->window_reset = 0xE2000000;
+                    setlen(packet, 14);
+                    setaddr(packet, getaddr(slot));
+                    setaddr(slot, packet);
+                    if (semi == 0 || second_clut == 0) {
+                        break;
+                    }
+                    /* Second pass: second CLUT, blend 1, flat colour. */
+                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                    packet[1].xy0 = packet->xy0;
+                    packet[1].xy1 = packet->xy1;
+                    packet[1].xy2 = packet->xy2;
+                    packet[1].xy3 = packet->xy3;
+                    packet[1].rgb0 = colour;
+                    packet[1].rgb1 = colour;
+                    packet[1].rgb2 = colour;
+                    packet[1].rgb3 = colour;
+                    packet++;
+                    semi = 0;
+                }
+                packet++;
+            }
         next:
-            count--;
-            rec++;
-        } while (count != 0);
+            record++;
+        } while (--count != 0);
     }
-    HW_RESTORE_REGS3(arg, 16, 0x20, 17, 0x24, 18, 0x28);
-    HW_RESTORE_REGS3(arg, 19, 0x2C, 20, 0x30, 21, 0x34);
-    HW_RESTORE_REGS2(arg, 22, 0x38, 23, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done);
-
-        next = (u32 *)arg->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
-
 #endif

@@ -73,45 +73,45 @@ The Ft3/Gt3/Ft4/Gt4 drivers of all eight variants (`base`, `window_record`,
 `two_sided`, `two_sided_window_record`, `semi`, `semi_window_record`,
 `two_sided_semi`, `two_sided_semi_window_record`) are contiguous from
 `0x800612C0` to `0x80067220`, so they form one translation unit,
-`src/game/polygon_renderers.c`, which declares the shared register variables
-once and keeps each variant's functions in image order. They
-use the `gcc_2_8_1_g0_handwritten_asm` policy described in
-`notes/decompilation-workflow.md`: hard-register declarations, with inline
-assembly only for the s-register save/restore, GTE operations and the few
-load/branch shapes listed below, all in `src/game/handwritten_asm.h` except
-the GTE commands, which use the native-opcode macros of
-`src/game/gte_native.h`, and the vertex loads and colour stores, which use
-the Psy-Q `inline_c.h` macros `gte_ldv0`/`gte_ldv1`/`gte_ldv2`, `gte_strgb`
-and `gte_strgb3`.
+`src/game/polygon_renderers.c`, which keeps each variant's functions in
+image order.
 
-Points that the C has to reproduce:
+The originals have no stack frame: they park the caller's s0-s3 and s6/s7
+(plus s4/s5 in the window-record variants) in the argument block at
+`0x20`-`0x3C`, keep the template, blend bits, second-pass CLUT, code byte,
+draw mode and colour-cache base in those registers, move the template into
+the GTE `RGB` register so its code byte rides through NCCS/NCCT into the
+packet's colour word, and test the draw mode with `$at`. GCC alone cannot
+produce that, so the C is plain and portable instead: no register
+variables, no private asm, only the stock Psy-Q `inline_c.h` GTE macros
+and `libgpu.h` packet macros, the record unions of
+`src/game/model_slot_setup.h` and the packet layouts of
+`src/game/model_polygon_packets.h` (shared with the shared-vertex
+drivers). The `gcc_2_8_1_o2_massaged` profile compiles it at plain `-O2`
+and passes GCC's output through `tools/project/asm_massage.py`, which
+rewrites it into the original instructions with one edit file per driver in
+`src/game/polygon_renderers.massage/`: shared rules, a register map and a
+residual of 20-90 diff lines of the original's scheduling. `make
+check-asm-massage` compares every driver with the retail executable and
+proves its residual; see `notes/asm-massage.md`.
 
-- The borrowed s-registers (s0-s3 and s6/s7, plus s4/s5 for window-record
-  variants) are file-scope global register variables, saved and restored
-  through `HW_SAVE_REGS*`/`HW_RESTORE_REGS*` at the argument-block offsets.
-- `$30` is reserved although the originals never touch it. With every other
-  register pinned, each function's `zero` pseudo then gets no register;
-  reload substitutes the constant, so `gHw_Zero - zero` ($0 is a global
-  register variable) assembles to the original `li reg, 0`, and
-  `gHw_Zero <<= zero` assembles to the original `nop` word.
-- Semi variants put that nop in the delay slot of `beqz s2`: it sits after a
-  label kept alive by `HW_KEEP_LABEL`, so CSE cannot fold the shift away, and
-  reorg's backward fill moves it into the slot.
-- Each drawer reads its records through a pointer to the volatile
-  `ModelDraw*Record` unions of `src/game/model_slot_setup.h` (the
-  `ModelPrim*` record layout plus its word array), so the word loads
-  keep their original order around the GTE operations. The halfword CLUT and
-  Ft4 normal reads drop the volatile qualifier: a volatile halfword load goes
-  through `$2` and a move instead of straight into its register.
-- Gt3 places `sll t0,t0,16` in the `beqz s2` slot by shifting before the test
-  and shifting back on the fall-through path.
+Points of the C that carry the original's behaviour:
 
-- Gt4 loads its second UV/CLUT word with `lw t0,12(a3); lwr t0,10(a3)`.
-  GCC 2.8.1 emits `lwr` only inside an `lwl`/`lwr` pair or a block move, so
-  the lone `lwr` is `HW_LWR(val, 10, p)`, which merges into the C-loaded word.
-- Gt4 computes the normals pointer before the `gHw_DrawMode` test so the
-  `beqz` slot gets the original instruction, and RTPS for the fourth vertex
-  uses the unpadded `GTE_RTPS_B()` because the original schedules its own hazards.
+- `gte_ldrgb(&rgb)` loads the template into `RGB`; the massage turns the
+  stack round trip into `mtc2`.
+- Each normal's byte offset is computed once (`norm * sizeof(SVECTOR)`),
+  and its lit colour sits at half that offset in the colour cache that
+  `gModel_dwLitColorCacheBase` addresses; draw mode 0 reads the colours
+  from the cache (all loads before the packet stores), the other modes
+  light the normals and store the result there when the cache is set.
+- Draw mode 1 skips the FLAG and NCLIP rejection and draws nothing: it only
+  fills the colour cache.
+- The semi variants force `0x02000000`, and when no blend rate is active
+  take the first record's tpage blend bits; with none set and a second-pass
+  CLUT configured, the second pass uses the first record's CLUT and the
+  semi template.
+- The second pass (a semi template with a second-pass CLUT) repeats the
+  packet with CLUT 2, blend mode 1 and the flat colour.
 
 ## Native boundaries and acceptance
 

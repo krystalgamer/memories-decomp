@@ -3,7 +3,7 @@ function = Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives
 source = src/game/shared_polygon_renderers.c
 address = 0x8006988C
 size = 0x2B4
-rules = strip-nops aligned-word-copy invariant-last dmpsx-native gte-direct-read unspill fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot
+rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-write unspill invariant-last fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants at-branch-constants sign-extend-load zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot fill-jump-slot
 frameless = $a0 0x28
 
 [registers]
@@ -12,9 +12,8 @@ $v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
 $v0.4 = $s0       # lui $v0.4, %hi(gModel_dwPolyGt3Template)
 $v0.10 = $s2      # lhu $v0.10, 0x6($s0.1)
 $v0.11 = $t0      # srl $v0.11, $v0.6, 24
-$v0.13 = $at      # addiu $v0.13, $zero, 0x1
 $v0.14 = $t5      # lui $v0.14, %hi(gModel_dwLitColorCacheBase)
-$v0.16 = $t5      # lw $v0.16, 0x4($s5.1)
+$v0.16 = $t7      # lw $v0.16, 0x4($s5.1)
 $v0.18 = $t5      # srl $v0.18, %word1, 16
 $v0.24 = $t5      # srl $v0.24, %word2, 16
 $v0.30 = $t5      # srl $v0.30, %word3, 16
@@ -28,6 +27,7 @@ $v1.11 = $t5      # lw $v1.11, 0x0($a0.2)
 $v1.14 = $t5      # lw $v1.14, 0x0($a0.3)
 $v1.15 = $t2      # sll $v1.15, %word3, 16
 $v1.19 = $t1      # and $v1.19, $a1.2, $s4.2
+$a0.0 = $a0     
 $a0.1 = $t5       # addu $a0.1, $v0.19, $s3.1
 $a0.2 = $t5       # addu $a0.2, $v0.25, $s3.1
 $a0.3 = $t5       # addu $a0.3, $v0.31, $s3.1
@@ -36,7 +36,7 @@ $a1.1 = $v0       # lw $a1.1, 0x4($a0.3)
 $a1.2 = $t1       # lw $a1.2, 0x8($s0.1)
 $a1.3 = $t1       # or $a1.3, $v1.19, $s6.2
 $a2.1 = $v0       # lw $a2.1, 0x4($a0.2)
-$a2.2 = $v0       # addu $a2.2, $v0.17, $v0.44
+$a2.2 = $v0       # addu $a2.2, $v0.44, $v0.17
 $a3.1 = $v0       # lw $a3.1, 0x4($a0.1)
 $a3.2 = $v1       # and $a3.2, $v0.6, $at
 $t2.1 = $t0       # lw $t2.1, 0x4($s0.1)
@@ -68,7 +68,7 @@ $t9.1 = $s2       # lui $t9.1, %hi(gModel_dwSecondPassClutBits)
 [residual]
 --- rules
 +++ retail
-@@ -9,18 +9,20 @@
+@@ -9,19 +9,20 @@
  sw $s2, 0x30($a0)
 -sw $s4, 0x34($a0)
 -sw $s5, 0x38($a0)
@@ -95,19 +95,20 @@ $t9.1 = $s2       # lui $t9.1, %hi(gModel_dwSecondPassClutBits)
 +bne $v0, $zero, .L8
  addu $t4, $s0, $zero
 -bne $v0, $zero, .L8
+-nop
  lw $s1, 0x8($a3)
-@@ -32,3 +34,2 @@
+@@ -33,3 +34,2 @@
  nop
 -lui $s1, 0x20
  lhu $s2, 0x6($a3)
-@@ -36,4 +37,5 @@
+@@ -37,4 +37,5 @@
  lw $t4, %lo(gModel_dwPolyGt3SemiTemplate)($t4)
 +sll $s2, $s2, 16
  j .L7
 -sll $s2, $s2, 16
 +lui $s1, 0x20
  .L8:
-@@ -43,8 +45,7 @@
+@@ -44,8 +45,7 @@
  lb $t5, %lo(gModel_bCurrentDrawMode)($t5)
 -srl $t0, $s0, 24
 -sll $t0, $t0, 24
@@ -119,7 +120,7 @@ $t9.1 = $s2       # lui $t9.1, %hi(gModel_dwSecondPassClutBits)
 -lw $a2, 0x24($a0)
 +lui $s4, 0xE200
  lui $t5, %hi(gModel_dwLitColorCacheBase)
-@@ -52,11 +53,12 @@
+@@ -53,11 +53,12 @@
  lw $a1, 0x1C($a0)
 +lw $a2, 0x24($a0)
  beq $t5, $zero, .L6
@@ -128,26 +129,27 @@ $t9.1 = $s2       # lui $t9.1, %hi(gModel_dwSecondPassClutBits)
  addiu $a2, $a2, 0x4
  .L6:
 -ori $at, $at, 0xFFFF
- lw $t5, 0x4($a0)
+-lw $t7, 0x4($a0)
++lw $t5, 0x4($a0)
  lw $t6, 0x8($a0)
--lw $t5, 0x4($t5)
+-lw $t7, 0x4($t7)
 +lw $t7, 0x4($t5)
  .L5:
 +addiu $v1, $zero, -0x1
  lw $t0, 0x10($a3)
-@@ -65,3 +67,2 @@
+@@ -66,3 +67,2 @@
  srl $t5, $t0, 16
 -addiu $v1, $zero, -0x1
  sll $t5, $t5, 3
-@@ -75,3 +76,2 @@
+@@ -76,3 +76,2 @@
  srl $t5, $t1, 16
 -addiu $v1, $zero, -0x1
  sll $t5, $t5, 3
-@@ -85,3 +85,2 @@
+@@ -86,3 +85,2 @@
  srl $t5, $t2, 16
 -addiu $v1, $zero, -0x1
  sll $t5, $t5, 3
-@@ -95,11 +94,10 @@
+@@ -96,11 +94,10 @@
  sll $t0, $t0, 16
 +srl $t0, $t0, 13
  sll $t1, $t1, 16
@@ -162,13 +164,13 @@ $t9.1 = $s2       # lui $t9.1, %hi(gModel_dwSecondPassClutBits)
  addu $t2, $t2, $a2
 -.word 0x4B58002D
  lw $t0, 0x0($t0)
-@@ -107,3 +105,4 @@
+@@ -108,3 +105,4 @@
  lw $t2, 0x0($t2)
 -or $t0, $t0, $t0
 +.word 0x4B58002D
 +or $t0, $t0, $s3
  sw $t0, 0x8($t9)
-@@ -116,9 +115,11 @@
+@@ -117,6 +115,8 @@
  mfc2 $v0, $7
 +lui $at, 0x200
 +and $v1, $s0, $at
@@ -179,11 +181,7 @@ $t9.1 = $s2       # lui $t9.1, %hi(gModel_dwSecondPassClutBits)
 -lui $at, 0x200
 -and $v1, $s0, $at
  srlv $v0, $v0, $t6
- sll $v0, $v0, 2
--addu $v0, $t5, $v0
-+addu $v0, $v0, $t7
- lw $t5, 0x0($v0)
-@@ -127,6 +128,5 @@
+@@ -128,6 +128,5 @@
  sw $t1, 0x1C($t9)
 -lui $s4, 0xE200
  sw $t2, 0x28($t9)
@@ -191,7 +189,7 @@ $t9.1 = $s2       # lui $t9.1, %hi(gModel_dwSecondPassClutBits)
  sw $s4, 0x2C($t9)
 -sw $s5, 0x4($t9)
  sll $t5, $t5, 8
-@@ -145,13 +145,15 @@
+@@ -146,13 +145,15 @@
  or $t0, $t0, $s2
 +lui $at, 0xFF9F
 +ori $at, $at, 0xFFFF
@@ -213,7 +211,7 @@ $t9.1 = $s2       # lui $t9.1, %hi(gModel_dwSecondPassClutBits)
 -lw $v1, 0x24($t9)
 -or $t1, $t1, $at
  sw $v1, 0x54($t9)
-@@ -170,4 +172,5 @@
+@@ -171,4 +172,5 @@
  lw $s2, 0x30($a0)
 -lw $s4, 0x34($a0)
 -lw $s5, 0x38($a0)

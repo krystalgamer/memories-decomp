@@ -3,7 +3,7 @@ function = Model_DrawSharedSemiGt4WindowRecordPrimitives
 source = src/game/shared_polygon_renderers.c
 address = 0x80068FD8
 size = 0x334
-rules = strip-nops aligned-word-copy invariant-last dmpsx-native gte-direct-read unspill fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot
+rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-write unspill invariant-last fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants at-branch-constants sign-extend-load zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot fill-jump-slot
 frameless = $a0 0x28
 
 [registers]
@@ -12,9 +12,8 @@ $v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
 $v0.4 = $s0       # lui $v0.4, %hi(gModel_dwPolyGt4Template)
 $v0.10 = $s2      # lhu $v0.10, 0x6($s3.1)
 $v0.11 = $s3      # srl $v0.11, $v0.6, 24
-$v0.13 = $at      # addiu $v0.13, $zero, 0x1
 $v0.14 = $t5      # lui $v0.14, %hi(gModel_dwLitColorCacheBase)
-$v0.16 = $t5      # lw $v0.16, 0x4($fp.1)
+$v0.16 = $t7      # lw $v0.16, 0x4($fp.1)
 $v0.18 = $t5      # srl $v0.18, %word1, 16
 $v0.24 = $t5      # srl $v0.24, %word2, 16
 $v0.30 = $t5      # srl $v0.30, %word3, 16
@@ -33,6 +32,7 @@ $v1.15 = $t5      # lw $v1.15, 0x0($a0.3)
 $v1.18 = $t5      # lw $v1.18, 0x0($a0.4)
 $v1.19 = $t0      # lw $v1.19, 0x0($a2.2)
 $v1.21 = $t1      # and $v1.21, $a2.3, $at
+$a0.0 = $a0     
 $a0.1 = $t5       # addu $a0.1, $v0.19, $s1.1
 $a0.2 = $t5       # addu $a0.2, $v0.25, $s1.1
 $a0.3 = $t5       # addu $a0.3, $v0.31, $s1.1
@@ -40,7 +40,7 @@ $a0.4 = $t5       # addu $a0.4, $v0.37, $s1.1
 $a0.5 = $t2       # sll $a0.5, %word3, 16
 $a1.1 = $v0       # lw $a1.1, 0x4($a0.4)
 $a1.2 = $t1       # addu $a1.2, $v0.45, $t6.1
-$a1.4 = $v0       # addu $a1.4, $v0.17, $v0.56
+$a1.4 = $v0       # addu $a1.4, $v0.56, $v0.17
 $a2.1 = $v0       # lw $a2.1, 0x4($a0.3)
 $a2.2 = $t0       # addu $a2.2, $v0.43, $t6.1
 $a2.3 = $t1       # lw $a2.3, 0x8($s3.1)
@@ -53,8 +53,9 @@ $t3.1 = $t9       # lw $t3.1, 0x10($fp.1)
 $t5.1 = $t4       # addu $t5.1, $v0.6, $zero
 $t6.1 = $a2       # lw $t6.1, 0x24($fp.1)
 $t7.1 = $s1       # lui $t7.1, %hi(gModel_dwTpageBlendRateBits)
+$s0.1 = $t4       # lui $s0.1, 0x20
 $s0.2 = $s5       # lw $s0.2, 0x0($s3.1)
-$s0.3 = $s1       # lw $s0.3, 0xC($sp)
+$s0.3 = $s1       # addu $s0.3, %slot1, $zero
 $s1.1 = $a1       # lw $s1.1, 0x1C($fp.1)
 $s3.1 = $a3       # addu $s3.1, $v1.1, $v0.3
 $s4.1 = $t8       # lhu $s4.1, 0x2($v0.1)
@@ -68,6 +69,7 @@ $t8.1 = $t6       # lw $t8.1, 0x8($fp.1)
 $t8.2 = $t3       # lw $t8.2, 0x10($s3.1)
 $t8.4 = $s4       # lui $t8.4, 0xE200
 $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
+%slot1 = $t4      # addu %slot1, $t7.2, $zero
 %tag1 = $t5       # lw %tag1, 0x0($a1.4)
 %word1 = $t0      # lwr %word1, 0xE($s3.1)
 %word2 = $t1      # lw %word2, 0x14($s3.1)
@@ -97,11 +99,14 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
 +bne $v0, $zero, .L9
  addu $t4, $s0, $zero
 -bne $v0, $zero, .L9
--nop
+-addu $t4, $s1, $zero
  lw $s1, 0x8($a3)
-@@ -33,3 +33,3 @@
+@@ -31,5 +31,5 @@
+ bne $s1, $zero, .L9
+-addu $t4, $s1, $zero
++nop
  beq $s2, $zero, .L8
--lui $s0, 0x20
+-lui $t4, 0x20
 +nop
  lhu $s2, 0x6($a3)
 @@ -37,4 +37,5 @@
@@ -121,9 +126,12 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
  lw $a1, 0x1C($a0)
 +lw $a2, 0x24($a0)
  beq $t5, $zero, .L7
-@@ -59,5 +60,6 @@
+@@ -57,7 +58,8 @@
+ .L7:
+-lw $t7, 0x4($a0)
++lw $t5, 0x4($a0)
  lw $t6, 0x8($a0)
--lw $t5, 0x4($t5)
+-lw $t7, 0x4($t7)
 +lw $t7, 0x4($t5)
  .L6:
  addiu $v1, $zero, -0x1
@@ -160,17 +168,13 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
 +lui $at, 0x200
 +and $v1, $s0, $at
  lui $at, 0xFF9F
-@@ -144,4 +148,2 @@
+@@ -144,5 +148,2 @@
  and $t1, $t1, $at
+-addu $s1, $t4, $zero
 -lui $at, 0x200
 -and $v1, $s0, $at
  or $t1, $t1, $s1
-@@ -149,3 +151,3 @@
- sll $v0, $v0, 2
--addu $v0, $t5, $v0
-+addu $v0, $v0, $t7
- lw $t5, 0x0($v0)
-@@ -155,6 +157,5 @@
+@@ -156,6 +157,5 @@
  sw $t2, 0x28($t9)
 -lui $s4, 0xE200
  sw $t3, 0x34($t9)
@@ -178,7 +182,7 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
  sw $s4, 0x38($t9)
 -sw $s5, 0x4($t9)
  sll $t5, $t5, 8
-@@ -174,17 +175,17 @@
+@@ -175,17 +175,17 @@
  lui $at, 0xFF9F
 +ori $at, $at, 0xFFFF
 +and $t1, $t1, $at
