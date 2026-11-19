@@ -217,13 +217,13 @@ s32 Options_Update(void)
 {
     s32 active = 1;
 
-    switch (gOptions_bState & 0xF) {
+    switch (gOptions_bState & OPTIONS_STATE_STEP_MASK) {
     case 0: Fade_WaitOut(); break;
     case 1: Options_HandleInput(); break;
     case 2:
 #ifdef VERSION_JAPAN
-        if ((gOptions_bState & 0x80) == 0) {
-            gOptions_bState |= 0x80;
+        if ((gOptions_bState & OPTIONS_STATE_STARTED) == 0) {
+            gOptions_bState |= OPTIONS_STATE_STARTED;
             SaveData_RequestOptionsWrite();
         }
         if (MemCardDialog_Poll() == 0) {

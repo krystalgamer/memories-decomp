@@ -1,6 +1,8 @@
 #ifndef MEMORIES_DECOMP_OPTIONS_H
 #define MEMORIES_DECOMP_OPTIONS_H
 
+#include "options_state.h"
+
 #include "../types.h"
 #include "display_object.h"
 
