@@ -9,12 +9,16 @@ import subprocess
 from dataclasses import dataclass
 from pathlib import Path
 
+import yaml
+
 from build_baseline import BuildError, compile_c, load_compiler_profiles
 from compile_defines import DefineError, combine_defines, validate_defines
 from unit_objects import ObjectNameError, entry_object
 from workspace import local_environment, resolve_within
 
 TOOLCHAIN = "tools/toolchains/binutils-2.42/bin"
+# Dotted subsegment types a regional split.yaml gives to a C object.
+OWNED_SECTIONS = (".sbss", ".bss", ".sdata", ".data", ".rodata")
 
 
 @dataclass(frozen=True)
@@ -270,19 +274,30 @@ def weaken_data_definitions(root: Path, object_path: Path, sections: set[str]) -
 def owned_data_sections(root: Path, configuration: RegionalBuildConfiguration) -> set[str]:
     """Return the object section listings the region's split.yaml places itself.
 
-    A unit that owns a zero-initialized or initialized block in this region is
-    listed at its address with a dotted section type; its definitions are the
-    region's storage and stay strong.
+    A unit that owns a zero-initialized, initialized or read-only block in this
+    region is listed at its address with a dotted section type; its
+    definitions are the region's storage and stay strong. The French template
+    writes some subsegments in block style, so the file is read as YAML.
     """
     split = resolve_within(
         root, str(Path(configuration.matching_config).parent / "split.yaml"), must_exist=True
     )
+    with split.open("r", encoding="utf-8") as handle:
+        document = yaml.safe_load(handle)
     owned = set()
-    for offset, section, unit in re.findall(
-        r"-\s*\[(0x[0-9A-Fa-f]+),\s*(\.sbss|\.bss|\.sdata|\.data),\s*([^\]\s]+)\]",
-        split.read_text(encoding="utf-8"),
-    ):
-        owned.add(f"{configuration.splat_directory}/build/src/{unit}.o({section})")
+    for segment in (document or {}).get("segments") or []:
+        if not isinstance(segment, dict):
+            continue
+        for entry in segment.get("subsegments") or []:
+            if (
+                isinstance(entry, list)
+                and len(entry) >= 3
+                and entry[1] in OWNED_SECTIONS
+                and isinstance(entry[2], str)
+            ):
+                owned.add(
+                    f"{configuration.splat_directory}/build/src/{entry[2]}.o({entry[1]})"
+                )
     return owned
 
 
