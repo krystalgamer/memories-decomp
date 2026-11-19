@@ -279,7 +279,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
             }
         }
         if ((gInput_awPadPressed[0] & PAD_BUTTON_START) != 0) {
-            SD_SEPlay(7, 0xFF, 0);
+            SD_SEPlay(SD_SE_DECIDE, 0xFF, 0);
             ent3 = gMainMenu_pStartPrompt;
             ent3->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             MainMenu_StartFrontendEntryTransition(0);
@@ -412,7 +412,7 @@ s32 MainMenu_UpdateFrontendMenu(void)
                 *(volatile u8 *)&gMain_bMenuID = (gMain_bMenuID - base + count + 1) % count + base;
             }
             DisplayObject_SetResourceVariant(gMain_apMenuEntries[gMain_bMenuID], gMain_bMenuID << 1);
-            SD_SEPlay(6, 0xFF, 0);
+            SD_SEPlay(SD_SE_CURSOR, 0xFF, 0);
             return -1;
         }
 
@@ -421,13 +421,13 @@ s32 MainMenu_UpdateFrontendMenu(void)
         }
         if ((gInput_awPadPressed[0] & MAIN_MENU_FRONTEND_CANCEL_BUTTON) != 0) {
             if ((u32)gMain_bMenuID < 5) {
-                SD_SEPlay(9, 0xFF, 0);
+                SD_SEPlay(SD_SE_BUZZER, 0xFF, 0);
                 return -1;
             }
-            SD_SEPlay(8, 0xFF, 0);
+            SD_SEPlay(SD_SE_CANCEL, 0xFF, 0);
             gMainMenu_bBackRequested = 1;
         } else {
-            SD_SEPlay(7, 0xFF, 0);
+            SD_SEPlay(SD_SE_DECIDE, 0xFF, 0);
             switch (gMain_bMenuID) {
             case 1:
                 SaveData_RequestLoad();

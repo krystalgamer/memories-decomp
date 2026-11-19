@@ -304,13 +304,13 @@ void PalOptions_HandleInput(void)
             gSD_bOutputType = 1;
             gPalOptions_bSoundOutputType = 1;
             SD_SetOutputType(1);
-            SD_SEPlayFull(0x2F);
+            SD_SEPlayFull(SD_SE_CHANGE);
         }
         if ((gInput_awPadPressed[0] & PAD_DIRECTION_LEFT) != 0 && gPalOptions_bSoundOutputType == 1) {
             gSD_bOutputType = 0;
             gPalOptions_bSoundOutputType = 0;
             SD_SetOutputType(0);
-            SD_SEPlayFull(0x2F);
+            SD_SEPlayFull(SD_SE_CHANGE);
         }
     } else {
         if ((gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) != 0) {
@@ -332,7 +332,7 @@ void PalOptions_HandleInput(void)
             DisplayObject_SetResourceVariant(gPalOptions_pLabelSprite, gPalOptions_pLabelSprite->resource_variant);
             gPalOptions_pSoundTypeSprite->resource_branch_index = selection;
             DisplayObject_SetResourceVariant(gPalOptions_pSoundTypeSprite, gPalOptions_pSoundTypeSprite->resource_variant);
-            SD_SEPlayFull(0x2F);
+            SD_SEPlayFull(SD_SE_CHANGE);
         }
     }
     if ((gInput_awPadPressed[0] & (PAD_BUTTON_CIRCLE | PAD_BUTTON_CROSS)) != 0) {

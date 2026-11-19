@@ -366,7 +366,7 @@ void Password_UpdateShopScreen(void)
                     return;
                 }
             }
-            SD_SEPlayFull(47);
+            SD_SEPlayFull(SD_SE_CHANGE);
             cursor = gPassword_pDigitCursorWidget;
             Password_SetDigitCursorTarget(cursor);
             cursor->field_60 = 8;
@@ -406,7 +406,7 @@ void Password_UpdateShopScreen(void)
                 return;
             }
             gPassword_wShopState = 1;
-            SD_SEPlayFull(48);
+            SD_SEPlayFull(SD_SE_COMMIT);
         }
         return;
     case 1:

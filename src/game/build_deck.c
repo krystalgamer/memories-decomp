@@ -1614,7 +1614,7 @@ s32 BuildDeck_UpdateCardListInput(CardList *list)
                                 list->sort_choice = 6;
                             }
                         }
-                        SD_SEPlayFull(0x2F);
+                        SD_SEPlayFull(SD_SE_CHANGE);
                         icon = list->kind;
                         slot = list->sort_choice;
                         icon = icon << 4;

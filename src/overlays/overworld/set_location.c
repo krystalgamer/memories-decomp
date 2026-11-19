@@ -496,7 +496,7 @@ s32 CampaignMap_PickExit(void)
     if (gCampaignMap_Location >= 10) {
         if (Campaign_TestStoryFlag(CAMPAIGN_FLAG_TOURNAMENT_COMPLETE) != 0 &&
             (gInput_awPadPressed[0] & CAMPAIGN_MAP_CANCEL_BUTTON) != 0) {
-            SD_SEPlayFull(48);
+            SD_SEPlayFull(SD_SE_COMMIT);
             gCampaignMap_MoveState = 24;
             return 0;
         }
@@ -511,10 +511,10 @@ s32 CampaignMap_PickExit(void)
         if (ready == 0) {
             if (record->confirm_destination != 0) {
                 gCampaignMap_MoveState = 24;
-                SD_SEPlayFull(48);
+                SD_SEPlayFull(SD_SE_COMMIT);
                 return record->confirm_destination;
             }
-            SD_SEPlayFull(48);
+            SD_SEPlayFull(SD_SE_COMMIT);
             return gCampaignMap_Location | 0x8000;
         }
     }

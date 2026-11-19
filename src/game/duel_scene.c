@@ -4228,7 +4228,7 @@ void DuelHand_CreateSelectionOrderMarker(DuelSelectionRecord *arg)
 {
  register DuelSelectionRecord*object=arg;register DuelHandSlot*slot=&gDuelHand_aSlots[(s8)object->hand_cursor_slot];register DisplayObject*child;
  slot->object->xy.s.y-=4;child=DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(),1);DisplayObject_ConfigureScreenSprite(child,slot->object->xy.s.x,slot->object->xy.s.y,0x10,0x10,object->ordered_pick_count<<4,DUEL_HAND_STACK_COUNT_FIELD_5D,0xB,DUEL_HAND_STACK_COUNT_CX,0xFC);
- DisplayObject_SelectOrderingTable1(child);DisplayObject_SetDepthOffset(child,(s8)((u8)slot->object->depth_offset+1));slot->order_marker=child;object->ordered_pick_count++;slot->selection_order=object->ordered_pick_count;SD_SEPlayFull(0x2F);
+ DisplayObject_SelectOrderingTable1(child);DisplayObject_SetDepthOffset(child,(s8)((u8)slot->object->depth_offset+1));slot->order_marker=child;object->ordered_pick_count++;slot->selection_order=object->ordered_pick_count;SD_SEPlayFull(SD_SE_CHANGE);
 }
 
 void DuelHand_RefreshSelectionColors(DuelSelectionRecord *side) {
@@ -4734,7 +4734,7 @@ void DuelScene_UpdateHandActions(void)
                         gInput_awPadHeld[0] == PAD_DIRECTION_DOWN)) {
                 value = hand->selection_order;
                 if (value != 0) {
-                    SD_SEPlayFull(0x2F);
+                    SD_SEPlayFull(SD_SE_CHANGE);
                     hand->selection_order = 0;
                     hand->object->xy.h.y += 4;
                     DisplayObject_ReleaseIfPresent(hand->order_marker);
@@ -5265,7 +5265,7 @@ void DuelScene_UpdateFieldActions(void)
                 DisplayObject_ReleaseIfPresent(gDuel_pActionReadyMarker);
                 gDuel_pActionReadyMarker = 0;
                 gDuel_bSceneSubStep = 0xA;
-                SD_SEPlayFull(0x30);
+                SD_SEPlayFull(SD_SE_COMMIT);
                 return;
             }
             gDuel_wActionSubstate = 1;
@@ -5780,7 +5780,7 @@ void DuelScene_UpdateFieldActions(void)
         DisplayObject_ReleaseIfPresent(gDuel_pActionReadyMarker);
         gDuel_pActionReadyMarker = 0;
         gDuel_bSceneSubStep = 0xA;
-        SD_SEPlayFull(0x30);
+        SD_SEPlayFull(SD_SE_COMMIT);
         return;
     case 10:
         if (!(gDuel_bSceneSubStep & 0x80)) {
@@ -7731,7 +7731,7 @@ void DuelScene_UpdateResultRewards(void)
     } else if (gInput_awPadPressed[0] & DUEL_RESULT_REWARDS_CONFIRM_BUTTON) {
         gDuel_wSceneStateFlags |= 0x4000;
         Fade_SetTargetLevel(0, 6);
-        SD_SEPlayFull(0x30);
+        SD_SEPlayFull(SD_SE_COMMIT);
     }
 }
 
@@ -9129,7 +9129,7 @@ void DuelScene_Update(void)
     if (value != 0) {
         if (!(value & 0x80)) {
             gDuel_bQuitDialogState = value | 0x80;
-            SD_SEPlayFull(0x30);
+            SD_SEPlayFull(SD_SE_COMMIT);
             window =
                 TextBox_CreateFlagged(3, 0x22, DUEL_QUIT_BOX_X, 0x58,
                                       DUEL_QUIT_BOX_WIDTH,
