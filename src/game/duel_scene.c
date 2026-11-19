@@ -8435,7 +8435,6 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
 {
     DuelCardRecord *record = &gDuel_aCardRecords[card_record_index];
     DuelEffectChannel *box;
-    s32 *table;
     s32 style;
     s32 id;
     s32 value;
@@ -8445,10 +8444,8 @@ void DuelField_CreateCardInfoTextBox(DuelSelectionRecord *source, s32 card_recor
     gText_BranchSelectorB = 0;
     style = 0x50;
     if (record->flags & DUEL_CARD_FLAG_OCCUPIED) {
-        table = gDuel_adwCardStats;
         id = record->card_id;
-        /* table[id - 1] folds the -1 into the load offset; retail subtracts first. */
-        stats = *(s32 *)((s32)table + ((id - 1) << 2));
+        stats = gDuel_adwCardStats[id - 1];
         gText_BranchSelectorA = 1;
         gDuel_wSelectedCardID = id;
         if (((stats >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) <
@@ -11498,11 +11495,9 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
 
     {
         DuelCardRecord *rec;
-        s32 *tbl;
 
         rec = base + DUEL_FIELD_ROW_SIZE;
         i = 0;
-        tbl = gDuel_adwCardStats;
         do {
             out->card_id = 0;
             if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
@@ -11517,11 +11512,10 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
                 out->card_type =
                     rec->object->resource_branch_index;
                 if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
-                    /* tbl[card_id - 1] folds the -1 into the load offset; retail subtracts first. */
-                    star_bits = *(s32 *) ((( rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = gDuel_adwCardStats[rec->card_id - 1] >>
                         CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                 } else {
-                    star_bits = *(s32 *) ((( rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = gDuel_adwCardStats[rec->card_id - 1] >>
                         CARD_STAT_GUARDIAN_STAR_1_SHIFT;
                 }
                 out->guardian_star = star_bits & CARD_STAT_GUARDIAN_STAR_MASK;
@@ -11534,11 +11528,9 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
 
     {
         DuelCardRecord *rec;
-        s32 *tbl;
 
         rec = base + DUEL_FIELD_SIDE_ZONE_COUNT;
         i = 0;
-        tbl = gDuel_adwCardStats;
         do {
             out->card_id = 0;
             if (rec->flags & DUEL_CARD_FLAG_OCCUPIED) {
@@ -11553,10 +11545,10 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
                 out->card_type =
                     rec->object->resource_branch_index;
                 if (rec->flags & DUEL_CARD_FLAG_USE_GUARDIAN_STAR_2) {
-                    star_bits = *(s32 *) ((( rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = gDuel_adwCardStats[rec->card_id - 1] >>
                         CARD_STAT_GUARDIAN_STAR_2_SHIFT;
                 } else {
-                    star_bits = *(s32 *) ((( rec->card_id - 1) << 2) + (u32) tbl) >>
+                    star_bits = gDuel_adwCardStats[rec->card_id - 1] >>
                         CARD_STAT_GUARDIAN_STAR_1_SHIFT;
                 }
                 out->guardian_star = star_bits & CARD_STAT_GUARDIAN_STAR_MASK;
@@ -11582,6 +11574,9 @@ void Ai_ExportSideSnapshot(AiActiveCard *out, s32 side) {
                 id = gDuel_abCardStagingBuffer.deck.cards[n].id;
                 out->card_id = id;
                 tbl = gDuel_adwCardStats;
+                /* Here and in the deck loop below, &gDuel_adwCardStats[id - 1]
+                   lets loop.c hoist the symbol with the -4 folded in; retail
+                   subtracts from id and adds the hoisted base last. */
                 p = (s32 *) (((id - 1) << 2) + (u32) tbl);
                 out->attack = (*p & CARD_STAT_VALUE_MASK) * CARD_STAT_SCALE;
                 out->defense = ((*p >> CARD_STAT_DEFENSE_SHIFT) &
