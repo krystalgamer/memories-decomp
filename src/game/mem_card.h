@@ -867,8 +867,8 @@ extern u8 gSaveData_PairSetupState;
  * before entering the two-player duel setup. On top of the trade load it
  * requires a full deck in both saves and converts both player names.
  *
- * SaveData_RequestTradeWrite stamps integrity over both slots of the pair at
- * gSaveData_aTradeWriteStaging, records the second slot in
+ * SaveData_RequestTradeWrite stamps integrity over both trade_write blocks of
+ * gSaveData_aPairWorkspace, records the second one in
  * gMemCard_pSecondaryTransferCursor, and starts dialog step 4
  * to write them back. MainMenu_UpdateTradeScreen
  * (src/overlays/main_menu/trade_screen.c) calls it once, after moving the

@@ -743,7 +743,6 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
 #include "input.h"
 #include "sound.h"
 #include "paired_player_name_glyphs.h"
-#include "save_pair_transfer_views.h"
 
 /* The save file's card name and the diagnostics MemCardWork_UpdateOperation
  * prints are string literals. They are the first .rodata this unit emits, in
@@ -2508,7 +2507,7 @@ s32 SaveData_UpdateLoadPair(void)
                 }
                 gSaveData_LoadPairState |= 0x40;
                 MemCardDialog_Request(
-                    gSaveData_aSecondPlayerState,
+                    gSaveData_aPairWorkspace[1].loaded.bytes,
                     SAVE_DATA_STATE_SIZE,
                     MEM_CARD_SAVE_FILE_NAME,
                     1
@@ -2603,12 +2602,12 @@ s32 SaveData_UpdateDuelLoad(void)
         }
         Text_SjisToGlyphCodes(
             gText_aFirstPlayerNameGlyphs,
-            gSaveData_aFirstPlayerNameSjis,
+            gSaveData_aPairWorkspace[0].loaded.state.player_name_sjis,
             SAVE_DATA_PLAYER_NAME_CHAR_COUNT
         );
         Text_SjisToGlyphCodes(
             gText_aSecondPlayerNameGlyphs,
-            gSaveData_aFirstPlayerNameSjis + TWO_PLAYER_SAVE_SLOT_STRIDE,
+            gSaveData_aPairWorkspace[1].loaded.state.player_name_sjis,
             SAVE_DATA_PLAYER_NAME_CHAR_COUNT
         );
     }
@@ -2617,16 +2616,14 @@ s32 SaveData_UpdateDuelLoad(void)
 
 void SaveData_RequestTradeWrite(void)
 {
-    u8 *p = gSaveData_aTradeWriteStaging;
-    u8 *q = p + TWO_PLAYER_SAVE_SLOT_STRIDE;
+    SaveDataStateBlock *p = &gSaveData_aPairWorkspace[0].trade_write;
+    SaveDataStateBlock *q = &gSaveData_aPairWorkspace[1].trade_write;
 
-    /* Each 0x1000-byte trade slot of the staging bytes opens with a sealed
-       state. */
-    SaveData_WritePrimarySecondaryIntegrity((SaveDataSeals *)p);
-    SaveData_WritePrimarySecondaryIntegrity((SaveDataSeals *)q);
-    gMemCard_pSecondaryTransferCursor = q;
+    SaveData_WritePrimarySecondaryIntegrity(&p->sealed.seals);
+    SaveData_WritePrimarySecondaryIntegrity(&q->sealed.seals);
+    gMemCard_pSecondaryTransferCursor = q->bytes;
     MemCardDialog_Request(
-        p,
+        p->bytes,
         TWO_PLAYER_SAVE_TRANSFER_SIZE,
         MEM_CARD_SAVE_FILE_NAME,
         4

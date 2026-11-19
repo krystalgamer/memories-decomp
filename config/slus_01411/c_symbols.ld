@@ -79,7 +79,6 @@ gAiSnapshot_aOwnCards = 0x801AB00C;
 gDisplay_abResourceBank0 = 0x801AF000;
 gDisplay_abResourceBank1 = 0x801AF800;
 D_801D0534 = 0x801D0534;
-gSaveData_aTradeWriteStaging = 0x801D1880;
 gSaveData_aTransferBuffer = 0x801D3200;
 gSaveData_aHeaderTemplate = 0x801D4000;
 gFile_ActiveRequestSlot = 0x801D4200;

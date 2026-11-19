@@ -15,11 +15,9 @@ provider and relocation identity.
 
 `SaveData_UpdateDuelLoad` converts the two loaded SJIS names only after
 its existing deck validation succeeds. Its first destination receives
-the conversion of `gSaveData_aFirstPlayerNameSjis`; the second receives
-the conversion of that source plus `TWO_PLAYER_SAVE_SLOT_STRIDE`.
-Both calls retain `SAVE_DATA_PLAYER_NAME_CHAR_COUNT` (`6`), call order,
-source expressions and failure paths. The SJIS source and trade
-workspace views remain separate; see
+the conversion of slot 0's `player_name_sjis` in
+`gSaveData_aPairWorkspace`; the second receives slot 1's. Both calls use
+`SAVE_DATA_PLAYER_NAME_CHAR_COUNT` (`6`). For the workspace layout see
 [save-pair-workspaces.md](save-pair-workspaces.md).
 
 `SaveData_ApplyRuntimeState` converts the loaded state's
