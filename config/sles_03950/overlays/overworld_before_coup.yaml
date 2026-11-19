@@ -35,6 +35,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
 
   section_order:
@@ -76,8 +77,15 @@ segments:
     vram: 0x801695C8
     align: 4
     subsegments:
-      - [0x15C8, data, overlays/italian_overworld_before_coup/live_state]
-      - [0x1618, data, overlays/italian_overworld_before_coup/live_state_tail]
+      - [0x15C8, bss_commons, overlays/italian_overworld_before_coup/set_location_commons]
+
+  - name: live_state_tail
+    type: code
+    start: 0x161C
+    vram: 0x8016961C
+    align: 4
+    subsegments:
+      - [0x161C, data, overlays/italian_overworld_before_coup/live_state_tail]
 
   - name: module_tail
     type: code
@@ -102,7 +110,14 @@ segments:
     vram: 0x8016A274
     align: 4
     subsegments:
-      - [0x2274, data, overlays/italian_overworld_before_coup/alternate_state]
-      - [0x22C8, data, overlays/italian_overworld_before_coup/data]
+      - [0x2274, bss_commons, overlays/italian_overworld_before_coup/alternate_location_tick_commons]
+
+  - name: module_data_tail
+    type: code
+    start: 0x22CC
+    vram: 0x8016A2CC
+    align: 4
+    subsegments:
+      - [0x22CC, data, overlays/italian_overworld_before_coup/data]
 
   - [0x3000]

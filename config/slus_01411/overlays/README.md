@@ -155,9 +155,10 @@ its own Splat segment between the live text and the remaining raw/alternate
 tail, so `.data` section ordering cannot move it behind the alternate text.
 See [`campaign-map-records.md`](../../../notes/overlays/campaign-map-records.md)
 for field evidence, boundary ownership and the preserved nonzero unknown
-bytes. The aligned live-state prefix at `0x801695C8-0x80169618` now comes
-from `overworld/live_state.c`, with one owning header for its 18 symbols.
-The two following flag bytes share a nonzero raw word and remain in assembly.
+bytes. The live state at `0x801695C8-0x8016961A` is common storage:
+`overworld/set_location.c` declares its 20 objects as tentative definitions
+and the `set_location_commons` subsegment places them; `live_state.h` keeps
+the declarations of the first 18.
 See [the state ownership evidence](../../../notes/overlays/live-state-data.md)
 for widths, alignment and the all-symbol address checks.
 The alternate routine's unresolved call into the live table at `0x80169230`
@@ -167,7 +168,10 @@ The alternate table at `0x80169E54-0x8016A274` now comes from the separate
 `overworld/alternate_location.c` unit, using its own existing record types.
 It is also sixteen 66-byte records and has the same bytes as the live table,
 but both allocations and their distinct consumer contracts remain intact.
-The residual blob starts at `0x2274`; no following state is included.
+The alternate state after it, `0x8016A274-0x8016A2CA`, is common storage
+too: `overworld/alternate_location_tick.c` declares it and the
+`alternate_location_tick_commons` subsegment places it. The residual bytes
+start at `0x22CA`.
 See [the alternate table evidence](../../../notes/overlays/alternate-location-data.md)
 for byte preservation and the interior-label audit.
 

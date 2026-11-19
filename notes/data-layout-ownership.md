@@ -662,10 +662,13 @@ The Japanese and PAL overworld images (both coup variants) own their data
 through the North American units, listed in each image's
 `overworld_*_data_c.json`: `module_header.c` (`0x0`; PAL selects its `0x06`
 module word with `VERSION_EUROPE`) and `location_table.c` (`0x11A8`, 0x420
-bytes; PAL moves location 9's exit sprite to `y` 208); Japan also
-`live_state.c` (`0x15C8`, 0x50 bytes, North American order); then
-`alternate_location.c` (`0x1E54`, 0x420 bytes, the same PAL exit byte) and,
-in Japan, `alternate_state.c` (`0x2274`, 0x54 bytes). The PAL images keep the
-live and alternate state names in a different order from North America's
-(zero bytes, likely linker-allocated); like the duel-effect bank's tail state
-they stay raw until that layout is settled.
+bytes; PAL moves location 9's exit sprite to `y` 208); then
+`alternate_location.c` (`0x1E54`, 0x420 bytes, the same PAL exit byte). The
+zero-initialized live and alternate state is common storage in all fourteen
+overworld images: `set_location.c` (`gcc_2_8_1_g0_split_comm`) declares the
+live state and `alternate_location_tick.c` (`gcc_2_8_1_o0_g0_split_comm`) the
+alternate state, and each layout places them with `set_location_commons`
+(`+0x15C8`) and `alternate_location_tick_commons` (`+0x2274`) from its symbol
+file. North America and Japan end them on halfwords (`+0x161A`, `+0x22CA`);
+PAL holds the same names in another order, ending at `+0x161C` and
+`+0x22CC`. The stale bytes after each block are their own segment.

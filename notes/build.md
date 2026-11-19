@@ -679,10 +679,13 @@ assembly keeps the built-in `<name>.sbss.s` / `<name>.bss.s` path, so the
 build and linker-script handling are the same for both.
 
 Overlays work the same way at `-G0`: a unit built with
-`gcc_2_8_1_g0_split_comm` keeps its tentative definitions common, and the
+`gcc_2_8_1_g0_split_comm` (or `gcc_2_8_1_o0_g0_split_comm` for an `-O0`
+unit) keeps its tentative definitions common, and the
 module layout's `bss_commons` subsegment `<unit>_commons` defines them from the
 image's symbol file. The section order puts that `.bss` after every `.data`,
-so any raw bytes after the state become their own segment. `overlay_build.py`
+so any raw bytes after the state become their own segment; when the state
+ends on a halfword, both segments take `align: 2`, because Splat pads each
+section's end to its segment's `align`, counted from the section's start. `overlay_build.py`
 rejects a common that a linker assignment, rather than a label, satisfies.
 
 ### Merging units that were one original file
@@ -1414,8 +1417,8 @@ The remaining overlay data work is in the current raw tails:
 | `main_menu` | `0x5CD4-0x8000` | 9004 |
 | `password` | `0x5590-0x7800` | 8816 |
 | `free_duel` | `0x10A8-0x2800` | 5976 |
-| `overworld_before_coup` | `0x2274-0x3000` | 3468 |
-| `overworld_after_coup` | `0x2274-0x3000` | 3468 |
+| `overworld_before_coup` | `0x22CA-0x3000` | 3382 |
+| `overworld_after_coup` | `0x22CA-0x3000` | 3382 |
 
 The mapped main-menu prefix now covers `0x80184558-0x80185CD4`:
 `module_state.c` defines each frontend, value-setup and Trade name once, in

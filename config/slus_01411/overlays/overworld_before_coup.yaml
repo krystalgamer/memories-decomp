@@ -35,6 +35,7 @@ options:
   use_legacy_include_asm: false
   create_asm_dependencies: true
   ld_dependencies: true
+  extensions_path: tools/splat_extensions
   subalign: 2
 
   section_order:
@@ -74,10 +75,18 @@ segments:
     type: code
     start: 0x15C8
     vram: 0x801695C8
-    align: 4
+    # The live state ends on a halfword (+0x161A).
+    align: 2
     subsegments:
-      - [0x15C8, .data, overlays/overworld/live_state]
-      - [0x1618, data, overlays/overworld_before_coup/live_state_tail]
+      - [0x15C8, bss_commons, overlays/overworld_before_coup/set_location_commons]
+
+  - name: live_state_tail
+    type: code
+    start: 0x161A
+    vram: 0x8016961A
+    align: 2
+    subsegments:
+      - [0x161A, bin, overlays/overworld_before_coup/live_state_tail]
 
   - name: module_tail
     type: code
@@ -100,9 +109,17 @@ segments:
     type: code
     start: 0x2274
     vram: 0x8016A274
-    align: 4
+    # The alternate state ends on a halfword (+0x22CA).
+    align: 2
     subsegments:
-      - [0x2274, .data, overlays/overworld/alternate_state]
-      - [0x22C8, data, overlays/overworld_before_coup/data]
+      - [0x2274, bss_commons, overlays/overworld_before_coup/alternate_location_tick_commons]
+
+  - name: module_data_tail
+    type: code
+    start: 0x22CA
+    vram: 0x8016A2CA
+    align: 2
+    subsegments:
+      - [0x22CA, bin, overlays/overworld_before_coup/data]
 
   - [0x3000]

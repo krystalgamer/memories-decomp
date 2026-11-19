@@ -25,6 +25,30 @@
 #include "../../game/shared_work_base.h"
 #include "../../game/main_mode_state.h"
 
+/* The live map state, zero-initialized and common (this unit builds with
+   gcc_2_8_1_g0_split_comm); each layout's set_location_commons subsegment
+   places it in that image's order. */
+DisplayObject *gCampaignMap_pLocationMarker;
+s32 gCampaignMap_dwTweenRefX;
+s32 gCampaignMap_dwTweenRefZ;
+s32 gCampaignMap_nTweenFramesLeft;
+DisplayObject *gCampaignMap_pSpotlight;
+s32 gCampaignMap_dwTweenRefXStep;
+s32 gCampaignMap_dwTweenRefZStep;
+s32 gCampaignMap_dwTweenYaw;
+s32 gCampaignMap_dwTweenPitch;
+u8 gCampaignMap_bTransitionFlags;
+s32 gCampaignMap_dwTweenYawStep;
+s32 gCampaignMap_dwTweenPitchStep;
+DisplayObject *gCampaignMap_apExitObjects[CAMPAIGN_MAP_LOCATION_OBJECT_COUNT];
+s32 gCampaignMap_MoveState;
+u8 gCampaignMap_Location;
+u8 gCampaignMap_bEnterSceneState;
+s32 gCampaignMap_dwTweenDistance;
+s32 gCampaignMap_dwTweenDistanceStep;
+u8 gCampaignMap_LocationPrev;
+u8 D_80169619;
+
 void CampaignMap_ClearLocationObjects(void)
 {
     s32 i;

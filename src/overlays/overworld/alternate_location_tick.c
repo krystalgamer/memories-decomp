@@ -1,6 +1,20 @@
 #include "../../types.h"
 #include "alternate_location.h"
 
+/* The alternate map state, zero-initialized and common (this unit builds
+   with gcc_2_8_1_o0_g0_split_comm); each layout's
+   alternate_location_tick_commons subsegment places it in that image's
+   order. CampaignMap_PickAlternateExit reads gCampaignMapAlt_MoveState and
+   gCampaignMapAlt_Location through their extern declarations. */
+DisplayObject *gCampaignMapAlt_pLocationMarker;
+DisplayObject *gCampaignMapAlt_pSpotlight;
+u8 gCampaignMapAlt_bTransitionFlags;
+s32 gCampaignMapAlt_MoveState;
+u8 gCampaignMapAlt_Location;
+u8 gCampaignMapAlt_bEnterSceneState;
+u8 gCampaignMapAlt_LocationPrev;
+u8 D_8016A2C9;
+
 void CampaignMap_UpdateAlternateLocation(void)
 {
     s32 r;

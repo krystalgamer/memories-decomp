@@ -11,25 +11,28 @@ The record types are unchanged: 66 bytes per location, including four
 both overworld images under `gcc_2_8_1_g0`, in North America, Japan and
 PAL alike. Japan's bytes are North America's; PAL's differ in one byte,
 location 9's only exit `pad2[2]` (`0xC0` NTSC, `0xD0` PAL, the live table's
-sprite `y`), which the PAL entries select with `VERSION_EUROPE`. Neither alternate function body
-nor its existing `-O0` profile changes.
+sprite `y`), which the PAL entries select with `VERSION_EUROPE`. The table leaves
+both alternate function bodies unchanged.
 
 ## Exact extent and placement
 
 | File range | Runtime range | Owner |
 |---|---|---|
 | `0x1E54-0x2274` | `0x80169E54-0x8016A274` | Sixteen C records, `16 * 66 = 1056 = 0x420` bytes |
-| `0x2274-0x22C8` | `0x8016A274-0x8016A2C8` | C-owned alternate controller state (North America and Japan; PAL keeps its reordered zero state raw) |
-| `0x22C8-0x3000` | `0x8016A2C8-0x8016B000` | Remaining generated data blob |
+| `0x2274-0x22CA` | `0x8016A274-0x8016A2CA` | Alternate controller state, common storage declared by `alternate_location_tick.c` (PAL: same names in another order, to `0x22CC`) |
+| `0x22CA-0x3000` | `0x8016A2CA-0x8016B000` | Remaining raw bytes (PAL from `0x22CC`) |
 
-The state prefix is one packed `0x54`-byte record. It includes the two
-`DisplayObject` pointers, rebuild-pending byte, transition duration,
-location and transition flags used by the matching alternate controller.
-Consumer-backed members carry `gCampaignMapAlt_` names (below); the rest keep
-offset names. The two following
-bytes, `gCampaignMapAlt_LocationPrev` and `D_8016A2C9`, are consumer-backed state too, but stay
-with the raw tail because Splat's generated data object preserves this
-non-word boundary only when it starts at aligned `0x22C8`.
+The state is zero-initialized common storage, like the live state (see
+[`live-state-data.md`](live-state-data.md)). `alternate_location_tick.c`
+declares its eight consumer-backed objects, the two `DisplayObject`
+pointers, transition flags, move state, location, enter-scene byte,
+`gCampaignMapAlt_LocationPrev` and `D_8016A2C9`, as tentative definitions
+and builds with `gcc_2_8_1_o0_g0_split_comm`;
+`CampaignMap_PickAlternateExit` reads two of them through `extern`. Each
+layout's `alternate_location_tick_commons` subsegment places them from its
+symbol file, so the unconsumed words and padding between them need no C.
+In North America and Japan the block ends on the halfword after
+`D_8016A2C9`, at `0x8016A2CA`, where the variants' bytes begin.
 
 Both verified module slices have SHA-256
 `0259a2516466fd98262c69a1f4da03d22fec71b9f4e125adea7925fe35220c12`.
@@ -74,8 +77,9 @@ runtime remains unproved.
 `CampaignMap_SetLocation` and the raw diverted call is unresolved, so both
 keep their offset names. The unconsumed alternate words and padding
 (`D_8016A274`, `D_8016A27C`, `D_8016A28C`, `D_8016A29D`, `D_8016A29E`,
-`D_8016A2A0`, `D_8016A2BE`, `D_8016A2C0`) also keep offset names; several are
-arrays spanning more than one live counterpart. `notes/semantic-symbol-map.csv`
+`D_8016A2A0`, `D_8016A2BE`, `D_8016A2C0`) also keep offset names in the
+North American map, as labels of the commons block; several span more
+than one live counterpart. No C declares them. `notes/semantic-symbol-map.csv`
 records each name once per overworld image.
 
 ## Equal bytes do not identify one object

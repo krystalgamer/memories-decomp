@@ -166,8 +166,8 @@ The separate alternate table is now also C-owned; see
 [`alternate-location-data.md`](alternate-location-data.md). Its equal bytes
 do not merge its address or type contract with the live table described here.
 
-The following aligned 80-byte live-state prefix is now C-owned as well;
-[`live-state-data.md`](live-state-data.md) documents its separate scalar
-definitions and the nonzero boundary word retained at `0x80169618`.
+The live state that follows is C-declared common storage;
+[`live-state-data.md`](live-state-data.md) documents its scalar
+definitions and where the block ends.
 That later mapping marks `gCampaignMap_pLocationMarker` and the other state exports defined in
 the project-owned build map rather than leaving them on the raw-tail path.
