@@ -28,6 +28,10 @@ OVERLAY_REGION_PREFIX = "overlay_"
 # Segments whose subsegments this script writes itself; every other segment
 # declares its own in the template.
 GENERATED_SEGMENTS = ("main", "text")
+# The read-only region before the text. Its entries are copied into the
+# generated segment as declared, so a data-only unit can own `.rodata` there.
+LEADING_SEGMENT = "main"
+LEADING_OWNED_SECTION_TYPES = {".rodata"}
 # Subsegment types Splat disassembles into an assembly blob, with the section
 # suffix of the file it writes, and the types that hand a section to the
 # object built from a C translation unit. The `*_commons` types are the
@@ -446,7 +450,7 @@ def collect_data_sources(
         if not isinstance(segment, dict):
             continue
         name = segment.get("name")
-        if name in GENERATED_SEGMENTS:
+        if name in GENERATED_SEGMENTS and name != LEADING_SEGMENT:
             continue
         for entry in segment.get("subsegments") or []:
             if not isinstance(entry, list) or len(entry) < 3:
@@ -455,6 +459,15 @@ def collect_data_sources(
             subsegment = entry[2]
             if not isinstance(kind, str) or not isinstance(subsegment, str):
                 continue
+            if name == LEADING_SEGMENT:
+                # The baseline build assembles the leading blobs itself, and
+                # a text unit's read-only data there is placed with its text.
+                # Only a unit with no text is a data component of its own.
+                if (
+                    kind not in LEADING_OWNED_SECTION_TYPES
+                    or f"src/{subsegment}.c" in text_c_sources
+                ):
+                    continue
             if kind in BLOB_SECTION_TYPES:
                 source = (
                     f"tmp/splat/asm/data/{subsegment}.{BLOB_SECTION_TYPES[kind]}.s"

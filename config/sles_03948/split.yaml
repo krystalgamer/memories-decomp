@@ -51,8 +51,8 @@ segments:
   align: 4
   subsegments:
   - - 2048
-    - rodata
-    - initial_data
+    - .rodata
+    - game/high_memory_addresses
   - - 2104
     - .rodata
     - game/file_setup
@@ -65,8 +65,8 @@ segments:
     - .rodata
     - game/duel_scene
   - - 2520
-    - rodata
-    - initial_data_9d8
+    - .rodata
+    - game/file_bank_addresses
   - - 2540
     - .rodata
     - game/library

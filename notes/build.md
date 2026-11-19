@@ -301,6 +301,22 @@ each object, because that is the one layout mistake the byte-exact comparison
 cannot catch: an object nobody places is not loaded, the blob keeps supplying
 the original bytes, and the build still matches.
 
+**A data-only unit can also own leading read-only data.** The `main` segment
+before the text is copied into the generated split as the template declares
+it. A `.rodata` entry there normally names a text unit, whose read-only data
+the text pipeline compiles and places; a `.rodata` entry naming a file with no
+functions is a data-only unit instead, so `generate_build_config.py` adds it
+to `data_sources.json` and it needs a `data_c.json` profile like any other.
+The leading blobs (`rodata` entries) are not listed there, because the build
+assembles every `initial_data*.s` piece itself. Regional builds read their
+`split.yaml` as YAML (the French template writes the `main` segment in block
+style) and treat a `.rodata` listing like the other dotted sections: a unit
+outside the region's matching manifest is compiled from the region's or the
+North American `data_c.json`. Use one when no text unit can own a range: the
+read-only data of a `-G8` owner holds no object of eight bytes or less, and
+data read only by an overlay has no resident reader to own it.
+`credits_resident_glyphs.c` is the worked example.
+
 #### What is left, and why each piece resists ownership
 
 Every game-owned range in `initialized_data` is owned by a C source. The one

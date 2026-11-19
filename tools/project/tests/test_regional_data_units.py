@@ -12,6 +12,7 @@ sys.path.insert(0, str(REPOSITORY / "tools/project"))
 
 from build_regional_baseline import (  # noqa: E402
     RegionalBuildConfiguration,
+    owned_data_sections,
     owned_data_units,
 )
 
@@ -25,6 +26,9 @@ class OwnedDataUnitsTests(unittest.TestCase):
         region = self.root / "config/region"
         region.mkdir(parents=True)
         (region / "split.yaml").write_text(
+            "segments:\n"
+            "  - name: data\n"
+            "    subsegments:\n"
             "      - [0x1000, .data, game/table]\n"
             "      - [0x1100, .data, game/plain]\n",
             encoding="utf-8",
@@ -68,6 +72,27 @@ class OwnedDataUnitsTests(unittest.TestCase):
             {
                 "src/game/plain.c": ["VERSION_EUROPE"],
                 "src/game/table.c": ["VERSION_EUROPE", "TABLE_SIZE=4"],
+            },
+        )
+
+    def test_read_only_and_block_style_listings_are_owned(self) -> None:
+        """A main-segment .rodata unit counts, written in either YAML style."""
+        (self.root / "config/region/split.yaml").write_text(
+            "segments:\n"
+            "- name: main\n"
+            "  subsegments:\n"
+            "  - - 0x800\n"
+            "    - .rodata\n"
+            "    - game/glyphs\n"
+            "  - [0x838, .rodata, game/text_unit]\n"
+            "  - [0x843, pad]\n",
+            encoding="utf-8",
+        )
+        self.assertEqual(
+            owned_data_sections(self.root, self.configuration),
+            {
+                "build/build/src/game/glyphs.o(.rodata)",
+                "build/build/src/game/text_unit.o(.rodata)",
             },
         )
 

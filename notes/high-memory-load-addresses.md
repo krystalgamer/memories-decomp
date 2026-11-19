@@ -45,8 +45,8 @@ The PAL boot text tail is a separate, later cohort outside the fourteen
 NA words above. `gFile_pBootTextStage5Destination`,
 `gFile_pBootTextStage6Destination` and `gFile_pBootTextStage7Destination`
 are the original stored `u8 *` words at `0x800101E0/4/8`, declared
-under the European build guard only and bound directly by the European
-link scripts. Boot stages 5/6/7 read those individual words
+under the European build guard only and defined after
+`gFile_pScreenBankBase` and `gFile_pDuelBankBase` (see Storage). Boot stages 5/6/7 read those individual words
 for their 30/32/7-sector transfers. The names identify the measured
 transfer roles, not independently verified pointer contents, allocation
 sizes or a uniform text-bank format. See the
@@ -226,11 +226,12 @@ The legacy type/HI-LO ownership controls intentionally retain their old
 names and header. No new harness, fixture, probe or testcase is added;
 cloud/regional/overlay/witness suites are not executed locally.
 
-Every image binds these names directly at their addresses, with no `D_`
-provider or alias left. The North American, English and Japanese
-`symbols.txt` files name the Splat labels; the French, German, Italian and
-Spanish `link_symbols.ld` files assign them. The overlay linker and Splat
-symbol files bind `gRuntime_pSharedWorkBase` the same way.
+Every image defines these names in C (see Storage below), with no `D_`
+provider, alias or resident linker assignment left. The `symbols.txt` files
+name the Splat labels; the French, German, Italian and Spanish ones name only
+`gRuntime_pSharedWorkBase`, the word Psy-Q's `__main` assembly references.
+The overlay linker and Splat symbol files bind `gRuntime_pSharedWorkBase`
+the same way at its absolute address.
 
 The shared four-byte `D_8009B004` record is outside this naming component:
 debug uses its height halfword while credits uses its first two bytes, so
@@ -293,4 +294,36 @@ The original contract consolidation left the remaining constants, Psy-Q
 CRT's zero-count callback walks, generated
 data, function grouping, compiler profiles and existing register assignments
 unchanged. Neither that consolidation nor the dispatcher match maps this
-address-word storage to a new C allocation.
+address-word storage to a new C allocation; the storage section below does.
+
+## Storage
+
+The fourteen words are the first object in every executable, the leading
+read-only data ahead of `file_setup.c`'s, so they are `const` definitions.
+At `-G8` GCC 2.8.1 puts any object of eight bytes or less in `.sdata`, const
+or not, and the only units before `file_setup` in object order are `-G8`
+ones, so the words are a data-only `-G0` unit of their own,
+[`high_memory_addresses.c`](../src/game/high_memory_addresses.c)
+(`gcc_2_8_1_g0`), defined in address order. All seven executables build it;
+the European ones add `VERSION_EUROPE` through their `data_c.json`, because
+their SU module puts the credits music-track buffer at `0x80185F00` rather
+than `0x80185CD4`.
+
+`high_memory_addresses.h` and `model_load_words.h` declare their words
+`const`, like the definitions, and every reader still matches.
+`shared_work_base.h` keeps `gRuntime_pSharedWorkBase` a plain `u8 *`, so the
+unit defines that word without including it. The difference is load bearing:
+with a `const` declaration GCC moves `DuelEffect_AllocateRequest`'s load of
+the word below the request's first store, and the North American executable
+no longer matches. The readers were compiled against a non-`const` view.
+
+The words at `0x800101D8`, between `duel_scene.c`'s and `library.c`'s
+read-only data, are the same kind of object: `gFile_pScreenBankBase`
+(`0x80168000`) and `gFile_pDuelBankBase` (`0x80146000`; Japan `0x80154000`),
+then in the European builds the three boot-text destinations, 8 or 0x14
+bytes. Every candidate owner in that place is `-G8`, so they are the
+data-only `-G0` unit
+[`file_bank_addresses.c`](../src/game/file_bank_addresses.c), built with
+`VERSION_JAPAN` or `VERSION_EUROPE` from the regional `data_c.json`. All five
+declarations (`file_transfer.h`, `high_memory_addresses.h`,
+`european_text_bank_views.h`) are `const` and every reader still matches.

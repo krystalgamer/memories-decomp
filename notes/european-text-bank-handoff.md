@@ -13,11 +13,13 @@ staging/upload cases, case 5 reads `gFile_pBootTextStage5Destination` (`0x800101
 separately into both descriptor destinations for a 30-sector phase, case 6
 does the same with `gFile_pBootTextStage6Destination` (`0x800101E4`) for
 32 sectors, and case 7 uses `gFile_pBootTextStage7Destination`
-(`0x800101E8`) for seven. The European link scripts bind these names
-directly; the former `D_800101E0/4/8` labels are gone.
+(`0x800101E8`) for seven. `file_bank_addresses.c` defines these names under
+`VERSION_EUROPE` after the screen- and duel-bank words; the former
+`D_800101E0/4/8` labels and link-script assignments are gone.
 
-Each remains a stored `u8 *`, not a byte array at the word's address,
-an integer address, const object or inferred homogeneous pointer table.
+Each remains a stored `u8 *` (a `const` definition, like the rest of the
+leading read-only data), not a byte array at the word's address,
+an integer address or inferred homogeneous pointer table.
 The existing repeated loads, `(s32)` casts, destination-store order,
 phase sizes, transfer-state masks, done values and all earlier image
 steps are unchanged. The declarations live in

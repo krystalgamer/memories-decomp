@@ -68,12 +68,12 @@ segments:
       # The region before the text is the compiler's read-only data. A
       # matching C function that owns some declares it here, the way the ff8
       # and silent-hill configurations do, and gaps are pad.
-      - [0x800, rodata, initial_data]
+      - [0x800, .rodata, game/high_memory_addresses]
       - [0x838, .rodata, game/file_setup]
       - [0x843, pad]
       - [0x844, .rodata, game/file_transfer_runtime]
       - [0x860, .rodata, game/duel_scene]
-      - [0x9D8, rodata, initial_data_0b2]
+      - [0x9D8, .rodata, game/file_bank_addresses]
       - [0x9E0, .rodata, game/library]
       - [0xA24, .rodata, game/main_mode_runners]
       - [0xA50, .rodata, game/debug_menu]
@@ -94,7 +94,7 @@ segments:
       - [0x1FC8, .rodata, game/main_menu_load_package_stage]
       - [0x1FEC, .rodata, game/model_animation_unit]
       - [0x201F, pad]
-      - [0x2020, rodata, initial_data_1d]
+      - [0x2020, .rodata, game/credits_resident_glyphs]
       - [0x205C, .rodata, game/model_effect_handlers]
       - [0x20AC, .rodata, game/ai_script]
       - [0x21A8, rodata, initial_data_2]

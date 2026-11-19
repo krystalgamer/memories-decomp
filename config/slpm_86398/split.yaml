@@ -66,12 +66,12 @@ segments:
     vram: 0x80010000
     align: 4
     subsegments:
-      - [0x800, rodata, initial_data]
+      - [0x800, .rodata, game/high_memory_addresses]
       - [0x838, .rodata, game/file_setup]
       - [0x843, pad]
       - [0x844, .rodata, game/file_transfer_runtime]
       - [0x860, .rodata, game/duel_scene]
-      - [0x9d8, rodata, initial_data_9d8]
+      - [0x9d8, .rodata, game/file_bank_addresses]
       - [0x9e0, .rodata, game/library]
       - [0xa24, .rodata, game/main_mode_runners]
       - [0xa50, .rodata, game/debug_menu]
@@ -89,7 +89,7 @@ segments:
       - [0x1c40, .rodata, game/model]
       - [0x1eb4, .rodata, game/model_animation_unit]
       - [0x1ee7, pad]
-      - [0x1ee8, rodata, initial_data_1ee8]
+      - [0x1ee8, .rodata, game/credits_resident_glyphs]
       - [0x1F24, .rodata, game/main_menu_load_package_stage]
       - [0x1f48, .rodata, game/model_effect_handlers]
       - [0x1F98, .rodata, game/ai_script]

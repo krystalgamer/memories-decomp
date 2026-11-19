@@ -123,6 +123,44 @@ class DataSourceTests(unittest.TestCase):
             ["initialized_data.o", "c_game_file_names.o", "initialized_data_1.o"],
         )
 
+    def use_leading_segment(self) -> None:
+        self.segments = [
+            {
+                "name": "main",
+                "subsegments": [
+                    [0x800, "rodata", "initial_data"],
+                    [0x838, ".rodata", "game/text_unit"],
+                    [0x843, "pad"],
+                    [0x2020, ".rodata", "game/file_names"],
+                    [0x205C, "rodata", "initial_data_1"],
+                ],
+            }
+        ]
+
+    def test_a_data_only_unit_can_own_leading_read_only_data(self) -> None:
+        """The baseline assembles the leading blobs and places text rodata."""
+        self.use_leading_segment()
+        text_sources = [{"kind": "c", "source": "src/game/text_unit.c"}]
+        self.assertEqual(
+            self.collect(text_sources),
+            [
+                {
+                    "kind": "c",
+                    "source": "src/game/file_names.c",
+                    "object": "c_game_file_names.o",
+                    "profile": "g0",
+                }
+            ],
+        )
+
+    def test_leading_read_only_data_without_a_profile_is_rejected(self) -> None:
+        self.use_leading_segment()
+        self.write_units([])
+        text_sources = [{"kind": "c", "source": "src/game/text_unit.c"}]
+        with self.assertRaises(GenerationError) as error:
+            self.collect(text_sources)
+        self.assertIn("data_c.json profile", str(error.exception))
+
     def test_unknown_profile_is_rejected(self) -> None:
         self.write_units([{"source": "src/game/file_names.c", "profile": "g9"}])
         with self.assertRaises(GenerationError) as error:
