@@ -552,13 +552,13 @@ void CardList_CreateSlotTextBox(CardList *list, s32 slot)
     box->render_object->flags &=
         ~DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
     if ((list->entries[list->first + slot].flags & 0x80) != 0) {
-        box->color_index_54 = 4;
+        box->color_index = 4;
     }
     if (list->kind != 0) {
         box->rect_x += 0x160;
     }
     if (slot != 0) {
-        box->flags_34 |= CARD_LIST_SLOT_FOLLOWING_FLAG;
+        box->flags |= CARD_LIST_SLOT_FOLLOWING_FLAG;
     }
     TextBox_BuildBlocking(box);
 }
@@ -751,7 +751,7 @@ void BuildDeck_AddCard(BuildDeckTransitionState *base, s32 card_id)
 #endif
 #include "../ygo_types.h"
 
-/* Both builds store the descriptor's counter, field_32, w and h through the
+/* Both builds store the descriptor's image x/y cursor, w and h through the
    members' addresses with the other signedness: as member stores GCC
    reschedules them against the gFile_dwTransferState update. */
 #ifdef VERSION_EUROPE
@@ -771,8 +771,8 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
     switch (mode) {
     case 0:
         m = 0xFFDDFFFF;
-        *(s16 *)&p->field_30.h.counter = 0x300;
-        *(s16 *)&p->field_30.h.field_32 = 0x100;
+        *(s16 *)&p->cursor.image.x = 0x300;
+        *(s16 *)&p->cursor.image.y = 0x100;
         *(u16 *)&p->rect.w = 0x40;
         t0 = gFile_dwTransferState;
         *(u16 *)&p->rect.h = 0x10;
@@ -809,8 +809,8 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode)
 
         m = 0xFFDDFFFF;
         t1 = gFile_dwTransferState;
-        *(s16 *)&p->field_30.h.counter = 0x340;
-        *(s16 *)&p->field_30.h.field_32 = 0;
+        *(s16 *)&p->cursor.image.x = 0x340;
+        *(s16 *)&p->cursor.image.y = 0;
         *(u16 *)&p->rect.w = c;
         *(u16 *)&p->rect.h = one;
         gFile_dwTransferState = t1 & m;
@@ -860,8 +860,8 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
     switch (mode) {
     case 0:
         m = 0xFFDDFFFF;
-        *(s16 *)&p->field_30.h.counter = 0x300;
-        *(s16 *)&p->field_30.h.field_32 = 0x100;
+        *(s16 *)&p->cursor.image.x = 0x300;
+        *(s16 *)&p->cursor.image.y = 0x100;
         *(u16 *)&p->rect.w = 0x40;
         t0 = gFile_dwTransferState;
         *(u16 *)&p->rect.h = 0x10;
@@ -878,14 +878,14 @@ void CardList_LoadSharedGraphicsStage(FileTransferDescriptor *p, s32 mode) {
 
     case 1:
         m = 0xFFDDFFFF;
-        *(s16 *)&p->field_30.h.counter = 0x340;
+        *(s16 *)&p->cursor.image.x = 0x340;
         *(u16 *)&p->rect.w = 0x40;
         t1 = gFile_dwTransferState;
         *(u16 *)&p->rect.h = 0x10;
         gFile_dwTransferState = t1 & m;
         u = gFile_dwTransferState;
         n = 0x10000;
-        p->field_30.h.field_32 = 0;
+        p->cursor.image.y = 0;
         gFile_dwTransferState = u | n;
         p->transfer_mode = 2;
         v = gFile_TransferBufferBase;
@@ -1984,7 +1984,7 @@ void BuildDeck_UpdateExitConfirmation(BuildDeckTransitionState *record)
         /* The same variable as the confirmation box, which keeps the
            channel in $s0 across the destroy call. */
         box = gText_aChannels;
-        if ((*(u32 *)&box->flags_34 & BUILD_DECK_CONFIRM_COMPLETION_MASK) ==
+        if ((*(u32 *)&box->flags & BUILD_DECK_CONFIRM_COMPLETION_MASK) ==
             TEXT_BOX_FLAG_DONE) {
             TextBox_Destroy(box);
             if (!(gBuildDeck_bConfirmMode & BUILD_DECK_CONFIRM_FLAG_WIDE_DIALOG) &&

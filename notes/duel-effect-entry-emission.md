@@ -72,7 +72,7 @@ glyph-mode enum or shared record stride is inferred.
 ## Retained palette and layout publication
 
 The shared entry palette_index at +0x16 receives the original channel
-color_index_54 only in the existing extracted-symbol and NA ordinary-glyph
+color_index only in the existing extracted-symbol and NA ordinary-glyph
 paths. Direct icon entries do not gain a palette write, and their +0x17
 wide-icon variant remains separate. JP rasterization and EU physical+0x14
 array/color stores retain their existing representations and guards.

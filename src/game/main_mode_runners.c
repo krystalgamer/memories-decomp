@@ -765,7 +765,7 @@ void Main_RunCredits(void)
                 }
                 TextBox_UpdateChannels();
                 textbox = gText_aChannels;
-                if ((textbox->flags_34 & MAIN_RUN_CREDITS_COMPLETION_FLAG) == 0) {
+                if ((textbox->flags & MAIN_RUN_CREDITS_COMPLETION_FLAG) == 0) {
                     TextBox_Destroy(textbox);
                     gMain_bModeRunnerStep = 2;
                 }

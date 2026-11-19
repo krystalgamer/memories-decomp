@@ -65,7 +65,7 @@ are in [duel-effect-entry-emission.md](duel-effect-entry-emission.md).
 ## Palette indices and range-persistent layout selectors
 
 palette_index names the shared entry's original u8 field_16 at +0x16.
-The complete NA producer/consumer chain copies channel color_index_54
+The complete NA producer/consumer chain copies channel color_index
 in the extracted-symbol and ordinary-glyph append paths. The renderer
 uses the byte as a palette index, not RGB or a ready-made CLUT word:
 the small-icon path selects CLUT X as index*16+0x290, while ordinary

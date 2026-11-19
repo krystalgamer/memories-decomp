@@ -47,8 +47,8 @@ void ScriptImage_TransferCallback(FileTransferDescriptor *obj, s32 mode)
 {
     switch (mode) {
     case 0:
-        obj->field_30.h.field_32 = 0x100;
-        obj->field_30.h.counter = 0;
+        obj->cursor.image.y = 0x100;
+        obj->cursor.image.x = 0;
         obj->rect.w = 0x40;
         obj->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -341,7 +341,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 image_id) {
     }
 }
 
-/* Regional value: the flags_34 bit this sets (0x2 -> 0x4). The European
+/* Regional value: the flags bit this sets (0x2 -> 0x4). The European
  * wrapper defines its own. */
 #ifndef DUEL_EFFECT_MARK_OBJECT_FLAG
 #define DUEL_EFFECT_MARK_OBJECT_FLAG 2
@@ -349,7 +349,7 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *p, s32 image_id) {
 
 /* Walks gDisplayEffect_aMenuRecords backward from the last record to the first; on the first
    record whose effect_id marker is non-negative, sets the flag in the
-   caller's text-box channel's flags_34 and returns. Does nothing if every
+   caller's text-box channel's flags and returns. Does nothing if every
    marker is negative. */
 void DuelEffect_MarkObjectIfActive(DuelEffectChannel *channel) {
     int count;
@@ -362,7 +362,7 @@ void DuelEffect_MarkObjectIfActive(DuelEffectChannel *channel) {
         effect_id = p->effect_id;
         count -= 1;
         if (effect_id >= 0) {
-            channel->flags_34 |= DUEL_EFFECT_MARK_OBJECT_FLAG;
+            channel->flags |= DUEL_EFFECT_MARK_OBJECT_FLAG;
             return;
         }
         p -= 1;
@@ -479,14 +479,14 @@ void Script_OpShowDialog(void)
 #endif
         box = TextBox_Create(0, value & 0xFFF, 0x10, 0xB0, 0x120, SCRIPT_DIALOG_BOX_HEIGHT);
         DuelEffect_MarkObjectIfActive(box);
-        box->flags_34 |= SCRIPT_DIALOG_BOX_FLAG;
+        box->flags |= SCRIPT_DIALOG_BOX_FLAG;
         if ((value & 0x8000) != 0) {
             flags = gScript_wCommandWord;
             /* Volatile keeps the reload below the command-word load; a plain
                member read is scheduled earlier and shifts the code. */
-            boxflags = *(volatile u16 *)&box->flags_34;
+            boxflags = *(volatile u16 *)&box->flags;
             gScript_wCommandWord = flags | 0x4000;
-            box->flags_34 = boxflags & (0xFFFF ^ SCRIPT_DIALOG_BOX_FLAG);
+            box->flags = boxflags & (0xFFFF ^ SCRIPT_DIALOG_BOX_FLAG);
         }
         gScript_DialogCommandLatch = gScript_wCommandWord;
     } else {
@@ -917,7 +917,7 @@ void Script_OpSavePrompt(void)
     flags = gScript_wCommandWord;
     if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_FOLLOWUP_PHASE) == 0) {
         chan = gText_aChannels;
-        if ((chan->flags_34 & TEXT_BOX_FLAG_DONE) == 0) {
+        if ((chan->flags & TEXT_BOX_FLAG_DONE) == 0) {
             return;
         }
         if (DuelEffect_HasActiveEntry(chan) != 0) {
@@ -932,7 +932,7 @@ void Script_OpSavePrompt(void)
         SAVE_PROMPT_PREPARE_BOX();
         box = TextBox_Create(3, 0x11, -0x90, 0x38, SAVE_PROMPT_SLIDE_BOX_SIZE);
         DuelEffect_MarkObjectIfActive(box);
-        box->flags_34 |= SAVE_PROMPT_SLIDE_BOX_FLAGS;
+        box->flags |= SAVE_PROMPT_SLIDE_BOX_FLAGS;
         do {
             TextBox_UpdateChannels();
         } while (box->prompt_object == 0);
@@ -953,13 +953,13 @@ void Script_OpSavePrompt(void)
             SAVE_PROMPT_PREPARE_BOX();
             box = TextBox_Create(2, 0x12, 0x90, SAVE_PROMPT_CHOICE_BOX_RECT);
             DuelEffect_MarkObjectIfActive(box);
-            box->flags_34 |= SAVE_PROMPT_CHOICE_BOX_FLAGS;
+            box->flags |= SAVE_PROMPT_CHOICE_BOX_FLAGS;
             do {
                 TextBox_UpdateChannels();
             } while (box->prompt_object == 0);
         }
         prompt = SAVE_PROMPT_CHANNEL(2);
-        if ((prompt->flags_34 & TEXT_BOX_FLAG_DONE) == 0) {
+        if ((prompt->flags & TEXT_BOX_FLAG_DONE) == 0) {
             return;
         }
         gScript_wCommandWord &= 0xF3FF;
@@ -988,7 +988,7 @@ void Script_OpSavePrompt(void)
                 SAVE_PROMPT_DECK_ERROR_BOX_FLAGS));
             return;
         }
-        if ((SAVE_PROMPT_CHANNEL(0)->flags_34 &
+        if ((SAVE_PROMPT_CHANNEL(0)->flags &
              SAVE_PROMPT_DECK_ERROR_COMPLETION_FLAG) != 0) {
             return;
         }
@@ -1136,8 +1136,8 @@ void DuelResult_LoadPackageStage(FileTransferDescriptor *d, s32 mode)
            (and s32 for the u32 phase_size), so fold leaves them as non-struct
            stores. Spelling any of the four as a member store changes 8 to 22
            words of this case. */
-        *(s16 *)&d->field_30.h.counter = 0x1C0;
-        *(s16 *)&d->field_30.h.field_32 = 0x100;
+        *(s16 *)&d->cursor.image.x = 0x1C0;
+        *(s16 *)&d->cursor.image.y = 0x100;
         t0 = gFile_dwTransferState;
         *(u16 *)&d->rect.w = 0x40;
         gFile_dwTransferState = t0 & m;
@@ -1428,9 +1428,9 @@ void Script_RunTick(void)
     state = gScript_EventState;
     if (state & DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE) {
         TextBox_UpdateChannels();
-        /* Retail tests the flags with one lw over flags_34 and
+        /* Retail tests the flags with one lw over flags and
            initial_string_id; a u16 read would be lhu. */
-        if ((*(u32 *)&gText_aChannels[0].flags_34 & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
+        if ((*(u32 *)&gText_aChannels[0].flags & SCRIPT_RUN_TICK_COMPLETION_MASK) == TEXT_BOX_FLAG_DONE) {
             gScript_EventState &= ~DUEL_EVENT_SCRIPT_FLAG_DIALOG_ACTIVE;
         }
         return;
@@ -1500,7 +1500,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
        function by eight bytes. */
     switch (stage) {
     case 0:
-        *(s16 *)&p->field_30.h.counter = 0x340;
+        *(s16 *)&p->cursor.image.x = 0x340;
         *(u16 *)&p->rect.w = 0x40;
         m = 0xFFDDFFFF;
         v_0 = gFile_dwTransferState;
@@ -1508,7 +1508,7 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         v_0 &= m;
         gFile_dwTransferState = v_0;
         w = gFile_dwTransferState;
-        *(s16 *)&p->field_30.h.field_32 = 0;
+        *(s16 *)&p->cursor.image.y = 0;
         w |= 0x10000;
         gFile_dwTransferState = w;
         p->transfer_mode = 2;

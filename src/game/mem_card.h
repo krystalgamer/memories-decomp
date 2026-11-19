@@ -322,7 +322,7 @@ extern u8 gMemCard_bLoadStep;
  * (index, string_id, x, y, width, height).
  *
  *   gMemCardDialog_ChannelIndex  The effect channel the box uses. It defaults
- *               to 0, then selects the first slot lacking flags_34 0x8000;
+ *               to 0, then selects the first slot lacking flags 0x8000;
  *               all-active input retains 0 rather than reporting failure.
  *               Selection is not a reservation, and
  *               every other use indexes gText_aChannels with it or hands it to
@@ -468,7 +468,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
  *
  * `value`'s low fifteen bits are the string id. Bit 15 is a request to run
  * TextBox_BuildBlocking on the new channel -- but only when `set_flags` is zero;
- * a non-zero `set_flags` instead sets 0x1008 in the channel's flags_34 and
+ * a non-zero `set_flags` instead sets 0x1008 in the channel's flags and
  * the bit is ignored. The two arms are exclusive, which the two callers rely
  * on: one passes 0x80D4 with set_flags zero, the other 0xD0.
  *

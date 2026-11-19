@@ -1137,8 +1137,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
     case 0:
 #ifdef VERSION_EUROPE
         mask = 0xFFDDFFFF;
-        d->field_30.h.counter = 0x300;
-        d->field_30.h.field_32 = 0x100;
+        d->cursor.image.x = 0x300;
+        d->cursor.image.y = 0x100;
         d->rect.w = 0x40;
         d->rect.h = 0x10;
         flags = gFile_dwTransferState;
@@ -1150,8 +1150,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->sector_destination = gFile_TransferBufferBase;
         d->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
 #else
-        d->field_30.h.counter = 0x300;
-        d->field_30.h.field_32 = 0x100;
+        d->cursor.image.x = 0x300;
+        d->cursor.image.y = 0x100;
         d->rect.w = 0x40;
         d->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -1234,8 +1234,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         gGraphics_aImageTransferRects[0].w = 0x100;
         gGraphics_aImageTransferRects[0].h = 8;
         LoadImage2(&gGraphics_aImageTransferRects[0], (u32 *)gFile_TransferBufferBase);
-        d->field_30.h.counter = 0x200;
-        d->field_30.h.field_32 = 0x100;
+        d->cursor.image.x = 0x200;
+        d->cursor.image.y = 0x100;
         d->rect.w = 0x40;
         mask = 0xFFDDFFFF;
         flags = gFile_dwTransferState & mask;
@@ -1278,14 +1278,14 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         u32 cleared;
         u32 loaded;
         u32 enabled;
-        d->field_30.h.counter = 0x340;
+        d->cursor.image.x = 0x340;
         d->rect.w = 0x40;
         d->rect.h = 0x10;
         cleared = gFile_dwTransferState & 0xFFDDFFFF;
         gFile_dwTransferState = cleared;
         do { loaded = gFile_dwTransferState; } while (0);
         do { enabled = 0x10000; } while (0);
-        d->field_30.h.field_32 = 0;
+        d->cursor.image.y = 0;
         gFile_dwTransferState = loaded | enabled;
         d->transfer_mode = 2;
         d->phase_size = 8 * FILE_SECTOR_SIZE;
@@ -1301,8 +1301,8 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         break;
     case 12: {
         u32 flags;
-        d->field_30.h.counter = 0x280;
-        d->field_30.h.field_32 = 0x100;
+        d->cursor.image.x = 0x280;
+        d->cursor.image.y = 0x100;
         d->rect.w = 0x40;
         mask = 0xFFDDFFFF;
         flags = gFile_dwTransferState & mask;
@@ -6945,11 +6945,11 @@ void DuelResult_LoadOutroPackageStage(FileTransferDescriptor *p, s32 mode)
     switch (mode) {
     case 0:
         m = 0xFFDDFFFF;
-        p->field_30.h.field_32 = 0x100;
+        p->cursor.image.y = 0x100;
         v = gFile_dwTransferState;
         f = 0x40;
         do {
-            p->field_30.h.counter = 0;
+            p->cursor.image.x = 0;
         } while (0);
         p->rect.w = f;
         gFile_dwTransferState = v & m;
@@ -9143,7 +9143,7 @@ void DuelScene_Update(void)
 
             TextBox_UpdateChannels();
             cleanup = TEXT_CHANNEL(3);
-            if (cleanup->flags_34 & TEXT_BOX_FLAG_DONE) {
+            if (cleanup->flags & TEXT_BOX_FLAG_DONE) {
                 TextBox_Destroy(cleanup);
                 gDuel_bQuitDialogState = 0;
                 if (gDialog_bChoice != 0) {
@@ -9286,7 +9286,7 @@ void Duel_StepCardDataTransfer(FileTransferDescriptor *o, int mode) {
     s16 *p = o->callback_data;
 
     if (mode == 0) {
-        o->field_30.h.counter = *p;
+        o->cursor.card_id = *p;
         o->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= ~0x230000;
         o->sector_destination = o->alternate_sector_destination = (u8 *)o->position;
@@ -9298,8 +9298,8 @@ void Duel_StepCardDataTransfer(FileTransferDescriptor *o, int mode) {
         o->callback_data = p;
         o->position += DUEL_CARD_DATA_BLOCK_SIZE;
     }
-    o->field_30.h.counter++;
-    if (o->field_30.h.counter == *p) {
+    o->cursor.card_id++;
+    if (o->cursor.card_id == *p) {
         o->phase_size = FILE_SECTOR_SIZE;
         o->phase_index = 1;
         gFile_dwTransferState &= ~0x230000;

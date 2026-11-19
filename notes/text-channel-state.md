@@ -31,7 +31,7 @@ separate channel symbol is defined in any image.
 
 Channel 0's word at pool offset `0x34` (formerly the separate
 `D_800EB12C`/`gText_dwChannel0State` names) is read as
-`*(u32 *)&gText_aChannels[0].flags_34`: the low halfword is the channel flags
+`*(u32 *)&gText_aChannels[0].flags`: the low halfword is the channel flags
 and the high halfword is its string ID. No halfword load replaces the
 original word loads or masks.
 

@@ -39,8 +39,8 @@
 void FreeDuel_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
     case 0:
-        object->field_30.h.counter = 0;
-        object->field_30.h.field_32 = 0x100;
+        object->cursor.image.x = 0;
+        object->cursor.image.y = 0x100;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -145,8 +145,8 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
             k = 0x18000;
         } while (0);
         c = 0x100;
-        object->field_30.h.counter = c;
-        object->field_30.h.field_32 = c;
+        object->cursor.image.x = c;
+        object->cursor.image.y = c;
         v = gFile_dwTransferState;
         object->rect.w = 0x40;
         gFile_dwTransferState = v & m;
@@ -164,8 +164,8 @@ void NameEntry_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 1:
-        object->field_30.h.counter = 0x1C0;
-        object->field_30.h.field_32 = 0x100;
+        object->cursor.image.x = 0x1C0;
+        object->cursor.image.y = 0x100;
         object->rect.w = 0x40;
         v2 = gFile_dwTransferState;
         object->rect.h = 0x10;
@@ -298,8 +298,8 @@ void Text_SjisToGlyphCodes(u8 *dst, const u8 *src, s32 count)
 void Password_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
     switch (mode) {
     case 0:
-        object->field_30.h.counter = 0x300;
-        object->field_30.h.field_32 = 0x100;
+        object->cursor.image.x = 0x300;
+        object->cursor.image.y = 0x100;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -389,8 +389,8 @@ void CampaignMap_LoadPackageStage(FileTransferDescriptor *object, s32 mode) {
         break;
 
     case 3:
-        object->field_30.h.counter = 0x1C0;
-        object->field_30.h.field_32 = 0x100;
+        object->cursor.image.x = 0x1C0;
+        object->cursor.image.y = 0x100;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -431,8 +431,8 @@ void Frontend_LoadPackageStageVariantA(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
     case 0:
-        object->field_30.h.field_32 = 0x100;
-        object->field_30.h.counter = 0;
+        object->cursor.image.y = 0x100;
+        object->cursor.image.x = 0;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -483,8 +483,8 @@ void Frontend_LoadPackageStageVariantB(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
     case 0:
-        object->field_30.h.field_32 = 0x100;
-        object->field_30.h.counter = 0;
+        object->cursor.image.y = 0x100;
+        object->cursor.image.x = 0;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -571,8 +571,8 @@ void Options_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
     case 0:
-        object->field_30.h.field_32 = 0x100;
-        object->field_30.h.counter = 0;
+        object->cursor.image.y = 0x100;
+        object->cursor.image.x = 0;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -660,8 +660,8 @@ void GameOver_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
 {
     switch (mode) {
     case 0:
-        object->field_30.h.field_32 = 0x100;
-        object->field_30.h.counter = 0;
+        object->cursor.image.y = 0x100;
+        object->cursor.image.x = 0;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;

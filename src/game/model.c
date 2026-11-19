@@ -4811,8 +4811,8 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
         break;
     }
     case 1:
-        transfer->field_30.h.counter = slot_index << 8;
-        transfer->field_30.h.field_32 = 0x100;
+        transfer->cursor.image.x = slot_index << 8;
+        transfer->cursor.image.y = 0x100;
         transfer->rect.w = 0x40;
         transfer->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -4854,7 +4854,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             palette_row_rect.w = 0x100;
             palette_row_rect.h = 1;
             LoadImage2(&palette_row_rect, (u32 *)gModel_abTexturePaletteStaging);
-            transfer->field_30.h.counter = (slot_index << 8) + 0xC0;
+            transfer->cursor.image.x = (slot_index << 8) + 0xC0;
             transfer->rect.w = 0x40;
             transfer->rect.h = 0x10;
             {
@@ -4863,7 +4863,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
                 gFile_dwTransferState = cleared_transfer_state;
                 do { reloaded_transfer_state = gFile_dwTransferState; } while (0);
                 do { image_transfer_bit = 0x10000; } while (0);
-                transfer->field_30.h.field_32 = 0x100;
+                transfer->cursor.image.y = 0x100;
                 gFile_dwTransferState = reloaded_transfer_state | image_transfer_bit;
             }
             transfer->transfer_mode = 2;
@@ -4884,7 +4884,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             palette_row_rect.w = 0x100;
             palette_row_rect.h = 1;
             LoadImage2(&palette_row_rect, (u32 *)gFile_abPackageStagingBuffer);
-            transfer->field_30.h.counter = (slot_index << 8) + 0xC0;
+            transfer->cursor.image.x = (slot_index << 8) + 0xC0;
             transfer->rect.w = 0x40;
             transfer->rect.h = 0x10;
             {
@@ -4893,7 +4893,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
                 gFile_dwTransferState = cleared_transfer_state;
                 do { reloaded_transfer_state = gFile_dwTransferState; } while (0);
                 do { image_transfer_bit = 0x10000; } while (0);
-                transfer->field_30.h.field_32 = 0x100;
+                transfer->cursor.image.y = 0x100;
                 gFile_dwTransferState = reloaded_transfer_state | image_transfer_bit;
             }
             transfer->transfer_mode = 2;
@@ -5009,7 +5009,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             transfer->transfer_mode = 1;
         } else {
             transfer->transfer_mode = 3;
-            transfer->field_30.word = slot_index * 0x19000 + 0xD810;
+            transfer->cursor.spu_address = slot_index * 0x19000 + 0xD810;
             transfer->phase_size = 50 * FILE_SECTOR_SIZE;
             transfer->sector_destination = gFile_TransferBufferBase;
             transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);
@@ -5056,7 +5056,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
    in one translation unit because they are the same routine over different
    assets: each takes the descriptor plus a phase index, and each switch arm
    programs the same fields -- phase_size, the sector_destination/alternate_sector_destination source
-   window, done, and the field_30 halfword pair -- while clearing and setting
+   window, done, and the image cursor pair -- while clearing and setting
    the same bits of gFile_dwTransferState.
 
    Both own a .rodata jump table, and the two tables are adjacent in the image
@@ -5079,8 +5079,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         break;
 
     case 1:
-        transfer->field_30.h.counter = 0x200;
-        transfer->field_30.h.field_32 = 0x100;
+        transfer->cursor.image.x = 0x200;
+        transfer->cursor.image.y = 0x100;
         transfer->rect.w = 0x40;
         transfer->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -5118,8 +5118,8 @@ void Model_LoadAuxiliaryPackageStage(FileTransferDescriptor *transfer, s32 stage
         second_palette_rect.w = 0x100;
         second_palette_rect.h = 2;
         LoadImage2(&second_palette_rect, (u32 *)gFile_abPackageStagingBuffer);
-        transfer->field_30.h.counter = 0x380;
-        transfer->field_30.h.field_32 = 0;
+        transfer->cursor.image.x = 0x380;
+        transfer->cursor.image.y = 0;
         transfer->rect.w = 0x40;
         transfer->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -5152,9 +5152,9 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         break;
 
     case 1:
-        transfer->field_30.h.field_32 = 0x100;
+        transfer->cursor.image.y = 0x100;
         transfer->rect.w = 0x40;
-        transfer->field_30.h.counter = 0;
+        transfer->cursor.image.x = 0;
         transfer->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
@@ -5206,9 +5206,9 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         palette_rows_rect.w = 0x100;
         palette_rows_rect.h = 2;
         LoadImage2(&palette_rows_rect, (u32 *)gFile_abPackageStagingBuffer);
-        transfer->field_30.h.counter = 0x180;
+        transfer->cursor.image.x = 0x180;
         transfer->rect.w = 0x40;
-        transfer->field_30.h.field_32 = 0x100;
+        transfer->cursor.image.y = 0x100;
         transfer->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
         gFile_dwTransferState |= 0x10000;
@@ -5228,7 +5228,7 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
 
     case 8:
         transfer->transfer_mode = 3;
-        transfer->field_30.word = 0xD810;
+        transfer->cursor.spu_address = 0xD810;
         transfer->phase_size = 50 * FILE_SECTOR_SIZE;
         transfer->sector_destination = gFile_TransferBufferBase;
         transfer->alternate_sector_destination = (gFile_TransferBufferBase + FILE_SECTOR_SIZE);

@@ -100,14 +100,14 @@ void ScriptImage_RebuildObjects(ScriptImageObjectSet *record, s32 image_id);
 
 struct DuelEffectChannel;
 
-/* Sets DUEL_EFFECT_MARK_OBJECT_FLAG in `channel`'s flags_34 if any
+/* Sets DUEL_EFFECT_MARK_OBJECT_FLAG in `channel`'s flags if any
  * gDisplayEffect_aMenuRecords record is still active -- it walks that table
  * backward and stops at the first non-negative effect_id marker -- and does
  * nothing when every marker is negative.
  *
  * The parameter is the text-box channel its callers have just made: every
  * caller passes the result of TextBox_Create or TextBox_CreateFlagged, and
- * Script_OpShowDialog ORs its own flag into the same flags_34 right after.
+ * Script_OpShowDialog ORs its own flag into the same flags right after.
  * It used to be typed as a MenuRecord, whose 0x34 is the record's x
  * position, not a flag word. */
 void DuelEffect_MarkObjectIfActive(struct DuelEffectChannel *channel);

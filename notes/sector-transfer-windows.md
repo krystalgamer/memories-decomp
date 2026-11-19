@@ -33,7 +33,7 @@ expressions retain their original form.
   a C array access, even though the two words are adjacent.
 - In mode 3, the first address is RAM staging for a full or partial sector
   passed to `SpuWrite`. It does not become a linear RAM cursor there.
-  The SPU destination advances through the existing `field_30.word`, not
+  The SPU destination advances through `cursor.spu_address`, not
   through either renamed address word.
 
 The words describe RAM destinations for incoming data. Uploading the freshly
@@ -58,10 +58,13 @@ index, source-cursor advance, byte-count update, wait loop, and buffer-index
 increment. A phase callback may change the active descriptor or counters;
 the field names do not introduce a stable-descriptor assumption.
 
-The mixed `field_30` union remains unchanged: its halfwords serve sector
-counters or VRAM coordinates in some paths, while its whole word serves
-other address/packed-value roles. It is not absorbed into this destination
-pair or assigned a uniform interpretation.
+The 0x30 `cursor` union carries one arm per transfer_mode reading rather
+than a uniform interpretation: `image.x`/`image.y` is the mode-2 VRAM
+position (copied into rect.x/y, then stepped by 0x40/0x10), `spu_address`
+the mode-3 SPU destination, `sector_position` the DslGetlocL logical sector
+a sector-range transfer waits on, and `card_id` the card-data sector
+counter of Duel_StepCardDataTransfer. It is not absorbed into this
+destination pair.
 
 ## Auxiliary-model palette-sector view
 

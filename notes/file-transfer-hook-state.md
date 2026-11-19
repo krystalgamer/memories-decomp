@@ -176,7 +176,7 @@ single unit or pointer type. Zero leaves the phase_size zero and skips the
 target setup. With flag 0x1000000, a nonzero target is copied unchanged to
 direct_destination. Otherwise phase_size receives total_bytes: a negative
 target becomes both RAM sector destinations in mode 1, while a positive
-target is split into the existing two field_30 halfwords, enables 0x10000
+target is split into the `cursor.image` y/x halfwords, enables 0x10000
 and mode 2, and selects the two shared sector buffers and default image
 dimensions. The packed image-position halfwords, truncation and all
 initialization order remain. This does not name unrelated uses of

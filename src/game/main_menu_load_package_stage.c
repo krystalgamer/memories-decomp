@@ -36,8 +36,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
 
     switch (stage) {
     case 0:
-        object->field_30.h.counter = 0x200;
-        object->field_30.h.field_32 = 0x100;
+        object->cursor.image.x = 0x200;
+        object->cursor.image.y = 0x100;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;
@@ -49,8 +49,8 @@ void MainMenu_LoadPackageStage(FileTransferDescriptor *object, s32 stage) {
         break;
 
     case 1:
-        object->field_30.h.counter = 0x380;
-        object->field_30.h.field_32 = 0;
+        object->cursor.image.x = 0x380;
+        object->cursor.image.y = 0;
         object->rect.w = 0x40;
         object->rect.h = 0x10;
         gFile_dwTransferState &= 0xFFDDFFFF;

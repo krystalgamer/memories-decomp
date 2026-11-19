@@ -102,7 +102,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         m = 0xFFDDFFFF;
         v_0 = gFile_dwTransferState;
         n = p->position;
-        p->field_30.h.field_32 = 0x100;
+        p->cursor.image.y = 0x100;
         p->rect.w = 0x40;
         p->phase_size = 48 * FILE_SECTOR_SIZE;
         p->rect.h = 0x10;
@@ -113,7 +113,7 @@ void DisplayEffect_LoadResourceStage(FileTransferDescriptor *p, s32 mode)
         gFile_dwTransferState = w;
         p->transfer_mode = 2;
         b = gFile_TransferBufferBase;
-        p->field_30.h.counter = 0x340 - n * 192;
+        p->cursor.image.x = 0x340 - n * 192;
         p->sector_destination = b;
         p->alternate_sector_destination = b + FILE_SECTOR_SIZE;
         break;

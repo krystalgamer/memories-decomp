@@ -32,7 +32,7 @@ Verified channel fields used by matching C include:
 | `0x28` | `render_object` | primary entry-render object installed by `TextBox_RefreshDisplayObjects` |
 | `0x2C` | `aux_object` | outline, custom trade sprite or name-entry caret; shared owned auxiliary slot |
 | `0x30` | `prompt_object` | page/completion cursor or choice highlight; retained and released by channel state paths |
-| `0x34` | `flags_34` | `0x10`, `0x2000`, and `0x8000` tests; reset by `DuelEffect_ResetState` |
+| `0x34` | `flags` | `0x10`, `0x2000`, and `0x8000` tests; reset by `DuelEffect_ResetState` |
 | `0x36` | `initial_string_id` | constructor string ID consumed by initial `TextBox_BuildStep` bank lookup |
 | `0x38`, `0x3A` | `pen_x`, `pen_y` | unsigned halfword pen initialization, stream commands and entry-position publication |
 | `0x3C`, `0x40` | `rect_x`, `rect_y` | signed halfword origins set by `TextBox_SetRect` and `TextBox_SetPos` |
@@ -129,7 +129,7 @@ are unchanged. Existing callers polling this pointer still wait only for
 its non-null publication, not for input confirmation or completed clearing.
 TextBox_UpdateChannels (0x80039794) walks one DuelEffectChannel pointer;
 GCC derives the retail second register at +0x30 for prompt_object and
-flags_34 itself.
+flags itself.
 
 TextBox_BuildStep (0x800393B0) releases and nulls prompt_object and
 aux_object before refreshing the renderer. TextBox_Destroy (0x80035B7C)
@@ -623,7 +623,7 @@ local `EffectEntry` view and is not counted among the six shared-header users.
 so its accepted source does not broaden the shared declaration.
 `func_8003DA40` is matching C as well, and now takes its dialog channel as a
 `DuelEffectChannel *`, both the one `DuelEffect_CreateChannel` returns and the
-`D_800EB0F8` element it selects later (`flags_34`, `prompt_object`). The index it
+`D_800EB0F8` element it selects later (`flags`, `prompt_object`). The index it
 selects that element with is still the raw byte at `+0x1A` of its
 `MenuRecord`, which `dialog_transition.c` reads the same way.
 `func_8003D74C`, which coordinates the duel-intro card reveal, likewise

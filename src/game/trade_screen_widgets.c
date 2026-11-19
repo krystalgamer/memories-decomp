@@ -211,9 +211,9 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
         box->pen_y = i * 0x16;
         if (e[1] == 0) {
 #ifdef VERSION_EUROPE
-            box->color_index_54 = empty_color;
+            box->color_index = empty_color;
 #else
-            box->color_index_54 = 4;
+            box->color_index = 4;
 #endif
             s->card_entries[i] |= 0x8000;
 #ifdef VERSION_EUROPE
@@ -221,7 +221,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 #endif
         }
         if (i != 0) {
-            box->flags_34 |= CARD_LIST_FOLLOWING_FLAG;
+            box->flags |= CARD_LIST_FOLLOWING_FLAG;
         }
         TextBox_BuildBlocking(box);
         e += 2;

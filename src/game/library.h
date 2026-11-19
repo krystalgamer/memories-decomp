@@ -67,7 +67,7 @@ void Library_UpdateGridCursor(LibraryState *state);
 
 /* Refreshes text-box slot 1 from the cursor-selected card. Clearing the
  * published selection for an unknown card does not clear the staged ID or
- * selector 5. The existing color_index_54 byte view, unowned override and blocking
+ * selector 5. The existing color_index byte view, unowned override and blocking
  * channel build remain unchanged. The motion-completion caller passes
  * &gLibrary_State, whose first member is the motion it updates. */
 void Library_RefreshSelectedCardText(const LibraryState *state);

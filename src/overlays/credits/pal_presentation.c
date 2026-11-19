@@ -66,7 +66,7 @@ void Credits_StartLineGroup(s32 index)
             }
             TextBox_DestroyIndex(i);
             channel = TextBox_CreateFlagged(i, text, 16, 40, 512, 256, 6);
-            channel->color_index_54 = 5;
+            channel->color_index = 5;
             TextBox_BuildBlocking(channel);
             if (cue->flags & 1) {
                 DuelEffect_SetEntryControlBytes(channel, 8, 0);
@@ -77,7 +77,7 @@ void Credits_StartLineGroup(s32 index)
             if (cue->secondary) {
                 TextBox_DestroyIndex(i + 2);
                 channel = TextBox_CreateFlagged(i + 2, cue->secondary, 16, 40, 512, 256, 6);
-                channel->color_index_54 = 5;
+                channel->color_index = 5;
                 TextBox_BuildBlocking(channel);
                 DuelEffect_SetEntryControlBytes(channel, 5, 0);
                 DuelEffect_ProcessEntries(channel);
@@ -127,7 +127,7 @@ s32 Credits_UpdateLines(void)
                             next = gCredits_aChannels[i].cue + 1;
                             if (gCredits_aCues[next].clear_secondary) {
                                 for (j = 2; j < 4; j++) {
-                                    if (gText_aChannels[j].flags_34 & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
+                                    if (gText_aChannels[j].flags & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
                                         DuelEffect_SetEntryControlBytes(&gText_aChannels[j], 6, 0);
                                         gCredits_aChannels[j].phase++;
                                     }
