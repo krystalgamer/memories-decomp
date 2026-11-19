@@ -146,15 +146,15 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
 #endif
 
 /* Builds the regional card-list text boxes for one row set: each two-halfword
- * input row supplies a card ID and count, staged into gText_StagedValues before its
+ * CardCountEntry row supplies a card ID and count, staged into gText_StagedValues before its
  * box is created. A monster card uses the base style and anything from the
  * magic type up the next one; an empty count marks the box and the row's
  * entry, and every box after the first gets the regional following-row flag.
  *
  * The staging read goes through the per-row count pointer, while the later
- * empty test indexes the row directly; the European body uses an incremented
+ * empty test reads the row's count member; the European body uses an incremented
  * staging cursor so both stores share one split address. */
-void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
+void CardList_BuildRowSetTextBoxes(const CardCountEntry *e, s32 idx, s32 flag, s32 ignored)
 {
     CardListRowSet *s;
     DuelEffectChannel *box;
@@ -162,7 +162,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
     s32 style;
     s32 base;
     s32 id;
-    u16 *count;
+    const u16 *count;
 #ifdef VERSION_EUROPE
     u8 *color_slots;
     s32 *stage;
@@ -186,9 +186,11 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 #ifdef VERSION_EUROPE
         color_slots[4] = 0;
 #endif
-        count = e + 1;
-        s->card_entries[i] = e[0];
-        style = e[0];
+        count = &e->count;
+        s->card_entries[i] = e->id;
+        /* Retail reads the ID zero-extended (lhu); the record's id is
+           signed for the trade screen's own readers. */
+        style = (u16)e->id;
         if (style != 0) {
             id = style;
             style = base;
@@ -209,7 +211,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
         }
         box = TextBox_Create(idx + 1, style, s->x, s->y, 0x120, 0xB0);
         box->pen_y = i * 0x16;
-        if (e[1] == 0) {
+        if (e->count == 0) {
 #ifdef VERSION_EUROPE
             box->color_index = empty_color;
 #else
@@ -224,7 +226,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
             box->flags |= CARD_LIST_FOLLOWING_FLAG;
         }
         TextBox_BuildBlocking(box);
-        e += 2;
+        e++;
     }
 }
 
