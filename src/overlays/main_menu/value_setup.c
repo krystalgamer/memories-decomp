@@ -215,11 +215,11 @@ s32 MainMenu_UpdateValueSetup(void)
     if (busyA == 0 && busyB == 0) {
         if ((gInput_awPadPressed[0] & MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON) ||
             (gInput_awPadPressed[1] & MAIN_MENU_VALUE_SETUP_CANCEL_BUTTON)) {
-            SD_SEPlay(8, 0xFF, 0);
+            SD_SEPlay(SD_SE_CANCEL, 0xFF, 0);
             return -1;
         }
         if ((gInput_awPadPressed[0] & PAD_BUTTON_START) || (gInput_awPadPressed[1] & PAD_BUTTON_START)) {
-            SD_SEPlay(7, 0xFF, 0);
+            SD_SEPlay(SD_SE_DECIDE, 0xFF, 0);
             return 1;
         }
     }
@@ -227,7 +227,7 @@ s32 MainMenu_UpdateValueSetup(void)
     if (busyA == 0) {
         if (gTwoPlayerDuel_abSetupChoices[0] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
             if (gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
-                SD_SEPlay(6, 0xFF, 0);
+                SD_SEPlay(SD_SE_CURSOR, 0xFF, 0);
                 if (gInput_awPadRepeat[0] & PAD_DIRECTION_LEFT) {
                     gTwoPlayerDuel_abSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_LEFT;
                 } else {
@@ -243,7 +243,7 @@ s32 MainMenu_UpdateValueSetup(void)
         } else {
             if (gInput_awPadRepeat[0] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 value = gTwoPlayerDuel_aSetupEntries[0].value;
-                SD_SEPlay(6, 0xFF, 0);
+                SD_SEPlay(SD_SE_CURSOR, 0xFF, 0);
                 if (gInput_awPadRepeat[0] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
                                 ? (value - DUEL_LIFE_POINT_SELECTION_STEP)
@@ -267,7 +267,7 @@ s32 MainMenu_UpdateValueSetup(void)
     if (busyB == 0) {
         if (gTwoPlayerDuel_abSetupChoices[1] < MAIN_MENU_VALUE_SETUP_CHOICE_VALUE) {
             if (gInput_awPadRepeat[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
-                SD_SEPlay(6, 0xFF, 0);
+                SD_SEPlay(SD_SE_CURSOR, 0xFF, 0);
                 if (gInput_awPadRepeat[1] & PAD_DIRECTION_LEFT) {
                     gTwoPlayerDuel_abSetupChoices[2] = MAIN_MENU_VALUE_SETUP_CHOICE_LEFT;
                 } else {
@@ -283,7 +283,7 @@ s32 MainMenu_UpdateValueSetup(void)
         } else {
             if (gInput_awPadRepeat[1] & PAD_DIRECTION_HORIZONTAL_MASK) {
                 value = gTwoPlayerDuel_aSetupEntries[1].value;
-                SD_SEPlay(6, 0xFF, 0);
+                SD_SEPlay(SD_SE_CURSOR, 0xFF, 0);
                 if (gInput_awPadRepeat[1] & PAD_DIRECTION_LEFT) {
                     value = (value - DUEL_LIFE_POINT_SELECTION_STEP > 0)
                                 ? (value - DUEL_LIFE_POINT_SELECTION_STEP)
