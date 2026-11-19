@@ -24,12 +24,21 @@
 #include "free_duel.h"
 #include "../../game/main_mode_state.h"
 
+/* The screen's zero-initialized state. The definitions stay common (the
+   unit builds with gcc_2_8_1_g0_split_comm); each layout's
+   screen_runtime_commons subsegment places them at the image's addresses. */
+u8 gFreeDuel_abGridAvailable[FREE_DUEL_GRID_STATE_CAPACITY];
+DisplayObject *gFreeDuel_pThumbWidget;
+DisplayObject *gFreeDuel_apSparklePool[FREE_DUEL_SPARKLE_POOL_CAPACITY];
+DisplayObject *gFreeDuel_pCursorWidget;
+u8 gFreeDuel_bScreenFlags;
+
 /* The Free Duel opponent-select screen in executable order: cursor layout,
    display-object and portrait initialization, sparkle upkeep, input and
    cursor movement, and the overlay entry tick.
 
    The nine functions are the module's complete text section. They share one
-   gcc_2_8_1_g0_split profile and the cursor widgets, target/committed grid
+   gcc_2_8_1_g0_split_comm profile and the cursor widgets, target/committed grid
    positions, screen flags and sparkle pool; there is no data or rodata
    boundary between them.
 

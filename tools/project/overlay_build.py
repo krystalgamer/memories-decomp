@@ -352,6 +352,29 @@ def verify_data_symbols(root: Path, objects: list[Path], elf: Path) -> None:
                 )
 
 
+def verify_common_symbols(root: Path, objects: list[Path], elf: Path) -> None:
+    """A `_comm` unit's commons must resolve to its layout's commons labels.
+
+    Several units may declare the same common, so duplicates are fine; but an
+    absolute linker assignment would satisfy them while bypassing the layout.
+    """
+    linked: dict[str, str] | None = None
+    for obj in objects:
+        for name, section in object_symbols(root, obj).items():
+            if section != "*COM*":
+                continue
+            if linked is None:
+                linked = object_symbols(root, elf)
+            final_section = linked.get(name)
+            if final_section is None or final_section.startswith("*"):
+                raise OverlayBuildError(
+                    f"{elf.relative_to(root)}: common {name} from "
+                    f"{obj.relative_to(root)} is not section-defined "
+                    f"({final_section or 'missing'}); place it with a "
+                    "<unit>_commons subsegment, not a linker assignment"
+                )
+
+
 def run_splat(root: Path, config: Path) -> None:
     if _IN_PROCESS_SPLAT is None:
         splat = resolve_within(
@@ -426,6 +449,14 @@ def build_module(root: Path, module: dict[str, Any]) -> None:
         root,
         [obj for segment, obj in zip(segments, c_objects)
          if segment["kind"] == "data"],
+        built_elf,
+    )
+    profiles = load_compiler_profiles(root)
+    verify_common_symbols(
+        root,
+        [obj for segment, obj in zip(segments, c_objects)
+         if "--use-comm-section"
+         in profiles[segment["profile"]].get("maspsx_flags", [])],
         built_elf,
     )
 

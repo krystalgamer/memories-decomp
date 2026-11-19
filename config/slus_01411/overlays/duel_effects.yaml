@@ -133,6 +133,14 @@ segments:
       - [0x156BC, .data, overlays/duel_effects/effect_9]
       - [0x15770, .data, overlays/duel_effects/effect_4]
       - [0x157A8, .data, overlays/duel_effects/effect_17]
-      - [0x157C8, data, overlays/duel_effects/data_157C8]
+      - [0x157C8, bss, overlays/duel_effects/dispatch_commons]
+
+  - name: leftover
+    type: code
+    start: 0x15890
+    vram: 0x8015B890
+    align: 4
+    subsegments:
+      - [0x15890, data, overlays/duel_effects/data_15890]
 
   - [0x16000]

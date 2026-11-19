@@ -664,6 +664,13 @@ merged successor `script_scene.c` builds the same way, with its storage in
 `script_scene_commons`. No linker-script addresses are
 involved; every name needs a `symbols.txt` entry at its retail address.
 
+Overlays work the same way at `-G0`: a unit built with
+`gcc_2_8_1_g0_split_comm` keeps its tentative definitions common, and the
+module layout's `bss` subsegment `<unit>_commons` defines them from the
+image's symbol file. The section order puts that `.bss` after every `.data`,
+so any raw bytes after the state become their own segment. `overlay_build.py`
+rejects a common that a linker assignment, rather than a label, satisfies.
+
 ### Merging units that were one original file
 
 Some legacy units read small globals that sit in a neighbour's `.sbss` or
@@ -1266,22 +1273,26 @@ five labels across six kilobytes, so the vast majority of it is unnamed.
 consumers now spell the array element.
 
 `free_duel` is the smallest by label count, and its named prefix is now
-C-owned. Consumer widths, rather than generated label extents, establish:
+declared in C. Consumer widths, rather than generated label extents, establish:
 
 - `gFreeDuel_abGridAvailable`: 40 bytes at `0x80169030`;
-- `gFreeDuel_pThumbWidget`: one pointer at `0x80169058`, followed by one
-  still-unknown word;
-- `gFreeDuel_apSparklePool`: 16 pointers at `0x80169060`;
+- `gFreeDuel_pThumbWidget`: one pointer at `0x80169058`;
+- `gFreeDuel_apSparklePool`: 16 pointers at `0x80169060`, on an 8-byte
+  boundary like every object of 8 bytes or more, so the word before it is
+  alignment;
 - `gFreeDuel_pCursorWidget`: one pointer at `0x801690A0`;
-- `gFreeDuel_bScreenFlags`: the low byte of four-byte storage at
-  `0x801690A4`.
+- `gFreeDuel_bScreenFlags`: one byte at `0x801690A4`.
 
-Those objects and the accounted unknown/padding bytes fill exactly
-`0x80169030-0x801690A8`, so `module_state.c` can own one exact `0x78`-byte
-`.data` section without adopting any false label extent. The screen-flags
-header exposes a byte view over its four-byte storage because old GCC aligns a
-following byte array to four bytes; spelling the padding as a second object
-would shift the raw tail.
+They are zero-initialized state, so `screen_runtime.c` declares them as
+tentative definitions and builds with `gcc_2_8_1_g0_split_comm`; the
+layout's `screen_runtime_commons` `bss` subsegment places them at
+`0x80169030-0x801690A8`, as the resident `<unit>_commons` subsegments do
+(see "Common declarations for small globals a unit reads"). The PAL images
+hold the same five objects in another order (`gFreeDuel_bScreenFlags` first,
+at `+0x10A0`, then the grid at `+0x10A8`, ending at `+0x111C`), which their own
+symbol files place through the same subsegment; the resident PAL `.sbss`/`.bss`
+blocks differ from North America's in the same way. The bytes after the
+state are a separate `leftover` segment.
 
 The remainder starts at `0x801690A8`, not at the end of the last generated
 label. It is 5,976 bytes and is not homogeneous data: disassembly identifies

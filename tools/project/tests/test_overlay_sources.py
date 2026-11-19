@@ -456,6 +456,34 @@ class OverlaySourceTests(unittest.TestCase):
             self.root / "tmp/overlays/example/build/example.elf",
         )
 
+    def test_build_checks_commons_of_comm_profile_units_only(self) -> None:
+        module = self.build_fixture()
+        self.write_json(
+            "config/slus_01411/compiler_profiles.json",
+            {"schema": 1, "profiles": {"g0": {}, "g0_comm": {}}},
+        )
+        self.manifest("matching_c", [self.entry(self.text, "g0_comm")])
+        with (
+            patch.object(overlay_build, "run"),
+            patch.object(overlay_build, "tool", return_value=Path("tool")),
+            patch.object(
+                overlay_build, "compile_sources",
+                return_value=[Path("data.o"), Path("text.o")]
+            ),
+            patch.object(overlay_build, "load_compiler_profiles", return_value={
+                "g0": {"maspsx_flags": ["-G0"]},
+                "g0_comm": {"maspsx_flags": ["-G0", "--use-comm-section"]},
+            }),
+            patch.object(overlay_build, "verify_data_symbols"),
+            patch.object(overlay_build, "verify_common_symbols") as verify_commons,
+            contextlib.redirect_stdout(io.StringIO()),
+        ):
+            overlay_build.build_module(self.root, module)
+        verify_commons.assert_called_once_with(
+            self.root, [Path("text.o")],
+            self.root / "tmp/overlays/example/build/example.elf",
+        )
+
     def test_build_rejects_an_empty_object_set(self) -> None:
         module = self.build_fixture()
         with (
@@ -555,6 +583,33 @@ class OverlaySourceTests(unittest.TestCase):
                     self.root, [self.root / "one.o", self.root / "two.o"],
                     self.root / "module.elf",
                 )
+
+    def test_commons_must_resolve_to_section_defined_labels(self) -> None:
+        elf = self.root / "tmp/module.elf"
+        obj = self.root / "tmp/text.o"
+        with patch.object(overlay_build, "object_symbols", side_effect=[
+            {"state": "*COM*", "Example_Run": ".text"}, {"state": ".module"},
+        ]):
+            overlay_build.verify_common_symbols(self.root, [obj], elf)
+        for section in ("*ABS*", "*UND*", None):
+            with self.subTest(section=section):
+                linked = {} if section is None else {"state": section}
+                with patch.object(overlay_build, "object_symbols", side_effect=[
+                    {"state": "*COM*"}, linked,
+                ]):
+                    with self.assertRaisesRegex(
+                        overlay_build.OverlayBuildError, "common state .* not section-defined"
+                    ):
+                        overlay_build.verify_common_symbols(self.root, [obj], elf)
+
+    def test_commons_shared_by_several_units_are_accepted(self) -> None:
+        with patch.object(overlay_build, "object_symbols", side_effect=[
+            {"state": "*COM*"}, {"state": ".module"}, {"state": "*COM*"},
+        ]):
+            overlay_build.verify_common_symbols(
+                self.root, [self.root / "one.o", self.root / "two.o"],
+                self.root / "module.elf",
+            )
 
     def test_no_data_objects_need_no_symbol_inspection(self) -> None:
         with patch.object(overlay_build, "object_symbols") as symbols:

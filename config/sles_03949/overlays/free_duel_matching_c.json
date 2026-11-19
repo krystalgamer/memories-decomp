@@ -5,7 +5,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x8C",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
@@ -14,7 +14,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x12C",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
@@ -23,7 +23,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x98",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
@@ -32,7 +32,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x7B8",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
@@ -41,7 +41,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x38",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
@@ -50,7 +50,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0xC8",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
@@ -59,7 +59,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x1E0",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
@@ -68,7 +68,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x338",
       "source": "src/overlays/free_duel/screen_runtime.c"
     },
@@ -77,7 +77,7 @@
       "defines": [
         "VERSION_EUROPE"
       ],
-      "profile": "gcc_2_8_1_g0_split",
+      "profile": "gcc_2_8_1_g0_split_comm",
       "size": "0x7C",
       "source": "src/overlays/free_duel/screen_runtime.c"
     }
