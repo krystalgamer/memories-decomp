@@ -1213,9 +1213,9 @@ void NameEntry_UpdateDialog(void)
                 box->prompt_object = Dialog_OpenChoice(box);
             } else {
 #ifdef VERSION_EUROPE
-                box->flags |= 0x10;
+                box->status.f.flags |= 0x10;
 #else
-                box->flags |= 8;
+                box->status.f.flags |= 8;
 #endif
                 do {
                     TextBox_UpdateChannels();
@@ -1275,7 +1275,7 @@ void NameEntry_UpdateDialog(void)
         } else {
             TextBox_UpdateChannels();
             /* One word load covers flags and initial_string_id. */
-            if ((*(u32 *)&box->flags & NAME_ENTRY_DIALOG_COMPLETION_MASK) !=
+            if ((box->status.word & NAME_ENTRY_DIALOG_COMPLETION_MASK) !=
                 TEXT_BOX_FLAG_DONE) {
                 return;
             }

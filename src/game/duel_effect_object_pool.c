@@ -200,7 +200,7 @@ s32 Duel_CheckRitual(DuelRitualResult *out, s32 ritualId)
     w = cands;
     for (i = 0; i < DUEL_FIELD_ROW_SIZE; i++) {
         *w = 0;
-        if (c->flags & DUEL_CARD_FLAG_OCCUPIED) {
+        if (c->status.f.flags & DUEL_CARD_FLAG_OCCUPIED) {
             *w = c;
         }
         w++;
@@ -250,7 +250,7 @@ void Duel_CollectFieldRowCardObjects(DisplayObject **output, s32 back_row)
     entry = &gDuel_aCardRecords[base];
     base = 0;
     for (; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
-        if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
+        if ((entry->status.f.flags & DUEL_CARD_FLAG_OCCUPIED) != 0) {
             *output++ = entry->object;
         }
     }
@@ -271,9 +271,9 @@ void Duel_CollectMatchingFieldCardObjects(DisplayObject **output, s32 selector)
             base < DUEL_FIELD_SIDE_ZONE_COUNT;
             base++, entry++, other++
         ) {
-            if (entry->flags & DUEL_CARD_FLAG_OCCUPIED)
+            if (entry->status.f.flags & DUEL_CARD_FLAG_OCCUPIED)
                 *output++ = entry->object;
-            if (other->flags & DUEL_CARD_FLAG_OCCUPIED)
+            if (other->status.f.flags & DUEL_CARD_FLAG_OCCUPIED)
                 *output++ = other->object;
         }
         *output = 0;
@@ -289,13 +289,13 @@ void Duel_CollectMatchingFieldCardObjects(DisplayObject **output, s32 selector)
         printf("Ex %d\n", selector);
 #endif
         for (base = 0; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
-            if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
+            if ((entry->status.f.flags & DUEL_CARD_FLAG_OCCUPIED) &&
                 (u16)Duel_CalcCardStats(entry) >= selector)
                 *output++ = entry->object;
         }
     } else {
         for (base = 0; base < DUEL_FIELD_ROW_SIZE; base++, entry++) {
-            if ((entry->flags & DUEL_CARD_FLAG_OCCUPIED) &&
+            if ((entry->status.f.flags & DUEL_CARD_FLAG_OCCUPIED) &&
                 (selector < 0 ||
                  entry->object->resource_branch_index == selector))
                 *output++ = entry->object;

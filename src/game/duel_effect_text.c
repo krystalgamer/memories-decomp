@@ -23,7 +23,7 @@ void DuelEffect_ResetState(void)
     DuelEffectChannel *entry = gText_aChannels;
 
     do {
-        entry->flags = 0;
+        entry->status.f.flags = 0;
         entry->prompt_object = 0;
         entry->aux_object = 0;
         entry->render_object = 0;
@@ -58,8 +58,8 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     s32 size;
 
     channel = &gText_aChannels[index];
-    channel->flags = flags | DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
-    channel->initial_string_id = value;
+    channel->status.f.flags = flags | DUEL_EFFECT_CHANNEL_FLAG_ACTIVE;
+    channel->status.f.initial_string_id = value;
     narrow = 8;
     wide = 16;
     size = flags & 3;
@@ -123,9 +123,9 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     range = &gDuelEffect_awEntryRangeBoundaries[index];
 #endif
     channel->channel_index = index;
-    channel->initial_string_id = value;
+    channel->status.f.initial_string_id = value;
     channel->color_index = 0;
-    channel->flags = flags;
+    channel->status.f.flags = flags;
     channel->pen_x = 0;
     channel->pen_y = 0;
     channel->depth_offset = 0;
@@ -147,9 +147,9 @@ void TextBox_Destroy(DuelEffectChannel *record)
 #ifdef VERSION_EUROPE
     /* The European build leaves an inactive channel alone and no longer
        clears the channel's occupancy value. */
-    if (record->flags & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
+    if (record->status.f.flags & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
         DuelEffect_ClearMatchingMarker(record->channel_index);
-        record->flags = 0;
+        record->status.f.flags = 0;
         DisplayObject_ReleaseIfPresent(record->prompt_object);
         DisplayObject_ReleaseIfPresent(record->aux_object);
         DisplayObject_ReleaseIfPresent(record->render_object);
@@ -160,7 +160,7 @@ void TextBox_Destroy(DuelEffectChannel *record)
 #else
     DuelEffect_ClearOccupancyValue(record->channel_index);
     DuelEffect_ClearMatchingMarker(record->channel_index);
-    record->flags = 0;
+    record->status.f.flags = 0;
     DisplayObject_ReleaseIfPresent(record->prompt_object);
     DisplayObject_ReleaseIfPresent(record->aux_object);
     DisplayObject_ReleaseIfPresent(record->render_object);
@@ -210,7 +210,7 @@ DuelEffectChannel *TextBox_CreateFlagged(
 
     TextBox_SetRect(index, x, y, width, height);
     result = DuelEffect_InitEntry(index, string_id, 0);
-    result->flags |= flags;
+    result->status.f.flags |= flags;
     return result;
 #endif
 }
@@ -1306,7 +1306,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
     entry->local_x = channel->pen_x;
     entry->local_y = channel->pen_y;
     entry->glyph_code = tagged_value;
-    flags = channel->flags;
+    flags = channel->status.f.flags;
     result = 0;
 
     if (flags & 0x100) {
@@ -1352,7 +1352,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
         }
     }
 
-    if (channel->flags & 0x1C00) {
+    if (channel->status.f.flags & 0x1C00) {
         entry->handler_state = 0;
     }
     entry++;
@@ -1375,7 +1375,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
     q->handler_state = 1;
     q->render_mode = 0;
     r = gText_GlyphUploadScratch;
-    f = p->flags;
+    f = p->status.f.flags;
     if (f & 0x80) {
         q->glyph_index = a;
 #ifndef VERSION_JAPAN
@@ -1407,7 +1407,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
         if (v < 0) {
             return;
         }
-        if (p->flags & 0x200) {
+        if (p->status.f.flags & 0x200) {
             r += p->output_count;
         }
         q->glyph_index = v;
@@ -1441,14 +1441,14 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
 #endif
         r->rect.h = 0x10;
 #ifdef VERSION_JAPAN
-        if (p->flags & 0x200) {
+        if (p->status.f.flags & 0x200) {
             LoadImage(&r->rect, r->rows[0].words);
         } else {
             LoadImage2(&r->rect, r->rows[0].words);
         }
 #endif
     }
-    if (p->flags & 0x1C00) {
+    if (p->status.f.flags & 0x1C00) {
         q->handler_state = 0;
     }
     q->local_x = p->pen_x;
@@ -1784,7 +1784,7 @@ void Dialog_UpdateChoice(DuelEffectChannel *p) {
         Dialog_HighlightChoice(p);
     }
 
-    if ((p->flags & DIALOG_UPDATE_CHOICE_SKIP_FLAG) != 0) {
+    if ((p->status.f.flags & DIALOG_UPDATE_CHOICE_SKIP_FLAG) != 0) {
         return;
     }
 
@@ -2254,13 +2254,13 @@ void Text_TryCompleteChoiceLayout(DuelEffectChannel *channel)
 
     if (object->explicit_newline_count >= gDialog_bChoiceCount) {
         object->playback_state = 1;
-        flags = object->flags;
+        flags = object->status.f.flags;
         object->explicit_newline_count = 0;
         control = gDialog_bChoiceControl;
         gText_ChoiceLayoutCallback = 0;
         flags &= 0xEFFF;
         control &= DIALOG_CHOICE_CONTROL_LAYOUT_MASK;
-        channel->flags = flags;
+        channel->status.f.flags = flags;
         if (control != 0)
             gDialog_bChoiceCount = 2;
     }
@@ -2400,9 +2400,9 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         object->streams[object->stream_index] = text.string;
         return;
     }
-    object->flags |= 0x80;
+    object->status.f.flags |= 0x80;
     DuelEffect_AppendEntry(object, id);
-    object->flags &= 0xFF7F;
+    object->status.f.flags &= 0xFF7F;
     object->pen_x += 0x10;
 }
 #elif defined(VERSION_EUROPE)
@@ -2481,9 +2481,9 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         object->streams[object->stream_index] = text.string;
         return;
     }
-    object->flags |= 0x100;
+    object->status.f.flags |= 0x100;
     DuelEffect_AppendEntry(object, id);
-    object->flags &= 0xFEFF;
+    object->status.f.flags &= 0xFEFF;
     object->pen_x += 0x10;
 }
 #else
@@ -2569,11 +2569,11 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
         object->streams[object->stream_index] = text.string;
         return;
     }
-    object->flags |= 0x80;
+    object->status.f.flags |= 0x80;
     if ((u8)n == 0) {
         DuelEffect_AppendEntry(object, id);
     }
-    object->flags &= 0xFF7F;
+    object->status.f.flags &= 0xFF7F;
     object->pen_x += 0x10;
 }
 #endif
@@ -2586,10 +2586,10 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
 
 void Text_EmitSymbolGlyph(DuelEffectChannel *object, s32 value)
 {
-    object->flags = object->flags;
-    object->flags |= DUEL_EFFECT_SELECTOR_FLAG;
+    object->status.f.flags = object->status.f.flags;
+    object->status.f.flags |= DUEL_EFFECT_SELECTOR_FLAG;
     DuelEffect_AppendEntry(object, value);
-    object->flags &= 0xFFFF ^ DUEL_EFFECT_SELECTOR_FLAG;
+    object->status.f.flags &= 0xFFFF ^ DUEL_EFFECT_SELECTOR_FLAG;
     object->pen_x += 0x10;
 }
 
@@ -2719,9 +2719,9 @@ void Text_SetFontMode(DuelEffectChannel *object)
 #endif
 
 #ifdef VERSION_EUROPE
-    object->flags &= 0xFFFC;
+    object->status.f.flags &= 0xFFFC;
 #else
-    object->flags &= 0xFEFF;
+    object->status.f.flags &= 0xFEFF;
 #endif
     value = read_operand(object);
 #ifdef VERSION_JAPAN
@@ -2738,17 +2738,17 @@ void Text_SetFontMode(DuelEffectChannel *object)
     case 1:
         object->glyph_advance_x = 8;
         object->line_advance_y = 8;
-        object->flags |= 1;
+        object->status.f.flags |= 1;
         break;
     case 2:
         object->glyph_advance_x = 12;
         object->line_advance_y = 16;
-        object->flags |= 2;
+        object->status.f.flags |= 2;
         break;
     case 3:
         object->glyph_advance_x = 16;
         object->line_advance_y = 16;
-        object->flags |= 3;
+        object->status.f.flags |= 3;
         break;
     }
 #else
@@ -2765,7 +2765,7 @@ void Text_SetFontMode(DuelEffectChannel *object)
 #endif
 #ifndef VERSION_EUROPE
     if (value == 1)
-        object->flags |= 0x100;
+        object->status.f.flags |= 0x100;
 #endif
 }
 
@@ -2900,14 +2900,14 @@ void Text_SetFastPrintMode(DuelEffectChannel *object)
     register u32 value;
 
     obj = object;
-    obj->flags &= 0xEFFF;
+    obj->status.f.flags &= 0xEFFF;
     stream = &obj->streams[obj->stream_index];
     current = *stream;
     value = *current;
     current++;
     *stream = current;
     if (value)
-        obj->flags |= 0x1000;
+        obj->status.f.flags |= 0x1000;
 }
 
 #include "duel_scene.h"
@@ -3139,7 +3139,7 @@ u8 gText_BranchSelectorA;
 
 void Text_DisableCompletionWait(DuelEffectChannel *value)
 {
-    value->flags &= (u16)~DUEL_EFFECT_CLEARED_CHANNEL_FLAG;
+    value->status.f.flags &= (u16)~DUEL_EFFECT_CLEARED_CHANNEL_FLAG;
 }
 
 #ifndef DUEL_EFFECT_STREAM_HIGH_MASK
@@ -3304,10 +3304,10 @@ void Text_HandleChoiceCommand(DuelEffectChannel *object)
         DuelEffect_ClearOccupancyValue(object->channel_index);
 #endif
         DuelEffect_ClearMatchingMarker(object->channel_index);
-        channel_flags = object->flags;
+        channel_flags = object->status.f.flags;
         object->explicit_newline_count = 0;
         gText_ChoiceLayoutCallback = Text_TryCompleteChoiceLayout;
-        object->flags = channel_flags | 0x1000;
+        object->status.f.flags = channel_flags | 0x1000;
     }
 }
 
@@ -3376,10 +3376,10 @@ void Text_EndStream(DuelEffectChannel *record)
 
     record->stream_index--;
     if (record->stream_index < 0) {
-        flags = record->flags;
+        flags = record->status.f.flags;
         gText_CommandDisposition = 1;
         flags |= 0x2000;
-        record->flags = flags;
+        record->status.f.flags = flags;
     }
 }
 
@@ -3571,7 +3571,7 @@ void TextBox_RefreshDisplayObjects(DuelEffectChannel *p) {
     e->field_18.center.y = v;
     e->field_48.pivot.y = v;
 
-    if ((p->flags & TEXT_BOX_LAYOUT_QUAD_FLAG) != 0) {
+    if ((p->status.f.flags & TEXT_BOX_LAYOUT_QUAD_FLAG) != 0) {
         if (p->aux_object != 0) {
             DisplayObject_ReleaseIfPresent(p->aux_object);
         }
@@ -3666,21 +3666,21 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     s32 op;
     void (**handlers)(DuelEffectChannel *);
 
-    flags = object->flags;
+    flags = object->status.f.flags;
     if ((flags & TEXT_BOX_FLAG_BUILD_ACTIVE) == 0) {
         flags |= TEXT_BOX_FLAG_BUILD_ACTIVE;
-        object->flags = flags;
+        object->status.f.flags = flags;
         if ((flags & TEXT_BOX_BUILD_KEEP_FLAG) == 0) {
             DisplayEffect_ResetMenuRecords();
         }
 #ifndef VERSION_EUROPE
         /* The European build makes neither field store. */
-        if ((object->flags & 0x100) != 0) {
+        if ((object->status.f.flags & 0x100) != 0) {
             object->line_advance_y = 8;
             object->glyph_advance_x = 8;
         }
 #endif
-        id = object->initial_string_id;
+        id = object->status.f.initial_string_id;
         gText_ScriptDispatchGate = 0;
         gText_ChoiceLayoutCallback = 0;
         object->delay_countdown = 1;
@@ -3739,7 +3739,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         object->prompt_object = 0;
         object->aux_object = 0;
         TextBox_RefreshDisplayObjects(object);
-        if ((object->flags & TEXT_BOX_BUILD_OWN_ENTRIES_FLAG) == 0) {
+        if ((object->status.f.flags & TEXT_BOX_BUILD_OWN_ENTRIES_FLAG) == 0) {
             entry = &gDuelEffect_aEntries[object->entry_range_start];
             object->entry_begin = entry;
             object->entry_write_cursor = entry;
@@ -3761,15 +3761,15 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     }
     if (object->playback_state != 0) {
         gTextBox_apfnStateCallbacks[object->playback_state & DUEL_EFFECT_STATE_INDEX_MASK](object);
-        object->flags = object->flags & 0xFBFF;
+        object->status.f.flags = object->status.f.flags & 0xFBFF;
         return;
     }
-    if ((object->flags & 0x1C00) == 0) {
+    if ((object->status.f.flags & 0x1C00) == 0) {
         if ((gInput_awPadHeld[0] & PAD_BUTTON_SQUARE) ||
             (gInput_awPadPressed[0] & TEXT_BOX_ADVANCE_MASK)) {
             DuelEffect_SetEntryControlBytes(object, 0, 0);
             object->delay_countdown = 1;
-            object->flags = object->flags | 0x400;
+            object->status.f.flags = object->status.f.flags | 0x400;
         }
         object->delay_countdown = object->delay_countdown - 1;
         if (object->delay_countdown != 0) {
@@ -3828,7 +3828,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
         if (limit != 0) {
             w = (s16)n + object->glyph_advance_x;
             if (limit < w) {
-                object->flags = object->flags | TEXT_BOX_FLAG_DONE;
+                object->status.f.flags = object->status.f.flags | TEXT_BOX_FLAG_DONE;
             }
         }
     }
@@ -3837,7 +3837,7 @@ void TextBox_BuildStep(DuelEffectChannel *object)
     object->output_count = object->output_count + 1;
     if (object->output_limit != 0 &&
         object->output_count >= object->output_limit) {
-        object->flags = object->flags | TEXT_BOX_FLAG_DONE;
+        object->status.f.flags = object->status.f.flags | TEXT_BOX_FLAG_DONE;
     }
     object->pen_x = object->pen_x + object->glyph_advance_x;
 #endif
@@ -3894,15 +3894,15 @@ void TextBox_UpdateChannels(void)
     reset_value = -1;
     table = gText_aGlyphLookup;
     do {
-        if (p->flags & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
+        if (p->status.f.flags & DUEL_EFFECT_CHANNEL_FLAG_ACTIVE) {
             gText_PumpedGlyphIndex = 0;
-            if ((p->flags & TEXT_BOX_FLAG_DONE) == 0) {
+            if ((p->status.f.flags & TEXT_BOX_FLAG_DONE) == 0) {
                 gText_PumpedGlyphIndex = reset_value;
                 cnt = -1;
                 for (;;) {
                     TextBox_BuildStep(p);
                     cnt++;
-                    f = p->flags;
+                    f = p->status.f.flags;
                     if (f & 0x2000) {
                         if (f & TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG) {
                             p->prompt_object = Dialog_OpenChoice(p);
@@ -3918,10 +3918,10 @@ void TextBox_UpdateChannels(void)
                     }
                 }
             } else {
-                if (p->flags & TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG) {
+                if (p->status.f.flags & TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG) {
                     if (gInput_awPadPressed[0] &
                         DISPLAY_EFFECT_MENU_CONFIRM_MASK) {
-                        p->flags &= 0xFFFF ^ TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG;
+                        p->status.f.flags &= 0xFFFF ^ TEXT_BOX_UPDATE_CHANNELS_CHOICE_FLAG;
                         DisplayObject_ReleaseIfPresent(p->prompt_object);
                         p->prompt_object = 0;
                         SD_SEPlayFull(0xB);
@@ -3988,18 +3988,18 @@ void TextBox_SetPos(DuelEffectChannel *record, s32 x, s32 y)
 
 void TextBox_BuildBlocking(DuelEffectChannel *object)
 {
-    object->flags |= TEXT_BOX_FLAG_BUILD_REQUESTED;
+    object->status.f.flags |= TEXT_BOX_FLAG_BUILD_REQUESTED;
     do {
         TextBox_BuildStep(object);
-    } while (!(object->flags & TEXT_BOX_FLAG_DONE));
+    } while (!(object->status.f.flags & TEXT_BOX_FLAG_DONE));
 }
 
 void TextBox_BuildBlockingWithGlyphScratch(DuelEffectChannel *object)
 {
-    object->flags |= 0xA00;
+    object->status.f.flags |= 0xA00;
     do {
         TextBox_BuildStep(object);
-    } while (!(object->flags & TEXT_BOX_FLAG_DONE));
+    } while (!(object->status.f.flags & TEXT_BOX_FLAG_DONE));
 }
 
 #include "duel_effect_entry_state.h"

@@ -368,8 +368,8 @@ several functions use interior aliases or derived subranges.
 | `+0x0E` | 2 | `attack` | `Duel_SetupCardRecord` stores the first card-stat component with `sh`; exact stat calculation users consume the record. |
 | `+0x10` | 2 | `defense` | `Duel_SetupCardRecord` stores the second card-stat component with `sh`; exact stat calculation users consume the record. |
 | `+0x12` | 2 | `stat_modifier` | `Duel_SetupCardRecord` clears it with `sh`; the exact stat comparison path passes the record to the stat calculators. |
-| `+0x14` | 2 | `terrain_modifier` | `Duel_SetupCardRecord` stores the terrain result with `sh`. Some state tests intentionally load a 32-bit word beginning here, spanning this field and `flags`. |
-| `+0x16` | 2 | `flags` | Repeated `lhu`/`sh` accesses in `Duel_UpdateCardDisplayState`, `Duel_ApplyCardObjectFlags`, `func_8001EFD4`, cursor/effect helpers, scans, and mutators establish the width and bit masks. |
+| `+0x14` | 2 | `status.f.terrain_modifier` | `Duel_SetupCardRecord` stores the terrain result with `sh`. Some state tests load a 32-bit word beginning here, spanning this field and `flags`; they read the `DuelCardStatus` union's `status.word` arm with `DUEL_CARD_STATUS_FLAGS(...)` masks. |
+| `+0x16` | 2 | `status.f.flags` | Repeated `lhu`/`sh` accesses in `Duel_UpdateCardDisplayState`, `Duel_ApplyCardObjectFlags`, `func_8001EFD4`, cursor/effect helpers, scans, and mutators establish the width and bit masks. |
 | `+0x18` | 1 | `table_index` | `Duel_SetupCardRecord` stores the selected table index with `sb`. |
 | `+0x19` | 3 | padding | No field type is asserted. |
 
@@ -634,17 +634,17 @@ Raw local views retained for exact code generation:
   walks a typed `DuelCardRecord` cursor for the flags test.
 - `Duel_ResetCardRecords` keeps the independent `+0x16` flags cursor that preserves
   retail allocation. Its `+0x04` word store derives the backward distance
-  between `DuelCardRecord::flags` and `::data`, and its increments and bound
+  between `DuelCardRecord::status.f.flags` and `::data`, and its increments and bound
   use the shared size/count constants.
-- `Duel_UpdateCardDisplayMarker` keeps the target's 32-bit read beginning at `+0x14` so the
-  `0xA0000000` mask remains a single `lw`-based test.
+- `Duel_UpdateCardDisplayMarker` reads `status.word`, the target's 32-bit read beginning
+  at `+0x14`, so the occupied/display-marker mask remains a single `lw`-based test.
 - `Duel_CreateCardDisplayObject` uses the shared table declaration for its record-index
   calculation, but keeps the incoming record as a byte pointer so its
   field loads and pointer-difference expression preserve the accepted code.
-- `DuelEffect_ApplySwords` likewise keeps the target's 32-bit `+0x14` read for the
-  `0x90000000` state test.
-- `DuelEffect_ApplyStopDefense` uses the shared record and flags, but keeps
-  the target's 32-bit `+0x14` read for its `0x88000000` state test.
+- `DuelEffect_ApplySwords` likewise reads `status.word` for its occupied/face-down
+  state test.
+- `DuelEffect_ApplyStopDefense` uses the shared record and flags, and
+  reads `status.word` for its occupied/defense-position state test.
 - `Duel_CollectFieldRowCardObjects` keeps its explicit byte-address
   construction and fixed
   register variables, then uses `DuelCardRecord` once the address is formed.

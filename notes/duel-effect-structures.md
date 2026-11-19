@@ -32,8 +32,8 @@ Verified channel fields used by matching C include:
 | `0x28` | `render_object` | primary entry-render object installed by `TextBox_RefreshDisplayObjects` |
 | `0x2C` | `aux_object` | outline, custom trade sprite or name-entry caret; shared owned auxiliary slot |
 | `0x30` | `prompt_object` | page/completion cursor or choice highlight; retained and released by channel state paths |
-| `0x34` | `flags` | `0x10`, `0x2000`, and `0x8000` tests; reset by `DuelEffect_ResetState` |
-| `0x36` | `initial_string_id` | constructor string ID consumed by initial `TextBox_BuildStep` bank lookup |
+| `0x34` | `status.f.flags` | `0x10`, `0x2000`, and `0x8000` tests; reset by `DuelEffect_ResetState`. Completion tests that load `0x34` as one word (`lw`) read the `DuelEffectChannelStatus` union's `status.word` arm |
+| `0x36` | `status.f.initial_string_id` | constructor string ID consumed by initial `TextBox_BuildStep` bank lookup |
 | `0x38`, `0x3A` | `pen_x`, `pen_y` | unsigned halfword pen initialization, stream commands and entry-position publication |
 | `0x3C`, `0x40` | `rect_x`, `rect_y` | signed halfword origins set by `TextBox_SetRect` and `TextBox_SetPos` |
 | `0x3E`, `0x42` | `rect_width`, `rect_height` | signed halfword extents set by `TextBox_SetRect`; wrap and display geometry consumers |
