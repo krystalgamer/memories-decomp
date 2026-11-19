@@ -3382,7 +3382,7 @@ void DuelScene_UpdateCardPlacement(void)
         gDuel_bPlacementNeedsCardMoveSetup = 1;
         slots = gDisplayObject_apWorkSlots.slots;
         if (!slots[1]) {
-            if (slots[0]->resource_branch_index < 20)
+            if (slots[0]->resource_branch_index < CARD_TYPE_MAGIC)
             gDuel_bPlacementNeedsCardMoveSetup = 1;
             gDuel_wPlacementCardId = gDuel_abCardStagingBuffer.deck.field_cards[object->kind_index.card_record_index].card_id;
             object->position.h.field_28 = 134;
@@ -3789,7 +3789,7 @@ void DuelScene_UpdateCardPlacement(void)
                 gDuel_bSceneSubStep |= 0xC0;
                 DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
                 object = gDisplayObject_apWorkSlots.slots[0];
-                if (object->resource_branch_index != 23)
+                if (object->resource_branch_index != CARD_TYPE_EQUIP)
                 object = slots[1];
                 gDuel_wEquipCardId = gDuel_abCardStagingBuffer.deck.field_cards[object->kind_index.card_record_index].card_id;
                 return;
@@ -3809,7 +3809,7 @@ void DuelScene_UpdateCardPlacement(void)
                 {
                     DisplayObject **release_slots = gDisplayObject_apWorkSlots.slots;
                     gDuel_bSceneSubStep |= 0x20;
-                    if (release_slots[1]->resource_branch_index < 20) {
+                    if (release_slots[1]->resource_branch_index < CARD_TYPE_MAGIC) {
                         DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots.slots[0]);
                         gDisplayObject_apWorkSlots.slots[0] = release_slots[1];
                     } else {
@@ -3891,7 +3891,7 @@ void DuelScene_UpdateCardPlacement(void)
                     }
                     gDuelEffect_pTrackedRequest = request;
                     slots = gDisplayObject_apWorkSlots.slots;
-                    if (slots[0]->resource_branch_index >= 20 || slots[1]->resource_branch_index >= 20)
+                    if (slots[0]->resource_branch_index >= CARD_TYPE_MAGIC || slots[1]->resource_branch_index >= CARD_TYPE_MAGIC)
                     request->phase = 1;
                 }
                 SD_SEPlayFull(24);
@@ -3930,7 +3930,7 @@ void DuelScene_UpdateCardPlacement(void)
                 object->flags |= 4;
                 object->attribute &= ~0x08000000;
                 SD_SEPlayFull(26);
-                if (slots[1]->resource_branch_index >= 20 && object->resource_branch_index < 20) {
+                if (slots[1]->resource_branch_index >= CARD_TYPE_MAGIC && object->resource_branch_index < CARD_TYPE_MAGIC) {
                     DisplayObject *other = slots[1];
                     slots[1] = object;
                     object = other;
@@ -3960,7 +3960,7 @@ void DuelScene_UpdateCardPlacement(void)
             DisplayObject **slots;
             object = gDisplayObject_apWorkSlots.slots[0];
             gDuel_wSceneStateFlags = 6;
-            if (object->resource_branch_index < 20) {
+            if (object->resource_branch_index < CARD_TYPE_MAGIC) {
                 s32 index = object->kind_index.card_record_index;
                 DuelCardRecord *base = gDuel_aCardRecords;
                 gDuel_wSceneStateFlags = 0x4008;
@@ -4050,7 +4050,7 @@ void DuelScene_UpdateCardMove(void)
             return;
         }
         if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0 &&
-            object->resource_branch_index < 0x14) {
+            object->resource_branch_index < CARD_TYPE_MAGIC) {
             gDuel_aCardRecords[object->kind_index.card_record_index].flags &= ~0x200;
             if (gAi_Selection.bytes[7] & 1) {
                 gDuel_aCardRecords[object->kind_index.card_record_index].flags |= 0x200;
@@ -4082,7 +4082,7 @@ void DuelScene_UpdateCardMove(void)
         gDuel_bSceneSubStep = 2;
         /* Fall through to the next presentation phase in the same frame. */
     case 2:
-        if (object->resource_branch_index >= 0x14) {
+        if (object->resource_branch_index >= CARD_TYPE_MAGIC) {
             gDuel_bSceneSubStep = 4;
             break;
         }
@@ -10116,7 +10116,7 @@ void DuelEffect_ApplyBoardDestruction(void) {
                 i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT
             ] * DUEL_CARD_RECORD_SIZE + (u8 *)gDuel_aCardRecords);
             if ((p->flags & DUEL_CARD_FLAG_OCCUPIED) != 0 &&
-                p->object->resource_branch_index == 0) {
+                p->object->resource_branch_index == CARD_TYPE_DRAGON) {
                 DuelCard_RemoveFromField(p);
             }
             i++;

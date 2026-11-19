@@ -267,7 +267,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
     PRM->xy.h.y = win->xy.h.y + obj->xy.h.y;
     PRM->extent.word = obj->field_3C.word;
     PRM->uv.word = obj->resource_uv.word;
-    if (obj->resource_branch_index < 0x14) {
+    if (obj->resource_branch_index < CARD_TYPE_MAGIC) {
         if (rec->stat_palette_flags & 0x80) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
         }
