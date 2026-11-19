@@ -28,7 +28,13 @@ extern u8 gCampaignSceneIndex;
 
 /* The frontend mode runner's step byte, tentatively defined by
  * main_mode_runners.c, twice (from Main_RunDuel and the later runners). It is deliberately
- * separate from the guarded mode bytes declared in main_mode_runners.h. */
+ * separate from the guarded mode bytes declared in main_mode_runners.h.
+ * Main_RunDuel and Main_RunCredits keep the step in its low
+ * nibble and latch MAIN_MODE_RUNNER_STEP_STARTED the first frame a step
+ * runs; storing a plain step clears the latch. */
 extern u8 gMain_bModeRunnerStep;
+
+#define MAIN_MODE_RUNNER_STEP_MASK 0xF
+#define MAIN_MODE_RUNNER_STEP_STARTED 0x80
 
 #endif

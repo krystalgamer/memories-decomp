@@ -125,11 +125,11 @@ void Main_RunDuel(void)
     }
 
     value = gMain_bModeRunnerStep;
-    state = value & 0xF;
+    state = value & MAIN_MODE_RUNNER_STEP_MASK;
     switch (state) {
     case 0:
-        if (!(value & 0x80)) {
-            gMain_bModeRunnerStep = value | 0x80;
+        if (!(value & MAIN_MODE_RUNNER_STEP_STARTED)) {
+            gMain_bModeRunnerStep = value | MAIN_MODE_RUNNER_STEP_STARTED;
             gBuildDeck_bConfirmMode = 0x80;
             BuildDeck_InitScreen(
                 (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
@@ -143,8 +143,8 @@ void Main_RunDuel(void)
         }
         break;
     case 1:
-        if (!(value & 0x80)) {
-            gMain_bModeRunnerStep = value | 0x80;
+        if (!(value & MAIN_MODE_RUNNER_STEP_STARTED)) {
+            gMain_bModeRunnerStep = value | MAIN_MODE_RUNNER_STEP_STARTED;
             Duel_InitScene();
         } else {
             DuelScene_UpdateWithSideInput();
@@ -726,12 +726,12 @@ void Main_RunCredits(void)
     default:
             state = gMain_bModeRunnerStep;
             one = 1;
-            phase = state & 0xF;
+            phase = state & MAIN_MODE_RUNNER_STEP_MASK;
 
             switch (phase) {
             case 0:
-                if ((state & 0x80) == 0) {
-                    gMain_bModeRunnerStep = state | 0x80;
+                if ((state & MAIN_MODE_RUNNER_STEP_STARTED) == 0) {
+                    gMain_bModeRunnerStep = state | MAIN_MODE_RUNNER_STEP_STARTED;
                     SaveData_RequestWrite();
                 }
                 state = MemCardDialog_Poll();
@@ -745,8 +745,8 @@ void Main_RunCredits(void)
                 return;
 
             case 1:
-                if ((state & 0x80) == 0) {
-                    gMain_bModeRunnerStep = state | 0x80;
+                if ((state & MAIN_MODE_RUNNER_STEP_STARTED) == 0) {
+                    gMain_bModeRunnerStep = state | MAIN_MODE_RUNNER_STEP_STARTED;
                     state = ((u32)gSaveData_Workspace.state.duelist_code) %
                         CREDITS_SECRET_NUMBER_COUNT;
                     table = gCredits_awSecretNumbers[0];
@@ -772,8 +772,8 @@ void Main_RunCredits(void)
                 return;
 
             case 2:
-                if ((state & 0x80) == 0) {
-                    gMain_bModeRunnerStep = state | 0x80;
+                if ((state & MAIN_MODE_RUNNER_STEP_STARTED) == 0) {
+                    gMain_bModeRunnerStep = state | MAIN_MODE_RUNNER_STEP_STARTED;
 #ifdef MAIN_RUN_CREDITS_EUROPE_SCENE_CALLBACKS
                     DuelEffect_ResetState();
                     DisplayEffect_ResetMenuRecords();
