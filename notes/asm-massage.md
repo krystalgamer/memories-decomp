@@ -1,21 +1,20 @@
 # Assembly massage for hand-written renderers
 
-Status: integrated for the twelve wireframe drivers of
-`src/game/wireframe_renderers.c`, the sixteen shared Gt3/Gt4 drivers of
-`src/game/shared_polygon_renderers.c` and the thirty-two direct polygon
-drivers of `src/game/polygon_renderers.c`, which build through the
-`gcc_2_8_1_o2_massaged` profile in every resident executable (see
-[Build integration](#build-integration)). Only the shared cache-preparation
-stage (`src/game/shared_primitive_cache_prepare.c`) still uses the
-register-variable C of the `gcc_2_8_1_g0_handwritten_asm` profile; see
-[Next steps](#next-steps) for why.
+Status: integrated for every hand-written model renderer: the twelve
+wireframe drivers of `src/game/wireframe_renderers.c`, the sixteen shared
+Gt3/Gt4 drivers of `src/game/shared_polygon_renderers.c`, the shared
+cache-preparation stage `Model_PrepareSharedPrimitiveCaches` and the
+thirty-two direct polygon drivers of `src/game/polygon_renderers.c`. All
+61 build through the `gcc_2_8_1_o2_massaged` profile in every resident
+executable (see [Build integration](#build-integration)).
 
 The tool is `tools/project/asm_massage.py`, with its rule catalogue in
 `tools/project/asm_massage_rules.py`, the dependence checker in
 `tools/project/asm_massage_deps.py` and unit tests in
 `tools/project/tests/test_asm_massage.py`. Edit files live beside their
 source, in `src/game/wireframe_renderers.massage/`,
-`src/game/shared_polygon_renderers.massage/` and
+`src/game/shared_polygon_renderers.massage/`,
+`src/game/shared_primitive_cache_prepare.massage/` and
 `src/game/polygon_renderers.massage/`.
 
 ## Motivation
@@ -195,7 +194,10 @@ five documented assumptions about the game's data:
   command words. Changing a CLUT (`(uv0 & 0xFFFF) | clut`) or the blend
   bits (`uv1 & 0xFF9FFFFF | 0x00400000`) uses the GPU's documented word
   layout, as libgpu's `setClut`/`getTPage` do, not host byte order. SXY
-  words are composed as `x | y << 16`, the GTE register format.
+  words are composed as `x | y << 16`, the GTE register format. The cache
+  preparation writes vertop2 entries through the `words[]` view of
+  `ModelSharedCacheEntry`: SXY2, then `p << 16 | otz` (`p` from IR0, `otz`
+  from SZ3), the little-endian layout of `GsWORKUNIT`'s `otz` and `p`.
 
 The draw-mode guard: the original loads the word at `0x8009AFE4`
 (`gModel_bCurrentDrawMode`, `gModel_bBlendRateActive`,
@@ -244,7 +246,7 @@ $v0.1 = $a3       # lw $v0.1, 0x0($t3.1)
 
 ## Metrics
 
-All 60 functions match exactly with the one rule list. "By
+All 61 functions match exactly with the one rule list. "By
 rules" counts final instructions produced or rewritten by a rule, including
 derived nops; "kept" are GCC's instructions with only their registers
 renamed; "residual" instructions are the ones the residual diff placed.
@@ -391,6 +393,21 @@ in the semi variants the blend-flag setup block. Each is either a single
 moved instruction or a choice between two equal registers, which a rule
 could not make without matching one function's layout.
 
+### Shared cache preparation
+
+`Model_PrepareSharedPrimitiveCaches` (plain C with one load per loop
+iteration; the original pipelines both loops by one iteration, which
+`rotate-loop-loads` reproduces):
+
+| Function | Address | Retail | Kept | By rules | Residual instrs | Residual diff lines | Map entries |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `Model_PrepareSharedPrimitiveCaches` | `0x80067220` | 77 | 38 | 28 | 11 | 25 | 23 |
+
+The residual is scheduling: the argument and global loads in the original's
+order, `$t9 = -1` set once before the loop instead of in it, the dead
+`$t4 = 0xFF`, the counter and pointer advances above the GTE command, and
+the original's loads in the delay slots of the draw-mode and count tests.
+
 ## Dependence check
 
 `check` also proves that the residual keeps the program's meaning, so a
@@ -457,15 +474,16 @@ arrays of a shared HMD block). The value is never used; the array lies in
 the model data, followed by more of it, and PlayStation RAM reads do not
 fault, so the read is harmless. The C itself never reads past the array.
 
-Result on the 60 massaged functions:
+Result on the 61 massaged functions:
 
 | Functions | Moves / re-registered / insertions / deletions / merged | Result |
 | --- | --- | --- |
 | 12 wireframe drivers | 0 / 0 / 1 (the dead `nortop` load) / 0 / 0 | proven |
 | 16 shared polygon drivers | 10-25 / 3-12 / 0-3 (dead or rebuilt constants; save-area accesses counted apart) / 0-3 / 0-1 (the semi window GT3 and the two semi GT4 forms merge one) | proven |
 | 32 direct polygon drivers | 4-18 / 4-26 / 1-2 (dead, rebuilt constants, or the `colour` register copy in sixteen of them) / 0-4 / 0-1 | proven |
+| `Model_PrepareSharedPrimitiveCaches` | 8 / 2 / 1 (dead) / 0 / 0, and 4 rotated loads | proven (A7) |
 
-All 60 residuals are proven with no assumption beyond A1-A6. In the three
+All 61 residuals are proven with no assumption beyond A1-A7. In the three
 semi drivers GCC duplicates the code-byte shift (`srl $s3,$s0,24`) into
 the two ways into the join after the semi setup (one in a delay slot, one
 behind an extra label); the original computes it once after the join. The
@@ -498,7 +516,7 @@ The build gate for the integrated units:
 
 ```text
 $ make check-asm-massage | tail -1
-asm_massage check: 60/60 MATCH and proven
+asm_massage check: 61/61 MATCH and proven
 ```
 
 GCC's instruction counts for the wireframes (before massaging) were 104
@@ -529,10 +547,11 @@ against `.text`; the linked bytes check its target).
 ## Risks
 
 - Rules preserve the C's meaning under their preconditions and assumptions
-  A1-A5; the residual is now checked too (see the dependence check), under
-  A6. It proves all 60 residuals. Control-flow rewrites other than merging
-  a duplicated instruction at a join are still reported, not proven.
-- A1-A6 hold for the game's data but are not C guarantees.
+  A1-A5 (and A7 for `rotate-loop-loads`, whose rotations the dependence
+  check proves); the residual is checked too (see the dependence check),
+  under A6. It proves all 61 residuals. Control-flow rewrites other than
+  merging a duplicated instruction at a join are still reported, not proven.
+- A1-A7 hold for the game's data but are not C guarantees.
 - The scheduling rules (`guard-chain`, `preheader-order`,
   `fill-load-delay`, `store-delay-slot`, `gte-load-early`,
   `invariant-last`) encode this family's hand-scheduling conventions. They
@@ -585,20 +604,8 @@ against `.text`; the linked bytes check its target).
 
 ## Next steps
 
-All three families are integrated, with `make check-asm-massage` as the
-gate: the wireframes with one-line residuals, the shared and direct polygon
-drivers with 20-90 diff lines of the original's scheduling, all proven
-mechanically, so review can focus on the C and the rules. A scheduler does
-not shrink the polygon residuals.
-
-The one hand-written routine left is the shared cache-preparation stage,
-`Model_PrepareSharedPrimitiveCaches`. `gte-direct-write` now covers its
-`mtc2 template,$6`, but its vertex and normal loops are software-pipelined:
-each iteration moves the vector loaded on the previous one into the GTE
-(`lw lo,0(src); lw hi,4(src)` ahead of `mtc2 lo,$0; mtc2 hi,$1`), so the
-last iteration reads the entry past the end of the range. Plain C either
-reads past the array (not portable C) or loads each vector where it is
-used, and turning that into the pipelined loop is a loop rotation with a
-speculative load that the dependence check cannot prove. So it keeps the
-`gcc_2_8_1_g0_handwritten_asm` profile, and with it `handwritten_asm.h`,
-`gte_native.h` and `tools/project/handwritten_asm_contract.py`.
+Every hand-written model renderer is integrated, with `make
+check-asm-massage` as the gate: the wireframes with one-line residuals, the
+polygon drivers and the cache preparation with 20-90 diff lines of the
+original's scheduling, all proven mechanically, so review can focus on the
+C and the rules. A scheduler does not shrink the polygon residuals.

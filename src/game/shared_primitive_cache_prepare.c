@@ -1,134 +1,92 @@
 /*
  * Model_PrepareSharedPrimitiveCaches (0x80067220-0x80067354).
  *
- * Hand-written in the original: no stack frame, the argument read from $a0
- * and the next primitive block returned in $v0. It projects a block's shared
- * vertices into vertop2 (SXY2 plus an IR0 << 16 | SZ3 word, or -1 when RTPS
- * overflowed) and, in lit modes, lights its shared normals into nortop2.
- * Register variables and the handwritten_asm.h macros reproduce that
- * contract; see notes/shared-primitive-renderers.md.
+ * Projects a shared HMD block's vertices into the vertop2 cache (SXY2 plus
+ * an IR0 << 16 | SZ3 word, or all ones when RTPS overflowed) and, in lit
+ * modes, lights its shared normals into the nortop2 colour cache.
+ *
+ * The original was written by hand: no stack frame, the argument read from
+ * $a0 and the next block returned in $v0, and both loops load the next
+ * vector while the GTE works on the current one. This is plain C over the
+ * stock Psy-Q inline_c.h macros, built with the gcc_2_8_1_o2_massaged
+ * profile: GCC's -O2 output is rewritten into the original instructions by
+ * tools/project/asm_massage.py with the edit file in
+ * shared_primitive_cache_prepare.massage/. See notes/asm-massage.md and
+ * notes/shared-primitive-renderers.md.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
-#include "../psyq/inline_c.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
-#include "handwritten_asm.h"
-#include "gte_native.h"
-#include "model_handler_state.h"
+#include "../psyq/inline_c.h"
 #include "model.h"
+#include "model_handler_state.h"
 #include "primitive_handler_modes.h"
 #include "shared_primitive_renderers.h"
 
-register u32 gHw_At asm("$1");
-register s32 gHw_Empty asm("$25");
-register u32 gHw_ByteMask asm("$12");
-
 u32 *Model_PrepareSharedPrimitiveCaches(GsARGUNIT_SHARED *arg)
 {
-    register u32 *rec asm("$7");
-    register u32 rgb asm("$13");
-    register s32 mode asm("$14");
-    register u32 off asm("$15");
-    register u32 count asm("$24");
-    register u32 *src asm("$5");
-    register u32 *dst asm("$6");
-    register u32 lo asm("$2");
-    register u32 hi asm("$3");
-    HW_KEEP_LABEL(verts_done);
-    HW_KEEP_LABEL(done);
+    ModelSharedCacheBlock *block = (ModelSharedCacheBlock *)arg->primp;
+    u32 rgb = gModel_dwPolyGt3Template & 0xFFFFFF;
+    s8 mode = (s8)gModel_bCurrentDrawMode;
+    /* The colour cache holds two words per normal; a nonzero cache base
+     * selects the second. */
+    u32 offset = gModel_dwLitColorCacheBase;
+    u32 count;
 
-    rec = (u32 *)arg->primp;
-    rgb = gModel_dwPolyGt3Template;
-    mode = (s8)gModel_bCurrentDrawMode;
-    off = gModel_dwLitColorCacheBase;
-    gHw_At = 0xFFFFFF;
-    rgb &= gHw_At;
-    HW_GTE_WRITE(6, rgb);
-    if (off != 0) {
-        off = 4;
+    gte_ldrgb(&rgb);
+    if (offset != 0) {
+        offset = sizeof(u32);
     }
-    count = rec[1];
-    gHw_Empty = -1;
-    gHw_ByteMask = 0xFF;
-    HW_BEQZ_LOAD(count, verts_done, lo, 8, rec);
-    {
-        src = (u32 *)arg->vertop;
-        lo <<= 3;
-        src = (u32 *)((u8 *)src + lo);
-        hi = rec[3];
-        dst = (u32 *)arg->vertop2;
-        hi <<= 3;
-        dst = (u32 *)((u8 *)dst + hi);
-        lo = src[0];
-        hi = src[1];
+    count = block->vertex_count;
+    if (count != 0) {
+        SVECTOR *vertex = &arg->vertop[block->vertex_index];
+        ModelSharedCacheEntry *entry =
+            (ModelSharedCacheEntry *)&arg->vertop2[block->vertex_cache_index];
+
         do {
-            HW_GTE_WRITE(0, lo);
-            HW_GTE_WRITE(1, hi);
+            gte_ldv0(vertex);
             count--;
-            src += 2;
-            GTE_RTPS_B();
-            lo = src[0];
-            hi = src[1];
-            gHw_At = 1;
-            dst[1] = gHw_Empty;
-            if (mode != gHw_At) {
-                register s32 flag asm("$11");
-                HW_GTE_READ_FLAG_WAIT(flag);
+            vertex++;
+            gte_rtps_b();
+            /* Rejected until the projection is accepted. */
+            entry->words[1] = 0xFFFFFFFF;
+            if (mode != 1) {
+                s32 flag;
+
+                gte_stflg(&flag);
                 if (flag < 0) {
                     goto next;
                 }
             }
             {
-                register u32 depth asm("$8");
-                register u32 z asm("$9");
-                gte_stsxy2(dst);
-                HW_GTE_READ(8, depth);
-                HW_GTE_READ(19, z);
-                depth <<= 16;
-                depth |= z;
-                dst[1] = depth;
+                u32 p, sz;
+
+                gte_stsxy2(&entry->words[0]);
+                gte_stdp(&p);
+                gte_stsz(&sz);
+                entry->words[1] = p << 16 | sz;
             }
         next:
-            dst += 2;
+            entry++;
         } while (count != 0);
     }
-verts_done:
-    HW_BEQZ_LOAD(mode, done, count, 16, rec);
-    {
-        lo = rec[5];
-        HW_BEQZ_LOAD(count, done, src, 32, arg);
-        {
-            lo <<= 3;
-            src = (u32 *)((u8 *)src + lo);
-            hi = rec[6];
-            dst = (u32 *)arg->nortop2;
-            hi <<= 3;
-            dst = (u32 *)((u8 *)dst + hi);
-            dst = (u32 *)((u8 *)dst + off);
-            lo = src[0];
-            hi = src[1];
+    if (mode != 0) {
+        count = block->normal_count;
+        if (count != 0) {
+            SVECTOR *normal = &arg->nortop[block->normal_index];
+            u32 *colour = (u32 *)((u8 *)&arg->nortop2[block->colour_cache_index] + offset);
+
             do {
-                HW_GTE_WRITE(0, lo);
-                HW_GTE_WRITE(1, hi);
+                gte_ldv0(normal);
                 count--;
-                src += 2;
-                GTE_NCCS_B();
-                lo = src[0];
-                hi = src[1];
-                gte_strgb(dst);
-                dst += 2;
+                normal++;
+                gte_nccs_b();
+                gte_strgb(colour);
+                colour += 2;
             } while (count != 0);
         }
     }
-done:
-    {
-        register u32 *ret asm("$2");
-        HW_KEEP_LABEL(ret_slot);
-
-        ret = rec + 7;
-    ret_slot:
-        return ret;
-    }
+    return (u32 *)(block + 1);
 }

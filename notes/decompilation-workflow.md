@@ -278,10 +278,7 @@ be combined with `--allow-psyq-inline-macros`. When such a function already has 
 deferred canonical history, record the exact result with
 `record_external_attempt.py --mode post_terminal_resolution --profile
 gcc_2_8_1_g0_handwritten_asm --allow-register-pins`; the recorder applies the
-same range and contract checks. Only the shared cache-preparation stage,
-`Model_PrepareSharedPrimitiveCaches`, still uses it (see
-`notes/shared-primitive-renderers.md` for why the massage cannot express
-it).
+same range and contract checks. No unit uses it any more.
 
 The second route for that range needs no register declarations or private
 asm. A profile with `"asm_massage": true` (currently `gcc_2_8_1_o2_massaged`:
@@ -300,8 +297,9 @@ define, simply leaves the other edits unused). `make check-asm-massage` rebuilds
 against the retail executable and proves that its residual preserves every
 data dependence. `integrate_verified_match.py` refuses these profiles; such
 units are integrated by hand. `src/game/wireframe_renderers.c`,
-`src/game/shared_polygon_renderers.c` and `src/game/polygon_renderers.c` are
-massaged units; see `notes/asm-massage.md`, `notes/wireframe-renderers.md`,
+`src/game/shared_polygon_renderers.c`,
+`src/game/shared_primitive_cache_prepare.c` and
+`src/game/polygon_renderers.c` are massaged units; see `notes/asm-massage.md`, `notes/wireframe-renderers.md`,
 `notes/shared-primitive-renderers.md` and
 `notes/direct-polygon-renderers.md`.
 

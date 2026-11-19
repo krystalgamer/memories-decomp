@@ -9,21 +9,26 @@ executables compile the same two sources,
 `src/game/shared_primitive_cache_prepare.c` and
 `src/game/shared_polygon_renderers.c`, at their own addresses.
 
-The preparation stage, `Model_PrepareSharedPrimitiveCaches`, is matched C
-under the `gcc_2_8_1_g0_handwritten_asm` policy in its own unit,
-`src/game/shared_primitive_cache_prepare.c`. It names `$12` as
-`gHw_ByteMask` and reserves `$25` as `gHw_Empty`. GTE commands use the
-native-opcode macros of `src/game/gte_native.h`; the plain GTE register
-transfers use the Psy-Q `inline_c.h` macros `gte_stsxy2` and `gte_strgb`.
-It fills three branch delay slots with loads, which GCC 2.8.1 reorg never
-does on MIPS1 (`dslot=yes`), so `HW_BEQZ_LOAD(test, label, out, offset,
-base)` from `src/game/handwritten_asm.h` emits `beqz`/`lw`, and kept labels
-(`HW_KEEP_LABEL`) before some tests block reorg's backward fill. It loads
-each vector with `lw` one iteration ahead and moves it into the GTE with
-`mtc2`, so its last iteration reads the entry past the end of the range.
-Plain C cannot do that portably, and turning a plain loop into that
-pipeline is a speculative load the massage's dependence check cannot prove,
-so it stays outside the assembly massage (see `notes/asm-massage.md`).
+The preparation stage, `Model_PrepareSharedPrimitiveCaches`, is plain C in
+its own unit, `src/game/shared_primitive_cache_prepare.c`, over the stock
+`inline_c.h` macros (`gte_ldrgb`, `gte_ldv0`, `gte_rtps_b`, `gte_stflg`,
+`gte_stsxy2`, `gte_stdp`, `gte_stsz`, `gte_nccs_b`, `gte_strgb`), reading
+the block through `ModelSharedCacheBlock` and writing the vertop2 entries
+through `ModelSharedCacheEntry` (both in
+`src/game/shared_primitive_renderers.h`). Each loop iteration loads its own
+vector; it never reads past the arrays. The `gcc_2_8_1_o2_massaged` profile
+massages it into the original with the edit file in
+`src/game/shared_primitive_cache_prepare.massage/`: the original loads each
+vector one iteration ahead (`lw` in the preheader and after RTPS/NCCS,
+`mtc2` at the loop head), which the `rotate-loop-loads` rule reproduces and
+the dependence check proves, with the last iteration's dead extra read as
+assumption A7; its loads in branch delay slots and its constant setups are
+residual scheduling (24 diff lines, all proven). The original also sets
+`$t9 = -1` (used for the rejected-entry word) and `$t4 = 0xFF` (never read).
+Neither is a contract with the drivers that run next: every shared driver
+writes `$t4` and `$t9` before reading them, and the caller reaches each
+driver through a function pointer, so the massage keeps `$t4 = 0xFF` only as
+a dead instruction.
 
 The sixteen drivers that follow it are plain C in
 `src/game/shared_polygon_renderers.c` over the stock `inline_c.h` and

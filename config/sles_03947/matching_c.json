@@ -21342,7 +21342,7 @@
     },
     {
       "address": "0x80066520",
-      "profile": "gcc_2_8_1_g0_handwritten_asm",
+      "profile": "gcc_2_8_1_o2_massaged",
       "size": "0x134",
       "source": "src/game/shared_primitive_cache_prepare.c"
     },

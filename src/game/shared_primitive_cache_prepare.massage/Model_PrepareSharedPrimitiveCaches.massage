@@ -1,0 +1,94 @@
+# Model_PrepareSharedPrimitiveCaches: massage of its plain C in src/game/shared_primitive_cache_prepare.c.
+function = Model_PrepareSharedPrimitiveCaches
+source = src/game/shared_primitive_cache_prepare.c
+address = 0x80067220
+size = 0x134
+rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-write unspill invariant-last fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants at-branch-constants sign-extend-load zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early rotate-loop-loads dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot fill-jump-slot
+frameless = $a0 0x28
+
+[registers]
+$v0.1 = $t5       # lui $v0.1, %hi(gModel_dwPolyGt3Template)
+$v0.7 = $v1       # lw $v0.7, 0xC($t1.1)
+$v0.9 = $t3       # cfc2 $v0.9, $31
+$v0.10 = $t0      # mfc2 $v0.10, $8
+$v0.16 = $v1      # lw $v0.16, 0x18($t1.1)
+$v1.1 = $at       # lui $v1.1, 0xFF
+$v1.3 = $a1       # lw $v1.3, 0x18($a0.0)
+$v1.4 = $a2       # lw $v1.4, 0x1C($a0.0)
+$v1.5 = $t1       # mfc2 $v1.5, $19
+$v1.6 = $a1       # lw $v1.6, 0x20($a0.0)
+$v1.7 = $a2       # lw $v1.7, 0x24($a0.0)
+$a2.1 = $t8       # lw $a2.1, 0x4($t1.1)
+$a2.2 = $t8       # lw $a2.2, 0x10($t1.1)
+$a3.1 = $a2       # addu $a3.1, $v1.4, $v0.8
+$t0.1 = $a1       # addu $t0.1, $v1.3, $v0.6
+$t1.1 = $a3       # lw $t1.1, 0x0($a0.0)
+$t2.1 = $t7       # lui $t2.1, %hi(gModel_dwLitColorCacheBase)
+$t7.1 = $t6       # lb $t7.1, %lo(gModel_bCurrentDrawMode)($t8.1)
+$s0.1 = $t9       # addiu $s0.1, $zero, -0x1
+%rot1 = $v0       # lw %rot1, 0x0($t0.1)
+%rot2 = $v1       # lw %rot2, 0x4($t0.1)
+%rot3 = $v0       # lw %rot3, 0x0($a1.2)
+%rot4 = $v1       # lw %rot4, 0x4($a1.2)
+
+[residual]
+--- rules
++++ retail
+@@ -1,8 +1,9 @@
+-lui $at, 0xFF
++lw $a3, 0x0($a0)
+ lui $t5, %hi(gModel_dwPolyGt3Template)
+ lw $t5, %lo(gModel_dwPolyGt3Template)($t5)
++lui $t6, %hi(gModel_bCurrentDrawMode)
++lb $t6, %lo(gModel_bCurrentDrawMode)($t6)
+ lui $t7, %hi(gModel_dwLitColorCacheBase)
+ lw $t7, %lo(gModel_dwLitColorCacheBase)($t7)
+-lui $t8, %hi(gModel_bCurrentDrawMode)
+-lb $t6, %lo(gModel_bCurrentDrawMode)($t8)
++lui $at, 0xFF
+ ori $at, $at, 0xFFFF
+@@ -10,3 +11,2 @@
+ mtc2 $t5, $6
+-lw $a3, 0x0($a0)
+ beq $t7, $zero, .L7
+@@ -16,4 +16,5 @@
+ lw $t8, 0x4($a3)
++addiu $t9, $zero, -0x1
++addiu $t4, $zero, 0xFF
+ beq $t8, $zero, .L3
+-nop
+ lw $v0, 0x8($a3)
+@@ -29,11 +30,10 @@
+ .L6:
+-addiu $t9, $zero, -0x1
+ mtc2 $v0, $0
+ mtc2 $v1, $1
+-.word 0x4A180001
+-addiu $at, $zero, 0x1
+ addiu $t8, $t8, -0x1
+ addiu $a1, $a1, 0x8
++.word 0x4A180001
+ lw $v0, 0x0($a1)
+ lw $v1, 0x4($a1)
++addiu $at, $zero, 0x1
+ beq $t6, $at, .L5
+@@ -55,7 +55,5 @@
+ beq $t6, $zero, .L1
+-nop
+ lw $t8, 0x10($a3)
++lw $v0, 0x14($a3)
+ beq $t8, $zero, .L1
+-nop
+-lw $v0, 0x14($a3)
+ lw $a1, 0x20($a0)
+@@ -73,8 +71,8 @@
+ mtc2 $v1, $1
+-.word 0x4B08041B
+-swc2 $22, 0x0($a2)
+ addiu $t8, $t8, -0x1
+ addiu $a1, $a1, 0x8
++.word 0x4B08041B
+ lw $v0, 0x0($a1)
+ lw $v1, 0x4($a1)
++swc2 $22, 0x0($a2)
+ bne $t8, $zero, .L2
