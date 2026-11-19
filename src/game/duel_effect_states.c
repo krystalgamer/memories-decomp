@@ -332,7 +332,7 @@ void DuelEffect_UpdateCardViewerState(void)
         return;
     }
 #else
-    if ((gMain_bActiveModeState & 0x1F) == MAIN_MODE_TRADE
+    if ((gMain_bActiveModeState & MAIN_MODE_STATE_MODE_MASK) == MAIN_MODE_TRADE
             ? ((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & 0x20) == 0
             : (gInput_awPadPressed[0] & PAD_BUTTON_CIRCLE) == 0) {
         return;

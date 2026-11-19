@@ -38,12 +38,12 @@ void Main_RunDebugMenu(void)
 {
     u8 flags = gMain_bActiveModeState;
 
-    if ((flags & 0x40) == 0) {
-        gMain_bActiveModeState = flags | 0x40;
+    if ((flags & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = flags | MAIN_MODE_STATE_STARTED;
         DebugMenu_Init();
     } else {
         DebugMenu_Update();
-        if ((gMain_bActiveModeState & 0x40) == 0)
+        if ((gMain_bActiveModeState & MAIN_MODE_STATE_STARTED) == 0)
             gMain_bReturnMode = MAIN_MODE_DEBUG;
     }
 }
@@ -71,8 +71,8 @@ u8 gMain_bActiveModeState;
 void Main_RunCampaign(void) {
     u8 flags = gMain_bActiveModeState;
 
-    if ((flags & 0x40) == 0) {
-        gMain_bActiveModeState = flags | 0x40;
+    if ((flags & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = flags | MAIN_MODE_STATE_STARTED;
         Campaign_LoadScenePackage(gCampaignSceneIndex);
         gDuel_bEffectState = 0;
         return;
@@ -80,7 +80,7 @@ void Main_RunCampaign(void) {
 
     SceneScript_UpdateSlots(gSceneScript_Slots.slots);
     Script_RunTick();
-    if (gMain_bActiveModeState & 0x40)
+    if (gMain_bActiveModeState & MAIN_MODE_STATE_STARTED)
         return;
     SD_BGMFadeOut();
     Fade_WaitOut();
@@ -115,8 +115,8 @@ void Main_RunDuel(void)
     u8 value = gMain_bActiveModeState;
     int state;
 
-    if (!(value & 0x40)) {
-        gMain_bActiveModeState = value | 0x40;
+    if (!(value & MAIN_MODE_STATE_STARTED)) {
+        gMain_bActiveModeState = value | MAIN_MODE_STATE_STARTED;
         gMain_bModeRunnerStep = 1;
         if (!gDuel_bResumeFromAnimatedBattle && gDuel_bOpponentID >= 0)
             gMain_bModeRunnerStep = 0;
@@ -173,7 +173,7 @@ void Main_RunDuel(void)
     }
 }
 
-void Main_RunLibraryMenu(void){unsigned char f=gMain_bActiveModeState;if((f&0x40)==0){gMain_bActiveModeState=f|0x40;Library_InitializeScreen();Fade_WaitIn();}else{Library_UpdateScreen();if((gMain_bActiveModeState&0x40)==0){gGraphics_bSyncVBlankTarget=0;SD_BGMFadeOut();Fade_WaitOut();Main_ClearFrameServiceCallbacks();SD_ResetPendingEntries();SD_ReplaceValueLink(2);Main_AdvanceFrames(4);File_WaitForTransfers();}}}
+void Main_RunLibraryMenu(void){unsigned char f=gMain_bActiveModeState;if((f&MAIN_MODE_STATE_STARTED)==0){gMain_bActiveModeState=f|MAIN_MODE_STATE_STARTED;Library_InitializeScreen();Fade_WaitIn();}else{Library_UpdateScreen();if((gMain_bActiveModeState& MAIN_MODE_STATE_STARTED)==0){gGraphics_bSyncVBlankTarget=0;SD_BGMFadeOut();Fade_WaitOut();Main_ClearFrameServiceCallbacks();SD_ResetPendingEntries();SD_ReplaceValueLink(2);Main_AdvanceFrames(4);File_WaitForTransfers();}}}
 
 #include "main.h"
 #include "model_scene_states.h"
@@ -210,14 +210,14 @@ void Main_RunAnimatedBattle(void)
     SetGeomOffset(0xA0, ANIMATED_BATTLE_GEOM_OFFSET_Y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
     f = gMain_bActiveModeState;
-    if ((f & 0x40) == 0) {
-        gMain_bActiveModeState = f | 0x40;
+    if ((f & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = f | MAIN_MODE_STATE_STARTED;
         gGraphics_bSyncVBlankTarget = 1;
         Model_ResetSceneView();
         Model_ResetSceneState();
         p = gMain_aAnimatedBattleModels;
         if (p->model_id == MODEL_SPECIAL_BATTLE_ID) {
-            gMain_bActiveModeState = gMain_bActiveModeState | 0x20;
+            gMain_bActiveModeState = gMain_bActiveModeState | MAIN_MODE_STATE_EXODIA;
             Model_StartExodiaPresentation();
         } else {
             Model_SetSlotProperties(
@@ -241,7 +241,7 @@ void Main_RunAnimatedBattle(void)
         }
         Fade_WaitInitIn();
     } else {
-        if (f & 0x20) {
+        if (f & MAIN_MODE_STATE_EXODIA) {
             v = Model_IsExodiaPresentationComplete();
         } else {
             v = ModelDebug_UpdateController();
@@ -275,7 +275,7 @@ void Main_RunAnimatedBattle(void)
  * way the original read them through $gp. */
 u8 gMain_bReturnMode;
 
-void Main_RunCampaignMap(void){unsigned char f=gMain_bActiveModeState;if((f&0x40)==0){gMain_bActiveModeState=f|0x40;gGraphics_abOrderingTableLengths[3]=10;File_RequestEgyptOverworldPackage();CampaignMap_SetLocation(gCampaignMap_bEntryLocation);Fade_StartIn();}else{CampaignMap_UpdateLocation();if((gMain_bActiveModeState&0x40)==0){Main_ClearFrameServiceCallbacks();gGraphics_abOrderingTableLengths[3]=6;Main_AdvanceFrame();}}}
+void Main_RunCampaignMap(void){unsigned char f=gMain_bActiveModeState;if((f&MAIN_MODE_STATE_STARTED)==0){gMain_bActiveModeState=f|MAIN_MODE_STATE_STARTED;gGraphics_abOrderingTableLengths[3]=10;File_RequestEgyptOverworldPackage();CampaignMap_SetLocation(gCampaignMap_bEntryLocation);Fade_StartIn();}else{CampaignMap_UpdateLocation();if((gMain_bActiveModeState& MAIN_MODE_STATE_STARTED)==0){Main_ClearFrameServiceCallbacks();gGraphics_abOrderingTableLengths[3]=6;Main_AdvanceFrame();}}}
 
 /* The common definition makes MASPSX preserve the load-delay nop before the
  * final gMain_bActiveModeState store. c_symbols.ld supplies the retail storage address. */
@@ -285,8 +285,8 @@ void Main_RunBuildDeckMenu(void)
 {
     unsigned char flags = gMain_bActiveModeState;
 
-    if ((flags & 0x40) == 0) {
-        gMain_bActiveModeState = flags | 0x40;
+    if ((flags & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = flags | MAIN_MODE_STATE_STARTED;
         BuildDeck_InitScreen(
             (BuildDeckTransitionState *)gRuntime_pSharedWorkBase,
             gDuel_awPlayerDeck,
@@ -306,13 +306,13 @@ void Main_RunBuildDeckMenu(void)
 
 void Main_RunFreeDuelMenu(void) {
     unsigned char flags = gMain_bActiveModeState;
-    if ((flags & 0x40) == 0) {
-        gMain_bActiveModeState = flags | 0x40;
+    if ((flags & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = flags | MAIN_MODE_STATE_STARTED;
         Main_InitFreeDuelMenu();
         Fade_WaitIn();
     }
     FreeDuel_Entry();
-    if ((gMain_bActiveModeState & 0x40) == 0) SD_BGMFadeOut();
+    if ((gMain_bActiveModeState & MAIN_MODE_STATE_STARTED) == 0) SD_BGMFadeOut();
 }
 
 #include "display_object_system.h"
@@ -438,7 +438,7 @@ void Main_ApplyMenuSelection(MainMenuSelection selection)
     }
 }
 
-void Main_RunMenu(void){unsigned char f=gMain_bActiveModeState;int r;if((f&0x40)==0){gMain_bActiveModeState=f|0x40;File_RequestMainMenuPackage();File_WaitForTransfers();DisplayEffect_ResetMenuRecords();MainMenu_InitFrontendMenu(D_8009B268,gMain_bRequestedMenuID);Fade_WaitIn();}rand();r=MainMenu_UpdateFrontendMenu();if(r>=0){SD_BGMFadeOut();Fade_WaitOut();MainMenu_DestroyFrontendMenu();Main_ApplyMenuSelection(r);gMain_bReturnMode=MAIN_MODE_MENU;}}
+void Main_RunMenu(void){unsigned char f=gMain_bActiveModeState;int r;if((f&MAIN_MODE_STATE_STARTED)==0){gMain_bActiveModeState=f|MAIN_MODE_STATE_STARTED;File_RequestMainMenuPackage();File_WaitForTransfers();DisplayEffect_ResetMenuRecords();MainMenu_InitFrontendMenu(D_8009B268,gMain_bRequestedMenuID);Fade_WaitIn();}rand();r=MainMenu_UpdateFrontendMenu();if(r>=0){SD_BGMFadeOut();Fade_WaitOut();MainMenu_DestroyFrontendMenu();Main_ApplyMenuSelection(r);gMain_bReturnMode=MAIN_MODE_MENU;}}
 
 u8 gMain_bActiveModeState;
 
@@ -447,8 +447,8 @@ void Main_RunNameEntry(void)
     u8 flags = gMain_bActiveModeState;
     u8 value;
 
-    if ((flags & 0x40) == 0) {
-        gMain_bActiveModeState = flags | 0x40;
+    if ((flags & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = flags | MAIN_MODE_STATE_STARTED;
         File_RequestNameEntryPackage();
         NameEntry_Init();
     }
@@ -462,8 +462,8 @@ void Main_RunPasswordMenu(void)
 {
     unsigned char flags = gMain_bActiveModeState;
 
-    if ((flags & 0x40) == 0) {
-        gMain_bActiveModeState = flags | 0x40;
+    if ((flags & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = flags | MAIN_MODE_STATE_STARTED;
         File_RequestPasswordPackage();
         Password_InitShopScreen();
     }
@@ -519,8 +519,8 @@ void Main_RunOptionsMenu(void)
 {
     u8 flags = gMain_bActiveModeState;
 
-    if ((flags & 0x40) == 0) {
-        gMain_bActiveModeState = flags | 0x40;
+    if ((flags & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = flags | MAIN_MODE_STATE_STARTED;
         File_RequestOptionsPackage();
         MAIN_RUN_OPTIONS_INIT();
     }
@@ -537,8 +537,8 @@ void Main_RunGameOver(void)
 {
     u8 flags = gMain_bActiveModeState;
 
-    if ((flags & 0x40) == 0) {
-        gMain_bActiveModeState = flags | 0x40;
+    if ((flags & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = flags | MAIN_MODE_STATE_STARTED;
         File_RequestGameOverPackage();
         GameOver_Init();
     }
@@ -571,8 +571,8 @@ void Main_RunTrade(void)
     DisplayObject *obj;
     s32 y;
 
-    if ((gMain_bActiveModeState & 0x40) == 0) {
-        gMain_bActiveModeState = gMain_bActiveModeState | 0x40;
+    if ((gMain_bActiveModeState & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = gMain_bActiveModeState | MAIN_MODE_STATE_STARTED;
         CardList_LoadSharedGraphics();
         SD_BGMPlay(0x72D0);
         MainMenu_InitTradeScreen();
@@ -711,9 +711,9 @@ void Main_RunCredits(void)
     /* A failed save write re-enters the completion setup and dispatches the
        step again; the loop is entered at the dispatch when the runner is
        already initialized. */
-    switch (mode & 0x40) {
+    switch (mode & MAIN_MODE_STATE_STARTED) {
     case 0:
-        gMain_bActiveModeState = mode | 0x40;
+        gMain_bActiveModeState = mode | MAIN_MODE_STATE_STARTED;
         Fade_InitIn();
         for (;;) {
             save_state = &gSaveData_Workspace.state;
@@ -817,8 +817,8 @@ void Main_RunTwoPlayerDuelSetup(void)
 {
     s32 result;
 
-    if ((gMain_bActiveModeState & 0x40) == 0) {
-        gMain_bActiveModeState = gMain_bActiveModeState | 0x40;
+    if ((gMain_bActiveModeState & MAIN_MODE_STATE_STARTED) == 0) {
+        gMain_bActiveModeState = gMain_bActiveModeState | MAIN_MODE_STATE_STARTED;
         gDuel_wTwoPlayerSide1LifePoints = DUEL_STARTING_LIFE_POINTS;
         gDuel_wTwoPlayerSide0LifePoints = DUEL_STARTING_LIFE_POINTS;
         MainMenu_StartValueSetup(&gDuel_wTwoPlayerSide0LifePoints, &gDuel_wTwoPlayerSide1LifePoints, &gDuel_bTwoPlayerCardViewMode);
@@ -877,12 +877,12 @@ void Main_Loop(void) {
         u8 v;
         Main_AdvanceFrame();
         v = gMain_bActiveModeState;
-        if ((v & 0x80) == 0) {
-            gMain_bActiveModeState = v | 0x80;
+        if ((v & MAIN_MODE_STATE_RUNTIME_RESET) == 0) {
+            gMain_bActiveModeState = v | MAIN_MODE_STATE_RUNTIME_RESET;
             Main_ResetFrontendRuntime();
         } else {
-            gMain_apfnModeRunner[v & 0x1F]();
-            if ((gMain_bActiveModeState & 0x40) == 0) Fade_WaitOut();
+            gMain_apfnModeRunner[v & MAIN_MODE_STATE_MODE_MASK]();
+            if ((gMain_bActiveModeState & MAIN_MODE_STATE_STARTED) == 0) Fade_WaitOut();
         }
     }
 }

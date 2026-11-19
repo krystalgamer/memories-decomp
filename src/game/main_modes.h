@@ -24,6 +24,20 @@ typedef enum {
     MAIN_MODE_COUNT
 } MainMode;
 
+/* gMain_bActiveModeState holds a MainMode in its low five bits, which
+   Main_Loop uses to index gMain_apfnModeRunner, plus three flags. Storing a
+   plain mode clears them all, so the next frame re-runs both setups.
+   - MAIN_MODE_STATE_RUNTIME_RESET: Main_Loop has run Main_ResetFrontendRuntime
+     for this mode.
+   - MAIN_MODE_STATE_STARTED: the runner has done its first-frame setup;
+     Main_Loop fades out after a runner that leaves it clear.
+   - MAIN_MODE_STATE_EXODIA: Main_RunAnimatedBattle is playing the Exodia
+     presentation instead of the two-monster battle. */
+#define MAIN_MODE_STATE_MODE_MASK 0x1F
+#define MAIN_MODE_STATE_EXODIA 0x20
+#define MAIN_MODE_STATE_STARTED 0x40
+#define MAIN_MODE_STATE_RUNTIME_RESET 0x80
+
 typedef void (*MainModeRunner)(void);
 
 /* One of the two 8-byte model-property records Main_RunAnimatedBattle passes
