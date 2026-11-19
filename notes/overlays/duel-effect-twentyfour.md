@@ -13,10 +13,11 @@ handoff. No new #418 runtime/artwork observation is claimed.
 at native `D_80146148`, NA `80146190`, JP `80154148`, now a `const VECTOR`
 that `effect_24.c` defines as its `.rodata` (#2602).
 `gDuelEffect_CardObjectScratchWords[21]` names the full 84-byte owner
-at native `D_8015B7A0`, NA `8015B838`, JP `80169838`. It remains `u32[21]`,
-not a new five-pointer allocation or a changed pointer-bearing layout.
-The existing resident APIs deliberately accept integer-word destinations;
-all original casts and null-termination behavior remain intact.
+at native `D_8015B7A0`, NA `8015B838`, JP `80169838`, declared as
+`DisplayObject *[21]` (84 bytes, not a new five-pointer allocation). The
+resident collectors and `DisplayObject_CopyWorkSlots` take it as a
+`DisplayObject **` list and null-terminate it; only effect 22's
+`DuelRitualResult` destination still casts it.
 
 All five complete C consumers use the shared canonical scratch binding.
 Effect 15 fills it through the back-row or selector collector; effect 17

@@ -60,7 +60,9 @@ typedef char DisplayObjectWorkSlots_result_offset_must_be_8[
 ];
 extern DisplayObjectWorkSlots gDisplayObject_apWorkSlots;
 
-/* Copies five pointer words and appends zero; the destination ABI is integer. */
-void DisplayObject_CopyWorkSlots(s32 *destination);
+/* Copies the five slot pointers and appends a null terminator, the same list
+ * shape Duel_CollectFieldRowCardObjects and Duel_CollectMatchingFieldCardObjects
+ * produce. */
+void DisplayObject_CopyWorkSlots(DisplayObject **destination);
 
 #endif

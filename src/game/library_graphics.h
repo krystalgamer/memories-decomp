@@ -3,6 +3,7 @@
 #include "../types.h"
 #include "../ygo_types.h"
 #include "card_constants.h"
+#include "scratchpad.h"
 
 #define LIBRARY_CARD_FLAG_KNOWN 0x80
 #define LIBRARY_CARD_FLAG_UNOWNED 0x01
@@ -89,6 +90,33 @@ typedef struct {
     GlobeLineVertex xy2;
     u32 pad;
 } GlobeLinePacket;
+
+/* Library_DrawWireframeGlobe's scratchpad layout. `points` is the SVECTOR run
+ * the span helpers project (three per call, the fourth only takes the shared
+ * z or x), `control` the RotAverage3 interpolation/flag pair followed by the
+ * current ring's cosine and sine radii, and `center` the globe centre copied
+ * in from the view buffer. The gaps are scratchpad the globe does not use. */
+typedef struct {
+    GlobeLinePacket packet;
+    u8 pad_20[0x38 - 0x20];
+    SVECTOR points[4];
+    u8 pad_58[0x60 - 0x58];
+    long control[4];
+    u8 pad_70[0x200 - 0x70];
+    SVECTOR center;
+} LibraryGlobeScratch;
+
+typedef char LibraryGlobeScratch_points_offset_must_be_0x38[
+    OFFSETOF(LibraryGlobeScratch, points) == 0x38 ? 1 : -1
+];
+typedef char LibraryGlobeScratch_control_offset_must_be_0x60[
+    OFFSETOF(LibraryGlobeScratch, control) == 0x60 ? 1 : -1
+];
+typedef char LibraryGlobeScratch_center_offset_must_be_0x200[
+    OFFSETOF(LibraryGlobeScratch, center) == 0x200 ? 1 : -1
+];
+
+#define LIBRARY_GLOBE_SCRATCH ((LibraryGlobeScratch *)SCRATCH_ADDR(0))
 
 /* Three-point coordinate spans; the other components come from the caller.
  * Negative projection flags cause one retry before unconditional submission. */

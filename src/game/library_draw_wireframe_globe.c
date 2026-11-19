@@ -1,6 +1,5 @@
 /* Separate packet-marker lifetimes preserve retail's two setup registers. */
 #include "../types.h"
-#include "scratchpad.h"
 #include "graphics_packet_submission.h"
 #include "model_slot_control.h"
 #include "../ygo_types.h"
@@ -41,18 +40,18 @@ void Library_DrawWireframeGlobe(void)
     angle = 0;
     SetGeomOffset(0xD0, GLOBE_GEOM_OFFSET_Y);
     SetGeomScreen(MODEL_DEFAULT_PROJECTION);
-    vec = (SVECTOR *)SCRATCH_ADDR(0x38);
-    ctl = (long *)SCRATCH_ADDR(0x60);
-    par = (SVECTOR *)SCRATCH_ADDR(0x200);
+    vec = LIBRARY_GLOBE_SCRATCH->points;
+    ctl = LIBRARY_GLOBE_SCRATCH->control;
+    par = &LIBRARY_GLOBE_SCRATCH->center;
     ot = gGraphics_apOrderingTables[3];
     GsSetLsMatrix(&gGraphics_LightSourceMatrix);
 
     {
         u32 marker = 0x55555555;
-        vec1 = (SVECTOR *)SCRATCH_ADDR(0x40);
-        vec2 = (SVECTOR *)SCRATCH_ADDR(0x48);
-        vec3 = (SVECTOR *)SCRATCH_ADDR(0x50);
-        prim = (GlobeLinePacket *)SCRATCH_ADDR(0);
+        vec1 = &LIBRARY_GLOBE_SCRATCH->points[1];
+        vec2 = &LIBRARY_GLOBE_SCRATCH->points[2];
+        vec3 = &LIBRARY_GLOBE_SCRATCH->points[3];
+        prim = &LIBRARY_GLOBE_SCRATCH->packet;
 
         /* Retail materializes this fixed view buffer with literal lui/ori. */
         *par = *(SVECTOR *)0x80181000;
@@ -62,12 +61,13 @@ void Library_DrawWireframeGlobe(void)
         setcode(prim, 0x58);
         prim->pad = marker;
         prim->rgb2.c.code = 0;
-        /* vec3->vy, vec2->vy and vec1->vy, stored through their absolute
-         * addresses; a member store through the SVECTOR pointers reorders
-         * the whole setup. */
-        *(s16 *)SCRATCH_ADDR(0x52) = 0;
-        *(s16 *)SCRATCH_ADDR(0x4A) = 0;
-        *(s16 *)SCRATCH_ADDR(0x42) = 0;
+        /* vec3->vy, vec2->vy and vec1->vy, stored at absolute addresses
+         * (retail's lui at/sh pairs): `*&` folds each member address to a
+         * constant. A plain member store reuses the packet's base register
+         * and a store through vec3..vec1 reorders the whole setup. */
+        *&LIBRARY_GLOBE_SCRATCH->points[3].vy = 0;
+        *&LIBRARY_GLOBE_SCRATCH->points[2].vy = 0;
+        *&LIBRARY_GLOBE_SCRATCH->points[1].vy = 0;
         vec->vy = 0;
     }
 

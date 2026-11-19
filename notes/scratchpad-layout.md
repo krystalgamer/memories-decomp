@@ -19,8 +19,10 @@ The convention is to reach the scratchpad through `SCRATCH_ADDR(off)` from
 with a cast, for example `(SVECTOR *)SCRATCH_ADDR(0x300)`, so every
 reference states both its offset and what lives there. New code should not
 cast raw `0x1F80xxxx` integers; any such literal left in code is pending
-conversion to this form. Comments may still quote absolute `0x1F80xxxx`
-addresses. Psy-Q's `getScratchAddr` from
+conversion to this form. A routine whose layout has several parts may
+declare it as one record over offset 0 instead, as `library_graphics.h`
+does with `LibraryGlobeScratch` for `Library_DrawWireframeGlobe`. Comments
+may still quote absolute `0x1F80xxxx` addresses. Psy-Q's `getScratchAddr` from
 `src/psyq/libetc.h` is never used by game code.
 
 ## No allocator
@@ -49,7 +51,7 @@ area. Nothing written here is read by a later call.
 | `0x000` | `SpritePrim` (card art) | `Duel_DrawCardFrame` |
 | `0x0C0`; `0x140`; `0x180` | colour word; `POLY_FT4`; `POLY_GT4` | `Duel_DrawFieldCards` |
 | `0x000` | `GsGLINE` | `Library_DrawCardGrid` |
-| `0x000`; `0x038..0x050`; `0x060`; `0x200` | `LINE_G3`; `SVECTOR` run; `long` flag pair; `SVECTOR` centre | `Library_DrawWireframeGlobe` |
+| `0x000`; `0x038..0x050`; `0x060`; `0x200` | `LibraryGlobeScratch`: `LINE_G3`; `SVECTOR` run; `long` flag pair and ring radii; `SVECTOR` centre | `Library_DrawWireframeGlobe` |
 | `0x000`; `0x010`; `0x020` | `s32` radius; `s32` scale; `POLY_G4` array | `DisplayObject_RenderSpotlightMask` |
 | `0x000`; `0x020`, `0x060` | digit text bytes; two `GsSPRITE` | `BuildDeck_DrawCardListPage` |
 | `0x000` | `CheckerboardSprite` | `Checkerboard_DrawBackground` |
