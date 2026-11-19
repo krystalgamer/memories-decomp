@@ -101,6 +101,20 @@ typedef struct {
     s32 field_002C;
 } SDCommand;
 
+/* SDCommand.command codes whose producer is known; SD_ProcessActiveCommand
+   and the queue scanners switch on them. The 0x2A/0x2B fade variants and
+   the 0x42-0x46 sequence commands stay numeric until their producers are
+   recovered. */
+enum {
+    SD_COMMAND_CD_STOP = 0x11,         /* SD_EnqueueCdStop */
+    SD_COMMAND_DATA_TRANSFER = 0x20,   /* SD_EnqueueRamTransfer/SpuTransfer */
+    SD_COMMAND_CD_SEEK = 0x21,         /* SD_EnqueueCdSeek */
+    SD_COMMAND_CD_PLAY = 0x24,         /* SD_EnqueueCdPlay */
+    SD_COMMAND_CD_FADE = 0x29,         /* SD_EnqueueCdFade */
+    SD_COMMAND_BGM_PLAY = 0x48,        /* SD_RequestBgmPlayback */
+    SD_COMMAND_SE_GROUP_TRANSFER = 0x51 /* SD_QueueValueLinkTransfer */
+};
+
 typedef struct {
     u32 words[8];
 } SDCommandTail;

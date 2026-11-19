@@ -441,7 +441,7 @@ void SD_EnqueueRamTransfer(s32 ram_destination, s32 sector_offset, s32 ram_size,
 
     SD_StartCdFade(-32, 0, 1);
     g_SDValue->s_wSD_STATUS |= 2;
-    command.command = 32;
+    command.command = SD_COMMAND_DATA_TRANSFER;
     command.transfer_selector = source_selector;
     command.transfer_sector_offset = sector_offset;
     command.transfer_ram_destination = ram_destination;
@@ -457,7 +457,7 @@ void SD_EnqueueSpuTransfer(s32 spu_destination, s32 sector_offset, s32 spu_size,
 
     SD_StartCdFade(-32, 0, 1);
     g_SDValue->s_wSD_STATUS |= 2;
-    command.command = 32;
+    command.command = SD_COMMAND_DATA_TRANSFER;
     command.transfer_selector = source_selector;
     command.transfer_sector_offset = sector_offset;
     command.transfer_ram_destination = 0;
@@ -480,7 +480,7 @@ void SD_EnqueueSpuRamTransfer(
 
     SD_StartCdFade(-32, 0, 1);
     g_SDValue->s_wSD_STATUS |= 2;
-    command.command = 32;
+    command.command = SD_COMMAND_DATA_TRANSFER;
     command.transfer_selector = source_selector;
     command.transfer_sector_offset = sector_offset;
     command.transfer_ram_destination = ram_destination;

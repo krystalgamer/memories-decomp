@@ -147,7 +147,7 @@ void SD_RequestBgmPlayback(s32 command_id, s32 step)
     }
     if (g_SDValue->s_pwSD_MUSIC_TRACK->package_id != (signed_command >> 4))
         SD_RequestMusicPackageLoad(signed_command, 1);
-    command.command = 0x48;
+    command.command = SD_COMMAND_BGM_PLAY;
     command.value = command_id;
     command.args.fade.step = (s16)step;
     SD_EnqueueCommand(&command);
