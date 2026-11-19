@@ -9,7 +9,7 @@
 #include "text_constants.h"
 #include "duel_card.h"
 #include "trade_screen_widgets.h"
-#include "card_list_rows.h"
+#include "file_staging_buffer.h"
 #include "build_deck.h"
 #include "duel_effect_text.h"
 #include "duel_effect_states.h"
@@ -63,8 +63,8 @@ void CardList_RenderDeckBoxStats(DisplayObject *obj, GsOT *ot) {
 
     tbl = gCardList_SortIconTable;
     sp = (GsSpriteWords *)SCRATCH_ADDR(0x320);
-    /* The row sets live in the shared gFile_StagingBuffer (card_list_rows.h). */
-    rec = &((CardListRowSet *)gFile_StagingBuffer)[obj->kind_index.row_index];
+    /* The row sets live in the shared gFile_StagingBuffer (file_staging_buffer.h). */
+    rec = &gFile_StagingBuffer.card_list_rows[obj->kind_index.row_index];
     pri = (s16)obj->ot_depth;
     sp->prim.attribute = obj->attribute;
     sp->prim.tpage = 0xB;
@@ -169,8 +169,8 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
     s32 empty_color;
 #endif
 
-    /* The row sets live in the shared gFile_StagingBuffer (card_list_rows.h). */
-    s = &((CardListRowSet *)gFile_StagingBuffer)[idx];
+    /* The row sets live in the shared gFile_StagingBuffer (file_staging_buffer.h). */
+    s = &gFile_StagingBuffer.card_list_rows[idx];
     base = 0x18;
     s->enabled = flag;
     s->object->resource_branch_index = flag;
@@ -231,7 +231,7 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 #include "main.h"
 #include "display_object.h"
 #include "display_object_system.h"
-#include "card_list_rows.h"
+#include "file_staging_buffer.h"
 
 /* Keep symbolic usage evidence while preserving the literal-address codegen.
    A regional build supplies its own addresses and row bias. */
@@ -249,8 +249,8 @@ void CardList_BuildRowSetTextBoxes(u16 *e, s32 idx, s32 flag, s32 ignored)
 
 void CardList_CreateDeckBoxStatRows(s32 x0, s32 y0, s32 x1, s32 y1)
 {
-    /* The row sets live in the shared gFile_StagingBuffer (card_list_rows.h). */
-    CardListRowSet *record = (CardListRowSet *)gFile_StagingBuffer;
+    /* The row sets live in the shared gFile_StagingBuffer (file_staging_buffer.h). */
+    CardListRowSet *record = gFile_StagingBuffer.card_list_rows;
     DisplayObject *object;
     s32 i = 0;
 

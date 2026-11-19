@@ -24,17 +24,8 @@
  * spin in field_20.b.rotation_z, its slide target in field_18.target, the
  * timer in field_60 and the slide flag in update_state. */
 
-/* The password shop's view of the 0x801A8000 staging buffer: while this
- * screen runs it holds one record per card id, the card's price in
- * starchips and then its eight-digit password packed four bits a digit.
- * Password_LookupCardID walks the passwords from card 1 (gPassword_aTable) until
- * a price of -1 ends the table. Shop code casts gFile_StagingBuffer to
- * this record type; card_list_rows.h describes the buffer's other users. */
-typedef struct {
-    u32 price;
-    s32 password;
-} PasswordShopCard;
-
+/* The shop's price table is the shop_cards view of gFile_StagingBuffer
+ * (file_staging_buffer.h). */
 
 /* gPassword_aTable is the password table Password_LookupCardID searches, and
  * gPassword_szDigits is the eight-digit string Password_RefreshDigitDisplay rebuilds. */

@@ -40,10 +40,11 @@ two consumers select those same records. All pointer `G32`, offsets,
 entry-count macros and incomplete bounds remain.
 
 This is not a private two-record allocation. Script bytecode, model/DMA
-payloads, raw words and `MainMenuState` use the same staging RAM at different
-times. Their declarations, source, imports and controls remain unchanged.
-Japan's card-list view is `0x801B8000`; NA/PAL use `0x801A8000`.
-No global replacement or consolidation of that numeric family is made.
+payloads and the password shop's price table use the same staging RAM at
+different times. `file_staging_buffer.h` declares the buffer once as the
+`FileStagingBuffer` union of those views; the card-list code and the trade
+screen read the `card_list_rows` member. Japan's card-list view is
+`0x801B8000`; NA/PAL use `0x801A8000`.
 
 ## Packed sort-icon table
 

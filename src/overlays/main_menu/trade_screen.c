@@ -23,7 +23,7 @@
 #include "../../game/display_object.h"
 #include "ordering_tables.h"
 #include "../../game/gpu_packets.h"
-#include "../../game/card_list_rows.h"
+#include "../../game/file_staging_buffer.h"
 
 /* The Trade screen, 0x80181F68-0x80184558 in one gcc_2_8_1_g0_split object:
    its lifecycle (init, update, inventory refresh), the four card-stat qsort
@@ -673,7 +673,7 @@ void MainMenu_RefreshTradeInventory(s32 slot, s32 force)
         );
     }
 
-    ((MainMenuState *)gFile_StagingBuffer)[slot].object->resource_variant = mode;
+    gFile_StagingBuffer.card_list_rows[slot].object->resource_variant = mode;
 }
 
 s32 MainMenu_CompareCardsByMaxStat(s16 *a, s16 *b)
