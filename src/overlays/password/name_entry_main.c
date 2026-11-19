@@ -275,7 +275,7 @@ void NameEntry_BuildStarterDeck(void)
                     } else {
                         counts[i] = counts[i] + 1;
                         *out = i + 1;
-                        Library_UpdateCardUsedFlag(i + 289);
+                        Library_UpdateCardUsedFlag(i + (CAMPAIGN_FLAG_LIBRARY_CARD_BASE + CARD_ID_FIRST));
                         out++;
                     }
                     break;
