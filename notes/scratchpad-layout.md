@@ -67,7 +67,7 @@ both a text-box sprite and a duel `POLY_FT4`.
 |---|---|---|
 | `0x280` | `u32` colour (passed as `CVECTOR *`) | `DisplayObject_SubmitPacket` |
 | `0x290..0x29F` | four `u32` texture coordinates | `DisplayObject_SubmitPacket` |
-| `0x2A0` | `LINE_F4` | `Library_DrawFadingCardOutline` |
+| `0x2A0` | `LINE_F4` (`LibraryOutlineScratch`, with its corners at `0x300` and origin at `0x398`) | `Library_DrawFadingCardOutline` |
 | `0x2C0` | `MATRIX` | `Duel_RenderFieldCard3D` |
 | `0x2D0` | `MATRIX` | `DisplayObject_ProjectRotationFacing`, `DisplayObject_ProjectPackedRotationFacing` |
 | `0x2E0` | three `long` (otz, p, flag) | `DisplayObject_SubmitPacket` (`RotAverageNclip4`) |

@@ -4,6 +4,7 @@
 #include "../ygo_types.h"
 #include "card_constants.h"
 #include "scratchpad.h"
+#include "display_object_system.h"
 
 #define LIBRARY_CARD_FLAG_KNOWN 0x80
 #define LIBRARY_CARD_FLAG_UNOWNED 0x01
@@ -117,6 +118,28 @@ typedef char LibraryGlobeScratch_center_offset_must_be_0x200[
 ];
 
 #define LIBRARY_GLOBE_SCRATCH ((LibraryGlobeScratch *)SCRATCH_ADDR(0))
+
+/* Library_DrawFadingCardOutline's scratchpad layout from 0x1F8002A0: the
+ * LINE_F4 it submits twice, the four SVECTOR corners RotAverage4 projects
+ * into that line, and the projection origin DisplayObject_ProjectRotationFacing
+ * fills at 0x1F800398, where the display-object renderers keep theirs. The
+ * gaps are scratchpad the outline does not use. */
+typedef struct {
+    LINE_F4 line;
+    u8 pad_1c[0x60 - 0x1C];
+    SVECTOR corners[4];
+    u8 pad_80[0xF8 - 0x80];
+    struct ProjectionOut origin;
+} LibraryOutlineScratch;
+
+typedef char LibraryOutlineScratch_corners_offset_must_be_0x60[
+    OFFSETOF(LibraryOutlineScratch, corners) == 0x60 ? 1 : -1
+];
+typedef char LibraryOutlineScratch_origin_offset_must_be_0xF8[
+    OFFSETOF(LibraryOutlineScratch, origin) == 0xF8 ? 1 : -1
+];
+
+#define LIBRARY_OUTLINE_SCRATCH ((LibraryOutlineScratch *)SCRATCH_ADDR(0x2A0))
 
 /* Three-point coordinate spans; the other components come from the caller.
  * Negative projection flags cause one retry before unconditional submission. */
