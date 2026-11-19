@@ -9286,7 +9286,7 @@ void Duel_StepCardDataTransfer(FileTransferDescriptor *o, int mode) {
     s16 *p = o->callback_data;
 
     if (mode == 0) {
-        o->cursor.h.counter = *p;
+        o->cursor.card_id = *p;
         o->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= ~0x230000;
         o->sector_destination = o->alternate_sector_destination = (u8 *)o->position;
@@ -9298,8 +9298,8 @@ void Duel_StepCardDataTransfer(FileTransferDescriptor *o, int mode) {
         o->callback_data = p;
         o->position += DUEL_CARD_DATA_BLOCK_SIZE;
     }
-    o->cursor.h.counter++;
-    if (o->cursor.h.counter == *p) {
+    o->cursor.card_id++;
+    if (o->cursor.card_id == *p) {
         o->phase_size = FILE_SECTOR_SIZE;
         o->phase_index = 1;
         gFile_dwTransferState &= ~0x230000;

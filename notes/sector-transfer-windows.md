@@ -62,8 +62,9 @@ The 0x30 `cursor` union carries one arm per transfer_mode reading rather
 than a uniform interpretation: `image.x`/`image.y` is the mode-2 VRAM
 position (copied into rect.x/y, then stepped by 0x40/0x10), `spu_address`
 the mode-3 SPU destination, `sector_position` the DslGetlocL logical sector
-a sector-range transfer waits on. It is not absorbed into this destination
-pair.
+a sector-range transfer waits on, and `card_id` the card-data sector
+counter of Duel_StepCardDataTransfer. It is not absorbed into this
+destination pair.
 
 ## Auxiliary-model palette-sector view
 

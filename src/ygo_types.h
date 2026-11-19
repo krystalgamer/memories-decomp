@@ -862,6 +862,12 @@ struct FileTransferDescriptor {
        result here, and File_StepActiveTransfer zeroes it and waits until it
        reaches direct_destination.
 
+       card_id (Duel_StepCardDataTransfer): the card whose record the sector
+       just read holds. Duel_RequestCombinedDeckData requests one sector per
+       card ID from the first unique deck ID - 1, and the step callback counts
+       this up from that ID, keeping a sector when it equals the next ID of
+       the sorted unique list.
+
        The halfword arms and the one-word arms are not supersets of each
        other and retail emits both, so collapsing them to either alone
        changes codegen: spelling a one-word store as two halfword stores costs
@@ -871,10 +877,7 @@ struct FileTransferDescriptor {
             u16 x;
             u16 y;
         } image;
-        struct {
-            u16 counter;
-            u16 field_32;
-        } h;
+        u16 card_id;
         u32 spu_address;
         u32 sector_position;
     } cursor;
