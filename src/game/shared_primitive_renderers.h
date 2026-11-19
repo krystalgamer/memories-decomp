@@ -2,7 +2,82 @@
 #define GAME_SHARED_PRIMITIVE_RENDERERS_H
 
 #include "../types.h"
+#include "../psyq/libgte.h"
+#include "../psyq/libgpu.h"
+#include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
+
+/* POLY_GT3 as GPU command words (colour+code, XY, UV+CLUT, colour, XY,
+ * UV+TPAGE, ...). */
+typedef struct {
+    u32 tag;
+    u32 rgb0;
+    DVECTOR xy0;
+    u32 uv0;
+    u32 rgb1;
+    DVECTOR xy1;
+    u32 uv1;
+    u32 rgb2;
+    DVECTOR xy2;
+    u32 uv2;
+} SharedGt3Packet;
+
+/* POLY_GT4 as GPU command words (colour+code, XY, UV+CLUT, colour, XY,
+ * UV+TPAGE, ...). */
+typedef struct {
+    u32 tag;
+    u32 rgb0;
+    DVECTOR xy0;
+    u32 uv0;
+    u32 rgb1;
+    DVECTOR xy1;
+    u32 uv1;
+    u32 rgb2;
+    DVECTOR xy2;
+    u32 uv2;
+    u32 rgb3;
+    DVECTOR xy3;
+    u32 uv3;
+} SharedGt4Packet;
+
+/* POLY_GT3 as GPU command words (colour+code, XY, UV+CLUT, colour, XY,
+ * UV+TPAGE, ...) between the texture-window command (from the record) and the
+ * E2 reset word. */
+typedef struct {
+    u32 tag;
+    u32 window;
+    u32 rgb0;
+    DVECTOR xy0;
+    u32 uv0;
+    u32 rgb1;
+    DVECTOR xy1;
+    u32 uv1;
+    u32 rgb2;
+    DVECTOR xy2;
+    u32 uv2;
+    u32 window_reset;
+} SharedGt3WindowRecordPacket;
+
+/* POLY_GT4 as GPU command words (colour+code, XY, UV+CLUT, colour, XY,
+ * UV+TPAGE, ...) between the texture-window command (from the record) and the
+ * E2 reset word. */
+typedef struct {
+    u32 tag;
+    u32 window;
+    u32 rgb0;
+    DVECTOR xy0;
+    u32 uv0;
+    u32 rgb1;
+    DVECTOR xy1;
+    u32 uv1;
+    u32 rgb2;
+    DVECTOR xy2;
+    u32 uv2;
+    u32 rgb3;
+    DVECTOR xy3;
+    u32 uv3;
+    u32 window_reset;
+} SharedGt4WindowRecordPacket;
 
 /*
  * HMD shared-vertex drivers. Model_PrepareSharedPrimitiveCaches projects and

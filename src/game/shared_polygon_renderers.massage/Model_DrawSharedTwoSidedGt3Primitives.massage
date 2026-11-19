@@ -1,0 +1,151 @@
+# Model_DrawSharedTwoSidedGt3Primitives: massage of its plain C in src/game/shared_polygon_renderers.c.
+function = Model_DrawSharedTwoSidedGt3Primitives
+source = src/game/shared_polygon_renderers.c
+address = 0x80067D94
+size = 0x23C
+rules = strip-nops aligned-word-copy invariant-last dmpsx-native gte-direct-read unspill fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot
+frameless = $a0 0x28
+
+[registers]
+$v0.1 = $a3       # lw $v0.1, 0x0($s3.1)
+$v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
+$v0.4 = $t0       # srl $v0.4, $t5.1, 24
+$v0.6 = $t5       # lui $v0.6, %hi(gModel_bCurrentDrawMode)
+$v0.8 = $t5       # lui $v0.8, %hi(gModel_dwLitColorCacheBase)
+$v0.10 = $t5      # lw $v0.10, 0x4($s3.1)
+$v0.12 = $t5      # srl $v0.12, %word1, 16
+$v0.18 = $t5      # srl $v0.18, %word2, 16
+$v0.24 = $t5      # srl $v0.24, %word3, 16
+$v0.45 = $t0      # sll $v0.45, $t1.1, 16
+$v0.46 = $t1      # and $v0.46, $a1.3, $at
+$v1.1 = $a1       # lw $v1.1, 0x14($s3.1)
+$v1.2 = $at       # addiu $v1.2, $zero, 0x1
+$v1.5 = $t5       # lw $v1.5, 0x0($a0.1)
+$v1.8 = $t5       # lw $v1.8, 0x0($a0.2)
+$v1.11 = $t5      # lw $v1.11, 0x0($a0.3)
+$v1.12 = $t2      # sll $v1.12, %word3, 16
+$a0.1 = $t5       # addu $a0.1, $v0.13, $s1.1
+$a0.2 = $t5       # addu $a0.2, $v0.19, $s1.1
+$a0.3 = $t5       # addu $a0.3, $v0.25, $s1.1
+$a0.4 = $t1       # sll $a0.4, %word2, 16
+$a1.1 = $v0       # lw $a1.1, 0x4($a0.3)
+$a1.2 = $t1       # lw $a1.2, 0x4($t8.1)
+$a2.1 = $v0       # lw $a2.1, 0x4($a0.2)
+$a2.2 = $v0       # addu $a2.2, $v0.11, $v0.38
+$a3.1 = $v0       # lw $a3.1, 0x4($a0.1)
+$a3.2 = $v1       # and $a3.2, $t6.2, $at
+$t1.1 = $t0       # lw $t1.1, 0x0($t8.1)
+$t3.1 = $t9       # lw $t3.1, 0x10($s3.1)
+$t5.1 = $t4       # addu $t5.1, $t6.2, $zero
+$t6.1 = $s0       # lui $t6.1, %hi(gModel_dwPolyGt3Template)
+$t7.1 = $a2       # lw $t7.1, 0x24($s3.1)
+$s0.1 = $s1       # lui $s0.1, %hi(gModel_dwTpageBlendRateBits)
+$s0.3 = $t2       # lw $s0.3, 0x8($t8.1)
+$s0.6 = $v1       # lw $s0.6, 0x8($t3.1)
+$s0.8 = $v1       # lw $s0.8, 0x14($t3.1)
+$s0.10 = $v1      # lw $s0.10, 0x20($t3.1)
+$s1.1 = $a1       # lw $s1.1, 0x1C($s3.1)
+$s3.1 = $a0       # addu $s3.1, $a0.0, $zero
+$s6.1 = $t6       # lw $s6.1, 0x8($s3.1)
+$s7.1 = $v1       # addiu $s7.1, $zero, -0x1
+$t8.1 = $a3       # addu $t8.1, $v1.1, $v0.3
+$t9.1 = $t8       # lhu $t9.1, 0x2($v0.1)
+%tag1 = $t5       # lw %tag1, 0x0($a2.2)
+%word1 = $t0      # lw %word1, 0xC($t8.1)
+%word2 = $t1      # lw %word2, 0x10($t8.1)
+%word3 = $t2      # lw %word3, 0x14($t8.1)
+
+[residual]
+--- rules
++++ retail
+@@ -9,2 +9,3 @@
+ sw $s2, 0x30($a0)
++sw $s3, 0x34($a0)
+ beq $t8, $zero, .L1
+@@ -18,6 +19,6 @@
+ addu $t4, $s0, $zero
+-srl $t0, $t4, 24
+-sll $t0, $t0, 24
+ lui $t5, %hi(gModel_bCurrentDrawMode)
+ lb $t5, %lo(gModel_bCurrentDrawMode)($t5)
++srl $s3, $s0, 24
++sll $s3, $s3, 24
+ addiu $at, $zero, 0x1
+@@ -25,3 +26,2 @@
+ nop
+-lw $a2, 0x24($a0)
+ lui $t5, %hi(gModel_dwLitColorCacheBase)
+@@ -29,2 +29,3 @@
+ lw $a1, 0x1C($a0)
++lw $a2, 0x24($a0)
+ beq $t5, $zero, .L6
+@@ -35,3 +36,3 @@
+ lw $t6, 0x8($a0)
+-lw $t5, 0x4($t5)
++lw $t7, 0x4($t5)
+ .L5:
+@@ -69,11 +70,10 @@
+ sll $t0, $t0, 16
++srl $t0, $t0, 13
+ sll $t1, $t1, 16
++srl $t1, $t1, 13
+ sll $t2, $t2, 16
+-srl $t0, $t0, 13
++srl $t2, $t2, 13
+ addu $t0, $t0, $a2
+-srl $t1, $t1, 13
+ addu $t1, $t1, $a2
+-srl $t2, $t2, 13
+ addu $t2, $t2, $a2
+-.word 0x4B58002D
+ lw $t0, 0x0($t0)
+@@ -81,3 +81,4 @@
+ lw $t2, 0x0($t2)
+-or $t0, $t0, $t0
++.word 0x4B58002D
++or $t0, $t0, $s3
+ sw $t0, 0x4($t9)
+@@ -85,5 +86,5 @@
+ sw $t2, 0x1C($t9)
+-lw $t2, 0x8($a3)
+ lw $t0, 0x0($a3)
+ lw $t1, 0x4($a3)
++lw $t2, 0x8($a3)
+ mfc2 $v0, $7
+@@ -94,3 +95,3 @@
+ sll $v0, $v0, 2
+-addu $v0, $t5, $v0
++addu $v0, $v0, $t7
+ lw $t5, 0x0($v0)
+@@ -114,16 +115,15 @@
+ or $t0, $t0, $s2
+-addiu $v1, $zero, 0x0
+-sw $t4, 0x2C($t9)
+ lui $at, 0xFF9F
+ ori $at, $at, 0xFFFF
++and $t1, $t1, $at
++lui $at, 0x40
++or $t1, $t1, $at
+ lw $v1, 0x8($t9)
+-and $t1, $t1, $at
++sw $t4, 0x2C($t9)
+ sw $v1, 0x30($t9)
++lw $v1, 0x14($t9)
+ sw $t4, 0x38($t9)
+-lw $v1, 0x14($t9)
+-lui $at, 0x40
+ sw $v1, 0x3C($t9)
++lw $v1, 0x20($t9)
+ sw $t4, 0x44($t9)
+-lw $v1, 0x20($t9)
+-or $t1, $t1, $at
+ sw $v1, 0x48($t9)
+@@ -131,3 +131,3 @@
+ j .L4
+-nop
++addiu $v1, $zero, 0x0
+ .L3:
+@@ -142,2 +142,3 @@
+ lw $s2, 0x30($a0)
++lw $s3, 0x34($a0)
+ lw $v0, 0x0($a0)

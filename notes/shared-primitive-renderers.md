@@ -5,34 +5,40 @@ family selected by `Model_GetSharedPrimitiveHandler`: one cache-preparation
 stage and sixteen cached-input polygon drivers. All 119 actual native
 function records across the seven resident images retain their original
 ownership, extents and instructions; the Japanese and European resident
-executables compile the same single source,
+executables compile the same two sources,
+`src/game/shared_primitive_cache_prepare.c` and
 `src/game/shared_polygon_renderers.c`, at their own addresses.
 
-The NA bodies are matched C under the `gcc_2_8_1_g0_handwritten_asm` policy:
-the preparation stage and the sixteen drivers that follow it, all in
-`src/game/shared_polygon_renderers.c`. The stage names `$12` as
-`gHw_ByteMask` (the drivers call it `gHw_Color`) and reserves `$25` as
-`gHw_Empty`, where the drivers bind `$25` to a local packet pointer. Sharing
-one translation unit leaves every body unchanged, which the exact match of
-every image confirms. GTE commands use the native-opcode macros of
-`src/game/gte_native.h`; plain GTE register transfers use the Psy-Q
-`inline_c.h` macros `gte_ldsxy0`/`gte_ldsxy1`/`gte_ldsxy2`, `gte_stsxy2`
-and `gte_strgb`. GCC cannot
-produce three shapes the originals use, so `src/game/handwritten_asm.h`
-supplies narrow macros the contract checker accepts only in fixed forms:
+The preparation stage, `Model_PrepareSharedPrimitiveCaches`, is matched C
+under the `gcc_2_8_1_g0_handwritten_asm` policy in its own unit,
+`src/game/shared_primitive_cache_prepare.c`. It names `$12` as
+`gHw_ByteMask` and reserves `$25` as `gHw_Empty`. GTE commands use the
+native-opcode macros of `src/game/gte_native.h`; the plain GTE register
+transfers use the Psy-Q `inline_c.h` macros `gte_stsxy2` and `gte_strgb`.
+It fills three branch delay slots with loads, which GCC 2.8.1 reorg never
+does on MIPS1 (`dslot=yes`), so `HW_BEQZ_LOAD(test, label, out, offset,
+base)` from `src/game/handwritten_asm.h` emits `beqz`/`lw`, and kept labels
+(`HW_KEEP_LABEL`) before some tests block reorg's backward fill. It loads
+each vector with `lw` one iteration ahead and moves it into the GTE with
+`mtc2`; no stock `inline_c.h` macro moves a register into `VXY0`/`VZ0` or
+`RGB`, so it stays outside the assembly massage.
 
-- All sixteen drivers put a vertex-cache `mtc2` in a branch delay slot. GCC
-  2.8.1 reorg never moves an asm insn into a slot (`stop_search_p`), so
-  `HW_GTE_WRITE_BEQ(reg, value, cmp, label)` emits the `beq`/`mtc2` pair in
-  one `.set noreorder` block. GCC does not see that branch, so only the exact
-  image match vouches for the surrounding flow.
-- The Gt4 drivers also use the direct Gt4 `HW_LWR` load and a two-stage
-  NCLIP (`GTE_NCLIP()` then `HW_GTE_READ_WAIT(24, ...)`) behind a kept `cull_test` label.
-- `Model_PrepareSharedPrimitiveCaches` fills three branch delay slots with
-  loads, which reorg never does on MIPS1 (`dslot=yes`), so
-  `HW_BEQZ_LOAD(test, label, out, offset, base)` emits `beqz`/`lw`.
-- Kept labels (`HW_KEEP_LABEL`) before some tests block reorg's backward
-  fill, reproducing the original `nop` slots.
+The sixteen drivers that follow it are plain C in
+`src/game/shared_polygon_renderers.c` over the stock `inline_c.h` and
+`libgpu.h` macros, with no register variables or private asm, built with
+the `gcc_2_8_1_o2_massaged` profile: `tools/project/asm_massage.py` rewrites
+GCC's `-O2` output into the original instructions with one edit file per
+driver in `src/game/shared_polygon_renderers.massage/`. The packet layouts
+they write (`SharedGt3Packet`, `SharedGt4Packet` and the two
+`WindowRecord` forms) live in `src/game/shared_primitive_renderers.h`.
+`make check-asm-massage` compares every driver with the retail executable
+and proves its residual, which here is 39-86 diff lines of the original's
+scheduling; see `notes/asm-massage.md` for the rules, the residual
+classification and the proofs.
+
+The two units were one until the drivers moved to the massaged profile; a
+grouped unit needs a single profile, and the preparation stage, directly
+before the drivers in every image, splits off cleanly.
 
 ## Dispatch and names
 
@@ -88,10 +94,9 @@ an extra four-byte word and submit the existing E2 texture-window/reset
 state. These are not the similarly named wireframe callbacks, which merely
 skip that extra input word without emitting E2.
 
-The C walks these records through a pointer to the volatile
-`ModelDrawGt3/Gt4[Window]Record` unions of `src/game/model_slot_setup.h`,
-as the direct drivers do (see `notes/direct-polygon-renderers.md`), so the
-word loads keep their original order.
+The C walks these records through `ModelDrawGt3/Gt4[Window]Record`
+pointers (`src/game/model_slot_setup.h`); the original's word-load order
+comes from the massage, not from volatile accesses.
 
 Base triangle drivers execute one NCLIP and base quad drivers two. The
 two-sided forms omit these area tests, not sentinel or depth checks; no

@@ -1,3379 +1,2397 @@
 /*
- * Shared-vertex primitive cache preparation and shared Gt3/Gt4 polygon
- * drawers (0x80067220-0x80069E44).
+ * Shared Gt3/Gt4 polygon drivers (0x80067354-0x80069E44): the sixteen
+ * cached-input drivers that read the vertop2/nortop2 caches
+ * Model_PrepareSharedPrimitiveCaches fills.
  *
- * Model_PrepareSharedPrimitiveCaches projects a block's shared vertices into
- * vertop2 (SXY2 plus an IR0 << 16 | SZ3 word, or -1 when RTPS overflowed)
- * and, in lit modes, lights its shared normals into nortop2.
- *
- * Hand-written in the original: no stack frame, borrowed s-registers parked
- * in scratch words of the GsARGUNIT block, the argument read from $a0 and the
- * next primitive block returned in $v0. Register variables and the
- * handwritten_asm.h macros reproduce that contract; see
- * notes/shared-primitive-renderers.md.
+ * The originals were written by hand: no stack frame, s0-s7 parked in the
+ * GsARGUNIT block, the next primitive block returned in $v0. This is plain C
+ * over the stock Psy-Q inline_c.h and libgpu.h macros, built with the
+ * gcc_2_8_1_o2_massaged profile: GCC's -O2 output is rewritten into the
+ * original instructions by tools/project/asm_massage.py with the edit files
+ * in shared_polygon_renderers.massage/ (one per function). See
+ * notes/asm-massage.md and notes/shared-primitive-renderers.md.
  */
 #include "../types.h"
 #include "../psyq/libgte.h"
-#include "../psyq/inline_c.h"
 #include "../psyq/libgpu.h"
 #include "../psyq/libgs.h"
 #include "../psyq/libhmd.h"
-#include "handwritten_asm.h"
-#include "gte_native.h"
-#include "model_handler_state.h"
-#include "model.h"
-#include "primitive_handler_modes.h"
+#include "../psyq/inline_c.h"
 #include "gpu_packets.h"
+#include "model.h"
+#include "model_handler_state.h"
 #include "model_slot_setup.h"
+#include "primitive_handler_modes.h"
 #include "shared_primitive_renderers.h"
 
-register u32 gHw_PolyTemplate asm("$16");
-register u32 gHw_BlendBits asm("$17");
-register u32 gHw_SecondClut asm("$18");
-register u32 gHw_PolyCode asm("$19");
-register u32 gHw_WindowCode asm("$20");
-register u32 gHw_WindowWord asm("$21");
-register s32 gHw_DrawMode asm("$22");
-register u32 gHw_ColorCache asm("$23");
-register u32 gHw_At asm("$1");
-register u32 gHw_Word0 asm("$8");
-register u32 gHw_Second asm("$3");
-/*
- * $30 is unused by the originals. Reserving it leaves each function's "zero"
- * pseudo without a register, so reload substitutes the constant and
- * "gHw_Zero - zero" assembles to the original "li reg, 0" while
- * "gHw_Zero <<= zero" assembles to the original delay-slot nop.
- */
-register u32 gHw_Zero asm("$0");
-register u32 gHw_Color asm("$12");
-register u32 gHw_Word3 asm("$11");
-register u32 gHw_Unused30 asm("$30");
-register s32 gHw_Empty asm("$25");
-register u32 gHw_ByteMask asm("$12");
-
-/*
- * Each drawer converts its SDK pointers once on entry: the primitive block
- * to its ModelPrimitiveBlockHeader, primtop plus the word offset to its
- * ModelDraw*Record type (model_slot_setup.h), and the vertop2 cache, nortop2
- * and OT bases to u32 addresses. The record cursor points to volatile data
- * because the original reads its words in a fixed order around the GTE
- * operations. Typed pointer arithmetic swaps the addu operands, so the cache
- * entry, lit normal and OT slot addresses are integers converted at their
- * dereference.
- */
-
-u32 *Model_PrepareSharedPrimitiveCaches(GsARGUNIT_SHARED *arg)
-{
-    register u32 *rec asm("$7");
-    register u32 rgb asm("$13");
-    register s32 mode asm("$14");
-    register u32 off asm("$15");
-    register u32 count asm("$24");
-    register u32 *src asm("$5");
-    register u32 *dst asm("$6");
-    register u32 lo asm("$2");
-    register u32 hi asm("$3");
-    HW_KEEP_LABEL(verts_done);
-    HW_KEEP_LABEL(done);
-
-    rec = (u32 *)arg->primp;
-    rgb = gModel_dwPolyGt3Template;
-    mode = (s8)gModel_bCurrentDrawMode;
-    off = gModel_dwLitColorCacheBase;
-    gHw_At = 0xFFFFFF;
-    rgb &= gHw_At;
-    HW_GTE_WRITE(6, rgb);
-    if (off != 0) {
-        off = 4;
-    }
-    count = rec[1];
-    gHw_Empty = -1;
-    gHw_ByteMask = 0xFF;
-    HW_BEQZ_LOAD(count, verts_done, lo, 8, rec);
-    {
-        src = (u32 *)arg->vertop;
-        lo <<= 3;
-        src = (u32 *)((u8 *)src + lo);
-        hi = rec[3];
-        dst = (u32 *)arg->vertop2;
-        hi <<= 3;
-        dst = (u32 *)((u8 *)dst + hi);
-        lo = src[0];
-        hi = src[1];
-        do {
-            HW_GTE_WRITE(0, lo);
-            HW_GTE_WRITE(1, hi);
-            count--;
-            src += 2;
-            GTE_RTPS_B();
-            lo = src[0];
-            hi = src[1];
-            gHw_At = 1;
-            dst[1] = gHw_Empty;
-            if (mode != gHw_At) {
-                register s32 flag asm("$11");
-                HW_GTE_READ_FLAG_WAIT(flag);
-                if (flag < 0) {
-                    goto next;
-                }
-            }
-            {
-                register u32 depth asm("$8");
-                register u32 z asm("$9");
-                gte_stsxy2(dst);
-                HW_GTE_READ(8, depth);
-                HW_GTE_READ(19, z);
-                depth <<= 16;
-                depth |= z;
-                dst[1] = depth;
-            }
-        next:
-            dst += 2;
-        } while (count != 0);
-    }
-verts_done:
-    HW_BEQZ_LOAD(mode, done, count, 16, rec);
-    {
-        lo = rec[5];
-        HW_BEQZ_LOAD(count, done, src, 32, arg);
-        {
-            lo <<= 3;
-            src = (u32 *)((u8 *)src + lo);
-            hi = rec[6];
-            dst = (u32 *)arg->nortop2;
-            hi <<= 3;
-            dst = (u32 *)((u8 *)dst + hi);
-            dst = (u32 *)((u8 *)dst + off);
-            lo = src[0];
-            hi = src[1];
-            do {
-                HW_GTE_WRITE(0, lo);
-                HW_GTE_WRITE(1, hi);
-                count--;
-                src += 2;
-                GTE_NCCS_B();
-                lo = src[0];
-                hi = src[1];
-                gte_strgb(dst);
-                dst += 2;
-            } while (count != 0);
-        }
-    }
-done:
-    {
-        register u32 *ret asm("$2");
-        HW_KEEP_LABEL(ret_slot);
-
-        ret = rec + 7;
-    ret_slot:
-        return ret;
-    }
-}
-
+/* Shared GT3 driver. The vertices were projected into the GsWORKUNIT cache
+ * (vertop2: SXY, then otz/p, all ones when rejected) and lit into the colour
+ * cache (nortop2 holds two colour words per normal; a nonzero
+ * gModel_dwLitColorCacheBase selects the second). Visible triangles become
+ * POLY_GT3 packets; a semi-transparent template adds a second pass with the
+ * template colour, the second-pass CLUT and blend mode 1. */
 u32 *Model_DrawSharedGt3Primitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt3Packet *packet =
+        (SharedGt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3Record *record =
+        (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        HW_KEEP_LABEL(mode_test);
-        rec = (ModelDrawGt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
         mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-    mode_test:
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[2] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[5] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[8] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_NCLIP_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word0 += normals;
-            HW_GTE_READ(24, z);
-            w1 += normals;
-            w2 += normals;
-            if (z <= 0)
-                goto next;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[1] = gHw_Word0;
-            pkt[4] = w1;
-            pkt[7] = w2;
-            GTE_AVSZ3_B();
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[11] = gHw_Color;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
             }
-        skip:
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            u32 *c0, *c1, *c2;
+                            s32 opz;
+
+                            gte_ldsz3(z0, z1, z2);
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            c0 = &colors[record->prim.norm0 * 2];
+                            gte_nclip_b();
+                            c1 = &colors[record->prim.norm1 * 2];
+                            c2 = &colors[record->prim.norm2 * 2];
+                            gte_stopz(&opz);
+                            if (opz > 0) {
+                                {
+                                    u32 uv0, uv1, uv2, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    gte_avsz3_b();
+                                    uv0 = record->words[0];
+                                    uv1 = record->words[1];
+                                    uv2 = record->words[2];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 |= blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        setlen(packet, 9);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT4 driver. See shared/gt3.c for the cache formats and the second
+ * pass. */
 u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt4Packet *packet =
+        (SharedGt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4Record *record =
+        (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        HW_KEEP_LABEL(mode_test);
-        rec = (ModelDrawGt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
         mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-    mode_test:
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            HW_KEEP_LABEL(cull_test);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[3];
-            HW_LWR(gHw_Word0, 10, rec);
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            gHw_Word3 = rec->words[6];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[2] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[5] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[8] = e;
-            e = gHw_Word3 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            pkt[11] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_NCLIP_B();
-            w1 <<= 16;
-            HW_GTE_READ(24, z);
-            w1 >>= 13;
-        cull_test:
-            if (z > 0)
-                goto visible;
-            gte_ldsxy0(e);
-            GTE_NCLIP();
-            HW_GTE_READ_WAIT(24, z);
-            if (z > 0)
-                goto next;
-        visible:
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word3 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word3 = *(volatile u32 *)gHw_Word3;
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[1] = gHw_Word0;
-            pkt[4] = w1;
-            pkt[7] = w2;
-            pkt[10] = gHw_Word3;
-            GTE_AVSZ4_B();
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            pkt[12] = gHw_Word3;
-            tag = (tag << 8) | 12;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[11];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                pkt += 13;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
             }
-        skip:
-            pkt += 13;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            GsWORKUNIT *v3;
+                            u32 z3, xy3;
+
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            v3 = &cache[record->prim.vert3];
+                            z3 = (u32)(u16)v3->otz |
+                                (u32)(u16)v3->p << 16;
+                            xy3 = (u32)(u16)v3->vec.vx |
+                                (u32)(u16)v3->vec.vy << 16;
+                            if (z3 != 0xFFFFFFFF) {
+                                u32 *c0, *c1, *c2, *c3;
+                                s32 opz;
+
+                                gte_ldsz4(z0, z1, z2, z3);
+                                packet->xy3 = v3->vec;
+                                c0 = &colors[record->prim.norm0 * 2];
+                                gte_nclip_b();
+                                c1 = &colors[record->prim.norm1 * 2];
+                                gte_stopz(&opz);
+                                if (opz <= 0) {
+                                    /* The other diagonal: vertices 3, 1, 2. */
+                                    gte_ldsxy0(xy3);
+                                    gte_nclip();
+                                    gte_stopz(&opz);
+                                    if (opz > 0) {
+                                        goto next;
+                                    }
+                                }
+                                c2 = &colors[record->prim.norm2 * 2];
+                                c3 = &colors[record->prim.norm3 * 2];
+                                {
+                                    u32 uv0, uv1, uv2, uv3, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+                                    u32 rgb3 = *c3;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    packet->rgb3 = rgb3;
+                                    gte_avsz4_b();
+                                    uv0 = record->words[0];
+                                    uv1 = record->words[1];
+                                    uv2 = record->words[2];
+                                    uv3 = record->words[3];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 |= blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        packet->uv3 = uv3;
+                                        setlen(packet, 12);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet[1].rgb3 = colour;
+                                        packet[1].xy3 = packet->xy3;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+            next:
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT3 driver, for window records (texture-window word first). See
+ * shared/gt3.c for the cache formats and the second pass. */
 u32 *Model_DrawSharedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt3WindowRecordPacket *packet =
+        (SharedGt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3WindowRecord *record =
+        (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_SAVE_REGS2(args, 20, 0x38, 21, 0x3C);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        rec = (ModelDrawGt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
         mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-        gHw_WindowCode = 0xE2000000;
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[3] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[6] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[9] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_NCLIP_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word0 += normals;
-            HW_GTE_READ(24, z);
-            w1 += normals;
-            w2 += normals;
-            if (z <= 0)
-                goto next;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[2] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[8] = w2;
-            GTE_AVSZ3_B();
-            gHw_WindowWord = rec->words[0];
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
             }
-        skip:
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            u32 *c0, *c1, *c2;
+                            s32 opz;
+
+                            gte_ldsz3(z0, z1, z2);
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            c0 = &colors[record->prim.prim.norm0 * 2];
+                            gte_nclip_b();
+                            c1 = &colors[record->prim.prim.norm1 * 2];
+                            c2 = &colors[record->prim.prim.norm2 * 2];
+                            gte_stopz(&opz);
+                            if (opz > 0) {
+                                {
+                                    u32 window, uv0, uv1, uv2, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    gte_avsz3_b();
+                                    window = record->words[0];
+                                    uv0 = record->words[1];
+                                    uv1 = record->words[2];
+                                    uv2 = record->words[3];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 |= blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        packet->window = window;
+                                        packet->window_reset = 0xE2000000;
+                                        setlen(packet, 11);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_RESTORE_REGS2(args, 20, 0x38, 21, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT4 driver, for window records (texture-window word first). See
+ * shared/gt3.c for the cache formats and the second pass. */
 u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt4WindowRecordPacket *packet =
+        (SharedGt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4WindowRecord *record =
+        (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_SAVE_REGS2(args, 20, 0x38, 21, 0x3C);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        rec = (ModelDrawGt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
         mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-        gHw_WindowCode = 0xE2000000;
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            HW_KEEP_LABEL(cull_test);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[4];
-            HW_LWR(gHw_Word0, 14, rec);
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            gHw_Word3 = rec->words[7];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[3] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[6] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[9] = e;
-            e = gHw_Word3 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            pkt[12] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_NCLIP_B();
-            w1 <<= 16;
-            HW_GTE_READ(24, z);
-            w1 >>= 13;
-        cull_test:
-            if (z > 0)
-                goto visible;
-            gte_ldsxy0(e);
-            GTE_NCLIP();
-            HW_GTE_READ_WAIT(24, z);
-            if (z > 0)
-                goto next;
-        visible:
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word3 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word3 = *(volatile u32 *)gHw_Word3;
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[2] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[8] = w2;
-            pkt[11] = gHw_Word3;
-            GTE_AVSZ4_B();
-            gHw_WindowWord = rec->words[0];
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[13] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[14] = gHw_WindowCode;
-            tag = (tag << 8) | 14;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                gHw_Second = pkt[12];
-                pkt[26] = gHw_Color;
-                pkt[27] = gHw_Second;
-                pkt += 15;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
             }
-        skip:
-            pkt += 15;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            GsWORKUNIT *v3;
+                            u32 z3, xy3;
+
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            v3 = &cache[record->prim.prim.vert3];
+                            z3 = (u32)(u16)v3->otz |
+                                (u32)(u16)v3->p << 16;
+                            xy3 = (u32)(u16)v3->vec.vx |
+                                (u32)(u16)v3->vec.vy << 16;
+                            if (z3 != 0xFFFFFFFF) {
+                                u32 *c0, *c1, *c2, *c3;
+                                s32 opz;
+
+                                gte_ldsz4(z0, z1, z2, z3);
+                                packet->xy3 = v3->vec;
+                                c0 = &colors[record->prim.prim.norm0 * 2];
+                                gte_nclip_b();
+                                c1 = &colors[record->prim.prim.norm1 * 2];
+                                gte_stopz(&opz);
+                                if (opz <= 0) {
+                                    /* The other diagonal: vertices 3, 1, 2. */
+                                    gte_ldsxy0(xy3);
+                                    gte_nclip();
+                                    gte_stopz(&opz);
+                                    if (opz > 0) {
+                                        goto next;
+                                    }
+                                }
+                                c2 = &colors[record->prim.prim.norm2 * 2];
+                                c3 = &colors[record->prim.prim.norm3 * 2];
+                                {
+                                    u32 window, uv0, uv1, uv2, uv3, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+                                    u32 rgb3 = *c3;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    packet->rgb3 = rgb3;
+                                    gte_avsz4_b();
+                                    window = record->words[0];
+                                    uv0 = record->words[1];
+                                    uv1 = record->words[2];
+                                    uv2 = record->words[3];
+                                    uv3 = record->words[4];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 |= blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        packet->uv3 = uv3;
+                                        packet->window = window;
+                                        packet->window_reset = 0xE2000000;
+                                        setlen(packet, 14);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet[1].rgb3 = colour;
+                                        packet[1].xy3 = packet->xy3;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+            next:
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_RESTORE_REGS2(args, 20, 0x38, 21, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT3 driver, without the NCLIP back-face test. See shared/gt3.c for
+ * the cache formats and the second pass. */
 u32 *Model_DrawSharedTwoSidedGt3Primitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt3Packet *packet =
+        (SharedGt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3Record *record =
+        (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        HW_KEEP_LABEL(mode_test);
-        rec = (ModelDrawGt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
         mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-    mode_test:
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[2] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[5] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[8] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            GTE_AVSZ3_B();
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[1] = gHw_Word0;
-            pkt[4] = w1;
-            pkt[7] = w2;
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[11] = gHw_Color;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
             }
-        skip:
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            u32 *c0, *c1, *c2;
+
+                            gte_ldsz3(z0, z1, z2);
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            c0 = &colors[record->prim.norm0 * 2];
+                            c1 = &colors[record->prim.norm1 * 2];
+                            c2 = &colors[record->prim.norm2 * 2];
+                            gte_avsz3_b();
+                            {
+                                u32 uv0, uv1, uv2, semi, otz;
+                                GsOT_TAG *slot;
+                                u32 rgb0 = *c0;
+                                u32 rgb1 = *c1;
+                                u32 rgb2 = *c2;
+
+                                packet->rgb0 = rgb0 | code;
+                                packet->rgb1 = rgb1;
+                                packet->rgb2 = rgb2;
+                                uv0 = record->words[0];
+                                uv1 = record->words[1];
+                                uv2 = record->words[2];
+                                gte_stotz(&otz);
+                                semi = poly & 0x02000000;
+                                uv1 |= blend;
+                                slot = &ot[otz >> shift];
+                                for (;;) {
+                                    packet->uv0 = uv0;
+                                    packet->uv1 = uv1;
+                                    packet->uv2 = uv2;
+                                    setlen(packet, 9);
+                                    setaddr(packet, getaddr(slot));
+                                    setaddr(slot, packet);
+                                    if (semi == 0 || second_clut == 0) {
+                                        break;
+                                    }
+                                    /* Second pass: CLUT 2, blend 1, flat colour. */
+                                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                    packet[1].rgb0 = colour;
+                                    packet[1].xy0 = packet->xy0;
+                                    packet[1].rgb1 = colour;
+                                    packet[1].xy1 = packet->xy1;
+                                    packet[1].rgb2 = colour;
+                                    packet[1].xy2 = packet->xy2;
+                                    packet++;
+                                    semi = 0;
+                                }
+                                packet++;
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT4 driver, without the NCLIP back-face test. See shared/gt3.c for
+ * the cache formats and the second pass. */
 u32 *Model_DrawSharedTwoSidedGt4Primitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt4Packet *packet =
+        (SharedGt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4Record *record =
+        (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        HW_KEEP_LABEL(mode_test);
-        rec = (ModelDrawGt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
         mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-    mode_test:
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[3];
-            HW_LWR(gHw_Word0, 10, rec);
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            gHw_Word3 = rec->words[6];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[2] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[5] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[8] = e;
-            e = gHw_Word3 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            pkt[11] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word3 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word3 = *(volatile u32 *)gHw_Word3;
-            GTE_AVSZ4_B();
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[1] = gHw_Word0;
-            pkt[4] = w1;
-            pkt[7] = w2;
-            pkt[10] = gHw_Word3;
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            pkt[12] = gHw_Word3;
-            tag = (tag << 8) | 12;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[11];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                pkt += 13;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
             }
-        skip:
-            pkt += 13;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            GsWORKUNIT *v3;
+                            u32 z3, xy3;
+
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            v3 = &cache[record->prim.vert3];
+                            z3 = (u32)(u16)v3->otz |
+                                (u32)(u16)v3->p << 16;
+                            xy3 = (u32)(u16)v3->vec.vx |
+                                (u32)(u16)v3->vec.vy << 16;
+                            if (z3 != 0xFFFFFFFF) {
+                                u32 *c0, *c1, *c2, *c3;
+
+                                gte_ldsz4(z0, z1, z2, z3);
+                                packet->xy3 = v3->vec;
+                                c0 = &colors[record->prim.norm0 * 2];
+                                c1 = &colors[record->prim.norm1 * 2];
+                                c2 = &colors[record->prim.norm2 * 2];
+                                c3 = &colors[record->prim.norm3 * 2];
+                                gte_avsz4_b();
+                                {
+                                    u32 uv0, uv1, uv2, uv3, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+                                    u32 rgb3 = *c3;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    packet->rgb3 = rgb3;
+                                    uv0 = record->words[0];
+                                    uv1 = record->words[1];
+                                    uv2 = record->words[2];
+                                    uv3 = record->words[3];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 |= blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        packet->uv3 = uv3;
+                                        setlen(packet, 12);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet[1].rgb3 = colour;
+                                        packet[1].xy3 = packet->xy3;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT3 driver, for window records (texture-window word first),
+ * without the NCLIP back-face test. See shared/gt3.c for the cache formats
+ * and the second pass. */
 u32 *Model_DrawSharedTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt3WindowRecordPacket *packet =
+        (SharedGt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3WindowRecord *record =
+        (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_SAVE_REGS2(args, 20, 0x38, 21, 0x3C);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt3Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        rec = (ModelDrawGt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
         mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-        gHw_WindowCode = 0xE2000000;
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[3] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[6] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[9] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            GTE_AVSZ3_B();
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[2] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[8] = w2;
-            gHw_WindowWord = rec->words[0];
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
             }
-        skip:
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            u32 *c0, *c1, *c2;
+
+                            gte_ldsz3(z0, z1, z2);
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            c0 = &colors[record->prim.prim.norm0 * 2];
+                            c1 = &colors[record->prim.prim.norm1 * 2];
+                            c2 = &colors[record->prim.prim.norm2 * 2];
+                            gte_avsz3_b();
+                            {
+                                u32 window, uv0, uv1, uv2, semi, otz;
+                                GsOT_TAG *slot;
+                                u32 rgb0 = *c0;
+                                u32 rgb1 = *c1;
+                                u32 rgb2 = *c2;
+
+                                packet->rgb0 = rgb0 | code;
+                                packet->rgb1 = rgb1;
+                                packet->rgb2 = rgb2;
+                                window = record->words[0];
+                                uv0 = record->words[1];
+                                uv1 = record->words[2];
+                                uv2 = record->words[3];
+                                gte_stotz(&otz);
+                                semi = poly & 0x02000000;
+                                uv1 |= blend;
+                                slot = &ot[otz >> shift];
+                                for (;;) {
+                                    packet->uv0 = uv0;
+                                    packet->uv1 = uv1;
+                                    packet->uv2 = uv2;
+                                    packet->window = window;
+                                    packet->window_reset = 0xE2000000;
+                                    setlen(packet, 11);
+                                    setaddr(packet, getaddr(slot));
+                                    setaddr(slot, packet);
+                                    if (semi == 0 || second_clut == 0) {
+                                        break;
+                                    }
+                                    /* Second pass: CLUT 2, blend 1, flat colour. */
+                                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                    packet[1].rgb0 = colour;
+                                    packet[1].xy0 = packet->xy0;
+                                    packet[1].rgb1 = colour;
+                                    packet[1].xy1 = packet->xy1;
+                                    packet[1].rgb2 = colour;
+                                    packet[1].xy2 = packet->xy2;
+                                    packet++;
+                                    semi = 0;
+                                }
+                                packet++;
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_RESTORE_REGS2(args, 20, 0x38, 21, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT4 driver, for window records (texture-window word first),
+ * without the NCLIP back-face test. See shared/gt3.c for the cache formats
+ * and the second pass. */
 u32 *Model_DrawSharedTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt4WindowRecordPacket *packet =
+        (SharedGt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4WindowRecord *record =
+        (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_SAVE_REGS2(args, 20, 0x38, 21, 0x3C);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt4Template;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        rec = (ModelDrawGt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
         mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-        gHw_WindowCode = 0xE2000000;
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[4];
-            HW_LWR(gHw_Word0, 14, rec);
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            gHw_Word3 = rec->words[7];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[3] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[6] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[9] = e;
-            e = gHw_Word3 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            pkt[12] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word3 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word3 = *(volatile u32 *)gHw_Word3;
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[2] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[8] = w2;
-            pkt[11] = gHw_Word3;
-            GTE_AVSZ4_B();
-            gHw_WindowWord = rec->words[0];
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[13] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[14] = gHw_WindowCode;
-            tag = (tag << 8) | 14;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                gHw_Second = pkt[12];
-                pkt[26] = gHw_Color;
-                pkt[27] = gHw_Second;
-                pkt += 15;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
             }
-        skip:
-            pkt += 15;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            GsWORKUNIT *v3;
+                            u32 z3, xy3;
+
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            v3 = &cache[record->prim.prim.vert3];
+                            z3 = (u32)(u16)v3->otz |
+                                (u32)(u16)v3->p << 16;
+                            xy3 = (u32)(u16)v3->vec.vx |
+                                (u32)(u16)v3->vec.vy << 16;
+                            if (z3 != 0xFFFFFFFF) {
+                                u32 *c0, *c1, *c2, *c3;
+
+                                gte_ldsz4(z0, z1, z2, z3);
+                                packet->xy3 = v3->vec;
+                                c0 = &colors[record->prim.prim.norm0 * 2];
+                                c1 = &colors[record->prim.prim.norm1 * 2];
+                                c2 = &colors[record->prim.prim.norm2 * 2];
+                                c3 = &colors[record->prim.prim.norm3 * 2];
+                                gte_avsz4_b();
+                                {
+                                    u32 window, uv0, uv1, uv2, uv3, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+                                    u32 rgb3 = *c3;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    packet->rgb3 = rgb3;
+                                    window = record->words[0];
+                                    uv0 = record->words[1];
+                                    uv1 = record->words[2];
+                                    uv2 = record->words[3];
+                                    uv3 = record->words[4];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 |= blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        packet->uv3 = uv3;
+                                        packet->window = window;
+                                        packet->window_reset = 0xE2000000;
+                                        setlen(packet, 14);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet[1].rgb3 = colour;
+                                        packet[1].xy3 = packet->xy3;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_RESTORE_REGS2(args, 20, 0x38, 21, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT3 driver, forcing the semi-transparent code bit. See
+ * shared/gt3.c for the cache formats and the second pass. */
 u32 *Model_DrawSharedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt3Packet *packet =
+        (SharedGt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3Record *record =
+        (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt3Template | 0x02000000;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        HW_KEEP_LABEL(mode_test);
-        rec = (ModelDrawGt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt3Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyGt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-    mode_test:
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[2] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[5] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[8] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_NCLIP_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word0 += normals;
-            HW_GTE_READ(24, z);
-            w1 += normals;
-            w2 += normals;
-            if (z <= 0)
-                goto next;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[1] = gHw_Word0;
-            pkt[4] = w1;
-            pkt[7] = w2;
-            GTE_AVSZ3_B();
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[11] = gHw_Color;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        /* A second pass needs blending off, a record without a blend
+         * mode of its own, and a second-pass CLUT: then it uses the record's
+         * CLUT, the semi template colour and blend mode 1 (0x00200000). */
+        if ((s8)gModel_bBlendRateActive == 0 &&
+            (blend = record->words[1] & 0x00600000) == 0) {
+            if (second_clut != 0) {
+                second_clut = (u32)record->prim.cba << 16;
+                colour = gModel_dwPolyGt3SemiTemplate;
+                blend = 0x00200000;
             }
-        skip:
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+        } else {
+            second_clut = 0;
+        }
+        mode = (s8)gModel_bCurrentDrawMode;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
+            }
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            u32 *c0, *c1, *c2;
+                            s32 opz;
+
+                            gte_ldsz3(z0, z1, z2);
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            c0 = &colors[record->prim.norm0 * 2];
+                            gte_nclip_b();
+                            c1 = &colors[record->prim.norm1 * 2];
+                            c2 = &colors[record->prim.norm2 * 2];
+                            gte_stopz(&opz);
+                            if (opz > 0) {
+                                {
+                                    u32 uv0, uv1, uv2, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    gte_avsz3_b();
+                                    uv0 = record->words[0];
+                                    uv1 = record->words[1];
+                                    uv2 = record->words[2];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 = (uv1 & 0xFF9FFFFF) | blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        setlen(packet, 9);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT4 driver, forcing the semi-transparent code bit. See
+ * shared/gt3.c for the cache formats and the second pass. */
 u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt4Packet *packet =
+        (SharedGt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4Record *record =
+        (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt4Template | 0x02000000;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        HW_KEEP_LABEL(mode_test);
-        rec = (ModelDrawGt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt4Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyGt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-    mode_test:
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            HW_KEEP_LABEL(cull_test);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[3];
-            HW_LWR(gHw_Word0, 10, rec);
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            gHw_Word3 = rec->words[6];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[2] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[5] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[8] = e;
-            e = gHw_Word3 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            pkt[11] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_NCLIP_B();
-            w1 <<= 16;
-            HW_GTE_READ(24, z);
-            w1 >>= 13;
-        cull_test:
-            if (z > 0)
-                goto visible;
-            gte_ldsxy0(e);
-            GTE_NCLIP();
-            HW_GTE_READ_WAIT(24, z);
-            if (z > 0)
-                goto next;
-        visible:
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word3 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word3 = *(volatile u32 *)gHw_Word3;
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[1] = gHw_Word0;
-            pkt[4] = w1;
-            pkt[7] = w2;
-            pkt[10] = gHw_Word3;
-            GTE_AVSZ4_B();
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            pkt[12] = gHw_Word3;
-            tag = (tag << 8) | 12;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[11];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                pkt += 13;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        /* A second pass needs blending off, a record without a blend
+         * mode of its own, and a second-pass CLUT: then it uses the record's
+         * CLUT, the semi template colour and blend mode 1 (0x00200000). */
+        if ((s8)gModel_bBlendRateActive == 0 &&
+            (blend = record->words[1] & 0x00600000) == 0) {
+            if (second_clut != 0) {
+                second_clut = (u32)record->prim.cba << 16;
+                colour = gModel_dwPolyGt4SemiTemplate;
+                blend = 0x00200000;
             }
-        skip:
-            pkt += 13;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+        } else {
+            second_clut = 0;
+        }
+        mode = (s8)gModel_bCurrentDrawMode;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
+            }
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            GsWORKUNIT *v3;
+                            u32 z3, xy3;
+
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            v3 = &cache[record->prim.vert3];
+                            z3 = (u32)(u16)v3->otz |
+                                (u32)(u16)v3->p << 16;
+                            xy3 = (u32)(u16)v3->vec.vx |
+                                (u32)(u16)v3->vec.vy << 16;
+                            if (z3 != 0xFFFFFFFF) {
+                                u32 *c0, *c1, *c2, *c3;
+                                s32 opz;
+
+                                gte_ldsz4(z0, z1, z2, z3);
+                                packet->xy3 = v3->vec;
+                                c0 = &colors[record->prim.norm0 * 2];
+                                gte_nclip_b();
+                                c1 = &colors[record->prim.norm1 * 2];
+                                gte_stopz(&opz);
+                                if (opz <= 0) {
+                                    /* The other diagonal: vertices 3, 1, 2. */
+                                    gte_ldsxy0(xy3);
+                                    gte_nclip();
+                                    gte_stopz(&opz);
+                                    if (opz > 0) {
+                                        goto next;
+                                    }
+                                }
+                                c2 = &colors[record->prim.norm2 * 2];
+                                c3 = &colors[record->prim.norm3 * 2];
+                                {
+                                    u32 uv0, uv1, uv2, uv3, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+                                    u32 rgb3 = *c3;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    packet->rgb3 = rgb3;
+                                    gte_avsz4_b();
+                                    uv0 = record->words[0];
+                                    uv1 = record->words[1];
+                                    uv2 = record->words[2];
+                                    uv3 = record->words[3];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 = (uv1 & 0xFF9FFFFF) | blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        packet->uv3 = uv3;
+                                        setlen(packet, 12);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet[1].rgb3 = colour;
+                                        packet[1].xy3 = packet->xy3;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+            next:
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT3 driver, for window records (texture-window word first),
+ * forcing the semi-transparent code bit. See shared/gt3.c for the cache
+ * formats and the second pass. */
 u32 *Model_DrawSharedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt3WindowRecordPacket *packet =
+        (SharedGt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3WindowRecord *record =
+        (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_SAVE_REGS2(args, 20, 0x38, 21, 0x3C);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt3Template | 0x02000000;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        rec = (ModelDrawGt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt3WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyGt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-        gHw_WindowCode = 0xE2000000;
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[3] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[6] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[9] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_NCLIP_B();
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word0 += normals;
-            HW_GTE_READ(24, z);
-            w1 += normals;
-            w2 += normals;
-            if (z <= 0)
-                goto next;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[2] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[8] = w2;
-            GTE_AVSZ3_B();
-            gHw_WindowWord = rec->words[0];
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        /* A second pass needs blending off, a record without a blend
+         * mode of its own, and a second-pass CLUT: then it uses the record's
+         * CLUT, the semi template colour and blend mode 1 (0x00200000). */
+        if ((s8)gModel_bBlendRateActive == 0 &&
+            (blend = record->words[2] & 0x00600000) == 0) {
+            if (second_clut != 0) {
+                second_clut = (u32)record->prim.prim.cba << 16;
+                colour = gModel_dwPolyGt3SemiTemplate;
+                blend = 0x00200000;
             }
-        skip:
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+        } else {
+            second_clut = 0;
+        }
+        mode = (s8)gModel_bCurrentDrawMode;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
+            }
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            u32 *c0, *c1, *c2;
+                            s32 opz;
+
+                            gte_ldsz3(z0, z1, z2);
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            c0 = &colors[record->prim.prim.norm0 * 2];
+                            gte_nclip_b();
+                            c1 = &colors[record->prim.prim.norm1 * 2];
+                            c2 = &colors[record->prim.prim.norm2 * 2];
+                            gte_stopz(&opz);
+                            if (opz > 0) {
+                                {
+                                    u32 window, uv0, uv1, uv2, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    gte_avsz3_b();
+                                    window = record->words[0];
+                                    uv0 = record->words[1];
+                                    uv1 = record->words[2];
+                                    uv2 = record->words[3];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 = (uv1 & 0xFF9FFFFF) | blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        packet->window = window;
+                                        packet->window_reset = 0xE2000000;
+                                        setlen(packet, 11);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_RESTORE_REGS2(args, 20, 0x38, 21, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT4 driver, for window records (texture-window word first),
+ * forcing the semi-transparent code bit. See shared/gt3.c for the cache
+ * formats and the second pass. */
 u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt4WindowRecordPacket *packet =
+        (SharedGt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4WindowRecord *record =
+        (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_SAVE_REGS2(args, 20, 0x38, 21, 0x3C);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt4Template | 0x02000000;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        rec = (ModelDrawGt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt4WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyGt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-        gHw_WindowCode = 0xE2000000;
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            HW_KEEP_LABEL(cull_test);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[4];
-            HW_LWR(gHw_Word0, 14, rec);
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            gHw_Word3 = rec->words[7];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[3] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[6] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[9] = e;
-            e = gHw_Word3 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            pkt[12] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            GTE_NCLIP_B();
-            w1 <<= 16;
-            HW_GTE_READ(24, z);
-            w1 >>= 13;
-        cull_test:
-            if (z > 0)
-                goto visible;
-            gte_ldsxy0(e);
-            GTE_NCLIP();
-            HW_GTE_READ_WAIT(24, z);
-            if (z > 0)
-                goto next;
-        visible:
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word3 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word3 = *(volatile u32 *)gHw_Word3;
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[2] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[8] = w2;
-            pkt[11] = gHw_Word3;
-            GTE_AVSZ4_B();
-            gHw_WindowWord = rec->words[0];
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[13] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[14] = gHw_WindowCode;
-            tag = (tag << 8) | 14;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                gHw_Second = pkt[12];
-                pkt[26] = gHw_Color;
-                pkt[27] = gHw_Second;
-                pkt += 15;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        /* A second pass needs blending off, a record without a blend
+         * mode of its own, and a second-pass CLUT: then it uses the record's
+         * CLUT, the semi template colour and blend mode 1 (0x00200000). */
+        if ((s8)gModel_bBlendRateActive == 0 &&
+            (blend = record->words[2] & 0x00600000) == 0) {
+            if (second_clut != 0) {
+                second_clut = (u32)record->prim.prim.cba << 16;
+                colour = gModel_dwPolyGt4SemiTemplate;
+                blend = 0x00200000;
             }
-        skip:
-            pkt += 15;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+        } else {
+            second_clut = 0;
+        }
+        mode = (s8)gModel_bCurrentDrawMode;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
+            }
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            GsWORKUNIT *v3;
+                            u32 z3, xy3;
+
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            v3 = &cache[record->prim.prim.vert3];
+                            z3 = (u32)(u16)v3->otz |
+                                (u32)(u16)v3->p << 16;
+                            xy3 = (u32)(u16)v3->vec.vx |
+                                (u32)(u16)v3->vec.vy << 16;
+                            if (z3 != 0xFFFFFFFF) {
+                                u32 *c0, *c1, *c2, *c3;
+                                s32 opz;
+
+                                gte_ldsz4(z0, z1, z2, z3);
+                                packet->xy3 = v3->vec;
+                                c0 = &colors[record->prim.prim.norm0 * 2];
+                                gte_nclip_b();
+                                c1 = &colors[record->prim.prim.norm1 * 2];
+                                gte_stopz(&opz);
+                                if (opz <= 0) {
+                                    /* The other diagonal: vertices 3, 1, 2. */
+                                    gte_ldsxy0(xy3);
+                                    gte_nclip();
+                                    gte_stopz(&opz);
+                                    if (opz > 0) {
+                                        goto next;
+                                    }
+                                }
+                                c2 = &colors[record->prim.prim.norm2 * 2];
+                                c3 = &colors[record->prim.prim.norm3 * 2];
+                                {
+                                    u32 window, uv0, uv1, uv2, uv3, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+                                    u32 rgb3 = *c3;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    packet->rgb3 = rgb3;
+                                    gte_avsz4_b();
+                                    window = record->words[0];
+                                    uv0 = record->words[1];
+                                    uv1 = record->words[2];
+                                    uv2 = record->words[3];
+                                    uv3 = record->words[4];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 = (uv1 & 0xFF9FFFFF) | blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        packet->uv3 = uv3;
+                                        packet->window = window;
+                                        packet->window_reset = 0xE2000000;
+                                        setlen(packet, 14);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet[1].rgb3 = colour;
+                                        packet[1].xy3 = packet->xy3;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+            next:
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_RESTORE_REGS2(args, 20, 0x38, 21, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT3 driver, without the NCLIP back-face test, forcing the semi-
+ * transparent code bit. See shared/gt3.c for the cache formats and the
+ * second pass. */
 u32 *Model_DrawSharedTwoSidedSemiGt3Primitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt3Packet *packet =
+        (SharedGt3Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3Record *record =
+        (ModelDrawGt3Record *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt3Template | 0x02000000;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        HW_KEEP_LABEL(mode_test);
-        rec = (ModelDrawGt3Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt3Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyGt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-    mode_test:
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[3];
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[2] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[5] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[8] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            GTE_AVSZ3_B();
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[1] = gHw_Word0;
-            pkt[4] = w1;
-            pkt[7] = w2;
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            tag = (tag << 8) | 9;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[11] = gHw_Color;
-                pkt[12] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                pkt += 10;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        /* A second pass needs blending off, a record without a blend
+         * mode of its own, and a second-pass CLUT: then it uses the record's
+         * CLUT, the semi template colour and blend mode 1 (0x00200000). */
+        if ((s8)gModel_bBlendRateActive == 0 &&
+            (blend = record->words[1] & 0x00600000) == 0) {
+            if (second_clut != 0) {
+                second_clut = (u32)record->prim.cba << 16;
+                colour = gModel_dwPolyGt3SemiTemplate;
+                blend = 0x00200000;
             }
-        skip:
-            pkt += 10;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+        } else {
+            second_clut = 0;
+        }
+        mode = (s8)gModel_bCurrentDrawMode;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
+            }
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            u32 *c0, *c1, *c2;
+
+                            gte_ldsz3(z0, z1, z2);
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            c0 = &colors[record->prim.norm0 * 2];
+                            c1 = &colors[record->prim.norm1 * 2];
+                            c2 = &colors[record->prim.norm2 * 2];
+                            gte_avsz3_b();
+                            {
+                                u32 uv0, uv1, uv2, semi, otz;
+                                GsOT_TAG *slot;
+                                u32 rgb0 = *c0;
+                                u32 rgb1 = *c1;
+                                u32 rgb2 = *c2;
+
+                                packet->rgb0 = rgb0 | code;
+                                packet->rgb1 = rgb1;
+                                packet->rgb2 = rgb2;
+                                uv0 = record->words[0];
+                                uv1 = record->words[1];
+                                uv2 = record->words[2];
+                                gte_stotz(&otz);
+                                semi = poly & 0x02000000;
+                                uv1 = (uv1 & 0xFF9FFFFF) | blend;
+                                slot = &ot[otz >> shift];
+                                for (;;) {
+                                    packet->uv0 = uv0;
+                                    packet->uv1 = uv1;
+                                    packet->uv2 = uv2;
+                                    setlen(packet, 9);
+                                    setaddr(packet, getaddr(slot));
+                                    setaddr(slot, packet);
+                                    if (semi == 0 || second_clut == 0) {
+                                        break;
+                                    }
+                                    /* Second pass: CLUT 2, blend 1, flat colour. */
+                                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                    packet[1].rgb0 = colour;
+                                    packet[1].xy0 = packet->xy0;
+                                    packet[1].rgb1 = colour;
+                                    packet[1].xy1 = packet->xy1;
+                                    packet[1].rgb2 = colour;
+                                    packet[1].xy2 = packet->xy2;
+                                    packet++;
+                                    semi = 0;
+                                }
+                                packet++;
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT4 driver, without the NCLIP back-face test, forcing the semi-
+ * transparent code bit. See shared/gt3.c for the cache formats and the
+ * second pass. */
 u32 *Model_DrawSharedTwoSidedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4Record *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt4Packet *packet =
+        (SharedGt4Packet *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4Record *record =
+        (ModelDrawGt4Record *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt4Template | 0x02000000;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        HW_KEEP_LABEL(mode_test);
-        rec = (ModelDrawGt4Record *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[1];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt4Record *)rec)->prim.cba;
-            gHw_Color = gModel_dwPolyGt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-    mode_test:
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[3];
-            HW_LWR(gHw_Word0, 10, rec);
-            w1 = rec->words[4];
-            w2 = rec->words[5];
-            gHw_Word3 = rec->words[6];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[2] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[5] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[8] = e;
-            e = gHw_Word3 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            pkt[11] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word3 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word3 = *(volatile u32 *)gHw_Word3;
-            GTE_AVSZ4_B();
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[1] = gHw_Word0;
-            pkt[4] = w1;
-            pkt[7] = w2;
-            pkt[10] = gHw_Word3;
-            gHw_Word0 = rec->words[0];
-            w1 = rec->words[1];
-            w2 = rec->words[2];
-            gHw_Word3 = rec->words[3];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[3] = gHw_Word0;
-            pkt[6] = w1;
-            pkt[9] = w2;
-            pkt[12] = gHw_Word3;
-            tag = (tag << 8) | 12;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[2];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[5];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[8];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[11];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                pkt += 13;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        /* A second pass needs blending off, a record without a blend
+         * mode of its own, and a second-pass CLUT: then it uses the record's
+         * CLUT, the semi template colour and blend mode 1 (0x00200000). */
+        if ((s8)gModel_bBlendRateActive == 0 &&
+            (blend = record->words[1] & 0x00600000) == 0) {
+            if (second_clut != 0) {
+                second_clut = (u32)record->prim.cba << 16;
+                colour = gModel_dwPolyGt4SemiTemplate;
+                blend = 0x00200000;
             }
-        skip:
-            pkt += 13;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+        } else {
+            second_clut = 0;
+        }
+        mode = (s8)gModel_bCurrentDrawMode;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
+            }
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            GsWORKUNIT *v3;
+                            u32 z3, xy3;
+
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            v3 = &cache[record->prim.vert3];
+                            z3 = (u32)(u16)v3->otz |
+                                (u32)(u16)v3->p << 16;
+                            xy3 = (u32)(u16)v3->vec.vx |
+                                (u32)(u16)v3->vec.vy << 16;
+                            if (z3 != 0xFFFFFFFF) {
+                                u32 *c0, *c1, *c2, *c3;
+
+                                gte_ldsz4(z0, z1, z2, z3);
+                                packet->xy3 = v3->vec;
+                                c0 = &colors[record->prim.norm0 * 2];
+                                c1 = &colors[record->prim.norm1 * 2];
+                                c2 = &colors[record->prim.norm2 * 2];
+                                c3 = &colors[record->prim.norm3 * 2];
+                                gte_avsz4_b();
+                                {
+                                    u32 uv0, uv1, uv2, uv3, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+                                    u32 rgb3 = *c3;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    packet->rgb3 = rgb3;
+                                    uv0 = record->words[0];
+                                    uv1 = record->words[1];
+                                    uv2 = record->words[2];
+                                    uv3 = record->words[3];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 = (uv1 & 0xFF9FFFFF) | blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        packet->uv3 = uv3;
+                                        setlen(packet, 12);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet[1].rgb3 = colour;
+                                        packet[1].xy3 = packet->xy3;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT3 driver, for window records (texture-window word first),
+ * without the NCLIP back-face test, forcing the semi-transparent code bit.
+ * See shared/gt3.c for the cache formats and the second pass. */
 u32 *Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt3WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt3WindowRecordPacket *packet =
+        (SharedGt3WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt3WindowRecord *record =
+        (ModelDrawGt3WindowRecord *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_SAVE_REGS2(args, 20, 0x38, 21, 0x3C);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt3Template | 0x02000000;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        rec = (ModelDrawGt3WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt3Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt3WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyGt3SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-        gHw_WindowCode = 0xE2000000;
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[4];
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[3] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[6] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[9] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            GTE_AVSZ3_B();
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[2] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[8] = w2;
-            gHw_WindowWord = rec->words[0];
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[1] = gHw_WindowWord;
-            pkt[11] = gHw_WindowCode;
-            tag = (tag << 8) | 11;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[14] = gHw_Color;
-                pkt[15] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                pkt += 12;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        /* A second pass needs blending off, a record without a blend
+         * mode of its own, and a second-pass CLUT: then it uses the record's
+         * CLUT, the semi template colour and blend mode 1 (0x00200000). */
+        if ((s8)gModel_bBlendRateActive == 0 &&
+            (blend = record->words[2] & 0x00600000) == 0) {
+            if (second_clut != 0) {
+                second_clut = (u32)record->prim.prim.cba << 16;
+                colour = gModel_dwPolyGt3SemiTemplate;
+                blend = 0x00200000;
             }
-        skip:
-            pkt += 12;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+        } else {
+            second_clut = 0;
+        }
+        mode = (s8)gModel_bCurrentDrawMode;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
+            }
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            u32 *c0, *c1, *c2;
+
+                            gte_ldsz3(z0, z1, z2);
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            c0 = &colors[record->prim.prim.norm0 * 2];
+                            c1 = &colors[record->prim.prim.norm1 * 2];
+                            c2 = &colors[record->prim.prim.norm2 * 2];
+                            gte_avsz3_b();
+                            {
+                                u32 window, uv0, uv1, uv2, semi, otz;
+                                GsOT_TAG *slot;
+                                u32 rgb0 = *c0;
+                                u32 rgb1 = *c1;
+                                u32 rgb2 = *c2;
+
+                                packet->rgb0 = rgb0 | code;
+                                packet->rgb1 = rgb1;
+                                packet->rgb2 = rgb2;
+                                window = record->words[0];
+                                uv0 = record->words[1];
+                                uv1 = record->words[2];
+                                uv2 = record->words[3];
+                                gte_stotz(&otz);
+                                semi = poly & 0x02000000;
+                                uv1 = (uv1 & 0xFF9FFFFF) | blend;
+                                slot = &ot[otz >> shift];
+                                for (;;) {
+                                    packet->uv0 = uv0;
+                                    packet->uv1 = uv1;
+                                    packet->uv2 = uv2;
+                                    packet->window = window;
+                                    packet->window_reset = 0xE2000000;
+                                    setlen(packet, 11);
+                                    setaddr(packet, getaddr(slot));
+                                    setaddr(slot, packet);
+                                    if (semi == 0 || second_clut == 0) {
+                                        break;
+                                    }
+                                    /* Second pass: CLUT 2, blend 1, flat colour. */
+                                    uv0 = (uv0 & 0xFFFF) | second_clut;
+                                    uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                    packet[1].rgb0 = colour;
+                                    packet[1].xy0 = packet->xy0;
+                                    packet[1].rgb1 = colour;
+                                    packet[1].xy1 = packet->xy1;
+                                    packet[1].rgb2 = colour;
+                                    packet[1].xy2 = packet->xy2;
+                                    packet++;
+                                    semi = 0;
+                                }
+                                packet++;
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_RESTORE_REGS2(args, 20, 0x38, 21, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
 
+/* Shared GT4 driver, for window records (texture-window word first),
+ * without the NCLIP back-face test, forcing the semi-transparent code bit.
+ * See shared/gt3.c for the cache formats and the second pass. */
 u32 *Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
 {
-    register GsARGUNIT_SHARED *args asm("$4");
-    register volatile ModelPrimitiveBlockHeader *blk asm("$7");
-    register volatile ModelDrawGt4WindowRecord *rec asm("$7");
-    register u32 *pkt asm("$25");
-    register u32 count asm("$24");
-    register u32 off asm("$6");
-    register u8 *base asm("$5");
-    register s32 mode asm("$13");
-    u32 zero;
+    ModelPrimitiveBlockHeader *block = (ModelPrimitiveBlockHeader *)arg->primp;
+    SharedGt4WindowRecordPacket *packet =
+        (SharedGt4WindowRecordPacket *)arg->out_packetp;
+    u32 count = block->record_count;
+    ModelDrawGt4WindowRecord *record =
+        (ModelDrawGt4WindowRecord *)(arg->primtop + block->word_offset);
 
-    args = arg;
-    blk = (ModelPrimitiveBlockHeader *)args->primp;
-    pkt = (u32 *)args->out_packetp;
-    count = blk->record_count;
-    off = blk->word_offset;
-    zero = 0;
-    base = *(u8 *volatile *)&args->primtop;
-    off <<= 2;
-    HW_SAVE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_SAVE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_SAVE_REGS2(args, 20, 0x38, 21, 0x3C);
     if (count != 0) {
-        register u32 cache asm("$5");
-        register u32 normals asm("$6");
-        register GsOT *otp asm("$13");
-        register u32 shift asm("$14");
-        register u32 ot asm("$15");
+        u32 poly = gModel_dwPolyGt4Template | 0x02000000;
+        u32 blend = gModel_dwTpageBlendRateBits;
+        u32 second_clut = gModel_dwSecondPassClutBits;
+        u32 colour = poly;
+        s8 mode;
+        u32 code;
 
-        rec = (ModelDrawGt4WindowRecord *)(base + off);
-        gHw_PolyTemplate = gModel_dwPolyGt4Template;
-        gHw_BlendBits = gModel_dwTpageBlendRateBits;
-        gHw_SecondClut = gModel_dwSecondPassClutBits;
-        gHw_Color = gHw_PolyTemplate;
-        {
-            register s32 active asm("$2");
-            HW_KEEP_LABEL(slot_nop);
-            active = (s8)gModel_bBlendRateActive;
-            gHw_At = 0x02000000;
-            gHw_PolyTemplate |= gHw_At;
-            gHw_Color = gHw_PolyTemplate;
-            if (active != 0)
-                goto no_second;
-            gHw_BlendBits = rec->words[2];
-            gHw_At = 0x00600000;
-            gHw_BlendBits &= gHw_At;
-            if (gHw_BlendBits != 0)
-                goto no_second;
-        slot_nop:
-            gHw_Zero <<= zero;
-            if (gHw_SecondClut == 0)
-                goto setup;
-            /* Plain halfword load: through volatile it goes via $2 plus a move. */
-            gHw_SecondClut = ((ModelDrawGt4WindowRecord *)rec)->prim.prim.cba;
-            gHw_Color = gModel_dwPolyGt4SemiTemplate;
-            gHw_SecondClut <<= 16;
-            gHw_BlendBits = 0x00200000;
-            goto setup;
-        no_second:
-            gHw_SecondClut = gHw_Zero - zero;
-        }
-    setup:
-        mode = (s8)gModel_bCurrentDrawMode;
-        gHw_PolyCode = gHw_PolyTemplate >> 24;
-        gHw_PolyCode <<= 24;
-        gHw_At = 1;
-        gHw_WindowCode = 0xE2000000;
-        if (mode != gHw_At) {        mode = gModel_dwLitColorCacheBase;
-        cache = (u32)args->vertop2;
-        normals = (u32)*(SVECTOR *volatile *)&args->nortop2;
-        if (mode != 0)
-            normals += 4;
-        otp = args->tagp;
-        shift = args->shift;
-        ot = (u32)otp->org;
-        do {
-            register u32 w1 asm("$9");
-            register u32 w2 asm("$10");
-            register u32 e asm("$13");
-            register s32 z asm("$2");
-            register u32 *slot asm("$2");
-            register u32 otz asm("$2");
-            register u32 tag asm("$13");
-            volatile u32 *entry;
-            HW_KEEP_LABEL(next);
-            gHw_Second = 0xFFFFFFFF;
-            gHw_Word0 = rec->words[4];
-            HW_LWR(gHw_Word0, 14, rec);
-            w1 = rec->words[5];
-            w2 = rec->words[6];
-            gHw_Word3 = rec->words[7];
-            e = gHw_Word0 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(16, z, gHw_Second, next);
-            gte_ldsxy0(e);
-            pkt[3] = e;
-            e = w1 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(17, z, gHw_Second, next);
-            gte_ldsxy1(e);
-            pkt[6] = e;
-            e = w2 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(18, z, gHw_Second, next);
-            gte_ldsxy2(e);
-            pkt[9] = e;
-            e = gHw_Word3 >> 16;
-            e <<= 3;
-            entry = (volatile u32 *)(e + cache);
-            z = entry[1];
-            e = entry[0];
-            HW_GTE_WRITE_BEQ(19, z, gHw_Second, next);
-            pkt[12] = e;
-            gHw_Word0 <<= 16;
-            gHw_Word0 >>= 13;
-            w1 <<= 16;
-            w1 >>= 13;
-            w2 <<= 16;
-            w2 >>= 13;
-            gHw_Word3 <<= 16;
-            gHw_Word3 >>= 13;
-            gHw_Word0 += normals;
-            w1 += normals;
-            w2 += normals;
-            gHw_Word3 += normals;
-            gHw_Word0 = *(volatile u32 *)gHw_Word0;
-            w1 = *(volatile u32 *)w1;
-            w2 = *(volatile u32 *)w2;
-            gHw_Word3 = *(volatile u32 *)gHw_Word3;
-            gHw_Word0 |= gHw_PolyCode;
-            pkt[2] = gHw_Word0;
-            pkt[5] = w1;
-            pkt[8] = w2;
-            pkt[11] = gHw_Word3;
-            GTE_AVSZ4_B();
-            gHw_WindowWord = rec->words[0];
-            gHw_Word0 = rec->words[1];
-            w1 = rec->words[2];
-            w2 = rec->words[3];
-            gHw_Word3 = rec->words[4];
-            HW_GTE_READ(7, otz);
-            gHw_At = 0x02000000;
-            gHw_Second = gHw_PolyTemplate & gHw_At;
-            gHw_At = 0xFF9FFFFF;
-            w1 &= gHw_At;
-            w1 |= gHw_BlendBits;
-            otz >>= shift;
-            otz <<= 2;
-            otz += ot;
-            slot = (u32 *)otz;
-            tag = *slot;
-        emit:
-            pkt[4] = gHw_Word0;
-            pkt[7] = w1;
-            pkt[10] = w2;
-            pkt[13] = gHw_Word3;
-            pkt[1] = gHw_WindowWord;
-            pkt[14] = gHw_WindowCode;
-            tag = (tag << 8) | 14;
-            gHw_At = tag >> 8;
-            tag = (tag << 24) | gHw_At;
-            pkt[0] = tag;
-            tag = ((u32)pkt << 8) >> 8;
-            *slot = tag;
-            if (gHw_Second != 0) {
-                gHw_Word0 <<= 16;
-                if (gHw_SecondClut == 0)
-                    goto skip;
-                gHw_Word0 >>= 16;
-                gHw_Word0 |= gHw_SecondClut;
-                gHw_At = 0xFF9FFFFF;
-                w1 &= gHw_At;
-                gHw_At = 0x00400000;
-                w1 |= gHw_At;
-                gHw_Second = pkt[3];
-                pkt[17] = gHw_Color;
-                pkt[18] = gHw_Second;
-                gHw_Second = pkt[6];
-                pkt[20] = gHw_Color;
-                pkt[21] = gHw_Second;
-                gHw_Second = pkt[9];
-                pkt[23] = gHw_Color;
-                pkt[24] = gHw_Second;
-                gHw_Second = pkt[12];
-                pkt[26] = gHw_Color;
-                pkt[27] = gHw_Second;
-                pkt += 15;
-                gHw_Second = gHw_Zero - zero;
-                goto emit;
+        /* A second pass needs blending off, a record without a blend
+         * mode of its own, and a second-pass CLUT: then it uses the record's
+         * CLUT, the semi template colour and blend mode 1 (0x00200000). */
+        if ((s8)gModel_bBlendRateActive == 0 &&
+            (blend = record->words[2] & 0x00600000) == 0) {
+            if (second_clut != 0) {
+                second_clut = (u32)record->prim.prim.cba << 16;
+                colour = gModel_dwPolyGt4SemiTemplate;
+                blend = 0x00200000;
             }
-        skip:
-            pkt += 15;
-        next:
-            count--;
-            rec++;
-        } while (count != 0);
+        } else {
+            second_clut = 0;
+        }
+        mode = (s8)gModel_bCurrentDrawMode;
+        code = poly >> 24 << 24;
+        if (mode != 1) {
+            u32 lit = gModel_dwLitColorCacheBase;
+            GsWORKUNIT *cache = arg->vertop2;
+            /* The colour cache shares the SVECTOR-typed nortop2 field. */
+            u32 *colors = (u32 *)arg->nortop2;
+            GsOT_TAG *ot;
+            u32 shift;
+
+            if (lit != 0) {
+                colors++;
+            }
+            ot = arg->tagp->org;
+            shift = arg->shift;
+            do {
+                /* SXY words are x | y << 16, the GTE register format; the
+                 * depth word (otz | p << 16) feeds the 16-bit SZ register. */
+                GsWORKUNIT *v0 = &cache[record->prim.prim.vert0];
+                u32 z0 = (u32)(u16)v0->otz | (u32)(u16)v0->p << 16;
+                u32 xy0 =
+                    (u32)(u16)v0->vec.vx | (u32)(u16)v0->vec.vy << 16;
+
+                if (z0 != 0xFFFFFFFF) {
+                    GsWORKUNIT *v1;
+                    u32 z1, xy1;
+
+                    gte_ldsxy0(xy0);
+                    packet->xy0 = v0->vec;
+                    v1 = &cache[record->prim.prim.vert1];
+                    z1 = (u32)(u16)v1->otz |
+                        (u32)(u16)v1->p << 16;
+                    xy1 = (u32)(u16)v1->vec.vx |
+                        (u32)(u16)v1->vec.vy << 16;
+                    if (z1 != 0xFFFFFFFF) {
+                        GsWORKUNIT *v2;
+                        u32 z2, xy2;
+
+                        gte_ldsxy1(xy1);
+                        packet->xy1 = v1->vec;
+                        v2 = &cache[record->prim.prim.vert2];
+                        z2 = (u32)(u16)v2->otz |
+                            (u32)(u16)v2->p << 16;
+                        xy2 = (u32)(u16)v2->vec.vx |
+                            (u32)(u16)v2->vec.vy << 16;
+                        if (z2 != 0xFFFFFFFF) {
+                            GsWORKUNIT *v3;
+                            u32 z3, xy3;
+
+                            gte_ldsxy2(xy2);
+                            packet->xy2 = v2->vec;
+                            v3 = &cache[record->prim.prim.vert3];
+                            z3 = (u32)(u16)v3->otz |
+                                (u32)(u16)v3->p << 16;
+                            xy3 = (u32)(u16)v3->vec.vx |
+                                (u32)(u16)v3->vec.vy << 16;
+                            if (z3 != 0xFFFFFFFF) {
+                                u32 *c0, *c1, *c2, *c3;
+
+                                gte_ldsz4(z0, z1, z2, z3);
+                                packet->xy3 = v3->vec;
+                                c0 = &colors[record->prim.prim.norm0 * 2];
+                                c1 = &colors[record->prim.prim.norm1 * 2];
+                                c2 = &colors[record->prim.prim.norm2 * 2];
+                                c3 = &colors[record->prim.prim.norm3 * 2];
+                                gte_avsz4_b();
+                                {
+                                    u32 window, uv0, uv1, uv2, uv3, semi, otz;
+                                    GsOT_TAG *slot;
+                                    u32 rgb0 = *c0;
+                                    u32 rgb1 = *c1;
+                                    u32 rgb2 = *c2;
+                                    u32 rgb3 = *c3;
+
+                                    packet->rgb0 = rgb0 | code;
+                                    packet->rgb1 = rgb1;
+                                    packet->rgb2 = rgb2;
+                                    packet->rgb3 = rgb3;
+                                    window = record->words[0];
+                                    uv0 = record->words[1];
+                                    uv1 = record->words[2];
+                                    uv2 = record->words[3];
+                                    uv3 = record->words[4];
+                                    gte_stotz(&otz);
+                                    semi = poly & 0x02000000;
+                                    uv1 = (uv1 & 0xFF9FFFFF) | blend;
+                                    slot = &ot[otz >> shift];
+                                    for (;;) {
+                                        packet->uv0 = uv0;
+                                        packet->uv1 = uv1;
+                                        packet->uv2 = uv2;
+                                        packet->uv3 = uv3;
+                                        packet->window = window;
+                                        packet->window_reset = 0xE2000000;
+                                        setlen(packet, 14);
+                                        setaddr(packet, getaddr(slot));
+                                        setaddr(slot, packet);
+                                        if (semi == 0 || second_clut == 0) {
+                                            break;
+                                        }
+                                        /* Second pass: CLUT 2, blend 1, flat colour. */
+                                        uv0 = (uv0 & 0xFFFF) | second_clut;
+                                        uv1 = (uv1 & 0xFF9FFFFF) | 0x00400000;
+                                        packet[1].rgb0 = colour;
+                                        packet[1].xy0 = packet->xy0;
+                                        packet[1].rgb1 = colour;
+                                        packet[1].xy1 = packet->xy1;
+                                        packet[1].rgb2 = colour;
+                                        packet[1].xy2 = packet->xy2;
+                                        packet[1].rgb3 = colour;
+                                        packet[1].xy3 = packet->xy3;
+                                        packet++;
+                                        semi = 0;
+                                    }
+                                    packet++;
+                                }
+                            }
+                        }
+                    }
+                }
+                record++;
+            } while (--count != 0);
         }
     }
-    HW_RESTORE_REGS2(args, 16, 0x28, 17, 0x2C);
-    HW_RESTORE_REGS2(args, 18, 0x30, 19, 0x34);
-    HW_RESTORE_REGS2(args, 20, 0x38, 21, 0x3C);
-    {
-        register u32 *next asm("$2");
-        HW_KEEP_LABEL(done2);
-
-        next = (u32 *)args->primp;
-        gGraphics_pPacketWorkCursor = pkt;
-        next += 2;
-    done2:
-        return next;
-    }
+    gGraphics_pPacketWorkCursor = (u32 *)packet;
+    return (u32 *)(arg->primp + 2);
 }
