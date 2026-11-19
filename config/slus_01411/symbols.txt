@@ -80,7 +80,6 @@ gDuel_awSaTecCardDrops = 0x801792F4;
 gDuel_awRankScoreChange = 0x801798A8;
 gDuel_aFusionTable = 0x8017C2D8;
 gDuel_aDeckCardRecords = 0x801A7E20;
-gLibrary_aPasswordCardData = 0x801A8008;
 gSaveData_Workspace = 0x801D0000;
 gDuel_awPlayerDeck = 0x801D0200;
 gLibrary_abCardChest = 0x801D0250;
