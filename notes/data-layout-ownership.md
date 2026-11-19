@@ -210,7 +210,15 @@ contiguous). `duel_scene.c` defines its four debug strings before its first
 function so they lead its jump tables. In Japan, `mem_card.c` defines its
 card name, diagnostics and options file name before its update
 (`0x800102F4`), since the options name's only user comes after the update's
-jump tables. Every label still
+jump tables. The credits overlay's two replacement glyphs are resident
+read-only data with no resident reader (USA `0x80011820`, Japan
+`0x800116E8`, absent from the European executables). They lie between
+`model_animation_unit`'s read-only data and the next text unit's in both
+regions, the second glyph starting `0x1E` bytes after the first: GCC
+word-aligns every array variable and every object starts word-aligned, so
+they are one 0x3C-byte object, `gCredits_abReplacementGlyphs[2][15][2]`, in
+the data-only `credits_resident_glyphs.c` (`gcc_2_8_1_g0`), which the
+overlay indexes. Every label still
 in the `initial_data*` blobs up to `0x800119A8` is read only by game units;
 from `0x800119A8` on, the blob is Psy-Q's.
 

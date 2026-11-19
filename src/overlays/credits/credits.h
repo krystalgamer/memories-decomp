@@ -4,6 +4,7 @@
 #include "../../types.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
+#include "../../game/credits_resident_glyphs.h"
 
 /* One row of the credits table at gCredits_aEntries. `group` is the page the row
  * belongs to and a negative group ends the table; the low nibble of `flags`
@@ -41,9 +42,6 @@ extern const RECT gCredits_ClutRect2;
 extern u8 gCredits_bFinished;
 extern CreditsEntry gCredits_aEntries[];
 extern CreditsLine gCredits_aLines[2];
-/* Replacement glyphs for character codes 0xE056 and 0x9B92. */
-extern u8 gCredits_abGlyphE056[];
-extern u8 gCredits_abGlyph9B92[];
 
 s32 Credits_BuildLineGlyphs(s32 index, s32 group);
 void Credits_DrawLine(s32 index, s32 c0, s32 c1, s32 c2, s32 c3);

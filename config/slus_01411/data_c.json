@@ -28,6 +28,10 @@
     {
       "source": "src/game/duel_effect_command_table.c",
       "profile": "gcc_2_8_1_g0"
+    },
+    {
+      "source": "src/game/credits_resident_glyphs.c",
+      "profile": "gcc_2_8_1_g0"
     }
   ]
 }

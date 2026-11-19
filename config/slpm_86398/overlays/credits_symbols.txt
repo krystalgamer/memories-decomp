@@ -15,5 +15,4 @@ LoadImage2 = 0x800809D8; // type:func absolute:true
 strlen = 0x8008E5F0; // type:func absolute:true
 Krom2RawAdd2 = 0x80081800; // type:func absolute:true
 GsSortPoly = 0x80082F10; // type:func absolute:true
-gCredits_abGlyphE056 = 0x800116E8; // absolute:true
-gCredits_abGlyph9B92 = 0x80011706; // absolute:true
+gCredits_abReplacementGlyphs = 0x800116E8; // absolute:true

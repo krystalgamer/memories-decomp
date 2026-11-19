@@ -89,7 +89,7 @@ segments:
       - [0x1c40, .rodata, game/model]
       - [0x1eb4, .rodata, game/model_animation_unit]
       - [0x1ee7, pad]
-      - [0x1ee8, rodata, initial_data_1ee8]
+      - [0x1ee8, .rodata, game/credits_resident_glyphs]
       - [0x1F24, .rodata, game/main_menu_load_package_stage]
       - [0x1f48, .rodata, game/model_effect_handlers]
       - [0x1F98, .rodata, game/ai_script]

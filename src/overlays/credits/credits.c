@@ -869,12 +869,12 @@ s32 Credits_BuildLineGlyphs(s32 index, s32 group)
                                cursor. */
                             if (code == 0xE056) {
                                 do {
-                                    font = gCredits_abGlyphE056;
+                                    font = (u8 *)gCredits_abReplacementGlyphs[0];
                                 } while (0);
                             }
                             if (code == 0x9B92) {
                                 do {
-                                    font = gCredits_abGlyph9B92;
+                                    font = (u8 *)gCredits_abReplacementGlyphs[1];
                                 } while (0);
                             }
                             for (k = 14; k != -1; k--) {

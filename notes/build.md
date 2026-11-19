@@ -315,6 +315,7 @@ outside the region's matching manifest is compiled from the region's or the
 North American `data_c.json`. Use one when no text unit can own a range: the
 read-only data of a `-G8` owner holds no object of eight bytes or less, and
 data read only by an overlay has no resident reader to own it.
+`credits_resident_glyphs.c` is the worked example.
 
 #### What is left, and why each piece resists ownership
 
