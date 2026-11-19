@@ -544,7 +544,7 @@ void DisplayObject_UpdateCosineSlide(DisplayObject *object);
 
 /* These are installed in the update slot by the field-action controller,
  * not called directly. Each clears the callback and active latch on completion. */
-/* Steps three colour bytes toward the halfword targets by field_60. */
+/* Steps three colour bytes toward the halfword targets by field_60.step. */
 void DisplayObject_UpdateColorTransition(DisplayObject *object);
 /* Cosine-interpolates the saved position and advances rotation over the
  * configured duration, then snaps both to their targets. */
@@ -1134,7 +1134,7 @@ void Duel_SetupFieldCardFromDeck(s32 slot, s32 deck_index);
  *                             1 face-up attack, 2 face-up defense);
  *   update_state              the step's phase bits (0x40 started, 0x20 the
  *                             first half of the turn is done);
- *   field_60                  the frame counter of the current half;
+ *   field_60.frames           the frame counter of the current half;
  *   position.h.field_28       the per-frame angle step;
  *   position.h.field_2A       the turn angle, stepped unsigned; the two settle
  *                             constants are stored signed through position.s.y
@@ -1862,7 +1862,7 @@ void DuelScene_UpdateCardPlacement(void);
  *
  *   1  opens the enlarged card window with CardPreview_CreateResourceObjects, ramps its
  *      field_21 alpha in steps of 6, releases the original object, then
- *      holds on field_60 counting down
+ *      holds on field_60.frames counting down
  *   2  hands the latched id to DuelEffect_StartCardEffect with flag 0
  *   3  builds two Duel_CreateCardEffectOverlay copies of the window,
  *      one GsALON | GsAONE
@@ -2176,7 +2176,7 @@ s32 Duel_UpdateCardUseConfirmation(void);
 /* A display object's update callback that slides the object 0x140 pixels to
  * the left. On the first frame it fixes the target x at its current output x
  * minus 0x140, takes its step from the phase value it was given (0x400 /
- * field_60), and starts the phase at -0x400. Each frame then eases it through
+ * field_60.frames), and starts the phase at -0x400. Each frame then eases it through
  * Widget_SlideSine. When the phase reaches zero it snaps to the target and
  * clears its update hook and update_state. duel_scene.c installs it by
  * address. */

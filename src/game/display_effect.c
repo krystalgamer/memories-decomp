@@ -690,7 +690,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     if (DisplayEffect_MarkInitialized(record) == 0) {
         if (record->step_arg.closing != 0) {
             o = record->grid[0][0];
-            o->field_60 = 0;
+            o->field_60.frames = 0;
         } else {
             id = record->effect_id;
             idx = id - CAMPAIGN_DIALOG_PORTRAIT_FIRST_EFFECT_ID;
@@ -712,7 +712,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
             DisplayObject_SelectOrderingTable1(o);
             DisplayObject_SetDepthOffset(o, -8);
             record->grid[0][0] = o;
-            o->field_60 = 0x14;
+            o->field_60.frames = 0x14;
         }
         o->attribute = (o->attribute | (GsALON | GsAONE)) & ~GsROTOFF;
         o->field_48.pivot.y = 0;
@@ -729,13 +729,13 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
     o = record->grid[0][0];
     o2 = record->grid[0][1];
     if (record->step_arg.closing != 0) {
-        o->field_60 += (u16)gGraphics_nBaseFrameStep;
+        o->field_60.frames += (u16)gGraphics_nBaseFrameStep;
     } else {
-        o->field_60 -= (u16)gGraphics_nBaseFrameStep;
+        o->field_60.frames -= (u16)gGraphics_nBaseFrameStep;
     }
     /* The faded-out arm sits first and joins the release arm at the step
        clear; the in-range fade continues after the switch. */
-    switch (o->field_60 > 0) {
+    switch (o->field_60.frames > 0) {
     case 0:
         o->attribute = (o->attribute & ~(GsALON | GsATWO | GsAONE)) | GsROTOFF;
         o->rgb.word = COLOR_RGB24_NEUTRAL_GREY;
@@ -744,7 +744,7 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
         record->grid[0][1] = 0;
         if (0) {
         default:
-            if (o->field_60 < 0x14) {
+            if (o->field_60.frames < 0x14) {
                 break;
             }
             DisplayEffect_ReleaseRecord(record);
@@ -752,14 +752,14 @@ void DisplayEffect_UpdatePortraitTransition(MenuRecord *record)
         record->display_effect_step = 0;
         return;
     }
-    shade = -0x80 - o->field_60 * 6;
+    shade = -0x80 - o->field_60.frames * 6;
     o2->rgb.c.b = shade;
     o2->rgb.c.g = shade;
     o2->rgb.c.r = shade;
     o->rgb.c.b = shade;
     o->rgb.c.g = shade;
     o->rgb.c.r = shade;
-    idx = o->field_60 * 204 + 0x1000;
+    idx = o->field_60.frames * 204 + 0x1000;
     o2->field_44.scale.y = idx;
     o->field_44.scale.y = idx;
     scale_x = o->rgb.c.r << 5;

@@ -887,7 +887,7 @@ void DisplayObject_RenderTexturedGouraudQuadList(void) {
                     packet->w.xy1 = x1;
                     packet->w.rgb0 = *(s32 *)&object->texture_uv;
                     packet->w.rgb1 = *(s32 *)&object->resource_branch_index;
-                    packet->w.uv0 = object->field_60;
+                    packet->w.uv0 = object->field_60.word;
                     x2 = *(u16 *)&object->update_state;
                     setlen(packet, twelve);
                     setcode(packet, hi);
@@ -1976,7 +1976,7 @@ s32 DisplayObject_MarkInitialized(DisplayObject *object)
 
 void DisplayObject_FadeBrightnessAndRelease(DisplayObject *object)
 {
-    s32 value = object->rgb.c.r - object->field_60;
+    s32 value = object->rgb.c.r - object->field_60.step;
 
     if (value > 0) {
         object->rgb.c.b = value;

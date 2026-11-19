@@ -939,7 +939,7 @@ void Script_OpSavePrompt(void)
         DisplayObject_SavePosition(box->render_object);
         slot = box->render_object;
         next = gScript_wCommandWord | 0x6000;
-        slot->field_60 = -0x400;
+        slot->field_60.phase = -0x400;
         gScript_wCommandWord = next;
         return;
     }
@@ -1003,10 +1003,10 @@ void Script_OpSavePrompt(void)
         if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED) == 0) {
             gScript_wCommandWord = flags | SCRIPT_SAVE_PROMPT_CONTROL_SUBPHASE_STARTED;
             DisplayObject_SavePosition(obj);
-            box->render_object->field_60 = 0x400;
+            box->render_object->field_60.phase = 0x400;
         }
-        step = (u16)obj->field_60 - 0x40;
-        obj->field_60 = step;
+        step = (u16)obj->field_60.phase - 0x40;
+        obj->field_60.phase = step;
         if ((s16)step <= 0) {
             TextBox_Destroy(box);
             gScript_wCommandWord = 0;
@@ -1019,8 +1019,8 @@ void Script_OpSavePrompt(void)
     }
 
     if ((flags & SCRIPT_SAVE_PROMPT_CONTROL_SLIDE_IN) != 0) {
-        step = (u16)obj->field_60 + 0x40;
-        obj->field_60 = step;
+        step = (u16)obj->field_60.phase + 0x40;
+        obj->field_60.phase = step;
         if ((s16)step >= 0) {
             obj->xy.s.x = 0x10;
             obj->xy.s.y = 0x38;

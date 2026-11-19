@@ -159,13 +159,13 @@ void Password_UpdateDigitCursor(DisplayObject *object)
         if (DisplayObject_MarkInitialized(object) == 0) {
             DisplayObject_ResetVelocity(object);
             object->field_34.motion.velocity_x =
-                (((s16)object->field_18.target.x - object->xy.s.x) << 8) / object->field_60;
+                (((s16)object->field_18.target.x - object->xy.s.x) << 8) / object->field_60.frames;
             object->field_38.motion.velocity_y =
-                (((s16)object->field_18.target.y - object->xy.s.y) << 8) / object->field_60;
+                (((s16)object->field_18.target.y - object->xy.s.y) << 8) / object->field_60.frames;
         }
         DisplayObject_StepPositionXY(object);
-        remaining = (u16)object->field_60 - 1;
-        object->field_60 = remaining;
+        remaining = (u16)object->field_60.frames - 1;
+        object->field_60.frames = remaining;
         if (remaining <= 0) {
             object->xy.word = object->field_18.word;
             object->update_state &= 0x3F;
@@ -369,7 +369,7 @@ void Password_UpdateShopScreen(void)
             SD_SEPlayFull(SD_SE_CHANGE);
             cursor = gPassword_pDigitCursorWidget;
             Password_SetDigitCursorTarget(cursor);
-            cursor->field_60 = 8;
+            cursor->field_60.frames = 8;
             cursor->update_state |= 0x40;
             return;
         }

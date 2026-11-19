@@ -576,15 +576,46 @@ typedef struct DisplayObject {
             u8 v;
         } b;
     } resource_uv;                 /* 0x5E */
-    /* An easing amount, agreed on in shape and not in name. dialog_transition.c
-       sets it to -0x400 or +0x400 and sweeps it toward zero;
-       its Dialog_UpdateMessageTransition sets -0x400 and adds 0x20; mem_card_dialog.c
-       steps it by 0x40 and passes it to Widget_SlideSine, which takes it as
-       `phase` for an rsin ease; duel_scene.c calls
-       it `speed` in one function and `step` in the other. Four callers, four
-       words, one range -- so it keeps the offset for a name, on the same
-       grounds #3004 set out for 0x44. */
-    s16 field_60;                  /* 0x60 */
+    /* The halfword each update callback keeps its progress in. No reading
+       spans the pool, but every user takes one of three, each fixed by what
+       consumes the value, so each gets a view (the union keeps the offset
+       name, as 0x18 and 0x40..0x48 do):
+
+       phase: the angle an rcos/rsin ease is at, 4096 to a turn. It is the
+       `phase` argument of Widget_SlideSine and
+       DisplayObject_InterpolatePositionCosine (or goes to rcos/rsin
+       directly), swept from -0x400 or +0x400 to zero or from zero to 0x800
+       by a fixed or frame-derived increment: the dialog and save-prompt
+       slides, the card viewer, the Library card view, the duel hand, field
+       and info-panel slides, the campaign marker and the name-entry caret.
+
+       frames: a frame count. Callers set 4 to 0x1E, decrement it (or count
+       it up) once per update and act when it reaches zero or a limit; the
+       caret, glyph, cursor and value-widget tweens divide a distance by it,
+       and Duel_UpdateDrawCardSlide and
+       DisplayObject_UpdatePositionRotationTransition take the duration
+       from it before reusing the halfword as their phase.
+
+       step: a signed per-frame delta added to another member.
+       DisplayObject_FadeBrightnessAndRelease and
+       DisplayObject_UpdateColorTransition step rgb by it, the trade-offer
+       and start-prompt pulses add +-2 to rgb and negate it at the ends, and
+       the duel card flip adds +-0x10 to rotation_y.
+
+       level: the Library outline's brightness, counted down by 0x10 from
+       0x100 and written to its blue byte.
+
+       word: the raw halfword, for the two users no reading explains -- the
+       overworld spotlight's constructor stores 128 that nothing reads, and
+       DisplayObject_RenderTexturedGouraudQuadList copies it as a second
+       quad's uv0. */
+    union {
+        s16 phase;
+        s16 frames;
+        s16 step;
+        s16 level;
+        s16 word;
+    } field_60;                    /* 0x60 */
     /* The 8.8 fraction bytes DisplayObject_StepPosition* carry below xy;
        the z fraction is fraction_z at 0x64. */
     u8 fraction_x;                 /* 0x62 */

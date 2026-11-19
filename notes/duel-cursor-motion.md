@@ -14,7 +14,7 @@ allocate, copy by the private type's size, or advance a private-type array.
 | `target_y` | `0x2E` | `field_2C.h.field_2E` |
 | `step_x` | `0x36` | `field_34.motion.velocity_x` |
 | `step_y` | `0x3A` | `field_38.motion.velocity_z` |
-| `steps` | `0x60` | `field_60` |
+| `steps` | `0x60` | `field_60.frames` |
 | `moving` | `0x6C` | `update_state` |
 
 The removed view was `0x6E` bytes because its last byte was followed by

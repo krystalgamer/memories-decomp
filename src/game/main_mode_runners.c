@@ -605,13 +605,13 @@ void Main_RunTrade(void)
         if (((gInput_awPadPressed[0] | gInput_awPadPressed[1]) & 0xE0) != 0) {
             SD_SEPlayFull(0x1E);
             DisplayObject_SavePosition(obj);
-            obj->field_60 = 0x400;
+            obj->field_60.phase = 0x400;
             gMain_bModeRunnerStep = 2;
         }
         break;
     case 2:
-        y = (u16)obj->field_60 - 0x20;
-        obj->field_60 = y;
+        y = (u16)obj->field_60.phase - 0x20;
+        obj->field_60.phase = y;
         Widget_SlideSine(
             obj,
             0,
@@ -627,7 +627,7 @@ void Main_RunTrade(void)
             obj->xy.s.y + 0x20
 #endif
         );
-        if (obj->field_60 <= 0) {
+        if (obj->field_60.phase <= 0) {
             gMain_bModeRunnerStep = 0;
             TextBox_Destroy(box);
             DisplayObject_ReleaseIfPresent(gDisplayObject_apWorkSlots.slots[0]);

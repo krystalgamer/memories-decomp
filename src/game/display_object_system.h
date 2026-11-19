@@ -201,7 +201,7 @@ void Widget_SlideSine(
 
 s32 DisplayObject_MarkInitialized(DisplayObject *object);
 /* An update callback: steps the colour's red/green/blue down together by
- * field_60 each frame and releases the object once it reaches black. */
+ * field_60.step each frame and releases the object once it reaches black. */
 void DisplayObject_FadeBrightnessAndRelease(DisplayObject *object);
 
 /* The screen origin DisplayObject_SubmitPacket subtracts from every vertex before the

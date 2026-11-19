@@ -522,13 +522,13 @@ void Dialog_UpdateCloseTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
         /* DisplayObject_SavePosition and Widget_SlideSine take the narrow
            position views declared in display_object_system.h. */
         DisplayObject_SavePosition(object);
-        object->field_60 = 0x400;
+        object->field_60.phase = 0x400;
     }
     entry = &gText_aChannels[root->text_index];
     object = root->box_object;
     if (object) {
-        object->field_60 -= 0x40;
-        if (object->field_60 <= 0) {
+        object->field_60.phase -= 0x40;
+        if (object->field_60.phase <= 0) {
             DisplayObject_ReleaseIfPresent(object);
             root->box_object = 0;
         } else {
@@ -536,7 +536,7 @@ void Dialog_UpdateCloseTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
                 object,
                 DIALOG_BOX_X,
                 -0x40,
-                object->field_60
+                object->field_60.phase
             );
             TextBox_SetPos(
                 entry,
@@ -589,7 +589,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
         root->box_object = p;
         DisplayObject_SavePosition(p);
         a = gMemCardWork_OperationMode;
-        p->field_60 = -0x400;
+        p->field_60.phase = -0x400;
         r = DuelEffect_CreateChannel((a & 1) | 0xD0, 0);
         r->flags_34 = r->flags_34 | DIALOG_TRANSITION_CHANNEL_FLAG;
         do {
@@ -616,13 +616,13 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
         return;
     }
     p = root->box_object;
-    t = (u16)p->field_60;
-    if (p->field_60 < 0) {
+    t = (u16)p->field_60.phase;
+    if (p->field_60.phase < 0) {
         v = t + 0x40;
-        p->field_60 = v;
+        p->field_60.phase = v;
         if ((s16)v >= 0) {
             p->xy.h.x = DIALOG_BOX_X;
-            p->field_60 = 0;
+            p->field_60.phase = 0;
             p->xy.h.y = 0x50;
         } else {
             Widget_SlideSine(
@@ -637,7 +637,7 @@ void Dialog_UpdateOpenTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot)
     if (p->field_48.spotlight.inner <= 0) {
         p->field_48.spotlight.inner = 0;
         p->field_48.spotlight.outer = 0x40;
-        if (root->box_object->field_60 == 0) {
+        if (root->box_object->field_60.phase == 0) {
             g = gDialog_bCallbackState;
             r->flags_34 = r->flags_34 & (0xFFFF ^ DIALOG_TRANSITION_CHANNEL_FLAG);
             gDialog_bCallbackState = g | 0x40;
@@ -671,7 +671,7 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
         DisplayObject_SetDepthOffset(e, (s8)(gDisplayObject_awOrderingTableDepthBases[1].low - 2));
         root->box_object = e;
         DisplayObject_SavePosition(e);
-        e->field_60 = -0x400;
+        e->field_60.phase = -0x400;
         q = DuelEffect_CreateChannel(0xD0, 0);
         q->flags_34 = q->flags_34 | DIALOG_MESSAGE_TRANSITION_CHANNEL_FLAG;
         do {
@@ -692,8 +692,8 @@ void Dialog_UpdateMessageTransition(MemCardWorkRoot *root, MemCardWorkSlot *slot
             gDialog_bCallbackState = 0;
         }
     } else {
-        v = (u16)e->field_60 + 0x20;
-        e->field_60 = v;
+        v = (u16)e->field_60.phase + 0x20;
+        e->field_60.phase = v;
         if ((s16)v >= 0) {
             e->xy.s.x = DIALOG_BOX_X;
             e->xy.s.y = 0x50;
@@ -2155,7 +2155,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 target_x, s32 target_y,
         DisplayObject_SavePosition(object);
     }
 
-    value = object->field_60;
+    value = object->field_60.phase;
     if (value < 0) {
         value += 0x40;
         if (value >= 0) {
@@ -2169,7 +2169,7 @@ s32 MemCardDialog_StepSlide(DisplayObject *object, s32 target_x, s32 target_y,
             value = 0;
         }
     }
-    object->field_60 = value;
+    object->field_60.phase = value;
 
     Widget_SlideSine(object, target_x, target_y, value);
 
@@ -2287,7 +2287,7 @@ void MemCardDialog_Update(void)
 #endif
                 gMemCardDialog_Outcome = 2;
                 MemCardDialog_CreateObject();
-                gMemCard_pDialogObject->field_60 = -0x400;
+                gMemCard_pDialogObject->field_60.phase = -0x400;
                 return;
             }
             if (MemCardDialog_StepSlide(
@@ -2316,7 +2316,7 @@ void MemCardDialog_Update(void)
     }
     gMemCard_wDialogFlags =
         gMemCard_wDialogFlags | MEM_CARD_DIALOG_FLAG_CLOSING;
-    gMemCard_pDialogObject->field_60 = 0x400;
+    gMemCard_pDialogObject->field_60.phase = 0x400;
 #if defined(VERSION_JAPAN) || defined(VERSION_EUROPE)
     McxStopCom();
 #endif
@@ -2451,7 +2451,7 @@ s32 SaveData_UpdateLoadPair(void)
             gSaveData_LoadPairState |= 0x80;
             MemCardDialog_CreateObject();
             a = gMemCardDialog_ChannelIndex;
-            gMemCard_pDialogObject->field_60 = -0x400;
+            gMemCard_pDialogObject->field_60.phase = -0x400;
             o = TextBox_Create(a, 0xC2, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30);
             o->depth_offset = 0x10;
             TextBox_BuildBlocking(o);
@@ -2465,11 +2465,11 @@ s32 SaveData_UpdateLoadPair(void)
         if (gInput_awPadPressed[0] & SAVE_DATA_LOAD_PAIR_CANCEL_BUTTON) {
             SD_SEPlayFull(SD_SE_CANCEL);
             gSaveData_LoadPairState = 0x82;
-            gMemCard_pDialogObject->field_60 = 0x400;
+            gMemCard_pDialogObject->field_60.phase = 0x400;
         } else if (gInput_awPadPressed[0] & SAVE_DATA_LOAD_PAIR_CONFIRM_BUTTON) {
             SD_SEPlayFull(SD_SE_DECIDE);
             gSaveData_LoadPairState = 2;
-            gMemCard_pDialogObject->field_60 = 0x400;
+            gMemCard_pDialogObject->field_60.phase = 0x400;
         }
         return 0;
     case 2:
@@ -2523,7 +2523,7 @@ s32 SaveData_UpdateLoadPair(void)
             MemCardDialog_CreateObject();
             a = gMemCardDialog_ChannelIndex;
             b = gSaveData_PairMessageCode;
-            gMemCard_pDialogObject->field_60 = -0x400;
+            gMemCard_pDialogObject->field_60.phase = -0x400;
             o = TextBox_CreateFlagged(a, b, DIALOG_BOX_X, 0x50, DIALOG_BOX_WIDTH, 0x30, SAVE_DATA_LOAD_BOX_FLAGS);
             o->depth_offset = 0x10;
             do {
@@ -2546,7 +2546,7 @@ s32 SaveData_UpdateLoadPair(void)
     case 0xB:
         if ((gSaveData_LoadPairState & 0x80) == 0) {
             gSaveData_LoadPairState |= 0x80;
-            gMemCard_pDialogObject->field_60 = 0x400;
+            gMemCard_pDialogObject->field_60.phase = 0x400;
         }
         if (MemCardDialog_StepSlide(
                 gMemCard_pDialogObject, DIALOG_BOX_X, 0x100, gMemCardDialog_ChannelIndex) == 0) {

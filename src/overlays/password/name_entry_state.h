@@ -69,7 +69,7 @@
  * DisplayObject it acquired and publishes that object in
  * gNameEntry_pSelectionFrame (a DisplayObject *). NameEntry_UpdateKeyboard
  * moves it through the record's own members: xy.s, field_3C.size.w (width),
- * resource_uv.b.u (width bonus), field_60 (timer) and the motion velocities.
+ * resource_uv.b.u (width bonus), field_60.frames (timer) and the motion velocities.
  * NameEntry_SpawnGlyphSprite reads xy.s. Only the drawing callback keeps
  * the SelectionFrame view in ygo_types.h, which additionally constrains
  * priority and height; it is not a claim about the complete allocation. */
