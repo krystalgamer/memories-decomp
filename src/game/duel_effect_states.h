@@ -84,7 +84,7 @@ extern u8 gText_BranchSelectorB;
  * DuelField_GetGuardianStarDisplayCode's result -- 4, 1 or 6 -- under
  * `if (gText_BranchSelectorA != 0)` in duel_scene.c;
  * Library_RefreshSelectedCardText stores the returned text channel's
- * color_index_54 byte at +0x54, then 4 when
+ * color_index byte at +0x54, then 4 when
  * `*(p + (n << 2) + 0x56) & 1` (src/game/library_card_grid.c:246-249);
  * Text_ExpandSelectedCardInfo stores it into `object[0x54]` when the opcode byte has bit
  * 0x10 (src/game/duel_effect_command.c). notes/duel-card-record.md:173-176

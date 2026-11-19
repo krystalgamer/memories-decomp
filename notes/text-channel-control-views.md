@@ -12,7 +12,7 @@ Both the `0x64`-byte and the compact Japanese (`VERSION_JAPAN`) shapes of
 | Offset | Member | Evidence |
 |---|---|---|
 | `0x53` | `delay_reload_53` | `TextBox_BuildStep` reloads `delay_52` from this byte after the countdown gate. |
-| `0x54` | `color_index_54` | `Text_SetColorIndex` publishes the effective colour; glyph creation and palette/mask readers consume it. |
+| `0x54` | `color_index` | `Text_SetColorIndex` publishes the effective colour; glyph creation and palette/mask readers consume it. |
 
 The constructor stores two for the NA/JP delay reload and one for PAL.
 Library, dialog and password paths retain their own stores of one. The

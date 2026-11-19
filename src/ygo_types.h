@@ -497,7 +497,10 @@ typedef struct DuelEffectChannel {
        uses this byte as a polling watchdog, not a guaranteed frame count. */
     u8 delay_countdown;
     u8 glyph_delay;
-    u8 color_index_54;
+    /* Text colour: selects the gText_awGlyphColorMasks entry the glyph
+       renderer uses and is copied into each appended entry's palette_index
+       (Text_SetColorIndex and the card-view paths write it). */
+    u8 color_index;
     u8 pad_55;
     u8 explicit_newline_count;
     u8 channel_index;

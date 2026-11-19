@@ -64,7 +64,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
     wide = 16;
     size = flags & 3;
     channel->channel_index = index;
-    channel->color_index_54 = 0;
+    channel->color_index = 0;
     channel->pen_x = 0;
     channel->pen_y = 0;
     channel->glyph_advance_x = narrow;
@@ -124,7 +124,7 @@ DuelEffectChannel *DuelEffect_InitEntry(int index, int value, int flags)
 #endif
     channel->channel_index = index;
     channel->initial_string_id = value;
-    channel->color_index_54 = 0;
+    channel->color_index = 0;
     channel->flags = flags;
     channel->pen_x = 0;
     channel->pen_y = 0;
@@ -1250,7 +1250,7 @@ void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32
     /* The scratchpad holds the sixteen nibble patterns at 0 and the
        glyph's rows at 0x40, both addressed as raster rows. */
     block = (DuelEffectGlyphRow *)SCRATCH_ADDR(0);
-    w = gText_awGlyphColorMasks[channel->color_index_54];
+    w = gText_awGlyphColorMasks[channel->color_index];
     p = block->pixels;
     for (i = 0; i < 16; i++) {
         *p++ = gText_awGlyphNibblePatterns[i] & w;
@@ -1323,7 +1323,7 @@ s32 DuelEffect_AppendEntry(DuelEffectChannel *channel, s32 tagged_value)
         }
 
         entry->glyph_index = glyph;
-        entry->palette_index = channel->color_index_54;
+        entry->palette_index = channel->color_index;
         entry->entry_flags = mode | 0x80;
 
         if (mode == 3) {
@@ -1392,7 +1392,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
         }
         q->glyph_index = v;
         q->entry_flags = 0xC0;
-        c = p->color_index_54;
+        c = p->color_index;
         q->handler_state = 0;
         q->palette_index = c;
     } else {
@@ -1417,7 +1417,7 @@ void DuelEffect_AppendEntry(DuelEffectChannel *p, s32 a)
             r += p->output_count;
         }
         q->glyph_index = 0;
-        b = p->color_index_54;
+        b = p->color_index;
 #endif
         q->entry_flags = 0x80;
 #ifdef VERSION_JAPAN
@@ -2351,7 +2351,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     op = *current++;
     *text.slot = current;
     if (op & 0x10) {
-        object->color_index_54 = gText_SelectedCardColorIndex;
+        object->color_index = gText_SelectedCardColorIndex;
         return;
     }
     switch (op & 0x20) {
@@ -2425,7 +2425,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     op = *current++;
     *text.slot = current;
     if (op & 0x10) {
-        object->color_index_54 = gText_SelectedCardColorIndex;
+        object->color_index = gText_SelectedCardColorIndex;
         return;
     }
     switch (op & 0x20) {
@@ -2508,7 +2508,7 @@ void Text_ExpandSelectedCardInfo(DuelEffectChannel *object)
     *text.slot = current;
     n = 0;
     if (op & 0x10) {
-        object->color_index_54 = gText_SelectedCardColorIndex;
+        object->color_index = gText_SelectedCardColorIndex;
         return;
     }
     switch (op & 0x20) {
@@ -2889,7 +2889,7 @@ void Text_SetColorIndex(DuelEffectChannel *object)
     if (v & 0x80) {
         w = gText_abColorSlots[v & 0xF];
     }
-    object->color_index_54 = w;
+    object->color_index = w;
 }
 
 void Text_SetFastPrintMode(DuelEffectChannel *object)

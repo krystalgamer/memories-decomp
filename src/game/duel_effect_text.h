@@ -280,7 +280,7 @@ typedef char TextGlyphUpload_size_must_be_0x88[sizeof(TextGlyphUpload) == 0x88 ?
 void DuelEffect_RasterizeGlyph(DuelEffectChannel *channel, s32 tagged_value, s32 slot,
                                DuelEffectGlyphRow *bitmap);
 /* The sixteen 4bpp pixel patterns for one nibble of glyph bits, and the
- * colour masks a channel's color_index_54 selects among. */
+ * colour masks a channel's color_index selects among. */
 extern u16 gText_awGlyphNibblePatterns[16];
 extern u16 gText_awGlyphColorMasks[];
 #endif

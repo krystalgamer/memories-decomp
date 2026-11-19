@@ -296,7 +296,7 @@ void Library_RefreshSelectedCardText(const LibraryState *p)
     }
 
     o = TextBox_Create(1, mode, 0x10, LIBRARY_CARD_TEXT_BOX_Y, 0x120, 0x30);
-    gText_SelectedCardColorIndex = o->color_index_54;
+    gText_SelectedCardColorIndex = o->color_index;
     if (p->cards[n].flags & LIBRARY_CARD_FLAG_UNOWNED) {
         gText_SelectedCardColorIndex = 4;
     }
@@ -894,8 +894,8 @@ void Library_UpdateCardView(LibraryState *state)
             0, layout, LIBRARY_CARD_VIEW_X, LIBRARY_CARD_VIEW_Y,
             LIBRARY_CARD_VIEW_BOX_WIDTH, LIBRARY_CARD_VIEW_BOX_HEIGHT);
 #ifndef VERSION_EUROPE
-        /* The European build does not write color_index_54 here. */
-        box->color_index_54 = LIBRARY_CARD_VIEW_BOX_FIELD_54;
+        /* The European build does not write color_index here. */
+        box->color_index = LIBRARY_CARD_VIEW_BOX_FIELD_54;
 #endif
         box->glyph_delay = 1;
         box->depth_offset = 4;

@@ -734,7 +734,7 @@ void *NameEntry_SpawnGlyphSprite(s32 slot, DuelEffectEntry *w)
         DisplayObject_ConfigureScreenSprite(
             obj,
             p->rect_x + (s16)w->local_x + shift, p->rect_y + (s16)w->local_y,
-            16, 16, u, v, 10, 640, p->color_index_54 + 232
+            16, 16, u, v, 10, 640, p->color_index + 232
         );
         obj->sequence = gNameEntry_bGlyphSequence;
         gNameEntry_bGlyphSequence = gNameEntry_bGlyphSequence + 1;
