@@ -1000,7 +1000,8 @@ def at_branch_constants(instrs, context):
 
 @rule("sign-extend-load", "web",
       "A (s8)/(s16) cast of a loaded byte or halfword is a signed load (lb, "
-      "lh), not lbu/lhu followed by sll/sra.")
+      "lh), not lbu/lhu followed by sll/sra; a further shift of the loaded "
+      "value that is only tested against zero tests the signed value.")
 def sign_extend_load(instrs, context):
     widths = {"lbu": ("lb", 24), "lhu": ("lh", 16)}
     for n, load in enumerate(instrs):
@@ -1009,27 +1010,43 @@ def sign_extend_load(instrs, context):
         signed, bits = widths[load.op]
         reg = load.args[0][1]
         uses = uses_of(instrs, reg)
-        if len(uses) != 1 or defs_of(instrs, reg) != [n]:
+        if not uses or defs_of(instrs, reg) != [n]:
             continue
-        shl = instrs[uses[0]]
-        if shl.op != "sll" or shl.args[1][1] != reg or shl.args[2][1] != bits:
+        shifts = [u for u in uses if instrs[u].op == "sll" and instrs[u].args[1][1] == reg
+                  and instrs[u].args[2][1] == bits and len(defs_of(instrs, instrs[u].args[0][1])) == 1]
+        if len(shifts) != len(uses):
             continue
-        mid = shl.args[0][1]
-        uses2 = uses_of(instrs, mid)
-        if len(uses2) != 1 or len(defs_of(instrs, mid)) != 1:
-            continue
-        sra = instrs[uses2[0]]
-        if sra.op != "sra" or sra.args[1][1] != mid or sra.args[2][1] != bits:
-            continue
-        dest = sra.args[0][1]
-        # The result web has no other definition, so defining it at the
-        # load is the same value wherever it is read.
-        if defs_of(instrs, dest) != [uses2[0]] or any(
-                dest in instrs[k].uses() for k in range(n + 1, uses2[0])):
-            continue
-        new = tag(Instr(signed, [("r", dest), load.args[1]], set(load.origin)), "sign-extend-load")
-        instrs = instrs[:n] + [new] + instrs[n + 1:]
-        return sign_extend_load(delete(instrs, {uses[0], uses2[0]}), context)
+        # One shift is the cast (sll; sra); the others may only be tested
+        # against zero, which (x << 24) == 0 and (s8)x == 0 agree on.
+        cast, tests = None, []
+        for u in shifts:
+            mid = instrs[u].args[0][1]
+            readers = uses_of(instrs, mid)
+            if (cast is None and len(readers) == 1 and instrs[readers[0]].op == "sra"
+                    and instrs[readers[0]].args[1][1] == mid and instrs[readers[0]].args[2][1] == bits):
+                cast = (u, readers[0])
+            elif readers and all(instrs[r].op in ("beq", "bne") and ("r", "$zero") in instrs[r].args[:2]
+                                 for r in readers):
+                tests.append((u, readers))
+            else:
+                break
+        else:
+            if cast is None:
+                continue
+            dest = instrs[cast[1]].args[0][1]
+            # The result web has no other definition, so defining it at the
+            # load is the same value wherever it is read.
+            if defs_of(instrs, dest) != [cast[1]] or any(
+                    dest in instrs[k].uses() for k in range(n + 1, cast[1])):
+                continue
+            for u, readers in tests:
+                mid = instrs[u].args[0][1]
+                for r in readers:
+                    instrs[r].replace_reg(mid, dest, defs=False)
+                    tag(instrs[r], "sign-extend-load")
+            new = tag(Instr(signed, [("r", dest), load.args[1]], set(load.origin)), "sign-extend-load")
+            instrs = instrs[:n] + [new] + instrs[n + 1:]
+            return sign_extend_load(delete(instrs, {cast[0], cast[1]} | {u for u, _ in tests}), context)
     return instrs
 
 
@@ -1196,6 +1213,67 @@ def loops(instrs: list[Instr]) -> list[tuple[int, int]]:
     return [(labels[i.args[-1][1]], n) for n, i in enumerate(instrs)
             if i.op in BRANCHES and i.args and i.args[-1][0] == "l"
             and labels.get(i.args[-1][1], len(instrs)) < n]
+
+
+@rule("rotate-loop-loads", "web",
+      "Software pipelining by one iteration: a do-while loop that loads its "
+      "GTE input straight from memory (lwc2 through a pointer it advances by "
+      "a constant) instead loads it into GPRs in the preheader and again, for "
+      "the next iteration, once the pointer has advanced and the GTE command "
+      "has started; the body moves the values in with mtc2. The last "
+      "iteration's extra read lies past the array (assumption A7); "
+      "asm_massage_deps proves the rest.")
+def rotate_loop_loads(instrs, context):
+    from asm_massage import label_index
+
+    labels = label_index(instrs)
+    for start, end in loops(instrs):
+        name = instrs[start].args[0][1]
+        branches = [n for n, i in enumerate(instrs) if i.op in BRANCHES and i.args
+                    and i.args[-1] == ("l", name)]
+        if branches != [end]:
+            continue  # the loop head must be reached only by falling in or looping
+        block_end = start + 1
+        while block_end <= end and not instrs[block_end].is_label \
+                and instrs[block_end].op not in BRANCHES:
+            block_end += 1
+        first = range(start + 1, block_end)
+        loads = [n for n in first if instrs[n].op == "lwc2" and isinstance(instrs[n].args[1][1], int)
+                 and "rotate-loop-loads" not in instrs[n].origin]
+        if not loads:
+            continue
+        base = instrs[loads[0]].args[1][2]
+        if any(instrs[n].args[1][2] != base for n in loads):
+            continue
+        incs = [n for n in range(start + 1, end + 2) if base in instrs[n].defs()]
+        if len(incs) != 1 or incs[0] not in first:
+            continue
+        inc = instrs[incs[0]]
+        if not (inc.op == "addiu" and inc.args[1] == ("r", base) and isinstance(inc.args[2][1], int)):
+            continue
+        if incs[0] < loads[-1]:
+            continue
+        commands = [n for n in first if instrs[n].op == ".word" and n > loads[-1]]
+        if not commands:
+            continue
+        at = max(incs[0], commands[0]) + 1
+        regs = [context.new_reg("rot") for _ in loads]
+        load_of = dict(zip(loads, regs))
+        out = []
+        for n, instr in enumerate(instrs):
+            if n == start:
+                out += [tag(Instr("lw", [("r", r), ("m", instrs[k].args[1][1], base)]), "rotate-loop-loads")
+                        for k, r in load_of.items()]
+            if n == at:
+                out += [tag(Instr("lw", [("r", r), ("m", instrs[k].args[1][1], base)]), "rotate-loop-loads")
+                        for k, r in load_of.items()]
+            if n in load_of:
+                out.append(tag(Instr("mtc2", [("r", load_of[n]), instr.args[0]], set(instr.origin)),
+                               "rotate-loop-loads"))
+                continue
+            out.append(instr)
+        return rotate_loop_loads(out, context)
+    return instrs
 
 
 @rule("invariant-last", "web",

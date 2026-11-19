@@ -3,7 +3,7 @@ function = Model_DrawGt4WindowRecordPrimitives
 source = src/game/polygon_renderers.c
 address = 0x80062600
 size = 0x378
-rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-write unspill invariant-last fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants at-branch-constants sign-extend-load zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot fill-jump-slot
+rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-write unspill invariant-last fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants at-branch-constants sign-extend-load zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early rotate-loop-loads dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot fill-jump-slot
 frameless = $a0 0x20
 
 [registers]

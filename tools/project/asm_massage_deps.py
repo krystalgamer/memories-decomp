@@ -73,6 +73,7 @@ class Report:
     copies: int = 0
     deletes: int = 0
     merged: list[str] = field(default_factory=list)
+    rotations: int = 0
     refused: list[str] = field(default_factory=list)
     flags: list[str] = field(default_factory=list)
 
@@ -80,7 +81,8 @@ class Report:
         head = (f"dependence check: {self.moves} moves, {self.rewrites} re-registered, "
                 f"{self.inserts} insertions ({self.dead_inserts} dead, {self.constants} constants, "
                 f"{self.copies} copies, {self.saves} saves), "
-                f"{self.deletes} deletions, {len(self.merged)} merged duplicates; ")
+                f"{self.deletes} deletions, {len(self.merged)} merged duplicates, "
+                f"{self.rotations} rotated loads; ")
         if not self.flags:
             return head + "all dependences preserved"
         return head + f"{len(self.flags)} flagged"
@@ -182,7 +184,7 @@ class Program:
                 return global_region(a[1][1])
             if op == "lw" and a[1][0] == "m" and isinstance(a[1][1], int):
                 base, off = a[1][2], a[1][1]
-                if base == "$a0":
+                if base in ("$a0", "$a0.0"):
                     return ARG_REGIONS.get(off)
                 if self.region(base, k, depth + 1) == "ot-header" and off == 4:
                     return "ot"
@@ -207,6 +209,72 @@ class Program:
 def global_region(offset: str) -> str | None:
     match = re.fullmatch(r"%lo\((\w+)\)", offset)
     return GLOBAL_REGIONS.get(match.group(1)) if match else None
+
+
+def rotations(program: list[Instr]) -> tuple[int, list[str]]:
+    """Prove the loop rotations rotate-loop-loads made (in the rules-stage,
+    web-named program). Each rotated GTE input register R has exactly two
+    definitions, both "lw R, off(p)": one in the preheader and one in the
+    loop body after the body's only change of p, a constant increment, on
+    the straight path from the loop head; its one reader is the mtc2 that
+    replaced the original lwc2, before that increment. So the mtc2 sees the
+    word at the current p, as the lwc2 did, provided memory is unchanged in
+    between: no store in the loop or between the preheader load and the loop
+    may alias it (A2). R is read nowhere else, so the extra load on the last
+    iteration is dead; it reads past the array (A7)."""
+    from asm_massage import label_index, live_after
+    from asm_massage_rules import loops
+
+    labels = label_index(program)
+    spans = loops(program)
+    prog = Program(program)
+    count, problems = 0, []
+    for m, move in enumerate(program):
+        if move.op != "mtc2" or "rotate-loop-loads" not in move.origin:
+            continue
+        reg = move.args[0][1]
+        defs = [n for n, i in enumerate(program) if reg in i.defs()]
+        readers = [n for n, i in enumerate(program) if reg in i.uses()]
+        loop = [(a, b) for a, b in spans if a < m <= b + 1]
+        why = None
+        if readers != [m] or len(defs) != 2 or not loop:
+            why = "not a single rotated value"
+        else:
+            start, end = min(loop, key=lambda ab: ab[1] - ab[0])
+            pre, body = defs
+            loads = [program[pre], program[body]]
+            name = program[start].args[0][1]
+            base = loads[0].args[1][2] if loads[0].op == "lw" else None
+            incs = [n for n in range(start + 1, end + 2) if base in program[n].defs()]
+            if (any(i.op != "lw" or i.args[1] != loads[0].args[1] for i in loads)
+                    or not pre < start < m < body <= end + 1):
+                why = "loads do not bracket the loop"
+            elif [n for n, i in enumerate(program) if i.op in BRANCHES and i.args
+                  and i.args[-1] == ("l", name)] != [end]:
+                why = "loop head reached other than by its back edge"
+            elif any(base in program[n].defs() for n in range(pre + 1, start)):
+                why = "pointer changes before the loop"
+            elif (len(incs) != 1 or program[incs[0]].op != "addiu"
+                  or program[incs[0]].args[1] != ("r", base) or not m < incs[0] < body
+                  or any(program[n].is_label or program[n].op in BRANCHES
+                         for n in range(start + 1, body))):
+                why = "pointer does not advance once, straight, between the move and the load"
+            elif any(program[n].op in STORES and may_alias(prog, program[n], loads[1])
+                     for n in list(range(pre + 1, start)) + list(range(start + 1, end + 2))):
+                why = "a store in the loop may write the rotated word"
+            else:
+                exits = {end + 2} | {labels[i.args[-1][1]] for i in program[start + 1:end + 1]
+                                     if i.op in BRANCHES and i.args and i.args[-1][0] == "l"
+                                     and not start <= labels.get(i.args[-1][1], -1) <= end + 1}
+                if any(e < len(program) and (reg in program[e].uses() or (
+                        reg not in program[e].defs() and live_after(program, e, reg)))
+                        for e in exits):
+                    why = "rotated value live after the loop"
+        if why:
+            problems.append(f"rotation of {move.text()}: {why}")
+        else:
+            count += 1
+    return count, problems
 
 
 def is_argument(prog: Program, name: str) -> bool:
@@ -932,6 +1000,10 @@ def check(before: list[Instr], after_raw: list[Instr], frameless=None, webs=None
                 report.flags.append(f"{why}: {x.text()} now after {y.text()}")
     # 4. Registers hold the webs their readers expect.
     report.flags += allocation(after, same)
+    if webs:
+        count, problems = rotations(webs)
+        report.rotations += count
+        report.flags += problems
     # 5. Insertions and deletions must be dead code, or frameless save pairs.
     for instr in inserts:
         n = next(k for k, i in enumerate(after) if i is instr)

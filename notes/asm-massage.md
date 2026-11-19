@@ -108,7 +108,7 @@ unspill invariant-last fold-address undo-strength-reduction word-compose
 halfword-words tag-build loop-load-forwarding at-constants
 at-branch-constants sign-extend-load zero-extend-shifts reuse-load
 zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early
-dce                                                       (web stage)
+rotate-loop-loads dce                                     (web stage)
 drop-self-moves frameless guard-chain preheader-order fill-load-delay
 fill-branch-slot fill-jump-slot                           (physical stage)
 ```
@@ -130,7 +130,7 @@ fill-branch-slot fill-jump-slot                           (physical stage)
 | `loop-load-forwarding` | web | a loop that reloads a word it stored on every back edge (the second pass re-reading the OT entry it just linked) keeps the stored value: the load moves in front of the loop | every back edge's last store to the word is the register's value |
 | `at-constants` | web | a large constant used only as an ALU operand is built in `$at` before each use (`lui $at,0xFF9F; ori; and t1,t1,$at`), not hoisted into a register; a use GCC put in a delay slot leaves the slot (a nop stays) with its constant, and a register copy keeps its `lui` | what the assembler's immediate macros produced; `$at` must be free there, and the slot use's result unread on the taken path |
 | `at-branch-constants` | web | a small constant compared by `beq`/`bne` against a loop-invariant value is built in `$at` before each branch (`addiu $at,$zero,1; beq mode,$at`) | the assembler's `beq reg,imm` macro; a constant the loop compares fresh loads with (the shared drivers' `-1`) keeps its register |
-| `sign-extend-load` | web | `lbu`/`lhu` whose only use is `sll 24`/`16; sra` -> `lb`/`lh` into the result | the `(s8)gModel_bCurrentDrawMode` casts; the result web has no other definition |
+| `sign-extend-load` | web | `lbu`/`lhu` whose only use is `sll 24`/`16; sra` -> `lb`/`lh` into the result; another `sll 24` of the load that is only tested against zero tests the result instead | the `(s8)gModel_bCurrentDrawMode` casts; the result web has no other definition; `(x << 24) == 0` exactly when `(s8)x == 0` |
 | `zero-extend-shifts` | web | `andi d,s,0xFFFF` -> `sll 16; srl 16`; in a delay slot the `sll` stays in the slot | the hand-written code never uses `andi` for this; `d` must be dead at the branch target |
 | `reuse-load` | web | a second `lw` of the same word through an unchanged pointer reuses the first | GCC reloads because a packet store might alias the cache (A2) |
 | `zero-as-addiu` | web | `move d,$zero` -> `addiu d,$zero,0` (`li d,0`) | identical value |
@@ -138,6 +138,7 @@ fill-branch-slot fill-jump-slot                           (physical stage)
 | `loop-constant` | web | a small `addiu r,$zero,imm` that only one loop reads is set at the top of the loop body, not hoisted by GCC's loop-invariant motion | re-materialising a constant |
 | `store-delay-slot` | web | a store right before a branch with an empty slot moves into the slot | it ran on both paths before and still does |
 | `gte-load-early` | web | an `mtc2` moves up to just after the test of its own value, into that test's empty delay slot unless a store waits there; a value no earlier test reads does not cross a test (`gte_ldsz3`/`gte_ldsz4` writes, one per vertex) | only the skip path sees the extra SZ writes, and it reloads them before any AVSZ (A4) |
+| `rotate-loop-loads` | web | software pipelining by one iteration: a do-while loop whose head loads GTE input with `lwc2 off(p)`, `p` advanced once per iteration by a constant, loads it with `lw` into new registers in the preheader and again right after the advance and the GTE command (for the next iteration); the head moves them in with `mtc2` | the cache-preparation loops' original shape (the loads overlap RTPS/NCCS). The dependence check proves each rotation (below); the last iteration's extra read is A7 |
 | `dce` | web | delete pure instructions whose results are unread | |
 | `drop-self-moves` | physical | `addu r,r,$zero` after renaming | GCC's `move $11,$4` once both are `$a0` |
 | `frameless` | physical | delete the `$sp` frame; park the callee-saved registers the body writes in the argument block (`frameless = $a0 0x20`; shared drivers `0x28`) | saves follow the argument unpacking, restores open the exit block; fails if anything else uses `$sp` |
@@ -431,6 +432,15 @@ applies to with the result:
   register rewritten before the next GTE command, or a store into the packet
   being built (A6, below); moves across labels and control-flow changes
   are reported;
+- loop rotations (`rotate-loop-loads`) are proven on the rule output: each
+  rotated register has exactly two definitions, the same `lw off(p)` in the
+  preheader and in the body after the body's only, constant advance of `p`
+  on the straight path from the loop head; its one reader is the `mtc2` that
+  replaced the `lwc2`, before the advance, so it sees the word the `lwc2`
+  read; the loop head is reached only by falling in or by its back edge;
+  no store in the loop (or between the preheader load and the loop) may
+  write the word (A2); and the register is dead on every loop exit, so the
+  last iteration's extra load only reads (A7);
 - insertions must be dead, rebuild a constant the readers expect, copy a
   register whose single value every reader of the copy expects (the
   original keeps `colour = template` in its own register), or be frameless
@@ -440,6 +450,12 @@ applies to with the result:
 
 A6 (unlinked packet words): until tag-build links a packet into the OT its
 words are scratch; a path that skips the link reuses or abandons them.
+
+A7 (reading past a source array): a rotated loop loads one element past
+the end of its source array on its last iteration (the vertex and normal
+arrays of a shared HMD block). The value is never used; the array lies in
+the model data, followed by more of it, and PlayStation RAM reads do not
+fault, so the read is harmless. The C itself never reads past the array.
 
 Result on the 60 massaged functions:
 
