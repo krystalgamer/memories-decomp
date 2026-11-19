@@ -1,20 +1,22 @@
 # Assembly massage for hand-written renderers
 
 Status: integrated for the twelve wireframe drivers of
-`src/game/wireframe_renderers.c` and the sixteen shared Gt3/Gt4 drivers of
-`src/game/shared_polygon_renderers.c`, which build through the
+`src/game/wireframe_renderers.c`, the sixteen shared Gt3/Gt4 drivers of
+`src/game/shared_polygon_renderers.c` and the thirty-two direct polygon
+drivers of `src/game/polygon_renderers.c`, which build through the
 `gcc_2_8_1_o2_massaged` profile in every resident executable (see
-[Build integration](#build-integration)). The direct polygon renderers
-(`src/game/polygon_renderers.c`) and the shared cache-preparation stage
-(`src/game/shared_primitive_cache_prepare.c`) still use the
-register-variable C of the `gcc_2_8_1_g0_handwritten_asm` profile.
+[Build integration](#build-integration)). Only the shared cache-preparation
+stage (`src/game/shared_primitive_cache_prepare.c`) still uses the
+register-variable C of the `gcc_2_8_1_g0_handwritten_asm` profile; see
+[Next steps](#next-steps) for why.
 
 The tool is `tools/project/asm_massage.py`, with its rule catalogue in
 `tools/project/asm_massage_rules.py`, the dependence checker in
 `tools/project/asm_massage_deps.py` and unit tests in
 `tools/project/tests/test_asm_massage.py`. Edit files live beside their
-source, in `src/game/wireframe_renderers.massage/` and
-`src/game/shared_polygon_renderers.massage/`.
+source, in `src/game/wireframe_renderers.massage/`,
+`src/game/shared_polygon_renderers.massage/` and
+`src/game/polygon_renderers.massage/`.
 
 ## Motivation
 
@@ -241,7 +243,7 @@ $v0.1 = $a3       # lw $v0.1, 0x0($t3.1)
 
 ## Metrics
 
-All 28 functions match exactly with the one rule list. "By
+All 60 functions match exactly with the one rule list. "By
 rules" counts final instructions produced or rewritten by a rule, including
 derived nops; "kept" are GCC's instructions with only their registers
 renamed; "residual" instructions are the ones the residual diff placed.
@@ -336,6 +338,58 @@ code, so they stay in the residual. A C ordering experiment for each
 (statement order of the colour loads, the copies, the guard) changed GCC's
 schedule only for the colour loads, which the template now uses.
 
+### Direct polygon drivers
+
+The thirty-two drivers of `src/game/polygon_renderers.c`, from one C
+template per shape (FT3/GT3/FT4/GT4, window record, two-sided, semi):
+
+| Function | Address | Retail | Kept | By rules | Residual instrs | Residual diff lines | Map entries |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| `Model_DrawFt3Primitives` | `0x800612C0` | 151 | 52 | 89 | 10 | 20 | 40 |
+| `Model_DrawGt3Primitives` | `0x8006151C` | 177 | 65 | 90 | 22 | 46 | 51 |
+| `Model_DrawFt4Primitives` | `0x800617E0` | 169 | 59 | 94 | 16 | 33 | 44 |
+| `Model_DrawGt4Primitives` | `0x80061A84` | 214 | 68 | 110 | 36 | 76 | 63 |
+| `Model_DrawFt3WindowRecordPrimitives` | `0x80061DDC` | 159 | 54 | 94 | 11 | 23 | 43 |
+| `Model_DrawGt3WindowRecordPrimitives` | `0x80062058` | 185 | 65 | 95 | 25 | 54 | 54 |
+| `Model_DrawFt4WindowRecordPrimitives` | `0x8006233C` | 177 | 60 | 98 | 19 | 41 | 46 |
+| `Model_DrawGt4WindowRecordPrimitives` | `0x80062600` | 222 | 72 | 115 | 35 | 71 | 63 |
+| `Model_DrawTwoSidedFt3Primitives` | `0x80062978` | 146 | 52 | 79 | 15 | 31 | 39 |
+| `Model_DrawTwoSidedGt3Primitives` | `0x80062BC0` | 172 | 64 | 86 | 22 | 46 | 51 |
+| `Model_DrawTwoSidedFt4Primitives` | `0x80062E70` | 164 | 58 | 90 | 16 | 33 | 44 |
+| `Model_DrawTwoSidedGt4Primitives` | `0x80063100` | 209 | 67 | 106 | 36 | 76 | 63 |
+| `Model_DrawTwoSidedFt3WindowRecordPrimitives` | `0x80063444` | 154 | 53 | 84 | 17 | 35 | 43 |
+| `Model_DrawTwoSidedGt3WindowRecordPrimitives` | `0x800636AC` | 180 | 64 | 91 | 25 | 54 | 54 |
+| `Model_DrawTwoSidedFt4WindowRecordPrimitives` | `0x8006397C` | 172 | 59 | 94 | 19 | 41 | 46 |
+| `Model_DrawTwoSidedGt4WindowRecordPrimitives` | `0x80063C2C` | 217 | 71 | 111 | 35 | 71 | 63 |
+| `Model_DrawSemiFt3Primitives` | `0x80063F90` | 174 | 60 | 94 | 20 | 40 | 49 |
+| `Model_DrawSemiGt3Primitives` | `0x80064248` | 200 | 72 | 97 | 31 | 67 | 55 |
+| `Model_DrawSemiFt4Primitives` | `0x80064568` | 192 | 68 | 102 | 22 | 49 | 49 |
+| `Model_DrawSemiGt4Primitives` | `0x80064868` | 237 | 82 | 116 | 39 | 81 | 71 |
+| `Model_DrawSemiFt3WindowRecordPrimitives` | `0x80064C1C` | 182 | 62 | 100 | 20 | 42 | 49 |
+| `Model_DrawSemiGt3WindowRecordPrimitives` | `0x80064EF4` | 208 | 69 | 103 | 36 | 76 | 58 |
+| `Model_DrawSemiFt4WindowRecordPrimitives` | `0x80065234` | 200 | 68 | 110 | 22 | 46 | 54 |
+| `Model_DrawSemiGt4WindowRecordPrimitives` | `0x80065554` | 245 | 79 | 122 | 44 | 90 | 71 |
+| `Model_DrawTwoSidedSemiFt3Primitives` | `0x80065928` | 169 | 60 | 89 | 20 | 40 | 49 |
+| `Model_DrawTwoSidedSemiGt3Primitives` | `0x80065BCC` | 195 | 71 | 93 | 31 | 67 | 55 |
+| `Model_DrawTwoSidedSemiFt4Primitives` | `0x80065ED8` | 187 | 67 | 98 | 22 | 49 | 48 |
+| `Model_DrawTwoSidedSemiGt4Primitives` | `0x800661C4` | 232 | 81 | 112 | 39 | 81 | 71 |
+| `Model_DrawTwoSidedSemiFt3WindowRecordPrimitives` | `0x80066564` | 177 | 61 | 96 | 20 | 42 | 49 |
+| `Model_DrawTwoSidedSemiGt3WindowRecordPrimitives` | `0x80066828` | 203 | 71 | 99 | 33 | 71 | 58 |
+| `Model_DrawTwoSidedSemiFt4WindowRecordPrimitives` | `0x80066B54` | 195 | 67 | 106 | 22 | 46 | 54 |
+| `Model_DrawTwoSidedSemiGt4WindowRecordPrimitives` | `0x80066E60` | 240 | 78 | 118 | 44 | 90 | 71 |
+
+Their residuals are 10-44 instructions (7-18% of each function, 20-90 diff
+lines, 1728 in all). The flat-shaded drivers need least (20-49 lines),
+the GT4 forms most. What repeats is the original's scheduling: the
+prologue's argument loads and the `mtc2 template,$6` interleaved with the
+template words, the original's extra `colour` register copy, the OT entry
+load before the `gte_stsxy` stores, the colour-cache offset (`normal / 2`)
+computed on each path instead of once above the draw-mode branch, the
+second pass's word copies interleaved with the CLUT and blend updates, and
+in the semi variants the blend-flag setup block. Each is either a single
+moved instruction or a choice between two equal registers, which a rule
+could not make without matching one function's layout.
+
 ## Dependence check
 
 `check` also proves that the residual keeps the program's meaning, so a
@@ -387,15 +441,15 @@ applies to with the result:
 A6 (unlinked packet words): until tag-build links a packet into the OT its
 words are scratch; a path that skips the link reuses or abandons them.
 
-Result on the 28 massaged functions:
+Result on the 60 massaged functions:
 
 | Functions | Moves / re-registered / insertions / deletions / merged | Result |
 | --- | --- | --- |
 | 12 wireframe drivers | 0 / 0 / 1 (the dead `nortop` load) / 0 / 0 | proven |
-| 13 shared polygon drivers | 10-25 / 3-9 / 0-3 (dead or rebuilt constants; save-area accesses counted apart) / 0-2 / 0 | proven |
-| `Model_DrawSharedSemiGt3WindowRecordPrimitives`, `Model_DrawSharedSemiGt4Primitives`, `Model_DrawSharedTwoSidedSemiGt4Primitives` | 22-27 / 3-9 / 2-3 / 0-2 / 1 | proven |
+| 16 shared polygon drivers | 10-25 / 3-12 / 0-3 (dead or rebuilt constants; save-area accesses counted apart) / 0-3 / 0-1 (the semi window GT3 and the two semi GT4 forms merge one) | proven |
+| 32 direct polygon drivers | 4-18 / 4-26 / 1-2 (dead, rebuilt constants, or the `colour` register copy in sixteen of them) / 0-4 / 0-1 | proven |
 
-All 28 residuals are proven with no assumption beyond A1-A6. In the three
+All 60 residuals are proven with no assumption beyond A1-A6. In the three
 semi drivers GCC duplicates the code-byte shift (`srl $s3,$s0,24`) into
 the two ways into the join after the semi setup (one in a delay slot, one
 behind an extra label); the original computes it once after the join. The
@@ -427,51 +481,23 @@ more than it gains. The scheduler was left out.
 The build gate for the integrated units:
 
 ```text
-$ make check-asm-massage | grep -E 'MATCH|check:'
-  MATCH 0x248 bytes at 0x80067354
-  MATCH 0x264 bytes at 0x80067858
-  MATCH 0x2bc bytes at 0x8006759c
-  MATCH 0x2d8 bytes at 0x80067abc
-  MATCH 0x2a4 bytes at 0x8006875c
-  MATCH 0x2c0 bytes at 0x80068d18
-  MATCH 0x318 bytes at 0x80068a00
-  MATCH 0x334 bytes at 0x80068fd8
-  MATCH 0x23c bytes at 0x80067d94
-  MATCH 0x258 bytes at 0x8006825c
-  MATCH 0x28c bytes at 0x80067fd0
-  MATCH 0x2a8 bytes at 0x800684b4
-  MATCH 0x298 bytes at 0x8006930c
-  MATCH 0x2b4 bytes at 0x8006988c
-  MATCH 0x2e8 bytes at 0x800695a4
-  MATCH 0x304 bytes at 0x80069b40
-  MATCH 0x150 bytes at 0x8006a3f0
-  MATCH 0x150 bytes at 0x80069e44
-  MATCH 0x180 bytes at 0x8006a694
-  MATCH 0x180 bytes at 0x8006a0e8
-  MATCH 0x154 bytes at 0x8006a540
-  MATCH 0x154 bytes at 0x80069f94
-  MATCH 0x188 bytes at 0x8006a814
-  MATCH 0x188 bytes at 0x8006a268
-  MATCH 0x160 bytes at 0x8006ac88
-  MATCH 0x160 bytes at 0x8006a99c
-  MATCH 0x18c bytes at 0x8006ade8
-  MATCH 0x18c bytes at 0x8006aafc
-asm_massage check: 28/28 MATCH and proven
+$ make check-asm-massage | tail -1
+asm_massage check: 60/60 MATCH and proven
 ```
 
 GCC's instruction counts for the wireframes (before massaging) were 104
 (+2 nops) for the FT3/GT3 drivers, 118 (+4) for FT4/GT4, 128 (+3) for shared
 GT3 and 149 (+4) for shared GT4. The sixteen polygon drivers go from
 210-276 GCC instructions to their retail 143-205. The full report for one
-polygon driver:
+shared polygon driver:
 
 ```text
 Model_DrawSharedGt3Primitives: gcc -O2 215 instructions (+1 nops), massaged 146, retail 146
   register map entries: 52; residual: 20 removed, 20 added lines
   instruction count per rule (before->after): aligned-word-copy 216->204, gte-direct-read 204->202, unspill 202->189, undo-strength-reduction 189->183, word-compose 183->167, halfword-words 167->170, tag-build 170->165, zero-extend-shifts 165->166, reuse-load 166->163, loop-constant 163->164, store-delay-slot 164->163, gte-load-early 163->160, drop-self-moves 160->159, frameless 159->146
-  final instructions by origin: aligned-word-copy+increment-sink+undo-strength-reduction=4, aligned-word-copy+reuse-load+undo-strength-reduction=3, at-constants=3, at-constants+unspill=1, delay=2, dmpsx-native=2, fill-load-delay+invariant-last=1, frameless=6, gcc=50, gte-direct-read=2, gte-load-early=6, halfword-words=10, increment-sink=1, increment-sink+undo-strength-reduction=2, invariant-last=3, loop-constant=2, loop-load-forwarding+tag-build=1, residual=20, store-delay-slot+tag-build=1, tag-build=8, undo-strength-reduction=7, undo-strength-reduction+unspill=1, unspill=2, word-compose=6, zero-extend-shifts=2
+  final instructions by origin: aligned-word-copy+increment-sink+undo-strength-reduction=4, aligned-word-copy+reuse-load+undo-strength-reduction=3, at-branch-constants=2, at-constants=3, at-constants+invariant-last+unspill=1, delay=2, dmpsx-native=2, fill-load-delay+invariant-last=1, frameless=6, gcc=47, gte-direct-read=2, gte-load-early=6, halfword-words=10, increment-sink=1, increment-sink+undo-strength-reduction=2, invariant-last=3, invariant-last+unspill=1, loop-constant=2, loop-load-forwarding+tag-build=1, residual=20, store-delay-slot+tag-build=1, tag-build=8, undo-strength-reduction=7, undo-strength-reduction+unspill=1, unspill=2, word-compose=6, zero-extend-shifts=2
   relocations: R_MIPS_HI16 gModel_dwPolyGt3Template, R_MIPS_LO16 gModel_dwPolyGt3Template, R_MIPS_HI16 gModel_dwTpageBlendRateBits, R_MIPS_LO16 gModel_dwTpageBlendRateBits, R_MIPS_HI16 gModel_dwSecondPassClutBits, R_MIPS_LO16 gModel_dwSecondPassClutBits, R_MIPS_HI16 gModel_bCurrentDrawMode, R_MIPS_LO16 gModel_bCurrentDrawMode, R_MIPS_HI16 gModel_dwLitColorCacheBase, R_MIPS_LO16 gModel_dwLitColorCacheBase, R_MIPS_26 .text, R_MIPS_HI16 gGraphics_pPacketWorkCursor, R_MIPS_LO16 gGraphics_pPacketWorkCursor
-  dependence check: 10 moves, 8 re-registered, 0 insertions (0 dead, 0 constants, 2 saves), 0 deletions, 0 merged duplicates; all dependences preserved
+  dependence check: 10 moves, 8 re-registered, 0 insertions (0 dead, 0 constants, 0 copies, 2 saves), 0 deletions, 0 merged duplicates; all dependences preserved
   MATCH 0x248 bytes at 0x80067354
 ```
 
@@ -488,7 +514,7 @@ against `.text`; the linked bytes check its target).
 
 - Rules preserve the C's meaning under their preconditions and assumptions
   A1-A5; the residual is now checked too (see the dependence check), under
-  A6. It proves all 28 residuals. Control-flow rewrites other than merging
+  A6. It proves all 60 residuals. Control-flow rewrites other than merging
   a duplicated instruction at a join are still reported, not proven.
 - A1-A6 hold for the game's data but are not C guarantees.
 - The scheduling rules (`guard-chain`, `preheader-order`,
@@ -518,9 +544,11 @@ against `.text`; the linked bytes check its target).
   Japanese and European executables build the unit the same way.
 - Edit files: by convention, not a manifest field. A source
   `<unit>.c` keeps one `<unit>.massage/<function>.massage` per
-  function, named after the function. `massage_unit` requires exactly one
-  edit per function GCC emitted and no other, processes them in GCC's
-  (source) order, gives each function its own label prefix
+  function, named after the function. `massage_unit` requires an edit for
+  every function GCC emitted (a source built as two objects split by a
+  define, as `polygon_renderers.c` is in Japan and Europe, leaves the other
+  object's edits unused; the contract check matches the directory against
+  the manifest), processes them in GCC's (source) order, gives each function its own label prefix
   (`.L<function>_<n>`) and rejects any data directive, so a unit with
   string literals or data cannot silently lose it.
 - Incremental cache: `build_incremental.py` adds the hashes of
@@ -541,17 +569,20 @@ against `.text`; the linked bytes check its target).
 
 ## Next steps
 
-The wireframe family (one-line residuals) and the shared polygon family
-(40-87 diff lines, all proven mechanically, so review can focus on the C
-and the rules) are integrated, with `make check-asm-massage` as the gate.
-A scheduler does not shrink the polygon residuals.
+All three families are integrated, with `make check-asm-massage` as the
+gate: the wireframes with one-line residuals, the shared and direct polygon
+drivers with 20-90 diff lines of the original's scheduling, all proven
+mechanically, so review can focus on the C and the rules. A scheduler does
+not shrink the polygon residuals.
 
-Next: `src/game/polygon_renderers.c`, which shares the second pass and
-colour arithmetic with the shared drivers. The shared cache-preparation
-stage needs more than a new rule: it moves each vector into the GTE with
-`mtc2` from registers loaded one iteration ahead (a software pipeline that
-also reads one entry past the range), and no stock `inline_c.h` macro moves
-a register into `VXY0`/`VZ0` or `RGB`, so plain C plus the massage cannot
-express it without a loop-pipelining transformation the dependence check
-does not prove. The hand-written profile, `handwritten_asm.h` and
-`gte_native.h` stay until no unit uses them.
+The one hand-written routine left is the shared cache-preparation stage,
+`Model_PrepareSharedPrimitiveCaches`. `gte-direct-write` now covers its
+`mtc2 template,$6`, but its vertex and normal loops are software-pipelined:
+each iteration moves the vector loaded on the previous one into the GTE
+(`lw lo,0(src); lw hi,4(src)` ahead of `mtc2 lo,$0; mtc2 hi,$1`), so the
+last iteration reads the entry past the end of the range. Plain C either
+reads past the array (not portable C) or loads each vector where it is
+used, and turning that into the pipelined loop is a loop rotation with a
+speculative load that the dependence check cannot prove. So it keeps the
+`gcc_2_8_1_g0_handwritten_asm` profile, and with it `handwritten_asm.h`,
+`gte_native.h` and `tools/project/handwritten_asm_contract.py`.

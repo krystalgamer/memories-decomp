@@ -1,0 +1,107 @@
+# Model_DrawFt3WindowRecordPrimitives: massage of its plain C in src/game/polygon_renderers.c.
+function = Model_DrawFt3WindowRecordPrimitives
+source = src/game/polygon_renderers.c
+address = 0x80061DDC
+size = 0x27C
+rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-write unspill invariant-last fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants at-branch-constants sign-extend-load zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot fill-jump-slot
+frameless = $a0 0x20
+
+[registers]
+$v0.1 = $a3       # lw $v0.1, 0x0($s5.1)
+$v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
+$v0.4 = $s6       # lui $v0.4, %hi(gModel_bCurrentDrawMode)
+$v0.7 = $t7       # lw $v0.7, 0x4($s5.1)
+$v0.9 = $t5       # srl $v0.9, %word1, 16
+$v0.12 = $t5      # sll $v0.12, %word2, 16
+$v0.15 = $t5      # srl $v0.15, %word2, 16
+$v0.18 = $t0      # sll $v0.18, %word1, 16
+$v0.23 = $t5      # addu $v0.23, $v1.2, $s7.1
+$v0.24 = $t0      # srl $v0.24, $v1.2, 1
+$v0.27 = $t0      # srl $v0.27, $a1.1, 1
+$v0.42 = $t1      # and $v0.42, $a2.2, $at
+$v0.43 = $t0      # sll $v0.43, $t3.1, 16
+$v1.1 = $a1       # lw $v1.1, 0x14($s5.1)
+$v1.2 = $t0       # srl $v1.2, $v0.18, 13
+$a0.0 = $a0     
+$a1.1 = $t0       # addu $a1.1, $v1.2, $zero
+$a2.1 = $t1       # lw $a2.1, 0x8($t8.1)
+$a3.1 = $t9       # lw $a3.1, 0x10($s5.1)
+$t0.1 = $v0       # addu $t0.1, $v0.34, $v0.8
+$t1.1 = $v1       # and $t1.1, $t7.2, $at
+$t3.1 = $t0       # lw $t3.1, 0x4($t8.1)
+$t7.1 = $s0       # lui $t7.1, %hi(gModel_dwPolyFt3Template)
+$t7.7 = $v1       # lw $t7.7, 0xC($a3.1)
+$t7.9 = $v1       # lw $t7.9, 0x14($a3.1)
+$t7.11 = $v1      # lw $t7.11, 0x1C($a3.1)
+$s0.1 = $s3       # srl $s0.1, $t7.2, 24
+$s0.2 = $t6       # lw $s0.2, 0x8($s5.1)
+$s1.1 = $s6       # lb $s1.1, %lo(gModel_bCurrentDrawMode)($v0.4)
+$s2.1 = $a1       # lw $s2.1, 0x18($s5.1)
+$s3.1 = $s7       # lui $s3.1, %hi(gModel_dwLitColorCacheBase)
+$s4.1 = $s2       # lui $s4.1, %hi(gModel_dwSecondPassClutBits)
+$s5.1 = $a0       # addu $s5.1, $a0.0, $zero
+$s6.1 = $s1       # lui $s6.1, %hi(gModel_dwTpageBlendRateBits)
+$s6.6 = $s4       # lui $s6.6, 0xE200
+$s7.1 = $a2       # lw $s7.1, 0x1C($s5.1)
+$s7.2 = $s5       # lw $s7.2, 0x0($t8.1)
+$s7.3 = $t2       # lw $s7.3, 0xC($t8.1)
+$t8.1 = $a3       # addu $t8.1, $v1.1, $v0.3
+$t9.1 = $t8       # lhu $t9.1, 0x2($v0.1)
+%tag1 = $t5       # lw %tag1, 0x0($t0.1)
+%word1 = $t0      # lw %word1, 0x10($t8.1)
+%word2 = $t1      # lw %word2, 0x14($t8.1)
+
+[residual]
+--- rules
++++ retail
+@@ -18,3 +18,2 @@
+ lw $s0, %lo(gModel_dwPolyFt3Template)($s0)
+-mtc2 $s0, $6
+ lui $s1, %hi(gModel_dwTpageBlendRateBits)
+@@ -27,8 +26,11 @@
+ lw $s7, %lo(gModel_dwLitColorCacheBase)($s7)
++addu $t4, $s0, $zero
+ srl $s3, $s0, 24
++lui $s4, 0xE200
++lw $a1, 0x18($a0)
+ lw $a2, 0x1C($a0)
+-lw $a1, 0x18($a0)
+-lw $t7, 0x4($a0)
++mtc2 $s0, $6
++lw $t5, 0x4($a0)
+ lw $t6, 0x8($a0)
+-lw $t7, 0x4($t7)
++lw $t7, 0x4($t5)
+ .L9:
+@@ -68,3 +70,2 @@
+ beq $s6, $zero, .L6
+-nop
+ addu $t5, $t0, $a2
+@@ -88,4 +89,4 @@
+ srl $t0, $t0, 1
+-addu $t0, $t0, $s7
+-lw $t0, 0x0($t0)
++addu $v1, $t0, $s7
++lw $t0, 0x0($v1)
+ sw $t0, 0x8($t9)
+@@ -103,2 +104,3 @@
+ addu $v0, $v0, $t7
++lw $t5, 0x0($v0)
+ swc2 $12, 0xC($t9)
+@@ -106,3 +108,2 @@
+ swc2 $14, 0x1C($t9)
+-lw $t5, 0x0($v0)
+ .L4:
+@@ -110,6 +111,5 @@
+ sw $t1, 0x18($t9)
+-lui $s4, 0xE200
+ sw $t2, 0x20($t9)
++sw $s5, 0x4($t9)
+ sw $s4, 0x24($t9)
+-sw $s5, 0x4($t9)
+ sll $t5, $t5, 8
+@@ -140,3 +140,3 @@
+ sw $v1, 0x44($t9)
+-sw $s0, 0x30($t9)
++sw $t4, 0x30($t9)
+ addiu $t9, $t9, 0x28

@@ -812,15 +812,11 @@ def massage_unit(gcc_text: str, edits: dict[str, EditFile]) -> str:
     with its own edit file and label prefix (.L<function>_<n>)."""
     names = unit_functions(gcc_text)
     missing = sorted(set(names) - set(edits))
-    extra = sorted(set(edits) - set(names))
-    if missing or extra or len(set(names)) != len(names):
-        raise MassageError(
-            "edit files and functions differ: "
-            + "; ".join(filter(None, [
-                missing and "no edit for " + ", ".join(missing),
-                extra and "no function for " + ", ".join(extra),
-            ])) or "duplicate function"
-        )
+    if missing or len(set(names)) != len(names):
+        # Edit files without a function are allowed: a source built as
+        # several objects (split by defines) shares one edit directory, and
+        # matching_source_contracts checks the directory against the manifest.
+        raise MassageError("no edit for " + ", ".join(missing) if missing else "duplicate function")
     lines = list(HEADER)
     for name in names:
         lines += emit_function(run_pipeline(edits[name], gcc_text), name, f".L{name}_")

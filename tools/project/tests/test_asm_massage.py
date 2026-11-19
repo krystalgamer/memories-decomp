@@ -492,11 +492,11 @@ class UnitTests(unittest.TestCase):
         self.assertLess(text.index("\t.ent\tf"), text.index("\t.ent\tg"))
         self.assertTrue(text.startswith("\t.set\tnoreorder\n\t.set\tnomacro\n"))
 
-    def test_edits_must_cover_the_unit_exactly(self):
+    def test_every_function_needs_an_edit(self):
         with self.assertRaisesRegex(am.MassageError, "no edit for g"):
             am.massage_unit(self.GCC, {"f": self.edit("f")})
-        with self.assertRaisesRegex(am.MassageError, "no function for h"):
-            am.massage_unit(self.GCC, {name: self.edit(name) for name in "fgh"})
+        # An object built from part of the source leaves other edits unused.
+        self.assertIn(".ent\tg", am.massage_unit(self.GCC, {n: self.edit(n) for n in "fgh"}))
 
     def test_units_with_data_are_refused(self):
         edits = {name: self.edit(name) for name in "fg"}
