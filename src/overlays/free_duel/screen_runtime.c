@@ -114,7 +114,7 @@ DisplayObject *FreeDuel_SpawnSparkle(void)
     x->resource_uv.b.v = 0x80;
     x->field_48.word = 0x180018;
     DisplayObject_SetDepthOffset(x, 5);
-    x->flags |= 0x20;
+    x->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     return x;
 }
 

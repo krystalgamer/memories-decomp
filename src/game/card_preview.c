@@ -267,7 +267,7 @@ void CardPreview_DrawDetailPanel(DisplayObject *obj, GsOT *ordering_table) {
     PRM->xy.h.y = win->xy.h.y + obj->xy.h.y;
     PRM->extent.word = obj->field_3C.word;
     PRM->uv.word = obj->resource_uv.word;
-    if (obj->resource_branch_index < 0x14) {
+    if (obj->resource_branch_index < CARD_TYPE_MAGIC) {
         if (rec->stat_palette_flags & 0x80) {
             PRM->cxcy.h.cy = PRM->cxcy.h.cy + 1;
         }
@@ -579,7 +579,7 @@ DisplayObject *CardPreview_CreateResourceObjects(s32 index, s32 attack, s32 defe
     object->field_48.pivot.y = DUEL_RESOURCE_SECONDARY_Y;
     object->kind_index.front_variant = (u8)variant;
     object->attribute |= 0x01000000;
-    object->flags |= 8;
+    object->flags |= DISPLAY_OBJECT_FLAG_SCREEN_SPACE;
 
     DisplayObject_SelectOrderingTable1(object);
     DisplayObject_SetDepthOffset(object, -1);

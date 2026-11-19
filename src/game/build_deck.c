@@ -1140,42 +1140,42 @@ void BuildDeck_InitScreen(BuildDeckTransitionState *base, void *deck, u16 *other
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x136, BUILD_DECK_CURSOR_Y, 0, 4, 0xC, 0xC, 0x208);
-    object->flags |= 0x20;
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     DisplayObject_SetDepthOffset(object, 8);
     state->lists[0].scroll_box = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x26A, BUILD_DECK_CURSOR_Y, 0, 4, 0xC, 0xC, 0x208);
-    object->flags |= 0x20;
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     DisplayObject_SetDepthOffset(object, 8);
     state->lists[1].scroll_box = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0, BUILD_DECK_LIST_Y, 0, 4, 2, 0xC, 0x208);
-    object->flags |= 0x20;
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     DisplayObject_SetDepthOffset(object, 0xA);
     state->lists[0].cursor_box = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(
         object, 0x148, BUILD_DECK_LIST_Y, 0, 4, 3, 0xC, 0x218);
-    object->flags |= 0x20;
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     DisplayObject_SetDepthOffset(object, 0xA);
     state->lists[1].cursor_box = object;
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 9, 0xC, 0x208);
-    object->flags |= 0x20;
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     DisplayObject_SetDepthOffset(object, 0xA);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 0xA, 0xC, 0x208);
-    object->flags |= 0x20;
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     DisplayObject_SetDepthOffset(object, 0xA);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0, 0, 0, 4, 0xB, 0xC, 0x208);
-    object->flags |= 0x20;
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     DisplayObject_SetDepthOffset(object, -4);
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPosition(object, 0x140, 0, 0, 4, 0xB, 0xC, 0x208);
-    object->flags |= 0x20;
+    object->flags |= DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
     DisplayObject_SetDepthOffset(object, -4);
 #ifdef VERSION_EUROPE
     quad = DisplayObject_AcquireSlot(
