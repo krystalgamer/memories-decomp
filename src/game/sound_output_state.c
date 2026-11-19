@@ -122,7 +122,7 @@ s32 SD_GetCdVolume(void)
    ends. No caller is present in the retail executable or its overlays. */
 s32 SD_EnqueueCdFade(s32 step, s32 target, s32 wait_for_fade) {
     SDCommand command;
-    command.command = 41;
+    command.command = SD_COMMAND_CD_FADE;
     command.args.fade.step = (s16) step;
     command.value = (s16) (u8) target;
     command.wait_for_cd_fade = (u8) wait_for_fade;
@@ -183,20 +183,20 @@ void SD_EnqueueCdStop(void)
     if ((state->s_bSD_DATA_SOURCE & 0x80) == 0)
         return;
     count = state->s_wSD_NUM_COMMAND;
-    if (state->s_uSD_COMMAND_QUEUE.c[count].command == 0x11)
+    if (state->s_uSD_COMMAND_QUEUE.c[count].command == SD_COMMAND_CD_STOP)
         return;
     if (count > 0) {
-        if (state->s_uSD_COMMAND_QUEUE.c[count - 1].command == 0x11)
+        if (state->s_uSD_COMMAND_QUEUE.c[count - 1].command == SD_COMMAND_CD_STOP)
             return;
         if (count >= 2) {
-            if (state->s_uSD_COMMAND_QUEUE.c[count - 2].command == 0x11)
+            if (state->s_uSD_COMMAND_QUEUE.c[count - 2].command == SD_COMMAND_CD_STOP)
                 return;
         }
     }
     SD_StartCdFade(-0x20, 0, 1);
     {
         SDCommand local;
-        local.command = 0x11;
+        local.command = SD_COMMAND_CD_STOP;
         SD_EnqueueCommand(&local);
     }
 }
@@ -245,7 +245,7 @@ s32 SD_EnqueueCdPlay(u16 command_id, s32 unused)
                     bank_sector_offset = descriptor_bank ? (descriptor_entries ? (s32)descriptor_bank->sector_offset : (s32)descriptor_bank->sector_offset) : (s32)descriptor_bank->sector_offset;
 
                     SD_DropQueuedCdPlayCommands();
-                    command.command = 0x24;
+                    command.command = SD_COMMAND_CD_PLAY;
                     command.value = entry_index;
                     command.args.cd_play.bank_sector_offset = bank_sector_offset;
                     command.args.cd_play.descriptor_table = (s32)descriptor_entries;
@@ -319,7 +319,7 @@ void SD_EnqueueCdSeek(s32 command_id)
         bank_sector_offset = descriptor_bank ? (descriptor_entries ? (s32)descriptor_bank->sector_offset : (s32)descriptor_bank->sector_offset) : (s32)descriptor_bank->sector_offset;
 
         SD_DropQueuedCdPlayCommands();
-        command.command = 0x21;
+        command.command = SD_COMMAND_CD_SEEK;
         command.value = entry_index;
         command.args.cd_play.bank_sector_offset = bank_sector_offset;
         command.args.cd_play.descriptor_table = (s32)descriptor_entries;
@@ -357,9 +357,9 @@ s32 SD_HasQueuedStreamCommand(void) {
     for (i = 1; i < g_SDValue->s_wSD_NUM_COMMAND; i++) {
         s32 c = g_SDValue->s_uSD_COMMAND_QUEUE.c[i].command;
         switch (c) {
-        case 0x11:
-        case 0x20:
-        case 0x24:
+        case SD_COMMAND_CD_STOP:
+        case SD_COMMAND_DATA_TRANSFER:
+        case SD_COMMAND_CD_PLAY:
             return 1;
         }
     }
@@ -381,12 +381,12 @@ void SD_StepActiveCommand(void)
     u32 second_word;
 
     switch (g_SDValue->s_bSD_ACTIVE_COMMAND) {
-    case 81:
+    case SD_COMMAND_SE_GROUP_TRANSFER:
         SD_RegisterSeqBlockNotes((SDSeqBlock *)g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG2,
                      g_SDValue->s_dwSD_ACTIVE_COMMAND_ARG0);
         break;
 
-    case 32:
+    case SD_COMMAND_DATA_TRANSFER:
         switch (g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE) {
         case 0:
             if (File_RequestSecondarySlot(0, 0) != 0) {
@@ -449,7 +449,7 @@ void SD_StepActiveCommand(void)
         g_SDValue->s_wSD_STATUS = g_SDValue->s_wSD_STATUS & 0xFFFC;
         return;
 
-    case 17:
+    case SD_COMMAND_CD_STOP:
         switch (g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE) {
         case 0:
             if (g_SDValue->s_wSD_CD_VOLUME == 0) {
@@ -480,7 +480,7 @@ void SD_StepActiveCommand(void)
         }
         return;
 
-    case 33:
+    case SD_COMMAND_CD_SEEK:
         if (File_RequestSecondarySlot(0, 0) != 0) {
             break;
         }
@@ -511,7 +511,7 @@ void SD_StepActiveCommand(void)
         }
         break;
 
-    case 36:
+    case SD_COMMAND_CD_PLAY:
         if (File_RequestSecondarySlot(0, 0) != 0) {
             break;
         }
@@ -556,7 +556,7 @@ void SD_StepActiveCommand(void)
         }
         break;
 
-    case 41:
+    case SD_COMMAND_CD_FADE:
     case 42:
         if (g_SDValue->s_bSD_ACTIVE_CD_FADE_WAIT != 0 && g_SDValue->s_wSD_CD_FADE_STEP != 0) {
             return;
@@ -565,7 +565,7 @@ void SD_StepActiveCommand(void)
         g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
         return;
 
-    case 72:
+    case SD_COMMAND_BGM_PLAY:
         if (g_SDValue->s_wSD_MUSIC_VAB_ID != 0) {
             SDMusicPackage *list = g_SDValue->s_pwSD_MUSIC_TRACK;
 
@@ -793,7 +793,7 @@ void SD_UpdateRuntime(void)
             state->s_bSD_BGM_FADE_TARGET = (u8)command_cursor->value;
         }
         break;
-    case 0x29:
+    case SD_COMMAND_CD_FADE:
         if (state->s_wSD_CD_FADE_STEP == 0) {
             state->s_wSD_CD_FADE_STEP = (u16)command_cursor->args.fade.step;
             state->s_bSD_CD_FADE_TARGET = (u8)command_cursor->value;
@@ -874,12 +874,12 @@ void SD_CancelMusicRequests(void)
             case 0x43:
             case 0x45:
             case 0x46:
-            case 0x48:
+            case SD_COMMAND_BGM_PLAY:
                 g_SDValue->s_uSD_COMMAND_QUEUE.c[i] =
                     g_SDValue->s_uSD_COMMAND_QUEUE.c[i + 1];
                 g_SDValue->s_wSD_NUM_COMMAND = g_SDValue->s_wSD_NUM_COMMAND - 1;
                 break;
-            case 0x20:
+            case SD_COMMAND_DATA_TRANSFER:
                 if (g_SDValue->s_uSD_COMMAND_QUEUE.c[i].transfer_selector != 0x20) {
                     break;
                 }
@@ -904,7 +904,7 @@ void SD_CancelMusicRequests(void)
     case 0x43:
     case 0x45:
     case 0x46:
-    case 0x48:
+    case SD_COMMAND_BGM_PLAY:
         g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
         g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;
         break;
@@ -938,8 +938,8 @@ void SD_DropQueuedCdPlayCommands(void)
     for (i = 0; i < g_SDValue->s_wSD_NUM_COMMAND && i >= 0 &&
                 g_SDValue->s_wSD_NUM_COMMAND != 0; ) {
         switch (g_SDValue->s_uSD_COMMAND_QUEUE.c[i].command) {
-        case 0x24:
-        case 0x29:
+        case SD_COMMAND_CD_PLAY:
+        case SD_COMMAND_CD_FADE:
         case 0x2B:
             g_SDValue->s_uSD_COMMAND_QUEUE.c[i] =
                 g_SDValue->s_uSD_COMMAND_QUEUE.c[i + 1];
@@ -951,8 +951,8 @@ void SD_DropQueuedCdPlayCommands(void)
         }
     }
     switch (g_SDValue->s_bSD_ACTIVE_COMMAND) {
-    case 0x24:
-    case 0x29:
+    case SD_COMMAND_CD_PLAY:
+    case SD_COMMAND_CD_FADE:
     case 0x2B:
         g_SDValue->s_bSD_ACTIVE_COMMAND = 0;
         g_SDValue->s_bSD_ACTIVE_COMMAND_PHASE = 0;

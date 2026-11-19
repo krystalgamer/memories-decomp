@@ -140,7 +140,7 @@ void SD_QueueValueLinkTransfer(s32 link_index)
                   data_start_sector + entry->sector_offset, entry->spu_size,
                   SD_VALUE_LINK_BLOCK_SIZE, 0x10);
     registration_state = g_SDValue;
-    registration_command.command = 0x51;
+    registration_command.command = SD_COMMAND_SE_GROUP_TRANSFER;
     registration_command.args.seq_block.spu_address = registration_state->s_dwSD_SEGROUP_SPU_ADDR;
     registration_command.args.seq_block.block_buffer = 0x801E6800;
     SD_EnqueueCommand(&registration_command);
