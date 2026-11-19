@@ -401,10 +401,10 @@ void FreeDuel_UpdateCursorTween(void)
         sx = (d << 8) / 8;
         d = gFreeDuel_bTargetRow;
         ty = d * 52 + 40;
-        widget->field_34.h.field_36 = sx;
+        widget->field_34.motion.velocity_x = sx;
         d = widget->xy.s.y;
         d = ty - d;
-        widget->field_38.h.field_38 = (d << 8) / 8;
+        widget->field_38.motion.velocity_y = (d << 8) / 8;
     }
 
     DisplayObject_StepPositionXY(widget);

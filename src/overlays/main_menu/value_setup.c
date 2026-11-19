@@ -540,10 +540,10 @@ void MainMenu_UpdateValueWidgetTween(DisplayObject *o)
         o->update = 0;
     }
     o->xy.h.x =
-        (o->field_34.h.field_36 * o->field_60) / 10 +
+        (o->field_34.ease.start_x * o->field_60) / 10 +
         (targetX * (10 - o->field_60)) / 10;
     o->xy.h.y =
-        (o->field_38.h.field_38 * o->field_60) / 10 +
+        (o->field_38.ease.start_y * o->field_60) / 10 +
         (targetY * (10 - o->field_60)) / 10;
 }
 
@@ -587,6 +587,6 @@ void MainMenu_StartValueWidgetTween(s32 index, s32 value)
     object->field_60 = 0xA;
     object->update_state = value;
     object->update = MainMenu_UpdateValueWidgetTween;
-    object->field_34.h.field_36 = object->xy.h.x;
-    object->field_38.h.field_38 = object->xy.h.y;
+    object->field_34.ease.start_x = object->xy.h.x;
+    object->field_38.ease.start_y = object->xy.h.y;
 }

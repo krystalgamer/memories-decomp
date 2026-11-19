@@ -120,7 +120,7 @@ definition through both callers, rather than preserving the former
 
 The cursor's motion path is velocity integration: it clears the fractional
 state with `DisplayObject_ResetVelocity`, writes the 8.8 deltas to
-`field_34.h.field_36` / `field_38.h.field_38`, and calls
+`field_34.motion.velocity_x` / `field_38.motion.velocity_y`, and calls
 `DisplayObject_StepPositionXY`. Both helpers take the canonical
 `DisplayObject *`; the record's `motion` union arms name the velocity
 reading, which does not generalize to object kinds that use the same

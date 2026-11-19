@@ -419,13 +419,13 @@ void NameEntry_UpdateGlyphFragment(DisplayObject *object)
     if ((flags & 0x80) == 0) {
         object->update_state = flags | 0x80;
         DisplayObject_ResetVelocity(object);
-        object->field_34.h.field_36 = Rand_GetInterval(0x200) - 0x100;
-        object->field_38.h.field_38 = -Rand_GetInterval(0x180);
+        object->field_34.motion.velocity_x = Rand_GetInterval(0x200) - 0x100;
+        object->field_38.motion.velocity_y = -Rand_GetInterval(0x180);
     }
-    object->field_34.h.field_36 =
-        DisplayObject_StepTowardZero(object->field_34.h.field_36, 8);
-    object->field_38.h.field_38 =
-        DisplayObject_StepToward(object->field_38.h.field_38, 0x800, 0x40);
+    object->field_34.motion.velocity_x =
+        DisplayObject_StepTowardZero(object->field_34.motion.velocity_x, 8);
+    object->field_38.motion.velocity_y =
+        DisplayObject_StepToward(object->field_38.motion.velocity_y, 0x800, 0x40);
     DisplayObject_StepPositionXY(object);
     if (object->xy.s.y >= NAME_ENTRY_FRAGMENT_BOTTOM) {
         DisplayObject_ReleaseIfPresent(object);
@@ -485,11 +485,11 @@ void NameEntry_UpdateCaretTween(DisplayObject *object)
     if ((flags & 0x80) == 0) {
         object->update_state = flags | 0x80;
         DisplayObject_ResetVelocity(object);
-        object->field_34.h.field_36 =
+        object->field_34.motion.velocity_x =
             ((object->field_44.target.x -
               object->xy.s.x) << 8) /
             object->field_60;
-        object->field_38.h.field_38 =
+        object->field_38.motion.velocity_y =
             ((object->field_44.target.y -
               object->xy.s.y) << 8) /
             object->field_60;
@@ -517,10 +517,10 @@ void NameEntry_UpdateGlyphTransfer(DisplayObject *w)
     if ((g->update_state & 0x80) == 0) {
         g->update_state |= 0x80;
         DisplayObject_ResetVelocity(g);
-        g->field_34.h.field_36 =
+        g->field_34.motion.velocity_x =
             ((g->field_44.target.x - g->xy.s.x) << 8) /
             g->field_60;
-        g->field_38.h.field_38 =
+        g->field_38.motion.velocity_y =
             ((g->field_44.target.y - g->xy.s.y) << 8) /
             g->field_60;
     }

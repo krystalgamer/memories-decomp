@@ -300,7 +300,17 @@ typedef struct DisplayObject {
        Several readings, no winner, so the plain halves are named for their
        offsets -- the same grounds 0x44 and 0x4C keep theirs on -- and each
        motion path takes the arm that names what it means: `motion` for the
-       velocity integrators, `ease` for the save-and-ease helpers. */
+       velocity integrators, `ease` for the save-and-ease helpers.
+
+       Callers take those arms wherever the integrator or easer consumes
+       the value: every routine that seeds 0x36/0x38/0x3A and then calls
+       DisplayObject_StepPosition* (or integrates the duel cursor's ground
+       position with fraction_x/fraction_z the same way) writes `motion`,
+       and the value-widget tween and the duel slide-back that read a saved
+       start take `ease`. The plain halves are left to the readings neither
+       arm covers: the main-menu entries' slide endpoints (0x36 from, 0x38
+       to), the start prompt's idle counter at 0x36, and the Gouraud corner
+       pairs duel_effect_text.c and debug_menu.c write. */
     union {
         u32 word;
         struct {

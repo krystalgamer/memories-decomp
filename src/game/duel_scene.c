@@ -3524,8 +3524,8 @@ void DuelScene_UpdateCardPlacement(void)
                 DisplayObject_ResetVelocity(
                     object);
                 object->field_60 = 8;
-                object->field_34.h.field_36 = placement_velocity((64 - object->xy.s.x) * 256);
-                object->field_38.h.field_38 = placement_velocity((82 - object->xy.s.y) * 256);
+                object->field_34.motion.velocity_x = placement_velocity((64 - object->xy.s.x) * 256);
+                object->field_38.motion.velocity_y = placement_velocity((82 - object->xy.s.y) * 256);
                 DisplayObject_SetDepthOffset(gDisplayObject_apWorkSlots.slots[0], (s8)((u8)object->depth_offset - 1));
                 SD_SEPlayFull(10);
                 gDuel_wPlacementCardId = 0;
@@ -3935,11 +3935,11 @@ void DuelScene_UpdateCardPlacement(void)
                 }
                 DisplayObject_ResetVelocity(
                     object);
-                object->field_34.h.field_36 = -((rand() & 255) + 768);
-                object->field_38.h.field_38 = -640;
+                object->field_34.motion.velocity_x = -((rand() & 255) + 768);
+                object->field_38.motion.velocity_y = -640;
             }
-            object->field_34.h.field_36 = DisplayObject_StepTowardZero(object->field_34.h.field_36, 8);
-            object->field_38.h.field_38 = DisplayObject_StepToward(object->field_38.h.field_38, 2048, 96);
+            object->field_34.motion.velocity_x = DisplayObject_StepTowardZero(object->field_34.motion.velocity_x, 8);
+            object->field_38.motion.velocity_y = DisplayObject_StepToward(object->field_38.motion.velocity_y, 2048, 96);
             DisplayObject_StepPositionXY(
                 object);
             if (object->xy.s.x < -52 || object->xy.s.y >= DUEL_CARD_PLACEMENT_SCREEN_HEIGHT) {
@@ -4619,8 +4619,8 @@ void DuelScene_UpdateHandActions(void)
                         side->cursor_object->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
                         return;
                     }
-                    obj->field_2C.h.field_2C = obj->field_34.h.field_36;
-                    obj->field_2C.h.field_2E = obj->field_38.h.field_38;
+                    obj->field_2C.h.field_2C = obj->field_34.ease.start_x;
+                    obj->field_2C.h.field_2E = obj->field_38.ease.start_y;
                     if (gAi_Selection.bytes[8] != 0) {
                         SD_SEPlayFull(0xB);
                         gDuel_wActionSubstate |= 0x2000;
@@ -5469,9 +5469,9 @@ void DuelScene_UpdateFieldActions(void)
             o->field_60 = 0x10;
             o->update_state = 0;
             o->field_2C.word = o->position.word;
-            o->field_34.h.field_36 =
+            o->field_34.motion.velocity_x =
                 ((o->position.s.x - other->position.s.x) << 8) / 16;
-            o->field_38.h.field_3A =
+            o->field_38.motion.velocity_z =
                 ((o->position.s.y - other->position.s.y) << 8) / 16;
             gDuel_wDisplayTransitionFlags = 0x52;
             o->position.word =
@@ -5537,9 +5537,9 @@ void DuelScene_UpdateFieldActions(void)
                 DisplayObject_ResetVelocity(o);
                 o->field_60 = 0x10;
                 o->update_state = 0;
-                o->field_34.h.field_36 =
+                o->field_34.motion.velocity_x =
                     ((other->position.s.x - o->position.s.x) << 8) / 16;
-                o->field_38.h.field_3A =
+                o->field_38.motion.velocity_z =
                     ((other->position.s.y - o->position.s.y) << 8) / 16;
                 /* Stored through a u32 pointer: a struct-member store
                    schedules the copy after the flag update; retail stores the
@@ -8696,11 +8696,11 @@ s32 Duel_UpdateDisplayTransition(void)
             o = source->cursor_object;
             if (o->field_60 != 0) {
                 t = (o->position.s.x << 8) | o->fraction_x;
-                t += o->field_34.h.field_36;
+                t += o->field_34.motion.velocity_x;
                 o->fraction_x = t;
                 o->position.h.field_28 = t >> 8;
                 t = (o->position.s.y << 8) | o->fraction_z;
-                t += o->field_38.h.field_3A;
+                t += o->field_38.motion.velocity_z;
                 o->position.h.field_2A = t >> 8;
                 o->fraction_z = t;
                 o->field_60--;
@@ -8851,7 +8851,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         d->field_2C.h.field_2E = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].y;
         q = ((d->field_2C.h.field_2E - d->position.s.y) << 8) / shift;
         gDuel_wDisplayTransitionFlags = 0x50;
-        d->field_38.h.field_3A = q;
+        d->field_38.motion.velocity_z = q;
         o->status |= 0xC0;
     } else {
         pos = o->col + 1;
@@ -8870,7 +8870,7 @@ void DuelCursor_ProcessGridDirection(DuelSelectionRecord *o, s32 dir) {
         d->field_2C.h.field_2C = gDuel_aFieldGridGroundPositions[gDuel_bActiveSide][index].x;
         gDuel_wDisplayTransitionFlags = 0x40;
         d->field_2C.h.field_2E = d->position.s.y;
-        d->field_34.h.field_36 =
+        d->field_34.motion.velocity_x =
             (((s16)d->field_2C.h.field_2C - d->position.s.x) << shift) / shift;
         o->status |= 0x80;
     }
@@ -10685,7 +10685,7 @@ void DuelEffect_ApplyRitual(void)
             object->attribute = attribute & 0xF7FFFFFF;
             object->flags = object_flags | 4;
             DisplayObject_ResetVelocity(object);
-            object->field_38.h.field_38 = 597;
+            object->field_38.motion.velocity_y = 597;
             gDuel_pCardPreviewObject = object;
             SD_SEPlayFull(0x26);
         }

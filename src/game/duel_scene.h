@@ -451,8 +451,8 @@ typedef char DuelCursorMotion_target_offsets_must_match[
     OFFSETOF(DisplayObject, field_2C.h.field_2E) == 0x2E ? 1 : -1
 ];
 typedef char DuelCursorMotion_step_offsets_must_match[
-    OFFSETOF(DisplayObject, field_34.h.field_36) == 0x36 &&
-    OFFSETOF(DisplayObject, field_38.h.field_3A) == 0x3A ? 1 : -1
+    OFFSETOF(DisplayObject, field_34.motion.velocity_x) == 0x36 &&
+    OFFSETOF(DisplayObject, field_38.motion.velocity_z) == 0x3A ? 1 : -1
 ];
 typedef char DuelCursorMotion_control_offsets_must_match[
     OFFSETOF(DisplayObject, field_60) == 0x60 &&
