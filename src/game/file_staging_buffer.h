@@ -15,7 +15,7 @@
 /* The password shop's view: while that screen runs the buffer holds one
  * record per card id, the card's price in starchips and then its eight-digit
  * password packed four bits a digit. Password_LookupCardID walks the
- * passwords from card 1 (gPassword_aTable) until a price of -1 ends the
+ * passwords from card 1 (shop_cards[1]) until a price of -1 ends the
  * table. */
 typedef struct {
     u32 price;
