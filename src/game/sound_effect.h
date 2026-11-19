@@ -46,6 +46,14 @@ void SD_QueueValueLinkTransfer(s32 link_index);
 void SD_ApplyVoiceSlotVolume(s32 index);
 void SD_UpdateVoiceSlots(void);
 void SD_KeyOffDynamicVoices(void);
+/* SD_ReplaceValueLink selects which sound-effect group (s_pstSD_SEGROUP_TABLE
+   entry) is resident: Duel_InitScene requests the duel group, and the boot
+   sequence and Main_RunDuel's return to the frontend request the frontend
+   group. */
+enum {
+    SD_SE_GROUP_DUEL = 1,
+    SD_SE_GROUP_FRONTEND = 2
+};
 s32 SD_ReplaceValueLink(s32 value);
 s32 SD_RequestValueLink(u16 value);
 void SD_QueueValueLinkList(u16 *items, s32 count);

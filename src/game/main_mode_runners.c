@@ -159,7 +159,7 @@ void Main_RunDuel(void)
 
         Fade_WaitOut();
         SD_BGMFadeOut();
-        SD_ReplaceValueLink(2);
+        SD_ReplaceValueLink(SD_SE_GROUP_FRONTEND);
         Main_ClearFrameServiceCallbacks();
         gGraphics_abOrderingTableLengths[3] = 6;
         Main_AdvanceFrames(4);
@@ -173,7 +173,7 @@ void Main_RunDuel(void)
     }
 }
 
-void Main_RunLibraryMenu(void){unsigned char f=gMain_bActiveModeState;if((f&MAIN_MODE_STATE_STARTED)==0){gMain_bActiveModeState=f|MAIN_MODE_STATE_STARTED;Library_InitializeScreen();Fade_WaitIn();}else{Library_UpdateScreen();if((gMain_bActiveModeState& MAIN_MODE_STATE_STARTED)==0){gGraphics_bSyncVBlankTarget=0;SD_BGMFadeOut();Fade_WaitOut();Main_ClearFrameServiceCallbacks();SD_ResetPendingEntries();SD_ReplaceValueLink(2);Main_AdvanceFrames(4);File_WaitForTransfers();}}}
+void Main_RunLibraryMenu(void){unsigned char f=gMain_bActiveModeState;if((f&MAIN_MODE_STATE_STARTED)==0){gMain_bActiveModeState=f|MAIN_MODE_STATE_STARTED;Library_InitializeScreen();Fade_WaitIn();}else{Library_UpdateScreen();if((gMain_bActiveModeState& MAIN_MODE_STATE_STARTED)==0){gGraphics_bSyncVBlankTarget=0;SD_BGMFadeOut();Fade_WaitOut();Main_ClearFrameServiceCallbacks();SD_ResetPendingEntries();SD_ReplaceValueLink(SD_SE_GROUP_FRONTEND);Main_AdvanceFrames(4);File_WaitForTransfers();}}}
 
 #include "main.h"
 #include "model_scene_states.h"

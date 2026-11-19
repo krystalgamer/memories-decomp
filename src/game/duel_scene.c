@@ -1963,7 +1963,7 @@ void Duel_InitScene(void)
 
     pid = &gDuel_bOpponentID;
     SD_ResetPendingEntries();
-    SD_ReplaceValueLink(1);
+    SD_ReplaceValueLink(SD_SE_GROUP_DUEL);
     Main_AdvanceFrames(4);
     File_WaitForTransfers();
     value = gDuel_bTerrain;
