@@ -1263,7 +1263,7 @@ void Duel_LoadPackageStage(FileTransferDescriptor *d, s32 stage)
         d->transfer_mode = 1;
         break;
     case 8:
-        d->sector_destination = d->alternate_sector_destination = gFile_StagingBuffer;
+        d->sector_destination = d->alternate_sector_destination = gFile_StagingBuffer.bytes;
         d->phase_size = 3 * FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         d->transfer_mode = 1;
@@ -4528,7 +4528,7 @@ void DuelScene_UpdateHandActions(void)
             if (!(gDuel_wActionSubstate & 0x8000)) {
                 gDuel_wActionSubstate |= 0x8000;
                 Ai_RefreshBoardSnapshot();
-                AiScript_Init(gFile_StagingBuffer);
+                AiScript_Init(gFile_StagingBuffer.bytes);
                 return;
             }
             if (AiScript_Run() != 0) {

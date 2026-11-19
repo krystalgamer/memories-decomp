@@ -441,14 +441,14 @@ void Password_UpdateShopScreen(void)
             gPassword_wShopState = flags2 | 0x8000;
             /* The shared staging buffer is raw bytes; this screen loads the
                price table into it. */
-            gText_StagedValues[0].pair.lo = ((PasswordShopCard *)gFile_StagingBuffer)[gPassword_wCardId].price;
+            gText_StagedValues[0].pair.lo = gFile_StagingBuffer.shop_cards[gPassword_wCardId].price;
             gText_StagedValues[0].pair.hi = gPassword_wCardId;
             if (Campaign_TestStoryFlag(
                     gPassword_wCardId + CAMPAIGN_FLAG_PASSWORD_USED_BASE) != 0) {
                 Password_CreateMessageBox(229, 128);
                 return;
             }
-            if (gLibrary_dwStarchips < ((PasswordShopCard *)gFile_StagingBuffer)[gPassword_wCardId].price) {
+            if (gLibrary_dwStarchips < gFile_StagingBuffer.shop_cards[gPassword_wCardId].price) {
                 Password_CreateMessageBox(228, 0);
             } else {
                 Password_CreateMessageBox(227, 0);
@@ -473,7 +473,7 @@ void Password_UpdateShopScreen(void)
         if ((flags3 & 0x8000) == 0) {
             gPassword_wShopState = flags3 | 0x8000;
             card = gPassword_wCardId;
-            gPassword_dwPriceRemaining = ((PasswordShopCard *)gFile_StagingBuffer)[card].price;
+            gPassword_dwPriceRemaining = gFile_StagingBuffer.shop_cards[card].price;
         }
         count = gPassword_dwPriceRemaining;
         step = 1;

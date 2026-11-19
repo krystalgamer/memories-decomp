@@ -4730,7 +4730,7 @@ void Model_AdvanceSlotLoad(s32 index)
     case 10:
         if (slot->skip_sound_setup == 0) {
             SD_LoadSequenceBankPair(
-                index, (u32 *)(gFile_StagingBuffer + (index << 11))
+                index, (u32 *)(gFile_StagingBuffer.bytes + (index << 11))
             );
         }
         break;
@@ -4993,7 +4993,7 @@ void Model_LoadMonsterMergeStage(FileTransferDescriptor *transfer, s32 stage)
             transfer->transfer_mode = 1;
         } else {
             transfer->sector_destination = transfer->alternate_sector_destination =
-                (gFile_StagingBuffer + slot_index * FILE_SECTOR_SIZE);
+                (gFile_StagingBuffer.bytes + slot_index * FILE_SECTOR_SIZE);
             transfer->phase_size = FILE_SECTOR_SIZE;
             gFile_dwTransferState &= 0xFFDCFFFF;
             transfer->transfer_mode = 1;
@@ -5219,8 +5219,8 @@ void Model_LoadSpecialBattlePackageStage(FileTransferDescriptor *transfer, s32 s
         break;
 
     case 7:
-        transfer->alternate_sector_destination = gFile_StagingBuffer;
-        transfer->sector_destination = gFile_StagingBuffer;
+        transfer->alternate_sector_destination = gFile_StagingBuffer.bytes;
+        transfer->sector_destination = gFile_StagingBuffer.bytes;
         transfer->phase_size = FILE_SECTOR_SIZE;
         gFile_dwTransferState &= 0xFFDCFFFF;
         transfer->transfer_mode = 1;

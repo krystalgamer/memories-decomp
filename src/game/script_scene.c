@@ -590,7 +590,7 @@ void Script_OpStoryFlag(void)
         gScript_StreamCursor = cursor + 4;
         offset = cursor[2] | (next[1] << 8);
         if (Campaign_TestStoryFlag(command))
-            gScript_StreamCursor = gFile_StagingBuffer + offset;
+            gScript_StreamCursor = gFile_StagingBuffer.bytes + offset;
     }
     gScript_wCommandWord = 0;
 }
@@ -788,7 +788,7 @@ void Script_OpJump(void)
     gScript_StreamCursor = source + 2;
     offset = source[0] | (source[1] << 8);
     gScript_wCommandWord = 0;
-    gScript_StreamCursor = gFile_StagingBuffer + offset;
+    gScript_StreamCursor = gFile_StagingBuffer.bytes + offset;
 }
 
 #include "card_constants.h"
@@ -1407,7 +1407,7 @@ void Script_OpJumpIfDeckIncomplete(void) {
     unsigned int offset;
     gScript_StreamCursor = current + 2;
     offset = current[0] | (current[1] << 8);
-    if (Duel_IsPlayerDeckComplete() == 0) gScript_StreamCursor = gFile_StagingBuffer + offset;
+    if (Duel_IsPlayerDeckComplete() == 0) gScript_StreamCursor = gFile_StagingBuffer.bytes + offset;
     gScript_wCommandWord = 0;
 }
 
@@ -1441,7 +1441,7 @@ void Script_RunTick(void)
     if ((state & DUEL_EVENT_SCRIPT_FLAG_STARTED) == 0) {
         event = gScript_EventState;
         /* The staged package opens with a table of u16 script offsets. */
-        gScript_StreamCursor = gFile_StagingBuffer + ((u16 *)gFile_StagingBuffer)[event];
+        gScript_StreamCursor = gFile_StagingBuffer.bytes + gFile_StagingBuffer.script_offsets[event];
         command = *gScript_StreamCursor++;
         gScript_DialogCommandLatch = 0;
         gScript_EventState = event | DUEL_EVENT_SCRIPT_FLAG_STARTED;
@@ -1537,8 +1537,8 @@ void Campaign_LoadScenePackageStage(FileTransferDescriptor *p, s32 stage)
         p->h = 1;
         /* The descriptor's x/y/w/h prefix is the RECT LoadImage2 takes. */
         LoadImage2((RECT *)p, (u32 *)image_buffer);
-        *(s32 *)&p->alternate_sector_destination = (s32)gFile_StagingBuffer;
-        *(s32 *)&p->sector_destination = (s32)gFile_StagingBuffer;
+        *(s32 *)&p->alternate_sector_destination = (s32)gFile_StagingBuffer.bytes;
+        *(s32 *)&p->sector_destination = (s32)gFile_StagingBuffer.bytes;
         m = 0xFFDCFFFF;
         v_2 = gFile_dwTransferState;
         p->phase_size = 0x1000;

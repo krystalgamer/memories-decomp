@@ -43,18 +43,6 @@ typedef struct {
 
 extern MainMenuPair gTrade_aListScroll[];
 
-/* One entry of gFile_StagingBuffer, the per-side inventory row state. Only the leading
-   display-object pointer is named; the rest is carried so the stride is
-   right. */
-typedef struct {
-    DisplayObject *object;
-#ifdef VERSION_EUROPE
-    s32 pad[6];
-#else
-    s32 pad[5];
-#endif
-} MainMenuState;
-
 /* These values are live on disjoint paths. Sharing their carrier reproduces
    the retail s2 allocation without a hard-register binding. */
 typedef union {

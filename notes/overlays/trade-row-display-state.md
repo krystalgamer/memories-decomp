@@ -47,31 +47,32 @@ DisplayObject retyping is introduced.
 
 ## Independent Trade row-set view
 
-The Trade refresh casts the shared `gFile_StagingBuffer` (formerly
-`D_801A8000`, with a `gTrade_aInventoryRowSets` alias) to
-`MainMenuState *`. That private record still has a leading
-`u8 *object` and the original five padding words, or six in Europe:
-strides remain 24/28 bytes. Neither the pads nor the pointer are retyped
-as the resident's independently recovered `CardListRowSet`.
+The Trade refresh reads the shared `gFile_StagingBuffer` (formerly
+`D_801A8000`, with a `gTrade_aInventoryRowSets` alias) through its
+`card_list_rows` view, the resident `CardListRowSet` records. The overlay
+used to carry a private `MainMenuState` record with only the leading
+display-object pointer named and five padding words, or six in Europe;
+those are the same 24/28-byte records `CardList_CreateDeckBoxStatRows`
+builds, so the overlay now shares the resident type.
 
 `CardList_CreateDeckBoxStatRows`, called once during Trade initialization,
 initializes the two logical row sets and their display objects. It assigns
 each object's row byte `kind_index.row_index`, clears bytes `field_68/69` and attaches
 `CardList_RenderDeckBoxStats`. The refresh later writes
-`gTrade_abSortMode[slot]` into that row object's byte `+0x69` through the
-original `object[0x69]` byte access. The resident renderer uses that byte
+`gTrade_abSortMode[slot]` into that row object's `resource_variant` byte
+(`+0x69`). The resident renderer uses that byte
 to brighten the selected sort icon. These sort choices are not the
 stats-mode bits held in the separate display's variant.
 
 All refresh behavior remains exact: forced or mode-zero reload, zero-ID
 holes, both sides' offer-deduction loop, optional 722-record qsort and
 unvalidated comparator indexing, followed by the sort-icon byte write.
-No exclusive two-record allocation, new bound, bool, extent or ownership
-claim follows from the two logical users.
+The two-record `card_list_rows` view is one member of the staging union,
+not an exclusive allocation.
 
-This is a Trade-only cast of phase-dependent shared RAM. The resident
-card-list rows, script bytecode, model payload/DMA, raw-word and other
-overlay interpretations cast the same single declaration. NA/Europe
+This is a Trade view of phase-dependent shared RAM. The resident
+card-list rows, script bytecode, model payload/DMA and the password shop's
+price table are the other views of the same single declaration. NA/Europe
 staging remains `0x801A8000`; Japan binds the name at `0x801B8000`. Each
 main-menu linker symbol file binds `gFile_StagingBuffer` directly. It is external
 staging, not a new C-owned array in the main-menu image. Original maps,
