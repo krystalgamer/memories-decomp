@@ -279,9 +279,28 @@ deferred canonical history, record the exact result with
 `record_external_attempt.py --mode post_terminal_resolution --profile
 gcc_2_8_1_g0_handwritten_asm --allow-register-pins`; the recorder applies the
 same range and contract checks. See
-`notes/wireframe-renderers.md` for the first matched family and
 `notes/direct-polygon-renderers.md` and
-`notes/shared-primitive-renderers.md` for the polygon drivers.
+`notes/shared-primitive-renderers.md` for the polygon drivers that still use
+it.
+
+The second route for that range needs no register declarations or private
+asm. A profile with `"asm_massage": true` (currently `gcc_2_8_1_o2_massaged`:
+plain `-O2` and the target flags, no scheduling switches, no MASPSX keys)
+builds plain C through `gcc -S`, `tools/project/asm_massage.py` and GNU as.
+The massage applies shared, documented rules, then a per-function register
+map and residual diff kept in one tracked edit file per function, in a
+directory beside the source (`<unit>.c` keeps
+`<unit>.massage/<function>.massage`). `make
+check-matching-source-contracts` limits such a unit to the resident manifest,
+forbids hard registers and the `handwritten_asm.h`/`gte_native.h` headers,
+accepts only asm statements whose template, constraints and clobbers are a
+stock `src/psyq/inline_c.h` macro's, and requires exactly one valid edit file
+per manifest function. `make check-asm-massage` rebuilds each function
+against the retail executable and proves that its residual preserves every
+data dependence. `integrate_verified_match.py` refuses these profiles; such
+units are integrated by hand. `src/game/wireframe_renderers.c` is the first
+massaged unit; see `notes/asm-massage.md` and
+`notes/wireframe-renderers.md`.
 
 For a larger untouched function, find exact-C instruction-shape siblings before
 writing a candidate:

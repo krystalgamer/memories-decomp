@@ -38,7 +38,7 @@ export GOMODCACHE := $(ROOT)/tools/environments/go/pkg/mod
 .PHONY: german-overlays german-verify-overlays german-build-overlays german-match-overlays
 .PHONY: french-overlays french-verify-overlays french-build-overlays french-match-overlays
 
-.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272-prebuilt compiler-280-prebuilt compiler-272-cygnus check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays european-overlays european-verify-overlays japanese-build-overlays japanese-match-overlays european-build-overlays european-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
+.PHONY: help workspace verify-target verify-inputs verify-japanese-target verify-japanese-inputs verify-european-target verify-european-inputs tools python-tools toolchain toolchain-system compiler compiler-281 compiler-281-prebuilt compiler-272-prebuilt compiler-280-prebuilt compiler-272-cygnus check-tools check-build-tools info extract map japanese-map european-map split japanese-split european-split regional-progress-split split-incremental build japanese-build european-build build-incremental match japanese-match european-match match-incremental overlays verify-overlays japanese-overlays japanese-verify-overlays european-overlays european-verify-overlays japanese-build-overlays japanese-match-overlays european-build-overlays european-match-overlays check-metadata check-translation-unit-headers check-matching-source-contracts check-asm-massage check-unmatched-contracts check-psyq-declarations check-psyq-signature-resolutions check-declaration-visibility build-overlays match-overlays inventory japanese-inventory european-inventory classify-functions candidates candidate-builds check-candidate-builds candidate-contract-hashes check-notes check-note-links review-deferred siblings adjacent-units external-attempts basic-types global-usage check-global-usage progress check-progress disc-files disc-layout verify-disc runtime-files verify-runtime-files audit clean
 
 help:
 	@printf '%s\n' \
@@ -69,6 +69,7 @@ help:
 		'  check-metadata Verify tracked manifests and CSV tables only' \
 		'  check-translation-unit-headers  Reject foreign prototypes in built C sources' \
 		'  check-matching-source-contracts  Reject pins, inline asm, and mixed -G matching C' \
+		'  check-asm-massage  Rebuild each massaged function, compare it with retail and prove its residual' \
 		'  check-unmatched-contracts  Verify unmatched function/data declarations and exceptions' \
 		'  check-psyq-signature-resolutions  Verify local Psy-Q signature conflict decisions' \
 		'  check-declaration-visibility  Reject calls that compile only through an implicit declaration' \
@@ -437,6 +438,9 @@ check-translation-unit-headers:
 check-matching-source-contracts:
 	@$(PYTHON) tools/project/matching_source_contracts.py
 
+check-asm-massage:
+	@$(PYTHON) tools/project/asm_massage.py check
+
 check-unmatched-contracts:
 	@$(PYTHON) tools/project/unmatched_contracts.py
 
@@ -633,6 +637,7 @@ audit: match verify-runtime-files
 	@$(PYTHON) tools/project/centralize_basic_types.py --check
 	@$(PYTHON) tools/project/translation_unit_headers.py
 	@$(PYTHON) tools/project/matching_source_contracts.py
+	@$(PYTHON) tools/project/asm_massage.py check
 	@$(PYTHON) tools/project/unmatched_contracts.py
 	@$(PYTHON) tools/project/check_declaration_visibility.py
 	@$(PYTHON) tools/project/check_note_links.py

@@ -31,6 +31,8 @@ CACHE_DIRECTORY = "tmp/incremental"
 CACHE_PATH = f"{CACHE_DIRECTORY}/cache.json"
 # Version 2 keys objects by region and define set as well as source.
 CACHE_SCHEMA = 2
+# Modules a massaged unit's build runs (see build_baseline.compile_massaged_c).
+ASM_MASSAGE_MODULES = ("asm_massage", "asm_massage_rules")
 # The configuration whose resident executable this script rebuilds.
 REGION = "slus_01411"
 CACHE_CHECKPOINT_INTERVAL = 16
@@ -464,6 +466,17 @@ def dependency_context(
             "compiler_sha256": file_cache.sha256(compiler),
             "assembly_filter_sha256": filter_hash,
         }
+        if profile.get("asm_massage") is True:
+            # The massage replaces MASPSX for these units; its code is part
+            # of the compiler for cache purposes.
+            profile_context[name]["asm_massage_sha256"] = [
+                file_cache.sha256(
+                    file_cache.workspace_path(
+                        root, f"tools/project/{module}.py", must_exist=True
+                    )
+                )
+                for module in ASM_MASSAGE_MODULES
+            ]
     return {
         "build_baseline_sha256": file_cache.sha256(Path(build_baseline.__file__)),
         "build_incremental_sha256": file_cache.sha256(Path(__file__)),
@@ -533,6 +546,13 @@ def component_signature(
                 "defines": list(component.defines),
             }
         )
+        if context["profiles"][component.profile]["configuration"].get("asm_massage") is True:
+            edits = source.with_suffix(".massage")
+            if not edits.is_dir():
+                raise IncrementalBuildError(f"missing edit directory {edits}")
+            value["asm_massage_edits_sha256"] = tree_digest(
+                edits, file_cache=file_cache
+            )
     return digest_value(value)
 
 

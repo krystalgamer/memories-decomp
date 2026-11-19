@@ -179,6 +179,65 @@ def assemble_c_output(
     return output
 
 
+def compile_massaged_c(
+    root: Path,
+    assembler: Path,
+    source: Path,
+    segment: dict[str, object],
+    profile: dict[str, object],
+    raw_assembly: Path,
+    output: Path,
+) -> Path:
+    """Build a unit whose profile sets "asm_massage": gcc -S, then
+    asm_massage.massage_unit with the unit's edit files, then GNU as.
+
+    There is no MASPSX step: the massage expands GCC's pseudo-instructions,
+    derives every load-delay nop and writes a fully explicit
+    noreorder/nomacro/noat file, so the assembler encodes it one-to-one. The
+    edit files live beside the source (src/game/foo.c keeps one
+    src/game/foo.massage/<function>.massage per function); see
+    notes/asm-massage.md.
+    """
+    import asm_massage
+
+    compiler = resolve_within(root, str(profile["compiler"]), must_exist=True)
+    compiler_flags = profile.get("compiler_flags")
+    if not isinstance(compiler_flags, list) or not all(
+        isinstance(flag, str) for flag in compiler_flags
+    ):
+        raise BuildError(f"invalid C compiler configuration for {source}")
+    if any(key in profile for key in ("maspsx_flags", "aspsx_version", "assembly_filter")):
+        raise BuildError(f"massaged profile for {source} must not configure MASPSX")
+    try:
+        defines = validate_defines(segment.get("defines"), str(segment["source"]))
+    except DefineError as error:
+        raise BuildError(str(error)) from error
+    run(
+        root,
+        [
+            str(compiler),
+            "-S",
+            *compiler_flags,
+            *define_flags(defines),
+            "-o",
+            str(raw_assembly),
+            str(source),
+        ],
+    )
+    massaged_assembly = raw_assembly.with_name(
+        raw_assembly.name.removesuffix(".compiler.s") + ".massaged.s"
+    )
+    try:
+        edits = asm_massage.read_edits(asm_massage.edit_directory(source))
+        massaged_assembly.write_text(
+            asm_massage.massage_unit(raw_assembly.read_text(encoding="utf-8"), edits),
+            encoding="utf-8",
+        )
+    except asm_massage.MassageError as error:
+        raise BuildError(f"asm massage failed for {source}: {error}") from error
+    return assemble_c_output(root, assembler, massaged_assembly, output)
+
+
 def compile_c(
     root: Path,
     assembler: Path,
@@ -219,6 +278,11 @@ def compile_c(
         root, f"{asm_directory}/{object_name}.maspsx.s"
     )
     raw_assembly.parent.mkdir(parents=True, exist_ok=True)
+
+    if profile.get("asm_massage") is True:
+        return compile_massaged_c(
+            root, assembler, source, segment, profile, raw_assembly, output
+        )
 
     compiler_flags = profile.get("compiler_flags")
     maspsx_flags = profile.get("maspsx_flags")

@@ -46,6 +46,23 @@
       "data_limit": 0,
       "handwritten_asm_macros": true
     },
+    "gcc_2_8_1_o2_massaged": {
+      "compiler": "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc",
+      "compiler_flags": [
+        "-O2",
+        "-G0",
+        "-mel",
+        "-mips1",
+        "-mcpu=R3000",
+        "-msoft-float",
+        "-fno-builtin",
+        "-Dpsx",
+        "-D__psx__",
+        "-D__psx"
+      ],
+      "data_limit": 0,
+      "asm_massage": true
+    },
     "gcc_2_8_1_g0_keep_large_ori": {
       "compiler": "tools/toolchains/gcc-2.8.1-psx/bin/mips-sony-psx-gcc",
       "compiler_flags": [

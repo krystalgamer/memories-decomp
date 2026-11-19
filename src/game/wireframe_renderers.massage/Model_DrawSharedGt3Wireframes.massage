@@ -1,0 +1,48 @@
+# Model_DrawSharedGt3Wireframes: massage of its plain C in src/game/wireframe_renderers.c.
+function = Model_DrawSharedGt3Wireframes
+source = src/game/wireframe_renderers.c
+address = 0x8006A99C
+size = 0x160
+rules = strip-nops aligned-word-copy invariant-last dmpsx-native gte-direct-read unspill fold-address undo-strength-reduction word-compose halfword-words tag-build loop-load-forwarding at-constants zero-extend-shifts reuse-load zero-as-addiu increment-sink loop-constant store-delay-slot gte-load-early dce drop-self-moves frameless guard-chain preheader-order fill-load-delay fill-branch-slot
+frameless = $a0 0x28
+
+[registers]
+$v0.1 = $a3       # lw $v0.1, 0x0($t5.1)
+$v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
+$v0.7 = $at       # addiu $v0.7, $zero, 0x1
+$v0.8 = $t5       # lw $v0.8, 0x4($t5.1)
+$v0.9 = $t5       # srl $v0.9, %word1, 16
+$v0.13 = $t5      # srl $v0.13, %word2, 16
+$v0.16 = $t5      # srl $v0.16, %word3, 16
+$v1.1 = $a1       # lw $v1.1, 0x14($t5.1)
+$v1.10 = $v0      # mfc2 $v1.10, $7
+$a0.4 = $t5       # lui $a0.4, %hi(gModel_bCurrentDrawMode)
+$a0.5 = $t5       # addu $a0.5, $v0.10, $t3.1
+$a0.8 = $v0       # lw $a0.8, 0x4($v0.18)
+$a1.1 = $a3       # addu $a1.1, $v1.1, $v0.3
+$a2.1 = $v0       # lw $a2.1, 0x4($v0.15)
+$a3.1 = $v0       # lw $a3.1, 0x4($a0.5)
+$t1.1 = $t9       # lw $t1.1, 0x10($t5.1)
+$t2.1 = $t8       # lhu $t2.1, 0x2($v0.1)
+$t3.1 = $a1       # lw $t3.1, 0x1C($t5.1)
+$t5.1 = $a0       # addu $t5.1, $a0.0, $zero
+$t6.1 = $v1       # addiu $t6.1, $zero, -0x1
+$s0.1 = $s1       # lui $s0.1, %hi(gModel_dwDrawModeTemplate)
+$s1.1 = $s0       # lui $s1.1, %hi(gModel_dwLineF4Template)
+$s3.2 = $t5       # lw $s3.2, 0x0($a0.5)
+$s3.6 = $t5       # lw $s3.6, 0x0($v0.15)
+$s3.8 = $t5       # lw $s3.8, 0x0($v0.18)
+$t8.1 = $t7       # lw $t8.1, 0x4($v0.8)
+$t9.1 = $t6       # lw $t9.1, 0x8($t5.1)
+%tag1 = $t5       # lw %tag1, 0x0($v1.13)
+%word1 = $t0      # lw %word1, 0xC($a1.1)
+%word2 = $t1      # lw %word2, 0x10($a1.1)
+%word3 = $t2      # lw %word3, 0x14($a1.1)
+
+[residual]
+--- rules
++++ retail
+@@ -23,2 +23,3 @@
+ lw $a1, 0x1C($a0)
++lw $a2, 0x24($a0)
+ lw $t5, 0x4($a0)
