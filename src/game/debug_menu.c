@@ -145,8 +145,8 @@ void DebugMenu_UpdateCursorLayout(void)
     if (index >= 10) {
         first += source->spacing / 2 - 16;
     }
-    target->field_38.h.field_38 = first;
-    target->position.h.field_28 = first;
+    target->field_38.vertex.x = first;
+    target->position.vertex.x = first;
 
     second = first + source->spacing / 2 - 16;
     target->field_40.vertex.x = second;
@@ -158,10 +158,10 @@ void DebugMenu_UpdateCursorLayout(void)
         third = source->row + remainder * 16;
     }
     target->xy.h.y = third;
-    target->position.h.field_2A = third;
+    target->position.vertex.y = third;
     third += 16;
     target->field_40.vertex.y = third;
-    target->field_38.h.field_3A = third;
+    target->field_38.vertex.y = third;
 }
 
 void DebugMenu_Init(void)

@@ -173,8 +173,11 @@ typedef struct DisplayObject {
 
        The halves have one reading per object kind, each fixed by the
        routine that consumes them, and a view each. All keep the u16 width
-       of `h`; `s` is the signed reading any of them takes where a signed
-       compare or constant needs it.
+       the old offset-named halves had (the Gouraud `vertex` corners, only
+       ever stored, take the POLY_G4's short); `s` is the signed reading any
+       of them takes where a signed compare or constant needs it. Every
+       halfword user now goes through one of the views, so the
+       offset-named `h` pair is gone.
 
        target: where a slide or ease ends. DisplayObject_UpdateCosineSlide*,
        DisplayObject_UpdatePositionRotationTransition and the info-panel and
@@ -199,15 +202,31 @@ typedef struct DisplayObject {
        radius, which shrinks by 2 a frame and ends the orbit at zero, and
        its angle.
 
-       `h` stays for readings with one routine each: the Gouraud corners
-       duel_effect_text.c and debug_menu.c write, the placement stat
-       count-up, the ritual card's fall, and the red/green colour targets
-       DisplayObject_UpdateColorTransition walks as an array into 0x2C. */
+       colour_target: DisplayObject_UpdateColorTransition's red and green
+       targets. It steps rgb's three bytes toward three halfwords in a row,
+       walking from colour_target.r here on into field_2C.colour_target.b, so
+       the r/g/b targets are one array split across the two unions; the
+       duel field-dim setups store all three.
+
+       vertex: a Gouraud quad's first vertex x/y.
+       DisplayObject_RenderGouraudQuadList copies the word into the POLY_G4's
+       xy0, beside xy at xy1, field_38 at xy2 and field_40 at xy3 (its second
+       quad takes field_48 and field_50); DuelEffect_UpdateObjectLayout,
+       TextBox_UpdateOutline and DebugMenu_UpdateCursorLayout write the
+       corners as halves.
+
+       equip_bonus: DuelScene_UpdateCardPlacement's equip count-up on the
+       card preview object: `amount` climbs by 31 a frame from zero to
+       `limit` (500, or 1000 for card 0x291), and each frame the card's
+       stat_modifier becomes field_2C.equip_bonus.base_modifier + amount
+       before Duel_CalcCardStats refreshes the preview.
+
+       spiral: the same routine's two-card spiral, where slots[0] and
+       slots[1] circle (102, 82) on opposite sides; `radius` is 8.8 (its
+       high byte scales rcos/rsin of field_60.phase) and shrinks by
+       phase / 12 a frame as field_2C.spiral.angle_step speeds the turn up.
+       Its first frame stores 1 in `field_28`, which nothing reads. */
     union {
-        struct {
-            u16 field_28;
-            u16 field_2A;
-        } h;
         /* The same halves as signed screen coordinates (the duel hand's
            slide target). */
         struct {
@@ -243,6 +262,23 @@ typedef struct DisplayObject {
             u16 radius;
             u16 angle;
         } orbit;
+        struct {
+            u16 r;
+            u16 g;
+        } colour_target;
+        /* A Gouraud quad's first vertex; see vertex below. */
+        struct {
+            s16 x;
+            s16 y;
+        } vertex;
+        struct {
+            u16 amount;
+            u16 limit;
+        } equip_bonus;
+        struct {
+            u16 field_28;
+            u16 radius;
+        } spiral;
     } position;                    /* 0x28 */
     /* The first of the six words at stride 8 that the 0x4C comment below
        describes, and read both ways like its neighbours at 0x30, 0x3C, 0x40
@@ -259,7 +295,8 @@ typedef struct DisplayObject {
        padding. That file calls them `target` and `step`.
 
        Three of those halfword readings are shared by several callers and
-       fixed by a callback, so they get views (the widths stay `h`'s):
+       fixed by a callback, so they get views (each keeps the old u16 low
+       and s16 high halfword):
 
        slide: DisplayObject_UpdateCosineSlide and its roll-reset sibling
        divide a half turn (and 0x40 of roll) by `frames`, the slide's
@@ -276,17 +313,45 @@ typedef struct DisplayObject {
        it from gDuel_aFieldGridGroundPositions and derives the velocity,
        and the transition copies the word into position on arrival.
 
-       The other halfword users (the draw-card slide's phase step, a card's
-       saved home position, the placement base stat, the colour target walk,
-       the ritual fall's acceleration, the card-move target x, the card-view
-       mode, the linked panel index and the orbit centre) are one routine
-       each and keep `h`. */
+       colour_target: the blue target that completes
+       position.colour_target's red and green for
+       DisplayObject_UpdateColorTransition's walk.
+
+       home: a duel hand card's home x/y, saved from xy (or from the ease
+       start) when DuelScene_UpdateHandActions lifts it, and copied back
+       into position as a word (DuelHand_RestoreFlipCard and the cancel
+       path) so the card slides home.
+
+       orbit: the centre DuelResult_UpdateOrbitSprite turns a confetti
+       sprite around, beside position.orbit's radius and angle; the outro
+       saves the spawn xy here as a word and the sprite snaps back to it
+       when the radius runs out.
+
+       link: the selection record index whose info panel
+       DuelSelection_UpdateLinkedObject follows, stored by
+       DuelSelection_LinkDisplayObject beside position.offset.
+
+       card_view: Duel_UpdateCardToSelectionView's and
+       Duel_UpdateCardToFieldView's mode (0 reveal, 1 face-up attack, 2
+       face-up defence), chosen on the first frame and switched on.
+
+       equip_bonus and spiral complete position's arms of the same names:
+       the stat_modifier the equip count-up adds to, and the per-frame
+       phase step the two-card spiral adds 8 to each frame.
+
+       Three single-routine readings complete the set. draw_slide:
+       Duel_UpdateDrawCardSlide's phase step, 0x400 / field_60.frames, added
+       to the Widget_SlideSine phase each frame. marker_turn:
+       Duel_UpdateCardMarkerRemovalTurn turns rotation_y by 8 a frame until
+       it reaches `limit_y` (0x40, or 0xC0 from a turned card), a quarter
+       turn. card_move: DuelScene_UpdateCardMove's destination x (the
+       target slot's projected x less 0x1E), handed to Widget_SlideSine as
+       the target.
+
+       Every halfword user goes through a view, so the offset-named `h`
+       pair is gone. */
     union {
         u32 word;
-        struct {
-            u16 field_2C;
-            s16 field_2E;
-        } h;
         /* A gouraud quad's vertex colour (DisplayObject_InitializeGouraudQuad
            clears it, DebugMenu_Init sets its green). */
         CVECTOR colour;
@@ -302,6 +367,46 @@ typedef struct DisplayObject {
             u16 x;
             s16 z;
         } ground_target;
+        struct {
+            u16 b;
+            s16 field_2E;
+        } colour_target;
+        struct {
+            u16 x;
+            s16 y;
+        } home;
+        struct {
+            u16 centre_x;
+            s16 centre_y;
+        } orbit;
+        struct {
+            u16 record_index;
+            s16 field_2E;
+        } link;
+        struct {
+            u16 field_2C;
+            s16 mode;
+        } card_view;
+        struct {
+            u16 base_modifier;
+            s16 field_2E;
+        } equip_bonus;
+        struct {
+            u16 field_2C;
+            s16 angle_step;
+        } spiral;
+        struct {
+            u16 phase_step;
+            s16 field_2E;
+        } draw_slide;
+        struct {
+            u16 field_2C;
+            s16 limit_y;
+        } marker_turn;
+        struct {
+            u16 field_2C;
+            s16 target_x;
+        } card_move;
     } field_2C;                    /* 0x2C */
     /* The 2D x/y pair the renderers draw at. DisplayObject_RenderSpriteList
        and DisplayObject_RenderSpriteStrips copy the word into SpritePrim.xy
@@ -366,6 +471,23 @@ typedef struct DisplayObject {
             s16 z;
             s16 start_x;
         } ease;
+        /* The main-menu entries' horizontal slide:
+           MainMenu_StartFrontendEntryTransition stores the x an entry starts
+           from here (and copies it into xy) and the x it ends at in
+           field_38.entry_slide.to_x; MainMenu_UpdateFrontendMenu moves xy
+           from one to the other along a sine over field_60.frames. */
+        struct {
+            s16 z;
+            s16 from_x;
+        } entry_slide;
+        /* The main-menu start prompt's idle counter: cleared when the
+           prompt is shown and advanced by gGraphics_nBaseFrameStep each
+           frame START is not pressed; at 0xBB8 MainMenu_UpdateFrontendMenu
+           returns -2 and the boot frontend starts over. */
+        struct {
+            s16 z;
+            s16 idle_frames;
+        } prompt;
         /* A gouraud quad's vertex colour (DisplayObject_InitializeGouraudQuad
            clears it, DebugMenu_Init sets its green). */
         CVECTOR colour;
@@ -380,39 +502,36 @@ typedef struct DisplayObject {
 
        Halves: DuelEffect_UpdateObjectLayout writes 0x38 and 0x3A as an x/y
        pair. That function writes six such pairs at stride 8 -- 0x28, 0x30,
-       0x38, 0x40, 0x48, 0x50 -- of which the record already had a halfword
-       view for four.
+       0x38, 0x40, 0x48, 0x50 -- the Gouraud quad corners.
 
-       That is one witness under one object kind, and this halfword has more
-       readings than almost any other on the record, so it does not
-       generalise. The stride-0xC run above and the stride-8 colour run at
-       0x2C both cross this range and disagree with it. So, separately, do
-       the two motion-path readings: DisplayObject_StepPosition* treat 0x36,
-       0x38 and 0x3A as velocity_x, velocity_y and velocity_z and add them to
+       That is one object kind, and this halfword has more readings than
+       almost any other on the record, so no single reading generalises.
+       The stride-0xC run above and the stride-8 colour run at 0x2C both
+       cross this range and disagree with it. So, separately, do the two
+       motion-path readings: DisplayObject_StepPosition* treat 0x36, 0x38
+       and 0x3A as velocity_x, velocity_y and velocity_z and add them to
        0x30/0x32 every frame, while DisplayObject_SavePosition and the
        cosine/sine easers read the same 0x36/0x38 pair as a saved position
        that eases into the live one.
 
-       Several readings, no winner, so the plain halves are named for their
-       offsets -- the same grounds 0x44 and 0x4C keep theirs on -- and each
-       motion path takes the arm that names what it means: `motion` for the
-       velocity integrators, `ease` for the save-and-ease helpers.
+       Several readings, no winner, so each user takes the arm that names
+       what it means: `motion` for the velocity integrators, `ease` for the
+       save-and-ease helpers.
 
        Callers take those arms wherever the integrator or easer consumes
        the value: every routine that seeds 0x36/0x38/0x3A and then calls
        DisplayObject_StepPosition* (or integrates the duel cursor's ground
        position with fraction_x/fraction_z the same way) writes `motion`,
        and the value-widget tween and the duel slide-back that read a saved
-       start take `ease`. The plain halves are left to the readings neither
-       arm covers: the main-menu entries' slide endpoints (0x36 from, 0x38
-       to), the start prompt's idle counter at 0x36, and the Gouraud corner
-       pairs duel_effect_text.c and debug_menu.c write. */
+       start take `ease`. The main menu's own two readings have arms of
+       their own: `entry_slide` for the entries' slide endpoints (0x36
+       from, 0x38 to) and field_34's `prompt` for the start prompt's idle
+       counter at 0x36. The Gouraud corner pairs duel_effect_text.c and
+       debug_menu.c write take `vertex`: DisplayObject_RenderGouraudQuadList
+       copies the word into the POLY_G4's third vertex. That left the plain
+       offset-named halves without a user, so they are gone. */
     union {
         u32 word;
-        struct {
-            s16 field_38;
-            s16 field_3A;
-        } h;
         /* The y and z velocities beside field_34.motion.velocity_x. */
         struct {
             s16 velocity_y;
@@ -423,6 +542,18 @@ typedef struct DisplayObject {
             s16 start_y;
             s16 field_3A;
         } ease;
+        /* The x a main-menu entry slides to, after
+           field_34.entry_slide.from_x. */
+        struct {
+            s16 to_x;
+            s16 field_3A;
+        } entry_slide;
+        /* A Gouraud quad's third vertex (position.vertex describes the
+           run). */
+        struct {
+            s16 x;
+            s16 y;
+        } vertex;
     } field_38;                    /* 0x38 */
     /* 0x3C likewise: DisplayObject_RenderSpriteList copies the whole word
        into the sprite primitive's extent, and the quad renderers copy it as
@@ -599,24 +730,29 @@ typedef struct DisplayObject {
 
        s32 serves all of them: a word load and store do not distinguish
        signedness. */
-    /* Reached as halves as well, by the same witness 0x38 describes and
-       under the same limit: DuelEffect_UpdateObjectLayout writes 0x50 and
-       0x52 as the last of its six x/y pairs. The word view stays for every
+    /* Reached as halves as well: DuelEffect_UpdateObjectLayout and
+       TextBox_UpdateOutline write 0x50 and 0x52 as the last of their six
+       x/y pairs, the Gouraud renderer's second-quad vertex (`vertex`). The
+       word view stays for every
        user the comment above lists; the duel scene's object link, stored by
        src/game/duel_scene.c and loaded back by
        Duel_DrawLifePointsAndDeckCounts, is the `linked` arm. */
     union {
         s32 word;
-        struct {
-            s16 field_50;
-            s16 field_52;
-        } h;
         /* A timed sprite stream's script cursor; the stream handlers in
            display_object_system.c set it and ReadNextCommand reads through it. */
         u8 *current;
         /* The panel Duel_DrawLifePointsAndDeckCounts draws its digits beside;
            Duel_InitScene links the life-points panel here. */
         struct DisplayObject *linked;
+        /* A Gouraud quad's second-submission second vertex:
+           DisplayObject_RenderGouraudQuadList copies the word into xy1 of
+           the quad it submits when has_secondary_quad is set (field_48 is
+           its xy0). */
+        struct {
+            s16 x;
+            s16 y;
+        } vertex;
     } field_50;                    /* 0x50 */
     /* resource: the serialized resource the stream resolver and the stream
        jumps offset into (AcquireSlot's tail_data_start, or the bank the
@@ -880,10 +1016,10 @@ typedef char DisplayObject_pivot_y_must_be_at_0x4A[
     OFFSETOF(DisplayObject, field_48.pivot.y) == 0x4A ? 1 : -1
 ];
 typedef char DisplayObject_field_3A_must_be_at_0x3A[
-    OFFSETOF(DisplayObject, field_38.h.field_3A) == 0x3A ? 1 : -1
+    OFFSETOF(DisplayObject, field_38.vertex.y) == 0x3A ? 1 : -1
 ];
 typedef char DisplayObject_field_52_must_be_at_0x52[
-    OFFSETOF(DisplayObject, field_50.h.field_52) == 0x52 ? 1 : -1
+    OFFSETOF(DisplayObject, field_50.vertex.y) == 0x52 ? 1 : -1
 ];
 typedef char DisplayObject_field_58_must_be_at_0x58[
     OFFSETOF(DisplayObject, field_58) == 0x58 ? 1 : -1

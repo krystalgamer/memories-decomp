@@ -1130,7 +1130,7 @@ void Duel_SetupFieldCardFromDeck(s32 slot, s32 deck_index);
 /* The card turn/flip animation steps. Their meaning of each DisplayObject
  * member they drive:
  *   kind_index                the gDuel_aCardRecords index of the card;
- *   field_2C.h.field_2E       the mode chosen on the first frame (0 reveal,
+ *   field_2C.card_view.mode   the mode chosen on the first frame (0 reveal,
  *                             1 face-up attack, 2 face-up defense);
  *   update_state              the step's phase bits (0x40 started, 0x20 the
  *                             first half of the turn is done);
