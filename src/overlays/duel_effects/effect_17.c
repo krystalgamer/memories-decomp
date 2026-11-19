@@ -227,7 +227,7 @@ void DuelEffect_RunBoardDestruction(void *buffer, s32 phase)
                 }
                 if (work->card_states[i] == 1) {
                     work->completed++;
-                    gDuelEffect_CardObjectScratchWords[i]->flags &= ~0x40;
+                    gDuelEffect_CardObjectScratchWords[i]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                     work->card_states[i] = 2;
                     DuelEffect_SetRgbColor(&work->burst_color, work->config->burst_color[0],
                                  work->config->burst_color[1], work->config->burst_color[2]);

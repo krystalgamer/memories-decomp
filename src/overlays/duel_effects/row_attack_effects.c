@@ -349,7 +349,7 @@ void DuelEffect_RunBackRowSweep(void *buffer, s32 phase)
                 }
                 if ((gDuelEffect_CardObjectScratchWords[i]->rgb.word & 0xFFFFFF) == 0) {
                     if (work->hidden < work->active) {
-                        gDuelEffect_CardObjectScratchWords[i]->flags &= ~0x40;
+                        gDuelEffect_CardObjectScratchWords[i]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                         work->hidden++;
                     }
                 }

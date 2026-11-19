@@ -374,7 +374,7 @@ void Duel_RenderFieldCard3D(DuelCardRecord *record, POLY_GT4 *prim, POLY_FT4 *sp
     SVECTOR *c3;
 
     obj = holder->object;
-    if ((obj->flags & 0x40) == 0) {
+    if ((obj->flags & DISPLAY_OBJECT_FLAG_RENDERABLE) == 0) {
         return;
     }
 
@@ -3659,12 +3659,12 @@ void DuelScene_UpdateCardPlacement(void)
                     return;
                     if (!(gDuel_wTrapPresentationMode & 0x80)) {
                         slots = gDisplayObject_apWorkSlots.slots;
-                        slots[0]->flags &= ~0x40;
+                        slots[0]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                         gDuel_wTrapPresentationMode |= 0x80;
                         if (slots[1])
-                        slots[1]->flags &= ~0x40;
+                        slots[1]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                         gDuel_pCardPreviewObject->field_20.b.rotation_y = 192;
-                        gDuel_pCardPreviewObject->flags |= 0x44;
+                        gDuel_pCardPreviewObject->flags |= (DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_CLIP_TEST);
                         return;
                     }
                     alpha = gDuel_pCardPreviewObject->field_20.b.rotation_y + 8;
@@ -3731,7 +3731,7 @@ void DuelScene_UpdateCardPlacement(void)
                     gDisplayObject_apWorkSlots.slots[0] = object;
                     object->field_20.word = 0;
                     gDuel_wTrapPresentationMode = 3;
-                    object->flags &= ~0x44;
+                    object->flags &= ~(DISPLAY_OBJECT_FLAG_RENDERABLE | DISPLAY_OBJECT_FLAG_CLIP_TEST);
                     break;
                 }
             case 3:
@@ -3782,7 +3782,7 @@ void DuelScene_UpdateCardPlacement(void)
             if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
                 DisplayObject **slots;
                 slots = gDisplayObject_apWorkSlots.slots;
-                slots[0]->flags &= ~0x40;
+                slots[0]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                 gDuel_bSceneSubStep |= 0xC0;
                 DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
                 object = gDisplayObject_apWorkSlots.slots[0];
@@ -3816,7 +3816,7 @@ void DuelScene_UpdateCardPlacement(void)
                 {
                     DisplayObject **publish_slots = gDisplayObject_apWorkSlots.slots;
                     publish_slots[1] = 0;
-                    gDisplayObject_apWorkSlots.slots[0]->flags |= 0x40;
+                    gDisplayObject_apWorkSlots.slots[0]->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
                     DisplayObject_StartAlphaTransition(gDisplayObject_apWorkSlots.slots[0], 192, 0, 8);
                 }
                 return;
@@ -3847,7 +3847,7 @@ void DuelScene_UpdateCardPlacement(void)
                 gDuel_bSceneSubStep |= 0xC0;
                 Duel_MarkCreatedCardKnown((u32)((u16)gDuel_wPlacementCardId & 0xFFF));
                 slots = gDisplayObject_apWorkSlots.slots;
-                slots[0]->flags &= ~0x40;
+                slots[0]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                 DisplayObject_StartAlphaTransition(slots[1], 0, 64, 8);
             }
             if (gDuel_bSceneSubStep & 0x40) {
@@ -3861,7 +3861,7 @@ void DuelScene_UpdateCardPlacement(void)
                         gDuel_bSceneSubStep |= 0x20;
                         DisplayObject_StartAlphaTransition(slots[1], 192, 0, 8);
                         slots[1]->xy.h.x = 140;
-                        gDisplayObject_apWorkSlots.slots[0]->flags |= 0x40;
+                        gDisplayObject_apWorkSlots.slots[0]->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
                         DisplayObject_StartAlphaTransition(gDisplayObject_apWorkSlots.slots[0], 192, 0, 8);
                         return;
                     }
@@ -3897,8 +3897,8 @@ void DuelScene_UpdateCardPlacement(void)
             if (gDuelEffect_pTrackedRequest->progress) {
                 DisplayObject **slots;
                 slots = gDisplayObject_apWorkSlots.slots;
-                slots[0]->flags &= ~0x40;
-                slots[1]->flags &= ~0x40;
+                slots[0]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
+                slots[1]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                 SD_SEPlayFull(25);
                 gDuel_bSceneSubStep = 4;
             } else {
@@ -4494,7 +4494,7 @@ void DuelScene_UpdateHandActions(void)
         obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteResource(
             obj, 3, 0, 2, 0xB, 0x20C);
-        obj->flags |= 0x28;
+        obj->flags |= (DISPLAY_OBJECT_FLAG_SCREEN_SPACE | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET);
         DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset(obj, 0xA);
         side->cursor_object = obj;
@@ -6304,7 +6304,7 @@ void DuelScene_UpdateBattle(void)
             o->xy.h.y = DUEL_BATTLE_STAT_DISPLAY_Y;
             o->field_20.b.rotation_y = 0xC0;
             DisplayObject_SetDepthOffset(o, -0xA);
-            o->flags = (o->flags | 4) & 0xFFBF;
+            o->flags = (o->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST) & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
             gDisplayObject_apWorkSlots.slots[2] = o;
             o = gDisplayObject_apWorkSlots.slots[1];
             gDisplayObject_apWorkSlots.slots[3] = 0;
@@ -6329,7 +6329,7 @@ void DuelScene_UpdateBattle(void)
                 o->xy.h.y = DUEL_BATTLE_STAT_DISPLAY_Y;
                 o->field_20.b.rotation_y = 0xC0;
                 DisplayObject_SetDepthOffset(o, -0xA);
-                o->flags = (o->flags | 4) & 0xFFBF;
+                o->flags = (o->flags | DISPLAY_OBJECT_FLAG_CLIP_TEST) & ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                 gDisplayObject_apWorkSlots.slots[3] = o;
             }
         }
@@ -6342,12 +6342,12 @@ void DuelScene_UpdateBattle(void)
         } else if (!(f & 0x40)) {
             if (DisplayObject_FindAllocatedByTag(1) == 0) {
                 gDisplayObject_apWorkSlots.slots[0]->flags &= 0xFFBF;
-                gDisplayObject_apWorkSlots.slots[2]->flags |= 0x40;
+                gDisplayObject_apWorkSlots.slots[2]->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
                 if (gDisplayObject_apWorkSlots.slots[1] != 0) {
                     gDisplayObject_apWorkSlots.slots[1]->flags &= 0xFFBF;
                 }
                 if (gDisplayObject_apWorkSlots.slots[3] != 0) {
-                    gDisplayObject_apWorkSlots.slots[3]->flags |= 0x40;
+                    gDisplayObject_apWorkSlots.slots[3]->flags |= DISPLAY_OBJECT_FLAG_RENDERABLE;
                 }
                 {
                     u8 g = gDuel_bSceneSubStep;
@@ -7618,12 +7618,12 @@ void DuelScene_UpdateResultRewards(void)
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(object, 32, 16, 3, 1, 2, 11, 524);
         DisplayObject_SelectOrderingTable1(object);
-        object->flags |= 0x28;
+        object->flags |= (DISPLAY_OBJECT_FLAG_SCREEN_SPACE | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET);
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(object, 288, 16, 3, 1, 0, 11, 524);
         DisplayObject_SelectOrderingTable1(object);
         count = 9;
-        object->flags |= 0x28;
+        object->flags |= (DISPLAY_OBJECT_FLAG_SCREEN_SPACE | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET);
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 8, 0, 4, 0, 16, 8, gDisplay_abResourceBank0);
         DisplayObject_SelectOrderingTable1(object);
@@ -10704,7 +10704,7 @@ void DuelEffect_ApplyRitual(void)
             object->xy.h.y = DUEL_RITUAL_CARD_REST_Y;
             gDuel_wTrapPresentationMode = 2;
             attribute = object->attribute | 0x08000000;
-            object_flags = object->flags & 0xFFFB;
+            object_flags = object->flags & ~DISPLAY_OBJECT_FLAG_CLIP_TEST;
             object->attribute = attribute;
             object->flags = object_flags;
         }

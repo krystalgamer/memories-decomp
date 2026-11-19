@@ -282,7 +282,7 @@ void DuelEffect_RunRitual(void *buffer, s32 phase)
                 for (i = 0; i < 3; i++) {
                     gDuelEffect_CardObjectScratchWords[i]->field_44.scale.x = 0;
                     gDuelEffect_CardObjectScratchWords[i]->field_44.scale.y = 0;
-                    gDuelEffect_CardObjectScratchWords[i]->flags &= ~0x40;
+                    gDuelEffect_CardObjectScratchWords[i]->flags &= ~DISPLAY_OBJECT_FLAG_RENDERABLE;
                     work->stage = 1;
                 }
             }

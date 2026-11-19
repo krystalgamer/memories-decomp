@@ -255,21 +255,21 @@ void Options_Init(s32 mode)
         DisplayObject_ConfigureSpriteAtPositionWithResource(
             object, 0, 0, 5, gPalOptions_bLanguage, 2, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -5);
-        object->flags |= 0x28;
+        object->flags |= (DISPLAY_OBJECT_FLAG_SCREEN_SPACE | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET);
 
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(
             object, 0, 0, 5, gPalOptions_bLanguage, 3, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
         gPalOptions_pLanguageSprite = object;
-        object->flags |= 0x28;
+        object->flags |= (DISPLAY_OBJECT_FLAG_SCREEN_SPACE | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET);
         gPalOptions_bSelectedRow = 0;
 
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(
             object, 0, 0, 5, gPalOptions_bLanguage, 4, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
-        object->flags |= 0x28;
+        object->flags |= (DISPLAY_OBJECT_FLAG_SCREEN_SPACE | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET);
         gPalOptions_pLabelSprite = object;
         gPalOptions_bSoundOutputType = gSD_bOutputType;
         if (gPalOptions_bSoundOutputType < 0) {
@@ -281,13 +281,13 @@ void Options_Init(s32 mode)
             object, 0, 0, 5, gPalOptions_bLanguage, gPalOptions_bSoundOutputType, 0x10, 0x100, gDisplay_abResourceBank0);
         DisplayObject_SetDepthOffset(object, -4);
         gPalOptions_pSoundTypeSprite = object;
-        object->flags |= 0x28;
+        object->flags |= (DISPLAY_OBJECT_FLAG_SCREEN_SPACE | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET);
         gPalOptions_bState = 2;
 
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(object, 20, 60, 3, 0, 2, 0xB, 0x20C);
         gPalOptions_pCursor = object;
-        object->flags |= 0x28;
+        object->flags |= (DISPLAY_OBJECT_FLAG_SCREEN_SPACE | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET);
         PalOptions_PositionCursor(gPalOptions_bSelectedRow);
         gPalOptions_dwWavePhase = 0;
         music = 0x7350;

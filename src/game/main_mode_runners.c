@@ -590,7 +590,7 @@ void Main_RunTrade(void)
         TextBox_BuildBlocking(box);
         obj = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPosition(obj, 0, 0, 0, 4, 0xB, 0xC, 0x208);
-        obj->flags = obj->flags | 0x20;
+        obj->flags = obj->flags | DISPLAY_OBJECT_FLAG_TEXTURE_CELL_OFFSET;
         obj->attribute = obj->attribute | GsALON;
         DisplayObject_SelectOrderingTable1(obj);
         DisplayObject_SetDepthOffset(obj, 0xF);
