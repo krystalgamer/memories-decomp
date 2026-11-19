@@ -224,10 +224,10 @@ void Graphics_BeginFrame(void)
         }
     }
     ResetGraph(1);
-    if ((gMovie_bPlaybackState & 0x80) != 0) {
+    if ((gMovie_bPlaybackState & MOVIE_PLAYBACK_STATE_PLAYING) != 0) {
         Movie_UpdatePlayback();
     }
-    if ((gMovie_bPlaybackState & 0x80) == 0) {
+    if ((gMovie_bPlaybackState & MOVIE_PLAYBACK_STATE_PLAYING) == 0) {
         if (gFade_bOrderingTableMode != 0) {
             GsSortOt(&gGraphics_pActiveFrameBuffer->ordering_tables[1],
                      &gGraphics_pActiveFrameBuffer->ordering_tables[0]);

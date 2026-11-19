@@ -2409,8 +2409,8 @@ void DuelScene_UpdateStartup(void)
         ViewState_ApplyOrbit();
         break;
     case 3:
-        if ((gDuel_bSceneSubStep & 0x80) == 0) {
-            gDuel_bSceneSubStep |= 0x80;
+        if ((gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED) == 0) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_wDisplayTransitionFlags = 2;
             gDuel_pActiveSelectionRecord = gDuel_abSelectionSides[gDuel_bActiveSide].records;
             gDuel_pActiveSelectionRecord->panel_target_y = DUEL_PHASE_PANEL_TARGET_Y;
@@ -3050,13 +3050,13 @@ void DuelScene_UpdateCardUse(void)
     state = gDuel_bSceneSubStep;
     switch (state & 0xF) {
     case 1:
-        if ((state & 0x80) == 0) {
+        if ((state & DUEL_SCENE_SUBSTEP_STARTED) == 0) {
             if (((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
                  gFile_dwCancelRequestState) != 0) {
                 return;
             }
             f2 = p->flags;
-            gDuel_bSceneSubStep = state | 0x80;
+            gDuel_bSceneSubStep = state | DUEL_SCENE_SUBSTEP_STARTED;
             p->flags = f2 | DISPLAY_OBJECT_FLAG_CLIP_TEST;
             p = CardPreview_CreateResourceObjects(0, -1, -1);
             p->xy.h.x = 0x5A;
@@ -3109,9 +3109,9 @@ void DuelScene_UpdateCardUse(void)
         gDuel_bSceneSubStep = 3;
         return;
     case 3:
-        if ((state & 0x80) == 0) {
+        if ((state & DUEL_SCENE_SUBSTEP_STARTED) == 0) {
             p = gDisplayObject_apWorkSlots.slots[1];
-            gDuel_bSceneSubStep = state | 0x80;
+            gDuel_bSceneSubStep = state | DUEL_SCENE_SUBSTEP_STARTED;
             DuelCard_CaptureRoundedTexture(p);
             gDisplayObject_apWorkSlots.slots[0] =
                 Duel_CreateCardEffectOverlay(p);
@@ -3149,8 +3149,8 @@ void DuelScene_UpdateCardUse(void)
         gDuel_bSceneSubStep = 4;
         return;
     case 4:
-        if ((state & 0x80) == 0) {
-            gDuel_bSceneSubStep = state | 0x80;
+        if ((state & DUEL_SCENE_SUBSTEP_STARTED) == 0) {
+            gDuel_bSceneSubStep = state | DUEL_SCENE_SUBSTEP_STARTED;
             DuelEffect_StartCardEffect(gDuel_wPlacementCardId, 1);
             return;
         }
@@ -3415,8 +3415,8 @@ void DuelScene_UpdateCardPlacement(void)
                 DuelCardRecord *cards;
                 DisplayObjectCallback callback;
                 s32 active;
-                if (!(gDuel_bSceneSubStep & 0x80)) {
-                    gDuel_bSceneSubStep |= 0x80;
+                if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+                    gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
                     if (gDuel_wSceneStateFlags & 0x4000)
                     return;
                     n = 5;
@@ -3446,10 +3446,10 @@ void DuelScene_UpdateCardPlacement(void)
             DisplayObject **slots;
             {
                 DisplayObject **cursor;
-                if (!(gDuel_bSceneSubStep & 0x80)) {
+                if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
                     DisplayObject **cursor;
                     s32 active;
-                    gDuel_bSceneSubStep |= 0x80;
+                    gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
                     n = 5;
                     active = 1;
                     slots = gDisplayObject_apWorkSlots.slots;
@@ -3505,8 +3505,8 @@ void DuelScene_UpdateCardPlacement(void)
     case 3:
         {
             DisplayObject **slots;
-            if (!(gDuel_bSceneSubStep & 0x80)) {
-                gDuel_bSceneSubStep |= 0x80;
+            if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+                gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
                 gDuel_bPresentationCursor++;
                 if (gDuel_bPresentationCursor >= 6) {
                     gDuel_bSceneSubStep = 8;
@@ -3595,10 +3595,10 @@ void DuelScene_UpdateCardPlacement(void)
     case 4:
         {
             DisplayObject **slots;
-            if ((gFile_dwTransferState & 0x2000030) | gFile_dwCancelRequestState)
+            if ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState)
             return;
-            if (!(gDuel_bSceneSubStep & 0x80)) {
-                gDuel_bSceneSubStep |= 0x80;
+            if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+                gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
                 gDuel_wTrapPresentationMode = 0;
                 return;
             }
@@ -3779,7 +3779,7 @@ void DuelScene_UpdateCardPlacement(void)
     case 5:
         {
             DisplayObject **slots;
-            if (!(gDuel_bSceneSubStep & 0x80)) {
+            if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
                 DisplayObject **slots;
                 slots = gDisplayObject_apWorkSlots.slots;
                 slots[0]->flags &= ~0x40;
@@ -3842,7 +3842,7 @@ void DuelScene_UpdateCardPlacement(void)
     case 6:
         {
             DisplayObject **slots;
-            if (!(gDuel_bSceneSubStep & 0x80)) {
+            if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
                 DisplayObject **slots;
                 gDuel_bSceneSubStep |= 0xC0;
                 Duel_MarkCreatedCardKnown((u32)((u16)gDuel_wPlacementCardId & 0xFFF));
@@ -3922,8 +3922,8 @@ void DuelScene_UpdateCardPlacement(void)
             DisplayObject **slots;
             slots = gDisplayObject_apWorkSlots.slots;
             object = slots[0];
-            if (!(gDuel_bSceneSubStep & 0x80)) {
-                gDuel_bSceneSubStep |= 0x80;
+            if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+                gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
                 object->flags |= DISPLAY_OBJECT_FLAG_CLIP_TEST;
                 object->attribute &= ~0x08000000;
                 SD_SEPlayFull(26);
@@ -4086,8 +4086,8 @@ void DuelScene_UpdateCardMove(void)
         gDuel_bSceneSubStep = 3;
         /* Fall through to initialize the choice dialog. */
     case 3:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_wSelectedCardID =
                 gDuel_abCardStagingBuffer.deck.field_cards[object->kind_index.card_record_index].card_id;
 #ifdef VERSION_JAPAN
@@ -4123,8 +4123,8 @@ void DuelScene_UpdateCardMove(void)
         }
         break;
     case 4:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             object->field_2C.card_move.target_x = Duel_ProjectCardSlotScreenX(gDuel_bCardMoveSlot) - 0x1E;
             DisplayObject_SavePosition(object);
             object->field_60.phase = 0x400;
@@ -4177,7 +4177,7 @@ void DuelScene_UpdateCardMove(void)
         gDuel_wSceneStateFlags = 5;
         break;
     case 6:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
             gDuel_bSceneSubStep |= 0xC0;
             gDuel_wTrapPresentationMode = 0;
         }
@@ -4519,8 +4519,8 @@ void DuelScene_UpdateHandActions(void)
     hand = &gDuelHand_aSlots[(s8)side->hand_cursor_slot];
     switch (gDuel_bSceneSubStep & 0xF) {
     case 2:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_wActionSubstate = 0;
         }
         switch (gDuel_wActionSubstate & 0xF) {
@@ -4689,8 +4689,8 @@ void DuelScene_UpdateHandActions(void)
            AI cursor's break above skips them straight into the confirm. */
         if (0) {
     case 1:
-            if (!(gDuel_bSceneSubStep & 0x80)) {
-                gDuel_bSceneSubStep |= 0x80;
+            if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+                gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
                 for (n = 0; n < 5; n++) {
                     gDuelHand_aSlots[n].object->rgb.word = 0x808080;
                 }
@@ -4771,7 +4771,7 @@ void DuelScene_UpdateHandActions(void)
             break;
         case 3:
             obj = hand->object;
-            if (!(gDuel_bSceneSubStep & 0x80)) {
+            if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
                 gDuel_bSceneSubStep |= 0xC0;
                 obj->position.s.x = 0x86;
                 obj->position.s.y = 0x5A;
@@ -4900,8 +4900,8 @@ void DuelScene_UpdateHandActions(void)
             } while (0);
             break;
     case 4:
-            if (!(gDuel_bSceneSubStep & 0x80)) {
-                gDuel_bSceneSubStep |= 0x80;
+            if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+                gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
                 gDuel_wTrapPresentationMode = 0;
                 Duel_BeginFieldPlacementSelection(side);
                 gDuel_bSceneSubStep |= 0x40;
@@ -5005,9 +5005,9 @@ void DuelScene_UpdateHandActions(void)
         gDuel_bSceneSubStep = 6;
         return;
     case 6:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
             gDuel_wDisplayTransitionFlags = 0xC;
-            gDuel_bSceneSubStep |= 0x80;
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_pActiveSelectionRecord = &gDuel_abSelectionSides[gDuel_bActiveSide].records[2];
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
@@ -5015,8 +5015,8 @@ void DuelScene_UpdateHandActions(void)
         }
         break;
     case 5:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             hand->object = 0;
             gDuel_wDisplayTransitionFlags = 8;
             gDuel_pActiveSelectionRecord = gDuel_abSelectionSides[gDuel_bActiveSide].records;
@@ -5246,8 +5246,8 @@ void DuelScene_UpdateFieldActions(void)
         }
         return;
     case 2:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             Ai_RefreshBoardSnapshot();
             AiScript_Init(gAiScript_abFieldScript);
             gDuel_wActionSubstate = 0;
@@ -5350,7 +5350,7 @@ void DuelScene_UpdateFieldActions(void)
            auto-commit break above skips it straight into the attack. */
         if (0) {
     case 3:
-            if (!(gDuel_bSceneSubStep & 0x80)) {
+            if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
                 gDuel_bSceneSubStep |= 0xC0;
                 gDuel_bFieldActionAutoCommit = 0;
                 if (gDuel_bSide0ControllerSelector[gDuel_bActiveSide] >= 0) {
@@ -5456,8 +5456,8 @@ void DuelScene_UpdateFieldActions(void)
         return;
     case 4:
         side = &gDuel_abSelectionSides[gDuel_bActiveSide].records[3];
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_pActiveSelectionRecord = side;
             side->field_actions_mode = 0;
             side->panel_target_y = DUEL_FIELD_ACTIONS_TARGETING_PANEL_TARGET_Y;
@@ -5489,8 +5489,8 @@ void DuelScene_UpdateFieldActions(void)
         return;
     case 5:
         side = &gDuel_abSelectionSides[gDuel_bActiveSide].records[3];
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_bAnimatedBattleRequested = 0;
             a = gAi_Selection.bytes[10];
             if (a < 0x38) {
@@ -5513,8 +5513,8 @@ void DuelScene_UpdateFieldActions(void)
         if (0) {
     case 6:
             side = &gDuel_abSelectionSides[gDuel_bActiveSide].records[3];
-            if (gDuel_bSceneSubStep & 0x80) {
-                gDuel_bSceneSubStep |= 0x80;
+            if (gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED) {
+                gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
                 gDuel_pActiveSelectionRecord = side;
             }
             if (gDuel_bSceneSubStep & 0x40) {
@@ -5614,8 +5614,8 @@ void DuelScene_UpdateFieldActions(void)
         gDuel_wSceneStateFlags = 9;
         return;
     case 7:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             i = side->row * DUEL_FIELD_ROW_SIZE + side->col;
             card = &gDuel_aCardRecords[gDuel_abFieldGridCardRecordIndices.flat[i + gDuel_bActiveSide * DUEL_FIELD_SIDE_GRID_SLOT_COUNT]];
             o = Duel_CreateCardDisplayObject(card, card->screen_x, card->screen_y);
@@ -5746,10 +5746,10 @@ void DuelScene_UpdateFieldActions(void)
         }
         return;
     case 8:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
             rec = &gDuel_abSelectionSides[gDuel_bActiveSide].records[3];
             co = rec->cursor_object;
-            gDuel_bSceneSubStep |= 0x80;
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_pActiveSelectionRecord = rec;
             DisplayObject_ReleaseIfPresent(co);
             gDuel_wDisplayTransitionFlags = 8;
@@ -5768,8 +5768,8 @@ void DuelScene_UpdateFieldActions(void)
         gDuel_wSceneStateFlags = 7;
         return;
     case 9:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_wDisplayTransitionFlags = 0xC;
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
@@ -5784,8 +5784,8 @@ void DuelScene_UpdateFieldActions(void)
         SD_SEPlayFull(SD_SE_COMMIT);
         return;
     case 10:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_wDisplayTransitionFlags = 0xC;
         }
         if (gDuel_wDisplayTransitionFlags == 0) {
@@ -6252,7 +6252,7 @@ void DuelScene_UpdateBattle(void)
 
     switch (gDuel_bSceneSubStep & 0xF) {
     case 1:
-        if (!(gDuel_bSceneSubStep & 0x80) && ((gFile_dwTransferState & 0x02000030) | gFile_dwCancelRequestState) == 0) {
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED) && ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState) == 0) {
             if (!(gDuel_bSceneSubStep & 0x40)) {
                 id = gDuel_wSelectedTrapCardId;
                 gDuel_bSceneSubStep |= 0x40;
@@ -6268,7 +6268,7 @@ void DuelScene_UpdateBattle(void)
                 CardPreview_RequestResourceTransfer(1, id);
                 return;
             }
-            gDuel_bSceneSubStep |= 0x80;
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
         }
         if (!(gDuel_bSceneSubStep & 0x20) && gDuel_wDisplayTransitionFlags == 0) {
             if (!(gDuel_bSceneSubStep & 0x10)) {
@@ -6288,9 +6288,9 @@ void DuelScene_UpdateBattle(void)
     case 2: {
         u8 f = gDuel_bSceneSubStep;
 
-        if (!(f & 0x80)) {
+        if (!(f & DUEL_SCENE_SUBSTEP_STARTED)) {
             o = gDisplayObject_apWorkSlots.slots[0];
-            gDuel_bSceneSubStep = f | 0x80;
+            gDuel_bSceneSubStep = f | DUEL_SCENE_SUBSTEP_STARTED;
             {
                 s32 b21 = o->field_20.b.rotation_y;
 
@@ -6381,8 +6381,8 @@ void DuelScene_UpdateBattle(void)
     }
 
     case 3:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             Fade_StartOutKeepOverlayAndHideSecondaryTables();
             return;
         }
@@ -6446,10 +6446,10 @@ void DuelScene_UpdateBattle(void)
 
     case 4:
         do {
-            if (gDuel_bSceneSubStep & 0x80) {
+            if (gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED) {
                 break;
             }
-            gDuel_bSceneSubStep |= 0x80;
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             if (gDisplayObject_apWorkSlots.slots[1] == 0) {
                 break;
             }
@@ -6530,8 +6530,8 @@ void DuelScene_UpdateBattle(void)
         break;
 
     case 5:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             SD_BGMFadeOut();
             Fade_StartOut();
             gFade_State.level = 0xFF;
@@ -6606,7 +6606,7 @@ void DuelScene_UpdateBattle(void)
             flags = gDuel_bSceneSubStep;
             ix = gDuel_bPresentationCursor;
             side = gDisplayObject_apWorkSlots.slots[ix + 2];
-            if (!(flags & 0x80)) {
+            if (!(flags & DUEL_SCENE_SUBSTEP_STARTED)) {
                 gDuel_bSceneSubStep = flags | 0xC0;
                 /* The copies read (here) and write (below) xy through an s32
                    pointer, a non-struct word; as members the stores are
@@ -6680,8 +6680,8 @@ void DuelScene_UpdateBattle(void)
         break;
 
     case 9:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             req = DuelEffect_CreateRequest(2);
             req->x = 0xF0;
             req->y = 0x78;
@@ -6700,8 +6700,8 @@ void DuelScene_UpdateBattle(void)
 
     case 10:
         side = gDisplayObject_apWorkSlots.slots[gDuel_bPresentationCursor + 2];
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             DuelCard_CaptureRoundedTexture(side);
             SD_SEPlayFull(0x1B);
             req = DuelEffect_AllocateRequest(3);
@@ -6738,8 +6738,8 @@ void DuelScene_UpdateBattle(void)
         break;
 
     case 11:
-        if (!(gDuel_bSceneSubStep & 0x80)) {
-            gDuel_bSceneSubStep |= 0x80;
+        if (!(gDuel_bSceneSubStep & DUEL_SCENE_SUBSTEP_STARTED)) {
+            gDuel_bSceneSubStep |= DUEL_SCENE_SUBSTEP_STARTED;
             if (gDisplayObject_apWorkSlots.slots[2] != 0) {
                 Duel_SetupFieldCardFromDeck(gDisplayObject_apWorkSlots.slots[0]->kind_index.card_record_index, gDisplayObject_apWorkSlots.slots[0]->kind_arg.deck_index);
                 left = &gDuel_aCardRecords[gDisplayObject_apWorkSlots.slots[0]->kind_index.card_record_index];
@@ -7134,7 +7134,7 @@ void DuelResult_UpdateDepartingSprite(DisplayObject *object)
    and hands gDuel_pTerrainIcon and gDuel_pLifePointsPanel to DisplayObject_UpdateCosineSlide
    before entering step 1 of gDuel_bSceneSubStep.
 
-   Afterwards the low nibble of gDuel_bSceneSubStep is the step and bit 0x80 marks
+   Afterwards the low nibble of gDuel_bSceneSubStep is the step and DUEL_SCENE_SUBSTEP_STARTED (0x80) marks
    "step already entered":
 
      1  wait for the DMA/queue flags to drain, then reload the selected
@@ -7214,12 +7214,12 @@ void DuelScene_UpdateResultOutro(void)
     state = flags & 0xF;
     switch (state) {
     case 1:
-        if ((flags & 0x80) == 0) {
+        if ((flags & DUEL_SCENE_SUBSTEP_STARTED) == 0) {
             if ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) |
                 gFile_dwCancelRequestState) {
                 return;
             }
-            gDuel_bSceneSubStep = flags | 0x80;
+            gDuel_bSceneSubStep = flags | DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_wDisplayTransitionFlags = 8;
             id = gDuel_bOpponentID;
             if (id < 0) {
@@ -7242,8 +7242,8 @@ void DuelScene_UpdateResultOutro(void)
         }
         break;
     case 2:
-        if ((flags & 0x80) == 0) {
-            gDuel_bSceneSubStep = flags | 0x80;
+        if ((flags & DUEL_SCENE_SUBSTEP_STARTED) == 0) {
+            gDuel_bSceneSubStep = flags | DUEL_SCENE_SUBSTEP_STARTED;
             for (i = 0; i < DUEL_RESULT_OUTRO_SPRITE_LIMIT; i++) {
 #ifdef DUEL_RESULT_LOCALIZED_SPRITES
                 /* Fixed-language builds keep the selector in 1..4. */
@@ -7320,8 +7320,8 @@ void DuelScene_UpdateResultOutro(void)
         }
         break;
     case 3:
-        if ((flags & 0x80) == 0) {
-            gDuel_bSceneSubStep = flags | 0x80;
+        if ((flags & DUEL_SCENE_SUBSTEP_STARTED) == 0) {
+            gDuel_bSceneSubStep = flags | DUEL_SCENE_SUBSTEP_STARTED;
             gDuel_wStepCounter = 0x258;
         }
         if ((gDuel_bSceneSubStep & 0x40) == 0) {
@@ -7350,8 +7350,8 @@ void DuelScene_UpdateResultOutro(void)
         }
         break;
     case 4:
-        if ((flags & 0x80) == 0) {
-            gDuel_bSceneSubStep = flags | 0x80;
+        if ((flags & DUEL_SCENE_SUBSTEP_STARTED) == 0) {
+            gDuel_bSceneSubStep = flags | DUEL_SCENE_SUBSTEP_STARTED;
         }
         if ((gFade_State.flags & FADE_FLAG_ACTIVE) == 0) {
             gDuel_wSceneStateFlags = 0xD;
@@ -9621,8 +9621,8 @@ s32 DuelEffect_MarkInitialized(void)
 {
     u16 value = gDuel_wCardEffectFlags;
 
-    if (!(value & 0x80)) {
-        gDuel_wCardEffectFlags = value | 0x80;
+    if (!(value & DUEL_CARD_EFFECT_FLAG_INITIALIZED)) {
+        gDuel_wCardEffectFlags = value | DUEL_CARD_EFFECT_FLAG_INITIALIZED;
         return 0;
     }
     return 1;

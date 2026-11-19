@@ -116,12 +116,16 @@ void DuelEffect_MarkObjectIfActive(struct DuelEffectChannel *channel);
  *
  * script_scene.c fetches it straight from the script stream
  * (gScript_wCommandWord = *gScript_StreamCursor++) and dispatches on its low five bits
- * (gScript_apfnCommandHandlers[gScript_wCommandWord & 0x1F]()), so the low bits carry the opcode and
- * the upper bits carry engine flags: bit 15 is the one-shot busy latch
- * documented in script_command_busy.h, and handlers set and clear 0x4000,
- * 0x2000, 0x1000, 0x800, 0x400, 0x200 and 0x80 around it.
+ * (gScript_apfnCommandHandlers[gScript_wCommandWord & SCRIPT_COMMAND_OPCODE_MASK]()),
+ * so the low bits carry the opcode and the upper bits carry engine flags:
+ * bit 15 is the one-shot latch ScriptCommand_MarkStarted sets the first
+ * frame a command runs, and handlers set and clear 0x4000, 0x2000, 0x1000,
+ * 0x800, 0x400, 0x200 and 0x80 around it.
  * Text_StartViewportTween's signed store is a cast at the use. */
 extern u16 gScript_wCommandWord;
+
+#define SCRIPT_COMMAND_OPCODE_MASK 0x1F
+#define SCRIPT_COMMAND_STARTED 0x8000
 
 /* The script instruction cursor: a byte pointer walking the script stream.
  *

@@ -80,6 +80,7 @@
 #define DUEL_DARK_MAGIC_RITUAL_EFFECT_INDEX (DUEL_EFFECT_CARD_BLOCK_SIZE * 2)
 #define DUEL_CARD_EFFECT_FLAG_ACTIVE 0x8000
 #define DUEL_CARD_EFFECT_FLAG_SECOND_HANDLER 0x4000
+#define DUEL_CARD_EFFECT_FLAG_INITIALIZED 0x80
 #define DUEL_CARD_EFFECT_HANDLERS_PER_GROUP 2
 /* The Library's card selectors are four steps of 0x10 from a regional
    base: 0x160 in the US build, 0x2E0 in the European one, whose wrapper

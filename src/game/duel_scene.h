@@ -171,6 +171,10 @@ extern u16 gDuel_wDisplayTransitionFlags;   /* nine declarers  */
  * as independent flags. The modal port and internal-state declarations live in
  * game/mem_card.h; the width/addressing evidence above remains historical. */
 extern u8 gDuel_bSceneSubStep;   /* five declarers */
+/* Every scene step latches 0x80 the first frame it runs and clears it by
+ * storing the next plain step. 0x40 and 0x20 are per-step phase bits whose
+ * meaning changes with the step, so they stay numeric. */
+#define DUEL_SCENE_SUBSTEP_STARTED 0x80
 /* Five more undefined scalars, batched for the reason the two batches above
  * give: this header serialises, so one change per symbol buys nothing and
  * conflicts with every other one in flight.
@@ -575,7 +579,8 @@ void DuelSelection_LinkDisplayObject(
 void DuelSelection_LinkDisplayObjects(DuelSelectionRecord *parent, s32 clear);
 
 /* The card-effect flag word. duel_scene.c owns the initialization bit:
- * DuelEffect_MarkInitialized sets bit 0x80 the first time it is asked and
+ * DuelEffect_MarkInitialized sets DUEL_CARD_EFFECT_FLAG_INITIALIZED (0x80)
+ * the first time it is asked and
  * DuelEffect_ClearCardEffect clears the whole word.
  * DuelEffect_StartCardEffect starts an effect by writing
  * DUEL_CARD_EFFECT_FLAG_ACTIVE, or ACTIVE | SECOND_HANDLER

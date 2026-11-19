@@ -38,14 +38,18 @@ extern RECT gGraphics_aImageTransferRects[2];
 
 /* The movie playback state byte, shared by three files.
  *
- * movie_playback_control.h describes what it means: Movie_Play sets bit
- * 0x80 when a movie starts, Movie_UpdatePlayback sets 0x40 once the stream has been
- * asked to stop and clears 0x80 when it has, and Movie_ResetPlaybackState
+ * movie_playback_control.h describes what it means: Movie_Play sets
+ * MOVIE_PLAYBACK_STATE_PLAYING (0x80) when a movie starts, Movie_UpdatePlayback
+ * sets MOVIE_PLAYBACK_STATE_STOP_REQUESTED (0x40) once the stream has been
+ * asked to stop and clears PLAYING when it has, and Movie_ResetPlaybackState
  * clears the byte. graphics_frame.c reads bit 0x80 in the frame loop, which is
  * why it is declared here -- this is the header all three consumers already
  * include, and main_run_frontend_loop.c does not include movie_playback_control.h at
  * all. */
 extern u8 gMovie_bPlaybackState;
+
+#define MOVIE_PLAYBACK_STATE_STOP_REQUESTED 0x40
+#define MOVIE_PLAYBACK_STATE_PLAYING 0x80
 
 /* The frame-advance bound. Graphics_SyncFrame spins
  * `while (gGraphics_dwSyncVBlankCounter < gGraphics_bSyncVBlankTarget)`, so this byte is how many frames the

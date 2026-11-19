@@ -751,11 +751,11 @@ s32 Main_RunFrontendLoop(void) {
                     continue;
                 }
                 g = gMovie_bPlaybackState;
-                if (g & 0x80) {
+                if (g & MOVIE_PLAYBACK_STATE_PLAYING) {
                     continue;
                 }
                 gMain_bFrontendPhase = 1;
-                if ((g & 0x40) == 0) {
+                if ((g & MOVIE_PLAYBACK_STATE_STOP_REQUESTED) == 0) {
                     Fade_CutToWhite();
                 }
                 Fade_WaitInitOut();

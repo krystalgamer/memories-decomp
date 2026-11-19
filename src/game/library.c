@@ -794,7 +794,7 @@ void Library_UpdateCardView(LibraryState *state)
     }
     TextBox_UpdateChannels();
     mode = state->motion.model_load_phase;
-    if ((mode & 0xF) && ((gFile_dwTransferState & 0x02000030) | gFile_dwCancelRequestState) == 0) {
+    if ((mode & 0xF) && ((gFile_dwTransferState & FILE_TRANSFER_REQUEST_BLOCKED_MASK) | gFile_dwCancelRequestState) == 0) {
         if (mode == 1) {
             state->motion.model_load_phase = 0;
             id = (u16)state->motion.selected_card_id - 1;
