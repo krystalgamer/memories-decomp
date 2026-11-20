@@ -82,9 +82,10 @@ class MassageError(Exception):
     pass
 
 
-# Operand kinds: d = GPR written, u = GPR read, i = immediate, m = memory
-# (base register read), c = COP2 data register, k = COP2 control register,
-# l = label.
+# Operand kinds: d = GPR written, u = GPR read, b = GPR read and written
+# (lwl/lwr merge bytes into the register's old value), i = immediate,
+# m = memory (base register read), c = COP2 data register, k = COP2 control
+# register, l = label.
 SCHEMA = {
     **{op: "duu" for op in (
         "addu", "subu", "and", "or", "xor", "nor", "slt", "sltu",
@@ -93,7 +94,8 @@ SCHEMA = {
         "sll", "srl", "sra", "addiu", "addi", "andi", "ori", "xori",
         "slti", "sltiu")},
     "lui": "di",
-    **{op: "dm" for op in ("lb", "lbu", "lh", "lhu", "lw", "lwl", "lwr")},
+    **{op: "dm" for op in ("lb", "lbu", "lh", "lhu", "lw")},
+    "lwl": "bm", "lwr": "bm",
     **{op: "um" for op in ("sb", "sh", "sw", "swl", "swr")},
     "lwc2": "cm", "swc2": "cm",
     "mfc2": "dc", "cfc2": "dk", "mtc2": "uc", "ctc2": "uk",
@@ -129,7 +131,7 @@ class Instr:
     def regs(self, kinds: str) -> list[str]:
         out = []
         for kind, arg in zip(SCHEMA.get(self.op, ""), self.args):
-            if kind in kinds and kind in "du":
+            if (kind in kinds and kind in "du") or (kind == "b" and ("d" in kinds or "u" in kinds)):
                 out.append(arg[1])
             elif kind == "m" and "m" in kinds:
                 out.append(arg[2])
@@ -149,7 +151,7 @@ class Instr:
     def replace_reg(self, old: str, new: str, *, defs: bool = True, uses: bool = True) -> None:
         schema = SCHEMA.get(self.op, "")
         for index, (kind, arg) in enumerate(zip(schema, self.args)):
-            if kind == "d" and defs and arg[1] == old:
+            if kind in "db" and defs and arg[1] == old:
                 self.args[index] = ("r", new)
             elif kind == "u" and uses and arg[1] == old:
                 self.args[index] = ("r", new)
@@ -318,7 +320,7 @@ def parse_instruction(line: str) -> list[Instr]:
     if len(ops) != len(schema):
         raise MassageError(f"operand count mismatch in {line!r}")
     for kind, token in zip(schema, ops):
-        if kind in "du":
+        if kind in "dub":
             args.append(("r", reg(token)))
         elif kind in "ck":
             args.append(("c", int(token.strip().lstrip("$"))))
@@ -469,6 +471,17 @@ def dominators(instrs: list[Instr]) -> list[set]:
     return dom
 
 
+def unaligned_pair(instrs: list[Instr], n: int) -> bool:
+    """Whether instruction N is the lwl of an unaligned word load
+    "lwl r,k+3(b); lwr r,k(b)" (little-endian), the lwr next."""
+    a = instrs[n]
+    b = instrs[n + 1] if n + 1 < len(instrs) else None
+    return (a.op == "lwl" and b is not None and b.op == "lwr" and a.args[0] == b.args[0]
+            and a.args[1][0] == b.args[1][0] == "m" and a.args[1][2] == b.args[1][2]
+            and isinstance(a.args[1][1], int) and isinstance(b.args[1][1], int)
+            and a.args[1][1] == b.args[1][1] + 3 and a.args[1][2] != a.args[0][1])
+
+
 def webify(instrs: list[Instr]) -> list[Instr]:
     """Rename every non-precoloured GPR to its def-use web ("$2.3" is the
     third web of GCC's $2 by first definition; "$a0.0" is a live-in)."""
@@ -483,11 +496,18 @@ def webify(instrs: list[Instr]) -> list[Instr]:
         return x
 
     use_web: dict = {}
+    merges: list = []
     for n, instr in enumerate(instrs):
+        merged = {arg[1] for kind, arg in zip(SCHEMA.get(instr.op, ""), instr.args) if kind == "b"}
         for r in set(instr.uses()):
             if r in PRECOLORED:
                 continue
             defs = sorted(d for d in into[n] if d[1] == r)
+            if r in merged and unaligned_pair(instrs, n):
+                # lwl/lwr keep the bytes they do not load, but the lwr right
+                # after an lwl of the same word replaces every byte the lwl
+                # kept: the pair loads the whole word.
+                continue
             if not defs:
                 raise MassageError(f"use of undefined {r} at {instr.text()}")
             find(defs[0])
@@ -496,6 +516,8 @@ def webify(instrs: list[Instr]) -> list[Instr]:
             use_web[(n, r)] = defs[0]
         for r in instr.defs():
             find((n, r))
+            if r in merged and (n, r) in use_web:
+                merges.append((n, r))
     groups: dict = {}
     for key in list(parent):
         groups.setdefault(find(key), []).append(key)
@@ -512,6 +534,16 @@ def webify(instrs: list[Instr]) -> list[Instr]:
             name = f"{reg}.{per_reg[reg]}"
         for m in members:
             names[m] = name
+    # A merging load (lwl/lwr) writes the register it reads: the web it
+    # reads joins its own, under the merging load's name (as numbered
+    # without the join, so the halves of GCC's unaligned pair keep the
+    # numbering the register maps use).
+    for n, r in merges:
+        target = names[find((n, r))]
+        source = names[find(use_web[(n, r)])]
+        for m in names:
+            if names[m] == source:
+                names[m] = target
     result = []
     for n, instr in enumerate(instrs):
         new = Instr(instr.op, list(instr.args), set(instr.origin))
@@ -521,6 +553,8 @@ def webify(instrs: list[Instr]) -> list[Instr]:
                 new.args[index] = ("r", names[find((n, arg[1]))])
             elif kind == "u" and arg[1] not in PRECOLORED:
                 new.args[index] = ("r", names[find(use_web[(n, arg[1])])])
+            elif kind == "b" and arg[1] not in PRECOLORED:
+                new.args[index] = ("r", names[find((n, arg[1]))])
             elif kind == "m" and arg[2] not in PRECOLORED:
                 new.args[index] = ("m", arg[1], names[find(use_web[(n, arg[2])])])
         if new.op == "jr" and new.args == [("r", "$ra")]:
@@ -877,7 +911,7 @@ def rename(instrs: list[Instr], registers: dict) -> list[Instr]:
         new = Instr(instr.op, list(instr.args), set(instr.origin))
         schema = SCHEMA.get(new.op, "")
         for index, (kind, arg) in enumerate(zip(schema, new.args)):
-            if kind in "du":
+            if kind in "dub":
                 new.args[index] = ("r", physical(arg[1], registers))
             elif kind == "m":
                 new.args[index] = ("m", arg[1], physical(arg[2], registers))

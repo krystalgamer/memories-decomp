@@ -74,7 +74,7 @@ $t8.14 = $t8      # addu $t8.14, %slot1, $zero
 %slot2 = $t4      # addu %slot2, $t6.1, $zero
 %slot3 = $s1      # addu %slot3, $s7.2, $zero
 %tag1 = $t5       # lw %tag1, 0x0($a3.2)
-%word1 = $t0      # lwr %word1, 0xE($s4.1)
+%word1 = $t0      # lw %word1, 0x10($s4.1)
 %word2 = $t1      # lw %word2, 0x14($s4.1)
 %word3 = $t2      # lw %word3, 0x18($s4.1)
 %word4 = $t3      # lw %word4, 0x1C($s4.1)
@@ -107,7 +107,7 @@ $t8.14 = $t8      # addu $t8.14, %slot1, $zero
 -sll $s2, $s2, 16
 +lui $s1, 0x20
  .L13:
-@@ -47,11 +49,12 @@
+@@ -47,10 +49,10 @@
  .L12:
 -addu $s0, $t4, $zero
 -mtc2 $s0, $6
@@ -122,25 +122,23 @@ $t8.14 = $t8      # addu $t8.14, %slot1, $zero
 -lw $t7, 0x4($t7)
 +lw $t7, 0x4($t5)
  .L11:
-+lw $t0, 0x10($a3)
- lwr $t0, 0xE($a3)
-@@ -77,3 +80,2 @@
+@@ -78,3 +80,2 @@
  sll $t5, $t5, 3
 -addu $t5, $t5, $a1
  .word 0x4A280030
-@@ -83,3 +85,3 @@
+@@ -84,3 +85,3 @@
  beq $s6, $at, .L10
 -addu $t1, $t3, $zero
 +addu $t5, $t5, $a1
  cfc2 $v0, $31
-@@ -107,5 +109,5 @@
+@@ -108,5 +109,5 @@
  sll $t2, $t2, 16
 +srl $t2, $t2, 13
  lw $s5, 0x0($a3)
  beq $s6, $zero, .L6
 -srl $t2, $t2, 13
  addu $t5, $t3, $a2
-@@ -117,8 +119,8 @@
+@@ -118,8 +119,8 @@
  addu $t5, $t0, $a2
 -addu $v1, $t1, $a2
 +lwc2 $0, 0x0($t5)
@@ -154,7 +152,7 @@ $t8.14 = $t8      # addu $t8.14, %slot1, $zero
 -lwc2 $2, 0x0($v1)
 -lwc2 $3, 0x4($v1)
  lwc2 $4, 0x0($t5)
-@@ -155,17 +157,17 @@
+@@ -156,17 +157,17 @@
  srl $t0, $t0, 1
 -addu $t0, $t0, $s7
 -srl $v1, $t1, 1
@@ -184,18 +182,18 @@ $t8.14 = $t8      # addu $t8.14, %slot1, $zero
 -sw $v1, 0x2C($t9)
 +sw $t3, 0x2C($t9)
  sb $s3, 0xB($t9)
-@@ -177,2 +179,4 @@
+@@ -178,2 +179,4 @@
  mfc2 $v0, $7
 +lui $at, 0x200
 +and $v1, $s0, $at
  lui $at, 0xFF9F
-@@ -180,5 +184,2 @@
+@@ -181,5 +184,2 @@
  and $t1, $t1, $at
 -addu $t1, $t4, $zero
 -lui $at, 0x200
 -and $v1, $t1, $at
  or $t1, $t1, $s1
-@@ -191,7 +192,6 @@
+@@ -192,7 +192,6 @@
  sw $t1, 0x1C($t9)
 -lui $s4, 0xE200
 +sw $t2, 0x28($t9)
@@ -205,14 +203,14 @@ $t8.14 = $t8      # addu $t8.14, %slot1, $zero
  sw $s4, 0x38($t9)
 -sw $s5, 0x4($t9)
  sll $t5, $t5, 8
-@@ -207,3 +207,5 @@
+@@ -208,3 +207,5 @@
  beq $s2, $zero, .L3
 -nop
 +sll $t0, $t0, 16
 +srl $t0, $t0, 16
 +or $t0, $t0, $s2
  lui $at, 0xFF9F
-@@ -212,18 +214,15 @@
+@@ -213,18 +214,15 @@
  lui $at, 0x40
 +or $t1, $t1, $at
  lw $v1, 0xC($t9)
@@ -236,7 +234,7 @@ $t8.14 = $t8      # addu $t8.14, %slot1, $zero
 -sw $t4, 0x5C($t9)
 -sw $t4, 0x68($t9)
  addiu $t9, $t9, 0x3C
-@@ -246,5 +245,5 @@
+@@ -247,5 +245,5 @@
  lw $s7, 0x3C($a0)
 +lw $v0, 0x0($a0)
  lui $at, %hi(gGraphics_pPacketWorkCursor)

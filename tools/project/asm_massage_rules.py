@@ -1677,7 +1677,12 @@ def needs_hazard_nop(prev: Instr, nxt: Instr | None) -> bool:
     not read its destination."""
     if nxt is None or prev.op not in LOADS:
         return False
-    return prev.args[0][1] in nxt.uses()
+    reg = prev.args[0][1]
+    if (nxt.op in ("lwl", "lwr") and prev.op in ("lw", "lwl", "lwr") and nxt.args[0][1] == reg
+            and nxt.args[1][2] != reg):
+        # The R3000 forwards a load to the lwl/lwr that merges into it.
+        return False
+    return reg in nxt.uses()
 
 
 def insert_hazard_nops(instrs: list[Instr]) -> list[Instr]:

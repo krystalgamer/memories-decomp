@@ -281,6 +281,33 @@ class PolygonRuleTests(unittest.TestCase):
         self.assertIn("srl $t4.2, $t4.1, 13", out)
 
 
+class MergingLoadTests(unittest.TestCase):
+    """lwl/lwr merge bytes into the register they write."""
+
+    def flags(self, program: str, edit) -> list[str]:
+        before = am.rename(am.webify(parse(program)), {})
+        texts = [i.text() for i in before]
+        return deps.check(before, am.apply_residual(before, am.make_residual(texts, edit(texts)))).flags
+
+    def test_merging_loads_read_their_register(self):
+        program = "lw\t$8,12($7)\nlwr\t$8,10($7)\nsw\t$8,0($4)\nj\t$31\nnop"
+        self.assertEqual(run("dce", program)[:2], ["lw $t0.2, 0xC($a3.0)", "lwr $t0.2, 0xA($a3.0)"])
+        self.assertTrue(self.flags(program, lambda t: t[1:]))
+        # The merging load must still follow the load it merges into.
+        self.assertTrue(self.flags(program, lambda t: [t[1], t[0]] + t[2:]))
+
+    def test_unaligned_halves_cover_their_real_bytes(self):
+        program = "swl\t$8,3($4)\nlb\t$9,0($4)\nsw\t$9,0($5)\nj\t$31\nnop"
+        prog = deps.Program(am.rename(am.webify(parse(program)), {}))
+        self.assertTrue(deps.may_alias(prog, prog.order[0], prog.order[1]))
+        self.assertEqual(deps.mem_access(prog.order[0])[2:], (0, 4))
+        # GCC's unaligned pair is one load; a lone lwl keeps the old bytes.
+        pair = am.webify(parse("lwl\t$8,3($4)\nlwr\t$8,0($4)\nsw\t$8,0($5)\nj\t$31\nnop"))
+        self.assertEqual(pair[0].args[0][1], pair[1].args[0][1])
+        lone = am.webify(parse("lw\t$8,0($5)\nlwl\t$8,3($4)\nsw\t$8,0($5)\nj\t$31\nnop"))
+        self.assertEqual(lone[0].args[0][1], lone[1].args[0][1])
+
+
 class DirectPolygonRuleTests(unittest.TestCase):
     def test_gte_load_of_a_stored_variable_becomes_mtc2(self):
         out = run("gte-direct-write", "lw\t$15,gSym\nsw\t$15,8($sp)\n"

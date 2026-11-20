@@ -139,6 +139,11 @@ def mem_access(instr: Instr):
     arg = instr.args[1]
     if arg[0] != "m":
         return None
+    if instr.op in ("lwl", "swl") and isinstance(arg[1], int):
+        # Unaligned halves (little-endian): lwl/swl at A touch A&~3..A and
+        # lwr/swr A..A|3. The base's alignment is not known, so take every
+        # byte either could touch: A-3..A and A..A+3.
+        return instr.op in STORES, arg[2], arg[1] - 3, 4
     return instr.op in STORES, arg[2], arg[1], SIZES.get(instr.op, 4)
 
 
@@ -890,7 +895,7 @@ def _reads(program, into, n, instr, twin, same, values: "Values | None" = None):
     problems = []
     pairs = []
     for kind, phys, wide in zip(_kinds(instr), instr.args, twin.args):
-        if kind == "u":
+        if kind in "ub":
             pairs.append((phys[1], wide[1]))
         elif kind == "m":
             pairs.append((phys[2], wide[2]))

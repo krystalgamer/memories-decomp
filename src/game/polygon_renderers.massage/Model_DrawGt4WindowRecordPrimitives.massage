@@ -10,7 +10,7 @@ frameless = $a0 0x20
 $v0.1 = $a3       # lw $v0.1, 0x0($a0.0)
 $v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
 $v0.4 = $s6       # lui $v0.4, %hi(gModel_bCurrentDrawMode)
-$v0.7 = $t7       # lw $v0.7, 0x4($t9.1)
+$v0.7 = $t7       # lw $v0.7, 0x4($a0.0)
 $v0.9 = $t5       # srl $v0.9, %word1, 16
 $v0.12 = $t5      # srl $v0.12, %word2, 16
 $v0.15 = $t5      # srl $v0.15, %word3, 16
@@ -29,7 +29,6 @@ $v1.1 = $a1       # lw $v1.1, 0x14($a0.0)
 $v1.2 = $t5       # addu $v1.2, $v0.19, $s3.1
 $v1.5 = $t1       # srl $v1.5, $t0.1, 1
 $v1.8 = $t2       # srl $v1.8, $a3.1, 1
-$a0.0 = $a0     
 $a0.2 = $t5       # addu $a0.2, $a1.1, $s2.1
 $a0.3 = $t0       # srl $a0.3, $a1.1, 1
 $a0.6 = $v1       # srl $a0.6, $t0.1, 1
@@ -47,12 +46,12 @@ $t5.1 = $s7       # lui $t5.1, %hi(gModel_dwLitColorCacheBase)
 $t6.1 = $s0       # addu $t6.1, $s6.2, $zero
 $t7.1 = $t1       # addu $t7.1, $t2.1, $zero
 $s1.1 = $s6       # lb $s1.1, %lo(gModel_bCurrentDrawMode)($v0.4)
-$s2.1 = $a2       # lw $s2.1, 0x1C($t9.1)
-$s3.1 = $a1       # lw $s3.1, 0x18($t9.1)
+$s2.1 = $a2       # lw $s2.1, 0x1C($a0.0)
+$s3.1 = $a1       # lw $s3.1, 0x18($a0.0)
 $s4.1 = $a3       # addu $s4.1, $v1.1, $v0.3
 $s5.1 = $t8       # lhu $s5.1, 0x2($v0.1)
 $s6.1 = $s0       # lui $s6.1, %hi(gModel_dwPolyGt4Template)
-$s6.3 = $t6       # lw $s6.3, 0x8($t9.1)
+$s6.3 = $t6       # lw $s6.3, 0x8($a0.0)
 $s7.1 = $s3       # srl $s7.1, $s6.2, 24
 $t8.1 = $s1       # lui $t8.1, %hi(gModel_dwTpageBlendRateBits)
 $t8.4 = $t2       # lw $t8.4, 0xC($s4.1)
@@ -60,13 +59,12 @@ $t8.8 = $v1       # lw $t8.8, 0xC($a2.1)
 $t8.10 = $v1      # lw $t8.10, 0x18($a2.1)
 $t8.12 = $v1      # lw $t8.12, 0x24($a2.1)
 $t8.14 = $v1      # lw $t8.14, 0x30($a2.1)
-$t9.1 = $a0       # addu $t9.1, $a0.0, $zero
 $t9.2 = $s5       # lw $t9.2, 0x0($s4.1)
 $t9.3 = $t3       # lw $t9.3, 0x10($s4.1)
 $t9.5 = $s4       # lui $t9.5, 0xE200
 $fp.1 = $s2       # lui $fp.1, %hi(gModel_dwSecondPassClutBits)
 %tag1 = $t5       # lw %tag1, 0x0($a1.5)
-%word1 = $t0      # lwr %word1, 0xE($s4.1)
+%word1 = $t0      # lw %word1, 0x10($s4.1)
 %word2 = $t1      # lw %word2, 0x14($s4.1)
 %word3 = $t2      # lw %word3, 0x18($s4.1)
 %word4 = $t3      # lw %word4, 0x1C($s4.1)
@@ -78,7 +76,7 @@ $fp.1 = $s2       # lui $fp.1, %hi(gModel_dwSecondPassClutBits)
  lw $s0, %lo(gModel_dwPolyGt4Template)($s0)
 -mtc2 $s0, $6
  lui $s1, %hi(gModel_dwTpageBlendRateBits)
-@@ -27,9 +26,13 @@
+@@ -27,8 +26,11 @@
  lw $s7, %lo(gModel_dwLitColorCacheBase)($s7)
 +addu $t4, $s0, $zero
  srl $s3, $s0, 24
@@ -92,25 +90,23 @@ $fp.1 = $s2       # lui $fp.1, %hi(gModel_dwSecondPassClutBits)
 -lw $t7, 0x4($t7)
 +lw $t7, 0x4($t5)
  .L11:
-+lw $t0, 0x10($a3)
- lwr $t0, 0xE($a3)
-@@ -55,3 +58,2 @@
+@@ -56,3 +58,2 @@
  sll $t5, $t5, 3
 -addu $t5, $t5, $a1
  .word 0x4A280030
-@@ -61,3 +63,3 @@
+@@ -62,3 +63,3 @@
  beq $s6, $at, .L10
 -addu $t1, $t3, $zero
 +addu $t5, $t5, $a1
  cfc2 $v0, $31
-@@ -89,5 +91,5 @@
+@@ -90,5 +91,5 @@
  sll $t2, $t2, 16
 +srl $t2, $t2, 13
  lw $s5, 0x0($a3)
  beq $s6, $zero, .L6
 -srl $t2, $t2, 13
  addu $t5, $t3, $a2
-@@ -99,8 +101,8 @@
+@@ -100,8 +101,8 @@
  addu $t5, $t0, $a2
 -addu $v1, $t1, $a2
 +lwc2 $0, 0x0($t5)
@@ -124,7 +120,7 @@ $fp.1 = $s2       # lui $fp.1, %hi(gModel_dwSecondPassClutBits)
 -lwc2 $2, 0x0($v1)
 -lwc2 $3, 0x4($v1)
  lwc2 $4, 0x0($t5)
-@@ -137,22 +139,22 @@
+@@ -138,22 +139,22 @@
  srl $t0, $t0, 1
 -addu $t0, $t0, $s7
 -srl $v1, $t1, 1
@@ -160,7 +156,7 @@ $fp.1 = $s2       # lui $fp.1, %hi(gModel_dwSecondPassClutBits)
  lw $t1, 0x8($a3)
 +lw $t2, 0xC($a3)
  lw $t3, 0x10($a3)
-@@ -170,6 +172,5 @@
+@@ -171,6 +172,5 @@
  sw $t2, 0x28($t9)
 -lui $s4, 0xE200
  sw $t3, 0x34($t9)
@@ -168,14 +164,14 @@ $fp.1 = $s2       # lui $fp.1, %hi(gModel_dwSecondPassClutBits)
  sw $s4, 0x38($t9)
 -sw $s5, 0x4($t9)
  sll $t5, $t5, 8
-@@ -185,3 +186,5 @@
+@@ -186,3 +186,5 @@
  beq $s2, $zero, .L3
 -nop
 +sll $t0, $t0, 16
 +srl $t0, $t0, 16
 +or $t0, $t0, $s2
  lui $at, 0xFF9F
-@@ -190,18 +193,15 @@
+@@ -191,18 +193,15 @@
  lui $at, 0x40
 +or $t1, $t1, $at
  lw $v1, 0xC($t9)
