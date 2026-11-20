@@ -1888,14 +1888,15 @@ added. Cloud and witness suites remain for ordinary PR validation.
 
 ### Secondary work-area initialization and scheduling local views
 
-SD_InitSecondaryWorkArea takes the raw area as void *work_area and walks
-it through a local s32 *work_area_cursor with u32 counter
-cleared_word_count. The pointer is installed globally
-BEFORE its first store, then the original do/while clears exactly 530
-words (0x848 bytes) while advancing that SAME pointer. The global retains
-the initial address. SpuInit, SD_ResetSecondaryPlaybackThunk and
-SD_ResetSecondaryState still follow in that order. No memset, typed-state
-clear, new size expression, bounds check or callback initialization.
+SD_InitSecondaryWorkArea takes the area as SDSecondaryState *work_area
+(its only caller passes the fixed 0x801E1670 block) and walks it through a
+local s32 *work_area_cursor view with u32 counter cleared_word_count. The
+pointer is installed globally BEFORE its first store, then the original
+do/while clears exactly sizeof(SDSecondaryState) / 4 = 530 words (0x848
+bytes) while advancing that SAME pointer. The global retains the initial
+address. SpuInit, SD_ResetSecondaryPlaybackThunk and SD_ResetSecondaryState
+still follow in that order. No memset, typed-state clear, bounds check or
+callback initialization.
 
 SD_ResetSecondaryState names six existing pointer stages: levels_state,
 pan_state, transfer_state, transfer_aux_state, transfer_pan_state and
@@ -2604,7 +2605,7 @@ opcode-scoped names. The argument words are grouped into one union,
 | field_0010 | transfer_selector | s32 +0x10 |
 | field_0014 | transfer_sector_offset | s32 +0x14 |
 | field_001C | transfer_spu_destination | s32 +0x1C |
-| field_0020 | transfer_ram_destination | s32 +0x20 |
+| field_0020 | transfer_ram_destination | void * +0x20 |
 | field_0024 | transfer_spu_size | s32 +0x24 |
 | field_0028 | transfer_ram_size | s32 +0x28 |
 

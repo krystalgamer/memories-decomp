@@ -24,10 +24,10 @@ void SD_VSync(void);
    ram_size, source) queues both. Size parameters remain positive byte
    counts or negated sector counts; zero skips that phase. */
 void SD_EnqueueRamTransfer(
-    s32 ram_destination, s32 sector_offset, s32 ram_size, s32 source_selector
+    void *ram_destination, s32 sector_offset, s32 ram_size, s32 source_selector
 );
 void SD_EnqueueSpuRamTransfer(
-    s32 spu_destination, s32 ram_destination, s32 sector_offset,
+    s32 spu_destination, void *ram_destination, s32 sector_offset,
     s32 spu_size, s32 ram_size, s32 source_selector
 );
 /* Prepares a BGM command without starting it: bit-15 ids queue a CD seek,

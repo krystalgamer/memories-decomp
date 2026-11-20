@@ -11,7 +11,7 @@ s32 ModelPrimary64_HandleRequest(ModelPrimary64State *context, s32 command)
     SVECTOR position;
     VECTOR scale;
     SVECTOR corners[4];
-    CVECTOR color;
+    ModelTintColor color;
     s32 depth;
     s32 flag;
     s32 interpolation;
@@ -66,7 +66,7 @@ s32 ModelPrimary64_HandleRequest(ModelPrimary64State *context, s32 command)
     quad.u3 = ((work->frame / 2 % 8) << 5) + 31;
     quad.v3 = 63;
     PushMatrix();
-    color = *(CVECTOR *)Model_GetSlotTintDescriptor(Model_GetActiveSlotIndex());
+    color = *Model_GetSlotTintDescriptor(Model_GetActiveSlotIndex());
     red = config->r * color.r / 128;
     green = config->g * color.g / 128;
     blue = config->b * color.b / 128;

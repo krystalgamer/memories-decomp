@@ -203,7 +203,7 @@ void SD_UpdateBankLoad(void) {
             sector_offset = 0;
             ram_size = 0x800;
             source_selector = SD_TRANSFER_SOURCE_SE;
-            SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
+            SD_EnqueueRamTransfer(ram_destination, sector_offset, ram_size, source_selector);
             g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
             return;
         }
@@ -225,7 +225,7 @@ void SD_UpdateBankLoad(void) {
         ram_size = g_SDValue->s_stGlobalHdrSE.s_wSD_NUM_SEGROUP;
         source_selector = SD_TRANSFER_SOURCE_SE;
         ram_size = ram_size * 8;
-        SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
+        SD_EnqueueRamTransfer(ram_destination, sector_offset, ram_size, source_selector);
         g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
         return;
     case 3:
@@ -251,7 +251,7 @@ void SD_UpdateBankLoad(void) {
             sector_offset = 0;
             ram_size = 0x800;
             source_selector = SD_TRANSFER_SOURCE_BGM;
-            SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
+            SD_EnqueueRamTransfer(ram_destination, sector_offset, ram_size, source_selector);
             g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
             return;
         }
@@ -282,7 +282,7 @@ void SD_UpdateBankLoad(void) {
             sector_offset = 0;
             ram_size = 0x2000;
             source_selector = SD_TRANSFER_SOURCE_MASTER_XA;
-            SD_EnqueueRamTransfer((s32)ram_destination, sector_offset, ram_size, source_selector);
+            SD_EnqueueRamTransfer(ram_destination, sector_offset, ram_size, source_selector);
             g_SDValue->s_dwSD_BANK_LOAD_PHASE += 1;
             return;
         }
@@ -435,7 +435,7 @@ void SD_VSync(void)
         SD_UpdateBankLoad();
 }
 
-void SD_EnqueueRamTransfer(s32 ram_destination, s32 sector_offset, s32 ram_size, s32 source_selector)
+void SD_EnqueueRamTransfer(void *ram_destination, s32 sector_offset, s32 ram_size, s32 source_selector)
 {
     SDCommand command;
 
@@ -469,7 +469,7 @@ void SD_EnqueueSpuTransfer(s32 spu_destination, s32 sector_offset, s32 spu_size,
 
 void SD_EnqueueSpuRamTransfer(
     s32 spu_destination,
-    s32 ram_destination,
+    void *ram_destination,
     s32 sector_offset,
     s32 spu_size,
     s32 ram_size,

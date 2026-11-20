@@ -26,8 +26,7 @@ storage, aliases, volatile accesses, register pins or executable assembly.
 - An inactive transfer gate or zero flags selects the follow path. Mode zero
   returns without a key lookup. Otherwise end slots follow directly, and orbit
   is suppressed if either requested key endpoint has signed kind 4.
-  `Model_GetCurrentEffectKeyAddress` retains its existing integer-address return ABI: the real
-  implementation returns zero or the current `Key *` converted to `s32`.
+  `Model_GetCurrentEffectKeyAddress` returns null or the current `Key *`.
 - Orbit retains the real signed direction byte and the existing caller view
   that places an unused fifth argument on the stack. This is not a change to
   the four-argument callee definition.

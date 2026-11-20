@@ -123,7 +123,7 @@ establishes all nine non-padding members of the existing FileRequestSlot:
 | field_00 | file_selector | s32 at +0x00 |
 | field_04 | sector_offset | s32 at +0x04 |
 | field_0C | spu_destination | s32 address word at +0x0C |
-| field_10 | ram_destination | s32 address word at +0x10 |
+| field_10 | ram_destination | `void *` RAM destination at +0x10 |
 | field_14 | spu_transfer_size | s32 at +0x14 |
 | field_18 | ram_transfer_size | s32 at +0x18 |
 | field_1C | range_sector_count | s16 at +0x1C |

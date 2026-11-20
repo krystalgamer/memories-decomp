@@ -14,7 +14,7 @@ s32 ModelPrimary63_HandleRequest(ModelPrimary63State *context, s32 command)
     u16 depths[48];
     u16 interpolation[48];
     u16 flags[48];
-    CVECTOR color;
+    ModelTintColor color;
     s32 depth;
     s32 flag;
     GsOT *ot;
@@ -78,7 +78,7 @@ s32 ModelPrimary63_HandleRequest(ModelPrimary63State *context, s32 command)
     box.attribute = 0x50000000;
     box.w = 1;
     box.h = 1;
-    color = *(CVECTOR *)Model_GetSlotTintDescriptor(Model_GetActiveSlotIndex());
+    color = *Model_GetSlotTintDescriptor(Model_GetActiveSlotIndex());
     b = Model_GetSlotAnimationIndex(Model_GetActiveSlotIndex());
     radius = Model_GetSlotAnimationFrame(Model_GetActiveSlotIndex());
     if (!(b == 4 && radius > 140 && radius < 239)

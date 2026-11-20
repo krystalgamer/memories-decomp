@@ -250,14 +250,14 @@ void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source)
     }
 }
 
-u8 *Model_GetSlotTintDescriptor(s32 index)
+ModelTintColor *Model_GetSlotTintDescriptor(s32 index)
 {
     ModelSlot *entry = &gModel_aSlots[index];
     s32 remainder = entry->tint.bytes[7] % 6;
-    u8 *descriptor = entry->tint.bytes;
+    ModelTintColor *descriptor = &entry->tint.target;
 
-    if (remainder != 0 && descriptor[3] == 0) {
-        descriptor += 4;
+    if (remainder != 0 && descriptor->blend_mode == 0) {
+        descriptor++;
     }
     return descriptor;
 }

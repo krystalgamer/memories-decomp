@@ -780,8 +780,8 @@ void Model_UpdateAnimatedBattle(void)
         break;
     case 5:
         if (gModel_aSlots[0].is_active != 0) {
-            s16 *current_key_halfwords = (s16 *)Model_GetCurrentEffectKeyAddress();
-            if (current_key_halfwords != 0 && current_key_halfwords[3] == 2) {
+            Key *current_key = Model_GetCurrentEffectKeyAddress();
+            if (current_key != 0 && current_key->requested[0].kind == 2) {
                 Model_SetEffectKeyBatchingEnabled(1);
                 Model_QueueCameraOrbitFromPreset(0, 0, 0, -0xC);
                 Model_QueueEffectEndpointPair(0, 0, 0x4000);
@@ -830,13 +830,13 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     case 8: {
-        s16 *current_key_halfwords;
+        Key *current_key;
 
         if (gModel_aSlots[0].draw_mode_request != 4) {
             Model_SetSlotDrawMode(0, 3);
         }
-        current_key_halfwords = (s16 *)Model_GetCurrentEffectKeyAddress();
-        if (current_key_halfwords != 0 && current_key_halfwords[3] == 2) {
+        current_key = Model_GetCurrentEffectKeyAddress();
+        if (current_key != 0 && current_key->requested[0].kind == 2) {
             Model_SetCameraOrbitFromPreset(1, 0, 0);
             gModel_bPresentationPhase++;
         }
@@ -2353,7 +2353,7 @@ void Model_UpdateCamera(void)
     }
     if (!gModel_CameraMove.mode)
         return;
-    key = (Key *)Model_GetCurrentEffectKeyAddress();
+    key = Model_GetCurrentEffectKeyAddress();
     if (eye_slots[1] >= 0) {
         ModelSlot *base = gModel_aSlots;
         ModelSlot *slot;
@@ -4730,7 +4730,7 @@ void Model_AdvanceSlotLoad(s32 index)
     case 10:
         if (slot->skip_sound_setup == 0) {
             SD_LoadSequenceBankPair(
-                index, (u32 *)(gFile_StagingBuffer.bytes + (index << 11))
+                index, (SDSeqBlock *)(gFile_StagingBuffer.bytes + (index << 11))
             );
         }
         break;

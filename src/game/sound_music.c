@@ -120,7 +120,7 @@ s32 SD_RequestMusicPackageLoad(s16 command_id, s32 unused) {
         /* Byte-offset addition keeps the retail addu operand order. */
         entry = (SDMusicTableEntry *)(off + (s32)q->s_pstSD_MUSIC_TABLE);
 
-        SD_EnqueueSpuRamTransfer(entry->spu_address, (s32)q->s_pwSD_MUSIC_TRACK,
+        SD_EnqueueSpuRamTransfer(entry->spu_address, q->s_pwSD_MUSIC_TRACK,
                                  entry->sector_offset,
                                  entry->spu_sector_count << FILE_SECTOR_SHIFT,
                                  entry->ram_sector_count << FILE_SECTOR_SHIFT, SD_TRANSFER_SOURCE_BGM);

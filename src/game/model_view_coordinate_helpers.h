@@ -5,6 +5,6 @@
 
 void Model_BuildViewRelativeCoordinateUnit(
     s32 index, s32 entry, SVECTOR *point, struct _GsCOORDUNIT *unit);
-void Model_GetSlot0OffsetWorldPosition(s16 value, s16 *out);
+void Model_GetSlot0OffsetWorldPosition(s16 value, SVECTOR *out);
 
 #endif

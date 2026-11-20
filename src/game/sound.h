@@ -95,7 +95,7 @@ typedef struct {
     s32 transfer_sector_offset;
     s32 field_0018;
     s32 transfer_spu_destination;
-    s32 transfer_ram_destination;
+    void *transfer_ram_destination;
     s32 transfer_spu_size;
     s32 transfer_ram_size;
     s32 field_002C;

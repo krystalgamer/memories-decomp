@@ -954,7 +954,7 @@ typedef struct FileRequestSlot {
     s32 sector_offset;
     u8 pad_08[4];
     s32 spu_destination;
-    s32 ram_destination;
+    void *ram_destination;
     s32 spu_transfer_size;
     s32 ram_transfer_size;
     s16 range_sector_count;

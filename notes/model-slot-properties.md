@@ -162,11 +162,11 @@ profile, fixture or runtime capture changes.
 
 ## Tint descriptor and ambient triplet
 
-`Model_GetSlotTintDescriptor` (`0x80059520`) keeps its raw `u8 *` return.
+`Model_GetSlotTintDescriptor` (`0x80059520`) returns a `ModelTintColor *`.
 It chooses `tint` or `tint + 4` only when the original remainder
 of byte seven modulo six is nonzero and byte three is zero. The renderer
 uses these target/transitional color-and-mode blocks, model primary
-overlays copy a `CVECTOR` view, and buffer-space accounting reads byte
+overlays copy the record whole, and buffer-space accounting reads byte
 three, treating mode five specially. The result is not merely an RGB
 triplet, a new allocation or a normalized color.
 
