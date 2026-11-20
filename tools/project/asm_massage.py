@@ -773,7 +773,8 @@ def apply_rule(rule, instrs: list[Instr], context) -> list[Instr]:
 def run_pipeline(edit: EditFile, gcc_text: str, *, registers=None, capture: dict | None = None,
                  residual=None, stage: str = "final", context=None):
     """Return the massaged instruction list. STAGE "rules" stops before the
-    register map, "renamed" before the residual."""
+    register map, "renamed" before the residual. CAPTURE also receives the
+    earlier stages ("rules", "renamed"), so one run serves every check."""
     import asm_massage_rules as rules_module
 
     registers = edit.registers if registers is None else registers
@@ -794,6 +795,8 @@ def run_pipeline(edit: EditFile, gcc_text: str, *, registers=None, capture: dict
             instrs = apply_rule(rule, instrs, context)
     if stage == "rules":
         return canonical_labels(instrs)
+    if capture is not None:
+        capture["rules"] = canonical_labels(instrs)
     instrs = rename(instrs, registers)
     for name in names:
         rule = rules_module.RULES[name]
@@ -802,6 +805,7 @@ def run_pipeline(edit: EditFile, gcc_text: str, *, registers=None, capture: dict
     instrs = canonical_labels(instrs)
     if capture is not None:
         capture["dropped"] = context.dropped
+        capture["renamed"] = instrs
     if stage == "renamed":
         return instrs
     instrs = apply_residual(instrs, residual)
@@ -946,10 +950,18 @@ def compile_c(source: Path, work: Path) -> str:
     import json
 
     profile = json.loads((ROOT / PROFILES).read_text())["profiles"][PROFILE]
-    raw = work / (source.stem + ".gcc.s")
-    run([str(ROOT / profile["compiler"]), "-S", *profile["compiler_flags"],
-         "-o", str(raw), str(source)])
-    return raw.read_text()
+    # A unit's edit files are checked one by one: compile each source once
+    # per process (keyed by its text and the profile).
+    key = (str(source), source.read_bytes(), json.dumps(profile, sort_keys=True))
+    if key not in _COMPILED:
+        raw = work / (source.stem + ".gcc.s")
+        run([str(ROOT / profile["compiler"]), "-S", *profile["compiler_flags"],
+             "-o", str(raw), str(source)])
+        _COMPILED[key] = raw.read_text()
+    return _COMPILED[key]
+
+
+_COMPILED: dict = {}
 
 
 def check_source_contract(text: str) -> list[str]:
@@ -1104,7 +1116,8 @@ def command_check(edit: EditFile, work: Path, verbose: bool) -> int:
     import asm_massage_rules as rules_module
 
     context = rules_module.Context(edit.settings)
-    final = run_pipeline(edit, gcc_text, context=context)
+    capture: dict = {}
+    final = run_pipeline(edit, gcc_text, context=context, capture=capture)
     binary, relocs = assemble_and_link(emit(final, edit.function), edit, work)
     address = int(edit.settings["address"], 16)
     size = int(edit.settings["size"], 16)
@@ -1123,15 +1136,12 @@ def command_check(edit: EditFile, work: Path, verbose: bool) -> int:
     print("  relocations: " + ", ".join(relocs))
     import asm_massage_deps
 
-    capture: dict = {}
-    before = run_pipeline(edit, gcc_text, stage="renamed", capture=capture)
+    before = capture["renamed"]
     frameless = edit.settings.get("frameless", "").split()
-    ruled: dict = {}
-    webs = run_pipeline(edit, gcc_text, stage="rules", capture=ruled)
     deps = asm_massage_deps.check(before, apply_residual(before, edit.residual),
                                   (frameless[0], int(frameless[1], 0)) if frameless else None,
-                                  webs, dropped=capture["dropped"],
-                                  unrotated=ruled.get("inputs", {}).get("rotate-loop-loads"),
+                                  capture["rules"], dropped=capture["dropped"],
+                                  unrotated=capture.get("inputs", {}).get("rotate-loop-loads"),
                                   layout=argument_layout(edit))
     print("  " + deps.summary())
     for flag in deps.flags[: None if verbose else 8]:
@@ -1227,6 +1237,42 @@ def command_derive(edit: EditFile, work: Path) -> int:
     return 0
 
 
+def check_jobs() -> int:
+    """Parallel checks: the -j of MAKEFLAGS when make gives a number, else at
+    most 4 (and never more than the CPUs)."""
+    import os
+
+    cpus = os.cpu_count() or 1
+    match = re.search(r"(?:^|\s)-?j\s*(\d+)|--jobs[= ](\d+)", os.environ.get("MAKEFLAGS", ""))
+    if match:
+        return max(1, min(int(match.group(1) or match.group(2)), cpus))
+    return min(4, cpus)
+
+
+def check_one(job) -> tuple[str, bool]:
+    """Check one edit file; return its report and whether it failed. Each
+    worker process compiles into its own work directory."""
+    import contextlib
+    import io
+    import os
+
+    path, work, verbose = job
+    if os.getpid() != _PARENT[0]:
+        work = work / f"worker-{os.getpid()}"
+        work.mkdir(parents=True, exist_ok=True)
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        try:
+            bad = bool(command_check(read_edit(path), work, verbose))
+        except MassageError as error:
+            print(f"{path}: {error}")
+            bad = True
+    return out.getvalue(), bad
+
+
+_PARENT = [__import__("os").getpid()]
+
+
 def massaged_sources() -> list[Path]:
     """Every resident source the matching manifest builds with a massaged
     profile."""
@@ -1261,6 +1307,8 @@ def main(argv: list[str] | None = None) -> int:
     apply.add_argument("edit", type=Path)
     apply.add_argument("input", type=Path)
     apply.add_argument("output", type=Path)
+    check.add_argument("-j", "--jobs", type=int, default=0,
+                       help="functions checked in parallel (default: MAKEFLAGS -j, at most 4)")
     derive = sub.add_parser("derive")
     derive.add_argument("edit", type=Path)
     parser.add_argument("--work", type=Path, default=Path("tmp/asm_massage"))
@@ -1277,12 +1325,19 @@ def main(argv: list[str] | None = None) -> int:
             if not paths:
                 raise MassageError("no edit files")
             failed = []
-            for path in paths:
-                try:
-                    if command_check(read_edit(path), work, args.verbose):
-                        failed.append(path)
-                except MassageError as error:
-                    print(f"{path}: {error}")
+            jobs = min(args.jobs or check_jobs(), len(paths))
+            jobs_list = [(path, work, args.verbose) for path in paths]
+            if jobs > 1:
+                import multiprocessing
+
+                with multiprocessing.get_context("fork").Pool(jobs) as pool:
+                    results = pool.map(check_one, jobs_list, chunksize=1)
+            else:
+                results = map(check_one, jobs_list)
+            # Reports come back in edit-file order, whatever ran first.
+            for path, (text, bad) in zip(paths, results):
+                sys.stdout.write(text)
+                if bad:
                     failed.append(path)
             if len(paths) > 1:
                 print(f"asm_massage check: {len(paths) - len(failed)}/{len(paths)} MATCH and proven")

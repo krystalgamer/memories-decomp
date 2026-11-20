@@ -722,6 +722,20 @@ def leaves(values) -> tuple[set, set]:
     return defs, ins
 
 
+_WEB_VERSION = [0]
+
+
+class TrackedInstr(Instr):
+    """An instruction of the result whose web the checker reassigns while it
+    pairs rewritten lines: every assignment bumps _WEB_VERSION, so values
+    derived from the current webs know when to recompute."""
+
+    def __setattr__(self, name, value):
+        if name == "web":
+            _WEB_VERSION[0] += 1
+        object.__setattr__(self, name, value)
+
+
 class Values:
     """Path-aware value identity for the allocation check. A value is the
     root definition an instruction's result comes from (in the program the
@@ -958,6 +972,13 @@ class Values:
         return out
 
     def value_b(self, q: int, name: str) -> set:
+        # (the original's values never change: memoized)
+        key = ("value_b", q, name)
+        if key not in self.memo:
+            self.memo[key] = frozenset(self._value_b_at(q, name))
+        return self.memo[key]
+
+    def _value_b_at(self, q: int, name: str) -> set:
         value = self._value_b(self.reach_b[q], name)
         if value is None:
             return self.value_b(q, self.class_rep[self.same(name)])
@@ -968,10 +989,16 @@ class Values:
         while the checker pairs rewritten instructions)."""
         from operator import attrgetter
 
-        key = tuple(map(id, map(attrgetter("web"), self.after)))
+        if not hasattr(self, "_tracked"):
+            self._tracked = all(type(i) is TrackedInstr for i in self.after)
+        if self._tracked:
+            key = _WEB_VERSION[0]  # bumped whenever such an instruction's web changes
+        else:
+            key = tuple(map(id, map(attrgetter("web"), self.after)))
         if getattr(self, "_positions_key", None) != key:
             self._positions_key = key
-            self._positions = {self.index[w]: n for n, w in enumerate(key) if w in self.index}
+            webs = map(id, map(attrgetter("web"), self.after))
+            self._positions = {self.index[w]: n for n, w in enumerate(webs) if w in self.index}
         return self._positions
 
     def stable_a(self, d: int, reg: str, value) -> bool:
@@ -1027,7 +1054,33 @@ class Values:
                 and k in self.dom_a[d] and untouched(k) and untouched(d)
                 and self.value_a(k, reg) == {self.entry(reg + ".0")})
 
+    def _state_memo(self) -> dict | None:
+        """Memo for results that depend on the result's current webs: valid
+        while no web changes (only for tracked instructions)."""
+        from operator import attrgetter
+
+        self.a_positions()
+        if not self._tracked:
+            return None
+        if getattr(self, "_memo_version", None) != _WEB_VERSION[0]:
+            # The pairing search keeps returning to earlier assignments of
+            # webs: key the memo by the exact assignment.
+            self._memo_version = _WEB_VERSION[0]
+            state = tuple(map(id, map(attrgetter("web"), self.after)))
+            states = self.__dict__.setdefault("_memo_states", {})
+            self._memo_state = states.setdefault(state, {})
+        return self._memo_state
+
     def root_a(self, d: int, reg: str, depth: int = 0) -> frozenset:
+        memo = self._state_memo()
+        if memo is None:
+            return self._root_a(d, reg, depth)
+        key = ("root", d, reg, depth)
+        if key not in memo:
+            memo[key] = self._root_a(d, reg, depth)
+        return memo[key]
+
+    def _root_a(self, d: int, reg: str, depth: int = 0) -> frozenset:
         if d < 0:
             return frozenset({self.entry(reg + ".0")})
         instr = self.after[d]
@@ -1102,11 +1155,23 @@ class Values:
                 return p
         return None
 
+    def _by_reg(self, sets: list, pos: int, reg: str) -> list:
+        """The definitions of REG in the reaching-definition set SETS[POS],
+        in the set's own order (indexed once per set: the sets are fixed)."""
+        cache = self.__dict__.setdefault("_by_reg_cache", {})
+        key = (id(sets), pos)
+        index = cache.get(key)
+        if index is None:
+            index = {}
+            for d, r in sets[pos]:
+                index.setdefault(r, []).append(d)
+            cache[key] = index
+        return index.get(reg, [])
+
     def value_a(self, k: int, reg: str, depth: int = 0) -> set:
         out = set()
-        for d, r in self.reach_a[k]:
-            if r == reg:
-                out |= self.root_a(d, reg, depth)
+        for d in self._by_reg(self.reach_a, k, reg):
+            out |= self.root_a(d, reg, depth)
         return out
 
     def _blocks(self):
@@ -1139,10 +1204,19 @@ class Values:
     def check(self, n: int, reg: str, name: str, kb: int | None) -> str | None:
         if kb is None:
             return None
+        memo = self._state_memo()
+        if memo is None:
+            return self._check(n, reg, name, kb)
+        key = ("check", n, reg, name, kb)
+        if key not in memo:
+            memo[key] = self._check(n, reg, name, kb)
+        return memo[key]
+
+    def _check(self, n: int, reg: str, name: str, kb: int) -> str | None:
         va, vb = self.value_a(n, reg), self.value_b(kb, name)
         if va != vb:
-            for d, r in self.reach_a[n]:
-                if r == reg and not self.root_a(d, reg) <= vb:
+            for d in self._by_reg(self.reach_a, n, reg):
+                if not self.root_a(d, reg) <= vb:
                     if d >= 0:
                         return f"{self.after[d].text()} may have overwritten it"
                     return "it is the entry value"
@@ -1161,7 +1235,7 @@ class Values:
                                       else (self.twins, self.reach_b, self.block_b, self.out_b))
         blk = block[pos]
         for _ in range(8):
-            defs = {d for d, r in (out[pos] if end else reach[pos]) if r == reg}
+            defs = set(self._by_reg(out if end else reach, pos, reg))
             inside = {d for d in defs if d >= 0 and block[d] == blk and (d <= pos if end else d < pos)}
             if not inside:
                 return reg
@@ -1253,9 +1327,8 @@ class Values:
     def _end_values(self, side: str, last: int, reg: str):
         if side == "a":
             out = set()
-            for d, r in self.out_a[last]:
-                if r == reg:
-                    out |= self.root_a(d, reg)
+            for d in self._by_reg(self.out_a, last, reg):
+                out |= self.root_a(d, reg)
             return out
         values = self._value_b(self.out_b[last], reg)
         if values is None:
@@ -1696,6 +1769,8 @@ def check(before: list[Instr], after_raw: list[Instr], frameless=None, webs=None
     # is) are decided below, not taken from the diff's context lines, which
     # pair repeated texts arbitrarily.
     after = [copy.copy(i) for i in after_raw]
+    for instr in after:
+        instr.__class__ = TrackedInstr
     ident: dict[int, Instr] = {}
     for new, old in zip(after, after_raw):
         if id(old) in kept:

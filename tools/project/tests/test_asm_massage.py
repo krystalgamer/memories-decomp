@@ -668,6 +668,18 @@ class ProverSoundnessTests2(unittest.TestCase):
                                                        "sw $v0, 0x0($a1)"] + t[3:]))
 
 
+class CheckJobsTests(unittest.TestCase):
+    def test_parallel_checks_follow_makeflags(self):
+        import os
+        from unittest import mock
+
+        cpus = os.cpu_count() or 1
+        for flags, wanted in (("-j3", min(3, cpus)), (" -j 2 --jobserver-auth=3,4", min(2, cpus)),
+                              ("--jobs=1", 1), ("-k", min(4, cpus)), ("", min(4, cpus))):
+            with mock.patch.dict(os.environ, {"MAKEFLAGS": flags}):
+                self.assertEqual(am.check_jobs(), wanted, flags)
+
+
 class ContractTests(unittest.TestCase):
     def test_only_stock_psyq_macros_reach_the_hardware(self):
         self.assertEqual(am.check_source_contract(

@@ -703,6 +703,12 @@ against `.text`; the linked bytes check its target).
   `make check-asm-massage` (also run by `make audit` and the matching CI
   build) runs `asm_massage.py check` on every massaged unit: exact bytes,
   relocations and the dependence proof, failing on any unproven residual.
+  It checks functions in parallel (the number from `MAKEFLAGS` `-jN`, else
+  at most 4, or `check -j N`), each worker compiling into its own work
+  directory, and prints the reports in edit-file order; one function's
+  check runs the rule pipeline once and compiles its unit once per
+  process. All 61 take about 18 s locally with four workers (64 s with
+  one).
   `integrate_verified_match.py` refuses massaged profiles; such units are
   integrated by hand.
 - The build never runs `derive` and never reads the retail executable.
