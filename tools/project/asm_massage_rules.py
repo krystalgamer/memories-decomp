@@ -132,22 +132,35 @@ def dmpsx_native(instrs, context):
     return instrs
 
 
-def stack_slot(instrs: list[Instr], arg: tuple):
+def sp_offsets(instrs: list[Instr]) -> dict:
+    """Registers every definition of which is the same "addiu r,$sp,k":
+    r -> k. GCC may duplicate the address computation into each way into a
+    join; identical copies define the same address."""
+    values: dict = {}
+    for i in instrs:
+        for reg in i.defs():
+            values.setdefault(reg, set()).add(
+                (i.op, i.args[1][1], i.args[2][1]) if i.op == "addiu" else None)
+    out = {}
+    for reg, found in values.items():
+        if len(found) == 1:
+            value = next(iter(found))
+            if value is not None and value[1] == "$sp" and isinstance(value[2], int):
+                out[reg] = value[2]
+    return out
+
+
+def stack_slot(instrs: list[Instr], arg: tuple, offsets: dict | None = None):
     """Stack offset addressed by a memory operand, through $sp or a web
-    defined once as $sp plus a constant."""
+    defined once as $sp plus a constant (OFFSETS: sp_offsets(instrs), when
+    the caller asks for many operands of one program)."""
     if arg[0] != "m" or not isinstance(arg[1], int):
         return None
     if arg[2] == "$sp":
         return arg[1]
-    # GCC may duplicate the address computation into each way into a join;
-    # identical copies define the same address.
-    values = {(instrs[d].op, instrs[d].args[1][1], instrs[d].args[2][1])
-              if instrs[d].op == "addiu" else None for d in defs_of(instrs, arg[2])}
-    if len(values) == 1:
-        value = values.pop()
-        if value is not None and value[1] == "$sp" and isinstance(value[2], int):
-            return value[2] + arg[1]
-    return None
+    if offsets is None:
+        offsets = sp_offsets(instrs)
+    return offsets[arg[2]] + arg[1] if arg[2] in offsets else None
 
 
 @rule("gte-direct-read", "web",
@@ -157,17 +170,19 @@ def gte_direct_read(instrs, context):
     changed = True
     while changed:
         changed = False
+        offsets = sp_offsets(instrs)
         for j, store in enumerate(instrs):
             if store.op not in ("sw", "swc2"):
                 continue
-            slot = stack_slot(instrs, store.args[1])
+            slot = stack_slot(instrs, store.args[1], offsets)
             if slot is None:
                 continue
             # The reads this store feeds: the slot loads before the next
             # store to the slot (the C variable may be reused, e.g. two
             # gte_stflg(&flag)); the first must be straight-line from it.
             later = [n for n in range(j + 1, len(instrs)) if instrs[n].op in STORES | {"lw"}
-                     and instrs[n].args[1][0] == "m" and stack_slot(instrs, instrs[n].args[1]) == slot]
+                     and instrs[n].args[1][0] == "m"
+                     and stack_slot(instrs, instrs[n].args[1], offsets) == slot]
             following = [n for n in later if instrs[n].op in STORES]
             loads = [n for n in later if instrs[n].op == "lw" and (not following or n < following[0])]
             if len(loads) != 1 or not straight(instrs, j, loads[0]):
@@ -204,14 +219,15 @@ def gte_direct_write(instrs, context):
     changed = True
     while changed:
         changed = False
+        offsets = sp_offsets(instrs)
         for j, store in enumerate(instrs):
             if store.op != "sw":
                 continue
-            slot = stack_slot(instrs, store.args[1])
+            slot = stack_slot(instrs, store.args[1], offsets)
             if slot is None:
                 continue
             users = [n for n, i in enumerate(instrs) if n != j and any(
-                stack_slot(instrs, a) == slot for a in i.args if a[0] == "m")]
+                stack_slot(instrs, a, offsets) == slot for a in i.args if a[0] == "m")]
             if len(users) != 1 or instrs[users[0]].op != "lwc2" or users[0] < j:
                 continue
             load = users[0]
