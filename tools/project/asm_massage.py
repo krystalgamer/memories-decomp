@@ -1237,6 +1237,42 @@ def command_derive(edit: EditFile, work: Path) -> int:
     return 0
 
 
+def check_jobs() -> int:
+    """Parallel checks: the -j of MAKEFLAGS when make gives a number, else at
+    most 4 (and never more than the CPUs)."""
+    import os
+
+    cpus = os.cpu_count() or 1
+    match = re.search(r"(?:^|\s)-?j\s*(\d+)|--jobs[= ](\d+)", os.environ.get("MAKEFLAGS", ""))
+    if match:
+        return max(1, min(int(match.group(1) or match.group(2)), cpus))
+    return min(4, cpus)
+
+
+def check_one(job) -> tuple[str, bool]:
+    """Check one edit file; return its report and whether it failed. Each
+    worker process compiles into its own work directory."""
+    import contextlib
+    import io
+    import os
+
+    path, work, verbose = job
+    if os.getpid() != _PARENT[0]:
+        work = work / f"worker-{os.getpid()}"
+        work.mkdir(parents=True, exist_ok=True)
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
+        try:
+            bad = bool(command_check(read_edit(path), work, verbose))
+        except MassageError as error:
+            print(f"{path}: {error}")
+            bad = True
+    return out.getvalue(), bad
+
+
+_PARENT = [__import__("os").getpid()]
+
+
 def massaged_sources() -> list[Path]:
     """Every resident source the matching manifest builds with a massaged
     profile."""
@@ -1271,6 +1307,8 @@ def main(argv: list[str] | None = None) -> int:
     apply.add_argument("edit", type=Path)
     apply.add_argument("input", type=Path)
     apply.add_argument("output", type=Path)
+    check.add_argument("-j", "--jobs", type=int, default=0,
+                       help="functions checked in parallel (default: MAKEFLAGS -j, at most 4)")
     derive = sub.add_parser("derive")
     derive.add_argument("edit", type=Path)
     parser.add_argument("--work", type=Path, default=Path("tmp/asm_massage"))
@@ -1287,12 +1325,19 @@ def main(argv: list[str] | None = None) -> int:
             if not paths:
                 raise MassageError("no edit files")
             failed = []
-            for path in paths:
-                try:
-                    if command_check(read_edit(path), work, args.verbose):
-                        failed.append(path)
-                except MassageError as error:
-                    print(f"{path}: {error}")
+            jobs = min(args.jobs or check_jobs(), len(paths))
+            jobs_list = [(path, work, args.verbose) for path in paths]
+            if jobs > 1:
+                import multiprocessing
+
+                with multiprocessing.get_context("fork").Pool(jobs) as pool:
+                    results = pool.map(check_one, jobs_list, chunksize=1)
+            else:
+                results = map(check_one, jobs_list)
+            # Reports come back in edit-file order, whatever ran first.
+            for path, (text, bad) in zip(paths, results):
+                sys.stdout.write(text)
+                if bad:
                     failed.append(path)
             if len(paths) > 1:
                 print(f"asm_massage check: {len(paths) - len(failed)}/{len(paths)} MATCH and proven")
