@@ -618,6 +618,56 @@ class ProverSoundnessTests(unittest.TestCase):
         self.assertEqual(deps.Program(before, "GsARGUNIT_SHARED").region("$t1", 3), "cache")
 
 
+class ProverSoundnessTests2(unittest.TestCase):
+    """Second review: dynamic instances, frame registers, merging loads."""
+
+    flags = ProverSoundnessTests.flags
+    swap = staticmethod(ProverSoundnessTests.swap)
+
+    @staticmethod
+    def replace_at(old: str, new: list[str]):
+        return lambda t: t[:t.index(old)] + new + t[t.index(old) + 1:]
+
+    def test_reload_after_an_inner_loop_moved_the_base_is_refused(self):
+        program = ("addu\t$8,$4,$0\n$L1:\nlw\t$9,0($8)\nbeq\t$5,$0,$L3\nnop\n$L2:\naddiu\t$8,$8,4\n"
+                   "bne\t$8,$6,$L2\nnop\n$L3:\naddu\t$2,$2,$9\naddiu\t$7,$7,-1\nbne\t$7,$0,$L1\n"
+                   "nop\nj\t$31\nnop")
+        self.assertTrue(self.flags(program, self.replace_at(
+            "addu $v0, $v0, $t1", ["lw $t2, 0x0($t0)", "addu $v0, $v0, $t2"])))
+
+    def test_copy_taken_before_a_conditional_redefinition_is_its_own_value(self):
+        program = ("lw\t$8,0($4)\n$L1:\naddu\t$9,$8,$0\nbeq\t$5,$0,$L2\nnop\nlw\t$8,4($6)\n$L2:\n"
+                   "sw\t$9,0($7)\naddiu\t$7,$7,4\nbne\t$7,$25,$L1\nnop\nj\t$31\nnop")
+        self.assertTrue(self.flags(program, self.swap("sw $t1, 0x0($a3)", "sw $t0, 0x0($a3)")))
+
+    def test_frame_registers_are_checked(self):
+        program = "lw\t$8,0($4)\nsw\t$8,0($5)\nj\t$31\nnop"
+        for line in ("addiu $ra, $zero, 0x10", "addiu $sp, $sp, 0x4"):
+            self.assertTrue(self.flags(program, lambda t, line=line: t[:2] + [line] + t[2:]))
+        framed = ("addiu\t$sp,$sp,-8\nsw\t$16,0($sp)\nlw\t$16,0($4)\nsw\t$16,0($5)\n"
+                  "lw\t$16,0($sp)\naddiu\t$sp,$sp,8\nj\t$31\nnop")
+        self.assertTrue(self.flags(framed, lambda t: [x for x in t if not x.startswith("addiu $sp")]))
+
+    def test_frameless_restores_must_return_the_saved_register(self):
+        program = ("sw\t$16,40($4)\nlw\t$16,0($5)\nsw\t$16,0($6)\nlw\t$16,40($4)\n"
+                   "j\t$31\nnop")
+        before = am.rename(am.webify(parse(program)), {})
+        texts = [i.text() for i in before]
+
+        def flags(new):
+            patch = am.make_residual(texts, new)
+            return deps.check(before, am.apply_residual(before, patch), ("$a0", 0x28)).flags
+        self.assertEqual(flags(texts), [])
+        self.assertTrue(flags([t for t in texts if t != "lw $s0, 0x28($a0)"]))
+        self.assertTrue(flags([t.replace("lw $s0, 0x28", "lw $s0, 0x2C") for t in texts]))
+        self.assertTrue(flags([t for t in texts if t != "sw $s0, 0x28($a0)"]))
+
+    def test_return_value_is_checked(self):
+        program = "lw\t$2,0($4)\nlw\t$3,4($4)\nsw\t$3,0($5)\nj\t$31\nnop"
+        self.assertTrue(self.flags(program, lambda t: ["lw $v1, 0x0($a0)", "lw $v0, 0x4($a0)",
+                                                       "sw $v0, 0x0($a1)"] + t[3:]))
+
+
 class ContractTests(unittest.TestCase):
     def test_only_stock_psyq_macros_reach_the_hardware(self):
         self.assertEqual(am.check_source_contract(

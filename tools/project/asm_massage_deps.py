@@ -17,14 +17,29 @@ Model (on the program after renaming, before and after the residual):
   accepted; deleting a pure instruction is accepted when the allocation
   check shows its readers get the value elsewhere.
 * Value identity (class Values): every register read in the result must
-  get the same value as its twin in the original, where a value is the set
-  of root definitions that may reach it. Copies, constants (addiu/lui/ori),
-  pure ALU expressions over single values, reloads of an unchanged word and
-  frameless restores resolve to their roots; only single-definition webs
-  share a value. When a merge (several roots) is read, both programs must
-  carry the same roots at the end of every predecessor block, walked
-  backwards until each way carries a single value; a way on which the
-  original never sets the web is unconstrained (its value is undefined).
+  get the same value as its twin in the original. A value is a set of
+  terms; a term is a constant, a live-in, an original definition ("its
+  latest run") or an expression over single-valued operands. Copies,
+  constants (addiu/lui/ori), pure ALU results, reloads of an unchanged
+  word and frameless restores resolve to their operands' terms only while
+  those stay current: a term computed at k stands for the operands' runs
+  as of k, so it is used only if none of the definitions it is built from
+  runs again while k's result is live (else k is its own term), and a
+  definition whose value depends on itself through a loop is its own term.
+  An original definition compared at two places names the same run there
+  when it is in the same block in both programs, runs at most once, or
+  moved to a dominating/dominated block that every way to the read passes;
+  a moved reader of a definition in a loop must dominate (or be dominated
+  by) its old place with no run of the definition between. When a merge
+  is read, both programs must carry the same terms at the end of every
+  predecessor block, walked back through blocks that do not write the
+  value (or only copy it). A web the original leaves unset on some way is
+  a term nothing in the result equals.
+* Frame registers: the residual may not write $sp, $ra, $gp, $fp, $k0 or
+  $k1. A return reads $v0 as the original does, $sp and $gp, and the
+  callee-saved registers, which must hold their entry values where the
+  original's do (a frameless restore counts only when the one store to its
+  slot saved that register's entry value and dominates it).
 * Conflicts: RAW/WAR/WAW on GPRs; GTE data and control registers (a GTE
   command reads and writes every GTE register); memory, where two accesses
   conflict if one stores and they may overlap. Accesses through the same
@@ -54,11 +69,14 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 import re
 
-from asm_massage import BRANCHES, LOADS, STORES, Instr, label_index, live_after
+from asm_massage import BRANCHES, CALLEE_SAVED, LOADS, STORES, Instr, label_index, live_after
 
 GTE_WRITES = {"mtc2": "g", "ctc2": "c", "lwc2": "g"}
 GTE_READS = {"mfc2": "g", "cfc2": "c", "swc2": "g"}
-# The value of a web on a path where the original never sets it.
+# Registers with a fixed role in the calling convention.
+FRAME_REGISTERS = {"$sp", "$ra", "$gp", "$fp", "$k0", "$k1"}
+# The value of a web on a path where the original never sets it. No value
+# of the result equals it, so a read that may see it is never proven.
 UNDEF = ("undef",)
 # Pure ALU operations (no memory, no GTE): their results are values of
 # their operands.
@@ -564,6 +582,146 @@ def conflict(prog: Program, x: Instr, y: Instr) -> str | None:
     return None
 
 
+def live_in(program: list[Instr]) -> list[set]:
+    """Registers (or web names) live at the entry of each instruction."""
+    from asm_massage import label_index, successors
+
+    labels = label_index(program)
+    succ = [successors(program, n, labels) for n in range(len(program))]
+    live = [set() for _ in program]
+    changed = True
+    while changed:
+        changed = False
+        for n in range(len(program) - 1, -1, -1):
+            instr = program[n]
+            out = set()
+            for m in succ[n]:
+                out |= live[m]
+            new = (out - set(instr.defs())) | set(instr.uses()) if not instr.is_label else out
+            if new != live[n]:
+                live[n] = new
+                changed = True
+    return live
+
+
+def reexecutes(program: list[Instr], live: list[set], start: int, reg: str, targets: set) -> bool:
+    """Whether an instruction in TARGETS may run after START while the value
+    START put in REG is still live (before REG is written again): a value
+    computed from those instructions' results at START is then no longer
+    what a later read of the same instructions' results would see."""
+    if not targets:
+        return False
+    memo = _cached(_REEXECUTES, program, dict)
+    key = (id(live), start, reg, frozenset(targets))
+    if key in memo:
+        return memo[key]
+    memo[key] = result = _reexecutes(program, live, start, reg, targets)
+    return result
+
+
+_REEXECUTES: dict = {}
+_DEFS: dict = {}
+
+
+def _reexecutes(program, live, start, reg, targets) -> bool:
+    succ = _successor_lists(program)
+    defs = _cached(_DEFS, program, lambda: [set() if i.is_label else set(i.defs()) for i in program])
+    seen, stack = set(), list(succ[start])
+    while stack:
+        n = stack.pop()
+        if n in seen:
+            continue
+        seen.add(n)
+        if reg not in live[n]:
+            continue
+        if reg in defs[n]:
+            continue
+        # (a target that reads the value last, as a loop counter's update
+        # reads the old count, runs after the value's last read)
+        if n in targets and any(reg in live[m] for m in succ[n]):
+            return True
+        stack.extend(succ[n])
+    return False
+
+
+def in_loop(program: list[Instr], n: int) -> bool:
+    """Whether instruction N can run again (is on a cycle)."""
+    memo = _cached(_LOOPS, program, dict)
+    if n not in memo:
+        succ = _successor_lists(program)
+        seen, stack, found = set(), list(succ[n]), False
+        while stack:
+            k = stack.pop()
+            if k == n:
+                found = True
+                break
+            if k in seen:
+                continue
+            seen.add(k)
+            stack.extend(succ[k])
+        memo[n] = found
+    return memo[n]
+
+
+_SUCCESSORS: dict = {}
+_PREDECESSORS: dict = {}
+
+
+def _predecessor_lists(program: list[Instr]) -> dict:
+    def make():
+        pred: dict = {}
+        for k, out in enumerate(_successor_lists(program)):
+            for m in out:
+                pred.setdefault(m, []).append(k)
+        return pred
+
+    return _cached(_PREDECESSORS, program, make)
+
+
+def _cached(cache: dict, program: list[Instr], make):
+    """A per-program cache entry, valid while the list holds the same
+    instruction objects (whose branch targets are not changed in place)."""
+    ids = tuple(map(id, program))
+    entry = cache.get(id(program))
+    if entry is None or entry[0] is not program or entry[1] != ids:
+        if len(cache) > 64:
+            cache.clear()
+        entry = cache[id(program)] = (program, ids, make())
+    return entry[2]
+
+
+_LOOPS: dict = {}
+
+
+def _successor_lists(program: list[Instr]) -> list[list[int]]:
+    """Instruction successors, cached per program."""
+    from asm_massage import label_index, successors
+
+    def make():
+        labels = label_index(program)
+        return [successors(program, n, labels) for n in range(len(program))]
+
+    return _cached(_SUCCESSORS, program, make)
+
+
+def leaves(values) -> tuple[set, set]:
+    """Original definitions ("def") and result-only instructions ("ins")
+    a value is computed from."""
+    defs, ins = set(), set()
+    for atom in values:
+        if atom[0] == "def":
+            defs.add(atom[1])
+        elif atom[0] == "ins":
+            ins.add(atom[1])
+        elif atom[0] == "expr":
+            for part in atom[2]:
+                if isinstance(part, frozenset):
+                    d, i = leaves(part)
+                    defs |= d
+                    ins |= i
+    return defs, ins
+
+
 class Values:
     """Path-aware value identity for the allocation check. A value is the
     root definition an instruction's result comes from (in the program the
@@ -586,10 +744,26 @@ class Values:
         # (anchored by web twin: the renamed program's objects are copies)
         at = {}
         present = {id(i.web) for i in before if i.web is not None}
+        position = {id(i.web): k for k, i in enumerate(before) if i.web is not None}
+        block_of_web = {id(i.web): b for i, b in ((i, Program(before).block.get(id(i))) for i in before)
+                        if i.web is not None} if dropped else {}
         for copy_, following in dropped or []:
             place = next((i.web for i in following if i.web is not None and id(i.web) in present), None)
-            if place is not None:
-                at.setdefault(id(place), []).append(web(copy_))
+            if place is None:
+                continue
+            # Later rules may have moved a reader of the copy above the
+            # instruction that followed it: the copy goes before the first
+            # reader in that block, if its source is not written between.
+            dest, source = web(copy_).defs()[0], web(copy_).uses()[0]
+            readers = [i.web for i in following if i.web is not None and id(i.web) in present
+                       and dest in i.web.uses() and block_of_web.get(id(i.web)) == block_of_web.get(id(place))
+                       and position[id(i.web)] < position[id(place)]]
+            if readers:
+                first = min(readers, key=lambda w: position[id(w)])
+                if not any(source in web(before[k]).defs()
+                           for k in range(position[id(first)], position[id(place)])):
+                    place = first
+            at.setdefault(id(place), []).append(web(copy_))
         self.twins = []
         reinstated = set()
         for i in before:
@@ -624,13 +798,85 @@ class Values:
             self.block_b[k] = self.block_b[k + 1]
         self.block_a = [pa.block.get(id(i)) for i in after]
         self.memo: dict = {}
+        self.live_b = live_in(self.twins)
+        self.live_a = live_in(after)
+        self.cycle_leaves = self._cycle_leaves()
 
     # Values are sets of atoms: ("def", k) for an original definition,
     # ("const", v), ("entry", class) for a live-in, ("ins", d) for anything
     # the residual made up. A copy has the values of its source where it
     # runs.
+    def _cycle_leaves(self) -> set:
+        """Definitions whose value depends on itself through copies and
+        pure operations (a loop counter: n = slot; n' = n - 1; slot = n').
+        Resolving such a cycle would describe the value in terms of
+        whichever member was asked first; instead every computing member
+        of the cycle is its own value (a copy-only cycle keeps its first
+        member), so the same value always gets the same description."""
+        graph = {}
+        for k, t in enumerate(self.twins):
+            if t.is_label or not t.defs() or not (t.op in ALU_OPS or t.op == "lui"):
+                continue
+            graph[k] = sorted({d for d, r in self.reach_b[k] if r in t.uses() and d >= 0})
+        index, low, stack, on, sccs, counter = {}, {}, [], set(), [], [0]
+
+        def strong(v):
+            work = [(v, iter(graph.get(v, ())))]
+            index[v] = low[v] = counter[0]
+            counter[0] += 1
+            stack.append(v)
+            on.add(v)
+            while work:
+                node, it = work[-1]
+                pushed = False
+                for w in it:
+                    if w not in graph:
+                        continue
+                    if w not in index:
+                        index[w] = low[w] = counter[0]
+                        counter[0] += 1
+                        stack.append(w)
+                        on.add(w)
+                        work.append((w, iter(graph.get(w, ()))))
+                        pushed = True
+                        break
+                    if w in on:
+                        low[node] = min(low[node], index[w])
+                if pushed:
+                    continue
+                work.pop()
+                if work:
+                    low[work[-1][0]] = min(low[work[-1][0]], low[node])
+                if low[node] == index[node]:
+                    scc = []
+                    while True:
+                        w = stack.pop()
+                        on.discard(w)
+                        scc.append(w)
+                        if w == node:
+                            break
+                    sccs.append(scc)
+
+        for v in graph:
+            if v not in index:
+                strong(v)
+        leaves_ = set()
+        for scc in sccs:
+            if len(scc) == 1 and scc[0] not in graph.get(scc[0], ()):
+                continue
+            computing = {k for k in scc if not self._is_copy(self.twins[k])}
+            leaves_ |= computing or {min(scc)}
+        return leaves_
+
+    @staticmethod
+    def _is_copy(t: Instr) -> bool:
+        return t.op in ("addu", "or") and len(t.args) == 3 and t.args[2] == ("r", "$zero")
+
     def root_b(self, k: int) -> frozenset:
         if k in self.memo:
+            return self.memo[k]
+        if k in self.cycle_leaves:
+            self.memo[k] = frozenset({("def", k)})
             return self.memo[k]
         self.memo[k] = frozenset({("def", k)})  # a cycle stays itself
         t = self.twins[k]
@@ -650,6 +896,13 @@ class Values:
             value = frozenset({("const", self._const(self.value_b(k, a[1][1])) | a[2][1])})
         elif t.op in ALU_OPS:
             value = self._expr(t, lambda reg: self.value_b(k, reg)) or value
+        if value != frozenset({("def", k)}) and t.defs():
+            # The value is "the operands' definitions as of k": it stays
+            # that only while none of them runs again (a loop) before the
+            # result is last read. Otherwise k is its own value.
+            defs, _ = leaves(value)
+            if reexecutes(self.twins, self.live_b, k, t.defs()[0], defs - {k}):
+                value = frozenset({("def", k)})
         self.memo[k] = value
         return value
 
@@ -700,7 +953,7 @@ class Values:
                 else:
                     # A renamed web has its live-in under ".0": an entry
                     # reaching any other web is a path on which the
-                    # original never set it (dead or infeasible there).
+                    # original never set it.
                     out.add(UNDEF)
         return out
 
@@ -710,15 +963,92 @@ class Values:
             return self.value_b(q, self.class_rep[self.same(name)])
         return value
 
+    def a_positions(self) -> dict:
+        """Original definition -> its place in the result (webs change
+        while the checker pairs rewritten instructions)."""
+        from operator import attrgetter
+
+        key = tuple(map(id, map(attrgetter("web"), self.after)))
+        if getattr(self, "_positions_key", None) != key:
+            self._positions_key = key
+            self._positions = {self.index[w]: n for n, w in enumerate(key) if w in self.index}
+        return self._positions
+
+    def stable_a(self, d: int, reg: str, value) -> bool:
+        """Whether VALUE, computed at D into REG of the result, is still that
+        value wherever REG is read: none of its definitions runs again."""
+        defs, ins = leaves(value)
+        if not defs and not ins:
+            return True
+        where = self.a_positions()
+        targets = {where[k] for k in defs if k in where} | ins
+        return not reexecutes(self.after, self.live_a, d, reg, targets - {d})
+
+    def preserved(self, twin: Instr) -> set:
+        """Callee-saved registers the original returns unchanged at TWIN (a
+        return): nothing writes them on the way, or only the frameless
+        epilogue's restores. The result must return their entry values."""
+        from asm_massage import reaching
+
+        if not hasattr(self, "reach_pb"):
+            self.reach_pb = reaching(self.before)
+            self.pos_pb = {id(web(i)): n for n, i in enumerate(self.before)}
+        n = self.pos_pb.get(id(twin))
+        if n is None:
+            return set()
+        out = set()
+        for reg in CALLEE_SAVED:
+            defs = [d for d, r in self.reach_pb[n] if r == reg and d >= 0]
+            if all(self.frameless and is_save_slot(self.before[d], self.frameless) for d in defs):
+                out.add(reg)
+        return out
+
+    def _restored(self, d: int, reg: str) -> bool:
+        """A frameless restore "lw R, k(arg)" gets R's entry value when the
+        one store to that slot is "sw R, k(arg)", dominating the restore,
+        storing R's entry value, with the argument pointer unchanged."""
+        from asm_massage import dominators
+
+        if not hasattr(self, "dom_a"):
+            self.dom_a = dominators(self.after)
+        arg, off = self.after[d].args[1][2], self.after[d].args[1][1]
+
+        def untouched(k):
+            return {x for x in self.reach_a[k] if x[1] == arg} == {(-1, arg)}
+
+        stores = [k for k, i in enumerate(self.after) if i.op in STORES and mem_access(i)
+                  and mem_access(i)[1] == arg and isinstance(mem_access(i)[2], int)
+                  and not (mem_access(i)[2] + mem_access(i)[3] <= off or off + 4 <= mem_access(i)[2])]
+        if len(stores) != 1:
+            return False
+        (k,) = stores
+        save = self.after[k]
+        return (save.op == "sw" and save.args[0][1] == reg and save.args[1][1] == off
+                and k in self.dom_a[d] and untouched(k) and untouched(d)
+                and self.value_a(k, reg) == {self.entry(reg + ".0")})
+
     def root_a(self, d: int, reg: str, depth: int = 0) -> frozenset:
         if d < 0:
             return frozenset({self.entry(reg + ".0")})
         instr = self.after[d]
+        if self.frameless and is_save_slot(instr, self.frameless) and instr.op == "lw":
+            return self._root_inserted(d, reg, depth)
         if instr.web is not None and id(instr.web) in self.index:
-            return self.root_b(self.index[id(instr.web)])
+            k = self.index[id(instr.web)]
+            value = self.root_b(k)
+            if value != frozenset({("def", k)}) and not self.stable_a(d, reg, value):
+                return frozenset({("def", k)})
+            return value
+        value = self._root_inserted(d, reg, depth)
+        if value != frozenset({("ins", d)}) and not self.stable_a(d, reg, value):
+            return frozenset({("ins", d)})
+        return value
+
+    def _root_inserted(self, d: int, reg: str, depth: int) -> frozenset:
+        instr = self.after[d]
         a = instr.args
         if self.frameless and is_save_slot(instr, self.frameless) and instr.op == "lw":
-            return frozenset({self.entry(reg + ".0")})
+            return frozenset({self.entry(reg + ".0") if self._restored(d, reg) else ("ins", d)})
         if instr.op == "addiu" and len(a) == 3 and a[1] == ("r", "$zero") and isinstance(a[2][1], int):
             return frozenset({("const", a[2][1] & 0xFFFFFFFF)})
         if instr.op == "lui" and isinstance(a[1][1], int):
@@ -742,10 +1072,10 @@ class Values:
     def _reload(self, d: int):
         """An inserted load that reads what an original load of the result
         read: same operation and address, the original load dominates it,
-        the base register has the same reaching definitions at both (so
-        the same value, in the same loop iteration), and no store in the
-        function may write the word."""
-        from asm_massage import dominators
+        no path from the original load to it writes the base register (so
+        the base holds the same value, in the same loop iteration), and no
+        store in the function may write the word."""
+        from asm_massage import dominators, label_index, successors
 
         if not hasattr(self, "dom_a"):
             self.dom_a = dominators(self.after)
@@ -754,11 +1084,21 @@ class Values:
         if any(i.op in STORES and mem_access(i) and may_alias(self.pa, i, load)
                for i in self.pa.order if id(i) in self.pa.position):
             return None
-        bases = {x for x in self.reach_a[d] if x[1] == base}
+        labels = label_index(self.after)
         for p, other in enumerate(self.after):
-            if (other.web is not None and other.op == load.op and other.args[1] == load.args[1]
-                    and p != d and p in self.dom_a[d]
-                    and {x for x in self.reach_a[p] if x[1] == base} == bases):
+            if not (other.web is not None and other.op == load.op and other.args[1] == load.args[1]
+                    and p != d and p in self.dom_a[d] and base not in other.defs()):
+                continue
+            seen, stack, clean = set(), list(successors(self.after, p, labels)), True
+            while stack and clean:
+                n = stack.pop()
+                if n in seen or n == d:
+                    continue
+                seen.add(n)
+                if n == p or (not self.after[n].is_label and base in self.after[n].defs()):
+                    clean = False
+                stack.extend(successors(self.after, n, labels))
+            if clean:
                 return p
         return None
 
@@ -800,10 +1140,6 @@ class Values:
         if kb is None:
             return None
         va, vb = self.value_a(n, reg), self.value_b(kb, name)
-        if UNDEF in vb and vb - {UNDEF} <= va:
-            if len(va) <= 1 and va == vb - {UNDEF}:
-                return None
-            return self._walk(n, reg, name)
         if va != vb:
             for d, r in self.reach_a[n]:
                 if r == reg and not self.root_a(d, reg) <= vb:
@@ -812,54 +1148,212 @@ class Values:
                     return "it is the entry value"
             return "the value it needs does not reach it"
         if len(va) <= 1:
-            return None
-        return self._walk(n, reg, name)
+            return self._same_runs(n, kb, va)
+        return self._walk(n, reg, name, kb)
 
-    def _walk(self, n: int, reg: str, name: str) -> str | None:
+    def _at_entry(self, side: str, pos: int, reg: str, end: bool = False):
+        """The register whose value at the entry of POS's block is what
+        REG holds at POS (or, with END, after POS, the block's last
+        instruction): REG itself when the block does not write it before,
+        the source of a register copy that does when the block does not
+        write the source before the copy; None otherwise."""
+        program, reach, block, out = ((self.after, self.reach_a, self.block_a, self.out_a) if side == "a"
+                                      else (self.twins, self.reach_b, self.block_b, self.out_b))
+        blk = block[pos]
+        for _ in range(8):
+            defs = {d for d, r in (out[pos] if end else reach[pos]) if r == reg}
+            inside = {d for d in defs if d >= 0 and block[d] == blk and (d <= pos if end else d < pos)}
+            if not inside:
+                return reg
+            if len(defs) != 1:
+                return None
+            (d,) = inside
+            t = program[d]
+            if not (t.op in ("addu", "or") and len(t.args) == 3 and t.args[2] == ("r", "$zero")):
+                return None
+            pos, reg, end = d, t.args[1][1], False
+            if reg == "$zero":
+                return None
+        return None
+
+    def _on_way(self, side: str, block: int, target: int):
+        """Instructions on the paths from the entry of BLOCK to TARGET that
+        do not run BLOCK again (those belong to its next execution), in one
+        program; None when TARGET is not reached from BLOCK."""
+        program, blocks = (self.after, self.block_a) if side == "a" else (self.twins, self.block_b)
+        starts = [k for k, b in enumerate(blocks) if b == block]
+        if not starts:
+            return None
+        succ = _successor_lists(program)
+        pred = _predecessor_lists(program)
+        forward, stack = {starts[0]}, list(succ[starts[0]])
+        while stack:
+            k = stack.pop()
+            if k in forward or k == target:
+                continue
+            forward.add(k)
+            stack.extend(succ[k])
+        backward, stack = set(), list(pred.get(target, []))
+        while stack:
+            k = stack.pop()
+            if k in backward:
+                continue
+            backward.add(k)
+            if k != starts[0]:
+                stack.extend(pred.get(k, []))
+        on_way = forward & backward
+        return on_way if starts[0] in on_way else None
+
+    def _unchanged_from(self, block: int, kb: int, name: str) -> bool:
+        """Whether, in the original, NAME holds at KB the value it had at
+        the entry of BLOCK, on every path from there to KB that does not run
+        BLOCK again (and KB is reached)."""
+        on_way = self._on_way("b", block, kb)
+        if on_way is None:
+            return False
+        return not any(not self.twins[k].is_label and name in self.twins[k].defs() for k in on_way)
+
+    def _same_runs(self, n: int, kb: int, values) -> str | None:
+        """The original definitions VALUES names are the same runs at the
+        read N of the result and at its twin KB: each is in the same block
+        in both programs (or runs once), and when the reader moved to
+        another block, none of them runs between the two places."""
+        defs, _ = leaves(values)
+        atoms = {("def", k) for k in defs}
+        if not self._same_block(atoms, n, kb):
+            return "a definition it reads moved to another block in a loop"
+        where = self.a_positions()
+        # A definition that runs at most once has one run: nothing to pair.
+        defs = {k for k in defs if in_loop(self.twins, k) or (k in where and in_loop(self.after, where[k]))}
+        if self.block_a[n] == self.block_b[kb] or not defs:
+            return None
+        # The read that moved pairs with the latest run of the other one
+        # before it: the earlier place must dominate the later one, and no
+        # definition it reads may run between them.
+        from asm_massage import dominators
+
+        if not hasattr(self, "dom_a"):
+            self.dom_a = dominators(self.after)
+        where = self.a_positions()
+        new, old = self.block_a[n], self.block_b[kb]
+        start = {b: k for k, b in reversed(list(enumerate(self.block_a)))}
+        if new is None or old is None or new not in start or old not in start:
+            return "a reader moved to another block"
+        if start[new] in self.dom_a[start[old]]:
+            side, block, target, targets = "b", new, kb, defs  # hoisted
+        elif start[old] in self.dom_a[start[new]]:
+            side, block, target, targets = "a", old, n, {where[k] for k in defs if k in where}
+        else:
+            return "a reader moved to a block that is not before or after its own"
+        on_way = self._on_way(side, block, target)
+        if on_way is None or on_way & targets:
+            return "a definition it reads may run between its old and new place"
+        return None
+
+    def _end_values(self, side: str, last: int, reg: str):
+        if side == "a":
+            out = set()
+            for d, r in self.out_a[last]:
+                if r == reg:
+                    out |= self.root_a(d, reg)
+            return out
+        values = self._value_b(self.out_b[last], reg)
+        if values is None:
+            values = self._value_b(self.out_b[last], self.class_rep[self.same(reg)])
+        return values
+
+    def _same_block(self, values, n: int, kb: int) -> bool:
+        """Original definitions compared at N (result) and KB (original) name
+        their latest run before there. That is the same run in both when the
+        definition is in the same block in both programs or runs at most
+        once (then a way on which only one program has run it shows up as
+        different sets); when it moved between blocks in a loop, the earlier
+        place must dominate the later one, and every way from the earlier
+        place to the read must pass the later one."""
+        from asm_massage import dominators
+
+        where = self.a_positions()
+        for atom in values:
+            if atom[0] != "def" or atom[1] not in where:
+                continue
+            k, m = atom[1], where[atom[1]]
+            pa, pb = self.block_a[m], self.block_b[k]
+            if pa == pb or not (in_loop(self.twins, k) or in_loop(self.after, m)):
+                continue
+            if not hasattr(self, "dom_a"):
+                self.dom_a = dominators(self.after)
+            start = {b: x for x, b in reversed(list(enumerate(self.block_a)))}
+            if pa not in start or pb not in start:
+                return False
+            if start[pa] in self.dom_a[start[pb]]:
+                # hoisted: in the original, every way from the new place to
+                # the read runs the definition first
+                if not self._passes("b", pa, k, kb):
+                    return False
+            elif start[pb] in self.dom_a[start[pa]]:
+                if not self._passes("a", pb, m, n):
+                    return False
+            else:
+                return False
+        return True
+
+    def _passes(self, side: str, block: int, via: int, target: int) -> bool:
+        """Whether every way from the entry of BLOCK to TARGET (not running
+        BLOCK again) runs instruction VIA, in one program."""
+        program, blocks = (self.after, self.block_a) if side == "a" else (self.twins, self.block_b)
+        starts = [x for x, b in enumerate(blocks) if b == block]
+        if not starts:
+            return False
+        succ = _successor_lists(program)
+        seen, stack = {starts[0]}, list(succ[starts[0]]) if starts[0] != via else []
+        while stack:
+            x = stack.pop()
+            if x == target:
+                return False
+            if x in seen or x == via:
+                continue
+            seen.add(x)
+            stack.extend(succ[x])
+        return True
+
+    def _walk(self, n: int, reg: str, name: str, kb: int) -> str | None:
         # Several values reach the read: they must arrive by the same paths
         # as in the original. Compare both programs at the end of every
         # block on the way back, until each way carries a single value.
         self._blocks()
-        # A single-definition copy has its source's values: follow the
-        # source upstream, where the copy has not run yet.
-        for _ in range(8):
-            defs = self.defs.get(name, [])
-            if len(defs) != 1:
-                break
-            t = self.twins[defs[0]]
-            if not (t.op in ("addu", "or") and len(t.args) == 3 and t.args[2] == ("r", "$zero")
-                    and self.defs.get(t.args[1][1])):
-                break
-            name = t.args[1][1]
-        seen, work = set(), [self.block_a[n]]
+        if self._value_b(self.reach_b[kb], name) is None:
+            name = self.class_rep[self.same(name)]
+        if self.block_a[n] == self.block_b[kb]:
+            name = self._at_entry("b", kb, name)
+        elif not self._unchanged_from(self.block_a[n], kb, name):
+            # A pure instruction moved to another block reads, at the
+            # entry of its new block, what the original read later.
+            return "a merged value read in a moved instruction may change before the original read"
+        reg = self._at_entry("a", n, reg)
+        if reg is None or name is None:
+            return "the merged value is not the block's incoming value in both programs"
+        seen, work = set(), [(self.block_a[n], reg, name)]
         while work:
-            block = work.pop()
-            if block in seen:
+            item = work.pop()
+            if item in seen:
                 continue
-            seen.add(block)
+            seen.add(item)
+            block, reg, name = item
             for pred in self.pred.get(block, ()):
                 ka, kb2 = self.last_a.get(pred), self.last_b.get(pred)
                 if ka is None or kb2 is None:
                     return "the control flow differs from the original"
-                end_a = set()
-                for d, r in self.out_a[ka]:
-                    if r == reg:
-                        end_a |= self.root_a(d, reg)
-                end_b = self._value_b(self.out_b[kb2], name)
-                if end_b is None:
-                    end_b = self._value_b(self.out_b[kb2], self.class_rep[self.same(name)])
-                if end_b == {UNDEF}:
-                    continue  # the original leaves it unset this way
-                if UNDEF in end_b:
-                    if not end_b - {UNDEF} <= end_a:
-                        return "the merged values arrive by other paths than in the original"
-                    if not (len(end_a) == 1 and end_a == end_b - {UNDEF}):
-                        work.append(pred)
-                    continue
+                end_a, end_b = self._end_values("a", ka, reg), self._end_values("b", kb2, name)
+                if not self._same_block({("def", k) for k in leaves(end_a | end_b)[0]}, ka, kb2):
+                    return "a merged value's definition moved to another block"
                 if end_a != end_b:
                     return "the merged values arrive by other paths than in the original"
-                if len(end_a) > 1:
-                    work.append(pred)
+                elif len(end_a) <= 1:
+                    continue
+                up_a, up_b = self._at_entry("a", ka, reg, end=True), self._at_entry("b", kb2, name, end=True)
+                if up_a is None or up_b is None:
+                    return "the merged value is not the block's incoming value in both programs"
+                work.append((pred, up_a, up_b))
         return None
 
 
@@ -899,9 +1393,20 @@ def _reads(program, into, n, instr, twin, same, values: "Values | None" = None):
             pairs.append((phys[1], wide[1]))
         elif kind == "m":
             pairs.append((phys[2], wide[2]))
+    if instr.op == "jr" and instr.args == [("r", "$ra")]:
+        # A return reads the result as the original does, and the
+        # callee-saved registers, which must hold the caller's values again
+        # (the entry values), as must the stack and global pointers.
+        preserved = values.preserved(instr.web) if values is not None else set()
+        pairs += [(phys, name) for phys, name in zip(instr.implicit or [], twin.implicit or [])
+                  if phys not in preserved]
+        pairs += [("$sp", "$sp"), ("$gp", "$gp")]
+        for reg in sorted(preserved):
+            if values.value_a(n, reg) != {values.entry(reg + ".0")}:
+                problems.append(f"{instr.text()} returns without the caller's {reg}")
     kb = values.index.get(id(instr.web)) if values is not None and instr.web is not None else None
     for reg, name in pairs:
-        if reg in ("$zero", "$sp", "$ra", "$gp"):
+        if reg == "$zero":
             continue
         if values is not None and kb is not None:
             why = values.check(n, reg, name, kb)
@@ -1377,6 +1882,13 @@ def check(before: list[Instr], after_raw: list[Instr], frameless=None, webs=None
         report.rotations += count
         report.flags += problems
     # 5. Insertions and deletions must be dead code, or frameless save pairs.
+    # The frame registers are never the residual's to change.
+    for kind, group in (("inserted", inserts), ("deleted", deletes),
+                        ("re-registered", [i for i in rest if id(i) in ident])):
+        for instr in group:
+            if FRAME_REGISTERS & set(instr.defs()) or (
+                    kind == "re-registered" and FRAME_REGISTERS & set(web(ident[id(instr)]).defs())):
+                report.flags.append(f"{kind} write of a frame register: {instr.text()}")
     for instr in inserts:
         n = next(k for k, i in enumerate(after) if i is instr)
         if side_effect(instr) or any(live_after(after, n, r) for r in instr.defs()):
