@@ -308,6 +308,19 @@ class MergingLoadTests(unittest.TestCase):
         self.assertEqual(lone[0].args[0][1], lone[1].args[0][1])
 
 
+class StrengthReductionTests(unittest.TestCase):
+    def test_copy_of_a_changed_source_keeps_its_own_pointer(self):
+        # q = p + 4, then p may advance before r = p: q - r is not constant.
+        program = ("addiu\t$9,$8,4\nbeq\t$5,$0,$L2\nnop\naddiu\t$8,$8,8\n$L2:\naddu\t$10,$8,$0\n"
+                   "$L1:\nlw\t$11,0($9)\nsw\t$11,0($10)\naddiu\t$9,$9,4\naddiu\t$10,$10,4\n"
+                   "bne\t$10,$6,$L1\nnop\nj\t$31\nnop")
+        out = run("undo-strength-reduction", program)
+        self.assertIn("lw $t3.1, 0x0($t1.1)", out)
+        # Without the advance, the copy keeps the difference.
+        out = run("undo-strength-reduction", program.replace("addiu\t$8,$8,8\n", ""))
+        self.assertIn("lw $t3.1, 0x4($t2.1)", out)
+
+
 class DirectPolygonRuleTests(unittest.TestCase):
     def test_gte_load_of_a_stored_variable_becomes_mtc2(self):
         out = run("gte-direct-write", "lw\t$15,gSym\nsw\t$15,8($sp)\n"
