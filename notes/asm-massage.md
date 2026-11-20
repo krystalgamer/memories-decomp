@@ -357,7 +357,18 @@ schedule only for the colour loads, which the template now uses.
 ### Direct polygon drivers
 
 The thirty-two drivers of `src/game/polygon_renderers.c`, from one C
-template per shape (FT3/GT3/FT4/GT4, window record, two-sided, semi):
+template per shape (FT3/GT3/FT4/GT4, window record, two-sided, semi).
+The C has no `goto`: a rejected or undrawn record `continue`s the record
+loop, a `do`/`while` whose condition advances the record pointer
+(`while (record++, --count != 0)`), and the cache preparation does the
+same with its cache entry. GCC 2.8.1 at `-O2` emits exactly the
+instructions it emitted for the former `goto next` form (only its label
+numbers differ, which the massage renumbers), so every edit file and
+residual stayed the same. A trial at `-O1` (re-deriving a sample of five
+functions with the same rules; derived only, not checked) was worse in
+total, 198 residual diff lines against 177 at `-O2`: FT3 26 vs 20, semi
+GT4 window 79 vs 89, shared GT3 33 vs 41, the FT3 wireframe 14 vs 2 and
+the cache preparation 46 vs 25. All 61 functions stay on `-O2`.
 
 | Function | Address | Retail | Kept | By rules | Residual instrs | Residual diff lines | Map entries |
 | --- | --- | --- | --- | --- | --- | --- | --- |

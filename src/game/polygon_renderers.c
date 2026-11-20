@@ -81,12 +81,12 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -98,7 +98,7 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -138,9 +138,7 @@ u32 *Model_DrawFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -199,12 +197,12 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -218,7 +216,7 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -266,9 +264,7 @@ u32 *Model_DrawGt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -326,12 +322,12 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -343,7 +339,7 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -355,7 +351,7 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -398,9 +394,7 @@ u32 *Model_DrawFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -460,12 +454,12 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -478,7 +472,7 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -500,7 +494,7 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -553,9 +547,7 @@ u32 *Model_DrawGt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -613,12 +605,12 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -631,7 +623,7 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -673,9 +665,7 @@ u32 *Model_DrawFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -732,12 +722,12 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -752,7 +742,7 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -802,9 +792,7 @@ u32 *Model_DrawGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -860,12 +848,12 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -877,7 +865,7 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -890,7 +878,7 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -935,9 +923,7 @@ u32 *Model_DrawFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -995,12 +981,12 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -1013,7 +999,7 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -1036,7 +1022,7 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -1091,9 +1077,7 @@ u32 *Model_DrawGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -1146,7 +1130,7 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -1158,7 +1142,7 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -1198,9 +1182,7 @@ u32 *Model_DrawTwoSidedFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -1255,7 +1237,7 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -1269,7 +1251,7 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -1317,9 +1299,7 @@ u32 *Model_DrawTwoSidedGt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -1373,7 +1353,7 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -1385,7 +1365,7 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -1397,7 +1377,7 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -1440,9 +1420,7 @@ u32 *Model_DrawTwoSidedFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -1498,7 +1476,7 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -1511,7 +1489,7 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -1533,7 +1511,7 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -1586,9 +1564,7 @@ u32 *Model_DrawTwoSidedGt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -1642,7 +1618,7 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -1655,7 +1631,7 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -1697,9 +1673,7 @@ u32 *Model_DrawTwoSidedFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -1755,7 +1729,7 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -1770,7 +1744,7 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -1820,9 +1794,7 @@ u32 *Model_DrawTwoSidedGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -1877,7 +1849,7 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -1889,7 +1861,7 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -1902,7 +1874,7 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -1947,9 +1919,7 @@ u32 *Model_DrawTwoSidedFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -2006,7 +1976,7 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -2019,7 +1989,7 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -2042,7 +2012,7 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -2097,9 +2067,7 @@ u32 *Model_DrawTwoSidedGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -2172,12 +2140,12 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -2189,7 +2157,7 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -2230,9 +2198,7 @@ u32 *Model_DrawSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -2307,12 +2273,12 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -2326,7 +2292,7 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -2375,9 +2341,7 @@ u32 *Model_DrawSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -2451,12 +2415,12 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -2468,7 +2432,7 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -2480,7 +2444,7 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -2524,9 +2488,7 @@ u32 *Model_DrawSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -2602,12 +2564,12 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -2620,7 +2582,7 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -2642,7 +2604,7 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -2696,9 +2658,7 @@ u32 *Model_DrawSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -2772,12 +2732,12 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -2790,7 +2750,7 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -2833,9 +2793,7 @@ u32 *Model_DrawSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -2911,12 +2869,12 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -2931,7 +2889,7 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -2982,9 +2940,7 @@ u32 *Model_DrawSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -3059,12 +3015,12 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -3076,7 +3032,7 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -3089,7 +3045,7 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -3135,9 +3091,7 @@ u32 *Model_DrawSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -3214,12 +3168,12 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
                 gte_nclip_b();
                 gte_stopz(&opz);
                 if (opz <= 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -3232,7 +3186,7 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -3255,7 +3209,7 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -3311,9 +3265,7 @@ u32 *Model_DrawSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -3385,7 +3337,7 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -3397,7 +3349,7 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -3438,9 +3390,7 @@ u32 *Model_DrawTwoSidedSemiFt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -3514,7 +3464,7 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -3528,7 +3478,7 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -3577,9 +3527,7 @@ u32 *Model_DrawTwoSidedSemiGt3Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -3652,7 +3600,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -3664,7 +3612,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -3676,7 +3624,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -3720,9 +3668,7 @@ u32 *Model_DrawTwoSidedSemiFt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -3797,7 +3743,7 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -3810,7 +3756,7 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -3832,7 +3778,7 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -3886,9 +3832,7 @@ u32 *Model_DrawTwoSidedSemiGt4Primitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -3961,7 +3905,7 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -3974,7 +3918,7 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -4017,9 +3961,7 @@ u32 *Model_DrawTwoSidedSemiFt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -4094,7 +4036,7 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz3_b();
@@ -4109,7 +4051,7 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -4160,9 +4102,7 @@ u32 *Model_DrawTwoSidedSemiGt3WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -4236,7 +4176,7 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -4248,7 +4188,7 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -4261,7 +4201,7 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb(&packet->rgb0);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 packet->rgb0 = *(u32 *)(lit + normal / 2);
@@ -4307,9 +4247,7 @@ u32 *Model_DrawTwoSidedSemiFt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
@@ -4385,7 +4323,7 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_ldv0(vertex3);
@@ -4398,7 +4336,7 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             gte_avsz4_b();
@@ -4421,7 +4359,7 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 gte_strgb3(&packet->rgb0, &packet->rgb1, &packet->rgb2);
                 if (mode == 1) {
-                    goto next;
+                    continue;
                 }
             } else {
                 u32 rgb0 = *(u32 *)(lit + normal0 / 2);
@@ -4477,9 +4415,7 @@ u32 *Model_DrawTwoSidedSemiGt4WindowRecordPrimitives(GsARGUNIT_NORMAL *arg)
                 }
                 packet++;
             }
-        next:
-            record++;
-        } while (--count != 0);
+        } while (record++, --count != 0);
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
     return (u32 *)(arg->primp + 2);
