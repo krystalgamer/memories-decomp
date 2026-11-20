@@ -6,10 +6,11 @@ Three adjacent resident helpers have high-confidence semantic names:
 |---|---|---|
 | `0x8005FAE4` | `Model_ResetEffectKeyQueue` | `void (void)` |
 | `0x8005FB08` | `Model_IsEffectKeyQueueEmpty` | `s32 (void)` |
-| `0x8005FB14` | `Model_GetCurrentEffectKeyAddress` | `s32 (void)` |
+| `0x8005FB14` | `Model_GetCurrentEffectKeyAddress` | `Key *(void)` |
 
-The owner remains `model_camera_effects.h` (formerly `model_transfer_state.h`). No type, return convention,
-expression, branch, load/store order, or caller cast changes.
+The owner remains `model_camera_effects.h` (formerly `model_transfer_state.h`). The address helper
+returns the current `Key *` (null while the queue is empty); it was declared
+`s32` and every caller cast the word back to a `Key` or halfword view.
 
 ## Evidence and limits
 

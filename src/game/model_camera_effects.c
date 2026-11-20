@@ -1089,12 +1089,12 @@ int Model_IsEffectKeyQueueEmpty(void)
     return gModel_bEffectKeyCount == 0;
 }
 
-int Model_GetCurrentEffectKeyAddress(void)
+Key *Model_GetCurrentEffectKeyAddress(void)
 {
-    int value = 0;
+    Key *value = 0;
 
     if (gModel_bEffectKeyCount != 0) {
-        value = (s32)gModel_pCurrentEffectKey;
+        value = gModel_pCurrentEffectKey;
     }
     return value;
 }

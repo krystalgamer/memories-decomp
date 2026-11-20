@@ -88,15 +88,16 @@ headers, SDK declarations, callers, fixtures and controls stay exact.
 
 ## Slot-zero offset world position
 
-`Model_GetSlot0OffsetWorldPosition`, formerly `func_80059B90`, retains
-`void(s16, s16 *)`, not a retyped vector argument.
+`Model_GetSlot0OffsetWorldPosition`, formerly `func_80059B90`, is
+`void(s16, SVECTOR *)`: its only caller, Exodia's second entry, passes an
+`SVECTOR` origin, and the fourth halfword is the cleared `pad`.
 
 It zeros one `SVECTOR`, puts the signed input in its local X component,
 and invokes the builder with slot zero and entry request fifteen. It then
 asks `GsGetLwUnit` for the result and extracts low halfwords of the three
 translation words. The single byte-backed SVECTOR/GsCOORDUNIT/MATRIX scratch
 block, volatile halfword reads, narrowing and output extent stay intact.
-The store `out[3] = 0` still precedes the final `out[2]` store.
+The store `out->pad = 0` still precedes the final `out->vz` store.
 
 Exodia's second-entry logic consumes this result as a world-space origin
 at local X offsets 480 or zero before forming its direction. It includes

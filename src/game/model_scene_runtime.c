@@ -236,7 +236,7 @@ void Model_QueueTintRequestForAllParts(
 #include "model_update_view_metrics.h"
 #include "model_view_coordinate_helpers.h"
 
-void Model_GetSlot0OffsetWorldPosition(s16 value, s16 *out)
+void Model_GetSlot0OffsetWorldPosition(s16 value, SVECTOR *out)
 {
     ModelWorldPositionScratch scratch;
 
@@ -244,10 +244,10 @@ void Model_GetSlot0OffsetWorldPosition(s16 value, s16 *out)
     scratch.offset.vx = value;
     Model_BuildViewRelativeCoordinateUnit(0, 15, &scratch.offset, &scratch.unit);
     GsGetLwUnit(&scratch.unit, &scratch.world);
-    out[0] = scratch.world.t[0];
-    out[1] = scratch.world.t[1];
-    out[2] = scratch.world.t[2];
-    out[3] = 0;
+    out->vx = scratch.world.t[0];
+    out->vy = scratch.world.t[1];
+    out->vz = scratch.world.t[2];
+    out->pad = 0;
 }
 
 #include "camera_view.h"
@@ -726,7 +726,7 @@ s32 Model_HasInsufficientBufferSpace(s32 index, s32 type) {
     room = GRAPHICS_PACKET_BUFFER_SIZE - used;
     record = &gModel_aSlots[index];
     if (type < 0) {
-        type = Model_GetSlotTintDescriptor(index)[3];
+        type = Model_GetSlotTintDescriptor(index)->blend_mode;
     }
     size = record->packet_budget_bytes;
     if (type == 5) {

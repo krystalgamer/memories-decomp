@@ -29,7 +29,7 @@ struct _GsCOORDUNIT *Model_GetCurrentDataEntry(s32 index);
 s32 Model_TransformPartVertex(s32 slot, s32 part, s32 vertex, VECTOR *out);
 ModelSlotS32Quad *Model_GetSlotScale(s32 index);
 void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source);
-u8 *Model_GetSlotTintDescriptor(s32 index);
+ModelTintColor *Model_GetSlotTintDescriptor(s32 index);
 void Model_SetSlotTintTarget(
     s32 slot,
     s32 mode,

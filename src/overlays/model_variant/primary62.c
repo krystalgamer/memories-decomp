@@ -11,7 +11,7 @@ s32 ModelPrimary62_HandleRequest(ModelPrimary62State *context, s32 command)
     SVECTOR position;
     VECTOR scale;
     SVECTOR corners[4];
-    CVECTOR color;
+    ModelTintColor color;
     s32 depth;
     s32 flag;
     s32 interpolation;
@@ -59,7 +59,7 @@ s32 ModelPrimary62_HandleRequest(ModelPrimary62State *context, s32 command)
     SetPolyFT4(&quad);
     quad.tpage = work->texture >> 16;
     quad.clut = work->texture;
-    color = *(CVECTOR *)Model_GetSlotTintDescriptor(Model_GetActiveSlotIndex());
+    color = *Model_GetSlotTintDescriptor(Model_GetActiveSlotIndex());
     red = config->r * color.r / 128;
     green = config->g * color.g / 128;
     blue = config->b * color.b / 128;
