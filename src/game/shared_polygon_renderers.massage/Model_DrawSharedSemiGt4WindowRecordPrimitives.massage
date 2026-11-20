@@ -7,13 +7,13 @@ rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-wri
 frameless = $a0 0x28
 
 [registers]
-$v0.1 = $a3       # lw $v0.1, 0x0($fp.1)
+$v0.1 = $a3       # lw $v0.1, 0x0($a0.0)
 $v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
 $v0.4 = $s0       # lui $v0.4, %hi(gModel_dwPolyGt4Template)
 $v0.10 = $s2      # lhu $v0.10, 0x6($s3.1)
 $v0.11 = $s3      # srl $v0.11, $v0.6, 24
 $v0.14 = $t5      # lui $v0.14, %hi(gModel_dwLitColorCacheBase)
-$v0.16 = $t7      # lw $v0.16, 0x4($fp.1)
+$v0.16 = $t7      # lw $v0.16, 0x4($a0.0)
 $v0.18 = $t5      # srl $v0.18, %word1, 16
 $v0.24 = $t5      # srl $v0.24, %word2, 16
 $v0.30 = $t5      # srl $v0.30, %word3, 16
@@ -23,7 +23,7 @@ $v0.44 = $t1      # sll $v0.44, %word2, 16
 $v0.48 = $t3      # sll $v0.48, %word4, 16
 $v0.63 = $t0      # sll $v0.63, $t2.2, 16
 $v0.64 = $t1      # and $v0.64, $a2.4, $at
-$v1.1 = $a1       # lw $v1.1, 0x14($fp.1)
+$v1.1 = $a1       # lw $v1.1, 0x14($a0.0)
 $v1.3 = $s1       # lw $v1.3, 0x8($s3.1)
 $v1.5 = $t5       # lui $v1.5, %hi(gModel_bCurrentDrawMode)
 $v1.9 = $t5       # lw $v1.9, 0x0($a0.1)
@@ -32,7 +32,6 @@ $v1.15 = $t5      # lw $v1.15, 0x0($a0.3)
 $v1.18 = $t5      # lw $v1.18, 0x0($a0.4)
 $v1.19 = $t0      # lw $v1.19, 0x0($a2.2)
 $v1.21 = $t1      # and $v1.21, $a2.3, $at
-$a0.0 = $a0     
 $a0.1 = $t5       # addu $a0.1, $v0.19, $s1.1
 $a0.2 = $t5       # addu $a0.2, $v0.25, $s1.1
 $a0.3 = $t5       # addu $a0.3, $v0.31, $s1.1
@@ -49,14 +48,14 @@ $a3.1 = $v0       # lw $a3.1, 0x4($a0.2)
 $a3.2 = $v1       # and $a3.2, $v0.6, $at
 $t2.1 = $v0       # lw $t2.1, 0x4($a0.1)
 $t2.2 = $t0       # lw $t2.2, 0x4($s3.1)
-$t3.1 = $t9       # lw $t3.1, 0x10($fp.1)
+$t3.1 = $t9       # lw $t3.1, 0x10($a0.0)
 $t5.1 = $t4       # addu $t5.1, $v0.6, $zero
-$t6.1 = $a2       # lw $t6.1, 0x24($fp.1)
+$t6.1 = $a2       # lw $t6.1, 0x24($a0.0)
 $t7.1 = $s1       # lui $t7.1, %hi(gModel_dwTpageBlendRateBits)
 $s0.1 = $t4       # lui $s0.1, 0x20
 $s0.2 = $s5       # lw $s0.2, 0x0($s3.1)
 $s0.3 = $s1       # addu $s0.3, %slot1, $zero
-$s1.1 = $a1       # lw $s1.1, 0x1C($fp.1)
+$s1.1 = $a1       # lw $s1.1, 0x1C($a0.0)
 $s3.1 = $a3       # addu $s3.1, $v1.1, $v0.3
 $s4.1 = $t8       # lhu $s4.1, 0x2($v0.1)
 $s5.2 = $t2       # lw $s5.2, 0xC($s3.1)
@@ -65,13 +64,12 @@ $s5.8 = $v1       # lw $s5.8, 0x18($t3.1)
 $s5.10 = $v1      # lw $s5.10, 0x24($t3.1)
 $s5.12 = $v1      # lw $s5.12, 0x30($t3.1)
 $s6.1 = $v1       # addiu $s6.1, $zero, -0x1
-$t8.1 = $t6       # lw $t8.1, 0x8($fp.1)
+$t8.1 = $t6       # lw $t8.1, 0x8($a0.0)
 $t8.2 = $t3       # lw $t8.2, 0x10($s3.1)
 $t8.4 = $s4       # lui $t8.4, 0xE200
-$fp.1 = $a0       # addu $fp.1, $a0.0, $zero
 %slot1 = $t4      # addu %slot1, $t7.2, $zero
 %tag1 = $t5       # lw %tag1, 0x0($a1.4)
-%word1 = $t0      # lwr %word1, 0xE($s3.1)
+%word1 = $t0      # lw %word1, 0x10($s3.1)
 %word2 = $t1      # lw %word2, 0x14($s3.1)
 %word3 = $t2      # lw %word3, 0x18($s3.1)
 %word4 = $t3      # lw %word4, 0x1C($s3.1)
@@ -126,7 +124,7 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
  lw $a1, 0x1C($a0)
 +lw $a2, 0x24($a0)
  beq $t5, $zero, .L7
-@@ -57,7 +58,8 @@
+@@ -57,5 +58,5 @@
  .L7:
 -lw $t7, 0x4($a0)
 +lw $t5, 0x4($a0)
@@ -134,10 +132,7 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
 -lw $t7, 0x4($t7)
 +lw $t7, 0x4($t5)
  .L6:
- addiu $v1, $zero, -0x1
-+lw $t0, 0x10($a3)
- lwr $t0, 0xE($a3)
-@@ -103,8 +105,6 @@
+@@ -104,8 +105,6 @@
  srl $t0, $t0, 13
 -addu $t0, $t0, $a2
  .word 0x4B400006
@@ -147,7 +142,7 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
 -mfc2 $v0, $24
 -addu $t1, $t1, $a2
  bgtz $v0, .L5
-@@ -120,9 +120,11 @@
+@@ -121,9 +120,11 @@
  sll $t2, $t2, 16
 +srl $t2, $t2, 13
  sll $t3, $t3, 16
@@ -163,18 +158,18 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
 -srl $t3, $t3, 13
 -addu $t3, $t3, $a2
  lw $t2, 0x0($t2)
-@@ -141,2 +143,4 @@
+@@ -142,2 +143,4 @@
  mfc2 $v0, $7
 +lui $at, 0x200
 +and $v1, $s0, $at
  lui $at, 0xFF9F
-@@ -144,5 +148,2 @@
+@@ -145,5 +148,2 @@
  and $t1, $t1, $at
 -addu $s1, $t4, $zero
 -lui $at, 0x200
 -and $v1, $s0, $at
  or $t1, $t1, $s1
-@@ -156,6 +157,5 @@
+@@ -157,6 +157,5 @@
  sw $t2, 0x28($t9)
 -lui $s4, 0xE200
  sw $t3, 0x34($t9)
@@ -182,7 +177,7 @@ $fp.1 = $a0       # addu $fp.1, $a0.0, $zero
  sw $s4, 0x38($t9)
 -sw $s5, 0x4($t9)
  sll $t5, $t5, 8
-@@ -175,17 +175,17 @@
+@@ -176,17 +175,17 @@
  lui $at, 0xFF9F
 +ori $at, $at, 0xFFFF
 +and $t1, $t1, $at

@@ -495,27 +495,39 @@ def pointer_delta(instrs: list[Instr], p: str, q: str, base_index: int, source: 
     for n in range(len(instrs)):
         for s in successors(instrs, n, labels):
             preds[s].append(n)
-    UNDEF, CONFLICT = "undef", "conflict"
+    # The state is (q - p, whether SOURCE still holds what q's base read).
+    UNDEF, CONFLICT = "undef", ("conflict", False)
     into = [UNDEF] * len(instrs)
     out = [UNDEF] * len(instrs)
     for _ in range(4 * len(instrs)):
         changed = False
         for n, instr in enumerate(instrs):
             values = {out[m] for m in preds[n]} - {UNDEF}
-            value = UNDEF if not values else values.pop() if len(values) == 1 else CONFLICT
+            if not values:
+                value = UNDEF
+            elif len({v[0] for v in values}) == 1:
+                value = (next(iter(values))[0], all(v[1] for v in values))
+            else:
+                value = CONFLICT
             into[n] = value
+            delta = value[0] if value != UNDEF and isinstance(value[0], int) else None
+            fresh = value != UNDEF and value[1]
             if n == base_index:
-                value = instr.args[2][1] if instr.op == "addiu" else 0  # a copy is + 0
+                value = (instr.args[2][1] if instr.op == "addiu" else 0, True)  # a copy is + 0
             elif q in instr.defs():
-                value = value + instr.args[2][1] if isinstance(value, int) else CONFLICT
+                value = (delta + instr.args[2][1], fresh) if delta is not None else CONFLICT
             elif p in instr.defs():
-                if instr.op == "addiu" and instr.args[1][1] == p and isinstance(value, int):
-                    value -= instr.args[2][1]
+                if instr.op == "addiu" and instr.args[1][1] == p and delta is not None:
+                    value = (delta - instr.args[2][1], fresh)
                 elif (source is not None and instr.op == "addu" and instr.args[1] == ("r", source)
-                      and instr.args[2] == ("r", "$zero") and isinstance(value, int)):
-                    pass  # p = SOURCE, which q's base offset is relative to
+                      and instr.args[2] == ("r", "$zero") and delta is not None and fresh):
+                    # p = SOURCE, which q's base offset is relative to, as
+                    # long as SOURCE has not changed since q's base read it.
+                    value = (delta, fresh)
                 else:
                     value = CONFLICT
+            elif source is not None and source in instr.defs() and value != UNDEF:
+                value = (value[0], False)
             if out[n] != value:
                 out[n] = value
                 changed = True
@@ -524,9 +536,9 @@ def pointer_delta(instrs: list[Instr], p: str, q: str, base_index: int, source: 
     result = {}
     for n, instr in enumerate(instrs):
         if any(a[0] == "m" and a[2] == q for a in instr.args):
-            if not isinstance(into[n], int):
+            if into[n] == UNDEF or not isinstance(into[n][0], int):
                 return None
-            result[n] = into[n]
+            result[n] = into[n][0]
     return result
 
 
@@ -1677,7 +1689,12 @@ def needs_hazard_nop(prev: Instr, nxt: Instr | None) -> bool:
     not read its destination."""
     if nxt is None or prev.op not in LOADS:
         return False
-    return prev.args[0][1] in nxt.uses()
+    reg = prev.args[0][1]
+    if (nxt.op in ("lwl", "lwr") and prev.op in ("lw", "lwl", "lwr") and nxt.args[0][1] == reg
+            and nxt.args[1][2] != reg):
+        # The R3000 forwards a load to the lwl/lwr that merges into it.
+        return False
+    return reg in nxt.uses()
 
 
 def insert_hazard_nops(instrs: list[Instr]) -> list[Instr]:

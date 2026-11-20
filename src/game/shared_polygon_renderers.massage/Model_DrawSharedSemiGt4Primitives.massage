@@ -7,13 +7,13 @@ rules = strip-nops aligned-word-copy dmpsx-native gte-direct-read gte-direct-wri
 frameless = $a0 0x28
 
 [registers]
-$v0.1 = $a3       # lw $v0.1, 0x0($s6.1)
+$v0.1 = $a3       # lw $v0.1, 0x0($a0.0)
 $v0.2 = $a2       # lw $v0.2, 0x4($v0.1)
 $v0.4 = $s0       # lui $v0.4, %hi(gModel_dwPolyGt4Template)
 $v0.9 = $s3       # srl $v0.9, $fp.1, 24
 $v0.10 = $s2      # lhu $v0.10, 0x2($s1.1)
 $v0.13 = $t5      # lui $v0.13, %hi(gModel_dwLitColorCacheBase)
-$v0.15 = $t7      # lw $v0.15, 0x4($s6.1)
+$v0.15 = $t7      # lw $v0.15, 0x4($a0.0)
 $v0.17 = $t5      # srl $v0.17, %word1, 16
 $v0.23 = $t5      # srl $v0.23, %word2, 16
 $v0.29 = $t5      # srl $v0.29, %word3, 16
@@ -23,7 +23,7 @@ $v0.43 = $t1      # sll $v0.43, %word2, 16
 $v0.47 = $t3      # sll $v0.47, %word4, 16
 $v0.62 = $t0      # sll $v0.62, $t2.2, 16
 $v0.63 = $t1      # and $v0.63, $a1.5, $at
-$v1.1 = $a1       # lw $v1.1, 0x14($s6.1)
+$v1.1 = $a1       # lw $v1.1, 0x14($a0.0)
 $v1.3 = $s1       # lw $v1.3, 0x4($s1.1)
 $v1.4 = $t5       # lui $v1.4, %hi(gModel_bCurrentDrawMode)
 $v1.8 = $t5       # lw $v1.8, 0x0($a0.1)
@@ -32,7 +32,6 @@ $v1.14 = $t5      # lw $v1.14, 0x0($a0.3)
 $v1.17 = $t5      # lw $v1.17, 0x0($a0.4)
 $v1.18 = $t0      # lw $v1.18, 0x0($a2.2)
 $v1.20 = $t1      # and $v1.20, $a1.4, $at
-$a0.0 = $a0     
 $a0.1 = $t5       # addu $a0.1, $v0.18, $t9.1
 $a0.2 = $t5       # addu $a0.2, $v0.24, $t9.1
 $a0.3 = $t5       # addu $a0.3, $v0.30, $t9.1
@@ -49,10 +48,10 @@ $a3.1 = $v0       # lw $a3.1, 0x4($a0.2)
 $a3.2 = $v1       # and $a3.2, $fp.1, $at
 $t2.1 = $v0       # lw $t2.1, 0x4($a0.1)
 $t2.2 = $t0       # lw $t2.2, 0x0($s1.1)
-$t3.1 = $t9       # lw $t3.1, 0x10($s6.1)
+$t3.1 = $t9       # lw $t3.1, 0x10($a0.0)
 $t4.1 = $s0       # addu $t4.1, $fp.1, $zero
 $t5.3 = $t3       # lw $t5.3, 0xC($s1.1)
-$t7.1 = $a2       # lw $t7.1, 0x24($s6.1)
+$t7.1 = $a2       # lw $t7.1, 0x24($a0.0)
 $s0.1 = $s2       # lui $s0.1, %hi(gModel_dwSecondPassClutBits)
 $s1.1 = $a3       # addu $s1.1, $v1.1, $v0.3
 $s2.1 = $t8       # lhu $s2.1, 0x2($v0.1)
@@ -62,12 +61,11 @@ $s3.17 = $v1      # lw $s3.17, 0x20($t3.1)
 $s3.19 = $v1      # lw $s3.19, 0x2C($t3.1)
 $s4.1 = $v1       # addiu $s4.1, $zero, -0x1
 $s5.1 = $t2       # lw $s5.1, 0x8($s1.1)
-$s6.1 = $a0       # addu $s6.1, $a0.0, $zero
 $s7.1 = $s1       # lui $s7.1, %hi(gModel_dwTpageBlendRateBits)
-$t9.1 = $a1       # lw $t9.1, 0x1C($s6.1)
+$t9.1 = $a1       # lw $t9.1, 0x1C($a0.0)
 $fp.1 = $s0       # or $fp.1, $v0.5, $at
 %tag1 = $t5       # lw %tag1, 0x0($a2.3)
-%word1 = $t0      # lwr %word1, 0xA($s1.1)
+%word1 = $t0      # lw %word1, 0xC($s1.1)
 %word2 = $t1      # lw %word2, 0x10($s1.1)
 %word3 = $t2      # lw %word3, 0x14($s1.1)
 %word4 = $t3      # lw %word4, 0x18($s1.1)
@@ -134,7 +132,7 @@ $fp.1 = $s0       # or $fp.1, $v0.5, $at
  lw $a1, 0x1C($a0)
 +lw $a2, 0x24($a0)
  beq $t5, $zero, .L7
-@@ -56,7 +56,8 @@
+@@ -56,5 +56,5 @@
  .L7:
 -lw $t7, 0x4($a0)
 +lw $t5, 0x4($a0)
@@ -142,10 +140,7 @@ $fp.1 = $s0       # or $fp.1, $v0.5, $at
 -lw $t7, 0x4($t7)
 +lw $t7, 0x4($t5)
  .L6:
- addiu $v1, $zero, -0x1
-+lw $t0, 0xC($a3)
- lwr $t0, 0xA($a3)
-@@ -102,8 +103,6 @@
+@@ -103,8 +103,6 @@
  srl $t0, $t0, 13
 -addu $t0, $t0, $a2
  .word 0x4B400006
@@ -155,7 +150,7 @@ $fp.1 = $s0       # or $fp.1, $v0.5, $at
 -mfc2 $v0, $24
 -addu $t1, $t1, $a2
  bgtz $v0, .L5
-@@ -119,9 +118,11 @@
+@@ -120,9 +118,11 @@
  sll $t2, $t2, 16
 +srl $t2, $t2, 13
  sll $t3, $t3, 16
@@ -171,14 +166,14 @@ $fp.1 = $s0       # or $fp.1, $v0.5, $at
 -srl $t3, $t3, 13
 -addu $t3, $t3, $a2
  lw $t2, 0x0($t2)
-@@ -134,5 +135,5 @@
+@@ -135,5 +135,5 @@
  .word 0x4B68002E
 -lw $t2, 0x8($a3)
  lw $t0, 0x0($a3)
  lw $t1, 0x4($a3)
 +lw $t2, 0x8($a3)
  lw $t3, 0xC($a3)
-@@ -168,19 +169,18 @@
+@@ -169,19 +169,18 @@
  or $t0, $t0, $s2
 -addiu $v1, $zero, 0x0
 -sw $s0, 0x38($t9)
@@ -206,7 +201,7 @@ $fp.1 = $s0       # or $fp.1, $v0.5, $at
 -or $t1, $t1, $at
 +sw $t4, 0x5C($t9)
  sw $v1, 0x60($t9)
-@@ -188,3 +188,3 @@
+@@ -189,3 +188,3 @@
  j .L4
 -nop
 +addiu $v1, $zero, 0x0

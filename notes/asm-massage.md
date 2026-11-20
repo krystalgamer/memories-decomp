@@ -85,7 +85,10 @@ MASPSX with the massage (see [Build integration](#build-integration)).
    reorder-mode branches an explicit nop delay slot.
 2. Split registers into def-use webs: `$v0.3` is the third live range GCC
    put in `$v0`, `$a0.0` is a live-in. Returns implicitly read `$v0` and the
-   callee-saved registers.
+   callee-saved registers. `lwl`/`lwr` read the register they write (they
+   keep the bytes they do not load), so the web they merge into joins
+   theirs; GCC's unaligned pair `lwl r,k+3; lwr r,k` loads a whole word and
+   reads nothing before it.
 3. Run the `web` rules (catalogue below).
 4. Rename webs to physical registers: the edit file's `[registers]` map,
    otherwise GCC's own register. A web whose only reader defines the next web
@@ -93,7 +96,9 @@ MASPSX with the massage (see [Build integration](#build-integration)).
    chains) continues that chain, so one entry names the whole chain.
 5. Run the `physical` rules.
 6. Number labels `.L1`, `.L2`... in order and apply the residual diff.
-7. Re-insert load-delay nops where the final order needs them.
+7. Re-insert load-delay nops where the final order needs them. An
+   `lwl`/`lwr` may follow the load it merges into without one (the R3000
+   forwards it; the retail GT4 drivers' `lw x,k; lwr x,k-2` relies on it).
 
 ## Rule catalogue
 
@@ -122,9 +127,9 @@ fill-branch-slot fill-jump-slot                           (physical stage)
 | `gte-direct-write` | web | a C variable stored to a stack slot only so `gte_ldrgb(&rgb)` can `lwc2` it -> `mtc2` from the variable's register | straight-line, the slot has no other access and the register is unchanged in between; the direct drivers' `mtc2 template,$6` |
 | `unspill` | web | GCC's stack spill of a value that does not change after the store: reloads read the value's register (a byte or halfword reload too, when every definition is a `srl` that fits it, as `code = poly >> 24`); a reload feeding a merge (`colour = poly` or the semi template) becomes a register copy; a never-reloaded spill goes. A slot stored more than once (a loop-carried value, the spilled argument pointer) becomes a register: stores and loads turn into copies the register map coalesces, and a slot update `x = slot; y = x + c; slot = y` folds into `addiu slot, slot, c` (the store may sit in a delay slot); an address-only read of a slot copy reads the slot | exact: the slot holds that value at every reload |
 | `fold-address` | web | `addiu t,b,K` + accesses at `0(t)` -> `K(b)` | `gte_stsxy0(&packet[3])` passes an address; `t` must be single-use and `b` unchanged |
-| `undo-strength-reduction` | web | GCC's biased (`record+18`) or duplicated (`packet+3`) loop pointers -> offsets from the real pointer; the duplicate's base may be a register copy of the pointer (offset 0), and a pointer's register copies stand for it when they hold the same value at the use | constant pointer difference proven by dataflow at every use (a copy keeps the delta; the copy must dominate the use) |
+| `undo-strength-reduction` | web | GCC's biased (`record+18`) or duplicated (`packet+3`) loop pointers -> offsets from the real pointer; the duplicate's base may be a register copy of the pointer (offset 0), and a pointer's register copies stand for it when they hold the same value at the use | constant pointer difference proven by dataflow at every use (a copy keeps the delta only while its source still holds the value the biased pointer was made from; the copy must dominate the use) |
 | `word-compose` | web | a word composed from adjacent zero-extended fields -> one `lw`: the three draw-mode globals, a GsWORKUNIT's `otz`/`p` pair or its `vx`/`vy` SXY word | global adjacency and alignment checked against `config/slus_01411/symbols.txt`; structure fields need a word-aligned offset (A3) |
-| `halfword-words` | web | `lhu` record halfwords of one loop -> `lw` of the containing words at the first load (which must dominate the others) + `srl 16` / `sll 16; srl 16-k` (fusing the `<<3` scale); a record that would need more than four word registers packs two lone high halves with `lw x,k; lwr x,k-2` (the GT4 polygon `norm0`/`vert0`). A load past a branch whose word holds no other index, is not packed and is read whole elsewhere stays an `lhu` (the FT4 `norm0`, beside `u3`/`v3`) | little-endian target; the words are only hoisted past stores through other pointers (A2) |
+| `halfword-words` | web | `lhu` record halfwords of one loop -> `lw` of the containing words at the first load (which must dominate the others) + `srl 16` / `sll 16; srl 16-k` (fusing the `<<3` scale); a record that would need more than four word registers packs two lone high halves with `lw x,k; lwr x,k-2` (the GT4 polygon `norm0`/`vert0`; the `lwr` merges into the `lw`'s register, so both stay). A load past a branch whose word holds no other index, is not packed and is read whole elsewhere stays an `lhu` (the FT4 `norm0`, beside `u3`/`v3`) | little-endian target; the words are only hoisted past stores through other pointers (A2) |
 | `tag-build` | web | `setlen` + `setaddr`/`addPrim` byte/mask sequence -> `lw; sll 8; ori len; srl $at,8; sll 24; or; sw tag; sll 8; srl 8; sw ot` (the OT store may sit in a delay slot) | the OT entry is read where the C reads it (A1) |
 | `loop-load-forwarding` | web | a loop that reloads a word it stored on every back edge (the second pass re-reading the OT entry it just linked) keeps the stored value: the load moves in front of the loop | every back edge's last store to the word is the register's value |
 | `at-constants` | web | a large constant used only as an ALU operand is built in `$at` before each use (`lui $at,0xFF9F; ori; and t1,t1,$at`), not hoisted into a register; a use GCC put in a delay slot leaves the slot (a nop stays) with its constant, and a register copy keeps its `lui` | what the assembler's immediate macros produced; `$at` must be free there, and the slot use's result unread on the taken path |
@@ -309,21 +314,21 @@ layouts are shared in `src/game/shared_primitive_renderers.h`:
 | Function | Address | Retail | Kept | By rules | Residual instrs | Residual diff lines | Map entries |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | `Model_DrawSharedGt3Primitives` | `0x80067354` | 146 | 47 | 79 | 20 | 41 | 52 |
-| `Model_DrawSharedGt4Primitives` | `0x8006759C` | 175 | 53 | 99 | 23 | 46 | 60 |
+| `Model_DrawSharedGt4Primitives` | `0x8006759C` | 175 | 47 | 106 | 22 | 45 | 58 |
 | `Model_DrawSharedGt3WindowRecordPrimitives` | `0x80067858` | 153 | 46 | 80 | 27 | 56 | 55 |
-| `Model_DrawSharedGt4WindowRecordPrimitives` | `0x80067ABC` | 182 | 54 | 103 | 25 | 52 | 61 |
+| `Model_DrawSharedGt4WindowRecordPrimitives` | `0x80067ABC` | 182 | 48 | 110 | 24 | 51 | 59 |
 | `Model_DrawSharedTwoSidedGt3Primitives` | `0x80067D94` | 143 | 47 | 76 | 20 | 40 | 47 |
-| `Model_DrawSharedTwoSidedGt4Primitives` | `0x80067FD0` | 163 | 49 | 88 | 26 | 50 | 56 |
+| `Model_DrawSharedTwoSidedGt4Primitives` | `0x80067FD0` | 163 | 43 | 95 | 25 | 49 | 54 |
 | `Model_DrawSharedTwoSidedGt3WindowRecordPrimitives` | `0x8006825C` | 150 | 46 | 77 | 27 | 55 | 49 |
-| `Model_DrawSharedTwoSidedGt4WindowRecordPrimitives` | `0x800684B4` | 170 | 49 | 89 | 32 | 63 | 58 |
+| `Model_DrawSharedTwoSidedGt4WindowRecordPrimitives` | `0x800684B4` | 170 | 43 | 96 | 31 | 62 | 56 |
 | `Model_DrawSharedSemiGt3Primitives` | `0x8006875C` | 169 | 52 | 89 | 28 | 57 | 57 |
-| `Model_DrawSharedSemiGt4Primitives` | `0x80068A00` | 198 | 56 | 106 | 36 | 75 | 64 |
+| `Model_DrawSharedSemiGt4Primitives` | `0x80068A00` | 198 | 50 | 113 | 35 | 74 | 62 |
 | `Model_DrawSharedSemiGt3WindowRecordPrimitives` | `0x80068D18` | 176 | 52 | 82 | 42 | 87 | 62 |
-| `Model_DrawSharedSemiGt4WindowRecordPrimitives` | `0x80068FD8` | 205 | 61 | 111 | 33 | 67 | 68 |
+| `Model_DrawSharedSemiGt4WindowRecordPrimitives` | `0x80068FD8` | 205 | 55 | 118 | 32 | 66 | 66 |
 | `Model_DrawSharedTwoSidedSemiGt3Primitives` | `0x8006930C` | 166 | 52 | 86 | 28 | 56 | 52 |
-| `Model_DrawSharedTwoSidedSemiGt4Primitives` | `0x800695A4` | 186 | 51 | 96 | 39 | 79 | 61 |
+| `Model_DrawSharedTwoSidedSemiGt4Primitives` | `0x800695A4` | 186 | 45 | 103 | 38 | 78 | 59 |
 | `Model_DrawSharedTwoSidedSemiGt3WindowRecordPrimitives` | `0x8006988C` | 173 | 54 | 79 | 40 | 79 | 57 |
-| `Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives` | `0x80069B40` | 193 | 56 | 96 | 41 | 81 | 63 |
+| `Model_DrawSharedTwoSidedSemiGt4WindowRecordPrimitives` | `0x80069B40` | 193 | 50 | 103 | 40 | 80 | 61 |
 
 The polygon residuals are larger: 20-42 instructions (13-24% of each
 function, 40-87 diff lines). Classified by content across the sixteen (as
@@ -359,38 +364,38 @@ template per shape (FT3/GT3/FT4/GT4, window record, two-sided, semi):
 | `Model_DrawFt3Primitives` | `0x800612C0` | 151 | 52 | 89 | 10 | 20 | 40 |
 | `Model_DrawGt3Primitives` | `0x8006151C` | 177 | 65 | 90 | 22 | 46 | 51 |
 | `Model_DrawFt4Primitives` | `0x800617E0` | 169 | 59 | 94 | 16 | 33 | 44 |
-| `Model_DrawGt4Primitives` | `0x80061A84` | 214 | 68 | 110 | 36 | 76 | 63 |
+| `Model_DrawGt4Primitives` | `0x80061A84` | 214 | 62 | 116 | 36 | 75 | 57 |
 | `Model_DrawFt3WindowRecordPrimitives` | `0x80061DDC` | 159 | 54 | 94 | 11 | 23 | 43 |
 | `Model_DrawGt3WindowRecordPrimitives` | `0x80062058` | 185 | 65 | 95 | 25 | 54 | 54 |
 | `Model_DrawFt4WindowRecordPrimitives` | `0x8006233C` | 177 | 60 | 98 | 19 | 41 | 46 |
-| `Model_DrawGt4WindowRecordPrimitives` | `0x80062600` | 222 | 72 | 115 | 35 | 71 | 63 |
+| `Model_DrawGt4WindowRecordPrimitives` | `0x80062600` | 222 | 69 | 119 | 34 | 70 | 61 |
 | `Model_DrawTwoSidedFt3Primitives` | `0x80062978` | 146 | 52 | 79 | 15 | 31 | 39 |
 | `Model_DrawTwoSidedGt3Primitives` | `0x80062BC0` | 172 | 64 | 86 | 22 | 46 | 51 |
 | `Model_DrawTwoSidedFt4Primitives` | `0x80062E70` | 164 | 58 | 90 | 16 | 33 | 44 |
-| `Model_DrawTwoSidedGt4Primitives` | `0x80063100` | 209 | 67 | 106 | 36 | 76 | 63 |
+| `Model_DrawTwoSidedGt4Primitives` | `0x80063100` | 209 | 61 | 112 | 36 | 75 | 57 |
 | `Model_DrawTwoSidedFt3WindowRecordPrimitives` | `0x80063444` | 154 | 53 | 84 | 17 | 35 | 43 |
 | `Model_DrawTwoSidedGt3WindowRecordPrimitives` | `0x800636AC` | 180 | 64 | 91 | 25 | 54 | 54 |
 | `Model_DrawTwoSidedFt4WindowRecordPrimitives` | `0x8006397C` | 172 | 59 | 94 | 19 | 41 | 46 |
-| `Model_DrawTwoSidedGt4WindowRecordPrimitives` | `0x80063C2C` | 217 | 71 | 111 | 35 | 71 | 63 |
+| `Model_DrawTwoSidedGt4WindowRecordPrimitives` | `0x80063C2C` | 217 | 68 | 115 | 34 | 70 | 61 |
 | `Model_DrawSemiFt3Primitives` | `0x80063F90` | 174 | 60 | 94 | 20 | 40 | 49 |
 | `Model_DrawSemiGt3Primitives` | `0x80064248` | 200 | 72 | 97 | 31 | 67 | 55 |
 | `Model_DrawSemiFt4Primitives` | `0x80064568` | 192 | 68 | 102 | 22 | 49 | 49 |
-| `Model_DrawSemiGt4Primitives` | `0x80064868` | 237 | 82 | 116 | 39 | 81 | 71 |
+| `Model_DrawSemiGt4Primitives` | `0x80064868` | 237 | 75 | 124 | 38 | 80 | 69 |
 | `Model_DrawSemiFt3WindowRecordPrimitives` | `0x80064C1C` | 182 | 62 | 100 | 20 | 42 | 49 |
 | `Model_DrawSemiGt3WindowRecordPrimitives` | `0x80064EF4` | 208 | 69 | 103 | 36 | 76 | 58 |
 | `Model_DrawSemiFt4WindowRecordPrimitives` | `0x80065234` | 200 | 68 | 110 | 22 | 46 | 54 |
-| `Model_DrawSemiGt4WindowRecordPrimitives` | `0x80065554` | 245 | 79 | 122 | 44 | 90 | 71 |
+| `Model_DrawSemiGt4WindowRecordPrimitives` | `0x80065554` | 245 | 79 | 123 | 43 | 89 | 71 |
 | `Model_DrawTwoSidedSemiFt3Primitives` | `0x80065928` | 169 | 60 | 89 | 20 | 40 | 49 |
 | `Model_DrawTwoSidedSemiGt3Primitives` | `0x80065BCC` | 195 | 71 | 93 | 31 | 67 | 55 |
 | `Model_DrawTwoSidedSemiFt4Primitives` | `0x80065ED8` | 187 | 67 | 98 | 22 | 49 | 48 |
-| `Model_DrawTwoSidedSemiGt4Primitives` | `0x800661C4` | 232 | 81 | 112 | 39 | 81 | 71 |
+| `Model_DrawTwoSidedSemiGt4Primitives` | `0x800661C4` | 232 | 74 | 120 | 38 | 80 | 69 |
 | `Model_DrawTwoSidedSemiFt3WindowRecordPrimitives` | `0x80066564` | 177 | 61 | 96 | 20 | 42 | 49 |
 | `Model_DrawTwoSidedSemiGt3WindowRecordPrimitives` | `0x80066828` | 203 | 71 | 99 | 33 | 71 | 58 |
 | `Model_DrawTwoSidedSemiFt4WindowRecordPrimitives` | `0x80066B54` | 195 | 67 | 106 | 22 | 46 | 54 |
-| `Model_DrawTwoSidedSemiGt4WindowRecordPrimitives` | `0x80066E60` | 240 | 78 | 118 | 44 | 90 | 71 |
+| `Model_DrawTwoSidedSemiGt4WindowRecordPrimitives` | `0x80066E60` | 240 | 78 | 119 | 43 | 89 | 71 |
 
-Their residuals are 10-44 instructions (7-18% of each function, 20-90 diff
-lines, 1728 in all). The flat-shaded drivers need least (20-49 lines),
+Their residuals are 10-43 instructions (7-18% of each function, 20-89 diff
+lines, 1720 in all). The flat-shaded drivers need least (20-49 lines),
 the GT4 forms most. What repeats is the original's scheduling: the
 prologue's argument loads and the `mtc2 template,$6` interleaved with the
 template words, the original's extra `colour` register copy, the OT entry
@@ -456,21 +461,55 @@ applies to with the result:
   value does not hide them, and a copy of the argument pointer counts as the
   argument; every conflicting pair must keep its order;
 - allocation: in the final program every register read must get the
-  value its twin in the original gets, on every path. A value is the set of
-  root definitions that may reach the read: register copies, `addiu`,
-  `lui`/`ori` constants (by their full value), pure ALU expressions over
-  single-valued operands, a reload of a word no store may change and the
-  frameless restores resolve to their roots; only a web with one definition
-  shares its value through a copy, a spill slot or a constant (a loop
-  counter initialised to 0 is not the constant 0, a copy into a merge does
-  not make its sources equal), and each live-in is its own value. When the
-  read may see several roots (a merge), both programs must carry the same
-  roots at the end of every predecessor block, walked backwards until each
-  way carries one; a way on which the original never sets the value leaves
-  it undefined there, so it is unconstrained. Copies that
-  `drop-self-moves` deleted are reinstated in the original for this
-  comparison. This also proves pure instructions that move between blocks;
-  a moved load must not pass a store that may write its word;
+  value its twin in the original gets, on every path. A value is a set of
+  terms: a constant, a live-in, an original definition (standing for its
+  latest run) or an expression over single-valued operands. Register
+  copies, `addiu`, `lui`/`ori` constants (by their full value), pure ALU
+  results, a reload and the frameless restores resolve to their operands'
+  terms, under these conditions, which make "the same term" mean "the same
+  run" in both programs:
+  - a term computed at an instruction k describes its operands as of k, so
+    it is used only if none of the definitions it is built from runs again
+    while k's result is live; otherwise k is its own term (a copy taken in
+    a loop before its source is conditionally reloaded is not the reloaded
+    source);
+  - a definition whose value depends on itself through a loop (a counter
+    `n = slot; n' = n - 1; slot = n'`) is its own term, so the cycle has one
+    description whichever member is asked first;
+  - only a web with one definition shares its value through a copy, a spill
+    slot or a constant (a loop counter initialised to 0 is not the constant
+    0, a copy into a merge does not make its sources equal), and each
+    live-in is its own value;
+  - an inserted load equals an original load of the same address that
+    dominates it when no path between them writes the base register and no
+    store in the function may write the word;
+  - an original definition compared at two places names the same run when
+    it is in the same block in both programs, runs at most once, or moved
+    between a block and one it dominates such that every way from the
+    earlier place to the read runs the later one; a reader moved between
+    blocks must dominate, or be dominated by, its old place, with no run of
+    a looping definition it reads in between;
+  - a web the original leaves unset on some way into the read is a term
+    nothing in the result equals, so such a read is never proven.
+  When the read may see several terms (a merge), both programs must carry
+  the same terms at the end of every predecessor block, walked backwards
+  from the block's incoming value (following a copy only within the
+  block) until each way carries one. Copies that `drop-self-moves` deleted
+  are reinstated in the original for this comparison, before the first
+  reader in their block (a later rule may have moved a reader above the
+  instruction that followed the copy). This also proves pure instructions
+  that move between blocks; a moved load must not pass a store that may
+  write its word;
+- frame registers: no inserted, deleted or re-registered instruction may
+  write `$sp`, `$ra`, `$gp`, `$fp`, `$k0` or `$k1`, and reads of `$sp`,
+  `$ra` and `$gp` are checked like any other. A return reads `$v0` as the
+  original's does, `$sp` and `$gp`, and every callee-saved register the
+  original returns unchanged (nothing writes it on the way, or only the
+  frameless epilogue restores it) must hold its entry value: a frameless
+  restore counts only when the one store to its slot is the save of that
+  register's entry value and dominates the restore, with the argument
+  pointer unchanged. The save-area accesses themselves are not paired as
+  moves; this return check is what proves them;
 - a side effect may cross a branch only when it is dead on that path: a GTE
   register rewritten before the next GTE command, or a store into the packet
   being built (A6, below); moves across labels and control-flow changes
@@ -489,8 +528,8 @@ applies to with the result:
   write the word (A2); and the register is dead on every loop exit, so the
   last iteration's extra load only reads (A7);
 - insertions must be dead, be frameless save-area accesses, or be pure
-  (ALU, `lui`, or a load equal to a dominating load of the same unchanged
-  word) with every reader getting the value it got in the original: a
+  (ALU, `lui`, or a reload as above) with every reader getting the value
+  it got in the original: a
   rebuilt constant, a register copy (the original keeps
   `colour = template` in its own register) or a recomputation; deleted pure instructions are covered by the
   allocation check; GTE commands must keep at least their original wait
@@ -517,10 +556,25 @@ Result on the 61 massaged functions:
 | --- | --- | --- |
 | 12 wireframe drivers | 0 / 0 / 1 (the dead `nortop` load) / 0 / 0 | proven |
 | 16 shared polygon drivers | 10-25 / 3-12 / 0-3 (dead or rebuilt constants; save-area accesses counted apart) / 0-3 / 0-1 (the semi window GT3 and the two semi GT4 forms merge one) | proven |
-| 32 direct polygon drivers | 4-18 / 4-26 / 1-2 (dead, or the `colour` register copy in sixteen of them) / 0-4 / 0 | proven |
+| 32 direct polygon drivers | 4-18 / 4-26 / 1 (dead, or the `colour` register copy in sixteen of them) / 0-4 / 0 | proven |
 | `Model_PrepareSharedPrimitiveCaches` | 8 / 2 / 1 (dead) / 0 / 0, and 4 rotated loads | proven (A7) |
 
-All 61 residuals are proven with no assumption beyond A1-A8. In the three
+All 61 residuals are proven. What that covers, precisely:
+
+- The proof is about the residual: the result computes what the rule
+  output (the program the residual applies to) computes, under A2 (no
+  aliasing between the argument's regions), A6 (unlinked packet words) and
+  A8 (globals and pointers), with the GTE modelled as registers a command
+  reads and writes and the two-instruction wait. It also rests on the
+  R3000 forwarding a load to the `lwl`/`lwr` that merges into it.
+- The rules are not proven by the checker; each states its preconditions
+  (catalogue above), holds under A1-A5 and A7, and is unit-tested. The
+  rotations of `rotate-loop-loads` are the exception: the checker proves
+  them against the rule's input.
+- The tail-duplication merge compares operands by copy class, as above.
+- Control-flow rewrites other than that merge are reported, not proven.
+
+In the three
 semi drivers GCC duplicates the code-byte shift (`srl $s3,$s0,24`) into
 the two ways into the join after the semi setup (one in a delay slot, one
 behind an extra label); the original computes it once after the join. The
@@ -566,7 +620,7 @@ shared polygon driver:
 Model_DrawSharedGt3Primitives: gcc -O2 215 instructions (+1 nops), massaged 146, retail 146
   register map entries: 52; residual: 20 removed, 20 added lines
   instruction count per rule (before->after): aligned-word-copy 216->204, gte-direct-read 204->202, unspill 202->189, undo-strength-reduction 189->182, word-compose 182->166, halfword-words 166->169, tag-build 169->164, zero-extend-shifts 164->165, reuse-load 165->162, loop-constant 162->163, store-delay-slot 163->162, gte-load-early 162->159, frameless 159->146
-  final instructions by origin: aligned-word-copy+increment-sink+undo-strength-reduction=4, aligned-word-copy+reuse-load+undo-strength-reduction=3, at-branch-constants=2, at-constants=3, at-constants+invariant-last+unspill=1, delay=2, dmpsx-native=2, fill-load-delay+invariant-last=1, frameless=6, gcc=41, gte-direct-read=2, gte-load-early=6, halfword-words=10, increment-sink=1, increment-sink+undo-strength-reduction=2, invariant-last=3, invariant-last+unspill=1, loop-constant=2, loop-load-forwarding+tag-build=1, residual=20, store-delay-slot+tag-build=1, tag-build=8, undo-strength-reduction=13, undo-strength-reduction+unspill=1, unspill=2, word-compose=6, zero-extend-shifts=2
+  final instructions by origin: aligned-word-copy+increment-sink+undo-strength-reduction=6, at-branch-constants=2, at-branch-constants+unspill=2, at-constants=7, at-constants+invariant-last+unspill=1, delay=6, dmpsx-native=4, fill-jump-slot+zero-as-addiu=1, fill-load-delay=1, fill-load-delay+zero-extend-shifts=2, fold-address=3, frameless=12, gcc=46, gte-direct-read=3, halfword-words=8, hazard=3, increment-sink=1, invariant-last=4, invariant-last+unspill=2, residual=10, sign-extend-load=1, store-delay-slot+tag-build=1, tag-build=8, undo-strength-reduction=12, undo-strength-reduction+unspill=2, unspill=3
   relocations: R_MIPS_HI16 gModel_dwPolyGt3Template, R_MIPS_LO16 gModel_dwPolyGt3Template, R_MIPS_HI16 gModel_dwTpageBlendRateBits, R_MIPS_LO16 gModel_dwTpageBlendRateBits, R_MIPS_HI16 gModel_dwSecondPassClutBits, R_MIPS_LO16 gModel_dwSecondPassClutBits, R_MIPS_HI16 gModel_bCurrentDrawMode, R_MIPS_LO16 gModel_bCurrentDrawMode, R_MIPS_HI16 gModel_dwLitColorCacheBase, R_MIPS_LO16 gModel_dwLitColorCacheBase, R_MIPS_26 .text, R_MIPS_HI16 gGraphics_pPacketWorkCursor, R_MIPS_LO16 gGraphics_pPacketWorkCursor
   dependence check: 10 moves, 8 re-registered, 0 insertions (0 dead, 0 constants, 0 copies, 0 recomputed, 2 saves), 0 deletions, 0 merged duplicates, 0 rotated loads; all dependences preserved
   MATCH 0x248 bytes at 0x80067354
@@ -586,8 +640,10 @@ against `.text`; the linked bytes check its target).
 - Rules preserve the C's meaning under their preconditions and assumptions
   A1-A5 (and A7 for `rotate-loop-loads`, whose rotations the dependence
   check proves); the residual is checked too (see the dependence check),
-  under A2, A6 and A8. It proves all 61 residuals. Control-flow rewrites other than
-  merging a duplicated instruction at a join are still reported, not proven.
+  under A2, A6 and A8. It proves all 61 residuals; what that proof does and
+  does not cover is listed under "Dependence check". Control-flow rewrites
+  other than merging a duplicated instruction at a join are still reported,
+  not proven.
 - A1-A8 hold for the game's data but are not C guarantees.
 - The scheduling rules (`guard-chain`, `preheader-order`,
   `fill-load-delay`, `store-delay-slot`, `gte-load-early`,
