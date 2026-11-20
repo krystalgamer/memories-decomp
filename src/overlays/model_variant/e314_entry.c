@@ -31,7 +31,7 @@ s32 FrenchModelVariant782_HandleRequest(Model782State *context, s32 command)
     if (command >= 0) {
         work->config = &gFrenchModelVariant782_aConfigs[command];
         point = work->debris_positions;
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&work->origin);
+        Model_CopySlotPosition(slot ^ 1, &work->origin);
         other = work->debris_velocities;
         for (i = 0; i < work->config->debris_count; point++, other++, i++) {
             k = rand() % 4096 - rand() % 4096;

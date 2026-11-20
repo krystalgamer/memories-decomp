@@ -59,7 +59,7 @@ s32 FrenchModelVariant182_HandleRequest(Model182State *context, s32 command)
             p->vz = radius * ccos(value) / 4096 * csin(elevation) / 4096;
             p++;
         }
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->target);
         work->target.vy = -350;
         p = work->ring;
         for (i = 0; i < 33; i++) {
@@ -246,7 +246,7 @@ s32 FrenchModelVariant182_HandleRequest(Model182State *context, s32 command)
     }
     time = work->elapsed - config->converge_start;
     if (time >= 0 && time < config->converge_duration) {
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->target);
         work->target.vy = -350;
         setVector(&vertices[0], -config->half_size, -config->half_size, 0);
         setVector(&vertices[1], config->half_size, -config->half_size, 0);

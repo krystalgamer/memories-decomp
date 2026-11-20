@@ -162,7 +162,7 @@ s32 ModelVariant821_HandleRequest(Model821State *context, s32 command)
                 }
                 work->trail_head[g][work->head[g]] = (work->trail_head[g][work->head[g]] + 1) % 16;
                 copyVector(&work->pos[g][work->head[g]], &pos);
-                Model_CopySlotPosition(slot ^ 1, (u16 *)&pos);
+                Model_CopySlotPosition(slot ^ 1, &pos);
                 Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rot);
                 if (rand() % 100 > work->config->chance) {
                     setVector(&work->target[g][work->head[g]], pos.vx + RANDOM_SPREAD(work->config->spread), 0,

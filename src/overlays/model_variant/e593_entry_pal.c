@@ -282,10 +282,10 @@ s32 FrenchModelVariant473_HandleRequest(EntryState473 *context, s32 command)
         work->clock.angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, &work->target);
             work->target.vy = 0;
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, &work->target);
             work->target.vy = 0;
         }
         GsGetLwUnit(work->part, &work->matrix);

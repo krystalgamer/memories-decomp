@@ -972,7 +972,7 @@ void Library_UpdateCardView(LibraryState *state)
                 light[1].color.word = 0x404040;
                 light[2].color.word = 0xC0C0C0;
                 Model_SetSlotAmbient(0, 0x400, 0x400, 0x400);
-                Model_CopySlotPosition(0, (u16 *)0x80181000);
+                Model_CopySlotPosition(0, (SVECTOR *)0x80181000);
                 p = (SVECTOR *)0x80181000;
                 gViewState_Current.view.vrx = p->vx;
                 gViewState_Current.view.vry = p->vy;
@@ -1175,7 +1175,7 @@ void Library_UpdateScreen(void)
         r = Model_GetSlotReadiness(0);
         if (r == one) {
             if (Model_GetSlotAnimationIndex(0) != r) {
-                Model_CopySlotPosition(0, (u16 *)0x80181010);
+                Model_CopySlotPosition(0, (SVECTOR *)0x80181010);
                 r = gLibrary_sSampledReferenceY - gLibrary_sCapturedReferenceY;
                 a = r >= 0 ? r : -r;
                 step = a / 24;

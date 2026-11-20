@@ -81,7 +81,7 @@ s32 ModelVariant138_HandleRequest(Model138State *context, s32 command)
             }
         }
         Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex() ^ 1, (ModelEffectAdjustment *)&saved);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &origin);
         point = work->rising;
         for (i = 0; i < 32; i++) {
             point->vx = origin.vx;

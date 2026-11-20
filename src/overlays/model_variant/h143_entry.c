@@ -555,7 +555,7 @@ s32 ModelVariant143Us_HandleRequest(Model143UsState *context, s32 command)
         setRGB0(&quad, config->spark_colour[0], config->spark_colour[1], config->spark_colour[2]);
         setVector(&scale, 4096, 4096, 4096);
         setVector(&rotation, 0, 0, 0);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &origin);
         origin.vy = -350;
         vertex = work->burst;
         for (i = 0; i < 48; i++) {

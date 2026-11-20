@@ -151,7 +151,7 @@ s32 ModelVariant843_HandleRequest(Model843State *context, s32 command)
                 GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->parts[i]), &matrix);
                 setVector(&position, matrix.t[0], matrix.t[1], matrix.t[2]);
                 addVector(&work->orbs[i][work->orb_count], &position);
-                Model_CopySlotPosition(slot ^ 1, (u16 *)&position);
+                Model_CopySlotPosition(slot ^ 1, &position);
                 Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rotation);
                 setVector(&work->orb_targets[i][work->orb_count],
                           position.vx + rotation.vx / 2 * ((rand() - rand()) % 256) / 256,
@@ -169,7 +169,7 @@ s32 ModelVariant843_HandleRequest(Model843State *context, s32 command)
                 GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->parts[i]), &matrix);
                 setVector(&position, matrix.t[0], matrix.t[1], matrix.t[2]);
                 addVector(&work->comets[i][work->comet_count], &position);
-                Model_CopySlotPosition(slot ^ 1, (u16 *)&position);
+                Model_CopySlotPosition(slot ^ 1, &position);
                 Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rotation);
                 setVector(&work->comet_targets[i][work->comet_count],
                           position.vx + rotation.vx / 2 * ((rand() - rand()) % 256) / 256,

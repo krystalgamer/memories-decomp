@@ -12,8 +12,10 @@ void Model_DrawSlotUnitsOnly(s32 index);
    three; callers write the light's vectors through the returned pointer. */
 ModelSlotLightEntry *Model_GetFlatLight(unsigned int index, unsigned int light);
 
-/* Retain the separate fourth halfword; it is not vector padding. */
-void Model_CopySlotPosition(s32 idx, u16 *out);
+/* Copies slot `idx`'s cached_position into the caller's SVECTOR: X, Y and Z,
+ * then the separately derived Y value into the fourth halfword (`pad`). That
+ * fourth value is real data, not padding; all four are copied in order. */
+void Model_CopySlotPosition(s32 idx, SVECTOR *out);
 
 void Model_InitLightTriplet(s32 index);
 

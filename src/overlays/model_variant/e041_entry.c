@@ -151,8 +151,8 @@ s32 ModelVariant93_HandleRequest(Model93State *context, s32 command)
         break;
     case 5:
         if (time >= config->camera_time[5]) {
-            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[1]);
-            Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&vertices[2]);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[1]);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex(), &vertices[2]);
             setVector(&vertices[0], 0, -120, (vertices[1].vz - vertices[2].vz) / 2);
             Model_QueueCameraOrbitFromPreset(Model_GetActiveSlotIndex(), 4, &vertices[0], config->flash_duration);
             work->camera_step++;

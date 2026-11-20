@@ -41,7 +41,7 @@ s32 ModelVariant801_HandleRequest(Model801State *context, s32 command)
     if (command >= 0) {
         work->config = &gModelVariant801_aConfigs[command];
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&rot);
+        Model_CopySlotPosition(slot ^ 1, &rot);
         for (i = 0; i < work->config->count; i++) {
             /* J holds the angular step here, which fixes the register allocation. */
             j = 4096 / work->config->count;

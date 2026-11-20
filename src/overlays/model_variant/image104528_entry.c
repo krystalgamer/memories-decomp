@@ -83,7 +83,7 @@ s32 FrenchModelVariant826_HandleRequest(Image104528State *context, s32 command)
     light = *Model_GetLightSourceMatrix();
     if (work->elapsed < work->config->spawn_end && work->flash_count < 64) {
         other = slot ^ 1;
-        Model_CopySlotPosition(other, (u16 *)&position);
+        Model_CopySlotPosition(other, &position);
         Model_GetSlotDimensionsWithMinimums(other, &rotation.dimensions);
         position.vx += rotation.dimensions.x / 2 * ((rand() - rand()) % 4096) / 4096;
         position.vy += rotation.dimensions.y / 2 * ((rand() - rand()) % 4096) / 4096;
@@ -91,7 +91,7 @@ s32 FrenchModelVariant826_HandleRequest(Image104528State *context, s32 command)
         copyVector(&work->flashes[work->flash_count], &position);
         work->flash_count++;
         if (work->updates % work->config->burst_interval == 0 && work->burst_count < 64) {
-            Model_CopySlotPosition(other, (u16 *)&position);
+            Model_CopySlotPosition(other, &position);
             Model_GetSlotDimensionsWithMinimums(other, &rotation.dimensions);
             position.vx += rotation.dimensions.x / 2 * ((rand() - rand()) % 4096) / 4096;
             position.vy += rotation.dimensions.y / 2 * ((rand() - rand()) % 4096) / 4096;

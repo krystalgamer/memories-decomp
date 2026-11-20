@@ -105,7 +105,7 @@ s32 ModelVariant102_HandleRequest(Model102State *context, s32 command)
                 p--;
             }
             p = work->targets;
-            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[0]);
             Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex() ^ 1, (ModelEffectAdjustment *)&vertices[1]);
             for (row = 0; row < 96; row++) {
                 p->vx = vertices[0].vx + (rand() % (config->spread * 2) - config->spread);

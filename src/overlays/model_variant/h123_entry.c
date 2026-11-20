@@ -43,8 +43,8 @@ s32 ModelVariant123_HandleRequest(Model123State *context, s32 command)
             point->vy = 0;
             point->vz = 0;
         }
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&work->self);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->other);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &work->self);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->other);
         point = work->ring;
         for (i = 0; i < 17; i++) {
             point->vx = config->radius * ccos(i << 8) / 4096;

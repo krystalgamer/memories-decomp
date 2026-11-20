@@ -49,7 +49,7 @@ s32 ModelVariant132_HandleRequest(Model132State *context, s32 command)
         }
         point = work->orbs;
         for (i = 0; i < 10; point++, i++) {
-            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)point);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, point);
             point->vy = -config->height * (10 - i) / 10;
             point->pad = 0;
         }
@@ -75,7 +75,7 @@ s32 ModelVariant132_HandleRequest(Model132State *context, s32 command)
     GsSetLsMatrix(&base);
     time = work->elapsed - config->delay;
     if (time < config->approach) {
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&anchor);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &anchor);
         anchor.vx += config->swirl * (config->approach - time) / config->approach
             * ccos((time << 12) / config->approach) / 4096;
         anchor.vy = 0;
@@ -83,8 +83,8 @@ s32 ModelVariant132_HandleRequest(Model132State *context, s32 command)
             * csin((time << 12) / config->approach) / 4096;
     } else if (time < config->travel + config->approach) {
         progress = time - config->approach;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&vertices[0]);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[1]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &vertices[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[1]);
         angle = csin((progress << 13) / config->travel);
         anchor.vx = vertices[0].vx + (vertices[1].vx - vertices[0].vx) * progress / config->travel
             + (config->spread - config->swirl) * angle / 4096;
@@ -93,7 +93,7 @@ s32 ModelVariant132_HandleRequest(Model132State *context, s32 command)
     } else {
         progress = time - config->approach - config->travel;
         span = config->end - config->delay - config->approach - config->travel;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&anchor);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &anchor);
         anchor.vx += config->spread * csin((progress << 13) / span) / 4096;
         anchor.vy = 0;
         anchor.vz += config->spread * csin((progress << 14) / span) / 8192;
@@ -176,7 +176,7 @@ s32 ModelVariant132_HandleRequest(Model132State *context, s32 command)
             if (time % 16 > i * 2 && point->pad <= 0
                 && work->elapsed < config->end) {
                 frame = point->pad;
-                Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)point);
+                Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, point);
                 point->pad = frame + 16;
                 point->vx += rand() % config->spread * 2 - config->spread;
                 point->vy = rand() % config->spread * 2 - (s16)(config->spread + 350);

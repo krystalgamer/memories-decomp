@@ -121,7 +121,7 @@ s32 ModelVariant157_HandleRequest(Model157UsState *context, s32 command)
         origin.vx = matrix.t[0];
         origin.vy = matrix.t[1];
         origin.vz = matrix.t[2];
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&target);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &target);
         target.vy = -350;
         quad.tpage = work->texture[0] >> 16;
         quad.clut = work->texture[0];
@@ -183,7 +183,7 @@ s32 ModelVariant157_HandleRequest(Model157UsState *context, s32 command)
     origin.vx = matrix.t[0];
     origin.vy = matrix.t[1];
     origin.vz = matrix.t[2];
-    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&target);
+    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &target);
     target.vy = -350;
     quad.tpage = work->texture[0] >> 16;
     quad.clut = work->texture[0];
@@ -252,7 +252,7 @@ s32 ModelVariant157_HandleRequest(Model157UsState *context, s32 command)
         value = x % 4 * 32;
         remain = x / 4 * 32 + 64;
         setUV4(&quad, value, remain, value + 31, remain, value, remain + 31, value + 31, remain + 31);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&target);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &target);
         position.vy = target.vy = -350;
         setVector(&scale, 4096, 4096, 4096);
         setVector(&rotation, 0, 0, 0);

@@ -254,9 +254,9 @@ s32 FrenchModelVariant431_HandleRequest(Variant431EntryState *context, s32 comma
         work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         GsSetLsMatrix(Model_GetLightSourceMatrix());
         if (work->tail.slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, &work->target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, &work->target);
         }
         setVector(&target, work->target.vx, work->target.vy, work->target.vz);
         RotTransPers(&target, (long *)&projection.projected,

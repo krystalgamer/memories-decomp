@@ -70,7 +70,7 @@ s32 FrenchModelVariant96_HandleRequest(Model96State *context, s32 command)
         position = work->positions;
         GsSetLsMatrix(&base);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&opponent);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &opponent);
         opponent.vy = -350;
         for (i = 0; i < config->count; position++, i++) {
             position->vx = matrix.t[0] + (opponent.vx - matrix.t[0]) * i / config->count;

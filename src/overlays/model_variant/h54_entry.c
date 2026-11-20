@@ -91,7 +91,7 @@ s32 ModelVariant54_HandleRequest(Model54State *context, s32 command)
     setVector(&vertices[3], config->size, config->size, 0);
     setVector(&rotation, 0, 0, 0);
     setVector(&scale, 4096, 4096, 4096);
-    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&from);
+    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &from);
     for (i = 0; i < config->sparks; i++) {
         t = work->elapsed - config->start - i * config->interval;
         if (t >= 0 && t < config->life) {
@@ -131,7 +131,7 @@ s32 ModelVariant54_HandleRequest(Model54State *context, s32 command)
         }
         w++;
     }
-    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&position);
+    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &position);
     position.vy = 0;
     RotTrans(&position, (VECTOR *)matrix.t, &flag);
     setVector(&rotation, 0, 0, 0);
@@ -215,7 +215,7 @@ s32 ModelVariant54_HandleRequest(Model54State *context, s32 command)
             p = &work->spiral[i][(work->head + 19) % 20];
             if (p->vy < 0) {
                 GsSetLsMatrix(&base);
-                Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&position);
+                Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &position);
                 position.vy = 0;
                 position.vx += p->vx;
                 position.vy += p->vy;
@@ -255,7 +255,7 @@ s32 ModelVariant54_HandleRequest(Model54State *context, s32 command)
         s = s >= 0 ? (s > config->rings ? config->rings : s) : 0;
         quad.tpage = work->textures[2] >> 16;
         quad.clut = work->textures[2];
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&from);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &from);
         for (j = s; j < config->rings; j++) {
             base = *Model_GetLightSourceMatrix();
             GsSetLsMatrix(&base);

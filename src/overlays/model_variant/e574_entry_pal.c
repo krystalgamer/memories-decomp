@@ -213,9 +213,9 @@ s32 SpanishModelVariant408_HandleRequest(ModelVariant408EntryState *context, s32
         work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, &work->target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, &work->target);
         }
         GsGetLwUnit(work->part, &work->matrix);
         work->delta.vx = work->target.vx - work->matrix.t[0];

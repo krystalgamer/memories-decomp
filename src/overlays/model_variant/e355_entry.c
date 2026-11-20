@@ -46,7 +46,7 @@ s32 ModelVariant806_HandleRequest(Model806State *context, s32 command)
         work->config = &gModelVariant806_aConfigs[command];
         setVector(&work->center, 0, 0, 0);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&rot);
+        Model_CopySlotPosition(slot ^ 1, &rot);
         for (i = 0; i < work->config->count; i++) {
             setVector(&work->pos[i], rot.vx + RANDOM_SPREAD(pos.vx), rot.vy + RANDOM_SPREAD(pos.vy),
                       rot.vz + RANDOM_SPREAD(pos.vz));

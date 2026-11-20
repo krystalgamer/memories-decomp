@@ -84,7 +84,7 @@ s32 ModelVariant98_HandleRequest(Model98State *context, s32 command)
             point->vz = otz * csin(k) / 4096;
             point++;
         }
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->target);
         work->target.vy = -10;
         for (i = 0; i < 6; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant98_aImages[i]);

@@ -38,8 +38,8 @@ typedef struct {
     u8 flags[5];
     u8 rows, cols, sprite_count, fan_count, dome_count;
     u8 cell_u[9], cell_v[9];
-    /* Filled by Model_CopySlotPosition; the fourth halfword is unused. */
-    s16 origin[4];
+    /* Filled by Model_CopySlotPosition; its fourth halfword is unused. */
+    SVECTOR origin;
     ModelVariantCountedElement ribbons[2];
     ModelVariantCountedElement sprites[16];
     ModelVariantCountedElement fans[16];

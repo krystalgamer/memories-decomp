@@ -71,7 +71,7 @@ s32 ModelVariant175_HandleRequest(Model175State *context, s32 command)
     SetPolyG4(&unused_quad);
     line.attribute = 0x50000000;
     SetSemiTrans(&quad, 1);
-    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&target);
+    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &target);
     target.vy = -350;
     point = work->positions;
     for (i = 0; i < config->count; point++, i++) {

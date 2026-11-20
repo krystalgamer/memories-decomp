@@ -239,9 +239,9 @@ s32 SpanishModelVariant405_HandleRequest(Variant405EntryState *context, s32 comm
         work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->clock.frame < work->config->track_end) {
             if (work->slot == 0) {
-                Model_CopySlotPosition(1, (u16 *)&work->target);
+                Model_CopySlotPosition(1, &work->target);
             } else {
-                Model_CopySlotPosition(0, (u16 *)&work->target);
+                Model_CopySlotPosition(0, &work->target);
             }
             GsGetLwUnit(work->parts[0], &work->matrix);
             if (work->clock.frame <= work->config->phase_start) {

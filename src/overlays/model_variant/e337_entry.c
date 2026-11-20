@@ -58,7 +58,7 @@ s32 ModelVariant788_HandleRequest(Model788State *context, s32 command)
     direction = slot * 2 - 1;
     if (command >= 0) {
         work->config = &gModelVariant788_aConfigs[command];
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&work->position);
+        Model_CopySlotPosition(slot ^ 1, &work->position);
         work->position.vy = 0;
         work->radius = work->config->radius;
         for (i = 0; i < work->config->line_count; i++) {

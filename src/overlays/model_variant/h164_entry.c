@@ -52,7 +52,7 @@ s32 ModelVariant164_HandleRequest(Model164State *context, s32 command)
             point++;
         }
         point = work->ring;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->centre);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->centre);
         work->centre.vy = -350;
         for (i = 0; i < 33; i++) {
             point->vx = config->ring_radius * ccos(i << 7) / 4096;

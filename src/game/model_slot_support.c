@@ -33,12 +33,12 @@ struct _GsCOORDUNIT *Model_GetCurrentDataEntry(s32 index)
     return &entry->entries[entry->root_coordinate_index];
 }
 
-void Model_CopySlotPosition(s32 idx, u16 *out) {
+void Model_CopySlotPosition(s32 idx, SVECTOR *out) {
     ModelSlot *rec = &gModel_aSlots[idx];
-    out[0] = rec->cached_position[0];
-    out[1] = rec->cached_position[1];
-    out[2] = rec->cached_position[2];
-    out[3] = rec->cached_position[3];
+    out->vx = rec->cached_position[0];
+    out->vy = rec->cached_position[1];
+    out->vz = rec->cached_position[2];
+    out->pad = rec->cached_position[3];
 }
 
 void Model_GetSlotDimensionsWithOverrides(s32 index, ModelEffectAdjustment *output)

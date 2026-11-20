@@ -46,7 +46,7 @@ s32 ModelVariant670_HandleRequest(Model670State *context, s32 command)
         work->head.slot = Model_GetActiveSlotIndex();
         work->direction = work->head.slot * 2 - 1;
         work->head.elapsed = 0;
-        Model_CopySlotPosition(work->head.slot == 0, (u16 *)work->position);
+        Model_CopySlotPosition(work->head.slot == 0, (SVECTOR *)work->position);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant670_aImages[1]);
         work->textures.tpage[0] = tex >> 16;
         work->textures.clut[0] = tex;

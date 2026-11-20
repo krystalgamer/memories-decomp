@@ -53,7 +53,7 @@ s32 ModelVariant780_HandleRequest(Model780State *context, s32 command)
         work->config = &gModelVariant780_aConfigs[command];
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&pos);
         Model_SetSlotPlaybackDirection(slot ^ 1, 0);
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&work->centre);
+        Model_CopySlotPosition(slot ^ 1, &work->centre);
         if (pos.vz < pos.vx) {
             size = pos.vx;
         } else {

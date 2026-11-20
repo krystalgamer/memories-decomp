@@ -41,7 +41,7 @@ s32 FrenchModelVariant153_HandleRequest(Model153State *context, s32 command)
         }
         point = work->targets;
         for (i = 0; i < 64; point++, i++) {
-            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)point);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, point);
             point->vx += rand() % config->spread * 2 - config->spread;
             point->vy += rand() % config->spread;
             point->vz += direction * (rand() % config->spread);

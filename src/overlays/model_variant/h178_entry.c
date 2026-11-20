@@ -91,7 +91,7 @@ s32 ModelVariant178_HandleRequest(Model178State *context, s32 command)
                 speed++;
             }
             work->offset = 0;
-            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->target);
             for (i = 0; i < 3; i++) {
                 work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant178_aImages[i]);
             }

@@ -102,7 +102,7 @@ Verified shared fields and partial arrays are:
 | `0xDB0` | `render_scale` | four-word copy/reset block in `Model_SetSlotScale` |
 | `0xDC0` | `tint[8]` | fade tint: target colour/mode writes in `Model_SetSlotTintTarget` and selection in `Model_GetSlotTintDescriptor`; live 3-D battle values below (formerly `field_DC0`) |
 | `0xDC8` | `cached_dimensions[4]` | exact eight-byte copies in `func_80057E20` and `func_80059000`; element 3 is cleared by `Model_SeekSlotAnimation` |
-| `0xDD0` | `cached_position[4]` | four adjacent `u16` reads in `Model_CopySlotPosition` |
+| `0xDD0` | `cached_position[4]` | four adjacent halfword reads in `Model_CopySlotPosition` (into the caller's SVECTOR, fourth into `pad`) |
 | `0xDDC` | `animation_parameter_base`, `u8 *` | command-halfword word offsets address live words saved before a row and restored afterward |
 | `0xDE0` | `animation_snapshot_buffer`, `u8 *` | contiguous three/five-word snapshots; imported or hmd+size fallback, followed by cache work span |
 | `0xDE8` | `primary_module_data_address`, `s32` | independently selected primary data word passed to the primary module at base +4 |

@@ -54,7 +54,7 @@ s32 ModelVariant105_HandleRequest(Model105State *context, s32 command)
         }
         work->texture.s.index = 0;
         point = work->shots.s.targets;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[0]);
         for (i = 0; i < 8; i++) {
             point->vx = rand() % (config->spread * 2) + vertices[0].vx - config->spread;
             point->vy = rand() % (config->spread * 2) + vertices[0].vy - config->spread;

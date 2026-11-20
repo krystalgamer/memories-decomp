@@ -60,7 +60,7 @@ s32 ModelVariant113_HandleRequest(Model113State *context, s32 command)
                 config->radius * ccos(elevation) / 4096,
                 config->radius * csin(value) / 4096 * csin(elevation) / 4096);
         }
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->center);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->center);
         for (i = 0; i < 2; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant113_aImages[i]);
         }

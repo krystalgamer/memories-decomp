@@ -154,7 +154,7 @@ s32 ModelVariant81_HandleRequest(Model81State *context, s32 command)
         time = work->elapsed - (config->segments * 2 + j * config->spin_duration);
         if (time >= 0 && time < config->spin_duration + config->grow_duration) {
             GsSetLsMatrix(&light);
-            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&position);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &position);
             rotation.vx = 0;
             rotation.vy = 0;
             rotation.vz = 0;

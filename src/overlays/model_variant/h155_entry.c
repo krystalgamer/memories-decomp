@@ -115,7 +115,7 @@ s32 ModelVariant155_HandleRequest(Model155State *context, s32 command)
     box.attribute = 0x50000000;
     box.w = 1;
     box.h = 1;
-    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[4]);
+    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[4]);
     vertices[4].vy = 0;
     period = 0x300 / config->period;
     if (work->elapsed < config->end) {
@@ -177,7 +177,7 @@ s32 ModelVariant155_HandleRequest(Model155State *context, s32 command)
     setVector(&vertices[3], config->size, config->size, 0);
     quad.tpage = work->texture[0] >> 16;
     quad.clut = work->texture[0];
-    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[4]);
+    Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[4]);
     vertices[4].vy = 0;
     if (work->elapsed < config->end) {
         for (i = 0; i < 5; i++) {
@@ -245,7 +245,7 @@ s32 ModelVariant155_HandleRequest(Model155State *context, s32 command)
         quad.clut = work->texture[3];
         SetSemiTrans(&quad, 1);
         setUV4(&quad, 0, 192, 63, 192, 0, 255, 63, 255);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[4]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[4]);
         vertices[4].vy = 0;
         position.vx = vertices[4].vx;
         position.vy = vertices[4].vy;
@@ -299,7 +299,7 @@ s32 ModelVariant155_HandleRequest(Model155State *context, s32 command)
         setVector(&vertices[0], -config->dust_step / 8, 0, 0);
         setVector(&vertices[1], 0, 0, 0);
         setVector(&vertices[2], config->dust_step / 8, 0, 0);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[4]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[4]);
         vertices[4].vy = 0;
         setVector(&scale, 4096, 4096, 4096);
         setVector(&rotation, 0, 0, 0);

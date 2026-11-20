@@ -49,7 +49,7 @@ s32 ModelVariant649Us_HandleRequest(Model649UsState *context, s32 command)
         work->side = work->head.slot * 2 - 1;
         work->head.elapsed = 0;
         work->other = work->head.slot == 0;
-        Model_CopySlotPosition(work->other, (u16 *)&work->anchor);
+        Model_CopySlotPosition(work->other, &work->anchor);
         work->tint = 0x80;
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 3, &gModelVariant649Us_aImages[0]);
         work->tpage[0] = tex >> 16;

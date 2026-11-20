@@ -48,7 +48,7 @@ s32 ModelVariant142_HandleRequest(Model142State *context, s32 command)
         }
         point = work->targets;
         for (i = 0; i < 64; i++) {
-            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)point);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, point);
             point->vx += side * config->width * csin(i << 6) / 4096;
             point->vy += config->width / 2 * ccos(i << 6) / 4096;
             point->vz += side * (rand() % config->width);

@@ -167,7 +167,7 @@ s32 ModelVariant791_HandleRequest(Model791State *context, s32 command)
             for (j = 0; j < 32; j++) {
                 setVector(&work->trail[i][j], m.t[0], m.t[1], m.t[2]);
             }
-            Model_CopySlotPosition(slot ^ 1, (u16 *)&pos);
+            Model_CopySlotPosition(slot ^ 1, &pos);
             Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rot);
             pos.vx += RANDOM_SPREAD(rot.vx / 2);
             pos.vy += RANDOM_SPREAD(rot.vy / 2);
@@ -191,7 +191,7 @@ s32 ModelVariant791_HandleRequest(Model791State *context, s32 command)
             for (j = 0; j < 32; j++) {
                 setVector(&work->trail[i][j], m.t[0], m.t[1], m.t[2]);
             }
-            Model_CopySlotPosition(slot ^ 1, (u16 *)&pos);
+            Model_CopySlotPosition(slot ^ 1, &pos);
             pos.vx += RANDOM_SPREAD(work->config->second_spread);
             pos.vy = 0;
             pos.vz += RANDOM_SPREAD(work->config->second_spread);

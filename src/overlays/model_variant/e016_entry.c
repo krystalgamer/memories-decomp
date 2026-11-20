@@ -127,7 +127,7 @@ s32 ModelVariant173_HandleRequest(Model173State *context, s32 command)
     for (i = 0; i < config->count; i++) {
         t = work->elapsed - config->delay - i * config->spacing;
         if (t < 0) {
-            Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)point);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex(), point);
             point->vy = 0;
         } else if (t < config->duration) {
             for (j = 0; j < 4; j++) {

@@ -138,7 +138,7 @@ s32 ModelVariant830_HandleRequest(Model830State *context, s32 command)
     PushMatrix();
     light = *Model_GetLightSourceMatrix();
     if (work->phase == 0) {
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&work->pos);
+        Model_CopySlotPosition(slot ^ 1, &work->pos);
         work->pos.vy = 0;
         work->phase = 1;
     }

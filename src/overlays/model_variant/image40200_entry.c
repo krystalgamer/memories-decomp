@@ -28,7 +28,7 @@ s32 FrenchModelVariant175_HandleRequest(Image40200State *context, s32 command)
     if (command >= 0) {
         point = work->targets;
         config = work->config = &gFrenchModelVariant175_aConfigs[command % 100];
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corners[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &corners[0]);
         corners[0].vy = -350;
         for (i = 0; i < config->count; i++, point++) {
             value = rand() % 4096;

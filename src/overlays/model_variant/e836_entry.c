@@ -52,7 +52,7 @@ s32 ModelVariant652_HandleRequest(Model652State *context, s32 command)
         work->head.elapsed = 0;
         work->cursor = 0;
         work->other_slot = work->head.slot == 0;
-        Model_CopySlotPosition(work->other_slot, (u16 *)&work->origin);
+        Model_CopySlotPosition(work->other_slot, &work->origin);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant652_aImages[1]);
         work->textures.tpage[0] = tex >> 16;
         work->textures.clut[0] = tex;

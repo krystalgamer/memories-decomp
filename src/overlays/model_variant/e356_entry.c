@@ -242,7 +242,7 @@ s32 ModelVariant807_HandleRequest(Model807State *context, s32 command)
         }
     } else if (work->phase == 1) {
         work->phase = 2;
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&work->center);
+        Model_CopySlotPosition(slot ^ 1, &work->center);
         for (i = 0; i < 16; i++) {
             j = i * 256 % 4096;
             setVector(&work->ring[i][0], work->config->radius * ccos(j) / 4096, work->config->height >> 2,

@@ -33,8 +33,8 @@ s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
     direction = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = work->config = &gModelVariant180_aConfigs[command];
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&work->origin);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->opponent);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &work->origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->opponent);
         point = work->ring;
         for (i = 0; i < 33; point++, i++) {
             angle = i << 7;

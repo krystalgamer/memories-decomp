@@ -311,10 +311,10 @@ s32 ModelVariant451_HandleRequest(Variant451EntryState *context, s32 command)
         work->clock.angles[0] = angle;
         work->clock.angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->tail.slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, &work->target);
             setVector(&work->center, 0, -300, 0);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, &work->target);
             setVector(&work->center, 0, -300, 0);
         }
         if (work->clock.frame < work->config->origin_end) {

@@ -217,12 +217,12 @@ s32 SpanishModelVariant385_HandleRequest(Variant385EntryState *context, s32 comm
         work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         GsGetLwUnit(work->parts[0], &work->matrix);
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
+            Model_CopySlotPosition(1, &work->aim.target);
             work->matrix.t[0] -= work->config->offset[0];
             work->matrix.t[1] += work->config->offset[1];
             work->matrix.t[2] -= work->config->offset[2];
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
+            Model_CopySlotPosition(0, &work->aim.target);
             work->matrix.t[0] += work->config->offset[0];
             work->matrix.t[1] += work->config->offset[1];
             work->matrix.t[2] += work->config->offset[2];

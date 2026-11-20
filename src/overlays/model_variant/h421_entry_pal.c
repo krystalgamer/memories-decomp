@@ -324,9 +324,9 @@ s32 SpanishModelVariant438_HandleRequest(Variant438EntryState *context, s32 comm
         work->clock.angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
+            Model_CopySlotPosition(1, &work->aim.target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
+            Model_CopySlotPosition(0, &work->aim.target);
         }
         GsGetLwUnit(work->parts[0], &work->matrix);
         setVector(&work->aim.direction,

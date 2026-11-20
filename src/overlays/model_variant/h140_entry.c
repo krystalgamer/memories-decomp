@@ -83,7 +83,7 @@ s32 FrenchModelVariant157_HandleRequest(Model157State *context, s32 command)
     SetPolyF4(&flash);
     time = work->elapsed - config->delay;
     if (time < 0) {
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->origin);
         work->origin.vy = 0;
     } else {
         if (time < config->ring_duration) {

@@ -155,7 +155,7 @@ s32 ModelVariant784_HandleRequest(Model784State *context, s32 command)
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);
         setVector(&work->pos[work->fired], m.t[0], m.t[1], m.t[2]);
         setVector(&work->origin[work->fired], m.t[0], m.t[1], m.t[2]);
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&rot);
+        Model_CopySlotPosition(slot ^ 1, &rot);
         rot.vx += work->config->target_spread * ((rand() - rand()) % 4096) / 4096;
         rot.vz += work->config->target_spread * ((rand() - rand()) % 4096) / 4096;
         setVector(&work->step[work->fired], (rot.vx - work->pos[work->fired].vx) / work->config->steps,

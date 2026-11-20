@@ -249,9 +249,9 @@ s32 ModelVariant386_HandleRequest(Model386State *context, s32 command)
         work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, &work->target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, &work->target);
         }
         for (angle = 0, i = 0; i < work->config->count; i++, angle = (i << 12) / work->config->count) {
             if (work->phase < 4) {

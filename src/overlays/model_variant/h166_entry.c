@@ -63,7 +63,7 @@ s32 ModelVariant166_HandleRequest(ModelVariantGatherState *context, s32 command)
             point++;
         }
         point = work->ring;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->centre);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->centre);
         work->centre.vy = -350;
         for (i = 0; i < 33; i++) {
             point->vx = config->ring_radius * ccos(i << 7) / 4096;
@@ -220,7 +220,7 @@ s32 ModelVariant166_HandleRequest(ModelVariantGatherState *context, s32 command)
     t = work->elapsed - config->start;
     if (t >= 0 && t < config->gather) {
         point = work->positions;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->centre);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->centre);
         work->centre.vy = -350;
         setVector(&vertices[0], -config->size, -config->size, 0);
         setVector(&vertices[1], config->size, -config->size, 0);
