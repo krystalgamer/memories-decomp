@@ -957,7 +957,7 @@ void SD_CopySeqBlock(void *dst_block, void *src_block)
     }
 }
 
-void SD_LoadSequenceBankPair(s32 side, u32 *src)
+void SD_LoadSequenceBankPair(s32 side, SDSeqBlock *src)
 {
     SDSeqBlock *blk;
     SDSeqBlock *other;

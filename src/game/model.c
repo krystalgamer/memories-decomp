@@ -4730,7 +4730,7 @@ void Model_AdvanceSlotLoad(s32 index)
     case 10:
         if (slot->skip_sound_setup == 0) {
             SD_LoadSequenceBankPair(
-                index, (u32 *)(gFile_StagingBuffer.bytes + (index << 11))
+                index, (SDSeqBlock *)(gFile_StagingBuffer.bytes + (index << 11))
             );
         }
         break;

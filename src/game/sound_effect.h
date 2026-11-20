@@ -83,8 +83,9 @@ void SD_SESetPan(s32 sound_id, s32 pan);
 void SD_SESetVolumePan(s32 id, s32 volume, s32 pan);
 void SD_FadeOutSoundEffectVoices(u16 id, u8 step);
 
-/* SD_LoadSequenceBankPair's second argument is a word pointer, not a word. */
+/* SD_LoadSequenceBankPair copies the 0x800-byte bank block `src` (a staged
+   file sector) into its side's resident SDSeqBlock and registers its notes. */
 void SD_CopySeqBlock(void *dst_block, void *src_block);
-void SD_LoadSequenceBankPair(s32 side, u32 *src);
+void SD_LoadSequenceBankPair(s32 side, SDSeqBlock *src);
 
 #endif

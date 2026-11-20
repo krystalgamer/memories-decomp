@@ -45,9 +45,9 @@ void SD_ResetSecondaryState(void)
     sequence_state->sequence_tick_mode = 0x1000;
 }
 
-void SD_InitSecondaryWorkArea(void *work_area)
+void SD_InitSecondaryWorkArea(SDSecondaryState *work_area)
 {
-    s32 *work_area_cursor = work_area;
+    s32 *work_area_cursor = (s32 *)work_area;
     u32 cleared_word_count = 0;
 
     gSD_pSecondaryState = work_area;
@@ -55,7 +55,7 @@ void SD_InitSecondaryWorkArea(void *work_area)
         *work_area_cursor = 0;
         cleared_word_count++;
         work_area_cursor++;
-    } while (cleared_word_count < 530);
+    } while (cleared_word_count < sizeof(SDSecondaryState) / sizeof(s32));
     SpuInit();
     SD_ResetSecondaryPlaybackThunk();
     SD_ResetSecondaryState();

@@ -1324,7 +1324,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 7:
-        SD_LoadSequenceBankPair(1, (u32 *)gFile_TransferBufferBase);
+        SD_LoadSequenceBankPair(1, (SDSeqBlock *)gFile_TransferBufferBase);
         break;
     }
 }
@@ -1394,7 +1394,7 @@ void Library_LoadPackageStage(FileTransferDescriptor *object, s32 mode)
         break;
 
     case 6:
-        SD_LoadSequenceBankPair(1, (u32 *)gFile_TransferBufferBase);
+        SD_LoadSequenceBankPair(1, (SDSeqBlock *)gFile_TransferBufferBase);
         break;
     }
 }
