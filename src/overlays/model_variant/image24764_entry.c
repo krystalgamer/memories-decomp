@@ -37,8 +37,8 @@ s32 FrenchModelVariant197_HandleRequest(ModelVariantBeamRingState *context, s32 
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = state->config = &gFrenchModelVariant197_aConfigs[command];
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&state->translation);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&state->origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &state->translation);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &state->origin);
         point = state->ring;
         for (i = 0; i < 33; point++, i++) {
             point->vx = config->radius * ccos(i * 128) / 4096;

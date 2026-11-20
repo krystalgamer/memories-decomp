@@ -80,7 +80,7 @@ s32 ModelVariant139_HandleRequest(Model139State *context, s32 command)
                 point++;
             }
         }
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corner[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &corner[0]);
         point = work->sparks;
         for (i = 0; i < 96; i++) {
             point->vx = corner[0].vx + rand() % config->swirl_radius * 2 - config->swirl_radius;
@@ -209,7 +209,7 @@ s32 ModelVariant139_HandleRequest(Model139State *context, s32 command)
         }
         work->angle = (work->angle + config->spin * step) % 4096;
         r = t - config->fade_in;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corner[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &corner[0]);
         if (r >= 0 && r < config->hold) {
             work->centre.vx = config->sway * csin((r << 12) / config->hold) / 4096;
             work->centre.vz = -direction * 450 + (corner[0].vz + direction * 450) * r / config->hold;

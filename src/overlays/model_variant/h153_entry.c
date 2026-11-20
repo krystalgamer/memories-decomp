@@ -90,7 +90,7 @@ s32 ModelVariant153Us_HandleRequest(Model153UsState *context, s32 command)
     SetPolyF4(&flash);
     time = work->elapsed - config->delay;
     if (time < 0) {
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&target);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &target);
         GsSetLsMatrix(&base);
         previous = work->trail;
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);

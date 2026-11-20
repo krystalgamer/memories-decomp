@@ -44,7 +44,7 @@ s32 FrenchModelVariant167_HandleRequest(Model167State *context, s32 command)
         }
         work->phase = 0;
         point = work->points;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[0]);
         vertices[0].vy = -350;
         for (i = 0; i < config->count; point++, i++) {
             value = rand() % config->radius;

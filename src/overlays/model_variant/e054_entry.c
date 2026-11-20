@@ -14,7 +14,7 @@
         target.vy = 0;                                                                     \
         target.vz = matrix.t[2];                                                           \
     } else {                                                                               \
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);       \
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[0]);       \
         if (time < config->grow_end - config->dome_delay + config->move_duration) {        \
             target.vx = matrix.t[0] + (vertices[0].vx - matrix.t[0]) *                     \
                 (time - config->grow_end + config->dome_delay) / config->move_duration;    \

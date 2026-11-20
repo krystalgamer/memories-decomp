@@ -265,12 +265,12 @@ s32 FrenchModelVariant425_HandleRequest(EntryState425 *context, s32 command)
         work->clock.angles[0] = ratan2(work->aim.view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
+            Model_CopySlotPosition(1, &work->aim.target);
             work->aim.target.vy = 0;
             target_z = work->aim.target.vz + 1400;
             work->aim.target.vz = target_z - work->travel * 1400 / 1024;
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
+            Model_CopySlotPosition(0, &work->aim.target);
             work->aim.target.vy = 0;
             target_z = work->aim.target.vz - 1400;
             work->aim.target.vz = target_z + work->travel * 1400 / 1024;

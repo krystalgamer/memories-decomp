@@ -79,7 +79,7 @@ s32 ModelVariant147_HandleRequest(Model147State *context, s32 command)
             }
         }
         Model_GetSlotDimensionsWithMinimums(Model_GetActiveSlotIndex() ^ 1, (ModelEffectAdjustment *)&corner[0]);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corner[1]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &corner[1]);
         point = work->sparks;
         for (i = 0; i < 32; i++) {
             point->vx = corner[1].vx;
@@ -487,7 +487,7 @@ s32 ModelVariant147_HandleRequest(Model147State *context, s32 command)
         setVector(&rotation, 0, 0, 0);
         setVector(&scale, 4096, 4096, 4096);
         setRGB0(&quad, red, green, blue);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&position);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &position);
         position.vy = -350;
         GsSetLsMatrix(&base);
         RotTrans(&position, (VECTOR *)matrix.t, &flag);
@@ -521,7 +521,7 @@ s32 ModelVariant147_HandleRequest(Model147State *context, s32 command)
         setVector(&rotation, 0, 0, 0);
         setVector(&scale, 4096, 4096, 4096);
         setRGB0(&quad, red, green, blue);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&position);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &position);
         position.vy = -350;
         GsSetLsMatrix(&base);
         RotTrans(&position, (VECTOR *)matrix.t, &flag);

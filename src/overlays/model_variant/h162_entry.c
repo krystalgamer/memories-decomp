@@ -51,7 +51,7 @@ s32 ModelVariant162Us_HandleRequest(Model162UsState *context, s32 command)
                 point++;
             }
         }
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&work->centre);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &work->centre);
         work->centre.vy = 0;
         work->angle = 0;
         for (i = 0; i < 1; i++) {
@@ -72,7 +72,7 @@ s32 ModelVariant162Us_HandleRequest(Model162UsState *context, s32 command)
                 point++;
             }
         }
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corner[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &corner[0]);
         point = work->sparks;
         for (i = 0; i < 96; i++) {
             point->vx = corner[0].vx + rand() % config->scatter * 2 - config->scatter;
@@ -208,7 +208,7 @@ s32 ModelVariant162Us_HandleRequest(Model162UsState *context, s32 command)
             point->vz = offset.vz;
         }
         work->angle = (work->angle + config->spin * step) % 4096;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&work->centre);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &work->centre);
         work->centre.vy = 0;
     }
     t = work->elapsed - config->delay;

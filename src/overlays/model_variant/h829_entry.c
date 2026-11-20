@@ -104,8 +104,8 @@ s32 ModelVariant829_HandleRequest(Model829State *context, s32 command)
     PushMatrix();
     base = *Model_GetLightSourceMatrix();
     if (work->phase == 0) {
-        Model_CopySlotPosition(slot, (u16 *)&position);
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&rotation);
+        Model_CopySlotPosition(slot, &position);
+        Model_CopySlotPosition(slot ^ 1, &rotation);
         work->step.vx = 0;
         work->step.vy = (rotation.vy - position.vy) / 6;
         work->step.vz = (rotation.vz - position.vz) / 6;
@@ -192,7 +192,7 @@ s32 ModelVariant829_HandleRequest(Model829State *context, s32 command)
             }
         }
     }
-    Model_CopySlotPosition(slot ^ 1, (u16 *)&position);
+    Model_CopySlotPosition(slot ^ 1, &position);
     GsSetLsMatrix(&base);
     RotTrans(&position, (VECTOR *)matrix.t, &flag);
     RotMatrix(&rotation, &matrix);

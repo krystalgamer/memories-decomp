@@ -324,7 +324,7 @@ s32 ModelVariant817_HandleRequest(Model817State *context, s32 command)
                       RANDOM_SPREAD(work->config->smoke_spread), RANDOM_SPREAD(work->config->smoke_spread));
         }
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rot);
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&pos);
+        Model_CopySlotPosition(slot ^ 1, &pos);
         pos.vx += RANDOM_SPREAD(rot.vx / 2);
         pos.vy += RANDOM_SPREAD(rot.vy / 2);
         pos.vz += RANDOM_SPREAD(rot.vz / 2);

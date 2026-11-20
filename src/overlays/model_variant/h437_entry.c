@@ -345,13 +345,13 @@ s32 ModelVariant437_HandleRequest(Variant437State *context, s32 command)
         work->pitch = ratan2(work->view.vy, SquareRoot0(squared.vx + squared.vz));
         work->yaw = -ratan2(work->view.vz, work->view.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, &work->target);
             spin = 2048;
             work->aim.vx = work->target.vx;
             work->aim.vy = 0;
             work->aim.vz = work->target.vz;
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, &work->target);
             spin = 0;
             work->aim.vx = work->target.vx;
             work->aim.vy = 0;

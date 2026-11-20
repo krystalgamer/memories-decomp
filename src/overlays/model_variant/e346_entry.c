@@ -162,7 +162,7 @@ s32 ModelVariant842_HandleRequest(Model842State *context, s32 command)
         (work->head == 2 && work->elapsed >= work->config->start[2])) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);
         setVector(&work->origin[work->head], m.t[0], m.t[1], m.t[2]);
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&pos);
+        Model_CopySlotPosition(slot ^ 1, &pos);
         setVector(&work->target[work->head], RANDOM_SPREAD(work->config->jitter),
                   pos.vy + RANDOM_SPREAD(work->config->jitter), pos.vz);
         setVector(&work->pos[work->head], m.t[0], m.t[1], m.t[2]);

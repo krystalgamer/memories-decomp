@@ -82,7 +82,7 @@ s32 ModelVariant135_HandleRequest(Model135State *context, s32 command)
         }
         point = work->beams;
         for (i = 0; i < 48; i++) {
-            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)point);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, point);
             point->vx += rand() % config->target_spread * 2 - config->target_spread;
             point->vy = rand() % config->target_spread - 350;
             point->vz += direction * (rand() % config->target_spread - config->target_spread / 2);

@@ -72,7 +72,7 @@ s32 ModelVariant141_HandleRequest(Model141State *context, s32 command)
             point++;
         }
         point = work->spark_targets;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corner[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &corner[0]);
         for (i = 0; i < 72; i++) {
             value = rand() % 4096;
             side = rand() % config->spark_spread;
@@ -605,7 +605,7 @@ s32 ModelVariant141_HandleRequest(Model141State *context, s32 command)
         setVector(&corner[2], 0, 0, 0);
         setVector(&scale, 4096, 4096, 4096);
         setVector(&rotation, 0, 0, 0);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&u.middle);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &u.middle);
         /* c is reused as the ribbon's strip state (-1 start, 1/0 alternate). */
         for (j = 1; j < 4; j++) {
             c = -1;
@@ -683,7 +683,7 @@ s32 ModelVariant141_HandleRequest(Model141State *context, s32 command)
         quad.tpage = work->texture[5] >> 16;
         quad.clut = work->texture[5];
         SetSemiTrans(&quad, 1);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&position);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &position);
         position.vy = -350;
         setVector(&scale, 4096, 4096, 4096);
         value = csin((t << 13) / config->ribbon_time) / 8;

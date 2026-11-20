@@ -94,7 +94,7 @@ s32 ModelVariant67_HandleRequest(Model67State *context, s32 command)
             position.vy = 0;
             position.vz = matrix.t[2];
         } else {
-            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corners[0]);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &corners[0]);
             if (work->elapsed < cmd->grow_end + cmd->move_time) {
                 position.vx = matrix.t[0] - matrix.t[0] * (work->elapsed - cmd->grow_end) / cmd->move_time;
                 position.vy = 0;
@@ -124,7 +124,7 @@ s32 ModelVariant67_HandleRequest(Model67State *context, s32 command)
                 position.vy = 0;
                 position.vz = matrix.t[2];
             } else {
-                Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corners[0]);
+                Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &corners[0]);
                 if (work->elapsed < cmd->grow_end + cmd->move_time) {
                     position.vx = matrix.t[0] - matrix.t[0] * (work->elapsed - cmd->grow_end) / cmd->move_time;
                     position.vy = 0;
@@ -217,7 +217,7 @@ s32 ModelVariant67_HandleRequest(Model67State *context, s32 command)
             base.vy = 0;
             base.vz = matrix.t[2];
         } else {
-            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&corners[0]);
+            Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &corners[0]);
             if (work->elapsed < cmd->grow_end + cmd->move_time) {
                 base.vx = matrix.t[0] - matrix.t[0] * (work->elapsed - cmd->grow_end) / cmd->move_time;
                 base.vy = 0;

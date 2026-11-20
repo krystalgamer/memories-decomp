@@ -321,10 +321,10 @@ s32 FrenchModelVariant478_HandleRequest(EntryState478 *context, s32 command)
         work->clock.angles[1] = -ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) - 1024;
         GsGetLwUnit(work->parts[0], &work->matrix);
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->aim.target);
+            Model_CopySlotPosition(1, &work->aim.target);
             work->matrix.t[2] += 64;
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->aim.target);
+            Model_CopySlotPosition(0, &work->aim.target);
             work->matrix.t[2] -= 64;
         }
         setVector(&work->aim.direction, work->aim.target.vx - work->matrix.t[0],

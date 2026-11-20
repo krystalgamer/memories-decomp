@@ -23,7 +23,7 @@ literal materialization and the independent symbol relocations.
 ## Captured reference
 
 Under the existing card-view `0x40` guard,
-`Model_CopySlotPosition(0, (u16 *)0x80181000)` copies all four slot
+`Model_CopySlotPosition(0, (SVECTOR *)0x80181000)` copies all four slot
 halfwords. The already accepted local `SVECTOR *` view supplies the first
 three signed coordinates to `view.vrx/vry/vrz`. The independent `+2`
 label is the captured Y consumed by the dispatcher's return path.

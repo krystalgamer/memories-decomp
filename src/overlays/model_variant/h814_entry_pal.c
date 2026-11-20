@@ -167,7 +167,7 @@ s32 FrenchModelVariant831_HandleRequest(Model831State *context, s32 command)
         (work->head == 2 && work->elapsed >= work->config->third_start)) {
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), work->config->part), &m);
         setVector(&work->origin[work->head], m.t[0], m.t[1], m.t[2]);
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&pos);
+        Model_CopySlotPosition(slot ^ 1, &pos);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rot);
         pos.vx += RANDOM_SPREAD(rot.vx / 2);
         pos.vy += RANDOM_SPREAD(rot.vy / 2);

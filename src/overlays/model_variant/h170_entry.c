@@ -44,9 +44,9 @@ s32 ModelVariant170_HandleRequest(Model170State *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         config = work->config = &gModelVariant170_aConfigs[command % 100];
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&work->origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &work->origin);
         work->origin.vy = -1500;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->target);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->target);
         work->target.vy = 0;
         point = work->ring;
         for (i = 0; i < 33; point++, i++) {
@@ -71,7 +71,7 @@ s32 ModelVariant170_HandleRequest(Model170State *context, s32 command)
             point->vz = 0;
         }
         work->head = 0;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[0]);
         point = work->sparks;
         vertices[0].vy = -350;
         for (i = 0; i < 60; point++, i++) {

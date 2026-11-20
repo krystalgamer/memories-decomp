@@ -25,7 +25,7 @@ s32 FrenchModelVariant818_HandleRequest(Image26952State *context, s32 command)
     if (command >= 0) {
         state->config = &gFrenchModelVariant818_aConfigs[command];
         Model_GetSlotDimensionsWithMinimums(active ^ 1, &position.dimensions);
-        Model_CopySlotPosition(active ^ 1, (u16 *)&rotation);
+        Model_CopySlotPosition(active ^ 1, &rotation);
         for (i = 0; i < state->config->count; i++) {
             j = 4096 / state->config->count;
             theta = j * i;

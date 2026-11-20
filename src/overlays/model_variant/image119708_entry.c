@@ -56,8 +56,8 @@ s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
     direction = slot * 2 - 1;
     if (command >= 0) {
         work->config = &gFrenchModelVariant819_aConfigs[command];
-        Model_CopySlotPosition(slot, (u16 *)&position);
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&rotation);
+        Model_CopySlotPosition(slot, &position);
+        Model_CopySlotPosition(slot ^ 1, &rotation);
         setVector(&work->offset, 0, 0, 0);
         work->velocity.vx = 0;
         work->velocity.vy = 350 / work->config->frames;

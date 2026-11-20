@@ -86,7 +86,7 @@ s32 ModelVariant809_HandleRequest(Model809State *context, s32 command)
     PushMatrix();
     base = *Model_GetLightSourceMatrix();
     if (work->elapsed < work->config->end && work->spark_count < 64) {
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&position);
+        Model_CopySlotPosition(slot ^ 1, &position);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rotation);
         position.vx += RANDOM_SPREAD(rotation.vx / 2);
         position.vy += RANDOM_SPREAD(rotation.vy / 2);
@@ -94,7 +94,7 @@ s32 ModelVariant809_HandleRequest(Model809State *context, s32 command)
         setVector(&work->sparks[work->spark_count], position.vx, position.vy, position.vz);
         work->spark_count++;
         if (work->frame % work->config->period == 0 && work->burst_count < 64) {
-            Model_CopySlotPosition(slot ^ 1, (u16 *)&position);
+            Model_CopySlotPosition(slot ^ 1, &position);
             Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rotation);
             position.vx += RANDOM_SPREAD(rotation.vx / 2);
             position.vy += RANDOM_SPREAD(rotation.vy / 2);

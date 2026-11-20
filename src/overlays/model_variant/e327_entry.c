@@ -162,7 +162,7 @@ s32 ModelVariant778_HandleRequest(Model778State *context, s32 command)
                 setVector(&vertices[2], -work->config->glow_size, work->config->glow_size, 0);
                 setVector(&vertices[3], work->config->glow_size, work->config->glow_size, 0);
                 GsSetLsMatrix(&base);
-                Model_CopySlotPosition(-slot + 1, (u16 *)&position);
+                Model_CopySlotPosition(-slot + 1, &position);
                 addVector(&position, &work->glows[i]);
                 RotTrans(&position, (VECTOR *)matrix.t, &flag);
                 RotMatrix(&rotation, &matrix);
@@ -202,7 +202,7 @@ s32 ModelVariant778_HandleRequest(Model778State *context, s32 command)
                 scale.vx = work->scales[i];
                 scale.vy = work->scales[i];
                 scale.vz = work->scales[i];
-                Model_CopySlotPosition(-slot + 1, (u16 *)&position);
+                Model_CopySlotPosition(-slot + 1, &position);
                 addVector(&position, &work->rings[i]);
                 RotTrans(&position, (VECTOR *)matrix.t, &flag);
                 RotMatrix(&rotation, &matrix);

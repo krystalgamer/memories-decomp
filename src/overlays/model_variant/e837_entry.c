@@ -46,7 +46,7 @@ s32 ModelVariant653_HandleRequest(Model653State *context, s32 command)
         work->direction = work->head.slot * 2 - 1;
         work->head.elapsed = 0;
         work->other_slot = work->head.slot == 0;
-        Model_CopySlotPosition(work->other_slot, (u16 *)&work->target);
+        Model_CopySlotPosition(work->other_slot, &work->target);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant653_Image);
         work->textures.tpage[0] = tex >> 16;
         work->textures.clut[0] = tex;
@@ -171,7 +171,7 @@ s32 ModelVariant653_HandleRequest(Model653State *context, s32 command)
          * loads into one masked word compare. */
         if (work->head.command == 0) {
             if (work->head.elapsed == 0) {
-                Model_CopySlotPosition(work->head.slot, (u16 *)&pos);
+                Model_CopySlotPosition(work->head.slot, &pos);
                 work->emitters[0].head.active = 1;
                 work->emitters[0].xform.position.vx += pos.vx;
                 work->emitters[0].xform.position.vy -= 140;

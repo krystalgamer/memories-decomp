@@ -165,7 +165,7 @@ s32 ModelVariant820_HandleRequest(Model820State *context, s32 command)
     }
     if (work->stage != 0) {
         if (work->stage == 1) {
-            Model_CopySlotPosition(slot ^ 1, (u16 *)&work->origin);
+            Model_CopySlotPosition(slot ^ 1, &work->origin);
             Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rotation);
             for (i = 0; i < 32; i++) {
                 setVector(&work->centers[i], rotation.vx / 2 * ((rand() - rand()) % 4096) / 4096,

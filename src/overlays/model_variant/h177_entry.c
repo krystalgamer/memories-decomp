@@ -73,7 +73,7 @@ s32 ModelVariant177_HandleRequest(ModelVariantBeamParticleState *context, s32 co
     if (work->elapsed < config->delay) {
         PushMatrix();
         GsSetLsMatrix(&base);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&work->origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &work->origin);
         work->origin.vy = 0;
         PopMatrix();
         work->elapsed += Model_GetFrameStep();

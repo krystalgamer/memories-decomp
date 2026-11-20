@@ -66,8 +66,8 @@ s32 ModelVariant802_HandleRequest(Model802State *context, s32 command)
     side = slot * 2 - 1;
     if (command >= 0) {
         work->config = &gModelVariant802_aConfigs[command];
-        Model_CopySlotPosition(slot, (u16 *)&position);
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&rotation);
+        Model_CopySlotPosition(slot, &position);
+        Model_CopySlotPosition(slot ^ 1, &rotation);
         work->offset.vx = 0;
         work->offset.vy = 0;
         work->offset.vz = 0;

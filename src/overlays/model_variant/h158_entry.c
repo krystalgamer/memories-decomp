@@ -39,7 +39,7 @@ s32 ModelVariant158_HandleRequest(Model158State *context, s32 command)
         point = work->targets;
         work->config = &gModelVariant158_aConfigs[command % 100];
         config = work->config;
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[0]);
         vertices[0].vy = -350;
         for (i = 0; i < config->count; i++, point++) {
             amount = rand() % 4096;

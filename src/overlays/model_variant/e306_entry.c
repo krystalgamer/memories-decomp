@@ -159,7 +159,7 @@ s32 ModelVariant757_HandleRequest(Model757State *context, s32 command)
         if (work->states[i] == 0) {
             work->states[i] = 1;
             setVector(&work->positions[i], pos.vx, pos.vy, pos.vz);
-            Model_CopySlotPosition(slot ^ 1, (u16 *)&rot);
+            Model_CopySlotPosition(slot ^ 1, &rot);
             setVector(&work->targets[i], rot.vx + (rand() - rand()) % 256 / 2,
                       rot.vy + (rand() - rand()) % 256 / 2,
                       rot.vz - direction * (rand() % 256 << 5) / 256);

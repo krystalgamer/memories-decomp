@@ -215,9 +215,9 @@ s32 FrenchModelVariant458_HandleRequest(EntryState458 *context, s32 command)
         work->angles[0] = ratan2(work->view_delta.vy, SquareRoot0(squared.vx + squared.vz));
         work->angles[1] = -ratan2(work->view_delta.vz, work->view_delta.vx) - 1024;
         if (work->slot == 0) {
-            Model_CopySlotPosition(1, (u16 *)&work->target);
+            Model_CopySlotPosition(1, &work->target);
         } else {
-            Model_CopySlotPosition(0, (u16 *)&work->target);
+            Model_CopySlotPosition(0, &work->target);
         }
         for (i = 0, angle = 1536, tilt = 0; i < 7; i++, angle = i * 3072 / 7 + 1536, tilt += 1700) {
             work->parts[i] = Model_GetSlotDataEntry(work->slot, work->config->parts[i]);

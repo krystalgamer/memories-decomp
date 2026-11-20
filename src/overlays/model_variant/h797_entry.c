@@ -183,7 +183,7 @@ s32 ModelVariant797_HandleRequest(Model797State *context, s32 command)
         return 0;
     }
     if (work->elapsed < work->config->emit_end && work->strike_count < 64) {
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&position);
+        Model_CopySlotPosition(slot ^ 1, &position);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rotation);
         position.vx += rotation.vx / 2 * ((rand() - rand()) % 4096) / 4096;
         position.vy += rotation.vy / 2 * ((rand() - rand()) % 4096) / 4096;
@@ -191,7 +191,7 @@ s32 ModelVariant797_HandleRequest(Model797State *context, s32 command)
         setVector(&work->strikes[work->strike_count], position.vx, position.vy, position.vz);
         work->strike_count++;
         if (work->tick % work->config->burst_period == 0 && work->burst_count < 64) {
-            Model_CopySlotPosition(slot ^ 1, (u16 *)&position);
+            Model_CopySlotPosition(slot ^ 1, &position);
             Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rotation);
             position.vx += rotation.vx / 2 * ((rand() - rand()) % 4096) / 4096;
             position.vy += rotation.vy / 2 * ((rand() - rand()) % 4096) / 4096;

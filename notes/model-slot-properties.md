@@ -38,10 +38,16 @@ interpretation, declaration adapter or compiler flag.
 `ModelSlot.field_DD0` is now `cached_position`, still `s16[4]` at
 +0xDD0. `Model_CopySlotPosition` is the former `Model_CopySlotU16Values`
 at resident 0x80058FB0; overlays now call and bind it by this name
-too, with no `#define` alias. Its ABI is still `(s32, u16 *)`: it copies ALL
-FOUR halfwords in 0/1/2/3 order, preserving their bit patterns. This is
-not a three-component copy or permission to retype storage as SVECTOR,
-clear its fourth word, normalize signedness or change caller extents.
+too, with no `#define` alias. Its ABI is `(s32, SVECTOR *)`, the type
+nearly every caller (330 of 343 sites) passes: it copies ALL FOUR halfwords
+in 0/1/2/3 order into vx/vy/vz/pad, preserving their bit patterns, and the
+fourth (`pad`) receives the separately derived Y. This is not a
+three-component copy or permission to retype the slot's storage as SVECTOR,
+clear its fourth word, normalize signedness or change caller extents: the
+endpoint halfwords of Model_QueueRelativeCameraOrbit, the key's resolved
+records and the 3-halfword positions of the header 670/673 entries (whose
+fourth halfword lands in the next member) still pass their own storage
+through an `(SVECTOR *)` view.
 
 Before the HMD test, `Model_InitSlot` writes X=0, Y=-350, word three=-350
 and Z=450/-450/0 for slot zero/one/other, in the original store order.

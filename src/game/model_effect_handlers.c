@@ -227,8 +227,7 @@ s32 Model_UpdateSubdividedEffect(ModelSubdividedEffect *data, s32 mode)
         rotation.vy = (u32)elapsed << 5;
         rotation.vz = 0;
         GsSetLsMatrix(&base);
-        /* Model_CopySlotPosition's shared prototype takes the four halfwords as u16 *. */
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&position);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &position);
         GsSetLsMatrix(&base);
         /* RotTrans writes three words, exactly the extent of MATRIX.t. */
         RotTrans(&position, (VECTOR *)matrix.t, &flag);
@@ -632,8 +631,7 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
     scale.vx = v;
     scale.vy = v;
     scale.vz = v;
-    /* Model_CopySlotPosition's shared prototype takes the four halfwords as u16 *. */
-    Model_CopySlotPosition(Model_GetActiveSlotIndex(), (u16 *)&pos);
+    Model_CopySlotPosition(Model_GetActiveSlotIndex(), &pos);
     GsSetLsMatrix(&ls);
     /* MATRIX.t is the SDK's long[3]; RotTrans takes it as the VECTOR it writes. */
     RotTrans(&pos, (VECTOR *)m.t, &flag);
@@ -802,8 +800,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
         e->smoke_r = 0x80;
         e->smoke_g = 0x40;
         e->smoke_b = 0x79;
-        /* Model_CopySlotPosition's shared prototype takes the four halfwords as u16 *. */
-        Model_CopySlotPosition(slot, (u16 *)&rot);
+        Model_CopySlotPosition(slot, &rot);
         rot.vy = 0;
         copyVector(&e->origin, &rot);
         e->phase = 0;
@@ -820,8 +817,7 @@ s32 Model_UpdateBurstEffect(void *data, s32 request)
     Model_SetFrameStepOverride(1);
     PushMatrix();
     ls = *Model_GetLightSourceMatrix();
-    /* Model_CopySlotPosition's shared prototype takes the four halfwords as u16 *. */
-    Model_CopySlotPosition(slot, (u16 *)&pos);
+    Model_CopySlotPosition(slot, &pos);
     pos.vy = 0;
     copyVector(&e->origin, &pos);
     if (e->phase == 0) {
@@ -1322,8 +1318,7 @@ s32 Model_UpdateSparkEffect(void *data, s32 request)
     Model_SetFrameStepOverride(1);
     PushMatrix();
     ls = *Model_GetLightSourceMatrix();
-    /* Model_CopySlotPosition's shared prototype takes the four halfwords as u16 *. */
-    Model_CopySlotPosition(slot, (u16 *)&pos);
+    Model_CopySlotPosition(slot, &pos);
     pos.vy = 0;
     GsSetLsMatrix(&ls);
     /* MATRIX.t is the SDK's long[3]; RotTrans takes it as the VECTOR it writes. */

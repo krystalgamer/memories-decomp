@@ -42,7 +42,7 @@ s32 ModelVariant782_HandleRequest(Model782State *context, s32 command)
     direction = slot * 2 - 1;
     if (command >= 0) {
         work->config = &gModelVariant782_aConfigs[command];
-        Model_CopySlotPosition(slot ^ 1, (u16 *)&pos);
+        Model_CopySlotPosition(slot ^ 1, &pos);
         setVector(&work->origin, 0, -0xAF0, pos.vz);
         Model_GetSlotDimensionsWithMinimums(slot ^ 1, (ModelEffectAdjustment *)&rot);
         /* Retail widens the queried dimensions but never reads them. */

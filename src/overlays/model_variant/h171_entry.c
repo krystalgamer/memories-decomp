@@ -38,7 +38,7 @@ s32 ModelVariant171_HandleRequest(Model171State *context, s32 command)
         point = work->positions;
         start = work->starts;
         config = work->config = &gModelVariant171_aConfigs[command % 100];
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, (u16 *)&vertices[0]);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &vertices[0]);
         vertices[0].vy = -350;
         for (i = 0; i <= 512; i++) {
             a = rand() % 4096;

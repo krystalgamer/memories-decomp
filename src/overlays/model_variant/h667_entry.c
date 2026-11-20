@@ -81,7 +81,7 @@ s32 ModelVariant667_HandleRequest(Model667State *context, s32 command)
          * argument into the slot load's delay slot. */
         do {
         } while (0);
-        Model_CopySlotPosition(k, (u16 *)work->origin);
+        Model_CopySlotPosition(k, &work->origin);
         tex = ModelTexture_PackPageClutCopy(work->head.slot, 1, &gModelVariant667_aImages[0]);
         work->textures.tpage[0] = tex >> 16;
         work->textures.clut[0] = tex;
@@ -182,9 +182,9 @@ s32 ModelVariant667_HandleRequest(Model667State *context, s32 command)
                 scale * arc / work->dome_count + 0x111);
             value = work->place.height * rsin((i % 8) << 9) / 4096;
             setVector(&work->domes[i].xform.position,
-                work->origin[0] + scale * value * rsin(arc / work->dome_count) / 4096,
-                work->origin[1] + 700,
-                work->origin[2] + value * rcos(arc / work->dome_count) / 4096);
+                work->origin.vx + scale * value * rsin(arc / work->dome_count) / 4096,
+                work->origin.vy + 700,
+                work->origin.vz + value * rcos(arc / work->dome_count) / 4096);
         }
         work->place.delay = gModelVariant667_aConfigs[command].delay;
         for (i = 0; i < 5; i++) {
@@ -615,7 +615,7 @@ s32 ModelVariant667_HandleRequest(Model667State *context, s32 command)
                     RotMatrixZ(work->domes[i].xform.rotation.vz, &unit.matrix);
                     RotMatrixX(work->domes[i].xform.rotation.vx, &unit.matrix);
                     unit.matrix.t[0] = work->domes[i].xform.position.vx;
-                    unit.matrix.t[1] = work->origin[1];
+                    unit.matrix.t[1] = work->origin.vy;
                     unit.matrix.t[2] = work->domes[i].xform.position.vz;
                     unit.super = work->domes[i].xform.coord;
                     GsGetLsUnit(&unit, &ls);
