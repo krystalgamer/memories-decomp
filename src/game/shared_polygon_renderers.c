@@ -63,7 +63,7 @@ u32 *Model_PrepareSharedPrimitiveCaches(GsARGUNIT_SHARED *arg)
 
                 gte_stflg(&flag);
                 if (flag < 0) {
-                    goto next;
+                    continue;
                 }
             }
             {
@@ -74,9 +74,7 @@ u32 *Model_PrepareSharedPrimitiveCaches(GsARGUNIT_SHARED *arg)
                 gte_stsz(&sz);
                 entry->words[1] = p << 16 | sz;
             }
-        next:
-            entry++;
-        } while (count != 0);
+        } while (entry++, count != 0);
     }
     if (mode != 0) {
         count = block->normal_count;
@@ -323,7 +321,7 @@ u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
                                     gte_nclip();
                                     gte_stopz(&opz);
                                     if (opz > 0) {
-                                        goto next;
+                                        continue;
                                     }
                                 }
                                 c2 = &colors[record->prim.norm2 * 2];
@@ -380,9 +378,7 @@ u32 *Model_DrawSharedGt4Primitives(GsARGUNIT_SHARED *arg)
                         }
                     }
                 }
-            next:
-                record++;
-            } while (--count != 0);
+            } while (record++, --count != 0);
         }
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
@@ -614,7 +610,7 @@ u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
                                     gte_nclip();
                                     gte_stopz(&opz);
                                     if (opz > 0) {
-                                        goto next;
+                                        continue;
                                     }
                                 }
                                 c2 = &colors[record->prim.prim.norm2 * 2];
@@ -674,9 +670,7 @@ u32 *Model_DrawSharedGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
                         }
                     }
                 }
-            next:
-                record++;
-            } while (--count != 0);
+            } while (record++, --count != 0);
         }
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
@@ -1479,7 +1473,7 @@ u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
                                     gte_nclip();
                                     gte_stopz(&opz);
                                     if (opz > 0) {
-                                        goto next;
+                                        continue;
                                     }
                                 }
                                 c2 = &colors[record->prim.norm2 * 2];
@@ -1536,9 +1530,7 @@ u32 *Model_DrawSharedSemiGt4Primitives(GsARGUNIT_SHARED *arg)
                         }
                     }
                 }
-            next:
-                record++;
-            } while (--count != 0);
+            } while (record++, --count != 0);
         }
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
@@ -1798,7 +1790,7 @@ u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
                                     gte_nclip();
                                     gte_stopz(&opz);
                                     if (opz > 0) {
-                                        goto next;
+                                        continue;
                                     }
                                 }
                                 c2 = &colors[record->prim.prim.norm2 * 2];
@@ -1858,9 +1850,7 @@ u32 *Model_DrawSharedSemiGt4WindowRecordPrimitives(GsARGUNIT_SHARED *arg)
                         }
                     }
                 }
-            next:
-                record++;
-            } while (--count != 0);
+            } while (record++, --count != 0);
         }
     }
     gGraphics_pPacketWorkCursor = (u32 *)packet;
