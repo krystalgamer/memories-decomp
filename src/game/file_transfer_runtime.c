@@ -741,7 +741,7 @@ void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_ind
     FileRequestSlot *request;
     s32 phase_size;
     u8 *sector_buffer;
-    s32 ram_destination;
+    u8 *ram_destination;
     void (*complete_callback)(void);
 
     request = &gFile_ActiveRequestSlot[0];
@@ -771,8 +771,8 @@ void SD_ConfigureTransferPhase(FileTransferDescriptor *descriptor, s32 phase_ind
         }
         ram_destination = request->ram_destination;
         gFile_dwTransferState &= 0xFFDCFFFF;
-        descriptor->alternate_sector_destination = (u8 *)ram_destination;
-        descriptor->sector_destination = (u8 *)ram_destination;
+        descriptor->alternate_sector_destination = ram_destination;
+        descriptor->sector_destination = ram_destination;
         descriptor->transfer_mode = 1;
         phase_size = request->ram_transfer_size;
         descriptor->phase_size = phase_size;

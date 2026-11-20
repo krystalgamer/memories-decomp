@@ -2604,7 +2604,7 @@ opcode-scoped names. The argument words are grouped into one union,
 | field_0010 | transfer_selector | s32 +0x10 |
 | field_0014 | transfer_sector_offset | s32 +0x14 |
 | field_001C | transfer_spu_destination | s32 +0x1C |
-| field_0020 | transfer_ram_destination | s32 +0x20 |
+| field_0020 | transfer_ram_destination | void * +0x20 |
 | field_0024 | transfer_spu_size | s32 +0x24 |
 | field_0028 | transfer_ram_size | s32 +0x28 |
 

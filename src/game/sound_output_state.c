@@ -400,7 +400,7 @@ void SD_StepActiveCommand(void)
                 FileRequestSlot *request = gSD_pFileRequest;
                 s32 spu_size;
 
-                request->ram_destination = (s32)transfer_state->s_adwSD_ACTIVE_COMMAND_TAIL[4];
+                request->ram_destination = (void *)transfer_state->s_adwSD_ACTIVE_COMMAND_TAIL[4];
                 request->spu_destination = (s32)transfer_state->s_adwSD_ACTIVE_COMMAND_TAIL[3];
                 request->sector_offset = (s32)transfer_state->s_adwSD_ACTIVE_COMMAND_TAIL[1];
                 request->ram_transfer_size = (s32)transfer_state->s_adwSD_ACTIVE_COMMAND_TAIL[6];

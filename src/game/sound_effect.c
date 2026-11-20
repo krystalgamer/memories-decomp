@@ -136,7 +136,7 @@ void SD_QueueValueLinkTransfer(s32 link_index)
     off = (link_index & SD_VALUE_LINK_INDEX_MASK) * SD_VALUE_LINK_RECORD_SIZE;
     /* &table[index] reverses the addu operands; off is reused below. */
     entry = (SDValueLink *)(off + (s32)load_state->s_pstSD_SEGROUP_TABLE);
-    SD_EnqueueSpuRamTransfer(load_state->s_dwSD_SEGROUP_SPU_ADDR, 0x801E6800,
+    SD_EnqueueSpuRamTransfer(load_state->s_dwSD_SEGROUP_SPU_ADDR, (void *)0x801E6800,
                   data_start_sector + entry->sector_offset, entry->spu_size,
                   SD_VALUE_LINK_BLOCK_SIZE, SD_TRANSFER_SOURCE_SE);
     registration_state = g_SDValue;
