@@ -773,7 +773,8 @@ def apply_rule(rule, instrs: list[Instr], context) -> list[Instr]:
 def run_pipeline(edit: EditFile, gcc_text: str, *, registers=None, capture: dict | None = None,
                  residual=None, stage: str = "final", context=None):
     """Return the massaged instruction list. STAGE "rules" stops before the
-    register map, "renamed" before the residual."""
+    register map, "renamed" before the residual. CAPTURE also receives the
+    earlier stages ("rules", "renamed"), so one run serves every check."""
     import asm_massage_rules as rules_module
 
     registers = edit.registers if registers is None else registers
@@ -794,6 +795,8 @@ def run_pipeline(edit: EditFile, gcc_text: str, *, registers=None, capture: dict
             instrs = apply_rule(rule, instrs, context)
     if stage == "rules":
         return canonical_labels(instrs)
+    if capture is not None:
+        capture["rules"] = canonical_labels(instrs)
     instrs = rename(instrs, registers)
     for name in names:
         rule = rules_module.RULES[name]
@@ -802,6 +805,7 @@ def run_pipeline(edit: EditFile, gcc_text: str, *, registers=None, capture: dict
     instrs = canonical_labels(instrs)
     if capture is not None:
         capture["dropped"] = context.dropped
+        capture["renamed"] = instrs
     if stage == "renamed":
         return instrs
     instrs = apply_residual(instrs, residual)
@@ -946,10 +950,18 @@ def compile_c(source: Path, work: Path) -> str:
     import json
 
     profile = json.loads((ROOT / PROFILES).read_text())["profiles"][PROFILE]
-    raw = work / (source.stem + ".gcc.s")
-    run([str(ROOT / profile["compiler"]), "-S", *profile["compiler_flags"],
-         "-o", str(raw), str(source)])
-    return raw.read_text()
+    # A unit's edit files are checked one by one: compile each source once
+    # per process (keyed by its text and the profile).
+    key = (str(source), source.read_bytes(), json.dumps(profile, sort_keys=True))
+    if key not in _COMPILED:
+        raw = work / (source.stem + ".gcc.s")
+        run([str(ROOT / profile["compiler"]), "-S", *profile["compiler_flags"],
+             "-o", str(raw), str(source)])
+        _COMPILED[key] = raw.read_text()
+    return _COMPILED[key]
+
+
+_COMPILED: dict = {}
 
 
 def check_source_contract(text: str) -> list[str]:
@@ -1104,7 +1116,8 @@ def command_check(edit: EditFile, work: Path, verbose: bool) -> int:
     import asm_massage_rules as rules_module
 
     context = rules_module.Context(edit.settings)
-    final = run_pipeline(edit, gcc_text, context=context)
+    capture: dict = {}
+    final = run_pipeline(edit, gcc_text, context=context, capture=capture)
     binary, relocs = assemble_and_link(emit(final, edit.function), edit, work)
     address = int(edit.settings["address"], 16)
     size = int(edit.settings["size"], 16)
@@ -1123,15 +1136,12 @@ def command_check(edit: EditFile, work: Path, verbose: bool) -> int:
     print("  relocations: " + ", ".join(relocs))
     import asm_massage_deps
 
-    capture: dict = {}
-    before = run_pipeline(edit, gcc_text, stage="renamed", capture=capture)
+    before = capture["renamed"]
     frameless = edit.settings.get("frameless", "").split()
-    ruled: dict = {}
-    webs = run_pipeline(edit, gcc_text, stage="rules", capture=ruled)
     deps = asm_massage_deps.check(before, apply_residual(before, edit.residual),
                                   (frameless[0], int(frameless[1], 0)) if frameless else None,
-                                  webs, dropped=capture["dropped"],
-                                  unrotated=ruled.get("inputs", {}).get("rotate-loop-loads"),
+                                  capture["rules"], dropped=capture["dropped"],
+                                  unrotated=capture.get("inputs", {}).get("rotate-loop-loads"),
                                   layout=argument_layout(edit))
     print("  " + deps.summary())
     for flag in deps.flags[: None if verbose else 8]:
