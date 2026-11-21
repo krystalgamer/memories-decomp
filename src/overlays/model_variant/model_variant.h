@@ -1844,6 +1844,53 @@ typedef struct {
     u8 spoke_r, spoke_g, spoke_b;
 } ModelVariantBandSpokeState;
 
+/* One 0x1A-byte command row of header 809 (French header 826): the starting
+ * burst colour (bytes followed by unread pad bytes, as is the fade step),
+ * the spark and burst sizes, the spoke spread and length,
+ * the burst spawn period, the colour fade step, and the delay, end and
+ * camera switch times. */
+typedef struct {
+    u8 red;
+    u8 unknown_01;
+    u8 green;
+    u8 unknown_03;
+    u8 blue;
+    u8 unknown_05;
+    u16 spark_size;
+    u16 burst_size;
+    u16 spread;
+    u16 spoke_length;
+    u16 period;
+    u8 fade;
+    u8 unknown_11;
+    u16 unknown_12;
+    u16 delay;
+    u16 end;
+    u16 camera_time;
+} ModelVariantSparkBurstConfig;
+
+/* The 0x255C-byte work area of header 809 (French header 826): the command
+ * row, the spark and burst positions, the spoke tips of each burst, the
+ * spark ages, the elapsed time, the frame, the ambient level, the spark
+ * count, the phase, the burst count, the textures and the burst colours. */
+typedef struct {
+    ModelVariantSparkBurstConfig *config;
+    SVECTOR sparks[64];
+    SVECTOR bursts[64];
+    SVECTOR tips[64][16];
+    u16 ages[64];
+    u16 elapsed;
+    u16 frame;
+    s32 level;
+    u16 spark_count;
+    u16 phase;
+    u16 burst_count;
+    s32 texture[2];
+    u8 red[64];
+    u8 green[64];
+    u8 blue[64];
+} ModelVariantSparkBurstState;
+
 /* One 0x22-byte command row of headers 154 and 169 (169 is the 154 effect
  * without the closing grid burst), picked by command % 100: the trail, ring,
  * beam and burst colours, the slot part the effect starts from, the grid
