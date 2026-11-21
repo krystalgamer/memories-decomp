@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT838_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -21,12 +22,6 @@ typedef struct {
     u16 radius;
     u16 delay, launch_time, arrive_time, end_time;
 } Model838Config;
-
-/* A colour that the entry tests as a 24-bit word. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model838Color;
 
 /* The screen flash level packed with the shock-ring colour; the entry tests
  * the ring colour as the upper 24 bits of the word. */
@@ -76,13 +71,13 @@ typedef struct {
     u16 glow_tpage;
     u16 glow_clut;
     s32 texture[3];
-    Model838Color core_color;
-    Model838Color glow_color;
-    Model838Color trail_colors[32];
+    ModelVariantColorWord core_color;
+    ModelVariantColorWord glow_color;
+    ModelVariantColorWord trail_colors[32];
     CVECTOR unused_color;
     CVECTOR puff_colors[32];
     CVECTOR spark_colors[16];
-    Model838Color burst_color;
+    ModelVariantColorWord burst_color;
     CVECTOR burst_colors[32];
     Model838Flash flash;
 } Model838State;

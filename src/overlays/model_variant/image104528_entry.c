@@ -7,7 +7,7 @@ s32 FrenchModelVariant826_HandleRequest(Image104528State *context, s32 command)
     MATRIX light, matrix;
     POLY_FT4 quad;
     POLY_G3 triangle;
-    Image104528Rotation rotation;
+    ModelVariantVectorOrDimensions rotation;
     SVECTOR position;
     VECTOR scale;
     SVECTOR corners[4];

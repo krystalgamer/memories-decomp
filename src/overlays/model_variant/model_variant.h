@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT_H
 
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -20,6 +21,13 @@ typedef union {
     DVECTOR point;
     long packed;
 } ModelVariantScreenPoint;
+
+/* A colour that the header 751-847 entries fade and also test as one word:
+ * word & 0xFFFFFF is zero once the colour has faded out. */
+typedef union {
+    CVECTOR rgb;
+    u32 word;
+} ModelVariantColorWord;
 
 
 /* A 0x2FC-byte group of ten quads: corner arrays a..d, a position per quad,
@@ -71,6 +79,16 @@ typedef struct {
 typedef struct {
     s16 distance, yaw, pitch, unknown_06;
 } ModelVariantViewSnapshot;
+
+/* One eight-byte stack slot that an entry uses as an SVECTOR (a camera-orbit
+ * rotation or a target position) and, at other times, as the slot dimensions
+ * Model_GetSlotDimensionsWithMinimums writes, which then scatter a position
+ * by up to half of each dimension (headers 812/829 and images 26952 and
+ * 104528). */
+typedef union {
+    SVECTOR vector;
+    ModelEffectAdjustment dimensions;
+} ModelVariantVectorOrDimensions;
 
 /* The same eight-byte view-metrics copy kept as bytes, as the header
  * 628-676 entries and image 9840 lay it out: the entries that use it read
@@ -327,6 +345,35 @@ typedef struct {
     ModelVariantElementTransform xform;
     VECTOR travel;
 } ModelVariantCountedElement;
+
+/* The 0x3C84-byte work area of headers 655 and 661: streaks that leave a
+ * model point with two-edged trails, bursts (a growing sprite and a fan of
+ * strips) with their rings, and their spinning sparks, released on a
+ * per-command timetable; rows and cols shape the trails, burst_count and
+ * spark_count select how many bursts and sparks the command uses. */
+typedef struct {
+    ModelVariantEntryHead head;
+    s32 direction;
+    ModelVariantEntryPlacement place;
+    u16 tpage[2], unknown_16;
+    u16 clut[2], unknown_1C[2];
+    POLY_G4 quad;
+    POLY_FT4 sprite;
+    POLY_GT4 strip;
+    /* Two edges of each streak's trail: [edge][point][streak]. */
+    SVECTOR trail[2][64][8];
+    SVECTOR offset;
+    SVECTOR prev[2];
+    SVECTOR heads[2][8];
+    SVECTOR corners[8];
+    SVECTOR ring[2][16];
+    SVECTOR outer[2][16];
+    u8 flags[5];
+    u8 rows, cols, burst_count, spark_count, unknown_2381[3];
+    ModelVariantCountedElement streaks[8];
+    ModelVariantCountedElement bursts[8];
+    ModelVariantCountedElement sparks[8][8];
+} ModelVariantStreakBurstState;
 
 /* One 0x90-byte ring of eight spokes, each drawn as a GsGLINE from
  * inner[k] to outer[k]. The ring drawers light the inner end with
@@ -1068,6 +1115,25 @@ typedef struct {
     u32 scale_step, approach_end, hold_end, grow_end, settle_end, return_end, unknown_24;
 } ModelVariantGlideConfig;
 
+/* The work area of header 802 (French header 819): the command row, the
+ * slot offset and its per-frame velocity, the particle positions, the slot
+ * scale, the elapsed time, the phase, the live particle count, the particle
+ * rise speeds and ages, the ambient level and the particle texture. */
+typedef struct {
+    ModelVariantGlideConfig *config;
+    VECTOR offset;
+    VECTOR velocity;
+    SVECTOR particles[128];
+    u32 scale;
+    u32 elapsed;
+    u16 phase;
+    u16 live_count;
+    u16 speeds[128];
+    u16 ages[128];
+    s32 ambient;
+    s32 texture[1];
+} ModelVariantGlideState;
+
 /* One 0x18-byte command row of header 801 (French header 818): the sprite
  * half extents, the flight length in steps, the sprite count, the start
  * circle radius, the spark spread, count and size, the fade step, the start
@@ -1078,6 +1144,32 @@ typedef struct {
     u8 fade, unknown_11;
     u16 unknown_12, start, launch;
 } ModelVariantFlightConfig;
+
+/* The work area of header 801 (French header 818): the command row; per
+ * sprite its position, step, angle, target, 32-point trail and sparks; the
+ * timer, the spark frames, the phase, the arrival flags, the drawn and
+ * moving counts, the trail lengths and heads, the ambient level, the two
+ * textures and the sprite levels. */
+typedef struct {
+    ModelVariantFlightConfig *config;
+    SVECTOR pos[8];
+    SVECTOR step[8];
+    SVECTOR angle[8];
+    SVECTOR target[8];
+    SVECTOR trail[8][32];
+    SVECTOR sparks[8][8];
+    u32 elapsed;
+    u16 spark_frame[8][8];
+    u16 phase;
+    u16 arrived[8];
+    u16 shown;
+    u16 moving;
+    u16 tail[8];
+    u16 trail_head[8];
+    s32 ambient;
+    s32 texture[2];
+    u8 level[8];
+} ModelVariantFlightState;
 
 /* The 0xC-byte command row of headers 633 and 634: the start delay, the
  * radius, the height (header 634 copies it but never reads it), the main
@@ -1545,6 +1637,35 @@ typedef struct {
     s32 field_80, field_84, field_88;
     u8 unknown_8C[4];
 } ModelVariantStarShape;
+
+/* The eleven corners of the spinning star that headers 790 and 808 fly
+ * (five inner points, the centre and five outer points), kept as one
+ * const table in each entry and copied to the stack. */
+typedef struct {
+    SVECTOR v[11];
+} ModelVariantSpinStarCorners;
+
+/* The five quads of that star as corner indices, also walked as one flat
+ * run of 20 indices. */
+typedef union {
+    u8 q[5][4];
+    u8 flat[20];
+} ModelVariantSpinStarQuads;
+
+/* One point of the sixteen-segment shock fan that headers 798 and 818 pulse
+ * on arrival: the inner point and the outer point of the fan's band. */
+typedef struct {
+    SVECTOR inner;
+    SVECTOR outer;
+} ModelVariantShockFanPoint;
+
+/* The projection scratch of header 85 (French header 102) that follows the
+ * three sprite vertices on the stack: it holds the fourth sprite corner for
+ * RotAverage4, and later the funnel's 66 ring points from RotTransPersN. */
+typedef union {
+    SVECTOR corner;
+    DVECTOR screen[66];
+} ModelVariantFunnelProjection;
 
 /* The RotTransPers outputs the header-408 and 475 entries use to measure the
  * screen offset from an origin to a target: both packed screen points, and

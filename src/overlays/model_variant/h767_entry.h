@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT767_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -43,12 +44,6 @@ typedef struct {
     u16 unknown_4A;
 } Model767Config;
 
-/* A colour that the entry tests as a 24-bit word to know whether it faded out. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model767Color;
-
 /* The work area: the command row and, per burst, the smoke puffs, debris and
  * embers and their velocities, the smoke frames and the ring scale; the shared
  * ring edges, timers, ambient level, textures and flash colour. */
@@ -71,7 +66,7 @@ typedef struct {
     s32 level;
     s32 texture[3];
     u16 burst_tpage, burst_clut;
-    Model767Color color[2], flash;
+    ModelVariantColorWord color[2], flash;
 } Model767State;
 
 extern GsIMAGE gModelVariant767_aImages[];

@@ -13,7 +13,7 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
     SVECTOR translation;
     VECTOR scale;
     SVECTOR v0, v1, v2;
-    Image5996Projection projected;
+    ModelVariantFunnelProjection projected;
     u16 depths[66];
     u16 interpolation[66];
     u16 flags[66];
@@ -145,7 +145,7 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
         setVector(&v0, -config->quad_extent / 4, -config->quad_extent / 4, 0);
         setVector(&v1, config->quad_extent / 4, -config->quad_extent / 4, 0);
         setVector(&v2, -config->quad_extent / 4, config->quad_extent / 4, 0);
-        setVector(&projected.fourth, config->quad_extent / 4,
+        setVector(&projected.corner, config->quad_extent / 4,
                   config->quad_extent / 4, 0);
         setVector(&rotation, 0, 0, 0);
         GsSetLsMatrix(&light);
@@ -160,7 +160,7 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
         RotMatrix(&rotation, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        depth = RotAverage4(&v0, &v1, &v2, &projected.fourth,
+        depth = RotAverage4(&v0, &v1, &v2, &projected.corner,
                            (long *)&quad.x0, (long *)&quad.x1,
                            (long *)&quad.x2, (long *)&quad.x3, &p, &flag) - 30;
         setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
@@ -178,7 +178,7 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
             setVector(&v0, -config->quad_extent, -config->quad_extent, 0);
             setVector(&v1, config->quad_extent, -config->quad_extent, 0);
             setVector(&v2, -config->quad_extent, config->quad_extent, 0);
-            setVector(&projected.fourth, config->quad_extent,
+            setVector(&projected.corner, config->quad_extent,
                       config->quad_extent, 0);
             setVector(&rotation, 0, 0, 0);
             setVector(&translation, 0, -350, side * 450);
@@ -196,7 +196,7 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
             RotMatrix(&rotation, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            depth = RotAverage4(&v0, &v1, &v2, &projected.fourth,
+            depth = RotAverage4(&v0, &v1, &v2, &projected.corner,
                                (long *)&quad.x0, (long *)&quad.x1,
                                (long *)&quad.x2, (long *)&quad.x3, &p, &flag);
             setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
@@ -215,10 +215,10 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
             MulMatrix2(&light, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            RotTransPersN(state->rings, projected.screens, depths, interpolation,
+            RotTransPersN(state->rings, projected.screen, depths, interpolation,
                           flags, 66);
-            first = projected.screens;
-            second = &projected.screens[33];
+            first = projected.screen;
+            second = &projected.screen[33];
             first_depth = depths;
             second_depth = &depths[33];
             pair_flags = flags;

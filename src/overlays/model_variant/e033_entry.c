@@ -17,7 +17,7 @@ s32 ModelVariant85_HandleRequest(Model85State *context, s32 command)
     SVECTOR rotation, position;
     VECTOR scale;
     SVECTOR vertices[3];
-    Model85Scratch scratch;
+    ModelVariantFunnelProjection scratch;
     u16 depths[66], projection[66], flags[66];
     long flag, interpolation;
     Model85State *work;

@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_IMAGE104528_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/graphics_packet_submission.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_camera_effects.h"
@@ -49,11 +50,6 @@ typedef struct {
     u8 green[64];
     u8 blue[64];
 } Image104528State;
-
-typedef union {
-    SVECTOR vector;
-    ModelEffectAdjustment dimensions;
-} Image104528Rotation;
 
 extern VECTOR gFrenchModelVariant826_UnitScale;
 extern GsIMAGE gFrenchModelVariant826_aImages[2];

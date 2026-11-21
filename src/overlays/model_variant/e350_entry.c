@@ -10,9 +10,9 @@ static const VECTOR gModelVariant801_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 ModelVariant801_HandleRequest(Model801State *context, s32 command)
+s32 ModelVariant801_HandleRequest(ModelVariantFlightState *context, s32 command)
 {
-    Model801State *work;
+    ModelVariantFlightState *work;
     MATRIX light;
     MATRIX m;
     POLY_FT4 ft4;

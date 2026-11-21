@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT837_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -25,12 +26,6 @@ typedef struct {
     u16 launch_time;
     u16 end_time;
 } Model837Config;
-
-/* A colour that the entry tests as a 24-bit word. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model837Color;
 
 /* The work area: the command row, the 32-point glow ring, the 32 four-point
  * streaks and their rotations, the orb position and velocity, the rising
@@ -69,13 +64,13 @@ typedef struct {
     u16 ring_tpage;
     u16 ring_clut;
     s32 texture[3];
-    Model837Color glow;
-    Model837Color halo;
+    ModelVariantColorWord glow;
+    ModelVariantColorWord halo;
     CVECTOR streak_colors[32];
-    Model837Color core;
+    ModelVariantColorWord core;
     CVECTOR mote_colors[32];
     CVECTOR orbit_colors[16];
-    Model837Color impact;
+    ModelVariantColorWord impact;
     CVECTOR burst_colors[32];
     u8 flash;
 } Model837State;

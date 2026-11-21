@@ -16,9 +16,9 @@
     (point).vy = ls.t[1];                                                      \
     (point).vz = ls.t[2]
 
-s32 ModelVariant661_HandleRequest(Model661State *context, s32 command)
+s32 ModelVariant661_HandleRequest(ModelVariantStreakBurstState *context, s32 command)
 {
-    Model661State *work;
+    ModelVariantStreakBurstState *work;
     MATRIX ls;
     s32 sel[2];
     GsCOORDUNIT unit;
@@ -40,9 +40,9 @@ s32 ModelVariant661_HandleRequest(Model661State *context, s32 command)
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        bzero((u8 *)work, sizeof(Model661State));
+        bzero((u8 *)work, sizeof(ModelVariantStreakBurstState));
 #ifndef VERSION_FRENCH
-        printf("E_DATA size = %x byte\n", sizeof(Model661State));
+        printf("E_DATA size = %x byte\n", sizeof(ModelVariantStreakBurstState));
 #endif
         work->head.command = command;
         work->head.slot = Model_GetActiveSlotIndex();

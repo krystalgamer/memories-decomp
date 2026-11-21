@@ -13,14 +13,6 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the shell radius, the angle
- * added to every petal rotation, then the shell colour and the flash colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, twist;
-    u8 color[6];
-} Model668Command;
-
 /* One 0x50-byte element: the shell, or the screen flash. */
 typedef struct {
     ModelVariantElementHead head;
@@ -52,7 +44,10 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant668_Image;
-extern Model668Command gModelVariant668_aConfigs[];
+/* One 0xC-byte command row: the start delay, the shell radius, in the height
+ * slot the angle added to every petal rotation, then the shell colour and the
+ * flash colour. */
+extern ModelVariantTwoColorCommand gModelVariant668_aConfigs[];
 
 s32 ModelVariant668_HandleRequest(Model668State *context, s32 command);
 

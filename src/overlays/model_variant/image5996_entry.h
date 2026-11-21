@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_IMAGE5996_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -43,11 +44,6 @@ typedef struct {
     u16 unknown_422;
     s32 elapsed;
 } Image5996State;
-
-typedef union {
-    SVECTOR fourth;
-    DVECTOR screens[66];
-} Image5996Projection;
 
 extern VECTOR gFrenchModelVariant102_UnitScale;
 extern GsIMAGE gFrenchModelVariant102_aImages[3];

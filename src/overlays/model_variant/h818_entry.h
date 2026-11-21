@@ -45,12 +45,6 @@ typedef struct {
     u16 unknown_42;
 } Model818Config;
 
-/* One point of the sixteen-segment shock fan. */
-typedef struct {
-    SVECTOR inner;
-    SVECTOR outer;
-} Model818FanPoint;
-
 /* The work area; the effect has a single bolt, so every per-bolt array has
  * one row: the command row; the bolt position, step, strip angle, flare
  * ring offsets, target, sixteen-point trail and origin; the smoke puffs, the
@@ -72,7 +66,7 @@ typedef struct {
     SVECTOR puff_velocity[1][8];
     SVECTOR debris[1][32];
     SVECTOR debris_velocity[1][32];
-    Model818FanPoint fan[16];
+    ModelVariantShockFanPoint fan[16];
     SVECTOR sparks[1][64];
     SVECTOR chips[1][24];
     SVECTOR chip_velocity[1][24];

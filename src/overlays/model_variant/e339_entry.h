@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT790_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -37,17 +38,6 @@ typedef struct {
     s16 start;
     s16 end;
 } Model790Config;
-
-/* The eleven corners of the star and the five quads built from them. */
-typedef struct {
-    SVECTOR v[11];
-} Model790Shape;
-
-/* The five quads, also walked as one flat run of 20 corner indices. */
-typedef union {
-    u8 q[5][4];
-    u8 flat[20];
-} Model790Faces;
 
 /* The work area: per star its position, velocity and landing point, its
  * burst sparks with their velocities and its 64-point trail; the timer and

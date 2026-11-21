@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT770_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -28,12 +29,6 @@ typedef struct {
     s16 unknown_36;
 } Model770Config;
 
-/* A colour that the entry tests as a 24-bit word to know whether it faded out. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model770Color;
-
 /* The work area: the command row and, per stream, the two trail edges, the
  * column rotations, the sparks, the colours, scales and trail length. */
 typedef struct {
@@ -44,7 +39,7 @@ typedef struct {
     SVECTOR positions[32][2];
     SVECTOR velocities[32][2];
     SVECTOR square[4];
-    Model770Color trail_color[2], burst_color[2], flash_color[2];
+    ModelVariantColorWord trail_color[2], burst_color[2], flash_color[2];
     u32 burst_scale[2], flash_scale[2];
     u16 trail_count[2];
     s32 texture[2];

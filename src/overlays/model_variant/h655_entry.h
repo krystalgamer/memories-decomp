@@ -13,38 +13,12 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-/* ModelVariantCountedElement here: a streak, a burst or a spark. */
-
-typedef struct {
-    ModelVariantEntryHead head;
-    s32 direction;
-    ModelVariantEntryPlacement place;
-    u16 tpage[2], unknown_16;
-    u16 clut[2], unknown_1C[2];
-    POLY_G4 quad;
-    POLY_FT4 sprite;
-    POLY_GT4 strip;
-    /* Two edges of each streak's trail: [edge][point][streak]. */
-    SVECTOR trail[2][64][8];
-    SVECTOR offset;
-    SVECTOR prev[2];
-    SVECTOR heads[2][8];
-    SVECTOR corners[8];
-    SVECTOR ring[2][16];
-    SVECTOR outer[2][16];
-    u8 flags[5];
-    u8 rows, cols, burst_count, spark_count, unknown_2381[3];
-    ModelVariantCountedElement streaks[8];
-    ModelVariantCountedElement bursts[8];
-    ModelVariantCountedElement sparks[8][8];
-} Model655State;
-
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant655_aImages[2];
 /* One 0xC-byte command row: the start delay, the size of the quads and
  * rings, then the streak colour and the burst/spark colour. */
 extern ModelVariantTwoColorCommand gModelVariant655_aConfigs[];
 
-s32 ModelVariant655_HandleRequest(Model655State *context, s32 command);
+s32 ModelVariant655_HandleRequest(ModelVariantStreakBurstState *context, s32 command);
 
 #endif

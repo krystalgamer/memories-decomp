@@ -12,7 +12,7 @@ s32 FrenchModelVariant829_HandleRequest(Model829State *context, s32 command)
     MATRIX base, matrix;
     POLY_FT4 quad;
     SVECTOR rotation;
-    Model829Position position;
+    ModelVariantVectorOrDimensions position;
     VECTOR scale;
     SVECTOR vertices[4];
     long flag, interpolation;
@@ -22,14 +22,14 @@ s32 FrenchModelVariant829_HandleRequest(Model829State *context, s32 command)
     long depth;
 
     memset(&rotation, 0, 8);
-    memset(&position.point, 0, 8);
+    memset(&position.vector, 0, 8);
     scale = gFrenchModelVariant829_UnitScale;
     work = context;
     slot = Model_GetActiveSlotIndex();
     direction = slot * 2 - 1;
     if (command >= 0) {
         work->config = &gFrenchModelVariant829_aConfigs[command];
-        Model_GetSlotDimensionsWithMinimums(slot ^ 1, &position.adjustment);
+        Model_GetSlotDimensionsWithMinimums(slot ^ 1, &position.dimensions);
         for (i = 0; i < 4; i++) {
             s32 sample;
 
@@ -40,7 +40,7 @@ s32 FrenchModelVariant829_HandleRequest(Model829State *context, s32 command)
                 work->config->wave_amplitude * ((sample % 4096) * 2 + sample % 4096) / 4096,
                 -350, -direction * 354);
             setVector(&work->velocities[i],
-                (position.adjustment.x / 2 * ((rand() - rand()) % 4096) / 4096 -
+                (position.dimensions.x / 2 * ((rand() - rand()) % 4096) / 4096 -
                     work->positions[i].vx) / work->config->travel_divisor,
                 0, (direction * 450 - work->positions[i].vz) / work->config->travel_divisor);
             work->red[i] = 1;
@@ -189,10 +189,10 @@ s32 FrenchModelVariant829_HandleRequest(Model829State *context, s32 command)
             for (j = 0; j < work->cloud_counts[i]; j++) {
                 if (work->cloud_gray[i][j]) {
                     setRGB0(&quad, work->cloud_gray[i][j], work->cloud_gray[i][j], work->cloud_gray[i][j]);
-                    copyVector(&position.point, &work->positions[i]);
-                    addVector(&position.point, &work->cloud_offsets[i][j]);
+                    copyVector(&position.vector, &work->positions[i]);
+                    addVector(&position.vector, &work->cloud_offsets[i][j]);
                     GsSetLsMatrix(&base);
-                    RotTrans(&position.point, (VECTOR *)matrix.t, &flag);
+                    RotTrans(&position.vector, (VECTOR *)matrix.t, &flag);
                     RotMatrix(&rotation, &matrix);
                     ScaleMatrix(&matrix, &scale);
                     GsSetLsMatrix(&matrix);

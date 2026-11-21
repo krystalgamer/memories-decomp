@@ -60,9 +60,9 @@ s32 ModelVariant673_HandleRequest(Model673State *context, s32 command)
             work->rising[i].head.elapsed = 0;
             work->rising[i].head.mode = 1;
             work->rising[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->rising[i].head.color[0] = gModelVariant673_aConfigs[command].red;
-            work->rising[i].head.color[1] = gModelVariant673_aConfigs[command].green;
-            work->rising[i].head.color[2] = gModelVariant673_aConfigs[command].blue;
+            work->rising[i].head.color[0] = gModelVariant673_aConfigs[command].color[0];
+            work->rising[i].head.color[1] = gModelVariant673_aConfigs[command].color[1];
+            work->rising[i].head.color[2] = gModelVariant673_aConfigs[command].color[2];
             work->rising[i].head.u = 0;
             work->rising[i].head.v = 0;
             setVector(&work->rising[i].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -80,9 +80,9 @@ s32 ModelVariant673_HandleRequest(Model673State *context, s32 command)
             work->falling[i].head.elapsed = 0;
             work->falling[i].head.mode = 1;
             work->falling[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->falling[i].head.color[0] = gModelVariant673_aConfigs[command].red;
-            work->falling[i].head.color[1] = gModelVariant673_aConfigs[command].green;
-            work->falling[i].head.color[2] = gModelVariant673_aConfigs[command].blue;
+            work->falling[i].head.color[0] = gModelVariant673_aConfigs[command].color[0];
+            work->falling[i].head.color[1] = gModelVariant673_aConfigs[command].color[1];
+            work->falling[i].head.color[2] = gModelVariant673_aConfigs[command].color[2];
             work->falling[i].head.u = 0;
             work->falling[i].head.v = 0;
             setVector(&work->falling[i].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -102,9 +102,9 @@ s32 ModelVariant673_HandleRequest(Model673State *context, s32 command)
             work->fans[i].head.duration = 0x20;
             work->fans[i].head.mode = 1;
             work->fans[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->fans[i].head.color[0] = gModelVariant673_aConfigs[command].fan_red;
-            work->fans[i].head.color[1] = gModelVariant673_aConfigs[command].fan_green;
-            work->fans[i].head.color[2] = gModelVariant673_aConfigs[command].fan_blue;
+            work->fans[i].head.color[0] = gModelVariant673_aConfigs[command].color[3];
+            work->fans[i].head.color[1] = gModelVariant673_aConfigs[command].color[4];
+            work->fans[i].head.color[2] = gModelVariant673_aConfigs[command].color[5];
             work->fans[i].head.u = 0;
             work->fans[i].head.v = 0x20;
             setVector(&work->fans[i].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -194,9 +194,9 @@ s32 ModelVariant673_HandleRequest(Model673State *context, s32 command)
                 if (work->rising[i].head.duration / 2 < work->rising[i].head.elapsed) {
                     n = (work->rising[i].head.duration - work->rising[i].head.elapsed) * 2;
                     d = work->rising[i].head.duration;
-                    work->rising[i].head.color[0] = gModelVariant673_aConfigs[work->head.command].red * n / d;
-                    work->rising[i].head.color[1] = gModelVariant673_aConfigs[work->head.command].green * n / d;
-                    work->rising[i].head.color[2] = gModelVariant673_aConfigs[work->head.command].blue * n / d;
+                    work->rising[i].head.color[0] = gModelVariant673_aConfigs[work->head.command].color[0] * n / d;
+                    work->rising[i].head.color[1] = gModelVariant673_aConfigs[work->head.command].color[1] * n / d;
+                    work->rising[i].head.color[2] = gModelVariant673_aConfigs[work->head.command].color[2] * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->textures.tpage[2];
@@ -247,9 +247,9 @@ s32 ModelVariant673_HandleRequest(Model673State *context, s32 command)
                 if (work->falling[i].head.elapsed < work->falling[i].head.duration / 2) {
                     n = work->falling[i].head.elapsed * 2;
                     d = work->falling[i].head.duration;
-                    work->falling[i].head.color[0] = gModelVariant673_aConfigs[work->head.command].red * n / d;
-                    work->falling[i].head.color[1] = gModelVariant673_aConfigs[work->head.command].green * n / d;
-                    work->falling[i].head.color[2] = gModelVariant673_aConfigs[work->head.command].blue * n / d;
+                    work->falling[i].head.color[0] = gModelVariant673_aConfigs[work->head.command].color[0] * n / d;
+                    work->falling[i].head.color[1] = gModelVariant673_aConfigs[work->head.command].color[1] * n / d;
+                    work->falling[i].head.color[2] = gModelVariant673_aConfigs[work->head.command].color[2] * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->textures.tpage[2];
@@ -298,9 +298,9 @@ s32 ModelVariant673_HandleRequest(Model673State *context, s32 command)
                 if (work->fans[i].head.duration / 2 < work->fans[i].head.elapsed) {
                     n = (work->fans[i].head.duration - work->fans[i].head.elapsed) * 2;
                     d = work->fans[i].head.duration;
-                    work->fans[i].head.color[0] = gModelVariant673_aConfigs[work->head.command].fan_red * n / d;
-                    work->fans[i].head.color[1] = gModelVariant673_aConfigs[work->head.command].fan_green * n / d;
-                    work->fans[i].head.color[2] = gModelVariant673_aConfigs[work->head.command].fan_blue * n / d;
+                    work->fans[i].head.color[0] = gModelVariant673_aConfigs[work->head.command].color[3] * n / d;
+                    work->fans[i].head.color[1] = gModelVariant673_aConfigs[work->head.command].color[4] * n / d;
+                    work->fans[i].head.color[2] = gModelVariant673_aConfigs[work->head.command].color[5] * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->textures.tpage[0];

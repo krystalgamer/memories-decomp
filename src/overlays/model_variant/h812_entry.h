@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_VARIANT829_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_texture_upload.h"
 #include "../../game/model.h"
@@ -26,11 +27,6 @@ typedef union {
     } fields;
     u32 first_pair;
 } Model829Status;
-
-typedef union {
-    SVECTOR point;
-    ModelEffectAdjustment adjustment;
-} Model829Position;
 
 typedef struct {
     Model829Config *config;
