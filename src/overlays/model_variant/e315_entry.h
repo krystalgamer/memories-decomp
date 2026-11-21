@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT766_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -25,12 +26,6 @@ typedef struct {
     s16 gravity, initial_delay, burst_delay, trail_duration, unknown_2C, unknown_2E;
 } Model766Config;
 
-/* A colour that the entry tests as a 24-bit word to know whether it faded out. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model766Color;
-
 /* The work area: the command row, the two trail edges, the column rotations,
  * the sparks, the flash square, the colours, and the timers. */
 typedef struct {
@@ -41,7 +36,7 @@ typedef struct {
     SVECTOR positions[32];
     SVECTOR velocities[32];
     SVECTOR square[4];
-    Model766Color trail_color, burst_color, flash_color;
+    ModelVariantColorWord trail_color, burst_color, flash_color;
     u32 burst_scale, flash_scale;
     u16 trail_count, unknown_53A;
     s32 texture[2];

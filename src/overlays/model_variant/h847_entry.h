@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT847_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -39,12 +40,6 @@ typedef struct {
     u16 unknown_46;
 } Model847Config;
 
-/* A colour that the entry tests as a 24-bit word to know whether it faded out. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model847Color;
-
 /* The work area: the command row, an unused block, the ring edges, for both
  * bursts the debris, embers and sparks and their velocities and the trail
  * ring of 48 points, the debris frames, the trail heads, the timers, the
@@ -73,8 +68,8 @@ typedef struct {
     s32 level;
     s32 texture[4];
     u16 burst_tpage, burst_clut;
-    Model847Color color[2];
-    Model847Color flash;
+    ModelVariantColorWord color[2];
+    ModelVariantColorWord flash;
     CVECTOR glow[2];
 } Model847State;
 

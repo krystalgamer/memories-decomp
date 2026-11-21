@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT761_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
@@ -34,12 +35,6 @@ typedef struct {
     s16 tint_stop;
 } Model761Config;
 
-/* A colour that the entry tests as a 24-bit word to know whether it faded out. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model761Color;
-
 /* The work area: the command row, the beam quad and its offset, the two ring
  * edges, the cone quad, the beam's vertical scale, the ambient level, the
  * textures, the timers, the ring frame and the beam colour. */
@@ -58,7 +53,7 @@ typedef struct {
     s16 elapsed;
     u16 tick;
     s16 frame;
-    Model761Color color;
+    ModelVariantColorWord color;
 } Model761State;
 
 extern GsIMAGE gModelVariant761_aImages[];

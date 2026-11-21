@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT834_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -26,12 +27,6 @@ typedef struct {
     u8 part, pad_1b;
     u16 delay, orb_time, launch_time, fly_time, spawn_time;
 } Model834Config;
-
-/* A colour that the entry tests as a 24-bit word. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model834Color;
 
 /* The work area: the command row, the beam position, its rise and flight
  * velocities and rotation, the orbs and their velocities, the beam trail, the
@@ -66,10 +61,10 @@ typedef struct {
     u16 ring_tpage;
     u16 ring_clut;
     s32 texture[3];
-    Model834Color beam_top;
-    Model834Color beam_base;
+    ModelVariantColorWord beam_top;
+    ModelVariantColorWord beam_base;
     CVECTOR colors[64];
-    Model834Color burst_color;
+    ModelVariantColorWord burst_color;
 } Model834State;
 
 extern GsIMAGE gModelVariant834_aImages[];

@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT754_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -46,12 +47,6 @@ typedef struct {
     u16 flash;
 } Model754Config;
 
-/* A colour that the entry tests as a 24-bit word to know whether it faded out. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model754Color;
-
 /* The work area: the command row, the smoke puffs, the two ring edges, the
  * debris and embers and their velocities, the smoke frames, the timers, the
  * ring scale, the ambient level, the textures, and the ring and flash colours. */
@@ -74,7 +69,7 @@ typedef struct {
     s32 level;
     s32 texture[3];
     u16 burst_tpage, burst_clut;
-    Model754Color color, flash;
+    ModelVariantColorWord color, flash;
 } Model754State;
 
 extern GsIMAGE gModelVariant754_aImages[];

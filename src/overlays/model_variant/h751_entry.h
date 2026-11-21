@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT751_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -42,12 +43,6 @@ typedef struct {
     s16 camera_time[2];
 } Model751Config;
 
-/* A colour that the entry tests as a 24-bit word to know whether it faded out. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model751Color;
-
 /* The work area: the command row, the orb position and velocity, the cloud
  * offsets, the two ring edges, the sparks and their velocities, the bob, the
  * timer, the ray spin and lift, the phase and state, the ring scale, the
@@ -69,7 +64,7 @@ typedef struct {
     u32 scale;
     s32 ambient;
     s32 texture[3];
-    Model751Color color;
+    ModelVariantColorWord color;
 } Model751State;
 
 extern GsIMAGE gModelVariant751_aImages[];

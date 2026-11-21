@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_VARIANT770_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -19,11 +20,6 @@ typedef struct {
     s16 sprite_spread, dot_radius, sprite_size;
     s16 initial_delay, trail_duration, burst_delay, sprite_delay;
 } Model770Config;
-
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model770Color;
 
 typedef struct {
     Model770Config *config;
@@ -46,7 +42,7 @@ typedef struct {
     u16 active_sprites, previous_sprites, elapsed, phase;
     u16 burst_tpage, burst_clut;
     s32 texture[1];
-    Model770Color trail_color, burst_color;
+    ModelVariantColorWord trail_color, burst_color;
 } Model770State;
 
 extern GsIMAGE gFrenchModelVariant770_aImages[];

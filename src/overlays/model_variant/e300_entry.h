@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT752_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -43,12 +44,6 @@ typedef struct {
     u16 mode, pad_42;
 } Model752Config;
 
-/* A colour that the entry tests as a 24-bit word to know whether it faded out. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model752Color;
-
 /* The work area: the command row, the sparkle positions, the two ring edges,
  * the debris and embers and their velocities, the debris frame, the sparkle
  * scales, the timers, the ring scale, the ambient level, the textures, the
@@ -73,7 +68,7 @@ typedef struct {
     s32 texture[3];
     u16 burst_tpage, burst_clut;
     CVECTOR colors[64];
-    Model752Color color;
+    ModelVariantColorWord color;
 } Model752State;
 
 extern GsIMAGE gModelVariant752_aImages[];

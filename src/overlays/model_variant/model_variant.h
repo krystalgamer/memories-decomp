@@ -21,6 +21,13 @@ typedef union {
     long packed;
 } ModelVariantScreenPoint;
 
+/* A colour that the header 751-847 entries fade and also test as one word:
+ * word & 0xFFFFFF is zero once the colour has faded out. */
+typedef union {
+    CVECTOR rgb;
+    u32 word;
+} ModelVariantColorWord;
+
 
 /* A 0x2FC-byte group of ten quads: corner arrays a..d, a position per quad,
  * a colour, and per quad a size, an angle, a done flag and an initialized

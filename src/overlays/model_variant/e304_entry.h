@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT756_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -34,12 +35,6 @@ typedef struct {
     s16 initial_delay, burst_delay, trail_duration, unknown_32;
 } Model756Config;
 
-/* A colour that the entry tests as a 24-bit word to know whether it faded out. */
-typedef union {
-    CVECTOR rgb;
-    u32 word;
-} Model756Color;
-
 /* The work area: the command row, the two trail edges, the column rotations,
  * the sparks, debris, smoke and embers, their frames, the colours, and the
  * timers. */
@@ -55,7 +50,7 @@ typedef struct {
     SVECTOR smoke[64];
     SVECTOR embers[64];
     SVECTOR ember_velocities[64];
-    Model756Color trail_color, burst_color;
+    ModelVariantColorWord trail_color, burst_color;
     u32 unknown_C0C;
     u32 burst_scale;
     u16 trail_count, debris_frame;
