@@ -15,7 +15,7 @@ s32 ModelVariant464_HandleRequest(Variant464EntryState *context, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantPackedProjection projection;
-    ModelVariantDome *dome = &work->dome;
+    ModelVariantMesh *dome = &work->dome;
     ModelVariantCurtain *funnel = work->funnels;
     Variant464EntryBand *band = work->bands;
     ModelVariantSheet *sheet = work->sheets;
@@ -114,7 +114,7 @@ s32 ModelVariant464_HandleRequest(Variant464EntryState *context, s32 command)
             radius = (s32)((u32)rsin(angle) << 8) >> 12;
             height = (s32)((u32)rcos(angle) << 8) >> 12;
             for (j = 0, a = 0; j < 17; a = j << 8) {
-                setVector(&dome->points[n][j], rcos(a) * radius >> 12, -height,
+                setVector(&dome->rows[n][j], rcos(a) * radius >> 12, -height,
                     rsin(a) * radius >> 12);
                 j++;
             }

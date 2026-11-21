@@ -11,7 +11,7 @@ void FrenchModelVariant373_DrawSphere(EntryState373 *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    ModelVariantDome *sphere;
+    ModelVariantMesh *sphere;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i;
@@ -67,8 +67,8 @@ void FrenchModelVariant373_DrawSphere(EntryState373 *context)
         setRGB3(quad, sphere->colors[i + 1].r, sphere->colors[i + 1].g, sphere->colors[i + 1].b);
         for (j = 0; j < 16; j++) {
             depth = RotTransPers4(
-                &sphere->points[i][j], &sphere->points[i][j + 1],
-                &sphere->points[i + 1][j], &sphere->points[i + 1][j + 1],
+                &sphere->rows[i][j], &sphere->rows[i][j + 1],
+                &sphere->rows[i + 1][j], &sphere->rows[i + 1][j + 1],
                 (long *)&quad->x0, (long *)&quad->x1,
                 (long *)&quad->x2, (long *)&quad->x3,
                 &interpolation, &flag);

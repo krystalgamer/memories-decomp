@@ -1482,15 +1482,9 @@ typedef struct {
     u16 unknown_56;
 } ModelVariantBoltVolleyConfig;
 
-/* Nine 17-point rings of a dome, each with its own colour (ModelVariantMesh
- * with CVECTOR colours). */
-typedef struct {
-    SVECTOR points[9][17];
-    CVECTOR colors[9];
-} ModelVariantDome;
-
 /* A 0x4EC-byte mesh of nine rows of seventeen points and one colour per row,
- * drawn as RotTransPers4 quads between neighbouring rows. */
+ * drawn as RotTransPers4 quads between neighbouring rows; the rows are the
+ * rings of a globe, sphere or dome in some entries. */
 typedef struct {
     SVECTOR rows[9][17];
     CVECTOR colors[9];

@@ -8,7 +8,7 @@ s32 FrenchModelVariant373_HandleRequest(EntryState373 *context, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantPackedProjection projection;
-    ModelVariantDome *sphere = &work->sphere;
+    ModelVariantMesh *sphere = &work->sphere;
     Family373Ring *layer = work->rising_rings;
     EntrySparkGroup373 *group = work->sparks;
     ModelVariantScaledStrip *strip = work->strips;
@@ -120,7 +120,7 @@ s32 FrenchModelVariant373_HandleRequest(EntryState373 *context, s32 command)
             radius = rsin(latitude) * 128 >> 12;
             height = rcos(latitude) * 128 >> 12;
             for (j = 0, k = 0; j < 17; j++, k = j * 256) {
-                setVector(&sphere->points[i][j], rcos(k) * radius >> 12,
+                setVector(&sphere->rows[i][j], rcos(k) * radius >> 12,
                     height, rsin(k) * radius >> 12);
             }
             sphere->colors[i].r = (latitude - i) / 8;

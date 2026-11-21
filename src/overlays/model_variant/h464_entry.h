@@ -46,7 +46,7 @@ typedef struct {
 typedef struct {
     ModelVariantCurtain funnels[2];
     Variant464EntryBand bands[1];
-    ModelVariantDome dome;
+    ModelVariantMesh dome;
     ModelVariantFlaggedSpiralArm spirals[12];
     ModelVariantSheet sheets[2];
     ModelVariantStreamer streamers[2];
