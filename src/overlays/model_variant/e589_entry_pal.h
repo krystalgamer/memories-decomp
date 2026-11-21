@@ -23,7 +23,7 @@ typedef struct {
     ModelVariantShadedRay spirals[12];
     ModelVariantSheet sheets[2];
     ModelVariantStreamer streamers[2];
-    ModelVariantFunnel funnels[5];
+    ModelVariantCurtain funnels[5];
     POLY_GT4 extra, funnel_packet;
     u8 unknown_1B94[0x34];
     POLY_GT4 special;

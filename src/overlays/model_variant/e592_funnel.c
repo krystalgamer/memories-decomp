@@ -17,7 +17,7 @@ void SpanishModelVariant426_DrawFunnel(EntryState426 *context)
     long flag;
     EntryState426 *state = context;
     ModelVariantSheet *sheet;
-    ModelVariantFunnel *funnel;
+    ModelVariantCurtain *funnel;
     POLY_GT4 *quad;
     GsOT *ot;
     s32 i, k;
@@ -56,8 +56,8 @@ void SpanishModelVariant426_DrawFunnel(EntryState426 *context)
             reach = radius;
             reach += 160 + bias;
             for (angle = state->spin; k < 17; k++, angle = state->spin + k * 0x100) {
-                setVector(&funnel->inner[k], rcos(angle) * radius >> 12, 0, rsin(angle) * radius >> 12);
-                setVector(&funnel->outer[k], rcos(angle) * reach >> 12, -(bias + 256),
+                setVector(&funnel->a[k], rcos(angle) * radius >> 12, 0, rsin(angle) * radius >> 12);
+                setVector(&funnel->b[k], rcos(angle) * reach >> 12, -(bias + 256),
                           rsin(angle) * reach >> 12);
             }
             rotation.vx = 0;
@@ -96,8 +96,8 @@ void SpanishModelVariant426_DrawFunnel(EntryState426 *context)
             setRGB2(quad, outer_r, outer_g, outer_b);
             setRGB3(quad, outer_r, outer_g, outer_b);
             for (k = 0; k < 16; k++) {
-                depth = RotTransPers4(&funnel->inner[k], &funnel->inner[k + 1],
-                                     &funnel->outer[k], &funnel->outer[k + 1],
+                depth = RotTransPers4(&funnel->a[k], &funnel->a[k + 1],
+                                     &funnel->b[k], &funnel->b[k + 1],
                                      (long *)&quad->x0, (long *)&quad->x1,
                                      (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);

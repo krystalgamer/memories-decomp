@@ -24,7 +24,7 @@ void FrenchModelVariant423_DrawFunnel(FUNNEL_ENTRY_STATE *context)
     long flag;
     FUNNEL_ENTRY_STATE *state = context;
     ModelVariantSheet *sheet;
-    ModelVariantFunnel *funnel;
+    ModelVariantCurtain *funnel;
     POLY_GT4 *quad;
     GsOT *ot;
     s32 i, k;
@@ -65,8 +65,8 @@ void FrenchModelVariant423_DrawFunnel(FUNNEL_ENTRY_STATE *context)
                 size_y = size;
             } else {
                 extra = 0;
-                if (funnel->size >= 0) {
-                    extra = funnel->size;
+                if (funnel->scale >= 0) {
+                    extra = funnel->scale;
                 }
                 size_y = state->size;
                 size = size_y + extra;
@@ -75,8 +75,8 @@ void FrenchModelVariant423_DrawFunnel(FUNNEL_ENTRY_STATE *context)
             angle = state->spin;
             reach = radius + (bias + 160);
             for (; k < 17; k++, angle = state->spin + k * 0x100) {
-                setVector(&funnel->inner[k], rcos(angle) * radius >> 12, 0, rsin(angle) * radius >> 12);
-                setVector(&funnel->outer[k], rcos(angle) * reach >> 12, height,
+                setVector(&funnel->a[k], rcos(angle) * radius >> 12, 0, rsin(angle) * radius >> 12);
+                setVector(&funnel->b[k], rcos(angle) * reach >> 12, height,
                           rsin(angle) * reach >> 12);
             }
             rotation.vx = 0;
@@ -112,19 +112,19 @@ void FrenchModelVariant423_DrawFunnel(FUNNEL_ENTRY_STATE *context)
                 outer_g = state->outer.g;
                 outer_b = state->outer.b;
             }
-            r -= r * funnel->size / 8192;
-            g -= g * funnel->size / 8192;
-            b -= b * funnel->size / 8192;
-            outer_r -= outer_r * funnel->size / 8192;
-            outer_g -= outer_g * funnel->size / 8192;
-            outer_b -= outer_b * funnel->size / 8192;
+            r -= r * funnel->scale / 8192;
+            g -= g * funnel->scale / 8192;
+            b -= b * funnel->scale / 8192;
+            outer_r -= outer_r * funnel->scale / 8192;
+            outer_g -= outer_g * funnel->scale / 8192;
+            outer_b -= outer_b * funnel->scale / 8192;
             setRGB0(quad, r, g, b);
             setRGB1(quad, r, g, b);
             setRGB2(quad, outer_r, outer_g, outer_b);
             setRGB3(quad, outer_r, outer_g, outer_b);
             for (k = 0; k < 16; k++) {
-                depth = RotTransPers4(&funnel->inner[k], &funnel->inner[k + 1],
-                                     &funnel->outer[k], &funnel->outer[k + 1],
+                depth = RotTransPers4(&funnel->a[k], &funnel->a[k + 1],
+                                     &funnel->b[k], &funnel->b[k + 1],
                                      (long *)&quad->x0, (long *)&quad->x1,
                                      (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
@@ -133,10 +133,10 @@ void FrenchModelVariant423_DrawFunnel(FUNNEL_ENTRY_STATE *context)
                 }
             }
         }
-        if (funnel->size < 8192) {
-            funnel->size += state->clock.step << 7;
-            if (funnel->size >= 8192) {
-                funnel->size -= 8192;
+        if (funnel->scale < 8192) {
+            funnel->scale += state->clock.step << 7;
+            if (funnel->scale >= 8192) {
+                funnel->scale -= 8192;
             }
         }
     }

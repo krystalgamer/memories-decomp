@@ -664,10 +664,11 @@ typedef struct {
     s16 oy[13];
 } ModelVariantShortStreamer;
 
-/* One 0x118-byte curtain of header 422: two rows of seventeen points drawn
- * as sixteen POLY_GT4 strips, a scale the drawers grow to 0x1000 and a count
- * of the times it wrapped. The entry handlers start the scales staggered at
- * -(n * 4096 / 3) or similar. */
+/* One 0x118-byte curtain, ring or funnel: two rows of seventeen points
+ * (for rings and funnels, an inner and an outer ring) drawn as sixteen
+ * POLY_GT4 strips, a scale the drawers grow to 0x1000 and a count of the
+ * times it wrapped (the funnel entries only clear it). The entry handlers
+ * start the scales staggered at -(n * 4096 / 3) or similar. */
 typedef struct {
     SVECTOR a[17];
     SVECTOR b[17];
@@ -781,16 +782,6 @@ typedef struct {
     s16 ox[17];
     s16 oy[17];
 } ModelVariantFlaggedStreamer;
-
-/* One 0x118-byte funnel or ring: seventeen inner points at radius 64 and
- * seventeen outer points at radius 256, joined into quads and scaled by
- * size. */
-typedef struct {
-    SVECTOR inner[17];
-    SVECTOR outer[17];
-    s32 size;
-    s32 field_114;
-} ModelVariantFunnel;
 
 /* One 0x24-byte command row, picked by command % 100: the particle and glow
  * colours (headers 165 and 166 do not read the glow colour), the slot part

@@ -20,7 +20,7 @@ extern Variant444EntryConfig gFrenchModelVariant444_aConfigs[];
 typedef struct {
     ModelVariantTube tubes[1];
     ModelVariantSheet sheets[2];
-    ModelVariantFunnel funnels[2];
+    ModelVariantCurtain funnels[2];
     ModelVariantSpokeColorRing spokes[4];
     ModelVariantBeam extras[2];
     Beam411 beams[16];
