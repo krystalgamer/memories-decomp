@@ -12,7 +12,6 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
 {
     long p;
     SVECTOR rot;
-    u8 *words;
     Variant433EntryState *work;
     GsOT *ot;
     VECTOR scale;
@@ -33,7 +32,6 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
     s32 size;
     s32 row;
     SVECTOR *edge;
-    u8 *halves;
     s32 wave;
     long flags[16][9];
     s32 level;
@@ -74,9 +72,11 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
                     radius = limit - level;
                 }
             }
-            ((SVECTOR *)(j * 8 + (s32)ring))->vx = (rcos(ang1) * (half_radius = radius / 2) >> 12) + (rcos(pitch + yaw + ang1) * (rsin(wave) << 5 >> 12) >> 12);
-            ((SVECTOR *)(j * 8 + (s32)ring))->vy = (rsin(ang1) * half_radius >> 12) + (rsin(pitch + ang1) * (rsin(wave) << 5 >> 12) >> 12);
-            ((SVECTOR *)(j * 8 + (s32)ring))->vz = (rsin(ang2) * half_radius >> 12) + (rsin(yaw + ang2) * (rsin(wave) << 5 >> 12) >> 12);
+            /* `ring->points + j` (and `ring->screen + j` below) keeps retail's
+             * index-first address add; `[j]` swaps the addu operands. */
+            (ring->points + j)->vx = (rcos(ang1) * (half_radius = radius / 2) >> 12) + (rcos(pitch + yaw + ang1) * (rsin(wave) << 5 >> 12) >> 12);
+            ring->points[j].vy = (rsin(ang1) * half_radius >> 12) + (rsin(pitch + ang1) * (rsin(wave) << 5 >> 12) >> 12);
+            ring->points[j].vz = (rsin(ang2) * half_radius >> 12) + (rsin(yaw + ang2) * (rsin(wave) << 5 >> 12) >> 12);
             pt = &ring->points[j];
             /* edges[j], reached from pt as retail does; &ring->edges[j] does not match. */
             edge = (SVECTOR *)((u8 *)pt + 0x90);
@@ -194,21 +194,20 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
             if (ring->depth[j] >= 0 && flags[i][j] >= 0 && ring->amount[j] > 0 && ring->field_204 == 0) {
                 GsSortPoly(quad, ot, (u16)ring->depth[j]);
 #else
-            words = (u8 *)(j * 4 + (s32)ring);
-            halves = (u8 *)(j * 2 + (s32)ring);
-            quad->x0 = *(s16 *)(words + 0x48) + *(s16 *)(halves + 0x1BC);
-            quad->y0 = *(s16 *)(halves + 0x1CE) + (*(s32 *)(words + 0x48) >> 16);
-            quad->x1 = *(s16 *)(words + 0x4C) + *(s16 *)(halves + 0x1BE);
-            quad->y1 = *(s16 *)(halves + 0x1D0) + (*(s32 *)(words + 0x4C) >> 16);
-            quad->x2 = *(s16 *)(words + 0x48) - *(s16 *)(halves + 0x1BC);
-            quad->y2 = (*(s32 *)(words + 0x48) >> 16) - *(s16 *)(halves + 0x1CE);
-            quad->x3 = *(s16 *)(words + 0x4C) - *(s16 *)(halves + 0x1BE);
-            quad->y3 = (*(s32 *)(words + 0x4C) >> 16) - *(s16 *)(halves + 0x1D0);
+            /* screen[j + 1] is reached from screen[j] (+4), as retail does. */
+            quad->x0 = (ring->screen + j)->point.vx + ring->x_offset[j];
+            quad->y0 = ring->y_offset[j] + (ring->screen[j].packed >> 16);
+            quad->x1 = (ring->screen + j)[1].point.vx + ring->x_offset[j + 1];
+            quad->y1 = ring->y_offset[j + 1] + ((ring->screen + j)[1].packed >> 16);
+            quad->x2 = ring->screen[j].point.vx - ring->x_offset[j];
+            quad->y2 = (ring->screen[j].packed >> 16) - ring->y_offset[j];
+            quad->x3 = (ring->screen + j)[1].point.vx - ring->x_offset[j + 1];
+            quad->y3 = ((ring->screen + j)[1].packed >> 16) - ring->y_offset[j + 1];
             quad->r0 = ring->color.r;
             quad->g0 = ring->color.g;
             quad->b0 = ring->color.b;
-            if (*(s32 *)(words + 0x198) >= 0 && flags[i][j] >= 0 && *(s32 *)(words + 0x1E0) > 0 && ring->field_204 == 0) {
-                GsSortPoly(quad, ot, (u16)*(s32 *)(words + 0x198));
+            if (ring->depth[j] >= 0 && flags[i][j] >= 0 && ring->amount[j] > 0 && ring->field_204 == 0) {
+                GsSortPoly(quad, ot, (u16)ring->depth[j]);
 #endif
             }
         }
