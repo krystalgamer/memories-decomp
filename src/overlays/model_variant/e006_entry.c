@@ -124,8 +124,7 @@ s32 FrenchModelVariant76_HandleRequest(Model76State *context, s32 command)
                 blue = config->color[2] * work->life[i] / config->fade;
             }
             for (j = 0; j < 4; j++) {
-                face = (ModelVariantFace *)((u8 *)work +
-                    (j * sizeof(ModelVariantFace) + (u32)&((Model76State *)0)->faces));
+                face = &work->faces[j];
                 clip = RotAverageNclip3(face->a, face->b, face->c,
                     (long *)&triangle.x0, (long *)&triangle.x1,
                     (long *)&triangle.x2, &projection, &depth, &flag);
