@@ -230,14 +230,12 @@ s32 Model_TransformPartVertex(s32 slot_index, s32 part, s32 vertex, VECTOR *out)
     return transform_flags[0];
 }
 
-ModelSlotS32Quad *Model_GetSlotScale(s32 index)
+VECTOR *Model_GetSlotScale(s32 index)
 {
-    return (ModelSlotS32Quad *)(
-        (u8 *)&gModel_aSlots[index].render_scale
-    );
+    return &gModel_aSlots[index].render_scale;
 }
 
-void Model_SetSlotScale(s32 index, ModelSlotS32Quad *source)
+void Model_SetSlotScale(s32 index, VECTOR *source)
 {
     ModelSlot *entry = &gModel_aSlots[index];
 

@@ -94,7 +94,7 @@ expectation remains unchanged. No fixture or cloud tests ran locally.
 ## Slot scale quad
 
 `Model_GetSlotScale` (`0x8005949C`) returns the `render_scale` interior
-`ModelSlotS32Quad` as `&gModel_aSlots[index].render_scale`.
+`VECTOR` as `&gModel_aSlots[index].render_scale`.
 `Model_DrawSlot` passes that same member as a `VECTOR` view to
 `ScaleMatrix` or `Model_UpdateCoordinateUnitMatrix`; this establishes its
 scale role without guessing a getter caller or UI context.
@@ -158,12 +158,11 @@ exporting the stored horizontal-history word unchanged. Preserve the
 different typed and alignment-one block-copy views, pointer ABIs,
 signed comparisons and policies; do not unify the two helpers.
 
-The paired +0xDB0 member is now `render_scale`, still the four-word
-`ModelSlotS32Quad`. Its existing VECTOR views apply only to the original
-selected render-parent children and animation/mask/primitive paths.
+The paired +0xDB0 member is now `render_scale`, the four-word SDK
+`VECTOR` that `Model_DrawSlot` passes to `ScaleMatrix`.
 The scale and cached dimensions are related draw inputs/derived state,
 not reciprocal units or a promise that every coordinate was scaled.
-No SDK type, generic quad submember, function group, native alias,
+No generic quad submember, function group, native alias,
 profile, fixture or runtime capture changes.
 
 ## Tint descriptor and ambient triplet

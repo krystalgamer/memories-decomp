@@ -20,11 +20,10 @@
  *
  * The four-entry bound is corroborated independently of the declaration. The
  * one consumer copies the whole table into a local array in a single
- * assignment through ModelSlotS32Quad (model.h):
+ * four-word assignment through ModelEffectHandlerTable below:
  *
- *     *(ModelSlotS32Quad *)handlers = *(ModelSlotS32Quad *)gModel_apfnEffectHandlers;
+ *     *(ModelEffectHandlerTable *)handlers = *(ModelEffectHandlerTable *)gModel_apfnEffectHandlers;
  *
- * and that type carries a sizeof == 0x10 assertion, which is four pointers.
  *
  * Unlike the duel scene-state globals, this symbol is not gp-relative: the
  * matched controller reaches it with lui %hi / addiu %lo at its entry and
@@ -34,5 +33,14 @@
  * declaration is moved verbatim, array form and all, because the form is what
  * the addressing depends on. */
 extern s32 (*const gModel_apfnEffectHandlers[4])(s32, s32);
+
+/* The whole table as one record, for that single four-word copy. */
+typedef struct {
+    s32 (*handlers[4])(s32, s32);
+} ModelEffectHandlerTable;
+
+typedef char ModelEffectHandlerTable_size_must_be_0x10[
+    sizeof(ModelEffectHandlerTable) == 0x10 ? 1 : -1
+];
 
 #endif
