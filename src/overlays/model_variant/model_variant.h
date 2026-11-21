@@ -1641,6 +1641,13 @@ typedef union {
     u8 flat[20];
 } ModelVariantSpinStarQuads;
 
+/* One point of the sixteen-segment shock fan that headers 798 and 818 pulse
+ * on arrival: the inner point and the outer point of the fan's band. */
+typedef struct {
+    SVECTOR inner;
+    SVECTOR outer;
+} ModelVariantShockFanPoint;
+
 /* The RotTransPers outputs the header-408 and 475 entries use to measure the
  * screen offset from an origin to a target: both packed screen points, and
  * the interpolation value and flag the two calls share. */
