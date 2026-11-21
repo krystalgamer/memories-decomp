@@ -34,7 +34,7 @@ void ModelVariant448_DrawSpokes(Variant448EntryState *context)
     ot = Graphics_GetDefaultOrderingTable();
     for (i = 0; i < 4; i++, ring++) {
         if (ring->count >= 0) {
-            s = obj->field_88 * ring->angle / 1024;
+            s = obj->sheet_size * ring->angle / 1024;
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = 0;
