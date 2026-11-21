@@ -36,7 +36,7 @@ source rather than a layout of an earlier one.
   shrinks linearly to zero at `fade_end`.
 
 The curtains and sheets drawers read the entry config as
-`Variant459EntryConfig` (the former `Timing459` view, with `grow_start`/
+`SpanishVariant459EntryConfig` (the former `Timing459` view, with `grow_start`/
 `grow_end` as its `start`/`end`), whose `fade_start`/`fade_end` words sit at
 `+0x40/+0x44`.
 

@@ -67,6 +67,6 @@ void SpanishModelVariant438_DrawSpiral(SpanishVariant438EntryState *context);
 void SpanishModelVariant438_DrawAdvancingBand(SpanishVariant438EntryState *context);
 void SpanishModelVariant438_DrawTargetClampedSheets(SpanishVariant438EntryState *context);
 void SpanishModelVariant438_DrawLines(SpanishVariant438EntryState *context);
-typedef char Variant438EntryConfigSize[(sizeof(SpanishVariant438EntryConfig) == 0x48) ? 1 : -1];
-typedef char Variant438EntryStateSize[(sizeof(SpanishVariant438EntryState) == 0x2300) ? 1 : -1];
+typedef char SpanishVariant438EntryConfigSize[(sizeof(SpanishVariant438EntryConfig) == 0x48) ? 1 : -1];
+typedef char SpanishVariant438EntryStateSize[(sizeof(SpanishVariant438EntryState) == 0x2300) ? 1 : -1];
 #endif

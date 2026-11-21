@@ -2,7 +2,7 @@
 
 #if defined(VARIANT438_WARP_LAYOUT_459)
 #include "h442_entry_pal.h"
-#define WARP_STATE Variant459EntryState
+#define WARP_STATE SpanishVariant459EntryState
 #define WARP_ORIGIN(state) ((state)->matrices[0].t)
 #define WARP_COLOR(ring, c) ((c) * (2048 - (ring)->scale) / 2048)
 #define WARP_SORTS(ring) 1

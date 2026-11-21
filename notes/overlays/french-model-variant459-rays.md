@@ -7,7 +7,7 @@ no direct call from the entry was observed.
 
 The accepted MODEL417 ray helper has the same body. A local MODEL459 view,
 `Rays459State`, reproduced it exactly on the first probe; since #9563 the
-helper takes `Variant459EntryState` directly. The layout differs from
+helper takes `SpanishVariant459EntryState` directly. The layout differs from
 MODEL417 in the following:
 - the 0x6C-byte `rays` start at `+0x1758`, the pulse (`sheets[0].size`) at
   `+0x2568` and the `POLY_G3` (`packets.triangle`) at `+0x2D20`;

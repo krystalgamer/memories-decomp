@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "h442_entry_pal.h"
 
-void SpanishModelVariant459_DrawLines(Variant459EntryState *context)
+void SpanishModelVariant459_DrawLines(SpanishVariant459EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,7 +10,7 @@ void SpanishModelVariant459_DrawLines(Variant459EntryState *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant459EntryState *state = context;
+    SpanishVariant459EntryState *state = context;
     ModelVariantWebNarrow *group = state->webs;
     GsGLINE *line = &state->line;
     GsOT *ot;

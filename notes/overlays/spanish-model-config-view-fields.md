@@ -87,14 +87,14 @@ Entry `model_variant/h439_entry_pal.c` sets `work->config = gSpanishModelVariant
 | `+0x1C` | `unknown_1C[8]` bytes → `u32 fade_start` | `Timing456.fade_start` | `SpanishModelVariant456_DrawSheets` (model_variant/h439_sheets_pal.c; `model_variant/h439_entry_pal.c:335`, `Sheets456State.timing` at +0x2330) | `if (state->frame >= state->config->fade_start)` | high |
 | `+0x20` | `unknown_1C[8]` bytes → `u32 fade_end` | `Timing456.fade_end` | `SpanishModelVariant456_DrawSheets` (model_variant/h439_sheets_pal.c; `model_variant/h439_entry_pal.c:335`, `Sheets456State.timing` at +0x2330) | `/ (state->timing->fade_end - state->timing->fade_start);` | high |
 
-## `Variant459EntryConfig` (`gSpanishModelVariant459_aConfigs`)
+## `SpanishVariant459EntryConfig` (`gSpanishModelVariant459_aConfigs`)
 
-Entry `model_variant/h442_entry_pal.c` sets `work->config = gSpanishModelVariant459_aConfigs + command` (line 46); its work struct `Variant459EntryState` has `config` at `+0x309C`.
+Entry `model_variant/h442_entry_pal.c` sets `work->config = gSpanishModelVariant459_aConfigs + command` (line 46); its work struct `SpanishVariant459EntryState` has `config` at `+0x309C`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x28` | `unknown_28[4]` bytes → `u16 limit` | `Variant459EntryConfig.limit` (was `Timing459.limit`) | `SpanishModelVariant459_DrawPairedSheets` (model_variant/h442_sheets.c; `model_variant/h442_entry_pal.c:363`, `Sheet459State.timing` at +0x309C) | `if (sheet->size < state->timing->limit)` | high |
-| `+0x38` | `unknown_38[0x10]` bytes → `u32 end` | `Variant459EntryConfig.end` (was `Timing459.grow_end`); `Lines459Timing.cycle_end` | `SpanishModelVariant459_DrawPairedSheets` (model_variant/h442_sheets.c; `model_variant/h442_entry_pal.c:363`, `Sheet459State.timing` at +0x309C); `SpanishModelVariant459_DrawLines` (model_variant/h442_lines.c; `model_variant/h442_entry_pal.c:369`, `Lines459State.timing` at +0x309C) | `/ (state->timing->grow_end - state->timing->grow_start);`; `(state->timing->cycle_end - state->timing->cycle_start) - 4096;` | high |
+| `+0x28` | `unknown_28[4]` bytes → `u16 limit` | `SpanishVariant459EntryConfig.limit` (was `Timing459.limit`) | `SpanishModelVariant459_DrawPairedSheets` (model_variant/h442_sheets.c; `model_variant/h442_entry_pal.c:363`, `Sheet459State.timing` at +0x309C) | `if (sheet->size < state->timing->limit)` | high |
+| `+0x38` | `unknown_38[0x10]` bytes → `u32 end` | `SpanishVariant459EntryConfig.end` (was `Timing459.grow_end`); `Lines459Timing.cycle_end` | `SpanishModelVariant459_DrawPairedSheets` (model_variant/h442_sheets.c; `model_variant/h442_entry_pal.c:363`, `Sheet459State.timing` at +0x309C); `SpanishModelVariant459_DrawLines` (model_variant/h442_lines.c; `model_variant/h442_entry_pal.c:369`, `Lines459State.timing` at +0x309C) | `/ (state->timing->grow_end - state->timing->grow_start);`; `(state->timing->cycle_end - state->timing->cycle_start) - 4096;` | high |
 
 ## `Variant479EntryConfig` (`gSpanishModelVariant479_aConfigs`)
 
