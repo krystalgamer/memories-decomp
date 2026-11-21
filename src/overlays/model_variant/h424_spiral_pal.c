@@ -281,11 +281,11 @@ void SpanishModelVariant441_DrawSpiral(Variant441EntryState *context)
     }
     work->spiral.angle += 16;
     if (work->config->expansion_start <= work->frame &&
-        work->field_2720 == 0 && work->spiral.size < 0x400) {
+        work->spiral_state == 0 && work->spiral.size < 0x400) {
         work->spiral.size += work->step * 64;
         if (work->spiral.size >= 0x400) {
             work->spiral.size = 0x400;
-            work->field_2720 = 2;
+            work->spiral_state = 2;
         }
     }
 }

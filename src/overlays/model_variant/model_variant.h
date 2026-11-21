@@ -498,7 +498,9 @@ typedef struct {
 
 /* One 0x74-byte ribbon of header 418: a two-point spine, a copy of it moved
  * sideways, both projected, and per point the screen angle, the projected
- * width and the width's screen offset. */
+ * width and the width's screen offset. The Spanish header 388 ribbon fan
+ * (e547_ribbons_pal.c) keeps each point's RotTransPers flag in `flag` for its
+ * draw pass; header 418 projects into a local flag and leaves it unused. */
 typedef struct {
     SVECTOR a[2];
     long sa[2];
@@ -506,23 +508,13 @@ typedef struct {
     SVECTOR b[2];
     long sb[2];
     s32 width[2];
-    u8 unknown_40[0x24];
+    u8 unknown_40[0x1C];
+    long flag[2];
     s32 otz[2];
     u16 ox[2];
     u16 oy[2];
 } ModelVariantRibbon;
 
-
-/* The ribbon command row of headers 425 and 426: the growth and fade
- * windows. */
-typedef struct {
-    u8 unknown00[0x1C];
-    u32 grow_start;
-    u32 grow_end;
-    u8 unknown24[4];
-    u32 fade_start;
-    u32 fade_end;
-} ModelVariantRibbonGrowTiming;
 
 /* Header 425's 0x6C-byte ribbon: the same fields with eight bytes less
  * between the widths and the depths. */
@@ -797,19 +789,22 @@ typedef struct {
 } ModelVariantFlaggedStreamer;
 
 /* One 0x24-byte command row, picked by command % 100: the particle and glow
- * colours (headers 165 and 166 do not read the glow colour), the slot part
+ * colours (headers 165 and 166 and French header 182 do not read the glow
+ * colour), the slot part
  * the particles start from, the particle count, the particle half size, the
  * target sphere radius, the glow half size, the ring radius, the rise, fade
  * and pulse durations, the gather and burst durations, the spacing between
- * particles, the spin rate (unused by 165 and 166) and the three start
- * times. */
+ * particles, the spin rate (unused by 165, 166 and French 182) and the
+ * three start times. French header 182 (h165_entry_pal.c) is header 165's
+ * effect built for the PAL images. */
 typedef struct {
     u8 red, green, blue, glow_red, glow_green, glow_blue, part, count;
     s16 size, radius, glow_size, ring_radius, rise, fade, pulse, gather, burst, spacing, spin;
     s16 delay, delay2, start;
 } ModelVariantGatherConfig;
 
-/* The 0x63C-byte work area of the gather entries (headers 165 and 166): the
+/* The 0x63C-byte work area of the gather entries (headers 165 and 166 and
+ * French header 182): the
  * command row, 64 particle positions and 64 target points, the gather
  * centre, a 66-point double ring, five texture words, the completion flag,
  * the elapsed time and a frame count. */

@@ -139,7 +139,7 @@ s32 ModelVariant407_HandleRequest(Variant407EntryState *context, s32 command)
             petals->color.g = work->config->outer.g;
             petals->color.b = work->config->outer.b;
             petals->scale[i] = -(i * 1024 / 48);
-            petals->field_854[i] = 0;
+            petals->settled[i] = 0;
             petals->field_914[i] = 0;
             petals->done[i] = 0;
             petals->origin[i].vx = work->matrix.t[0] + work->direction.vx;

@@ -42,7 +42,9 @@ typedef struct {
     VECTOR view_delta;
     ModelVariantClock clock;
     s16 spiral_angle, field_270A, spiral_size, field_270E;
-    s32 field_2710;
+    /* The spiral arms spread by 0x400 - arm_shrink (the s32 form of
+     * ModelVariantSpiralParams.shrink); only the entry's reset writes it. */
+    s32 arm_shrink;
     Variant425EntryConfig *config;
     u32 field_2718;
     GsCOORDUNIT *parts[3];

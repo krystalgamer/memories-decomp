@@ -274,7 +274,7 @@ s32 ModelVariant404_HandleRequest(Variant404EntryState *context, s32 command)
         work->spiral.field_02 = 0;
         work->spiral.size = 0;
         work->spiral.shrink = 0;
-        work->field_194C = 0;
+        work->index = 0;
         work->band_scale = 4096;
         work->field_1952 = 1024;
         work->displacement = 0;

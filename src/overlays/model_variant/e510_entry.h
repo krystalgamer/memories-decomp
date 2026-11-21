@@ -40,7 +40,8 @@ typedef struct {
     Variant404EntryConfig *config;
     u32 field_193C;
     GsCOORDUNIT *parts[3];
-    s16 field_194C, field_194E, band_scale, field_1952;
+    /* The ribbon fan turns only while index + 1 == config->count. */
+    s16 index, field_194E, band_scale, field_1952;
     s32 displacement, quad_angle, ribbon_angle, phase, spiral_state;
     u8 unknown_1968[8];
     s32 tint;

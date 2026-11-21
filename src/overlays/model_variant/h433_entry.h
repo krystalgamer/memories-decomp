@@ -50,7 +50,9 @@ typedef struct {
 
 /* One 0x208-byte band or ring: nine points, their screen positions and edge
  * copies, the per-point angles and widths, the colours, scale and heading the
- * entry seeds, and per point the depth, screen offsets and growth amount. */
+ * entry seeds, per point the depth, screen offsets and growth amount, and
+ * the settled flag: the ring helper sets it once the last point reaches full
+ * growth after settle_start, and from then on the band is no longer drawn. */
 typedef struct {
     SVECTOR points[9];
     ModelVariantScreenPoint screen[9];
@@ -69,7 +71,7 @@ typedef struct {
     s16 x_offset[9];
     s16 y_offset[9];
     s32 amount[9];
-    s32 field_204;
+    s32 settled;
 } Variant433EntryBand;
 
 /* A 0xA0-byte sheet of four quads like ModelVariantSheet with a larger tail. */

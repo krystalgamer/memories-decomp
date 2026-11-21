@@ -32,9 +32,11 @@ displacements and instructions:
   at `+0xC` of the timing pointer at `+0x186C`. The fan then turns by the step
   at `+0x1864` times 32.
 
-The 0x74-byte record is declared as `Ribbon388` in `e341_entry.h` (the record's `ribbons[8]`),
-because this family's flag words are the only part of the shared record's
-unknown region that it uses.
+The 0x74-byte record is header 418's `ModelVariantRibbon` (`model_variant.h`;
+the state's `ribbons[8]`). This family's flag words are the only part of
+that record's unknown region it uses, so the shared record names them
+`flag[2]` (+0x5C); header 418 projects into a local flag and leaves them
+unused.
 
 ## Integration
 

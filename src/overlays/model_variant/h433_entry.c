@@ -191,7 +191,7 @@ s32 ModelVariant433_HandleRequest(Variant433EntryState *context, s32 command)
             band->field_138 = 0;
             band->field_13C = 0;
             band->field_13A = 0;
-            band->field_204 = 0;
+            band->settled = 0;
             if (i == 0) {
                 angle = 1024;
             } else if ((i / 2) * 2 == i - 1) {
@@ -220,7 +220,7 @@ s32 ModelVariant433_HandleRequest(Variant433EntryState *context, s32 command)
             ring->field_138 = 0;
             ring->field_13C = 0;
             ring->field_13A = 0;
-            ring->field_204 = 0;
+            ring->settled = 0;
             ring->heading[0] = (s32)(rcos(angle) << 8) >> 12;
             ring->heading[1] = (s32)(rsin(angle) << 8) >> 12;
             ring->heading[2] = 0;

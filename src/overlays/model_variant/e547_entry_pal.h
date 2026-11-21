@@ -5,23 +5,6 @@
 #include "../../game/model_slot_getters.h"
 
 /* One 0x24-byte command record of the table at gSpanishModelVariant388_aConfigs. */
-/* One 0x74-byte ribbon of this family: the two-point spine, its sideways
- * copy, both projections, per point the screen angle, projected width and
- * offset, and the RotTransPers4 flag kept for the draw pass. */
-typedef struct {
-    SVECTOR points[2];
-    long screen[2];
-    s32 angle[2];
-    SVECTOR edges[2];
-    long edge_screen[2];
-    s32 width[2];
-    u8 unknown_40[0x1C];
-    long flag[2];
-    s32 otz[2];
-    u16 x_offset[2];
-    u16 y_offset[2];
-} Ribbon388;
-
 typedef struct {
     u8 unknown_00[4];
     u8 parts[3], unknown_07[5];
@@ -59,7 +42,7 @@ typedef struct {
 typedef struct {
     Variant388EntryTube tubes[1];
     ModelVariantSheet sheets[2];
-    Ribbon388 ribbons[8];
+    ModelVariantRibbon ribbons[8];
     Variant388EntryFeedback feedback[5];
     ModelVariantColorRing spokes[4];
     ModelVariantFlaggedSpiralArm arms[12];
@@ -79,7 +62,7 @@ typedef struct {
     s16 field_188C, field_188E, progress, strip_width;
     s32 ribbon_angle;
     s32 phase;
-    s32 field_189C;
+    s32 spiral_state;
     u8 unknown_18A0[8];
     s32 tint;
     s16 slot, command;

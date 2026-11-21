@@ -171,11 +171,11 @@ void FrenchModelVariant388_DrawPetals(Variant388EntryState *context)
     }
     work->spiral.angle += 16;
     if (work->config->sheet_start <= work->clock.frame
-        && work->field_189C == 0 && work->spiral.size < 0x400) {
+        && work->spiral_state == 0 && work->spiral.size < 0x400) {
         work->spiral.size += work->clock.step * 64;
         if (work->spiral.size >= 0x400) {
             work->spiral.size = 0x400;
-            work->field_189C = 2;
+            work->spiral_state = 2;
         }
     }
     if (work->clock.frame >= work->config->track_end
@@ -185,7 +185,7 @@ void FrenchModelVariant388_DrawPetals(Variant388EntryState *context)
             / (work->config->shrink_end - work->config->track_end);
         if (work->spiral.shrink >= 0x400) {
             work->spiral.shrink = 0x400;
-            work->field_189C = 4;
+            work->spiral_state = 4;
         }
     }
 }

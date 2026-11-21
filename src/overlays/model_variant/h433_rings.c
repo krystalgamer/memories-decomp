@@ -91,7 +91,7 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
                     if (work->config->settle_start < work->clock.frame) {
                         ring->amount[j] = limit;
                         if (j == 8) {
-                            ring->field_204 = 1;
+                            ring->settled = 1;
                         }
                     } else if (j == 8) {
                         for (j = 0; j < 9; j++) {
@@ -191,7 +191,7 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
             quad->r0 = ring->color.r;
             quad->g0 = ring->color.g;
             quad->b0 = ring->color.b;
-            if (ring->depth[j] >= 0 && flags[i][j] >= 0 && ring->amount[j] > 0 && ring->field_204 == 0) {
+            if (ring->depth[j] >= 0 && flags[i][j] >= 0 && ring->amount[j] > 0 && ring->settled == 0) {
                 GsSortPoly(quad, ot, (u16)ring->depth[j]);
 #else
             /* screen[j + 1] is reached from screen[j] (+4), as retail does. */
@@ -206,7 +206,7 @@ void ModelVariant433_DrawRings(Variant433EntryState *context)
             quad->r0 = ring->color.r;
             quad->g0 = ring->color.g;
             quad->b0 = ring->color.b;
-            if (ring->depth[j] >= 0 && flags[i][j] >= 0 && ring->amount[j] > 0 && ring->field_204 == 0) {
+            if (ring->depth[j] >= 0 && flags[i][j] >= 0 && ring->amount[j] > 0 && ring->settled == 0) {
                 GsSortPoly(quad, ot, (u16)ring->depth[j]);
 #endif
             }

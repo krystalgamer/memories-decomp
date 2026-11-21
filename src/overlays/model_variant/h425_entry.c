@@ -298,7 +298,7 @@ s32 ModelVariant425_HandleRequest(Variant425EntryState *context, s32 command)
         work->field_270A = 0;
         work->spiral_size = 0;
         work->field_270E = 0;
-        work->field_2710 = 0;
+        work->arm_shrink = 0;
         work->index = 0;
         work->band_scale = n;
         work->field_272E = 1024;
