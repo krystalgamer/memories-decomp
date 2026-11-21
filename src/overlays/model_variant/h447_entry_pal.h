@@ -13,7 +13,7 @@ typedef struct {
     u32 times[4];
     s32 count;
     s32 group_count;
-} Variant464EntryConfig;
+} FrenchVariant464EntryConfig;
 
 /* One advancing quad pair: six points (three per quad), their projections,
  * inner and outer colours, the scale, per-quad depth and staggered progress. */
@@ -27,11 +27,11 @@ typedef struct {
     s32 depth[2];
     s32 progress[2];
     s32 active;
-} Variant464EntryPrimary;
+} FrenchVariant464EntryPrimary;
 
 typedef struct {
     ModelVariantWebNarrow webs[3];
-    Variant464EntryPrimary primary[5];
+    FrenchVariant464EntryPrimary primary[5];
     ModelVariantSheetSet sheets[6];
     ModelVariantColorRing rings[6];
     ModelVariantColorRing spokes[4];
@@ -47,7 +47,7 @@ typedef struct {
     MATRIX matrix;
     ModelVariantAim aim;
     ModelVariantClock clock;
-    Variant464EntryConfig *config;
+    FrenchVariant464EntryConfig *config;
     u32 field_1C30;
     GsCOORDUNIT *parts[3];
     s32 timing_index;
@@ -56,11 +56,11 @@ typedef struct {
     CVECTOR outer, inner;
     s32 curtain_angle;
     ModelVariantEntryTail tail;
-} Variant464EntryState;
+} FrenchVariant464EntryState;
 
 extern GsIMAGE gFrenchModelVariant464_aImages[9];
-extern Variant464EntryConfig gFrenchModelVariant464_aConfigs[];
-void FrenchModelVariant464_DrawRings(Variant464EntryState *context);
-void SpanishModelVariant464_DrawAdvancingQuads(Variant464EntryState *context);
-void SpanishModelVariant464_DrawSheets(Variant464EntryState *context);
+extern FrenchVariant464EntryConfig gFrenchModelVariant464_aConfigs[];
+void FrenchModelVariant464_DrawRings(FrenchVariant464EntryState *context);
+void SpanishModelVariant464_DrawAdvancingQuads(FrenchVariant464EntryState *context);
+void SpanishModelVariant464_DrawSheets(FrenchVariant464EntryState *context);
 #endif

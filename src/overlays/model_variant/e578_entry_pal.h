@@ -10,13 +10,13 @@ typedef struct {
     u8 root_part, parts[6], unknown_0B[5];
     u16 part_count, unknown_12;
     u32 capture_start, capture_stop, duration;
-} Variant412EntryConfig;
+} FrenchVariant412EntryConfig;
 
 /* Minimum observed context extent, not an allocation capacity. */
 typedef struct {
     Variant412Trail trails[1];
-    Variant402EntryRecord records[1];
-    Variant402EntryRing rings[2];
+    FrenchVariant402EntryRecord records[1];
+    FrenchVariant402EntryRing rings[2];
     Family402Ribbon ribbons[8];
     ModelVariantCurtain bands[2];
     u8 unknown_18D0[0x34];
@@ -31,7 +31,7 @@ typedef struct {
     u32 frame_count, current_animation_frame, elapsed, animation_frame;
     s32 step, captured_count, field_1B1C;
     u32 fade;
-    Variant412EntryConfig *config;
+    FrenchVariant412EntryConfig *config;
     u32 field_1B28;
     GsCOORDINATE2 *root_part;
     GsCOORDINATE2 *parts[6];
@@ -43,10 +43,10 @@ typedef struct {
     u8 unknown_1B6C[8];
     s32 tint;
     s16 slot, command;
-} Variant412EntryState;
+} FrenchVariant412EntryState;
 
 extern GsIMAGE gFrenchModelVariant412_aImages[9];
-extern Variant412EntryConfig gFrenchModelVariant412_aConfigs[];
-void FrenchModelVariant412_DrawTrails(Variant412EntryState *context);
+extern FrenchVariant412EntryConfig gFrenchModelVariant412_aConfigs[];
+void FrenchModelVariant412_DrawTrails(FrenchVariant412EntryState *context);
 
 #endif

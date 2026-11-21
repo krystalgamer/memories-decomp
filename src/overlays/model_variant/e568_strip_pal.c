@@ -3,7 +3,7 @@
 
 #include "e568_helpers.h"
 
-void FrenchModelVariant402_DrawStrip(Variant402EntryState *context)
+void FrenchModelVariant402_DrawStrip(FrenchVariant402EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -12,8 +12,8 @@ void FrenchModelVariant402_DrawStrip(Variant402EntryState *context)
     GsCOORDINATE2 coordinate;
     long flags[1][2];
     long interpolation;
-    Variant402EntryState *work;
-    Variant402EntryRecord *strip;
+    FrenchVariant402EntryState *work;
+    FrenchVariant402EntryRecord *strip;
     POLY_GT4 *quad;
     GsOT *ot;
     s16 i, j;

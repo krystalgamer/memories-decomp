@@ -2,7 +2,7 @@
 
 #include "e568_entry_pal.h"
 
-void FrenchModelVariant402_DrawRibbons(Variant402EntryState *ctx)
+void FrenchModelVariant402_DrawRibbons(FrenchVariant402EntryState *ctx)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -11,8 +11,8 @@ void FrenchModelVariant402_DrawRibbons(Variant402EntryState *ctx)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant402EntryState *work;
-    Variant402EntryRing *timing;
+    FrenchVariant402EntryState *work;
+    FrenchVariant402EntryRing *timing;
     GsOT *ot;
     s16 i;
     s32 turn;

@@ -5,14 +5,14 @@
 #define MODEL_VARIANT464_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant464_HandleRequest(Variant464EntryState *context, s32 command)
+s32 FrenchModelVariant464_HandleRequest(FrenchVariant464EntryState *context, s32 command)
 {
-    Variant464EntryState *work = context;
+    FrenchVariant464EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant464EntryPrimary *primary = work->primary;
+    FrenchVariant464EntryPrimary *primary = work->primary;
     ModelVariantSheetSet *sheet = work->sheets;
     ModelVariantColorRing *ring = work->rings;
     ModelVariantColorRing *spoke = work->spokes;

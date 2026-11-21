@@ -159,9 +159,9 @@ Entry `model_variant/h444_entry_pal.c` sets `work->config = gFrenchModelVariant4
 | `+0x1C` | `unknown_13[0x11]` bytes → `s32 first_count` | `ModelVariantPairedSheetTiming.first_count` | `SpanishModelVariant461_DrawSheets` (model_variant/h444_sheets_pal.c; `model_variant/h444_entry_pal.c:380`, `Sheets461State.timing` at +0x336C) | `count = timing->first_count + 1;` | high |
 | `+0x20` | `unknown_13[0x11]` bytes → `s32 paired` | `ModelVariantPairedSheetTiming.paired` | `SpanishModelVariant461_DrawSheets` (model_variant/h444_sheets_pal.c; `model_variant/h444_entry_pal.c:380`, `Sheets461State.timing` at +0x336C) | `if (timing->paired == 0)` | high |
 
-## `Variant464EntryConfig` (`gFrenchModelVariant464_aConfigs`)
+## `FrenchVariant464EntryConfig` (`gFrenchModelVariant464_aConfigs`)
 
-Entry `model_variant/h447_entry_pal.c` sets `work->config = gFrenchModelVariant464_aConfigs + command` (line 47); its work struct `Variant464EntryState` has `config` at `+0x1C2C`.
+Entry `model_variant/h447_entry_pal.c` sets `work->config = gFrenchModelVariant464_aConfigs + command` (line 47); its work struct `FrenchVariant464EntryState` has `config` at `+0x1C2C`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|

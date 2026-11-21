@@ -61,16 +61,16 @@ Material beyond `0x27A8` remains work.
 
 Native instructions establish two `0x90`-byte records at context `0x12C0`,
 with four rows of four `SVECTOR` points and a signed scale at record
-offset `0x80`. These are the record's two `Variant402EntryRing`s (the
-scale is `Variant402EntryRing.scale`). The accepted French MODEL402 renderer supplies the same control
+offset `0x80`. These are the record's two `FrenchVariant402EntryRing`s (the
+scale is `FrenchVariant402EntryRing.scale`). The accepted French MODEL402 renderer supplies the same control
 flow and expression structure; only independently measured context and
 configuration offsets differ. No external reference types or compiler
 claims are used.
 
-The source repeats the MODEL402 body over `Variant412EntryState`, whose
+The source repeats the MODEL402 body over `FrenchVariant412EntryState`, whose
 clock words are separate members (`frame_count`, `elapsed`, `step`) and whose
 config gives the ring duration as `capture_start`. It previously included the
-MODEL402 body through a ring view; once that body read `Variant402EntryState`
+MODEL402 body through a ring view; once that body read `FrenchVariant402EntryState`
 the shared include no longer fit. Both slots remain byte-exact.
 
 The `POLY_GT4` packet is at `0x1978`, transform at `0x1AB0`, and velocity

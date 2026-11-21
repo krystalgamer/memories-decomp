@@ -16,7 +16,7 @@ typedef struct {
     u16 part_count;
     u8 unknown_0E[2];
     u32 start;
-} Variant402EntryConfig;
+} FrenchVariant402EntryConfig;
 
 /* The strip record: three pairs of points, their screen positions, two
  * words the entry sets, and the two strip depths the strip drawer reads. */
@@ -26,12 +26,12 @@ typedef struct {
     s16 field_48, field_4A;
     s32 field_4C;
     s32 depth[2];
-} Variant402EntryRecord;
+} FrenchVariant402EntryRecord;
 
 typedef struct {
     SVECTOR points[16];
     s32 scale, field_84, field_88, field_8C;
-} Variant402EntryRing;
+} FrenchVariant402EntryRing;
 
 /* One of the eight ribbons the 402 ribbon drawer projects: two spine points
  * and their screen positions, angles and widths, two edge points and their
@@ -50,8 +50,8 @@ typedef struct {
 } Family402Ribbon;
 
 typedef struct {
-    Variant402EntryRecord records[1];
-    Variant402EntryRing rings[2];
+    FrenchVariant402EntryRecord records[1];
+    FrenchVariant402EntryRing rings[2];
     Family402Ribbon ribbons[8];
     ModelVariantCurtain bands[2];
     ModelVariantPackets packets;
@@ -61,7 +61,7 @@ typedef struct {
     MATRIX matrix;
     ModelVariantAim aim;
     ModelVariantClock clock;
-    Variant402EntryConfig *config;
+    FrenchVariant402EntryConfig *config;
     u32 field_880;
     GsCOORDUNIT *parts[3];
     s32 part_index;
@@ -70,8 +70,8 @@ typedef struct {
     s16 width, displacement, ribbon_angle, field_8AA;
     s32 phase, field_8B0, field_8B4, field_8B8, tint;
     s16 slot, command;
-} Variant402EntryState;
+} FrenchVariant402EntryState;
 
 extern GsIMAGE gFrenchModelVariant402_aImages[9];
-extern Variant402EntryConfig gFrenchModelVariant402_aConfigs[];
+extern FrenchVariant402EntryConfig gFrenchModelVariant402_aConfigs[];
 #endif
