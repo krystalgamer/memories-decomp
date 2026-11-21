@@ -296,7 +296,7 @@ s32 SpanishModelVariant441_HandleRequest(Variant441EntryState *context, s32 comm
         work->animation_frame = 0;
         work->step = 0;
         work->phase = 0;
-        work->field_2720 = 0;
+        work->spiral_state = 0;
         work->fade = 0;
         work->tint = 2048;
         work->command = command;
