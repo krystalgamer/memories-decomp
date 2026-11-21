@@ -96,8 +96,8 @@ void ModelVariant433_DrawBands(Variant433EntryState *context)
     band = work->bands;
     for (i = 0; i < 3; i++, band++) {
         for (j = 0, quad = work->flat_extra; j < 8; j++) {
-            /* codegen steering: base + index sum in this order, as in retail */
-            quad->x0 = ((ModelVariantScreenPoint *)((u8 *)band->screen + j * 4))->point.vx + band->x_offset[j];
+            /* `screen + j` rather than `&screen[j]`: retail's base + index add order */
+            quad->x0 = (band->screen + j)->point.vx + band->x_offset[j];
             quad->y0 = (band->screen[j].packed >> 16) + band->y_offset[j];
             quad->x1 = (&band->screen[j])[1].point.vx + (&band->x_offset[j])[1];
             quad->y1 = ((&band->screen[j])[1].packed >> 16) + (&band->y_offset[j])[1];

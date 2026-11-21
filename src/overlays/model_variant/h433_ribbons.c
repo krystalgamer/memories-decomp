@@ -139,8 +139,8 @@ void ModelVariant433_DrawRibbons(Variant433EntryState *context)
             } else {
                 quad = &work->flat_extra[1];
             }
-            /* codegen steering: base + index sum in this order, as in retail */
-            quad->x0 = ((ModelVariantScreenPoint *)((u8 *)ribbon->screen + j * 4))->point.vx + ribbon->x_offset[j];
+            /* `screen + j` rather than `&screen[j]`: retail's base + index add order */
+            quad->x0 = (ribbon->screen + j)->point.vx + ribbon->x_offset[j];
             quad->y0 = (ribbon->screen[j].packed >> 16) + ribbon->y_offset[j];
             quad->x1 = (&ribbon->screen[j])[1].point.vx + (&ribbon->x_offset[j])[1];
             quad->y1 = ((&ribbon->screen[j])[1].packed >> 16) + (&ribbon->y_offset[j])[1];
