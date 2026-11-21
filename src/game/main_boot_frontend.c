@@ -26,6 +26,7 @@ static u32 D_8009B42C;
 #include "duel_effect_states.h"
 #include "duel_effect_text.h"
 #include "../overlays/main_menu/frontend.h"
+#include "../overlays/safecheck2003/entrypoints.h"
 #include "../psyq/rand.h"
 #include "input.h"
 #include "movie_playback_control.h"
@@ -558,8 +559,7 @@ void Main_RunBootSequence(s32 mode)
         Main_HoldBootScreen(0xB4);
         CdFlush();
         SafetyInit();
-        while (SafetySync(1) != 0) {
-        }
+        while (SafetySync(1));
         DsInit();
         object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
         DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 1, 0x13, 0x100,
@@ -628,8 +628,7 @@ void Main_RunBootSequence(s32 mode)
     gGraphics_wFlags = 0;
     CdFlush();
     SafetyInit();
-    while (SafetySync(1) != 0) {
-    }
+    while (SafetySync(1));
     DsInit();
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 1, 0x10, 0x100,
@@ -697,8 +696,7 @@ void Main_RunBootSequence(s32 mode)
     CdFlush();
     first = object;
     SafetyInit();
-    while (SafetySync(1) != 0) {
-    }
+    while (SafetySync(1));
     DsInit();
     object = DisplayObject_AcquireSlot(DisplayObject_FindFreeGeneralSlot(), 2);
     DisplayObject_ConfigureSpriteAtPositionWithResource(object, 0, 0, 0, 0, 1, 0x10, 0x100,

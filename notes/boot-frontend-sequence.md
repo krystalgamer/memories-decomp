@@ -58,7 +58,7 @@ Stage 3 begins with:
 
 The leading ID and pointer table are followed by valid MIPS code. The outer
 boot sequence calls `SafetyInit` and then polls `SafetySync(1)` until
-it returns zero.
+it returns zero, in the developers' form `SafetyInit(); while (SafetySync(1));`.
 
 The module contains the exact strings:
 

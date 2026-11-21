@@ -4,8 +4,10 @@ The boot sequence loads WA_MRG module `0x16` at `0x80168000` before the
 title screen. It is Sony's anti-modchip check, the runtime library safechk
 2.0.0.3, and its modules are named `safecheck2003` after that version (they
 were formerly called `apv2`).
-`Main_RunBootSequence` calls `SafetyInit` once and then calls `SafetySync(1)`
-every frame until it returns zero.
+`Main_RunBootSequence` uses its two exported entries
+(`src/overlays/safecheck2003/entrypoints.h`) in the developers' original
+form, `SafetyInit(); while (SafetySync(1));`, which calls `SafetySync(1)`
+back to back until it returns zero.
 
 | Region | Module | WA sectors | Header word |
 |---|---|---|---|
@@ -37,7 +39,7 @@ rounded up to sixteen bytes, in the order `.rdata`, `.text`, `.data`,
 | `0x4` | `.rdata` | 20-entry state jump table of `SafetySync` |
 | `0x54` | | English warning text |
 | `0xA8` | | Shift-JIS warning text |
-| `0xE4` | | `safechk_offset`, the `s8 dir[8]` initializer of `SafetyCheck5`, and 8 padding bytes |
+| `0xE4` | | `safechk_offset`, the `s8 dir[8]` initializer of `SafetyDrawProhibitionSign`, and 8 padding bytes |
 | `0xF4` | `.text` | nine functions, to `0x140C` |
 | `0x140C` | | 8 padding bytes |
 | `0x1414` | `.data` | `__ps_libinfo__`, `safechk_commands`, `safechk_cdregs`, `safechk_params`, `safechk_results`, `safechk_state` (`= 1`), `safechk_intsum` |
@@ -59,11 +61,11 @@ message table.
 | `SafetySync` | `0x938` | 20-state controller (see Controller states): issues the CD commands, checks the results, and shows the warning when the drive answers like a modified console. |
 | `SafetyPollResult` | `0x1D4` | Polls the CD controller for a command's responses; returns 0 pending, 1 done, -1 error, -2 shell open. |
 | `SafetySendCommand` | `0xF0` | Sends one CD command, described by `safechk_commands` entries of `{cmd, nparams, nresults, intsum}` (14 commands). |
-| `SafetyCheck2` | `0x16C` | Draws the warning screen, then calls `exit()`. |
-| `SafetyCheck3` | `0x174` | Draws a text line. |
-| `SafetyCheck4` | `0x1B4` | Draws the glyph rows of one character through `Krom2RawAdd`. |
+| `SafetyShowWarningAndExit` | `0x16C` | Draws the warning screen, then calls `exit()`. |
+| `SafetyDrawText` | `0x174` | Draws a text line. |
+| `SafetyDrawGlyph` | `0x1B4` | Draws the glyph rows of one character as sprites. |
 | `SafetyGetGlyphRange` | `0x94` | Returns the lowest and highest bit set in a BIOS-font ASCII glyph; the caller derives the width. |
-| `SafetyCheck5` | `0x188` | Draws the frame polygons. |
+| `SafetyDrawProhibitionSign` | `0x188` | Draws a red prohibition sign: a ring and its diagonal bar. |
 
 The USA warning reads `SOFTWARE TERMINATED` / `CONSOLE MAY HAVE BEEN MODIFIED`
 / `CALL 1-888-780-7690`.
@@ -74,7 +76,8 @@ A #418 run of `safecheck2003_boot_state_watch` (interpreter CPU, North
 American image, soft reset into a normal boot; signature verified on
 2,064,439 hits, none refused) watched one complete check. `SafetySync`
 returned 0 after 855,445 calls, 16.1 s into the boot; the warning
-(`SafetyCheck2` and its helpers) never ran and the title screen followed.
+(`SafetyShowWarningAndExit` and its helpers) never ran and the title screen
+followed.
 
 - State path: `1 > 2 > 3 > 4 > 5 > 6 > 7 > 8 > 9 > 10 > 11 > 12 > 13 > 14 >
   15 > 19 > 18 > 0`. States 16 and 17 (error paths) were not visited.
@@ -104,11 +107,7 @@ bytes make the correspondence clear:
 | Address | Name | Former name | Evidence |
 |---|---|---|---|
 | `0x801680F4` | `SafetyInit` | `SafetyInit` | Exported name in the 2.0.0.2 object (below); 2.0.0.3 adds the region select. |
-| `0x80168160` | `SafetySync` | `func_80168160`, `SafetyCheck` | Exported name in the 2.0.0.2 object, whose body is identical; sends the commands and calls `SafetyCheck2`. |
-| `0x80168D5C` | `SafetyCheck2` | `func_80168D5C` | Same SDK call sequence as v1, from `ResetGraph` to `exit`. |
-| `0x80168EC8` | `SafetyCheck3` | `func_80168EC8` | Calls `strlen`, `Krom2RawAdd` and `SafetyCheck4`. |
-| `0x8016903C` | `SafetyCheck4` | `func_8016903C` | One `DrawPrim` call site, per glyph. |
-| `0x80169284` | `SafetyCheck5` | `func_80169284` | Two `DrawPrim` call sites, using `safechk_coords` and `safechk_offset`. |
+| `0x80168160` | `SafetySync` | `func_80168160`, `SafetyCheck` | Exported name in the 2.0.0.2 object, whose body is identical; sends the commands and calls `SafetyShowWarningAndExit`. |
 | `0x801680E4` | `safechk_offset` | `D_801680E4` | Bytes equal v1's `dh 257, 511, -255, -1, 0, 0, 0, 0`. |
 | `0x80169414` | `__ps_libinfo__` | (inside `D_8016940C`) | Library 28, version 2.0.0.3. |
 | `0x8016941C` | `safechk_commands` | `D_8016941C` | Same `{cmd, nparams, nresults, intsum}` words; 14 entries against v1's 10, eight of them shared. |
@@ -120,8 +119,9 @@ bytes make the correspondence clear:
 The 2.0.0.2 object (`safechk.obj`, an SDK Psy-Q LNK object; not tracked)
 confirms two real names and much of the code. Its libinfo reads
 `... 20 02`, it exports `SafetyInit` (`.text+0`, four instructions) and
-`SafetySync` (`.text+0x10`), and it carries no local symbols, so the
-`SafetyCheck2`..`5` labels come from the MGS reconstruction, not from Sony.
+`SafetySync` (`.text+0x10`), and it carries no local symbols, so the MGS
+reconstruction's `SafetyCheck2`..`5` labels are not Sony's; those four
+functions now have descriptive names (see Descriptive names).
 Its data equals ours apart from the English warning and the per-region
 message table that 2.0.0.3 adds. Comparing code with the object's
 relocated words masked:
@@ -131,9 +131,9 @@ relocated words masked:
 | `SafetySync` | `.text+0x10` | 0 of 590 |
 | `SafetyPollResult` | `.text+0x948` | 0 of 117 |
 | `SafetySendCommand` | `.text+0xB1C` | 0 of 60 |
-| `SafetyCheck5` | `.text+0xF20` | 0 of 98 |
+| `SafetyDrawProhibitionSign` | `.text+0xF20` | 0 of 98 |
 | `SafetyInit` | `.text+0x0` | different: 2.0.0.3 adds the region select |
-| `SafetyCheck2`..`4`, `SafetyGetGlyphRange` | | changed or new for the English/ASCII text |
+| `SafetyShowWarningAndExit`, `SafetyDrawText`, `SafetyDrawGlyph`, `SafetyGetGlyphRange` | | changed or new for the English/ASCII text |
 
 The two functions that no tested compiler reproduces are therefore the
 same compiled code in both releases.
@@ -235,7 +235,7 @@ goes to state 17.
 | 3 | Init | `safechk_params[0]` = 2 if the last track is at least 2, else 0; send 2 (GetTD), go to 4 | |
 | 4 | GetTD | half of the returned mm:ss to `safechk_minute`/`safechk_second` (BCD); send 12 (ReadTOC), go to 5 | |
 | 5 | ReadTOC | send 13 (GetID), go to 6 | -1: if stat bit 0 is clear, state 1; if the error byte has `40h` (no ReadTOC), Setloc as in state 6 and go to 7; otherwise stay |
-| 6 | GetID | Setloc(`safechk_minute`, `safechk_second`, 0), go to 7 | -1: warning (`SafetyCheck2`) |
+| 6 | GetID | Setloc(`safechk_minute`, `safechk_second`, 0), go to 7 | -1: warning (`SafetyShowWarningAndExit`) |
 | 7 | Setloc | `safechk_params[0] = 1`; send 5 (Setmode CDDA), go to 8 | |
 | 8 | Setmode | `safechk_vsync = VSync(-1)`, go to 9 | |
 | 9 | | after more than 3 VSyncs: send 4 (SeekP), go to 10 | |
@@ -245,7 +245,7 @@ goes to state 17.
 | 13 | Test 04h | `safechk_vsync = VSync(-1)`, go to 14 | |
 | 14 | | after more than 200 VSyncs: `safechk_params[0] = 5`; send 10 (Test 05h), go to 15 | |
 | 15 | Test 05h | success count nonzero: send 0 (Getstat), go to 16; zero: `safechk_vsync = VSync(-1)`, go to 19 | |
-| 16 | Getstat | warning (`SafetyCheck2`) | |
+| 16 | Getstat | warning (`SafetyShowWarningAndExit`) | |
 | 17 | Getstat | state 1 (restart) | -2 resends Getstat and stays |
 | 18 | Pause | state 0 | |
 | 19 | | after more than 10 VSyncs: send 11 (Pause), go to 18 | |
@@ -258,19 +258,25 @@ never reaches the warning.
 ## Descriptive names
 
 Sony's own names are known only for `SafetyInit` and `SafetySync`, which the
-2.0.0.2 object exports; it has no local symbols. `SafetyCheck2`..`5` and the
-`safechk_*` data names come from the MGS reconstruction of v1. The
-functions and data that v1 lacks, or that it keeps in registers, have
-descriptive names in the same two families: `Safety<Verb><Object>` like
+2.0.0.2 object exports; it has no local symbols. The `safechk_*` data
+names come from the MGS reconstruction of v1. The functions, whose v1
+labels (`SafetyCheck1`..`5`) are also the reconstruction's, and the data
+that v1 lacks, or that it keeps in registers, have descriptive names in the
+same two families: `Safety<Verb><Object>` like
 Sony's exported entries, rather than the project's `<Subsystem>_<Verb>`
 form, and lowercase `safechk_<role>` like the v1 data. They were address
-names until the roles above were worked out.
+names until the roles above were worked out; the four drawing functions
+carried the MGS labels in between.
 
 | Address | Name | Former name | Confidence | Evidence |
 |---|---|---|---|---|
 | `0x80168A98` | `SafetyPollResult` | `func_80168A98` | high | Reads the interrupt flags and response FIFO and returns 0, 1, -1 or -2 (CD-ROM commands); the wait half of v1's `SafetyCheck1`. 2.0.0.2 `.text+0x948`. |
 | `0x80168C6C` | `SafetySendCommand` | `func_80168C6C` | high | Writes the parameters and command byte; the send half of v1's `SafetyCheck1`. 2.0.0.2 `.text+0xB1C`. |
-| `0x801691F0` | `SafetyGetGlyphRange` | `func_801691F0` | high | Returns `(lowest set bit << 16) \| highest set bit` over a glyph's 15 rows; `SafetyCheck3` computes the width from it and `SafetyCheck4` draws that bit range. New in 2.0.0.3. |
+| `0x80168D5C` | `SafetyShowWarningAndExit` | `func_80168D5C`, `SafetyCheck2` | high | Resets the GPU, draws the warning text and the prohibition sign, enables the display and calls `exit()`; the same SDK call sequence as v1's `SafetyCheck2`, from `ResetGraph` to `exit`. |
+| `0x80168EC8` | `SafetyDrawText` | `func_80168EC8`, `SafetyCheck3` | high | Draws one warning string glyph by glyph (kanji through `Krom2RawAdd`, or BIOS-font ASCII); calls `strlen`, `Krom2RawAdd` and the glyph drawer like v1's `SafetyCheck3`. |
+| `0x8016903C` | `SafetyDrawGlyph` | `func_8016903C`, `SafetyCheck4` | high | Expands one glyph's 15 rows into a sprite and draws each row twice one pixel apart; one `DrawPrim` call site, like v1's `SafetyCheck4`. |
+| `0x80169284` | `SafetyDrawProhibitionSign` | `func_80169284`, `SafetyCheck5` | high | 64 red flat quads (code `0x28`, colour `0x0000FF`) form a ring centred at (160, 120), outer radius 64 and inner 54, from the quarter-circle `safechk_coords` mirrored by `safechk_offset`'s signs; a last quad draws the diagonal bar from (112, 80) to (208, 160). Two `DrawPrim` call sites, like v1's `SafetyCheck5`; formerly described as the frame polygons. |
+| `0x801691F0` | `SafetyGetGlyphRange` | `func_801691F0` | high | Returns `(lowest set bit << 16) \| highest set bit` over a glyph's 15 rows; `SafetyDrawText` computes the width from it and `SafetyDrawGlyph` draws that bit range. New in 2.0.0.3. |
 | `0x80169474` | `safechk_state` | `D_80169474` | high | The `SafetySync` switch value; 2.0.0.2 `.data+0x60`, set by its four-instruction `SafetyInit`. |
 | `0x80169478` | `safechk_intsum` | `D_80169478` | high | The running sum compared with `intsum` (formerly called `wait`); 2.0.0.2 `.data+0x64`. |
 | `0x8016947C` | `safechk_messages` | `D_8016947C` | high | Two `SafechkMessage` entries; entry 0 is the text that v1 keeps alone as `safechk_message`. New in 2.0.0.3. |
@@ -282,7 +288,7 @@ names until the roles above were worked out.
 
 The 2.0.0.2 offsets are those of the object's relocations. The struct types
 in `safechk.h` are `SafechkCdCommand`, `SafechkMessage`, `SafechkRect`,
-`SafechkGlyphPrim` and `SafechkFramePoly`.
+`SafechkGlyphPrim` and `SafechkSignPoly`.
 
 ## Compiler
 
@@ -348,8 +354,8 @@ are retired.
 Definition order reproduces both data sections. `.data` follows definition
 order; the string literals of the message table go to `.rdata` when the
 table is defined, the English text first, so the table comes after
-`SafetySync`, whose jump table leads `.rdata`, and `SafetyCheck5`'s `dir`
-initializer follows them. The data are `static`, as the 2.0.0.2 object
+`SafetySync`, whose jump table leads `.rdata`, and the `dir` initializer of
+`SafetyDrawProhibitionSign` follows them. The data are `static`, as the 2.0.0.2 object
 exports only `SafetyInit` and `SafetySync`; the five `.bss` words are
 tentative definitions, which GCC emits as `.lcomm` in declaration order.
 `safechk_params`, `safechk_results` and `safechk_intsum` have explicit zero
@@ -362,15 +368,15 @@ Source details that the matches depend on:
 - Loops with bounds in memory are written as `if (n) do { } while (...)`. A
   `for` loop makes 2.7 emit `blez` and an unused 8-byte frame.
 - The controller has no loop. `SafetySync` returns
-  `SafetySync_Run(arg, 0)`, a static inline function that runs the `switch`
-  and repeats by tail call (`return SafetySync_Run(arg, ret)`). GCC compiles
+  `SafetyRunStates(mode, 0)`, a static inline function that runs the `switch`
+  and repeats by tail call (`return SafetyRunStates(mode, ret)`). GCC compiles
   the tail call as a jump back to the `switch`, after the parameter copies,
   so `ret = 0` stays before the jump target. A `do { } while` or `for (;;)`
   loop gets loop notes: loop.c hoists `-1`, `-2`, `1` and `17` into saved
   registers (546 words), and even when loop.c skips the loop (a second entry
   into it), flow's loop-depth weighting of register references reorders
   local-alloc in the state 4 BCD block (8 words). A direct
-  `return SafetySync(arg)` jumps back before `ret = 0` (9 words).
+  `return SafetySync(mode)` jumps back before `ret = 0` (9 words).
 - Integration substitutes a constant array address into every access
   (`try_constants` in integrate.c), while retail loads `safechk_results`,
   `D_8016946D` and `safechk_params` once into a register (389 words).
@@ -393,10 +399,10 @@ Source details that the matches depend on:
   of reading again, but keeps the loop around the read, the copy after the
   compare (`stat = t`) and the `u8` test (`c = stat`). The results loop
   reuses `t` as its index, which keeps the retail register assignment.
-- `color` is an `s32` from `SafetyCheck2` through `SafetyCheck4`. As a
-  `u16` parameter of `SafetyCheck3`, its pass to `SafetyCheck4` gains an
-  `andi` (two words).
-- `SafetyCheck3` is written plainly (`rect->x += rect->w + 1`, `+= 8`,
+- `color` is an `s32` from `SafetyShowWarningAndExit` through
+  `SafetyDrawGlyph`. As a `u16` parameter of `SafetyDrawText`, its pass to
+  `SafetyDrawGlyph` gains an `andi` (two words).
+- `SafetyDrawText` is written plainly (`rect->x += rect->w + 1`, `+= 8`,
   `+= rect->w + 2`). The retired `gcc_2_7_2_psx_g0_gnu_reorder` profile
   (decompals `gcc-2.7.2-psx`) it used before needed `c` reassigned to the
   spacing in each branch.
@@ -442,13 +448,13 @@ reproduces the controller exactly. Two March 1997 changes in it contradict
 retail elsewhere, and are the two reverts above:
 
 - `reload_cse_regs` rewrites the delay-loop address `move a2,zero` as `move
-  a2,a1` in `SafetySendCommand` and `SafetyCheck2`, and `move t0,zero` as `move
-  t0,a1` in `SafetyPollResult`. Retail has `zero`. The pass
+  a2,a1` in `SafetySendCommand` and `SafetyShowWarningAndExit`, and `move
+  t0,zero` as `move t0,a1` in `SafetyPollResult`. Retail has `zero`. The pass
   turns a word-sized constant load into a copy whenever another register
   already holds the constant and no label lies between, so every delay-loop
   form tried is rewritten.
 - The `assign_parms` change makes `update_equiv_regs` double the live length
-  of `rect` and `color` in `SafetyCheck3`, and global allocation permutes
+  of `rect` and `color` in `SafetyDrawText`, and global allocation permutes
   `s1`-`s4`.
 
 ### Bisecting the history
@@ -488,10 +494,10 @@ backward and 95 forward. With the current sources:
 | Commit | Date, author: entry | Effect when absent / present |
 |---|---|---|
 | FSF r13561 `538fe8cddb4` | 1997-01-29 Ian Lance Taylor: combine.c (try_combine), "Add a case where reg_n_refs is cleared" | `SafetyPollResult` 118 words without it |
-| `bd8c4b14b51` | 1996-12-10 Kenner: "Treat ZERO_EXTEND like SIGN_EXTEND in emit_unop_insn" | without it `u8` global reads become QImode loads: the controller 457 words, as in 96q3, and `SafetyCheck3` 63 |
-| FSF r13734 `38b610ed8e0` | 1997-03-18 Ian Lance Taylor: assign_parms REG_EQUIV | present: `SafetyCheck3` 35 words |
-| FSF r13805 `2a9fb5489fc` | 1997-03-26 Ian Lance Taylor: reload_cse_regs | present: `SafetyPollResult` 1, `SafetySendCommand` 1, `SafetyCheck2` 2 |
-| `1f2d8f510f4` | 1997-07-11 Wilson: MIPS RTL epilogue | present: `SafetyInit` 5, `SafetyCheck5` 26, `SafetyPollResult` 36 |
+| `bd8c4b14b51` | 1996-12-10 Kenner: "Treat ZERO_EXTEND like SIGN_EXTEND in emit_unop_insn" | without it `u8` global reads become QImode loads: the controller 457 words, as in 96q3, and `SafetyDrawText` 63 |
+| FSF r13734 `38b610ed8e0` | 1997-03-18 Ian Lance Taylor: assign_parms REG_EQUIV | present: `SafetyDrawText` 35 words |
+| FSF r13805 `2a9fb5489fc` | 1997-03-26 Ian Lance Taylor: reload_cse_regs | present: `SafetyPollResult` 1, `SafetySendCommand` 1, `SafetyShowWarningAndExit` 2 |
+| `1f2d8f510f4` | 1997-07-11 Wilson: MIPS RTL epilogue | present: `SafetyInit` 5, `SafetyDrawProhibitionSign` 26, `SafetyPollResult` 36 |
 
 No other applied commit changes any of the nine functions, apart from a
 1996-07 `expand_mult_highpart` change and its revert, which cancel. The
@@ -500,5 +506,5 @@ retail compiler is therefore a Cygnus snapshot whose FSF merge falls between
 changes reproduces. As a cross-check, the real Psy-Q 4.1 `CC1PSX` with
 `-mmips-as` differs from retail on the current sources in exactly the words
 those two changes explain: `SafetyPollResult` 1, `SafetySendCommand` 1,
-`SafetyCheck2` 2 and `SafetyCheck3` 35; the 970404 source built without the
-reverts gives the same.
+`SafetyShowWarningAndExit` 2 and `SafetyDrawText` 35; the 970404 source built
+without the reverts gives the same.

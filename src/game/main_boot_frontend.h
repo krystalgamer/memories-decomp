@@ -34,12 +34,4 @@ void Main_RequestLanguageBootPackage(s32 language, s32 wait);
 
 s32 Main_RunFrontendLoop(void);
 
-/* The two entries of the boot module (module ID 0x16, WA_MRG 0xB61800,
- * loaded at 0x80168000) that the boot sequence calls: the first reads the
- * BIOS region byte and initializes the module, the second steps its 20-state
- * controller until it returns zero. The module is not decompiled; see
- * notes/boot-frontend-sequence.md. */
-void SafetyInit(void);
-s32 SafetySync(s32);
-
 #endif
