@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT_H
 
 #include "../../types.h"
+#include "../../ygo_types.h"
 #include "../../psyq/libgte.h"
 #include "../../psyq/libgpu.h"
 #include "../../psyq/libgs.h"
@@ -78,6 +79,16 @@ typedef struct {
 typedef struct {
     s16 distance, yaw, pitch, unknown_06;
 } ModelVariantViewSnapshot;
+
+/* One eight-byte stack slot that an entry uses as an SVECTOR (a camera-orbit
+ * rotation or a target position) and, at other times, as the slot dimensions
+ * Model_GetSlotDimensionsWithMinimums writes, which then scatter a position
+ * by up to half of each dimension (headers 812/829 and images 26952 and
+ * 104528). */
+typedef union {
+    SVECTOR vector;
+    ModelEffectAdjustment dimensions;
+} ModelVariantVectorOrDimensions;
 
 /* The same eight-byte view-metrics copy kept as bytes, as the header
  * 628-676 entries and image 9840 lay it out: the entries that use it read

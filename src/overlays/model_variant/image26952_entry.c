@@ -7,7 +7,7 @@ s32 FrenchModelVariant818_HandleRequest(ModelVariantFlightState *context, s32 co
     POLY_FT4 quad, burst;
     POLY_G4 trail;
     SVECTOR rotation;
-    Image26952Position position;
+    ModelVariantVectorOrDimensions position;
     VECTOR scale;
     SVECTOR vertices[4];
     long flag, interpolation;
