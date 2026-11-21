@@ -253,31 +253,32 @@ s32 ModelVariant459_HandleRequest(Variant459EntryState *context, s32 command)
         SetSemiTrans(ray, 1);
         SetShadeTex(ray, 0);
         for (; row < 9; row++) {
-            ga_rowp = (SVECTOR *)grid_a + row * 17;
+            ga_rowp = grid_a->rows[row];
             f60 = rsin(row * 256) << 8 >> 12;
             f40 = rcos(row * 256) << 8 >> 12;
             for (j = 0, ang = 0; j < 17; j++, ang = j << 8) {
                 setVector(&ga_rowp[j], rcos(ang) * f60 >> 12, f40, rsin(ang) * f60 >> 12);
             }
-            ((u8 *)grid_a)[row * 4 + 0x4C8] = (row * 256 - row) / 8;
-            ((u8 *)grid_a)[row * 4 + 0x4C9] = 64;
-            ((u8 *)grid_a)[row * 4 + 0x4CA] = ~((row * 256 - row) / 8);
+            grid_a->colors[row].r = (row * 256 - row) / 8;
+            grid_a->colors[row].g = 64;
+            grid_a->colors[row].b = ~((row * 256 - row) / 8);
         }
         gb_base = 0;
         row = 0;
         for (; row < 9; gb_base += 256, row++) {
-            gb_rowp = (SVECTOR *)grid_b + row * 9;
+            gb_rowp = grid_b->a[row];
             f98 = (rsin(gb_base) * 480 >> 12) * 640 / 1024;
             f99 = rcos(gb_base) * 480 >> 12;
             f93 = (rsin(gb_base) << 9 >> 12) * 640 / 1024;
             f71 = rcos(gb_base) << 9 >> 12;
             for (f28 = 0, angle = 0; f28 < 9; f28++, angle = f28 << 9) {
                 setVector(&gb_rowp[f28], rcos(angle) * f98 >> 12, f99, rsin(angle) * f98 >> 12);
+                /* b[row][f28], reached from the a row as retail does. */
                 setVector(&gb_rowp[81 + f28], rcos(angle) * f93 >> 12, f71, rsin(angle) * f93 >> 12);
             }
-            ((u8 *)grid_b)[row * 4 + 0x510] = (gb_base - row) / 8;
-            ((u8 *)grid_b)[row * 4 + 0x511] = 64;
-            ((u8 *)grid_b)[row * 4 + 0x512] = ~((gb_base - row) / 8);
+            grid_b->color[row].r = (gb_base - row) / 8;
+            grid_b->color[row].g = 64;
+            grid_b->color[row].b = ~((gb_base - row) / 8);
         }
         for (n = 0; n < 5; n++, curtain++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {

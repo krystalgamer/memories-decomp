@@ -1654,12 +1654,13 @@ typedef union {
     u8 flat[20];
 } ModelVariantSpinStarQuads;
 
-/* One point of the sixteen-segment shock fan that headers 798 and 818 pulse
- * on arrival: the inner point and the outer point of the fan's band. */
+/* One point of an annular band drawn as quads between its inner and outer
+ * edges: the sixteen-segment shock fan that headers 798 and 818 pulse on
+ * arrival, and header 628's dome ring with its wider, lowered outer ring. */
 typedef struct {
     SVECTOR inner;
     SVECTOR outer;
-} ModelVariantShockFanPoint;
+} ModelVariantRingBandPoint;
 
 /* The projection scratch of header 85 (French header 102) that follows the
  * three sprite vertices on the stack: it holds the fourth sprite corner for

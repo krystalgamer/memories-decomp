@@ -177,11 +177,6 @@ typedef struct {
     } color;
 } ModelSlotLightEntry;
 
-/* The SDK VECTOR Model_DrawSlot passes render_scale as to ScaleMatrix and
- * Model_UpdateCoordinateUnitMatrix; `pad` is the fourth word, copied with the
- * other three by Model_SetSlotScale but not reset on its own. */
-typedef VECTOR ModelSlotS32Quad;
-
 typedef union {
     struct {
         u8 field_00[0xA];
@@ -336,8 +331,10 @@ typedef struct {
     /* Signed ambient channels; retain the slot-2 negative-one sentinel. */
     s32 ambient_rgb_scale[3];
     u8 pad_DAC[4];
-    /* Render-coordinate scale; preserve the fourth copy word. */
-    ModelSlotS32Quad render_scale;
+    /* Render-coordinate scale: the VECTOR Model_DrawSlot passes to
+     * ScaleMatrix and Model_UpdateCoordinateUnitMatrix. `pad` is copied with
+     * the other three words by Model_SetSlotScale but not reset on its own. */
+    VECTOR render_scale;
     /* Fade tint: [0..2] target RGB (0x80 neutral; 0 invisible in the
      * observed mode-5 fades, see Model_DrawSlot's zero-RGB skip), [3] blend
      * mode (0 opaque; 5 additive, the 3-D battle fade-in/out), [4..6] the
@@ -567,9 +564,6 @@ typedef char ModelSlotLightEntry_layout_must_match[
     OFFSETOF(ModelSlotLightEntry, direction_y) == 4 &&
     OFFSETOF(ModelSlotLightEntry, direction_z) == 8 &&
     OFFSETOF(ModelSlotLightEntry, color) == 0xC ? 1 : -1
-];
-typedef char ModelSlotS32Quad_size_must_be_0x10[
-    sizeof(ModelSlotS32Quad) == 0x10 ? 1 : -1
 ];
 typedef char ModelSlotSoundEntry_size_must_be_4[
     sizeof(ModelSlotSoundEntry) == 4 ? 1 : -1

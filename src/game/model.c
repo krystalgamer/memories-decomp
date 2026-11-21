@@ -718,7 +718,7 @@ void Model_UpdateAnimatedBattle(void)
     SVECTOR camera_endpoint;
     s32 defender_handler_index;
 
-    *(ModelSlotS32Quad *)effect_handlers = *(ModelSlotS32Quad *)gModel_apfnEffectHandlers;
+    *(ModelEffectHandlerTable *)effect_handlers = *(ModelEffectHandlerTable *)gModel_apfnEffectHandlers;
     defender_handler_index = 1;
     if (((gDuel_adwCardStats[gModel_aSlots[1].model_id] >> CARD_STAT_TYPE_SHIFT) & CARD_STAT_TYPE_MASK) == CARD_TYPE_SPELLCASTER) {
         defender_handler_index = 2;

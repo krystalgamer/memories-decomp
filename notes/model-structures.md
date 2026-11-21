@@ -266,11 +266,10 @@ remain. See [the complete producer/consumer protocol](model-slot-properties.md#c
 
 ### Render scale and cached coordinate-origin dimensions
 
-`ModelSlot.field_DB0` is now `render_scale`, retaining the four signed
-words of `ModelSlotS32Quad` at +0xDB0. The original scale APIs retain
-their pointer construction;
-nonnull setter copies all four words, null resets only the first three
-in the original order. No SDK VECTOR retyping or fourth-word clear.
+`ModelSlot.field_DB0` is now `render_scale`, the SDK `VECTOR` at +0xDB0
+(formerly the `ModelSlotS32Quad` alias of it). The nonnull setter copies
+all four words, null resets only the first three in the original order;
+there is no fourth-word clear.
 The first three words are now `vx`, `vy` and `vz`, the components of the
 VECTOR `Model_DrawSlot` passes to `ScaleMatrix` and
 `Model_UpdateCoordinateUnitMatrix`, and the three words `Model_ResetSlot`

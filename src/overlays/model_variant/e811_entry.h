@@ -31,11 +31,6 @@ typedef struct {
     VECTOR velocity;
 } Model628Part;
 
-/* A ring point and the matching point on the wider, lowered outer ring. */
-typedef struct {
-    SVECTOR inner, outer;
-} Model628RingPoint;
-
 /* The work area: the command, the slot, the packets, the sprite square,
  * the dome grid (17 meridians of 9 points) and its spun copy, the burst
  * ring, the flags and counts, and the four part families. */
@@ -51,7 +46,7 @@ typedef struct {
     SVECTOR square[4];
     SVECTOR dome[17][9];
     SVECTOR spun[17][9];
-    Model628RingPoint ring[17];
+    ModelVariantRingBandPoint ring[17];
     /* The burst launch cursor, then the finish flag at flags[4]. */
     u8 flags[5];
     u8 count, spark_count, dome_count, burst_count;

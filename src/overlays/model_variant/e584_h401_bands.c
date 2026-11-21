@@ -2,17 +2,14 @@
 #include "model_variant.h"
 #include "e584_h401_entry.h"
 
-/* The French build adds the record base first in the first growth read and
- * reads the second strip's next column from the record instead of the
- * column-shifted q2 view. */
+/* The French build reads the second strip's next column from the record
+ * instead of the column view. */
 #if defined(VERSION_FRENCH)
-#define VARIANT401_BANDS_COLUMN(rec, off4) ((s32)(rec) + (off4))
 #define VARIANT401_BANDS_NEXT_X(row, ofs) rec->screen[row][j + 1]
 #define VARIANT401_BANDS_NEXT_Y(row, ofs) (rec->screen[row][j + 1] >> 16)
 #else
-#define VARIANT401_BANDS_COLUMN(rec, off4) ((off4) + (s32)(rec))
-#define VARIANT401_BANDS_NEXT_X(row, ofs) *(u16 *)((q2 + (ofs)))
-#define VARIANT401_BANDS_NEXT_Y(row, ofs) *(s16 *)((q2 + (ofs)) + 2)
+#define VARIANT401_BANDS_NEXT_X(row, ofs) *(u16 *)((column + (ofs)))
+#define VARIANT401_BANDS_NEXT_Y(row, ofs) *(s16 *)((column + (ofs)) + 2)
 #endif
 
 void ModelVariant401_DrawBand(Variant401EntryState *context)
@@ -37,8 +34,9 @@ void ModelVariant401_DrawBand(Variant401EntryState *context)
     s32 radius;
     s32 t, tc, tn, tz, tr;
     s32 yv;
-    s32 off4, off8, lo, lo2, yv2, yv3, yv4;
-    u8 *p0, *q1, *q2;
+    s32 lo, lo2, yv2, yv3, yv4;
+    SVECTOR *row0, *row1, *row2;
+    u8 *column;
 
     work = context;
     poly = work->packets.textured;
@@ -59,8 +57,7 @@ void ModelVariant401_DrawBand(Variant401EntryState *context)
     rec = work->bands;
     for (j3 = 0; j3 < 1; j3++, rec++) {
         for (j = 0; j < 9; j++) {
-            off4 = j * 4;
-            tc = *(s32 *)(((u8 *)VARIANT401_BANDS_COLUMN(rec, off4)) + 0x1D4);
+            tc = rec->offset[j];
             a = 0;
             if (tc > 0) {
                 if (rec) {
@@ -69,21 +66,23 @@ void ModelVariant401_DrawBand(Variant401EntryState *context)
                     a = tc;
                 }
             }
-            off8 = j * 8;
-            p0 = (u8 *)(off8 + (s32)rec);
-            *(s16 *)p0 = rcos(0x400) * (s16)radius >> 12;
+            /* point[0][j] with retail's index-first add (&rec->point[0][j]
+             * swaps the addu operands); point[1][j] and point[2][j] are reached
+             * from it (+9, +18), as retail does. */
+            row0 = (SVECTOR *)(j * 8 + (s32)rec);
+            row0->vx = rcos(0x400) * (s16)radius >> 12;
             lo = rsin(0x400) * (s16)radius;
-            *(s16 *)(p0 + 4) = 0;
-            *(s16 *)(p0 + 0x48) = 0;
-            *(s16 *)(p0 + 2) = lo >> 12;
-            q1 = p0 + 0x48;
-            *(s16 *)(q1 + 2) = 0;
-            *(s16 *)(q1 + 4) = 0;
-            *(s16 *)(p0 + 0x90) = rcos(0xC00) * (s16)radius >> 12;
+            row0->vz = 0;
+            row0[9].vx = 0;
+            row0->vy = lo >> 12;
+            row1 = &row0[9];
+            row1->vy = 0;
+            row1->vz = 0;
+            row0[18].vx = rcos(0xC00) * (s16)radius >> 12;
             lo2 = rsin(0xC00) * (s16)radius;
-            q2 = p0 + 0x90;
-            *(s16 *)(q2 + 4) = 0;
-            *(s16 *)(q2 + 2) = lo2 >> 12;
+            row2 = &row0[18];
+            row2->vz = 0;
+            row2->vy = lo2 >> 12;
             rot.vx = 0;
             rot.vy = 0;
             rot.vz = yaw;
@@ -103,19 +102,19 @@ void ModelVariant401_DrawBand(Variant401EntryState *context)
             RotMatrix(&rot, &ls);
             ScaleMatrix(&ls, &scale);
             SetRotMatrix(&ls);
-            *(s32 *)(((u8 *)(off4 + (s32)rec)) + 0x258) = RotTransPers3((SVECTOR *)p0, (SVECTOR *)((u8 *)rec + (off8 + 0x48)),
-                                                   (SVECTOR *)((u8 *)rec + (off8 + 0x90)),
-                                                   (long *)((u8 *)rec + (off4 + 0xD8)),
-                                                   (long *)((u8 *)rec + (off4 + 0xFC)),
-                                                   (long *)((u8 *)rec + (off4 + 0x120)),
+            rec->otz[j] = RotTransPers3(row0, &rec->point[1][j],
+                                                   &rec->point[2][j],
+                                                   &rec->screen[0][j],
+                                                   &rec->screen[1][j],
+                                                   &rec->screen[2][j],
                                                    &p, &flags[j3][j]);
-            if (work->tail.phase < 3 && *(s32 *)(((u8 *)(off4 + (s32)rec)) + 0x1D4) < 0x400) {
+            if (work->tail.phase < 3 && rec->offset[j] < 0x400) {
                 if (j == 0) {
                     t = work->config->burst_start;
                     rec->offset[0] = ((work->clock.frame - t) << 10) /
                                      (work->config->burst_end - t);
                 } else {
-                    *(s32 *)((u8 *)rec + off4 + 0x1D4) += work->clock.step << 6;
+                    rec->offset[j] += work->clock.step << 6;
                 }
                 if (rec->offset[j] >= 0x400) {
                     rec->offset[j] = 0x400;
@@ -151,25 +150,28 @@ void ModelVariant401_DrawBand(Variant401EntryState *context)
             if (rec->otz[j] >= 0) {
                 GsSortPoly(poly, ot, (u16)rec->otz[j]);
             }
-            q2 = (u8 *)rec + (((u8 *)rec + j * 4) - (u8 *)rec);
-            poly->x0 = *(u16 *)((q2 + 0x120));
-            yv = *(s16 *)((q2 + 0x120) + 2);
+            /* Column j of the band's word arrays (screen rows, ca, cb, otz) as
+             * a separate copy of rec + j * 4: retail moves the address into a
+             * new register here, which the member forms do not reproduce. */
+            column = (u8 *)rec + (((u8 *)rec + j * 4) - (u8 *)rec);
+            poly->x0 = *(u16 *)((column + 0x120));
+            yv = *(s16 *)((column + 0x120) + 2);
             poly->y0 = yv;
             poly->x1 = VARIANT401_BANDS_NEXT_X(2, 0x124);
             yv = VARIANT401_BANDS_NEXT_Y(2, 0x124);
             poly->y1 = yv;
-            poly->x2 = *(u16 *)((q2 + 0xFC));
-            yv = *(s16 *)((q2 + 0xFC) + 2);
+            poly->x2 = *(u16 *)((column + 0xFC));
+            yv = *(s16 *)((column + 0xFC) + 2);
             poly->y2 = yv;
             poly->x3 = VARIANT401_BANDS_NEXT_X(1, 0x100);
             yv = VARIANT401_BANDS_NEXT_Y(1, 0x100);
             poly->y3 = yv;
-            poly->r0 = q2[0x1F8]; poly->g0 = q2[0x1F9]; poly->b0 = q2[0x1FA];
+            poly->r0 = column[0x1F8]; poly->g0 = column[0x1F9]; poly->b0 = column[0x1FA];
             poly->r1 = rec->ca[j + 1].r; poly->g1 = rec->ca[j + 1].g; poly->b1 = rec->ca[j + 1].b;
-            poly->r2 = q2[0x21C]; poly->g2 = q2[0x21D]; poly->b2 = q2[0x21E];
+            poly->r2 = column[0x21C]; poly->g2 = column[0x21D]; poly->b2 = column[0x21E];
             poly->r3 = rec->cb[j + 1].r; poly->g3 = rec->cb[j + 1].g; poly->b3 = rec->cb[j + 1].b;
-            if (*(s32 *)(q2 + 0x258) < 0) {
-                *(s32 *)(q2 + 0x258) = 0;
+            if (*(s32 *)(column + 0x258) < 0) {
+                *(s32 *)(column + 0x258) = 0;
             }
             flags[j3][j] = 0;
             if (rec->otz[j] >= 0) {

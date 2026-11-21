@@ -213,7 +213,7 @@ Two `0x334`-byte streamer records start at work offset `1558`. Each mirrors
 the MODEL458 streamer layout with 17 points: `a`, projected `sa`, `angle`,
 offset points `b`, projected `sb`, `width`, colours at `264`, depths at
 `2AC`, and signed screen offsets at `2F0/312`. Scale words come from 152-byte
-records at `11B8` (`Model400Size`), and middle passes read the measured
+records at `11B8` (`Model400Size`, the sheets' `size` words), and middle passes read the measured
 `position` of the five 880-byte `Model400FirstRibbon` records.
 
 The first pass builds both strands in the MODEL458 streamer shape (radius
