@@ -16,7 +16,7 @@ s32 FrenchModelVariant444_HandleRequest(Variant444EntryState *context, s32 comma
     ModelVariantTube *tube = work->tubes;
     Beam411 *record = work->beams;
     ModelVariantSheet *sheet = work->sheets;
-    ModelVariantFunnel *funnel = work->funnels;
+    ModelVariantCurtain *funnel = work->funnels;
     ModelVariantSpokeColorRing *spoke = work->spokes;
     ModelVariantBeam *beam = work->extras;
     POLY_G3 *triangle = &work->triangle;
@@ -110,17 +110,17 @@ s32 FrenchModelVariant444_HandleRequest(Variant444EntryState *context, s32 comma
 
         for (n = 0; n < 2; n++, funnel++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j << 8) {
-                setVector(&funnel->inner[j], (u32)rcos(angle) >> 4,
+                setVector(&funnel->a[j], (u32)rcos(angle) >> 4,
                           (u32)rsin(angle) >> 4, 0);
-                setVector(&funnel->outer[j], (u32)(rcos(angle) * 5) >> 6,
+                setVector(&funnel->b[j], (u32)(rcos(angle) * 5) >> 6,
                           (u32)(rsin(angle) * 5) >> 6, -64);
             }
             if (n == 1) {
-                funnel->size = 0;
+                funnel->scale = 0;
             } else {
-                funnel->size = -n * 4096;
+                funnel->scale = -n * 4096;
             }
-            funnel->field_114 = 0;
+            funnel->count = 0;
         }
         for (i = 0; i < 1; i++, tube++) {
             setVector(&tube->scale, 4096, 4096, 4096);

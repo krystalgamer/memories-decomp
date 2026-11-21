@@ -12,7 +12,7 @@
 
 static const VECTOR gModelVariant154_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant154_HandleRequest(Model154State *context, s32 command)
+s32 ModelVariant154_HandleRequest(ModelVariantGridBeamState *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -24,8 +24,8 @@ s32 ModelVariant154_HandleRequest(Model154State *context, s32 command)
     DVECTOR screen[66];
     u16 depths[66], projection[66], flags[66];
     long flag, interpolation;
-    Model154State *work;
-    Model154Config *config;
+    ModelVariantGridBeamState *work;
+    ModelVariantGridBeamConfig *config;
     s32 direction;
     GsOT *ot;
     s32 step;
@@ -101,7 +101,7 @@ s32 ModelVariant154_HandleRequest(Model154State *context, s32 command)
         work->frames = 0;
         work->completed = 0;
 #ifndef VERSION_FRENCH
-        printf("%d (0x%x) Byte\n", sizeof(Model154State), sizeof(Model154State));
+        printf("%d (0x%x) Byte\n", sizeof(ModelVariantGridBeamState), sizeof(ModelVariantGridBeamState));
 #endif
         return 0;
     }

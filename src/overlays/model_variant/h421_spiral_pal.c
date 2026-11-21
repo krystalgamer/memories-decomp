@@ -7,7 +7,7 @@
  * the view by the spread, and drawn as two POLY_GT4 halves whose inner and outer
  * colours follow (flags + arm) & 7. The sweep advances by 16 a frame and the
  * size grows to 0x400 once the timing record's bound is reached. */
-void SpanishModelVariant438_DrawSpiral(Variant438EntryState *context)
+void SpanishModelVariant438_DrawSpiral(SpanishVariant438EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -17,7 +17,7 @@ void SpanishModelVariant438_DrawSpiral(Variant438EntryState *context)
     long status[12][2];
     long p;
     long flag;
-    Variant438EntryState *work;
+    SpanishVariant438EntryState *work;
     ModelVariantSheet *timing;
     GsOT *ot;
     s16 i;

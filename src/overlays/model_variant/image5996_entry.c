@@ -1,10 +1,10 @@
 #include "../../types.h"
 #include "image5996_entry.h"
 
-s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
+s32 FrenchModelVariant102_HandleRequest(ModelVariantFunnelState *context, s32 command)
 {
-    Image5996State *state;
-    Image5996Config *config;
+    ModelVariantFunnelState *state;
+    ModelVariantFunnelConfig *config;
     MATRIX light;
     MATRIX matrix;
     POLY_G3 triangle;
@@ -42,9 +42,9 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = state->config = &gFrenchModelVariant102_aConfigs[command];
-        angle = state->rotations;
-        velocity = state->velocities;
-        for (i = 0; i < config->triangle_count; angle++, velocity++, i++) {
+        angle = state->angles;
+        velocity = state->speeds;
+        for (i = 0; i < config->count; angle++, velocity++, i++) {
             setVector(angle, rand() % 4096,
                       rand() % 4096, rand() % 4096);
             setVector(velocity, rand() % 32,
@@ -63,13 +63,13 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
                       config->inner_radius * ccos(i * 128) / 4096,
                       config->inner_radius * csin(i * 128) / 4096, 0);
         }
-        state->notified = 0;
+        state->hit = 0;
         for (i = 0; i < 3; i++) {
-            state->textures[i] = ModelTexture_PackPageClutCopy(
+            state->texture[i] = ModelTexture_PackPageClutCopy(
                 Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant102_aImages[i]);
         }
         state->elapsed = -config->delay;
-        state->tick = 0;
+        state->frame = 0;
         return 0;
     }
 
@@ -85,21 +85,21 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
     setRGB0(&triangle, 0, 0, 0);
     setRGB1(&triangle, 0, 0, 0);
     SetPolyFT4(&quad);
-    setRGB0(&quad, config->quad_rgb[0], config->quad_rgb[1],
-            config->quad_rgb[2]);
+    setRGB0(&quad, config->sprite_red, config->sprite_green,
+            config->sprite_blue);
     GsSetLsMatrix(&light);
     GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(),
                                     config->part), &matrix);
     setVector(&translation, matrix.t[0], matrix.t[1], matrix.t[2]);
 
-    if (state->elapsed < config->release_at) {
+    if (state->elapsed < config->spin_end) {
         Model_SetSlotPlaybackDirection(0, 0);
         Model_SetSlotPlaybackDirection(1, 0);
         Model_SetSlotAmbient(2, -1024, -1024, -1024);
-        angle = state->rotations;
-        velocity = state->velocities;
+        angle = state->angles;
+        velocity = state->speeds;
         setVector(&v2, 0, 0, 0);
-        for (i = 0; i < config->triangle_count; angle++, velocity++, i++) {
+        for (i = 0; i < config->count; angle++, velocity++, i++) {
             GsSetLsMatrix(&light);
             copyVector(&rotation, velocity);
             rotation.vx *= state->elapsed;
@@ -111,20 +111,20 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
             MulMatrix2(&light, &matrix);
             ScaleMatrix(&matrix, &scale);
             GsSetLsMatrix(&matrix);
-            setVector(&v0, config->triangle_width, config->triangle_height, 0);
-            setVector(&v1, -config->triangle_width, config->triangle_height, 0);
+            setVector(&v0, config->width, config->height, 0);
+            setVector(&v1, -config->width, config->height, 0);
             depth = RotTransPers3(&v0, &v1, &v2, (long *)&triangle.x0,
                                (long *)&triangle.x1, (long *)&triangle.x2,
                                &p, &flag);
-            setRGB2(&triangle, config->triangle_rgb[0],
-                    config->triangle_rgb[1], config->triangle_rgb[2]);
+            setRGB2(&triangle, config->red,
+                    config->green, config->blue);
             if (depth >= 0 && flag >= 0) {
                 Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 1);
             }
-            setVector(&v0, config->triangle_width / 2,
-                      config->triangle_height / 2, 0);
-            setVector(&v1, -config->triangle_width / 2,
-                      config->triangle_height / 2, 0);
+            setVector(&v0, config->width / 2,
+                      config->height / 2, 0);
+            setVector(&v1, -config->width / 2,
+                      config->height / 2, 0);
             depth = RotTransPers3(&v0, &v1, &v2, (long *)&triangle.x0,
                                (long *)&triangle.x1, (long *)&triangle.x2,
                                &p, &flag);
@@ -138,21 +138,21 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
         Model_SetSlotPlaybackDirection(1, 1);
     }
 
-    if (state->elapsed < config->burst_at) {
-        quad.tpage = state->textures[0] >> 16;
-        quad.clut = state->textures[0];
+    if (state->elapsed < config->burst_start) {
+        quad.tpage = state->texture[0] >> 16;
+        quad.clut = state->texture[0];
         SetSemiTrans(&quad, 1);
-        setVector(&v0, -config->quad_extent / 4, -config->quad_extent / 4, 0);
-        setVector(&v1, config->quad_extent / 4, -config->quad_extent / 4, 0);
-        setVector(&v2, -config->quad_extent / 4, config->quad_extent / 4, 0);
-        setVector(&projected.corner, config->quad_extent / 4,
-                  config->quad_extent / 4, 0);
+        setVector(&v0, -config->size / 4, -config->size / 4, 0);
+        setVector(&v1, config->size / 4, -config->size / 4, 0);
+        setVector(&v2, -config->size / 4, config->size / 4, 0);
+        setVector(&projected.corner, config->size / 4,
+                  config->size / 4, 0);
         setVector(&rotation, 0, 0, 0);
         GsSetLsMatrix(&light);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(),
                                         config->part), &matrix);
         setVector(&translation, matrix.t[0], matrix.t[1], matrix.t[2]);
-        size = (state->tick & 1) * 512 + 4096;
+        size = (state->frame & 1) * 512 + 4096;
         setRGB0(&quad, 128, 128, 128);
         setVector(&scale, size, size, size);
         GsSetLsMatrix(&light);
@@ -169,27 +169,27 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
         }
     }
 
-    elapsed = state->elapsed - config->burst_at;
-    if (elapsed >= 0 && elapsed < config->burst_duration) {
+    elapsed = state->elapsed - config->burst_start;
+    if (elapsed >= 0 && elapsed < config->duration) {
         {
-            quad.tpage = state->textures[0] >> 16;
-            quad.clut = state->textures[0];
+            quad.tpage = state->texture[0] >> 16;
+            quad.clut = state->texture[0];
             SetSemiTrans(&quad, 1);
-            setVector(&v0, -config->quad_extent, -config->quad_extent, 0);
-            setVector(&v1, config->quad_extent, -config->quad_extent, 0);
-            setVector(&v2, -config->quad_extent, config->quad_extent, 0);
-            setVector(&projected.corner, config->quad_extent,
-                      config->quad_extent, 0);
+            setVector(&v0, -config->size, -config->size, 0);
+            setVector(&v1, config->size, -config->size, 0);
+            setVector(&v2, -config->size, config->size, 0);
+            setVector(&projected.corner, config->size,
+                      config->size, 0);
             setVector(&rotation, 0, 0, 0);
             setVector(&translation, 0, -350, side * 450);
-            size = elapsed * 4096 / config->burst_duration + 2048;
+            size = elapsed * 4096 / config->duration + 2048;
             setVector(&scale, size, size, size);
-            red = config->quad_rgb[0] * (config->burst_duration - elapsed) /
-                  config->burst_duration;
-            green = config->quad_rgb[1] * (config->burst_duration - elapsed) /
-                    config->burst_duration;
-            blue = config->quad_rgb[2] * (config->burst_duration - elapsed) /
-                   config->burst_duration;
+            red = config->sprite_red * (config->duration - elapsed) /
+                  config->duration;
+            green = config->sprite_green * (config->duration - elapsed) /
+                    config->duration;
+            blue = config->sprite_blue * (config->duration - elapsed) /
+                   config->duration;
             setRGB0(&quad, red, green, blue);
             GsSetLsMatrix(&light);
             RotTrans(&translation, (VECTOR *)matrix.t, &flag);
@@ -205,8 +205,8 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
             }
         }
         {
-            quad.tpage = state->textures[1] >> 16;
-            quad.clut = state->textures[1];
+            quad.tpage = state->texture[1] >> 16;
+            quad.clut = state->texture[1];
             SetSemiTrans(&quad, 1);
             setUV4(&quad, 0, 128, 31, 128, 0, 255, 31, 255);
             GsSetLsMatrix(&light);
@@ -240,14 +240,14 @@ s32 FrenchModelVariant102_HandleRequest(Image5996State *context, s32 command)
     }
     PopMatrix();
     state->elapsed += Model_GetFrameStep();
-    state->tick++;
-    if (state->elapsed >= config->release_at) {
-        if (state->elapsed < config->burst_at) {
+    state->frame++;
+    if (state->elapsed >= config->spin_end) {
+        if (state->elapsed < config->burst_start) {
             Model_SetSlotAmbient(2, 2048, 2048, 2048);
-        } else if (state->elapsed > config->burst_at + config->burst_duration) {
+        } else if (state->elapsed > config->burst_start + config->duration) {
             return 2;
-        } else if (!state->notified) {
-            state->notified++;
+        } else if (!state->hit) {
+            state->hit++;
             return 1;
         }
     }

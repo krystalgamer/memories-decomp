@@ -33,12 +33,12 @@ typedef union {
 } EntryPackets373;
 
 typedef struct {
-    ModelVariantDome sphere;
+    ModelVariantMesh sphere;
     Family373Ring rising_rings[5];
     EntrySparkGroup373 sparks[3];
     ModelVariantScaledStrip strips[1];
     ModelVariantQuadSheet quadrants[1];
-    ModelVariantRibbonSpan ribbons[8];
+    ModelVariantOffsetRay ribbons[8];
     ModelVariantColorRing rings[4];
     ModelVariantShadedRay rays[16];
     POLY_G3 triangle;

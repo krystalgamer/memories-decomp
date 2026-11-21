@@ -526,22 +526,6 @@ typedef struct {
     u16 oy[2];
 } ModelVariantRibbonShort;
 
-/* One 0x6C-byte ribbon span of headers 373 and 383: two points and their
- * edge copies, both projected, the angles and widths, the depths and the
- * screen offsets. */
-typedef struct {
-    SVECTOR points[2];
-    long projected[2];
-    s32 angle[2];
-    SVECTOR edges[2];
-    long edge_projected[2];
-    s32 width[2];
-    u8 unknown_40[0x1C];
-    long depth[2];
-    s16 x_offset[2];
-    s16 y_offset[2];
-} ModelVariantRibbonSpan;
-
 /* The 0x20-byte style block that follows the projected spine of the ribbon
  * records (0x220 bytes for the seventeen-point ribbons, 0x120 for the
  * nine-point ribbons of headers 436 and 437): the inner (spine-side) and outer (edge)
@@ -680,10 +664,11 @@ typedef struct {
     s16 oy[13];
 } ModelVariantShortStreamer;
 
-/* One 0x118-byte curtain of header 422: two rows of seventeen points drawn
- * as sixteen POLY_GT4 strips, a scale the drawers grow to 0x1000 and a count
- * of the times it wrapped. The entry handlers start the scales staggered at
- * -(n * 4096 / 3) or similar. */
+/* One 0x118-byte curtain, ring or funnel: two rows of seventeen points
+ * (for rings and funnels, an inner and an outer ring) drawn as sixteen
+ * POLY_GT4 strips, a scale the drawers grow to 0x1000 and a count of the
+ * times it wrapped (the funnel entries only clear it). The entry handlers
+ * start the scales staggered at -(n * 4096 / 3) or similar. */
 typedef struct {
     SVECTOR a[17];
     SVECTOR b[17];
@@ -798,16 +783,6 @@ typedef struct {
     s16 oy[17];
 } ModelVariantFlaggedStreamer;
 
-/* One 0x118-byte funnel or ring: seventeen inner points at radius 64 and
- * seventeen outer points at radius 256, joined into quads and scaled by
- * size. */
-typedef struct {
-    SVECTOR inner[17];
-    SVECTOR outer[17];
-    s32 size;
-    s32 field_114;
-} ModelVariantFunnel;
-
 /* One 0x24-byte command row, picked by command % 100: the particle and glow
  * colours (headers 165 and 166 do not read the glow colour), the slot part
  * the particles start from, the particle count, the particle half size, the
@@ -847,9 +822,11 @@ typedef struct {
     s32 done;
 } ModelVariantGridSheet;
 
-/* One 0x6C-byte ray: a two-point spine and a copy offset across the view,
- * both projected, the screen angles and widths, the depths and the width's
- * screen offset. */
+/* One 0x6C-byte ray or ribbon span: a two-point spine and a copy offset
+ * across the view, both projected, the screen angles and widths, the depths
+ * and the width's screen offset; each segment is drawn as a triangle from
+ * the spine point +/- that offset to the next point (the ray helpers, and
+ * the ribbons of headers 373 and 383). */
 typedef struct {
     SVECTOR points[2];
     long screen[2];
@@ -1223,6 +1200,24 @@ typedef struct {
     u32 sweep_start, sweep_end;
 } ModelVariantSweepConfig;
 
+/* One 0x44-byte command row of headers 438 and 451: ModelVariantWebConfig's
+ * colours and parts, the swarm quad count, the mode (1 moves the quads'
+ * targets through the sweep), the quad growth rate, the start frame, the
+ * frame from which a grown quad stays done instead of wrapping, the frame
+ * until which the origin follows the first part, and the sweep window. */
+typedef struct {
+    CVECTOR inner, outer, web;
+    u8 unknown_0C[4], parts[3], unknown_13[9];
+    s32 count;
+    s32 mode;
+    u32 rate;
+    u32 start;
+    u32 limit;
+    u8 unknown_30[8];
+    u32 origin_end;
+    u32 sweep_start, sweep_end;
+} ModelVariantSwarmWebConfig;
+
 /* A 0x5B4-byte ring of 24 quads: corner arrays v0..v3, positions, a colour,
  * and per quad a size, a progress word and an initialized flag. The French
  * header-461 and 469 entries build it at work + 0xB90 and + 0x1614 and pass
@@ -1464,15 +1459,9 @@ typedef struct {
     u16 unknown_56;
 } ModelVariantBoltVolleyConfig;
 
-/* Nine 17-point rings of a dome, each with its own colour (ModelVariantMesh
- * with CVECTOR colours). */
-typedef struct {
-    SVECTOR points[9][17];
-    CVECTOR colors[9];
-} ModelVariantDome;
-
 /* A 0x4EC-byte mesh of nine rows of seventeen points and one colour per row,
- * drawn as RotTransPers4 quads between neighbouring rows. */
+ * drawn as RotTransPers4 quads between neighbouring rows; the rows are the
+ * rings of a globe, sphere or dome in some entries. */
 typedef struct {
     SVECTOR rows[9][17];
     CVECTOR colors[9];
@@ -1666,6 +1655,102 @@ typedef union {
     SVECTOR corner;
     DVECTOR screen[66];
 } ModelVariantFunnelProjection;
+
+/* One 0x1E-byte command row of header 85 (French header 102): the triangle
+ * and sprite colours, the model part the effect follows, the triangle height
+ * and width, the funnel's inner and outer radii, the sprite half size, the
+ * burst duration, the triangle count, the start delay, the end of the spin
+ * and the start of the burst. */
+typedef struct {
+    u8 red, green, blue;
+    u8 sprite_red, sprite_green, sprite_blue;
+    u8 part, unknown_07;
+    s16 height;
+    s16 width;
+    s16 unknown_0C;
+    s16 inner_radius;
+    s16 outer_radius;
+    s16 size;
+    s16 duration;
+    s16 count;
+    s16 delay;
+    s16 spin_end;
+    s16 burst_start;
+} ModelVariantFunnelConfig;
+
+/* The 0x428-byte work area of header 85 (French header 102): the command
+ * row, each triangle's random start angle and spin speed, the funnel's outer
+ * and inner rings, three textures, a frame counter, whether the hit has been
+ * reported and the elapsed time. */
+typedef struct {
+    ModelVariantFunnelConfig *config;
+    SVECTOR angles[32];
+    SVECTOR speeds[32];
+    SVECTOR rings[66];
+    s32 texture[3];
+    u8 frame;
+    u8 hit;
+    s32 elapsed;
+} ModelVariantFunnelState;
+
+/* One 0x1C-byte command row of header 158 (French header 175), picked by
+ * command % 100: the particle and burst colours, the slot part the particles
+ * leave from, the particle count, the particle half size, the target spread,
+ * the lift of the travel arc, the burst half size, the travel, fade and
+ * burst durations, the spacing between particles and the start delay. */
+typedef struct {
+    u8 red, green, blue, burst_red, burst_green, burst_blue, part, count;
+    s16 half_size, spread, lift, burst_half_size, travel_duration, fade_duration, burst_duration, interval, delay;
+    u8 unknown_1A[2];
+} ModelVariantTravelBurstConfig;
+
+/* The 0x618-byte work area of header 158 (French header 175): the command
+ * row, 64 particle positions, 64 targets around the other slot and 64 burst
+ * positions, two texture words, the completion flag, the elapsed time and
+ * the frame count. */
+typedef struct {
+    ModelVariantTravelBurstConfig *config;
+    SVECTOR positions[64];
+    SVECTOR targets[64];
+    SVECTOR bursts[64];
+    u32 texture[2];
+    u8 completed, unknown_60D[3];
+    s32 elapsed, updates;
+} ModelVariantTravelBurstState;
+
+/* One 0x22-byte command row of headers 154 and 169 (169 is the 154 effect
+ * without the closing grid burst), picked by command % 100: the trail, ring,
+ * beam and burst colours, the slot part the effect starts from, the grid
+ * half size, the ring radius and the burst ring's extra radius and depth,
+ * the cycle length, the flash and burst durations, the cycle count, the
+ * start time and the flash start time. */
+typedef struct {
+    u8 red, green, blue;
+    u8 ring_red, ring_green, ring_blue;
+    u8 beam_red, beam_green, beam_blue;
+    u8 burst_red, burst_green, burst_blue;
+    u8 part, unknown_D;
+    s16 size, radius, spread, depth, period, flash, burst, count, delay, flash_delay;
+} ModelVariantGridBeamConfig;
+
+/* The 0x4C0-byte work area of headers 154 and 169: the command row, an
+ * 8-entry trail ring buffer (the pad word marks a travelling entry), a 5 x 5
+ * grid mesh, a 17-point ring, a 66-point double ring, the corner pointers of
+ * the grid's 16 quads, the burst heading, three texture words, the
+ * completion flag, the trail head, the elapsed time and a frame count. */
+typedef struct {
+    ModelVariantGridBeamConfig *config;
+    SVECTOR trail[8];
+    SVECTOR grid[25];
+    SVECTOR ring[17];
+    SVECTOR rings[66];
+    SVECTOR *quads[16][4];
+    s16 heading, unknown_4A6;
+    u32 texture[3];
+    u8 completed, head, unknown_4B6[2];
+    s32 elapsed;
+    s32 frames;
+} ModelVariantGridBeamState;
 
 /* The RotTransPers outputs the header-408 and 475 entries use to measure the
  * screen offset from an origin to a target: both packed screen points, and

@@ -30,7 +30,7 @@ Entry `model_variant/e596_entry.c` sets `work->config = gModelVariant413_aConfig
 |---|---|---|---|---|---|
 | `+0x20` | `unknown_20[0xC]` bytes → `u32 limit` | `ModelVariantQuadTiming.limit` | `FrenchModelVariant430_DrawSwarm` (model_variant/image132118_swarm.c; `model_variant/e596_entry.c:366`, `Swarm132118State.timing` at +0x3ADC) | `if (state->timing->limit <= state->time)` | high |
 
-## `Variant451EntryConfig` (`gModelVariant451_aConfigs`)
+## `ModelVariantSwarmWebConfig` (`gModelVariant451_aConfigs`)
 
 Entry `model_variant/h451_entry.c` sets `work->config = gModelVariant451_aConfigs + command` (line 69); its work struct `Variant451EntryState` has `config` at `+0x212C`.
 
@@ -103,7 +103,7 @@ Entry `model_variant/h435_entry_pal.c` sets `work->config = gFrenchModelVariant4
 | `+0x2C` | `unknown_20[0x18]` bytes → `u32 fade_start` | `Variant452EntryConfig.fade_start` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (model_variant/h435_sheets.c; `model_variant/h435_entry_pal.c:332`, `Variant452EntryState.config` at +0x3374) | `} else if (work->clock.frame >= work->config->fade_start)` | high |
 | `+0x30` | `unknown_20[0x18]` bytes → `u32 fade_end` | `Variant452EntryConfig.fade_end` (was `Variant452SheetTiming`) | `FrenchModelVariant452_DrawSheets` (model_variant/h435_sheets.c; `model_variant/h435_entry_pal.c:332`, `Variant452EntryState.config` at +0x3374) | `/ (work->config->fade_end - work->config->fade_start);` | high |
 
-## `Variant438EntryConfig` (`gModelVariant438_aConfigs`)
+## `ModelVariantSwarmWebConfig` (`gModelVariant438_aConfigs`)
 
 Entry `model_variant/e008_entry.c` sets `work->config = gModelVariant438_aConfigs + command` (line 74); its work struct `Variant438EntryState` has `config` at `+0x3754`.
 

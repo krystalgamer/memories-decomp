@@ -1,20 +1,8 @@
 #ifndef MEMORIES_MODEL_VARIANT438_ENTRY_H
 #define MEMORIES_MODEL_VARIANT438_ENTRY_H
 #include "../../types.h"
+#include "model_variant.h"
 #include "../model_variant/e503_h320_entry_pal.h"
-
-/* One 0x44-byte row of header 438's command table. */
-typedef struct {
-    CVECTOR inner, outer, web;
-    u8 unknown_0C[4], parts[3], unknown_13[9];
-    s32 count;
-    s32 mode;
-    u32 rate;
-    u32 start;
-    u32 limit;
-    u8 unknown_30[8];
-    u32 track_end, sweep_start, sweep_end;
-} Variant438EntryConfig;
 
 /* Up to sixty-four swarm quads at the start of the work area; the swarm
  * helper animates them from the part matrices captured at launch. */
@@ -50,7 +38,7 @@ typedef struct {
     VECTOR offsets[64];
     VECTOR view_delta;
     ModelVariantClock clock;
-    Variant438EntryConfig *config;
+    ModelVariantSwarmWebConfig *config;
     u32 field_3758;
     GsCOORDUNIT *parts[3];
     s16 field_3768, field_376A;
@@ -61,6 +49,6 @@ typedef struct {
 } Variant438EntryState;
 
 extern GsIMAGE gModelVariant438_aImages[9];
-extern Variant438EntryConfig gModelVariant438_aConfigs[];
+extern ModelVariantSwarmWebConfig gModelVariant438_aConfigs[];
 void FrenchModelVariant455_DrawSwarm(Variant438EntryState *context);
 #endif

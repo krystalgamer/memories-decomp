@@ -20,7 +20,7 @@ typedef struct {
     u16 sheet_size, unknown_3E;
     s32 radius;
     s32 size;
-} Variant438EntryConfig;
+} SpanishVariant438EntryConfig;
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
@@ -44,7 +44,7 @@ typedef struct {
     ModelVariantAim aim;
     ModelVariantClock clock;
     ModelVariantSpiralParams spiral;
-    Variant438EntryConfig *config;
+    SpanishVariant438EntryConfig *config;
     u8 unknown_22B8[4];
     GsCOORDUNIT *parts[3];
     s16 index, field_22CA;
@@ -57,16 +57,16 @@ typedef struct {
     u8 unknown_22F0[8];
     s32 tint;
     s16 slot, command;
-} Variant438EntryState;
+} SpanishVariant438EntryState;
 
 extern GsIMAGE gSpanishModelVariant438_aImages[9];
-extern Variant438EntryConfig gSpanishModelVariant438_aConfigs[];
-void SpanishModelVariant438_DrawWarpRings(Variant438EntryState *context);
-void SpanishModelVariant438_DrawRing(Variant438EntryState *context);
-void SpanishModelVariant438_DrawSpiral(Variant438EntryState *context);
-void SpanishModelVariant438_DrawAdvancingBand(Variant438EntryState *context);
-void SpanishModelVariant438_DrawTargetClampedSheets(Variant438EntryState *context);
-void SpanishModelVariant438_DrawLines(Variant438EntryState *context);
-typedef char Variant438EntryConfigSize[(sizeof(Variant438EntryConfig) == 0x48) ? 1 : -1];
-typedef char Variant438EntryStateSize[(sizeof(Variant438EntryState) == 0x2300) ? 1 : -1];
+extern SpanishVariant438EntryConfig gSpanishModelVariant438_aConfigs[];
+void SpanishModelVariant438_DrawWarpRings(SpanishVariant438EntryState *context);
+void SpanishModelVariant438_DrawRing(SpanishVariant438EntryState *context);
+void SpanishModelVariant438_DrawSpiral(SpanishVariant438EntryState *context);
+void SpanishModelVariant438_DrawAdvancingBand(SpanishVariant438EntryState *context);
+void SpanishModelVariant438_DrawTargetClampedSheets(SpanishVariant438EntryState *context);
+void SpanishModelVariant438_DrawLines(SpanishVariant438EntryState *context);
+typedef char Variant438EntryConfigSize[(sizeof(SpanishVariant438EntryConfig) == 0x48) ? 1 : -1];
+typedef char Variant438EntryStateSize[(sizeof(SpanishVariant438EntryState) == 0x2300) ? 1 : -1];
 #endif

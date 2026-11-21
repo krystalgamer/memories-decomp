@@ -1,21 +1,9 @@
 #ifndef MEMORIES_MODEL_VARIANT451_ENTRY_H
 #define MEMORIES_MODEL_VARIANT451_ENTRY_H
 #include "../../types.h"
+#include "model_variant.h"
 #include "../model_variant/e503_h320_entry_pal.h"
 #include "e595_entry.h"
-
-typedef struct {
-    CVECTOR inner, outer, web;
-    u8 unknown_0C[4], parts[3], unknown_13[9];
-    s32 count;
-    s32 mode;
-    u32 rate;
-    u32 start;
-    u32 limit;
-    u8 unknown_30[8];
-    u32 origin_end;
-    u32 sweep_start, sweep_end;
-} Variant451EntryConfig;
 
 /* One group of 16 sprites at the start of the work area, drawn by
  * FrenchModelVariant468_DrawSwarm (image134622_swarm.c). */
@@ -54,7 +42,7 @@ typedef struct {
     VECTOR offsets[16];
     VECTOR view_delta;
     ModelVariantClock clock;
-    Variant451EntryConfig *config;
+    ModelVariantSwarmWebConfig *config;
     u32 field_2130;
     GsCOORDUNIT *parts[3];
     s16 field_2140, field_2142;
@@ -66,6 +54,6 @@ typedef struct {
 } Variant451EntryState;
 
 extern GsIMAGE gModelVariant451_aImages[9];
-extern Variant451EntryConfig gModelVariant451_aConfigs[];
+extern ModelVariantSwarmWebConfig gModelVariant451_aConfigs[];
 void FrenchModelVariant468_DrawSwarm(Variant451EntryState *context);
 #endif

@@ -8,7 +8,7 @@
 #define WARP_SORTS(ring) 1
 #else
 #include "h421_entry_pal.h"
-#define WARP_STATE Variant438EntryState
+#define WARP_STATE SpanishVariant438EntryState
 #define WARP_ORIGIN(state) ((state)->matrix.t)
 #define WARP_COLOR(ring, c) (c)
 #define WARP_SORTS(ring) ((ring)->scale < 2048)

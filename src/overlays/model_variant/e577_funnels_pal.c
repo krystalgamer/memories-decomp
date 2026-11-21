@@ -18,7 +18,7 @@ void SpanishModelVariant411_DrawFunnels(EntryState411 *context)
     long interpolation;
     long flag;
     EntryState411 *state = context;
-    ModelVariantFunnel *funnel = state->funnels;
+    ModelVariantCurtain *funnel = state->funnels;
     ModelVariantSheet *sheet;
     POLY_GT4 *quad;
     GsOT *ot;
@@ -52,12 +52,12 @@ void SpanishModelVariant411_DrawFunnels(EntryState411 *context)
         funnel = state->funnels;
     }
     for (i = start; i < 2; i++, funnel++) {
-        if (funnel->size > 0) {
-            size = funnel->size;
+        if (funnel->scale > 0) {
+            size = funnel->scale;
             angle = state->spin;
             for (k = 0; k < 17; k++, angle = state->spin + k * 0x100) {
-                setVector(&funnel->inner[k], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 6, 0);
-                setVector(&funnel->outer[k], rcos(angle) * (bias + 192) >> 12, rsin(angle) * (bias + 192) >> 12,
+                setVector(&funnel->a[k], (u32)rcos(angle) >> 6, (u32)rsin(angle) >> 6, 0);
+                setVector(&funnel->b[k], rcos(angle) * (bias + 192) >> 12, rsin(angle) * (bias + 192) >> 12,
                           -(bias + 128));
             }
             rotation.vx = -pitch;
@@ -83,8 +83,8 @@ void SpanishModelVariant411_DrawFunnels(EntryState411 *context)
             outer_g = state->outer.g;
             outer_b = state->outer.b;
             for (k = 0; k < 16; k++) {
-                depth = RotTransPers4(&funnel->inner[k], &funnel->inner[k + 1],
-                                     &funnel->outer[k], &funnel->outer[k + 1],
+                depth = RotTransPers4(&funnel->a[k], &funnel->a[k + 1],
+                                     &funnel->b[k], &funnel->b[k + 1],
                                      (long *)&quad->x0, (long *)&quad->x1,
                                      (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);
@@ -98,18 +98,18 @@ void SpanishModelVariant411_DrawFunnels(EntryState411 *context)
             }
         }
         if (state->phase < 3) {
-            if (funnel->size < 4096) {
-                funnel->size = (state->elapsed - state->config->sheet_start) * 4096 /
+            if (funnel->scale < 4096) {
+                funnel->scale = (state->elapsed - state->config->sheet_start) * 4096 /
                                (state->config->expansion_start - state->config->sheet_start);
-                if (funnel->size >= 4096) {
-                    funnel->size = 4096;
+                if (funnel->scale >= 4096) {
+                    funnel->scale = 4096;
                 }
             }
-        } else if (state->config->fade_start < state->elapsed && funnel->size > 0) {
-            funnel->size = 4096 - (state->elapsed - gSpanishModelVariant411_aConfigs[0].fade_start) * 4096 /
+        } else if (state->config->fade_start < state->elapsed && funnel->scale > 0) {
+            funnel->scale = 4096 - (state->elapsed - gSpanishModelVariant411_aConfigs[0].fade_start) * 4096 /
                                   (state->config->fade_end - gSpanishModelVariant411_aConfigs[0].fade_start);
-            if (funnel->size <= 0) {
-                funnel->size = 0;
+            if (funnel->scale <= 0) {
+                funnel->scale = 0;
             }
         }
     }

@@ -15,7 +15,7 @@ s32 FrenchModelVariant411_HandleRequest(EntryState411 *context, s32 command)
     ModelVariantTube *tube = work->tubes;
     Beam411 *beam = work->beams;
     ModelVariantSheet *sheet = work->sheets;
-    ModelVariantFunnel *funnel = work->funnels;
+    ModelVariantCurtain *funnel = work->funnels;
     ModelVariantSpokeColorRing *ring = work->rings;
     ModelVariantBeam *extra_record = work->extras;
     POLY_G3 *triangle = &work->packets.triangle;
@@ -105,18 +105,18 @@ s32 FrenchModelVariant411_HandleRequest(EntryState411 *context, s32 command)
         SetShadeTex(ring_packet, 0);
         for (k = 0; k < 2; k++, funnel++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {
-                funnel->inner[j].vx = (u32)rcos(angle) >> 4;
-                funnel->inner[j].vy = (u32)rsin(angle) >> 4;
-                funnel->inner[j].vz = 0;
-                setVector(&funnel->outer[j], (u32)(rcos(angle) * 5) >> 6,
+                funnel->a[j].vx = (u32)rcos(angle) >> 4;
+                funnel->a[j].vy = (u32)rsin(angle) >> 4;
+                funnel->a[j].vz = 0;
+                setVector(&funnel->b[j], (u32)(rcos(angle) * 5) >> 6,
                           (u32)(rsin(angle) * 5) >> 6, -64);
             }
             if (k == 1) {
-                funnel->size = 0;
+                funnel->scale = 0;
             } else {
-                funnel->size = k * -4096;
+                funnel->scale = k * -4096;
             }
-            funnel->field_114 = 0;
+            funnel->count = 0;
         }
         for (i = 0; i < 1; i++, tube++) {
             tube->scale.vx = 4096;

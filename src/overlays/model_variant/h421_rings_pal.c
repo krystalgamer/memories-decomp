@@ -9,7 +9,7 @@
 /* The MODEL446 rings with a single ring: one seventeen-point POLY_GT4 ring
  * around the variant's direction, timed by the record, with radii scaled from
  * the timing record. Quads are sorted when depth and flag are non-negative. */
-void SpanishModelVariant438_DrawRing(Variant438EntryState *context)
+void SpanishModelVariant438_DrawRing(SpanishVariant438EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -18,7 +18,7 @@ void SpanishModelVariant438_DrawRing(Variant438EntryState *context)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant438EntryState *work;
+    SpanishVariant438EntryState *work;
     ModelVariantSheet *pulse;
     POLY_GT4 *poly;
     ModelVariantCurtain *ring;

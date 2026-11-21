@@ -21,7 +21,7 @@ extern EntryConfig411 gSpanishModelVariant411_aConfigs[];
 typedef struct {
     ModelVariantTube tubes[1];
     ModelVariantSheet sheets[2];
-    ModelVariantFunnel funnels[2];
+    ModelVariantCurtain funnels[2];
     ModelVariantSpokeColorRing rings[4];
     ModelVariantBeam extras[2];
     Beam411 beams[16];

@@ -22,7 +22,7 @@ void SpanishModelVariant473_DrawFunnels(EntryState473 *context)
     long flag;
     EntryState473 *state = context;
     ModelVariantSheet *sheet;
-    ModelVariantFunnel *funnel;
+    ModelVariantCurtain *funnel;
     ModelVariantGridSheet *object;
     POLY_GT4 *quad;
     GsOT *ot;
@@ -59,8 +59,8 @@ void SpanishModelVariant473_DrawFunnels(EntryState473 *context)
             size = object->size;
             angle = state->spin;
             for (k = 0; k < 17; k++, angle = state->spin + k * 0x100) {
-                setVector(&funnel->inner[k], rcos(angle) * radius >> 12, 0, rsin(angle) * radius >> 12);
-                setVector(&funnel->outer[k], rcos(angle) * reach >> 12, -(bias + 256),
+                setVector(&funnel->a[k], rcos(angle) * radius >> 12, 0, rsin(angle) * radius >> 12);
+                setVector(&funnel->b[k], rcos(angle) * reach >> 12, -(bias + 256),
                           rsin(angle) * reach >> 12);
             }
             rotation.vx = 0;
@@ -99,8 +99,8 @@ void SpanishModelVariant473_DrawFunnels(EntryState473 *context)
             setRGB2(quad, outer_r, outer_g, outer_b);
             setRGB3(quad, outer_r, outer_g, outer_b);
             for (k = 0; k < 16; k++) {
-                depth = RotTransPers4(&funnel->inner[k], &funnel->inner[k + 1],
-                                     &funnel->outer[k], &funnel->outer[k + 1],
+                depth = RotTransPers4(&funnel->a[k], &funnel->a[k + 1],
+                                     &funnel->b[k], &funnel->b[k + 1],
                                      (long *)&quad->x0, (long *)&quad->x1,
                                      (long *)&quad->x2, (long *)&quad->x3,
                                      &interpolation, &flag);

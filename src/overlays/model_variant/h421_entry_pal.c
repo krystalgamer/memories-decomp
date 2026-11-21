@@ -9,9 +9,9 @@
    also scales the later rings by n / (count - 1), a branch the single ring never takes. */
 #define MODEL_VARIANT438_RING_COUNT 1
 
-s32 SpanishModelVariant438_HandleRequest(Variant438EntryState *context, s32 command)
+s32 SpanishModelVariant438_HandleRequest(SpanishVariant438EntryState *context, s32 command)
 {
-    Variant438EntryState *work = context;
+    SpanishVariant438EntryState *work = context;
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;

@@ -12,7 +12,7 @@ s32 FrenchModelVariant473_HandleRequest(EntryState473 *context, s32 command)
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    ModelVariantFunnel *funnel = work->funnels;
+    ModelVariantCurtain *funnel = work->funnels;
     ModelVariantGridSheet *mesh = work->meshes;
     EntryRibbon473 *ribbon = work->ribbons;
     ModelVariantSheet *sheet = work->sheets;
@@ -213,17 +213,17 @@ s32 FrenchModelVariant473_HandleRequest(EntryState473 *context, s32 command)
         }
         for (k = 0; k < 5; k++, funnel++) {
             for (j = 0, angle = 0; j < 17; j++, angle = j * 256) {
-                setVector(&funnel->inner[j], (u32)rcos(angle) >> 4, 0,
+                setVector(&funnel->a[j], (u32)rcos(angle) >> 4, 0,
                     (u32)rsin(angle) >> 4);
-                setVector(&funnel->outer[j], (u32)(rcos(angle) * 5) >> 6, -64,
+                setVector(&funnel->b[j], (u32)(rcos(angle) * 5) >> 6, -64,
                     (u32)(rsin(angle) * 5) >> 6);
             }
             if (k == 5) {
-                funnel->size = 0;
+                funnel->scale = 0;
             } else {
-                funnel->size = -(k * 4096 / 5);
+                funnel->scale = -(k * 4096 / 5);
             }
-            funnel->field_114 = 0;
+            funnel->count = 0;
         }
         for (i = 0; i < 2; i++, streamer++) {
             for (j = 0; j < 17; j++) {
