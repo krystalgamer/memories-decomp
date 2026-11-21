@@ -1223,6 +1223,24 @@ typedef struct {
     u32 sweep_start, sweep_end;
 } ModelVariantSweepConfig;
 
+/* One 0x44-byte command row of headers 438 and 451: ModelVariantWebConfig's
+ * colours and parts, the swarm quad count, the mode (1 moves the quads'
+ * targets through the sweep), the quad growth rate, the start frame, the
+ * frame from which a grown quad stays done instead of wrapping, the frame
+ * until which the origin follows the first part, and the sweep window. */
+typedef struct {
+    CVECTOR inner, outer, web;
+    u8 unknown_0C[4], parts[3], unknown_13[9];
+    s32 count;
+    s32 mode;
+    u32 rate;
+    u32 start;
+    u32 limit;
+    u8 unknown_30[8];
+    u32 origin_end;
+    u32 sweep_start, sweep_end;
+} ModelVariantSwarmWebConfig;
+
 /* A 0x5B4-byte ring of 24 quads: corner arrays v0..v3, positions, a colour,
  * and per quad a size, a progress word and an initialized flag. The French
  * header-461 and 469 entries build it at work + 0xB90 and + 0x1614 and pass

@@ -319,7 +319,7 @@ s32 ModelVariant438_HandleRequest(Variant438EntryState *context, s32 command)
         } else {
             Model_CopySlotPosition(0, &work->target);
         }
-        if (work->clock.frame < work->config->track_end) {
+        if (work->clock.frame < work->config->origin_end) {
             GsGetLwUnit(work->parts[0], &work->matrix);
         }
         setVector(&work->direction,
