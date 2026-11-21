@@ -18,7 +18,7 @@
  * count, spread and speed, the half length of the flash quad, the vertical
  * spread, the start delay and the end of the effect. */
 typedef struct {
-    u8 r, g, b, unknown_03;
+    CVECTOR color;
     s16 inner_radius;
     s16 outer_radius;
     s32 grow;

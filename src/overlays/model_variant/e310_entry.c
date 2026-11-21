@@ -84,9 +84,9 @@ s32 ModelVariant761_HandleRequest(Model761State *context, s32 command)
         work->elapsed = 0;
         work->tick = 0;
         work->phase = 0;
-        work->color.rgb.r = work->config->r;
-        work->color.rgb.g = work->config->g;
-        work->color.rgb.b = work->config->b;
+        work->color.rgb.r = work->config->color.r;
+        work->color.rgb.g = work->config->color.g;
+        work->color.rgb.b = work->config->color.b;
         work->frame = 1;
         work->beam_scale = 0;
         return 0;

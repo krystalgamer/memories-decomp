@@ -54,9 +54,9 @@ s32 ModelVariant767_HandleRequest(Model767State *context, s32 command)
                     (work->config->smoke_speed >> 2) * ((rand() - rand()) % 256) / 256);
                 work->frames[i][k] = 0;
             }
-            work->color[k].rgb.r = work->config->r;
-            work->color[k].rgb.g = work->config->g;
-            work->color[k].rgb.b = work->config->b;
+            work->color[k].rgb.r = work->config->color.r;
+            work->color[k].rgb.g = work->config->color.g;
+            work->color[k].rgb.b = work->config->color.b;
             for (i = 0; i < 8; i++) {
                 setVector(&work->debris[i][k], 0, 0, 0);
                 setVector(&work->debris_velocities[i][k], work->config->debris_speed * ((rand() - rand()) % 256) / 256,

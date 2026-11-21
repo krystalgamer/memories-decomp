@@ -316,7 +316,7 @@ typedef struct {
  * speeds and counts, the colour fade step, the delay, and the timing and
  * offsets of the camera presets. */
 typedef struct {
-    u8 r, g, b, pad_3;
+    CVECTOR color;
     u16 ray_count;
     s16 ray_width, ray_base, ray_height;
     u16 spark_max;

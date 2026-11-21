@@ -66,9 +66,9 @@ s32 ModelVariant815_HandleRequest(Model815State *context, s32 command)
         work->tint.c.glow.r = 255;
         work->tint.c.glow.g = 255;
         work->tint.c.glow.b = 255;
-        work->tint.c.color.r = work->config->r;
-        work->tint.c.color.g = work->config->g;
-        work->tint.c.color.b = work->config->b;
+        work->tint.c.color.r = work->config->color.r;
+        work->tint.c.color.g = work->config->color.g;
+        work->tint.c.color.b = work->config->color.b;
         work->scale = 0;
         work->level = 2048;
         work->phase = 0;

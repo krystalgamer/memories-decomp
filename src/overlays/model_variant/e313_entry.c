@@ -86,9 +86,9 @@ s32 ModelVariant764_HandleRequest(Model764State *context, s32 command)
         work->flash = 0;
         work->scale = 0x1000;
         work->phase = 0;
-        work->color[0] = work->config->r;
-        work->color[1] = work->config->g;
-        work->color[2] = work->config->b;
+        work->color[0] = work->config->color.r;
+        work->color[1] = work->config->color.g;
+        work->color[2] = work->config->color.b;
         work->grey = 0x80;
         for (i = 0; i < 1; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant764_aImages[i]);

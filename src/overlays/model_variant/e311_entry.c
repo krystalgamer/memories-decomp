@@ -105,9 +105,9 @@ s32 ModelVariant762_HandleRequest(Model762State *context, s32 command)
         work->colors.c.color2[0] = 0x80;
         work->colors.c.color2[1] = 0x80;
         work->colors.c.color2[2] = 0x80;
-        work->colors.c.color3[0] = work->config->r;
-        work->colors.c.color3[1] = work->config->g;
-        work->colors.c.color3[2] = work->config->b;
+        work->colors.c.color3[0] = work->config->color.r;
+        work->colors.c.color3[1] = work->config->color.g;
+        work->colors.c.color3[2] = work->config->color.b;
         work->ambient = 0x800;
         work->wing_scale = 0x1000;
         work->pulse = 0;
@@ -156,7 +156,7 @@ s32 ModelVariant762_HandleRequest(Model762State *context, s32 command)
         SetPolyFT4(&ft4);
         ft4.tpage = work->texture[3] >> 16;
         ft4.clut = work->texture[3];
-        setRGB0(&ft4, work->config->r, work->config->g, work->config->b);
+        setRGB0(&ft4, work->config->color.r, work->config->color.g, work->config->color.b);
         GsSetLsMatrix(&light);
         RotTrans(&gModelVariant762_PartPosition, (VECTOR *)m.t, &flag);
         RotMatrix(&rot, &m);
@@ -181,7 +181,7 @@ s32 ModelVariant762_HandleRequest(Model762State *context, s32 command)
                 ft4.y0 = ft4.y0 - a;
                 SetSemiTrans(&ft4, 1);
                 if ((work->elapsed + i) % 4 < 2) {
-                    setRGB0(&ft4, work->config->r, work->config->g, work->config->b);
+                    setRGB0(&ft4, work->config->color.r, work->config->color.g, work->config->color.b);
                 } else {
                     setRGB0(&ft4, 0, 0, 0);
                 }
