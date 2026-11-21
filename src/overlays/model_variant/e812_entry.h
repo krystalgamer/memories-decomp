@@ -26,23 +26,30 @@ typedef struct {
     u8 color_a[3];  /* 0xB -> elements a and c */
 } Model629Config;
 
+/* One 0x60-byte element of the a (petal fans), b (shaded quads) and c
+ * (rising sprites) arrays: an active flag, a colour faded over the second
+ * half of its life, the texture coordinates of its sprite cell (read by c), the draw mode passed to
+ * Graphics_SubmitDrawModePacket (b), the number of petal segments drawn so
+ * far (a; grows to 9), its age and lifetime, its transform, a velocity (c
+ * rises by velocity.vy per frame step) and the position c returns to each
+ * time its sprite cell wraps. */
 typedef struct {
-    u8 f00;
+    u8 active;
     u8 r, g, b;          /* 0x01 */
     u8 u;
     u8 v;
     u8 pad06[2];
-    s32 f08;             /* 0x08 */
-    s16 f0C;
-    u16 f0E;
-    u16 f10;
+    s32 mode;            /* 0x08 */
+    s16 segments;        /* 0x0C */
+    u16 elapsed;         /* 0x0E */
+    u16 duration;        /* 0x10 */
     s16 pad12;
     GsCOORDUNIT *coord; /* 0x14 */
     SVECTOR rot;         /* 0x18 */
     VECTOR scale;        /* 0x20 */
     VECTOR pos;          /* 0x30 */
-    VECTOR v40;          /* 0x40 */
-    VECTOR v50;          /* 0x50 */
+    VECTOR velocity;     /* 0x40 */
+    VECTOR origin;       /* 0x50 */
 } Model629Element;       /* 0x60 */
 
 typedef struct {
