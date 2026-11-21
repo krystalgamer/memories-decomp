@@ -335,6 +335,35 @@ typedef struct {
     VECTOR travel;
 } ModelVariantCountedElement;
 
+/* The 0x3C84-byte work area of headers 655 and 661: streaks that leave a
+ * model point with two-edged trails, bursts (a growing sprite and a fan of
+ * strips) with their rings, and their spinning sparks, released on a
+ * per-command timetable; rows and cols shape the trails, burst_count and
+ * spark_count select how many bursts and sparks the command uses. */
+typedef struct {
+    ModelVariantEntryHead head;
+    s32 direction;
+    ModelVariantEntryPlacement place;
+    u16 tpage[2], unknown_16;
+    u16 clut[2], unknown_1C[2];
+    POLY_G4 quad;
+    POLY_FT4 sprite;
+    POLY_GT4 strip;
+    /* Two edges of each streak's trail: [edge][point][streak]. */
+    SVECTOR trail[2][64][8];
+    SVECTOR offset;
+    SVECTOR prev[2];
+    SVECTOR heads[2][8];
+    SVECTOR corners[8];
+    SVECTOR ring[2][16];
+    SVECTOR outer[2][16];
+    u8 flags[5];
+    u8 rows, cols, burst_count, spark_count, unknown_2381[3];
+    ModelVariantCountedElement streaks[8];
+    ModelVariantCountedElement bursts[8];
+    ModelVariantCountedElement sparks[8][8];
+} ModelVariantStreakBurstState;
+
 /* One 0x90-byte ring of eight spokes, each drawn as a GsGLINE from
  * inner[k] to outer[k]. The ring drawers light the inner end with
  * inner_color and fade it with angle; the spoke drawers light the outer end

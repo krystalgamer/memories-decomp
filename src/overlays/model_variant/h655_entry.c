@@ -20,9 +20,9 @@ static const char gModelVariant655_szWorkSizeFormat[24] = "E_DATA size = %x byte
     (point).vy = ls.t[1];                                                      \
     (point).vz = ls.t[2]
 
-s32 ModelVariant655_HandleRequest(Model655State *context, s32 command)
+s32 ModelVariant655_HandleRequest(ModelVariantStreakBurstState *context, s32 command)
 {
-    Model655State *work;
+    ModelVariantStreakBurstState *work;
     MATRIX ls;
     s32 sel[2];
     GsCOORDUNIT unit;
@@ -44,9 +44,9 @@ s32 ModelVariant655_HandleRequest(Model655State *context, s32 command)
     result = 0;
     step = Model_GetFrameStep();
     if (command >= 0) {
-        bzero((u8 *)work, sizeof(Model655State));
+        bzero((u8 *)work, sizeof(ModelVariantStreakBurstState));
 #ifndef VERSION_FRENCH
-        printf(gModelVariant655_szWorkSizeFormat, sizeof(Model655State));
+        printf(gModelVariant655_szWorkSizeFormat, sizeof(ModelVariantStreakBurstState));
 #endif
         work->head.command = command;
         work->head.slot = Model_GetActiveSlotIndex();
