@@ -49,7 +49,7 @@ ModelSubdividedEffectConfig gModel_SubdividedEffectConfig = {
 };
 
 ModelDiscEffectConfig gModel_DiscEffectConfig = {
-    0x20, 0x20, 0x20, 0, 300, 20, 10, 0,
+    { 0x20, 0x20, 0x20, 0 }, 300, 20, 10, 0,
 };
 
 /* Regional value: the CLUT x of every burst image (0x200 -> 0x280 in the
@@ -608,9 +608,9 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
             pt->vz = v * csin(i << 7) / 32768;
             pt++;
         }
-        e->b = (request % 10 + 6) * 0x11;
-        e->r = ((request - request % 100) / 100 + 6) * 0x11;
-        e->g = ((request % 100 - request % 10) / 10 + 6) * 0x11;
+        e->color.b = (request % 10 + 6) * 0x11;
+        e->color.r = ((request - request % 100) / 100 + 6) * 0x11;
+        e->color.g = ((request % 100 - request % 10) / 10 + 6) * 0x11;
         e->level = t->full_level;
         e->scale = 0;
         e->frame = 0;
@@ -638,15 +638,15 @@ s32 Model_UpdateDiscEffect(ModelDiscEffectState *state, s32 request)
     RotMatrix(&rot, &m);
     ScaleMatrix(&m, &scale);
     GsSetLsMatrix(&m);
-    c0 = e->r * e->level / t->full_level * e->scale / t->full_scale;
-    c1 = e->g * e->level / t->full_level * e->scale / t->full_scale;
-    c2 = e->b * e->level / t->full_level * e->scale / t->full_scale;
+    c0 = e->color.r * e->level / t->full_level * e->scale / t->full_scale;
+    c1 = e->color.g * e->level / t->full_level * e->scale / t->full_scale;
+    c2 = e->color.b * e->level / t->full_level * e->scale / t->full_scale;
     g3.r0 = c0;
     g3.g0 = c1;
     g3.b0 = c2;
-    c0 = t->r * e->level / t->full_level * e->scale / t->full_scale;
-    c1 = t->g * e->level / t->full_level * e->scale / t->full_scale;
-    c2 = t->b * e->level / t->full_level * e->scale / t->full_scale;
+    c0 = t->color.r * e->level / t->full_level * e->scale / t->full_scale;
+    c1 = t->color.g * e->level / t->full_level * e->scale / t->full_scale;
+    c2 = t->color.b * e->level / t->full_level * e->scale / t->full_scale;
     g3.r1 = c0;
     g3.r2 = c0;
     g3.g1 = c1;

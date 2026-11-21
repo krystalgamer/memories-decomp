@@ -110,10 +110,7 @@ void Triplet_AverageComponents(u8 *out, u8 *a, u8 *b);
    divisors of the colour ramp. gModel_DiscEffectConfig is the only instance, and its last
    halfword is zero and unread. */
 typedef struct {
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 pad_03;
+    CVECTOR color;
     s16 min_radius;
     s16 full_level;
     s16 full_scale;
@@ -129,10 +126,7 @@ typedef struct {
 typedef struct {
     ModelDiscEffectConfig *table;
     SVECTOR points[67];
-    u8 r;
-    u8 g;
-    u8 b;
-    u8 pad21F;
+    CVECTOR color;
     s32 unk220;
     s32 level;
     s32 scale;
