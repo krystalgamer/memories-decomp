@@ -94,10 +94,10 @@ void ModelVariant324_DrawFan(Variant341EntryState *context)
                 Graphics_SubmitDrawModePacket((u32 *)poly, ot, (u16)otz, 1);
             }
         }
-        if (work->substep + 1 == work->config->substeps) {
+        if (work->substep + 1 == work->config->origin_count) {
             if (work->tail.phase == 0) {
                 if (rec->size < 0x1000) {
-                    rec->size = (u32)(work->frame << 12) / work->config->duration;
+                    rec->size = (u32)(work->frame << 12) / work->config->grow_frames;
                     if (rec->size >= 0x1000) {
                         rec->size = 0x1000;
                         work->tail.phase = 1;

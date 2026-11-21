@@ -66,10 +66,10 @@ void FrenchModelVariant402_DrawRings(FrenchVariant402EntryState *context)
                 }
             }
         }
-        if (work->part_index + 1 == work->config->part_count) {
+        if (work->part_index + 1 == work->config->origin_count) {
             if (i == 0) {
                 if (work->phase == 0 && ring->scale < 4096) {
-                    ring->scale = (work->clock.frame << 12) / work->config->start;
+                    ring->scale = (work->clock.frame << 12) / work->config->grow_frames;
                     if (ring->scale >= 4096) {
                         ring->scale = 4096;
                         work->phase = 1;

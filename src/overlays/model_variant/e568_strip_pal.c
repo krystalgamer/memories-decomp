@@ -101,7 +101,7 @@ void FrenchModelVariant402_DrawStrip(FrenchVariant402EntryState *context)
                 }
             }
         }
-        if (work->part_index + 1 == work->config->part_count) {
+        if (work->part_index + 1 == work->config->origin_count) {
             if (work->phase == 1) {
                 if (work->displacement <= 1024) {
                     work->displacement += work->clock.step * 64;

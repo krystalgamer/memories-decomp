@@ -146,7 +146,7 @@ void ModelVariant324_DrawBand(Variant341EntryState *context)
             }
         }
     }
-    if (work->substep + 1 == work->config->substeps) {
+    if (work->substep + 1 == work->config->origin_count) {
         if (work->tail.phase == 1) {
             if (work->progress < 0x401) {
                 work->progress += work->step * 64;

@@ -9,15 +9,6 @@
 #include "../../game/camera_view.h"
 #include "../../psyq/libhmd.h"
 
-typedef struct {
-    u8 unknown_00[4];
-    u8 parts[3];
-    u8 unknown_07[5];
-    u16 part_count;
-    u8 unknown_0E[2];
-    u32 start;
-} FrenchVariant402EntryConfig;
-
 /* The strip record: three pairs of points, their screen positions, two
  * words the entry sets, and the two strip depths the strip drawer reads. */
 typedef struct {
@@ -61,7 +52,7 @@ typedef struct {
     MATRIX matrix;
     ModelVariantAim aim;
     ModelVariantClock clock;
-    FrenchVariant402EntryConfig *config;
+    ModelVariantAimOriginsConfig *config;
     u32 field_880;
     GsCOORDUNIT *parts[3];
     s32 part_index;
@@ -73,5 +64,5 @@ typedef struct {
 } FrenchVariant402EntryState;
 
 extern GsIMAGE gFrenchModelVariant402_aImages[9];
-extern FrenchVariant402EntryConfig gFrenchModelVariant402_aConfigs[];
+extern ModelVariantAimOriginsConfig gFrenchModelVariant402_aConfigs[];
 #endif

@@ -117,7 +117,7 @@ void FrenchModelVariant402_DrawRibbons(FrenchVariant402EntryState *ctx)
             }
         }
     }
-    if (work->part_index + 1 == work->config->part_count) {
+    if (work->part_index + 1 == work->config->origin_count) {
         work->ribbon_angle += work->clock.step * 55;
     }
 }

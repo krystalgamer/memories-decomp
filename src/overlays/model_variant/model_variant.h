@@ -115,6 +115,19 @@ typedef struct {
     VECTOR view_delta;
 } ModelVariantAim;
 
+/* One 0x14-byte command row of the French header 341 and 402 aim entries:
+ * the three slot parts the entry fetches, the number of aim origins it
+ * steps through each frame (the drawers run their last pass at
+ * origin + 1 == origin_count) and the growth length in frames (341's fan
+ * size and 402's ring scale are (frame << 12) / grow_frames; 402 starts its
+ * bands once the frame reaches it). */
+typedef struct {
+    u8 unknown_00[4], parts[3], unknown_07[5];
+    u16 origin_count;
+    u8 unknown_0E[2];
+    u32 grow_frames;
+} ModelVariantAimOriginsConfig;
+
 /* The packet block an entry state keeps for its shaded primitives (e.g.
  * Variant388EntryState): on a request the entry initializes triangle with
  * SetPolyG3, quad with SetPolyG4 and both textured packets with SetPolyGT4
