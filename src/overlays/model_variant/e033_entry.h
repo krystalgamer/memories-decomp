@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT85_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -47,13 +48,6 @@ typedef struct {
     u8 hit;
     s32 elapsed;
 } Model85State;
-
-/* The projection scratch that follows the three sprite vertices: it holds the
- * fourth sprite corner, and later the funnel's 66 projected ring points. */
-typedef union {
-    SVECTOR corner;
-    DVECTOR screen[66];
-} Model85Scratch;
 
 extern GsIMAGE gModelVariant85_aImages[];
 extern Model85Config gModelVariant85_aConfigs[];

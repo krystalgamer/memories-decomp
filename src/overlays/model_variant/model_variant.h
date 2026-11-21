@@ -1659,6 +1659,14 @@ typedef struct {
     SVECTOR outer;
 } ModelVariantShockFanPoint;
 
+/* The projection scratch of header 85 (French header 102) that follows the
+ * three sprite vertices on the stack: it holds the fourth sprite corner for
+ * RotAverage4, and later the funnel's 66 ring points from RotTransPersN. */
+typedef union {
+    SVECTOR corner;
+    DVECTOR screen[66];
+} ModelVariantFunnelProjection;
+
 /* The RotTransPers outputs the header-408 and 475 entries use to measure the
  * screen offset from an origin to a target: both packed screen points, and
  * the interpolation value and flag the two calls share. */
