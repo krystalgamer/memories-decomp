@@ -9,7 +9,7 @@ static const VECTOR gModelVariant802_UnitScale = {4096, 4096, 4096, 0};
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
 #define DRAW_PARTICLES()                                                                          \
-    for (i = 0; i < work->count; i++) {                                                           \
+    for (i = 0; i < work->live_count; i++) {                                                           \
         if (work->ages[i] < 24) {                                                                 \
             setPolyFT4(&packet);                                                                  \
             setRGB0(&packet, 128, 128, 128);                                                      \
@@ -42,9 +42,9 @@ static const VECTOR gModelVariant802_UnitScale = {4096, 4096, 4096, 0};
         }                                                                                         \
     }
 
-s32 ModelVariant802_HandleRequest(Model802State *context, s32 command)
+s32 ModelVariant802_HandleRequest(ModelVariantGlideState *context, s32 command)
 {
-    Model802State *work;
+    ModelVariantGlideState *work;
     MATRIX base, matrix;
     POLY_FT4 packet;
     SVECTOR rotation, position;
@@ -86,10 +86,10 @@ s32 ModelVariant802_HandleRequest(Model802State *context, s32 command)
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant802_aImages[i]);
         }
         work->scale = 4096;
-        work->level = 2048;
+        work->ambient = 2048;
         work->phase = 0;
         work->elapsed = 0;
-        work->count = 0;
+        work->live_count = 0;
         return 0;
     }
     ot = Graphics_GetDefaultOrderingTable();
@@ -103,20 +103,20 @@ s32 ModelVariant802_HandleRequest(Model802State *context, s32 command)
         Model_QueueCameraOrbitFromPreset(2, 11, &rotation, 16);
     }
     if (work->phase == 0) {
-        if (work->level > -512) {
-            work->level -= step << 6;
+        if (work->ambient > -512) {
+            work->ambient -= step << 6;
         } else {
-            work->level = -512;
+            work->ambient = -512;
         }
     } else if (work->phase == 2) {
-        if (work->level < 2048) {
-            work->level += step << 6;
+        if (work->ambient < 2048) {
+            work->ambient += step << 6;
         } else {
             work->phase = 3;
-            work->level = 2048;
+            work->ambient = 2048;
         }
     }
-    Model_SetSlotAmbient(2, work->level, work->level, work->level);
+    Model_SetSlotAmbient(2, work->ambient, work->ambient, work->ambient);
     PushMatrix();
     base = *Model_GetLightSourceMatrix();
     scale.vx = work->scale;
@@ -151,9 +151,9 @@ s32 ModelVariant802_HandleRequest(Model802State *context, s32 command)
         if (work->scale < 8191) {
             work->scale += work->config->scale_step;
         } else {
-            work->count++;
-            if (work->config->count < work->count) {
-                work->count = work->config->count;
+            work->live_count++;
+            if (work->config->count < work->live_count) {
+                work->live_count = work->config->count;
             }
         }
         PopMatrix();
@@ -165,9 +165,9 @@ s32 ModelVariant802_HandleRequest(Model802State *context, s32 command)
         scale.vz = 4096;
         DRAW_PARTICLES();
         if (work->scale > 4096) {
-            work->count++;
-            if (work->config->count < work->count) {
-                work->count = work->config->count;
+            work->live_count++;
+            if (work->config->count < work->live_count) {
+                work->live_count = work->config->count;
             }
             work->scale -= work->config->scale_step;
         }
@@ -182,9 +182,9 @@ s32 ModelVariant802_HandleRequest(Model802State *context, s32 command)
         scale.vz = 4096;
         DRAW_PARTICLES();
         if (work->scale > 4096) {
-            work->count++;
-            if (work->config->count < work->count) {
-                work->count = work->config->count;
+            work->live_count++;
+            if (work->config->count < work->live_count) {
+                work->live_count = work->config->count;
             }
             work->scale -= work->config->scale_step;
         }

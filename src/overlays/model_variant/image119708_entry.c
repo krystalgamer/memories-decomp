@@ -6,8 +6,8 @@
         if (work->ages[i] < 24) { \
             setPolyFT4(&quad); \
             setRGB0(&quad, 128, 128, 128); \
-            quad.tpage = work->textures[0] >> 16; \
-            quad.clut = work->textures[0]; \
+            quad.tpage = work->texture[0] >> 16; \
+            quad.clut = work->texture[0]; \
             setVector(&corners[0], -work->config->half_size, -work->config->half_size, 0); \
             setVector(&corners[1], work->config->half_size, -work->config->half_size, 0); \
             setVector(&corners[2], -work->config->half_size, work->config->half_size, 0); \
@@ -35,9 +35,9 @@
         } \
     }
 
-s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
+s32 FrenchModelVariant819_HandleRequest(ModelVariantGlideState *context, s32 command)
 {
-    Image119708State *work;
+    ModelVariantGlideState *work;
     MATRIX light, matrix;
     POLY_FT4 quad;
     SVECTOR rotation, position;
@@ -73,7 +73,7 @@ s32 FrenchModelVariant819_HandleRequest(Image119708State *context, s32 command)
             work->ages[i] = 0;
         }
         for (i = 0; i < 1; i++)
-            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant819_aImages[i]);
+            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant819_aImages[i]);
         work->scale = 4096;
         work->ambient = 2048;
         work->phase = 0;

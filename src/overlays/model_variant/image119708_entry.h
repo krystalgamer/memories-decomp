@@ -17,16 +17,6 @@
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 
-typedef struct {
-    ModelVariantGlideConfig *config;
-    VECTOR offset, velocity;
-    SVECTOR particles[128];
-    u32 scale, elapsed;
-    u16 phase, live_count;
-    u16 speeds[128], ages[128];
-    s32 ambient, textures[1];
-} Image119708State;
-
 extern VECTOR gFrenchModelVariant819_UnitScale;
 extern GsIMAGE gFrenchModelVariant819_aImages[1];
 extern ModelVariantGlideConfig gFrenchModelVariant819_aConfigs[];

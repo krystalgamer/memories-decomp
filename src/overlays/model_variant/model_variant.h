@@ -1104,6 +1104,25 @@ typedef struct {
     u32 scale_step, approach_end, hold_end, grow_end, settle_end, return_end, unknown_24;
 } ModelVariantGlideConfig;
 
+/* The work area of header 802 (French header 819): the command row, the
+ * slot offset and its per-frame velocity, the particle positions, the slot
+ * scale, the elapsed time, the phase, the live particle count, the particle
+ * rise speeds and ages, the ambient level and the particle texture. */
+typedef struct {
+    ModelVariantGlideConfig *config;
+    VECTOR offset;
+    VECTOR velocity;
+    SVECTOR particles[128];
+    u32 scale;
+    u32 elapsed;
+    u16 phase;
+    u16 live_count;
+    u16 speeds[128];
+    u16 ages[128];
+    s32 ambient;
+    s32 texture[1];
+} ModelVariantGlideState;
+
 /* One 0x18-byte command row of header 801 (French header 818): the sprite
  * half extents, the flight length in steps, the sprite count, the start
  * circle radius, the spark spread, count and size, the fade step, the start
@@ -1114,6 +1133,32 @@ typedef struct {
     u8 fade, unknown_11;
     u16 unknown_12, start, launch;
 } ModelVariantFlightConfig;
+
+/* The work area of header 801 (French header 818): the command row; per
+ * sprite its position, step, angle, target, 32-point trail and sparks; the
+ * timer, the spark frames, the phase, the arrival flags, the drawn and
+ * moving counts, the trail lengths and heads, the ambient level, the two
+ * textures and the sprite levels. */
+typedef struct {
+    ModelVariantFlightConfig *config;
+    SVECTOR pos[8];
+    SVECTOR step[8];
+    SVECTOR angle[8];
+    SVECTOR target[8];
+    SVECTOR trail[8][32];
+    SVECTOR sparks[8][8];
+    u32 elapsed;
+    u16 spark_frame[8][8];
+    u16 phase;
+    u16 arrived[8];
+    u16 shown;
+    u16 moving;
+    u16 tail[8];
+    u16 trail_head[8];
+    s32 ambient;
+    s32 texture[2];
+    u8 level[8];
+} ModelVariantFlightState;
 
 /* The 0xC-byte command row of headers 633 and 634: the start delay, the
  * radius, the height (header 634 copies it but never reads it), the main
