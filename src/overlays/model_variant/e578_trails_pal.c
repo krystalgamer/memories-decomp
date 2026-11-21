@@ -64,10 +64,11 @@ void FrenchModelVariant412_DrawTrails(FrenchVariant412EntryState *context)
             GsGetLw(work->parts[i], &part);
             if (i == 0) {
                 /* trails[0].original[0][last], reached from the work base as
-                 * retail does; the member path does not match. */
-                ((SVECTOR *)work)[last].vx = part.t[0];
-                ((SVECTOR *)work)[last].vy = part.t[1];
-                ((SVECTOR *)work)[last].vz = part.t[2];
+                 * retail does: `original[0] + last` off work, not trail and
+                 * not `[last]` (both change the code). */
+                (work->trails->original[0] + last)->vx = part.t[0];
+                (work->trails->original[0] + last)->vy = part.t[1];
+                (work->trails->original[0] + last)->vz = part.t[2];
             } else {
                 /* These are guest work addresses, not native-stack addresses. */
                 row = (SVECTOR *)(i * sizeof(trail->original[0]) + (u32)trail);
