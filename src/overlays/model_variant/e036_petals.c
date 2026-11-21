@@ -7,10 +7,10 @@
  * array base, which reverses the address addu's operands. */
 #if defined(VERSION_FRENCH)
 #define PETAL_SCALE(w, i) ((w)->petals.scale[i])
-#define PETAL_DONE(w, i) ((w)->petals.field_854[i])
+#define PETAL_SETTLED(w, i) ((w)->petals.settled[i])
 #else
 #define PETAL_SCALE(w, i) (*((i) + (w)->petals.scale))
-#define PETAL_DONE(w, i) (*((i) + (w)->petals.field_854))
+#define PETAL_SETTLED(w, i) (*((i) + (w)->petals.settled))
 #endif
 
 /* Draws 48 petals: each a POLY_G4 grown from the variant centre along its own
@@ -109,13 +109,13 @@ void ModelVariant407_DrawPetals(Variant407EntryState *context)
             poly->r0 = r;
             poly->g0 = g;
             poly->b0 = b;
-            if (otz >= 0 && flag >= 0 && PETAL_DONE(work, i) == 0) {
+            if (otz >= 0 && flag >= 0 && PETAL_SETTLED(work, i) == 0) {
                 GsSortPoly(poly, ot, otz);
             }
         }
         if (PETAL_SCALE(work, i) < 0x400) {
             conf = base->config;
-            PETAL_SCALE(work, i) += (u32)(conf->field_20 * base->clock.step) >> 1;
+            PETAL_SCALE(work, i) += (u32)(conf->petal_growth * base->clock.step) >> 1;
             if (PETAL_SCALE(work, 0) >= 0x200 && base->tail.phase == 0) {
                 base->tail.phase = 2;
             }
@@ -125,15 +125,15 @@ void ModelVariant407_DrawPetals(Variant407EntryState *context)
                     work->petals.done[i] = 0;
                 } else {
                     PETAL_SCALE(work, i) = 0x400;
-                    PETAL_DONE(work, i) = 1;
+                    PETAL_SETTLED(work, i) = 1;
                 }
             } else if (PETAL_SCALE(work, i) <= 0 &&
                        base->config->settle_start <= base->clock.frame) {
                 PETAL_SCALE(work, i) = 0x400;
-                PETAL_DONE(work, i) = 1;
+                PETAL_SETTLED(work, i) = 1;
             }
         }
-        done *= PETAL_DONE(work, i);
+        done *= PETAL_SETTLED(work, i);
         if (i + 1 == 48 && done == 1 && base->tail.phase == 2) {
             base->tail.phase = 5;
         }

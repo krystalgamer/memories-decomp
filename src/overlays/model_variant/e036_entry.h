@@ -7,7 +7,8 @@ typedef struct {
     CVECTOR inner, outer, web;
     u8 unknown_0C[4], parts[3], unknown_13[9];
     u16 petal_size, petal_radius;
-    u16 field_20;
+    /* Each frame a growing petal's scale gains petal_growth * step / 2. */
+    u16 petal_growth;
     u8 unknown_22[2];
     u32 start;
     /* From this frame the petals stop restarting and hold at full size. */
@@ -21,7 +22,9 @@ typedef struct {
     CVECTOR color;
     u8 unknown_784[0x10];
     s32 scale[48];
-    s32 field_854[48];
+    /* Set once a petal ends its last cycle (from settle_start on); settled
+     * petals are no longer drawn, and when all 48 are the effect moves on. */
+    s32 settled[48];
     s32 field_914[48];
     s32 done[48];
 } Variant407EntryPetals;
