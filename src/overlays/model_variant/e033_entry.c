@@ -9,7 +9,7 @@
 
 static const VECTOR gModelVariant85_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant85_HandleRequest(Model85State *context, s32 command)
+s32 ModelVariant85_HandleRequest(ModelVariantFunnelState *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_G3 tri;
@@ -20,8 +20,8 @@ s32 ModelVariant85_HandleRequest(Model85State *context, s32 command)
     ModelVariantFunnelProjection scratch;
     u16 depths[66], projection[66], flags[66];
     long flag, interpolation;
-    Model85State *work;
-    Model85Config *config;
+    ModelVariantFunnelState *work;
+    ModelVariantFunnelConfig *config;
     GsOT *ot;
     s32 side;
     s32 i, time, size;

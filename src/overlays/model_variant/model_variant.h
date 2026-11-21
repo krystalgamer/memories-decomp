@@ -1667,6 +1667,43 @@ typedef union {
     DVECTOR screen[66];
 } ModelVariantFunnelProjection;
 
+/* One 0x1E-byte command row of header 85 (French header 102): the triangle
+ * and sprite colours, the model part the effect follows, the triangle height
+ * and width, the funnel's inner and outer radii, the sprite half size, the
+ * burst duration, the triangle count, the start delay, the end of the spin
+ * and the start of the burst. */
+typedef struct {
+    u8 red, green, blue;
+    u8 sprite_red, sprite_green, sprite_blue;
+    u8 part, unknown_07;
+    s16 height;
+    s16 width;
+    s16 unknown_0C;
+    s16 inner_radius;
+    s16 outer_radius;
+    s16 size;
+    s16 duration;
+    s16 count;
+    s16 delay;
+    s16 spin_end;
+    s16 burst_start;
+} ModelVariantFunnelConfig;
+
+/* The 0x428-byte work area of header 85 (French header 102): the command
+ * row, each triangle's random start angle and spin speed, the funnel's outer
+ * and inner rings, three textures, a frame counter, whether the hit has been
+ * reported and the elapsed time. */
+typedef struct {
+    ModelVariantFunnelConfig *config;
+    SVECTOR angles[32];
+    SVECTOR speeds[32];
+    SVECTOR rings[66];
+    s32 texture[3];
+    u8 frame;
+    u8 hit;
+    s32 elapsed;
+} ModelVariantFunnelState;
+
 /* The RotTransPers outputs the header-408 and 475 entries use to measure the
  * screen offset from an origin to a target: both packed screen points, and
  * the interpolation value and flag the two calls share. */

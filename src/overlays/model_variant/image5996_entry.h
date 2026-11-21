@@ -15,38 +15,8 @@
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 
-typedef struct {
-    u8 triangle_rgb[3];
-    u8 quad_rgb[3];
-    u8 part;
-    u8 unknown_07;
-    s16 triangle_height;
-    s16 triangle_width;
-    s16 unknown_0c;
-    s16 inner_radius;
-    s16 outer_radius;
-    s16 quad_extent;
-    s16 burst_duration;
-    s16 triangle_count;
-    s16 delay;
-    s16 release_at;
-    s16 burst_at;
-} Image5996Config;
-
-typedef struct {
-    Image5996Config *config;
-    SVECTOR rotations[32];
-    SVECTOR velocities[32];
-    SVECTOR rings[66];
-    s32 textures[3];
-    u8 tick;
-    u8 notified;
-    u16 unknown_422;
-    s32 elapsed;
-} Image5996State;
-
 extern VECTOR gFrenchModelVariant102_UnitScale;
 extern GsIMAGE gFrenchModelVariant102_aImages[3];
-extern Image5996Config gFrenchModelVariant102_aConfigs[];
+extern ModelVariantFunnelConfig gFrenchModelVariant102_aConfigs[];
 
 #endif
