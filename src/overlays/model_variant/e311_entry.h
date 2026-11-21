@@ -21,7 +21,7 @@
  * outer ring radii, the start delay, the end of the sparks, the release time
  * and an unused end. */
 typedef struct {
-    u8 r, g, b, unknown_03;
+    CVECTOR color;
     u8 unknown_04, unknown_05;
     u8 part, unknown_07;
     s16 spark_radius;

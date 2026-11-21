@@ -174,7 +174,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
 );
 
 /* One block of a mapped HMD's primitive-header chain, as
-   Model_ResetSlotAnimationTables walks it from the pointer at hmd + 0x10:
+   Model_ResetSlotAnimationTables walks it from the HMD header's first block:
    the next block (-1 ends the chain), the block's header-section pointer,
    its type count, and the category byte at the top of the first type word
    (2 and 3 select the payloads the slot imports). */
@@ -190,8 +190,21 @@ typedef char ModelHmdPrimitiveBlock_category_must_be_0xF[
     OFFSETOF(ModelHmdPrimitiveBlock, category) == 0xF ? 1 : -1
 ];
 
+/* The header of an HMD file (Psy-Q HMD format): the 0x50 ID, the flags (bit 0
+   set once GsMapUnit has mapped the offsets to addresses), the primitive
+   header section, the block count and one primitive-set pointer per block.
+   Model_InitSlot walks block_count and blocks[] as a byte cursor;
+   Model_ResetSlotAnimationTables reads the first block's chain. */
+typedef struct {
+    u32 id;
+    u32 flags;
+    void *primitive_headers;
+    u32 block_count;
+    ModelHmdPrimitiveBlock *blocks[1];
+} ModelHmdHeader;
+
 /* Clears animation keys/durations and imports the mapped owner-block payloads. */
-void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd);
+void Model_ResetSlotAnimationTables(s32 slot_index, ModelHmdHeader *hmd);
 
 /* Indexes each part's animation rows and computes their duration maxima. */
 void Model_BuildSlotAnimationTables(s32 slot_index);

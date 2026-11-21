@@ -69,9 +69,9 @@ s32 ModelVariant830_HandleRequest(Model830State *context, s32 command)
         work->glow.r = 255;
         work->glow.g = 255;
         work->glow.b = 255;
-        work->ring.r = work->config->r;
-        work->ring.g = work->config->g;
-        work->ring.b = work->config->b;
+        work->ring.r = work->config->color.r;
+        work->ring.g = work->config->color.g;
+        work->ring.b = work->config->color.b;
         work->tint.r = 128;
         work->tint.g = 128;
         work->tint.b = 128;

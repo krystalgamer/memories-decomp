@@ -21,8 +21,7 @@
  * and speed, the fade step, the start delay, the time the slot flashes white,
  * the camera cue times and their arguments, and the tint ramp. */
 typedef struct {
-    u8 r, g, b;
-    u8 pad_03;
+    CVECTOR color;
     u16 spark_size;
     u16 spark_spread;
     u16 glow_width;

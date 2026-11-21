@@ -20,7 +20,7 @@
  * counts and speeds, the start delay, the times of the two bursts, the shake
  * and the flash flag. */
 typedef struct {
-    u8 r, g, b, pad_3;
+    CVECTOR color;
     u16 smoke_speed;
     s16 smoke_size;
     u16 smoke_max;

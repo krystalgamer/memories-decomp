@@ -79,9 +79,9 @@ s32 ModelVariant763_HandleRequest(Model763State *context, s32 command)
             w->vy = 0;
             w->vz = work->config->outer_radius * ccos((i << 8) % 4096) / 4096;
         }
-        work->color[0] = work->config->r;
-        work->color[1] = work->config->g;
-        work->color[2] = work->config->b;
+        work->color[0] = work->config->color.r;
+        work->color[1] = work->config->color.g;
+        work->color[2] = work->config->color.b;
         work->color2[0] = 0xFF;
         work->color2[1] = 0xFF;
         work->color2[2] = 0xFF;

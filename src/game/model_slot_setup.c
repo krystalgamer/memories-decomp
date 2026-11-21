@@ -144,7 +144,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
     }
     GsMapUnit((u32 *)hmd);
     hmd_cursor += 0xC;
-    Model_ResetSlotAnimationTables(slot_index, hmd);
+    Model_ResetSlotAnimationTables(slot_index, (ModelHmdHeader *)hmd);
     model_slot->hmd_unit_count = *hmd_cursor;
     hmd_cursor += 4;
     if (model_slot->hmd_unit_count >= 0x3D) {
@@ -792,7 +792,7 @@ s32 tent_Model_RebaseTexturedPrimitives(
 }
 #endif
 
-void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd)
+void Model_ResetSlotAnimationTables(s32 slot_index, ModelHmdHeader *hmd)
 {
     ModelSlot *slot;
     u8 *mask_clear_cursor;
@@ -866,8 +866,7 @@ void Model_ResetSlotAnimationTables(s32 slot_index, u8 *hmd)
         index--;
         mask_clear_cursor--;
     } while (index >= 0);
-    /* The mapped HMD keeps its first primitive block's address at +0x10. */
-    owner = *(ModelHmdPrimitiveBlock **)(hmd + 0x10);
+    owner = hmd->blocks[0];
     if (owner == 0) {
         return;
     }

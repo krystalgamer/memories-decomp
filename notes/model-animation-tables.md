@@ -468,10 +468,12 @@ compiler flags are retained. No new behavioral harness or runtime capture.
 The reset/build/relink entries name their original slot argument
 slot_index. Reset's second argument is hmd, not an animation-command
 pointer: Model_InitSlot maps the complete input with GsMapUnit before
-passing it unchanged, and reset follows the owner chain at hmd + 0x10.
-The command list and transfer pointers are imported later from selected
-kind-2/kind-3 owner payloads. No complete HMD/owner schema or new pointer
-type follows from this distinction.
+passing it unchanged, and reset follows the owner chain from the first
+block pointer of the HMD header (`ModelHmdHeader.blocks[0]`, +0x10: the
+documented HMD ID, flags, primitive-header section, block count and
+per-block primitive-set pointers). The command list and transfer pointers
+are imported later from selected kind-2/kind-3 owner payloads; no complete
+owner-payload schema follows from this distinction.
 
 The existing unit scan and tentative primitive decoder name their two
 signed accumulators max_lit_color_index and packet_bytes:

@@ -20,7 +20,7 @@
  * length, the start delay, the burst and end times, and the window during
  * which the slot's parts are tinted. */
 typedef struct {
-    u8 r, g, b, pad_3;
+    CVECTOR color;
     s16 beam_width;
     u16 beam_height;
     s16 rise;

@@ -98,7 +98,7 @@ void ModelVariant433_DrawCoils(Variant433EntryState *context)
     GsSetLsMatrix(&light);
     coil = work->streamers;
     for (i = 0, previous = &coil->screen[15]; i < 2; i++,
-         previous = (ModelVariantScreenPoint *)((u8 *)previous + sizeof(Variant433EntryStreamer)), coil++) {
+         previous += sizeof(Variant433EntryStreamer) / sizeof(*previous), coil++) {
         for (j = 0; j < 17; j++) {
             if (j == 16) {
                 coil->offsets.otz[j] = RotTransPers4(

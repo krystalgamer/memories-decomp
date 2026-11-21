@@ -119,7 +119,7 @@ void SpanishModelVariant474_DrawCoiledStreamers(Variant474EntryState *context)
     for (i = 0; i < 2; i++, streamer++) {
 #else
     for (i = 0, previous = &streamer->sa[15]; i < 2; i++,
-         previous = (long *)((u8 *)previous + sizeof(ModelVariantStreamer)), streamer++) {
+         previous += sizeof(ModelVariantStreamer) / sizeof(*previous), streamer++) {
 #endif
         for (k = 0; k < 17; k++) {
             if (k == 16) {

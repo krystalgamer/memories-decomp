@@ -20,7 +20,7 @@
  * sizes, counts and speeds, the tint colours, mode, duration and period, the
  * timing of the camera presets and of the burst, and the camera mode. */
 typedef struct {
-    u8 r, g, b, pad_3;
+    CVECTOR color;
     u16 sparkle_speed;
     u16 sparkle_size;
     u16 sparkle_max;

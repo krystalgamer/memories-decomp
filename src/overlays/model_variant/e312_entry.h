@@ -19,7 +19,7 @@
  * and outer ring radii, the triangle height, width and roll, the ring offset,
  * the start delay, the start of the rings and the end of the effect. */
 typedef struct {
-    u8 r, g, b, unknown_03;
+    CVECTOR color;
     s16 fan_radius;
     s16 shard_spread;
     s16 dot_speed;

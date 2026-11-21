@@ -113,7 +113,7 @@ void FrenchModelVariant335_DrawRibbons(Model335EntryState *ctx)
             } else
 #else
     for (i = 0, projection = &p, previous = &ribbon->sa[15].point; i < 3; i++,
-         previous = (DVECTOR *)((u8 *)previous + sizeof(Model335EntryRecord)), ribbon++) {
+         previous += sizeof(Model335EntryRecord) / sizeof(*previous), ribbon++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
                 ribbon->otz[k] = RotTransPers4(&ribbon->a[15], &ribbon->a[k], &ribbon->a[15], &ribbon->a[k],

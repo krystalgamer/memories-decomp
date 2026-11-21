@@ -103,7 +103,7 @@ void FrenchModelVariant393_DrawStreamers(Variant393EntryState *context)
     GsSetLsMatrix(&ls);
     streamer = work->streamers;
     for (i = 0, previous = &streamer->sa[15]; i < 2; i++,
-         previous = (long *)((u8 *)previous + sizeof(ModelVariantFlaggedStreamer)), streamer++) {
+         previous += sizeof(ModelVariantFlaggedStreamer) / sizeof(*previous), streamer++) {
         for (k = 0; k < 17; k++) {
             if (k == 16) {
                 streamer->otz[k] = RotTransPers4(&streamer->a[15], &streamer->a[16], &streamer->a[15], &streamer->a[16],

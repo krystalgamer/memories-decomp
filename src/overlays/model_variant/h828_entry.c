@@ -60,9 +60,9 @@ s32 ModelVariant828_HandleRequest(Model828State *context, s32 command)
         for (i = 0; i < 4; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant828_aImages[i]);
         }
-        work->color.rgb.r = work->config->r;
-        work->color.rgb.g = work->config->g;
-        work->color.rgb.b = work->config->b;
+        work->color.rgb.r = work->config->color.r;
+        work->color.rgb.g = work->config->color.g;
+        work->color.rgb.b = work->config->color.b;
         work->camera = rand() % 4;
         work->ray_scale = 0x1000;
         work->level = 2048;

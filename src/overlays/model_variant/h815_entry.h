@@ -18,7 +18,7 @@
  * spark size and speed, the fade step, the timing and the three camera
  * orbit phases. */
 typedef struct {
-    u8 r, g, b, pad_3;
+    CVECTOR color;
     u16 shard_size;
     u16 spread;
     u16 glow_width;

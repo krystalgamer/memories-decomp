@@ -112,7 +112,7 @@ void SpanishModelVariant472_DrawSpiral(EntryState455 *context)
     for (i = 0; i < 12; i++, arm++) {
 #else
     for (i = 0, previous = &arm->sa[2]; i < 12; i++,
-         previous = (long *)((u8 *)previous + sizeof(EntryFan455)), arm++) {
+         previous += sizeof(EntryFan455) / sizeof(*previous), arm++) {
 #endif
         for (k = 0; k < 4; k++) {
             if (k == 3) {

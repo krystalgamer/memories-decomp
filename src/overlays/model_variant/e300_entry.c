@@ -51,9 +51,9 @@ s32 ModelVariant752_HandleRequest(Model752State *context, s32 command)
             setVector(&work->outer[i], work->config->outer_radius * ccos(i << 8) / 4096,
                 work->config->outer_radius * csin(i << 8) / 4096, -direction * work->config->ring_depth);
         }
-        work->color.rgb.r = work->config->r;
-        work->color.rgb.g = work->config->g;
-        work->color.rgb.b = work->config->b;
+        work->color.rgb.r = work->config->color.r;
+        work->color.rgb.g = work->config->color.g;
+        work->color.rgb.b = work->config->color.b;
         for (i = 0; i < 8; i++) {
             setVector(&work->debris[i], 0, 0, 0);
             setVector(&work->debris_velocities[i], work->config->debris_speed * ((rand() - rand()) % 256) / 256,
