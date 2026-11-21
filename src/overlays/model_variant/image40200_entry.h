@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_IMAGE40200_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_texture_upload.h"
@@ -11,37 +12,8 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-typedef struct {
-    u8 travel_rgb[3];
-    u8 echo_rgb[3];
-    u8 part;
-    u8 count;
-    s16 travel_extent;
-    s16 spread;
-    s16 wobble_height;
-    s16 echo_extent;
-    s16 travel_duration;
-    s16 hold_duration;
-    s16 echo_duration;
-    s16 spacing;
-    s16 delay;
-    s16 unknown_1A;
-} Image40200Config;
-
-typedef struct {
-    Image40200Config *config;
-    SVECTOR positions[64];
-    SVECTOR targets[64];
-    SVECTOR echoes[64];
-    u32 textures[2];
-    u8 notified;
-    u8 unknown_60D[3];
-    s32 elapsed;
-    s32 updates;
-} Image40200State;
-
 extern VECTOR gFrenchModelVariant175_UnitScale;
 extern GsIMAGE gFrenchModelVariant175_aImages[2];
-extern Image40200Config gFrenchModelVariant175_aConfigs[];
+extern ModelVariantTravelBurstConfig gFrenchModelVariant175_aConfigs[];
 
 #endif

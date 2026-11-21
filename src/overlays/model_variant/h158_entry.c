@@ -10,9 +10,9 @@
 
 static const VECTOR gModelVariant158_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant158_HandleRequest(Model158State *context, s32 command)
+s32 ModelVariant158_HandleRequest(ModelVariantTravelBurstState *context, s32 command)
 {
-    Model158State *work;
+    ModelVariantTravelBurstState *work;
     MATRIX base, matrix;
     POLY_FT4 quad;
     POLY_F4 flat;
@@ -20,7 +20,7 @@ s32 ModelVariant158_HandleRequest(Model158State *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[6];
     long flag, interpolation;
-    Model158Config *config;
+    ModelVariantTravelBurstConfig *config;
     GsOT *ot;
     SVECTOR *point, *target;
     s32 step, i, j, k, amount, time, value;
@@ -58,7 +58,7 @@ s32 ModelVariant158_HandleRequest(Model158State *context, s32 command)
         work->elapsed = 0;
         work->updates = 0;
         work->completed = 0;
-        printf("%d (0x%x) Byte\n", sizeof(Model158State), sizeof(Model158State));
+        printf("%d (0x%x) Byte\n", sizeof(ModelVariantTravelBurstState), sizeof(ModelVariantTravelBurstState));
         return 0;
     }
     config = work->config;

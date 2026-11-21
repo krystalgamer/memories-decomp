@@ -1704,6 +1704,31 @@ typedef struct {
     s32 elapsed;
 } ModelVariantFunnelState;
 
+/* One 0x1C-byte command row of header 158 (French header 175), picked by
+ * command % 100: the particle and burst colours, the slot part the particles
+ * leave from, the particle count, the particle half size, the target spread,
+ * the lift of the travel arc, the burst half size, the travel, fade and
+ * burst durations, the spacing between particles and the start delay. */
+typedef struct {
+    u8 red, green, blue, burst_red, burst_green, burst_blue, part, count;
+    s16 half_size, spread, lift, burst_half_size, travel_duration, fade_duration, burst_duration, interval, delay;
+    u8 unknown_1A[2];
+} ModelVariantTravelBurstConfig;
+
+/* The 0x618-byte work area of header 158 (French header 175): the command
+ * row, 64 particle positions, 64 targets around the other slot and 64 burst
+ * positions, two texture words, the completion flag, the elapsed time and
+ * the frame count. */
+typedef struct {
+    ModelVariantTravelBurstConfig *config;
+    SVECTOR positions[64];
+    SVECTOR targets[64];
+    SVECTOR bursts[64];
+    u32 texture[2];
+    u8 completed, unknown_60D[3];
+    s32 elapsed, updates;
+} ModelVariantTravelBurstState;
+
 /* The RotTransPers outputs the header-408 and 475 entries use to measure the
  * screen offset from an origin to a target: both packed screen points, and
  * the interpolation value and flag the two calls share. */
