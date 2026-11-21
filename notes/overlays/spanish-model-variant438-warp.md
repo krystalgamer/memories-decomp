@@ -29,7 +29,7 @@ A ring grows by `step << 6` (`+0x22A4`) per frame. Before phase 3
 The rings are the entry's `curtains` (`ModelVariantTripleCurtain`): the
 outer, inner and source loops are `a`, `b` and `c`, the inner/outer colours
 are `color_a`/`color_b` (white and magenta from the entry) and the size is
-`scale`. The helper takes `Variant438EntryState` directly; the polygon is
+`scale`. The helper takes `SpanishVariant438EntryState` directly; the polygon is
 `plain`, origin is `matrix.t`, direction is `aim.direction` and step is
 `clock.step`. (It was first matched through a private `Warp438State` view.)
 The routine is a sibling of the MODEL388 screen-feedback rings. The

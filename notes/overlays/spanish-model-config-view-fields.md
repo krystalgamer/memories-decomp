@@ -58,15 +58,15 @@ Entry `model_variant/e583_entry_pal.c` sets `work->config = gSpanishModelVariant
 | `+0x28` | `unknown_20[0x10]` bytes → `s32 fade_start` | `Tube417Timing.fade_start` | `SpanishModelVariant417_DrawTube` (model_variant/e583_tube_pal.c; `model_variant/e583_entry_pal.c:338`, `Variant417EntryState.config` at +0x2138, formerly the private `Tube417State.timing` view) | `if (state->frame >= state->config->fade_start)` | high |
 | `+0x2C` | `unknown_20[0x10]` bytes → `s32 fade_end` | `Tube417Timing.fade_end` | `SpanishModelVariant417_DrawTube` (model_variant/e583_tube_pal.c; `model_variant/e583_entry_pal.c:338`, `Variant417EntryState.config` at +0x2138, formerly the private `Tube417State.timing` view) | `(state->timing->fade_end - state->timing->fade_start);` | high |
 
-## `Variant438EntryConfig` (`gSpanishModelVariant438_aConfigs`)
+## `SpanishVariant438EntryConfig` (`gSpanishModelVariant438_aConfigs`)
 
-Entry `model_variant/h421_entry_pal.c` sets `work->config = gSpanishModelVariant438_aConfigs + command` (line 51); its work struct `Variant438EntryState` has `config` at `+0x22B4`.
+Entry `model_variant/h421_entry_pal.c` sets `work->config = gSpanishModelVariant438_aConfigs + command` (line 51); its work struct `SpanishVariant438EntryState` has `config` at `+0x22B4`.
 
 | Offset | Old → new | View field | Helper (call) | Helper reads | Confidence |
 |---|---|---|---|---|---|
-| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_start` | `Variant438EntryConfig.fade_start` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (model_variant/h421_bands_pal.c; `model_variant/h421_entry_pal.c:368`, `Variant438EntryState.config` at +0x22B4) | `if (state->frame >= state->config->fade_start)` | high |
-| `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `Variant438EntryConfig.fade_end` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (model_variant/h421_bands_pal.c; `model_variant/h421_entry_pal.c:368`, `Variant438EntryState.config` at +0x22B4) | `(state->config->fade_end - state->config->fade_start);` | high |
-| `+0x40` | `unknown_40[4]` → `s32 radius` | `Variant438EntryConfig.radius` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (model_variant/h421_bands_pal.c; `model_variant/h421_entry_pal.c:368`, `Variant438EntryState.config` at +0x22B4) | `radius = state->scale * state->config->radius / 4096;` | high |
+| `+0x28` | `unknown_20[0x10]` bytes → `u32 fade_start` | `SpanishVariant438EntryConfig.fade_start` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (model_variant/h421_bands_pal.c; `model_variant/h421_entry_pal.c:368`, `SpanishVariant438EntryState.config` at +0x22B4) | `if (state->frame >= state->config->fade_start)` | high |
+| `+0x2C` | `unknown_20[0x10]` bytes → `u32 fade_end` | `SpanishVariant438EntryConfig.fade_end` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (model_variant/h421_bands_pal.c; `model_variant/h421_entry_pal.c:368`, `SpanishVariant438EntryState.config` at +0x22B4) | `(state->config->fade_end - state->config->fade_start);` | high |
+| `+0x40` | `unknown_40[4]` → `s32 radius` | `SpanishVariant438EntryConfig.radius` (was `Bands438Timing`) | `SpanishModelVariant438_DrawAdvancingBand` (model_variant/h421_bands_pal.c; `model_variant/h421_entry_pal.c:368`, `SpanishVariant438EntryState.config` at +0x22B4) | `radius = state->scale * state->config->radius / 4096;` | high |
 
 ## `Variant441EntryConfig` (`gSpanishModelVariant441_aConfigs`)
 

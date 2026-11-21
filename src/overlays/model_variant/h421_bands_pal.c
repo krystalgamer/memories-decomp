@@ -2,7 +2,7 @@
 #include "h421_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
-void SpanishModelVariant438_DrawAdvancingBand(Variant438EntryState *context)
+void SpanishModelVariant438_DrawAdvancingBand(SpanishVariant438EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void SpanishModelVariant438_DrawAdvancingBand(Variant438EntryState *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag[1][9];
-    Variant438EntryState *state;
+    SpanishVariant438EntryState *state;
     GsOT *ot;
     s32 angle;
     POLY_GT4 *quad;
