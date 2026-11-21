@@ -408,7 +408,14 @@ typedef struct {
     u8 stone_texture_state;
     /* Staged initialization step; 0 waits for transfer, 0xFF is idle. */
     u8 load_step;
-    u8 field_E15;
+    /* Battle presentation: each phase clears it and polls the slot's effect
+       handler (argument -1) while it is 0; when the handler returns 2 the
+       phase increments it and moves on. 0xFF holds the defender's poll until
+       its hit-reaction row (8) starts. Traced across three battles, where
+       the attacker's goes 0 -> 1 in phase 6 and the defender's 0xFF -> 0 -> 1
+       from phase 0x0C on. The credits presentation instead counts frames
+       in it (tested & 3). */
+    u8 effect_poll_state;
     /* Raw codes: 0x3E forward, 0x3C reverse, 0x23 held. */
     u8 playback_state;
     u8 entry_count;

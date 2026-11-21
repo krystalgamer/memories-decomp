@@ -68,7 +68,11 @@ typedef char AlternateExit_size_must_be_12[
  *                The current alternate location, compared against 10 by both
  *                sources before they treat the entry as a real one.
  *   D_800C4E68   A pad or status word; the alternate exit selector tests
- *                0x20/0xC0 in US and 0x40/0xA0 in Japan.
+ *                0x20/0xC0 in US and 0x40/0xA0 in Japan. It is not the live
+ *                pad state on the ordinary campaign map: the
+ *                campaign_pad_word_watch trace held it at 0 for 2 minutes of
+ *                map, shop and dialog input while gInput_awPad* changed on
+ *                every press, so it stays unnamed.
  *
  * The adjacent controller state is defined in alternate_location_tick.c. */
 extern AlternateLocation gCampaignMapAlt_aLocationTable[ALTERNATE_LOCATION_COUNT];

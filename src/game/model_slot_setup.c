@@ -134,7 +134,7 @@ void Model_InitSlot(s32 slot_index, u8 *hmd, s32 hmd_size, s32 render_flags)
     model_slot->lit_color_cache_entry_count = 0;
     model_slot->prepared_primitive_count = 0;
     model_slot->lit_color_cache_end_address = 0;
-    model_slot->field_E15 = 0;
+    model_slot->effect_poll_state = 0;
     model_slot->animation_sound_enabled = 0;
     model_slot->is_active = 0;
     if (hmd == 0) {

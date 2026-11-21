@@ -496,6 +496,9 @@ typedef struct SDSequencePlayer {
     s32 sequence_read_limit;
     s32 sequence_tick_count;
     s32 sequence_tick_count_saved;
+    /* Stayed 0 through the sound_sequence_07f8_watch trace (title, menu,
+       free duel, deck build and duel tracks, all single-track with no loop
+       reached), so it stays unnamed. */
     u16 field_07F8;
     u16 track_count;
     u16 timebase;
