@@ -1348,13 +1348,13 @@ typedef struct {
     u8 command_group, completed, unknown_18A[2];
 } ModelVariantBeamParticleState;
 
-/* One 0x26-byte command row of the beam-and-ring entries: the beam and ring
- * colours, the beam height, half width and spread, the ring radius,
- * thickness and height, and the durations, spacings and start times of the
- * beams, rings and flash. */
+/* One 0x26-byte command row of the beam-and-ring entries (header 180,
+ * French headers 196 and 197): the beam and ring colours, the beam height,
+ * half width and spread, the ring radius, thickness and height, and the
+ * durations, spacings and start times of the beams, rings and flash. */
 typedef struct {
-    u8 beam_color[3];
-    u8 ring_color[3];
+    u8 beam_red, beam_green, beam_blue;
+    u8 ring_red, ring_green, ring_blue;
     u8 unknown_06[2];
     s16 height;
     s16 half_width;
@@ -1373,15 +1373,16 @@ typedef struct {
     s16 flash_begin;
 } ModelVariantBeamRingConfig;
 
-/* The work area of the beam-ring entries (French images 16740 and 24764):
- * the command row, 32 beam points, the origin, a 66-point double ring, the
- * translation, two texture words, the time and the completion flag. */
+/* The 0x334-byte work area of the beam-ring entries (header 180, French
+ * images 16740 and 24764): the command row, 32 beam points, the other
+ * slot's position, a 66-point double ring, this slot's position, two
+ * texture words, the time and the completion flag. */
 typedef struct {
     ModelVariantBeamRingConfig *config;
     SVECTOR beams[32];
-    SVECTOR origin;
+    SVECTOR opponent;
     SVECTOR ring[66];
-    SVECTOR translation;
+    SVECTOR origin;
     s32 textures[2];
     s32 time;
     u8 completed;

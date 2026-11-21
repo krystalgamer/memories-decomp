@@ -42,8 +42,8 @@ s32 FrenchModelVariant196_HandleRequest(ModelVariantBeamRingState *context, s32 
     side = Model_GetActiveSlotIndex() * 2 - 1;
     if (command >= 0) {
         config = state->config = &gFrenchModelVariant196_aConfigs[command];
-        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &state->translation);
-        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &state->origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex(), &state->origin);
+        Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, &state->opponent);
         point = state->ring;
         for (i = 0; i < 33; point++, i++) {
             point->vx = config->radius * ccos(i * 128) / 4096;
@@ -87,8 +87,8 @@ s32 FrenchModelVariant196_HandleRequest(ModelVariantBeamRingState *context, s32 
     quad.tpage = state->textures[0] >> 16;
     quad.clut = state->textures[0];
     setVector(&rotation, 0, 0, 0);
-    setVector(&translation, state->translation.vx,
-              state->translation.vy, state->translation.vz);
+    setVector(&translation, state->origin.vx,
+              state->origin.vy, state->origin.vz);
     translation.vy = config->ring_height;
     elapsed = state->time - config->ring_begin;
     for (j = 0; j < config->ring_span; j += config->ring_spacing) {
@@ -105,11 +105,11 @@ s32 FrenchModelVariant196_HandleRequest(ModelVariantBeamRingState *context, s32 
             GsSetLsMatrix(&matrix);
             RotTransPersN(state->ring, screens, depths, interpolation, flags, 66);
             age = config->ring_duration - age;
-            numerator = config->ring_color[0] * age;
+            numerator = config->ring_red * age;
             red = numerator / config->ring_duration;
-            numerator = config->ring_color[1] * age;
+            numerator = config->ring_green * age;
             green = numerator / config->ring_duration;
-            numerator = config->ring_color[2] * age;
+            numerator = config->ring_blue * age;
             blue = numerator / config->ring_duration;
             setRGB0(&quad, red, green, blue);
             for (i = 0; i < 32; i++) {
@@ -157,20 +157,20 @@ s32 FrenchModelVariant196_HandleRequest(ModelVariantBeamRingState *context, s32 
             for (k = 0; k < 2; point++, k++) {
                 s32 red, green, blue;
                 setVector(&translation, point->vx, point->vy, point->vz);
-                translation.vx += state->origin.vx;
-                translation.vy += state->origin.vy;
-                translation.vz += state->origin.vz;
+                translation.vx += state->opponent.vx;
+                translation.vy += state->opponent.vy;
+                translation.vz += state->opponent.vz;
                 translation.vy = 0;
                 elapsed = (age << 12) / config->beam_duration;
                 scale.vx = 4096;
                 scale.vz = 4096;
                 scale.vy = elapsed;
                 value = config->beam_duration - age;
-                numerator = config->beam_color[0] * value;
+                numerator = config->beam_red * value;
                 red = numerator / config->beam_duration;
-                numerator = config->beam_color[1] * value;
+                numerator = config->beam_green * value;
                 green = numerator / config->beam_duration;
-                numerator = config->beam_color[2] * value;
+                numerator = config->beam_blue * value;
                 blue = numerator / config->beam_duration;
                 setRGB0(&quad, red, green, blue);
                 GsSetLsMatrix(&light);
