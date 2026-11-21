@@ -21,18 +21,18 @@ typedef struct {
     s16 radius, half_size, gradient_duration, particle_duration, glow_fade_in, glow_duration;
     s16 tint_starts[8], tint_durations[8], tint_ramp_durations[8];
     s16 main_delay, glow_delay;
-} Model144Config;
+} FrenchModel144Config;
 
 typedef struct {
-    Model144Config *config;
+    FrenchModel144Config *config;
     u8 unknown_004[24];
     SVECTOR points[64];
     s32 texture[1], elapsed;
     u8 started, frame_step_override;
-} Model144State;
+} FrenchModel144State;
 
 extern GsIMAGE gFrenchModelVariant144_aImages[];
-extern Model144Config gFrenchModelVariant144_aConfigs[];
-s32 FrenchModelVariant144_HandleRequest(Model144State *context, s32 command);
+extern FrenchModel144Config gFrenchModelVariant144_aConfigs[];
+s32 FrenchModelVariant144_HandleRequest(FrenchModel144State *context, s32 command);
 
 #endif

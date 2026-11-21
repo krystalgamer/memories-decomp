@@ -4,9 +4,9 @@
 
 const VECTOR gFrenchModelVariant101_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant101_HandleRequest(Model101State *context, s32 command)
+s32 FrenchModelVariant101_HandleRequest(FrenchModel101State *context, s32 command)
 {
-    Model101State *work;
+    FrenchModel101State *work;
     MATRIX base;
     MATRIX matrix;
     POLY_FT4 quad;
@@ -22,7 +22,7 @@ s32 FrenchModelVariant101_HandleRequest(Model101State *context, s32 command)
     s32 flag;
     s32 direction;
     GsOT *ot;
-    Model101Config *config;
+    FrenchModel101Config *config;
     SVECTOR *point;
     SVECTOR *velocity;
     DVECTOR *screen;

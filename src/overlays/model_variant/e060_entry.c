@@ -12,9 +12,9 @@ const VECTOR gFrenchModelVariant129_UnitScale = {4096, 4096, 4096, 0};
         GsSortPoly(&quad, ot, (u16)depth); \
     }
 
-s32 FrenchModelVariant129_HandleRequest(Model129State *context, s32 command)
+s32 FrenchModelVariant129_HandleRequest(FrenchModel129State *context, s32 command)
 {
-    Model129State *work;
+    FrenchModel129State *work;
     s32 direction;
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -23,7 +23,7 @@ s32 FrenchModelVariant129_HandleRequest(Model129State *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[9];
     long flag, interpolation;
-    Model129Config *config;
+    FrenchModel129Config *config;
     GsOT *ot;
     SVECTOR *point, *velocity;
     s32 scene_time;

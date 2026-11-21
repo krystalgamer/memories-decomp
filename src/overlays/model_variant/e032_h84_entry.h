@@ -17,10 +17,10 @@ typedef struct {
     s16 count;
     s16 delay;
     s16 duration;
-} Model101Config;
+} FrenchModel101Config;
 
 typedef struct {
-    Model101Config *config;
+    FrenchModel101Config *config;
     SVECTOR positions[96];
     SVECTOR velocities[96];
     SVECTOR ring[66];
@@ -30,11 +30,11 @@ typedef struct {
     u8 completed;
     u8 field_a59[3];
     s32 elapsed;
-} Model101State;
+} FrenchModel101State;
 
 extern const VECTOR gFrenchModelVariant101_UnitScale;
 extern GsIMAGE gFrenchModelVariant101_Image;
-extern Model101Config gFrenchModelVariant101_aConfigs[];
-s32 FrenchModelVariant101_HandleRequest(Model101State *context, s32 command);
+extern FrenchModel101Config gFrenchModelVariant101_aConfigs[];
+s32 FrenchModelVariant101_HandleRequest(FrenchModel101State *context, s32 command);
 
 #endif

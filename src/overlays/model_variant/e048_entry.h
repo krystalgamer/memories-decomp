@@ -16,10 +16,10 @@ typedef struct {
     s16 size, arc_height, spread, radius, flash_size;
     s16 count, rows, travel_duration, fade_duration, spacing, delay;
     u8 unknown_1a, tile_size, frames, unknown_1d;
-} Model117Config;
+} FrenchModel117Config;
 
 typedef struct {
-    Model117Config *config;
+    FrenchModel117Config *config;
     SVECTOR positions[40];
     u8 unknown_144[0xc0];
     SVECTOR targets[40];
@@ -33,10 +33,10 @@ typedef struct {
     s32 textures[6];
     u8 completed, unknown_71d[3];
     s32 elapsed;
-} Model117State;
+} FrenchModel117State;
 
 extern GsIMAGE gFrenchModelVariant117_aImages[];
-extern Model117Config gFrenchModelVariant117_aConfigs[];
-s32 FrenchModelVariant117_HandleRequest(Model117State *context, s32 command);
+extern FrenchModel117Config gFrenchModelVariant117_aConfigs[];
+s32 FrenchModelVariant117_HandleRequest(FrenchModel117State *context, s32 command);
 
 #endif

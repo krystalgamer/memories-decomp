@@ -4,10 +4,10 @@
 
 static const VECTOR gFrenchModelVariant117_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant117_HandleRequest(Model117State *context, s32 command)
+s32 FrenchModelVariant117_HandleRequest(FrenchModel117State *context, s32 command)
 {
-    Model117State *work;
-    Model117Config *config;
+    FrenchModel117State *work;
+    FrenchModel117Config *config;
     MATRIX base, matrix;
     POLY_FT4 quad;
     SVECTOR rotation, position;

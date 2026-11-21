@@ -9,9 +9,9 @@
 
 const VECTOR gFrenchModelVariant178_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant178_HandleRequest(Model178State *context, s32 command)
+s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 command)
 {
-    Model178State *work;
+    FrenchModel178State *work;
     MATRIX base;
     MATRIX matrix;
     POLY_FT4 quad;
@@ -20,7 +20,7 @@ s32 FrenchModelVariant178_HandleRequest(Model178State *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     long flag, interpolation;
-    Model178Config *config;
+    FrenchModel178Config *config;
     GsOT *ot;
     SVECTOR *point, *endpoint;
     s32 direction, step, i, j, time, value;
@@ -60,7 +60,7 @@ s32 FrenchModelVariant178_HandleRequest(Model178State *context, s32 command)
         work->elapsed = 0;
         work->completed = 0;
 #if defined(VARIANT178_PRINT_WORK_SIZE)
-        printf("%d (0x%x) Byte\n", sizeof(Model178State), sizeof(Model178State));
+        printf("%d (0x%x) Byte\n", sizeof(FrenchModel178State), sizeof(FrenchModel178State));
 #endif
         return 0;
     }

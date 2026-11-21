@@ -11,9 +11,9 @@
 
 static const VECTOR gFrenchModelVariant144_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant144_HandleRequest(Model144State *context, s32 command)
+s32 FrenchModelVariant144_HandleRequest(FrenchModel144State *context, s32 command)
 {
-    Model144State *work;
+    FrenchModel144State *work;
     MATRIX base, matrix;
     POLY_FT4 quad;
     POLY_G4 gradient;
@@ -27,7 +27,7 @@ s32 FrenchModelVariant144_HandleRequest(Model144State *context, s32 command)
     long parameter, flag;
     s32 direction;
     GsOT *ot;
-    Model144Config *config;
+    FrenchModel144Config *config;
     SVECTOR *point;
     s32 i, value, angle0, angle1, time, step;
     long depth;

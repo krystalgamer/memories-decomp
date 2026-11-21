@@ -14,19 +14,19 @@ typedef struct {
     u8 red, green, blue, ring_red, ring_green, ring_blue, first_part, second_part;
     s16 radius, thickness, stagger, particle_duration, split_time;
     s16 flash_duration, ring_duration, delay;
-} Model163Config;
+} FrenchModel163Config;
 
 typedef struct {
-    Model163Config *config;
+    FrenchModel163Config *config;
     SVECTOR points[130];
     SVECTOR *quads[16];
     u32 texture[2];
     u8 completed, unknown_45d[3];
     s32 elapsed;
-} Model163State;
+} FrenchModel163State;
 
 extern GsIMAGE gFrenchModelVariant163_aImages[];
-extern Model163Config gFrenchModelVariant163_aConfigs[];
-s32 FrenchModelVariant163_HandleRequest(Model163State *context, s32 command);
+extern FrenchModel163Config gFrenchModelVariant163_aConfigs[];
+s32 FrenchModelVariant163_HandleRequest(FrenchModel163State *context, s32 command);
 
 #endif

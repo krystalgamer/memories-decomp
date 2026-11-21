@@ -27,21 +27,21 @@ typedef struct {
     s16 dot_duration;
     s16 trail_delay;
     s16 event_times[8];
-} Model142Config;
+} FrenchModel142Config;
 
 typedef struct {
-    Model142Config *config;
+    FrenchModel142Config *config;
     SVECTOR history[96];
     SVECTOR dots[32];
     s32 texture[1];
     s32 field_408;
     s32 elapsed;
     u8 event;
-} Model142State;
+} FrenchModel142State;
 
 extern const VECTOR gFrenchModelVariant142_UnitScale;
 extern GsIMAGE gFrenchModelVariant142_aImages[];
-extern Model142Config gFrenchModelVariant142_aConfigs[];
-s32 FrenchModelVariant142_HandleRequest(Model142State *context, s32 command);
+extern FrenchModel142Config gFrenchModelVariant142_aConfigs[];
+s32 FrenchModelVariant142_HandleRequest(FrenchModel142State *context, s32 command);
 
 #endif

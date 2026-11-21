@@ -16,7 +16,7 @@ typedef struct {
     s16 sprite_size, spread, ring_radius, ring_depth;
     s16 travel_duration, fade_duration, particle_stagger;
     s16 initial_delay, ring_duration;
-} Model121Config;
+} FrenchModel121Config;
 
 typedef union {
     CVECTOR colors[26];
@@ -24,22 +24,22 @@ typedef union {
         CVECTOR initialized_colors[24];
         u32 texture[2];
     } storage;
-} Model121Palette;
+} FrenchModel121Palette;
 
 typedef struct {
-    Model121Config *config;
+    FrenchModel121Config *config;
     SVECTOR positions[64];
     SVECTOR destinations[64];
     SVECTOR ring[26];
     /* The final triangle reads its second RGB from the first texture handle. */
-    Model121Palette palette;
+    FrenchModel121Palette palette;
     u8 completed;
     u8 field_53D[3];
     s32 elapsed;
-} Model121State;
+} FrenchModel121State;
 
 extern GsIMAGE gFrenchModelVariant121_aImages[];
-extern Model121Config gFrenchModelVariant121_aConfigs[];
-s32 FrenchModelVariant121_HandleRequest(Model121State *context, s32 command);
+extern FrenchModel121Config gFrenchModelVariant121_aConfigs[];
+s32 FrenchModelVariant121_HandleRequest(FrenchModel121State *context, s32 command);
 
 #endif
