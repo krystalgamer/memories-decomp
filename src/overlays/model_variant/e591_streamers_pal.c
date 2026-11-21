@@ -153,7 +153,7 @@ void SpanishModelVariant425_DrawStreamers(EntryState425 *context)
     }
 #else
     for (i = 0, previous = &streamer->sa[0]; i < 1; i++,
-         previous = (long *)((u8 *)previous + sizeof(Variant425Streamer)), streamer++) {
+         previous += sizeof(Variant425Streamer) / sizeof(*previous), streamer++) {
         for (k = 0; k < 2; k++) {
             if (k == 1) {
                 streamer->otz[k] = RotTransPers4(&streamer->a[0], &streamer->a[1], &streamer->a[0], &streamer->a[1],

@@ -125,7 +125,7 @@ void SpanishModelVariant437_DrawStreamers(Variant437EntryState *context)
     for (i = 0; i < 3; i++, streamer++) {
 #else
     for (i = 0, previous = &streamer->sa[11]; i < 3; i++,
-         previous = (long *)((u8 *)previous + sizeof(ModelVariantShortStreamer)), streamer++) {
+         previous += sizeof(ModelVariantShortStreamer) / sizeof(*previous), streamer++) {
 #endif
         for (k = 0; k < 13; k++) {
             if (k == 12) {

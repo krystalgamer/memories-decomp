@@ -111,7 +111,7 @@ void FrenchModelVariant335_DrawStreamers(Model335EntryState *ctx)
     for (i = 0; i < 2; i++, streamer++) {
 #else
     for (i = 0, previous = (DVECTOR *)&streamer->sa[15]; i < 2; i++,
-         previous = (DVECTOR *)((u8 *)previous + sizeof(ModelVariantFlaggedStreamer)), streamer++) {
+         previous += sizeof(ModelVariantFlaggedStreamer) / sizeof(*previous), streamer++) {
 #endif
         for (k = 0; k < 17; k++) {
             if (k == 16) {
