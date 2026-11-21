@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "e578_entry_pal.h"
 
-void FrenchModelVariant402_DrawRings(Variant412EntryState *context)
+void FrenchModelVariant402_DrawRings(FrenchVariant412EntryState *context)
 {
-    Variant412EntryState *work = context;
+    FrenchVariant412EntryState *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -11,7 +11,7 @@ void FrenchModelVariant402_DrawRings(Variant412EntryState *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant402EntryRing *ring = work->rings;
+    FrenchVariant402EntryRing *ring = work->rings;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;

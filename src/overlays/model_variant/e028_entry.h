@@ -15,10 +15,10 @@ typedef struct {
     s16 height, radius, half_size, spread, lift;
     s16 path_count, ring_count, particle_count;
     s16 beam_duration, ring_duration, particle_duration, stagger, spin, delay;
-} Model97Config;
+} FrenchModel97Config;
 
 typedef struct {
-    Model97Config *config;
+    FrenchModel97Config *config;
     SVECTOR path[32];
     u8 unknown_104[0x100];
     SVECTOR ring[16];
@@ -29,10 +29,10 @@ typedef struct {
     s32 texture[3];
     u8 completed, unknown_31d[3];
     s32 elapsed;
-} Model97State;
+} FrenchModel97State;
 
 extern GsIMAGE gFrenchModelVariant97_aImages[];
-extern Model97Config gFrenchModelVariant97_aConfigs[];
-s32 FrenchModelVariant97_HandleRequest(Model97State *context, s32 command);
+extern FrenchModel97Config gFrenchModelVariant97_aConfigs[];
+s32 FrenchModelVariant97_HandleRequest(FrenchModel97State *context, s32 command);
 
 #endif

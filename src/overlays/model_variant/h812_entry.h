@@ -19,27 +19,27 @@ typedef struct {
     u16 travel_divisor, cloud_spread, cloud_half_width, cloud_half_height, unknown_14;
     u8 fade_step, unknown_17;
     u16 startup_delay;
-} Model829Config;
+} FrenchModel829Config;
 
 typedef union {
     struct {
         u16 phase, states[4], active;
     } fields;
     u32 first_pair;
-} Model829Status;
+} FrenchModel829Status;
 
 typedef struct {
-    Model829Config *config;
+    FrenchModel829Config *config;
     SVECTOR positions[4], velocities[4], cloud_offsets[4][32];
     u32 elapsed, updates, phase_frames;
-    Model829Status status;
+    FrenchModel829Status status;
     u16 cloud_counts[4];
     s32 brightness, texture[4];
     u8 red[4], green[4], blue[4], cloud_gray[4][32];
-} Model829State;
+} FrenchModel829State;
 
 extern GsIMAGE gFrenchModelVariant829_aImages[];
-extern Model829Config gFrenchModelVariant829_aConfigs[];
-s32 FrenchModelVariant829_HandleRequest(Model829State *context, s32 command);
+extern FrenchModel829Config gFrenchModelVariant829_aConfigs[];
+s32 FrenchModelVariant829_HandleRequest(FrenchModel829State *context, s32 command);
 
 #endif

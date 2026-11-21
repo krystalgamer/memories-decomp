@@ -6,9 +6,9 @@
 #define MODEL_VARIANT459_CLUT_X 640
 #endif
 
-s32 SpanishModelVariant459_HandleRequest(Variant459EntryState *context, s32 command)
+s32 SpanishModelVariant459_HandleRequest(SpanishVariant459EntryState *context, s32 command)
 {
-    Variant459EntryState *work = context;
+    SpanishVariant459EntryState *work = context;
     u8 unknown_stack[64];
     SVECTOR position, target;
     VECTOR squared;

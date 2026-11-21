@@ -14,10 +14,10 @@ typedef struct {
     u8 r, g, b, part;
     s16 outer_radius, inner_radius, segments, count;
     s16 duration, flash_duration, spacing, delay;
-} Model96Config;
+} FrenchModel96Config;
 
 typedef struct {
-    Model96Config *config;
+    FrenchModel96Config *config;
     u8 field_04[8];
     SVECTOR outer[65];
     SVECTOR inner[65];
@@ -30,11 +30,11 @@ typedef struct {
     u8 completed;
     u8 field_A2D[3];
     s32 elapsed;
-} Model96State;
+} FrenchModel96State;
 
 extern const VECTOR gFrenchModelVariant96_UnitScale;
 extern GsIMAGE gFrenchModelVariant96_aImages[];
-extern Model96Config gFrenchModelVariant96_aConfigs[];
-s32 FrenchModelVariant96_HandleRequest(Model96State *context, s32 command);
+extern FrenchModel96Config gFrenchModelVariant96_aConfigs[];
+s32 FrenchModelVariant96_HandleRequest(FrenchModel96State *context, s32 command);
 
 #endif

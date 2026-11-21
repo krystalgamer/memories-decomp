@@ -10,9 +10,9 @@
 
 const VECTOR gFrenchModelVariant96_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant96_HandleRequest(Model96State *context, s32 command)
+s32 FrenchModelVariant96_HandleRequest(FrenchModel96State *context, s32 command)
 {
-    Model96State *work;
+    FrenchModel96State *work;
     MATRIX base;
     MATRIX matrix;
     POLY_GT4 quad;
@@ -23,7 +23,7 @@ s32 FrenchModelVariant96_HandleRequest(Model96State *context, s32 command)
     u16 outer_flags[65], inner_flags[65];
     SVECTOR opponent;
     long flag;
-    Model96Config *config;
+    FrenchModel96Config *config;
     GsOT *ot;
     SVECTOR *inner, *position;
     s32 *factor;

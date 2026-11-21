@@ -3,7 +3,7 @@
 
 #include "e578_entry_pal.h"
 
-void FrenchModelVariant402_DrawBands(Variant412EntryState *context)
+void FrenchModelVariant402_DrawBands(FrenchVariant412EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -12,7 +12,7 @@ void FrenchModelVariant402_DrawBands(Variant412EntryState *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant412EntryState *work;
+    FrenchVariant412EntryState *work;
     ModelVariantCurtain *band;
     GsOT *ot;
     POLY_FT4 *quad;

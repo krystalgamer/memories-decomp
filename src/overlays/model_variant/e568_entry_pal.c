@@ -5,16 +5,16 @@
 #define MODEL_VARIANT402_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant402_HandleRequest(Variant402EntryState *context, s32 command)
+s32 FrenchModelVariant402_HandleRequest(FrenchVariant402EntryState *context, s32 command)
 {
-    Variant402EntryState *work = context;
+    FrenchVariant402EntryState *work = context;
     MATRIX unused_matrix0;
     MATRIX unused_matrix1;
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
-    Variant402EntryRecord *record = work->records;
-    Variant402EntryRing *ring = work->rings;
+    FrenchVariant402EntryRecord *record = work->records;
+    FrenchVariant402EntryRing *ring = work->rings;
     ModelVariantCurtain *band = work->bands;
     POLY_GT4 *textured = work->packets.textured;
     POLY_FT4 *flat = work->flat_textured;
@@ -202,7 +202,7 @@ s32 FrenchModelVariant402_HandleRequest(Variant402EntryState *context, s32 comma
         work->aim.screen_delta.vx = dx - screen_x;
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
-        if (work->config->part_count != 0) {
+        if (work->config->origin_count != 0) {
             do {
                 if (work->part_index == 0) {
                     GsGetLwUnit(work->parts[0], &work->matrix);
@@ -215,9 +215,9 @@ s32 FrenchModelVariant402_HandleRequest(Variant402EntryState *context, s32 comma
                 work->aim.direction.vy = work->aim.target.vy - work->matrix.t[1];
                 work->aim.direction.vz = work->aim.target.vz - work->matrix.t[2];
                 work->part_index++;
-            } while (work->part_index < work->config->part_count);
+            } while (work->part_index < work->config->origin_count);
         }
-        if (work->config->start <= work->clock.frame) {
+        if (work->config->grow_frames <= work->clock.frame) {
             FrenchModelVariant402_DrawBands(context);
             if (work->phase == 0) {
                 work->phase = 1;

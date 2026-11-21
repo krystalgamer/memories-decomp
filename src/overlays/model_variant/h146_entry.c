@@ -16,9 +16,9 @@
 
 static const VECTOR gFrenchModelVariant163_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant163_HandleRequest(Model163State *context, s32 command)
+s32 FrenchModelVariant163_HandleRequest(FrenchModel163State *context, s32 command)
 {
-    Model163State *work;
+    FrenchModel163State *work;
     MATRIX base, matrix;
     POLY_FT4 quad;
     POLY_F4 flash;
@@ -29,7 +29,7 @@ s32 FrenchModelVariant163_HandleRequest(Model163State *context, s32 command)
     long flag, parameter;
     s32 direction;
     GsOT *ot;
-    Model163Config *config;
+    FrenchModel163Config *config;
     SVECTOR *point;
     SVECTOR **vertices;
     s32 i, j, time, value, step;
@@ -88,7 +88,7 @@ s32 FrenchModelVariant163_HandleRequest(Model163State *context, s32 command)
         work->elapsed = 0;
         work->completed = 0;
 #if defined(VARIANT163_PRINT_WORK_SIZE)
-        printf("%d (0x%x) Byte\n", sizeof(Model163State), sizeof(Model163State));
+        printf("%d (0x%x) Byte\n", sizeof(FrenchModel163State), sizeof(FrenchModel163State));
 #endif
         return 0;
     }

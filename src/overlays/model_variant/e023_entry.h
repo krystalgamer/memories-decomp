@@ -16,10 +16,10 @@ typedef struct {
     s16 half_size, spread, unknown_08;
     s16 gather_duration, travel_duration, burst_duration;
     s16 group_size, count, spacing, delay, unknown_18;
-} Model173Config;
+} FrenchModel173Config;
 
 typedef struct {
-    Model173Config *config;
+    FrenchModel173Config *config;
     SVECTOR positions[256];
     SVECTOR offsets[256];
     SVECTOR center;
@@ -29,11 +29,11 @@ typedef struct {
     s32 elapsed;
     u8 mode, unknown_123D[3];
     s32 frames;
-} Model173State;
+} FrenchModel173State;
 
 extern const VECTOR gFrenchModelVariant173_UnitScale;
 extern GsIMAGE gFrenchModelVariant173_aImages[];
-extern Model173Config gFrenchModelVariant173_aConfigs[];
-s32 FrenchModelVariant173_HandleRequest(Model173State *context, s32 command);
+extern FrenchModel173Config gFrenchModelVariant173_aConfigs[];
+s32 FrenchModelVariant173_HandleRequest(FrenchModel173State *context, s32 command);
 
 #endif

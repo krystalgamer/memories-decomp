@@ -2,7 +2,7 @@
 #include "e578_trails_pal.h"
 #include "e578_entry_pal.h"
 
-void FrenchModelVariant412_DrawTrails(Variant412EntryState *context)
+void FrenchModelVariant412_DrawTrails(FrenchVariant412EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -14,7 +14,7 @@ void FrenchModelVariant412_DrawTrails(Variant412EntryState *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant412EntryState *work;
+    FrenchVariant412EntryState *work;
     GsOT *ot;
     s16 i;
     s16 j;

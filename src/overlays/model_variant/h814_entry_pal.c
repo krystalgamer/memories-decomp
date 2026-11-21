@@ -18,9 +18,9 @@ static const VECTOR gFrenchModelVariant831_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 FrenchModelVariant831_HandleRequest(Model831State *context, s32 command)
+s32 FrenchModelVariant831_HandleRequest(FrenchModel831State *context, s32 command)
 {
-    Model831State *work;
+    FrenchModel831State *work;
     MATRIX light;
     MATRIX m;
     MATRIX saved;

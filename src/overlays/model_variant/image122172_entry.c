@@ -6,9 +6,9 @@
 #endif
 #include "../../game/graphics_constants.h"
 
-s32 FrenchModelVariant142_HandleRequest(Model142State *context, s32 command)
+s32 FrenchModelVariant142_HandleRequest(FrenchModel142State *context, s32 command)
 {
-    Model142State *work;
+    FrenchModel142State *work;
     MATRIX base, matrix;
     POLY_G4 trail;
     POLY_FT4 quad;
@@ -22,7 +22,7 @@ s32 FrenchModelVariant142_HandleRequest(Model142State *context, s32 command)
     long flag, interpolation;
     s32 direction;
     GsOT *ot;
-    Model142Config *config;
+    FrenchModel142Config *config;
     SVECTOR *point, *vertex;
     s32 i, j, time, index;
     s32 first0, first1, second0, second1;

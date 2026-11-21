@@ -39,13 +39,13 @@ typedef struct {
     u16 second_start;
     u16 third_start;
     u16 mode;
-} Model831Config;
+} FrenchModel831Config;
 
 /* The work area: the header-792 layout for three bolts, with a per-bolt
  * flare timer after the flight counters, a shared 16-segment ray ring and
  * the flare texture page and CLUT after the five textures. */
 typedef struct {
-    Model831Config *config;
+    FrenchModel831Config *config;
     SVECTOR pos[3];
     SVECTOR step[3];
     SVECTOR angle[3];
@@ -82,9 +82,9 @@ typedef struct {
     u8 ray_r[3];
     u8 ray_g[3];
     u8 ray_b[3];
-} Model831State;
+} FrenchModel831State;
 
 extern GsIMAGE gFrenchModelVariant831_aImages[];
-extern Model831Config gFrenchModelVariant831_aConfigs[];
+extern FrenchModel831Config gFrenchModelVariant831_aConfigs[];
 
 #endif

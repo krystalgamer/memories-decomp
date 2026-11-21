@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "../model_variant/h447_entry_pal.h"
 
-void SpanishModelVariant464_DrawAdvancingQuads(Variant464EntryState *context)
+void SpanishModelVariant464_DrawAdvancingQuads(FrenchVariant464EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,8 +11,8 @@ void SpanishModelVariant464_DrawAdvancingQuads(Variant464EntryState *context)
     long flags[5][2];
     long interpolation;
     GsOT *ot;
-    Variant464EntryState *state = context;
-    Variant464EntryPrimary *group;
+    FrenchVariant464EntryState *state = context;
+    FrenchVariant464EntryPrimary *group;
     POLY_GT4 *quad;
     s16 i, j;
     s32 angle;

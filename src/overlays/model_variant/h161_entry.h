@@ -15,10 +15,10 @@ typedef struct {
     u8 r, g, b, burst_r, burst_g, burst_b, part, field_07;
     s16 half_size, spread, burst_half_size, rise, velocity_spread;
     s16 count, spacing, travel, fade, burst_duration, delay;
-} Model178Config;
+} FrenchModel178Config;
 
 typedef struct {
-    Model178Config *config;
+    FrenchModel178Config *config;
     SVECTOR positions[64];
     SVECTOR endpoints[64];
     SVECTOR velocities[4];
@@ -27,11 +27,11 @@ typedef struct {
     u8 completed;
     u8 field_449[3];
     s32 elapsed;
-} Model178State;
+} FrenchModel178State;
 
 extern const VECTOR gFrenchModelVariant178_UnitScale;
 extern GsIMAGE gFrenchModelVariant178_aImages[];
-extern Model178Config gFrenchModelVariant178_aConfigs[];
-s32 FrenchModelVariant178_HandleRequest(Model178State *context, s32 command);
+extern FrenchModel178Config gFrenchModelVariant178_aConfigs[];
+s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 command);
 
 #endif

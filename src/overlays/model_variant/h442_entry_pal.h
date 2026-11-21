@@ -18,7 +18,7 @@ typedef struct {
     u32 band_end;
     u32 fade_start;
     u32 fade_end;
-} Variant459EntryConfig;
+} SpanishVariant459EntryConfig;
 
 /* Minimum observed extent, not an allocation capacity. */
 typedef struct {
@@ -41,7 +41,7 @@ typedef struct {
     ModelVariantAim aim;
     ModelVariantClock clock;
     ModelVariantSpiralParams spiral;
-    Variant459EntryConfig *config;
+    SpanishVariant459EntryConfig *config;
     u8 unknown_30A0[4];
     GsCOORDUNIT *parts[6];
     s16 index, field_30BE;
@@ -54,15 +54,15 @@ typedef struct {
     u8 unknown_30E4[8];
     s32 tint;
     s16 slot, command;
-} Variant459EntryState;
+} SpanishVariant459EntryState;
 
 extern GsIMAGE gSpanishModelVariant459_aImages[9];
-extern Variant459EntryConfig gSpanishModelVariant459_aConfigs[];
-void SpanishModelVariant459_DrawCurtains(Variant459EntryState *context);
-void SpanishModelVariant459_DrawSpiral(Variant459EntryState *context);
-void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context);
-void SpanishModelVariant459_DrawPairedSheets(Variant459EntryState *context);
-void SpanishModelVariant459_DrawLines(Variant459EntryState *context);
-typedef char Variant459EntryConfigSize[(sizeof(Variant459EntryConfig) == 0x48) ? 1 : -1];
-typedef char Variant459EntryStateSize[(sizeof(Variant459EntryState) == 0x30F4) ? 1 : -1];
+extern SpanishVariant459EntryConfig gSpanishModelVariant459_aConfigs[];
+void SpanishModelVariant459_DrawCurtains(SpanishVariant459EntryState *context);
+void SpanishModelVariant459_DrawSpiral(SpanishVariant459EntryState *context);
+void SpanishModelVariant459_DrawTimedBands(SpanishVariant459EntryState *context);
+void SpanishModelVariant459_DrawPairedSheets(SpanishVariant459EntryState *context);
+void SpanishModelVariant459_DrawLines(SpanishVariant459EntryState *context);
+typedef char SpanishVariant459EntryConfigSize[(sizeof(SpanishVariant459EntryConfig) == 0x48) ? 1 : -1];
+typedef char SpanishVariant459EntryStateSize[(sizeof(SpanishVariant459EntryState) == 0x30F4) ? 1 : -1];
 #endif

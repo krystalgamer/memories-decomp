@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "e568_rings_pal.h"
 
-void FrenchModelVariant402_DrawRings(Variant402EntryState *context)
+void FrenchModelVariant402_DrawRings(FrenchVariant402EntryState *context)
 {
-    Variant402EntryState *work = context;
+    FrenchVariant402EntryState *work = context;
     SVECTOR rotation;
     VECTOR scale;
     MATRIX matrix;
@@ -11,7 +11,7 @@ void FrenchModelVariant402_DrawRings(Variant402EntryState *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant402EntryRing *ring = work->rings;
+    FrenchVariant402EntryRing *ring = work->rings;
     GsOT *ot;
     POLY_GT4 *quad;
     s32 i, j;
@@ -66,10 +66,10 @@ void FrenchModelVariant402_DrawRings(Variant402EntryState *context)
                 }
             }
         }
-        if (work->part_index + 1 == work->config->part_count) {
+        if (work->part_index + 1 == work->config->origin_count) {
             if (i == 0) {
                 if (work->phase == 0 && ring->scale < 4096) {
-                    ring->scale = (work->clock.frame << 12) / work->config->start;
+                    ring->scale = (work->clock.frame << 12) / work->config->grow_frames;
                     if (ring->scale >= 4096) {
                         ring->scale = 4096;
                         work->phase = 1;

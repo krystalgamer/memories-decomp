@@ -8,7 +8,7 @@
  * record's size and the entry's shrinking scale; the bands grow
  * along their own directions through phase 1 and shrink from the record's
  * fade window until phase 3. */
-void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
+void SpanishModelVariant459_DrawTimedBands(SpanishVariant459EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -17,7 +17,7 @@ void SpanishModelVariant459_DrawTimedBands(Variant459EntryState *context)
     GsCOORDINATE2 coord;
     long p;
     long flag[6][9];
-    Variant459EntryState *work;
+    SpanishVariant459EntryState *work;
     GsOT *ot;
     POLY_GT4 *poly;
     ModelVariantColorBand *band;

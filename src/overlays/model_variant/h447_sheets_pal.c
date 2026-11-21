@@ -1,7 +1,7 @@
 #include "../../types.h"
 #include "h447_entry_pal.h"
 
-void SpanishModelVariant464_DrawSheets(Variant464EntryState *context)
+void SpanishModelVariant464_DrawSheets(FrenchVariant464EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -10,9 +10,9 @@ void SpanishModelVariant464_DrawSheets(Variant464EntryState *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant464EntryState *state = context;
+    FrenchVariant464EntryState *state = context;
     /* Steps past the five primaries on the final sheet, which has none. */
-    Variant464EntryPrimary *primary = state->primary;
+    FrenchVariant464EntryPrimary *primary = state->primary;
     GsOT *ot;
     ModelVariantSheetSet *sheet = state->sheets;
     POLY_GT4 *polygon;

@@ -5,9 +5,9 @@
 
 static const VECTOR gFrenchModelVariant829_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant829_HandleRequest(Model829State *context, s32 command)
+s32 FrenchModelVariant829_HandleRequest(FrenchModel829State *context, s32 command)
 {
-    Model829State *work;
+    FrenchModel829State *work;
     s32 slot, direction;
     MATRIX base, matrix;
     POLY_FT4 quad;

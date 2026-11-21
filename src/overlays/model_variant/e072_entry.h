@@ -16,19 +16,19 @@ typedef struct {
     s16 grid_half_size, travel_depth, sprite_half_size, offset_spread, point_spread;
     s16 travel_duration, sprite_duration, point_duration, spacing, unknown_1c;
     s16 count, travel_delay, burst_delay;
-} Model141Config;
+} FrenchModel141Config;
 
 typedef struct {
-    Model141Config *config;
+    FrenchModel141Config *config;
     SVECTOR positions[28];
     u8 unknown_e4[0x120];
     SVECTOR offsets[32], velocities[32];
     s32 texture[2], elapsed;
     u8 completed, unknown_411[3];
-} Model141State;
+} FrenchModel141State;
 
 extern GsIMAGE gFrenchModelVariant141_aImages[];
-extern Model141Config gFrenchModelVariant141_aConfigs[];
-s32 FrenchModelVariant141_HandleRequest(Model141State *context, s32 command);
+extern FrenchModel141Config gFrenchModelVariant141_aConfigs[];
+s32 FrenchModelVariant141_HandleRequest(FrenchModel141State *context, s32 command);
 
 #endif

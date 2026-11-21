@@ -20,10 +20,10 @@ typedef struct {
     s16 debris_count, debris_half_size, debris_spread, debris_speed;
     s16 dot_count, dot_speed, initial_delay, burst_end;
     s32 duration;
-} Model782Config;
+} FrenchModel782Config;
 
 typedef struct {
-    Model782Config *config;
+    FrenchModel782Config *config;
     SVECTOR origin;
     SVECTOR debris_positions[16];
     u8 unknown_08C[0x180];
@@ -38,10 +38,10 @@ typedef struct {
     s16 animation, elapsed, phase, growth_age;
     u8 shade;
     u8 unknown_9AD[3];
-} Model782State;
+} FrenchModel782State;
 
 extern GsIMAGE gFrenchModelVariant782_aImages[];
-extern Model782Config gFrenchModelVariant782_aConfigs[];
-s32 FrenchModelVariant782_HandleRequest(Model782State *context, s32 command);
+extern FrenchModel782Config gFrenchModelVariant782_aConfigs[];
+s32 FrenchModelVariant782_HandleRequest(FrenchModel782State *context, s32 command);
 
 #endif

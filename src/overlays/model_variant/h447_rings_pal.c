@@ -2,7 +2,7 @@
 #include "h447_entry_pal.h"
 #include "../../game/gpu_packets.h"
 
-void FrenchModelVariant464_DrawRings(Variant464EntryState *context)
+void FrenchModelVariant464_DrawRings(FrenchVariant464EntryState *context)
 {
     SVECTOR rotation;
     VECTOR scale;
@@ -11,7 +11,7 @@ void FrenchModelVariant464_DrawRings(Variant464EntryState *context)
     GsCOORDINATE2 coordinate;
     long interpolation;
     long flag;
-    Variant464EntryState *state = context;
+    FrenchVariant464EntryState *state = context;
     ModelVariantScreenRing *ring = state->screen_rings;
     POLY_GT4 *quad = &state->ring_poly;
     GsOT *ot;

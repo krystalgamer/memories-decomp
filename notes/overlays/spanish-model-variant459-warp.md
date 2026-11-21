@@ -14,7 +14,7 @@ a different work-block layout. `h442_warp_pal.c` defines
 `VARIANT438_WARP_LAYOUT_459` and renames the function, then includes
 `h421_warp_pal.c`. The layout macro selects three things:
 
-- **State.** `Variant459EntryState` (first matched through a private
+- **State.** `SpanishVariant459EntryState` (first matched through a private
   `Warp459State` view) keeps the five 0x1A8-byte `curtains` at `0` and moves
   the polygon (`plain`) to `+0x2DC8`, the origin (`matrices[0].t`, selected
   by `WARP_ORIGIN`) to `+0x2EE0`, the direction (`aim.direction`) to

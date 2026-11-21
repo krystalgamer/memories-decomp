@@ -6,16 +6,16 @@
 #define MODEL_VARIANT412_CLUT_X 640
 #endif
 
-s32 FrenchModelVariant412_HandleRequest(Variant412EntryState *context, s32 command)
+s32 FrenchModelVariant412_HandleRequest(FrenchVariant412EntryState *context, s32 command)
 {
-    Variant412EntryState *work = context;
+    FrenchVariant412EntryState *work = context;
     MATRIX unused_matrix0, unused_matrix1, unused_matrix2;
     SVECTOR position, target;
     VECTOR squared;
     ModelVariantProjection projection;
     Variant412Trail *trail = work->trails;
-    Variant402EntryRecord *record = work->records;
-    Variant402EntryRing *ring = work->rings;
+    FrenchVariant402EntryRecord *record = work->records;
+    FrenchVariant402EntryRing *ring = work->rings;
     ModelVariantCurtain *band = work->bands;
     POLY_G3 *triangle = &work->packets.triangle;
     POLY_G4 *quad = &work->packets.quad;

@@ -19,19 +19,19 @@ typedef struct {
     s16 radius, curve_width, path_height, half_size, ring_height;
     s16 radial_count, ring_count, particle_count;
     s16 particle_duration, flash_duration, ring_duration, delay;
-} Model132Config;
+} FrenchModel132Config;
 
 typedef struct {
-    Model132Config *config;
+    FrenchModel132Config *config;
     SVECTOR path[128];
     SVECTOR ring[34];
     u16 position[4];
     s32 texture[1], elapsed;
     u8 started;
-} Model132State;
+} FrenchModel132State;
 
 extern GsIMAGE gFrenchModelVariant132_aImages[];
-extern Model132Config gFrenchModelVariant132_aConfigs[];
-s32 FrenchModelVariant132_HandleRequest(Model132State *context, s32 command);
+extern FrenchModel132Config gFrenchModelVariant132_aConfigs[];
+s32 FrenchModelVariant132_HandleRequest(FrenchModel132State *context, s32 command);
 
 #endif

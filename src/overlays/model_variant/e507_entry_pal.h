@@ -4,13 +4,6 @@
 #include "e503_h320_entry_pal.h"
 #include "../model_variant/e507_fan.h"
 
-typedef struct {
-    u8 unknown_00[4], parts[3], unknown_07[5];
-    u16 substeps;
-    u8 unknown_0E[2];
-    u32 duration;
-} Variant341EntryConfig;
-
 /* Minimum entry-observed extent, not an allocation capacity. */
 typedef struct {
     ModelVariantWebNarrow webs[3];
@@ -28,7 +21,7 @@ typedef struct {
     ModelVariantAim aim;
     s32 angles[2];
     u32 frame_count, frame, animation_frame, step, fade;
-    Variant341EntryConfig *config;
+    ModelVariantAimOriginsConfig *config;
     u32 field_F30;
     GsCOORDUNIT *parts[3];
     s16 substep, field_F42, radius, brightness;
@@ -37,7 +30,7 @@ typedef struct {
 } Variant341EntryState;
 
 extern GsIMAGE gFrenchModelVariant341_aImages[9];
-extern Variant341EntryConfig gFrenchModelVariant341_aConfigs[];
+extern ModelVariantAimOriginsConfig gFrenchModelVariant341_aConfigs[];
 void ModelVariant324_DrawWebs(Variant341EntryState *context);
 void ModelVariant324_DrawFan(Variant341EntryState *context);
 void ModelVariant324_DrawBand(Variant341EntryState *context);

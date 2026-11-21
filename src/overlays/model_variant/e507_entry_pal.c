@@ -263,7 +263,7 @@ s32 FrenchModelVariant341_HandleRequest(Variant341EntryState *context, s32 comma
         work->aim.screen_delta.vx = dx - screen_x;
         dy = projection.target.vy - screen_y;
         work->aim.screen_delta.vy = dy;
-        if (work->config->substeps != 0) {
+        if (work->config->origin_count != 0) {
             do {
                 if (work->substep == 0) {
                     GsGetLwUnit(work->parts[0], &work->matrix);
@@ -300,7 +300,7 @@ s32 FrenchModelVariant341_HandleRequest(Variant341EntryState *context, s32 comma
                     ModelVariant324_DrawBand(context);
                 }
                 work->substep++;
-            } while (work->substep < work->config->substeps);
+            } while (work->substep < work->config->origin_count);
         }
         if (work->tail.phase >= 2) {
             ModelVariant324_DrawWebs(context);

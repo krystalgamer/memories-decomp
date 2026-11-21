@@ -14,20 +14,20 @@ typedef struct {
     u8 red, green, blue, flash_red, flash_green, flash_blue, part, unknown_07;
     s16 half_size, unknown_0A[5];
     s16 travel_duration, flash_duration, spacing, unknown_1A, count, delay;
-} Model129Config;
+} FrenchModel129Config;
 
 typedef struct {
-    Model129Config *config;
+    FrenchModel129Config *config;
     SVECTOR positions[64];
     SVECTOR velocities[64];
     s32 texture[2];
     s32 elapsed;
     u8 completed, effect_started, unknown_412[2];
-} Model129State;
+} FrenchModel129State;
 
 extern const VECTOR gFrenchModelVariant129_UnitScale;
 extern GsIMAGE gFrenchModelVariant129_aImages[];
-extern Model129Config gFrenchModelVariant129_aConfigs[];
-s32 FrenchModelVariant129_HandleRequest(Model129State *context, s32 command);
+extern FrenchModel129Config gFrenchModelVariant129_aConfigs[];
+s32 FrenchModelVariant129_HandleRequest(FrenchModel129State *context, s32 command);
 
 #endif

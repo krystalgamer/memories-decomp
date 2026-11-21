@@ -8,7 +8,7 @@
  * sheet's size when flag bit 0 is set, and draws each strip as a POLY_GT4
  * when its depth is positive. A curtain that reaches full size wraps
  * and counts a cycle before phase 4, and stops there from phase 4 on. */
-void SpanishModelVariant464_DrawCurtains(Variant464EntryState *context)
+void SpanishModelVariant464_DrawCurtains(FrenchVariant464EntryState *context)
 {
     SVECTOR rot;
     VECTOR scale;
@@ -17,7 +17,7 @@ void SpanishModelVariant464_DrawCurtains(Variant464EntryState *context)
     GsCOORDINATE2 coord;
     long p;
     long flag;
-    Variant464EntryState *work;
+    FrenchVariant464EntryState *work;
     ModelVariantCurtain *curtain;
     GsOT *ot;
     s32 i;
