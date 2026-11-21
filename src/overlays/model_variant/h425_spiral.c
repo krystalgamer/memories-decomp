@@ -5,7 +5,7 @@
 /* Header 425's form of the header-418 spiral: the sixteen two-point arms in
  * arms, fanned on a sphere of radius 0x200 at angles i/16 of a turn plus
  * the sweep at spiral_angle, each with a copy moved along the view
- * by (0x400 - field_2710) / 128 or / 32, projected and drawn as two POLY_GT4
+ * by (0x400 - arm_shrink) / 128 or / 32, projected and drawn as two POLY_GT4
  * halves in fixed yellow shades, only where the depth and the projection
  * flag are not negative. The scale comes from the timing record's size,
  * shrunk by spiral_shrink; from phase 2 on that grows by step * 128 up to
@@ -46,7 +46,7 @@ void ModelVariant425_DrawSpiral(Variant425EntryState *context)
     arm = context->arms;
     work = context;
     ot = Graphics_GetDefaultOrderingTable();
-    spread = 0x400 - work->field_2710;
+    spread = 0x400 - work->arm_shrink;
 #if defined(VERSION_FRENCH)
     turn = ratan2(work->view_delta.vz, work->view_delta.vx);
     timing = work->sheets;
