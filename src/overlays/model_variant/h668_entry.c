@@ -57,7 +57,7 @@ s32 ModelVariant668_HandleRequest(Model668State *context, s32 command)
             break;
         }
         work->radius = gModelVariant668_aConfigs[command].radius;
-        work->twist = gModelVariant668_aConfigs[command].twist;
+        work->twist = gModelVariant668_aConfigs[command].height;
         for (i = 0; i < work->shell_count; i++) {
             work->shells[i].head.duration = 64;
             work->shells[i].head.active = 0;

@@ -15,14 +15,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the spread radius, the rise
- * height, the quad colour and the fan colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 red, green, blue, fan_red, fan_green, fan_blue;
-} Model673Command;
-
 /* ModelVariantBurst here: a quad record flying from position along growth
  * over its lifetime. */
 
@@ -58,7 +50,9 @@ extern MATRIX GsIDMATRIX;
 extern char gModelVariant673_szWorkSizeFormat[];
 #endif
 extern GsIMAGE gModelVariant673_aImages[3];
-extern Model673Command gModelVariant673_aConfigs[];
+/* One 0xC-byte command row: the start delay, the spread radius, the rise
+ * height, the quad colour and the fan colour. */
+extern ModelVariantTwoColorCommand gModelVariant673_aConfigs[];
 
 s32 ModelVariant673_HandleRequest(Model673State *context, s32 command);
 

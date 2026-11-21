@@ -15,14 +15,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the ring radius, the ring
- * height, the ring colour and the dome colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 red, green, blue, dome_red, dome_green, dome_blue;
-} Model674Command;
-
 /* ModelVariantTickedBurst here: an effect record: a ring of strips or a dome
  * at position. */
 
@@ -55,7 +47,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant674_aImages[5];
-extern Model674Command gModelVariant674_aConfigs[];
+/* One 0xC-byte command row: the start delay, the ring radius, the ring
+ * height, the ring colour and the dome colour. */
+extern ModelVariantTwoColorCommand gModelVariant674_aConfigs[];
 
 s32 ModelVariant674_HandleRequest(Model674State *context, s32 command);
 

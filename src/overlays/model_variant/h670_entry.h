@@ -15,14 +15,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the radius, the height, the
- * shell colour and the ring colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 red, green, blue, ring_red, ring_green, ring_blue;
-} Model670Command;
-
 /* ModelVariantBurst here: a textured shell or ring placed at position. */
 
 /* The work area: the command, the slot, the packets, the meshes and the
@@ -60,7 +52,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant670_aImages[3];
-extern Model670Command gModelVariant670_aConfigs[];
+/* One 0xC-byte command row: the start delay, the radius, the height, the
+ * shell colour and the ring colour. */
+extern ModelVariantTwoColorCommand gModelVariant670_aConfigs[];
 
 s32 ModelVariant670_HandleRequest(Model670State *context, s32 command);
 

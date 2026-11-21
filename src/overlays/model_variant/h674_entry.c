@@ -77,9 +77,9 @@ s32 ModelVariant674_HandleRequest(Model674State *context, s32 command)
             }
             work->rings[i].head.mode = 1;
             work->rings[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].head.color[0] = gModelVariant674_aConfigs[command].red;
-            work->rings[i].head.color[1] = gModelVariant674_aConfigs[command].green;
-            work->rings[i].head.color[2] = gModelVariant674_aConfigs[command].blue;
+            work->rings[i].head.color[0] = gModelVariant674_aConfigs[command].color[0];
+            work->rings[i].head.color[1] = gModelVariant674_aConfigs[command].color[1];
+            work->rings[i].head.color[2] = gModelVariant674_aConfigs[command].color[2];
             work->rings[i].head.u = 0;
             work->rings[i].head.v = 0;
             setVector(&work->rings[i].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -101,9 +101,9 @@ s32 ModelVariant674_HandleRequest(Model674State *context, s32 command)
             }
             work->domes[i].head.mode = 1;
             work->domes[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->domes[i].head.color[0] = gModelVariant674_aConfigs[command].dome_red;
-            work->domes[i].head.color[1] = gModelVariant674_aConfigs[command].dome_green;
-            work->domes[i].head.color[2] = gModelVariant674_aConfigs[command].dome_blue;
+            work->domes[i].head.color[0] = gModelVariant674_aConfigs[command].color[3];
+            work->domes[i].head.color[1] = gModelVariant674_aConfigs[command].color[4];
+            work->domes[i].head.color[2] = gModelVariant674_aConfigs[command].color[5];
             work->domes[i].head.u = 0;
             work->domes[i].head.v = 0x80;
             setVector(&work->domes[i].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -315,13 +315,13 @@ s32 ModelVariant674_HandleRequest(Model674State *context, s32 command)
                 if (work->domes[i].head.duration / 2 < work->domes[i].head.elapsed) {
                     n = (work->domes[i].head.duration - work->domes[i].head.elapsed) * 2;
                     d = work->domes[i].head.duration;
-                    work->domes[i].head.color[0] = gModelVariant674_aConfigs[work->head.command].dome_red * n / d;
-                    work->domes[i].head.color[1] = gModelVariant674_aConfigs[work->head.command].dome_green * n / d;
-                    work->domes[i].head.color[2] = gModelVariant674_aConfigs[work->head.command].dome_blue * n / d;
+                    work->domes[i].head.color[0] = gModelVariant674_aConfigs[work->head.command].color[3] * n / d;
+                    work->domes[i].head.color[1] = gModelVariant674_aConfigs[work->head.command].color[4] * n / d;
+                    work->domes[i].head.color[2] = gModelVariant674_aConfigs[work->head.command].color[5] * n / d;
                 } else {
-                    work->domes[i].head.color[0] = gModelVariant674_aConfigs[work->head.command].dome_red;
-                    work->domes[i].head.color[1] = gModelVariant674_aConfigs[work->head.command].dome_green;
-                    work->domes[i].head.color[2] = gModelVariant674_aConfigs[work->head.command].dome_blue;
+                    work->domes[i].head.color[0] = gModelVariant674_aConfigs[work->head.command].color[3];
+                    work->domes[i].head.color[1] = gModelVariant674_aConfigs[work->head.command].color[4];
+                    work->domes[i].head.color[2] = gModelVariant674_aConfigs[work->head.command].color[5];
                 }
                 work->domes[i].head.v = work->domes[i].head.elapsed % 16 * 63 / 16 + 128;
                 for (k = 0; k < 8; k++) {
@@ -347,13 +347,13 @@ s32 ModelVariant674_HandleRequest(Model674State *context, s32 command)
                 if (work->domes[i].head.duration / 2 < work->domes[i].head.elapsed) {
                     n = (work->domes[i].head.duration - work->domes[i].head.elapsed) * 2;
                     d = work->domes[i].head.duration;
-                    work->domes[i].head.color[0] = gModelVariant674_aConfigs[work->head.command].red * n / d;
-                    work->domes[i].head.color[1] = gModelVariant674_aConfigs[work->head.command].green * n / d;
-                    work->domes[i].head.color[2] = gModelVariant674_aConfigs[work->head.command].blue * n / d;
+                    work->domes[i].head.color[0] = gModelVariant674_aConfigs[work->head.command].color[0] * n / d;
+                    work->domes[i].head.color[1] = gModelVariant674_aConfigs[work->head.command].color[1] * n / d;
+                    work->domes[i].head.color[2] = gModelVariant674_aConfigs[work->head.command].color[2] * n / d;
                 } else {
-                    work->domes[i].head.color[0] = gModelVariant674_aConfigs[work->head.command].red;
-                    work->domes[i].head.color[1] = gModelVariant674_aConfigs[work->head.command].green;
-                    work->domes[i].head.color[2] = gModelVariant674_aConfigs[work->head.command].blue;
+                    work->domes[i].head.color[0] = gModelVariant674_aConfigs[work->head.command].color[0];
+                    work->domes[i].head.color[1] = gModelVariant674_aConfigs[work->head.command].color[1];
+                    work->domes[i].head.color[2] = gModelVariant674_aConfigs[work->head.command].color[2];
                 }
                 for (k = 0; k < 8; k++) {
                     work->domes[i].head.v = (work->domes[i].head.elapsed + k * 10) % 32 * 63 / 32 + 128;

@@ -63,9 +63,9 @@ s32 ModelVariant653_HandleRequest(Model653State *context, s32 command)
             work->emitters[i].head.elapsed = 0;
             work->emitters[i].head.mode = 1;
             work->emitters[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->emitters[i].head.color[0] = gModelVariant653_aConfigs[command].red;
-            work->emitters[i].head.color[1] = gModelVariant653_aConfigs[command].green;
-            work->emitters[i].head.color[2] = gModelVariant653_aConfigs[command].blue;
+            work->emitters[i].head.color[0] = gModelVariant653_aConfigs[command].color[0];
+            work->emitters[i].head.color[1] = gModelVariant653_aConfigs[command].color[1];
+            work->emitters[i].head.color[2] = gModelVariant653_aConfigs[command].color[2];
             work->emitters[i].head.u = 0;
             work->emitters[i].head.v = 0;
             setVector(&work->emitters[i].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -83,9 +83,9 @@ s32 ModelVariant653_HandleRequest(Model653State *context, s32 command)
                 work->shells[j + i].head.elapsed = 0;
                 work->shells[j + i].head.mode = 1;
                 work->shells[j + i].xform.coord = Model_GetCameraCoordinateUnit();
-                work->shells[j + i].head.color[0] = gModelVariant653_aConfigs[command].red;
-                work->shells[j + i].head.color[1] = gModelVariant653_aConfigs[command].green;
-                work->shells[j + i].head.color[2] = gModelVariant653_aConfigs[command].blue;
+                work->shells[j + i].head.color[0] = gModelVariant653_aConfigs[command].color[0];
+                work->shells[j + i].head.color[1] = gModelVariant653_aConfigs[command].color[1];
+                work->shells[j + i].head.color[2] = gModelVariant653_aConfigs[command].color[2];
                 work->shells[j + i].head.u = 0;
                 work->shells[j + i].head.v = 0;
                 setVector(&(&work->shells[i])[j].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -101,9 +101,9 @@ s32 ModelVariant653_HandleRequest(Model653State *context, s32 command)
                 work->cones[j + i].head.elapsed = 0;
                 work->cones[j + i].head.mode = 1;
                 work->cones[j + i].xform.coord = Model_GetCameraCoordinateUnit();
-                work->cones[j + i].head.color[0] = gModelVariant653_aConfigs[command].red;
-                work->cones[j + i].head.color[1] = gModelVariant653_aConfigs[command].green;
-                work->cones[j + i].head.color[2] = gModelVariant653_aConfigs[command].blue;
+                work->cones[j + i].head.color[0] = gModelVariant653_aConfigs[command].color[0];
+                work->cones[j + i].head.color[1] = gModelVariant653_aConfigs[command].color[1];
+                work->cones[j + i].head.color[2] = gModelVariant653_aConfigs[command].color[2];
                 setVector(&(&work->cones[i])[j].xform.scale, 0, 0, 0);
                 setVector(&(&work->cones[i])[j].growth, 0, 0, 0);
                 setVector(&(&work->cones[i])[j].xform.rotation, 0,
@@ -124,9 +124,9 @@ s32 ModelVariant653_HandleRequest(Model653State *context, s32 command)
                 work->spheres[j + i].head.elapsed = 0;
                 work->spheres[j + i].head.mode = 1;
                 work->spheres[j + i].xform.coord = Model_GetCameraCoordinateUnit();
-                work->spheres[j + i].head.color[0] = gModelVariant653_aConfigs[command].line_red;
-                work->spheres[j + i].head.color[1] = gModelVariant653_aConfigs[command].line_green;
-                work->spheres[j + i].head.color[2] = gModelVariant653_aConfigs[command].line_blue;
+                work->spheres[j + i].head.color[0] = gModelVariant653_aConfigs[command].color[3];
+                work->spheres[j + i].head.color[1] = gModelVariant653_aConfigs[command].color[4];
+                work->spheres[j + i].head.color[2] = gModelVariant653_aConfigs[command].color[5];
                 setVector(&(&work->spheres[i])[j].xform.scale, 0, 0, 0);
                 setVector(&(&work->spheres[i])[j].growth, 0, 0, 0);
                 setVector(&(&work->spheres[i])[j].xform.rotation, (i << 12) / work->cone_count,
@@ -249,16 +249,16 @@ s32 ModelVariant653_HandleRequest(Model653State *context, s32 command)
                 if (work->emitters[i].head.elapsed < (u16)(work->emitters[i].head.duration / 5)) {
                     n = work->emitters[i].head.elapsed * 5;
                     d = work->emitters[i].head.duration;
-                    work->emitters[i].head.color[0] = gModelVariant653_aConfigs[work->head.command].red * n / d;
-                    work->emitters[i].head.color[1] = gModelVariant653_aConfigs[work->head.command].green * n / d;
-                    work->emitters[i].head.color[2] = gModelVariant653_aConfigs[work->head.command].blue * n / d;
+                    work->emitters[i].head.color[0] = gModelVariant653_aConfigs[work->head.command].color[0] * n / d;
+                    work->emitters[i].head.color[1] = gModelVariant653_aConfigs[work->head.command].color[1] * n / d;
+                    work->emitters[i].head.color[2] = gModelVariant653_aConfigs[work->head.command].color[2] * n / d;
                 }
                 if (work->emitters[i].head.duration * 9 / 10 < work->emitters[i].head.elapsed) {
                     n = (work->emitters[i].head.duration - work->emitters[i].head.elapsed) * 10;
                     d = work->emitters[i].head.duration;
-                    work->emitters[i].head.color[0] = gModelVariant653_aConfigs[work->head.command].red * n / d;
-                    work->emitters[i].head.color[1] = gModelVariant653_aConfigs[work->head.command].green * n / d;
-                    work->emitters[i].head.color[2] = gModelVariant653_aConfigs[work->head.command].blue * n / d;
+                    work->emitters[i].head.color[0] = gModelVariant653_aConfigs[work->head.command].color[0] * n / d;
+                    work->emitters[i].head.color[1] = gModelVariant653_aConfigs[work->head.command].color[1] * n / d;
+                    work->emitters[i].head.color[2] = gModelVariant653_aConfigs[work->head.command].color[2] * n / d;
                 }
                 for (k = 0; k < 6; k++) {
                     for (j = 0; j < 16; j++) {
@@ -318,9 +318,9 @@ s32 ModelVariant653_HandleRequest(Model653State *context, s32 command)
                     if (work->shells[l + i].head.duration / 2 < work->shells[l + i].head.elapsed) {
                         n = (work->shells[l + i].head.duration - work->shells[l + i].head.elapsed) * 2;
                         d = work->shells[l + i].head.duration;
-                        work->shells[l + i].head.color[0] = gModelVariant653_aConfigs[work->head.command].red * n / d;
-                        work->shells[l + i].head.color[1] = gModelVariant653_aConfigs[work->head.command].green * n / d;
-                        work->shells[l + i].head.color[2] = gModelVariant653_aConfigs[work->head.command].blue * n / d;
+                        work->shells[l + i].head.color[0] = gModelVariant653_aConfigs[work->head.command].color[0] * n / d;
+                        work->shells[l + i].head.color[1] = gModelVariant653_aConfigs[work->head.command].color[1] * n / d;
+                        work->shells[l + i].head.color[2] = gModelVariant653_aConfigs[work->head.command].color[2] * n / d;
                     }
                     for (k = 0; k < 6; k++) {
                         for (j = 0; j < 16; j++) {
@@ -446,9 +446,9 @@ s32 ModelVariant653_HandleRequest(Model653State *context, s32 command)
                     if (work->spheres[l + i].head.duration / 2 < work->spheres[l + i].head.elapsed) {
                         n = (work->spheres[l + i].head.duration - work->spheres[l + i].head.elapsed) * 2;
                         d = work->spheres[l + i].head.duration;
-                        work->spheres[l + i].head.color[0] = gModelVariant653_aConfigs[work->head.command].line_red * n / d;
-                        work->spheres[l + i].head.color[1] = gModelVariant653_aConfigs[work->head.command].line_green * n / d;
-                        work->spheres[l + i].head.color[2] = gModelVariant653_aConfigs[work->head.command].line_blue * n / d;
+                        work->spheres[l + i].head.color[0] = gModelVariant653_aConfigs[work->head.command].color[3] * n / d;
+                        work->spheres[l + i].head.color[1] = gModelVariant653_aConfigs[work->head.command].color[4] * n / d;
+                        work->spheres[l + i].head.color[2] = gModelVariant653_aConfigs[work->head.command].color[5] * n / d;
                     }
                     for (j = 1; j < 8; j++) {
                         for (k = 0; k < 8; k++) {

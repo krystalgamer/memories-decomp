@@ -15,14 +15,6 @@
 #include "../../psyq/libhmd.h"
 #include "../../psyq/string.h"
 
-/* One 0xC-byte command row: the start delay, the ring radius, the bolt
- * reach, the ring colour and the bolt colour. */
-typedef struct {
-    s16 delay;
-    u16 radius, height;
-    u8 red, green, blue, bolt_red, bolt_green, bolt_blue;
-} Model675UsCommand;
-
 /* ModelVariantTickedBurst here: an effect record: a ring, a bolt, a fading
  * bolt trail or a spark curtain. Bolts keep their trail cursor in ticks and
  * their target point in growth. */
@@ -61,7 +53,9 @@ typedef struct {
 
 extern MATRIX GsIDMATRIX;
 extern GsIMAGE gModelVariant675Us_aImages[5];
-extern Model675UsCommand gModelVariant675Us_aConfigs[];
+/* One 0xC-byte command row: the start delay, the ring radius, the bolt
+ * reach, the ring colour and the bolt colour. */
+extern ModelVariantTwoColorCommand gModelVariant675Us_aConfigs[];
 
 s32 ModelVariant675Us_HandleRequest(Model675UsState *context, s32 command);
 

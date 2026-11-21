@@ -91,9 +91,9 @@ s32 ModelVariant675Us_HandleRequest(Model675UsState *context, s32 command)
             }
             work->rings[i].head.mode = 1;
             work->rings[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].head.color[0] = gModelVariant675Us_aConfigs[command].red;
-            work->rings[i].head.color[1] = gModelVariant675Us_aConfigs[command].green;
-            work->rings[i].head.color[2] = gModelVariant675Us_aConfigs[command].blue;
+            work->rings[i].head.color[0] = gModelVariant675Us_aConfigs[command].color[0];
+            work->rings[i].head.color[1] = gModelVariant675Us_aConfigs[command].color[1];
+            work->rings[i].head.color[2] = gModelVariant675Us_aConfigs[command].color[2];
             work->rings[i].head.u = 0;
             work->rings[i].head.v = 0;
             setVector(&work->rings[i].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -108,9 +108,9 @@ s32 ModelVariant675Us_HandleRequest(Model675UsState *context, s32 command)
             work->bolts[i].head.duration = 0x20;
             work->bolts[i].head.mode = 1;
             work->bolts[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->bolts[i].head.color[0] = gModelVariant675Us_aConfigs[command].bolt_red;
-            work->bolts[i].head.color[1] = gModelVariant675Us_aConfigs[command].bolt_green;
-            work->bolts[i].head.color[2] = gModelVariant675Us_aConfigs[command].bolt_blue;
+            work->bolts[i].head.color[0] = gModelVariant675Us_aConfigs[command].color[3];
+            work->bolts[i].head.color[1] = gModelVariant675Us_aConfigs[command].color[4];
+            work->bolts[i].head.color[2] = gModelVariant675Us_aConfigs[command].color[5];
             setVector(&work->bolts[i].xform.scale, 0x1000, 0x1000, 0x1000);
             d = i % 2 * 2 - 1;
             n = work->place.height / 3;
@@ -128,9 +128,9 @@ s32 ModelVariant675Us_HandleRequest(Model675UsState *context, s32 command)
                 work->trails[i][k].head.duration = 0x10;
                 work->trails[i][k].head.mode = 1;
                 work->trails[i][k].xform.coord = Model_GetCameraCoordinateUnit();
-                work->trails[i][k].head.color[0] = gModelVariant675Us_aConfigs[command].bolt_red;
-                work->trails[i][k].head.color[1] = gModelVariant675Us_aConfigs[command].bolt_green;
-                work->trails[i][k].head.color[2] = gModelVariant675Us_aConfigs[command].bolt_blue;
+                work->trails[i][k].head.color[0] = gModelVariant675Us_aConfigs[command].color[3];
+                work->trails[i][k].head.color[1] = gModelVariant675Us_aConfigs[command].color[4];
+                work->trails[i][k].head.color[2] = gModelVariant675Us_aConfigs[command].color[5];
                 setVector(&work->trails[i][k].xform.scale, 0x1000, 0x1000, 0x1000);
                 setVector(&work->trails[i][k].growth, 0, 0, 0);
                 setVector(&work->trails[i][k].xform.rotation, 0, work->head.slot * 2048, 0);
@@ -143,9 +143,9 @@ s32 ModelVariant675Us_HandleRequest(Model675UsState *context, s32 command)
             work->sparks[i].head.duration = 0x100;
             work->sparks[i].head.mode = 1;
             work->sparks[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->sparks[i].head.color[0] = gModelVariant675Us_aConfigs[command].bolt_red;
-            work->sparks[i].head.color[1] = gModelVariant675Us_aConfigs[command].bolt_green;
-            work->sparks[i].head.color[2] = gModelVariant675Us_aConfigs[command].bolt_blue;
+            work->sparks[i].head.color[0] = gModelVariant675Us_aConfigs[command].color[3];
+            work->sparks[i].head.color[1] = gModelVariant675Us_aConfigs[command].color[4];
+            work->sparks[i].head.color[2] = gModelVariant675Us_aConfigs[command].color[5];
             work->sparks[i].head.u = 0;
             work->sparks[i].head.v = 0x80;
             setVector(&work->sparks[i].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -257,9 +257,9 @@ s32 ModelVariant675Us_HandleRequest(Model675UsState *context, s32 command)
                 if (work->rings[i].head.duration * 9 / 10 < work->rings[i].head.elapsed) {
                     n = (work->rings[i].head.duration - work->rings[i].head.elapsed) * 10;
                     d = work->rings[i].head.duration;
-                    work->rings[i].head.color[0] = gModelVariant675Us_aConfigs[work->head.command].red * n / d;
-                    work->rings[i].head.color[1] = gModelVariant675Us_aConfigs[work->head.command].green * n / d;
-                    work->rings[i].head.color[2] = gModelVariant675Us_aConfigs[work->head.command].blue * n / d;
+                    work->rings[i].head.color[0] = gModelVariant675Us_aConfigs[work->head.command].color[0] * n / d;
+                    work->rings[i].head.color[1] = gModelVariant675Us_aConfigs[work->head.command].color[1] * n / d;
+                    work->rings[i].head.color[2] = gModelVariant675Us_aConfigs[work->head.command].color[2] * n / d;
                 }
                 setPolyFT4(&work->flat);
                 work->flat.tpage = work->textures.tpage[0];
@@ -536,9 +536,9 @@ s32 ModelVariant675Us_HandleRequest(Model675UsState *context, s32 command)
                 if (work->sparks[i].head.duration * 9 / 10 < work->sparks[i].head.elapsed) {
                     n = (work->sparks[i].head.duration - work->sparks[i].head.elapsed) * 10;
                     d = work->sparks[i].head.duration;
-                    work->sparks[i].head.color[0] = gModelVariant675Us_aConfigs[work->head.command].bolt_red * n / d;
-                    work->sparks[i].head.color[1] = gModelVariant675Us_aConfigs[work->head.command].bolt_green * n / d;
-                    work->sparks[i].head.color[2] = gModelVariant675Us_aConfigs[work->head.command].bolt_blue * n / d;
+                    work->sparks[i].head.color[0] = gModelVariant675Us_aConfigs[work->head.command].color[3] * n / d;
+                    work->sparks[i].head.color[1] = gModelVariant675Us_aConfigs[work->head.command].color[4] * n / d;
+                    work->sparks[i].head.color[2] = gModelVariant675Us_aConfigs[work->head.command].color[5] * n / d;
                 }
                 work->sparks[i].head.v = (work->sparks[i].head.elapsed + i * 100) % 32 * 2 - 128;
                 for (k = 0; k < 8; k++) {

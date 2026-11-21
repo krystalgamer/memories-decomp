@@ -73,9 +73,9 @@ s32 ModelVariant670_HandleRequest(Model670State *context, s32 command)
             work->shells[i].head.elapsed = 0;
             work->shells[i].head.mode = 1;
             work->shells[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->shells[i].head.color[0] = gModelVariant670_aConfigs[command].red;
-            work->shells[i].head.color[1] = gModelVariant670_aConfigs[command].green;
-            work->shells[i].head.color[2] = gModelVariant670_aConfigs[command].blue;
+            work->shells[i].head.color[0] = gModelVariant670_aConfigs[command].color[0];
+            work->shells[i].head.color[1] = gModelVariant670_aConfigs[command].color[1];
+            work->shells[i].head.color[2] = gModelVariant670_aConfigs[command].color[2];
             work->shells[i].head.u = 0;
             work->shells[i].head.v = 0;
             setVector(&work->shells[i].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -90,9 +90,9 @@ s32 ModelVariant670_HandleRequest(Model670State *context, s32 command)
             work->rings[i].head.elapsed = 0;
             work->rings[i].head.mode = 2;
             work->rings[i].xform.coord = Model_GetCameraCoordinateUnit();
-            work->rings[i].head.color[0] = gModelVariant670_aConfigs[command].ring_red;
-            work->rings[i].head.color[1] = gModelVariant670_aConfigs[command].ring_green;
-            work->rings[i].head.color[2] = gModelVariant670_aConfigs[command].ring_blue;
+            work->rings[i].head.color[0] = gModelVariant670_aConfigs[command].color[3];
+            work->rings[i].head.color[1] = gModelVariant670_aConfigs[command].color[4];
+            work->rings[i].head.color[2] = gModelVariant670_aConfigs[command].color[5];
             work->rings[i].head.u = 0;
             work->rings[i].head.v = 0x80;
             setVector(&work->rings[i].xform.scale, 0x1000, 0x1000, 0x1000);
@@ -222,9 +222,9 @@ s32 ModelVariant670_HandleRequest(Model670State *context, s32 command)
                 if (work->shells[i].head.duration / 3 < work->shells[i].head.elapsed) {
                     n = (work->shells[i].head.duration - work->shells[i].head.elapsed) * 3;
                     h = work->shells[i].head.duration * 2;
-                    work->shells[i].head.color[0] = gModelVariant670_aConfigs[work->head.command].red * n / h;
-                    work->shells[i].head.color[1] = gModelVariant670_aConfigs[work->head.command].green * n / h;
-                    work->shells[i].head.color[2] = gModelVariant670_aConfigs[work->head.command].blue * n / h;
+                    work->shells[i].head.color[0] = gModelVariant670_aConfigs[work->head.command].color[0] * n / h;
+                    work->shells[i].head.color[1] = gModelVariant670_aConfigs[work->head.command].color[1] * n / h;
+                    work->shells[i].head.color[2] = gModelVariant670_aConfigs[work->head.command].color[2] * n / h;
                 }
                 setPolyFT4(&work->sprite);
                 work->sprite.tpage = work->textures.tpage[0];
@@ -320,9 +320,9 @@ s32 ModelVariant670_HandleRequest(Model670State *context, s32 command)
                 if (work->rings[i].head.duration / 3 < work->rings[i].head.elapsed) {
                     n = (work->rings[i].head.duration - work->rings[i].head.elapsed) * 3;
                     h = work->rings[i].head.duration * 2;
-                    work->rings[i].head.color[0] = gModelVariant670_aConfigs[work->head.command].ring_red * n / h;
-                    work->rings[i].head.color[1] = gModelVariant670_aConfigs[work->head.command].ring_green * n / h;
-                    work->rings[i].head.color[2] = gModelVariant670_aConfigs[work->head.command].ring_blue * n / h;
+                    work->rings[i].head.color[0] = gModelVariant670_aConfigs[work->head.command].color[3] * n / h;
+                    work->rings[i].head.color[1] = gModelVariant670_aConfigs[work->head.command].color[4] * n / h;
+                    work->rings[i].head.color[2] = gModelVariant670_aConfigs[work->head.command].color[5] * n / h;
                 }
                 for (j = 0; j < 16; j++) {
                     setPolyGT4(&work->strip);
