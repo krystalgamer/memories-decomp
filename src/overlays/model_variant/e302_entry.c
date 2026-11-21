@@ -9,9 +9,9 @@
 
 static const VECTOR gFrenchModelVariant770_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant770_HandleRequest(Model770State *context, s32 command)
+s32 FrenchModelVariant770_HandleRequest(FrenchModel770State *context, s32 command)
 {
-    Model770State *work;
+    FrenchModel770State *work;
     s32 slot, direction;
     MATRIX base, matrix;
     POLY_G4 gouraud;

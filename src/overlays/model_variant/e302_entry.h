@@ -19,10 +19,10 @@ typedef struct {
     s16 trail_layers, sprite_count, dot_count, trail_layer_step;
     s16 sprite_spread, dot_radius, sprite_size;
     s16 initial_delay, trail_duration, burst_delay, sprite_delay;
-} Model770Config;
+} FrenchModel770Config;
 
 typedef struct {
-    Model770Config *config;
+    FrenchModel770Config *config;
     SVECTOR trail_first[32];
     SVECTOR trail_second[32];
     SVECTOR quad[4];
@@ -43,10 +43,10 @@ typedef struct {
     u16 burst_tpage, burst_clut;
     s32 texture[1];
     ModelVariantColorWord trail_color, burst_color;
-} Model770State;
+} FrenchModel770State;
 
 extern GsIMAGE gFrenchModelVariant770_aImages[];
-extern Model770Config gFrenchModelVariant770_aConfigs[];
-s32 FrenchModelVariant770_HandleRequest(Model770State *context, s32 command);
+extern FrenchModel770Config gFrenchModelVariant770_aConfigs[];
+s32 FrenchModelVariant770_HandleRequest(FrenchModel770State *context, s32 command);
 
 #endif
