@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_MODEL_VARIANT808_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -43,17 +44,6 @@ typedef struct {
     s16 launch;
     s16 sparkle_end;
 } Model808Config;
-
-/* The eleven corners of the comet star and the five quads built from them. */
-typedef struct {
-    SVECTOR v[11];
-} Model808Shape;
-
-/* The five quads, also walked as one flat run of 20 corner indices. */
-typedef union {
-    u8 q[5][4];
-    u8 flat[20];
-} Model808Faces;
 
 /* The work area: the comet position and velocity, the sparkles with their
  * velocities, the falling embers with their velocities, the comet trail,

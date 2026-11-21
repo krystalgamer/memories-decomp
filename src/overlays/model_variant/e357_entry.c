@@ -10,13 +10,13 @@
 
 static const VECTOR gModelVariant808_UnitScale = {4096, 4096, 4096, 0};
 
-static const Model808Shape gModelVariant808_StarVertices = {{
+static const ModelVariantSpinStarCorners gModelVariant808_StarVertices = {{
     {-190, 100, 0, 0}, {-150, -150, 0, 0}, {100, -190, 0, 0}, {210, 30, 0, 0},
     {30, 210, 0, 0}, {0, 0, 0, 0}, {-420, -70, 0, 0}, {-60, -420, 0, 0},
     {380, -190, 0, 0}, {300, 300, 0, 0}, {-200, 380, 0, 0},
 }};
 
-static const Model808Faces gModelVariant808_StarQuads = {{
+static const ModelVariantSpinStarQuads gModelVariant808_StarQuads = {{
     {8, 2, 3, 5}, {9, 3, 4, 5}, {2, 7, 5, 1}, {5, 1, 0, 6}, {4, 5, 10, 0},
 }};
 
@@ -34,8 +34,8 @@ s32 ModelVariant808_HandleRequest(Model808State *context, s32 command)
     SVECTOR pos;
     VECTOR scale;
     SVECTOR quad[4];
-    Model808Shape shape;
-    Model808Faces faces;
+    ModelVariantSpinStarCorners shape;
+    ModelVariantSpinStarQuads faces;
     MATRIX saved;
     long flag;
     long p;

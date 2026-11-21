@@ -1582,6 +1582,20 @@ typedef struct {
     u8 unknown_8C[4];
 } ModelVariantStarShape;
 
+/* The eleven corners of the spinning star that headers 790 and 808 fly
+ * (five inner points, the centre and five outer points), kept as one
+ * const table in each entry and copied to the stack. */
+typedef struct {
+    SVECTOR v[11];
+} ModelVariantSpinStarCorners;
+
+/* The five quads of that star as corner indices, also walked as one flat
+ * run of 20 indices. */
+typedef union {
+    u8 q[5][4];
+    u8 flat[20];
+} ModelVariantSpinStarQuads;
+
 /* The RotTransPers outputs the header-408 and 475 entries use to measure the
  * screen offset from an origin to a target: both packed screen points, and
  * the interpolation value and flag the two calls share. */
