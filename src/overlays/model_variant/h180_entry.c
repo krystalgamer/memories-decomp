@@ -8,9 +8,9 @@
 
 static const VECTOR gModelVariant180_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
+s32 ModelVariant180_HandleRequest(ModelVariantBeamRingState *context, s32 command)
 {
-    Model180State *work;
+    ModelVariantBeamRingState *work;
     MATRIX base, matrix;
     POLY_FT4 quad;
     POLY_F4 flash;
@@ -20,7 +20,7 @@ s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
     DVECTOR screen[66];
     u16 depths[66], projection[66], flags[66];
     long flag, interpolation;
-    Model180Config *config;
+    ModelVariantBeamRingConfig *config;
     GsOT *ot;
     SVECTOR *point;
     s32 direction, i, j, angle, factor, time, offset, scale_value;
@@ -38,18 +38,18 @@ s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
         point = work->ring;
         for (i = 0; i < 33; point++, i++) {
             angle = i << 7;
-            point->vx = config->ring_radius * ccos(angle) / 4096;
-            point->vy = -config->ring_width;
-            point->vz = config->ring_radius * csin(angle) / 4096;
+            point->vx = config->radius * ccos(angle) / 4096;
+            point->vy = -config->thickness;
+            point->vz = config->radius * csin(angle) / 4096;
         }
-        factor = config->ring_radius - config->ring_width;
+        factor = config->radius - config->thickness;
         for (i = 0; i < 33; point++, i++) {
             angle = i << 7;
             point->vx = factor * ccos(angle) / 4096;
             point->vy = 0;
             point->vz = factor * csin(angle) / 4096;
         }
-        point = work->rays;
+        point = work->beams;
         for (i = 0; i < 16; i++) {
             point->vx = config->spread * (i << 1) / 16;
             point->vy = 0;
@@ -61,9 +61,9 @@ s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
             point++;
         }
         for (i = 0; i < 2; i++) {
-            work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant180_aImages[i]);
+            work->textures[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant180_aImages[i]);
         }
-        work->elapsed = 0;
+        work->time = 0;
         work->completed = 0;
         return 0;
     }
@@ -74,12 +74,12 @@ s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
     SetPolyFT4(&quad);
     SetPolyF4(&flash);
     SetSemiTrans(&quad, 1);
-    quad.tpage = work->texture[0] >> 16;
-    quad.clut = work->texture[0];
+    quad.tpage = work->textures[0] >> 16;
+    quad.clut = work->textures[0];
     setVector(&rotation, 0, 0, 0);
     setVector(&position, work->origin.vx, work->origin.vy, work->origin.vz);
     position.vy = -350;
-    factor = work->elapsed - config->ring_start;
+    factor = work->time - config->ring_begin;
     for (offset = 0; offset < config->ring_span; offset += config->ring_spacing) {
         if (factor >= offset && factor < offset + config->ring_duration) {
             s32 red, green, blue, remaining, t;
@@ -94,9 +94,9 @@ s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
             GsSetLsMatrix(&matrix);
             RotTransPersN(work->ring, screen, depths, projection, flags, 66);
             remaining = config->ring_duration - t;
-            red = config->ring_r * remaining / config->ring_duration;
-            green = config->ring_g * remaining / config->ring_duration;
-            blue = config->ring_b * remaining / config->ring_duration;
+            red = config->ring_red * remaining / config->ring_duration;
+            green = config->ring_green * remaining / config->ring_duration;
+            blue = config->ring_blue * remaining / config->ring_duration;
             setRGB0(&quad, red, green, blue);
             for (i = 0; i < 32; i++) {
                 scale_value = i + 33;
@@ -113,7 +113,7 @@ s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
             }
         }
     }
-    offset = work->elapsed - config->flash_start;
+    offset = work->time - config->flash_begin;
     if (offset >= 0 && offset < config->flash_duration) {
         setXY4(&flash, 0, 0, 320, 0, 0, 240, 320, 240);
         scale_value = (config->flash_duration - offset) * 255;
@@ -121,18 +121,18 @@ s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
         setRGB0(&flash, scale_value, scale_value, scale_value);
         Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
     }
-    setVector(&vertices[0], -config->ray_half_width, -config->ray_height, 0);
-    setVector(&vertices[1], config->ray_half_width, -config->ray_height, 0);
-    setVector(&vertices[2], -config->ray_half_width, config->ray_height, 0);
-    setVector(&vertices[3], config->ray_half_width, config->ray_height, 0);
+    setVector(&vertices[0], -config->half_width, -config->height, 0);
+    setVector(&vertices[1], config->half_width, -config->height, 0);
+    setVector(&vertices[2], -config->half_width, config->height, 0);
+    setVector(&vertices[3], config->half_width, config->height, 0);
     setVector(&rotation, 0, 0, 0);
-    quad.tpage = work->texture[1] >> 16;
-    quad.clut = work->texture[1];
+    quad.tpage = work->textures[1] >> 16;
+    quad.clut = work->textures[1];
     setUV4(&quad, 0, 128, 31, 128, 0, 255, 31, 255);
-    point = work->rays;
+    point = work->beams;
     for (i = 0; i < 16; i++) {
-        time = work->elapsed - config->ray_start - config->ray_spacing * i;
-        if (time >= 0 && time < config->ray_duration) {
+        time = work->time - config->beam_begin - config->beam_spacing * i;
+        if (time >= 0 && time < config->beam_duration) {
             for (j = 0; j < 2; point++, j++) {
                 s32 red, green, blue, remaining;
                 setVector(&position, point->vx, point->vy, point->vz);
@@ -140,12 +140,12 @@ s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
                 position.vy += work->opponent.vy;
                 position.vz += work->opponent.vz;
                 position.vy = -350;
-                factor = (time << 12) / config->ray_duration;
+                factor = (time << 12) / config->beam_duration;
                 setVector(&scale, 4096, factor, 4096);
-                remaining = config->ray_duration - time;
-                red = config->ray_r * remaining / config->ray_duration;
-                green = config->ray_g * remaining / config->ray_duration;
-                blue = config->ray_b * remaining / config->ray_duration;
+                remaining = config->beam_duration - time;
+                red = config->beam_red * remaining / config->beam_duration;
+                green = config->beam_green * remaining / config->beam_duration;
+                blue = config->beam_blue * remaining / config->beam_duration;
                 setRGB0(&quad, red, green, blue);
                 GsSetLsMatrix(&base);
                 RotTrans(&position, (VECTOR *)matrix.t, &flag);
@@ -165,11 +165,11 @@ s32 ModelVariant180_HandleRequest(Model180State *context, s32 command)
         }
     }
     PopMatrix();
-    work->elapsed += Model_GetFrameStep();
-    time = work->elapsed - config->ray_start;
+    work->time += Model_GetFrameStep();
+    time = work->time - config->beam_begin;
     if (time >= 0) {
-        time -= config->ray_spacing * 16;
-        if (time < config->ray_duration) {
+        time -= config->beam_spacing * 16;
+        if (time < config->beam_duration) {
             return 4;
         }
         if (work->completed != 0) {

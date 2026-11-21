@@ -9,9 +9,9 @@
 
 static const VECTOR gModelVariant787_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant787_HandleRequest(Model787State *context, s32 command)
+s32 ModelVariant787_HandleRequest(ModelVariantBandSpokeState *context, s32 command)
 {
-    Model787State *work;
+    ModelVariantBandSpokeState *work;
     MATRIX base, matrix;
     POLY_GT4 band;
     POLY_FT4 glow;

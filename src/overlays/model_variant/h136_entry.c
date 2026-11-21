@@ -9,9 +9,9 @@
 
 const VECTOR gFrenchModelVariant153_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant153_HandleRequest(Model153State *context, s32 command)
+s32 FrenchModelVariant153_HandleRequest(ModelVariantRisingBurstState *context, s32 command)
 {
-    Model153State *work;
+    ModelVariantRisingBurstState *work;
     s32 direction;
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -20,7 +20,7 @@ s32 FrenchModelVariant153_HandleRequest(Model153State *context, s32 command)
     VECTOR scale;
     SVECTOR vertices[4];
     long flag, interpolation;
-    Model153Config *config;
+    ModelVariantRisingBurstConfig *config;
     GsOT *ot;
     SVECTOR *point, *target;
     s32 step, i, j, time, value;
@@ -60,7 +60,7 @@ s32 FrenchModelVariant153_HandleRequest(Model153State *context, s32 command)
         work->elapsed = 0;
         work->completed = 0;
 #if defined(VARIANT153_PRINT_WORK_SIZE)
-        printf("%d (0x%x) Byte\n", sizeof(Model153State), sizeof(Model153State));
+        printf("%d (0x%x) Byte\n", sizeof(ModelVariantRisingBurstState), sizeof(ModelVariantRisingBurstState));
 #endif
         return 0;
     }

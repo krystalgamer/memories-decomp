@@ -9,9 +9,9 @@
 
 const VECTOR gFrenchModelVariant178_UnitScale = {4096, 4096, 4096, 0};
 
-s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 command)
+s32 FrenchModelVariant178_HandleRequest(ModelVariantRisingBurstState *context, s32 command)
 {
-    FrenchModel178State *work;
+    ModelVariantRisingBurstState *work;
     MATRIX base;
     MATRIX matrix;
     POLY_FT4 quad;
@@ -20,7 +20,7 @@ s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 comman
     VECTOR scale;
     SVECTOR vertices[4];
     long flag, interpolation;
-    FrenchModel178Config *config;
+    ModelVariantRisingBurstConfig *config;
     GsOT *ot;
     SVECTOR *point, *endpoint;
     s32 direction, step, i, j, time, value;
@@ -39,7 +39,7 @@ s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 comman
             setVector(point, 0, 0, 0);
             point->pad = 0;
         }
-        point = work->endpoints;
+        point = work->targets;
         for (i = 0; i < 64; point++, i++) {
             Model_CopySlotPosition(Model_GetActiveSlotIndex() ^ 1, point);
             point->vx += rand() % config->spread * 2 - config->spread;
@@ -47,11 +47,11 @@ s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 comman
             point->vz += direction * (rand() % config->spread);
             point->pad = 0;
         }
-        point = work->velocities;
+        point = work->burst_offsets;
         for (i = 0; i < 4; point++, i++) {
-            point->vx = rand() % config->velocity_spread * 2 - config->velocity_spread;
-            point->vy = -config->rise;
-            point->vz = rand() % config->velocity_spread * 2 - config->velocity_spread;
+            point->vx = rand() % config->burst_spread * 2 - config->burst_spread;
+            point->vy = -config->rise_height;
+            point->vz = rand() % config->burst_spread * 2 - config->burst_spread;
         }
         for (i = 1; i < 2; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant178_aImages[i]);
@@ -60,7 +60,7 @@ s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 comman
         work->elapsed = 0;
         work->completed = 0;
 #if defined(VARIANT178_PRINT_WORK_SIZE)
-        printf("%d (0x%x) Byte\n", sizeof(FrenchModel178State), sizeof(FrenchModel178State));
+        printf("%d (0x%x) Byte\n", sizeof(ModelVariantRisingBurstState), sizeof(ModelVariantRisingBurstState));
 #endif
         return 0;
     }
@@ -69,7 +69,7 @@ s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 comman
     ot = Graphics_GetDefaultOrderingTable();
     base = *Model_GetLightSourceMatrix();
     PushMatrix();
-    endpoint = work->endpoints;
+    endpoint = work->targets;
     SetPolyFT4(&quad);
     SetPolyF4(&flash);
     SetSemiTrans(&quad, 1);
@@ -86,17 +86,17 @@ s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 comman
             GsSetLsMatrix(&base);
             GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
             setVector(point, matrix.t[0], matrix.t[1], matrix.t[2]);
-        } else if (time < config->travel + config->fade) {
-            value = time * 3584 / config->travel + 512;
+        } else if (time < config->travel_duration + config->fade_duration) {
+            value = time * 3584 / config->travel_duration + 512;
             setVector(&scale, value, value, value);
-            if (time < config->travel) {
-                setRGB0(&quad, config->r, config->g, config->b);
+            if (time < config->travel_duration) {
+                setRGB0(&quad, config->red, config->green, config->blue);
             } else {
                 s32 red, green, blue;
-                value = config->travel + config->fade - time;
-                red = config->r * value / config->fade;
-                green = config->g * value / config->fade;
-                blue = config->b * value / config->fade;
+                value = config->travel_duration + config->fade_duration - time;
+                red = config->red * value / config->fade_duration;
+                green = config->green * value / config->fade_duration;
+                blue = config->blue * value / config->fade_duration;
                 setRGB0(&quad, red, green, blue);
             }
             setVector(&position, point->vx, point->vy, point->vz);
@@ -112,10 +112,10 @@ s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 comman
                 (long *)&quad.x0, (long *)&quad.x1,
                 (long *)&quad.x2, (long *)&quad.x3, &interpolation, &flag);
             GsSortPoly(&quad, ot, (u16)depth);
-            if (time < config->travel) {
-                point->vx += (endpoint->vx - point->vx) / (config->travel - time) * step;
-                point->vy += (endpoint->vy - point->vy) / (config->travel - time) * step;
-                point->vz += (endpoint->vz - point->vz) / (config->travel - time) * step;
+            if (time < config->travel_duration) {
+                point->vx += (endpoint->vx - point->vx) / (config->travel_duration - time) * step;
+                point->vy += (endpoint->vy - point->vy) / (config->travel_duration - time) * step;
+                point->vz += (endpoint->vz - point->vz) / (config->travel_duration - time) * step;
             }
         }
     }
@@ -124,16 +124,16 @@ s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 comman
     quad.clut = work->texture[0];
     setVector(&rotation, 0, 0, 0);
     setVector(&scale, 4096, 4096, 4096);
-    setRGB0(&quad, config->burst_r, config->burst_g, config->burst_b);
+    setRGB0(&quad, config->burst_red, config->burst_green, config->burst_blue);
     setVector(&vertices[0], -config->burst_half_size, -config->burst_half_size, 0);
     setVector(&vertices[1], config->burst_half_size, -config->burst_half_size, 0);
     setVector(&vertices[2], -config->burst_half_size, config->burst_half_size, 0);
     setVector(&vertices[3], config->burst_half_size, config->burst_half_size, 0);
-    point = work->endpoints;
+    point = work->targets;
     for (i = 0; i < config->count; point++, i++) {
-        time = work->elapsed - config->delay - i * config->spacing - config->travel;
+        time = work->elapsed - config->delay - i * config->spacing - config->travel_duration;
         if (time >= 0 && time < config->burst_duration) {
-            endpoint = work->velocities;
+            endpoint = work->burst_offsets;
             for (j = 0; j < 4; endpoint++, j++) {
                 setVector(&position, endpoint->vx, endpoint->vy, endpoint->vz);
                 position.vx *= time;
@@ -162,7 +162,7 @@ s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 comman
     }
     PopMatrix();
     work->elapsed += step;
-    time = work->elapsed - config->delay - config->travel;
+    time = work->elapsed - config->delay - config->travel_duration;
     if (time < 0) {
         return 0;
     }

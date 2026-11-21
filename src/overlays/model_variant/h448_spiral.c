@@ -4,7 +4,7 @@
 #include "h448_entry.h"
 
 /* Header 448's form of the header-418 spiral: twelve arms (records from
- * spiral) on a spiral whose radius is half of spiral_size,
+ * spiral) on a spiral whose radius is half of spiral_params.size,
  * drawn only where the depth is positive; the size grows to 0x400. The two
  * products tested before the arms are template code with dead arms. */
 void ModelVariant448_DrawSpiral(Variant448EntryState *context)
@@ -39,17 +39,17 @@ void ModelVariant448_DrawSpiral(Variant448EntryState *context)
     turn = ratan2(work->aim.view_delta.vz, work->aim.view_delta.vx) + 0xC00;
     arm = work->spiral;
     poly = work->packets.textured;
-    r = work->spiral_size / 2;
-    eighth = work->spiral_size / 8;
-    if (r * work->field_1B26 < 0) {
+    r = work->spiral_params.size / 2;
+    eighth = work->spiral_params.size / 8;
+    if (r * work->spiral_params.field_02 < 0) {
         length = 0;
     }
-    if (eighth * work->field_1B26 < 0) {
+    if (eighth * work->spiral_params.field_02 < 0) {
         length = 0;
     }
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + work->spiral_angle * 2;
-        theta = (i << 13) / 12 + work->spiral_angle;
+        phi = (i << 12) / 12 + work->spiral_params.angle * 2;
+        theta = (i << 13) / 12 + work->spiral_params.angle;
         for (k = 0; k < 2; k++) {
             if (k == 0) {
                 length = work->scale / 512;
@@ -177,10 +177,10 @@ void ModelVariant448_DrawSpiral(Variant448EntryState *context)
             }
         }
     }
-    if (work->spiral_size < 0x400) {
-        work->spiral_size += work->clock.step * 64;
-        if (work->spiral_size >= 0x400) {
-            work->spiral_size = 0x400;
+    if (work->spiral_params.size < 0x400) {
+        work->spiral_params.size += work->clock.step * 64;
+        if (work->spiral_params.size >= 0x400) {
+            work->spiral_params.size = 0x400;
         }
     }
 }

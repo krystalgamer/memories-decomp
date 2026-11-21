@@ -3885,7 +3885,7 @@ void Model_DrawSlot(s32 index)
                             for (;;) {
                                 if (group->run_count != 0) {
                                     Model_RemapPrimitiveHandlers(remap_handler, group->runs,
-                                                  group->field_04, group->run_count);
+                                                  group->header, group->run_count);
                                 }
                                 next_group = group->next;
                                 if (next_group == (ModelPrimitiveGroup *)-1) {

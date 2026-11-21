@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_IMAGE32768_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_scene_runtime.h"
@@ -13,29 +14,8 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-typedef struct {
-    u8 beam_r, beam_g, beam_b, flare_r, flare_g, flare_b;
-    s16 plane_extent, plane_height, unknown_0A;
-    s32 roll;
-    s16 flare_size, tip_distance, fan_height, fan_count, fan_depth, unknown_1A;
-    u8 beam_fade, unknown_1D, flare_fade, unknown_1F;
-    s16 unknown_20[4], start, camera_end;
-} Image32768Config;
-
-typedef struct {
-    Image32768Config *config;
-    SVECTOR tips[2];
-    u16 phase, unknown_16;
-    u32 elapsed;
-    u16 ambient_phase, unknown_1E;
-    s32 ambient;
-    s32 textures[3];
-    u8 r[3], g[3], b[3];
-    u8 flare_r, flare_g, flare_b, flash, white, fan_r, fan_g, fan_b;
-} Image32768State;
-
 extern VECTOR gFrenchModelVariant804_UnitScale;
 extern GsIMAGE gFrenchModelVariant804_aImages[2];
-extern Image32768Config gFrenchModelVariant804_aConfigs[];
+extern ModelVariantBandSpokeConfig gFrenchModelVariant804_aConfigs[];
 
 #endif

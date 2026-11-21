@@ -9,9 +9,9 @@ static const VECTOR gModelVariant809_UnitScale = {4096, 4096, 4096, 0};
 
 #define RANDOM_SPREAD(range) ((range) * ((rand() - rand()) % 4096) / 4096)
 
-s32 ModelVariant809_HandleRequest(Model809State *context, s32 command)
+s32 ModelVariant809_HandleRequest(ModelVariantSparkBurstState *context, s32 command)
 {
-    Model809State *work;
+    ModelVariantSparkBurstState *work;
     MATRIX base, matrix;
     POLY_FT4 packet;
     POLY_G3 spoke_packet;

@@ -16,43 +16,8 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-typedef struct {
-    u16 red;
-    u16 green;
-    u16 blue;
-    u16 flash_extent;
-    u16 burst_extent;
-    u16 spread;
-    u16 fan_extent;
-    u16 burst_interval;
-    u16 fade;
-    u16 unknown_12;
-    u16 delay;
-    u16 spawn_end;
-    u16 camera_time;
-} Image104528Config;
-
-typedef struct {
-    Image104528Config *config;
-    SVECTOR flashes[64];
-    SVECTOR bursts[64];
-    SVECTOR offsets[64][16];
-    u16 frames[64];
-    u16 elapsed;
-    u16 updates;
-    s32 ambient;
-    u16 flash_count;
-    u16 phase;
-    u16 burst_count;
-    u16 unknown_2492;
-    s32 textures[2];
-    u8 red[64];
-    u8 green[64];
-    u8 blue[64];
-} Image104528State;
-
 extern VECTOR gFrenchModelVariant826_UnitScale;
 extern GsIMAGE gFrenchModelVariant826_aImages[2];
-extern Image104528Config gFrenchModelVariant826_aConfigs[];
+extern ModelVariantSparkBurstConfig gFrenchModelVariant826_aConfigs[];
 
 #endif

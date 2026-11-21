@@ -343,7 +343,7 @@ void Model_RunSlotHandlers(s32 index)
                     Model_RemapPrimitiveHandlers(
                         remap_handler,
                         group->runs,
-                        group->field_04,
+                        group->header,
                         group->run_count
                     );
                 }
@@ -580,7 +580,7 @@ void Model_SetSlotRootTransform(ModelSlot *slot_state, int translation_x, int tr
 
 #include "model_handler_registry.h"
 
-void Model_RemapPrimitiveHandlers(s32 (*remap_handler)(s32), ModelHandlerRunEntry *descriptor, s32 arg2,
+void Model_RemapPrimitiveHandlers(s32 (*remap_handler)(s32), ModelHandlerRunEntry *descriptor, void **arg2,
                    s32 descriptor_count)
 {
     s32 remaining_descriptors;

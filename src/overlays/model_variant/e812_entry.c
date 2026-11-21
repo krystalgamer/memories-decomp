@@ -57,19 +57,19 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
         work->height = gModelVariant629_aConfigs[command].height;
         work->radius = gModelVariant629_aConfigs[command].radius;
         for (i = 0; i < work->count_a; i++) {
-            work->a[i].f10 = 0x40;
-            work->a[i].f00 = 0;
-            work->a[i].f0E = 0;
-            work->a[i].f08 = 1;
+            work->a[i].duration = 0x40;
+            work->a[i].active = 0;
+            work->a[i].elapsed = 0;
+            work->a[i].mode = 1;
             work->a[i].coord = Model_GetCameraCoordinateUnit();
             work->a[i].r = gModelVariant629_aConfigs[command].color_a[0];
             work->a[i].g = gModelVariant629_aConfigs[command].color_a[1];
             work->a[i].b = gModelVariant629_aConfigs[command].color_a[2];
             work->a[i].u = 0;
             work->a[i].v = 0;
-            work->a[i].f0C = 0;
+            work->a[i].segments = 0;
             setVector(&work->a[i].scale, 0x1000, 0x1000, 0x1000);
-            setVector(&work->a[i].v40, 0, 0, 0);
+            setVector(&work->a[i].velocity, 0, 0, 0);
             switch (command) {
             case 0:
                 setVector(&work->a[i].rot, 0, work->slot * 0x800, 0);
@@ -91,24 +91,24 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
             work->a[i].pos.vz += (work->slot * 2 - 1) * 450;
         }
         for (i = 0; i < work->count_b; i++) {
-            work->b[i].f10 = 0x230;
-            work->b[i].f00 = 0;
-            work->b[i].f0E = 0;
-            work->b[i].f08 = 1;
+            work->b[i].duration = 0x230;
+            work->b[i].active = 0;
+            work->b[i].elapsed = 0;
+            work->b[i].mode = 1;
             work->b[i].coord = Model_GetCameraCoordinateUnit();
             work->b[i].r = gModelVariant629_aConfigs[command].color_b[0];
             work->b[i].g = gModelVariant629_aConfigs[command].color_b[1];
             work->b[i].b = gModelVariant629_aConfigs[command].color_b[2];
             setVector(&work->b[i].scale, 0x1000, 0x1000, 0x1000);
-            setVector(&work->b[i].v40, 0, 0, 0);
+            setVector(&work->b[i].velocity, 0, 0, 0);
             setVector(&work->b[i].pos, 0, 0, 0);
             setVector(&work->b[i].rot, 0, 0, 0);
         }
         for (i = 0; i < 32; i++) {
-            work->c[i].f10 = 0x40;
-            work->c[i].f00 = 0;
-            work->c[i].f0E = 0;
-            work->c[i].f08 = 1;
+            work->c[i].duration = 0x40;
+            work->c[i].active = 0;
+            work->c[i].elapsed = 0;
+            work->c[i].mode = 1;
             work->c[i].coord = Model_GetCameraCoordinateUnit();
             work->c[i].r = gModelVariant629_aConfigs[command].color_a[0];
             work->c[i].g = gModelVariant629_aConfigs[command].color_a[1];
@@ -116,7 +116,7 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
             work->c[i].v = 0x10;
             work->c[i].u = (i % 7) * 32;
             setVector(&work->c[i].scale, 0, 0, 0);
-            setVector(&work->c[i].v40, 0, -10, 0);
+            setVector(&work->c[i].velocity, 0, -10, 0);
             setVector(&work->c[i].pos,
                 work->width * (i % 3 + 1) * rsin(i << 7) / 4096 * ((i % 2) * 2 - 1) / 2,
                 work->width * (21 - i) / 10,
@@ -124,7 +124,7 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
             setVector(&work->c[i].rot, 0, work->slot * 0x800, 0);
             work->c[i].pos.vy -= 350;
             work->c[i].pos.vz += (work->slot * 2 - 1) * 450;
-            work->c[i].v50 = work->c[i].pos;
+            work->c[i].origin = work->c[i].pos;
         }
         work->duration = gModelVariant629_aConfigs[command].duration;
         for (i = 0; i < 5; i++) {
@@ -242,110 +242,110 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
         case 0:
             if (work->frame > 40 && !work->flags[1]) {
                 for (i = 0; i < work->count_a; i++) {
-                    work->a[i].f00 = 1;
+                    work->a[i].active = 1;
                 }
                 work->flags[1] = 1;
             }
             if (work->frame > 48 && !work->flags[2]) {
                 for (i = 0; i < 32; i++) {
-                    work->c[i].f00 = 1;
+                    work->c[i].active = 1;
                 }
                 work->flags[2] = 1;
             }
             if (work->flags[0] < work->count_b) {
-                work->b[work->flags[0]].f00 = 1;
+                work->b[work->flags[0]].active = 1;
                 work->flags[0]++;
             }
             if (work->frame > 60) {
                 for (i = 0; i < work->count_b; i++) {
-                    work->b[i].f00 = 0;
+                    work->b[i].active = 0;
                 }
             }
             break;
         case 1:
             if (work->frame > 72 && !work->flags[1]) {
                 for (i = 0; i < work->count_a; i++) {
-                    work->a[i].f00 = 1;
+                    work->a[i].active = 1;
                 }
                 for (i = 0; i < 32; i++) {
-                    work->c[i].f00 = 1;
+                    work->c[i].active = 1;
                 }
                 work->flags[1] = 1;
             }
             if (work->flags[0] < work->count_b) {
-                work->b[work->flags[0]].f00 = 1;
+                work->b[work->flags[0]].active = 1;
                 work->flags[0]++;
             }
             if (work->frame > 120) {
                 for (i = 0; i < work->count_b; i++) {
-                    work->b[i].f00 = 0;
+                    work->b[i].active = 0;
                 }
             }
             break;
         case 2:
             if (work->frame > 8 && !work->flags[1]) {
                 for (i = 0; i < work->count_a; i++) {
-                    work->a[i].f00 = 1;
+                    work->a[i].active = 1;
                 }
                 for (i = 0; i < 32; i++) {
-                    work->c[i].f00 = 1;
+                    work->c[i].active = 1;
                 }
                 work->flags[1] = 1;
             }
             if (work->flags[0] < work->count_b) {
-                work->b[work->flags[0]].f00 = 1;
+                work->b[work->flags[0]].active = 1;
                 work->flags[0]++;
             }
             if (work->frame > 40) {
                 for (i = 0; i < work->count_b; i++) {
-                    work->b[i].f00 = 0;
+                    work->b[i].active = 0;
                 }
             }
             break;
         case 3:
             if (work->frame > 20 && !work->flags[1]) {
                 for (i = 0; i < work->count_a; i++) {
-                    work->a[i].f00 = 1;
+                    work->a[i].active = 1;
                 }
                 for (i = 0; i < 32; i++) {
-                    work->c[i].f00 = 1;
+                    work->c[i].active = 1;
                 }
                 work->flags[1] = 1;
             }
             if (work->flags[0] < work->count_b) {
-                work->b[work->flags[0]].f00 = 1;
+                work->b[work->flags[0]].active = 1;
                 work->flags[0]++;
             }
             if (work->frame > 60) {
                 for (i = 0; i < work->count_b; i++) {
-                    work->b[i].f00 = 0;
+                    work->b[i].active = 0;
                 }
             }
             break;
         case 4:
             if (work->frame > 12 && !work->flags[1]) {
                 for (i = 0; i < work->count_a; i += 2) {
-                    work->a[i].f00 = 1;
+                    work->a[i].active = 1;
                 }
                 for (i = 0; i < 32; i++) {
-                    work->c[i].f00 = 1;
-                    work->c[i].f10 = 0x50;
+                    work->c[i].active = 1;
+                    work->c[i].duration = 0x50;
                 }
                 work->flags[1] = 1;
             }
             if (work->frame > 28 && !work->flags[2]) {
                 for (i = 1; i < work->count_a; i += 2) {
-                    work->a[i].f00 = 1;
+                    work->a[i].active = 1;
                 }
                 work->flags[2] = 1;
             }
             if (work->flags[0] < work->count_b) {
-                work->b[work->flags[0]].f00 = 1;
+                work->b[work->flags[0]].active = 1;
                 work->flags[0]++;
             }
             if (work->frame > 60) {
                 for (i = 0; i < work->count_b; i++) {
-                    work->b[i].f00 = 0;
+                    work->b[i].active = 0;
                 }
             }
             break;
@@ -354,7 +354,7 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
         view = *(ModelVariantViewSnapshot *)Model_GetViewMetricsBuffer();
         inactive = 0;
         for (i = 0; i < work->count_a; i++) {
-            if (work->a[i].f00 == 1) {
+            if (work->a[i].active == 1) {
                 unit.flg = 0;
                 unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->a[i].scale);
@@ -366,26 +366,26 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
                 unit.super = work->a[i].coord;
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
-                work->a[i].scale.vy += 0x3000 / work->a[i].f10 * step;
-                work->a[i].scale.vz += 0x3000 / work->a[i].f10 * step;
-                if (work->a[i].f10 / 2 < work->a[i].f0E) {
-                    if (gModelVariant629_aConfigs[work->command].color_a[0] / (work->a[i].f10 / 2 - 1) * step < work->a[i].r) {
-                        work->a[i].r -= gModelVariant629_aConfigs[work->command].color_a[0] / (work->a[i].f10 / 2 - 1) * step;
+                work->a[i].scale.vy += 0x3000 / work->a[i].duration * step;
+                work->a[i].scale.vz += 0x3000 / work->a[i].duration * step;
+                if (work->a[i].duration / 2 < work->a[i].elapsed) {
+                    if (gModelVariant629_aConfigs[work->command].color_a[0] / (work->a[i].duration / 2 - 1) * step < work->a[i].r) {
+                        work->a[i].r -= gModelVariant629_aConfigs[work->command].color_a[0] / (work->a[i].duration / 2 - 1) * step;
                     } else {
                         work->a[i].r = 0;
                     }
-                    if (gModelVariant629_aConfigs[work->command].color_a[1] / (work->a[i].f10 / 2 - 1) * step < work->a[i].g) {
-                        work->a[i].g -= gModelVariant629_aConfigs[work->command].color_a[1] / (work->a[i].f10 / 2 - 1) * step;
+                    if (gModelVariant629_aConfigs[work->command].color_a[1] / (work->a[i].duration / 2 - 1) * step < work->a[i].g) {
+                        work->a[i].g -= gModelVariant629_aConfigs[work->command].color_a[1] / (work->a[i].duration / 2 - 1) * step;
                     } else {
                         work->a[i].g = 0;
                     }
-                    if (gModelVariant629_aConfigs[work->command].color_a[2] / (work->a[i].f10 / 2 - 1) * step < work->a[i].b) {
-                        work->a[i].b -= gModelVariant629_aConfigs[work->command].color_a[2] / (work->a[i].f10 / 2 - 1) * step;
+                    if (gModelVariant629_aConfigs[work->command].color_a[2] / (work->a[i].duration / 2 - 1) * step < work->a[i].b) {
+                        work->a[i].b -= gModelVariant629_aConfigs[work->command].color_a[2] / (work->a[i].duration / 2 - 1) * step;
                     } else {
                         work->a[i].b = 0;
                     }
                 }
-                for (j = 0; j < work->a[i].f0C; j++) {
+                for (j = 0; j < work->a[i].segments; j++) {
                     for (k = 0; k < 1; k++) {
                         for (row = 0; row < 2; row++) {
                             setPolyGT4(&work->poly);
@@ -398,7 +398,7 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
                                 work->a[i].r * (4 - __builtin_abs(4 - j)) / 9 * ((1 - k) << 1),
                                 work->a[i].g * (4 - __builtin_abs(4 - j)) / 9 * ((1 - k) << 1),
                                 work->a[i].b * (4 - __builtin_abs(4 - j)) / 9 * ((1 - k) << 1));
-                            if (j != work->a[i].f0C - 1) {
+                            if (j != work->a[i].segments - 1) {
                                 setRGB1(&work->poly,
                                     work->a[i].r * (4 - __builtin_abs(3 - j)) / 9 * ((1 - k) << 1),
                                     work->a[i].g * (4 - __builtin_abs(3 - j)) / 9 * ((1 - k) << 1),
@@ -425,19 +425,19 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
                         }
                     }
                 }
-                if (work->a[i].f0C < 9) {
-                    work->a[i].f0C++;
+                if (work->a[i].segments < 9) {
+                    work->a[i].segments++;
                 }
-                work->a[i].f0E += step;
-                if (work->a[i].f10 < work->a[i].f0E) {
-                    work->a[i].f00 = 0;
+                work->a[i].elapsed += step;
+                if (work->a[i].duration < work->a[i].elapsed) {
+                    work->a[i].active = 0;
                 }
             } else {
                 inactive++;
             }
         }
         for (i = 0; i < work->count_b; i++) {
-            if (work->b[i].f00 == 1) {
+            if (work->b[i].active == 1) {
                 unit.flg = 0;
                 unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->b[i].scale);
@@ -472,7 +472,7 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
                     (long *)&work->g4.x0, (long *)&work->g4.x1,
                     (long *)&work->g4.x2, (long *)&work->g4.x3, &interp, &flag);
                 if (flag >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&work->g4, Graphics_GetDefaultOrderingTable(), (u16)depth, work->b[i].f08);
+                    Graphics_SubmitDrawModePacket((u32 *)&work->g4, Graphics_GetDefaultOrderingTable(), (u16)depth, work->b[i].mode);
                 }
                 setPolyG4(&work->g4);
                 setRGB1(&work->g4, 0, 0, 0);
@@ -493,18 +493,18 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
                     (long *)&work->g4.x0, (long *)&work->g4.x1,
                     (long *)&work->g4.x2, (long *)&work->g4.x3, &interp, &flag);
                 if (flag >= 0) {
-                    Graphics_SubmitDrawModePacket((u32 *)&work->g4, Graphics_GetDefaultOrderingTable(), (u16)depth, work->b[i].f08);
+                    Graphics_SubmitDrawModePacket((u32 *)&work->g4, Graphics_GetDefaultOrderingTable(), (u16)depth, work->b[i].mode);
                 }
-                work->b[i].f0E += step;
-                if (work->b[i].f10 < work->b[i].f0E) {
-                    work->b[i].f00 = 0;
+                work->b[i].elapsed += step;
+                if (work->b[i].duration < work->b[i].elapsed) {
+                    work->b[i].active = 0;
                 }
             } else {
                 inactive++;
             }
         }
         for (i = 0; i < 32; i++) {
-            if (work->c[i].f00 == 1) {
+            if (work->c[i].active == 1) {
                 unit.flg = 0;
                 unit.matrix = GsIDMATRIX;
                 ScaleMatrix(&unit.matrix, &work->c[i].scale);
@@ -516,7 +516,7 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
                 unit.super = work->c[i].coord;
                 GsGetLsUnit(&unit, &ls);
                 GsSetLsMatrix(&ls);
-                work->c[i].pos.vy += work->c[i].v40.vy * step;
+                work->c[i].pos.vy += work->c[i].velocity.vy * step;
                 if (work->c[i].scale.vx < 0x1000) {
                     work->c[i].scale.vx += step * 819 / 2;
                     work->c[i].scale.vy += step * 819 / 2;
@@ -526,19 +526,19 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
                     work->c[i].scale.vy = 0x1000;
                     work->c[i].scale.vz = 0x1000;
                 }
-                if (work->c[i].f10 / 2 < work->c[i].f0E) {
-                    if (gModelVariant629_aConfigs[work->command].color_a[0] / (work->c[i].f10 / 2 - 1) * step < work->c[i].r) {
-                        work->c[i].r -= gModelVariant629_aConfigs[work->command].color_a[0] / (work->c[i].f10 / 2 - 1) * step;
+                if (work->c[i].duration / 2 < work->c[i].elapsed) {
+                    if (gModelVariant629_aConfigs[work->command].color_a[0] / (work->c[i].duration / 2 - 1) * step < work->c[i].r) {
+                        work->c[i].r -= gModelVariant629_aConfigs[work->command].color_a[0] / (work->c[i].duration / 2 - 1) * step;
                     } else {
                         work->c[i].r = 0;
                     }
-                    if (gModelVariant629_aConfigs[work->command].color_a[1] / (work->c[i].f10 / 2 - 1) * step < work->c[i].g) {
-                        work->c[i].g -= gModelVariant629_aConfigs[work->command].color_a[1] / (work->c[i].f10 / 2 - 1) * step;
+                    if (gModelVariant629_aConfigs[work->command].color_a[1] / (work->c[i].duration / 2 - 1) * step < work->c[i].g) {
+                        work->c[i].g -= gModelVariant629_aConfigs[work->command].color_a[1] / (work->c[i].duration / 2 - 1) * step;
                     } else {
                         work->c[i].g = 0;
                     }
-                    if (gModelVariant629_aConfigs[work->command].color_a[2] / (work->c[i].f10 / 2 - 1) * step < work->c[i].b) {
-                        work->c[i].b -= gModelVariant629_aConfigs[work->command].color_a[2] / (work->c[i].f10 / 2 - 1) * step;
+                    if (gModelVariant629_aConfigs[work->command].color_a[2] / (work->c[i].duration / 2 - 1) * step < work->c[i].b) {
+                        work->c[i].b -= gModelVariant629_aConfigs[work->command].color_a[2] / (work->c[i].duration / 2 - 1) * step;
                     } else {
                         work->c[i].b = 0;
                     }
@@ -559,11 +559,11 @@ s32 ModelVariant629_HandleRequest(Model629State *context, s32 command)
                 work->c[i].u += 32;
                 if (work->c[i].u == 0xE0) {
                     work->c[i].u = 0;
-                    work->c[i].pos = work->c[i].v50;
+                    work->c[i].pos = work->c[i].origin;
                 }
-                work->c[i].f0E += step;
-                if (work->c[i].f10 < work->c[i].f0E) {
-                    work->c[i].f00 = 0;
+                work->c[i].elapsed += step;
+                if (work->c[i].duration < work->c[i].elapsed) {
+                    work->c[i].active = 0;
                 }
                 result = 4;
             } else {

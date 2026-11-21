@@ -147,12 +147,15 @@ typedef char ModelHandlerRunEntry_prefix_size_must_be_8[
 ];
 
 /* One primitive group of a mapped HMD unit (ModelSlotHeadEntry's
- * primitive_data): the next group, or -1 after the last; the word both
- * Model_RemapPrimitiveHandlers callers pass on as its unused arg2; the
- * descriptor count, zero for an empty group; then the descriptor run. */
+ * primitive_data), laid out as an HMD primitive set: the next group, or -1
+ * after the last; the set's pointer into the primitive header section (the
+ * same word as ModelHmdPrimitiveBlock.header), which both
+ * Model_RemapPrimitiveHandlers callers pass on as its unused third argument;
+ * the descriptor (type) count, zero for an empty group; then the descriptor
+ * run. */
 typedef struct ModelPrimitiveGroup {
     struct ModelPrimitiveGroup *next;
-    s32 field_04;
+    void **header;
     s32 run_count;
     ModelHandlerRunEntry runs[1];
 } ModelPrimitiveGroup;
@@ -166,12 +169,13 @@ typedef struct ModelPrimitiveGroup {
  * takes and returns the stored s32 handler value, not that packed key, an
  * index or a descriptor pointer; only -1 rejects a replacement.
  *
- * arg2 remains the original third argument passed by both callers. The body
- * never reads it; do not remove its call-site setup or infer a new use. */
+ * arg2 (the group's primitive-header pointer) remains the original third
+ * argument passed by both callers. The body never reads it; do not remove its
+ * call-site setup or infer a new use. */
 void Model_RemapPrimitiveHandlers(
     s32 (*fn)(s32),
     ModelHandlerRunEntry *entry,
-    s32 arg2,
+    void **arg2,
     s32 count
 );
 

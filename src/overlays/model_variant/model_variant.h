@@ -1348,13 +1348,13 @@ typedef struct {
     u8 command_group, completed, unknown_18A[2];
 } ModelVariantBeamParticleState;
 
-/* One 0x26-byte command row of the beam-and-ring entries: the beam and ring
- * colours, the beam height, half width and spread, the ring radius,
- * thickness and height, and the durations, spacings and start times of the
- * beams, rings and flash. */
+/* One 0x26-byte command row of the beam-and-ring entries (header 180,
+ * French headers 196 and 197): the beam and ring colours, the beam height,
+ * half width and spread, the ring radius, thickness and height, and the
+ * durations, spacings and start times of the beams, rings and flash. */
 typedef struct {
-    u8 beam_color[3];
-    u8 ring_color[3];
+    u8 beam_red, beam_green, beam_blue;
+    u8 ring_red, ring_green, ring_blue;
     u8 unknown_06[2];
     s16 height;
     s16 half_width;
@@ -1373,15 +1373,16 @@ typedef struct {
     s16 flash_begin;
 } ModelVariantBeamRingConfig;
 
-/* The work area of the beam-ring entries (French images 16740 and 24764):
- * the command row, 32 beam points, the origin, a 66-point double ring, the
- * translation, two texture words, the time and the completion flag. */
+/* The 0x334-byte work area of the beam-ring entries (header 180, French
+ * images 16740 and 24764): the command row, 32 beam points, the other
+ * slot's position, a 66-point double ring, this slot's position, two
+ * texture words, the time and the completion flag. */
 typedef struct {
     ModelVariantBeamRingConfig *config;
     SVECTOR beams[32];
-    SVECTOR origin;
+    SVECTOR opponent;
     SVECTOR ring[66];
-    SVECTOR translation;
+    SVECTOR origin;
     s32 textures[2];
     s32 time;
     u8 completed;
@@ -1501,7 +1502,10 @@ typedef struct {
  * phases it spreads the arms by 0x400 - shrink; from phase 3 the spread
  * comes from the companion timing word divided by eight instead. field_02
  * stays opaque: the helpers only test it in conditions whose results are
- * overwritten before the geometry uses them, so its role is not shown. */
+ * overwritten before the geometry uses them, so its role is not shown.
+ * Header 448 (spiral_params; its helper never reads shrink) and the second
+ * Exodia entry (petal, for ModelExodia_DrawPetals) keep the same four
+ * halfwords for the same twelve-arm template. */
 typedef struct {
     s16 angle;
     s16 field_02;
@@ -1731,6 +1735,161 @@ typedef struct {
     u8 completed, unknown_60D[3];
     s32 elapsed, updates;
 } ModelVariantTravelBurstState;
+
+/* One 0x1E-byte command row of French headers 153 and 178, picked by
+ * command % 100: the particle and burst colours, the slot part the
+ * particles leave from, the particle half size, the spread of the targets
+ * around the other slot, the burst half size, the rise of the burst (and,
+ * in 153, of the fading particles), the burst spread, the particle count,
+ * the spacing between particles, the travel, fade and burst durations and
+ * the start delay. */
+typedef struct {
+    u8 red, green, blue;
+    u8 burst_red, burst_green, burst_blue, part, unknown_07;
+    s16 half_size, spread, burst_half_size, rise_height, burst_spread;
+    s16 count, spacing, travel_duration, fade_duration, burst_duration, delay;
+} ModelVariantRisingBurstConfig;
+
+/* The 0x450-byte work area of French headers 153 and 178: the command row,
+ * 64 particle positions, their 64 targets around the other slot, four
+ * rising burst offsets, the texture words (153 packs nine images, 178 two),
+ * the completion flag and the elapsed time. */
+typedef struct {
+    ModelVariantRisingBurstConfig *config;
+    SVECTOR positions[64];
+    SVECTOR targets[64];
+    SVECTOR burst_offsets[4];
+    u32 texture[9];
+    u8 completed;
+    u8 unknown_449[3];
+    s32 elapsed;
+} ModelVariantRisingBurstState;
+
+/* One 0x46-byte command row of header 129 (French header 146), picked by
+ * command % 100: the fan and dot colours, the slot part each of up to
+ * sixteen points starts from, the fan height (also the random spread of the
+ * dot shell) and width, the dot shell radius, the slot animation window, the
+ * fan and dot durations, the animation start, the delay and the start times
+ * of the points, ended by a negative one. */
+typedef struct {
+    u8 red, green, blue, box_red, box_green, box_blue;
+    u8 parts[16];
+    s16 height;
+    s16 width;
+    s16 radius;
+    s16 anim_span;
+    s16 fan_duration, box_duration, anim_start, delay;
+    s16 starts[16];
+} ModelVariantFanShellConfig;
+
+/* The 0x39C-byte work area of header 129 (French header 146): the command
+ * row, the sixteen point positions, the 64 dots of the shell and their fan
+ * scales, the camera step counter, the two texture words, the elapsed time,
+ * the number of points started and the tint flag. */
+typedef struct {
+    ModelVariantFanShellConfig *config;
+    SVECTOR positions[16];
+    SVECTOR dots[64];
+    s32 scales[64];
+    u8 camera_steps, unknown_385[3];
+    u32 texture[2];
+    s32 elapsed;
+    u8 started, unknown_395[3];
+    s32 tint;
+} ModelVariantFanShellState;
+
+/* One 0x2C-byte command row of header 787 (French header 804): the band and
+ * glow colours, the band and glow sizes, the camera spin, the spoke tips and
+ * their depth, the spoke count, the band and glow fade steps, and the start
+ * and camera-switch times. */
+typedef struct {
+    u8 band_r, band_g, band_b;
+    u8 glow_r, glow_g, glow_b;
+    s16 band_depth;
+    s16 band_height;
+    s16 unknown_0A;
+    s32 spin;
+    s16 glow_size;
+    s16 tip_depth;
+    s16 spoke_length;
+    s16 spoke_count;
+    s16 spoke_depth;
+    s16 unknown_1A;
+    u8 band_fade, unknown_1D;
+    u8 glow_fade, unknown_1F;
+    s32 unknown_20;
+    s32 unknown_24;
+    s16 delay;
+    s16 switch_time;
+} ModelVariantBandSpokeConfig;
+
+/* The 0x44-byte work area of header 787 (French header 804): the command
+ * row, the two spoke tips, the band stage, the elapsed time, the phase, the
+ * ambient level, the textures, the band colours, the glow colour, the flash
+ * and spoke brightness and the spoke colour. */
+typedef struct {
+    ModelVariantBandSpokeConfig *config;
+    SVECTOR tips[2];
+    u16 stage;
+    u32 elapsed;
+    u16 phase;
+    s32 level;
+    s32 texture[3];
+    u8 red[3];
+    u8 green[3];
+    u8 blue[3];
+    u8 glow_r, glow_g, glow_b;
+    u8 flash;
+    u8 spoke;
+    u8 spoke_r, spoke_g, spoke_b;
+} ModelVariantBandSpokeState;
+
+/* One 0x1A-byte command row of header 809 (French header 826): the starting
+ * burst colour (bytes followed by unread pad bytes, as is the fade step),
+ * the spark and burst sizes, the spoke spread and length,
+ * the burst spawn period, the colour fade step, and the delay, end and
+ * camera switch times. */
+typedef struct {
+    u8 red;
+    u8 unknown_01;
+    u8 green;
+    u8 unknown_03;
+    u8 blue;
+    u8 unknown_05;
+    u16 spark_size;
+    u16 burst_size;
+    u16 spread;
+    u16 spoke_length;
+    u16 period;
+    u8 fade;
+    u8 unknown_11;
+    u16 unknown_12;
+    u16 delay;
+    u16 end;
+    u16 camera_time;
+} ModelVariantSparkBurstConfig;
+
+/* The 0x255C-byte work area of header 809 (French header 826): the command
+ * row, the spark and burst positions, the spoke tips of each burst, the
+ * spark ages, the elapsed time, the frame, the ambient level, the spark
+ * count, the phase, the burst count, the textures and the burst colours. */
+typedef struct {
+    ModelVariantSparkBurstConfig *config;
+    SVECTOR sparks[64];
+    SVECTOR bursts[64];
+    SVECTOR tips[64][16];
+    u16 ages[64];
+    u16 elapsed;
+    u16 frame;
+    s32 level;
+    u16 spark_count;
+    u16 phase;
+    u16 burst_count;
+    s32 texture[2];
+    u8 red[64];
+    u8 green[64];
+    u8 blue[64];
+} ModelVariantSparkBurstState;
 
 /* One 0x22-byte command row of headers 154 and 169 (169 is the 154 effect
  * without the closing grid burst), picked by command % 100: the trail, ring,
