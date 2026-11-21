@@ -97,7 +97,7 @@ void FrenchModelVariant400_DrawStreamers(Variant400EntryState *context)
         count = 7;
     }
     for (j = first, n = 0; j < count; j++, n++) {
-        sizes = (Model400Size *)((u8 *)work + 0x11B8);
+        sizes = (Model400Size *)&work->sheets[0].size;
         if (j == 0) {
             m.t[0] = work->matrix.t[0];
             m.t[1] = work->matrix.t[1];
