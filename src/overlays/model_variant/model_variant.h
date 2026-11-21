@@ -516,17 +516,6 @@ typedef struct {
 } ModelVariantRibbon;
 
 
-/* The ribbon command row of headers 425 and 426: the growth and fade
- * windows. */
-typedef struct {
-    u8 unknown00[0x1C];
-    u32 grow_start;
-    u32 grow_end;
-    u8 unknown24[4];
-    u32 fade_start;
-    u32 fade_end;
-} ModelVariantRibbonGrowTiming;
-
 /* Header 425's 0x6C-byte ribbon: the same fields with eight bytes less
  * between the widths and the depths. */
 typedef struct {

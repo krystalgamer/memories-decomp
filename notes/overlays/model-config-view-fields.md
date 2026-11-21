@@ -65,7 +65,7 @@ Entry `model_variant/e592_entry.c` sets `work->config = gModelVariant409_aConfig
 |---|---|---|---|---|---|
 | `+0x1C` | `field_1C` → `u32 ribbon_start` | `ModelVariantRibbonGrowTiming.grow_start` | `FrenchModelVariant426_DrawRibbon` (model_variant/e592_ribbon_pal.c; `model_variant/e592_entry.c:311`, `Ribbon426Work.timing` at +0x2110) | `if (work->amp < 0x400 && work->config->grow_start <= work->clock)` | high |
 
-The `ModelVariantRibbonGrowTiming` view calls this word `grow_start`. The config uses `ribbon_start`, the name given to the same ribbon-growth start in `EntryConfig425` (#8816), because the ribbon progress rises from it to `travel_start`.
+The former `ModelVariantRibbonGrowTiming` view called this word `grow_start`. The config uses `ribbon_start`, the name given to the same ribbon-growth start in `EntryConfig425` (#8816), because the ribbon progress rises from it to `travel_start`.
 
 ## `Variant411UsEntryConfig` (`gModelVariant411_aConfigs`)
 

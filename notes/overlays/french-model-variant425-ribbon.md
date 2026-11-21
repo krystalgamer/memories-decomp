@@ -17,7 +17,8 @@ slot-1 images.
     negated phase and steps by 768 per point;
   - the tail advances the phase by `step * 384`.
 
-  The view lives in `model_variant/e591_ribbon_pal.h`.
+  It takes the family's `EntryState425` work area (`model_variant/e591_entry_pal.h`),
+  the one the North American body `model_variant/e591_ribbon.c` uses.
 - **Register choice.** The width is computed in both arms of the length
   branch, and the sway is set in the inner loop's initialiser. The
   point-index copies and the dead `if (i < 0)` branch match the family 426
