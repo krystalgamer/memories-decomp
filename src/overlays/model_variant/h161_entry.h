@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_VARIANT178_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/model_slot_getters.h"
 #include "../../game/model_slot_support.h"
 #include "../../game/model_copy_slot_u16_values.h"
@@ -11,27 +12,9 @@
 #include "../../psyq/string.h"
 #include "../../psyq/rand.h"
 
-typedef struct {
-    u8 r, g, b, burst_r, burst_g, burst_b, part, field_07;
-    s16 half_size, spread, burst_half_size, rise, velocity_spread;
-    s16 count, spacing, travel, fade, burst_duration, delay;
-} FrenchModel178Config;
-
-typedef struct {
-    FrenchModel178Config *config;
-    SVECTOR positions[64];
-    SVECTOR endpoints[64];
-    SVECTOR velocities[4];
-    u32 texture[2];
-    u8 field_42C[0x1C];
-    u8 completed;
-    u8 field_449[3];
-    s32 elapsed;
-} FrenchModel178State;
-
 extern const VECTOR gFrenchModelVariant178_UnitScale;
 extern GsIMAGE gFrenchModelVariant178_aImages[];
-extern FrenchModel178Config gFrenchModelVariant178_aConfigs[];
-s32 FrenchModelVariant178_HandleRequest(FrenchModel178State *context, s32 command);
+extern ModelVariantRisingBurstConfig gFrenchModelVariant178_aConfigs[];
+s32 FrenchModelVariant178_HandleRequest(ModelVariantRisingBurstState *context, s32 command);
 
 #endif

@@ -1732,6 +1732,35 @@ typedef struct {
     s32 elapsed, updates;
 } ModelVariantTravelBurstState;
 
+/* One 0x1E-byte command row of French headers 153 and 178, picked by
+ * command % 100: the particle and burst colours, the slot part the
+ * particles leave from, the particle half size, the spread of the targets
+ * around the other slot, the burst half size, the rise of the burst (and,
+ * in 153, of the fading particles), the burst spread, the particle count,
+ * the spacing between particles, the travel, fade and burst durations and
+ * the start delay. */
+typedef struct {
+    u8 red, green, blue;
+    u8 burst_red, burst_green, burst_blue, part, unknown_07;
+    s16 half_size, spread, burst_half_size, rise_height, burst_spread;
+    s16 count, spacing, travel_duration, fade_duration, burst_duration, delay;
+} ModelVariantRisingBurstConfig;
+
+/* The 0x450-byte work area of French headers 153 and 178: the command row,
+ * 64 particle positions, their 64 targets around the other slot, four
+ * rising burst offsets, the texture words (153 packs nine images, 178 two),
+ * the completion flag and the elapsed time. */
+typedef struct {
+    ModelVariantRisingBurstConfig *config;
+    SVECTOR positions[64];
+    SVECTOR targets[64];
+    SVECTOR burst_offsets[4];
+    u32 texture[9];
+    u8 completed;
+    u8 unknown_449[3];
+    s32 elapsed;
+} ModelVariantRisingBurstState;
+
 /* One 0x22-byte command row of headers 154 and 169 (169 is the 154 effect
  * without the closing grid burst), picked by command % 100: the trail, ring,
  * beam and burst colours, the slot part the effect starts from, the grid

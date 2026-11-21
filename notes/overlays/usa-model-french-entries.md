@@ -112,7 +112,7 @@ both slots, are byte-identical to the objects built before these changes.
 Forty-nine more images have a French entry with one North American addition: the
 setup command prints the size of the work area with
 `printf("%d (0x%x) Byte\n", sizeof(state), sizeof(state))` (0x1244 for
-`FrenchModel173State`, 0x450 for `Model153State` and `FrenchModel178State`, 0x738 for
+`FrenchModel173State`, 0x450 for `ModelVariantRisingBurstState` (headers 153 and 178), 0x738 for
 `Model184State`, 0x5B0 for `Model177State`, 0x820 for `Model157State` and
 `Model162State`, 0x464 for `FrenchModel163State`, 0x5D8 for `Model167State`), which
 also moves the entry's `.rodata` and data after it. Each of these French sources
