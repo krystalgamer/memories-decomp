@@ -498,7 +498,9 @@ typedef struct {
 
 /* One 0x74-byte ribbon of header 418: a two-point spine, a copy of it moved
  * sideways, both projected, and per point the screen angle, the projected
- * width and the width's screen offset. */
+ * width and the width's screen offset. The Spanish header 388 ribbon fan
+ * (e547_ribbons_pal.c) keeps each point's RotTransPers flag in `flag` for its
+ * draw pass; header 418 projects into a local flag and leaves it unused. */
 typedef struct {
     SVECTOR a[2];
     long sa[2];
@@ -506,7 +508,8 @@ typedef struct {
     SVECTOR b[2];
     long sb[2];
     s32 width[2];
-    u8 unknown_40[0x24];
+    u8 unknown_40[0x1C];
+    long flag[2];
     s32 otz[2];
     u16 ox[2];
     u16 oy[2];

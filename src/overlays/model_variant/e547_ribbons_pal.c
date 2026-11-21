@@ -22,7 +22,7 @@ void SpanishModelVariant388_DrawRibbonFan(Variant388EntryState *context)
     s16 i;
     s32 turn;
     s32 tilt;
-    Ribbon388 *ribbon;
+    ModelVariantRibbon *ribbon;
     POLY_G3 *prim;
     s16 k;
     s16 angle;
@@ -53,9 +53,9 @@ void SpanishModelVariant388_DrawRibbonFan(Variant388EntryState *context)
             if (k == 0) {
                 radius = 0x28;
             }
-            setVector(&ribbon->points[k], rcos(angle) * radius >> 12, rsin(angle) * radius >> 12, k * ((flags & 1) * 32 + 0xA0));
-            setVector(&ribbon->edges[k], ribbon->points[k].vx + (rcos(turn) * length >> 12), ribbon->points[k].vy,
-                      ribbon->points[k].vz + (rsin(turn) * length >> 12));
+            setVector(&ribbon->a[k], rcos(angle) * radius >> 12, rsin(angle) * radius >> 12, k * ((flags & 1) * 32 + 0xA0));
+            setVector(&ribbon->b[k], ribbon->a[k].vx + (rcos(turn) * length >> 12), ribbon->a[k].vy,
+                      ribbon->a[k].vz + (rsin(turn) * length >> 12));
         }
     }
     rot.vx = tilt;
@@ -78,34 +78,34 @@ void SpanishModelVariant388_DrawRibbonFan(Variant388EntryState *context)
     for (i = 0; i < 8; i++, ribbon++) {
         for (k = 0; k < 2; k++) {
             if (k == 0) {
-                ribbon->otz[0] = RotTransPers4(&ribbon->points[0], &ribbon->points[1], &ribbon->points[0], &ribbon->points[1],
-                                               &ribbon->screen[0], &ribbon->screen[1], &ribbon->screen[0], &ribbon->screen[1], &p,
+                ribbon->otz[0] = RotTransPers4(&ribbon->a[0], &ribbon->a[1], &ribbon->a[0], &ribbon->a[1],
+                                               &ribbon->sa[0], &ribbon->sa[1], &ribbon->sa[0], &ribbon->sa[1], &p,
                                                &ribbon->flag[0]);
-                dx = (s16)ribbon->screen[k + 1] - (s16)ribbon->screen[k];
-                dy = (ribbon->screen[k + 1] >> 16) - (ribbon->screen[k] >> 16);
+                dx = (s16)ribbon->sa[k + 1] - (s16)ribbon->sa[k];
+                dy = (ribbon->sa[k + 1] >> 16) - (ribbon->sa[k] >> 16);
             } else {
-                ribbon->otz[k] = RotTransPers4(&ribbon->points[k - 1], &ribbon->points[k], &ribbon->points[k - 1], &ribbon->points[k],
-                                               &ribbon->screen[k - 1], &ribbon->screen[k], &ribbon->screen[k - 1], &ribbon->screen[k], &p,
+                ribbon->otz[k] = RotTransPers4(&ribbon->a[k - 1], &ribbon->a[k], &ribbon->a[k - 1], &ribbon->a[k],
+                                               &ribbon->sa[k - 1], &ribbon->sa[k], &ribbon->sa[k - 1], &ribbon->sa[k], &p,
                                                &ribbon->flag[k]);
-                dx = (s16)ribbon->screen[k] - (s16)ribbon->screen[k - 1];
-                dy = (ribbon->screen[k] >> 16) - (ribbon->screen[k - 1] >> 16);
+                dx = (s16)ribbon->sa[k] - (s16)ribbon->sa[k - 1];
+                dy = (ribbon->sa[k] >> 16) - (ribbon->sa[k - 1] >> 16);
             }
-            RotTransPers(&ribbon->edges[k], &ribbon->edge_screen[k], &p, &flag);
+            RotTransPers(&ribbon->b[k], &ribbon->sb[k], &p, &flag);
             ribbon->angle[k] = ratan2(dy, dx) + 0xC00;
-            ribbon->width[k] = (s16)ribbon->edge_screen[k] - (s16)ribbon->screen[k];
-            ribbon->x_offset[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
-            ribbon->y_offset[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
+            ribbon->width[k] = (s16)ribbon->sb[k] - (s16)ribbon->sa[k];
+            ribbon->ox[k] = rcos(ribbon->angle[k]) * ribbon->width[k] >> 12;
+            ribbon->oy[k] = rsin(ribbon->angle[k]) * ribbon->width[k] >> 12;
         }
     }
     ribbon = work->ribbons;
     for (i = 0; i < 8; i++, ribbon++) {
         for (k = 0; k < 1; k++) {
-            prim->x0 = ribbon->screen[k] + ribbon->x_offset[k];
-            prim->y0 = (ribbon->screen[k] >> 16) + ribbon->y_offset[k];
-            prim->x1 = ribbon->screen[k + 1];
-            prim->y1 = ribbon->screen[k + 1] >> 16;
-            prim->x2 = ribbon->screen[k] - ribbon->x_offset[k];
-            prim->y2 = (ribbon->screen[k] >> 16) - ribbon->y_offset[k];
+            prim->x0 = ribbon->sa[k] + ribbon->ox[k];
+            prim->y0 = (ribbon->sa[k] >> 16) + ribbon->oy[k];
+            prim->x1 = ribbon->sa[k + 1];
+            prim->y1 = ribbon->sa[k + 1] >> 16;
+            prim->x2 = ribbon->sa[k] - ribbon->ox[k];
+            prim->y2 = (ribbon->sa[k] >> 16) - ribbon->oy[k];
             prim->r0 = 0x80;
             prim->g0 = 0x80;
             prim->b0 = 0x80;
