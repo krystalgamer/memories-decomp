@@ -526,22 +526,6 @@ typedef struct {
     u16 oy[2];
 } ModelVariantRibbonShort;
 
-/* One 0x6C-byte ribbon span of headers 373 and 383: two points and their
- * edge copies, both projected, the angles and widths, the depths and the
- * screen offsets. */
-typedef struct {
-    SVECTOR points[2];
-    long projected[2];
-    s32 angle[2];
-    SVECTOR edges[2];
-    long edge_projected[2];
-    s32 width[2];
-    u8 unknown_40[0x1C];
-    long depth[2];
-    s16 x_offset[2];
-    s16 y_offset[2];
-} ModelVariantRibbonSpan;
-
 /* The 0x20-byte style block that follows the projected spine of the ribbon
  * records (0x220 bytes for the seventeen-point ribbons, 0x120 for the
  * nine-point ribbons of headers 436 and 437): the inner (spine-side) and outer (edge)
@@ -847,9 +831,11 @@ typedef struct {
     s32 done;
 } ModelVariantGridSheet;
 
-/* One 0x6C-byte ray: a two-point spine and a copy offset across the view,
- * both projected, the screen angles and widths, the depths and the width's
- * screen offset. */
+/* One 0x6C-byte ray or ribbon span: a two-point spine and a copy offset
+ * across the view, both projected, the screen angles and widths, the depths
+ * and the width's screen offset; each segment is drawn as a triangle from
+ * the spine point +/- that offset to the next point (the ray helpers, and
+ * the ribbons of headers 373 and 383). */
 typedef struct {
     SVECTOR points[2];
     long screen[2];

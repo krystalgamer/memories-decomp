@@ -17,7 +17,7 @@ void FrenchModelVariant383_DrawRibbons(Variant366State *context)
     s16 i;
     s32 turn;
     s32 tilt;
-    ModelVariantRibbonSpan *ribbon;
+    ModelVariantOffsetRay *ribbon;
     POLY_G3 *triangle;
     s16 j;
     s16 angle;
@@ -51,7 +51,7 @@ void FrenchModelVariant383_DrawRibbons(Variant366State *context)
                 }
                 setVector(&ribbon->points[j], rcos(angle) * radius >> 12,
                           rsin(angle) * radius >> 12, j * ((flags & 1) * 32 + 192));
-                setVector(&ribbon->edges[j],
+                setVector(&ribbon->offset_points[j],
                           ribbon->points[j].vx + (rcos(turn) * length >> 12),
                           ribbon->points[j].vy,
                           ribbon->points[j].vz + (rsin(turn) * length >> 12));
@@ -84,35 +84,35 @@ void FrenchModelVariant383_DrawRibbons(Variant366State *context)
                     ribbon->depth[0] = RotTransPers4(
                         &ribbon->points[0], &ribbon->points[1],
                         &ribbon->points[0], &ribbon->points[1],
-                        &ribbon->projected[0], &ribbon->projected[1],
-                        &ribbon->projected[0], &ribbon->projected[1], &interpolation, &flag[i][j]);
-                    dx = (s16)ribbon->projected[j + 1] - (s16)ribbon->projected[0];
-                    dy = (ribbon->projected[j + 1] >> 16) - (ribbon->projected[0] >> 16);
+                        &ribbon->screen[0], &ribbon->screen[1],
+                        &ribbon->screen[0], &ribbon->screen[1], &interpolation, &flag[i][j]);
+                    dx = (s16)ribbon->screen[j + 1] - (s16)ribbon->screen[0];
+                    dy = (ribbon->screen[j + 1] >> 16) - (ribbon->screen[0] >> 16);
                 } else {
                     ribbon->depth[j] = RotTransPers4(
                         &ribbon->points[j - 1], &ribbon->points[j],
                         &ribbon->points[j - 1], &ribbon->points[j],
-                        &ribbon->projected[j - 1], &ribbon->projected[j],
-                        &ribbon->projected[j - 1], &ribbon->projected[j], &interpolation, &flag[i][j]);
-                    dx = (s16)ribbon->projected[j] - (s16)ribbon->projected[j - 1];
-                    dy = (ribbon->projected[j] >> 16) - (ribbon->projected[j - 1] >> 16);
+                        &ribbon->screen[j - 1], &ribbon->screen[j],
+                        &ribbon->screen[j - 1], &ribbon->screen[j], &interpolation, &flag[i][j]);
+                    dx = (s16)ribbon->screen[j] - (s16)ribbon->screen[j - 1];
+                    dy = (ribbon->screen[j] >> 16) - (ribbon->screen[j - 1] >> 16);
                 }
-                RotTransPers(&ribbon->edges[j], &ribbon->edge_projected[j], &interpolation, &edge_flag);
-                ribbon->angle[j] = ratan2(dy, dx) + 3072;
-                ribbon->width[j] = (s16)ribbon->edge_projected[j] - (s16)ribbon->projected[j];
-                ribbon->x_offset[j] = rcos(ribbon->angle[j]) * ribbon->width[j] >> 12;
-                ribbon->y_offset[j] = rsin(ribbon->angle[j]) * ribbon->width[j] >> 12;
+                RotTransPers(&ribbon->offset_points[j], &ribbon->offset_screen[j], &interpolation, &edge_flag);
+                ribbon->angles[j] = ratan2(dy, dx) + 3072;
+                ribbon->projected_width[j] = (s16)ribbon->offset_screen[j] - (s16)ribbon->screen[j];
+                ribbon->width_x[j] = rcos(ribbon->angles[j]) * ribbon->projected_width[j] >> 12;
+                ribbon->width_y[j] = rsin(ribbon->angles[j]) * ribbon->projected_width[j] >> 12;
             }
         }
         ribbon = work->ribbon_spans;
         for (i = 0; i < 8; i++, ribbon++) {
             for (j = 0; j < 1; j++) {
-                triangle->x0 = ribbon->projected[j] + ribbon->x_offset[j];
-                triangle->y0 = (ribbon->projected[j] >> 16) + ribbon->y_offset[j];
-                triangle->x1 = ribbon->projected[j + 1];
-                triangle->y1 = ribbon->projected[j + 1] >> 16;
-                triangle->x2 = ribbon->projected[j] - ribbon->x_offset[j];
-                triangle->y2 = (ribbon->projected[j] >> 16) - ribbon->y_offset[j];
+                triangle->x0 = ribbon->screen[j] + ribbon->width_x[j];
+                triangle->y0 = (ribbon->screen[j] >> 16) + ribbon->width_y[j];
+                triangle->x1 = ribbon->screen[j + 1];
+                triangle->y1 = ribbon->screen[j + 1] >> 16;
+                triangle->x2 = ribbon->screen[j] - ribbon->width_x[j];
+                triangle->y2 = (ribbon->screen[j] >> 16) - ribbon->width_y[j];
                 triangle->r0 = colors->color[0].r;
                 triangle->g0 = colors->color[0].r;
                 triangle->b0 = colors->color[0].r;

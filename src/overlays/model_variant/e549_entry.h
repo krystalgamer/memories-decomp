@@ -22,7 +22,7 @@ typedef struct {
 typedef struct {
     ModelVariantScaledStrip strips[1];
     ModelVariantQuadSheet quads[1];
-    ModelVariantRibbonSpan ribbon_spans[8];
+    ModelVariantOffsetRay ribbon_spans[8];
     ModelVariantConeRings ribbons[3];
     ModelVariantColorRing rings[4];
     ModelVariantShadedRay rays[16];
