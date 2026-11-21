@@ -1729,6 +1729,40 @@ typedef struct {
     s32 elapsed, updates;
 } ModelVariantTravelBurstState;
 
+/* One 0x22-byte command row of headers 154 and 169 (169 is the 154 effect
+ * without the closing grid burst), picked by command % 100: the trail, ring,
+ * beam and burst colours, the slot part the effect starts from, the grid
+ * half size, the ring radius and the burst ring's extra radius and depth,
+ * the cycle length, the flash and burst durations, the cycle count, the
+ * start time and the flash start time. */
+typedef struct {
+    u8 red, green, blue;
+    u8 ring_red, ring_green, ring_blue;
+    u8 beam_red, beam_green, beam_blue;
+    u8 burst_red, burst_green, burst_blue;
+    u8 part, unknown_D;
+    s16 size, radius, spread, depth, period, flash, burst, count, delay, flash_delay;
+} ModelVariantGridBeamConfig;
+
+/* The 0x4C0-byte work area of headers 154 and 169: the command row, an
+ * 8-entry trail ring buffer (the pad word marks a travelling entry), a 5 x 5
+ * grid mesh, a 17-point ring, a 66-point double ring, the corner pointers of
+ * the grid's 16 quads, the burst heading, three texture words, the
+ * completion flag, the trail head, the elapsed time and a frame count. */
+typedef struct {
+    ModelVariantGridBeamConfig *config;
+    SVECTOR trail[8];
+    SVECTOR grid[25];
+    SVECTOR ring[17];
+    SVECTOR rings[66];
+    SVECTOR *quads[16][4];
+    s16 heading, unknown_4A6;
+    u32 texture[3];
+    u8 completed, head, unknown_4B6[2];
+    s32 elapsed;
+    s32 frames;
+} ModelVariantGridBeamState;
+
 /* The RotTransPers outputs the header-408 and 475 entries use to measure the
  * screen offset from an origin to a target: both packed screen points, and
  * the interpolation value and flag the two calls share. */

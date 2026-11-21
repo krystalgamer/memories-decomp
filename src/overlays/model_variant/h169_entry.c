@@ -11,7 +11,7 @@
 
 static const VECTOR gModelVariant169_UnitScale = {4096, 4096, 4096, 0};
 
-s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
+s32 ModelVariant169_HandleRequest(ModelVariantGridBeamState *context, s32 command)
 {
     MATRIX base, matrix;
     POLY_FT4 quad;
@@ -23,8 +23,8 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
     DVECTOR screen[66];
     u16 depths[66], projection[66], flags[66];
     long flag, interpolation;
-    Model169State *work;
-    Model169Config *config;
+    ModelVariantGridBeamState *work;
+    ModelVariantGridBeamConfig *config;
     s32 direction;
     GsOT *ot;
     s32 step;
@@ -47,10 +47,10 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
         config = work->config = &gModelVariant169_aConfigs[command % 100];
         for (i = 0; i < 5; i++) {
             for (j = 0; j < 5; j++) {
-                value = config->grid_size;
+                value = config->size;
                 point->vx = value * (j << 1) / 4 - value;
-                point->vy = config->grid_size * (i << 1) / 4 - config->grid_size;
-                point->vz = direction * config->grid_size / 4 * csin(j << 9) / 4096 * csin(i << 9) / 4096;
+                point->vy = config->size * (i << 1) / 4 - config->size;
+                point->vz = direction * config->size / 4 * csin(j << 9) / 4096 * csin(i << 9) / 4096;
                 point++;
             }
         }
@@ -70,7 +70,7 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
             point++;
             previous++;
         }
-        point = work->beam_ring;
+        point = work->ring;
         value = config->radius * 2 / 3;
         for (i = 0; i < 17; i++) {
             point->vx = value * ccos(i << 8) / 4096;
@@ -85,22 +85,22 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
             point->vz = 0;
             point++;
         }
-        value = config->radius + config->ring_width;
+        value = config->radius + config->spread;
         for (i = 0; i < 33; i++) {
             point->vx = value * ccos(i << 7) / 4096;
             point->vy = value * csin(i << 7) / 4096;
             point->vz = -direction * config->depth;
             point++;
         }
-        work->cursor = 0;
+        work->head = 0;
         for (i = 0; i < 3; i++) {
             work->texture[i] = ModelTexture_PackPageClutCopy(Model_GetActiveSlotIndex(), 1, &gModelVariant169_aImages[i]);
         }
         work->elapsed = 0;
-        work->frame = 0;
+        work->frames = 0;
         work->completed = 0;
 #ifndef VERSION_FRENCH
-        printf("%d (0x%x) Byte\n", sizeof(Model169State), sizeof(Model169State));
+        printf("%d (0x%x) Byte\n", sizeof(ModelVariantGridBeamState), sizeof(ModelVariantGridBeamState));
 #endif
         return 0;
     }
@@ -138,8 +138,8 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
          */
         value = ratan2(-350 - vertices[0].vy, direction * 450 - vertices[0].vz) + ((Model_GetActiveSlotIndex() ^ 1) << 11);
         setVector(&rotation, value, 0, 0);
-        point = &work->trail[work->cursor];
-        previous = &work->trail[(work->cursor + 7) % 8];
+        point = &work->trail[work->head];
+        previous = &work->trail[(work->head + 7) % 8];
         if (t % (config->period + 16) < config->period) {
             point->vx = previous->vx;
             point->vy = previous->vy;
@@ -156,17 +156,17 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
             point->vz = matrix.t[2];
             point->pad = 0;
         }
-        work->cursor = (work->cursor + 1) % 8;
+        work->head = (work->head + 1) % 8;
         for (k = 0; k < 8; k++) {
-            point = &work->trail[(work->cursor + k) % 8];
+            point = &work->trail[(work->head + k) % 8];
             if (point->pad != 0) {
                 value = t % (config->period + 16) - (8 - k) * 2;
                 zoom = value * 2048 / config->period + 2048;
                 zoom = zoom < 0 ? 0 : zoom > 0x3000 ? 0x3000 : zoom;
                 setVector(&scale, zoom, zoom, zoom);
-                red = config->trail_red * k / 8;
-                green = config->trail_green * k / 8;
-                blue = config->trail_blue * k / 8;
+                red = config->red * k / 8;
+                green = config->green * k / 8;
+                blue = config->blue * k / 8;
                 setRGB0(&quad, red, green, blue);
                 position.vx = point->vx;
                 position.vy = point->vy;
@@ -207,20 +207,20 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
         setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
         SetSemiTrans(&quad, 1);
         setVector(&rotation, 0, 0, t << 7);
-        value = (work->frame % 2 << 8) + 2048;
+        value = (work->frames % 2 << 8) + 2048;
         setVector(&scale, value, value, value);
         GsSetLsMatrix(&base);
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         setVector(&position, matrix.t[0], matrix.t[1], matrix.t[2]);
         if (t < (config->period + 16) * (config->count - 1)) {
-            red = config->sprite_red;
-            green = config->sprite_green;
-            blue = config->sprite_blue;
+            red = config->ring_red;
+            green = config->ring_green;
+            blue = config->ring_blue;
         } else {
             value = (config->period + 16) * config->count - t;
-            red = config->sprite_red * value / (config->period + 16);
-            green = config->sprite_green * value / (config->period + 16);
-            blue = config->sprite_blue * value / (config->period + 16);
+            red = config->ring_red * value / (config->period + 16);
+            green = config->ring_green * value / (config->period + 16);
+            blue = config->ring_blue * value / (config->period + 16);
         }
         setRGB0(&quad, red, green, blue);
         GsSetLsMatrix(&base);
@@ -272,7 +272,7 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
         MulMatrix2(&base, &matrix);
         ScaleMatrix(&matrix, &scale);
         GsSetLsMatrix(&matrix);
-        RotTransPersN(work->beam_ring, screen, depths, projection, flags, 17);
+        RotTransPersN(work->ring, screen, depths, projection, flags, 17);
         value = 1;
         for (i = 0; i < k; i++) {
             if (i < k - 1) {
@@ -284,7 +284,7 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
                 position.vy = vertices[1].vy;
                 position.vz = vertices[1].vz;
             }
-            zoom = ((work->frame % 2 << 8) + 2048) * (i + 1) / k + 2048;
+            zoom = ((work->frames % 2 << 8) + 2048) * (i + 1) / k + 2048;
             setVector(&scale, zoom, zoom, zoom);
             GsSetLsMatrix(&base);
             RotTrans(&position, (VECTOR *)matrix.t, &flag);
@@ -294,7 +294,7 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
             GsSetLsMatrix(&matrix);
             zoom = value * 17;
             other = (value ^ 1) * 17;
-            RotTransPersN(work->beam_ring, &screen[zoom], &depths[zoom], &projection[zoom], &flags[zoom], 17);
+            RotTransPersN(work->ring, &screen[zoom], &depths[zoom], &projection[zoom], &flags[zoom], 17);
             sa = &screen[other];
             sb = &screen[zoom];
             da = &depths[other];
@@ -329,18 +329,18 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
         setUV4(&quad, 48, 0, 111, 0, 48, 63, 111, 63);
         SetSemiTrans(&quad, 1);
         setVector(&rotation, 0, 0, t << 7);
-        value = (work->frame % 2 << 10) + 4096;
+        value = (work->frames % 2 << 10) + 4096;
         setVector(&position, 0, -350, direction * 450);
         setVector(&scale, value, value, value);
         if (t < (config->period + 16) * (config->count - 1)) {
-            red = config->sprite_red;
-            green = config->sprite_green;
-            blue = config->sprite_blue;
+            red = config->ring_red;
+            green = config->ring_green;
+            blue = config->ring_blue;
         } else {
             value = (config->period + 16) * config->count - t;
-            red = config->sprite_red * value / (config->period + 16);
-            green = config->sprite_green * value / (config->period + 16);
-            blue = config->sprite_blue * value / (config->period + 16);
+            red = config->ring_red * value / (config->period + 16);
+            green = config->ring_green * value / (config->period + 16);
+            blue = config->ring_blue * value / (config->period + 16);
         }
         setRGB0(&quad, red, green, blue);
         GsSetLsMatrix(&base);
@@ -359,25 +359,25 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
         GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(), config->part), &matrix);
         setVector(&vertices[1], 0, -350, direction * 450);
         setVector(&vertices[0], matrix.t[0], matrix.t[1], matrix.t[2]);
-        work->angle = ratan2(vertices[0].vy - vertices[1].vy, vertices[1].vz - vertices[0].vz) + ((Model_GetActiveSlotIndex() ^ 1) << 11);
+        work->heading = ratan2(vertices[0].vy - vertices[1].vy, vertices[1].vz - vertices[0].vz) + ((Model_GetActiveSlotIndex() ^ 1) << 11);
     }
     burst.tpage = work->texture[0] >> 16;
     burst.clut = work->texture[0];
     setUV4(&burst, 0, 80, 31, 80, 0, 207, 31, 207);
     SetSemiTrans(&burst, 1);
-    setVector(&rotation, work->angle, 0, 0);
+    setVector(&rotation, work->heading, 0, 0);
     setVector(&position, 0, -350, direction * 450);
     for (i = 0; i < config->count; i++) {
         t = work->elapsed - config->delay - (config->period + 16) * i - config->period;
-        if (t >= 0 && t < config->ring_duration) {
-            value = (t << 12) / config->ring_duration + 4096;
+        if (t >= 0 && t < config->burst) {
+            value = (t << 12) / config->burst + 4096;
             setVector(&scale, value, value, value);
-            red = ((config->ring_duration - t) << 7) / config->ring_duration;
+            red = ((config->burst - t) << 7) / config->burst;
             setRGB0(&burst, red, red, red);
             setRGB1(&burst, red, red, red);
-            red = config->ring_red * (config->ring_duration - t) / config->ring_duration;
-            green = config->ring_green * (config->ring_duration - t) / config->ring_duration;
-            blue = config->ring_blue * (config->ring_duration - t) / config->ring_duration;
+            red = config->burst_red * (config->burst - t) / config->burst;
+            green = config->burst_green * (config->burst - t) / config->burst;
+            blue = config->burst_blue * (config->burst - t) / config->burst;
             setRGB2(&burst, red, green, blue);
             setRGB3(&burst, red, green, blue);
             GsSetLsMatrix(&base);
@@ -410,16 +410,16 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
         }
     }
     t = work->elapsed - config->flash_delay;
-    if (t >= 0 && t < config->flash_duration) {
+    if (t >= 0 && t < config->flash) {
         setXY4(&flash, 0, 0, GRAPHICS_DEFAULT_WIDTH, 0, 0, GRAPHICS_DEFAULT_HEIGHT,
             GRAPHICS_DEFAULT_WIDTH, GRAPHICS_DEFAULT_HEIGHT);
-        red = (config->flash_duration - t) * 255 / config->flash_duration;
+        red = (config->flash - t) * 255 / config->flash;
         setRGB0(&flash, red, red, red);
         Graphics_SubmitDrawModePacket((u32 *)&flash, ot, 1, 1);
     }
     PopMatrix();
     work->elapsed += step;
-    work->frame++;
+    work->frames++;
     t = work->elapsed - config->delay - config->period;
     if (t < 0) {
         return 0;
@@ -428,7 +428,7 @@ s32 ModelVariant169_HandleRequest(Model169State *context, s32 command)
     if (t < 0) {
         return 4;
     }
-    if (t >= config->ring_duration) {
+    if (t >= config->burst) {
         return 2;
     }
     if (work->completed != 0) {
