@@ -2,6 +2,7 @@
 #define FRENCH_MODEL_IMAGE168264_ENTRY_H
 
 #include "../../types.h"
+#include "model_variant.h"
 #include "../../game/graphics_packet_submission.h"
 #include "../../game/model_scene_runtime.h"
 #include "../../game/model_camera_effects.h"
@@ -15,37 +16,8 @@
 #include "../../psyq/sdk_internal.h"
 #include "../../psyq/string.h"
 
-typedef struct {
-    u8 ray_rgb[3];
-    u8 particle_rgb[3];
-    u8 parts[16];
-    s16 radius_range;
-    s16 ray_width;
-    s16 radius_base;
-    s16 tint_duration;
-    s16 ray_duration;
-    s16 particle_duration;
-    s16 animation_anchor;
-    s16 delay;
-    s16 starts[16];
-} Image168264Config;
-
-typedef struct {
-    Image168264Config *config;
-    SVECTOR origins[16];
-    SVECTOR particles[64];
-    s32 ray_scales[64];
-    u8 phase;
-    u8 unknown_385[3];
-    u32 textures[2];
-    s32 elapsed;
-    u8 notified;
-    u8 unknown_395[3];
-    s32 tint_enabled;
-} Image168264State;
-
 extern VECTOR gFrenchModelVariant146_UnitScale;
 extern GsIMAGE gFrenchModelVariant146_aImages[2];
-extern Image168264Config gFrenchModelVariant146_aConfigs[];
+extern ModelVariantFanShellConfig gFrenchModelVariant146_aConfigs[];
 
 #endif

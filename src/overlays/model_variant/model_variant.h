@@ -1764,6 +1764,39 @@ typedef struct {
     s32 elapsed;
 } ModelVariantRisingBurstState;
 
+/* One 0x46-byte command row of header 129 (French header 146), picked by
+ * command % 100: the fan and dot colours, the slot part each of up to
+ * sixteen points starts from, the fan height (also the random spread of the
+ * dot shell) and width, the dot shell radius, the slot animation window, the
+ * fan and dot durations, the animation start, the delay and the start times
+ * of the points, ended by a negative one. */
+typedef struct {
+    u8 red, green, blue, box_red, box_green, box_blue;
+    u8 parts[16];
+    s16 height;
+    s16 width;
+    s16 radius;
+    s16 anim_span;
+    s16 fan_duration, box_duration, anim_start, delay;
+    s16 starts[16];
+} ModelVariantFanShellConfig;
+
+/* The 0x39C-byte work area of header 129 (French header 146): the command
+ * row, the sixteen point positions, the 64 dots of the shell and their fan
+ * scales, the camera step counter, the two texture words, the elapsed time,
+ * the number of points started and the tint flag. */
+typedef struct {
+    ModelVariantFanShellConfig *config;
+    SVECTOR positions[16];
+    SVECTOR dots[64];
+    s32 scales[64];
+    u8 camera_steps, unknown_385[3];
+    u32 texture[2];
+    s32 elapsed;
+    u8 started, unknown_395[3];
+    s32 tint;
+} ModelVariantFanShellState;
+
 /* One 0x22-byte command row of headers 154 and 169 (169 is the 154 effect
  * without the closing grid burst), picked by command % 100: the trail, ring,
  * beam and burst colours, the slot part the effect starts from, the grid

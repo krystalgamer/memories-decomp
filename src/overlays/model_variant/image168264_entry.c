@@ -1,9 +1,9 @@
 #include "../../types.h"
 #include "image168264_entry.h"
 
-s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
+s32 FrenchModelVariant146_HandleRequest(ModelVariantFanShellState *context, s32 command)
 {
-    Image168264State *state;
+    ModelVariantFanShellState *state;
     MATRIX light;
     MATRIX matrix;
     POLY_FT4 unused;
@@ -30,7 +30,7 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
     s32 elevation;
     u16 red, green, blue;
     s32 other;
-    Image168264Config *config;
+    ModelVariantFanShellConfig *config;
     SVECTOR *position;
     long depth;
 
@@ -42,16 +42,16 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
     step = Model_GetFrameStep();
     if (command >= 0) {
         config = state->config = &gFrenchModelVariant146_aConfigs[command % 100];
-        position = state->origins;
+        position = state->positions;
         for (j = 0; j < 16; position++, j++) {
             setVector(position, 0, 0, 0);
         }
         for (j = 0; j < 64; j++) {
-            state->ray_scales[j] = rand() % 4096 + 2048;
+            state->scales[j] = rand() % 4096 + 2048;
         }
-        position = state->particles;
+        position = state->dots;
         for (j = 0; j < 64; position++, j++) {
-            value = config->radius_base + rand() % config->radius_range / 2;
+            value = config->radius + rand() % config->height / 2;
             other = rand() % 4096;
             elevation = rand() % 4096;
             setVector(position,
@@ -60,16 +60,16 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
                 value * csin(elevation) / 4096);
         }
         for (j = 0; j < 2; j++) {
-            state->textures[j] = ModelTexture_PackPageClutCopy(
+            state->texture[j] = ModelTexture_PackPageClutCopy(
                 Model_GetActiveSlotIndex(), 1, &gFrenchModelVariant146_aImages[j]);
         }
-        state->phase = 2;
+        state->camera_steps = 2;
         state->elapsed = 0;
-        state->notified = 0;
+        state->started = 0;
         if (command >= 100) {
-            state->tint_enabled = 1;
+            state->tint = 1;
         } else {
-            state->tint_enabled = 0;
+            state->tint = 0;
         }
         return 0;
     }
@@ -83,9 +83,9 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
     }
     PushMatrix();
     age = Model_GetSlotAnimationFrame(Model_GetActiveSlotIndex()) -
-          config->animation_anchor;
-    if (age >= 0 && age < config->tint_duration / 2 &&
-        age % 3 < 2 && state->tint_enabled == 1) {
+          config->anim_start;
+    if (age >= 0 && age < config->anim_span / 2 &&
+        age % 3 < 2 && state->tint == 1) {
         Model_SetFrameStepOverride(1);
         tint_start.r = 96;
         tint_start.g = 96;
@@ -94,7 +94,7 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
         tint_end.g = 0;
         tint_end.b = 0;
         Model_QueueTintRequestForAllParts(Model_GetActiveSlotIndex(), 2,
-            tint_start, tint_end, config->tint_duration / 2 - age);
+            tint_start, tint_end, config->anim_span / 2 - age);
     }
     SetPolyFT4(&unused);
     SetPolyG3(&triangle);
@@ -102,7 +102,7 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
     box.attribute = 0x50000000;
     box.w = 2;
     box.h = 2;
-    position = state->origins;
+    position = state->positions;
     if (config->starts[i] >= 0) {
         do {
             age = state->elapsed - config->starts[i];
@@ -111,16 +111,16 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
                 GsGetLwUnit(Model_GetSlotDataEntry(Model_GetActiveSlotIndex(),
                     config->parts[i]), &matrix);
                 setVector(position, matrix.t[0], matrix.t[1], matrix.t[2]);
-            } else if (age < config->ray_duration) {
-                setVector(&corners[0], 0, -config->radius_range, -config->ray_width);
-                setVector(&corners[1], -config->ray_width / 2, 0, 0);
-                setVector(&corners[2], config->ray_width / 2, 0, 0);
-                red = config->ray_rgb[0] * (config->ray_duration - age) /
-                      config->ray_duration;
-                blue = config->ray_rgb[2] * (config->ray_duration - age) /
-                       config->ray_duration;
-                green = config->ray_rgb[1] * (config->ray_duration - age) /
-                        config->ray_duration;
+            } else if (age < config->fan_duration) {
+                setVector(&corners[0], 0, -config->height, -config->width);
+                setVector(&corners[1], -config->width / 2, 0, 0);
+                setVector(&corners[2], config->width / 2, 0, 0);
+                red = config->red * (config->fan_duration - age) /
+                      config->fan_duration;
+                blue = config->blue * (config->fan_duration - age) /
+                       config->fan_duration;
+                green = config->green * (config->fan_duration - age) /
+                        config->fan_duration;
                 setRGB0(&triangle, 0, 0, 0);
                 setRGB1(&triangle, red >> 3, green >> 3, blue >> 3);
                 setRGB2(&triangle, red, green, blue);
@@ -130,7 +130,7 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
                 for (j = 0; j < 64; j++) {
                     value = j * 64;
                     setVector(&rotation, 0, 0, value);
-                    value = state->ray_scales[j] * age / config->ray_duration;
+                    value = state->scales[j] * age / config->fan_duration;
                     setVector(&scale, value, value, value);
                     GsSetLsMatrix(&light);
                     RotTrans(&translation, (VECTOR *)matrix.t, &flag);
@@ -147,15 +147,15 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
                         Graphics_SubmitDrawModePacket((u32 *)&triangle, ot, (u16)depth, 1);
                     }
                 }
-                blue = (config->ray_duration - age) * 128 / config->ray_duration;
+                blue = (config->fan_duration - age) * 128 / config->fan_duration;
                 setRGB0(&triangle, 0, 0, 0);
                 setRGB1(&triangle, 0, 0, 0);
                 setRGB2(&triangle, blue, blue, blue);
                 for (j = 0; j < 64; j++) {
                     value = j * 64;
                     setVector(&rotation, 0, 0, value);
-                    value = (state->ray_scales[j] * 2 / 3) * age /
-                            config->ray_duration;
+                    value = (state->scales[j] * 2 / 3) * age /
+                            config->fan_duration;
                     setVector(&scale, value, value, value);
                     GsSetLsMatrix(&light);
                     RotTrans(&translation, (VECTOR *)matrix.t, &flag);
@@ -176,19 +176,19 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
             i++;
             position++;
         } while (config->starts[i] >= 0);
-        position = state->origins;
+        position = state->positions;
         for (i = 0; config->starts[i] >= 0; i++, position++) {
             age = state->elapsed - config->starts[i];
-            if (age >= 0 && age < config->particle_duration) {
-                box.r = config->particle_rgb[0] * (config->particle_duration - age) /
-                        config->particle_duration;
-                box.g = config->particle_rgb[1] * (config->particle_duration - age) /
-                        config->particle_duration;
-                box.b = config->particle_rgb[2] * (config->particle_duration - age) /
-                        config->particle_duration;
+            if (age >= 0 && age < config->box_duration) {
+                box.r = config->box_red * (config->box_duration - age) /
+                        config->box_duration;
+                box.g = config->box_green * (config->box_duration - age) /
+                        config->box_duration;
+                box.b = config->box_blue * (config->box_duration - age) /
+                        config->box_duration;
                 copyVector(&translation, position);
                 setVector(&rotation, 0, 0, 0);
-                value = age * 4096 / config->particle_duration;
+                value = age * 4096 / config->box_duration;
                 setVector(&scale, value, value, value);
                 GsSetLsMatrix(&light);
                 RotTrans(&translation, (VECTOR *)matrix.t, &flag);
@@ -196,7 +196,7 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
                 MulMatrix2(&light, &matrix);
                 ScaleMatrix(&matrix, &scale);
                 GsSetLsMatrix(&matrix);
-                RotTransPersN(state->particles, screens, depths, interpolation, flags, 64);
+                RotTransPersN(state->dots, screens, depths, interpolation, flags, 64);
                 for (j = 0; j < 64; j++) {
                     box.x = screens[j].vx;
                     box.y = screens[j].vy;
@@ -209,31 +209,31 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
         }
     }
     if (Model_GetSlotAnimationFrame(Model_GetActiveSlotIndex()) >=
-        config->animation_anchor + config->tint_duration / 2) {
+        config->anim_start + config->anim_span / 2) {
         value = Model_GetActiveSlotIndex();
         other = Model_GetActiveSlotIndex() ^ 1;
         setVector(&corners[0], 0, 0, 0);
-        switch (state->phase) {
+        switch (state->camera_steps) {
         case 0:
             Model_RequestCameraMoveToSlots(1, -1, -1, 0);
             break;
         case 1:
             Model_SetCameraOrbitFromPreset(Model_GetActiveSlotIndex(), 1, &corners[0]);
-            state->elapsed = config->animation_anchor * 2;
+            state->elapsed = config->anim_start * 2;
             Model_SeekSlotAnimation(value, Model_GetSlotAnimationIndex(value),
-                                   config->animation_anchor);
+                                   config->anim_start);
             Model_SeekSlotAnimation(other, 1, 0);
-            state->notified = 0;
-            state->phase--;
+            state->started = 0;
+            state->camera_steps--;
             break;
         case 2:
             Model_SetCameraOrbitFromPreset(Model_GetActiveSlotIndex(), 0, &corners[0]);
-            state->elapsed = config->animation_anchor * 2;
+            state->elapsed = config->anim_start * 2;
             Model_SeekSlotAnimation(value, Model_GetSlotAnimationIndex(value),
-                                   config->animation_anchor);
+                                   config->anim_start);
             Model_SeekSlotAnimation(other, 1, 0);
-            state->notified = 0;
-            state->phase--;
+            state->started = 0;
+            state->camera_steps--;
             break;
         }
     }
@@ -244,14 +244,14 @@ s32 FrenchModelVariant146_HandleRequest(Image168264State *context, s32 command)
         for (j = 0; config->starts[j] >= 0; j++) {
             age = state->elapsed - config->starts[j];
         }
-        if (age >= config->particle_duration) {
+        if (age >= config->box_duration) {
             return 2;
         }
         for (j = 0; config->starts[j] >= 0; j++) {
             age = state->elapsed - config->starts[j];
-            if (age >= 0 && state->notified == j) {
-                state->notified = j + 1;
-                if (config->starts[state->notified] < 0) {
+            if (age >= 0 && state->started == j) {
+                state->started = j + 1;
+                if (config->starts[state->started] < 0) {
                     return 1;
                 }
                 return 4;

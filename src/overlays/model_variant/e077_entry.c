@@ -9,9 +9,9 @@
  * slots once the animation passes its midpoint. A negative command draws a
  * frame; any other command sets the work area up. */
 
-s32 ModelVariant129_HandleRequest(Model129State *context, s32 command)
+s32 ModelVariant129_HandleRequest(ModelVariantFanShellState *context, s32 command)
 {
-    Model129State *work;
+    ModelVariantFanShellState *work;
     MATRIX base, matrix;
     POLY_FT4 quad;
     POLY_G3 fan;
@@ -25,7 +25,7 @@ s32 ModelVariant129_HandleRequest(Model129State *context, s32 command)
     long flag, interpolation;
     s32 direction;
     GsOT *ot;
-    Model129Config *config;
+    ModelVariantFanShellConfig *config;
     s32 i, j, time, step, other;
     s32 elevation, size;
     u16 red, green, blue;
@@ -79,7 +79,7 @@ s32 ModelVariant129_HandleRequest(Model129State *context, s32 command)
     }
     PushMatrix();
     time = Model_GetSlotAnimationFrame(Model_GetActiveSlotIndex()) - config->anim_start;
-    if (time >= 0 && time < (s16)config->anim_span / 2 && time % 3 < 2 && work->tint == 1) {
+    if (time >= 0 && time < config->anim_span / 2 && time % 3 < 2 && work->tint == 1) {
         Model_SetFrameStepOverride(1);
         tint_start.r = 96;
         tint_start.g = 96;
@@ -88,7 +88,7 @@ s32 ModelVariant129_HandleRequest(Model129State *context, s32 command)
         tint_end.g = 0;
         tint_end.b = 0;
         Model_QueueTintRequestForAllParts(Model_GetActiveSlotIndex(), 2, tint_start, tint_end,
-            (s16)config->anim_span / 2 - time);
+            config->anim_span / 2 - time);
     }
     SetPolyFT4(&quad);
     SetPolyG3(&fan);
@@ -207,7 +207,7 @@ s32 ModelVariant129_HandleRequest(Model129State *context, s32 command)
             }
         }
     }
-    if (Model_GetSlotAnimationFrame(Model_GetActiveSlotIndex()) >= config->anim_start + (s16)config->anim_span / 2) {
+    if (Model_GetSlotAnimationFrame(Model_GetActiveSlotIndex()) >= config->anim_start + config->anim_span / 2) {
         size = Model_GetActiveSlotIndex();
         other = Model_GetActiveSlotIndex() ^ 1;
         setVector(&vertices[0], 0, 0, 0);
