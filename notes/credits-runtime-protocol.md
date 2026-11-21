@@ -72,8 +72,11 @@ the low credits bytes; the other protected those low bytes while editing
 height. Its ownership probe changed only the member identifier. These are
 historical observations, not a request to restore retired gameplay fixtures
 or a claim of new fixture/cloud execution.
-`ModelSlot.field_E15` remains unnamed because its consumers mix one-shot
-latches, a `0xFF` sentinel and credits counter behavior.
+`ModelSlot.effect_poll_state` (formerly `effect_poll_state`) was named from the
+`model_slot_e15_watch` trace: the battle phases poll the slot's effect
+handler while it is 0 and increment it when the handler returns 2, `0xFF`
+holds the defender until its hit-reaction row, and the credits reuse it as
+a frame counter.
 
 
 ## Resident Exodia and credits local views
@@ -93,7 +96,7 @@ the original phase. Callback types, casts, argument values, live data
 reads and one-shot/sentinel gates remain distinct and in original order.
 
 The load_slots base and later tint_slot pointer remain separate lexical
-bindings. Keep both initialization-handler calls, the two field_E15 clears,
+bindings. Keep both initialization-handler calls, the two effect_poll_state clears,
 all transfer/readiness gates and the signed tint test. Camera offsets retain
 their original eight-byte copy and per-phase component writes; no zeroing,
 fourth-halfword interpretation or cached-pose policy is added. stop_position
@@ -113,7 +116,7 @@ remainder reconstruction, optional peer coordinate and original order.
 
 The ready slot's coordinate writes remain under the null test, but the
 following Model_UpdateCoordinateUnitMatrix call STILL occurs OUTSIDE that
-test. Model_RunSlotHandlers and the field_E15 clear follow at their original
+test. Model_RunSlotHandlers and the effect_poll_state clear follow at their original
 sites. No null repair, stronger coordinate ownership, input validation,
 random-uniformity or loop-termination guarantee is introduced.
 
@@ -121,7 +124,7 @@ The credits controller distinguishes load_check_base, crossfade_base,
 active_lookup_base and fade_slot_base without merging their read sites.
 active_slot_words remains a raw s32 pointer, not a new ModelSlot local or
 changed cast/stride. slot_tick_count is the existing unsigned snapshot of
-field_E15 used by modulo/division and animation_row selection; it is NOT a
+effect_poll_state used by modulo/division and animation_row selection; it is NOT a
 universal frame duration or handler-state name. peer_slot_index retains the
 live byte index and XOR1. slot0_tint and slot1_tint retain separate aliases.
 

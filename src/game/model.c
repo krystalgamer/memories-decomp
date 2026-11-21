@@ -787,18 +787,18 @@ void Model_UpdateAnimatedBattle(void)
                 Model_QueueEffectEndpointPair(0, 0, 0x4000);
                 gModel_bActiveSlotIndex = 0;
                 effect_handlers[0](gModel_aSlots[0].variant_module_data_address, 0);
-                gModel_aSlots[0].field_E15 = 0;
+                gModel_aSlots[0].effect_poll_state = 0;
                 gModel_bPresentationPhase++;
             }
         }
         break;
     case 6:
-        if (gModel_aSlots[0].field_E15 == 0) {
+        if (gModel_aSlots[0].effect_poll_state == 0) {
             gModel_bActiveSlotIndex = 0;
             if (effect_handlers[0](gModel_aSlots[0].variant_module_data_address, -1) != 2) {
                 break;
             }
-            gModel_aSlots[0].field_E15++;
+            gModel_aSlots[0].effect_poll_state++;
         }
         if ((s8)gModel_aSlots[0].tint.bytes[0] >= 0) {
             gModel_aSlots[0].tint.bytes[0] += 2;
@@ -904,7 +904,7 @@ void Model_UpdateAnimatedBattle(void)
                 Model_StartBattleSlotAction(0);
                 gModel_bActiveSlotIndex = 1;
                 effect_handlers[defender_handler_index](gModel_aSlots[1].variant_module_data_address, 0x18E);
-                gModel_aSlots[1].field_E15 = 0xFF;
+                gModel_aSlots[1].effect_poll_state = 0xFF;
                 gModel_bPresentationPhase++;
             }
         }
@@ -926,10 +926,10 @@ void Model_UpdateAnimatedBattle(void)
         } else {
             a = 1;
         }
-        if (gModel_aSlots[1].field_E15 == 0xFF && gModel_aSlots[1].active_animation_command_row == 8) {
-            gModel_aSlots[1].field_E15 = 0;
+        if (gModel_aSlots[1].effect_poll_state == 0xFF && gModel_aSlots[1].active_animation_command_row == 8) {
+            gModel_aSlots[1].effect_poll_state = 0;
         }
-        if (gModel_aSlots[1].field_E15 == 0) {
+        if (gModel_aSlots[1].effect_poll_state == 0) {
             gModel_bActiveSlotIndex = 1;
             effect_handlers[defender_handler_index](gModel_aSlots[1].variant_module_data_address, -1);
         }
@@ -960,7 +960,7 @@ void Model_UpdateAnimatedBattle(void)
             gModel_bPresentationPhase = 0x14;
             break;
         }
-        if (gModel_aSlots[1].field_E15 == 0) {
+        if (gModel_aSlots[1].effect_poll_state == 0) {
             gModel_bActiveSlotIndex = 1;
             effect_handlers[defender_handler_index](gModel_aSlots[1].variant_module_data_address, -1);
         }
@@ -1087,7 +1087,7 @@ void Model_UpdateAnimatedBattle(void)
             Model_SetSlotTintTarget(selected_slot_index, 5, 0x80, 0x80, 0x80);
             gModel_bActiveSlotIndex = selected_slot_index;
             effect_handlers[3](selected_slot->variant_module_data_address, 0);
-            selected_slot->field_E15 = 0;
+            selected_slot->effect_poll_state = 0;
             gModel_bPresentationPhase++;
         }
         break;
@@ -1098,12 +1098,12 @@ void Model_UpdateAnimatedBattle(void)
         s32 biased_yaw;
         s32 current_yaw;
 
-        if (selected_slot->field_E15 == 0) {
+        if (selected_slot->effect_poll_state == 0) {
             gModel_bActiveSlotIndex = selected_slot_index;
             if (effect_handlers[3](selected_slot->variant_module_data_address, -1) != 2) {
                 break;
             }
-            selected_slot->field_E15++;
+            selected_slot->effect_poll_state++;
         }
         if (selected_slot->tint.bytes[0] != 0) {
             selected_slot->tint.bytes[0] -= 2;
@@ -1139,7 +1139,7 @@ void Model_UpdateAnimatedBattle(void)
                     && gModel_aSlots[1].defense_position == 0) {
                     gModel_bActiveSlotIndex = 1;
                     effect_handlers[3](gModel_aSlots[1].variant_module_data_address, 0);
-                    gModel_aSlots[1].field_E15 = 0;
+                    gModel_aSlots[1].effect_poll_state = 0;
                     gModel_bPresentationPhase = 0x19;
                     gModel_bPresentationTimer = 0;
                 } else {
@@ -1181,12 +1181,12 @@ void Model_UpdateAnimatedBattle(void)
         ModelSlot *slot_base;
 
         if (gModel_aSlots[0].metadata.prefix.values.attack_compare_value == gModel_aSlots[1].metadata.prefix.values.attack_compare_value
-            && gModel_aSlots[1].defense_position == 0 && gModel_aSlots[1].field_E15 == 0) {
+            && gModel_aSlots[1].defense_position == 0 && gModel_aSlots[1].effect_poll_state == 0) {
             gModel_bActiveSlotIndex = 1;
             if (effect_handlers[3](gModel_aSlots[1].variant_module_data_address, -1) != 2) {
                 break;
             }
-            gModel_aSlots[1].field_E15++;
+            gModel_aSlots[1].effect_poll_state++;
         }
         slot_base = gModel_aSlots;
         selected_slot = &slot_base[selected_slot_index];
@@ -1205,10 +1205,10 @@ void Model_UpdateAnimatedBattle(void)
         }
         break;
     case 31:
-        if (gModel_aSlots[1].field_E15 == 0) {
+        if (gModel_aSlots[1].effect_poll_state == 0) {
             gModel_bActiveSlotIndex = 1;
             if (effect_handlers[defender_handler_index](gModel_aSlots[1].variant_module_data_address, -2) == 2) {
-                gModel_aSlots[1].field_E15++;
+                gModel_aSlots[1].effect_poll_state++;
             }
         } else if (Model_IsCameraMoveComplete(1) != 0) {
             Model_SetSlotTintTarget(1, 5, 0x80, 0x80, 0x80);
@@ -1294,13 +1294,13 @@ void Model_UpdateExodiaPresentation(void)
     slot0_module_handler = (s32 (*)(s32, s32))(gModel_pSlot0VariantModule + 4);
     slot1_module_handler = (s32 (*)(s32, s32))(gModel_pSlot1VariantModule + 4);
     Model_SetFrameStepOverride(1);
-    if ((u32)((u8)gModel_bPresentationPhase - 8) < 2 && primary_slot->field_E15 == 0) {
+    if ((u32)((u8)gModel_bPresentationPhase - 8) < 2 && primary_slot->effect_poll_state == 0) {
         gModel_bActiveSlotIndex = 0;
         if (slot0_module_handler(gModel_Slot0VariantDataAddress, -1) == 2) {
-            primary_slot->field_E15++;
+            primary_slot->effect_poll_state++;
         }
     }
-    if (gModel_bPresentationPhase >= 10 && gModel_aSlots[1].field_E15 == 0) {
+    if (gModel_bPresentationPhase >= 10 && gModel_aSlots[1].effect_poll_state == 0) {
         gModel_bActiveSlotIndex = 0;
         if (slot1_module_handler(gModel_Slot1VariantDataAddress, -1) == 2) {
             Model_SetSlotPlaybackDirection(0, 0);
@@ -1339,8 +1339,8 @@ void Model_UpdateExodiaPresentation(void)
         gModel_bActiveSlotIndex = 0;
         slot0_module_handler(gModel_Slot0VariantDataAddress, 0);
         slot1_module_handler(gModel_Slot1VariantDataAddress, 0);
-        load_slots[0].field_E15 = 0;
-        load_slots[1].field_E15 = 0;
+        load_slots[0].effect_poll_state = 0;
+        load_slots[1].effect_poll_state = 0;
         gModel_bPresentationPhase++;
         break;
     }
@@ -1531,7 +1531,7 @@ void Model_UpdateCreditsMonsterSlot(s32 slot_index) {
             }
             Model_UpdateCoordinateUnitMatrix(ready_slot->root_coordinate, 0);
             Model_RunSlotHandlers(slot_index);
-            ready_slot->field_E15 = 0;
+            ready_slot->effect_poll_state = 0;
         }
     }
 }
@@ -1601,7 +1601,7 @@ void Model_UpdateCreditsPresentation(void)
       active_index = gModel_bCreditsActiveSlot;
       if ( load_check_base[active_index].is_active )
       {
-        if ( (gModel_aSlots[active_index].field_E15 & 3) == 0 )
+        if ( (gModel_aSlots[active_index].effect_poll_state & 3) == 0 )
         {
           active_color = gModel_aSlots[active_index].tint.bytes;
           red_sample = rand() >> 8;
@@ -1647,7 +1647,7 @@ void Model_UpdateCreditsPresentation(void)
         active_slot = &active_lookup_base[gModel_bCreditsActiveSlot];
         if ( !active_slot->active_animation_command_row )
         {
-          slot_tick_count = active_slot->field_E15;
+          slot_tick_count = active_slot->effect_poll_state;
           animation_row = -1;
           if ( !(u8)(slot_tick_count % 0x1E) )
           {
@@ -1688,7 +1688,7 @@ void Model_UpdateCreditsPresentation(void)
               Model_ControlSlotAnimation(gModel_bCreditsActiveSlot, animation_row, 1);
             }
           }
-          ++gModel_aSlots[gModel_bCreditsActiveSlot].field_E15;
+          ++gModel_aSlots[gModel_bCreditsActiveSlot].effect_poll_state;
         }
       }
       else
@@ -1701,7 +1701,7 @@ void Model_UpdateCreditsPresentation(void)
     case 1:
       crossfade_base = gModel_aSlots;
       crossfade_index = gModel_bCreditsActiveSlot;
-      if ( (crossfade_base[crossfade_index].field_E15 & 3) == 0 )
+      if ( (crossfade_base[crossfade_index].effect_poll_state & 3) == 0 )
       {
         outgoing_color = gModel_aSlots[crossfade_index].tint.bytes;
         incoming_color = gModel_aSlots[gModel_bCreditsActiveSlot ^ 1].tint.bytes;
@@ -1727,11 +1727,11 @@ void Model_UpdateCreditsPresentation(void)
           gModel_bCreditsActiveSlot ^= 1u;
         }
       }
-      ++gModel_aSlots[gModel_bCreditsActiveSlot].field_E15;
+      ++gModel_aSlots[gModel_bCreditsActiveSlot].effect_poll_state;
       break;
     case 2:
       fade_slot_base = gModel_aSlots;
-      if ( (fade_slot_base[gModel_bCreditsActiveSlot].field_E15 & 3) == 0 )
+      if ( (fade_slot_base[gModel_bCreditsActiveSlot].effect_poll_state & 3) == 0 )
       {
         slot0_tint = fade_slot_base[0].tint.bytes;
         slot1_tint = fade_slot_base[1].tint.bytes;
@@ -1757,7 +1757,7 @@ void Model_UpdateCreditsPresentation(void)
           gModel_bPresentationPhase = gModel_bPresentationPhase + 1;
         }
       }
-      ++gModel_aSlots[gModel_bCreditsActiveSlot].field_E15;
+      ++gModel_aSlots[gModel_bCreditsActiveSlot].effect_poll_state;
       break;
     case 3:
       SD_ResetMusicTrackBuffer();

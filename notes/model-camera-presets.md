@@ -170,7 +170,7 @@ Each selected_slot_index is a phase-local boolean, not a winner/loser or
 universally validated row-six slot. Earlier phases STILL use slot0 row!=6;
 later phases STILL use row==6. Opposite-slot selection keeps XOR1, including
 the first pointer captured before its readiness guard. All callback polls,
-field_E15 stores, raw sign/tint gates, tie comparisons, stone-state gates,
+effect_poll_state stores, raw sign/tint gates, tie comparisons, stone-state gates,
 timer stores/narrowing and phase publications remain in original order.
 The final tint phases name current_yaw, biased_yaw, current_distance,
 opposite_slot_index and move_magnitude without changing when remainders
