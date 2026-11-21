@@ -147,10 +147,10 @@ s32 ModelExodia_HandleSecondRequest(ExodiaSecondEntryState *point, s32 command)
             ring->field_90 = 0;
         }
         work->width = 1024;
-        work->petal_angle = 0;
-        work->field_C8E = 0;
-        work->petal_radius = 0;
-        work->field_C92 = 0;
+        work->petal.angle = 0;
+        work->petal.field_02 = 0;
+        work->petal.size = 0;
+        work->petal.shrink = 0;
         work->distance = 0;
         work->field_C9C = 0;
         work->field_CA0 = 0;
@@ -392,19 +392,19 @@ void ModelExodia_DrawPetals(ExodiaSecondEntryState *ctx)
     turn = ratan2(work->view_delta.vz, work->view_delta.vx) + 0xC00;
     arm = work->petals;
     poly = work->packets.textured;
-    radius = work->petal_radius * 4;
-    eighth = work->petal_radius / 8;
+    radius = work->petal.size * 4;
+    eighth = work->petal.size / 8;
     /* The template tests retain both products, but their assignments are dead. */
-    if (radius * work->field_C8E < 0) {
+    if (radius * work->petal.field_02 < 0) {
         length = 0;
     }
-    if (eighth * work->field_C8E < 0) {
+    if (eighth * work->petal.field_02 < 0) {
         length = 0;
     }
-    spread = 0x400 - work->field_C92;
+    spread = 0x400 - work->petal.shrink;
     for (i = 0; i < 12; i++, arm++) {
-        phi = (i << 12) / 12 + work->petal_angle * 2;
-        theta = (i << 13) / 12 + work->petal_angle;
+        phi = (i << 12) / 12 + work->petal.angle * 2;
+        theta = (i << 13) / 12 + work->petal.angle;
         for (k = 0; k < 2; k++) {
             if (!(work->frame_count & 1)) {
                 length = (k * 128 + 0x30) * spread / 1024;
@@ -525,11 +525,11 @@ void ModelExodia_DrawPetals(ExodiaSecondEntryState *ctx)
             }
         }
     }
-    work->petal_angle += work->step * 16;
-    if (work->petal_radius < 0x400) {
-        work->petal_radius += work->step * 64;
-        if (work->petal_radius >= 0x400) {
-            work->petal_radius = 0x400;
+    work->petal.angle += work->step * 16;
+    if (work->petal.size < 0x400) {
+        work->petal.size += work->step * 64;
+        if (work->petal.size >= 0x400) {
+            work->petal.size = 0x400;
         }
     }
 }

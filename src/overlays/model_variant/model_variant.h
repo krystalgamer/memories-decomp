@@ -1501,7 +1501,10 @@ typedef struct {
  * phases it spreads the arms by 0x400 - shrink; from phase 3 the spread
  * comes from the companion timing word divided by eight instead. field_02
  * stays opaque: the helpers only test it in conditions whose results are
- * overwritten before the geometry uses them, so its role is not shown. */
+ * overwritten before the geometry uses them, so its role is not shown.
+ * Header 448 (spiral_params; its helper never reads shrink) and the second
+ * Exodia entry (petal, for ModelExodia_DrawPetals) keep the same four
+ * halfwords for the same twelve-arm template. */
 typedef struct {
     s16 angle;
     s16 field_02;
