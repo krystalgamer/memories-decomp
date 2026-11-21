@@ -66,7 +66,7 @@ typedef struct {
     SVECTOR puff_velocity[1][8];
     SVECTOR debris[1][32];
     SVECTOR debris_velocity[1][32];
-    ModelVariantShockFanPoint fan[16];
+    ModelVariantRingBandPoint fan[16];
     SVECTOR sparks[1][64];
     SVECTOR chips[1][24];
     SVECTOR chip_velocity[1][24];
