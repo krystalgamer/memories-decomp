@@ -1,0 +1,127 @@
+==== USER CONTEXT ==== 
+
+
+t=6.2s "Shadow Specter" attacks "Battle Steer" which is in defense position
+t=50.2s battle ended here with no monster destroyed since "Shadow Specter" is weaker than "Battle Steer"
+t=53.2s back in the duel arena (where cards are played not the 3D battle one)
+
+
+
+t=59.7s "Black Luster Soldier" attacks "Battle Steer" which is in defense position
+t=102.9s "Black Luster Soldier" beats "Battle Steer" battle is over
+t=105.8s back in the duel arena the "Battle Steer" explodes going up in flames
+
+
+t=134.9s "Cosmo Queen" attacks "Red-Eyes Black Dragon" both in attack position, their ATK matches because of guardian start advantage
+t=179.1s "Cosmo Queen" 3D death animation after "Red-Eyes Black Dragon" attacks back
+
+Logs were cut short due to 3-minute limit but both monsters were destroyed 
+
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: model_slot_e15_watch 
+status: window ended 
+frames: 10800 rows: 98 dropped: 0 e15_changes: 14 
+ 
+t=   0.0s mode=03 phase=FF | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: start 
+t=   6.2s mode=01 phase=FF | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: mode 
+t=   8.8s mode=01 phase=01 | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase 
+t=   8.9s mode=01 phase=02 | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase 
+t=   8.9s mode=01 phase=03 | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase 
+t=  11.4s mode=01 phase=03 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=00 | changed: active_0 
+t=  12.9s mode=01 phase=04 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=00 | changed: phase 
+t=  13.9s mode=01 phase=04 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: active_1 
+t=  14.3s mode=01 phase=05 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  20.8s mode=01 phase=06 | slot0 e15=01 row=02 active=01 | slot1 e15=00 row=00 active=01 | changed: phase,e15_0,row_0 
+t=  25.4s mode=01 phase=06 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: row_0 
+t=  26.4s mode=01 phase=07 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  27.2s mode=01 phase=08 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  27.2s mode=01 phase=09 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=02 active=01 | changed: phase,row_1 
+t=  28.8s mode=01 phase=09 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: row_1 
+t=  29.8s mode=01 phase=0A | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  30.6s mode=01 phase=0B | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  32.6s mode=01 phase=0C | slot0 e15=01 row=03 active=01 | slot1 e15=FF row=00 active=01 | changed: phase,e15_1,row_0 
+t=  35.3s mode=01 phase=0C | slot0 e15=01 row=03 active=01 | slot1 e15=FF row=08 active=01 | changed: row_1 
+t=  35.3s mode=01 phase=0D | slot0 e15=01 row=03 active=01 | slot1 e15=00 row=08 active=01 | changed: phase,e15_1 
+t=  37.9s mode=01 phase=0D | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=08 active=01 | changed: row_0 
+t=  40.7s mode=01 phase=0D | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: row_1 
+t=  41.5s mode=01 phase=1E | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  43.1s mode=01 phase=1E | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=00 active=01 | changed: e15_1 
+t=  43.1s mode=01 phase=1F | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=00 active=01 | changed: phase 
+t=  46.1s mode=01 phase=20 | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=00 active=01 | changed: phase 
+t=  47.1s mode=01 phase=21 | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=00 active=01 | changed: phase 
+t=  49.2s mode=01 phase=28 | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=00 active=01 | changed: phase 
+t=  49.3s mode=01 phase=29 | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=00 active=01 | changed: phase 
+t=  50.1s mode=01 phase=FE | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=00 active=01 | changed: phase 
+t=  50.2s mode=03 phase=FE | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=00 active=01 | changed: mode 
+t=  53.2s mode=03 phase=FF | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase,e15_0,e15_1,active_0,active_1 
+t=  59.7s mode=01 phase=FF | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: mode 
+t=  62.3s mode=01 phase=01 | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase 
+t=  62.3s mode=01 phase=02 | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase 
+t=  62.4s mode=01 phase=03 | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase 
+t=  64.8s mode=01 phase=03 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=00 | changed: active_0 
+t=  66.4s mode=01 phase=04 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=00 | changed: phase 
+t=  67.4s mode=01 phase=04 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: active_1 
+t=  67.8s mode=01 phase=05 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  74.1s mode=01 phase=06 | slot0 e15=01 row=02 active=01 | slot1 e15=00 row=00 active=01 | changed: phase,e15_0,row_0 
+t=  76.2s mode=01 phase=06 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: row_0 
+t=  77.1s mode=01 phase=07 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  77.9s mode=01 phase=08 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  77.9s mode=01 phase=09 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=02 active=01 | changed: phase,row_1 
+t=  79.5s mode=01 phase=09 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: row_1 
+t=  80.5s mode=01 phase=0A | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  81.2s mode=01 phase=0B | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t=  83.3s mode=01 phase=0C | slot0 e15=01 row=03 active=01 | slot1 e15=FF row=00 active=01 | changed: phase,e15_1,row_0 
+t=  84.2s mode=01 phase=0C | slot0 e15=01 row=03 active=01 | slot1 e15=FF row=05 active=01 | changed: row_1 
+t=  87.3s mode=01 phase=0C | slot0 e15=01 row=03 active=01 | slot1 e15=FF row=06 active=01 | changed: row_1 
+t=  88.1s mode=01 phase=0D | slot0 e15=01 row=03 active=01 | slot1 e15=FF row=06 active=01 | changed: phase 
+t=  88.1s mode=01 phase=14 | slot0 e15=01 row=03 active=01 | slot1 e15=FF row=06 active=01 | changed: phase 
+t=  89.1s mode=01 phase=14 | slot0 e15=01 row=00 active=01 | slot1 e15=FF row=06 active=01 | changed: row_0 
+t=  90.1s mode=01 phase=15 | slot0 e15=01 row=00 active=01 | slot1 e15=FF row=06 active=01 | changed: phase 
+t=  90.4s mode=01 phase=16 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=06 active=01 | changed: phase,e15_1 
+t=  93.6s mode=01 phase=17 | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=06 active=01 | changed: phase,e15_1 
+t=  96.4s mode=01 phase=18 | slot0 e15=01 row=07 active=01 | slot1 e15=01 row=06 active=01 | changed: phase,row_0 
+t=  98.7s mode=01 phase=18 | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=06 active=01 | changed: row_0 
+t=  98.7s mode=01 phase=19 | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=06 active=01 | changed: phase 
+t=  99.7s mode=01 phase=1A | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=06 active=01 | changed: phase 
+t= 101.9s mode=01 phase=1B | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=06 active=01 | changed: phase 
+t= 101.9s mode=01 phase=28 | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=06 active=01 | changed: phase 
+t= 102.0s mode=01 phase=29 | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=06 active=01 | changed: phase 
+t= 102.8s mode=01 phase=FE | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=06 active=01 | changed: phase 
+t= 102.9s mode=03 phase=FE | slot0 e15=01 row=00 active=01 | slot1 e15=01 row=06 active=01 | changed: mode 
+t= 105.8s mode=03 phase=FF | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase,e15_0,e15_1,row_1,active_0,active_1 
+t= 134.9s mode=01 phase=FF | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: mode 
+t= 137.4s mode=01 phase=01 | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase 
+t= 137.5s mode=01 phase=02 | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase 
+t= 137.5s mode=01 phase=03 | slot0 e15=00 row=00 active=00 | slot1 e15=00 row=00 active=00 | changed: phase 
+t= 140.0s mode=01 phase=03 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=00 | changed: active_0 
+t= 141.5s mode=01 phase=04 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=00 | changed: phase 
+t= 142.5s mode=01 phase=04 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: active_1 
+t= 142.9s mode=01 phase=05 | slot0 e15=00 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t= 149.4s mode=01 phase=06 | slot0 e15=01 row=02 active=01 | slot1 e15=00 row=00 active=01 | changed: phase,e15_0,row_0 
+t= 153.4s mode=01 phase=06 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: row_0 
+t= 154.4s mode=01 phase=07 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t= 155.3s mode=01 phase=08 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t= 155.3s mode=01 phase=09 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=02 active=01 | changed: phase,row_1 
+t= 157.3s mode=01 phase=09 | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: row_1 
+t= 158.3s mode=01 phase=0A | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t= 158.8s mode=01 phase=0B | slot0 e15=01 row=00 active=01 | slot1 e15=00 row=00 active=01 | changed: phase 
+t= 160.8s mode=01 phase=0C | slot0 e15=01 row=03 active=01 | slot1 e15=FF row=00 active=01 | changed: phase,e15_1,row_0 
+t= 163.9s mode=01 phase=0C | slot0 e15=01 row=03 active=01 | slot1 e15=FF row=05 active=01 | changed: row_1 
+t= 163.9s mode=01 phase=0D | slot0 e15=01 row=03 active=01 | slot1 e15=FF row=05 active=01 | changed: phase 
+t= 169.2s mode=01 phase=0D | slot0 e15=01 row=00 active=01 | slot1 e15=FF row=05 active=01 | changed: row_0 
+t= 171.3s mode=01 phase=0D | slot0 e15=01 row=00 active=01 | slot1 e15=FF row=00 active=01 | changed: row_1 
+t= 171.3s mode=01 phase=0E | slot0 e15=01 row=00 active=01 | slot1 e15=FF row=00 active=01 | changed: phase 
+t= 171.3s mode=01 phase=0F | slot0 e15=01 row=00 active=01 | slot1 e15=FF row=00 active=01 | changed: phase 
+t= 173.9s mode=01 phase=10 | slot0 e15=01 row=00 active=01 | slot1 e15=FF row=03 active=01 | changed: phase,row_1 
+t= 175.5s mode=01 phase=10 | slot0 e15=01 row=05 active=01 | slot1 e15=FF row=03 active=01 | changed: row_0 
+t= 175.5s mode=01 phase=11 | slot0 e15=01 row=05 active=01 | slot1 e15=FF row=03 active=01 | changed: phase 
+t= 176.9s mode=01 phase=11 | slot0 e15=01 row=00 active=01 | slot1 e15=FF row=03 active=01 | changed: row_0 
+t= 177.5s mode=01 phase=11 | slot0 e15=01 row=05 active=01 | slot1 e15=FF row=03 active=01 | changed: row_0 
+t= 178.5s mode=01 phase=11 | slot0 e15=01 row=06 active=01 | slot1 e15=FF row=03 active=01 | changed: row_0 
+t= 178.5s mode=01 phase=14 | slot0 e15=01 row=06 active=01 | slot1 e15=FF row=03 active=01 | changed: phase 
+t= 179.1s mode=01 phase=14 | slot0 e15=01 row=06 active=01 | slot1 e15=FF row=00 active=01 | changed: row_1 
+ 
+--- end of trace, copy everything above into tools/trace/result/model_slot_e15_watch.txt --- 

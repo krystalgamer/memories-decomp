@@ -1,0 +1,258 @@
+==== USER CONTEXT ==== 
+
+First of all I had to run this multiple times because if I held for too long the trace would stop printing, so I had to shorted my presses.
+
+The game was on the overworld before the coup and started on the "Card Shop".
+t=2.8s tapped L1
+t=4.0s - 4.2s tapped L2
+
+t=5.6-5.7s tapped R1
+t=6.5-6.7s tapped R2
+
+t=10.5s - 10.7s tapped circle
+t=11.2s - 11.3s tapped triangle
+
+
+t=13.4s - 14.9s hold left direction moved into the "Duel Grounds"
+t=15.2s - 15.5s hold up going to the "Pharaoh's Palace"
+t=16.4s - 17.1s held right going into the "Shrine"
+t=17.4s - 18.2s held going to the start point aka the "Card Shop"
+
+
+t=20.1s tapped cross to go into the shop
+
+t=26.4s - 27.4s tapped down 3 times to go to "LEAVE SHOP" option
+t=28.8s tapped cross to leave the shop
+
+
+t=33.2s tapped left to go to the "Town Plaza"
+t=33.9s tapped cross to go into the plaza
+
+
+t=40.2s tapped cross to continue dialog
+t=42.2s tapped cross to continue dialog and it moved me back to the overworld
+
+
+t=45.5s tapped left to go to the "Duel Grounds"
+t=46.5s tapped cross to access the duel grounds
+
+t=54.6s tapped cross to move the dialog
+t=57.4s tapped cross to move the dialog
+t=58.4s tapped cross to move the dialog
+
+t=60.0s tapped down to go one option down
+t=60.5s tapped down to go one option down to "Go outside"
+
+
+
+t=61.2s tapped cross to accept the option
+
+
+t=64.8s - 118.4s just me pressing cross to move the story dialog along, Teana took to me the plaza where we saw Jono lose to Seto
+
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: campaign_pad_word_watch 
+status: window ended 
+frames: 7200 rows: 194 dropped: 0 
+nonzero frames: 0 equal to pressed: 0 held: 0 repeat: 0 none of them: 0 
+note: D_800C4E68 stayed zero; it may only update on the campaign map, or the game is not the North American build 
+ 
+t=   0.0s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: start 
+t=   2.8s mode=05 D_800C4E68=0000 pressed=0004 held=0004 repeat=0004 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=   2.8s mode=05 D_800C4E68=0000 pressed=0000 held=0004 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=   2.8s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=   4.0s mode=05 D_800C4E68=0000 pressed=0001 held=0001 repeat=0001 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=   4.1s mode=05 D_800C4E68=0000 pressed=0000 held=0001 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=   4.2s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=   5.6s mode=05 D_800C4E68=0000 pressed=0008 held=0008 repeat=0008 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=   5.6s mode=05 D_800C4E68=0000 pressed=0000 held=0008 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=   5.7s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=   6.5s mode=05 D_800C4E68=0000 pressed=0002 held=0002 repeat=0002 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=   6.5s mode=05 D_800C4E68=0000 pressed=0000 held=0002 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=   6.7s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  10.5s mode=05 D_800C4E68=0000 pressed=0020 held=0020 repeat=0020 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  10.6s mode=05 D_800C4E68=0000 pressed=0000 held=0020 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  10.7s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  11.2s mode=05 D_800C4E68=0000 pressed=0010 held=0010 repeat=0010 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  11.2s mode=05 D_800C4E68=0000 pressed=0000 held=0010 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  11.3s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  13.4s mode=05 D_800C4E68=0000 pressed=8000 held=8000 repeat=8000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  13.4s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  13.8s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=8000 D_800C4E74=0000 | changed: repeat_ 
+t=  13.8s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  13.8s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=8000 D_800C4E74=0000 | changed: repeat_ 
+t=  13.9s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  13.9s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=8000 D_800C4E74=0000 | changed: repeat_ 
+t=  13.9s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.0s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=8000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.0s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.1s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=8000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.1s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.1s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=8000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.2s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.2s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=8000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.2s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.2s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=8000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.3s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.3s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=8000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.3s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  14.4s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  14.9s mode=05 D_800C4E68=0000 pressed=1000 held=1000 repeat=1000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  14.9s mode=05 D_800C4E68=0000 pressed=0000 held=1000 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  15.2s mode=05 D_800C4E68=0000 pressed=0000 held=1000 repeat=1000 D_800C4E74=0000 | changed: repeat_ 
+t=  15.3s mode=05 D_800C4E68=0000 pressed=0000 held=1000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  15.3s mode=05 D_800C4E68=0000 pressed=0000 held=1000 repeat=1000 D_800C4E74=0000 | changed: repeat_ 
+t=  15.3s mode=05 D_800C4E68=0000 pressed=0000 held=1000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  15.4s mode=05 D_800C4E68=0000 pressed=0000 held=1000 repeat=1000 D_800C4E74=0000 | changed: repeat_ 
+t=  15.4s mode=05 D_800C4E68=0000 pressed=0000 held=1000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  15.4s mode=05 D_800C4E68=0000 pressed=0000 held=1000 repeat=1000 D_800C4E74=0000 | changed: repeat_ 
+t=  15.5s mode=05 D_800C4E68=0000 pressed=0000 held=1000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  15.5s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  16.4s mode=05 D_800C4E68=0000 pressed=2000 held=2000 repeat=2000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  16.4s mode=05 D_800C4E68=0000 pressed=0000 held=2000 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  16.8s mode=05 D_800C4E68=0000 pressed=0000 held=2000 repeat=2000 D_800C4E74=0000 | changed: repeat_ 
+t=  16.8s mode=05 D_800C4E68=0000 pressed=0000 held=2000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  16.8s mode=05 D_800C4E68=0000 pressed=0000 held=2000 repeat=2000 D_800C4E74=0000 | changed: repeat_ 
+t=  16.9s mode=05 D_800C4E68=0000 pressed=0000 held=2000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  16.9s mode=05 D_800C4E68=0000 pressed=0000 held=2000 repeat=2000 D_800C4E74=0000 | changed: repeat_ 
+t=  16.9s mode=05 D_800C4E68=0000 pressed=0000 held=2000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  16.9s mode=05 D_800C4E68=0000 pressed=0000 held=2000 repeat=2000 D_800C4E74=0000 | changed: repeat_ 
+t=  17.0s mode=05 D_800C4E68=0000 pressed=0000 held=2000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  17.0s mode=05 D_800C4E68=0000 pressed=0000 held=2000 repeat=2000 D_800C4E74=0000 | changed: repeat_ 
+t=  17.1s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held,repeat_ 
+t=  17.4s mode=05 D_800C4E68=0000 pressed=4000 held=4000 repeat=4000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  17.4s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  17.8s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=4000 D_800C4E74=0000 | changed: repeat_ 
+t=  17.8s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  17.8s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=4000 D_800C4E74=0000 | changed: repeat_ 
+t=  17.9s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  17.9s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=4000 D_800C4E74=0000 | changed: repeat_ 
+t=  17.9s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  17.9s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=4000 D_800C4E74=0000 | changed: repeat_ 
+t=  18.0s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  18.0s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=4000 D_800C4E74=0000 | changed: repeat_ 
+t=  18.1s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  18.1s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=4000 D_800C4E74=0000 | changed: repeat_ 
+t=  18.1s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  18.1s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=4000 D_800C4E74=0000 | changed: repeat_ 
+t=  18.2s mode=05 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: repeat_ 
+t=  18.2s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  20.1s mode=05 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  20.1s mode=05 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  20.2s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  22.3s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: mode 
+t=  25.6s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  25.6s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  25.7s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  26.4s mode=02 D_800C4E68=0000 pressed=4000 held=4000 repeat=4000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  26.4s mode=02 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  26.6s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  26.7s mode=02 D_800C4E68=0000 pressed=4000 held=4000 repeat=4000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  26.7s mode=02 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  26.8s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  27.2s mode=02 D_800C4E68=0000 pressed=4000 held=4000 repeat=4000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  27.2s mode=02 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  27.4s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  28.6s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  28.7s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  28.8s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  28.9s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: mode 
+t=  33.2s mode=05 D_800C4E68=0000 pressed=8000 held=8000 repeat=8000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  33.2s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  33.9s mode=05 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  33.9s mode=05 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  34.0s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  36.1s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: mode 
+t=  40.2s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  40.2s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  40.3s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  42.2s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  42.2s mode=05 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: mode,pressed,repeat_ 
+t=  42.3s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  45.5s mode=05 D_800C4E68=0000 pressed=8000 held=8000 repeat=8000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  45.5s mode=05 D_800C4E68=0000 pressed=0000 held=8000 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  45.5s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  46.5s mode=05 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  46.5s mode=05 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  46.6s mode=05 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  48.7s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: mode 
+t=  54.6s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  54.6s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  54.7s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  57.4s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  57.4s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  57.5s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  58.9s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  58.9s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  59.0s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  60.0s mode=02 D_800C4E68=0000 pressed=4000 held=4000 repeat=4000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  60.1s mode=02 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  60.2s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  60.5s mode=02 D_800C4E68=0000 pressed=4000 held=4000 repeat=4000 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  60.5s mode=02 D_800C4E68=0000 pressed=0000 held=4000 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  60.6s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  61.2s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  61.3s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  61.4s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  64.8s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  64.8s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  64.8s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  66.5s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  66.5s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  66.6s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  68.3s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  68.3s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  68.4s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  74.9s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  74.9s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  75.0s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  77.6s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  77.6s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  77.7s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  80.9s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  80.9s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  81.0s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  82.7s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  82.7s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  82.7s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  85.5s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  85.5s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  85.5s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  88.6s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  88.6s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  88.7s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  91.5s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  91.5s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  91.6s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  93.3s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  93.3s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  93.4s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t=  96.8s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t=  96.8s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t=  96.8s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t= 101.4s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t= 101.5s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t= 101.5s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t= 104.8s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t= 104.8s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t= 104.8s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t= 108.3s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t= 108.3s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t= 108.4s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t= 110.2s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t= 110.2s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t= 110.3s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t= 113.8s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t= 113.8s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t= 113.9s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t= 115.8s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t= 115.8s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t= 115.9s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+t= 118.3s mode=02 D_800C4E68=0000 pressed=0040 held=0040 repeat=0040 D_800C4E74=0000 | changed: pressed,held,repeat_ 
+t= 118.3s mode=02 D_800C4E68=0000 pressed=0000 held=0040 repeat=0000 D_800C4E74=0000 | changed: pressed,repeat_ 
+t= 118.4s mode=02 D_800C4E68=0000 pressed=0000 held=0000 repeat=0000 D_800C4E74=0000 | changed: held 
+ 
+--- end of trace, copy everything above into tools/trace/result/campaign_pad_word_watch.txt --- 

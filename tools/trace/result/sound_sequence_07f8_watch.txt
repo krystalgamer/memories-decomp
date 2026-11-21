@@ -1,0 +1,37 @@
+==== USER CONTEXT ==== 
+
+The screen I visited in this order were: Title Screen, Main Menu (before loading the save), Main Menu (after save loaded), Free Duel, Deck Build (after choosing opponent) and finally the match area.
+
+t= 0.0s printed as soon I injected the script
+t= 11.3s and 12.2s printed while the fade transition to the Free Duel Screen and the main menu theme stopped
+t= 13.3s the free duel menu music started playing
+t= 20.2s free duel menu music stopped when I chose the opponent (also played the choosing sound effect)
+t= 21.9s during the transition to deck build screen, no music was played
+t= 23.1s the deck build music started playing
+t= 34.9s printed when the cards started coming to my hand playing the "swoosh" effect
+t= 36.1 free duel battle music started playing
+
+
+Nothing else was printed. For every action there's usually a sound effect and it seems nothing triggered. I played trap cards (Widespread Ruin) and Magic Cards (Dian Keto) and even their effects didn't trigger any trace.
+
+Also I don't think 3 minutes is long enough for the music to loop.
+
+ 
+==== TRACE RESULT ===== 
+ 
+script: sound_sequence_07f8_watch 
+status: window ended 
+frames: 10800 rows: 9 dropped: 0 
+field_07F8 values seen: 0000 
+ 
+t=   0.0s mode=00 field_07F8=0000 tracks=0001 live=1 timebase=01E0 token=0000 seq_state=0001 source=801EBE70 ticks=199 | changed: start 
+t=  11.3s mode=06 field_07F8=0000 tracks=0001 live=1 timebase=01E0 token=0000 seq_state=0001 source=801EBE70 ticks=1527 | changed: mode 
+t=  12.2s mode=06 field_07F8=0000 tracks=0001 live=0 timebase=01E0 token=FFFF seq_state=0000 source=801EBE70 ticks=1632 | changed: token,seqstate,live 
+t=  13.3s mode=06 field_07F8=0000 tracks=0001 live=1 timebase=01E0 token=0000 seq_state=0001 source=801EC670 ticks=4 | changed: token,seqstate,source,live 
+t=  20.2s mode=03 field_07F8=0000 tracks=0001 live=1 timebase=01E0 token=0000 seq_state=0001 source=801EC670 ticks=1952 | changed: mode 
+t=  21.9s mode=03 field_07F8=0000 tracks=0001 live=0 timebase=01E0 token=FFFF seq_state=0000 source=801EC670 ticks=2417 | changed: token,seqstate,live 
+t=  23.1s mode=03 field_07F8=0000 tracks=0001 live=1 timebase=01E0 token=0000 seq_state=0001 source=801ED070 ticks=3 | changed: token,seqstate,source,live 
+t=  34.9s mode=03 field_07F8=0000 tracks=0001 live=0 timebase=01E0 token=FFFF seq_state=0000 source=801ED070 ticks=2824 | changed: token,seqstate,live 
+t=  36.1s mode=03 field_07F8=0000 tracks=0001 live=1 timebase=01E0 token=0000 seq_state=0001 source=801ED870 ticks=4 | changed: token,seqstate,source,live 
+ 
+--- end of trace, copy everything above into tools/trace/result/sound_sequence_07f8_watch.txt --- 
