@@ -7,11 +7,11 @@ SafetyInit = 0x801680F4; // type:func
 SafetySync = 0x80168160; // type:func
 SafetyPollResult = 0x80168A98; // type:func
 SafetySendCommand = 0x80168C6C; // type:func
-SafetyCheck2 = 0x80168D5C; // type:func
-SafetyCheck3 = 0x80168EC8; // type:func
-SafetyCheck4 = 0x8016903C; // type:func
+SafetyShowWarningAndExit = 0x80168D5C; // type:func
+SafetyDrawText = 0x80168EC8; // type:func
+SafetyDrawGlyph = 0x8016903C; // type:func
 SafetyGetGlyphRange = 0x801691F0; // type:func
-SafetyCheck5 = 0x80169284; // type:func
+SafetyDrawProhibitionSign = 0x80169284; // type:func
 __ps_libinfo__ = 0x80169414; // size:0x8
 safechk_commands = 0x8016941C;
 // D_80169458, D_8016945C and D_80169460 are safechk_cdregs[1..3] and D_8016946D and

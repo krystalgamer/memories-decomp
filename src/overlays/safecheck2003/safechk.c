@@ -10,11 +10,11 @@
 
 /* Sony's runtime library safechk 2.0.0.3 as one translation unit, like the
  * library's single object: its .rdata (the SafetySync jump table, the two
- * warning texts and SafetyCheck5's offsets), .text, .data and .bss follow
- * each other in the module in that order. Definition order sets both the
- * .data order and, through the string literals in safechk_messages, the .rdata
- * order, so the message table comes after SafetySync. The 2.0.0.2 object
- * exports only SafetyInit and SafetySync, so the data is static. */
+ * warning texts and SafetyDrawProhibitionSign's offsets), .text, .data and
+ * .bss follow each other in the module in that order. Definition order sets
+ * both the .data order and, through the string literals in safechk_messages,
+ * the .rdata order, so the message table comes after SafetySync. The 2.0.0.2
+ * object exports only SafetyInit and SafetySync, so the data is static. */
 
 /* 'P' 's', library 28 (safechk), version 2.0.0.3. */
 static u8 __ps_libinfo__[8] = { 'P', 's', 28, 0, 0, 0, 0x20, 3 };
@@ -93,7 +93,7 @@ void SafetyInit(void)
 
 /* States that touch several bytes of one buffer take its address from one
  * of these accessors. Each integrated call ends in a label, so when
- * SafetySync_Run is integrated the inliner does not substitute the constant
+ * SafetyRunStates is integrated the inliner does not substitute the constant
  * address into every access, and cse keeps it in one register as in retail. */
 static inline u8 *SafetySync_Results(void)
 {
@@ -117,7 +117,7 @@ static inline u8 *SafetySync_Params(void)
  * gets loop notes instead: loop.c hoists the -1, -2, 1 and 17 compare
  * constants into saved registers, and flow's loop-depth weighting reorders the
  * registers of the state 4 BCD block. */
-static inline s32 SafetySync_Run(s32 mode, s32 ret)
+static inline s32 SafetyRunStates(s32 mode, s32 ret)
 {
     s32 t;
 
@@ -249,7 +249,7 @@ static inline s32 SafetySync_Run(s32 mode, s32 ret)
             ret = -1;
             break;
         case -1:
-            SafetyCheck2();
+            SafetyShowWarningAndExit();
             break;
         case 1:
             {
@@ -443,7 +443,7 @@ static inline s32 SafetySync_Run(s32 mode, s32 ret)
             safechk_state = 1;
             break;
         case 1:
-            SafetyCheck2();
+            SafetyShowWarningAndExit();
         case 0:
         default:
             ret = 16;
@@ -502,13 +502,13 @@ static inline s32 SafetySync_Run(s32 mode, s32 ret)
         break;
     }
     if (mode == 0 && ret != 0)
-        return SafetySync_Run(mode, ret);
+        return SafetyRunStates(mode, ret);
     return ret;
 }
 
 s32 SafetySync(s32 mode)
 {
-    return SafetySync_Run(mode, 0);
+    return SafetyRunStates(mode, 0);
 }
 
 /* Polls the controller for command N's responses: 0 while none has arrived
@@ -617,15 +617,16 @@ static SafechkMessage safechk_messages[2] = {
       "     CALL 1-888-780-7690" },
 };
 
-/* Frame outline offsets; the .data padding after them rounds the section to
- * sixteen bytes. */
+/* Quarter-circle offsets of the prohibition sign's ring: column 0 traces
+ * radius 64, column 1 radius 54. The .data padding after them rounds the
+ * section to sixteen bytes. */
 static u8 safechk_coords[17][2] = {
     { 0, 0 }, { 6, 5 }, { 12, 10 }, { 18, 15 }, { 24, 20 }, { 30, 25 }, { 35, 30 }, { 40, 34 },
     { 45, 38 }, { 49, 41 }, { 53, 44 }, { 56, 47 }, { 59, 49 }, { 61, 51 }, { 62, 52 }, { 63, 53 },
     { 64, 54 }
 };
 
-void SafetyCheck2(void)
+void SafetyShowWarningAndExit(void)
 {
     DRAWENV draw;
     DISPENV disp;
@@ -659,15 +660,17 @@ void SafetyCheck2(void)
         y = safechk_messages[safechk_message_set].y;
         rect.x = x + i;
         rect.y = y + i;
-        SafetyCheck3(safechk_messages[safechk_message_set].text, &rect, color);
+        SafetyDrawText(
+            safechk_messages[safechk_message_set].text, &rect, color
+        );
         color = 0x8000;
     }
-    SafetyCheck5();
+    SafetyDrawProhibitionSign();
     SetDispMask(1);
     exit();
 }
 
-void SafetyCheck3(u8 *str, SafechkRect *rect, s32 color)
+void SafetyDrawText(u8 *str, SafechkRect *rect, s32 color)
 {
     s32 len;
     s32 x;
@@ -688,7 +691,7 @@ void SafetyCheck3(u8 *str, SafechkRect *rect, s32 color)
         } else if (safechk_message_set == 0) {
             hi = *str++ << 8;
             glyph = (u8 *)Krom2RawAdd(*str | hi);
-            SafetyCheck4(rect, glyph, color, 7);
+            SafetyDrawGlyph(rect, glyph, color, 7);
             rect->x += rect->w + 1;
         } else if (c == ' ') {
             rect->x += 8;
@@ -696,13 +699,13 @@ void SafetyCheck3(u8 *str, SafechkRect *rect, s32 color)
             glyph = (u8 *)0xBFC7F8DE + (*str - 0x21) * 15;
             range = SafetyGetGlyphRange(glyph);
             rect->w = range - (range >> 16) + 1;
-            SafetyCheck4(rect, glyph, color, range);
+            SafetyDrawGlyph(rect, glyph, color, range);
             rect->x += rect->w + 2;
         }
     }
 }
 
-void SafetyCheck4(SafechkRect *rect, u8 *bits, s32 color, u32 range)
+void SafetyDrawGlyph(SafechkRect *rect, u8 *bits, s32 color, u32 range)
 {
     SafechkGlyphPrim prim;
     s32 x;
@@ -747,7 +750,7 @@ void SafetyCheck4(SafechkRect *rect, u8 *bits, s32 color, u32 range)
 }
 
 /* Returns the lowest (high half) and highest (low half) bit set in any row of
- * a 15-row BIOS font glyph; SafetyCheck3 derives the glyph width from it. */
+ * a 15-row BIOS font glyph; SafetyDrawText derives the glyph width from it. */
 u32 SafetyGetGlyphRange(u8 *p)
 {
     u16 max;
@@ -779,9 +782,9 @@ u32 SafetyGetGlyphRange(u8 *p)
     return (min << 16) | max;
 }
 
-void SafetyCheck5(void)
+void SafetyDrawProhibitionSign(void)
 {
-    SafechkFramePoly poly;
+    SafechkSignPoly poly;
     s32 i;
     s32 j;
     s32 k;
@@ -793,7 +796,7 @@ void SafetyCheck5(void)
     poly.code = 0x280000FF;
     for (i = 0; i < 16; i++) {
         for (j = 0; j < 4; j++) {
-            SafechkFramePoly *pp = &poly;
+            SafechkSignPoly *pp = &poly;
             s8 dir[8] = { 1, 1, -1, 1, 1, -1, -1, -1 };
 
             for (k = 0; k < 4; k++) {

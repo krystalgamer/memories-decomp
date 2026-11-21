@@ -36,7 +36,7 @@ typedef struct {
     s16 h;
 } SafechkRect;
 
-/* The glyph sprite SafetyCheck4 builds on the stack. */
+/* The glyph sprite SafetyDrawGlyph builds on the stack. */
 typedef struct {
     u32 tag;
     u32 code;
@@ -45,19 +45,19 @@ typedef struct {
     u16 data[16];
 } SafechkGlyphPrim;
 
-/* The frame polygon SafetyCheck5 builds on the stack. */
+/* The flat quad SafetyDrawProhibitionSign builds on the stack. */
 typedef struct {
     u32 tag;
     u32 code;
     u32 xy[4];
-} SafechkFramePoly;
+} SafechkSignPoly;
 
 s32 SafetyPollResult(s32 n);
 void SafetySendCommand(s32 n);
-void SafetyCheck2(void);
-void SafetyCheck3(u8 *str, SafechkRect *rect, s32 color);
-void SafetyCheck4(SafechkRect *rect, u8 *bits, s32 color, u32 range);
+void SafetyShowWarningAndExit(void);
+void SafetyDrawText(u8 *str, SafechkRect *rect, s32 color);
+void SafetyDrawGlyph(SafechkRect *rect, u8 *bits, s32 color, u32 range);
 u32 SafetyGetGlyphRange(u8 *p);
-void SafetyCheck5(void);
+void SafetyDrawProhibitionSign(void);
 
 #endif
