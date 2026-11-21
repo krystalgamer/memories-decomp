@@ -4,8 +4,10 @@ The boot sequence loads WA_MRG module `0x16` at `0x80168000` before the
 title screen. It is Sony's anti-modchip check, the runtime library safechk
 2.0.0.3, and its modules are named `safecheck2003` after that version (they
 were formerly called `apv2`).
-`Main_RunBootSequence` calls `SafetyInit` once and then calls `SafetySync(1)`
-every frame until it returns zero.
+`Main_RunBootSequence` uses its two exported entries
+(`src/overlays/safecheck2003/entrypoints.h`) in the developers' original
+form, `SafetyInit(); while (SafetySync(1));`, which calls `SafetySync(1)`
+back to back until it returns zero.
 
 | Region | Module | WA sectors | Header word |
 |---|---|---|---|
@@ -362,15 +364,15 @@ Source details that the matches depend on:
 - Loops with bounds in memory are written as `if (n) do { } while (...)`. A
   `for` loop makes 2.7 emit `blez` and an unused 8-byte frame.
 - The controller has no loop. `SafetySync` returns
-  `SafetySync_Run(arg, 0)`, a static inline function that runs the `switch`
-  and repeats by tail call (`return SafetySync_Run(arg, ret)`). GCC compiles
+  `SafetySync_Run(mode, 0)`, a static inline function that runs the `switch`
+  and repeats by tail call (`return SafetySync_Run(mode, ret)`). GCC compiles
   the tail call as a jump back to the `switch`, after the parameter copies,
   so `ret = 0` stays before the jump target. A `do { } while` or `for (;;)`
   loop gets loop notes: loop.c hoists `-1`, `-2`, `1` and `17` into saved
   registers (546 words), and even when loop.c skips the loop (a second entry
   into it), flow's loop-depth weighting of register references reorders
   local-alloc in the state 4 BCD block (8 words). A direct
-  `return SafetySync(arg)` jumps back before `ret = 0` (9 words).
+  `return SafetySync(mode)` jumps back before `ret = 0` (9 words).
 - Integration substitutes a constant array address into every access
   (`try_constants` in integrate.c), while retail loads `safechk_results`,
   `D_8016946D` and `safechk_params` once into a register (389 words).

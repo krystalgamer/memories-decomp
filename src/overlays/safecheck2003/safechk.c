@@ -111,13 +111,13 @@ static inline u8 *SafetySync_Params(void)
 }
 
 /* Runs controller states and returns the last state's result: one state if
- * ARG is nonzero, otherwise states until one returns 0. The repeat is a tail
+ * MODE is nonzero, otherwise states until one returns 0. The repeat is a tail
  * call, which GCC compiles as a jump back to the switch; RET is a parameter so
  * that its initial 0 is set before that jump target. A do/while or for loop
  * gets loop notes instead: loop.c hoists the -1, -2, 1 and 17 compare
  * constants into saved registers, and flow's loop-depth weighting reorders the
  * registers of the state 4 BCD block. */
-static inline s32 SafetySync_Run(s32 arg, s32 ret)
+static inline s32 SafetySync_Run(s32 mode, s32 ret)
 {
     s32 t;
 
@@ -501,14 +501,14 @@ static inline s32 SafetySync_Run(s32 arg, s32 ret)
         ret = 0;
         break;
     }
-    if (arg == 0 && ret != 0)
-        return SafetySync_Run(arg, ret);
+    if (mode == 0 && ret != 0)
+        return SafetySync_Run(mode, ret);
     return ret;
 }
 
-s32 SafetySync(s32 arg)
+s32 SafetySync(s32 mode)
 {
-    return SafetySync_Run(arg, 0);
+    return SafetySync_Run(mode, 0);
 }
 
 /* Polls the controller for command N's responses: 0 while none has arrived

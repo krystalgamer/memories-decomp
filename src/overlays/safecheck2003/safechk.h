@@ -2,6 +2,7 @@
 #define MEMORIES_DECOMP_OVERLAYS_SAFECHECK2003_SAFECHK_H
 
 #include "../../types.h"
+#include "entrypoints.h"
 
 /* Sony's runtime library safechk 2.0.0.3, the boot module safecheck2003
  * (WA_MRG module 0x16, loaded at 0x80168000). Offsets come from the retail
@@ -51,8 +52,6 @@ typedef struct {
     u32 xy[4];
 } SafechkFramePoly;
 
-void SafetyInit(void);
-s32 SafetySync(s32 arg);
 s32 SafetyPollResult(s32 n);
 void SafetySendCommand(s32 n);
 void SafetyCheck2(void);
