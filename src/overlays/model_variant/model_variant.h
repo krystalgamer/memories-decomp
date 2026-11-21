@@ -1798,6 +1798,52 @@ typedef struct {
     s32 tint;
 } ModelVariantFanShellState;
 
+/* One 0x2C-byte command row of header 787 (French header 804): the band and
+ * glow colours, the band and glow sizes, the camera spin, the spoke tips and
+ * their depth, the spoke count, the band and glow fade steps, and the start
+ * and camera-switch times. */
+typedef struct {
+    u8 band_r, band_g, band_b;
+    u8 glow_r, glow_g, glow_b;
+    s16 band_depth;
+    s16 band_height;
+    s16 unknown_0A;
+    s32 spin;
+    s16 glow_size;
+    s16 tip_depth;
+    s16 spoke_length;
+    s16 spoke_count;
+    s16 spoke_depth;
+    s16 unknown_1A;
+    u8 band_fade, unknown_1D;
+    u8 glow_fade, unknown_1F;
+    s32 unknown_20;
+    s32 unknown_24;
+    s16 delay;
+    s16 switch_time;
+} ModelVariantBandSpokeConfig;
+
+/* The 0x44-byte work area of header 787 (French header 804): the command
+ * row, the two spoke tips, the band stage, the elapsed time, the phase, the
+ * ambient level, the textures, the band colours, the glow colour, the flash
+ * and spoke brightness and the spoke colour. */
+typedef struct {
+    ModelVariantBandSpokeConfig *config;
+    SVECTOR tips[2];
+    u16 stage;
+    u32 elapsed;
+    u16 phase;
+    s32 level;
+    s32 texture[3];
+    u8 red[3];
+    u8 green[3];
+    u8 blue[3];
+    u8 glow_r, glow_g, glow_b;
+    u8 flash;
+    u8 spoke;
+    u8 spoke_r, spoke_g, spoke_b;
+} ModelVariantBandSpokeState;
+
 /* One 0x22-byte command row of headers 154 and 169 (169 is the 154 effect
  * without the closing grid burst), picked by command % 100: the trail, ring,
  * beam and burst colours, the slot part the effect starts from, the grid
